@@ -3,12 +3,17 @@
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "5.48.1",
+    "@typescript-eslint/parser": "^5.0.0 ",
     "eslint": "^7.23.0",
-    "eslint-config-next": "13.0.0",
+    "eslint-config-next": "13.1.6",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react": "7.31.8",
-    "eslint-config-turbo": "latest"
+    "eslint-config-turbo": "latest",
+    "eslint-plugin-react": "7.31.8"
   },
   "devDependencies": {
     "typescript": "^4.7.4"
