@@ -1,0 +1,26 @@
+{
+  "name": "bold",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "precommit": "pnpm run format & turbo lint && turbo test"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "husky": "8.0.3",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "pnpm@7.26.2"
+}

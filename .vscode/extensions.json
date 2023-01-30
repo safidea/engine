@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    // Linting / Formatting
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "usernamehw.errorlens",
+
+    // Testing
+    "orta.vscode-jest",
+
+    // Showing todo comments
+    "gruntfuggly.todo-tree",
+
+    // Debugging
+    "ms-vscode.vscode-js-profile-flame",
+
+    // Database
+    "prisma.prisma"
+  ]
+}
