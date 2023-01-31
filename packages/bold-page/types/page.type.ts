@@ -3,7 +3,7 @@ import { Layout } from './layout.page.type'
 
 export type Page = Meta &
   Layout & {
-    name: string
+    path: string
   }
 
 export type { Meta, Layout }

@@ -1,6 +1,7 @@
 ---
 input:
   - key: email
+    value: email
 actions:
   - name: getOrganisationDomain
     service: formatter

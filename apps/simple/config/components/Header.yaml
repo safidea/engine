@@ -103,6 +103,7 @@ children:
                       - '&rarr;'
       - tag: Dialog
         as: div
+        open: '{mobileMenuOpen}'
         onClose: '{setMobileMenuOpen}'
         children:
           - tag: Dialog.Panel

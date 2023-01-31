@@ -2,24 +2,23 @@ name: Request
 description: Request is a platform for asynchrone collaboration
 defaultLocale: en
 localeRedirect: false
-format: 1.0.0
 theme:
   darkMode: class
   container:
     center: true
   extend:
     colors:
-      primary:
-        '50': '#fff1f2'
-        '100': '#ffe4e6'
-        '200': '#fecdd3'
-        '300': '#fda4af'
-        '400': '#fb7185'
-        '500': '#f43f5e'
-        '600': '#e11d48'
-        '700': '#be123c'
-        '800': '#9f1239'
-        '900': '#881337'
+      - primary:
+          '50': '#fff1f2'
+          '100': '#ffe4e6'
+          '200': '#fecdd3'
+          '300': '#fda4af'
+          '400': '#fb7185'
+          '500': '#f43f5e'
+          '600': '#e11d48'
+          '700': '#be123c'
+          '800': '#9f1239'
+          '900': '#881337'
   fonts:
     - key: primary
       name: Barlow
@@ -408,6 +407,7 @@ apis:
   - name: newLead
     input:
       - key: email
+        value: email
     actions:
       - name: getOrganisationDomain
         service: formatter
@@ -422,7 +422,7 @@ apis:
         value: leadId
 locales:
   - locale: en
-    resources:
+    namespaces:
       common:
         header:
           logoTitle: Essentiel
@@ -436,7 +436,7 @@ locales:
           buttons:
             primary: Log in
   - locale: fr
-    resources:
+    namespaces:
       common:
         header:
           logoTitle: Essentiel
@@ -466,22 +466,20 @@ locales:
               placeholder: Enter your email address
             submit: Get started
           customers: Ils nous ont fait confiance
-databases:
-  - name: master
-    tables:
-      - name: contacts
-        fields:
-          - name: email
-            type: email
-            unique: true
-            required: true
-          - name: organisations
-            type: linkedTable
-            table: organisations
+tables:
+  - name: contacts
+    fields:
+      - name: email
+        type: email
+        unique: true
+        required: true
       - name: organisations
-        fields:
-          - name: name
-            type: text
-          - name: domain
-            type: text
-            unique: true
+        type: linkedTable
+        table: organisations
+  - name: organisations
+    fields:
+      - name: name
+        type: text
+      - name: domain
+        type: text
+        unique: true

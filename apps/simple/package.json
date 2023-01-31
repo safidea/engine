@@ -4,16 +4,22 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
-    "build": "ts-node"
+    "build": "ts-node ./scripts/build-config-file.ts",
+    "import": "ts-node ./scripts/import-components.ts"
   },
   "dependencies": {
-    "bold-config": "workspace:*"
+    "bold-config": "workspace:*",
+    "bold-utils": "workspace:*",
+    "bold-locale": "workspace:*",
+    "bold-component": "workspace:*",
+    "js-yaml": "4.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
-    "eslint-config-bold": "workspace:*",
+    "@types/js-yaml": "4.0.5",
     "config-typescript": "workspace:*",
-    "typescript": "^4.9.4",
-    "ts-node": "10.9.1"
+    "eslint-config-bold": "workspace:*",
+    "ts-node": "10.9.1",
+    "typescript": "^4.9.4"
   }
 }

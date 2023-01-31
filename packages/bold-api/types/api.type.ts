@@ -9,7 +9,7 @@ export type Api = {
   input: InOutput[]
   actions: Action[]
   output: InOutput[]
-  tests: Test[]
+  tests?: Test[]
 }
 
 export type { InOutput, Action, Test, TestTable, ActionInOutput }

@@ -1,12 +1,11 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
-import { fsExists } from '../build.utils'
-import type {
-  ComponentTreeInterface as Component,
-  ComponentStateInterface as State,
-} from '../../component/component.interfaces'
+import { fsExists } from 'bold-utils'
 
-const folder = './config-folder'
+import type { ComponentTree as Component } from 'bold-component'
+
+const importComponentsFolder = './import/components'
+const configComponentsFolder = './config/components'
 
 function addElementToJson(
   json: Component,
@@ -59,18 +58,14 @@ function closeLastJsonElement(el: Component): Component {
   return el
 }
 
-async function convertComponentToYaml(
-  name: string,
-  configFolder = folder,
-  ext = 'jsx'
-): Promise<void> {
-  const filePath = `${configFolder}/${name}.yaml`
-  if (await fsExists(filePath)) return
-
-  const html = (await fs.readFile(`${configFolder}/${name}.${ext}`, 'utf8')).replace(/\n/g, '')
-
+function convertComponentToYaml(script: string): Component {
   let json: Component = {}
-  const state: State = {
+  const state: {
+    status: 'text' | 'tag' | 'attribute' | 'value' | 'close'
+    key: string
+    value: string
+    element: Component
+  } = {
     status: 'text',
     key: '',
     value: '',
@@ -78,12 +73,14 @@ async function convertComponentToYaml(
       _open: 'true',
     },
   }
-  for (let i = 0; i < html.length; i++) {
-    switch (html[i]) {
+
+  script = script.replace(/\n/g, '')
+  for (let i = 0; i < script.length; i++) {
+    switch (script[i]) {
       case '<':
         switch (state.status) {
           case 'value':
-            state.value += html[i]
+            state.value += script[i]
             break
           case 'text':
             json = addElementToJson(json, { text: state.value })
@@ -108,7 +105,7 @@ async function convertComponentToYaml(
             break
           case 'text':
           case 'value':
-            state.value += html[i]
+            state.value += script[i]
             break
           default:
             break
@@ -123,7 +120,7 @@ async function convertComponentToYaml(
             break
           case 'text':
           case 'value':
-            state.value += html[i]
+            state.value += script[i]
             break
           case 'attribute':
             if (state.key !== '') {
@@ -139,7 +136,7 @@ async function convertComponentToYaml(
         switch (state.status) {
           case 'text':
           case 'value':
-            state.value += html[i]
+            state.value += script[i]
             break
           default:
             break
@@ -157,7 +154,7 @@ async function convertComponentToYaml(
             state.value = ''
             break
           case 'text':
-            state.value += html[i]
+            state.value += script[i]
             break
           default:
             break
@@ -169,7 +166,7 @@ async function convertComponentToYaml(
             state.status = 'value'
           case 'value':
           case 'text':
-            state.value += html[i]
+            state.value += script[i]
             break
           default:
             break
@@ -179,7 +176,7 @@ async function convertComponentToYaml(
         switch (state.status) {
           case 'value':
             if (state.value !== '') {
-              state.value += html[i]
+              state.value += script[i]
               state.status = 'attribute'
               state.element[state.key] = state.value
               state.key = ''
@@ -187,7 +184,7 @@ async function convertComponentToYaml(
             }
             break
           case 'text':
-            state.value += html[i]
+            state.value += script[i]
             break
           default:
             break
@@ -201,7 +198,7 @@ async function convertComponentToYaml(
             break
           case 'text':
           case 'value':
-            state.value += html[i]
+            state.value += script[i]
             break
           case 'attribute':
             state.status = 'close'
@@ -219,11 +216,11 @@ async function convertComponentToYaml(
         switch (state.status) {
           case 'tag':
           case 'attribute':
-            state.key += html[i]
+            state.key += script[i]
             break
           case 'text':
           case 'value':
-            state.value += html[i]
+            state.value += script[i]
             break
           default:
             break
@@ -232,17 +229,19 @@ async function convertComponentToYaml(
     }
   }
 
-  await fs.writeFile(filePath, yaml.dump(json))
+  return json
 }
 
-export default async function convertComponentsToYaml(configFolder = folder): Promise<void> {
-  const components = await fs.readdir(configFolder)
+;(async () => {
+  const components = await fs.readdir(importComponentsFolder)
   await Promise.all(
     components
-      .filter((file: string) => file.match(/(.html|.jsx|.tsx)$/))
-      .map((file: string) => {
-        const [name, ext] = file.split('.')
-        return convertComponentToYaml(name, configFolder, ext)
+      .filter((file: string) => file.match(/(.jsx|.tsx)$/))
+      .map(async (file: string) => {
+        const [name] = file.split('.')
+        const script = await fs.readFile(`${importComponentsFolder}/${file}`, 'utf8')
+        const json = convertComponentToYaml(script)
+        await fs.writeFile(`${configComponentsFolder}/${name}.yaml`, yaml.dump(json))
       })
   )
-}
+})()

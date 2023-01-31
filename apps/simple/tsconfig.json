@@ -1,10 +1,5 @@
 {
   "extends": "config-typescript/base.json",
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["scripts/**/*.ts"],
+  "exclude": ["node_modules", "import"]
 }

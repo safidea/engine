@@ -1,35 +1,28 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
-import { defaultConfigFile } from '../build.constants'
-import { fsExists } from '../build.utils'
 
-import type { AppInterface } from '../build.interfaces'
-import type { LocaleTreeInterface } from '../../locale/locale.interfaces'
-import type { TableInterface } from '../../database/database.interfaces'
-import type { ComponentInterface } from '../../component/component.interfaces'
-import type { ApiInterface } from '../../api/api.interfaces'
-import type { PageInterface } from '../../page/page.interfaces'
-import type { ThemeInterface } from '../../theme/theme.interfaces'
+import { fsExists } from 'bold-utils'
+import { checkSchema } from 'bold-config'
 
-export default async function buildConfigFile(
-  folderName: string,
-  folderRoot = './'
-): Promise<string> {
-  const configFilePath = folderRoot + defaultConfigFile.replace('./', '/')
-  const folderPath = folderRoot + folderName
-  const themePath = `${folderPath}/theme.yaml`
-  const pagesPath = `${folderPath}/pages`
-  const componentsPath = `${folderPath}/components`
-  const apisPath = `${folderPath}/apis`
-  const databasesPath = `${folderPath}/databases`
-  const localesPath = `${folderPath}/locales`
+import type { App, Config, Page, Api, Table, Theme } from 'bold-config'
+import type { LocaleTree } from 'bold-locale'
+import type { ComponentTree } from 'bold-component'
 
-  const [app, theme, pages, components, apis, databases, locales] = await Promise.all([
-    fs.readFile(`${folderPath}/app.yaml`, 'utf8').then((data) => yaml.load(data) as AppInterface),
+const folderPath = './config-folder'
+const themePath = `${folderPath}/theme.yaml`
+const pagesPath = `${folderPath}/pages`
+const componentsPath = `${folderPath}/components`
+const apisPath = `${folderPath}/apis`
+const tablesPath = `${folderPath}/tables`
+const localesPath = `${folderPath}/locales`
+
+;(async () => {
+  console.info('Start building Bold config file...')
+
+  const [app, theme, pages, components, apis, tables, locales] = await Promise.all([
+    fs.readFile(`${folderPath}/app.yaml`, 'utf8').then((data) => yaml.load(data) as App),
     fsExists(themePath).then(async (e: boolean) =>
-      e
-        ? await fs.readFile(themePath, 'utf8').then((data) => yaml.load(data) as ThemeInterface)
-        : {}
+      e ? await fs.readFile(themePath, 'utf8').then((data) => yaml.load(data) as Theme) : {}
     ),
     fsExists(pagesPath).then(async (e: boolean) =>
       e
@@ -38,7 +31,7 @@ export default async function buildConfigFile(
               paths.map((path: string) =>
                 fs.readFile(`${pagesPath}/${path}`, 'utf8').then((data: string) => ({
                   path: path.replace('.yaml', ''),
-                  ...(yaml.load(data) as Omit<PageInterface, 'path'>),
+                  ...(yaml.load(data) as Omit<Page, 'path'>),
                 }))
               )
             )
@@ -54,7 +47,7 @@ export default async function buildConfigFile(
                 .map((name: string) =>
                   fs.readFile(`${componentsPath}/${name}`, 'utf8').then((data: string) => ({
                     name: name.replace('.yaml', ''),
-                    ui: yaml.load(data) as Omit<ComponentInterface, 'name'>,
+                    ui: yaml.load(data) as Omit<ComponentTree, 'name'>,
                   }))
                 )
             )
@@ -68,30 +61,21 @@ export default async function buildConfigFile(
               apis.map((name: string) =>
                 fs.readFile(`${apisPath}/${name}`, 'utf8').then((data: string) => ({
                   name: name.replace('.yaml', ''),
-                  ...(yaml.load(data) as Omit<ApiInterface, 'name'>),
+                  ...(yaml.load(data) as Omit<Api, 'name'>),
                 }))
               )
             )
           )
         : []
     ),
-    fsExists(databasesPath).then(async (e: boolean) =>
+    fsExists(tablesPath).then(async (e: boolean) =>
       e
-        ? await fs.readdir(databasesPath).then((base: string[]) =>
+        ? await fs.readdir(tablesPath, 'utf8').then(async (tables: string[]) =>
             Promise.all(
-              base.map((base: string) =>
-                fs.readdir(`${databasesPath}/${base}`, 'utf8').then(async (tables: string[]) => ({
-                  name: base,
-                  tables: await Promise.all(
-                    tables.map((table: string) =>
-                      fs
-                        .readFile(`${databasesPath}/${base}/${table}`, 'utf8')
-                        .then((data: string) => ({
-                          name: table.replace('.yaml', ''),
-                          ...(yaml.load(data) as Omit<TableInterface, 'name'>),
-                        }))
-                    )
-                  ),
+              tables.map((table: string) =>
+                fs.readFile(`${tablesPath}/${table}`, 'utf8').then((data: string) => ({
+                  name: table.replace('.yaml', ''),
+                  ...(yaml.load(data) as Omit<Table, 'name'>),
                 }))
               )
             )
@@ -107,13 +91,13 @@ export default async function buildConfigFile(
                   .readdir(`${localesPath}/${locale}`, 'utf8')
                   .then(async (namespaces: string[]) => ({
                     locale,
-                    resources: await namespaces.reduce(
-                      async (acc: Promise<LocaleTreeInterface>, namespace: string) => {
+                    namespaces: await namespaces.reduce(
+                      async (acc: Promise<LocaleTree>, namespace: string) => {
                         const nextAcc = await acc
                         const name = namespace.replace('.yaml', '')
                         nextAcc[name as keyof typeof nextAcc] = await fs
                           .readFile(`${localesPath}/${locale}/${namespace}`, 'utf8')
-                          .then((data: string) => yaml.load(data) as LocaleTreeInterface)
+                          .then((data: string) => yaml.load(data) as LocaleTree)
                         return nextAcc
                       },
                       Promise.resolve({})
@@ -126,18 +110,19 @@ export default async function buildConfigFile(
     ),
   ])
 
-  await fs.writeFile(
-    configFilePath,
-    yaml.dump({
-      ...app,
-      theme,
-      pages,
-      components,
-      apis,
-      locales,
-      databases,
-    })
-  )
+  const config: Config = {
+    ...app,
+    theme,
+    pages,
+    components,
+    apis,
+    locales,
+    tables,
+  }
 
-  return configFilePath
-}
+  checkSchema(config)
+
+  await fs.writeFile('./simple.bold.yaml', yaml.dump(config))
+
+  console.info('Bold config file building success!')
+})()
