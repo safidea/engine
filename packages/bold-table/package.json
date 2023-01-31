@@ -1,0 +1,20 @@
+{
+  "name": "bold-table",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate"
+  },
+  "dependencies": {
+    "@prisma/client": "latest"
+  },
+  "devDependencies": {
+    "prisma": "4.9.0",
+    "eslint": "^7.32.0",
+    "eslint-config-bold": "workspace:*",
+    "config-typescript": "workspace:*",
+    "typescript": "^4.5.2"
+  }
+}

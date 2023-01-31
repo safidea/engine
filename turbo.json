@@ -28,5 +28,9 @@
       "cache": false
     },
     "test": {}
-  }
+  },
+  "globalDependencies": [
+    ".env"
+  ],
+  "globalEnv": ["HOST"]
 }

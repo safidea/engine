@@ -1,0 +1,7 @@
+---
+fields:
+  - name: name
+    type: text
+  - name: domain
+    type: text
+    unique: true

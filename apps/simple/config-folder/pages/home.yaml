@@ -1,0 +1,193 @@
+---
+title: Essentiel
+components:
+  - id: header
+    type: Header
+    props:
+      logo:
+        path: /essentiel.png
+        width: 40
+        height: 40
+      position: left
+      navigation:
+        - key: approach
+          path: '#approach'
+        - key: platform
+          path: '#platform'
+        - key: services
+          path: '#services'
+        - key: outcomes
+          path: '#outcomes'
+        - key: testimonials
+          path: '#testimonials'
+      buttons:
+        primary:
+          path: /login
+  #- key: hero
+  #  type: Hero
+  #  props:
+  #    annoucement:
+  #      path: /#features
+  #    buttons:
+  #      primary:
+  #        path: /register
+  #      secondary:
+  #        path: /#features
+  #    email:
+  #      automation: newLead
+  #    customers:
+  #      - path: /agorastore.png
+  #        key: agorastore
+  #      - path: /openclassroom.png
+  #        key: openclassroom
+  #      - path: /latabledecana.png
+  #        key: latabledecana
+  #      - path: /capitalpv.png
+  #        key: capitalpv
+  #      - path: /escp.png
+  #        key: escp
+  #- key: approach
+  #  type: features
+  #  leftTitle: true
+  #  features:
+  #    - key: one
+  #      icon: globe-alt
+  #    - title: No hidden fees
+  #      description: Corporis quisquam nostrum nulla veniam recusandae temporibus aperiam officia incidunt at distinctio ratione.
+  #      icon: scale
+  #    - title: Instant transfers
+  #      description: Omnis, illo delectus? Libero, possimus nulla nemo tenetur adipisci repellat dolore eligendi velit doloribus mollitia.
+  #      icon: bolt
+  #    - title: Reminder emails
+  #      description: Veniam necessitatibus reiciendis fugit explicabo dolorem nihil et omnis assumenda odit? Quisquam unde accusantium.
+  #      icon: envelope
+  #- key: stats
+  #  type: stats
+  #  title: Trusted by developers from over 80 planets
+  #  subtitle: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus repellat laudantium.
+  #  stats:
+  #    - value: 100%
+  #      text: Pepperoni
+  #    - value: 24/7
+  #      text: Delivery
+  #    - value: 100k
+  #      text: Calories
+  #- key: plateform
+  #  type: features
+  #  header: Our plateform
+  #  title: No server? No problem.
+  #  subtitle: Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend condimentum id viverra nulla.
+  #  screenshot: /screenshot.png
+  #- key: services
+  #  type: features
+  #  header: Our services
+  #  title: Everything you need to deploy your app
+  #  subtitle: Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend condimentum id viverra nulla.
+  #  features:
+  #    - title: Push to Deploy
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: cloud-arrow-up
+  #    - title: SSL Certificates
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: lock-closed
+  #    - title: Simple Queues
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: arrow-path
+  #    - title: Advanced Security
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: shield-check
+  #    - title: Powerful API
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: cog
+  #    - title: Database Backups
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: server
+  #- key: outcomes
+  #  type: features
+  #  header: Driving great outcomes
+  #  primaryBackground: true
+  #  title: Inbox support built for efficiency.
+  #  subtitle: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis. Blandit aliquam sit nisl euismod mattis in.
+  #  features:
+  #    - title: Push to Deploy
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: cloud-arrow-up
+  #      image:
+  #        path: /product_1.png
+  #        position: right
+  #      cta: Get started
+  #    - title: SSL Certificates
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: lock-closed
+  #      image:
+  #        path: /product_2.png
+  #        position: left
+  #      cta: Get started
+  #    - title: Simple Queues
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: arrow-path
+  #      image:
+  #        path: /product_3.png
+  #        position: right
+  #      cta: Get started
+  #    - title: Advanced Security
+  #      description: Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+  #      icon: shield-check
+  #      image:
+  #        path: /product_4.png
+  #        position: left
+  #      cta: Get started
+  #- key: testimonials
+  #  type: testimonials
+  #  title: Our customers can’t imagine life without Request
+  #  features:
+  #    - company:
+  #        name: Workcation
+  #        logo: ./workcation.png
+  #      name: Judith Black
+  #      job: CEO
+  #      picture: /judith_black.png
+  #      testimonial: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.
+  #    - company:
+  #        name: Workcation
+  #        logo: ./workcation.png
+  #      name: Judith Black
+  #      job: CEO
+  #      picture: /judith_black.png
+  #      testimonial: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.
+  #    - company:
+  #        name: Workcation
+  #        logo: ./workcation.png
+  #      name: Judith Black
+  #      job: CEO
+  #      picture: /judith_black.png
+  #      testimonial: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.
+  #    - company:
+  #        name: Workcation
+  #        logo: ./workcation.png
+  #      name: Judith Black
+  #      job: CEO
+  #      picture: /judith_black.png
+  #      testimonial: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.
+  #    - company:
+  #        name: Workcation
+  #        logo: ./workcation.png
+  #      name: Judith Black
+  #      job: CEO
+  #      picture: /judith_black.png
+  #      testimonial: Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.
+  #- key: cta
+  #  type: cta
+  #  title: Boost your productivity today.
+  #  subtitle: Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur commodo do ea.
+  #  button: Get started
+  #  panel: true
+  #  primaryBackground: true
+  #- key: footer
+  #  type: footer
+  #  copyright: © 2020 Your Company, Inc. All rights reserved.
+  #  links:
+  #    - path: /privacy-policy
+  #      text: Privacy policy
+  #    - path: /terms-of-use
+  #      text: Terms of use

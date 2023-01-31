@@ -1,0 +1,18 @@
+{
+  "name": "bold-page",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "bold-theme": "workspace:*",
+    "bold-component": "workspace:*"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-bold": "workspace:*",
+    "config-typescript": "workspace:*",
+    "typescript": "^4.5.2"
+  }
+}

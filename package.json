@@ -7,17 +7,18 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "dev": "dotenv -- turbo run dev --parallel",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "precommit": "pnpm run format & turbo lint && turbo test"
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-bold": "workspace:*",
     "husky": "8.0.3",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "dotenv-cli": "latest"
   },
   "engines": {
     "node": ">=14.0.0"

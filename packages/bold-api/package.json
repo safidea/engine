@@ -1,0 +1,18 @@
+{
+  "name": "bold-api",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "bold-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "7.6.0",
+    "eslint-config-bold": "workspace:*",
+    "config-typescript": "workspace:*",
+    "eslint": "^7.32.0",
+    "typescript": "^4.5.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "bold-component",
+  "version": "0.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^7.32.0",
+    "eslint-config-bold": "workspace:*",
+    "react": "^18.2.0",
+    "config-typescript": "workspace:*",
+    "typescript": "^4.5.2"
+  }
+}

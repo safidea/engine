@@ -1,0 +1,14 @@
+{
+  "name": "bold-build",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-bold": "workspace:*",
+    "config-typescript": "workspace:*",
+    "typescript": "^4.5.2"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "pages": [
+    {
+      "path": "home",
+      "title": "Essentiel",
+      "components": [
+        {
+          "id": "header",
+          "type": "Header",
+          "props": {
+            "logo": {
+              "path": "/essentiel.png",
+              "width": 40,
+              "height": 40
+            },
+            "position": "left",
+            "navigation": [
+              {
+                "key": "approach",
+                "path": "#approach"
+              },
+              {
+                "key": "platform",
+                "path": "#platform"
+              },
+              {
+                "key": "services",
+                "path": "#services"
+              },
+              {
+                "key": "outcomes",
+                "path": "#outcomes"
+              },
+              {
+                "key": "testimonials",
+                "path": "#testimonials"
+              }
+            ],
+            "buttons": {
+              "primary": {
+                "path": "/login"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

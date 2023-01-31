@@ -1,0 +1,117 @@
+---
+input:
+  - key: email
+actions:
+  - name: getOrganisationDomain
+    service: formatter
+    type: extractTextFromRegex
+    input:
+      text: email
+      regex: /@[a-zA-Z]/
+    output:
+      text: organisationDomain
+  #- name: findOrganisation
+  #  service: database
+  #  type: findRow
+  #  input:
+  #    base: master
+  #    table: organisations
+  #    key: domain
+  #    value: organisationDomain
+  #  output:
+  #    exist: organisationExist
+  #    id: organisationId
+  #- path:
+  #    - name: organisationNotExist
+  #      service: condition
+  #      type: filter
+  #      input:
+  #        - key: organisationExist
+  #          operator: isFalse
+  #    - name: getOrganisationName
+  #      service: formatter
+  #      type: extractTextFromRegex
+  #      input:
+  #        text: email
+  #        regex: /@[a-zA-Z]/
+  #      output:
+  #        text: organisationName
+  #    - name: createOrganisation
+  #      service: databases
+  #      type: createRow
+  #      input:
+  #        base: master
+  #        table: organisations
+  #        fields:
+  #          domain: organisationDomain
+  #          name: organisationName
+  #      output:
+  #        id: organisationId
+  #- name: findContact
+  #  service: database
+  #  type: findRow
+  #  input:
+  #    base: master
+  #    table: contacts
+  #    key: email
+  #    value: email
+  #  output:
+  #    exist: contactExist
+  #- path:
+  #    - name: contactNotExist
+  #      service: condition
+  #      type: filter
+  #      input:
+  #        - key: contactExist
+  #          operator: isFalse
+  #    - name: createContact
+  #      service: databases
+  #      type: createRow
+  #      input:
+  #        base: master
+  #        table: contacts
+  #        fields:
+  #          email: email
+  #          organisations:
+  #            - organisationId
+  #      output:
+  #        id: leadId
+output:
+  - key: id
+    value: leadId
+#tests:
+#  - name: If new lead in database
+#    input:
+#      trigger:
+#        email: example@test.com
+#    output:
+#      result:
+#        - key: id
+#      database:
+#        master:
+#          contacts:
+#            - email: example@test.com
+#          organisations:
+#            - name: test
+#              domain: test.com
+#  - name: If existing lead in database
+#    input:
+#      trigger:
+#        email: example@test.com
+#      database:
+#        master:
+#          contacts:
+#            - email: example@test.com
+#          organisations:
+#            - name: test
+#              domain: test.com
+#    output:
+#      result:
+#        - key: id
+#      database:
+#        master:
+#          contacts:
+#            - email: example@test.com
+#          organisations:
+#            - name: test
+#            - domain: test.com
