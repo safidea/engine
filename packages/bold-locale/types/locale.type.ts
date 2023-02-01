@@ -1,10 +1,10 @@
-import { LocaleTree } from './tree.locale.type'
+import { Resources } from './resources.locale.type'
 
 export type Locale = {
   locale: string
   namespaces: {
-    [namespace: string]: LocaleTree
+    [namespace: string]: Resources
   }
 }
 
-export type { LocaleTree }
+export type { Resources }

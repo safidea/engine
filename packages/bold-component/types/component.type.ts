@@ -1,11 +1,8 @@
-import { Props } from './props.component.type'
-import { ComponentTree } from './tree.component.type'
-import { ComponentPage } from './page.component.type'
+import { UI } from './ui.component.type'
 
-export type Component = {
+export type ComponentUI = {
   name: string
-  ui: ComponentTree
-  html?: string
+  ui: UI
 }
 
-export type { ComponentTree, Props, ComponentPage }
+export type { UI }

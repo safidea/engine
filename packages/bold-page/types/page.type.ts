@@ -1,9 +1,10 @@
 import { Meta } from './meta.page.type'
 import { Layout } from './layout.page.type'
+import { Component, Props } from './component.page.type'
 
-export type Page = Meta &
-  Layout & {
-    path: string
-  }
+export type Page = Layout & {
+  path: string
+  meta: Meta
+}
 
-export type { Meta, Layout }
+export type { Meta, Layout, Component, Props }

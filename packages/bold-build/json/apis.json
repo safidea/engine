@@ -1,32 +1,30 @@
-{
-  "apis": [
-    {
-      "name": "newLead",
-      "input": [
-        {
-          "key": "email"
+[
+  {
+    "name": "newLead",
+    "input": [
+      {
+        "key": "email"
+      }
+    ],
+    "actions": [
+      {
+        "name": "getOrganisationDomain",
+        "service": "formatter",
+        "type": "extractTextFromRegex",
+        "input": {
+          "text": "email",
+          "regex": "/@[a-zA-Z]/"
+        },
+        "output": {
+          "text": "organisationDomain"
         }
-      ],
-      "actions": [
-        {
-          "name": "getOrganisationDomain",
-          "service": "formatter",
-          "type": "extractTextFromRegex",
-          "input": {
-            "text": "email",
-            "regex": "/@[a-zA-Z]/"
-          },
-          "output": {
-            "text": "organisationDomain"
-          }
-        }
-      ],
-      "output": [
-        {
-          "key": "id",
-          "value": "leadId"
-        }
-      ]
-    }
-  ]
-}
+      }
+    ],
+    "output": [
+      {
+        "key": "id",
+        "value": "leadId"
+      }
+    ]
+  }
+]

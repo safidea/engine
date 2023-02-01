@@ -1,16 +1,12 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
-import { fsExists } from 'bold-utils'
 
-import type { ComponentTree as Component } from 'bold-component'
+import type { UI } from 'bold-component'
 
 const importComponentsFolder = './import/components'
 const configComponentsFolder = './config/components'
 
-function addElementToJson(
-  json: Component,
-  { el, text }: { el?: Component; text?: string }
-): Component {
+function addElementToJson(json: UI, { el, text }: { el?: UI; text?: string }): UI {
   if (el) {
     if (el.className) {
       el.class = el.className
@@ -27,10 +23,10 @@ function addElementToJson(
   if (Object.keys(json).length === 0 && el) return el
 
   if (json.children != null) {
-    const elements = json.children as (string | Component)[]
-    const index = elements.findIndex((e: string | Component) => typeof e !== 'string' && e._open)
+    const elements = json.children as (string | UI)[]
+    const index = elements.findIndex((e: string | UI) => typeof e !== 'string' && e._open)
     if (index > -1) {
-      const element = elements[index] as Component
+      const element = elements[index] as UI
       elements[index] = addElementToJson(element, { el, text })
     } else {
       if (el) {
@@ -44,12 +40,12 @@ function addElementToJson(
   return json
 }
 
-function closeLastJsonElement(el: Component): Component {
+function closeLastJsonElement(el: UI): UI {
   if (el.children) {
-    const elements = el.children as (string | Component)[]
-    const index = elements.findIndex((e: string | Component) => typeof e !== 'string' && e._open)
+    const elements = el.children as (string | UI)[]
+    const index = elements.findIndex((e: string | UI) => typeof e !== 'string' && e._open)
     if (index > -1) {
-      const element = elements[index] as Component
+      const element = elements[index] as UI
       elements[index] = closeLastJsonElement(element)
     } else if (el.hasOwnProperty('_open')) {
       delete el._open
@@ -58,13 +54,13 @@ function closeLastJsonElement(el: Component): Component {
   return el
 }
 
-function convertComponentToYaml(script: string): Component {
-  let json: Component = {}
+function convertComponentToYaml(script: string): UI {
+  let json: UI = {}
   const state: {
     status: 'text' | 'tag' | 'attribute' | 'value' | 'close'
     key: string
     value: string
-    element: Component
+    element: UI
   } = {
     status: 'text',
     key: '',

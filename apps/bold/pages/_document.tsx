@@ -1,8 +1,8 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import app from '../core/.config/app.json'
-import type { AppInterface } from '../core/build/build.interfaces'
+import { app } from 'bold-build'
+import type { App } from 'bold-config'
 
-const { defaultLocale } = app as AppInterface
+const { defaultLocale } = app as App
 
 export default function Document({ __NEXT_DATA__ }: { __NEXT_DATA__: { locale: string } }) {
   const currentLocale = __NEXT_DATA__.locale ?? defaultLocale

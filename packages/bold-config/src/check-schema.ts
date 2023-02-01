@@ -10,7 +10,7 @@ const params = {
   type: 'Config',
 }
 
-export default function checkConfigFile(config: Config): void {
+export default function checkSchema(config: Config): void {
   const schema = tsj.createGenerator(params).createSchema(params.type)
   const { valid, errors } = validate(config, schema)
   if (valid === false) {

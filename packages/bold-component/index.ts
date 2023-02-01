@@ -1,1 +1,3 @@
-export type { Component, ComponentTree, Props, ComponentPage } from './types/component.type'
+export type { ComponentUI, UI } from './types/component.type'
+
+export { default as componentsMock } from './__mocks__/components.mock'

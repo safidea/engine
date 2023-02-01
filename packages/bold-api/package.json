@@ -3,12 +3,13 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
     "bold-utils": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^18.11.17",
     "@faker-js/faker": "7.6.0",
     "eslint-config-bold": "workspace:*",
     "config-typescript": "workspace:*",

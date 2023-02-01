@@ -5,8 +5,8 @@ import { fsExists } from 'bold-utils'
 import { checkSchema } from 'bold-config'
 
 import type { App, Config, Page, Api, Table, Theme } from 'bold-config'
-import type { LocaleTree } from 'bold-locale'
-import type { ComponentTree } from 'bold-component'
+import type { Resources } from 'bold-locale'
+import type { UI } from 'bold-component'
 
 const folderPath = './config-folder'
 const themePath = `${folderPath}/theme.yaml`
@@ -47,7 +47,7 @@ const localesPath = `${folderPath}/locales`
                 .map((name: string) =>
                   fs.readFile(`${componentsPath}/${name}`, 'utf8').then((data: string) => ({
                     name: name.replace('.yaml', ''),
-                    ui: yaml.load(data) as Omit<ComponentTree, 'name'>,
+                    ui: yaml.load(data) as Omit<UI, 'name'>,
                   }))
                 )
             )
@@ -92,12 +92,12 @@ const localesPath = `${folderPath}/locales`
                   .then(async (namespaces: string[]) => ({
                     locale,
                     namespaces: await namespaces.reduce(
-                      async (acc: Promise<LocaleTree>, namespace: string) => {
+                      async (acc: Promise<Resources>, namespace: string) => {
                         const nextAcc = await acc
                         const name = namespace.replace('.yaml', '')
                         nextAcc[name as keyof typeof nextAcc] = await fs
                           .readFile(`${localesPath}/${locale}/${namespace}`, 'utf8')
-                          .then((data: string) => yaml.load(data) as LocaleTree)
+                          .then((data: string) => yaml.load(data) as Resources)
                         return nextAcc
                       },
                       Promise.resolve({})

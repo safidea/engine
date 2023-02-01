@@ -1,65 +1,63 @@
-{
-  "locales": [
-    {
-      "locale": "en",
-      "resources": {
-        "common": {
-          "header": {
-            "logoTitle": "Essentiel",
-            "mobileMenu": "Open menu",
-            "navigation": {
-              "approach": "Approach",
-              "platform": "Platform",
-              "services": "Services",
-              "outcomes": "Outcomes",
-              "testimonials": "Testimonials"
-            },
-            "buttons": {
-              "primary": "Log in"
-            }
-          }
-        }
-      }
-    },
-    {
-      "locale": "fr",
-      "resources": {
-        "common": {
-          "header": {
-            "logoTitle": "Essentiel",
-            "mobileMenu": "Ouvrir le menu",
-            "navigation": {
-              "approach": "Approche",
-              "platform": "Plateforme",
-              "services": "Services",
-              "outcomes": "Résultats",
-              "testimonials": "Témoignages"
-            },
-            "buttons": {
-              "primary": "Se connecter"
-            }
+[
+  {
+    "locale": "en",
+    "namespaces": {
+      "common": {
+        "header": {
+          "logoTitle": "Essentiel",
+          "mobileMenu": "Open menu",
+          "navigation": {
+            "approach": "Approach",
+            "platform": "Platform",
+            "services": "Services",
+            "outcomes": "Outcomes",
+            "testimonials": "Testimonials"
           },
-          "hero": {
-            "title": "Votre équipe d'outillage",
-            "subtitle": "Obtenez des solutions pour chaque processus de frictions et construisez des systèmes de fusées. Nous fournissons des conseils, du développement et de la formation pour chaque équipe.",
-            "annoucement": {
-              "message": "Voici notre dernière actualité.",
-              "link": "En savoir plus"
-            },
-            "buttons": {
-              "primary": "Commencer",
-              "secondary": "En savoir plus"
-            },
-            "form": {
-              "email": {
-                "placeholder": "Enter your email address"
-              },
-              "submit": "Get started"
-            },
-            "customers": "Ils nous ont fait confiance"
+          "buttons": {
+            "primary": "Log in"
           }
         }
       }
     }
-  ]
-}
+  },
+  {
+    "locale": "fr",
+    "namespaces": {
+      "common": {
+        "header": {
+          "logoTitle": "Essentiel",
+          "mobileMenu": "Ouvrir le menu",
+          "navigation": {
+            "approach": "Approche",
+            "platform": "Plateforme",
+            "services": "Services",
+            "outcomes": "Résultats",
+            "testimonials": "Témoignages"
+          },
+          "buttons": {
+            "primary": "Se connecter"
+          }
+        },
+        "hero": {
+          "title": "Votre équipe d'outillage",
+          "subtitle": "Obtenez des solutions pour chaque processus de frictions et construisez des systèmes de fusées. Nous fournissons des conseils, du développement et de la formation pour chaque équipe.",
+          "annoucement": {
+            "message": "Voici notre dernière actualité.",
+            "link": "En savoir plus"
+          },
+          "buttons": {
+            "primary": "Commencer",
+            "secondary": "En savoir plus"
+          },
+          "form": {
+            "email": {
+              "placeholder": "Enter your email address"
+            },
+            "submit": "Get started"
+          },
+          "customers": "Ils nous ont fait confiance"
+        }
+      }
+    }
+  }
+]

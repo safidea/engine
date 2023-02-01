@@ -3,14 +3,17 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate"
   },
   "dependencies": {
+    "bold-utils": "workspace:*",
     "@prisma/client": "latest"
   },
   "devDependencies": {
+    "@types/node": "^18.11.17",
+    "@faker-js/faker": "7.6.0",
     "prisma": "4.9.0",
     "eslint": "^7.32.0",
     "eslint-config-bold": "workspace:*",

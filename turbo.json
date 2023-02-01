@@ -29,8 +29,8 @@
     },
     "test": {}
   },
-  "globalDependencies": [
-    ".env"
-  ],
-  "globalEnv": ["HOST"]
+  "globalEnv": [
+    "HOST",
+    "BOLD_CONFIG_FILE"
+  ]
 }

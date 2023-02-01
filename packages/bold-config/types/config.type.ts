@@ -4,7 +4,7 @@ import type { Api } from 'bold-api'
 import type { Table } from 'bold-table'
 import type { Theme } from 'bold-theme'
 import type { Locale } from 'bold-locale'
-import type { Component } from 'bold-component'
+import type { ComponentUI } from 'bold-component'
 
 export type Config = App & {
   pages?: Page[]
@@ -12,7 +12,7 @@ export type Config = App & {
   tables?: Table[]
   theme?: Theme
   locales?: Locale[]
-  components?: Component[]
+  components?: ComponentUI[]
 }
 
-export type { App, Page, Api, Table, Theme, Locale, Component }
+export type { App, Page, Api, Table, Theme, Locale, ComponentUI }

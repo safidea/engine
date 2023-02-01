@@ -5,9 +5,14 @@
   "types": "./index.tsx",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "tsc --noEmit && eslint ."
+  },
+  "dependencies": {
+    "bold-utils": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^18.11.17",
+    "@faker-js/faker": "7.6.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "eslint": "^7.32.0",

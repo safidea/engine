@@ -1,20 +1,23 @@
 import { GetStaticProps, GetStaticPaths, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import Locale from '../core/locale/locale'
-import Page from '../core/page/page'
-import Theme from '../core/theme/theme'
-import { Meta, Layout } from '../core/page/page'
-import app from '../core/.config/app.json'
 
-import type { PageInterface } from '../core/page/page.interfaces'
-import type { AppInterface } from '../core/build/build.interfaces'
+import { getLocales, getNamespaces } from 'bold-locale'
+import { getPaths, getPage } from 'bold-page'
+import { app, theme } from 'bold-build'
 
-const { defaultLocale } = app as AppInterface
+import type { Page } from 'bold-page'
+import type { App } from 'bold-config'
+
+import fonts from '../src/fonts'
+import Meta from '../src/components/meta'
+import Layout from '../src/components/layout'
+
+const { defaultLocale } = app as App
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths: { params: { path: string[] }; locale: string }[] = []
-  const locales = Locale.getLocales()
-  Page.getPaths().forEach((pathString: string) => {
+  const locales = getLocales()
+  getPaths().forEach((pathString: string) => {
     locales.forEach((locale: string) => {
       const path = pathString === 'home' ? [] : pathString.split('/')
       paths.push({
@@ -35,28 +38,28 @@ export const getStaticProps: GetStaticProps = async ({
 }: GetStaticPropsContext) => {
   const path =
     params && (Array.isArray(params.path) ? params.path.join('/') : params.path ?? 'home')
-  const props = Page.getPage(path)
-  const domain = process.env.HOST
-  const theme = Theme.getPageTheme()
-  const namespaces = Locale.getNamespaces(locale)
-  if (!domain) throw new Error('Environment variable HOST is not set.')
+  const { meta, components } = getPage(path)
+  const namespaces = getNamespaces(locale)
+  meta.domain = process.env.HOST
+  if (!meta.domain) throw new Error('Environment variable HOST is not set.')
   return {
     props: {
       ...(await serverSideTranslations(locale, namespaces)),
-      ...props,
-      domain,
-      theme,
+      components,
+      meta,
       namespaces,
+      fontsVariables: fonts,
+      hasContainer: !!theme.container,
     },
   }
 }
 
-export default function Document(props: PageInterface) {
-  const { components, theme, namespaces, ...meta } = props
+export default function Document(props: Page) {
+  const { meta, ...layout } = props
   return (
     <>
       <Meta {...meta} />
-      <Layout components={components} theme={theme} namespaces={namespaces ?? []} />
+      <Layout {...layout} />
     </>
   )
 }

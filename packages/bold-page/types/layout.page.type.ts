@@ -1,8 +1,8 @@
-import type { ThemePage } from 'bold-theme'
-import type { ComponentPage } from 'bold-component'
+import type { Component } from './component.page.type'
 
 export type Layout = {
-  components: ComponentPage[]
+  components: Component[]
   namespaces?: string[]
-  theme?: ThemePage
+  hasContainer?: boolean
+  fontsVariables?: string[]
 }
