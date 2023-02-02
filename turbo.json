@@ -1,5 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    ".env.local"
+  ],
+  "globalEnv": [
+    "HOST",
+    "BOLD_CONFIG_FILE",
+    "NODE_ENV"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": [
@@ -28,10 +36,5 @@
       "cache": false
     },
     "test": {}
-  },
-  "globalEnv": [
-    "HOST",
-    "BOLD_CONFIG_FILE",
-    "NODE_ENV"
-  ]
+  }
 }
