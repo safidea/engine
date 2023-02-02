@@ -4,7 +4,7 @@ const { theme } = require('./src/config/tailwind.js')
 
 /** @type {import('tailwindcss').Config} */
 const tailwindConfig = {
-  content: ['./core/**/*.{js,ts,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme,
   plugins: [],
 }
