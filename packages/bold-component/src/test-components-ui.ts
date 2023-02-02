@@ -25,7 +25,7 @@ const eslint = new ESLint({
   },
 })
 
-export default async function testComponentsUI(components: ComponentUI[]) {
+export default async function testComponentsUI(components: ComponentUI[]): Promise<void> {
   const errors: { component: string; messages: string[] }[] = []
   await Promise.all(
     components.map(async (component) => {
@@ -39,5 +39,8 @@ export default async function testComponentsUI(components: ComponentUI[]) {
       }
     })
   )
-  return errors
+  if (errors.length > 0) {
+    if (process.env.NODE_ENV !== 'test') console.error('Errors:', errors)
+    throw new Error('Components UI are not valid')
+  }
 }

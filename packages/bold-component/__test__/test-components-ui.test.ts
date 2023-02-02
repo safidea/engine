@@ -2,8 +2,7 @@ import testComponentsUI from '../src/test-components-ui'
 import { componentsMock } from '../__mocks__/components.mock'
 
 test('component should be valid', async () => {
-  const errors = await testComponentsUI(componentsMock)
-  expect(errors).toHaveLength(0)
+  await testComponentsUI(componentsMock)
 })
 
 test('component should have invalid props', async () => {
@@ -11,8 +10,7 @@ test('component should have invalid props', async () => {
   for (const component of componentsBroken) {
     component.props = component?.props?.slice(1)
   }
-  const errors = await testComponentsUI(componentsBroken)
-  expect(errors).toHaveLength(componentsBroken.length)
+  await expect(testComponentsUI(componentsBroken)).rejects.toThrow('Components UI are not valid')
 })
 
 test('component should have invalid state', async () => {
@@ -21,6 +19,5 @@ test('component should have invalid state', async () => {
     const keys = Object.keys(component?.state ?? {})
     delete component.state[keys[0]]
   }
-  const errors = await testComponentsUI(componentsBroken)
-  expect(errors).toHaveLength(componentsBroken.length)
+  await expect(testComponentsUI(componentsBroken)).rejects.toThrow('Components UI are not valid')
 })

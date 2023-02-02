@@ -4,12 +4,7 @@ import loadYaml from '../src/load-yaml'
 import { config, folder } from './setup'
 
 test('should fail loading config file', async () => {
-  try {
-    await loadYaml('not-existing-file.yaml')
-    expect(false).toBe(true)
-  } catch (e) {
-    expect(true).toBe(true)
-  }
+  await expect(loadYaml('not-existing-file.yaml')).rejects.toBeDefined()
 })
 
 test('should load config file', async () => {

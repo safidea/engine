@@ -5,7 +5,7 @@ import type { ComponentUI, State, UI } from '../types/component.type'
 
 export const componentsMock: ComponentUI[] = getRandomUniqueArray().map(() => {
   const name = faker.word.noun()
-  const props = getRandomUniqueArray().map(() => faker.word.noun().replace(/-/g, ''))
+  const props = getRandomUniqueArray().map(() => faker.lorem.word().replace(/-|_/g, ''))
   const state = getRandomUniqueArray({ faker: ['word.noun', 'random.numeric'] }).reduce(
     (acc: State, { wordNoun, randomNumeric }) => {
       acc[wordNoun as string] = randomNumeric

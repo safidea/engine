@@ -11,14 +11,5 @@ test('should get page', () => {
 
 test('should get an error', () => {
   const wrongPath = '../test'
-  try {
-    getPage(wrongPath)
-    expect(false).toBeTruthy()
-  } catch (e) {
-    if (e instanceof Error) {
-      expect(e.message).toEqual(`Their is no page for path ${wrongPath}`)
-    } else {
-      expect(false).toBeTruthy()
-    }
-  }
+  expect(() => getPage(wrongPath)).toThrow('Their is no page for path ../test')
 })

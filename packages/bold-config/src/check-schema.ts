@@ -14,11 +14,7 @@ export default async function checkSchema(config: Config): Promise<void> {
   const schema = tsj.createGenerator(params).createSchema(params.type)
   const { valid, errors } = validate(config, schema)
   if (valid === false) {
-    let errorMessage = "Config file doesn't match expected schema:"
-    errors.forEach(
-      (e, i) =>
-        (errorMessage += `\n${++i}) ${e.property} ${e.message}`.replace('instance', 'config'))
-    )
-    throw new Error(errorMessage)
+    if (process.env.NODE_ENV !== 'test') console.error('Errors:', errors)
+    throw new Error("Config file doesn't match expected schema")
   }
 }
