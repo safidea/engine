@@ -12,5 +12,7 @@ export type {
 
 export { default as checkSchema } from './src/check-schema'
 export { default as loadYaml } from './src/load-yaml'
+export { default as buildLocales } from './src/build-locales'
+export { default as buildConfig } from './src/build-config'
 
 export { configMock } from './__mocks__/config.mock'

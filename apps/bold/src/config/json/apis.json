@@ -3,7 +3,8 @@
     "name": "newLead",
     "input": [
       {
-        "key": "email"
+        "key": "email",
+        "value": "email"
       }
     ],
     "actions": [

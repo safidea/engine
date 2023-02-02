@@ -5,7 +5,7 @@ import type { Locale } from '../types/config.type'
 
 export default async function buildLocales(
   locales: Locale[] | undefined,
-  folder = './public'
+  folder: string
 ): Promise<void> {
   if (!locales || locales.length === 0) return
   const localesPath = `${folder}/locales`

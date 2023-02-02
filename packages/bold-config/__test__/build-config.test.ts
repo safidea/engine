@@ -4,12 +4,12 @@ import buildConfig from '../src/build-config'
 import getI18nScript from '../src/get-i18n-script'
 import getFontsScript from '../src/get-fonts-script'
 import getTailwindScript from '../src/get-tailwind-script'
-import { getComponentScript, getComponentsIndexScript } from 'bold-component'
+import { getComponentScript } from 'bold-component'
 
 const { apis, pages, components, tables, theme, locales, ...app } = config
 
 beforeEach(async () => {
-  await buildConfig(config, folder)
+  await buildConfig(config, folder + '/config')
 })
 
 test('should have created app file', async () => {
@@ -60,14 +60,9 @@ test('should have created fonts file', async () => {
 test('should have created components files', async () => {
   for (const component of components ?? []) {
     const componentFile = await fs.readFile(
-      `${folder}/config/components/${component.name}.tsx`,
+      `${folder}/config/components/${component.name}.jsx`,
       'utf8'
     )
     expect(componentFile).toEqual(getComponentScript(component))
   }
-})
-
-test('should have created index components files', async () => {
-  const indexFile = await fs.readFile(`${folder}/config/components/index.ts`, 'utf8')
-  expect(indexFile).toEqual(getComponentsIndexScript(components ?? []))
 })

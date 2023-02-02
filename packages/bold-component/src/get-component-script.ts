@@ -94,12 +94,12 @@ export default function getComponentScript(component: ComponentUI): string {
   const inlineProps = props && props.length > 0 ? `const { ${props.join(', ')} } = props` : ''
 
   const { jsx, imports } = getComponentJSX({ ui })
-  return `import { useState } from 'react'
+  return `${states !== '' ? "import { useState } from 'react'" : ''}
 ${imports}
 
-import type { ComponentPageInterface, UI } from '../../component/component.interfaces'
+${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}
     
-export default function ${componentName}(props: ComponentPageInterface) {
+export default function ${componentName}(${inlineProps !== '' ? 'props: ComponentUI' : ''}) {
   ${inlineProps}
   ${states}
 

@@ -1,0 +1,16 @@
+{
+  "header": {
+    "logoTitle": "Essentiel",
+    "mobileMenu": "Open menu",
+    "navigation": {
+      "approach": "Approach",
+      "platform": "Platform",
+      "services": "Services",
+      "outcomes": "Outcomes",
+      "testimonials": "Testimonials"
+    },
+    "buttons": {
+      "primary": "Log in"
+    }
+  }
+}
