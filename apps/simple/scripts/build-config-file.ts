@@ -5,7 +5,7 @@ import { fsExists } from 'utils'
 import { checkSchema } from 'bold-config'
 
 import type { App, Config, Page, Api, Table, Theme, Resources } from 'bold-config'
-import type { UI } from 'bold-component'
+import type { ComponentUI } from 'bold-component'
 
 const folderPath = './config'
 const themePath = `${folderPath}/theme.yaml`
@@ -46,7 +46,7 @@ const localesPath = `${folderPath}/locales`
                 .map((name: string) =>
                   fs.readFile(`${componentsPath}/${name}`, 'utf8').then((data: string) => ({
                     name: name.replace('.yaml', ''),
-                    ui: yaml.load(data) as Omit<UI, 'name'>,
+                    ...yaml.load(data) as Omit<ComponentUI, 'name'>,
                   }))
                 )
             )
@@ -119,8 +119,7 @@ const localesPath = `${folderPath}/locales`
     tables,
   }
 
-  checkSchema(config)
-
+  await checkSchema(config)
   await fs.writeFile('./simple.bold.yaml', yaml.dump(config))
 
   console.info('Bold config file building success!')
