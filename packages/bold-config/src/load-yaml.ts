@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
-import { fsExists } from 'bold-utils'
+import { fsExists } from 'utils'
 
 import type { Config } from '../types/config.type'
 

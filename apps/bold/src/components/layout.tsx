@@ -1,10 +1,6 @@
-import { components as library } from 'bold-build'
+import dynamic from 'next/dynamic'
 
 import type { Layout as LayoutProps, Component } from 'bold-page'
-
-const libraryTyped = library as {
-  [key: string]: React.FunctionComponent<Component>
-}
 
 export default function Layout({
   components,
@@ -19,10 +15,18 @@ export default function Layout({
       )}
     >
       {components?.map(({ type, id, props }: Component) => {
-        const Component = libraryTyped[type as keyof typeof libraryTyped]
-        if (!Component) throw new Error(`No component found for type ${type}`)
+        const DynamicComponent = dynamic(() => import('../config/components/' + type), {
+          loading: () => <>Loading...</>,
+        }) as React.FunctionComponent<Component>
+        if (!DynamicComponent) throw new Error(`No component found for type "${type}"`)
         return (
-          <Component key={id} id={id} type={type} props={props} namespaces={namespaces ?? []} />
+          <DynamicComponent
+            key={id}
+            id={id}
+            type={type}
+            props={props}
+            namespaces={namespaces ?? []}
+          />
         )
       })}
     </div>

@@ -1,17 +1,29 @@
 import { faker } from '@faker-js/faker'
-import { getRandomLengthArray, getRandomKeyValue } from 'bold-utils'
+import { getRandomUniqueArray } from 'utils'
 
-import type { ComponentUI, UI } from '../types/component.type'
+import type { ComponentUI, State, UI } from '../types/component.type'
 
-const components: ComponentUI[] = getRandomLengthArray().map(() => {
+const getUI = (i = 0): UI => ({
+  tag: faker.random.word(),
+  class: faker.random.word(),
+  children: i < 10 ? getRandomUniqueArray().map(() => getUI(++i)) : 'Hello word',
+})
+
+export const componentsMock: ComponentUI[] = getRandomUniqueArray().map(() => {
   const name = faker.random.word()
-  const ui = getRandomKeyValue({
-    value: [getRandomKeyValue({ value: [getRandomKeyValue()] })],
-  }) as UI
+  const ui = getUI()
+  const state = getRandomUniqueArray({ faker: ['random.word', 'random.numeric'] }).reduce(
+    (acc: State, { randomWord, randomNumeric }) => {
+      acc[randomWord as string] = randomNumeric
+      return acc
+    },
+    {} as State
+  )
+  const props = getRandomUniqueArray().map(() => faker.random.word())
   return {
     name,
     ui,
+    state,
+    props,
   }
 })
-
-export default components

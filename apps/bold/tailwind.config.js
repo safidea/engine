@@ -1,3 +1,12 @@
 // tailwind config is required for editor support
 
-module.exports = require("config-tailwind/tailwind.config.js");
+const { theme } = require('./src/config/tailwind.js')
+
+/** @type {import('tailwindcss').Config} */
+const tailwindConfig = {
+  content: ['./core/**/*.{js,ts,tsx}'],
+  theme,
+  plugins: [],
+}
+
+module.exports = tailwindConfig

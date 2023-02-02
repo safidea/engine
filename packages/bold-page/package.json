@@ -3,12 +3,10 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint .",
-    "test": "jest --detectOpenHandles"
+    "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
-    "bold-utils": "workspace:*",
-    "bold-build": "workspace:*",
+    "utils": "workspace:*",
     "bold-component": "workspace:*"
   },
   "devDependencies": {

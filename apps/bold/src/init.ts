@@ -9,4 +9,6 @@ const file = process.env.BOLD_CONFIG_FILE || './bold.config.yaml'
   const config = await loadYaml(file)
 
   checkSchema(config)
+
+  
 })()

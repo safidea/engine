@@ -8,7 +8,7 @@
     "db:push": "prisma db push --skip-generate"
   },
   "dependencies": {
-    "bold-utils": "workspace:*",
+    "utils": "workspace:*",
     "@prisma/client": "latest"
   },
   "devDependencies": {

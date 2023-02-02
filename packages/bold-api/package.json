@@ -6,7 +6,7 @@
     "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
-    "bold-utils": "workspace:*"
+    "utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

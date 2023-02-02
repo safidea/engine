@@ -1,14 +1,13 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
 
-import { fsExists } from 'bold-utils'
+import { fsExists } from 'utils'
 import { checkSchema } from 'bold-config'
 
-import type { App, Config, Page, Api, Table, Theme } from 'bold-config'
-import type { Resources } from 'bold-locale'
+import type { App, Config, Page, Api, Table, Theme, Resources } from 'bold-config'
 import type { UI } from 'bold-component'
 
-const folderPath = './config-folder'
+const folderPath = './config'
 const themePath = `${folderPath}/theme.yaml`
 const pagesPath = `${folderPath}/pages`
 const componentsPath = `${folderPath}/components`

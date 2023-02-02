@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "bold-config": "workspace:*",
-    "bold-utils": "workspace:*",
-    "bold-locale": "workspace:*",
+    "utils": "workspace:*",
     "bold-component": "workspace:*",
     "js-yaml": "4.1.0"
   },
   "devDependencies": {
+    "@types/jest": "29.4.0",
     "@types/node": "^18.11.17",
     "@types/js-yaml": "4.0.5",
     "config-typescript": "workspace:*",

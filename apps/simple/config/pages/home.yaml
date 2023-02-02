@@ -1,5 +1,6 @@
 ---
-title: Essentiel
+meta:
+  title: Essentiel
 components:
   - id: header
     type: Header

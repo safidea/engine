@@ -36,7 +36,8 @@ theme:
         - 700
 pages:
   - path: home
-    title: Essentiel
+    meta:
+      title: Essentiel
     components:
       - id: header
         type: Header
@@ -61,6 +62,105 @@ pages:
             primary:
               path: /login
 components:
+  - name: CTA
+    ui:
+      tag: div
+      class: bg-white
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8
+          children:
+            - tag: div
+              class: >-
+                relative isolate overflow-hidden bg-gray-900 px-6 pt-16
+                shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20
+                lg:px-24 lg:pt-0
+              children:
+                - tag: svg
+                  xmlns: http://www.w3.org/2000/svg
+                  viewBox: 0 0 1024 1024
+                  aria-hidden: 'true'
+                  class: >-
+                    absolute top-1/2 left-1/2 -z-10 h-[64rem] w-[64rem]
+                    -translate-y-1/2 sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0
+                    lg:translate-y-0 lg:-translate-x-1/2
+                  children:
+                    - tag: circle
+                      cx: '{512}'
+                      cy: '{512}'
+                      r: '{512}'
+                      fill: url(#759c1415-0410-454c-8f7c-9a820de03641)
+                      fillOpacity: '0.7'
+                    - tag: defs
+                      children:
+                        - tag: radialGradient
+                          id: 759c1415-0410-454c-8f7c-9a820de03641
+                          cx: '{0}'
+                          cy: '{0}'
+                          r: '{1}'
+                          gradientUnits: userSpaceOnUse
+                          gradientTransform: translate(512 512) rotate(90) scale(512)
+                          children:
+                            - tag: stop
+                              stopColor: '#7775D6'
+                            - tag: stop
+                              offset: '{1}'
+                              stopColor: '#E935C1'
+                              stopOpacity: '{0}'
+                - tag: div
+                  class: >-
+                    mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32
+                    lg:text-left
+                  children:
+                    - tag: h2
+                      class: text-3xl font-bold tracking-tight text-white sm:text-4xl
+                      children:
+                        - Boost your productivity.
+                        - tag: br
+                        - Start using our app today.
+                    - tag: p
+                      class: mt-6 text-lg leading-8 text-gray-300
+                      children:
+                        - >-
+                          Ac euismod vel sit maecenas id pellentesque eu sed
+                          consectetur. Malesuada adipiscing sagittis vel nulla.
+                    - tag: div
+                      class: >-
+                        mt-10 flex items-center justify-center gap-x-6
+                        lg:justify-start
+                      children:
+                        - tag: a
+                          href: '#'
+                          class: >-
+                            rounded-md bg-white px-3.5 py-1.5 text-base
+                            font-semibold leading-7 text-gray-900 shadow-sm
+                            hover:bg-gray-100 focus-visible:outline
+                            focus-visible:outline-2
+                            focus-visible:outline-offset-2
+                            focus-visible:outline-white
+                          children:
+                            - Get started
+                        - tag: a
+                          href: '#'
+                          class: text-base font-semibold leading-7 text-white
+                          children:
+                            - Learn more
+                            - tag: span
+                              aria-hidden: 'true'
+                              children:
+                                - →
+                - tag: div
+                  class: relative mt-16 h-80 lg:mt-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/component-images/dark-project-app-screenshot.png
+                      alt: App screenshot
+                      width: '{1824}'
+                      height: '{1080}'
+                      class: >-
+                        absolute top-0 left-0 w-[57rem] max-w-none rounded-md
+                        bg-white/5 ring-1 ring-white/10
   - name: Features
     ui:
       tag: div
@@ -122,6 +222,438 @@ components:
                           children:
                             - '{feature.description}'
                     - ))}
+  - name: Header
+    ui:
+      tag: div
+      class: isolate bg-white
+      children:
+        - tag: div
+          class: >-
+            absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden
+            blur-3xl sm:top-[-20rem]
+          children:
+            - tag: svg
+              viewBox: 0 0 1155 678
+              xmlns: http://www.w3.org/2000/svg
+              class: >-
+                relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none
+                -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)]
+                sm:h-[42.375rem]
+              children:
+                - tag: path
+                  fill: url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)
+                  fillOpacity: '.3'
+                  d: >-
+                    M317.219 518.975L203.852 678 0 438.341l317.219 80.634
+                    204.172-286.402c1.307 132.337 45.083 346.658 209.733
+                    145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18
+                    108.451 130.68 295.337 121.53 375.223L855 299l21.173
+                    362.054-558.954-142.079z
+                - tag: defs
+                  children:
+                    - tag: linearGradient
+                      id: 45de2b6b-92d5-4d68-a6a0-9b9b2abad533
+                      x1: '1155.49'
+                      x2: '-78.208'
+                      y1: '.177'
+                      y2: '474.645'
+                      gradientUnits: userSpaceOnUse
+                      children:
+                        - tag: stop
+                          stopColor: '#9089FC'
+                        - tag: stop
+                          offset: '{1}'
+                          stopColor: '#FF80B5'
+        - tag: div
+          class: px-6 pt-6 lg:px-8
+          children:
+            - tag: nav
+              aria-label: Global
+              class: flex items-center justify-between
+              children:
+                - tag: div
+                  class: flex lg:flex-1
+                  children:
+                    - tag: a
+                      href: '#'
+                      class: '-m-1.5 p-1.5'
+                      children:
+                        - tag: span
+                          class: sr-only
+                          children:
+                            - Your Company
+                        - tag: img
+                          src: >-
+                            https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
+                          alt: ''
+                          class: h-8
+                - tag: div
+                  class: flex lg:hidden
+                  children:
+                    - tag: button
+                      type: button
+                      onClick: '{() => setMobileMenuOpen(true)}'
+                      class: >-
+                        -m-2.5 inline-flex items-center justify-center
+                        rounded-md p-2.5 text-gray-700
+                      children:
+                        - tag: span
+                          class: sr-only
+                          children:
+                            - Open main menu
+                        - tag: Bars3Icon
+                          aria-hidden: 'true'
+                          class: h-6 w-6
+                - tag: div
+                  class: hidden lg:flex lg:gap-x-12
+                  children:
+                    - '{navigation.map((item) => ('
+                    - tag: a
+                      key: '{item.name}'
+                      href: '{item.href}'
+                      class: text-sm font-semibold leading-6 text-gray-900
+                      children:
+                        - '{item.name}'
+                    - ))}
+                - tag: div
+                  class: hidden lg:flex lg:flex-1 lg:justify-end
+                  children:
+                    - tag: a
+                      href: '#'
+                      class: text-sm font-semibold leading-6 text-gray-900
+                      children:
+                        - Log in
+                        - tag: span
+                          aria-hidden: 'true'
+                          children:
+                            - '&rarr;'
+            - tag: Dialog
+              as: div
+              open: '{mobileMenuOpen}'
+              onClose: '{setMobileMenuOpen}'
+              children:
+                - tag: Dialog.Panel
+                  focus: 'true'
+                  class: >-
+                    fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6
+                    lg:hidden
+                  children:
+                    - tag: div
+                      class: flex items-center justify-between
+                      children:
+                        - tag: a
+                          href: '#'
+                          class: '-m-1.5 p-1.5'
+                          children:
+                            - tag: span
+                              class: sr-only
+                              children:
+                                - Your Company
+                            - tag: img
+                              src: >-
+                                https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
+                              alt: ''
+                              class: h-8
+                        - tag: button
+                          type: button
+                          onClick: '{() => setMobileMenuOpen(false)}'
+                          class: '-m-2.5 rounded-md p-2.5 text-gray-700'
+                          children:
+                            - tag: span
+                              class: sr-only
+                              children:
+                                - Close menu
+                            - tag: XMarkIcon
+                              aria-hidden: 'true'
+                              class: h-6 w-6
+                    - tag: div
+                      class: mt-6 flow-root
+                      children:
+                        - tag: div
+                          class: '-my-6 divide-y divide-gray-500/10'
+                          children:
+                            - tag: div
+                              class: space-y-2 py-6
+                              children:
+                                - '{navigation.map((item) => ('
+                                - tag: a
+                                  key: '{item.name}'
+                                  href: '{item.href}'
+                                  class: >-
+                                    -mx-3 block rounded-lg py-2 px-3 text-base
+                                    font-semibold leading-7 text-gray-900
+                                    hover:bg-gray-400/10
+                                  children:
+                                    - '{item.name}'
+                                - ))}
+                            - tag: div
+                              class: py-6
+                              children:
+                                - tag: a
+                                  href: '#'
+                                  class: >-
+                                    -mx-3 block rounded-lg py-2.5 px-3 text-base
+                                    font-semibold leading-6 text-gray-900
+                                    hover:bg-gray-400/10
+                                  children:
+                                    - Log in
+        - tag: main
+          children:
+            - tag: div
+              class: relative px-6 lg:px-8
+              children:
+                - tag: div
+                  class: mx-auto max-w-2xl py-32 sm:py-48 lg:py-56
+                  children:
+                    - tag: div
+                      class: hidden sm:mb-8 sm:flex sm:justify-center
+                      children:
+                        - tag: div
+                          class: >-
+                            relative rounded-full py-1 px-3 text-sm leading-6
+                            text-gray-600 ring-1 ring-gray-900/10
+                            hover:ring-gray-900/20
+                          children:
+                            - Announcing our next round of funding.{' '}
+                            - tag: a
+                              href: '#'
+                              class: font-semibold text-indigo-600
+                              children:
+                                - tag: span
+                                  aria-hidden: 'true'
+                                  class: absolute inset-0
+                                - Read more
+                                - tag: span
+                                  aria-hidden: 'true'
+                                  children:
+                                    - '&rarr;'
+                    - tag: div
+                      class: text-center
+                      children:
+                        - tag: h1
+                          class: >-
+                            text-4xl font-bold tracking-tight text-gray-900
+                            sm:text-6xl
+                          children:
+                            - Data to enrich your online business
+                        - tag: p
+                          class: mt-6 text-lg leading-8 text-gray-600
+                          children:
+                            - >-
+                              Anim aute id magna aliqua ad ad non deserunt sunt.
+                              Qui irure qui lorem cupidatat commodo. Elit sunt
+                              amet fugiat veniam occaecat fugiat aliqua.
+                        - tag: div
+                          class: mt-10 flex items-center justify-center gap-x-6
+                          children:
+                            - tag: a
+                              href: '#'
+                              class: >-
+                                rounded-md bg-indigo-600 px-3.5 py-1.5 text-base
+                                font-semibold leading-7 text-white shadow-sm
+                                hover:bg-indigo-500 focus-visible:outline
+                                focus-visible:outline-2
+                                focus-visible:outline-offset-2
+                                focus-visible:outline-indigo-600
+                              children:
+                                - Get started
+                            - tag: a
+                              href: '#'
+                              class: text-base font-semibold leading-7 text-gray-900
+                              children:
+                                - Learn more
+                                - tag: span
+                                  aria-hidden: 'true'
+                                  children:
+                                    - →
+                - tag: div
+                  class: >-
+                    absolute inset-x-0 top-[calc(100%-13rem)] -z-10
+                    transform-gpu overflow-hidden blur-3xl
+                    sm:top-[calc(100%-30rem)]
+                  children:
+                    - tag: svg
+                      viewBox: 0 0 1155 678
+                      xmlns: http://www.w3.org/2000/svg
+                      class: >-
+                        relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none
+                        -translate-x-1/2 sm:left-[calc(50%+36rem)]
+                        sm:h-[42.375rem]
+                      children:
+                        - tag: path
+                          fill: url(#ecb5b0c9-546c-4772-8c71-4d3f06d544bc)
+                          fillOpacity: '.3'
+                          d: >-
+                            M317.219 518.975L203.852 678 0 438.341l317.219
+                            80.634 204.172-286.402c1.307 132.337 45.083 346.658
+                            209.733 145.248C936.936 126.058 882.053-94.234
+                            1031.02 41.331c119.18 108.451 130.68 295.337 121.53
+                            375.223L855 299l21.173 362.054-558.954-142.079z
+                        - tag: defs
+                          children:
+                            - tag: linearGradient
+                              id: ecb5b0c9-546c-4772-8c71-4d3f06d544bc
+                              x1: '1155.49'
+                              x2: '-78.208'
+                              y1: '.177'
+                              y2: '474.645'
+                              gradientUnits: userSpaceOnUse
+                              children:
+                                - tag: stop
+                                  stopColor: '#9089FC'
+                                - tag: stop
+                                  offset: '{1}'
+                                  stopColor: '#FF80B5'
+  - name: Header_OLD
+    ui:
+      tag: Popover
+      class: '{classes.container}'
+      children:
+        - tag: div
+          class: '{classes._container.header}'
+          children:
+            - tag: div
+              class: '{classes._container._header.logo}'
+              children:
+                - tag: Link
+                  href: /
+                  class: '{classes._container._header._logo.image}'
+                  children:
+                    - tag: span
+                      class: '{classes._container._header._logo.label}'
+                      children:
+                        - '{t(''logoTitle'')}'
+                    - tag: Image
+                      src: '{logo.path}'
+                      alt: '{t(''logoTitle'')}'
+                      width: '{logo.width}'
+                      height: '{logo.height}'
+            - tag: div
+              class: '{classes._container._header.mobile}'
+              children:
+                - tag: Popover.Button
+                  class: '{classes._container._header._mobile.button}'
+                  children:
+                    - tag: span
+                      class: '{classes._container._header._mobile._button.label}'
+                      children:
+                        - '{t(''mobileMenu'')}'
+                    - tag: Bars3Icon
+                      aria-hidden: 'true'
+                      class: '{classes._container._header._mobile._button.icon}'
+            - tag: nav
+              class: '{classes._container._header.navigation}'
+              children:
+                - '{navigation.map((link: LinkInterface) => ('
+                - tag: Link
+                  key: '{link.key}'
+                  href: '{link.path}'
+                  class: '{classes._container._header._navigation.link}'
+                  children:
+                    - '{t(`navigation.${link.key}`)}'
+                - ))}
+            - '{buttons && ('
+            - tag: div
+              class: '{classes._container._header.buttons}'
+              children:
+                - '{buttons.secondary && ('
+                - tag: Link
+                  href: '{buttons.secondary.path}'
+                  class: '{classes._container._header._buttons.secondary}'
+                  children:
+                    - '{t(`buttons.secondary`)}'
+                - )} {buttons.primary && (
+                - tag: Link
+                  href: '{buttons.primary.path}'
+                  class: '{classes._container._header._buttons.primary}'
+                  children:
+                    - '{t(`buttons.primary`)}'
+                - )}
+            - )}
+        - tag: Transition
+          as: '{Fragment}'
+          enter: duration-200 ease-out
+          enterFrom: opacity-0 scale-95
+          enterTo: opacity-100 scale-100
+          leave: duration-100 ease-in
+          leaveFrom: opacity-100 scale-100
+          leaveTo: opacity-0 scale-95
+          children:
+            - tag: Popover.Panel
+              focus: 'true'
+              class: '{classes._container.panel}'
+              children:
+                - tag: div
+                  class: '{classes._container._panel.header}'
+                  children:
+                    - tag: div
+                      class: '{classes._container._panel._header.top}'
+                      children:
+                        - tag: div
+                          class: '{classes._container._panel._header._top.logo}'
+                          children:
+                            - tag: div
+                              class: >-
+                                {classes._container._panel._header._top._logo.image}
+                              children:
+                                - tag: Image
+                                  src: '{logo.path}'
+                                  alt: '{t(''logoTitle'')}'
+                                  width: '{logo.width}'
+                                  height: '{logo.height}'
+                            - tag: div
+                              class: >-
+                                {classes._container._panel._header._top._logo.mobile}
+                              children:
+                                - tag: Popover.Button
+                                  class: >-
+                                    {classes._container._panel._header._top._logo._mobile.button}
+                                  children:
+                                    - tag: span
+                                      class: >-
+                                        {classes._container._panel._header._top._logo._mobile._button.label}
+                                      children:
+                                        - '{t(''mobileMenu'')}'
+                                    - tag: XMarkIcon
+                                      aria-hidden: 'true'
+                                      class: >-
+                                        {classes._container._panel._header._top._logo._mobile._button.icon}
+                    - tag: div
+                      class: '{classes._container._panel._header.bottom}'
+                      children:
+                        - tag: div
+                          class: >-
+                            {classes._container._panel._header._bottom.navigation}
+                          children:
+                            - '{navigation.map((link: LinkInterface) => ('
+                            - tag: Link
+                              key: '{link.key}'
+                              href: '{link.path}'
+                              class: >-
+                                {classes._container._panel._header._bottom._navigation.link}
+                              children:
+                                - '{t(`navigation.${link.key}`)}'
+                            - ))}
+                        - '{buttons && ('
+                        - tag: div
+                          class: '{classes._container._panel._header._bottom.buttons}'
+                          children:
+                            - '{buttons.primary && ('
+                            - tag: Link
+                              href: '{buttons.primary.path}'
+                              class: >-
+                                {classes._container._panel._header._bottom._buttons.primary}
+                              children:
+                                - '{t(`buttons.primary`)}'
+                            - )} {buttons.secondary && (
+                            - tag: Link
+                              href: '{buttons.secondary.path}'
+                              class: >-
+                                {classes._container._panel._header._bottom._buttons.secondary}
+                              children:
+                                - '{t(`buttons.secondary`)}'
+                            - )}
+                        - )}
   - name: Hero
     ui:
       tag: div
@@ -229,6 +761,7 @@ components:
                             - '&rarr;'
             - tag: Dialog
               as: div
+              open: '{mobileMenuOpen}'
               onClose: '{setMobileMenuOpen}'
               children:
                 - tag: Dialog.Panel

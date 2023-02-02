@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
-import { getRandomLengthArray } from 'bold-utils'
+import { getRandomUniqueArray } from 'utils'
 
 import type { Table } from '../types/table.type'
 
-const tables: Table[] = getRandomLengthArray().map(() => {
+const tables: Table[] = getRandomUniqueArray().map(() => {
   const name = faker.random.word()
-  const fields = getRandomLengthArray().map(() => ({
+  const fields = getRandomUniqueArray().map(() => ({
     name: faker.random.word(),
     type: faker.random.word(),
   }))

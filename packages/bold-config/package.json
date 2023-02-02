@@ -7,16 +7,15 @@
     "test": "jest --detectOpenHandles"
   },
   "dependencies": {
+    "@next/font": "13.1.6",
     "bold-api": "workspace:*",
     "bold-component": "workspace:*",
-    "bold-locale": "workspace:*",
     "bold-page": "workspace:*",
     "bold-table": "workspace:*",
-    "bold-theme": "workspace:*",
-    "bold-utils": "workspace:*",
     "js-yaml": "4.1.0",
     "jsonschema": "1.4.1",
-    "ts-json-schema-generator": "1.2.0"
+    "ts-json-schema-generator": "1.2.0",
+    "utils": "workspace:*"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",
