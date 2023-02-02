@@ -19,34 +19,34 @@ const componentsImport: { [key: string]: string } = {
 
 function getComponentJSX({
   ui = {},
-  jsx = '',
+  tsx = '',
   imports = '',
 }: {
   ui?: UI
-  jsx?: string
+  tsx?: string
   imports?: string
 }): {
-  jsx: string
+  tsx: string
   imports: string
 } {
   const { tag, children, ...props }: UI = ui
 
-  let jsxChildren = ''
+  let tsxChildren = ''
   if (children != null) {
     for (let i = 0; i < children.length; i++) {
       if (typeof children[i] === 'string') {
         const child = children[i] as string
-        jsxChildren += child
+        tsxChildren += child
       } else {
         const child = children[i] as UI
-        const build = getComponentJSX({ ui: child, jsx, imports })
-        jsxChildren += build.jsx
+        const build = getComponentJSX({ ui: child, tsx, imports })
+        tsxChildren += build.tsx
         imports = build.imports
       }
     }
   }
 
-  const jsxProps = Object.keys(props)
+  const tsxProps = Object.keys(props)
     .reduce((acc: string[], prop: string) => {
       const value = props[prop as keyof typeof props]?.toString()
       if (prop === 'class') prop = 'className'
@@ -55,32 +55,34 @@ function getComponentJSX({
     }, [])
     .join(' ')
 
-  let jsxTag = tag
+  let tsxTag = tag
   switch (tag) {
     case 'img':
-      jsxTag = 'Image'
+      tsxTag = 'Image'
       break
     case 'a':
-      jsxTag = 'Link'
+      tsxTag = 'Link'
     default:
       break
   }
 
-  jsx +=
-    jsxChildren != ''
-      ? `<${jsxTag} ${jsxProps}>\n${jsxChildren}\n</${jsxTag}>`
-      : `<${jsxTag} ${jsxProps} />`
+  tsx +=
+    tsxChildren != ''
+      ? `<${tsxTag} ${tsxProps}>\n${tsxChildren}\n</${tsxTag}>`
+      : `<${tsxTag} ${tsxProps} />`
 
-  const [rootTag] = typeof jsxTag === 'string' ? jsxTag.split('.') : []
+  const [rootTag] = typeof tsxTag === 'string' ? tsxTag.split('.') : []
   if (componentsImport.hasOwnProperty(rootTag) && imports.search(rootTag) === -1) {
     imports += componentsImport[rootTag] + '\n'
   }
-  return { jsx, imports }
+  return { tsx, imports }
 }
 
 export default function getComponentScript(component: ComponentUI): string {
   const { name, props, state, ui } = component
   const componentName = capitalize(name)
+
+  const inlineProps = props && props.length > 0 ? `const { ${props.join(', ')} } = props` : ''
 
   const states = state
     ? Object.keys(state)
@@ -91,10 +93,9 @@ export default function getComponentScript(component: ComponentUI): string {
         .join('\n')
     : ''
 
-  const inlineProps = props && props.length > 0 ? `const { ${props.join(', ')} } = props` : ''
-
-  const { jsx, imports } = getComponentJSX({ ui })
-  return `${states !== '' ? "import { useState } from 'react'" : ''}
+  const { tsx, imports } = getComponentJSX({ ui })
+  return `import React from 'react'
+${states !== '' ? "import { useState } from 'react'" : ''}
 ${imports}
 
 ${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}
@@ -103,6 +104,6 @@ export default function ${componentName}(${inlineProps !== '' ? 'props: Componen
   ${inlineProps}
   ${states}
 
-  return (${jsx})
+  return (${tsx})
 }`
 }

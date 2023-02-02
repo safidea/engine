@@ -60,7 +60,7 @@ test('should have created fonts file', async () => {
 test('should have created components files', async () => {
   for (const component of components ?? []) {
     const componentFile = await fs.readFile(
-      `${folder}/config/components/${component.name}.jsx`,
+      `${folder}/config/components/${component.name}.tsx`,
       'utf8'
     )
     expect(componentFile).toEqual(getComponentScript(component))

@@ -1,3 +1,3 @@
-const base = require('config-jest/typescript.js')
+const base = require('config-jest/nextjs.js')
 
 module.exports = base

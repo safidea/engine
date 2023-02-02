@@ -7,8 +7,8 @@ export default function getRandomUniqueArray(options?: {
   max?: number
   faker?: string[]
 }): RandomUniqueObject[] {
-  const { max = 10, faker = [] } = options ?? {}
-  const length = Math.floor(Math.random() * (max - 1)) + 1
+  const { max = 5, faker = [] } = options ?? {}
+  const length = fake.datatype.number({ min: 1, max })
   const emptyArray = Array.from({ length })
 
   return emptyArray.reduce((array: RandomUniqueObject[]) => {

@@ -2,8 +2,7 @@ import { GetStaticProps, GetStaticPaths, GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { getLocales, getNamespaces, getPaths, getPage } from '../utils'
-import { app, theme } from '../config'
-import fonts from '../config/fonts'
+import { app } from '../config'
 import Meta from '../components/meta'
 import Layout from '../components/layout'
 
@@ -36,27 +35,23 @@ export const getStaticProps: GetStaticProps = async ({
   const path =
     params && (Array.isArray(params.path) ? params.path.join('/') : params.path ?? 'home')
   const { meta, components } = getPage(path)
-  const namespaces = getNamespaces(locale)
   meta.domain = process.env.HOST
   if (!meta.domain) throw new Error('Environment variable HOST is not set.')
   return {
     props: {
-      ...(await serverSideTranslations(locale, namespaces)),
+      ...(await serverSideTranslations(locale, getNamespaces(locale))),
       components,
       meta,
-      namespaces,
-      fontsVariables: fonts,
-      hasContainer: !!theme.container,
     },
   }
 }
 
 export default function Document(props: Page) {
-  const { meta, ...layout } = props
+  const { meta, components } = props
   return (
     <>
       <Meta {...meta} />
-      <Layout {...layout} />
+      <Layout components={components} />
     </>
   )
 }

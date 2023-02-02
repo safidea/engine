@@ -46,7 +46,7 @@ const localesPath = `${folderPath}/locales`
                 .map((name: string) =>
                   fs.readFile(`${componentsPath}/${name}`, 'utf8').then((data: string) => ({
                     name: name.replace('.yaml', ''),
-                    ...yaml.load(data) as Omit<ComponentUI, 'name'>,
+                    ...(yaml.load(data) as Omit<ComponentUI, 'name'>),
                   }))
                 )
             )

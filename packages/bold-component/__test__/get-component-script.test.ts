@@ -7,5 +7,8 @@ test('get component script', async () => {
     for (const key of component.props ?? []) {
       expect(script.search(key) > -1).toBe(true)
     }
+    for (const key of Object.keys(component.state ?? {})) {
+      expect(script.search(key) > -1).toBe(true)
+    }
   }
 })
