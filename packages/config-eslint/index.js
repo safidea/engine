@@ -1,6 +1,12 @@
 module.exports = {
   plugins: ['@typescript-eslint'],
-  extends: ['next', 'turbo', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: [
+    'next',
+    'turbo',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:yml/prettier',
+    'prettier',
+  ],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
     'react/jsx-key': 'off',
