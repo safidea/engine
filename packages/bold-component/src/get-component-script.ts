@@ -1,5 +1,6 @@
 import * as Headlessui from '@headlessui/react'
-import * as Heroicons from '@heroicons/react/24/outline'
+import * as Heroicons24Outline from '@heroicons/react/24/outline'
+import * as Heroicons20Solid from '@heroicons/react/24/outline'
 
 import { capitalize } from 'utils'
 import type { UI, ComponentUI } from '../types/component.type'
@@ -7,8 +8,13 @@ import type { UI, ComponentUI } from '../types/component.type'
 const componentsImport: { [key: string]: string } = {
   Link: "import Link from 'next/link'",
   Image: "import Image from 'next/image'",
-  ...Object.keys(Heroicons).reduce((acc: { [key: string]: string }, icon: string) => {
+  Fragment: "import { Fragment } from 'react'",
+  ...Object.keys(Heroicons24Outline).reduce((acc: { [key: string]: string }, icon: string) => {
     acc[icon as keyof typeof acc] = `import { ${icon} } from '@heroicons/react/24/outline'`
+    return acc
+  }, {}),
+  ...Object.keys(Heroicons20Solid).reduce((acc: { [key: string]: string }, icon: string) => {
+    acc[icon as keyof typeof acc] = `import { ${icon} } from '@heroicons/react/20/solid'`
     return acc
   }, {}),
   ...Object.keys(Headlessui).reduce((acc: { [key: string]: string }, component: string) => {
@@ -50,6 +56,11 @@ function getComponentJSX({
     .reduce((acc: string[], prop: string) => {
       const value = props[prop as keyof typeof props]?.toString()
       if (prop === 'class') prop = 'className'
+      if (prop === 'as') {
+        if (value.search('Fragment') > -1 && imports.search('Fragment') === -1) {
+          imports += componentsImport['Fragment'] + '\n'
+        }
+      }
       acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))
       return acc
     }, [])

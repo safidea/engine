@@ -1,3 +1,6 @@
+name: CTA
+state: {}
+props: []
 ui:
   tag: div
   class: bg-white
@@ -8,7 +11,8 @@ ui:
         - tag: div
           class: >-
             relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl
-            sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0
+            sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24
+            lg:pt-0
           children:
             - tag: svg
               xmlns: http://www.w3.org/2000/svg
@@ -16,8 +20,10 @@ ui:
               aria-hidden: 'true'
               class: >-
                 absolute top-1/2 left-1/2 -z-10 h-[64rem] w-[64rem]
-                -translate-y-1/2 sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0
-                lg:translate-y-0 lg:-translate-x-1/2
+                -translate-y-1/2
+                [mask-image:radial-gradient(closest-side,white,transparent)]
+                sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:translate-y-0
+                lg:-translate-x-1/2
               children:
                 - tag: circle
                   cx: '{512}'
@@ -29,18 +35,12 @@ ui:
                   children:
                     - tag: radialGradient
                       id: 759c1415-0410-454c-8f7c-9a820de03641
-                      cx: '{0}'
-                      cy: '{0}'
-                      r: '{1}'
-                      gradientUnits: userSpaceOnUse
-                      gradientTransform: translate(512 512) rotate(90) scale(512)
                       children:
                         - tag: stop
                           stopColor: '#7775D6'
                         - tag: stop
                           offset: '{1}'
                           stopColor: '#E935C1'
-                          stopOpacity: '{0}'
             - tag: div
               class: >-
                 mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32
@@ -66,10 +66,11 @@ ui:
                     - tag: a
                       href: '#'
                       class: >-
-                        rounded-md bg-white px-3.5 py-1.5 text-base font-semibold
-                        leading-7 text-gray-900 shadow-sm hover:bg-gray-100
-                        focus-visible:outline focus-visible:outline-2
-                        focus-visible:outline-offset-2 focus-visible:outline-white
+                        rounded-md bg-white px-3.5 py-1.5 text-base
+                        font-semibold leading-7 text-gray-900 shadow-sm
+                        hover:bg-gray-100 focus-visible:outline
+                        focus-visible:outline-2 focus-visible:outline-offset-2
+                        focus-visible:outline-white
                       children:
                         - Get started
                     - tag: a

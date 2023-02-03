@@ -5,21 +5,36 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
     "build": "ts-node ./scripts/build-config-file.ts",
-    "import": "ts-node ./scripts/import-components.ts"
+    "import": "ts-node ./scripts/import-components.ts",
+    "test": "jest --detectOpenHandles"
   },
   "dependencies": {
     "bold-config": "workspace:*",
-    "utils": "workspace:*",
     "bold-component": "workspace:*",
-    "js-yaml": "4.1.0"
+    "utils": "workspace:*",
+    "js-yaml": "4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "13.4.0",
     "@types/jest": "29.4.0",
     "@types/node": "^18.11.17",
     "@types/js-yaml": "4.0.5",
+    "config-jest": "workspace:*",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@typescript-eslint/eslint-plugin": "5.48.1",
+    "@typescript-eslint/parser": "^5.0.0 ",
     "config-typescript": "workspace:*",
     "eslint-config-bold": "workspace:*",
+    "eslint": "^7.23.0",
+    "eslint-plugin-react": "7.31.8",
     "ts-node": "10.9.1",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "ts-jest": "29.0.5",
+    "jest": "29.4.1",
+    "jest-environment-jsdom": "29.4.1"
   }
 }

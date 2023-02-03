@@ -101,14 +101,28 @@ importers:
 
   apps/simple:
     specifiers:
+      '@testing-library/jest-dom': 5.16.5
+      '@testing-library/react': 13.4.0
       '@types/jest': 29.4.0
       '@types/js-yaml': 4.0.5
       '@types/node': ^18.11.17
+      '@types/react': ^18.0.26
+      '@types/react-dom': ^18.0.9
+      '@typescript-eslint/eslint-plugin': 5.48.1
+      '@typescript-eslint/parser': '^5.0.0 '
       bold-component: workspace:*
       bold-config: workspace:*
+      config-jest: workspace:*
       config-typescript: workspace:*
+      eslint: ^7.23.0
       eslint-config-bold: workspace:*
+      eslint-plugin-react: 7.31.8
+      jest: 29.4.1
+      jest-environment-jsdom: 29.4.1
       js-yaml: 4.1.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      ts-jest: 29.0.5
       ts-node: 10.9.1
       typescript: ^4.9.4
       utils: workspace:*
@@ -116,13 +130,27 @@ importers:
       bold-component: link:../../packages/bold-component
       bold-config: link:../../packages/bold-config
       js-yaml: 4.1.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       utils: link:../../packages/utils
     devDependencies:
+      '@testing-library/jest-dom': 5.16.5
+      '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@types/jest': 29.4.0
       '@types/js-yaml': 4.0.5
       '@types/node': 18.11.18
+      '@types/react': 18.0.27
+      '@types/react-dom': 18.0.10
+      '@typescript-eslint/eslint-plugin': 5.48.1_mkxcjaly3h5h3xlopwmx7wpgya
+      '@typescript-eslint/parser': 5.49.0_yfqovispp7u7jaktymfaqwl2py
+      config-jest: link:../../packages/config-jest
       config-typescript: link:../../packages/config-typescript
+      eslint: 7.32.0
       eslint-config-bold: link:../../packages/config-eslint
+      eslint-plugin-react: 7.31.8_eslint@7.32.0
+      jest: 29.4.1_zfha7dvnw4nti6zkbsmhmn6xo4
+      jest-environment-jsdom: 29.4.1
+      ts-jest: 29.0.5_xnqx6kewz4og5i3pgc6ahzwloy
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typescript: 4.9.4
 

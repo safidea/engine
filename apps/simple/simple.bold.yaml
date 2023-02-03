@@ -63,6 +63,8 @@ pages:
               path: /login
 components:
   - name: CTA
+    state: {}
+    props: []
     ui:
       tag: div
       class: bg-white
@@ -82,8 +84,10 @@ components:
                   aria-hidden: 'true'
                   class: >-
                     absolute top-1/2 left-1/2 -z-10 h-[64rem] w-[64rem]
-                    -translate-y-1/2 sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0
-                    lg:translate-y-0 lg:-translate-x-1/2
+                    -translate-y-1/2
+                    [mask-image:radial-gradient(closest-side,white,transparent)]
+                    sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:translate-y-0
+                    lg:-translate-x-1/2
                   children:
                     - tag: circle
                       cx: '{512}'
@@ -95,18 +99,12 @@ components:
                       children:
                         - tag: radialGradient
                           id: 759c1415-0410-454c-8f7c-9a820de03641
-                          cx: '{0}'
-                          cy: '{0}'
-                          r: '{1}'
-                          gradientUnits: userSpaceOnUse
-                          gradientTransform: translate(512 512) rotate(90) scale(512)
                           children:
                             - tag: stop
                               stopColor: '#7775D6'
                             - tag: stop
                               offset: '{1}'
                               stopColor: '#E935C1'
-                              stopOpacity: '{0}'
                 - tag: div
                   class: >-
                     mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32
@@ -162,121 +160,153 @@ components:
                         absolute top-0 left-0 w-[57rem] max-w-none rounded-md
                         bg-white/5 ring-1 ring-white/10
   - name: Features
+    state: {}
+    props:
+      - features
     ui:
       tag: div
-      class: bg-white py-24 sm:py-32
+      class: overflow-hidden bg-white py-24 sm:py-32
       children:
         - tag: div
           class: mx-auto max-w-7xl px-6 lg:px-8
           children:
             - tag: div
-              class: mx-auto max-w-2xl lg:text-center
-              children:
-                - tag: h2
-                  class: >-
-                    text-lg font-semibold leading-8 tracking-tight
-                    text-indigo-600
-                  children:
-                    - Deploy faster
-                - tag: p
-                  class: >-
-                    mt-2 text-3xl font-bold tracking-tight text-gray-900
-                    sm:text-4xl
-                  children:
-                    - Everything you need to deploy your app
-                - tag: p
-                  class: mt-6 text-lg leading-8 text-gray-600
-                  children:
-                    - >-
-                      Quis tellus eget adipiscing convallis sit sit eget aliquet
-                      quis. Suspendisse eget egestas a elementum pulvinar et
-                      feugiat blandit at. In mi viverra elit nunc.
-            - tag: div
-              class: mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl
-              children:
-                - tag: dl
-                  class: >-
-                    grid max-w-xl grid-cols-1 gap-y-10 gap-x-8 lg:max-w-none
-                    lg:grid-cols-2 lg:gap-y-16
-                  children:
-                    - '{features.map((feature) => ('
-                    - tag: div
-                      key: '{feature.name}'
-                      class: relative pl-16
-                      children:
-                        - tag: dt
-                          class: text-base font-semibold leading-7 text-gray-900
-                          children:
-                            - tag: div
-                              class: >-
-                                absolute top-0 left-0 flex h-10 w-10
-                                items-center justify-center rounded-lg
-                                bg-indigo-600
-                              children:
-                                - tag: feature.icon
-                                  aria-hidden: 'true'
-                                  class: h-6 w-6 text-white
-                            - '{feature.name}'
-                        - tag: dd
-                          class: mt-2 text-base leading-7 text-gray-600
-                          children:
-                            - '{feature.description}'
-                    - ))}
-  - name: Header
-    ui:
-      tag: div
-      class: isolate bg-white
-      children:
-        - tag: div
-          class: >-
-            absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden
-            blur-3xl sm:top-[-20rem]
-          children:
-            - tag: svg
-              viewBox: 0 0 1155 678
-              xmlns: http://www.w3.org/2000/svg
               class: >-
-                relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none
-                -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)]
-                sm:h-[42.375rem]
-              children:
-                - tag: path
-                  fill: url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)
-                  fillOpacity: '.3'
-                  d: >-
-                    M317.219 518.975L203.852 678 0 438.341l317.219 80.634
-                    204.172-286.402c1.307 132.337 45.083 346.658 209.733
-                    145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18
-                    108.451 130.68 295.337 121.53 375.223L855 299l21.173
-                    362.054-558.954-142.079z
-                - tag: defs
-                  children:
-                    - tag: linearGradient
-                      id: 45de2b6b-92d5-4d68-a6a0-9b9b2abad533
-                      x1: '1155.49'
-                      x2: '-78.208'
-                      y1: '.177'
-                      y2: '474.645'
-                      gradientUnits: userSpaceOnUse
-                      children:
-                        - tag: stop
-                          stopColor: '#9089FC'
-                        - tag: stop
-                          offset: '{1}'
-                          stopColor: '#FF80B5'
-        - tag: div
-          class: px-6 pt-6 lg:px-8
-          children:
-            - tag: nav
-              aria-label: Global
-              class: flex items-center justify-between
+                mx-auto grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 sm:gap-y-20
+                lg:mx-0 lg:max-w-none lg:grid-cols-2
               children:
                 - tag: div
-                  class: flex lg:flex-1
+                  class: lg:pr-8 lg:pt-4
+                  children:
+                    - tag: div
+                      class: lg:max-w-lg
+                      children:
+                        - tag: h2
+                          class: >-
+                            text-lg font-semibold leading-8 tracking-tight
+                            text-indigo-600
+                          children:
+                            - Deploy faster
+                        - tag: p
+                          class: >-
+                            mt-2 text-3xl font-bold tracking-tight text-gray-900
+                            sm:text-4xl
+                          children:
+                            - A better workflow
+                        - tag: p
+                          class: mt-6 text-lg leading-8 text-gray-600
+                          children:
+                            - >-
+                              Lorem ipsum, dolor sit amet consectetur
+                              adipisicing elit. Maiores impedit perferendis
+                              suscipit eaque, iste dolor cupiditate blanditiis
+                              ratione.
+                        - tag: dl
+                          class: >-
+                            mt-10 max-w-xl space-y-8 text-base leading-7
+                            text-gray-600 lg:max-w-none
+                          children:
+                            - '{features.map((feature) => ('
+                            - tag: div
+                              key: '{feature.name}'
+                              class: relative pl-9
+                              children:
+                                - tag: dt
+                                  class: inline font-semibold text-gray-900
+                                  children:
+                                    - tag: feature.icon
+                                      aria-hidden: 'true'
+                                      class: >-
+                                        absolute top-1 left-1 h-5 w-5
+                                        text-indigo-600
+                                    - '{feature.name}'
+                                - '{'' ''}'
+                                - tag: dd
+                                  class: inline
+                                  children:
+                                    - '{feature.description}'
+                            - ))}
+                - tag: img
+                  src: >-
+                    https://tailwindui.com/img/component-images/dark-project-app-screenshot.png
+                  alt: Product screenshot
+                  width: '{2432}'
+                  height: '{1442}'
+                  class: >-
+                    w-[48rem] max-w-none rounded-xl shadow-xl ring-1
+                    ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0
+  - name: Footer
+    state: {}
+    props:
+      - navigation
+    ui:
+      tag: footer
+      class: bg-white
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8
+          children:
+            - tag: nav
+              aria-label: Footer
+              class: '-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12'
+              children:
+                - '{navigation.main.map((item) => ('
+                - tag: div
+                  key: '{item.name}'
+                  class: pb-6
+                  children:
+                    - tag: a
+                      href: '{item.href}'
+                      class: text-sm leading-6 text-gray-600 hover:text-gray-900
+                      children:
+                        - '{item.name}'
+                - ))}
+            - tag: div
+              class: mt-10 flex justify-center space-x-10
+              children:
+                - '{navigation.social.map((item) => ('
+                - tag: a
+                  key: '{item.name}'
+                  href: '{item.href}'
+                  class: text-gray-400 hover:text-gray-500
+                  children:
+                    - tag: span
+                      class: sr-only
+                      children:
+                        - '{item.name}'
+                    - tag: item.icon
+                      aria-hidden: 'true'
+                      class: h-6 w-6
+                - ))}
+            - tag: p
+              class: mt-10 text-center text-xs leading-5 text-gray-500
+              children:
+                - '&copy; 2020 Your Company, Inc. All rights reserved.'
+  - name: Header
+    state: {}
+    props:
+      - solutions
+      - callsToAction
+      - resources
+      - recentPosts
+      - classNames
+    ui:
+      tag: Popover
+      class: relative bg-white
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl px-6
+          children:
+            - tag: div
+              class: >-
+                flex items-center justify-between border-b-2 border-gray-100
+                py-6 md:justify-start md:space-x-10
+              children:
+                - tag: div
+                  class: flex justify-start lg:w-0 lg:flex-1
                   children:
                     - tag: a
                       href: '#'
-                      class: '-m-1.5 p-1.5'
                       children:
                         - tag: span
                           class: sr-only
@@ -286,290 +316,278 @@ components:
                           src: >-
                             https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
                           alt: ''
-                          class: h-8
+                          class: h-8 w-auto sm:h-10
                 - tag: div
-                  class: flex lg:hidden
+                  class: '-my-2 -mr-2 md:hidden'
                   children:
-                    - tag: button
-                      type: button
-                      onClick: '{() => setMobileMenuOpen(true)}'
+                    - tag: Popover.Button
                       class: >-
-                        -m-2.5 inline-flex items-center justify-center
-                        rounded-md p-2.5 text-gray-700
+                        inline-flex items-center justify-center rounded-md
+                        bg-white p-2 text-gray-400 hover:bg-gray-100
+                        hover:text-gray-500 focus:outline-none focus:ring-2
+                        focus:ring-inset focus:ring-indigo-500
                       children:
                         - tag: span
                           class: sr-only
                           children:
-                            - Open main menu
+                            - Open menu
                         - tag: Bars3Icon
                           aria-hidden: 'true'
                           class: h-6 w-6
-                - tag: div
-                  class: hidden lg:flex lg:gap-x-12
+                - tag: Popover.Group
+                  as: nav
+                  class: hidden space-x-10 md:flex
                   children:
-                    - '{navigation.map((item) => ('
-                    - tag: a
-                      key: '{item.name}'
-                      href: '{item.href}'
-                      class: text-sm font-semibold leading-6 text-gray-900
+                    - tag: Popover
+                      class: relative
                       children:
-                        - '{item.name}'
-                    - ))}
+                        - '{({ open }) => ('
+                        - tag: ''
+                          children:
+                            - tag: Popover.Button
+                              class: >-
+                                {classNames(                      open ?
+                                'text-gray-900' :
+                                'text-gray-500',                      'group
+                                inline-flex items-center rounded-md bg-white
+                                text-base font-medium hover:text-gray-900
+                                focus:outline-none focus:ring-2
+                                focus:ring-indigo-500
+                                focus:ring-offset-2'                    )}
+                              children:
+                                - tag: span
+                                  children:
+                                    - Solutions
+                                - tag: ChevronDownIcon
+                                  aria-hidden: 'true'
+                                  class: >-
+                                    {classNames(                        open ?
+                                    'text-gray-600' :
+                                    'text-gray-400',                       
+                                    'ml-2 h-5 w-5
+                                    group-hover:text-gray-500'                     
+                                    )}
+                            - tag: Transition
+                              as: '{Fragment}'
+                              enter: transition ease-out duration-200
+                              enterFrom: opacity-0 translate-y-1
+                              enterTo: opacity-100 translate-y-0
+                              leave: transition ease-in duration-150
+                              leaveFrom: opacity-100 translate-y-0
+                              leaveTo: opacity-0 translate-y-1
+                              children:
+                                - tag: Popover.Panel
+                                  class: >-
+                                    absolute z-10 -ml-4 mt-3 w-screen max-w-md
+                                    transform px-2 sm:px-0 lg:left-1/2 lg:ml-0
+                                    lg:-translate-x-1/2
+                                  children:
+                                    - tag: div
+                                      class: >-
+                                        overflow-hidden rounded-lg shadow-lg
+                                        ring-1 ring-black ring-opacity-5
+                                      children:
+                                        - tag: div
+                                          class: >-
+                                            relative grid gap-6 bg-white px-5 py-6
+                                            sm:gap-8 sm:p-8
+                                          children:
+                                            - '{solutions.map((item) => ('
+                                            - tag: a
+                                              key: '{item.name}'
+                                              href: '{item.href}'
+                                              class: >-
+                                                -m-3 flex items-start rounded-lg p-3
+                                                hover:bg-gray-50
+                                              children:
+                                                - tag: item.icon
+                                                  aria-hidden: 'true'
+                                                  class: h-6 w-6 flex-shrink-0 text-indigo-600
+                                                - tag: div
+                                                  class: ml-4
+                                                  children:
+                                                    - tag: p
+                                                      class: text-base font-medium text-gray-900
+                                                      children:
+                                                        - '{item.name}'
+                                                    - tag: p
+                                                      class: mt-1 text-sm text-gray-500
+                                                      children:
+                                                        - '{item.description}'
+                                            - ))}
+                                        - tag: div
+                                          class: >-
+                                            space-y-6 bg-gray-50 px-5 py-5 sm:flex
+                                            sm:space-y-0 sm:space-x-10 sm:px-8
+                                          children:
+                                            - '{callsToAction.map((item) => ('
+                                            - tag: div
+                                              key: '{item.name}'
+                                              class: flow-root
+                                              children:
+                                                - tag: a
+                                                  href: '{item.href}'
+                                                  class: >-
+                                                    -m-3 flex items-center rounded-md p-3
+                                                    text-base font-medium text-gray-900
+                                                    hover:bg-gray-100
+                                                  children:
+                                                    - tag: item.icon
+                                                      aria-hidden: 'true'
+                                                      class: h-6 w-6 flex-shrink-0 text-gray-400
+                                                    - tag: span
+                                                      class: ml-3
+                                                      children:
+                                                        - '{item.name}'
+                                            - ))}
+                        - )}
+                    - tag: a
+                      href: '#'
+                      class: text-base font-medium text-gray-500 hover:text-gray-900
+                      children:
+                        - Pricing
+                    - tag: a
+                      href: '#'
+                      class: text-base font-medium text-gray-500 hover:text-gray-900
+                      children:
+                        - Docs
+                    - tag: Popover
+                      class: relative
+                      children:
+                        - '{({ open }) => ('
+                        - tag: ''
+                          children:
+                            - tag: Popover.Button
+                              class: >-
+                                {classNames(                      open ?
+                                'text-gray-900' :
+                                'text-gray-500',                      'group
+                                inline-flex items-center rounded-md bg-white
+                                text-base font-medium hover:text-gray-900
+                                focus:outline-none focus:ring-2
+                                focus:ring-indigo-500
+                                focus:ring-offset-2'                    )}
+                              children:
+                                - tag: span
+                                  children:
+                                    - More
+                                - tag: ChevronDownIcon
+                                  aria-hidden: 'true'
+                                  class: >-
+                                    {classNames(                        open ?
+                                    'text-gray-600' :
+                                    'text-gray-400',                       
+                                    'ml-2 h-5 w-5
+                                    group-hover:text-gray-500'                     
+                                    )}
+                            - tag: Transition
+                              as: '{Fragment}'
+                              enter: transition ease-out duration-200
+                              enterFrom: opacity-0 translate-y-1
+                              enterTo: opacity-100 translate-y-0
+                              leave: transition ease-in duration-150
+                              leaveFrom: opacity-100 translate-y-0
+                              leaveTo: opacity-0 translate-y-1
+                              children:
+                                - tag: Popover.Panel
+                                  class: >-
+                                    absolute left-1/2 z-10 mt-3 w-screen
+                                    max-w-md -translate-x-1/2 transform px-2
+                                    sm:px-0
+                                  children:
+                                    - tag: div
+                                      class: >-
+                                        overflow-hidden rounded-lg shadow-lg
+                                        ring-1 ring-black ring-opacity-5
+                                      children:
+                                        - tag: div
+                                          class: >-
+                                            relative grid gap-6 bg-white px-5 py-6
+                                            sm:gap-8 sm:p-8
+                                          children:
+                                            - '{resources.map((item) => ('
+                                            - tag: a
+                                              key: '{item.name}'
+                                              href: '{item.href}'
+                                              class: >-
+                                                -m-3 flex items-start rounded-lg p-3
+                                                hover:bg-gray-50
+                                              children:
+                                                - tag: item.icon
+                                                  aria-hidden: 'true'
+                                                  class: h-6 w-6 flex-shrink-0 text-indigo-600
+                                                - tag: div
+                                                  class: ml-4
+                                                  children:
+                                                    - tag: p
+                                                      class: text-base font-medium text-gray-900
+                                                      children:
+                                                        - '{item.name}'
+                                                    - tag: p
+                                                      class: mt-1 text-sm text-gray-500
+                                                      children:
+                                                        - '{item.description}'
+                                            - ))}
+                                        - tag: div
+                                          class: bg-gray-50 px-5 py-5 sm:px-8 sm:py-8
+                                          children:
+                                            - tag: div
+                                              children:
+                                                - tag: h3
+                                                  class: text-base font-medium text-gray-500
+                                                  children:
+                                                    - Recent Posts
+                                                - tag: ul
+                                                  role: list
+                                                  class: mt-4 space-y-4
+                                                  children:
+                                                    - '{recentPosts.map((post) => ('
+                                                    - tag: li
+                                                      key: '{post.id}'
+                                                      class: truncate text-base
+                                                      children:
+                                                        - tag: a
+                                                          href: '{post.href}'
+                                                          class: >-
+                                                            font-medium text-gray-900
+                                                            hover:text-gray-700
+                                                          children:
+                                                            - '{post.name}'
+                                                    - ))}
+                                            - tag: div
+                                              class: mt-5 text-sm
+                                              children:
+                                                - tag: a
+                                                  href: '#'
+                                                  class: >-
+                                                    font-medium text-indigo-600
+                                                    hover:text-indigo-500
+                                                  children:
+                                                    - View all posts
+                                                    - tag: span
+                                                      aria-hidden: 'true'
+                                                      children:
+                                                        - '&rarr;'
+                        - )}
                 - tag: div
-                  class: hidden lg:flex lg:flex-1 lg:justify-end
+                  class: hidden items-center justify-end md:flex md:flex-1 lg:w-0
                   children:
                     - tag: a
                       href: '#'
-                      class: text-sm font-semibold leading-6 text-gray-900
-                      children:
-                        - Log in
-                        - tag: span
-                          aria-hidden: 'true'
-                          children:
-                            - '&rarr;'
-            - tag: Dialog
-              as: div
-              open: '{mobileMenuOpen}'
-              onClose: '{setMobileMenuOpen}'
-              children:
-                - tag: Dialog.Panel
-                  focus: 'true'
-                  class: >-
-                    fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6
-                    lg:hidden
-                  children:
-                    - tag: div
-                      class: flex items-center justify-between
-                      children:
-                        - tag: a
-                          href: '#'
-                          class: '-m-1.5 p-1.5'
-                          children:
-                            - tag: span
-                              class: sr-only
-                              children:
-                                - Your Company
-                            - tag: img
-                              src: >-
-                                https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
-                              alt: ''
-                              class: h-8
-                        - tag: button
-                          type: button
-                          onClick: '{() => setMobileMenuOpen(false)}'
-                          class: '-m-2.5 rounded-md p-2.5 text-gray-700'
-                          children:
-                            - tag: span
-                              class: sr-only
-                              children:
-                                - Close menu
-                            - tag: XMarkIcon
-                              aria-hidden: 'true'
-                              class: h-6 w-6
-                    - tag: div
-                      class: mt-6 flow-root
-                      children:
-                        - tag: div
-                          class: '-my-6 divide-y divide-gray-500/10'
-                          children:
-                            - tag: div
-                              class: space-y-2 py-6
-                              children:
-                                - '{navigation.map((item) => ('
-                                - tag: a
-                                  key: '{item.name}'
-                                  href: '{item.href}'
-                                  class: >-
-                                    -mx-3 block rounded-lg py-2 px-3 text-base
-                                    font-semibold leading-7 text-gray-900
-                                    hover:bg-gray-400/10
-                                  children:
-                                    - '{item.name}'
-                                - ))}
-                            - tag: div
-                              class: py-6
-                              children:
-                                - tag: a
-                                  href: '#'
-                                  class: >-
-                                    -mx-3 block rounded-lg py-2.5 px-3 text-base
-                                    font-semibold leading-6 text-gray-900
-                                    hover:bg-gray-400/10
-                                  children:
-                                    - Log in
-        - tag: main
-          children:
-            - tag: div
-              class: relative px-6 lg:px-8
-              children:
-                - tag: div
-                  class: mx-auto max-w-2xl py-32 sm:py-48 lg:py-56
-                  children:
-                    - tag: div
-                      class: hidden sm:mb-8 sm:flex sm:justify-center
-                      children:
-                        - tag: div
-                          class: >-
-                            relative rounded-full py-1 px-3 text-sm leading-6
-                            text-gray-600 ring-1 ring-gray-900/10
-                            hover:ring-gray-900/20
-                          children:
-                            - Announcing our next round of funding.{' '}
-                            - tag: a
-                              href: '#'
-                              class: font-semibold text-indigo-600
-                              children:
-                                - tag: span
-                                  aria-hidden: 'true'
-                                  class: absolute inset-0
-                                - Read more
-                                - tag: span
-                                  aria-hidden: 'true'
-                                  children:
-                                    - '&rarr;'
-                    - tag: div
-                      class: text-center
-                      children:
-                        - tag: h1
-                          class: >-
-                            text-4xl font-bold tracking-tight text-gray-900
-                            sm:text-6xl
-                          children:
-                            - Data to enrich your online business
-                        - tag: p
-                          class: mt-6 text-lg leading-8 text-gray-600
-                          children:
-                            - >-
-                              Anim aute id magna aliqua ad ad non deserunt sunt.
-                              Qui irure qui lorem cupidatat commodo. Elit sunt
-                              amet fugiat veniam occaecat fugiat aliqua.
-                        - tag: div
-                          class: mt-10 flex items-center justify-center gap-x-6
-                          children:
-                            - tag: a
-                              href: '#'
-                              class: >-
-                                rounded-md bg-indigo-600 px-3.5 py-1.5 text-base
-                                font-semibold leading-7 text-white shadow-sm
-                                hover:bg-indigo-500 focus-visible:outline
-                                focus-visible:outline-2
-                                focus-visible:outline-offset-2
-                                focus-visible:outline-indigo-600
-                              children:
-                                - Get started
-                            - tag: a
-                              href: '#'
-                              class: text-base font-semibold leading-7 text-gray-900
-                              children:
-                                - Learn more
-                                - tag: span
-                                  aria-hidden: 'true'
-                                  children:
-                                    - →
-                - tag: div
-                  class: >-
-                    absolute inset-x-0 top-[calc(100%-13rem)] -z-10
-                    transform-gpu overflow-hidden blur-3xl
-                    sm:top-[calc(100%-30rem)]
-                  children:
-                    - tag: svg
-                      viewBox: 0 0 1155 678
-                      xmlns: http://www.w3.org/2000/svg
                       class: >-
-                        relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none
-                        -translate-x-1/2 sm:left-[calc(50%+36rem)]
-                        sm:h-[42.375rem]
+                        whitespace-nowrap text-base font-medium text-gray-500
+                        hover:text-gray-900
                       children:
-                        - tag: path
-                          fill: url(#ecb5b0c9-546c-4772-8c71-4d3f06d544bc)
-                          fillOpacity: '.3'
-                          d: >-
-                            M317.219 518.975L203.852 678 0 438.341l317.219
-                            80.634 204.172-286.402c1.307 132.337 45.083 346.658
-                            209.733 145.248C936.936 126.058 882.053-94.234
-                            1031.02 41.331c119.18 108.451 130.68 295.337 121.53
-                            375.223L855 299l21.173 362.054-558.954-142.079z
-                        - tag: defs
-                          children:
-                            - tag: linearGradient
-                              id: ecb5b0c9-546c-4772-8c71-4d3f06d544bc
-                              x1: '1155.49'
-                              x2: '-78.208'
-                              y1: '.177'
-                              y2: '474.645'
-                              gradientUnits: userSpaceOnUse
-                              children:
-                                - tag: stop
-                                  stopColor: '#9089FC'
-                                - tag: stop
-                                  offset: '{1}'
-                                  stopColor: '#FF80B5'
-  - name: Header_OLD
-    ui:
-      tag: Popover
-      class: '{classes.container}'
-      children:
-        - tag: div
-          class: '{classes._container.header}'
-          children:
-            - tag: div
-              class: '{classes._container._header.logo}'
-              children:
-                - tag: Link
-                  href: /
-                  class: '{classes._container._header._logo.image}'
-                  children:
-                    - tag: span
-                      class: '{classes._container._header._logo.label}'
+                        - Sign in
+                    - tag: a
+                      href: '#'
+                      class: >-
+                        ml-8 inline-flex items-center justify-center
+                        whitespace-nowrap rounded-md border border-transparent
+                        bg-indigo-600 px-4 py-2 text-base font-medium text-white
+                        shadow-sm hover:bg-indigo-700
                       children:
-                        - '{t(''logoTitle'')}'
-                    - tag: Image
-                      src: '{logo.path}'
-                      alt: '{t(''logoTitle'')}'
-                      width: '{logo.width}'
-                      height: '{logo.height}'
-            - tag: div
-              class: '{classes._container._header.mobile}'
-              children:
-                - tag: Popover.Button
-                  class: '{classes._container._header._mobile.button}'
-                  children:
-                    - tag: span
-                      class: '{classes._container._header._mobile._button.label}'
-                      children:
-                        - '{t(''mobileMenu'')}'
-                    - tag: Bars3Icon
-                      aria-hidden: 'true'
-                      class: '{classes._container._header._mobile._button.icon}'
-            - tag: nav
-              class: '{classes._container._header.navigation}'
-              children:
-                - '{navigation.map((link: LinkInterface) => ('
-                - tag: Link
-                  key: '{link.key}'
-                  href: '{link.path}'
-                  class: '{classes._container._header._navigation.link}'
-                  children:
-                    - '{t(`navigation.${link.key}`)}'
-                - ))}
-            - '{buttons && ('
-            - tag: div
-              class: '{classes._container._header.buttons}'
-              children:
-                - '{buttons.secondary && ('
-                - tag: Link
-                  href: '{buttons.secondary.path}'
-                  class: '{classes._container._header._buttons.secondary}'
-                  children:
-                    - '{t(`buttons.secondary`)}'
-                - )} {buttons.primary && (
-                - tag: Link
-                  href: '{buttons.primary.path}'
-                  class: '{classes._container._header._buttons.primary}'
-                  children:
-                    - '{t(`buttons.primary`)}'
-                - )}
-            - )}
+                        - Sign up
         - tag: Transition
           as: '{Fragment}'
           enter: duration-200 ease-out
@@ -581,80 +599,125 @@ components:
           children:
             - tag: Popover.Panel
               focus: 'true'
-              class: '{classes._container.panel}'
+              class: >-
+                absolute inset-x-0 top-0 origin-top-right transform p-2
+                transition md:hidden
               children:
                 - tag: div
-                  class: '{classes._container._panel.header}'
+                  class: >-
+                    divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg
+                    ring-1 ring-black ring-opacity-5
                   children:
                     - tag: div
-                      class: '{classes._container._panel._header.top}'
+                      class: px-5 pt-5 pb-6
                       children:
                         - tag: div
-                          class: '{classes._container._panel._header._top.logo}'
+                          class: flex items-center justify-between
                           children:
                             - tag: div
-                              class: >-
-                                {classes._container._panel._header._top._logo.image}
                               children:
-                                - tag: Image
-                                  src: '{logo.path}'
-                                  alt: '{t(''logoTitle'')}'
-                                  width: '{logo.width}'
-                                  height: '{logo.height}'
+                                - tag: img
+                                  src: >-
+                                    https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
+                                  alt: Your Company
+                                  class: h-8 w-auto
                             - tag: div
-                              class: >-
-                                {classes._container._panel._header._top._logo.mobile}
+                              class: '-mr-2'
                               children:
                                 - tag: Popover.Button
                                   class: >-
-                                    {classes._container._panel._header._top._logo._mobile.button}
+                                    inline-flex items-center justify-center
+                                    rounded-md bg-white p-2 text-gray-400
+                                    hover:bg-gray-100 hover:text-gray-500
+                                    focus:outline-none focus:ring-2
+                                    focus:ring-inset focus:ring-indigo-500
                                   children:
                                     - tag: span
-                                      class: >-
-                                        {classes._container._panel._header._top._logo._mobile._button.label}
+                                      class: sr-only
                                       children:
-                                        - '{t(''mobileMenu'')}'
+                                        - Close menu
                                     - tag: XMarkIcon
                                       aria-hidden: 'true'
-                                      class: >-
-                                        {classes._container._panel._header._top._logo._mobile._button.icon}
+                                      class: h-6 w-6
+                        - tag: div
+                          class: mt-6
+                          children:
+                            - tag: nav
+                              class: grid gap-y-8
+                              children:
+                                - '{solutions.map((item) => ('
+                                - tag: a
+                                  key: '{item.name}'
+                                  href: '{item.href}'
+                                  class: >-
+                                    -m-3 flex items-center rounded-md p-3
+                                    hover:bg-gray-50
+                                  children:
+                                    - tag: item.icon
+                                      aria-hidden: 'true'
+                                      class: h-6 w-6 flex-shrink-0 text-indigo-600
+                                    - tag: span
+                                      class: ml-3 text-base font-medium text-gray-900
+                                      children:
+                                        - '{item.name}'
+                                - ))}
                     - tag: div
-                      class: '{classes._container._panel._header.bottom}'
+                      class: space-y-6 py-6 px-5
                       children:
                         - tag: div
-                          class: >-
-                            {classes._container._panel._header._bottom.navigation}
+                          class: grid grid-cols-2 gap-y-4 gap-x-8
                           children:
-                            - '{navigation.map((link: LinkInterface) => ('
-                            - tag: Link
-                              key: '{link.key}'
-                              href: '{link.path}'
+                            - tag: a
+                              href: '#'
                               class: >-
-                                {classes._container._panel._header._bottom._navigation.link}
+                                text-base font-medium text-gray-900
+                                hover:text-gray-700
                               children:
-                                - '{t(`navigation.${link.key}`)}'
+                                - Pricing
+                            - tag: a
+                              href: '#'
+                              class: >-
+                                text-base font-medium text-gray-900
+                                hover:text-gray-700
+                              children:
+                                - Docs
+                            - '{resources.map((item) => ('
+                            - tag: a
+                              key: '{item.name}'
+                              href: '{item.href}'
+                              class: >-
+                                text-base font-medium text-gray-900
+                                hover:text-gray-700
+                              children:
+                                - '{item.name}'
                             - ))}
-                        - '{buttons && ('
                         - tag: div
-                          class: '{classes._container._panel._header._bottom.buttons}'
                           children:
-                            - '{buttons.primary && ('
-                            - tag: Link
-                              href: '{buttons.primary.path}'
+                            - tag: a
+                              href: '#'
                               class: >-
-                                {classes._container._panel._header._bottom._buttons.primary}
+                                flex w-full items-center justify-center
+                                rounded-md border border-transparent
+                                bg-indigo-600 px-4 py-2 text-base font-medium
+                                text-white shadow-sm hover:bg-indigo-700
                               children:
-                                - '{t(`buttons.primary`)}'
-                            - )} {buttons.secondary && (
-                            - tag: Link
-                              href: '{buttons.secondary.path}'
+                                - Sign up
+                            - tag: p
                               class: >-
-                                {classes._container._panel._header._bottom._buttons.secondary}
+                                mt-6 text-center text-base font-medium
+                                text-gray-500
                               children:
-                                - '{t(`buttons.secondary`)}'
-                            - )}
-                        - )}
+                                - Existing customer?{' '}
+                                - tag: a
+                                  href: '#'
+                                  class: text-indigo-600 hover:text-indigo-500
+                                  children:
+                                    - Sign in
   - name: Hero
+    state:
+      mobileMenuOpen: 'false'
+    props:
+      - navigation
     ui:
       tag: div
       class: isolate bg-white
@@ -936,6 +999,109 @@ components:
                                 - tag: stop
                                   offset: '{1}'
                                   stopColor: '#FF80B5'
+  - name: Testimonials
+    state: {}
+    props: []
+    ui:
+      tag: section
+      class: overflow-hidden bg-gray-50 py-12 md:py-20 lg:py-24
+      children:
+        - tag: div
+          class: relative mx-auto max-w-7xl px-6 lg:px-8
+          children:
+            - tag: svg
+              width: '{404}'
+              height: '{404}'
+              fill: none
+              viewBox: 0 0 404 404
+              role: img
+              aria-labelledby: svg-workcation
+              class: >-
+                absolute top-full right-full translate-x-1/3 -translate-y-1/4
+                transform lg:translate-x-1/2 xl:-translate-y-1/2
+              children:
+                - tag: title
+                  id: svg-workcation
+                  children:
+                    - Workcation
+                - tag: defs
+                  children:
+                    - tag: pattern
+                      id: ad119f34-7694-4c31-947f-5c9d249b21f3
+                      x: '{0}'
+                      'y': '{0}'
+                      width: '{20}'
+                      height: '{20}'
+                      patternUnits: userSpaceOnUse
+                      children:
+                        - tag: rect
+                          x: '{0}'
+                          'y': '{0}'
+                          width: '{4}'
+                          height: '{4}'
+                          fill: currentColor
+                          class: text-gray-200
+                - tag: rect
+                  width: '{404}'
+                  height: '{404}'
+                  fill: url(#ad119f34-7694-4c31-947f-5c9d249b21f3)
+            - tag: div
+              class: relative
+              children:
+                - tag: img
+                  src: >-
+                    https://tailwindui.com/img/logos/workcation-logo-indigo-600-mark-gray-800-and-indigo-600-text.svg
+                  alt: Workcation
+                  class: mx-auto h-8
+                - tag: blockquote
+                  class: mt-10
+                  children:
+                    - tag: div
+                      class: >-
+                        mx-auto max-w-3xl text-center text-2xl font-medium
+                        leading-9 text-gray-900
+                      children:
+                        - tag: p
+                          children:
+                            - >-
+                              &ldquo;Lorem ipsum dolor sit amet consectetur
+                              adipisicing elit. Nemo expedita voluptas culpa
+                              sapiente alias molestiae. Numquam corrupti in
+                              laborum sed rerum et corporis.&rdquo;
+                    - tag: footer
+                      class: mt-8
+                      children:
+                        - tag: div
+                          class: md:flex md:items-center md:justify-center
+                          children:
+                            - tag: div
+                              class: md:flex-shrink-0
+                              children:
+                                - tag: img
+                                  src: >-
+                                    https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80
+                                  alt: ''
+                                  class: mx-auto h-10 w-10 rounded-full
+                            - tag: div
+                              class: >-
+                                mt-3 text-center md:mt-0 md:ml-4 md:flex
+                                md:items-center
+                              children:
+                                - tag: div
+                                  class: text-base font-medium text-gray-900
+                                  children:
+                                    - Judith Black
+                                - tag: svg
+                                  fill: currentColor
+                                  viewBox: 0 0 20 20
+                                  class: mx-1 hidden h-5 w-5 text-indigo-600 md:block
+                                  children:
+                                    - tag: path
+                                      d: M11 0h3L9 20H6l5-20z
+                                - tag: div
+                                  class: text-base font-medium text-gray-500
+                                  children:
+                                    - CEO, Workcation
 apis:
   - name: newLead
     input:

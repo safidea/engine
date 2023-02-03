@@ -1,10 +1,29 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
 
-import type { UI } from 'bold-component'
+import type { UI, State } from 'bold-component'
 
 const importComponentsFolder = './import/components'
 const configComponentsFolder = './config/components'
+
+function getState(script: string): State {
+  const state: State = {}
+  const statesKeys = script.match(/(?<=\[)[a-zA-Z]+(?=,)/g)
+  const statesValues = script.match(/(?<=useState\().+(?=\))/g)
+  if (statesKeys && statesValues) {
+    for (let i = 0; i < statesKeys.length; i++) {
+      state[statesKeys[i]] = statesValues[i]
+    }
+  }
+  return state
+}
+
+function getProps(script: string): string[] {
+  const props = script.match(
+    /(?<=const\s)[a-z][a-zA-Z]+(?=\s=)|(?<=function\s)[a-z][a-zA-Z]+(?=\()/g
+  )
+  return props || []
+}
 
 function addElementToJson(json: UI, { el, text }: { el?: UI; text?: string }): UI {
   if (el) {
@@ -70,7 +89,10 @@ function convertComponentToYaml(script: string): UI {
     },
   }
 
-  script = script.replace(/\n/g, '')
+  const match = script.match(/(?<=return\s\().+(?=\))/gs)
+  if (!match) throw new Error(`No return react statement found in script: \`${script}\``)
+  script = match[0].replace(/\n/g, '')
+
   for (let i = 0; i < script.length; i++) {
     switch (script[i]) {
       case '<':
@@ -230,14 +252,21 @@ function convertComponentToYaml(script: string): UI {
 
 ;(async () => {
   const components = await fs.readdir(importComponentsFolder)
-  await Promise.all(
-    components
-      .filter((file: string) => file.match(/(.jsx|.tsx)$/))
-      .map(async (file: string) => {
-        const [name] = file.split('.')
-        const script = await fs.readFile(`${importComponentsFolder}/${file}`, 'utf8')
-        const json = convertComponentToYaml(script)
-        await fs.writeFile(`${configComponentsFolder}/${name}.yaml`, yaml.dump(json))
-      })
-  )
+  const reactFiles = components.filter((file: string) => file.match(/(.jsx|.tsx)$/))
+  for (const file of reactFiles) {
+    console.log(`Converting ${file} to yaml`)
+    const [name] = file.split('.')
+    const script = await fs.readFile(`${importComponentsFolder}/${file}`, 'utf8')
+    const ui = convertComponentToYaml(script)
+    const state = getState(script)
+    const props = getProps(script)
+    const component = {
+      name,
+      state,
+      props,
+      ui,
+    }
+    await fs.writeFile(`${configComponentsFolder}/${name}.yaml`, yaml.dump(component))
+    console.log(`${file} converted!\n`)
+  }
 })()
