@@ -25,14 +25,14 @@ const componentsImport: { [key: string]: string } = {
 
 function getComponentJSX({
   ui = {},
-  tsx = '',
+  jsx = '',
   imports = '',
 }: {
   ui?: UI
-  tsx?: string
+  jsx?: string
   imports?: string
 }): {
-  tsx: string
+  jsx: string
   imports: string
 } {
   const { tag, children, ...props }: UI = ui
@@ -45,8 +45,8 @@ function getComponentJSX({
         tsxChildren += child
       } else {
         const child = children[i] as UI
-        const build = getComponentJSX({ ui: child, tsx, imports })
-        tsxChildren += build.tsx
+        const build = getComponentJSX({ ui: child, jsx, imports })
+        tsxChildren += build.jsx
         imports = build.imports
       }
     }
@@ -61,6 +61,7 @@ function getComponentJSX({
           imports += componentsImport['Fragment'] + '\n'
         }
       }
+      if (prop === 'focus') prop = 'onFocus'
       acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))
       return acc
     }, [])
@@ -77,7 +78,7 @@ function getComponentJSX({
       break
   }
 
-  tsx +=
+  jsx +=
     tsxChildren != ''
       ? `<${tsxTag} ${tsxProps}>\n${tsxChildren}\n</${tsxTag}>`
       : `<${tsxTag} ${tsxProps} />`
@@ -86,7 +87,7 @@ function getComponentJSX({
   if (componentsImport.hasOwnProperty(rootTag) && imports.search(rootTag) === -1) {
     imports += componentsImport[rootTag] + '\n'
   }
-  return { tsx, imports }
+  return { jsx, imports }
 }
 
 export default function getComponentScript(component: ComponentUI): string {
@@ -104,17 +105,19 @@ export default function getComponentScript(component: ComponentUI): string {
         .join('\n')
     : ''
 
-  const { tsx, imports } = getComponentJSX({ ui })
-  return `import React from 'react'
+  const { jsx, imports } = getComponentJSX({ ui })
+  return `// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+import React from 'react'
 ${states !== '' ? "import { useState } from 'react'" : ''}
 ${imports}
-
-${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}
+${inlineProps !== '' ? "import type { ComponentProps } from 'bold-component'" : ''}
     
-export default function ${componentName}(${inlineProps !== '' ? 'props: ComponentUI' : ''}) {
+export default function ${componentName}(${inlineProps !== '' ? 'props: ComponentProps' : ''}) {
   ${inlineProps}
   ${states}
 
-  return (${tsx})
+  return (${jsx})
 }`
 }

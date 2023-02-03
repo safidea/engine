@@ -4,7 +4,7 @@ import { fsExists } from 'utils'
 import getI18nScript from './get-i18n-script'
 import getFontsScript from './get-fonts-script'
 import getTailwindScript from './get-tailwind-script'
-import { getComponentScript } from 'bold-component'
+import { getComponentScript, getComponentsIndexScript } from 'bold-component'
 
 import type { Config, ComponentUI } from '../types/config.type'
 
@@ -32,5 +32,6 @@ export default async function buildConfig(config: Config, folder: string): Promi
     ...(components ?? []).map((component: ComponentUI) =>
       fs.writeFile(`${folder}/components/${component.name}.tsx`, getComponentScript(component))
     ),
+    fs.writeFile(`${folder}/components/index.ts`, getComponentsIndexScript(components ?? [])),
   ])
 }

@@ -1,4 +1,4 @@
-export type { ComponentUI, UI, State } from './types/component.type'
+export type { ComponentUI, ComponentProps, UI, State } from './types/component.type'
 
 export { componentsMock } from './__mocks__/components.mock'
 

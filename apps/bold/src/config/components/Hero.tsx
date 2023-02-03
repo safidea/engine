@@ -1,16 +1,19 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
+import React from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Bars3Icon } from '@heroicons/react/24/outline'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon } from '@heroicons/react/20/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 import { Dialog } from '@headlessui/react'
 
-
-
+import type { ComponentProps } from 'bold-component'
     
-export default function Header() {
-  
-  
+export default function Hero(props: ComponentProps) {
+  const { navigation } = props
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (<div className="isolate bg-white">
 <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]">
@@ -47,7 +50,7 @@ Log in<span aria-hidden="true">
 </Link>
 </div>
 </nav><Dialog as="div" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-<Dialog.Panel focus="true" className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
+<Dialog.Panel onFocus="true" className="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
 <div className="flex items-center justify-between">
 <Link href="#" className="-m-1.5 p-1.5">
 <span className="sr-only">

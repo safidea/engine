@@ -1,5 +1,6 @@
 import { UI } from './ui.component.type'
 import { State } from './state.component.type'
+import { ComponentProps } from './props.component.type'
 
 export type ComponentUI = {
   name: string
@@ -8,4 +9,4 @@ export type ComponentUI = {
   props?: string[]
 }
 
-export type { UI, State }
+export type { UI, State, ComponentProps }
