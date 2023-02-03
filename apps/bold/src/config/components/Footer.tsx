@@ -5,9 +5,9 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import type { ComponentProps } from 'bold-component'
+import type { ComponentUI } from 'bold-component'
     
-export default function Footer(props: ComponentProps) {
+export default function Footer({ props }: ComponentUI) {
   const { navigation } = props
   
 

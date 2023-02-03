@@ -112,9 +112,9 @@ export default function getComponentScript(component: ComponentUI): string {
 import React from 'react'
 ${states !== '' ? "import { useState } from 'react'" : ''}
 ${imports}
-${inlineProps !== '' ? "import type { ComponentProps } from 'bold-component'" : ''}
+${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}
     
-export default function ${componentName}(${inlineProps !== '' ? 'props: ComponentProps' : ''}) {
+export default function ${componentName}(${inlineProps !== '' ? '{ props }: ComponentUI' : ''}) {
   ${inlineProps}
   ${states}
 

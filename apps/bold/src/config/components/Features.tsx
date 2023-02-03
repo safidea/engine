@@ -5,9 +5,9 @@ import React from 'react'
 
 import Image from 'next/image'
 
-import type { ComponentProps } from 'bold-component'
+import type { ComponentUI } from 'bold-component'
     
-export default function Features(props: ComponentProps) {
+export default function Features({ props }: ComponentUI) {
   const { features } = props
   
 

@@ -67,6 +67,8 @@ ui:
                         https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
                       alt: ''
                       class: h-8
+                      width: '50'
+                      height: '50'
             - tag: div
               class: flex lg:hidden
               children:
@@ -89,11 +91,11 @@ ui:
               children:
                 - '{navigation.map((item) => ('
                 - tag: a
-                  key: '{item.name}'
-                  href: '{item.href}'
+                  key: '{item.key}'
+                  href: '{item.path}'
                   class: text-sm font-semibold leading-6 text-gray-900
                   children:
-                    - '{item.name}'
+                    - '{item.key}'
                 - ))}
             - tag: div
               class: hidden lg:flex lg:flex-1 lg:justify-end
@@ -132,6 +134,8 @@ ui:
                             https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
                           alt: ''
                           class: h-8
+                          width: '50'
+                          height: '50'
                     - tag: button
                       type: button
                       onClick: '{() => setMobileMenuOpen(false)}'
@@ -155,14 +159,14 @@ ui:
                           children:
                             - '{navigation.map((item) => ('
                             - tag: a
-                              key: '{item.name}'
-                              href: '{item.href}'
+                              key: '{item.key}'
+                              href: '{item.path}'
                               class: >-
                                 -mx-3 block rounded-lg py-2 px-3 text-base
                                 font-semibold leading-7 text-gray-900
                                 hover:bg-gray-400/10
                               children:
-                                - '{item.name}'
+                                - '{item.key}'
                             - ))}
                         - tag: div
                           class: py-6

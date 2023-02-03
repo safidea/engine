@@ -2,8 +2,8 @@
 meta:
   title: Essentiel
 components:
-  - id: header
-    type: Header
+  - id: hero
+    type: Hero
     props:
       logo:
         path: /essentiel.png

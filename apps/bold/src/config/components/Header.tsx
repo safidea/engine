@@ -12,9 +12,9 @@ import { Fragment } from 'react'
 import { Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 
-import type { ComponentProps } from 'bold-component'
+import type { ComponentUI } from 'bold-component'
     
-export default function Header(props: ComponentProps) {
+export default function Header({ props }: ComponentUI) {
   const { solutions, callsToAction, resources, recentPosts, classNames } = props
   
 
