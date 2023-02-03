@@ -6,13 +6,13 @@
     },
     "components": [
       {
-        "id": "hero",
-        "type": "Hero",
+        "id": "header",
+        "type": "Header",
         "props": {
           "logo": {
             "path": "/essentiel.png",
-            "width": 40,
-            "height": 40
+            "width": "40",
+            "height": "40"
           },
           "position": "left",
           "navigation": [

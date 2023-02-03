@@ -1,7 +1,7 @@
 import type { UI } from 'bold-component'
 
 export type Props = {
-  [key: string]: Props | Props[] | string | boolean | number
+  [key: string]: Props | Props[] | string | boolean | number | undefined
 }
 
 export type Component = {

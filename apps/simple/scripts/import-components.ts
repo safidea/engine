@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
+import { fsExists } from 'utils'
 
 import type { UI, State } from 'bold-component'
 
@@ -254,8 +255,9 @@ function convertComponentToYaml(script: string): UI {
   const components = await fs.readdir(importComponentsFolder)
   const reactFiles = components.filter((file: string) => file.match(/(.jsx|.tsx)$/))
   for (const file of reactFiles) {
-    console.log(`Converting ${file} to yaml`)
     const [name] = file.split('.')
+    if (await fsExists(`${configComponentsFolder}/${name}.yaml`)) continue
+    console.log(`Converting ${file} to yaml`)
     const script = await fs.readFile(`${importComponentsFolder}/${file}`, 'utf8')
     const ui = convertComponentToYaml(script)
     const state = getState(script)
