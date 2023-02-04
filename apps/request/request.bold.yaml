@@ -40,25 +40,48 @@ pages:
       - id: hero
         type: Hero
         props:
-          logo:
-            path: /logo-icon-bleu-sideral.png
-            title: Request
-            width: '40'
-            height: '40'
-          navigation:
-            - key: approach
-              path: '#approach'
-            - key: platform
-              path: '#platform'
-            - key: services
-              path: '#services'
-            - key: outcomes
-              path: '#outcomes'
-            - key: testimonials
-              path: '#testimonials'
+          annoucement:
+            path: /#features
           buttons:
             primary:
-              path: /login
+              path: /register
+            secondary:
+              path: /#features
+          email:
+            automation: newLead
+          customers:
+            - path: /agorastore.png
+              key: agorastore
+            - path: /openclassroom.png
+              key: openclassroom
+            - path: /latabledecana.png
+              key: latabledecana
+            - path: /capitalpv.png
+              key: capitalpv
+            - path: /escp.png
+              key: escp
+        components:
+          - id: header
+            type: Header
+            props:
+              logo:
+                path: /logo-icon-bleu-sideral.png
+                width: '40'
+                height: '40'
+              navigation:
+                - key: approach
+                  path: '#approach'
+                - key: platform
+                  path: '#platform'
+                - key: services
+                  path: '#services'
+                - key: outcomes
+                  path: '#outcomes'
+                - key: testimonials
+                  path: '#testimonials'
+              buttons:
+                primary:
+                  path: /login
 components:
   - name: CTA
     state: {}
@@ -283,9 +306,9 @@ components:
   - name: Header
     state: {}
     props:
-      - solutions
-      - resources
-      - classNames
+      - navigation
+      - logo
+      - buttons
     ui:
       tag: Popover
       class: relative bg-white
@@ -297,17 +320,18 @@ components:
               class: flex justify-start lg:w-0 lg:flex-1
               children:
                 - tag: a
-                  href: '#'
+                  href: /
                   children:
                     - tag: span
                       class: sr-only
                       children:
-                        - Your Company
+                        - '{t("header.logoTitle")}'
                     - tag: img
-                      src: >-
-                        https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
-                      alt: ''
+                      src: '{logo.path}'
+                      alt: '{t("header.logoTitle")}'
                       class: h-8 w-auto sm:h-10
+                      width: '{logo.width}'
+                      height: '{logo.height}'
             - tag: div
               class: '-my-2 -mr-2 md:hidden'
               children:
@@ -316,12 +340,12 @@ components:
                     inline-flex items-center justify-center rounded-md bg-white
                     p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500
                     focus:outline-none focus:ring-2 focus:ring-inset
-                    focus:ring-indigo-500
+                    focus:ring-primary-500
                   children:
                     - tag: span
                       class: sr-only
                       children:
-                        - Open menu
+                        - '{t("header.mobileMenu")}'
                     - tag: Bars3Icon
                       aria-hidden: 'true'
                       class: h-6 w-6
@@ -329,357 +353,26 @@ components:
               as: nav
               class: hidden space-x-10 md:flex
               children:
-                - tag: Popover
-                  class: relative
-                  children:
-                    - '{({ open }) => ('
-                    - tag: ''
-                      children:
-                        - tag: Popover.Button
-                          class: >-
-                            {classNames(                    open ?
-                            'text-gray-900' :
-                            'text-gray-500',                    'group
-                            inline-flex items-center rounded-md bg-white
-                            text-base font-medium hover:text-gray-900
-                            focus:outline-none focus:ring-2
-                            focus:ring-indigo-500
-                            focus:ring-offset-2'                  )}
-                          children:
-                            - tag: span
-                              children:
-                                - Solutions
-                            - tag: ChevronDownIcon
-                              aria-hidden: 'true'
-                              class: >-
-                                {classNames(                      open ?
-                                'text-gray-600' :
-                                'text-gray-400',                      'ml-2 h-5
-                                w-5
-                                group-hover:text-gray-500'                    )}
-                        - tag: Transition
-                          as: '{Fragment}'
-                          enter: transition ease-out duration-200
-                          enterFrom: opacity-0 translate-y-1
-                          enterTo: opacity-100 translate-y-0
-                          leave: transition ease-in duration-150
-                          leaveFrom: opacity-100 translate-y-0
-                          leaveTo: opacity-0 translate-y-1
-                          children:
-                            - tag: Popover.Panel
-                              class: >-
-                                absolute z-10 -ml-4 mt-3 w-screen max-w-md
-                                transform lg:left-1/2 lg:ml-0 lg:max-w-2xl
-                                lg:-translate-x-1/2
-                              children:
-                                - tag: div
-                                  class: >-
-                                    overflow-hidden rounded-lg shadow-lg ring-1
-                                    ring-black ring-opacity-5
-                                  children:
-                                    - tag: div
-                                      class: >-
-                                        relative grid gap-6 bg-white px-5 py-6
-                                        sm:gap-8 sm:p-8 lg:grid-cols-2
-                                      children:
-                                        - '{solutions.map((solution) => ('
-                                        - tag: a
-                                          key: '{solution.name}'
-                                          href: '{solution.href}'
-                                          class: >-
-                                            -m-3 flex items-start rounded-lg p-3
-                                            hover:bg-gray-50
-                                          children:
-                                            - tag: div
-                                              class: >-
-                                                flex h-10 w-10 flex-shrink-0
-                                                items-center justify-center rounded-md
-                                                bg-indigo-500 text-white sm:h-12 sm:w-12
-                                              children:
-                                                - tag: solution.icon
-                                                  aria-hidden: 'true'
-                                                  class: h-6 w-6
-                                            - tag: div
-                                              class: ml-4
-                                              children:
-                                                - tag: p
-                                                  class: text-base font-medium text-gray-900
-                                                  children:
-                                                    - '{solution.name}'
-                                                - tag: p
-                                                  class: mt-1 text-sm text-gray-500
-                                                  children:
-                                                    - '{solution.description}'
-                                        - ))}
-                                    - tag: div
-                                      class: bg-gray-50 p-5 sm:p-8
-                                      children:
-                                        - tag: a
-                                          href: '#'
-                                          class: >-
-                                            -m-3 flow-root rounded-md p-3
-                                            hover:bg-gray-100
-                                          children:
-                                            - tag: div
-                                              class: flex items-center
-                                              children:
-                                                - tag: div
-                                                  class: text-base font-medium text-gray-900
-                                                  children:
-                                                    - Enterprise
-                                                - tag: span
-                                                  class: >-
-                                                    ml-3 inline-flex items-center
-                                                    rounded-full bg-indigo-100 px-3 py-0.5
-                                                    text-xs font-medium leading-5
-                                                    text-indigo-800
-                                                  children:
-                                                    - New
-                                            - tag: p
-                                              class: mt-1 text-sm text-gray-500
-                                              children:
-                                                - >-
-                                                  Empower your entire team with even more
-                                                  advanced tools.
-                    - )}
+                - '{navigation.map((item) => ('
                 - tag: a
-                  href: '#'
+                  href: '{item.path}'
+                  key: '{item.key}'
                   class: text-base font-medium text-gray-500 hover:text-gray-900
                   children:
-                    - Pricing
-                - tag: a
-                  href: '#'
-                  class: text-base font-medium text-gray-500 hover:text-gray-900
-                  children:
-                    - Docs
-                - tag: Popover
-                  class: relative
-                  children:
-                    - '{({ open }) => ('
-                    - tag: ''
-                      children:
-                        - tag: Popover.Button
-                          class: >-
-                            {classNames(                    open ?
-                            'text-gray-900' :
-                            'text-gray-500',                    'group
-                            inline-flex items-center rounded-md bg-white
-                            text-base font-medium hover:text-gray-900
-                            focus:outline-none focus:ring-2
-                            focus:ring-indigo-500
-                            focus:ring-offset-2'                  )}
-                          children:
-                            - tag: span
-                              children:
-                                - More
-                            - tag: ChevronDownIcon
-                              aria-hidden: 'true'
-                              class: >-
-                                {classNames(                      open ?
-                                'text-gray-600' :
-                                'text-gray-400',                      'ml-2 h-5
-                                w-5
-                                group-hover:text-gray-500'                    )}
-                        - tag: Transition
-                          as: '{Fragment}'
-                          enter: transition ease-out duration-200
-                          enterFrom: opacity-0 translate-y-1
-                          enterTo: opacity-100 translate-y-0
-                          leave: transition ease-in duration-150
-                          leaveFrom: opacity-100 translate-y-0
-                          leaveTo: opacity-0 translate-y-1
-                          children:
-                            - tag: Popover.Panel
-                              class: >-
-                                absolute left-1/2 z-10 mt-3 w-screen max-w-xs
-                                -translate-x-1/2 transform px-2 sm:px-0
-                              children:
-                                - tag: div
-                                  class: >-
-                                    overflow-hidden rounded-lg shadow-lg ring-1
-                                    ring-black ring-opacity-5
-                                  children:
-                                    - tag: div
-                                      class: >-
-                                        relative grid gap-6 bg-white px-5 py-6
-                                        sm:gap-8 sm:p-8
-                                      children:
-                                        - '{resources.map((resource) => ('
-                                        - tag: a
-                                          key: '{resource.name}'
-                                          href: '{resource.href}'
-                                          class: >-
-                                            -m-3 block rounded-md p-3
-                                            hover:bg-gray-50
-                                          children:
-                                            - tag: p
-                                              class: text-base font-medium text-gray-900
-                                              children:
-                                                - '{resource.name}'
-                                            - tag: p
-                                              class: mt-1 text-sm text-gray-500
-                                              children:
-                                                - '{resource.description}'
-                                        - ))}
-                    - )}
+                    - '{item.key}'
+                - ))}
             - tag: div
               class: hidden items-center justify-end md:flex md:flex-1 lg:w-0
               children:
                 - tag: a
-                  href: '#'
-                  class: >-
-                    whitespace-nowrap text-base font-medium text-gray-500
-                    hover:text-gray-900
-                  children:
-                    - Sign in
-                - tag: a
-                  href: '#'
+                  href: '{buttons.primary.path}'
                   class: >-
                     ml-8 inline-flex items-center justify-center
                     whitespace-nowrap rounded-md border border-transparent
-                    bg-indigo-600 px-4 py-2 text-base font-medium text-white
-                    shadow-sm hover:bg-indigo-700
+                    bg-primary-600 px-4 py-2 text-base font-medium text-white
+                    shadow-sm hover:bg-primary-700
                   children:
                     - Sign up
-        - tag: Transition
-          as: '{Fragment}'
-          enter: duration-200 ease-out
-          enterFrom: opacity-0 scale-95
-          enterTo: opacity-100 scale-100
-          leave: duration-100 ease-in
-          leaveFrom: opacity-100 scale-100
-          leaveTo: opacity-0 scale-95
-          children:
-            - tag: Popover.Panel
-              focus: 'true'
-              class: >-
-                absolute inset-x-0 top-0 origin-top-right transform p-2
-                transition md:hidden
-              children:
-                - tag: div
-                  class: >-
-                    divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg
-                    ring-1 ring-black ring-opacity-5
-                  children:
-                    - tag: div
-                      class: px-5 pt-5 pb-6
-                      children:
-                        - tag: div
-                          class: flex items-center justify-between
-                          children:
-                            - tag: div
-                              children:
-                                - tag: img
-                                  src: >-
-                                    https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
-                                  alt: Your Company
-                                  class: h-8 w-auto
-                            - tag: div
-                              class: '-mr-2'
-                              children:
-                                - tag: Popover.Button
-                                  class: >-
-                                    inline-flex items-center justify-center
-                                    rounded-md bg-white p-2 text-gray-400
-                                    hover:bg-gray-100 hover:text-gray-500
-                                    focus:outline-none focus:ring-2
-                                    focus:ring-inset focus:ring-indigo-500
-                                  children:
-                                    - tag: span
-                                      class: sr-only
-                                      children:
-                                        - Close menu
-                                    - tag: XMarkIcon
-                                      aria-hidden: 'true'
-                                      class: h-6 w-6
-                        - tag: div
-                          class: mt-6
-                          children:
-                            - tag: nav
-                              class: grid grid-cols-1 gap-7
-                              children:
-                                - '{solutions.map((solution) => ('
-                                - tag: a
-                                  key: '{solution.name}'
-                                  href: '{solution.href}'
-                                  class: >-
-                                    -m-3 flex items-center rounded-lg p-3
-                                    hover:bg-gray-50
-                                  children:
-                                    - tag: div
-                                      class: >-
-                                        flex h-10 w-10 flex-shrink-0
-                                        items-center justify-center rounded-md
-                                        bg-indigo-500 text-white
-                                      children:
-                                        - tag: solution.icon
-                                          aria-hidden: 'true'
-                                          class: h-6 w-6
-                                    - tag: div
-                                      class: ml-4 text-base font-medium text-gray-900
-                                      children:
-                                        - '{solution.name}'
-                                - ))}
-                    - tag: div
-                      class: py-6 px-5
-                      children:
-                        - tag: div
-                          class: grid grid-cols-2 gap-4
-                          children:
-                            - tag: a
-                              href: '#'
-                              class: >-
-                                text-base font-medium text-gray-900
-                                hover:text-gray-700
-                              children:
-                                - Pricing
-                            - tag: a
-                              href: '#'
-                              class: >-
-                                text-base font-medium text-gray-900
-                                hover:text-gray-700
-                              children:
-                                - Docs
-                            - tag: a
-                              href: '#'
-                              class: >-
-                                text-base font-medium text-gray-900
-                                hover:text-gray-700
-                              children:
-                                - Enterprise
-                            - '{resources.map((resource) => ('
-                            - tag: a
-                              key: '{resource.name}'
-                              href: '{resource.href}'
-                              class: >-
-                                text-base font-medium text-gray-900
-                                hover:text-gray-700
-                              children:
-                                - '{resource.name}'
-                            - ))}
-                        - tag: div
-                          class: mt-6
-                          children:
-                            - tag: a
-                              href: '#'
-                              class: >-
-                                flex w-full items-center justify-center
-                                rounded-md border border-transparent
-                                bg-indigo-600 px-4 py-2 text-base font-medium
-                                text-white shadow-sm hover:bg-indigo-700
-                              children:
-                                - Sign up
-                            - tag: p
-                              class: >-
-                                mt-6 text-center text-base font-medium
-                                text-gray-500
-                              children:
-                                - Existing customer?{' '}
-                                - tag: a
-                                  href: '#'
-                                  class: text-indigo-600 hover:text-indigo-500
-                                  children:
-                                    - Sign in
   - name: Hero
     state: {}
     props: []
@@ -711,17 +404,13 @@ components:
               height: 100%
               strokeWidth: '{0}'
               fill: url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)
+        - '{load("header")}'
         - tag: div
           class: mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:py-40 lg:px-8
           children:
             - tag: div
               class: mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8
               children:
-                - tag: img
-                  src: >-
-                    https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
-                  alt: Your Company
-                  class: h-11
                 - tag: div
                   class: mt-24 sm:mt-32 lg:mt-16
                   children:
@@ -735,7 +424,7 @@ components:
                             font-semibold leading-6 text-indigo-600 ring-1
                             ring-inset ring-indigo-600/10
                           children:
-                            - What&apos;s new
+                            - '{t("hero.annoucement.message")}'
                         - tag: span
                           class: >-
                             inline-flex items-center space-x-2 text-sm
@@ -743,7 +432,7 @@ components:
                           children:
                             - tag: span
                               children:
-                                - Just shipped v1.0
+                                - '{t("hero.annoucement.link")}'
                             - tag: ChevronRightIcon
                               aria-hidden: 'true'
                               class: h-5 w-5 text-gray-400
@@ -756,10 +445,7 @@ components:
                 - tag: p
                   class: mt-6 text-lg leading-8 text-gray-600
                   children:
-                    - >-
-                      Anim aute id magna aliqua ad ad non deserunt sunt. Qui
-                      irure qui lorem cupidatat commodo. Elit sunt amet fugiat
-                      veniam occaecat fugiat aliqua.
+                    - '{t("hero.subtitle")}'
                 - tag: div
                   class: mt-10 flex items-center gap-x-6
                   children:
@@ -772,12 +458,12 @@ components:
                         focus-visible:outline-2 focus-visible:outline-offset-2
                         focus-visible:outline-indigo-600
                       children:
-                        - Get started
+                        - '{t("hero.buttons.primary")}'
                     - tag: a
                       href: '#'
                       class: text-base font-semibold leading-7 text-gray-900
                       children:
-                        - Learn more
+                        - '{t("hero.buttons.secondary")}'
                         - tag: span
                           aria-hidden: 'true'
                           children:
@@ -1052,9 +738,9 @@ locales:
         hero:
           title: Votre régie logiciel
           subtitle: >-
-            Obtenez des solutions pour chaque processus de frictions et
-            construisez des systèmes de fusées. Nous fournissons des conseils,
-            du développement et de la formation pour chaque équipe.
+            Obtenez des solutions pour chaque processus interne et construisez
+            des systèmes antifragile. Nous fournissons des conseils, du
+            développement et de la formation pour chaque équipe.
           annoucement:
             message: Voici notre dernière actualité.
             link: En savoir plus

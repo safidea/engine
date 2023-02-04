@@ -33,7 +33,10 @@ export default async function testComponentsUI(components: ComponentUI[]): Promi
   const errors: { component: string; messages: string[] }[] = []
   await Promise.all(
     components.map(async (component) => {
-      const script = await getComponentScript(component)
+      const script = await getComponentScript(
+        component,
+        components.map((c) => c.name)
+      )
       const [{ messages }] = await eslint.lintText(script)
       if (messages?.length > 0) {
         errors.push({

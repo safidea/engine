@@ -29,16 +29,17 @@ ui:
           height: 100%
           strokeWidth: '{0}'
           fill: url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)
+    - '{load("header")}'
     - tag: div
       class: mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:py-40 lg:px-8
       children:
         - tag: div
           class: mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8
           children:
-            - tag: img
-              src: https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
-              alt: Your Company
-              class: h-11
+            #- tag: img
+            #  src: https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
+            #  alt: Your Company
+            #  class: h-11
             - tag: div
               class: mt-24 sm:mt-32 lg:mt-16
               children:
@@ -52,7 +53,7 @@ ui:
                         font-semibold leading-6 text-indigo-600 ring-1
                         ring-inset ring-indigo-600/10
                       children:
-                        - What&apos;s new
+                        - '{t("hero.annoucement.message")}'
                     - tag: span
                       class: >-
                         inline-flex items-center space-x-2 text-sm font-medium
@@ -60,7 +61,7 @@ ui:
                       children:
                         - tag: span
                           children:
-                            - Just shipped v1.0
+                            - '{t("hero.annoucement.link")}'
                         - tag: ChevronRightIcon
                           aria-hidden: 'true'
                           class: h-5 w-5 text-gray-400
@@ -73,10 +74,7 @@ ui:
             - tag: p
               class: mt-6 text-lg leading-8 text-gray-600
               children:
-                - >-
-                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
-                  qui lorem cupidatat commodo. Elit sunt amet fugiat veniam
-                  occaecat fugiat aliqua.
+                - '{t("hero.subtitle")}'
             - tag: div
               class: mt-10 flex items-center gap-x-6
               children:
@@ -89,12 +87,12 @@ ui:
                     focus-visible:outline-2 focus-visible:outline-offset-2
                     focus-visible:outline-indigo-600
                   children:
-                    - Get started
+                    - '{t("hero.buttons.primary")}'
                 - tag: a
                   href: '#'
                   class: text-base font-semibold leading-7 text-gray-900
                   children:
-                    - Learn more
+                    - '{t("hero.buttons.secondary")}'
                     - tag: span
                       aria-hidden: 'true'
                       children:

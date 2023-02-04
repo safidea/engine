@@ -4,11 +4,12 @@
 
 
 import Image from 'next/image'
+import type { Component } from 'bold-page'
 
-import type { ComponentUI } from 'bold-component'
     
-export default function Features({ props }: ComponentUI) {
+export default function Features({ props }: Component) {
   const { features } = props
+  
   
   
   

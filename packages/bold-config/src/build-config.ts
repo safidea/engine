@@ -30,7 +30,13 @@ export default async function buildConfig(config: Config, folder: string): Promi
     fs.writeFile(`${folder}/tailwind.js`, getTailwindScript(theme ?? {})),
     fs.writeFile(`${folder}/i18n.js`, getI18nScript(config)),
     ...(components ?? []).map((component: ComponentUI) =>
-      fs.writeFile(`${folder}/components/${component.name}.tsx`, getComponentScript(component))
+      fs.writeFile(
+        `${folder}/components/${component.name}.tsx`,
+        getComponentScript(
+          component,
+          components?.map((c) => c.name)
+        )
+      )
     ),
     fs.writeFile(`${folder}/components/index.ts`, getComponentsIndexScript(components ?? [])),
   ])

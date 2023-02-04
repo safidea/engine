@@ -4,11 +4,12 @@
 
 
 import Link from 'next/link'
+import type { Component } from 'bold-page'
 
-import type { ComponentUI } from 'bold-component'
     
-export default function Footer({ props }: ComponentUI) {
+export default function Footer({ props }: Component) {
   const { navigation } = props
+  
   
   
   

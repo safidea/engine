@@ -7,10 +7,12 @@ export default function Layout({ components }: { components: Component[] }) {
 
   return (
     <>
-      {components.map(({ type, id, props }: Component) => {
+      {components.map(({ type, id, props, components }: Component) => {
         const DynamicComponent = Components[type as keyof typeof Components] as React.FC<Component>
         if (!DynamicComponent) throw new Error(`No component found for type "${type}"`)
-        return <DynamicComponent key={id} id={id} type={type} props={props} />
+        return (
+          <DynamicComponent key={id} id={id} type={type} props={props} components={components} />
+        )
       })}
     </>
   )

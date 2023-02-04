@@ -25,15 +25,17 @@ const componentsImport: { [key: string]: string } = {
 
 function getComponentJSX({
   ui = {},
-  jsx = '',
-  imports = '',
+  tsx = '',
+  imports = [],
+  types = [],
 }: {
   ui?: UI
-  jsx?: string
-  imports?: string
+  tsx?: string
+  imports?: string[]
+  types?: string[]
 }): {
-  jsx: string
-  imports: string
+  tsx: string
+  imports: string[]
 } {
   const { tag, children, ...props }: UI = ui
 
@@ -45,15 +47,15 @@ function getComponentJSX({
         tsxChildren += child
       } else {
         const child = children[i] as UI
-        const build = getComponentJSX({ ui: child, jsx, imports })
-        tsxChildren += build.jsx
+        const build = getComponentJSX({ ui: child, tsx, imports, types })
+        tsxChildren += build.tsx
         imports = build.imports
       }
     }
   }
 
-  let tsxTag = tag
-  switch (tag) {
+  let tsxTag = tag.toString()
+  switch (tsxTag) {
     case 'img':
       tsxTag = 'Image'
       props.width = props.width || '50'
@@ -63,7 +65,15 @@ function getComponentJSX({
       tsxTag = 'Link'
       props.href = props.href || '#'
     default:
+      if (types.includes(tsxTag)) {
+        imports.push(`import ${capitalize(tsxTag)} from './${capitalize(tsxTag)}'\n`)
+      }
       break
+  }
+
+  const [rootTag] = typeof tsxTag === 'string' ? tsxTag.split('.') : []
+  if (componentsImport.hasOwnProperty(rootTag) && !imports.find((i) => i.search(rootTag) > -1)) {
+    imports.push(componentsImport[rootTag])
   }
 
   const tsxProps = Object.keys(props)
@@ -74,8 +84,8 @@ function getComponentJSX({
           prop = 'className'
           break
         case 'as':
-          if (value.search('Fragment') > -1 && imports.search('Fragment') === -1) {
-            imports += componentsImport['Fragment'] + '\n'
+          if (value.search('Fragment') > -1 && !imports.find((i) => i.search('Fragment') > -1)) {
+            imports.push(componentsImport['Fragment'])
           }
           break
         default:
@@ -90,23 +100,38 @@ function getComponentJSX({
     }, [])
     .join(' ')
 
-  jsx +=
+  tsx +=
     tsxChildren != ''
       ? `<${tsxTag} ${tsxProps}>\n${tsxChildren}\n</${tsxTag}>`
       : `<${tsxTag} ${tsxProps} />`
 
-  const [rootTag] = typeof tsxTag === 'string' ? tsxTag.split('.') : []
-  if (componentsImport.hasOwnProperty(rootTag) && imports.search(rootTag) === -1) {
-    imports += componentsImport[rootTag] + '\n'
-  }
-  return { jsx, imports }
+  return { tsx, imports }
 }
 
-export default function getComponentScript(component: ComponentUI): string {
+export default function getComponentScript(component: ComponentUI, types: string[] = []): string {
   const { name, props, state, ui } = component
   const componentName = capitalize(name)
 
+  const { tsx, imports } = getComponentJSX({ ui, types })
+
   const inlineProps = props && props.length > 0 ? `const { ${props.join(', ')} } = props` : ''
+
+  const loadComponent = /load\(/g.test(JSON.stringify(ui))
+    ? `const load = (id: string) => {
+          const component = components.find((c) => c.id === id)
+          if (!component) return null
+          const DynamicComponent = Components[component.type]
+          return <DynamicComponent {...component} />
+      }`
+    : ''
+
+  const componentProps = [inlineProps ? 'props' : '', loadComponent ? 'components' : '']
+    .filter(Boolean)
+    .join(', ')
+
+  const classNames = /classNames\(/g.test(JSON.stringify(ui))
+    ? "function classNames(...classes) { return classes.filter(Boolean).join(' ')}"
+    : ''
 
   const states = state
     ? Object.keys(state)
@@ -117,24 +142,29 @@ export default function getComponentScript(component: ComponentUI): string {
         .join('\n')
     : ''
 
-  const translate = /t\([\\"\'a-z0-9\.\-:]+\)/g.test(JSON.stringify(ui))
+  const translate = /t\([\\"\'a-zA-Z0-9\.\-:]+\)/g.test(JSON.stringify(ui))
     ? `const { t } = useTranslation()`
     : ''
 
-  const { jsx, imports } = getComponentJSX({ ui })
+  if (loadComponent !== '') imports.push("import Components from './index'")
+
   return `// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 ${states !== '' ? "import { useState } from 'react'" : ''}
 ${translate !== '' ? "import { useTranslation } from 'next-i18next'" : ''}
-${imports}
-${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}
+${imports.join('\n')}
+${componentProps !== '' ? "import type { Component } from 'bold-page'" : ''}
+${classNames}
     
-export default function ${componentName}(${inlineProps !== '' ? '{ props }: ComponentUI' : ''}) {
+export default function ${componentName}(${
+    componentProps !== '' ? `{ ${componentProps} }: Component` : ''
+  }) {
   ${inlineProps}
   ${states}
   ${translate}
+  ${loadComponent}
   
-  return (${jsx})
+  return (${tsx})
 }`
 }

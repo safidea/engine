@@ -63,7 +63,12 @@ test('should have created components files', async () => {
       `${folder}/config/components/${component.name}.tsx`,
       'utf8'
     )
-    expect(componentFile).toEqual(getComponentScript(component))
+    expect(componentFile).toEqual(
+      getComponentScript(
+        component,
+        components?.map((c) => c.name)
+      )
+    )
   }
 })
 

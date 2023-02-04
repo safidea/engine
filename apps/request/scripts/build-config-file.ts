@@ -17,7 +17,7 @@ const tablesPath = `${folderPath}/tables`
 const localesPath = `${folderPath}/locales`
 
 ;(async () => {
-  console.info('Start building Bold config file...')
+  console.info('Start building Request config file...')
 
   const [app, theme, pages, components, apis, tables, locales] = await Promise.all([
     fs.readFile(`${folderPath}/app.yaml`, 'utf8').then((data) => yaml.load(data) as App),
@@ -124,5 +124,5 @@ const localesPath = `${folderPath}/locales`
   if (config.components) await testComponentsUI(config.components)
   await fs.writeFile('./request.bold.yaml', yaml.dump(config))
 
-  console.info('Bold config file building success!')
+  console.info('Request config file build succeed!')
 })()
