@@ -122,7 +122,7 @@ const localesPath = `${folderPath}/locales`
 
   await checkSchema(config)
   if (config.components) await testComponentsUI(config.components)
-  await fs.writeFile('./simple.bold.yaml', yaml.dump(config))
+  await fs.writeFile('./request.bold.yaml', yaml.dump(config))
 
   console.info('Bold config file building success!')
 })()
