@@ -52,31 +52,41 @@ function getComponentJSX({
     }
   }
 
-  const tsxProps = Object.keys(props)
-    .reduce((acc: string[], prop: string) => {
-      const value = props[prop as keyof typeof props]?.toString()
-      if (prop === 'class') prop = 'className'
-      if (prop === 'as') {
-        if (value.search('Fragment') > -1 && imports.search('Fragment') === -1) {
-          imports += componentsImport['Fragment'] + '\n'
-        }
-      }
-      if (prop === 'focus') prop = 'onFocus'
-      acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))
-      return acc
-    }, [])
-    .join(' ')
-
   let tsxTag = tag
   switch (tag) {
     case 'img':
       tsxTag = 'Image'
+      props.width = props.width || '50'
+      props.height = props.height || '50'
       break
     case 'a':
       tsxTag = 'Link'
     default:
       break
   }
+
+  const tsxProps = Object.keys(props)
+    .reduce((acc: string[], prop: string) => {
+      const value = props[prop as keyof typeof props]?.toString()
+      switch (prop) {
+        case 'class':
+          prop = 'className'
+          break
+        case 'as':
+          if (value.search('Fragment') > -1 && imports.search('Fragment') === -1) {
+            imports += componentsImport['Fragment'] + '\n'
+          }
+          break
+        case 'focus':
+          prop = 'onFocus'
+          break
+        default:
+          break
+      }
+      acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))
+      return acc
+    }, [])
+    .join(' ')
 
   jsx +=
     tsxChildren != ''

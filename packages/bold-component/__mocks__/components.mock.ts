@@ -4,14 +4,15 @@ import { getRandomUniqueArray, capitalize } from 'utils'
 import type { ComponentUI, State, UI } from '../types/component.type'
 
 export const componentsMock: ComponentUI[] = getRandomUniqueArray().map(() => {
-  const name = faker.word.noun()
-  const props = getRandomUniqueArray().map(() => faker.lorem.word().replace(/-|_/g, ''))
-  const state = getRandomUniqueArray({ faker: ['word.noun', 'random.numeric'] }).reduce(
-    (acc: State, { wordNoun, randomNumeric }) => {
-      acc[wordNoun as string] = randomNumeric
-      return acc
-    },
-    {} as State
+  const name = faker.word.noun().replace(/-/g, '')
+  const props: string[] = []
+  const state: State = {}
+
+  getRandomUniqueArray({ min: 4, faker: ['word.noun', 'random.numeric'] }).forEach(
+    ({ wordNoun, randomNumeric }, index) => {
+      if (index % 2 === 0) props.push(wordNoun.toString())
+      else state[wordNoun as string] = randomNumeric
+    }
   )
 
   const propsToSet = [...props]
