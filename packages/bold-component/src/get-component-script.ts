@@ -84,7 +84,7 @@ function getComponentJSX({
       if (typeof value === 'boolean') {
         acc.push(`${prop}`)
         return acc
-      }        
+      }
       acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))
       return acc
     }, [])
