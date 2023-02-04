@@ -28,6 +28,8 @@ export default function Header({ props }: ComponentUI) {
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
                 className="h-8 w-auto sm:h-10"
+                width="50"
+                height="50"
               />
             </Link>
           </div>
@@ -229,6 +231,8 @@ export default function Header({ props }: ComponentUI) {
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     alt="Your Company"
                     className="h-8 w-auto"
+                    width="50"
+                    height="50"
                   />
                 </div>
                 <div className="-mr-2">

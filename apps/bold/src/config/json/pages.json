@@ -7,7 +7,7 @@
     "components": [
       {
         "id": "header",
-        "type": "Header",
+        "type": "Hero",
         "props": {
           "logo": {
             "path": "/essentiel.png",

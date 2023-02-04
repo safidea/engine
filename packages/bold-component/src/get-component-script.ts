@@ -61,6 +61,7 @@ function getComponentJSX({
       break
     case 'a':
       tsxTag = 'Link'
+      props.href = props.href || '#'
     default:
       break
   }

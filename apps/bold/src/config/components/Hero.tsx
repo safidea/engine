@@ -52,6 +52,8 @@ export default function Hero({ props }: ComponentUI) {
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
                 className="h-8"
+                width="50"
+                height="50"
               />
             </Link>
           </div>
@@ -94,6 +96,8 @@ export default function Hero({ props }: ComponentUI) {
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                   alt=""
                   className="h-8"
+                  width="50"
+                  height="50"
                 />
               </Link>
               <button

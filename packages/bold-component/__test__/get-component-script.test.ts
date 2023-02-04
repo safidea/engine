@@ -29,4 +29,5 @@ test('get component with Link Tag', async () => {
   component.ui.tag = 'a'
   const script = getComponentScript(component)
   expect(script.search('Link') > -1).toBe(true)
+  expect(/(?<=<Link)(.*)href(.*)(?=>)/g.test(script)).toBe(true)
 })
