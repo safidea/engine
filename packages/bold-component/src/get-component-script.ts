@@ -38,7 +38,7 @@ function getComponentJSX({
   const { tag, children, ...props }: UI = ui
 
   let tsxChildren = ''
-  if (children != null) {
+  if (children != null && Array.isArray(children)) {
     for (let i = 0; i < children.length; i++) {
       if (typeof children[i] === 'string') {
         const child = children[i] as string
@@ -78,12 +78,13 @@ function getComponentJSX({
             imports += componentsImport['Fragment'] + '\n'
           }
           break
-        case 'focus':
-          prop = 'onFocus'
-          break
         default:
           break
       }
+      if (typeof value === 'boolean') {
+        acc.push(`${prop}`)
+        return acc
+      }        
       acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))
       return acc
     }, [])
