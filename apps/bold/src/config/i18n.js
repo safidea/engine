@@ -4,7 +4,7 @@ const i18n = {
     "en",
     "fr"
   ],
-  "localeDetection": false
+  "localeDetection": true
 }
   
 module.exports = { i18n }

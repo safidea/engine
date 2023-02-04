@@ -117,18 +117,24 @@ export default function getComponentScript(component: ComponentUI): string {
         .join('\n')
     : ''
 
+  const translate = /t\([\\"\'a-z0-9\.\-:]+\)/g.test(JSON.stringify(ui))
+    ? `const { t } = useTranslation()`
+    : ''
+
   const { jsx, imports } = getComponentJSX({ ui })
   return `// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 ${states !== '' ? "import { useState } from 'react'" : ''}
+${translate !== '' ? "import { useTranslation } from 'next-i18next'" : ''}
 ${imports}
 ${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}
     
 export default function ${componentName}(${inlineProps !== '' ? '{ props }: ComponentUI' : ''}) {
   ${inlineProps}
   ${states}
-
+  ${translate}
+  
   return (${jsx})
 }`
 }

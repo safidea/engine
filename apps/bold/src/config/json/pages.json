@@ -10,11 +10,11 @@
         "type": "Hero",
         "props": {
           "logo": {
-            "path": "/essentiel.png",
+            "path": "/logo-icon-bleu-sideral.png",
+            "title": "Request",
             "width": "40",
             "height": "40"
           },
-          "position": "left",
           "navigation": [
             {
               "key": "approach",

@@ -1,4 +1,5 @@
 {
   "root": true,
-  "extends": ["bold"]
+  "extends": ["bold"],
+  "ignorePatterns": ["import"]
 }

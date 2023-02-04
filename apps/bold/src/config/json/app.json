@@ -2,5 +2,5 @@
   "name": "Request",
   "description": "Request is a platform for asynchrone collaboration",
   "defaultLocale": "en",
-  "localeRedirect": false
+  "localeRedirect": true
 }

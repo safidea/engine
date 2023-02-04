@@ -5,7 +5,7 @@ import { FontOptions } from './options.font.theme.type'
 export type Theme = {
   darkMode?: string
   container?: {
-    center: boolean
+    center?: boolean
   }
   extend?: {
     colors?: Color[]

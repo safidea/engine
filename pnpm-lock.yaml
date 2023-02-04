@@ -99,7 +99,7 @@ importers:
       ts-node: 10.9.1_bdgp3l2zgaopogaavxusmetvge
       typescript: 4.9.5
 
-  apps/simple:
+  apps/request:
     specifiers:
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 13.4.0
