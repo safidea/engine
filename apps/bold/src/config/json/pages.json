@@ -6,7 +6,7 @@
     },
     "components": [
       {
-        "id": "header",
+        "id": "hero",
         "type": "Hero",
         "props": {
           "logo": {

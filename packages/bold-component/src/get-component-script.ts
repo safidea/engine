@@ -120,7 +120,6 @@ export default function getComponentScript(component: ComponentUI): string {
   return `// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import React from 'react'
 ${states !== '' ? "import { useState } from 'react'" : ''}
 ${imports}
 ${inlineProps !== '' ? "import type { ComponentUI } from 'bold-component'" : ''}

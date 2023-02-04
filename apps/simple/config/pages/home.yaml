@@ -2,7 +2,7 @@
 meta:
   title: Essentiel
 components:
-  - id: header
+  - id: hero
     type: Hero
     props:
       logo:

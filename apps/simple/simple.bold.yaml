@@ -39,7 +39,7 @@ pages:
     meta:
       title: Essentiel
     components:
-      - id: header
+      - id: hero
         type: Hero
         props:
           logo:
@@ -804,11 +804,11 @@ components:
                   children:
                     - '{navigation.map((item) => ('
                     - tag: a
-                      key: '{item.name}'
-                      href: '{item.href}'
+                      key: '{item.key}'
+                      href: '{item.path}'
                       class: text-sm font-semibold leading-6 text-gray-900
                       children:
-                        - '{item.name}'
+                        - '{item.key}'
                     - ))}
                 - tag: div
                   class: hidden lg:flex lg:flex-1 lg:justify-end
@@ -825,7 +825,7 @@ components:
             - tag: Dialog
               as: div
               open: '{mobileMenuOpen}'
-              onClose: '{setMobileMenuOpen}'
+              onClose: '{() => setMobileMenuOpen(false)}'
               children:
                 - tag: Dialog.Panel
                   focus: 'true'
@@ -872,14 +872,14 @@ components:
                               children:
                                 - '{navigation.map((item) => ('
                                 - tag: a
-                                  key: '{item.name}'
-                                  href: '{item.href}'
+                                  key: '{item.key}'
+                                  href: '{item.path}'
                                   class: >-
                                     -mx-3 block rounded-lg py-2 px-3 text-base
                                     font-semibold leading-7 text-gray-900
                                     hover:bg-gray-400/10
                                   children:
-                                    - '{item.name}'
+                                    - '{item.key}'
                                 - ))}
                             - tag: div
                               class: py-6

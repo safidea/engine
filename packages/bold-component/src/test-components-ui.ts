@@ -22,6 +22,10 @@ const eslint = new ESLint({
         version: 'detect',
       },
     },
+    rules: {
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+    },
   },
 })
 
