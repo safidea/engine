@@ -25,4 +25,7 @@ hero:
     email:
       placeholder: Enter your email address
     submit: Get started
-  customers: Ils nous ont fait confiance
+customers:
+  title: Ils nous font confiance
+footer:
+  copyright: '@2023 Essential Services All rights reserved.'

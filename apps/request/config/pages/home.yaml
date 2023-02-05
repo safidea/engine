@@ -23,23 +23,24 @@ components:
       buttons:
         primary:
           path: /login
-
-  #- id: approach
-  #  type: Features
-  #  props:
-  #    leftTitle: 'true'
-  #    features:
-  #      - key: one
-  #        icon: globe-alt
-  #      - title: No hidden fees
-  #        description: Corporis quisquam nostrum nulla veniam recusandae temporibus aperiam officia incidunt at distinctio ratione.
-  #        icon: scale
-  #      - title: Instant transfers
-  #        description: Omnis, illo delectus? Libero, possimus nulla nemo tenetur adipisci repellat dolore eligendi velit doloribus mollitia.
-  #        icon: bolt
-  #      - title: Reminder emails
-  #        description: Veniam necessitatibus reiciendis fugit explicabo dolorem nihil et omnis assumenda odit? Quisquam unde accusantium.
-  #        icon: envelope
+  - id: logoCLoud
+    type: LogoCloudOffWhiteGrid
+  - id: approach
+    type: Features
+    props:
+      features:
+        - title: No hidden fees
+          description: Corporis quisquam nostrum nulla veniam recusandae temporibus aperiam officia incidunt at distinctio ratione.
+          icon: scale
+          key: one
+        - title: Instant transfers
+          description: Omnis, illo delectus? Libero, possimus nulla nemo tenetur adipisci repellat dolore eligendi velit doloribus mollitia.
+          icon: bolt
+          key: two
+        - title: Reminder emails
+          description: Veniam necessitatibus reiciendis fugit explicabo dolorem nihil et omnis assumenda odit? Quisquam unde accusantium.
+          icon: envelope
+          key: three
   #- id: stats
   #  type: Stats
   #  props:
@@ -168,13 +169,18 @@ components:
   #    button: Get started
   #    panel: 'true'
   #    primaryBackground: 'true'
-  #- id: footer
-  #  type: Footer
-  #  props:
-  #    copyright: © 2020 Your Company, Inc. All rights reserved.
-  #    links:
-  #      - path: /privacy-policy
-  #        text: Privacy policy
-  #      - path: /terms-of-use
-  #        text: Terms of use
-#
+  - id: footer
+    type: Footer
+    props:
+      navigation:
+        - key: approach
+          path: '#approach'
+        - key: platform
+          path: '#platform'
+        - key: services
+          path: '#services'
+        - key: outcomes
+          path: '#outcomes'
+        - key: testimonials
+          path: '#testimonials'
+

@@ -16,6 +16,20 @@
           "buttons": {
             "primary": "Log in"
           }
+        },
+        "hero": {
+          "title": "Your tooling team",
+          "highlight": "on demand",
+          "subtitle": "Get solutions for each processes frictions and build rockets systems. We provide advices, development and training for each team.",
+          "form": {
+            "email": {
+              "placeholder": "Enter your email address"
+            },
+            "submit": "Get started"
+          }
+        },
+        "customers": {
+          "title": "Trusted by"
         }
       }
     }
@@ -57,8 +71,13 @@
               "placeholder": "Enter your email address"
             },
             "submit": "Get started"
-          },
-          "customers": "Ils nous ont fait confiance"
+          }
+        },
+        "customers": {
+          "title": "Ils nous font confiance"
+        },
+        "footer": {
+          "copyright": "@2023 Essential Services All rights reserved."
         }
       }
     }

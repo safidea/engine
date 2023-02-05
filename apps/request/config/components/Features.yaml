@@ -46,7 +46,7 @@ ui:
                       children:
                         - '{features.map((feature) => ('
                         - tag: div
-                          key: '{feature.name}'
+                          key: '{feature.key}'
                           class: relative pl-9
                           children:
                             - tag: dt
@@ -57,7 +57,7 @@ ui:
                                   class: >-
                                     absolute top-1 left-1 h-5 w-5
                                     text-indigo-600
-                                - '{feature.name}'
+                                - '{feature.title}'
                             - '{'' ''}'
                             - tag: dd
                               class: inline

@@ -60,6 +60,44 @@ pages:
           buttons:
             primary:
               path: /login
+      - id: logoCLoud
+        type: LogoCloudOffWhiteGrid
+      - id: approach
+        type: Features
+        props:
+          features:
+            - title: No hidden fees
+              description: >-
+                Corporis quisquam nostrum nulla veniam recusandae temporibus
+                aperiam officia incidunt at distinctio ratione.
+              icon: scale
+              key: one
+            - title: Instant transfers
+              description: >-
+                Omnis, illo delectus? Libero, possimus nulla nemo tenetur
+                adipisci repellat dolore eligendi velit doloribus mollitia.
+              icon: bolt
+              key: two
+            - title: Reminder emails
+              description: >-
+                Veniam necessitatibus reiciendis fugit explicabo dolorem nihil
+                et omnis assumenda odit? Quisquam unde accusantium.
+              icon: envelope
+              key: three
+      - id: footer
+        type: Footer
+        props:
+          navigation:
+            - key: approach
+              path: '#approach'
+            - key: platform
+              path: '#platform'
+            - key: services
+              path: '#services'
+            - key: outcomes
+              path: '#outcomes'
+            - key: testimonials
+              path: '#testimonials'
 components:
   - name: CTA
     state: {}
@@ -207,7 +245,7 @@ components:
                           children:
                             - '{features.map((feature) => ('
                             - tag: div
-                              key: '{feature.name}'
+                              key: '{feature.key}'
                               class: relative pl-9
                               children:
                                 - tag: dt
@@ -218,7 +256,7 @@ components:
                                       class: >-
                                         absolute top-1 left-1 h-5 w-5
                                         text-indigo-600
-                                    - '{feature.name}'
+                                    - '{feature.title}'
                                 - '{'' ''}'
                                 - tag: dd
                                   class: inline
@@ -249,38 +287,21 @@ components:
               aria-label: Footer
               class: '-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12'
               children:
-                - '{navigation.main.map((item) => ('
+                - '{navigation.map((item) => ('
                 - tag: div
-                  key: '{item.name}'
+                  key: '{item.key}'
                   class: pb-6
                   children:
                     - tag: a
-                      href: '{item.href}'
+                      href: '{item.path}'
                       class: text-sm leading-6 text-gray-600 hover:text-gray-900
                       children:
-                        - '{item.name}'
-                - ))}
-            - tag: div
-              class: mt-10 flex justify-center space-x-10
-              children:
-                - '{navigation.social.map((item) => ('
-                - tag: a
-                  key: '{item.name}'
-                  href: '{item.href}'
-                  class: text-gray-400 hover:text-gray-500
-                  children:
-                    - tag: span
-                      class: sr-only
-                      children:
-                        - '{item.name}'
-                    - tag: item.icon
-                      aria-hidden: 'true'
-                      class: h-6 w-6
+                        - '{t(`header.navigation.${item.key}`)}'
                 - ))}
             - tag: p
               class: mt-10 text-center text-xs leading-5 text-gray-500
               children:
-                - '&copy; 2020 Your Company, Inc. All rights reserved.'
+                - '{t("footer.copyright")}'
   - name: Header
     state: {}
     props:
@@ -757,7 +778,7 @@ components:
             - tag: p
               class: text-center text-lg font-semibold text-gray-600
               children:
-                - Trusted by over 5 very average small businesses
+                - '{t("customers.title")}'
             - tag: div
               class: mt-6 grid grid-cols-2 gap-0.5 md:grid-cols-3 lg:mt-8
               children:
@@ -768,7 +789,8 @@ components:
                       src: >-
                         https://tailwindui.com/img/logos/transistor-logo-gray-400.svg
                       alt: Workcation
-                      class: max-h-12
+                      width: 138
+                      height: 48
                 - tag: div
                   class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
                   children:
@@ -776,14 +798,16 @@ components:
                       src: >-
                         https://tailwindui.com/img/logos/mirage-logo-gray-400.svg
                       alt: Mirage
-                      class: max-h-12
+                      width: 138
+                      height: 48
                 - tag: div
                   class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
                   children:
                     - tag: img
                       src: https://tailwindui.com/img/logos/tuple-logo-gray-400.svg
                       alt: Tuple
-                      class: max-h-12
+                      width: 138
+                      height: 48
                 - tag: div
                   class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
                   children:
@@ -791,7 +815,8 @@ components:
                       src: >-
                         https://tailwindui.com/img/logos/laravel-logo-gray-400.svg
                       alt: Laravel
-                      class: max-h-12
+                      width: 138
+                      height: 48
                 - tag: div
                   class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
                   children:
@@ -799,7 +824,8 @@ components:
                       src: >-
                         https://tailwindui.com/img/logos/statickit-logo-gray-400.svg
                       alt: StaticKit
-                      class: max-h-12
+                      width: 138
+                      height: 48
                 - tag: div
                   class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
                   children:
@@ -807,7 +833,8 @@ components:
                       src: >-
                         https://tailwindui.com/img/logos/statamic-logo-gray-400.svg
                       alt: Statamic
-                      class: max-h-12
+                      width: 138
+                      height: 48
   - name: Stats
     state: {}
     props: []
@@ -1039,6 +1066,18 @@ locales:
             testimonials: Testimonials
           buttons:
             primary: Log in
+        hero:
+          title: Your tooling team
+          highlight: on demand
+          subtitle: >-
+            Get solutions for each processes frictions and build rockets
+            systems. We provide advices, development and training for each team.
+          form:
+            email:
+              placeholder: Enter your email address
+            submit: Get started
+        customers:
+          title: Trusted by
   - locale: fr
     namespaces:
       common:
@@ -1071,7 +1110,10 @@ locales:
             email:
               placeholder: Enter your email address
             submit: Get started
-          customers: Ils nous ont fait confiance
+        customers:
+          title: Ils nous font confiance
+        footer:
+          copyright: '@2023 Essential Services All rights reserved.'
 tables:
   - name: contacts
     fields:

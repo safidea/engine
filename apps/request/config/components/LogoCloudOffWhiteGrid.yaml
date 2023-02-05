@@ -11,7 +11,7 @@ ui:
         - tag: p
           class: text-center text-lg font-semibold text-gray-600
           children:
-            - Trusted by over 5 very average small businesses
+            - '{t("customers.title")}'
         - tag: div
           class: mt-6 grid grid-cols-2 gap-0.5 md:grid-cols-3 lg:mt-8
           children:
@@ -22,39 +22,45 @@ ui:
                   src: >-
                     https://tailwindui.com/img/logos/transistor-logo-gray-400.svg
                   alt: Workcation
-                  class: max-h-12
+                  width: 138
+                  height: 48
             - tag: div
               class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
               children:
                 - tag: img
                   src: https://tailwindui.com/img/logos/mirage-logo-gray-400.svg
                   alt: Mirage
-                  class: max-h-12
+                  width: 138
+                  height: 48
             - tag: div
               class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
               children:
                 - tag: img
                   src: https://tailwindui.com/img/logos/tuple-logo-gray-400.svg
                   alt: Tuple
-                  class: max-h-12
+                  width: 138
+                  height: 48
             - tag: div
               class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
               children:
                 - tag: img
                   src: https://tailwindui.com/img/logos/laravel-logo-gray-400.svg
                   alt: Laravel
-                  class: max-h-12
+                  width: 138
+                  height: 48
             - tag: div
               class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
               children:
                 - tag: img
                   src: https://tailwindui.com/img/logos/statickit-logo-gray-400.svg
                   alt: StaticKit
-                  class: max-h-12
+                  width: 138
+                  height: 48
             - tag: div
               class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
               children:
                 - tag: img
                   src: https://tailwindui.com/img/logos/statamic-logo-gray-400.svg
                   alt: Statamic
-                  class: max-h-12
+                  width: 138
+                  height: 48
