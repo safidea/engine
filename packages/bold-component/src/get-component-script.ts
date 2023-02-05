@@ -142,7 +142,7 @@ export default function getComponentScript(component: ComponentUI, types: string
         .join('\n')
     : ''
 
-  const translate = /t\([\\"\'a-zA-Z0-9\.\-:]+\)/g.test(JSON.stringify(ui))
+  const translate = /t\([\\"\'\`\$\{\}a-zA-Z0-9\.\-:]+\)/g.test(JSON.stringify(ui))
     ? `const { t } = useTranslation()`
     : ''
 

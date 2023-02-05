@@ -1,7 +1,10 @@
 {
   "header": {
-    "logoTitle": "Essentiel",
-    "mobileMenu": "Ouvrir le menu",
+    "logoTitle": "Request",
+    "mobileMenu": {
+      "open": "Ouvrir le menu",
+      "close": "Fermer le menu"
+    },
     "navigation": {
       "approach": "Approche",
       "platform": "Plateforme",

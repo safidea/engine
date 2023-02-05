@@ -1,5 +1,8 @@
 const theme = {
   "darkMode": "class",
+  "container": {
+    "center": true
+  },
   "extend": {
     "colors": [
       {

@@ -18,9 +18,10 @@ test('get component script', async () => {
 
 test(' get component with translation', async () => {
   const component = deepCopy(componentsMock[0])
-  component.ui.children = ['{t("test")}']
+  component.ui.children = ['{t("common.test")}', '{t(`common.${test}`)}']
   const script = getComponentScript(component, types)
-  expect(/\{t\("test"\)\}/.test(script)).toBe(true)
+  expect(/\{t\("common\.test"\)\}/.test(script)).toBe(true)
+  expect(/\{t\(`common\.\$\{test\}`\)\}/.test(script)).toBe(true)
   expect(/import \{ useTranslation \} from 'next-i18next'/.test(script)).toBe(true)
   expect(/const \{ t \} = useTranslation()/.test(script)).toBe(true)
 })
