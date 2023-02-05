@@ -7,7 +7,7 @@ dotenv.config({ path: './.env.local' })
 const file = process.env.BOLD_CONFIG_FILE || './bold.config.yaml'
 
 ;(async () => {
-  console.info('Start configuring Bold...')
+  console.info('Start compiling Bold config...')
 
   const config = await loadYaml(file)
   await checkSchema(config)
@@ -15,5 +15,5 @@ const file = process.env.BOLD_CONFIG_FILE || './bold.config.yaml'
   if (config.locales) await buildLocales(config.locales, './public')
   await buildConfig(config, './src/config')
 
-  console.info('Bold config succeed!')
+  console.info('Bold config compile succeed!')
 })()

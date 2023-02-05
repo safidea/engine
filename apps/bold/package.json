@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "init": "ts-node ./src/init.ts",
+    "compile": "ts-node ./src/compile.ts",
     "dev": "next dev",
-    "build": "pnpm run init && next build",
+    "build": "pnpm run compile && next build",
     "start": "next start",
     "lint": "tsc --noEmit && eslint .",
     "test": "jest --detectOpenHandles"

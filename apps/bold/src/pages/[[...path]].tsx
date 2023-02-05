@@ -47,6 +47,7 @@ export const getStaticProps: GetStaticProps = async ({
 }
 
 export default function Document(props: Page) {
+  if (Object.keys(props).length === 0) return null
   const { meta, components } = props
   return (
     <>

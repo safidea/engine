@@ -20,4 +20,7 @@ function App({ Component, pageProps }: AppProps) {
   )
 }
 
-export default appWithTranslation(App)
+// Fix Typescript build error
+const TranslatedApp = appWithTranslation(App) as unknown as AppProps
+
+export default TranslatedApp

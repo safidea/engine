@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "watch": {
-    "build": {
+    "compile": {
       "patterns": [
         "config"
       ],
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
-    "build": "ts-node ./scripts/build-config-file.ts && ( cd ../bold && pnpm run init ) ",
+    "compile": "ts-node ./scripts/build-config-file.ts && ( cd ../bold && pnpm run init ) ",
     "import": "ts-node ./scripts/import-components.ts",
     "test": "jest --detectOpenHandles",
     "dev": "npm-watch"
