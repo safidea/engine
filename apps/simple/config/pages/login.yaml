@@ -1,6 +1,9 @@
 ---
 meta:
   title: Connexion
+container:
+  html: h-full bg-gray-50
+  body: h-full
 components:
   - id: login
     type: LoginSimpleCard

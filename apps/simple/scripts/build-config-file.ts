@@ -130,7 +130,10 @@ const boldAppFolder = process.env.BOLD_APP_FOLDER ?? '../bold'
   await fs.writeFile(configFile, yaml.dump(config))
 
   let env = await fs.readFile('./.env', 'utf8')
-  env = env.replace("BOLD_CONFIG_FILE=./simple.bold.yaml", "BOLD_CONFIG_FILE=../simple/simple.bold.yaml")
+  env = env.replace(
+    'BOLD_CONFIG_FILE=./simple.bold.yaml',
+    'BOLD_CONFIG_FILE=../simple/simple.bold.yaml'
+  )
   await fs.writeFile(boldAppFolder + '/.env.local', env)
 
   console.info('Request config file build succeed!')
