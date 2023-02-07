@@ -1,0 +1,33 @@
+---
+header:
+  logoTitle: Essentiel
+  mobileMenu: Open menu
+  navigation:
+    approach: Approach
+    platform: Platform
+    services: Services
+    outcomes: Outcomes
+    testimonials: Testimonials
+  buttons:
+    primary: Log in
+hero:
+  title: Your tooling team
+  highlight: on demand
+  subtitle: Get solutions for each processes frictions and build rockets systems. We provide advices, development and training for each team.
+  form:
+    email:
+      placeholder: Enter your email address
+    submit: Get started
+customers:
+  title: Trusted by
+#approach:
+#  header: Our approach
+#  title: All-in-one platform
+#  subtitle: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+#  features:
+#    one:
+#      title: Competitive rates
+#      description: Consequuntur omnis dicta cumque, inventore atque ab dolores aspernatur tempora ab doloremque.
+#    two:
+#      title: No hidden fees
+#      description: Corporis quisquam nostrum nulla veniam recusandae temporibus aperiam officia incidunt at distinctio ratione.

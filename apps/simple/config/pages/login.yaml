@@ -1,0 +1,6 @@
+---
+meta:
+  title: Connexion
+components:
+  - id: login
+    type: LoginSimpleCard

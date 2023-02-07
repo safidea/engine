@@ -1,0 +1,66 @@
+name: LogoCloudOffWhiteGrid
+state: {}
+props: []
+ui:
+  tag: div
+  class: bg-white
+  children:
+    - tag: div
+      class: mx-auto max-w-7xl py-12 px-6 lg:py-16 lg:px-8
+      children:
+        - tag: p
+          class: text-center text-lg font-semibold text-gray-600
+          children:
+            - '{t("customers.title")}'
+        - tag: div
+          class: mt-6 grid grid-cols-2 gap-0.5 md:grid-cols-3 lg:mt-8
+          children:
+            - tag: div
+              class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+              children:
+                - tag: img
+                  src: >-
+                    https://tailwindui.com/img/logos/transistor-logo-gray-400.svg
+                  alt: Workcation
+                  width: 138
+                  height: 48
+            - tag: div
+              class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+              children:
+                - tag: img
+                  src: https://tailwindui.com/img/logos/mirage-logo-gray-400.svg
+                  alt: Mirage
+                  width: 138
+                  height: 48
+            - tag: div
+              class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+              children:
+                - tag: img
+                  src: https://tailwindui.com/img/logos/tuple-logo-gray-400.svg
+                  alt: Tuple
+                  width: 138
+                  height: 48
+            - tag: div
+              class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+              children:
+                - tag: img
+                  src: https://tailwindui.com/img/logos/laravel-logo-gray-400.svg
+                  alt: Laravel
+                  width: 138
+                  height: 48
+            - tag: div
+              class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+              children:
+                - tag: img
+                  src: https://tailwindui.com/img/logos/statickit-logo-gray-400.svg
+                  alt: StaticKit
+                  width: 138
+                  height: 48
+            - tag: div
+              class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+              children:
+                - tag: img
+                  src: https://tailwindui.com/img/logos/statamic-logo-gray-400.svg
+                  alt: Statamic
+                  width: 138
+                  height: 48

@@ -1,0 +1,31 @@
+---
+header:
+  logoTitle: Simple
+  mobileMenu: 
+    open: Ouvrir le menu
+    close: Fermer le menu
+  navigation:
+    approach: Approche
+    platform: Plateforme
+    services: Services
+    outcomes: Résultats
+    testimonials: Témoignages
+  buttons:
+    primary: Se connecter
+hero:
+  title: Votre régie logiciel
+  subtitle: Obtenez des solutions pour chaque processus interne et construisez des systèmes antifragile. Nous fournissons des conseils, du développement et de la formation pour chaque équipe.
+  annoucement:
+    message: Voici notre dernière actualité.
+    link: En savoir plus
+  buttons:
+    primary: Commencer
+    secondary: En savoir plus
+  form:
+    email:
+      placeholder: Enter your email address
+    submit: Get started
+customers:
+  title: Ils nous font confiance
+footer:
+  copyright: '@2023 Essential Services All rights reserved.'
