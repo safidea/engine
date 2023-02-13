@@ -6,7 +6,9 @@ const { theme } = require('./src/config/tailwind.js')
 const tailwindConfig = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme,
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
 
 module.exports = tailwindConfig

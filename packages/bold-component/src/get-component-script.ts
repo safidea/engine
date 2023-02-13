@@ -91,8 +91,8 @@ function getComponentJSX({
         default:
           break
       }
-      if (typeof value === 'boolean') {
-        acc.push(`${prop}`)
+      if (typeof value === 'boolean' || value === 'true' || value === 'false') {
+        acc.push(`${prop}={${value}}`)
         return acc
       }
       acc.push(`${prop}="${value}"`.replace('"{', '{').replace('}"', '}'))

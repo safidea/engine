@@ -12,8 +12,10 @@ const file = process.env.BOLD_CONFIG_FILE || './bold.config.yaml'
   const config = await loadYaml(file)
   await checkSchema(config)
   if (config.components) await testComponentsUI(config.components)
-  if (config.locales) await buildLocales(config.locales, './public')
-  await buildConfig(config, './src/config')
+  await Promise.all([
+    config.locales && buildLocales(config.locales, './public'),
+    buildConfig(config, './src/config'),
+  ])
 
   console.info('Bold config compile succeed!')
 })()

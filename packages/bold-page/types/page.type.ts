@@ -5,6 +5,10 @@ export type Page = {
   path: string
   meta: Meta
   components: Component[]
+  container?: {
+    html?: string
+    body?: string
+  }
 }
 
 export type { Meta, Component, Props }

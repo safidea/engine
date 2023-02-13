@@ -37,6 +37,7 @@
     "@typescript-eslint/parser": "^5.0.0 ",
     "config-jest": "workspace:*",
     "config-typescript": "workspace:*",
+    "dotenv": "16.0.3",
     "eslint": "^7.23.0",
     "eslint-config-bold": "workspace:*",
     "eslint-plugin-react": "7.31.8",
