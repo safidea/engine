@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+// TODO: remove ts-nocheck
 
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'

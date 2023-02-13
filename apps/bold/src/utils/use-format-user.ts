@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+// TODO: remove ts-nocheck
 export default function useFormatUser(user) {
   // Memoize so returned object has a stable identity
   return useMemo(() => {

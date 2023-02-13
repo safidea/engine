@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+// TODO: remove ts-nocheck
 export default function useMergeExtraData(user, { enabled }) {
   // Get extra user data from database
   const { data, status, error } = useUser(enabled && user && user.uid)

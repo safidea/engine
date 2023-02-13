@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+// TODO: remove ts-nocheck
 import { useEffect, useContext } from 'react'
 import router from 'next/router'
 import authContext from './auth-context'
