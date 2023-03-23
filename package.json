@@ -1,5 +1,5 @@
 {
-  "name": "bold",
+  "name": "foundation",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -14,7 +14,7 @@
     "precommit": "pnpm run format & turbo lint && turbo test"
   },
   "devDependencies": {
-    "eslint-config-bold": "workspace:*",
+    "eslint-config-foundation": "workspace:*",
     "husky": "8.0.3",
     "prettier": "latest",
     "turbo": "latest",

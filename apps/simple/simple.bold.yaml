@@ -159,7 +159,9 @@ components:
                     lg:text-left
                   children:
                     - tag: h2
-                      class: text-3xl font-bold tracking-tight text-white sm:text-4xl
+                      class: >-
+                        text-3xl font-foundation tracking-tight text-white
+                        sm:text-4xl
                       children:
                         - Boost your productivity.
                         - tag: br
@@ -237,8 +239,8 @@ components:
                             - Deploy faster
                         - tag: p
                           class: >-
-                            mt-2 text-3xl font-bold tracking-tight text-gray-900
-                            sm:text-4xl
+                            mt-2 text-3xl font-foundation tracking-tight
+                            text-gray-900 sm:text-4xl
                           children:
                             - A better workflow
                         - tag: p
@@ -448,7 +450,7 @@ components:
                               class: h-5 w-5 text-gray-400
                 - tag: h1
                   class: >-
-                    mt-10 text-4xl font-bold tracking-tight text-gray-900
+                    mt-10 text-4xl font-foundation tracking-tight text-gray-900
                     sm:text-6xl
                   children:
                     - '{t("hero.title")}'
@@ -693,8 +695,8 @@ components:
                       children:
                         - tag: h1
                           class: >-
-                            text-4xl font-bold tracking-tight text-gray-900
-                            sm:text-6xl
+                            text-4xl font-foundation tracking-tight
+                            text-gray-900 sm:text-6xl
                           children:
                             - '{t("hero.title")}'
                         - tag: p
@@ -798,7 +800,7 @@ components:
                   height: 48
                 - tag: h2
                   class: >-
-                    mt-6 text-center text-3xl font-bold tracking-tight
+                    mt-6 text-center text-3xl font-foundation tracking-tight
                     text-gray-900
                   children:
                     - Sign in to your account
@@ -1120,7 +1122,9 @@ components:
               class: mx-auto max-w-4xl text-center
               children:
                 - tag: h2
-                  class: text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl
+                  class: >-
+                    text-3xl font-foundation tracking-tight text-gray-900
+                    sm:text-4xl
                   children:
                     - Trusted by developers from over 80 planets
                 - tag: p
@@ -1159,8 +1163,8 @@ components:
                                     - Pepperoni
                                 - tag: dd
                                   class: >-
-                                    order-1 text-5xl font-bold tracking-tight
-                                    text-indigo-600
+                                    order-1 text-5xl font-foundation
+                                    tracking-tight text-indigo-600
                                   children:
                                     - 100%
                             - tag: div
@@ -1177,8 +1181,8 @@ components:
                                     - Delivery
                                 - tag: dd
                                   class: >-
-                                    order-1 text-5xl font-bold tracking-tight
-                                    text-indigo-600
+                                    order-1 text-5xl font-foundation
+                                    tracking-tight text-indigo-600
                                   children:
                                     - 24/7
                             - tag: div
@@ -1194,8 +1198,8 @@ components:
                                     - Calories
                                 - tag: dd
                                   class: >-
-                                    order-1 text-5xl font-bold tracking-tight
-                                    text-indigo-600
+                                    order-1 text-5xl font-foundation
+                                    tracking-tight text-indigo-600
                                   children:
                                     - 100k
   - name: Testimonials
@@ -1366,7 +1370,7 @@ locales:
           buttons:
             primary: Se connecter
         hero:
-          title: Votre régie logiciel
+          title: Votre régie logiciel !
           subtitle: >-
             Obtenez des solutions pour chaque processus interne et construisez
             des systèmes antifragile. Nous fournissons des conseils, du

@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document'
 import { app } from '../config'
 import { getPage } from '../utils'
 
-import type { App } from 'bold-config'
+import type { App } from 'foundation-config'
 
 const { defaultLocale } = app as App
 

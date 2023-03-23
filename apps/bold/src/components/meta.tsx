@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import type { Meta as MetaProps } from 'bold-page'
+import type { Meta as MetaProps } from 'foundation-page'
 
 export default function Meta(props: MetaProps) {
   const router = useRouter()

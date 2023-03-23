@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { apisMock } from 'bold-api'
-import { pagesMock } from 'bold-page'
-import { componentsMock } from 'bold-component'
-import { tablesMock } from 'bold-table'
+import { apisMock } from 'foundation-api'
+import { pagesMock } from 'foundation-page'
+import { componentsMock } from 'foundation-component'
+import { tablesMock } from 'foundation-table'
 import { themeMock } from '../__mocks__/theme.mock'
 import { localesMock } from '../__mocks__/locales.mock'
 

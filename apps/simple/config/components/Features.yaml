@@ -28,7 +28,7 @@ ui:
                         - Deploy faster
                     - tag: p
                       class: >-
-                        mt-2 text-3xl font-bold tracking-tight text-gray-900
+                        mt-2 text-3xl font-foundation tracking-tight text-gray-900
                         sm:text-4xl
                       children:
                         - A better workflow
@@ -58,7 +58,7 @@ ui:
                                     absolute top-1 left-1 h-5 w-5
                                     text-indigo-600
                                 - '{feature.title}'
-                            - '{'' ''}'
+                            - "{' '}"
                             - tag: dd
                               class: inline
                               children:

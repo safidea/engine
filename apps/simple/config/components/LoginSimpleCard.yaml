@@ -18,7 +18,7 @@ ui:
               width: 56
               height: 48
             - tag: h2
-              class: mt-6 text-center text-3xl font-bold tracking-tight text-gray-900
+              class: mt-6 text-center text-3xl font-foundation tracking-tight text-gray-900
               children:
                 - Sign in to your account
             - tag: p

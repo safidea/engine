@@ -4,7 +4,7 @@ import buildConfig from '../src/build-config'
 import getI18nScript from '../src/get-i18n-script'
 import getFontsScript from '../src/get-fonts-script'
 import getTailwindScript from '../src/get-tailwind-script'
-import { getComponentScript, getComponentsIndexScript } from 'bold-component'
+import { getComponentScript, getComponentsIndexScript } from 'foundation-component'
 
 const { apis, pages, components, tables, theme, locales, ...app } = config
 

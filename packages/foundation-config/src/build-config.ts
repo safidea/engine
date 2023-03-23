@@ -4,7 +4,7 @@ import { fsExists } from 'utils'
 import getI18nScript from './get-i18n-script'
 import getFontsScript from './get-fonts-script'
 import getTailwindScript from './get-tailwind-script'
-import { getComponentScript, getComponentsIndexScript } from 'bold-component'
+import { getComponentScript, getComponentsIndexScript } from 'foundation-component'
 
 import type { Config, ComponentUI } from '../types/config.type'
 

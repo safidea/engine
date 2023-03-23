@@ -8,7 +8,7 @@ test('should fail loading config file', async () => {
 })
 
 test('should load config file', async () => {
-  const pathToConfigFile = folder + '/bold.config.yaml'
+  const pathToConfigFile = folder + '/foundation.config.yaml'
   await fs.writeFile(pathToConfigFile, yaml.dump(config))
   const loaded = await loadYaml(pathToConfigFile)
   expect(loaded).toEqual(config)

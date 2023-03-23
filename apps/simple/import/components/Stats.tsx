@@ -3,7 +3,7 @@ export default function Example() {
     <div className="bg-gray-50 pt-12 sm:pt-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 className="text-3xl font-foundation tracking-tight text-gray-900 sm:text-4xl">
             Trusted by developers from over 80 planets
           </h2>
           <p className="mt-3 text-xl text-gray-500 sm:mt-4">
@@ -22,7 +22,7 @@ export default function Example() {
                   <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">
                     Pepperoni
                   </dt>
-                  <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">
+                  <dd className="order-1 text-5xl font-foundation tracking-tight text-indigo-600">
                     100%
                   </dd>
                 </div>
@@ -30,7 +30,7 @@ export default function Example() {
                   <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">
                     Delivery
                   </dt>
-                  <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">
+                  <dd className="order-1 text-5xl font-foundation tracking-tight text-indigo-600">
                     24/7
                   </dd>
                 </div>
@@ -38,7 +38,7 @@ export default function Example() {
                   <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">
                     Calories
                   </dt>
-                  <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">
+                  <dd className="order-1 text-5xl font-foundation tracking-tight text-indigo-600">
                     100k
                   </dd>
                 </div>

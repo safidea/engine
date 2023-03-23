@@ -3,7 +3,7 @@ import { getRandomUniqueArray, RandomUniqueObject } from 'utils'
 
 import type { Page, Props, Meta, Component } from '../types/page.type'
 
-import { componentsMock } from 'bold-component'
+import { componentsMock } from 'foundation-component'
 
 const pages: Page[] = getRandomUniqueArray().map(() => {
   const path = '/' + faker.internet.domainWord()

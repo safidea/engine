@@ -1,10 +1,10 @@
 import dotenv from 'dotenv'
-import { checkSchema, loadYaml, buildLocales, buildConfig } from 'bold-config'
-import { testComponentsUI } from 'bold-component'
+import { checkSchema, loadYaml, buildLocales, buildConfig } from 'foundation-config'
+import { testComponentsUI } from 'foundation-component'
 
 dotenv.config({ path: './.env.local' })
 
-const file = process.env.BOLD_CONFIG_FILE || './bold.config.yaml'
+const file = process.env.BOLD_CONFIG_FILE || './foundation.config.yaml'
 
 ;(async () => {
   console.info('Start compiling Bold config...')

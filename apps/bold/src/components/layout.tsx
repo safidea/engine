@@ -1,6 +1,6 @@
 import { Components } from '../config'
 
-import type { Component } from 'bold-page'
+import type { Component } from 'foundation-page'
 
 export default function Layout({ components }: { components: Component[] }) {
   if (components === undefined) throw new Error('No components found in page.')

@@ -6,7 +6,7 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import Components from './index'
-import type { Component } from 'bold-page'
+import type { Component } from 'foundation-page'
 
 export default function Hero({ components }: Component) {
   const { t } = useTranslation()
@@ -56,7 +56,7 @@ export default function Hero({ components }: Component) {
               </span>
             </Link>
           </div>
-          <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="mt-10 text-4xl font-foundation tracking-tight text-gray-900 sm:text-6xl">
             {t('hero.title')}
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">{t('hero.subtitle')}</p>

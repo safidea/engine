@@ -6,7 +6,7 @@ import { app } from '../config'
 import Meta from '../components/meta'
 import Layout from '../components/layout'
 
-import type { App, Page } from 'bold-config'
+import type { App, Page } from 'foundation-config'
 
 const { defaultLocale } = app as App
 

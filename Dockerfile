@@ -7,7 +7,7 @@ COPY package.json ./
 COPY package-lock.json ./
  
 # Copy the docs package.json
-COPY packages/bold/package.json ./packages/bold/package.json
+COPY packages/foundation/package.json ./packages/foundation/package.json
  
 RUN npm install
  

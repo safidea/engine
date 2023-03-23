@@ -3,7 +3,7 @@
 
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import type { Component } from 'bold-page'
+import type { Component } from 'foundation-page'
 
 export default function Footer({ props }: Component) {
   const { navigation } = props

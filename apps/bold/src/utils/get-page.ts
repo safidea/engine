@@ -1,5 +1,5 @@
 import { pages } from '../config'
-import type { Page } from 'bold-config'
+import type { Page } from 'foundation-config'
 
 export default function getPage(path = 'home'): Page {
   const page = pages.find((page) => page.path === path) as Page

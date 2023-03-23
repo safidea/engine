@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import Image from 'next/image'
-import type { Component } from 'bold-page'
+import type { Component } from 'foundation-page'
 
 export default function Features({ props }: Component) {
   const { features } = props
@@ -16,7 +16,7 @@ export default function Features({ props }: Component) {
               <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
                 Deploy faster
               </h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <p className="mt-2 text-3xl font-foundation tracking-tight text-gray-900 sm:text-4xl">
                 A better workflow
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-600">

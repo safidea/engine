@@ -1,6 +1,6 @@
-import { configMock, ComponentUI } from 'bold-config'
-import { componentsMock } from 'bold-component'
-import { Component } from 'bold-page'
+import { configMock, ComponentUI } from 'foundation-config'
+import { componentsMock } from 'foundation-component'
+import { Component } from 'foundation-page'
 
 const { locales, theme, apis, tables, pages, ...app } = configMock
 

@@ -4,7 +4,7 @@ import { theme } from '../config'
 import fonts from '../config/fonts'
 
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
-import type { Theme } from 'bold-config'
+import type { Theme } from 'foundation-config'
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.log(metric)

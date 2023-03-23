@@ -47,7 +47,7 @@ ui:
                 lg:text-left
               children:
                 - tag: h2
-                  class: text-3xl font-bold tracking-tight text-white sm:text-4xl
+                  class: text-3xl font-foundation tracking-tight text-white sm:text-4xl
                   children:
                     - Boost your productivity.
                     - tag: br

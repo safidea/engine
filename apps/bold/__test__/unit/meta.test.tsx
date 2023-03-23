@@ -16,7 +16,7 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Meta from '../../src/components/meta'
 import { pages } from '../../src/config'
-import { Page } from 'bold-page'
+import { Page } from 'foundation-page'
 
 const { meta } = pages[0] as Page
 

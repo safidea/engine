@@ -154,7 +154,7 @@ export default function getComponentScript(component: ComponentUI, types: string
 ${states !== '' ? "import { useState } from 'react'" : ''}
 ${translate !== '' ? "import { useTranslation } from 'next-i18next'" : ''}
 ${imports.join('\n')}
-${componentProps !== '' ? "import type { Component } from 'bold-page'" : ''}
+${componentProps !== '' ? "import type { Component } from 'foundation-page'" : ''}
 ${classNames}
     
 export default function ${componentName}(${

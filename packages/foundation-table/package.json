@@ -1,5 +1,5 @@
 {
-  "name": "bold-table",
+  "name": "foundation-table",
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
@@ -16,7 +16,7 @@
     "@faker-js/faker": "7.6.0",
     "prisma": "4.9.0",
     "eslint": "^7.32.0",
-    "eslint-config-bold": "workspace:*",
+    "eslint-config-foundation": "workspace:*",
     "config-typescript": "workspace:*",
     "typescript": "^4.5.2"
   }

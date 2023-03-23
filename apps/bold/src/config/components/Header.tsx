@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Bars3Icon } from '@heroicons/react/20/solid'
 import { Popover } from '@headlessui/react'
-import type { Component } from 'bold-page'
+import type { Component } from 'foundation-page'
 
 export default function Header({ props }: Component) {
   const { navigation, logo, buttons } = props

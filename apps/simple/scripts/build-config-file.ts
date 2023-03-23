@@ -4,11 +4,11 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { fsExists } from 'utils'
-import { checkSchema } from 'bold-config'
-import { testComponentsUI } from 'bold-component'
+import { checkSchema } from 'foundation-config'
+import { testComponentsUI } from 'foundation-component'
 
-import type { App, Config, Page, Api, Table, Theme, Resources } from 'bold-config'
-import type { ComponentUI } from 'bold-component'
+import type { App, Config, Page, Api, Table, Theme, Resources } from 'foundation-config'
+import type { ComponentUI } from 'foundation-component'
 
 const folderPath = './config'
 const themePath = `${folderPath}/theme.yaml`
@@ -19,7 +19,7 @@ const tablesPath = `${folderPath}/tables`
 const localesPath = `${folderPath}/locales`
 
 const configFile = process.env.BOLD_CONFIG_FILE ?? './config.yaml'
-const boldAppFolder = process.env.BOLD_APP_FOLDER ?? '../bold'
+const boldAppFolder = process.env.BOLD_APP_FOLDER ?? '../foundation'
 
 ;(async () => {
   console.info('Start building Request config file...')
@@ -131,8 +131,8 @@ const boldAppFolder = process.env.BOLD_APP_FOLDER ?? '../bold'
 
   let env = await fs.readFile('./.env', 'utf8')
   env = env.replace(
-    'BOLD_CONFIG_FILE=./simple.bold.yaml',
-    'BOLD_CONFIG_FILE=../simple/simple.bold.yaml'
+    'BOLD_CONFIG_FILE=./simple.foundation.yaml',
+    'BOLD_CONFIG_FILE=../simple/simple.foundation.yaml'
   )
   await fs.writeFile(boldAppFolder + '/.env.local', env)
 

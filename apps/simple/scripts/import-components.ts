@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
 import { fsExists } from 'utils'
 
-import type { UI, State } from 'bold-component'
+import type { UI, State } from 'foundation-component'
 
 const importComponentsFolder = './import/components'
 const configComponentsFolder = './config/components'

@@ -7,6 +7,6 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "eslint-config-bold": "workspace:*"
+    "eslint-config-foundation": "workspace:*"
   }
 }
