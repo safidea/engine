@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:/Users/thomasjeanneau/Codes/Essentiel/foundation/packages/foundation-database/__test__/data/test-6ce701d19de82934.db"
+}
+
+model users {
+  id         Int      @id @default(autoincrement())
+  name       String   @default("")
+  email      String   @default("")
+  password   String   @default("")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
