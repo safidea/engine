@@ -1,5 +1,5 @@
 {
-  "name": "foundation-api",
+  "name": "foundation-automation",
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {

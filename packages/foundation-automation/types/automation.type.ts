@@ -4,7 +4,7 @@ import { ActionInOutput } from './inoutput.action.api.type'
 import { Test } from './test.api.type'
 import { TestTable } from './table.test.api.type'
 
-export type Api = {
+export type Automation = {
   name: string
   input: InOutput[]
   actions: Action[]

@@ -234,7 +234,7 @@ importers:
   packages/config-typescript:
     specifiers: {}
 
-  packages/foundation-api:
+  packages/foundation-automation:
     specifiers:
       '@faker-js/faker': 7.6.0
       '@types/node': ^18.11.17
@@ -311,7 +311,7 @@ importers:
       config-typescript: workspace:*
       eslint: ^7.32.0
       eslint-config-foundation: workspace:*
-      foundation-api: workspace:*
+      foundation-automation: workspace:*
       foundation-component: workspace:*
       foundation-page: workspace:*
       foundation-table: workspace:*
@@ -324,7 +324,7 @@ importers:
       utils: workspace:*
     dependencies:
       '@next/font': 13.1.6
-      foundation-api: link:../foundation-api
+      foundation-automation: link:../foundation-automation
       foundation-component: link:../foundation-component
       foundation-page: link:../foundation-page
       foundation-table: link:../foundation-table

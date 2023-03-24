@@ -7,7 +7,7 @@ import { fsExists } from 'utils'
 import { checkSchema } from 'foundation-config'
 import { testComponentsUI } from 'foundation-component'
 
-import type { App, Config, Page, Api, Table, Theme, Resources } from 'foundation-config'
+import type { App, Config, Page, Automation, Table, Theme, Resources } from 'foundation-config'
 import type { ComponentUI } from 'foundation-component'
 
 const folderPath = './config'
@@ -66,7 +66,7 @@ const foundationAppFolder = process.env.FOUNDATION_APP_FOLDER ?? '../foundation'
               apis.map((name: string) =>
                 fs.readFile(`${apisPath}/${name}`, 'utf8').then((data: string) => ({
                   name: name.replace('.yaml', ''),
-                  ...(yaml.load(data) as Omit<Api, 'name'>),
+                  ...(yaml.load(data) as Omit<Automation, 'name'>),
                 }))
               )
             )

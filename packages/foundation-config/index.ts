@@ -2,7 +2,7 @@ export type {
   Config,
   App,
   Page,
-  Api,
+  Automation,
   Table,
   Theme,
   Locale,

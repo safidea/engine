@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { apisMock } from 'foundation-api'
+import { apisMock } from 'foundation-automation'
 import { pagesMock } from 'foundation-page'
 import { componentsMock } from 'foundation-component'
 import { tablesMock } from 'foundation-table'

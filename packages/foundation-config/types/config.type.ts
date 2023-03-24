@@ -1,6 +1,6 @@
 import type { App } from './app.config.type'
 import type { Page } from 'foundation-page'
-import type { Api } from 'foundation-api'
+import type { Automation } from 'foundation-automation'
 import type { Table } from 'foundation-table'
 import type { ComponentUI } from 'foundation-component'
 import type { Theme, Color, Font, FontOptions } from './theme/theme.type'
@@ -8,7 +8,7 @@ import type { Locale, Resources } from './locale/locale.type'
 
 export type Config = App & {
   pages?: Page[]
-  apis?: Api[]
+  apis?: Automation[]
   tables?: Table[]
   theme?: Theme
   locales?: Locale[]
@@ -18,7 +18,7 @@ export type Config = App & {
 export type {
   App,
   Page,
-  Api,
+  Automation,
   Table,
   Theme,
   Locale,
