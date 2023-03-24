@@ -1,0 +1,1408 @@
+name: Simple
+description: >-
+  Simple is the new way of contributing, buying, building and deploying usefull
+  softwares. Software is not longuer a problem.
+defaultLocale: en
+localeRedirect: true
+theme:
+  darkMode: class
+  container:
+    center: true
+  extend:
+    colors:
+      - primary:
+          '50': '#fff1f2'
+          '100': '#ffe4e6'
+          '200': '#fecdd3'
+          '300': '#fda4af'
+          '400': '#fb7185'
+          '500': '#f43f5e'
+          '600': '#e11d48'
+          '700': '#be123c'
+          '800': '#9f1239'
+          '900': '#881337'
+  fonts:
+    - key: primary
+      name: Barlow
+      weight:
+        - 300
+        - 400
+        - 500
+        - 700
+    - key: secondary
+      name: Inter
+      weight:
+        - 300
+        - 400
+        - 500
+        - 700
+pages:
+  - path: home
+    meta:
+      title: Simple
+    components:
+      - id: hero
+        type: HeroWithAppScreenshot
+        props:
+          logo:
+            path: /logo-icon-bleu-sideral.png
+            width: '40'
+            height: '40'
+          navigation:
+            - key: approach
+              path: '#approach'
+            - key: platform
+              path: '#platform'
+            - key: services
+              path: '#services'
+            - key: outcomes
+              path: '#outcomes'
+            - key: testimonials
+              path: '#testimonials'
+          buttons:
+            primary:
+              path: /login
+      - id: logoCLoud
+        type: LogoCloudOffWhiteGrid
+      - id: approach
+        type: Features
+        props:
+          features:
+            - title: No hidden fees
+              description: >-
+                Corporis quisquam nostrum nulla veniam recusandae temporibus
+                aperiam officia incidunt at distinctio ratione.
+              icon: scale
+              key: one
+            - title: Instant transfers
+              description: >-
+                Omnis, illo delectus? Libero, possimus nulla nemo tenetur
+                adipisci repellat dolore eligendi velit doloribus mollitia.
+              icon: bolt
+              key: two
+            - title: Reminder emails
+              description: >-
+                Veniam necessitatibus reiciendis fugit explicabo dolorem nihil
+                et omnis assumenda odit? Quisquam unde accusantium.
+              icon: envelope
+              key: three
+      - id: footer
+        type: Footer
+        props:
+          navigation:
+            - key: approach
+              path: '#approach'
+            - key: platform
+              path: '#platform'
+            - key: services
+              path: '#services'
+            - key: outcomes
+              path: '#outcomes'
+            - key: testimonials
+              path: '#testimonials'
+  - path: login
+    meta:
+      title: Connexion
+    container:
+      html: h-full bg-gray-50
+      body: h-full
+    components:
+      - id: login
+        type: LoginSimpleCard
+components:
+  - name: CTA
+    state: {}
+    props: []
+    ui:
+      tag: div
+      class: bg-white
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8
+          children:
+            - tag: div
+              class: >-
+                relative isolate overflow-hidden bg-gray-900 px-6 pt-16
+                shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20
+                lg:px-24 lg:pt-0
+              children:
+                - tag: svg
+                  xmlns: http://www.w3.org/2000/svg
+                  viewBox: 0 0 1024 1024
+                  aria-hidden: 'true'
+                  class: >-
+                    absolute top-1/2 left-1/2 -z-10 h-[64rem] w-[64rem]
+                    -translate-y-1/2
+                    [mask-image:radial-gradient(closest-side,white,transparent)]
+                    sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:translate-y-0
+                    lg:-translate-x-1/2
+                  children:
+                    - tag: circle
+                      cx: '{512}'
+                      cy: '{512}'
+                      r: '{512}'
+                      fill: url(#759c1415-0410-454c-8f7c-9a820de03641)
+                      fillOpacity: '0.7'
+                    - tag: defs
+                      children:
+                        - tag: radialGradient
+                          id: 759c1415-0410-454c-8f7c-9a820de03641
+                          children:
+                            - tag: stop
+                              stopColor: '#7775D6'
+                            - tag: stop
+                              offset: '{1}'
+                              stopColor: '#E935C1'
+                - tag: div
+                  class: >-
+                    mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32
+                    lg:text-left
+                  children:
+                    - tag: h2
+                      class: >-
+                        text-3xl font-foundation tracking-tight text-white
+                        sm:text-4xl
+                      children:
+                        - Boost your productivity.
+                        - tag: br
+                        - Start using our app today.
+                    - tag: p
+                      class: mt-6 text-lg leading-8 text-gray-300
+                      children:
+                        - >-
+                          Ac euismod vel sit maecenas id pellentesque eu sed
+                          consectetur. Malesuada adipiscing sagittis vel nulla.
+                    - tag: div
+                      class: >-
+                        mt-10 flex items-center justify-center gap-x-6
+                        lg:justify-start
+                      children:
+                        - tag: a
+                          href: '#'
+                          class: >-
+                            rounded-md bg-white px-3.5 py-1.5 text-base
+                            font-semibold leading-7 text-gray-900 shadow-sm
+                            hover:bg-gray-100 focus-visible:outline
+                            focus-visible:outline-2
+                            focus-visible:outline-offset-2
+                            focus-visible:outline-white
+                          children:
+                            - Get started
+                        - tag: a
+                          href: '#'
+                          class: text-base font-semibold leading-7 text-white
+                          children:
+                            - Learn more
+                            - tag: span
+                              aria-hidden: 'true'
+                              children:
+                                - →
+                - tag: div
+                  class: relative mt-16 h-80 lg:mt-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/component-images/dark-project-app-screenshot.png
+                      alt: App screenshot
+                      width: '{1824}'
+                      height: '{1080}'
+                      class: >-
+                        absolute top-0 left-0 w-[57rem] max-w-none rounded-md
+                        bg-white/5 ring-1 ring-white/10
+  - name: Features
+    state: {}
+    props:
+      - features
+    ui:
+      tag: div
+      class: overflow-hidden bg-white py-24 sm:py-32
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl px-6 lg:px-8
+          children:
+            - tag: div
+              class: >-
+                mx-auto grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 sm:gap-y-20
+                lg:mx-0 lg:max-w-none lg:grid-cols-2
+              children:
+                - tag: div
+                  class: lg:pr-8 lg:pt-4
+                  children:
+                    - tag: div
+                      class: lg:max-w-lg
+                      children:
+                        - tag: h2
+                          class: >-
+                            text-lg font-semibold leading-8 tracking-tight
+                            text-indigo-600
+                          children:
+                            - Deploy faster
+                        - tag: p
+                          class: >-
+                            mt-2 text-3xl font-foundation tracking-tight
+                            text-gray-900 sm:text-4xl
+                          children:
+                            - A better workflow
+                        - tag: p
+                          class: mt-6 text-lg leading-8 text-gray-600
+                          children:
+                            - >-
+                              Lorem ipsum, dolor sit amet consectetur
+                              adipisicing elit. Maiores impedit perferendis
+                              suscipit eaque, iste dolor cupiditate blanditiis
+                              ratione.
+                        - tag: dl
+                          class: >-
+                            mt-10 max-w-xl space-y-8 text-base leading-7
+                            text-gray-600 lg:max-w-none
+                          children:
+                            - '{features.map((feature) => ('
+                            - tag: div
+                              key: '{feature.key}'
+                              class: relative pl-9
+                              children:
+                                - tag: dt
+                                  class: inline font-semibold text-gray-900
+                                  children:
+                                    - tag: feature.icon
+                                      aria-hidden: 'true'
+                                      class: >-
+                                        absolute top-1 left-1 h-5 w-5
+                                        text-indigo-600
+                                    - '{feature.title}'
+                                - '{'' ''}'
+                                - tag: dd
+                                  class: inline
+                                  children:
+                                    - '{feature.description}'
+                            - ))}
+                - tag: img
+                  src: >-
+                    https://tailwindui.com/img/component-images/dark-project-app-screenshot.png
+                  alt: Product screenshot
+                  width: '{2432}'
+                  height: '{1442}'
+                  class: >-
+                    w-[48rem] max-w-none rounded-xl shadow-xl ring-1
+                    ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0
+  - name: Footer
+    state: {}
+    props:
+      - navigation
+    ui:
+      tag: footer
+      class: bg-white
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8
+          children:
+            - tag: nav
+              aria-label: Footer
+              class: '-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12'
+              children:
+                - '{navigation.map((item) => ('
+                - tag: div
+                  key: '{item.key}'
+                  class: pb-6
+                  children:
+                    - tag: a
+                      href: '{item.path}'
+                      class: text-sm leading-6 text-gray-600 hover:text-gray-900
+                      children:
+                        - '{t(`header.navigation.${item.key}`)}'
+                - ))}
+            - tag: p
+              class: mt-10 text-center text-xs leading-5 text-gray-500
+              children:
+                - '{t("footer.copyright")}'
+  - name: Header
+    state: {}
+    props:
+      - navigation
+      - logo
+      - buttons
+    ui:
+      tag: Popover
+      class: relative bg-white
+      children:
+        - tag: div
+          class: flex items-center justify-between p-6 md:justify-start md:space-x-10
+          children:
+            - tag: div
+              class: flex justify-start lg:w-0 lg:flex-1
+              children:
+                - tag: a
+                  href: /
+                  children:
+                    - tag: span
+                      class: sr-only
+                      children:
+                        - '{t("header.logoTitle")}'
+                    - tag: img
+                      src: '{logo.path}'
+                      alt: '{t("header.logoTitle")}'
+                      class: h-8 w-auto sm:h-10
+                      width: '{logo.width}'
+                      height: '{logo.height}'
+            - tag: div
+              class: '-my-2 -mr-2 md:hidden'
+              children:
+                - tag: Popover.Button
+                  class: >-
+                    inline-flex items-center justify-center rounded-md bg-white
+                    p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500
+                    focus:outline-none focus:ring-2 focus:ring-inset
+                    focus:ring-primary-500
+                  children:
+                    - tag: span
+                      class: sr-only
+                      children:
+                        - '{t("header.mobileMenu")}'
+                    - tag: Bars3Icon
+                      aria-hidden: 'true'
+                      class: h-6 w-6
+            - tag: Popover.Group
+              as: nav
+              class: hidden space-x-10 md:flex
+              children:
+                - '{navigation.map((item) => ('
+                - tag: a
+                  href: '{item.path}'
+                  key: '{item.key}'
+                  class: text-base font-medium text-gray-500 hover:text-gray-900
+                  children:
+                    - '{item.key}'
+                - ))}
+            - tag: div
+              class: hidden items-center justify-end md:flex md:flex-1 lg:w-0
+              children:
+                - tag: a
+                  href: '{buttons.primary.path}'
+                  class: >-
+                    ml-8 inline-flex items-center justify-center
+                    whitespace-nowrap rounded-md border border-transparent
+                    bg-primary-600 px-4 py-2 text-base font-medium text-white
+                    shadow-sm hover:bg-primary-700
+                  children:
+                    - Sign up
+  - name: Hero
+    state: {}
+    props: []
+    ui:
+      tag: div
+      class: relative isolate overflow-hidden bg-white
+      children:
+        - tag: svg
+          aria-hidden: 'true'
+          class: >-
+            absolute inset-0 -z-10 h-full w-full stroke-gray-200
+            [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]
+          children:
+            - tag: defs
+              children:
+                - tag: pattern
+                  id: 0787a7c5-978c-4f66-83c7-11c213f99cb7
+                  width: '{200}'
+                  height: '{200}'
+                  x: 50%
+                  'y': '{-1}'
+                  patternUnits: userSpaceOnUse
+                  children:
+                    - tag: path
+                      d: M.5 200V.5H200
+                      fill: none
+            - tag: rect
+              width: 100%
+              height: 100%
+              strokeWidth: '{0}'
+              fill: url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)
+        - '{load("header")}'
+        - tag: div
+          class: mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-32 lg:flex lg:py-40 lg:px-8
+          children:
+            - tag: div
+              class: mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8
+              children:
+                - tag: div
+                  class: mt-24 sm:mt-32 lg:mt-16
+                  children:
+                    - tag: a
+                      href: '#'
+                      class: inline-flex space-x-6
+                      children:
+                        - tag: span
+                          class: >-
+                            rounded-full bg-indigo-600/10 px-3 py-1 text-sm
+                            font-semibold leading-6 text-indigo-600 ring-1
+                            ring-inset ring-indigo-600/10
+                          children:
+                            - '{t("hero.annoucement.message")}'
+                        - tag: span
+                          class: >-
+                            inline-flex items-center space-x-2 text-sm
+                            font-medium leading-6 text-gray-600
+                          children:
+                            - tag: span
+                              children:
+                                - '{t("hero.annoucement.link")}'
+                            - tag: ChevronRightIcon
+                              aria-hidden: 'true'
+                              class: h-5 w-5 text-gray-400
+                - tag: h1
+                  class: >-
+                    mt-10 text-4xl font-foundation tracking-tight text-gray-900
+                    sm:text-6xl
+                  children:
+                    - '{t("hero.title")}'
+                - tag: p
+                  class: mt-6 text-lg leading-8 text-gray-600
+                  children:
+                    - '{t("hero.subtitle")}'
+                - tag: div
+                  class: mt-10 flex items-center gap-x-6
+                  children:
+                    - tag: a
+                      href: '#'
+                      class: >-
+                        rounded-md bg-indigo-600 px-3.5 py-1.5 text-base
+                        font-semibold leading-7 text-white shadow-sm
+                        hover:bg-indigo-500 focus-visible:outline
+                        focus-visible:outline-2 focus-visible:outline-offset-2
+                        focus-visible:outline-indigo-600
+                      children:
+                        - '{t("hero.buttons.primary")}'
+                    - tag: a
+                      href: '#'
+                      class: text-base font-semibold leading-7 text-gray-900
+                      children:
+                        - '{t("hero.buttons.secondary")}'
+                        - tag: span
+                          aria-hidden: 'true'
+                          children:
+                            - →
+            - tag: div
+              class: >-
+                mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mt-0 lg:mr-0
+                lg:max-w-none lg:flex-none xl:ml-32
+              children:
+                - tag: div
+                  class: max-w-3xl flex-none sm:max-w-5xl lg:max-w-none
+                  children:
+                    - tag: div
+                      class: >-
+                        -m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset
+                        ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4
+                      children:
+                        - tag: img
+                          src: >-
+                            https://tailwindui.com/img/component-images/project-app-screenshot.png
+                          alt: App screenshot
+                          width: '{2432}'
+                          height: '{1442}'
+                          class: >-
+                            w-[76rem] rounded-md shadow-2xl ring-1
+                            ring-gray-900/10
+  - name: HeroWithAppScreenshot
+    state:
+      mobileMenuOpen: false
+    props:
+      - navigation
+      - logo
+      - buttons
+    ui:
+      tag: div
+      class: isolate bg-white
+      children:
+        - tag: div
+          class: >-
+            absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden
+            blur-3xl sm:top-[-20rem]
+          children:
+            - tag: svg
+              viewBox: 0 0 1155 678
+              class: >-
+                relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none
+                -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)]
+                sm:h-[42.375rem]
+              children:
+                - tag: path
+                  fill: url(#9b2541ea-d39d-499b-bd42-aeea3e93f5ff)
+                  fillOpacity: '.3'
+                  d: >-
+                    M317.219 518.975L203.852 678 0 438.341l317.219 80.634
+                    204.172-286.402c1.307 132.337 45.083 346.658 209.733
+                    145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18
+                    108.451 130.68 295.337 121.53 375.223L855 299l21.173
+                    362.054-558.954-142.079z
+                - tag: defs
+                  children:
+                    - tag: linearGradient
+                      id: 9b2541ea-d39d-499b-bd42-aeea3e93f5ff
+                      x1: '1155.49'
+                      x2: '-78.208'
+                      y1: '.177'
+                      y2: '474.645'
+                      gradientUnits: userSpaceOnUse
+                      children:
+                        - tag: stop
+                          stopColor: '#9089FC'
+                        - tag: stop
+                          offset: '{1}'
+                          stopColor: '#FF80B5'
+        - tag: div
+          class: px-6 pt-6 lg:px-8
+          children:
+            - tag: nav
+              aria-label: Global
+              class: flex items-center justify-between
+              children:
+                - tag: div
+                  class: flex lg:flex-1
+                  children:
+                    - tag: a
+                      href: /
+                      class: '-m-1.5 p-1.5'
+                      children:
+                        - tag: span
+                          class: sr-only
+                          children:
+                            - '{t("header.logoTitle")}'
+                        - tag: img
+                          src: '{logo.path}'
+                          alt: '{t("header.logoTitle")}'
+                          width: '{logo.width}'
+                          height: '{logo.height}'
+                - tag: div
+                  class: flex lg:hidden
+                  children:
+                    - tag: button
+                      type: button
+                      onClick: '{() => setMobileMenuOpen(true)}'
+                      class: >-
+                        -m-2.5 inline-flex items-center justify-center
+                        rounded-md p-2.5 text-gray-700
+                      children:
+                        - tag: span
+                          class: sr-only
+                          children:
+                            - '{t("header.mobileMenu.open")}'
+                        - tag: Bars3Icon
+                          aria-hidden: 'true'
+                          class: h-6 w-6
+                - tag: div
+                  class: hidden lg:flex lg:gap-x-12
+                  children:
+                    - '{navigation.map((item) => ('
+                    - tag: a
+                      key: '{item.key}'
+                      href: '{item.path}'
+                      class: text-sm font-semibold leading-6 text-gray-900
+                      children:
+                        - '{t(`header.navigation.${item.key}`)}'
+                    - ))}
+                - tag: div
+                  class: hidden lg:flex lg:flex-1 lg:justify-end
+                  children:
+                    - tag: a
+                      href: '{buttons.primary.path}'
+                      class: text-sm font-semibold leading-6 text-gray-900
+                      children:
+                        - '{t("header.buttons.primary")}'
+                        - tag: span
+                          aria-hidden: 'true'
+                          children:
+                            - '&rarr;'
+            - tag: Dialog
+              as: div
+              open: '{mobileMenuOpen}'
+              onClose: '{setMobileMenuOpen}'
+              children:
+                - tag: Dialog.Panel
+                  focus: 'true'
+                  class: >-
+                    fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6
+                    lg:hidden
+                  children:
+                    - tag: div
+                      class: flex items-center justify-between
+                      children:
+                        - tag: a
+                          href: /
+                          class: '-m-1.5 p-1.5'
+                          children:
+                            - tag: span
+                              class: sr-only
+                              children:
+                                - '{t("header.logoTitle")}'
+                            - tag: img
+                              src: '{logo.path}'
+                              alt: '{t("header.logoTitle")}'
+                              width: '{logo.width}'
+                              height: '{logo.height}'
+                        - tag: button
+                          type: button
+                          onClick: '{() => setMobileMenuOpen(false)}'
+                          class: '-m-2.5 rounded-md p-2.5 text-gray-700'
+                          children:
+                            - tag: span
+                              class: sr-only
+                              children:
+                                - '{t("header.mobileMenu.close")}'
+                            - tag: XMarkIcon
+                              aria-hidden: 'true'
+                              class: h-6 w-6
+                    - tag: div
+                      class: mt-6 flow-root
+                      children:
+                        - tag: div
+                          class: '-my-6 divide-y divide-gray-500/10'
+                          children:
+                            - tag: div
+                              class: space-y-2 py-6
+                              children:
+                                - '{navigation.map((item) => ('
+                                - tag: a
+                                  key: '{item.key}'
+                                  href: '{item.path}'
+                                  class: >-
+                                    -mx-3 block rounded-lg py-2 px-3 text-base
+                                    font-semibold leading-7 text-gray-900
+                                    hover:bg-gray-400/10
+                                  children:
+                                    - '{t(`header.navigation.${item.key}`)}'
+                                - ))}
+                            - tag: div
+                              class: py-6
+                              children:
+                                - tag: a
+                                  href: '{buttons.primary.path}'
+                                  class: >-
+                                    -mx-3 block rounded-lg py-2.5 px-3 text-base
+                                    font-semibold leading-6 text-gray-900
+                                    hover:bg-gray-400/10
+                                  children:
+                                    - '{t("header.buttons.primary")}'
+        - tag: main
+          children:
+            - tag: div
+              class: relative py-24 sm:py-32 lg:pb-40
+              children:
+                - tag: div
+                  class: mx-auto max-w-7xl px-6 lg:px-8
+                  children:
+                    - tag: div
+                      class: mx-auto max-w-2xl text-center
+                      children:
+                        - tag: h1
+                          class: >-
+                            text-4xl font-foundation tracking-tight
+                            text-gray-900 sm:text-6xl
+                          children:
+                            - '{t("hero.title")}'
+                        - tag: p
+                          class: mt-6 text-lg leading-8 text-gray-600
+                          children:
+                            - '{t("hero.subtitle")}'
+                        - tag: div
+                          class: mt-10 flex items-center justify-center gap-x-6
+                          children:
+                            - tag: a
+                              href: '#'
+                              class: >-
+                                rounded-md bg-indigo-600 px-3.5 py-1.5 text-base
+                                font-semibold leading-7 text-white shadow-sm
+                                hover:bg-indigo-500 focus-visible:outline
+                                focus-visible:outline-2
+                                focus-visible:outline-offset-2
+                                focus-visible:outline-indigo-600
+                              children:
+                                - '{t("hero.buttons.primary")}'
+                            - tag: a
+                              href: '#'
+                              class: text-base font-semibold leading-7 text-gray-900
+                              children:
+                                - '{t("hero.buttons.secondary")}'
+                                - tag: span
+                                  aria-hidden: 'true'
+                                  children:
+                                    - →
+                    - tag: div
+                      class: mt-16 flow-root sm:mt-24
+                      children:
+                        - tag: div
+                          class: >-
+                            -m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset
+                            ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4
+                          children:
+                            - tag: img
+                              src: >-
+                                https://tailwindui.com/img/component-images/project-app-screenshot.png
+                              alt: App screenshot
+                              width: '{2432}'
+                              height: '{1442}'
+                              class: rounded-md shadow-2xl ring-1 ring-gray-900/10
+                - tag: div
+                  class: >-
+                    absolute inset-x-0 top-[calc(100%-13rem)] -z-10
+                    transform-gpu overflow-hidden blur-3xl
+                    sm:top-[calc(100%-30rem)]
+                  children:
+                    - tag: svg
+                      viewBox: 0 0 1155 678
+                      class: >-
+                        relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none
+                        -translate-x-1/2 sm:left-[calc(50%+36rem)]
+                        sm:h-[42.375rem]
+                      children:
+                        - tag: path
+                          fill: url(#b9e4a85f-ccd5-4151-8e84-ab55c66e5aa1)
+                          fillOpacity: '.3'
+                          d: >-
+                            M317.219 518.975L203.852 678 0 438.341l317.219
+                            80.634 204.172-286.402c1.307 132.337 45.083 346.658
+                            209.733 145.248C936.936 126.058 882.053-94.234
+                            1031.02 41.331c119.18 108.451 130.68 295.337 121.53
+                            375.223L855 299l21.173 362.054-558.954-142.079z
+                        - tag: defs
+                          children:
+                            - tag: linearGradient
+                              id: b9e4a85f-ccd5-4151-8e84-ab55c66e5aa1
+                              x1: '1155.49'
+                              x2: '-78.208'
+                              y1: '.177'
+                              y2: '474.645'
+                              gradientUnits: userSpaceOnUse
+                              children:
+                                - tag: stop
+                                  stopColor: '#9089FC'
+                                - tag: stop
+                                  offset: '{1}'
+                                  stopColor: '#FF80B5'
+  - name: LoginSimpleCard
+    state: {}
+    props: []
+    ui:
+      tag: div
+      class: h-full bg-gray-50
+      children:
+        - tag: div
+          class: flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8
+          children:
+            - tag: div
+              class: sm:mx-auto sm:w-full sm:max-w-md
+              children:
+                - tag: img
+                  src: >-
+                    https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600
+                  alt: Your Company
+                  class: mx-auto h-12 w-auto
+                  width: 56
+                  height: 48
+                - tag: h2
+                  class: >-
+                    mt-6 text-center text-3xl font-foundation tracking-tight
+                    text-gray-900
+                  children:
+                    - Sign in to your account
+                - tag: p
+                  class: mt-2 text-center text-sm text-gray-600
+                  children:
+                    - Or{' '}
+                    - tag: a
+                      href: '#'
+                      class: font-medium text-indigo-600 hover:text-indigo-500
+                      children:
+                        - start your 14-day free trial
+            - tag: div
+              class: mt-8 sm:mx-auto sm:w-full sm:max-w-md
+              children:
+                - tag: div
+                  class: bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10
+                  children:
+                    - tag: form
+                      action: '#'
+                      method: POST
+                      class: space-y-6
+                      children:
+                        - tag: div
+                          children:
+                            - tag: label
+                              htmlFor: email
+                              class: block text-sm font-medium text-gray-700
+                              children:
+                                - Email address
+                            - tag: div
+                              class: mt-1
+                              children:
+                                - tag: input
+                                  id: email
+                                  name: email
+                                  type: email
+                                  autoComplete: email
+                                  required: 'true'
+                                  class: >-
+                                    block w-full appearance-none rounded-md
+                                    border border-gray-300 px-3 py-2
+                                    placeholder-gray-400 shadow-sm
+                                    focus:border-indigo-500 focus:outline-none
+                                    focus:ring-indigo-500 sm:text-sm
+                        - tag: div
+                          children:
+                            - tag: label
+                              htmlFor: password
+                              class: block text-sm font-medium text-gray-700
+                              children:
+                                - Password
+                            - tag: div
+                              class: mt-1
+                              children:
+                                - tag: input
+                                  id: password
+                                  name: password
+                                  type: password
+                                  autoComplete: current-password
+                                  required: 'true'
+                                  class: >-
+                                    block w-full appearance-none rounded-md
+                                    border border-gray-300 px-3 py-2
+                                    placeholder-gray-400 shadow-sm
+                                    focus:border-indigo-500 focus:outline-none
+                                    focus:ring-indigo-500 sm:text-sm
+                        - tag: div
+                          class: flex items-center justify-between
+                          children:
+                            - tag: div
+                              class: flex items-center
+                              children:
+                                - tag: input
+                                  id: remember-me
+                                  name: remember-me
+                                  type: checkbox
+                                  class: >-
+                                    h-4 w-4 rounded border-gray-300
+                                    text-indigo-600 focus:ring-indigo-500
+                                - tag: label
+                                  htmlFor: remember-me
+                                  class: ml-2 block text-sm text-gray-900
+                                  children:
+                                    - Remember me
+                            - tag: div
+                              class: text-sm
+                              children:
+                                - tag: a
+                                  href: '#'
+                                  class: >-
+                                    font-medium text-indigo-600
+                                    hover:text-indigo-500
+                                  children:
+                                    - Forgot your password?
+                        - tag: div
+                          children:
+                            - tag: button
+                              type: submit
+                              class: >-
+                                flex w-full justify-center rounded-md border
+                                border-transparent bg-indigo-600 py-2 px-4
+                                text-sm font-medium text-white shadow-sm
+                                hover:bg-indigo-700 focus:outline-none
+                                focus:ring-2 focus:ring-indigo-500
+                                focus:ring-offset-2
+                              children:
+                                - Sign in
+                    - tag: div
+                      class: mt-6
+                      children:
+                        - tag: div
+                          class: relative
+                          children:
+                            - tag: div
+                              class: absolute inset-0 flex items-center
+                              children:
+                                - tag: div
+                                  class: w-full border-t border-gray-300
+                            - tag: div
+                              class: relative flex justify-center text-sm
+                              children:
+                                - tag: span
+                                  class: bg-white px-2 text-gray-500
+                                  children:
+                                    - Or continue with
+                        - tag: div
+                          class: mt-6 grid grid-cols-3 gap-3
+                          children:
+                            - tag: div
+                              children:
+                                - tag: a
+                                  href: '#'
+                                  class: >-
+                                    inline-flex w-full justify-center rounded-md
+                                    border border-gray-300 bg-white py-2 px-4
+                                    text-sm font-medium text-gray-500 shadow-sm
+                                    hover:bg-gray-50
+                                  children:
+                                    - tag: span
+                                      class: sr-only
+                                      children:
+                                        - Sign in with Facebook
+                                    - tag: svg
+                                      aria-hidden: 'true'
+                                      fill: currentColor
+                                      viewBox: 0 0 20 20
+                                      class: h-5 w-5
+                                      children:
+                                        - tag: path
+                                          fillRule: evenodd
+                                          d: >-
+                                            M20 10c0-5.523-4.477-10-10-10S0 4.477 0
+                                            10c0 4.991 3.657 9.128 8.438
+                                            9.878v-6.987h-2.54V10h2.54V7.797c0-2.506
+                                            1.492-3.89 3.777-3.89 1.094 0 2.238.195
+                                            2.238.195v2.46h-1.26c-1.243
+                                            0-1.63.771-1.63 1.562V10h2.773l-.443
+                                            2.89h-2.33v6.988C16.343 19.128 20 14.991
+                                            20 10z
+                                          clipRule: evenodd
+                            - tag: div
+                              children:
+                                - tag: a
+                                  href: '#'
+                                  class: >-
+                                    inline-flex w-full justify-center rounded-md
+                                    border border-gray-300 bg-white py-2 px-4
+                                    text-sm font-medium text-gray-500 shadow-sm
+                                    hover:bg-gray-50
+                                  children:
+                                    - tag: span
+                                      class: sr-only
+                                      children:
+                                        - Sign in with Twitter
+                                    - tag: svg
+                                      aria-hidden: 'true'
+                                      fill: currentColor
+                                      viewBox: 0 0 20 20
+                                      class: h-5 w-5
+                                      children:
+                                        - tag: path
+                                          d: >-
+                                            M6.29 18.251c7.547 0 11.675-6.253
+                                            11.675-11.675 0-.178
+                                            0-.355-.012-.53A8.348 8.348 0 0020
+                                            3.92a8.19 8.19 0 01-2.357.646 4.118
+                                            4.118 0 001.804-2.27 8.224 8.224 0
+                                            01-2.605.996 4.107 4.107 0 00-6.993
+                                            3.743 11.65 11.65 0 01-8.457-4.287 4.106
+                                            4.106 0 001.27 5.477A4.073 4.073 0 01.8
+                                            7.713v.052a4.105 4.105 0 003.292 4.022
+                                            4.095 4.095 0 01-1.853.07 4.108 4.108 0
+                                            003.834 2.85A8.233 8.233 0 010
+                                            16.407a11.616 11.616 0 006.29 1.84
+                            - tag: div
+                              children:
+                                - tag: a
+                                  href: '#'
+                                  class: >-
+                                    inline-flex w-full justify-center rounded-md
+                                    border border-gray-300 bg-white py-2 px-4
+                                    text-sm font-medium text-gray-500 shadow-sm
+                                    hover:bg-gray-50
+                                  children:
+                                    - tag: span
+                                      class: sr-only
+                                      children:
+                                        - Sign in with GitHub
+                                    - tag: svg
+                                      aria-hidden: 'true'
+                                      fill: currentColor
+                                      viewBox: 0 0 20 20
+                                      class: h-5 w-5
+                                      children:
+                                        - tag: path
+                                          fillRule: evenodd
+                                          d: >-
+                                            M10 0C4.477 0 0 4.484 0 10.017c0 4.425
+                                            2.865 8.18 6.839
+                                            9.504.5.092.682-.217.682-.483
+                                            0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608
+                                            1.003.07 1.531 1.032 1.531 1.032.892
+                                            1.53 2.341 1.088
+                                            2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951
+                                            0-1.093.39-1.988
+                                            1.029-2.688-.103-.253-.446-1.272.098-2.65
+                                            0 0 .84-.27 2.75 1.026A9.564 9.564 0
+                                            0110 4.844c.85.004 1.705.115 2.504.337
+                                            1.909-1.296 2.747-1.027 2.747-1.027.546
+                                            1.379.203 2.398.1 2.651.64.7 1.028 1.595
+                                            1.028 2.688 0 3.848-2.339 4.695-4.566
+                                            4.942.359.31.678.921.678 1.856 0
+                                            1.338-.012 2.419-.012 2.747 0
+                                            .268.18.58.688.482A10.019 10.019 0 0020
+                                            10.017C20 4.484 15.522 0 10 0z
+                                          clipRule: evenodd
+  - name: LogoCloudOffWhiteGrid
+    state: {}
+    props: []
+    ui:
+      tag: div
+      class: bg-white
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl py-12 px-6 lg:py-16 lg:px-8
+          children:
+            - tag: p
+              class: text-center text-lg font-semibold text-gray-600
+              children:
+                - '{t("customers.title")}'
+            - tag: div
+              class: mt-6 grid grid-cols-2 gap-0.5 md:grid-cols-3 lg:mt-8
+              children:
+                - tag: div
+                  class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/logos/transistor-logo-gray-400.svg
+                      alt: Workcation
+                      width: 138
+                      height: 48
+                - tag: div
+                  class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/logos/mirage-logo-gray-400.svg
+                      alt: Mirage
+                      width: 138
+                      height: 48
+                - tag: div
+                  class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+                  children:
+                    - tag: img
+                      src: https://tailwindui.com/img/logos/tuple-logo-gray-400.svg
+                      alt: Tuple
+                      width: 138
+                      height: 48
+                - tag: div
+                  class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/logos/laravel-logo-gray-400.svg
+                      alt: Laravel
+                      width: 138
+                      height: 48
+                - tag: div
+                  class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/logos/statickit-logo-gray-400.svg
+                      alt: StaticKit
+                      width: 138
+                      height: 48
+                - tag: div
+                  class: col-span-1 flex justify-center bg-gray-50 py-8 px-8
+                  children:
+                    - tag: img
+                      src: >-
+                        https://tailwindui.com/img/logos/statamic-logo-gray-400.svg
+                      alt: Statamic
+                      width: 138
+                      height: 48
+  - name: Stats
+    state: {}
+    props: []
+    ui:
+      tag: div
+      class: bg-gray-50 pt-12 sm:pt-16
+      children:
+        - tag: div
+          class: mx-auto max-w-7xl px-6 lg:px-8
+          children:
+            - tag: div
+              class: mx-auto max-w-4xl text-center
+              children:
+                - tag: h2
+                  class: >-
+                    text-3xl font-foundation tracking-tight text-gray-900
+                    sm:text-4xl
+                  children:
+                    - Trusted by developers from over 80 planets
+                - tag: p
+                  class: mt-3 text-xl text-gray-500 sm:mt-4
+                  children:
+                    - >-
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Repellendus repellat laudantium.
+        - tag: div
+          class: mt-10 bg-white pb-12 sm:pb-16
+          children:
+            - tag: div
+              class: relative
+              children:
+                - tag: div
+                  class: absolute inset-0 h-1/2 bg-gray-50
+                - tag: div
+                  class: relative mx-auto max-w-7xl px-6 lg:px-8
+                  children:
+                    - tag: div
+                      class: mx-auto max-w-4xl
+                      children:
+                        - tag: dl
+                          class: rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3
+                          children:
+                            - tag: div
+                              class: >-
+                                flex flex-col border-b border-gray-100 p-6
+                                text-center sm:border-0 sm:border-r
+                              children:
+                                - tag: dt
+                                  class: >-
+                                    order-2 mt-2 text-lg font-medium leading-6
+                                    text-gray-500
+                                  children:
+                                    - Pepperoni
+                                - tag: dd
+                                  class: >-
+                                    order-1 text-5xl font-foundation
+                                    tracking-tight text-indigo-600
+                                  children:
+                                    - 100%
+                            - tag: div
+                              class: >-
+                                flex flex-col border-t border-b border-gray-100
+                                p-6 text-center sm:border-0 sm:border-l
+                                sm:border-r
+                              children:
+                                - tag: dt
+                                  class: >-
+                                    order-2 mt-2 text-lg font-medium leading-6
+                                    text-gray-500
+                                  children:
+                                    - Delivery
+                                - tag: dd
+                                  class: >-
+                                    order-1 text-5xl font-foundation
+                                    tracking-tight text-indigo-600
+                                  children:
+                                    - 24/7
+                            - tag: div
+                              class: >-
+                                flex flex-col border-t border-gray-100 p-6
+                                text-center sm:border-0 sm:border-l
+                              children:
+                                - tag: dt
+                                  class: >-
+                                    order-2 mt-2 text-lg font-medium leading-6
+                                    text-gray-500
+                                  children:
+                                    - Calories
+                                - tag: dd
+                                  class: >-
+                                    order-1 text-5xl font-foundation
+                                    tracking-tight text-indigo-600
+                                  children:
+                                    - 100k
+  - name: Testimonials
+    state: {}
+    props: []
+    ui:
+      tag: section
+      class: overflow-hidden bg-gray-50 py-12 md:py-20 lg:py-24
+      children:
+        - tag: div
+          class: relative mx-auto max-w-7xl px-6 lg:px-8
+          children:
+            - tag: svg
+              width: '{404}'
+              height: '{404}'
+              fill: none
+              viewBox: 0 0 404 404
+              role: img
+              aria-labelledby: svg-workcation
+              class: >-
+                absolute top-full right-full translate-x-1/3 -translate-y-1/4
+                transform lg:translate-x-1/2 xl:-translate-y-1/2
+              children:
+                - tag: title
+                  id: svg-workcation
+                  children:
+                    - Workcation
+                - tag: defs
+                  children:
+                    - tag: pattern
+                      id: ad119f34-7694-4c31-947f-5c9d249b21f3
+                      x: '{0}'
+                      'y': '{0}'
+                      width: '{20}'
+                      height: '{20}'
+                      patternUnits: userSpaceOnUse
+                      children:
+                        - tag: rect
+                          x: '{0}'
+                          'y': '{0}'
+                          width: '{4}'
+                          height: '{4}'
+                          fill: currentColor
+                          class: text-gray-200
+                - tag: rect
+                  width: '{404}'
+                  height: '{404}'
+                  fill: url(#ad119f34-7694-4c31-947f-5c9d249b21f3)
+            - tag: div
+              class: relative
+              children:
+                - tag: img
+                  src: >-
+                    https://tailwindui.com/img/logos/workcation-logo-indigo-600-mark-gray-800-and-indigo-600-text.svg
+                  alt: Workcation
+                  class: mx-auto h-8
+                  width: '50'
+                  height: '50'
+                - tag: blockquote
+                  class: mt-10
+                  children:
+                    - tag: div
+                      class: >-
+                        mx-auto max-w-3xl text-center text-2xl font-medium
+                        leading-9 text-gray-900
+                      children:
+                        - tag: p
+                          children:
+                            - >-
+                              &ldquo;Lorem ipsum dolor sit amet consectetur
+                              adipisicing elit. Nemo expedita voluptas culpa
+                              sapiente alias molestiae. Numquam corrupti in
+                              laborum sed rerum et corporis.&rdquo;
+                    - tag: footer
+                      class: mt-8
+                      children:
+                        - tag: div
+                          class: md:flex md:items-center md:justify-center
+                          children:
+                            - tag: div
+                              class: md:flex-shrink-0
+                              children:
+                                - tag: img
+                                  src: >-
+                                    https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80
+                                  alt: ''
+                                  class: mx-auto h-10 w-10 rounded-full
+                                  width: '50'
+                                  height: '50'
+                            - tag: div
+                              class: >-
+                                mt-3 text-center md:mt-0 md:ml-4 md:flex
+                                md:items-center
+                              children:
+                                - tag: div
+                                  class: text-base font-medium text-gray-900
+                                  children:
+                                    - Judith Black
+                                - tag: svg
+                                  fill: currentColor
+                                  viewBox: 0 0 20 20
+                                  class: mx-1 hidden h-5 w-5 text-indigo-600 md:block
+                                  children:
+                                    - tag: path
+                                      d: M11 0h3L9 20H6l5-20z
+                                - tag: div
+                                  class: text-base font-medium text-gray-500
+                                  children:
+                                    - CEO, Workcation
+apis:
+  - name: newLead
+    input:
+      - key: email
+        value: email
+    actions:
+      - name: getOrganisationDomain
+        service: formatter
+        type: extractTextFromRegex
+        input:
+          text: email
+          regex: /@[a-zA-Z]/
+        output:
+          text: organisationDomain
+    output:
+      - key: id
+        value: leadId
+locales:
+  - locale: en
+    namespaces:
+      common:
+        header:
+          logoTitle: Essentiel
+          mobileMenu: Open menu
+          navigation:
+            approach: Approach
+            platform: Platform
+            services: Services
+            outcomes: Outcomes
+            testimonials: Testimonials
+          buttons:
+            primary: Log in
+        hero:
+          title: Your tooling team
+          highlight: on demand
+          subtitle: >-
+            Get solutions for each processes frictions and build rockets
+            systems. We provide advices, development and training for each team.
+          form:
+            email:
+              placeholder: Enter your email address
+            submit: Get started
+        customers:
+          title: Trusted by
+  - locale: fr
+    namespaces:
+      common:
+        header:
+          logoTitle: Simple
+          mobileMenu:
+            open: Ouvrir le menu
+            close: Fermer le menu
+          navigation:
+            approach: Approche
+            platform: Plateforme
+            services: Services
+            outcomes: Résultats
+            testimonials: Témoignages
+          buttons:
+            primary: Se connecter
+        hero:
+          title: Votre régie logiciel !
+          subtitle: >-
+            Obtenez des solutions pour chaque processus interne et construisez
+            des systèmes antifragile. Nous fournissons des conseils, du
+            développement et de la formation pour chaque équipe.
+          annoucement:
+            message: Voici notre dernière actualité.
+            link: En savoir plus
+          buttons:
+            primary: Commencer
+            secondary: En savoir plus
+          form:
+            email:
+              placeholder: Enter your email address
+            submit: Get started
+        customers:
+          title: Ils nous font confiance
+        footer:
+          copyright: '@2023 Essential Services All rights reserved.'
+tables:
+  - name: contacts
+    fields:
+      - name: email
+        type: email
+        unique: true
+        required: true
+      - name: organisations
+        type: linkedTable
+        table: organisations
+  - name: organisations
+    fields:
+      - name: name
+        type: text
+      - name: domain
+        type: text
+        unique: true

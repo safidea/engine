@@ -5,8 +5,8 @@
   ],
   "globalEnv": [
     "HOST",
-    "BOLD_CONFIG_FILE",
-    "BOLD_APP_FOLDER",
+    "FOUNDATION_CONFIG_FILE",
+    "FOUNDATION_APP_FOLDER",
     "NODE_ENV"
   ],
   "pipeline": {

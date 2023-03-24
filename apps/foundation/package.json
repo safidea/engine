@@ -1,7 +1,6 @@
 {
   "name": "foundation",
-  "version": "0.0.0",
-  "private": true,
+  "main": "./src/index.tsx",
   "scripts": {
     "compile": "ts-node ./src/compile.ts",
     "dev": "next dev",

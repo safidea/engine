@@ -18,8 +18,8 @@ const apisPath = `${folderPath}/apis`
 const tablesPath = `${folderPath}/tables`
 const localesPath = `${folderPath}/locales`
 
-const configFile = process.env.BOLD_CONFIG_FILE ?? './config.yaml'
-const boldAppFolder = process.env.BOLD_APP_FOLDER ?? '../foundation'
+const configFile = process.env.FOUNDATION_CONFIG_FILE ?? './config.yaml'
+const foundationAppFolder = process.env.FOUNDATION_APP_FOLDER ?? '../foundation'
 
 ;(async () => {
   console.info('Start building Request config file...')
@@ -131,10 +131,10 @@ const boldAppFolder = process.env.BOLD_APP_FOLDER ?? '../foundation'
 
   let env = await fs.readFile('./.env', 'utf8')
   env = env.replace(
-    'BOLD_CONFIG_FILE=./simple.foundation.yaml',
-    'BOLD_CONFIG_FILE=../simple/simple.foundation.yaml'
+    'FOUNDATION_CONFIG_FILE=./simple.foundation.yaml',
+    'FOUNDATION_CONFIG_FILE=../simple/simple.foundation.yaml'
   )
-  await fs.writeFile(boldAppFolder + '/.env.local', env)
+  await fs.writeFile(foundationAppFolder + '/.env.local', env)
 
   console.info('Request config file build succeed!')
 })()

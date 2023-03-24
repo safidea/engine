@@ -4,10 +4,10 @@ import { testComponentsUI } from 'foundation-component'
 
 dotenv.config({ path: './.env.local' })
 
-const file = process.env.BOLD_CONFIG_FILE || './foundation.config.yaml'
+const file = process.env.FOUNDATION_CONFIG_FILE || './foundation.config.yaml'
 
 ;(async () => {
-  console.info('Start compiling Bold config...')
+  console.info('Start compiling foundation config...')
 
   const config = await loadYaml(file)
   await checkSchema(config)
@@ -17,5 +17,5 @@ const file = process.env.BOLD_CONFIG_FILE || './foundation.config.yaml'
     buildConfig(config, './src/config'),
   ])
 
-  console.info('Bold config compile succeed!')
+  console.info('foundation config compile succeed!')
 })()
