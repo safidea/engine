@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:/Users/thomasjeanneau/Codes/Essentiel/foundation/packages/foundation-database/__test__/data/test-6ce701d19de82934.db"
+  url      = "file:./test.db"
 }
 
 model users {
