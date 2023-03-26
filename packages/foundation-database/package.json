@@ -4,11 +4,12 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
-    "test": "pnpm lint && cross-env $(cat ./__test__/.env.test | xargs) pnpm run setup && prisma db push && jest",
+    "test": "DEBUG=db:* jest --coverage",
     "setup": "ts-node ./src/setup.ts && prisma format && prisma generate",
     "build": "cross-env $(cat ../../.env | xargs) pnpm run setup"
   },
   "devDependencies": {
+    "@faker-js/faker": "7.6.0",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "11.0.1",
     "@types/jest": "29.4.0",

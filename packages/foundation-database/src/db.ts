@@ -1,23 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 
+import { Base } from '../types'
+
 const prisma = new PrismaClient()
 
-type TableNames = keyof typeof prisma;
-
-export default function db(tableName: string) {
-  if (!prisma.hasOwnProperty(tableName)) {
+export default function db(tableName: string): Base {
+  const table = prisma[tableName as keyof typeof prisma] as unknown as Base
+  if (!table) {
     throw new Error(`Table ${tableName} does not exist`)
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return prisma[tableName as TableNames] as any
-}
-
-export async function connect() {
-  try {
-    await prisma.$connect()
-    return true
-  } catch (error) {
-    console.error(error)
-    return false
-  }
+  return table
 }

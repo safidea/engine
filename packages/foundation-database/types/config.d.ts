@@ -1,6 +1,6 @@
 import Table from './table'
 
-export type Database = {
+export type Config = {
   database: {
     url: string
     provider: 'sqlite' | 'mysql' | 'postgresql' | 'sqlserver' | 'mongodb' | 'cockroachdb'
