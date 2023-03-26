@@ -1,17 +1,18 @@
 import fs from 'fs-extra'
 import { join } from 'path'
+import debug from 'debug'
 
 import { Database } from '../types'
 
 const SCHEMA_PATH = join(__dirname, '..', 'prisma/schema.prisma')
-
 const FOUNDATION_CONFIG_FILE = process.env.FOUNDATION_CONFIG_FILE
-
 if (!FOUNDATION_CONFIG_FILE) throw new Error('FOUNDATION_CONFIG_FILE is not defined')
-
 const config: Database = JSON.parse(fs.readFileSync(FOUNDATION_CONFIG_FILE, 'utf8') ?? '{}')
+const log: debug.IDebugger = debug('db:setup')
 
 if (config.database) {
+  log('Setup database...')
+
   const {
     database: { url, provider },
     tables,
