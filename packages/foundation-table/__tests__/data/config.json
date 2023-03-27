@@ -1,0 +1,32 @@
+{
+  "database": {
+    "url": "file:./test.db",
+    "provider": "sqlite"
+  },
+  "tables": {
+    "table": {
+      "id": {
+        "type": "integer",
+        "primary": true,
+        "generated": "increment"
+      },
+      "string": {
+        "type": "string",
+        "nullable": true
+      },
+      "integer": {
+        "type": "integer",
+        "nullable": true
+      },
+      "integerWithDefaultValue": {
+        "type": "integer",
+        "nullable": false,
+        "default": 10
+      },
+      "datetime": {
+        "type": "datetime",
+        "nullable": false
+      }
+    }
+  }
+}
