@@ -7,10 +7,14 @@ datasource db {
   url      = "file:./test.db"
 }
 
-model table {
-  id                      Int      @id @default(autoincrement())
-  string                  String
-  integer                 Int
-  integerWithDefaultValue Int      @default(0)
-  datetime                DateTime @default(now())
+model tableName {
+  stringField                  String   @default("")
+  stringWithDefaultValueField  String   @default("default value")
+  integerField                 Int
+  integerWithDefaultValueField Int      @default(10)
+  datetimeField                DateTime @default(now())
+  id                           Int      @id @default(autoincrement())
+  created_at                   DateTime @default(now())
+  updated_at                   DateTime @default(now())
+  deleted_at                   DateTime @default(now())
 }

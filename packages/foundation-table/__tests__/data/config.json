@@ -4,28 +4,28 @@
     "provider": "sqlite"
   },
   "tables": {
-    "table": {
-      "id": {
-        "type": "integer",
-        "primary": true,
-        "generated": "increment"
-      },
-      "string": {
+    "tableName": {
+      "stringField": {
         "type": "string",
         "nullable": true
       },
-      "integer": {
-        "type": "integer",
-        "nullable": true
+      "stringWithDefaultValueField": {
+        "type": "string",
+        "nullable": true,
+        "default": "default value"
       },
-      "integerWithDefaultValue": {
+      "integerField": {
+        "type": "integer",
+        "nullable": false
+      },
+      "integerWithDefaultValueField": {
         "type": "integer",
         "nullable": false,
         "default": 10
       },
-      "datetime": {
+      "datetimeField": {
         "type": "datetime",
-        "nullable": false
+        "nullable": true
       }
     }
   }
