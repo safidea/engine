@@ -18,7 +18,7 @@ export async function update(tableName: string, data: Row): Promise<Row> {
 }
 
 export async function upsert(tableName: string, data: Data | Row): Promise<Row> {
-  let row 
+  let row
   if (data.id) {
     row = await tableService.update(tableName, data as Row)
   } else {

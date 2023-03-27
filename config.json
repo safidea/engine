@@ -1,6 +1,6 @@
 {
   "database": {
-    "url": "file:./test.db",
+    "url": "sqlite:database.sqlite",
     "provider": "sqlite"
   },
   "tables": {

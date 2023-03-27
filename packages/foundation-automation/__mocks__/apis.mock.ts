@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { getRandomUniqueArray } from 'utils'
 
-import type { Automation, InOutput, ActionInOutput, TestTable } from '../types/api.type'
+import type { Automation, InOutput, ActionInOutput, TestTable } from '../types/automation.type'
 
 const getInOutput = (): InOutput[] =>
   getRandomUniqueArray().map(() => ({
