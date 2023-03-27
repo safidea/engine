@@ -82,9 +82,17 @@ if (config.database) {
   fs.writeFileSync(SCHEMA_PATH, schema)
   log('Database schema created')
 
-  execSync(`prisma format`)
+  execSync(`prisma format --schema ${SCHEMA_PATH}`)
   log('Database schema formatted')
 
-  execSync(`prisma migrate dev --name ${NODE_ENV}`)
+  execSync(`prisma generate --schema ${SCHEMA_PATH}`)
+  log('Database client generated')
+
+  if (NODE_ENV !== 'production') {
+    execSync(`prisma migrate reset --schema ${SCHEMA_PATH} --force`)
+    log(`Database reseted for ${NODE_ENV} environment`)
+  }
+
+  execSync(`prisma migrate dev --schema ${SCHEMA_PATH} --name ${NODE_ENV}`)
   log('Database migrated')
 }
