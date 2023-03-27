@@ -1,3 +1,3 @@
 import '../scripts/setup'
 
-export * from './controllers/table.controller'
+export { default as table } from './controllers/table.controller'
