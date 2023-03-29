@@ -16,15 +16,29 @@ function get(req: NextApiRequest): MiddlewareFunction[] {
 }
 
 function post(): MiddlewareFunction[] {
-  return [TableMiddleware.validateBody, TableController.create]
+  return [
+    TableMiddleware.validateBody,
+    TableMiddleware.validateBodyAllFields,
+    TableController.create,
+  ]
 }
 
 function patch(): MiddlewareFunction[] {
-  return [TableMiddleware.validateBody, TableMiddleware.validateRowExist, TableController.update]
+  return [
+    TableMiddleware.validateBody,
+    TableMiddleware.validateBodyFields,
+    TableMiddleware.validateRowExist,
+    TableController.update,
+  ]
 }
 
 function put(): MiddlewareFunction[] {
-  return [TableMiddleware.validateBody, TableMiddleware.validateRowExist, TableController.update]
+  return [
+    TableMiddleware.validateBody,
+    TableMiddleware.validateBodyAllFields,
+    TableMiddleware.validateRowExist,
+    TableController.update,
+  ]
 }
 
 function remove(): MiddlewareFunction[] {

@@ -41,7 +41,30 @@ export async function validateBody(
       error: 'Body is required',
     })
   }
+  return next()
+}
+
+export async function validateBodyFields(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextMiddleware
+) {
   const errors = validate(req.query.table, req.body)
+  if (errors.length > 0) {
+    return res.status(400).json({
+      error: 'Invalid body',
+      details: errors,
+    })
+  }
+  return next()
+}
+
+export async function validateBodyAllFields(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextMiddleware
+) {
+  const errors = validate(req.query.table, req.body, true)
   if (errors.length > 0) {
     return res.status(400).json({
       error: 'Invalid body',

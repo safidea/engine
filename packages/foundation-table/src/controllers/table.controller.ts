@@ -12,7 +12,7 @@ export async function create(req: NextApiRequest, res: NextApiResponse): Promise
 }
 
 export async function update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const row = await Database(req.query.table).patchById(req.body.id, req.body)
+  const row = await Database(req.query.table).patchById(req.query.id, req.body)
   log(`Updated row in ${req.query.table} with ID ${row.id}`)
   res.status(200).json(row)
 }

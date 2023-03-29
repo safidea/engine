@@ -11,8 +11,7 @@ export const DEFAULT_FIELDS = {
   },
   updated_at: {
     type: 'datetime',
-    nullable: false,
-    default: 'now()',
+    nullable: true,
   },
   deleted_at: {
     type: 'datetime',

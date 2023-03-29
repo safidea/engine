@@ -5,7 +5,7 @@ import type { Config, Data } from 'foundation-database'
 const { FOUNDATION_CONFIG_FILE } = process.env
 const config: Config = JSON.parse(fs.readFileSync(String(FOUNDATION_CONFIG_FILE), 'utf8'))
 
-export default function validate(table: string, data: Data) {
+export default function validate(table: string, data: Data, allFields = false) {
   const { tables } = config
   const modelData = tables[table]
   const fields = Object.keys(modelData)
@@ -13,6 +13,10 @@ export default function validate(table: string, data: Data) {
 
   for (const field of fields) {
     const fieldData = modelData[field]
+
+    if (!allFields && !data[field]) {
+      continue
+    }
 
     if (!fieldData.nullable && !fieldData.default && !data[field]) {
       errors.push(`Field ${field} is required`)

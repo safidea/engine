@@ -2,6 +2,30 @@ POST http://localhost:3001/api/table/users/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Thomas",
-    "email": "thomas@essentiel.io"
+    "name": "Jean Jacques",
+    "email": "thomas@essentiel.io",
+    "password": "1234"
 }
+
+###
+
+GET http://localhost:3001/api/table/users/92539185-cd23-4bd7-b5de-c698d4a2f27c HTTP/1.1
+
+###
+
+PATCH  http://localhost:3001/api/table/users/92539185-cd23-4bd7-b5de-c698d4a2f27c HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Thomas JEANNEAU !"
+}
+
+###
+
+GET http://localhost:3001/api/table/users HTTP/1.1
+
+###
+
+DELETE http://localhost:3001/api/table/users/92539185-cd23-4bd7-b5de-c698d4a2f27c HTTP/1.1
+
+###

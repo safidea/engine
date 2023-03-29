@@ -12,26 +12,38 @@ export default function DatabaseService(tableName: string) {
   }
 
   async function patchById(id: string, data: Row): Promise<Row> {
+    const updated_at = new Date().toISOString()
     const row = await table.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        updated_at,
+      },
     })
     return row
   }
 
   async function putById(id: string, data: Row): Promise<Row> {
+    const updated_at = new Date().toISOString()
     const row = await table.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        updated_at,
+      },
     })
     return row
   }
 
   async function upsertById(id: string, data: Data): Promise<Row> {
+    const updated_at = new Date().toISOString()
     const row = await table.upsert({
       where: { id },
       create: data,
-      update: data,
+      update: {
+        ...data,
+        updated_at,
+      },
     })
     return row
   }
@@ -49,8 +61,12 @@ export default function DatabaseService(tableName: string) {
   }
 
   async function deleteById(id: string): Promise<Row> {
-    const row = await table.delete({
+    const deleted_at = new Date().toISOString()
+    const row = await table.update({
       where: { id },
+      data: {
+        deleted_at,
+      },
     })
     return row
   }

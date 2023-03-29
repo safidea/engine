@@ -36,30 +36,26 @@ export default function DatabaseSetup() {
       const fields = Object.keys(modelData).map((fieldName) => {
         const fieldData = modelData[fieldName as keyof typeof modelData] as Field
         let fieldType = ''
-        let defaultValue = ''
+        let defaultValue = fieldData.default ?? ''
         switch (fieldData.type) {
           case 'integer':
             fieldType = 'Int'
-            defaultValue = `@default(${fieldData.default ?? 0})`
             break
           case 'string':
             fieldType = 'String'
-            defaultValue = fieldData.primary
-              ? `@default(${fieldData.default})`
-              : `@default("${fieldData.default ?? ''}")`
+            defaultValue = fieldData.primary ? defaultValue : `"${defaultValue}"`
             break
           case 'datetime':
             fieldType = 'DateTime'
-            defaultValue = `@default(${fieldData.default ?? 'now()'})`
             break
           case 'boolean':
             fieldType = 'Boolean'
-            defaultValue = `@default(${fieldData.default ?? false})`
             break
         }
+        const isRequired = fieldData.nullable ? '?' : ''
         const isPrimary = fieldData.primary ? ' @id' : ''
-        const isRequired = !fieldData.nullable && !fieldData.default ? '' : ` ${defaultValue}`
-        return `${fieldName} ${fieldType}${isPrimary}${isRequired}`
+        const hasDefault = defaultValue ? ` @default(${defaultValue})` : ''
+        return `${fieldName} ${fieldType}${isRequired}${isPrimary}${hasDefault}`
       })
       return `model ${modelName} {
         ${fields.join('\n  ')}
