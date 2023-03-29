@@ -14,7 +14,6 @@
     "lint": "tsc --noEmit && eslint .",
     "compile": "ts-node ./scripts/build-config-file.ts && ( cd ../foundation && pnpm compile ) ",
     "import": "ts-node ./scripts/import-components.ts",
-    "test": "jest --detectOpenHandles",
     "dev": "npm-watch"
   },
   "dependencies": {

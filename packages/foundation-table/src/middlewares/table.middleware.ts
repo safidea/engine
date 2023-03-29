@@ -1,15 +1,14 @@
 import type { NextApiRequest, NextApiResponse, NextMiddleware } from 'foundation-utils'
+import { Database, base } from 'foundation-database'
 
-import db from '../utils/db.utils'
 import validate from '../utils/validate.utils'
-import TableService from '../services/table.service'
 
 export async function validateTableExist(
   req: NextApiRequest,
   res: NextApiResponse,
   next: NextMiddleware
 ) {
-  const table = await db(req.query.table)
+  const table = await base(req.query.table)
   if (!table) {
     return res.status(404).json({
       error: `Table ${req.query.table} does not exist`,
@@ -23,7 +22,7 @@ export async function validateRowExist(
   res: NextApiResponse,
   next: NextMiddleware
 ) {
-  const row = await TableService(req.query.table).readById(req.query.id)
+  const row = await Database(req.query.table).readById(req.query.id)
   if (!row) {
     return res.status(404).json({
       error: `Row ${req.query.id} does not exist in table ${req.query.table}`,

@@ -1,1 +1,4 @@
-{}
+{
+  "jest.jestCommandLine": "pnpm test",
+  "jest.rootPath": "./"
+}

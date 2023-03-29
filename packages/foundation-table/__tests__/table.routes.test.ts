@@ -1,20 +1,15 @@
-import { execSync } from 'child_process'
 import { faker } from '@faker-js/faker'
 
 import { NextApiRequest, NextApiResponse } from 'foundation-utils'
+import type { Data, Row } from 'foundation-database'
+import Config from 'config-test/config.json'
 import { TableRoutes } from '../src'
-import type { Data, Row } from '../types'
-import Config from './data/config.json'
 
 let row: Row
 const table = Object.keys(Config.tables)[0]
 const newData = (): Data => ({
   stringField: faker.helpers.unique(faker.name.firstName),
   integerField: faker.datatype.number(),
-})
-
-beforeAll(() => {
-  execSync('prisma migrate reset --force')
 })
 
 test('should allow a POST request to create a row in a table', async () => {

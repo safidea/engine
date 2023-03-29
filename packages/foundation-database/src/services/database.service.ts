@@ -1,8 +1,8 @@
-import db from '../utils/db.utils'
+import base from '../utils/base.utils'
 import { Data, Row } from '../../types'
 
-export default function TableService(tableName: string) {
-  const table = db(tableName)
+export default function DatabaseService(tableName: string) {
+  const table = base(tableName)
 
   async function create(data: Data): Promise<Row> {
     const row = await table.create({

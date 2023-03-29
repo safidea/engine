@@ -1,0 +1,7 @@
+{
+  "name": "config-test",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  }
+}

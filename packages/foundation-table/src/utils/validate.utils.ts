@@ -1,17 +1,14 @@
 import fs from 'fs-extra'
-import { Config, Data } from '../../types'
+
+import type { Config, Data } from 'foundation-database'
 
 const { FOUNDATION_CONFIG_FILE } = process.env
-
 const config: Config = JSON.parse(fs.readFileSync(String(FOUNDATION_CONFIG_FILE), 'utf8'))
 
 export default function validate(table: string, data: Data) {
   const { tables } = config
-
   const modelData = tables[table]
-
   const fields = Object.keys(modelData)
-
   const errors = []
 
   for (const field of fields) {

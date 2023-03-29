@@ -35,6 +35,11 @@
       "booleanField": {
         "type": "boolean",
         "nullable": true
+      },
+      "booleanWithDefaultValueField": {
+        "type": "boolean",
+        "nullable": false,
+        "default": true
       }
     }
   }

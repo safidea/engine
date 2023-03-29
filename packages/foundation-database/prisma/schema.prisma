@@ -15,6 +15,7 @@ model tableName {
   datetimeField                 DateTime @default(now())
   datetimeWithDefaultValueField DateTime @default(now())
   booleanField                  Boolean  @default(false)
+  booleanWithDefaultValueField  Boolean  @default(true)
   id                            String   @id @default(uuid())
   created_at                    DateTime @default(now())
   updated_at                    DateTime @default(now())
