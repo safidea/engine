@@ -1,4 +1,4 @@
-import Field from './field'
+import { Field } from './field.type'
 
 export type Table = {
   [key: string]: Field

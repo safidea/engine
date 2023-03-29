@@ -8,13 +8,15 @@ datasource db {
 }
 
 model tableName {
-  stringField                  String   @default("")
-  stringWithDefaultValueField  String   @default("default value")
-  integerField                 Int
-  integerWithDefaultValueField Int      @default(10)
-  datetimeField                DateTime @default(now())
-  id                           Int      @id @default(autoincrement())
-  created_at                   DateTime @default(now())
-  updated_at                   DateTime @default(now())
-  deleted_at                   DateTime @default(now())
+  stringField                   String   @default("")
+  stringWithDefaultValueField   String   @default("default value")
+  integerField                  Int
+  integerWithDefaultValueField  Int      @default(10)
+  datetimeField                 DateTime @default(now())
+  datetimeWithDefaultValueField DateTime @default(now())
+  booleanField                  Boolean  @default(false)
+  id                            String   @id @default(uuid())
+  created_at                    DateTime @default(now())
+  updated_at                    DateTime @default(now())
+  deleted_at                    DateTime @default(now())
 }

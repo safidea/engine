@@ -1,58 +1,36 @@
 import debug from 'debug'
 
-import * as tableService from '../services/table.service'
-import { Data, Row } from '../../types'
+import type { NextApiRequest, NextApiResponse } from 'foundation-utils'
+import TableService from '../services/table.service'
 
 const log: debug.IDebugger = debug('table:controller')
 
-export default function table(tableName: string) {
-  async function create(data: Data): Promise<Row> {
-    const row = await tableService.create(tableName, data)
-    log(`Created new row in ${tableName} with ID ${row.id}`)
-    return row
-  }
+export async function create(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  const row = await TableService(req.query.table).create(req.body)
+  log(`Created new row in ${req.query.table} with ID ${row.id}`)
+  res.status(200).json(row)
+}
 
-  async function update(data: Row): Promise<Row> {
-    const row = await tableService.update(tableName, data)
-    log(`Updated row in ${tableName} with ID ${row.id}`)
-    return row
-  }
+export async function update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  const row = await TableService(req.query.table).patchById(req.body.id, req.body)
+  log(`Updated row in ${req.query.table} with ID ${row.id}`)
+  res.status(200).json(row)
+}
 
-  async function upsert(data: Data | Row): Promise<Row> {
-    let row
-    if (data.id) {
-      row = await tableService.update(tableName, data as Row)
-    } else {
-      row = await tableService.create(tableName, data as Data)
-    }
-    log(`Upsert row in ${tableName} with ID ${row.id}`)
-    return row
-  }
+export async function read(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  const row = await TableService(req.query.table).readById(req.query.id)
+  log(`Got row in ${req.query.table} with ID ${row.id}`)
+  res.status(200).json(row)
+}
 
-  async function get(id: number): Promise<Row> {
-    const row = await tableService.getById(tableName, id)
-    log(`Got row in ${tableName} with ID ${row.id}`)
-    return row
-  }
+export async function list(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  const rows = await TableService(req.query.table).list()
+  log(`Got all rows in ${req.query.table}`)
+  res.status(200).json(rows)
+}
 
-  async function getAll(): Promise<Row[]> {
-    const rows = await tableService.getAll(tableName)
-    log(`Got all rows in ${tableName}`)
-    return rows
-  }
-
-  async function remove(id: number): Promise<Row> {
-    const row = await tableService.removeById(tableName, id)
-    log(`Deleted row in ${tableName} with ID ${row.id}`)
-    return row
-  }
-
-  return {
-    create,
-    update,
-    upsert,
-    get,
-    getAll,
-    remove,
-  }
+export async function remove(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  const row = await TableService(req.query.table).deleteById(req.query.id)
+  log(`Deleted row in ${req.query.table} with ID ${row.id}`)
+  res.status(200).json(row)
 }

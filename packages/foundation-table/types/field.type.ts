@@ -3,4 +3,5 @@ export type Field = {
   primary?: boolean
   generated?: 'increment'
   nullable?: boolean
+  default?: string | number | boolean
 }

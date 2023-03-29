@@ -1,4 +1,4 @@
-import { fsExists } from 'utils'
+import { fsExists } from 'foundation-utils'
 import { config, folder } from './setup'
 import buildLocales from '../src/build-locales'
 

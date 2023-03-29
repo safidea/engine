@@ -1,3 +1,4 @@
-import '../scripts/setup'
+export { default as TableRoutes } from './routes/table.routes'
+export { default as TableService } from './services/table.service'
 
-export { default as table } from './controllers/table.controller'
+export * from '../types'

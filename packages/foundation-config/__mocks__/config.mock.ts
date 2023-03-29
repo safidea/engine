@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { getRandomUniqueArray } from 'utils'
+import { getRandomUniqueArray } from 'foundation-utils'
 import { apisMock } from 'foundation-automation'
 import { pagesMock } from 'foundation-page'
 import { componentsMock } from 'foundation-component'

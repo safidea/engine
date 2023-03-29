@@ -1,7 +1,7 @@
-import { Data } from './data'
+import { Data } from './data.type'
 
 export type Row = Data & {
-  id: number
+  id: string
   created_at: string
   updated_at: string
   deleted_at?: string

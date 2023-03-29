@@ -26,6 +26,15 @@
       "datetimeField": {
         "type": "datetime",
         "nullable": true
+      },
+      "datetimeWithDefaultValueField": {
+        "type": "datetime",
+        "nullable": true,
+        "default": "now()"
+      },
+      "booleanField": {
+        "type": "boolean",
+        "nullable": true
       }
     }
   }

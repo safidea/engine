@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { getRandomUniqueArray, RandomUniqueObject } from 'utils'
+import { getRandomUniqueArray, RandomUniqueObject } from 'foundation-utils'
 
 import type { Locale, Resources } from '../types/locale/locale.type'
 

@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { fsExists } from 'utils'
+import { fsExists } from 'foundation-utils'
 
 import type { Locale } from '../types/config.type'
 

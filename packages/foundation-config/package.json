@@ -15,7 +15,7 @@
     "js-yaml": "4.1.0",
     "jsonschema": "1.4.1",
     "ts-json-schema-generator": "1.2.0",
-    "utils": "workspace:*"
+    "foundation-utils": "workspace:*"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",

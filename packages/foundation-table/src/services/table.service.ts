@@ -1,37 +1,67 @@
 import db from '../utils/db.utils'
 import { Data, Row } from '../../types'
 
-export async function create(tableName: string, data: Data): Promise<Row> {
-  const row = await db(tableName).create({
-    data,
-  })
-  return row
-}
+export default function TableService(tableName: string) {
+  const table = db(tableName)
 
-export async function update(tableName: string, data: Row): Promise<Row> {
-  const { id, ...rest } = data
-  const row = await db(tableName).update({
-    where: { id },
-    data: rest,
-  })
-  return row
-}
+  async function create(data: Data): Promise<Row> {
+    const row = await table.create({
+      data,
+    })
+    return row
+  }
 
-export async function getById(tableName: string, id: number): Promise<Row> {
-  const row = await db(tableName).findUnique({
-    where: { id },
-  })
-  return row
-}
+  async function patchById(id: string, data: Row): Promise<Row> {
+    const row = await table.update({
+      where: { id },
+      data,
+    })
+    return row
+  }
 
-export async function getAll(tableName: string): Promise<Row[]> {
-  const rows = await db(tableName).findMany({})
-  return rows
-}
+  async function putById(id: string, data: Row): Promise<Row> {
+    const row = await table.update({
+      where: { id },
+      data,
+    })
+    return row
+  }
 
-export async function removeById(tableName: string, id: number): Promise<Row> {
-  const row = await db(tableName).delete({
-    where: { id },
-  })
-  return row
+  async function upsertById(id: string, data: Data): Promise<Row> {
+    const row = await table.upsert({
+      where: { id },
+      create: data,
+      update: data,
+    })
+    return row
+  }
+
+  async function readById(id: string): Promise<Row> {
+    const row = await table.findUnique({
+      where: { id },
+    })
+    return row
+  }
+
+  async function list(): Promise<Row[]> {
+    const rows = await table.findMany({})
+    return rows
+  }
+
+  async function deleteById(id: string): Promise<Row> {
+    const row = await table.delete({
+      where: { id },
+    })
+    return row
+  }
+
+  return {
+    create,
+    patchById,
+    putById,
+    upsertById,
+    readById,
+    list,
+    deleteById,
+  }
 }

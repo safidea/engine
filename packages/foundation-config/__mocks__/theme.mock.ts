@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { getRandomUniqueArray } from 'utils'
+import { getRandomUniqueArray } from 'foundation-utils'
 
 import type { Theme } from '../types/theme/theme.type'
 
