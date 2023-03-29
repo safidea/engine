@@ -1,17 +1,21 @@
 module.exports = {
+  parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   extends: [
     'next',
-    'turbo',
+    'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
-    'plugin:yml/prettier',
+    'turbo',
     'prettier',
   ],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
-    'react/jsx-key': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
-    '@typescript-eslint/no-explicit-any': 'error',
+    'react/version': 'off',
+  },
+  settings: {
+    react: {
+      version: '18.2.0',
+    },
   },
   overrides: [
     {

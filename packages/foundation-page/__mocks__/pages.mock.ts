@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { getRandomUniqueArray, RandomUniqueObject } from 'utils'
+import { getRandomUniqueArray, RandomUniqueObject } from 'foundation-utils'
 
 import type { Page, Props, Meta, Component } from '../types/page.type'
 

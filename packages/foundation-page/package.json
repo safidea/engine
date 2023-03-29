@@ -6,7 +6,7 @@
     "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
-    "utils": "workspace:*",
+    "foundation-utils": "workspace:*",
     "foundation-component": "workspace:*"
   },
   "devDependencies": {

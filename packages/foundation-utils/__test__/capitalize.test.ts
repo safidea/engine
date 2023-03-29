@@ -1,4 +1,4 @@
-import capitalize from '../src/capitalize'
+import { capitalize } from '../src'
 
 test('capitalize', () => {
   expect(capitalize('hello')).toBe('Hello')

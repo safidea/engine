@@ -1,4 +1,4 @@
-import deepCopy from '../src/deep-copy'
+import { deepCopy } from '../src'
 
 test('should make a deep copy', async () => {
   const obj = { a: 1, b: 2 }

@@ -14,11 +14,12 @@
     "precommit": "pnpm run format & turbo lint && turbo test"
   },
   "devDependencies": {
+    "dotenv-cli": "latest",
+    "eslint": "8.37.0",
     "eslint-config-foundation": "workspace:*",
     "husky": "8.0.3",
     "prettier": "latest",
-    "turbo": "latest",
-    "dotenv-cli": "latest"
+    "turbo": "latest"
   },
   "engines": {
     "node": ">=14.0.0",

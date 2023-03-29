@@ -3,7 +3,7 @@ import yaml from 'js-yaml'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { fsExists } from 'utils'
+import { fsExists } from 'foundation-utils'
 import { checkSchema } from 'foundation-config'
 import { testComponentsUI } from 'foundation-component'
 

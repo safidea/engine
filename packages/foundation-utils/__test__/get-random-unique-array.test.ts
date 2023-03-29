@@ -1,4 +1,4 @@
-import getRandomUniqueArray from '../src/get-random-unique-array'
+import { getRandomUniqueArray } from '../src'
 
 test('get random length array', async () => {
   const array = getRandomUniqueArray({ max: 10, faker: ['name.firstName', 'phone.number'] })

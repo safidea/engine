@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
-import { fsExists } from 'utils'
+import { fsExists } from 'foundation-utils'
 
 import type { UI, State } from 'foundation-component'
 

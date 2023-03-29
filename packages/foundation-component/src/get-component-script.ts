@@ -2,7 +2,7 @@ import * as Headlessui from '@headlessui/react'
 import * as Heroicons24Outline from '@heroicons/react/24/outline'
 import * as Heroicons20Solid from '@heroicons/react/24/outline'
 
-import { capitalize } from 'utils'
+import { capitalize } from 'foundation-utils'
 import type { UI, ComponentUI } from '../types/component.type'
 
 const componentsImport: { [key: string]: string } = {

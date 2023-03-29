@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/table/users/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Thomas",
+    "email": "thomas@essentiel.io"
+}

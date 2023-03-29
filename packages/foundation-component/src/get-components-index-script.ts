@@ -1,4 +1,4 @@
-import { capitalize } from 'utils'
+import { capitalize } from 'foundation-utils'
 import type { ComponentUI } from '../types/component.type'
 
 export default function getComponentsIndexScript(components: ComponentUI[]): string {

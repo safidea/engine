@@ -1,4 +1,4 @@
-import { deepCopy } from 'utils'
+import { deepCopy } from 'foundation-utils'
 import { componentsMock } from '../__mocks__/components.mock'
 import getComponentScript from '../src/get-component-script'
 

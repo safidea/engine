@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import fsExists from '../src/fs-exists'
+import { fsExists } from '../src'
 
 export const folder = './__test__/__running__'
 

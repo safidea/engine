@@ -1,0 +1,11 @@
+{
+  "extends": "config-typescript/base.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@types": ["types"]
+    }
+  }
+}

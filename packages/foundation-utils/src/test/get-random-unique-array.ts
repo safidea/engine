@@ -1,9 +1,9 @@
 import { faker as fake } from '@faker-js/faker'
-import capitalize from './capitalize'
+import { capitalize } from '../string/capitalize'
 
 export type RandomUniqueObject = { [key: string]: string | number | boolean }
 
-export default function getRandomUniqueArray(options?: {
+export function getRandomUniqueArray(options?: {
   min?: number
   max?: number
   faker?: string[]

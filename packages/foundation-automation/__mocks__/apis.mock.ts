@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { getRandomUniqueArray } from 'utils'
+import { getRandomUniqueArray } from 'foundation-utils'
 
 import type { Automation, InOutput, ActionInOutput, TestTable } from '../types/automation.type'
 

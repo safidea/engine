@@ -13,7 +13,7 @@
     "@heroicons/react": "^2.0.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "utils": "workspace:*",
+    "foundation-utils": "workspace:*",
     "eslint": "^7.32.0"
   },
   "devDependencies": {
@@ -30,7 +30,6 @@
     "ts-jest": "29.0.5",
     "typescript": "^4.5.2",
     "@typescript-eslint/eslint-plugin": "5.48.1",
-    "@typescript-eslint/parser": "^5.0.0 ",
-    "eslint-plugin-react": "7.31.8"
+    "@typescript-eslint/parser": "^5.0.0 "
   }
 }

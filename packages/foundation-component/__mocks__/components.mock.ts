@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { getRandomUniqueArray, capitalize } from 'utils'
+import { getRandomUniqueArray, capitalize } from 'foundation-utils'
 
 import type { ComponentUI, State, UI } from '../types/component.type'
 
