@@ -4,17 +4,13 @@
     "provider": "sqlite"
   },
   "tables": {
-    "users": {
-      "name": {
+    "tasks": {
+      "task": {
         "type": "string",
         "nullable": false
       },
-      "email": {
-        "type": "string",
-        "nullable": false
-      },
-      "password": {
-        "type": "string",
+      "done": {
+        "type": "boolean",
         "nullable": false
       }
     }

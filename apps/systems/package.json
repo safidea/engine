@@ -1,0 +1,7 @@
+{
+  "name": "systems",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  }
+}

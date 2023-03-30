@@ -1,5 +1,4 @@
 export * from './test/get-random-unique-array'
-export * from './file/fs-exists'
 export * from './string/capitalize'
 export * from './object/deep-copy'
 
