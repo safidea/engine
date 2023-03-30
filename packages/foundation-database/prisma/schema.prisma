@@ -7,12 +7,17 @@ datasource db {
   url      = "file:./test.db"
 }
 
-model users {
-  name       String    @default("")
-  email      String    @default("")
-  password   String    @default("")
-  id         String    @id @default(uuid())
-  created_at DateTime  @default(now())
-  updated_at DateTime?
-  deleted_at DateTime?
+model tableName {
+  stringField                   String?   @default("")
+  stringWithDefaultValueField   String?   @default("default value")
+  integerField                  Int
+  integerWithDefaultValueField  Int       @default(10)
+  datetimeField                 DateTime?
+  datetimeWithDefaultValueField DateTime? @default(now())
+  booleanField                  Boolean?
+  booleanWithDefaultValueField  Boolean   @default(true)
+  id                            String    @id @default(uuid())
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime?
+  deleted_at                    DateTime?
 }

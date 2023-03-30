@@ -8,7 +8,9 @@
     "FOUNDATION_CONFIG_FILE",
     "FOUNDATION_APP_FOLDER",
     "NODE_ENV",
-    "DEBUG"
+    "DEBUG",
+    "EMAIL_SERVER",
+    "EMAIL_FROM"
   ],
   "pipeline": {
     "build": {

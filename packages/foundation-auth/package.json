@@ -7,18 +7,25 @@
     "test": "cross-env $(cat ../config-test/.env | xargs) jest"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "1.0.5",
+    "@prisma/client": "4.11.0",
     "foundation-database": "workspace:*",
     "foundation-utils": "workspace:*",
-    "fs-extra": "11.1.1"
+    "fs-extra": "11.1.1",
+    "next": "13.2.4",
+    "next-auth": "4.20.1",
+    "nodemailer": "6.9.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "config-test": "workspace:*",
     "@faker-js/faker": "7.6.0",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "11.0.1",
     "@types/jest": "29.4.0",
     "@types/node": "^18.11.17",
     "config-jest": "workspace:*",
+    "config-test": "workspace:*",
     "config-typescript": "workspace:*",
     "cross-env": "7.0.3",
     "debug": "4.3.4",
