@@ -7,9 +7,9 @@
     "test": "cross-env $(cat ../config-test/.env | xargs) jest"
   },
   "dependencies": {
+    "foundation-auth": "workspace:*",
     "foundation-database": "workspace:*",
-    "foundation-utils": "workspace:*",
-    "fs-extra": "11.1.1"
+    "foundation-common": "workspace:*"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",

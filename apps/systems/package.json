@@ -3,5 +3,12 @@
   "private": true,
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "dev": "cross-env $(cat ./.env | xargs) pnpm run --filter=foundation-core dev"
+  },
+  "dependencies": {
+    "cross-env": "7.0.3",
+    "foundation-core": "workspace:*"
   }
 }

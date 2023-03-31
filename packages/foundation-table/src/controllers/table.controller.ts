@@ -1,18 +1,19 @@
 import debug from 'debug'
-
-import type { NextApiRequest, NextApiResponse } from 'foundation-utils'
 import { Database } from 'foundation-database'
+
+import type { NextApiRequest, NextApiResponse } from 'foundation-common'
+import type { Data } from 'foundation-database'
 
 const log: debug.IDebugger = debug('table:controller')
 
 export async function create(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const row = await Database(req.query.table).create(req.body)
+  const row = await Database(req.query.table).create(req.body as Data)
   log(`Created new row in ${req.query.table} with ID ${row.id}`)
   res.status(200).json(row)
 }
 
 export async function update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const row = await Database(req.query.table).patchById(req.query.id, req.body)
+  const row = await Database(req.query.table).patchById(req.query.id, req.body as Data)
   log(`Updated row in ${req.query.table} with ID ${row.id}`)
   res.status(200).json(row)
 }

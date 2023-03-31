@@ -1,13 +1,20 @@
 import { faker } from '@faker-js/faker'
-import Config from 'config-test/config.json'
-import { Database } from '../src'
-import type { Data, Row } from '../types'
+import { ConfigService } from 'foundation-common'
+import { Database, DatabaseSetup } from '../src'
+
+import type { Data, Row, Config } from '../types'
 
 let row: Row
-const table = Object.keys(Config.tables)[0]
+let table: string
 const newData = (): Data => ({
   stringField: faker.helpers.unique(faker.name.firstName),
   integerField: faker.datatype.number(),
+})
+
+beforeAll(async () => {
+  const { tables } = (await ConfigService.get()) as Config
+  table = Object.keys(tables)[0]
+  await DatabaseSetup()
 })
 
 test('should create a row in a table', async () => {

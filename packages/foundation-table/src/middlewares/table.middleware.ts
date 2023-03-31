@@ -1,7 +1,9 @@
-import type { NextApiRequest, NextApiResponse, NextMiddleware } from 'foundation-utils'
+import type { NextApiRequest, NextApiResponse, NextMiddleware } from 'foundation-common'
 import { Database, base } from 'foundation-database'
 
 import validate from '../utils/validate.utils'
+
+import type { Data } from 'foundation-database'
 
 export async function validateTableExist(
   req: NextApiRequest,
@@ -49,7 +51,7 @@ export async function validateBodyFields(
   res: NextApiResponse,
   next: NextMiddleware
 ) {
-  const errors = validate(req.query.table, req.body)
+  const errors = await validate(req.query.table, req.body as Data)
   if (errors.length > 0) {
     return res.status(400).json({
       error: 'Invalid body',
@@ -64,7 +66,7 @@ export async function validateBodyAllFields(
   res: NextApiResponse,
   next: NextMiddleware
 ) {
-  const errors = validate(req.query.table, req.body, true)
+  const errors = await validate(req.query.table, req.body as Data, true)
   if (errors.length > 0) {
     return res.status(400).json({
       error: 'Invalid body',

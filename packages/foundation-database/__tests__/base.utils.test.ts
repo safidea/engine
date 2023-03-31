@@ -1,8 +1,14 @@
-import { base } from '../src'
-import Config from 'config-test/config.json'
+import { ConfigService } from 'foundation-common'
+import { base, prisma } from '../src'
 
-const table = Object.keys(Config.tables)[0]
+import type { Config } from '../types'
 
-test('should return a base', () => {
+test('should return a base', async () => {
+  const { tables } = (await ConfigService.get()) as Config
+  const table = Object.keys(tables)[0]
   expect(base(table)).toBeDefined()
+})
+
+test('should return prisma instance', () => {
+  expect(prisma).toBeDefined()
 })

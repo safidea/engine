@@ -11,7 +11,7 @@ export default function DatabaseService(tableName: string) {
     return row
   }
 
-  async function patchById(id: string, data: Row): Promise<Row> {
+  async function patchById(id: string, data: Data): Promise<Row> {
     const updated_at = new Date().toISOString()
     const row = await table.update({
       where: { id },
@@ -23,7 +23,7 @@ export default function DatabaseService(tableName: string) {
     return row
   }
 
-  async function putById(id: string, data: Row): Promise<Row> {
+  async function putById(id: string, data: Data): Promise<Row> {
     const updated_at = new Date().toISOString()
     const row = await table.update({
       where: { id },

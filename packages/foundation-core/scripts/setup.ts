@@ -1,3 +1,7 @@
 import { DatabaseSetup } from 'foundation-database'
 
-DatabaseSetup()
+async function setup() {
+  await DatabaseSetup()
+}
+
+setup()

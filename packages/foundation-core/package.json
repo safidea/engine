@@ -2,8 +2,7 @@
   "name": "foundation-core",
   "main": "./next.config.js",
   "scripts": {
-    "setup": "ts-node ./scripts/setup",
-    "dev": "cross-env $(cat ../../.env | xargs) pnpm run setup && next dev",
+    "dev": "pnpm run setup && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

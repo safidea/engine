@@ -1,5 +1,5 @@
-import type { NextApiRequest, MiddlewareFunction } from 'foundation-utils'
-import { nextApiRouter } from 'foundation-utils'
+import { RouterService } from 'foundation-common'
+import type { NextApiRequest, MiddlewareFunction } from 'foundation-common'
 
 import * as TableController from '../controllers/table.controller'
 import * as TableMiddleware from '../middlewares/table.middleware'
@@ -45,7 +45,7 @@ function remove(): MiddlewareFunction[] {
   return [TableMiddleware.validateRowExist, TableController.remove]
 }
 
-export default nextApiRouter({
+export default RouterService.handler({
   all,
   get,
   post,
