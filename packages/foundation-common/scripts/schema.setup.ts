@@ -2,10 +2,10 @@ import fs from 'fs-extra'
 import { resolve } from 'path'
 import base from 'config-typescript/base.json'
 
-import tsj from '../utils/tsj.utils'
-import ajv from '../utils/ajv.utils'
+import tsj from '../src/utils/tsj.utils'
+import ajv from '../src/utils/ajv.utils'
 
-import type { SchemaGeneratorParams, SchemaValidateError } from '../../types'
+import type { SchemaGeneratorParams, SchemaValidateError } from '../types'
 
 export async function validate(json: unknown, params: SchemaGeneratorParams): Promise<void> {
   const program = tsj.getProgramFromFiles([resolve(params.path)], base.compilerOptions)

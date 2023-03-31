@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import * as Schema from '../src/scripts/schema.setup'
+import * as Schema from '../scripts/schema.setup'
 
 const params = {
   path: './__tests__/test-json.type.ts',

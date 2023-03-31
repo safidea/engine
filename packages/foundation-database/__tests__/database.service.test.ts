@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { ConfigService } from 'foundation-common'
-import { Database, DatabaseSetup } from '../src'
+import { Database } from '../src'
+import DatabaseSetup from '../scripts/database.setup'
 
 import type { Data, Row, Config } from '../types'
 

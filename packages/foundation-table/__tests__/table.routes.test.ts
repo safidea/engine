@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { ConfigService, TestUtils } from 'foundation-common'
-import { DatabaseSetup } from 'foundation-database'
+import DatabaseSetup from 'foundation-database/scripts/database.setup'
 import type { NextApiRequest, NextApiResponse } from 'foundation-common'
 import type { Data, Row, Config } from 'foundation-database'
 import { TableRoutes } from '../src'

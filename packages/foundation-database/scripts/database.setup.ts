@@ -3,13 +3,13 @@ import { join } from 'path'
 import debug from 'debug'
 import { execSync } from 'child_process'
 import { ConfigService } from 'foundation-common'
-import * as SchemaSetup from 'foundation-common/src/scripts/schema.setup'
+import * as SchemaSetup from 'foundation-common/scripts/schema.setup'
 
-import { Config, Field, Table } from '../../types'
-import { DEFAULT_FIELDS } from '../constants/database.constants'
+import { Config, Field, Table } from '../types'
+import { DEFAULT_FIELDS } from '../src/constants/database.constants'
 
 const { NODE_ENV } = process.env
-const ROOT_PATH = join(__dirname, '../..')
+const ROOT_PATH = join(__dirname, '..')
 const SCHEMA_PATH = join(ROOT_PATH, 'prisma/schema.prisma')
 const log: debug.IDebugger = debug('database:setup')
 const schemaValidatorParams = {
@@ -87,10 +87,10 @@ export default async function DatabaseSetup() {
 
     execSync(`prisma generate --schema ${SCHEMA_PATH}`)
     log('Database client generated')
-
-    execSync(`prisma migrate dev --schema ${SCHEMA_PATH} --name ${NODE_ENV}`)
-    log('Database migrated')
   }
+
+  execSync(`prisma migrate dev --schema ${SCHEMA_PATH} --name ${NODE_ENV}`)
+  log('Database migrated')
 
   if (NODE_ENV !== 'production') {
     execSync(`prisma migrate reset --schema ${SCHEMA_PATH} --force`)

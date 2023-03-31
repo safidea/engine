@@ -2,6 +2,7 @@
   "name": "foundation-core",
   "main": "./next.config.js",
   "scripts": {
+    "setup": "ts-node ./scripts/setup",
     "dev": "pnpm run setup && next dev",
     "build": "next build",
     "start": "next start",
