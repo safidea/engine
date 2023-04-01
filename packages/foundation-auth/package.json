@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "1.0.5",
-    "@prisma/client": "4.11.0",
-    "foundation-database": "workspace:*",
+    "@prisma/client": "4.12.0",
     "foundation-common": "workspace:*",
+    "foundation-database": "workspace:*",
     "fs-extra": "11.1.1",
     "next": "13.2.4",
     "next-auth": "4.20.1",

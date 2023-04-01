@@ -4,9 +4,8 @@
     ".env.local"
   ],
   "globalEnv": [
-    "HOST",
-    "FOUNDATION_CONFIG_FILE",
-    "FOUNDATION_APP_FOLDER",
+    "CONFIG_FILE",
+    "DATA_FOLDER",
     "NODE_ENV",
     "DEBUG",
     "EMAIL_SERVER",

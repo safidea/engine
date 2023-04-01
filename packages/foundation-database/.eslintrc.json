@@ -1,4 +1,5 @@
 {
   "root": true,
-  "extends": ["foundation"]
+  "extends": ["foundation"],
+  "ignorePatterns": ["prisma/"]
 }

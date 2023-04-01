@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
-import { join } from 'path'
 import * as Schema from '../scripts/schema.setup'
+import { PathUtils } from '../src'
 
 const params = {
   path: './__tests__/test-json.type.ts',
@@ -15,7 +15,7 @@ const json = {
   },
 }
 
-const cachePath = join(__dirname, './data/schema.cache.json')
+const cachePath = PathUtils.cache('test')
 
 test('should be able to validate schema', async () => {
   await Schema.validate(json, params)
@@ -45,11 +45,11 @@ test('should throw an error if schema is not valid', async () => {
 
 test('should cache schema if updated', async () => {
   fs.writeFileSync(cachePath, '')
-  const isUpdated = await Schema.cache(json, cachePath)
+  const isUpdated = await Schema.cache(json, 'test')
   expect(isUpdated).toBe(true)
 })
 
 test('should not cache schema if nothing change', async () => {
-  const isUpdated = await Schema.cache(json, cachePath)
+  const isUpdated = await Schema.cache(json, 'test')
   expect(isUpdated).toBe(false)
 })

@@ -4,6 +4,7 @@ import base from 'config-typescript/base.json'
 
 import tsj from '../src/utils/tsj.utils'
 import ajv from '../src/utils/ajv.utils'
+import { PathUtils } from '../src'
 
 import type { SchemaGeneratorParams, SchemaValidateError } from '../types'
 
@@ -20,7 +21,8 @@ export async function validate(json: unknown, params: SchemaGeneratorParams): Pr
     )
 }
 
-export async function cache(json: unknown, path: string) {
+export async function cache(json: unknown, name: string) {
+  const path = PathUtils.cache(name)
   const currentCache = fs.readFileSync(path, 'utf8')
   const newCache = JSON.stringify(json, null, 2)
   const isUpdated = newCache !== currentCache

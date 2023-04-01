@@ -1,7 +1,7 @@
 {
   "database": {
-    "url": "file:./test.db",
-    "provider": "sqlite"
+    "url": "postgresql://thomasjeanneau@localhost:5432/dev",
+    "provider": "postgresql"
   },
   "tables": {
     "tasks": {
