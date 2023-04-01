@@ -42,5 +42,35 @@
         "default": true
       }
     }
+  },
+  "automations": {
+    "add": {
+      "input": {
+        "numbers": {
+          "type": "array",
+          "nullable": false,
+          "items": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "output": {
+        "result": {
+          "type": "integer",
+          "nullable": false
+        }
+      },
+      "action": {
+        "type": "javascript",
+        "input": {
+          "numbers": "$.numbers"
+        },
+        "output": {
+          "result": "$.result"
+        },
+        "javascript": "function add(input, output) {\n  output.result = input.numbers.reduce(function(a, b) { return a + b; });\n}"
+      }
+    }
   }
 }

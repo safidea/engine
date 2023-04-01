@@ -16,6 +16,7 @@ export function handler(routes: Routes) {
     }
 
     const middlewareFunctions: MiddlewareFunction[] = []
+    req.locals = {}
 
     if (all) middlewareFunctions.push(...all(req, res))
     middlewareFunctions.push(...route(req, res))

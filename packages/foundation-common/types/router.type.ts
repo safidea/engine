@@ -12,6 +12,9 @@ export interface NextApiRequest extends IncomingMessage {
   query: { [key: string]: string }
   body?: unknown
   isPreview?: boolean
+  locals: {
+    [key: string]: unknown
+  }
 }
 
 export type NextMiddleware = (err?: Error) => void

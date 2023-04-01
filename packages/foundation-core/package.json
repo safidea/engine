@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "foundation-auth": "workspace:*",
+    "foundation-automation": "workspace:*",
     "foundation-database": "workspace:*",
     "foundation-table": "workspace:*",
     "next": "13.2.4",
