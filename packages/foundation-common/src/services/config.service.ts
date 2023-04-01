@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { PathUtils} from '../'
+import { PathUtils } from '../'
 
 export async function get(): Promise<unknown> {
   const path = PathUtils.config()

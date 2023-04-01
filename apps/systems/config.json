@@ -1,7 +1,8 @@
 {
   "database": {
     "url": "postgresql://thomasjeanneau@localhost:5432/dev",
-    "provider": "postgresql"
+    "provider": "postgresql",
+    "accounts": true
   },
   "tables": {
     "tasks": {
@@ -11,7 +12,7 @@
       },
       "done": {
         "type": "boolean",
-        "nullable": false
+        "nullable": true
       }
     }
   }

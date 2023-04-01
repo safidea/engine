@@ -6,7 +6,7 @@ import { ConfigService, PathUtils } from 'foundation-common'
 import * as SchemaSetup from 'foundation-common/scripts/schema.setup'
 
 import { Config, Field, Table } from '../types'
-import { DEFAULT_FIELDS } from '../src/constants/database.constants'
+import { DEFAULT_FIELDS, ACCOUNTS_SCHEMA } from '../src/constants/database.constants'
 
 const { NODE_ENV } = process.env
 const log: debug.IDebugger = debug('database:setup')
@@ -77,6 +77,10 @@ export default async function DatabaseSetup() {
       }`
       })
       .join('\n')
+
+    if (database.accounts) {
+      schema += '\n\n' + ACCOUNTS_SCHEMA
+    }
 
     fs.writeFileSync(SCHEMA_PATH, schema)
     log('Database schema created')

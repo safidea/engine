@@ -3,13 +3,26 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from 'foundation-database'
 import EmailProvider from 'next-auth/providers/email'
 
-const { EMAIL_SERVER, EMAIL_FROM } = process.env
+const {
+  EMAIL_SERVER_HOST,
+  EMAIL_SERVER_PORT,
+  EMAIL_SERVER_USER,
+  EMAIL_SERVER_PASSWORD,
+  EMAIL_FROM,
+} = process.env
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-      server: EMAIL_SERVER,
+      server: {
+        host: EMAIL_SERVER_HOST,
+        port: EMAIL_SERVER_PORT,
+        auth: {
+          user: EMAIL_SERVER_USER,
+          pass: EMAIL_SERVER_PASSWORD,
+        },
+      },
       from: EMAIL_FROM,
     }),
   ],

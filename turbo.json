@@ -8,7 +8,10 @@
     "DATA_FOLDER",
     "NODE_ENV",
     "DEBUG",
-    "EMAIL_SERVER",
+    "EMAIL_SERVER_HOST",
+    "EMAIL_SERVER_PORT",
+    "EMAIL_SERVER_USER",
+    "EMAIL_SERVER_PASSWORD",
     "EMAIL_FROM"
   ],
   "pipeline": {
