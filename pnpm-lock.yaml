@@ -21,10 +21,8 @@ importers:
   apps/systems:
     specifiers:
       cross-env: 7.0.3
-      foundation-core: workspace:*
     dependencies:
       cross-env: 7.0.3
-      foundation-core: link:../../packages/foundation-core
 
   packages/config-eslint:
     specifiers:

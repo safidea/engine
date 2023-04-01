@@ -1,10 +1,9 @@
-POST http://localhost:3001/api/table/users/ HTTP/1.1
+POST http://localhost:3001/api/table/tasks/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Jean Jacques",
-    "email": "thomas@essentiel.io",
-    "password": "1234"
+    "task": "faire ça",
+    "done": true
 }
 
 ###
