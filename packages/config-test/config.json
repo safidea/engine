@@ -43,7 +43,13 @@
       }
     }
   },
-  "automations": {
+  "resources": {
+    "math": {
+      "type": "javascript",
+      "source": "module.exports = {\n  add: function (a, b) {\n    return a + b;\n  }\n};"
+    }
+  },
+  "actions": {
     "add": {
       "input": {
         "numbers": {
@@ -61,15 +67,49 @@
           "nullable": false
         }
       },
-      "action": {
+      "implementation": {
         "type": "javascript",
-        "input": {
-          "numbers": "$.numbers"
-        },
-        "output": {
-          "result": "$.result"
-        },
-        "javascript": "function add(input, output) {\n  output.result = input.numbers.reduce(function(a, b) { return a + b; });\n}"
+        "resources": [
+          "math"
+        ],
+        "source": "return math.add(input.numbers[0], input.numbers[1]);"
+      },
+      "tests": {
+        "shouldReturnSix": {
+          "input": {
+            "numbers": [
+              1,
+              2
+            ]
+          },
+          "output": {
+            "result": 3
+          }
+        }
+      }
+    }
+  },
+  "automations": {
+    "add": {
+      "trigger": "http",
+      "actions": {
+        "math": {
+          "numbers": "$input.numbers"
+        }
+      },
+      "tests": {
+        "shouldReturnSix": {
+          "input": {
+            "numbers": [
+              1,
+              2,
+              3
+            ]
+          },
+          "output": {
+            "result": 6
+          }
+        }
       }
     }
   }

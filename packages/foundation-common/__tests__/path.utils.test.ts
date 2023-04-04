@@ -27,7 +27,7 @@ test('should return the correct PrismaSchema path', () => {
 
 test('should return the correct PrismaClient path', () => {
   expect(PathUtils.prismaClient()).toBe(
-    join(ROOT_PATH, 'packages/foundation-database/prisma/client')
+    join(ROOT_PATH, 'packages/foundation-database/generated/prisma')
   )
 })
 

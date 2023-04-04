@@ -1,4 +1,5 @@
 import fs from 'fs-extra'
+
 import { PathUtils } from '../'
 
 export async function get(): Promise<unknown> {
