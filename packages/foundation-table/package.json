@@ -2,6 +2,8 @@
   "name": "foundation-table",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "browser": "client/index.ts",
+  "server": "server/index.ts",
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
     "test": "cross-env $(cat ../config-test/.env | xargs) jest"
