@@ -1,7 +1,13 @@
 export type Field = {
-  type: 'string' | 'integer' | 'float' | 'boolean' | 'datetime'
+  type: string
   primary?: boolean
-  generated?: 'increment'
-  nullable?: boolean
+  optional?: boolean
+  list?: boolean
   default?: string | number | boolean
+  unique?: boolean
+  relation?: {
+    fields: string[]
+    references: string[]
+    onDelete: string
+  }
 }

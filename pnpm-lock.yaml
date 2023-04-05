@@ -51,7 +51,18 @@ importers:
       eslint-config-foundation: link:../config-eslint
 
   packages/config-test:
-    specifiers: {}
+    specifiers:
+      '@faker-js/faker': 7.6.0
+      config-typescript: workspace:*
+      eslint: ^7.32.0
+      eslint-config-foundation: workspace:*
+      typescript: ^4.5.2
+    devDependencies:
+      '@faker-js/faker': 7.6.0
+      config-typescript: link:../config-typescript
+      eslint: 7.32.0
+      eslint-config-foundation: link:../config-eslint
+      typescript: 4.9.5
 
   packages/config-typescript:
     specifiers: {}
@@ -200,6 +211,7 @@ importers:
       ajv: 8.12.0
       ajv-keywords: 5.1.0
       config-jest: workspace:*
+      config-test: workspace:*
       config-typescript: workspace:*
       cross-env: 7.0.3
       eslint: ^7.32.0
@@ -221,6 +233,7 @@ importers:
       '@types/jest': 29.4.0
       '@types/node': 18.15.10
       config-jest: link:../config-jest
+      config-test: link:../config-test
       cross-env: 7.0.3
       eslint: 7.32.0
       eslint-config-foundation: link:../config-eslint

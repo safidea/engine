@@ -1,9 +1,9 @@
-export type SchemaGeneratorParams = {
+export type ValidateParams = {
   path: string
   type: string
 }
 
-export type SchemaValidateError = {
+export type SchemaErrors = {
   instancePath: string
   message?: string
 }

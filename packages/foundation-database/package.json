@@ -1,7 +1,7 @@
 {
   "name": "foundation-database",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "shared/index.ts",
+  "types": "shared/index.ts",
   "browser": "client/index.ts",
   "server": "server/index.ts",
   "scripts": {
@@ -15,7 +15,6 @@
     "ts-node": "10.9.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "7.6.0",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "11.0.1",
     "@types/jest": "29.4.0",

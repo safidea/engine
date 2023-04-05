@@ -1,50 +1,49 @@
 {
+  "name": "test",
   "database": {
     "url": "file:./test.db",
     "provider": "sqlite"
   },
   "tables": {
-    "tableName": {
-      "stringField": {
-        "type": "string",
-        "nullable": true
-      },
-      "stringWithDefaultValueField": {
-        "type": "string",
-        "nullable": true,
-        "default": "default value"
-      },
-      "integerField": {
-        "type": "integer",
-        "nullable": false
-      },
-      "integerWithDefaultValueField": {
-        "type": "integer",
-        "nullable": false,
-        "default": 10
-      },
-      "datetimeField": {
-        "type": "datetime",
-        "nullable": true
-      },
-      "datetimeWithDefaultValueField": {
-        "type": "datetime",
-        "nullable": true,
-        "default": "now()"
-      },
-      "booleanField": {
-        "type": "boolean",
-        "nullable": true
-      },
-      "booleanWithDefaultValueField": {
-        "type": "boolean",
-        "nullable": false,
-        "default": true
+    "tasks": {
+      "fields": {
+        "name": {
+          "type": "String"
+        },
+        "description": {
+          "type": "String",
+          "optional": true,
+          "default": "ceci est une description"
+        },
+        "number": {
+          "type": "Int",
+          "unique": true
+        },
+        "priority": {
+          "type": "Int",
+          "default": 3
+        },
+        "done_at": {
+          "type": "DateTime",
+          "optional": true,
+          "default": "now()"
+        },
+        "started_at": {
+          "type": "DateTime"
+        },
+        "done": {
+          "type": "Boolean"
+        },
+        "open": {
+          "type": "Boolean",
+          "default": true
+        }
       }
     }
   },
   "resources": {
     "math": {
+      "environment": "shared",
       "type": "javascript",
       "source": "module.exports = {\n  add: function (a, b) {\n    return a + b;\n  }\n};"
     }
@@ -54,17 +53,17 @@
       "input": {
         "numbers": {
           "type": "array",
-          "nullable": false,
+          "optional": false,
           "items": {
-            "type": "integer",
-            "nullable": false
+            "type": "Int",
+            "optional": false
           }
         }
       },
       "output": {
         "result": {
-          "type": "integer",
-          "nullable": false
+          "type": "Int",
+          "optional": false
         }
       },
       "implementation": {

@@ -1,0 +1,7 @@
+{
+  "root": true,
+  "extends": ["foundation"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}
