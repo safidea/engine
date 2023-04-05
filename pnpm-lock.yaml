@@ -254,9 +254,11 @@ importers:
       debug: 4.3.4
       eslint: 8.36.0
       eslint-config-foundation: workspace:*
+      foundation-action: workspace:*
       foundation-auth: workspace:*
       foundation-automation: workspace:*
       foundation-database: workspace:*
+      foundation-resource: workspace:*
       foundation-table: workspace:*
       jest: 29.4.1
       next: 13.2.4
@@ -265,9 +267,11 @@ importers:
       ts-node: 10.9.1
       typescript: 5.0.2
     dependencies:
+      foundation-action: link:../foundation-action
       foundation-auth: link:../foundation-auth
       foundation-automation: link:../foundation-automation
       foundation-database: link:../foundation-database
+      foundation-resource: link:../foundation-resource
       foundation-table: link:../foundation-table
       next: 13.2.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0

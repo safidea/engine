@@ -1,3 +1,3 @@
-import { TableRoutes } from 'foundation-table'
+import { TableRoutes } from 'foundation-table/server'
 
 export default TableRoutes
