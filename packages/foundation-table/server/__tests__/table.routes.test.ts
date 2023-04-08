@@ -14,9 +14,10 @@ beforeAll(() => {
   DatabaseInitializer()
 })
 
-function getErrors(fields: { [key: string]: Field }): string[] {
+function getErrors(fields: { [key: string]: Field }, fieldRequired?: string): string[] {
   return Object.keys(fields)
     .map((field) => {
+      if (field === fieldRequired) return `Field ${field} is required`
       if (fields[field].default || fields[field].optional) return ''
       if (fields[field].type === 'Int') return `Field ${field} must be an integer`
       if (fields[field].type === 'DateTime') return `Field ${field} must be a valid date`
@@ -41,7 +42,7 @@ for (const table of Object.keys(tables)) {
       for (const field of Object.keys(fields)) {
         if (fields[field].default) {
           expect(row[field]).not.toBe(null)
-        } else if (!data[field]) {
+        } else if (!data[field] && fields[field].type !== 'Boolean') {
           expect(row[field]).toStrictEqual(null)
         } else {
           expect(row[field]).toStrictEqual(data[field])
@@ -168,6 +169,10 @@ for (const table of Object.keys(tables)) {
 
     it('should return a 400 if the body is not valid in a POST request', async () => {
       const { data, fields } = TestUtils.createData(table, false)
+      const fieldRequired = Object.keys(fields).find(
+        (field) => !fields[field].optional && !fields[field].default
+      )
+      if (fieldRequired) delete data[fieldRequired]
       const req = {
         method: 'POST',
         query: { table },
@@ -178,7 +183,7 @@ for (const table of Object.keys(tables)) {
       expect(res.status).toHaveBeenCalledWith(400)
       expect(res.json.mock.calls[0][0]).toEqual({
         error: 'Invalid body',
-        details: getErrors(fields),
+        details: getErrors(fields, fieldRequired),
       })
     })
 

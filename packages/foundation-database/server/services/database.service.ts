@@ -1,7 +1,7 @@
 import PrismaService from './prisma.service'
 import { Data, Row } from '../../types'
 
-export default function DatabaseService(model: string) {
+function DatabaseService(model: string) {
   const table = PrismaService.base(model)
 
   async function create(data: Data): Promise<Row> {
@@ -81,3 +81,5 @@ export default function DatabaseService(model: string) {
     deleteById,
   }
 }
+
+export default DatabaseService
