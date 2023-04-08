@@ -1,8 +1,8 @@
-import base from '../utils/base.utils'
+import PrismaService from './prisma.service'
 import { Data, Row } from '../../types'
 
 export default function DatabaseService(model: string) {
-  const table = base(model)
+  const table = PrismaService.base(model)
 
   async function create(data: Data): Promise<Row> {
     const row = await table.create({
