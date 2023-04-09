@@ -71,6 +71,7 @@
         "resources": [
           "math"
         ],
+        "environment": "shared",
         "source": "return math.add(input.numbers[0], input.numbers[1]);"
       },
       "tests": {

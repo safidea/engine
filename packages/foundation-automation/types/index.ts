@@ -1,1 +1,5 @@
 export * from './config.type'
+export * from './environment.type'
+export * from './value.type'
+export * from './action.type'
+export * from './resource.type'
