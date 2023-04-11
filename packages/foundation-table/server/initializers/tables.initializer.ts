@@ -1,7 +1,7 @@
 import debug from 'debug'
 import { SchemaService } from 'foundation-common/server'
 import TableService from '../services/table.service'
-import { TYPES_PATH } from '../settings/constants.settings'
+import { TYPES_PATH } from '../constants/table.constants'
 
 const log: debug.IDebugger = debug('table:init')
 

@@ -9,7 +9,7 @@ export default function ResourceInitializer() {
   const path = join(__dirname, '../..', 'types/config.type.ts')
   SchemaService.validate(actions, { path, type: 'Actions' })
   log('Actions schema validated')
-  
+
   for (const name of ResourceService.getNames()) {
     const resource = ResourceService.get(name)
     const isUpdated = SchemaService.cache(resource, 'resources/' + name)

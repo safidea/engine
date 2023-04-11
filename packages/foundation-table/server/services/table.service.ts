@@ -1,5 +1,5 @@
-import { join } from 'path'
 import { ConfigService } from 'foundation-common/server'
+import { DEFAULT_FIELDS } from '../constants/table.constants'
 
 import type { Tables, Table } from '../../types/config.type'
 
@@ -11,18 +11,16 @@ class TableService {
   }
 
   get(name: string): Table {
-    return this.tables[name]
+    const table = this.tables[name]
+    if (!table) {
+      throw new Error(`Table ${name} does not exist`)
+    }
+    table.fields = { ...DEFAULT_FIELDS, ...table.fields }
+    return table
   }
 
   getNames(): string[] {
     return Object.keys(this.tables)
-  }
-
-  updateSchema(name: string) {
-    const { unique, model, fields } = this.get(name)
-    const modelName = model ?? PrismaService.getModelName(name)
-    const modelData = { fields, unique, map: name }
-    PrismaService.updateModelSchema(modelName, modelData)
   }
 }
 
