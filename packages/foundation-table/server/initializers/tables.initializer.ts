@@ -8,7 +8,7 @@ const log: debug.IDebugger = debug('table:init')
 export default function TableInitializer() {
   for (const name of TableService.getNames()) {
     const table = TableService.get(name)
-    const isUpdated = InitializerService.isUpdated(table, 'tables.' + name)
+    const isUpdated = InitializerService.cache(table, 'tables.' + name)
     if (!isUpdated) {
       log(`${name} table is up to date`)
     } else {
