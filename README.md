@@ -3,7 +3,7 @@
 ## Packages structure
 
 - server
-  - __tests__
+  - **tests**
   - controllers
   - initializers
   - services

@@ -1,25 +1,30 @@
 import { join } from 'path'
 import debug from 'debug'
 import { ConfigService, SchemaService } from 'foundation-common/server'
-import { Config } from '../../types'
+import { Database, Tables } from '../../types'
 import PrismaService from '../services/prisma.service'
 
 const log: debug.IDebugger = debug('database:init')
 
 export default function DatabaseInitializer(config?: Config) {
   const { NODE_ENV } = process.env
-  const { database, tables } = config ?? (ConfigService.get() as Config)
-  const isUpdated = SchemaService.cache({ database, tables }, 'database')
+  const pathToType = join(__dirname, '../..', 'types/config.type.ts')
+  const database = config.database ?? (ConfigService.get('database') as Database)
+  const tables = config.tables ?? (ConfigService.get('tables') as Tables)
 
+  const isUpdated = SchemaService.cache(database, 'database')
   if (!isUpdated) {
-    log('Database schema is up to date')
+    log('Database is up to date')
   } else {
-    log('Database schema has been updated')
+    log('Database has been updated')
 
-    const path = join(__dirname, '../..', 'types/config.type.ts')
-    SchemaService.validate(database, { path, type: 'Database' })
-    SchemaService.validate(tables, { path, type: 'Tables' })
+    SchemaService.validate(database, { path: pathToType, type: 'Database' })
     log('Database schema validated')
+  }
+
+  for (const name of ResourceService.getNames()) {
+    SchemaService.validate(tables, { path, type: 'Tables' })
+    log('Tables schema validated')
 
     PrismaService.writeSchema(tables, database)
     log('Database schema created')

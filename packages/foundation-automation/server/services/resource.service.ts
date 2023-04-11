@@ -6,7 +6,7 @@ import { GENERATED_FOLDER_PATH } from '../settings/constants.settings'
 import type { Resources, Resource } from '../../types'
 
 class ResourceService {
-  private resources: Resources
+  private resources: Resources = {}
 
   constructor() {
     this.resources = ConfigService.get('resources') as Resources

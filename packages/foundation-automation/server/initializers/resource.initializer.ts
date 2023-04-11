@@ -5,6 +5,11 @@ import ResourceService from '../services/resource.service'
 const log: debug.IDebugger = debug('resource:init')
 
 export default function ResourceInitializer() {
+  const actions = ConfigService.get('actions') as Actions
+  const path = join(__dirname, '../..', 'types/config.type.ts')
+  SchemaService.validate(actions, { path, type: 'Actions' })
+  log('Actions schema validated')
+  
   for (const name of ResourceService.getNames()) {
     const resource = ResourceService.get(name)
     const isUpdated = SchemaService.cache(resource, 'resources/' + name)

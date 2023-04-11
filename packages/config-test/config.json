@@ -45,7 +45,7 @@
     "math": {
       "environment": "shared",
       "type": "javascript",
-      "source": "module.exports = {\n  add: function (a, b) {\n    return a + b;\n  }\n};"
+      "source": "module.exports = { add: (...numbers) => numbers.reduce((a, b) => a + b, 0) };"
     }
   },
   "actions": {
@@ -61,7 +61,7 @@
         }
       },
       "output": {
-        "result": {
+        "sum": {
           "type": "Int",
           "optional": false
         }
@@ -72,7 +72,7 @@
           "math"
         ],
         "environment": "shared",
-        "source": "return math.add(input.numbers[0], input.numbers[1]);"
+        "source": "return math.add(...input.numbers);"
       },
       "tests": {
         "shouldReturnSix": {
@@ -90,11 +90,16 @@
     }
   },
   "automations": {
-    "add": {
-      "trigger": "http",
+    "addNumbers": {
+      "trigger": {
+        "type": "http"
+      },
       "actions": {
-        "math": {
-          "numbers": "$input.numbers"
+        "addNumbers": {
+          "action": "add",
+          "input": {
+            "numbers": "$input.numbers"
+          }
         }
       },
       "tests": {

@@ -9,3 +9,7 @@ export type Value = {
     nullable: boolean
   }
 }
+
+export type Input = {
+  [key: string]: Value
+}

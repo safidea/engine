@@ -4,10 +4,20 @@ import base from 'config-typescript/base.json'
 import tsj from '../utils/tsj.utils'
 import ajv from '../utils/ajv.utils'
 import * as PathUtils from '../utils/path.utils'
+import { DATA_FOLDER, ROOT_PATH } from '../settings/path.settings'
 
 import type { ValidateParams, SchemaErrors } from '../../types'
 
 class SchemaService {
+  private cached = {}
+
+  constructor() {
+    const path = join(ROOT_PATH, DATA_FOLDER, `config.cache.json`)
+    fs.ensureFileSync(path)
+    const cached = fs.readFileSync(path, 'utf8')
+    if (cached) this.cached = JSON.parse(cached)
+  }
+
   validate(partialConfig: unknown, params: ValidateParams): void {
     const program = tsj.getProgramFromFiles([resolve(params.path)], base.compilerOptions)
     const schema = tsj.generateSchema(program, params.type)

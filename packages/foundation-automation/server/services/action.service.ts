@@ -7,7 +7,7 @@ import { GENERATED_FOLDER_PATH } from '../settings/constants.settings'
 import { Actions, Action } from '../../types'
 
 class ActionService {
-  private actions: Actions
+  private actions: Actions = {}
 
   constructor() {
     this.actions = ConfigService.get('actions') as Actions

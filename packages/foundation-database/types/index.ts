@@ -1,6 +1,0 @@
-export * from './config.type'
-export * from './table.type'
-export * from './field.type'
-export * from './data.type'
-export * from './row.type'
-export * from './base.type'
