@@ -9,8 +9,7 @@
     "test": "cross-env $(cat ../config-test/.env | xargs) jest"
   },
   "dependencies": {
-    "foundation-auth": "workspace:*",
-    "foundation-database": "workspace:*",
+    "foundation-account": "workspace:*",
     "foundation-common": "workspace:*"
   },
   "devDependencies": {

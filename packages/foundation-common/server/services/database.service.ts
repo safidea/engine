@@ -1,17 +1,25 @@
 import PrismaService from './prisma.service'
 import { Data, Row } from '../../types'
 
-function DatabaseService(model: string) {
-  const table = PrismaService.base(model)
+class DatabaseService {
+  build(tables) {
+    PrismaService.build(tables)
+  }
 
-  async function create(data: Data): Promise<Row> {
+  base(model: string) {
+    return PrismaService.base(model)
+  }
+
+  async create(model: string, data: Data): Promise<Row> {
+    const table = this.base(model)
     const row = await table.create({
       data,
     })
     return row
   }
 
-  async function patchById(id: string, data: Data): Promise<Row> {
+  async patchById(model: string, id: string, data: Data): Promise<Row> {
+    const table = this.base(model)
     const updated_at = new Date().toISOString()
     const row = await table.update({
       where: { id },
@@ -23,7 +31,8 @@ function DatabaseService(model: string) {
     return row
   }
 
-  async function putById(id: string, data: Data): Promise<Row> {
+  async putById(model: string, id: string, data: Data): Promise<Row> {
+    const table = this.base(model)
     const updated_at = new Date().toISOString()
     const row = await table.update({
       where: { id },
@@ -35,7 +44,8 @@ function DatabaseService(model: string) {
     return row
   }
 
-  async function upsertById(id: string, data: Data): Promise<Row> {
+  async upsertById(model: string, id: string, data: Data): Promise<Row> {
+    const table = this.base(model)
     const updated_at = new Date().toISOString()
     const row = await table.upsert({
       where: { id },
@@ -48,19 +58,22 @@ function DatabaseService(model: string) {
     return row
   }
 
-  async function readById(id: string): Promise<Row> {
+  async readById(model: string, id: string): Promise<Row> {
+    const table = this.base(model)
     const row = await table.findUnique({
       where: { id },
     })
     return row
   }
 
-  async function list(): Promise<Row[]> {
+  async list(model: string): Promise<Row[]> {
+    const table = this.base(model)
     const rows = await table.findMany({})
     return rows
   }
 
-  async function deleteById(id: string): Promise<Row> {
+  async deleteById(model: string, id: string): Promise<Row> {
+    const table = this.base(model)
     const deleted_at = new Date().toISOString()
     const row = await table.update({
       where: { id },
@@ -70,16 +83,8 @@ function DatabaseService(model: string) {
     })
     return row
   }
-
-  return {
-    create,
-    patchById,
-    putById,
-    upsertById,
-    readById,
-    list,
-    deleteById,
-  }
 }
 
-export default DatabaseService
+const service = new DatabaseService()
+
+export default service

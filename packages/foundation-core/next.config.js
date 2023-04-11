@@ -6,7 +6,7 @@ module.exports = (phase, { defaultConfig }) => {
     reactStrictMode: true,
     transpilePackages: [
       'foundation-table',
-      'foundation-auth',
+      'foundation-account',
       'foundation-database',
       'foundation-common',
       'foundation-common',

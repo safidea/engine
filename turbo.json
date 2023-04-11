@@ -4,8 +4,8 @@
     ".env.local"
   ],
   "globalEnv": [
-    "CONFIG_FILE",
-    "DATA_FOLDER",
+    "CONFIG_FILE_PATH",
+    "DATA_FOLDER_PATH",
     "NODE_ENV",
     "DEBUG",
     "EMAIL_SERVER_HOST",

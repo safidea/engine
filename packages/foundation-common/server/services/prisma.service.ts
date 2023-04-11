@@ -5,8 +5,6 @@ import { ConfigService, StringUtils, PathSettings } from 'foundation-common/serv
 import { Database } from '../../types'
 import { Base, Model } from '../interfaces/prisma.interface'
 import { PrismaClient } from '../../generated/server/prisma'
-import { ACCOUNTS_TABLES } from '../settings/accounts.settings'
-import { DEFAULT_FIELDS } from '../settings/fields.settings'
 
 const { ROOT_PATH, DATA_FOLDER } = PathSettings
 const FOLDER_PATH = '../../generated/server/prisma'
@@ -15,6 +13,7 @@ class PrismaService {
   private prisma: PrismaClient
   private schemaPath: string
   private clientPath: string
+  private schema: string
 
   constructor() {
     this.prisma = new PrismaClient()
@@ -22,19 +21,9 @@ class PrismaService {
     this.clientPath = join(__dirname, FOLDER_PATH)
     fs.ensureFileSync(this.schemaPath)
     fs.ensureDirSync(this.clientPath)
-    //if (database.accounts) tables = { ...tables, ...ACCOUNTS_TABLES }
-
-    const datasourceSchema = `generator client {
-        provider = "prisma-client-js"
-        output   = "${this.clientPath}"
-      }`
-    const databaseSchema = fs.readFileSync(this.schemaPath)
-    const datasourceSchemaRegex = new RegExp(`datasource db {([\\s\\S]*?)}`, 'g')
-    const newDatabaseSchema = databaseSchema.replace(modelSchemaRegex, modelSchema)
-    return schema
   }
 
-  getInstance(): PrismaClient {
+  instance(): PrismaClient {
     return this.prisma
   }
 
@@ -100,6 +89,10 @@ class PrismaService {
     let model = ConfigService.get(`tables.${tableName}.model`) as string
     if (!model) model = this.getModelName(tableName)
     return this.prisma[model.toLowerCase() as keyof typeof this.prisma] as unknown as Base
+  }
+
+  build() {
+
   }
 
   formatSchema() {
