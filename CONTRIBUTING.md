@@ -20,6 +20,7 @@ You can find the configuration schema at: `packages/foundation-common/src/shared
 A `foundation-[feature]` package is a package responsible for a specific feature for a specific config. There are independent of each others and can work with the minimum config available.
 
 Here is the current packages list:
+
 - `foundation-database`: Configuration of databases
 - `foundation-table`: Configuration of tables and their fields, permissions and database used
 - `foundation-account`: Configuration of accounts groups, the auth methods, roles and database used
@@ -36,6 +37,7 @@ Here is the current packages list:
 ### Core
 
 A `foundation-core` package is the final application using the features that have been configured. It is based on Next.js that has the role of building and running the app.
+All Next.js libraries are used here.
 
 ### Common
 
@@ -52,6 +54,7 @@ package-[feature]/
   tests/
     server/
     client/
+    shared/
   js/
   scripts/
     config.ts
@@ -86,20 +89,23 @@ package-[feature]/
       interfaces/
         [feature].interface.ts
       settings/
-        [feature].setting.ts
+        [feature].settings.ts
       index.ts
 ```
 
 Here are the imports of each feature package
 
-1. Initialization 
+1. Initialization
+
 - `/scripts/config.ts` build all the necessary code from config in the `/js`
 
 2. Server import
+
 - `/src/server` export the handler to catch routes calls and access to services in a secure way, with workflow `routes > middlewares > controllers > services > infrastructures / settings`
 - `/src/shared` export components that are client and server side, with workflow `components > services > infrastructures`, in addition to interfaces and settings
 
 3. Client import
+
 - `/src/client` export components that are client side only, with workflow `components > services > infrastructures`
 - `/src/shared` export components that are client and server side, with workflow `components > services > infrastructures`, in addition to interfaces and settings
 
@@ -107,11 +113,92 @@ Here are the imports of each feature package
 
 Here is the structure of the common package
 
+```
+tests/
+  server/
+    [name].utils.test.ts
+    [name].helpers.test.ts
+    [name].library.test.ts
+  client/
+    [name].utils.test.ts
+    [name].helpers.test.ts
+    [name].library.test.ts
+  shared/
+    [name].utils.test.ts
+    [name].helpers.test.ts
+    [name].library.test.ts
+src/
+  server/
+    utils/
+      [name].utils.ts
+    helpers/
+      [name].helpers.ts
+    libraries/
+      [name].library.ts
+    index.ts
+  client/
+    utils/
+      [name].utils.ts
+    helpers/
+      [name].helpers.ts
+    libraries/
+      [name].library.ts
+    index.ts
+  shared/
+    utils/
+      [name].utils.ts
+    helpers/
+      [name].helpers.ts
+    libraries/
+      [name].library.ts
+    settings/
+      [name].settings.ts
+    index.ts
+```
 
 ### Core
 
 Here is the structure of the core package
 
+```
+e2e/
+  use-cases/
+src/
+  pages/
+    api/
+      auth/
+        [...nextauth].ts
+      table/
+        [table].ts
+        [table]/
+          [id].ts
+      action/
+        [action].ts
+        [action]/
+          [id].ts
+      automation/
+        [automation].ts
+        [automation]/
+          [id].ts
+      storage/
+        [storage].ts
+        [storage]/
+          [id].ts
+    [[...page]].tsx
+    _app.tsx
+    _document.tsx
+    404.ts
+    500.ts
+  libraries/
+    [name].library.ts
+  settings/
+    [name].settings.ts
+public/
+scripts/
+  config.ts
+styles/
+  globals.css
+```
 
 ## Routes
 
@@ -123,6 +210,7 @@ Here is the structure of the core package
 - `/auth/forgot-password`: path to reset password
 
 ### Api
+
 - `/api/auth/getAccessToken`: account API
 - `/api/table/[table]/[id?]`: table API
 - `/api/action/[action]/[id?]`: action API

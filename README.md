@@ -5,7 +5,7 @@
 ### Structures
 
 - server / client / shared
-  - __ tests __
+  - ** tests **
   - controllers
   - initializers
   - services
@@ -65,4 +65,3 @@
 3. Validate new config
 4. Generate code
 5. Test generated code
-

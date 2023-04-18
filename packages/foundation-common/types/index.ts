@@ -1,5 +1,0 @@
-export * from './router.type'
-export * from './database.type'
-export * from './data.type'
-export * from './row.type'
-export * from './config.type'
