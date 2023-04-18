@@ -26,12 +26,12 @@ Here is the current packages list:
 - `foundation-action`: Configuration of actions, source code, input/output, tests and permissions
 - `foundation-automation`: Configuration of automations and their actions, tests and permissions
 - `foundation-integration`: Configuration of integrations, packages to import and source code
-- `foundation-component`
-- `foundation-interface`
-- `foundation-page`
-- `foundation-theme`
-- `foundation-language`
-- `foundation-storage`
+- `foundation-component`: Configuration of components with theming
+- `foundation-interface`: Configuration of interfaces, with their component, table, storage, action or automation
+- `foundation-page`: Configuration of pages with interfaces, permissions and languages
+- `foundation-theme`: Configuration of theming
+- `foundation-language`: Configuration of languages
+- `foundation-storage`: Configuration of storages with permissions
 
 ### Core
 
@@ -43,29 +43,88 @@ A `foundation-common` package is a package where shared code between package is 
 
 ## Architecture
 
-Each package as the same architecture.
+### Features
+
+Each feature package as the same architecture.
 
 ```
-package/
+package-[feature]/
   tests/
     server/
     client/
-  data/
+  js/
+  scripts/
+    config.ts
   src/
     server/
       routes/
+        [feature].route.ts
       controllers/
+        [feature].controller.ts
       services/
+        [feature].service.ts
       middlewares/
-      constants/
-      initializers/
-      utils/
-      infrastructures/
+        [feature].middleware.ts
+      libraries/
+        [name].library.ts
       index.ts
     client/
       components/
+        [feature].component.ts
       services/
+        [feature].service.ts
+      libraries/
+        [name].library.ts
       index.ts
     shared/
+      components/
+        [feature].component.ts
+      services/
+        [feature].service.ts
+      libraries/
+        [name].library.ts
       interfaces/
+        [feature].interface.ts
+      settings/
+        [feature].setting.ts
+      index.ts
 ```
+
+Here are the imports of each feature package
+
+1. Initialization 
+- `/scripts/config.ts` build all the necessary code from config in the `/js`
+
+2. Server import
+- `/src/server` export the handler to catch routes calls and access to services in a secure way, with workflow `routes > middlewares > controllers > services > infrastructures / settings`
+- `/src/shared` export components that are client and server side, with workflow `components > services > infrastructures`, in addition to interfaces and settings
+
+3. Client import
+- `/src/client` export components that are client side only, with workflow `components > services > infrastructures`
+- `/src/shared` export components that are client and server side, with workflow `components > services > infrastructures`, in addition to interfaces and settings
+
+### Common
+
+Here is the structure of the common package
+
+
+### Core
+
+Here is the structure of the core package
+
+
+## Routes
+
+### App
+
+- `/[...page]`: path to any page
+- `/auth/login`: path to login page
+- `/auth/register`: path to register page
+- `/auth/forgot-password`: path to reset password
+
+### Api
+- `/api/auth/getAccessToken`: account API
+- `/api/table/[table]/[id?]`: table API
+- `/api/action/[action]/[id?]`: action API
+- `/api/automation/[automation]/[id?]`: automation API
+- `/api/storage/[storage]/[id?]`: storage API

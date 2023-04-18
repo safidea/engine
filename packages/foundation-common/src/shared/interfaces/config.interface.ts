@@ -96,7 +96,9 @@ export interface Integration {
   source: string
 }
 
-export interface Component {}
+export interface Component {
+  
+}
 
 export interface Interface {}
 
