@@ -1,7 +1,22 @@
 import { join } from 'path'
 
-const isNext = __dirname.search('.next') > -1
+class PathSettings {
+  getRoot(): string {
+    return join(__dirname, process.env.NEXT_BUILD != null ? '../../..' : '', '../../../../..')
+  }
 
-export const DATA_FOLDER_PATH = process.env.DATA_FOLDER_PATH || './data'
-export const ROOT_PATH = join(__dirname, isNext ? '../../..' : '', '../../../..')
-export const CONFIG_CACHE_PATH = join(ROOT_PATH, DATA_FOLDER_PATH, `config.cache.json`)
+  getDataFolder(): string {
+    return join(this.getRoot(), process.env.DATA_FOLDER_PATH || './data')
+  }
+
+  getConfigFile(): string {
+    return join(this.getRoot(), process.env.CONFIG_FILE_PATH || './config.json')
+  }
+
+  getConfigCache(): string {
+    return join(this.getDataFolder(), `config.cache.json`)
+  }
+}
+
+const pathSettings = new PathSettings()
+export default pathSettings

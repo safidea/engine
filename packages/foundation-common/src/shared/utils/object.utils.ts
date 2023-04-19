@@ -1,24 +1,36 @@
-export function getAtPath(obj: unknown, path: string): unknown {
+import { ObjectInterface, ObjectValueType } from '@shared'
+
+export function getAtPath(obj: ObjectInterface, path: string): ObjectValueType {
   const keys = path.split('.')
-  let result: unknown = obj
+  let result: ObjectValueType = obj
   for (const key of keys) {
-    result = (result as { [key: string]: unknown })[key]
-    if (!result) {
-      break
-    }
+    if (typeof result === 'object') result = result[key]
+    else result = undefined
+    if (!result) break
   }
   return result
 }
 
-export function setAtPath(obj: unknown, path: string, value: unknown): unknown {
+export function setAtPath(
+  obj: ObjectInterface,
+  path: string,
+  value: ObjectValueType
+): ObjectInterface {
   const keys = path.split('.')
-  let result: unknown = obj
+  let result: ObjectValueType = obj
   for (const key of keys) {
-    if (key === keys[keys.length - 1]) {
-      ;(result as { [key: string]: unknown })[key] = value
-    } else {
-      result = (result as { [key: string]: unknown })[key]
+    if (typeof result === 'object') {
+      if (key === keys[keys.length - 1]) {
+        result[key] = value
+      } else {
+        if (typeof result[key] !== 'object') result[key] = {}
+        result = result[key]
+      }
     }
   }
   return obj
+}
+
+export function isEmpty(obj: ObjectInterface): boolean {
+  return Object.keys(obj).length === 0
 }

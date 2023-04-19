@@ -1,5 +1,9 @@
 export * from '@shared'
 
-export * as PathUtils from './utils/path.utils'
+export { default as SchemaUtils } from './utils/schema.utils'
+export { default as ConfigUtils } from './utils/config.utils'
 
-export * as PathSettings from './settings/path.settings'
+export { default as AJVLib } from './lib/ajv.lib'
+export { default as TSJLib } from './lib/tsj.lib'
+
+export { default as PathSettings } from './settings/path.settings'
