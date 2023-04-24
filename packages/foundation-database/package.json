@@ -1,0 +1,33 @@
+{
+  "name": "foundation-database",
+  "main": "src/shared/index.ts",
+  "types": "src/shared/index.ts",
+  "browser": "src/client/index.ts",
+  "server": "src/server/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint .",
+    "test": "pnpm run test:server",
+    "test:server": "jest --config=tests/server/config/jest.config.js"
+  },
+  "dependencies": {
+    "foundation-common": "workspace:*",
+    "fs-extra": "11.1.1"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "@types/fs-extra": "11.0.1",
+    "@types/jest": "29.4.0",
+    "@types/node": "^18.11.17",
+    "config-jest": "workspace:*",
+    "config-test": "workspace:*",
+    "config-typescript": "workspace:*",
+    "debug": "4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-foundation": "workspace:*",
+    "jest": "29.4.1",
+    "ts-jest": "29.0.5",
+    "ts-node": "10.9.1",
+    "tsconfig-paths": "4.2.0",
+    "typescript": "^4.5.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "extends": "config-typescript/base.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@database/config": ["src/server/config.ts"],
+      "@database/server": ["src/server"],
+      "@database": ["src/shared"],
+      "@common": ["../foundation-common/src/shared"],
+      "@common/server": ["../foundation-common/src/server"],
+      "@common/client": ["../foundation-common/src/client"],
+      "@test/server": ["../config-test/src/server"],
+      "@test/client": ["../config-test/src/client"],
+      "@test": ["../config-test/src/shared"]
+    }
+  }
+}
