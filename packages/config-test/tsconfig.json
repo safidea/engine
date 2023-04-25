@@ -1,5 +1,13 @@
 {
   "extends": "config-typescript/base.json",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "prisma"]
+  "exclude": ["node_modules", "data"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@test/server": ["src/server"],
+      "@test/client": ["src/client"],
+      "@test": ["src/shared"]
+    }
+  }
 }

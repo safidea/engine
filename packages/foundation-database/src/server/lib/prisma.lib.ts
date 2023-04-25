@@ -1,32 +1,22 @@
 import { PrismaUtils } from '@database/server'
 import PrismaClients from '../../../js/server/prisma'
 
-import type { DataType, RowType } from '@database'
-
-interface BaseInterface {
-  create: (params: { data: DataType }) => Promise<RowType>
-  update: (params: { data: DataType; where: DataType }) => Promise<RowType>
-  upsert: (params: { create: DataType; update: DataType; where: DataType }) => Promise<RowType>
-  findUnique: (params: { where: DataType }) => Promise<RowType>
-  findMany: (params: { where?: DataType }) => Promise<RowType[]>
-  delete: (params: { where: DataType }) => Promise<RowType>
-}
+import type { PrismaClientInterface } from '@database'
 
 class PrismaLib {
   private clients = PrismaClients
 
-  private model(baseName: string, modelName: string): BaseInterface {
-    const instance = this.instance(baseName)
-    return instance[modelName as keyof typeof instance] as unknown as BaseInterface
+  private model(baseName: string, modelName: string): PrismaClientInterface {
+    const base = this.base(baseName)
+    return base[modelName as keyof typeof base] as unknown as PrismaClientInterface
   }
 
-  public base(tablePath: string): BaseInterface {
-    const [baseName, tableName] = tablePath.split('.')
+  public table(baseName: string, tableName: string): PrismaClientInterface {
     const modelName = PrismaUtils.getModelName(tableName).toLowerCase()
     return this.model(baseName, modelName)
   }
 
-  public instance(baseName: string) {
+  public base(baseName: string) {
     return this.clients[baseName as keyof typeof this.clients]
   }
 }

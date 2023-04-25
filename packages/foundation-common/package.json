@@ -7,8 +7,8 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
     "test": "pnpm run test:server && pnpm run test:client",
-    "test:server": "jest --config=tests/server/config/jest.config.js",
-    "test:client": "jest --config=tests/client/config/jest.config.js"
+    "test:server": "jest --config=tests/server/jest.config.js",
+    "test:client": "jest --config=tests/client/jest.config.js"
   },
   "dependencies": {
     "ajv": "8.12.0",

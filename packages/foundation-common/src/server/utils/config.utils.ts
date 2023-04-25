@@ -1,30 +1,42 @@
 import fs from 'fs-extra'
-import { ObjectUtils, PathSettings } from '@server'
-import type { ObjectInterface, ObjectValueType } from '@server'
+import { ObjectUtils, PathUtils } from '@common/server'
+
+import type { ObjectInterface, ObjectValueType } from '@common/server'
 
 class ConfigUtils {
-  private config: ObjectInterface = {}
+  private config: ObjectInterface
 
-  init(): ObjectInterface {
-    const path = PathSettings.getConfigFile()
-    if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)
+  constructor() {
+    this.config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false }) || {}
+  }
 
+  public init(): ObjectInterface {
+    const path = PathUtils.getConfigFile()
     this.config = fs.readJsonSync(path, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${path}`)
-
     return this.config
   }
 
-  get(path?: string): ObjectValueType {
+  public get(path?: string): ObjectValueType | undefined {
     if (ObjectUtils.isEmpty(this.config)) this.init()
     if (path) return ObjectUtils.getAtPath(this.config, path)
     return this.config
   }
 
-  clear(): void {
+  public set(path: string, value: ObjectValueType): ObjectInterface {
+    if (ObjectUtils.isEmpty(this.config)) this.init()
+    this.config = ObjectUtils.setAtPath(this.config, path, value)
+    return this.config
+  }
+
+  public clear(): void {
     this.config = {}
+  }
+
+  public cache(): void {
+    const cachePath = PathUtils.getConfigCache()
+    fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
   }
 }
 
-const configUtils = new ConfigUtils()
-export default configUtils
+export default new ConfigUtils()

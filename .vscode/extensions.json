@@ -5,9 +5,6 @@
     "dbaeumer.vscode-eslint",
     "usernamehw.errorlens",
 
-    // Testing
-    "orta.vscode-jest",
-
     // Showing todo comments
     "gruntfuggly.todo-tree",
 
@@ -15,6 +12,19 @@
     "ms-vscode.vscode-js-profile-flame",
 
     // Database
-    "prisma.prisma"
+    "prisma.prisma",
+    "alexcvzz.vscode-sqlite",
+
+    // Editing
+    "vscode-icons-team.vscode-icons",
+    "jannisx11.batch-rename-extension",
+    "mikestead.dotenv",
+    "ms-vscode.vscode-typescript-next",
+
+    // Github Copilot
+    "github.copilot",
+
+    // REST
+    "humao.rest-client"
   ]
 }

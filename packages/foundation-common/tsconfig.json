@@ -1,13 +1,13 @@
 {
   "extends": "config-typescript/base.json",
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@server": ["src/server"],
-      "@client": ["src/client"],
-      "@shared": ["src/shared"],
+      "@common/server": ["src/server"],
+      "@common/client": ["src/client"],
+      "@common": ["src/shared"],
       "@test/server": ["../config-test/src/server"],
       "@test/client": ["../config-test/src/client"],
       "@test": ["../config-test/src/shared"]

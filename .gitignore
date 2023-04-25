@@ -39,3 +39,9 @@ generated
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Javascript generated
+js/
+
+# Generated Data
+data/

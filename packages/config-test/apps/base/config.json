@@ -1,0 +1,123 @@
+{
+  "name": "test",
+  "databases": {
+    "main": {
+      "url": "file:./test.db",
+      "provider": "sqlite"
+    }
+  },
+  "tables": {
+    "tasks": {
+      "fields": {
+        "name": {
+          "type": "String"
+        },
+        "description": {
+          "type": "String",
+          "optional": true,
+          "default": "ceci est une description"
+        },
+        "number": {
+          "type": "Int",
+          "unique": true
+        },
+        "priority": {
+          "type": "Int",
+          "default": 3
+        },
+        "done_at": {
+          "type": "DateTime",
+          "optional": true,
+          "default": "now()"
+        },
+        "started_at": {
+          "type": "DateTime"
+        },
+        "done": {
+          "type": "Boolean"
+        },
+        "open": {
+          "type": "Boolean",
+          "default": true
+        }
+      }
+    }
+  },
+  "resources": {
+    "math": {
+      "environment": "shared",
+      "type": "javascript",
+      "source": "module.exports = { add: (...numbers) => numbers.reduce((a, b) => a + b, 0) };"
+    }
+  },
+  "actions": {
+    "add": {
+      "input": {
+        "numbers": {
+          "type": "array",
+          "optional": false,
+          "items": {
+            "type": "Int",
+            "optional": false
+          }
+        }
+      },
+      "output": {
+        "sum": {
+          "type": "Int",
+          "optional": false
+        }
+      },
+      "implementation": {
+        "type": "javascript",
+        "resources": [
+          "math"
+        ],
+        "environment": "shared",
+        "source": "return math.add(...input.numbers);"
+      },
+      "tests": {
+        "shouldReturnSix": {
+          "input": {
+            "numbers": [
+              1,
+              2
+            ]
+          },
+          "output": {
+            "result": 3
+          }
+        }
+      }
+    }
+  },
+  "automations": {
+    "addNumbers": {
+      "trigger": {
+        "type": "http"
+      },
+      "actions": {
+        "addNumbers": {
+          "action": "add",
+          "input": {
+            "numbers": "$input.numbers"
+          }
+        }
+      },
+      "tests": {
+        "shouldReturnSix": {
+          "input": {
+            "numbers": [
+              1,
+              2,
+              3
+            ]
+          },
+          "output": {
+            "result": 6
+          }
+        }
+      }
+    }
+  }
+}

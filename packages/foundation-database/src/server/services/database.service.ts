@@ -1,17 +1,38 @@
 import { PrismaLib } from '@database/server'
-import type { DataType, RowType } from '@database'
+
+import type {
+  DatabaseServiceFunctionType,
+  DatabaseServiceFunctionIdType,
+  DatabaseServiceFunctionDataType,
+  DatabaseServiceFunctionListType,
+  PrismaClientInterface,
+} from '@database'
 
 class DatabaseService {
-  async create(tablePath: string, data: DataType): Promise<RowType> {
-    const row = await PrismaLib.base(tablePath).create({
+  private table(baseName: string, tableName: string): PrismaClientInterface {
+    return PrismaLib.table(baseName, tableName)
+  }
+
+  public baseExist(baseName: string): boolean {
+    return PrismaLib.base(baseName) != null
+  }
+
+  public tableExist(baseName: string, tableName: string): boolean {
+    return this.table(baseName, tableName) != null
+  }
+
+  public create: DatabaseServiceFunctionDataType = async (baseName, tableName, params) => {
+    const { data } = params
+    const row = await this.table(baseName, tableName).create({
       data,
     })
     return row
   }
 
-  async patchById(tablePath: string, id: string, data: DataType): Promise<RowType> {
+  public patchById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
+    const { data, id } = params
     const updated_at = new Date().toISOString()
-    const row = await PrismaLib.base(tablePath).update({
+    const row = await this.table(baseName, tableName).update({
       where: { id },
       data: {
         ...data,
@@ -21,9 +42,10 @@ class DatabaseService {
     return row
   }
 
-  async putById(tablePath: string, id: string, data: DataType): Promise<RowType> {
+  public putById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
+    const { data, id } = params
     const updated_at = new Date().toISOString()
-    const row = await PrismaLib.base(tablePath).update({
+    const row = await this.table(baseName, tableName).update({
       where: { id },
       data: {
         ...data,
@@ -33,9 +55,10 @@ class DatabaseService {
     return row
   }
 
-  async upsertById(tablePath: string, id: string, data: DataType): Promise<RowType> {
+  public upsertById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
+    const { data, id } = params
     const updated_at = new Date().toISOString()
-    const row = await PrismaLib.base(tablePath).upsert({
+    const row = await this.table(baseName, tableName).upsert({
       where: { id },
       create: data,
       update: {
@@ -46,21 +69,23 @@ class DatabaseService {
     return row
   }
 
-  async readById(tablePath: string, id: string): Promise<RowType> {
-    const row = await PrismaLib.base(tablePath).findUnique({
+  public readById: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
+    const { id } = params
+    const row = await this.table(baseName, tableName).findUnique({
       where: { id },
     })
     return row
   }
 
-  async list(tablePath: string): Promise<RowType[]> {
-    const rows = await PrismaLib.base(tablePath).findMany({})
+  public list: DatabaseServiceFunctionListType = async (baseName, tableName) => {
+    const rows = await this.table(baseName, tableName).findMany({})
     return rows
   }
 
-  async deleteById(tablePath: string, id: string): Promise<RowType> {
+  public deleteById: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
+    const { id } = params
     const deleted_at = new Date().toISOString()
-    const row = await PrismaLib.base(tablePath).update({
+    const row = await this.table(baseName, tableName).update({
       where: { id },
       data: {
         deleted_at,

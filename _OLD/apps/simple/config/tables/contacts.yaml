@@ -1,9 +1,0 @@
----
-fields:
-  - name: email
-    type: email
-    unique: true
-    required: true
-  - name: organisations
-    type: linkedTable
-    table: organisations

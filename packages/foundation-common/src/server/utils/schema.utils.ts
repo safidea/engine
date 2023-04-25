@@ -1,6 +1,6 @@
 import { resolve } from 'path'
-import base from 'config-typescript/base.json'
-import { AJVLib, TSJLib, ObjectInterface } from '@server'
+import { AJVLib, TSJLib, ObjectInterface } from '@common/server'
+import tsconfig from '../../../tsconfig.json'
 
 interface ValidateParams {
   path: string
@@ -18,8 +18,8 @@ const TSJSettings = {
 }
 
 class SchemaUtils {
-  validateFromType(obj: ObjectInterface, params: ValidateParams): void {
-    const program = TSJLib.getProgramFromFiles([resolve(params.path)], base.compilerOptions)
+  public validateFromType(obj: ObjectInterface, params: ValidateParams): void {
+    const program = TSJLib.getProgramFromFiles([resolve(params.path)], tsconfig.compilerOptions)
     const schema = TSJLib.generateSchema(program, params.type, TSJSettings)
     if (schema) {
       const validate = AJVLib.compile(schema)
@@ -38,5 +38,4 @@ class SchemaUtils {
   }
 }
 
-const schemaUtils = new SchemaUtils()
-export default schemaUtils
+export default new SchemaUtils()

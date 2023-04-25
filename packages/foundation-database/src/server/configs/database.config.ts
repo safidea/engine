@@ -1,8 +1,7 @@
 import { join } from 'path'
-import fs from 'fs-extra'
 import debug from 'debug'
-import { ConfigUtils, SchemaUtils, ObjectUtils, PathSettings } from '@common/server'
-import { PrismaConfig } from '@database/config'
+import { ConfigUtils, SchemaUtils, ObjectUtils } from '@common/server'
+import { DatabaseUtils, PrismaUtils } from '@database/server'
 
 import type { DatabasesInterface } from '@database'
 import type { ConfigInterface } from '@common'
@@ -10,23 +9,16 @@ import type { ConfigInterface } from '@common'
 const log = debug('database:config')
 
 class DatabaseConfig implements ConfigInterface {
-  public enrich(): void {
-    const databases = this.getConfig()
+  public enrich() {
+    const databases = this.get()
     if (!databases || typeof databases !== 'object' || ObjectUtils.isEmpty(databases)) {
       log('set default databases')
-      const path = join(PathSettings.getDataFolder() + '/database/master.db')
-      fs.ensureFileSync(path)
-      ConfigUtils.set('databases', {
-        master: {
-          url: 'file:' + path,
-          provider: 'sqlite',
-        },
-      })
+      ConfigUtils.set('databases', DatabaseUtils.getDefaults())
     }
   }
 
-  public validate(): void {
-    const databases = this.getConfig()
+  public validate() {
+    const databases = this.get()
     for (const database in databases) {
       log(`validate schema ${database}`)
       SchemaUtils.validateFromType(databases[database], {
@@ -37,24 +29,24 @@ class DatabaseConfig implements ConfigInterface {
     }
   }
 
-  public lib(): void {
-    const databases = this.getConfig()
+  public lib() {
+    const databases = this.get()
     for (const database in databases) {
       log(`setup prisma database schema ${database}`)
-      PrismaConfig.updateDatabaseSchema(database, databases[database])
+      PrismaUtils.updateDatabaseSchema(database, databases[database])
     }
   }
 
-  public js(): void {
-    const databases = this.getConfig()
+  public js() {
+    const databases = this.get()
     for (const database in databases) {
       log(`build prisma database client ${database}`)
-      PrismaConfig.buildClient(database)
+      PrismaUtils.buildClient(database)
     }
-    PrismaConfig.buildIndexClients(Object.keys(databases))
+    PrismaUtils.buildIndexClients(Object.keys(databases))
   }
 
-  private getConfig(): DatabasesInterface {
+  private get(): DatabasesInterface {
     return ConfigUtils.get('databases') as DatabasesInterface
   }
 }

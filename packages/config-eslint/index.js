@@ -11,6 +11,12 @@ module.exports = {
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
     'react/version': 'off',
+    'import/no-anonymous-default-export': [
+      'error',
+      {
+        allowNew: true,
+      },
+    ],
   },
   settings: {
     react: {

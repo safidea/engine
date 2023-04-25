@@ -4,6 +4,7 @@
     ".env.local"
   ],
   "globalEnv": [
+    "ROOT_PATH",
     "CONFIG_FILE_PATH",
     "DATA_FOLDER_PATH",
     "NODE_ENV",
@@ -12,29 +13,28 @@
     "EMAIL_SERVER_PORT",
     "EMAIL_SERVER_USER",
     "EMAIL_SERVER_PASSWORD",
-    "EMAIL_FROM"
+    "EMAIL_FROM",
+    "NEXT_BUILD"
   ],
   "pipeline": {
     "build": {
       "dependsOn": [
         "^build",
-        "^db:generate"
+        "config"
       ],
       "outputs": [
         "dist/**",
         ".next/**"
       ]
     },
-    "lint": {
-      "outputs": []
-    },
+    "lint": {},
+    "test": {},
     "dev": {
       "dependsOn": [
-        "^db:generate"
+        "config"
       ],
       "cache": false,
       "persistent": true
-    },
-    "test": {}
+    }
   }
 }
