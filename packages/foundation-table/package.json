@@ -1,26 +1,26 @@
 {
   "name": "foundation-table",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "browser": "client/index.ts",
-  "server": "server/index.ts",
+  "main": "src/shared/index.ts",
+  "types": "src/shared/index.ts",
+  "browser": "src/client/index.ts",
+  "server": "src/server/index.ts",
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
-    "test": "cross-env $(cat ../config-test/.env | xargs) jest"
+    "test": "pnpm run test:server && pnpm run test:client",
+    "test:server": "jest --config=tests/server/jest.config.js",
+    "test:client": "jest --config=tests/client/jest.config.js"
   },
   "dependencies": {
-    "foundation-account": "workspace:*",
-    "foundation-common": "workspace:*"
+    "foundation-common": "workspace:*",
+    "foundation-database": "workspace:*"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/fs-extra": "11.0.1",
     "@types/jest": "29.4.0",
     "@types/node": "^18.11.17",
     "config-jest": "workspace:*",
     "config-test": "workspace:*",
     "config-typescript": "workspace:*",
-    "cross-env": "7.0.3",
     "debug": "4.3.4",
     "eslint": "^7.32.0",
     "eslint-config-foundation": "workspace:*",
