@@ -6,4 +6,4 @@ export { default as RouterUtils } from './utils/router.utils'
 export { default as ConfigUtils } from './utils/config.utils'
 
 export { default as AJVLib } from './lib/ajv.lib'
-export { default as TSJLib } from './lib/tsj.lib'
+export type { AJVValidateFunctionType } from './lib/ajv.lib'

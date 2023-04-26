@@ -11,7 +11,7 @@ describe('config.validate', () => {
       ConfigUtils.init()
       DatabaseConfig.validate()
     } catch (error: any) {
-      expect(error.message).toContain("- master must have required property 'url'")
+      expect(error.message).toContain("- must have required property 'url'")
     }
   })
 

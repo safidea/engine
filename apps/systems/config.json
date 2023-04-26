@@ -1,18 +1,26 @@
 {
-  "database": {
-    "url": "postgresql://thomasjeanneau@localhost:5432/dev",
-    "provider": "postgresql",
-    "accounts": true
+  "databases": {
+    "master": {
+      "url": "postgresql://thomasjeanneau@localhost:5432/dev",
+      "provider": "postgresql",
+      "accounts": true
+    }
   },
   "tables": {
     "tasks": {
-      "task": {
-        "type": "string",
-        "nullable": false
-      },
-      "done": {
-        "type": "boolean",
-        "nullable": true
+      "database": "master",
+      "fields": {
+        "task": {
+          "type": "String",
+          "optional": false
+        },
+        "done": {
+          "type": "Boolean",
+          "optional": true
+        },
+        "priority": {
+          "type": "Int"
+        }
       }
     }
   },

@@ -1,41 +1,24 @@
-import { resolve } from 'path'
-import { AJVLib, TSJLib, ObjectInterface } from '@common/server'
-import tsconfig from '../../../tsconfig.json'
+import { AJVLib, ObjectInterface } from '@common/server'
 
-interface ValidateParams {
-  path: string
-  type: string
-  name: string
-}
-
-interface SchemaErrors {
-  instancePath: string
-  message?: string
-}
-
-const TSJSettings = {
-  required: true,
-}
+import type { AJVValidateFunctionType } from '@common/server'
 
 class SchemaUtils {
-  public validateFromType(obj: ObjectInterface, params: ValidateParams): void {
-    const program = TSJLib.getProgramFromFiles([resolve(params.path)], tsconfig.compilerOptions)
-    const schema = TSJLib.generateSchema(program, params.type, TSJSettings)
-    if (schema) {
-      const validate = AJVLib.compile(schema)
-      const valid = validate(obj)
-      if (!valid && validate.errors) {
-        throw new Error(
-          validate.errors
-            .map(
-              (e: SchemaErrors) =>
-                `- ${params.name} ${e.message} ${e.instancePath ? `at ${e.instancePath}` : ''}`
-            )
-            .join('\n')
-        )
-      }
+  private validator: AJVValidateFunctionType
+
+  constructor(schema: ObjectInterface) {
+    this.validator = AJVLib.compile(schema)
+  }
+
+  public validate(obj: ObjectInterface): void {
+    const valid = this.validator(obj)
+    if (!valid) {
+      const config = JSON.stringify(obj, null, 2)
+      const errors = (this.validator.errors || [])
+        .map((e) => `- ${e.instancePath ? `${e.instancePath} ` : ''}${e.message}`)
+        .join('\n')
+      throw new Error(`Invalid schema\n\nConfig: ${config}\n\nErrors:\n${errors}`)
     }
   }
 }
 
-export default new SchemaUtils()
+export default SchemaUtils

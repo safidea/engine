@@ -1,8 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    ".env.local"
-  ],
   "globalEnv": [
     "ROOT_PATH",
     "CONFIG_FILE_PATH",
@@ -14,27 +11,39 @@
     "EMAIL_SERVER_USER",
     "EMAIL_SERVER_PASSWORD",
     "EMAIL_FROM",
-    "NEXT_BUILD"
+    "NEXT_BUILD",
+    "NEXT_RUNTIME",
+    "PORT",
+    "CI"
   ],
   "pipeline": {
+    "lint": {},
+    "test": {},
+    "schema": {},
+    "config": {
+      "dependsOn": [
+        "schema"
+      ]
+    },
+    "dev": {
+      "dependsOn": [
+        "config"
+      ]
+    },
     "build": {
       "dependsOn": [
-        "^build",
         "config"
       ],
       "outputs": [
         "dist/**",
         ".next/**"
-      ]
-    },
-    "lint": {},
-    "test": {},
-    "dev": {
-      "dependsOn": [
-        "config"
       ],
-      "cache": false,
-      "persistent": true
+      "cache": false
+    },
+    "start": {
+      "dependsOn": [
+        "build"
+      ]
     }
   }
 }

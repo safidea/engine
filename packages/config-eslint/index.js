@@ -8,6 +8,7 @@ module.exports = {
     'turbo',
     'prettier',
   ],
+  ignorePatterns: ['dist/', 'js/'],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
     'react/version': 'off',

@@ -6,16 +6,16 @@
   "server": "src/server/index.ts",
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
-    "test": "pnpm run test:server && pnpm run test:client",
+    "test": "pnpm run test:config:schema && pnpm run test:server && pnpm run test:client",
     "test:server": "jest --config=tests/server/jest.config.js",
-    "test:client": "jest --config=tests/client/jest.config.js"
+    "test:client": "jest --config=tests/client/jest.config.js",
+    "test:config:schema": "typescript-json-schema tsconfig.json FeatureInterface -o tests/server/feature.interface.json --required"
   },
   "dependencies": {
     "ajv": "8.12.0",
     "ajv-keywords": "5.1.0",
     "config-typescript": "workspace:*",
-    "fs-extra": "11.1.1",
-    "typescript-json-schema": "0.55.0"
+    "fs-extra": "11.1.1"
   },
   "devDependencies": {
     "@types/fs-extra": "11.0.1",
@@ -28,6 +28,7 @@
     "jest": "29.4.1",
     "jest-environment-jsdom": "29.5.0",
     "ts-jest": "29.0.5",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "typescript-json-schema": "0.55.0"
   }
 }

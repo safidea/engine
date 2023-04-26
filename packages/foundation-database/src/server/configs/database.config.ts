@@ -1,7 +1,7 @@
-import { join } from 'path'
 import debug from 'debug'
 import { ConfigUtils, SchemaUtils, ObjectUtils } from '@common/server'
-import { DatabaseUtils, PrismaUtils } from '@database/server'
+import { DatabaseUtils, PrismaUtils } from '@database/config'
+import { DatabaseInterfaceSchema } from '@database'
 
 import type { DatabasesInterface } from '@database'
 import type { ConfigInterface } from '@common'
@@ -19,13 +19,10 @@ class DatabaseConfig implements ConfigInterface {
 
   public validate() {
     const databases = this.get()
+    const schema = new SchemaUtils(DatabaseInterfaceSchema)
     for (const database in databases) {
       log(`validate schema ${database}`)
-      SchemaUtils.validateFromType(databases[database], {
-        path: join(__dirname, '../../shared/interfaces', 'database.interface.ts'),
-        type: 'DatabaseInterface',
-        name: database,
-      })
+      schema.validate(databases[database])
     }
   }
 
@@ -40,7 +37,7 @@ class DatabaseConfig implements ConfigInterface {
   public js() {
     const databases = this.get()
     for (const database in databases) {
-      log(`build prisma database client ${database}`)
+      log(`build prisma client for database ${database}`)
       PrismaUtils.buildClient(database)
     }
     PrismaUtils.buildIndexClients(Object.keys(databases))

@@ -6,15 +6,13 @@ import { PathUtils, StringUtils } from '@common/server'
 import type { DatabaseInterface, PrismaModelInterface } from '@database'
 
 class PrismaUtils {
-  private clientsFolder = '../../../js/server/prisma'
-
   public getModelName(name: string): string {
     return StringUtils.singular(StringUtils.capitalize(name))
   }
 
   public updateDatabaseSchema(baseName: string, database: DatabaseInterface): void {
     const schemaPath = this.getSchemaPath(baseName)
-    const datasourceSchema = `datasource db {
+    const datasourceSchema = `\n\ndatasource db {
       provider = "${database.provider}"
       url      = "${database.url}"
     }`
@@ -35,7 +33,7 @@ class PrismaUtils {
   ): void {
     const { fields, unique, map } = modelData
     const schemaPath = this.getSchemaPath(baseName)
-    const modelSchema = `model ${modelName} {
+    const modelSchema = `\n\nmodel ${modelName} {
       ${Object.keys(fields)
         .map((fieldName: string) => {
           const field = fields[fieldName]
@@ -77,8 +75,8 @@ class PrismaUtils {
     if (this.isClientReady(baseName)) return
     const schemaPath = this.getSchemaPath(baseName)
     this.formatSchema(schemaPath)
-    this.migrate(schemaPath)
     this.generateClient(schemaPath)
+    this.pushDatabase(schemaPath, process.env.NODE_ENV === 'test')
   }
 
   public buildIndexClients(baseNames: string[]) {
@@ -90,22 +88,37 @@ class PrismaUtils {
     fs.writeFileSync(indexPath, script)
   }
 
-  private getIndexPath(): string {
-    const indexPath = join(__dirname, this.clientsFolder, 'index.js')
-    fs.ensureFileSync(indexPath)
-    return indexPath
-  }
-
   private getSchemaPath(baseName: string): string {
     const schemaPath = join(PathUtils.getDataFolder(), `prisma/${baseName}/schema.prisma`)
-    fs.ensureFileSync(schemaPath)
+    if (!fs.existsSync(schemaPath)) {
+      fs.ensureFileSync(schemaPath)
+      fs.writeFileSync(
+        schemaPath,
+        `generator client {
+        provider = "prisma-client-js"
+        output   = "${this.getClientPath(baseName)}"
+      }`
+      )
+    }
     return schemaPath
   }
 
+  private getClientFolder(): string {
+    const clientFolderPath = join(PathUtils.getJsFolder('database'), 'server/prisma')
+    fs.ensureDirSync(clientFolderPath)
+    return clientFolderPath
+  }
+
   private getClientPath(baseName: string): string {
-    const clientPath = join(__dirname, this.clientsFolder, baseName)
+    const clientPath = join(this.getClientFolder(), baseName)
     fs.ensureDirSync(clientPath)
     return clientPath
+  }
+
+  private getIndexPath(): string {
+    const indexPath = join(this.getClientFolder(), 'index.js')
+    fs.ensureFileSync(indexPath)
+    return indexPath
   }
 
   private isClientReady(baseName: string): boolean {
@@ -120,16 +133,12 @@ class PrismaUtils {
     execSync(`prisma format --schema ${schemaPath}`)
   }
 
-  private migrate(schemaPath: string) {
-    execSync(`prisma migrate dev --schema ${schemaPath} --name init --skip-generate`)
-  }
-
   private generateClient(schemaPath: string) {
     execSync(`prisma generate --schema ${schemaPath}`)
   }
 
-  private reset(schemaPath: string) {
-    execSync(`prisma migrate reset --schema ${schemaPath} --force`)
+  private pushDatabase(schemaPath: string, forceReset: boolean) {
+    execSync(`prisma db push --schema ${schemaPath} --accept-data-loss ${forceReset ? '--force-reset' : ''}`)
   }
 }
 

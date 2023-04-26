@@ -2,17 +2,33 @@ import fs from 'fs-extra'
 import { join } from 'path'
 
 class PathUtils {
+  private getProjectRoot(): string {
+    switch (String(process.env.NODE_ENV)) {
+      case 'production':
+        return join(__dirname, '../../../../..')
+      case 'development':
+        return join(__dirname, '../../../../../../../..')
+      case 'config':
+        return join(__dirname, '../../../../../../..')
+      case 'test':
+        return join(__dirname, '../../../../..')
+      default:
+        throw new Error(`NODE_ENV not set: ${process.env.NODE_ENV}`)
+    }
+  }
+
   public getRoot(): string {
-    return join(
-      __dirname,
-      process.env.NEXT_BUILD != null ? '../../..' : '',
-      '../../../../..',
-      process.env.ROOT_PATH || './'
-    )
+    return join(this.getProjectRoot(), process.env.ROOT_PATH || './')
   }
 
   public getDataFolder(): string {
     const path = join(this.getRoot(), process.env.DATA_FOLDER_PATH || './data')
+    fs.ensureDirSync(path)
+    return path
+  }
+
+  public getJsFolder(packageName: string): string {
+    const path = join(this.getProjectRoot(), `packages/foundation-${packageName}/js`)
     fs.ensureDirSync(path)
     return path
   }

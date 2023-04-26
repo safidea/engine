@@ -6,12 +6,14 @@
     "packages/*"
   ],
   "scripts": {
+    "start": "scripts/start.sh",
+    "config": "turbo run config",
     "build": "turbo run build",
-    "dev": "dotenv -- turbo run dev --parallel",
+    "dev": "scripts/dev.sh",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "precommit": "pnpm run format"
+    "precommit": "pnpm run format && pnpm run lint && pnpm run test"
   },
   "devDependencies": {
     "dotenv-cli": "latest",

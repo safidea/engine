@@ -33,15 +33,15 @@ yarn-error.log*
 # turbo
 .turbo
 
-# Codegen
-generated
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-# Javascript generated
+# javascript generated
 js/
 
-# Generated Data
+# generated data
 data/
+
+# compile
+dist/

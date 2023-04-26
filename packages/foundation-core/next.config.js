@@ -1,14 +1,12 @@
 const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
 
-module.exports = (phase, { defaultConfig }) => {
+module.exports = () => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
     reactStrictMode: true,
     transpilePackages: [
       'foundation-table',
-      'foundation-account',
       'foundation-database',
-      'foundation-common',
       'foundation-common',
     ],
     webpack: (config, { isServer }) => {

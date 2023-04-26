@@ -1,27 +1,21 @@
-import { join } from 'path'
 import { SchemaUtils } from '@common/server'
+import FeatureInterfaceSchema from '../feature.interface.json'
 
 describe('validate schema from type', () => {
-  const path = join(__dirname, '..', 'feature.interface.ts')
+  const schema = new SchemaUtils(FeatureInterfaceSchema as any)
 
   it('should invalidate the schema', () => {
     try {
-      SchemaUtils.validateFromType(
-        { name: 'test', details: {} },
-        { path, type: 'FeatureInterface', name: 'Feature' }
-      )
+      schema.validate({ name: 'test', details: {} })
       expect(true).toBe(false)
     } catch (e: any) {
-      expect(e.message).toContain("- Feature must have required property 'description'")
-      expect(e.message).toContain("- Feature must have required property 'id' at /details")
+      expect(e.message).toContain("- must have required property 'description'")
+      expect(e.message).toContain("- /details must have required property 'id'")
     }
   })
 
   it('should validate the schema', () => {
-    SchemaUtils.validateFromType(
-      { name: 'test', description: 'test', details: { id: 'test' } },
-      { path, type: 'FeatureInterface', name: 'Feature' }
-    )
+    schema.validate({ name: 'test', description: 'test', details: { id: 'test' } })
     expect(true).toBe(true)
   })
 })

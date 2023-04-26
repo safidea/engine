@@ -4,10 +4,12 @@ import { ObjectUtils, PathUtils } from '@common/server'
 import type { ObjectInterface, ObjectValueType } from '@common/server'
 
 class ConfigUtils {
-  private config: ObjectInterface
+  private config: ObjectInterface = {}
 
   constructor() {
-    this.config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false }) || {}
+    if (process.env.NODE_ENV !== 'test') {
+      this.config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false }) || {}
+    }
   }
 
   public init(): ObjectInterface {

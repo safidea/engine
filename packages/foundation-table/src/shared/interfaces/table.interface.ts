@@ -11,7 +11,7 @@ export type TableFieldsInterface = PrismaModelFieldsInterface
 
 export interface TableInterface extends ObjectInterface, Omit<PrismaModelInterface, 'map'> {
   model?: string
-  base: string
+  database: string
 }
 
 export interface TablesInterface extends ObjectInterface {

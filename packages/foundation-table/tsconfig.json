@@ -5,6 +5,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@table/config": ["src/server/configs"],
       "@table/server": ["src/server"],
       "@table/client": ["src/client"],
       "@table": ["src/shared"],
@@ -16,7 +17,8 @@
       "@test/client": ["../config-test/src/client"],
       "@database": ["../foundation-database/src/shared"],
       "@database/server": ["../foundation-database/src/server"],
-      "@database/client": ["../foundation-database/src/client"]
+      "@database/client": ["../foundation-database/src/client"],
+      "@database/config": ["../foundation-database/src/server/configs"]
     }
   }
 }

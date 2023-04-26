@@ -8,7 +8,8 @@
     "lint": "tsc --noEmit && eslint .",
     "test": "pnpm run test:server && pnpm run test:client",
     "test:server": "jest --config=tests/server/jest.config.js",
-    "test:client": "jest --config=tests/client/jest.config.js"
+    "test:client": "jest --config=tests/client/jest.config.js",
+    "schema": "typescript-json-schema tsconfig.json TableInterface -o src/shared/interfaces/table.interface.json --required"
   },
   "dependencies": {
     "foundation-common": "workspace:*",
@@ -26,6 +27,7 @@
     "eslint-config-foundation": "workspace:*",
     "jest": "29.4.1",
     "ts-jest": "29.0.5",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "typescript-json-schema": "0.55.0"
   }
 }

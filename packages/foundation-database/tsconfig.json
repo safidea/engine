@@ -5,7 +5,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@database/config": ["src/server/config.ts"],
+      "@database/config": ["src/server/configs"],
       "@database/server": ["src/server"],
       "@database": ["src/shared"],
       "@common": ["../foundation-common/src/shared"],

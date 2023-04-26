@@ -1,5 +1,6 @@
 import debug from 'debug'
 import { ConfigUtils, ObjectUtils, SchemaUtils } from '@common/server'
+import { FeatureInterfaceSchema } from '@feature'
 
 import type { FeaturesInterface } from '@feature'
 import type { ConfigInterface } from '@common'
@@ -16,13 +17,10 @@ class FeatureConfig implements ConfigInterface {
 
   public validate(): void {
     const features = this.get()
+    const schema = new SchemaUtils(FeatureInterfaceSchema)
     for (const feature in features) {
       log(`validate schema ${feature}`)
-      SchemaUtils.validateFromType(features[feature], {
-        path: join(__dirname, '../../shared/interfaces', '[feature].interface.ts'),
-        type: 'FeatureInterface',
-        name: feature,
-      })
+      schema.validate(features[feature])
     }
   }
 
