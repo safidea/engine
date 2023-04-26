@@ -138,7 +138,11 @@ class PrismaUtils {
   }
 
   private pushDatabase(schemaPath: string, forceReset: boolean) {
-    execSync(`prisma db push --schema ${schemaPath} --accept-data-loss ${forceReset ? '--force-reset' : ''}`)
+    execSync(
+      `prisma db push --schema ${schemaPath} --accept-data-loss ${
+        forceReset ? '--force-reset' : ''
+      }`
+    )
   }
 }
 

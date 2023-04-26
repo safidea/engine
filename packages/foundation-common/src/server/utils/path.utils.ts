@@ -1,20 +1,10 @@
 import fs from 'fs-extra'
-import { join } from 'path'
+import { join, dirname } from 'path'
 
 class PathUtils {
   private getProjectRoot(): string {
-    switch (String(process.env.NODE_ENV)) {
-      case 'production':
-        return join(__dirname, '../../../../..')
-      case 'development':
-        return join(__dirname, '../../../../../../../..')
-      case 'config':
-        return join(__dirname, '../../../../../../..')
-      case 'test':
-        return join(__dirname, '../../../../..')
-      default:
-        throw new Error(`NODE_ENV not set: ${process.env.NODE_ENV}`)
-    }
+    const parentDir = process.cwd()
+    return join(dirname(parentDir), '..')
   }
 
   public getRoot(): string {

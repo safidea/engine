@@ -12,11 +12,11 @@ GET http://localhost:3000/api/table/master/tasks/clgxxcmxw0000zk7v5nlrdvmh HTTP/
 
 ###
 
-PATCH  http://localhost:3000/api/table/master/tasks/clgxxcmxw0000zk7v5nlrdvmh HTTP/1.1
+PATCH  http://localhost:3000/api/table/master/tasks/clgxx1uqr0000zk40oztl1xdy HTTP/1.1
 Content-Type: application/json
 
 {
-    "task": "Faire Thomas JEANNEAU !"
+    "priority": 4
 }
 
 ###
