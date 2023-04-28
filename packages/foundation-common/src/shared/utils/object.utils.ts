@@ -11,7 +11,6 @@ class ObjectUtils {
     for (const key of keys) {
       if (typeof result === 'object' && !Array.isArray(result)) result = result[key]
       else return undefined
-      if (!result) break
     }
     return result
   }

@@ -7,9 +7,7 @@ class ConfigUtils {
   private config: ObjectInterface = {}
 
   constructor() {
-    if (process.env.NODE_ENV !== 'test') {
-      this.config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false }) || {}
-    }
+    this.config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false }) || {}
   }
 
   public init(): ObjectInterface {

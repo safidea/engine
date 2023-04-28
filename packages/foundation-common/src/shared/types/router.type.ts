@@ -3,7 +3,7 @@ import type { ApiRequestInterface, ApiResponseInterface, ApiMiddlewareType } fro
 export type RouterMiddlewareType = (
   req: ApiRequestInterface,
   res: ApiResponseInterface,
-  next: ApiMiddlewareType
+  next?: ApiMiddlewareType
 ) => Promise<void | ApiResponseInterface>
 
 export type RouterControllerType = (

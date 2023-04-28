@@ -6,10 +6,10 @@
   "server": "src/server/index.ts",
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
-    "test": "pnpm run test:config:schema && pnpm run test:server && pnpm run test:client",
+    "test": "pnpm run test:server && pnpm run test:client",
     "test:server": "jest --config=tests/server/jest.config.js",
     "test:client": "jest --config=tests/client/jest.config.js",
-    "test:config:schema": "typescript-json-schema tsconfig.json FeatureInterface -o tests/server/feature.interface.json --required"
+    "schema": "typescript-json-schema tsconfig.json FeatureInterface -o tests/server/feature.interface.json --required"
   },
   "dependencies": {
     "ajv": "8.12.0",

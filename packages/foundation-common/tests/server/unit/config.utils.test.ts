@@ -4,6 +4,7 @@ import { ConfigUtils } from '@common/server'
 describe('init config', () => {
   beforeAll(() => {
     TestSettings.clearEnv()
+    ConfigUtils.clear()
   })
 
   it('file should not be found', () => {
@@ -44,5 +45,31 @@ describe('get config', () => {
   it('should return a value', () => {
     const value = ConfigUtils.get('name')
     expect(value).toBe('test')
+  })
+})
+
+describe('set config', () => {
+  beforeAll(() => {
+    TestSettings.loadEnvFile('base')
+    ConfigUtils.clear()
+  })
+
+  it('should set a value', () => {
+    ConfigUtils.set('name', 'test2')
+    const value = ConfigUtils.get('name')
+    expect(value).toBe('test2')
+  })
+})
+
+describe('cache config', () => {
+  beforeAll(() => {
+    TestSettings.loadEnvFile('base')
+    ConfigUtils.clear()
+  })
+
+  it('should cache the config', () => {
+    ConfigUtils.cache()
+    const config = ConfigUtils.get()
+    expect(config).toBeDefined()
   })
 })

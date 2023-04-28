@@ -11,9 +11,9 @@ class SchemaUtils {
 
   public validate(obj: ObjectInterface): void {
     const valid = this.validator(obj)
-    if (!valid) {
+    if (!valid && this.validator.errors) {
       const config = JSON.stringify(obj, null, 2)
-      const errors = (this.validator.errors || [])
+      const errors = this.validator.errors
         .map((e) => `- ${e.instancePath ? `${e.instancePath} ` : ''}${e.message}`)
         .join('\n')
       throw new Error(`Invalid schema\n\nConfig: ${config}\n\nErrors:\n${errors}`)
