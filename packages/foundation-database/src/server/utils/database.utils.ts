@@ -1,5 +1,5 @@
-import { join } from 'path'
 import fs from 'fs-extra'
+import { join } from 'path'
 import { PathUtils } from '@common/server'
 
 import type { DatabasesInterface } from '@database'

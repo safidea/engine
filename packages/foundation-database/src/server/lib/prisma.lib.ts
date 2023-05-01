@@ -1,30 +1,34 @@
 import { PrismaUtils } from '@database/server'
-import PrismaClients from '../../../js/server/prisma'
 
 import type { PrismaClientInterface } from '@database'
 
-class PrismaLib {
-  private clients: { [key: string]: unknown } = {}
+type PrismaClientType = { [key: string]: PrismaClientInterface }
+type PrismaClientsType = { [key: string]: PrismaClientType }
 
-  constructor() {
-    for (const baseName in PrismaClients) {
-      const { PrismaClient } = PrismaClients[baseName as keyof typeof PrismaClients]
-      this.clients[baseName] = new PrismaClient()
+class PrismaLib {
+  private clients: PrismaClientsType = {}
+
+  public async init(pathToClients: string): Promise<void> {
+    const { default: clients } = await import(pathToClients)
+    for (const baseName in clients) {
+      const { PrismaClient } = clients[baseName as keyof typeof clients]
+      this.clients[baseName] = new PrismaClient() as unknown as PrismaClientType
     }
   }
 
-  private model(baseName: string, modelName: string): PrismaClientInterface {
-    const base = this.base(baseName) as { [key: string]: unknown }
-    return base[modelName as keyof typeof base] as PrismaClientInterface
+  private model(baseName: string, modelName: string): PrismaClientInterface | undefined {
+    const base = this.base(baseName)
+    if (!base) return undefined
+    return base[modelName]
   }
 
-  public table(baseName: string, tableName: string): PrismaClientInterface {
+  public base(baseName: string): PrismaClientType | undefined {
+    return this.clients[baseName]
+  }
+
+  public table(baseName: string, tableName: string): PrismaClientInterface | undefined {
     const modelName = PrismaUtils.getModelName(tableName).toLowerCase()
     return this.model(baseName, modelName)
-  }
-
-  public base(baseName: string) {
-    return this.clients[baseName as keyof typeof this.clients]
   }
 }
 

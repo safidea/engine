@@ -7,6 +7,7 @@
     "paths": {
       "@common/server": ["src/server"],
       "@common/client": ["src/client"],
+      "@common/*": ["src/*"],
       "@common": ["src/shared"],
       "@test/server": ["../config-test/src/server"],
       "@test/client": ["../config-test/src/client"],

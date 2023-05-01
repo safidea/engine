@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { execSync } from 'child_process'
+import cp from 'child_process'
 import { join } from 'path'
 import { PathUtils, StringUtils } from '@common/server'
 
@@ -8,6 +8,21 @@ import type { DatabaseInterface, PrismaModelInterface } from '@database'
 class PrismaUtils {
   public getModelName(name: string): string {
     return StringUtils.singular(StringUtils.capitalize(name))
+  }
+
+  public getSchemaPath(baseName: string): string {
+    const schemaPath = join(PathUtils.getDataFolder(), `prisma/${baseName}/schema.prisma`)
+    if (!fs.existsSync(schemaPath)) {
+      fs.ensureFileSync(schemaPath)
+      fs.writeFileSync(
+        schemaPath,
+        `generator client {
+        provider = "prisma-client-js"
+        output   = "${this.getClientPath(baseName)}"
+      }`
+      )
+    }
+    return schemaPath
   }
 
   public updateDatabaseSchema(baseName: string, database: DatabaseInterface): void {
@@ -88,23 +103,8 @@ class PrismaUtils {
     fs.writeFileSync(indexPath, script)
   }
 
-  private getSchemaPath(baseName: string): string {
-    const schemaPath = join(PathUtils.getDataFolder(), `prisma/${baseName}/schema.prisma`)
-    if (!fs.existsSync(schemaPath)) {
-      fs.ensureFileSync(schemaPath)
-      fs.writeFileSync(
-        schemaPath,
-        `generator client {
-        provider = "prisma-client-js"
-        output   = "${this.getClientPath(baseName)}"
-      }`
-      )
-    }
-    return schemaPath
-  }
-
   private getClientFolder(): string {
-    const clientFolderPath = join(PathUtils.getJsFolder('database'), 'server/prisma')
+    const clientFolderPath = join(PathUtils.getJsFolder(), 'server/prisma')
     fs.ensureDirSync(clientFolderPath)
     return clientFolderPath
   }
@@ -130,15 +130,15 @@ class PrismaUtils {
   }
 
   private formatSchema(schemaPath: string) {
-    execSync(`prisma format --schema ${schemaPath}`)
+    cp.execSync(`prisma format --schema ${schemaPath}`)
   }
 
   private generateClient(schemaPath: string) {
-    execSync(`prisma generate --schema ${schemaPath}`)
+    cp.execSync(`prisma generate --schema ${schemaPath}`)
   }
 
   private pushDatabase(schemaPath: string, forceReset: boolean) {
-    execSync(
+    cp.execSync(
       `prisma db push --schema ${schemaPath} --accept-data-loss ${
         forceReset ? '--force-reset' : ''
       }`

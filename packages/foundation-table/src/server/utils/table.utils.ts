@@ -26,7 +26,7 @@ class TableUtils {
     }
   }
 
-  public validateDataFields(table: string, data: DatabaseDataType, allFields = false) {
+  public validateDataFields(table: string, data: DatabaseDataType, allFields = false): string[] {
     const tables = ConfigUtils.get('tables') as TablesInterface
     const { fields } = tables[table]
     const errors = []
@@ -34,7 +34,7 @@ class TableUtils {
     for (const field of Object.keys(fields)) {
       const fieldData = fields[field]
 
-      if (!allFields && !data[field]) {
+      if (!allFields && !data[field] && (fieldData.optional || fieldData.default)) {
         continue
       }
 

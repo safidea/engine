@@ -1,4 +1,5 @@
-import { TableController, TableMiddleware } from '@table/server'
+import TableMiddleware from '@table/server/middlewares/table.middleware'
+import TableController from '@table/server/controllers/table.controller'
 
 import type { RouterInterface, ApiRequestInterface } from '@common'
 

@@ -17,8 +17,8 @@ class PathUtils {
     return path
   }
 
-  public getJsFolder(packageName: string): string {
-    const path = join(this.getProjectRoot(), `packages/foundation-${packageName}/js`)
+  public getJsFolder(): string {
+    const path = join(this.getRoot(), './js')
     fs.ensureDirSync(path)
     return path
   }

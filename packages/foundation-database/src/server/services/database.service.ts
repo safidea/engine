@@ -5,12 +5,17 @@ import type {
   DatabaseServiceFunctionIdType,
   DatabaseServiceFunctionDataType,
   DatabaseServiceFunctionListType,
+  DatabaseServiceFunctionReadType,
   PrismaClientInterface,
 } from '@database'
 
 class DatabaseService {
   private table(baseName: string, tableName: string): PrismaClientInterface {
-    return PrismaLib.table(baseName, tableName)
+    const table = PrismaLib.table(baseName, tableName)
+    if (table == null) {
+      throw new Error(`Table "${tableName}" does not exist in base "${baseName}"`)
+    }
+    return table
   }
 
   public baseExist(baseName: string): boolean {
@@ -18,7 +23,7 @@ class DatabaseService {
   }
 
   public tableExist(baseName: string, tableName: string): boolean {
-    return this.table(baseName, tableName) != null
+    return PrismaLib.table(baseName, tableName) != null
   }
 
   public create: DatabaseServiceFunctionDataType = async (baseName, tableName, params) => {
@@ -29,49 +34,36 @@ class DatabaseService {
     return row
   }
 
-  public patchById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
+  public updateById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
     const { data, id } = params
-    const updated_at = new Date().toISOString()
     const row = await this.table(baseName, tableName).update({
       where: { id },
-      data: {
-        ...data,
-        updated_at,
-      },
-    })
-    return row
-  }
-
-  public putById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
-    const { data, id } = params
-    const updated_at = new Date().toISOString()
-    const row = await this.table(baseName, tableName).update({
-      where: { id },
-      data: {
-        ...data,
-        updated_at,
-      },
+      data,
     })
     return row
   }
 
   public upsertById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
     const { data, id } = params
-    const updated_at = new Date().toISOString()
     const row = await this.table(baseName, tableName).upsert({
       where: { id },
       create: data,
-      update: {
-        ...data,
-        updated_at,
-      },
+      update: data,
     })
     return row
   }
 
-  public readById: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
+  public readById: DatabaseServiceFunctionReadType = async (baseName, tableName, params) => {
     const { id } = params
     const row = await this.table(baseName, tableName).findUnique({
+      where: { id },
+    })
+    return row
+  }
+
+  public deleteById: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
+    const { id } = params
+    const row = await this.table(baseName, tableName).delete({
       where: { id },
     })
     return row
@@ -80,18 +72,6 @@ class DatabaseService {
   public list: DatabaseServiceFunctionListType = async (baseName, tableName) => {
     const rows = await this.table(baseName, tableName).findMany({})
     return rows
-  }
-
-  public deleteById: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
-    const { id } = params
-    const deleted_at = new Date().toISOString()
-    const row = await this.table(baseName, tableName).update({
-      where: { id },
-      data: {
-        deleted_at,
-      },
-    })
-    return row
   }
 }
 

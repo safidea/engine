@@ -3,5 +3,13 @@
     "master": {
       "provider": "sqlite"
     }
+  },
+  "tables": {
+    "users": {
+      "id": "increments",
+      "name": "string",
+      "email": "string",
+      "password": "string"
+    }
   }
 }

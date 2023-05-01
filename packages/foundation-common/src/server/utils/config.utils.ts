@@ -7,7 +7,8 @@ class ConfigUtils {
   private config: ObjectInterface = {}
 
   constructor() {
-    this.config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false }) || {}
+    const config = fs.readJsonSync(PathUtils.getConfigCache(), { throws: false })
+    if (config) this.config = config
   }
 
   public init(): ObjectInterface {
@@ -18,19 +19,13 @@ class ConfigUtils {
   }
 
   public get(path?: string): ObjectValueType | undefined {
-    if (ObjectUtils.isEmpty(this.config)) this.init()
     if (path) return ObjectUtils.getAtPath(this.config, path)
     return this.config
   }
 
   public set(path: string, value: ObjectValueType): ObjectInterface {
-    if (ObjectUtils.isEmpty(this.config)) this.init()
     this.config = ObjectUtils.setAtPath(this.config, path, value)
     return this.config
-  }
-
-  public clear(): void {
-    this.config = {}
   }
 
   public cache(): void {

@@ -29,7 +29,7 @@ class TableController {
   public read: RouterControllerType = async (req, res) => {
     const { base, table, id } = req.query
     const row = await TableService.read(base, table, { id })
-    log(`Got row in ${table} with ID ${row.id}`)
+    if (row) log(`Got row in ${table} with ID ${row.id}`)
     res.status(200).json(row)
   }
 

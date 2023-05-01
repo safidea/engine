@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
     "test": "pnpm run test:server",
-    "test:server": "jest --config=tests/server/jest.config.js",
+    "test:server": "jest --config=__tests__/server/jest.config.js",
     "schema": "typescript-json-schema tsconfig.json DatabaseInterface -o src/shared/interfaces/database.interface.json --required"
   },
   "dependencies": {

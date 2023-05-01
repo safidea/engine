@@ -1,0 +1,62 @@
+import TableUtils from '@table/server/utils/table.utils'
+import { ConfigUtils } from '@common/server'
+
+describe('getDefaultFields', () => {
+  it('should return default fields', () => {
+    const fields = TableUtils.getDefaultFields()
+    expect(fields.id).toBeDefined()
+    expect(fields.created_at).toBeDefined()
+    expect(fields.updated_at).toBeDefined()
+    expect(fields.deleted_at).toBeDefined()
+  })
+})
+
+describe('validateDataFields', () => {
+  beforeAll(() => {
+    ConfigUtils.set('tables', {
+      users: {
+        fields: {
+          name: {
+            type: 'String',
+          },
+          role: {
+            type: 'String',
+            default: 'member',
+          },
+          age: {
+            type: 'Int',
+            optional: true,
+          },
+          available: {
+            type: 'Boolean',
+          },
+          start_date: {
+            type: 'DateTime',
+            optional: true,
+          },
+        },
+      },
+    })
+  })
+
+  it('should return empty array', () => {
+    const errors = TableUtils.validateDataFields('users', { name: 'test' })
+    expect(errors).toEqual([])
+  })
+
+  it('should return errors', () => {
+    const errors = TableUtils.validateDataFields('users', {
+      role: 1,
+      age: 'test',
+      available: 'test',
+      start_date: 'test',
+    })
+    expect(errors).toEqual([
+      'Field name is required',
+      'Field role must be a string',
+      'Field age must be an integer',
+      'Field available must be a boolean',
+      'Field start_date must be a valid date',
+    ])
+  })
+})

@@ -7,7 +7,18 @@
     }
   },
   "tables": {
+    "users": {
+      "database": "main",
+      "fields": {
+        "email": {
+          "type": "String",
+          "unique": true
+        }
+      }
+    },
     "tasks": {
+      "database": "main",
+      "model": "Task",
       "fields": {
         "name": {
           "type": "String"

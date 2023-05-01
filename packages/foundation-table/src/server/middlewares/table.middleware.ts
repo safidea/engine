@@ -13,7 +13,7 @@ class TableMiddleware {
         error: `Base ${base} does not exist`,
       })
     }
-    return next()
+    if (next) return next()
   }
 
   public validateTableExist: RouterMiddlewareType = async (req, res, next) => {
@@ -24,7 +24,7 @@ class TableMiddleware {
         error: `Table ${table} does not exist`,
       })
     }
-    return next()
+    if (next) return next()
   }
 
   public validateRowExist: RouterMiddlewareType = async (req, res, next) => {
@@ -35,7 +35,7 @@ class TableMiddleware {
         error: `Row ${id} does not exist in table ${table}`,
       })
     }
-    return next()
+    if (next) return next()
   }
 
   public validateBody: RouterMiddlewareType = async (req, res, next) => {
@@ -44,7 +44,7 @@ class TableMiddleware {
         error: 'Body is required',
       })
     }
-    return next()
+    if (next) return next()
   }
 
   public validateBodyFields: RouterMiddlewareType = async (req, res, next) => {
@@ -55,7 +55,7 @@ class TableMiddleware {
         details: errors,
       })
     }
-    return next()
+    if (next) return next()
   }
 
   public validateBodyAllFields: RouterMiddlewareType = async (req, res, next) => {
@@ -70,7 +70,7 @@ class TableMiddleware {
         details: errors,
       })
     }
-    return next()
+    if (next) return next()
   }
 }
 

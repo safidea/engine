@@ -12,10 +12,12 @@
       "@table/config": ["../foundation-table/src/server/config.ts"],
       "@table/client": ["../foundation-table/src/client"],
       "@table/server": ["../foundation-table/src/server"],
+      "@table/*": ["../foundation-table/src/*"],
       "@table": ["../foundation-table/src/shared"],
-      "@common": ["../foundation-common/src/shared"],
       "@common/server": ["../foundation-common/src/server"],
       "@common/client": ["../foundation-common/src/client"],
+      "@common/*": ["../foundation-common/src/*"],
+      "@common": ["../foundation-common/src/shared"],
       "@test": ["../config-test/src/shared"],
       "@test/server": ["../config-test/src/server"],
       "@test/client": ["../config-test/src/client"]

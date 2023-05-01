@@ -7,9 +7,9 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
     "test": "pnpm run test:server && pnpm run test:client",
-    "test:server": "jest --config=tests/server/jest.config.js",
-    "test:client": "jest --config=tests/client/jest.config.js",
-    "schema": "typescript-json-schema tsconfig.json FeatureInterface -o tests/server/feature.interface.json --required"
+    "test:server": "jest --config=__tests__/server/jest.config.js",
+    "test:client": "jest --config=__tests__/client/jest.config.js",
+    "schema": "typescript-json-schema tsconfig.json FeatureInterface -o __tests__/server/feature.interface.json --required"
   },
   "dependencies": {
     "ajv": "8.12.0",

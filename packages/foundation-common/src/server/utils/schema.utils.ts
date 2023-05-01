@@ -1,6 +1,7 @@
-import { AJVLib, ObjectInterface } from '@common/server'
+import AJVLib from '@common/server/lib/ajv.lib'
 
-import type { AJVValidateFunctionType } from '@common/server'
+import type { AJVValidateFunctionType } from '@common/server/lib/ajv.lib'
+import type { ObjectInterface } from '@common'
 
 class SchemaUtils {
   private validator: AJVValidateFunctionType

@@ -20,6 +20,23 @@
         },
         "priority": {
           "type": "Int"
+        },
+        "description": {
+          "type": "String",
+          "optional": true
+        },
+        "assignee": {
+          "type": "String",
+          "optional": true
+        }
+      }
+    },
+    "categories": {
+      "database": "master",
+      "fields": {
+        "name": {
+          "type": "String",
+          "optional": false
         }
       }
     }

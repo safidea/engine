@@ -3,14 +3,14 @@ export type DatabaseDataType = {
 }
 
 export type DatabaseRowType = DatabaseDataType & {
-  id: string
+  id: string | number
   created_at: string
   updated_at?: string
   deleted_at?: string
 }
 
 export type DatabaseParamsIdType = {
-  id: string
+  id: string | number
 }
 
 export type DatabaseParamsDataType = {
@@ -39,3 +39,9 @@ export type DatabaseServiceFunctionDataType = (
   tableName: string,
   params: DatabaseParamsDataType
 ) => Promise<DatabaseRowType>
+
+export type DatabaseServiceFunctionReadType = (
+  baseName: string,
+  tableName: string,
+  params: DatabaseParamsIdType
+) => Promise<DatabaseRowType | null>

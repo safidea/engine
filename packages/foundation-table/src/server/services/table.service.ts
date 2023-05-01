@@ -5,6 +5,7 @@ import type {
   DatabaseServiceFunctionDataType,
   DatabaseServiceFunctionIdType,
   DatabaseServiceFunctionListType,
+  DatabaseServiceFunctionReadType,
 } from '@database'
 
 class TableService {
@@ -12,16 +13,18 @@ class TableService {
     return DatabaseService.create(baseName, tableName, params)
   }
 
-  public read: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
+  public read: DatabaseServiceFunctionReadType = async (baseName, tableName, params) => {
     return DatabaseService.readById(baseName, tableName, params)
   }
 
   public update: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
-    return DatabaseService.patchById(baseName, tableName, params)
+    params.data.updated_at = new Date().toISOString()
+    return DatabaseService.updateById(baseName, tableName, params)
   }
 
   public delete: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
-    return DatabaseService.deleteById(baseName, tableName, params)
+    const data = { deleted_at: new Date().toISOString() }
+    return DatabaseService.updateById(baseName, tableName, { ...params, data })
   }
 
   public list: DatabaseServiceFunctionListType = async (baseName, tableName) => {
