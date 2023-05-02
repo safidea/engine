@@ -46,3 +46,15 @@ describe('cache', () => {
     expect(fs.writeJsonSync).toHaveBeenCalledWith(expect.any(String), { test: true }, { spaces: 2 })
   })
 })
+
+describe('getAppName', () => {
+  it('should throw error if app name is not set', () => {
+    expect(() => ConfigUtils.getAppName()).toThrowError('APP_NAME is not set')
+  })
+
+  it('should return app name', () => {
+    process.env.APP_NAME = 'test'
+    const result = ConfigUtils.getAppName()
+    expect(result).toBe('test')
+  })
+})

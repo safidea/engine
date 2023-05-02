@@ -23,6 +23,10 @@ class PathUtils {
     return path
   }
 
+  public getConfigsFolder(packageName: string): string {
+    return join(this.getProjectRoot(), `packages/foundation-${packageName}/src/server/configs`)
+  }
+
   public getConfigFile(): string {
     const path = join(this.getRoot(), process.env.CONFIG_FILE_PATH || './config.json')
     if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)

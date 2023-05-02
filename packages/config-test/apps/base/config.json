@@ -1,5 +1,4 @@
 {
-  "name": "test",
   "databases": {
     "main": {
       "url": "file:./test.db",

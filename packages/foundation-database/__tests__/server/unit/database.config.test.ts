@@ -6,6 +6,7 @@ jest.mock('@database/server/utils/prisma.utils')
 
 beforeAll(() => {
   jest.clearAllMocks()
+  process.env.APP_NAME = 'test'
 })
 
 describe('enrich', () => {

@@ -44,6 +44,13 @@ describe('getJsFolder', () => {
   })
 })
 
+describe('getConfigsFolder', () => {
+  it('should return configs folder path', () => {
+    const result = PathUtils.getConfigsFolder('common')
+    expect(result.endsWith('foundation-common/src/server/configs')).toBe(true)
+  })
+})
+
 describe('getConfigFile', () => {
   it('should return config file path with CONFIG_FILE_PATH env', () => {
     process.env.CONFIG_FILE_PATH = './test/config.json'

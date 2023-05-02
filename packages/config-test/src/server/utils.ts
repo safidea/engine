@@ -17,7 +17,7 @@ class TestUtils {
   }
 
   public async createTestApp(appName: string): Promise<string> {
-    const appIdName = appName + '-' + uuidv4()
+    const appIdName = (appName + uuidv4()).replace(/-/g, '_')
     const folderPath = this.getTestAppFolderPath(appIdName)
     const envPath = join(folderPath, '.env')
     await fs.copy(this.getAppFolderPath(appName), folderPath)

@@ -1,4 +1,5 @@
 import DatabaseConfig from '@database/server/configs/database.config'
+import DatabaseUtils from '@database/server/utils/database.utils'
 import PrismaUtils from '@database/server/utils/prisma.utils'
 import { ConfigUtils } from '@common/server'
 import { TestUtils } from '@test/server'
@@ -61,6 +62,7 @@ describe('app with no databases', () => {
     }
     PrismaUtils.updateModelSchema('master', 'Task', tasks)
     DatabaseConfig.js()
+    DatabaseUtils.cleanImport()
   })
 })
 
@@ -106,5 +108,6 @@ describe('app with databases', () => {
     const tasks = ConfigUtils.get('tables.tasks') as any
     PrismaUtils.updateModelSchema('main', tasks.model, tasks)
     DatabaseConfig.js()
+    DatabaseUtils.cleanImport()
   })
 })
