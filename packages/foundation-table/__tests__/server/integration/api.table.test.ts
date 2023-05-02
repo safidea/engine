@@ -8,7 +8,7 @@ import { TestUtils, TestData } from '@test/server'
 import type { DatabaseRowType } from '@database'
 import type { ApiRequestInterface, ApiResponseInterface } from '@common'
 import type { TestDataInterface } from '@test'
-import type { TableFieldInterface, TablesInterface } from '@table'
+import type { TableFieldInterface } from '@table'
 
 let baseId = ''
 let row: DatabaseRowType
@@ -240,7 +240,7 @@ describe(`with table ${table}`, () => {
   })
 
   it('should return a 400 if fields are invalids', async () => {
-    const { data, fields } = testData.createValid()
+    const { data } = testData.createValid()
     data.token = 'invalid token'
     const req = {
       method: 'POST',
