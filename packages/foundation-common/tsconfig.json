@@ -9,9 +9,9 @@
       "@common/client": ["src/client"],
       "@common/*": ["src/*"],
       "@common": ["src/shared"],
-      "@test/server": ["../config-test/src/server"],
-      "@test/client": ["../config-test/src/client"],
-      "@test": ["../config-test/src/shared"]
+      "@test/server": ["../utils-test/src/server"],
+      "@test/client": ["../utils-test/src/client"],
+      "@test": ["../utils-test/src/shared"]
     }
   }
 }

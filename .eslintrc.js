@@ -3,7 +3,7 @@ module.exports = {
   extends: ['foundation'],
   settings: {
     next: {
-      rootDir: ['apps/*/', 'packages/foundation-core/'],
+      rootDir: ['apps/*/', 'packages/foundation-app/'],
     },
   },
 }

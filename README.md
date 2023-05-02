@@ -18,7 +18,7 @@
 
 ### Entities
 
-- foundation-core
+- foundation-app
   - App
 - foundation-automation
   - Automation
@@ -44,7 +44,7 @@
 
 ### Dependencies
 
-- foundation-core
+- foundation-app
   - foundation-automation
   - foundation-page
   - foundation-account

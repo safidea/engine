@@ -33,7 +33,7 @@ Here is the current packages list:
 
 ### Core
 
-A `foundation-core` package is the final application using the features that have been configured. It is based on Next.js that has the role of building and running the app.
+A `foundation-app` package is the final application using the features that have been configured. It is based on Next.js that has the role of building and running the app.
 All Next.js libraries are used here.
 
 ### Common

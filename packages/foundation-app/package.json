@@ -1,5 +1,5 @@
 {
-  "name": "foundation-core",
+  "name": "foundation-app",
   "main": "./next.config.js",
   "scripts": {
     "dev": "next dev",
@@ -29,7 +29,7 @@
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
     "config-jest": "workspace:*",
-    "config-test": "workspace:*",
+    "utils-test": "workspace:*",
     "config-typescript": "workspace:*",
     "debug": "4.3.4",
     "eslint": "8.36.0",

@@ -1,5 +1,5 @@
 {
-  "name": "config-test",
+  "name": "utils-test",
   "main": "src/shared/index.ts",
   "types": "src/shared/index.ts",
   "browser": "src/client/index.ts",
