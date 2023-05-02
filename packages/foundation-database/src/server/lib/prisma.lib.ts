@@ -1,19 +1,24 @@
-import { PrismaClients } from '@database/server/configs/import.config'
+import ImportConfig from '@database/server/configs/import.config'
 import PrismaUtils from '@database/server/utils/prisma.utils'
 
-import type { PrismaClientInterface } from '@database'
-
-type PrismaClientType = { [key: string]: PrismaClientInterface }
-type PrismaClientsType = { [key: string]: PrismaClientType }
+import type {
+  PrismaClientInterface,
+  PrismaClientsInterface,
+  PrismaClientType,
+  PrismaClientsType,
+} from '@database'
 
 class PrismaLib {
   private clients: PrismaClientsType = {}
 
   constructor() {
+    const { PrismaClients } = ImportConfig()
+    this.importClients(PrismaClients as PrismaClientsInterface)
+  }
+
+  private importClients(PrismaClients: PrismaClientsInterface): void {
     for (const baseName in PrismaClients) {
-      const { PrismaClient } = PrismaClients[baseName as keyof typeof PrismaClients] as unknown as {
-        PrismaClient: new () => PrismaClientType
-      }
+      const { PrismaClient } = PrismaClients[baseName]
       this.clients[baseName] = new PrismaClient()
     }
   }
@@ -22,6 +27,12 @@ class PrismaLib {
     const base = this.base(baseName)
     if (!base) return undefined
     return base[modelName]
+  }
+
+  /** À n'utiliser que pour les tests */
+  public async updateClients(pathToClientsFolder: string): Promise<void> {
+    const { default: PrismaClients } = await import(pathToClientsFolder)
+    this.importClients(PrismaClients as PrismaClientsInterface)
   }
 
   public base(baseName: string): PrismaClientType | undefined {

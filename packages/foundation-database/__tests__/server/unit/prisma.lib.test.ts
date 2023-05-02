@@ -8,6 +8,12 @@ beforeAll(async () => {
   jest.clearAllMocks()
 })
 
+describe('updateClients', () => {
+  it('should update clients', async () => {
+    await PrismaLib.updateClients('@database/server/configs/import.config')
+  })
+})
+
 describe('base', () => {
   it('should return a base', () => {
     const result = PrismaLib.base('master')

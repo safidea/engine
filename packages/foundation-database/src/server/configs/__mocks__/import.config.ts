@@ -6,4 +6,8 @@ const PrismaClients = {
   master: { PrismaClient },
 }
 
-export { PrismaClients }
+function importConfig() {
+  return { PrismaClients }
+}
+
+export default importConfig

@@ -8,6 +8,7 @@ let baseId = ''
 let notValidSchemaId = ''
 
 beforeAll(async () => {
+  jest.clearAllMocks()
   const res = await Promise.all([
     TestUtils.createTestApp('base'),
     TestUtils.createTestApp('not-valid-schema'),

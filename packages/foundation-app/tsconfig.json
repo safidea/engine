@@ -5,6 +5,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@app/*": ["pages/*"],
       "@database/client": ["../foundation-database/src/client"],
       "@database/server": ["../foundation-database/src/server"],
       "@database/*": ["../foundation-database/src/*"],

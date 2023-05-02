@@ -6,16 +6,20 @@
 import SystemsPrismaClients from '/Users/thomasjeanneau/Codes/Essentiel/foundation/apps/systems/js/prisma'
 /** End import */
 
-let PrismaClients = {}
+function importConfig() {
+  let PrismaClients = {}
 
-function exportPrismaClients(appName: string, clients: object) {
-  if (process.env.APP_NAME === appName) {
-    PrismaClients = clients
+  function exportPrismaClients(appName: string, clients: object) {
+    if (process.env.APP_NAME === appName) {
+      PrismaClients = clients
+    }
   }
+
+  /** Start export */
+  exportPrismaClients('systems', SystemsPrismaClients)
+  /** End export */
+
+  return { PrismaClients }
 }
 
-/** Start export */
-exportPrismaClients('systems', SystemsPrismaClients)
-/** End export */
-
-export { PrismaClients }
+export default importConfig

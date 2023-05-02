@@ -27,6 +27,13 @@ class TestUtils {
     return appIdName
   }
 
+  public configTestApp(configs: any[]) {
+    for (const config of configs) if (typeof config.enrich === 'function') config.enrich()
+    for (const config of configs) if (typeof config.validate === 'function') config.validate()
+    for (const config of configs) if (typeof config.lib === 'function') config.lib()
+    for (const config of configs) if (typeof config.js === 'function') config.js()
+  }
+
   public async destroyTestApp(appIdName: string): Promise<void> {
     return fs.remove(this.getTestAppFolderPath(appIdName))
   }

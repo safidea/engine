@@ -31,10 +31,12 @@ class TableUtils {
     const { fields } = tables[table]
     const errors = []
 
+    const values = { ...data }
+
     for (const field of Object.keys(fields)) {
       const fieldData = fields[field]
-      const value = data[field]
-      delete data[field]
+      const value = values[field]
+      delete values[field]
 
       if (!allFields && !value && (fieldData.optional || fieldData.default)) {
         continue
@@ -61,8 +63,8 @@ class TableUtils {
       }
     }
 
-    if (Object.keys(data).length > 0) {
-      errors.push(`Invalid fields: ${Object.keys(data).join(', ')}`)
+    if (Object.keys(values).length > 0) {
+      errors.push(`Invalid fields: ${Object.keys(values).join(', ')}`)
     }
 
     return errors

@@ -1,20 +1,7 @@
 import { TestUtils } from '@test/server'
 import { faker } from '@faker-js/faker'
 
-export type TestDataInterface = {
-  [key: string]: string | number | boolean
-}
-
-export type BuiltDataInterface = {
-  data: TestDataInterface
-  fields: {
-    [key: string]: {
-      type: string
-      optional: boolean
-      default: string | number | boolean
-    }
-  }
-}
+import type { BuiltDataInterface, TestDataInterface } from '@test'
 
 class TestData {
   private table: any

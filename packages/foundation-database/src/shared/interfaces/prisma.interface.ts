@@ -1,5 +1,6 @@
 import type { ObjectInterface } from '@common'
 import type { DatabaseDataType, DatabaseRowType } from '@database'
+import type { PrismaClientType } from '@database'
 
 export interface PrismaClientInterface {
   create: (params: { data: DatabaseDataType }) => Promise<DatabaseRowType>
@@ -12,6 +13,12 @@ export interface PrismaClientInterface {
   findUnique: (params: { where: DatabaseDataType }) => Promise<DatabaseRowType>
   findMany: (params: { where?: DatabaseDataType }) => Promise<DatabaseRowType[]>
   delete: (params: { where: DatabaseDataType }) => Promise<DatabaseRowType>
+}
+
+export interface PrismaClientsInterface {
+  [key: string]: {
+    PrismaClient: new () => PrismaClientType
+  }
 }
 
 export interface PrismaModelFieldInterface extends ObjectInterface {
