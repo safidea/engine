@@ -1,7 +1,7 @@
 import debug from 'debug'
 import { ConfigUtils } from '@common/server'
-import { DatabaseConfig } from '@database/config'
-import { TableConfig } from '@table/config'
+import DatabaseConfig from '@database/server/configs/database.config'
+import TableConfig from '@table/server/configs/table.config'
 
 import type { ConfigInterface } from '@common'
 

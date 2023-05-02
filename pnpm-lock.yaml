@@ -215,6 +215,9 @@ importers:
       foundation-common:
         specifier: workspace:*
         version: link:../foundation-common
+      foundation-database:
+        specifier: workspace:*
+        version: link:../foundation-database
       foundation-table:
         specifier: workspace:*
         version: link:../foundation-table
@@ -258,9 +261,6 @@ importers:
       config-typescript:
         specifier: workspace:*
         version: link:../config-typescript
-      cross-env:
-        specifier: 7.0.3
-        version: 7.0.3
       debug:
         specifier: 4.3.4
         version: 4.3.4

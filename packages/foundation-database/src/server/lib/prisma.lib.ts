@@ -1,4 +1,5 @@
-import { PrismaUtils } from '@database/server'
+import { PrismaClients } from '@database/server/configs/import.config'
+import PrismaUtils from '@database/server/utils/prisma.utils'
 
 import type { PrismaClientInterface } from '@database'
 
@@ -8,11 +9,12 @@ type PrismaClientsType = { [key: string]: PrismaClientType }
 class PrismaLib {
   private clients: PrismaClientsType = {}
 
-  public async init(pathToClients: string): Promise<void> {
-    const { default: clients } = await import(pathToClients)
-    for (const baseName in clients) {
-      const { PrismaClient } = clients[baseName as keyof typeof clients]
-      this.clients[baseName] = new PrismaClient() as unknown as PrismaClientType
+  constructor() {
+    for (const baseName in PrismaClients) {
+      const { PrismaClient } = PrismaClients[baseName as keyof typeof PrismaClients] as unknown as {
+        PrismaClient: new () => PrismaClientType
+      }
+      this.clients[baseName] = new PrismaClient()
     }
   }
 

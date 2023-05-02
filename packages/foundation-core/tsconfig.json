@@ -5,11 +5,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@database/config": ["../foundation-database/src/server/config.ts"],
       "@database/client": ["../foundation-database/src/client"],
       "@database/server": ["../foundation-database/src/server"],
+      "@database/*": ["../foundation-database/src/*"],
       "@database": ["../foundation-database/src/shared"],
-      "@table/config": ["../foundation-table/src/server/config.ts"],
       "@table/client": ["../foundation-table/src/client"],
       "@table/server": ["../foundation-table/src/server"],
       "@table/*": ["../foundation-table/src/*"],

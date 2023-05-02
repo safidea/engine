@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": [
+    "APP_NAME",
     "ROOT_PATH",
     "CONFIG_FILE_PATH",
     "DATA_FOLDER_PATH",
@@ -23,17 +24,11 @@
     "config": {
       "dependsOn": [
         "schema"
-      ]
-    },
-    "dev": {
-      "dependsOn": [
-        "config"
-      ]
-    },
-    "build": {
-      "dependsOn": [
-        "config"
       ],
+      "cache": false
+    },
+    "dev": {},
+    "build": {
       "outputs": [
         "dist/**",
         ".next/**"

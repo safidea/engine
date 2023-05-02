@@ -1,6 +1,8 @@
 import debug from 'debug'
+import DatabaseUtils from '@database/server/utils/database.utils'
+import PrismaUtils from '@database/server/utils/prisma.utils'
+
 import { ConfigUtils, SchemaUtils, ObjectUtils } from '@common/server'
-import { DatabaseUtils, PrismaUtils } from '@database/config'
 import { DatabaseInterfaceSchema } from '@database'
 
 import type { DatabasesInterface } from '@database'
@@ -41,6 +43,7 @@ class DatabaseConfig implements ConfigInterface {
       PrismaUtils.buildClient(database)
     }
     PrismaUtils.buildIndexClients(Object.keys(databases))
+    DatabaseUtils.buildImport()
   }
 
   private get(): DatabasesInterface {

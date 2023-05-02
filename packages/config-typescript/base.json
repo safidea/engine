@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "strict": true,
     "resolveJsonModule": true,
-    "allowJs": true
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules"

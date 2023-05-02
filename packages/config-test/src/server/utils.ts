@@ -19,12 +19,11 @@ class TestUtils {
   public async createTestApp(appName: string): Promise<string> {
     const appIdName = appName + '-' + uuidv4()
     const folderPath = this.getTestAppFolderPath(appIdName)
+    const envPath = join(folderPath, '.env')
     await fs.copy(this.getAppFolderPath(appName), folderPath)
-    const env = await fs.readFile(join(folderPath, '.env'), 'utf8')
-    await fs.writeFile(
-      join(folderPath, '.env'),
-      env.replace(`/apps/${appName}`, `/data/${appIdName}`)
-    )
+    const env = await fs.readFile(envPath, 'utf8')
+    await fs.writeFile(envPath, env.replace(`/apps/${appName}`, `/data/${appIdName}`))
+    await fs.appendFile(envPath, '\nAPP_NAME=' + appIdName)
     return appIdName
   }
 

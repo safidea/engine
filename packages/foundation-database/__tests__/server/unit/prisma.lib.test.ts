@@ -1,12 +1,11 @@
-import { join } from 'path'
 import PrismaLib from '@database/server/lib/prisma.lib'
 import PrismaUtils from '@database/server/utils/prisma.utils'
 
 jest.mock('@database/server/utils/prisma.utils')
+jest.mock('@database/server/configs/import.config')
 
 beforeAll(async () => {
   jest.clearAllMocks()
-  await PrismaLib.init(join(__dirname, '../prisma.clients'))
 })
 
 describe('base', () => {

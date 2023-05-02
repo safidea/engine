@@ -5,7 +5,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@database/config": ["src/server/configs"],
       "@database/server": ["src/server"],
       "@database/*": ["src/*"],
       "@database": ["src/shared"],

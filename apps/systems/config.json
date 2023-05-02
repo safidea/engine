@@ -37,6 +37,10 @@
         "name": {
           "type": "String",
           "optional": false
+        },
+        "description": {
+          "type": "String",
+          "optional": true
         }
       }
     }

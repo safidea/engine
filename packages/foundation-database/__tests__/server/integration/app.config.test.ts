@@ -1,4 +1,5 @@
-import { DatabaseConfig, PrismaUtils } from '@database/config'
+import DatabaseConfig from '@database/server/configs/database.config'
+import PrismaUtils from '@database/server/utils/prisma.utils'
 import { ConfigUtils } from '@common/server'
 import { TestUtils } from '@test/server'
 

@@ -103,8 +103,8 @@ class PrismaUtils {
     fs.writeFileSync(indexPath, script)
   }
 
-  private getClientFolder(): string {
-    const clientFolderPath = join(PathUtils.getJsFolder(), 'server/prisma')
+  public getClientFolder(): string {
+    const clientFolderPath = join(PathUtils.getJsFolder(), 'prisma')
     fs.ensureDirSync(clientFolderPath)
     return clientFolderPath
   }

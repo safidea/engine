@@ -1,4 +1,4 @@
-import { PrismaLib } from '@database/server'
+import PrismaLib from '@database/server/lib/prisma.lib'
 
 import type {
   DatabaseServiceFunctionType,

@@ -16,3 +16,10 @@ describe('getDefaults', () => {
     expect(fs.ensureFileSync).toBeCalledTimes(1)
   })
 })
+
+describe('buildImport', () => {
+  it('should write import file', () => {
+    DatabaseUtils.buildImport()
+    expect(fs.writeFileSync).toBeCalledTimes(1)
+  })
+})

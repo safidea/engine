@@ -127,3 +127,10 @@ describe('buildIndexClients', () => {
     expect(fs.writeFileSync).toBeCalledTimes(1)
   })
 })
+
+describe('getClientFolder', () => {
+  it('should return client folder', async () => {
+    const result = PrismaUtils.getClientFolder()
+    expect(result.endsWith('prisma')).toBe(true)
+  })
+})

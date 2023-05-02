@@ -1,4 +1,4 @@
-import { TableConfig } from '@table/config'
+import TableConfig from '@table/server/configs/table.config'
 import { ConfigUtils } from '@common/server'
 import { TestUtils } from '@test/server'
 
@@ -10,11 +10,10 @@ let notValidSchemaId = ''
 beforeAll(async () => {
   const res = await Promise.all([
     TestUtils.createTestApp('base'),
-    TestUtils.createTestApp('no-config'),
     TestUtils.createTestApp('not-valid-schema'),
   ])
   baseId = res[0]
-  notValidSchemaId = res[2]
+  notValidSchemaId = res[1]
 })
 
 afterAll(async () => {

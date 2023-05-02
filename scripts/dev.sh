@@ -1,13 +1,14 @@
 #!/bin/bash
 
 path="./apps/$1"
-if [ -d $path ]; then
+if [ ! -z "$1" ] && [ -d $path ]; then
   echo "Load app $1"
 
   source $path/.env
 
   export ROOT_PATH=$path
-  export DEBUG=config:*
+  export APP_NAME=$1
+  export DEBUG=config:*,startup:*
 
   turbo dev
 else

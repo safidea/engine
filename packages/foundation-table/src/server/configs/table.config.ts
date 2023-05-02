@@ -1,7 +1,7 @@
 import debug from 'debug'
 import { ConfigUtils, SchemaUtils } from '@common/server'
-import { TableUtils } from '@table/config'
-import { PrismaUtils } from '@database/config'
+import TableUtils from '@table/server/utils/table.utils'
+import PrismaUtils from '@database/server/utils/prisma.utils'
 import { TableInterfaceSchema } from '@table'
 
 import type { TablesInterface } from '@table'

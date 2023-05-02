@@ -2,8 +2,8 @@ class PrismaClient {
   user = {}
 }
 
-const clients = {
+const PrismaClients = {
   master: { PrismaClient },
 }
 
-export default clients
+export { PrismaClients }
