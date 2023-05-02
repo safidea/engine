@@ -33,39 +33,36 @@ class TableUtils {
 
     for (const field of Object.keys(fields)) {
       const fieldData = fields[field]
+      const value = data[field]
+      delete data[field]
 
-      if (!allFields && !data[field] && (fieldData.optional || fieldData.default)) {
+      if (!allFields && !value && (fieldData.optional || fieldData.default)) {
         continue
       }
 
-      if (
-        !fieldData.optional &&
-        !fieldData.default &&
-        !data[field] &&
-        fieldData.type !== 'Boolean'
-      ) {
+      if (!fieldData.optional && !fieldData.default && !value && fieldData.type !== 'Boolean') {
         errors.push(`Field ${field} is required`)
       }
 
-      if (fieldData.type === 'Int' && data[field] && !Number.isInteger(data[field])) {
+      if (fieldData.type === 'Int' && value && !Number.isInteger(value)) {
         errors.push(`Field ${field} must be an integer`)
       }
 
-      if (fieldData.type === 'String' && data[field] && typeof data[field] !== 'string') {
+      if (fieldData.type === 'String' && value && typeof value !== 'string') {
         errors.push(`Field ${field} must be a string`)
       }
 
-      if (
-        fieldData.type === 'DateTime' &&
-        data[field] &&
-        !new Date(String(data[field])).getTime()
-      ) {
+      if (fieldData.type === 'DateTime' && value && !new Date(String(value)).getTime()) {
         errors.push(`Field ${field} must be a valid date`)
       }
 
-      if (fieldData.type === 'Boolean' && data[field] && typeof data[field] !== 'boolean') {
+      if (fieldData.type === 'Boolean' && value && typeof value !== 'boolean') {
         errors.push(`Field ${field} must be a boolean`)
       }
+    }
+
+    if (Object.keys(data).length > 0) {
+      errors.push(`Invalid fields: ${Object.keys(data).join(', ')}`)
     }
 
     return errors

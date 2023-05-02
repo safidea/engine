@@ -50,6 +50,7 @@ describe('validateDataFields', () => {
       age: 'test',
       available: 'test',
       start_date: 'test',
+      token: 'test',
     })
     expect(errors).toEqual([
       'Field name is required',
@@ -57,6 +58,7 @@ describe('validateDataFields', () => {
       'Field age must be an integer',
       'Field available must be a boolean',
       'Field start_date must be a valid date',
+      'Invalid fields: token',
     ])
   })
 })
