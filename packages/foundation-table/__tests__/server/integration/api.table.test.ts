@@ -186,7 +186,12 @@ describe(`with table ${table}`, () => {
     await TableRouteApi(req, res)
     expect(res.status).toHaveBeenCalledWith(400)
     expect(res.json.mock.calls[0][0]).toEqual({
-      error: 'Body is required',
+      error: 'Invalid body',
+      details: [
+        'Field name is required',
+        'Field number is required',
+        'Field started_at is required',
+      ],
     })
   })
 

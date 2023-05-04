@@ -26,7 +26,11 @@ class TableUtils {
     }
   }
 
-  public validateDataFields(table: string, data: DatabaseDataType, allFields = false): string[] {
+  public validateDataFields(
+    table: string,
+    data: DatabaseDataType = {},
+    action = 'CREATE'
+  ): string[] {
     const tables = ConfigUtils.get('tables') as TablesInterface
     const { fields } = tables[table]
     const errors = []
@@ -38,7 +42,7 @@ class TableUtils {
       const value = values[field]
       delete values[field]
 
-      if (!allFields && !value && (fieldData.optional || fieldData.default)) {
+      if (!value && (action === 'UPDATE' || fieldData.optional || fieldData.default)) {
         continue
       }
 

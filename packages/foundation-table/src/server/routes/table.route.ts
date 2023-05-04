@@ -16,17 +16,12 @@ class TableRoute implements RouterInterface {
   }
 
   public post() {
-    return [
-      TableMiddleware.validateBody,
-      TableMiddleware.validateBodyAllFields,
-      TableController.create,
-    ]
+    return [TableMiddleware.validatePostBody, TableController.create]
   }
 
   public patch() {
     return [
-      TableMiddleware.validateBody,
-      TableMiddleware.validateBodyFields,
+      TableMiddleware.validatePatchBody,
       TableMiddleware.validateRowExist,
       TableController.update,
     ]
@@ -34,8 +29,7 @@ class TableRoute implements RouterInterface {
 
   public put() {
     return [
-      TableMiddleware.validateBody,
-      TableMiddleware.validateBodyAllFields,
+      TableMiddleware.validatePutBody,
       TableMiddleware.validateRowExist,
       TableController.update,
     ]

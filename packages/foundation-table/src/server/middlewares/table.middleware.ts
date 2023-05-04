@@ -38,16 +38,7 @@ class TableMiddleware {
     if (next) return next()
   }
 
-  public validateBody: RouterMiddlewareType = async (req, res, next) => {
-    if (!req.body) {
-      return res.status(400).json({
-        error: 'Body is required',
-      })
-    }
-    if (next) return next()
-  }
-
-  public validateBodyFields: RouterMiddlewareType = async (req, res, next) => {
+  public validatePostBody: RouterMiddlewareType = async (req, res, next) => {
     const errors = TableUtils.validateDataFields(req.query.table, req.body as DatabaseDataType)
     if (errors.length > 0) {
       return res.status(400).json({
@@ -58,11 +49,11 @@ class TableMiddleware {
     if (next) return next()
   }
 
-  public validateBodyAllFields: RouterMiddlewareType = async (req, res, next) => {
+  public validatePatchBody: RouterMiddlewareType = async (req, res, next) => {
     const errors = TableUtils.validateDataFields(
       req.query.table,
       req.body as DatabaseDataType,
-      true
+      'UPDATE'
     )
     if (errors.length > 0) {
       return res.status(400).json({
@@ -72,6 +63,8 @@ class TableMiddleware {
     }
     if (next) return next()
   }
+
+  public validatePutBody: RouterMiddlewareType = this.validatePostBody
 }
 
 export default new TableMiddleware()

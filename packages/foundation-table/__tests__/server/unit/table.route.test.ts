@@ -27,19 +27,19 @@ describe('get', () => {
 
 describe('post', () => {
   it('should return array of middleware', () => {
-    expect(TableRoute.post()).toHaveLength(3)
+    expect(TableRoute.post()).toHaveLength(2)
   })
 })
 
 describe('patch', () => {
   it('should return array of middleware', () => {
-    expect(TableRoute.patch()).toHaveLength(4)
+    expect(TableRoute.patch()).toHaveLength(3)
   })
 })
 
 describe('put', () => {
   it('should return array of middleware', () => {
-    expect(TableRoute.put()).toHaveLength(4)
+    expect(TableRoute.put()).toHaveLength(3)
   })
 })
 

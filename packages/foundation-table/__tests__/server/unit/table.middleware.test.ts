@@ -111,81 +111,7 @@ describe('validateRowExist', () => {
   })
 })
 
-describe('validateBody', () => {
-  it('should return 400 if body is not present', async () => {
-    const req = {} as unknown as ApiRequestInterface
-    await TableMiddleware.validateBody(req, res)
-    expect(res.status).toHaveBeenCalledWith(400)
-    expect(res.json).toHaveBeenCalledWith({
-      error: 'Body is required',
-    })
-  })
-
-  it('should call next if body is present', async () => {
-    const req = {
-      body: {},
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validateBody(req, res, next)
-    expect(next).toHaveBeenCalled()
-  })
-})
-
-describe('validateBodyFields', () => {
-  beforeAll(() => {
-    ConfigUtils.set('tables', {
-      users: {
-        fields: {
-          name: {
-            type: 'String',
-            optional: true,
-          },
-          email: {
-            type: 'String',
-          },
-          password: {
-            type: 'String',
-            optional: true,
-          },
-        },
-      },
-    })
-  })
-
-  it('should return 400 if body is missing fields', async () => {
-    const req = {
-      query: {
-        table: 'users',
-      },
-      body: {
-        name: 'name',
-      },
-    } as unknown as ApiRequestInterface
-    await TableMiddleware.validateBodyFields(req, res)
-    expect(res.status).toHaveBeenCalledWith(400)
-    expect(res.json).toHaveBeenCalledWith({
-      error: 'Invalid body',
-      details: ['Field email is required'],
-    })
-  })
-
-  it('should call next if body has all fields', async () => {
-    const req = {
-      query: {
-        table: 'users',
-      },
-      body: {
-        name: 'name',
-        email: 'email',
-      },
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validateBodyFields(req, res, next)
-    expect(next).toHaveBeenCalled()
-  })
-})
-
-describe('validateBodyAllFields', () => {
+describe('validatePostBody', () => {
   beforeAll(() => {
     ConfigUtils.set('tables', {
       users: {
@@ -216,7 +142,7 @@ describe('validateBodyAllFields', () => {
         password: 1,
       },
     } as unknown as ApiRequestInterface
-    await TableMiddleware.validateBodyAllFields(req, res)
+    await TableMiddleware.validatePostBody(req, res)
     expect(res.status).toHaveBeenCalledWith(400)
     expect(res.json).toHaveBeenCalledWith({
       error: 'Invalid body',
@@ -236,7 +162,63 @@ describe('validateBodyAllFields', () => {
       },
     } as unknown as ApiRequestInterface
     const next = jest.fn()
-    await TableMiddleware.validateBodyAllFields(req, res, next)
+    await TableMiddleware.validatePostBody(req, res, next)
+    expect(next).toHaveBeenCalled()
+  })
+})
+
+describe('validatePatchBody', () => {
+  beforeAll(() => {
+    ConfigUtils.set('tables', {
+      users: {
+        fields: {
+          name: {
+            type: 'String',
+            optional: true,
+          },
+          email: {
+            type: 'String',
+          },
+          password: {
+            type: 'String',
+            optional: true,
+          },
+        },
+      },
+    })
+  })
+
+  it('should return 400 if body has unknown fields', async () => {
+    const req = {
+      query: {
+        table: 'users',
+      },
+      body: {
+        name: 'name',
+        role: 'admin',
+        status: 'active',
+      },
+    } as unknown as ApiRequestInterface
+    await TableMiddleware.validatePatchBody(req, res)
+    expect(res.status).toHaveBeenCalledWith(400)
+    expect(res.json).toHaveBeenCalledWith({
+      error: 'Invalid body',
+      details: ['Invalid fields: role, status'],
+    })
+  })
+
+  it('should call next if body has all fields', async () => {
+    const req = {
+      query: {
+        table: 'users',
+      },
+      body: {
+        name: 'name',
+        email: 'email',
+      },
+    } as unknown as ApiRequestInterface
+    const next = jest.fn()
+    await TableMiddleware.validatePatchBody(req, res, next)
     expect(next).toHaveBeenCalled()
   })
 })
