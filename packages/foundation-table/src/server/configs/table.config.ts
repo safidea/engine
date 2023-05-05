@@ -37,7 +37,7 @@ class TableConfig implements ConfigInterface {
     const tables = this.get()
     for (const table in tables) {
       log(`setup prisma model schema ${table}`)
-      const { database, model, fields, unique } = tables[table]
+      const { database, model, fields = {}, unique } = tables[table]
       const modelName = model || PrismaUtils.getModelName(table)
       PrismaUtils.updateModelSchema(database, modelName, {
         fields,

@@ -1,0 +1,25 @@
+{
+  "extends": "config-typescript/react-library.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@page/server": ["src/server"],
+      "@page/client": ["src/client"],
+      "@page/*": ["src/*"],
+      "@page": ["src/shared"],
+      "@component/server": ["../foundation-component/src/server"],
+      "@component/client": ["../foundation-component/src/client"],
+      "@component/*": ["../foundation-component/src/*"],
+      "@component": ["../foundation-component/src/shared"],
+      "@common/server": ["../foundation-common/src/server"],
+      "@common/client": ["../foundation-common/src/client"],
+      "@common/*": ["../foundation-common/src/*"],
+      "@common": ["../foundation-common/src/shared"],
+      "@test": ["../utils-test/src/shared"],
+      "@test/server": ["../utils-test/src/server"],
+      "@test/client": ["../utils-test/src/client"]
+    }
+  }
+}

@@ -2,9 +2,11 @@ import TableConfig from '@table/server/configs/table.config'
 import { PrismaUtils } from '@database/server'
 import { ConfigUtils } from '@common/server'
 
+import type { TablesInterface } from '@table'
+
 jest.mock('@database/server/utils/prisma.utils')
 
-const tables = {
+const tables: TablesInterface = {
   users: {
     database: 'master',
     fields: {
@@ -18,13 +20,13 @@ const tables = {
   },
 }
 
-beforeAll(() => {
+beforeEach(() => {
   jest.clearAllMocks()
+  ConfigUtils.set('tables', tables)
 })
 
 describe('enrich', () => {
   it('should add default fields', () => {
-    ConfigUtils.set('tables', tables)
     TableConfig.enrich()
     const { users } = ConfigUtils.get('tables') as any
     expect(users.fields.id).toBeDefined()
@@ -45,15 +47,23 @@ describe('validate', () => {
   })
 
   it('should not throw error', () => {
-    ConfigUtils.set('tables', tables)
     TableConfig.validate()
   })
 })
 
 describe('lib', () => {
   it('should update model schema', () => {
-    ConfigUtils.set('tables', tables)
     TableConfig.lib()
     expect(PrismaUtils.updateModelSchema).toBeCalledTimes(2)
+  })
+
+  it('should update model schema even if no fields', () => {
+    ConfigUtils.set('tables', {
+      users: {
+        database: 'master',
+      },
+    })
+    TableConfig.lib()
+    expect(PrismaUtils.updateModelSchema).toBeCalledTimes(1)
   })
 })

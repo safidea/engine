@@ -5,6 +5,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "eslint-config-foundation": "workspace:*"
+    "eslint-config-foundation": "workspace:*",
+    "next": "13.3.4"
   }
 }

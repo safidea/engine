@@ -109,4 +109,12 @@ describe('validateDataFields', () => {
       'Invalid fields: token',
     ])
   })
+
+  it('should return no errors if no fields', () => {
+    ConfigUtils.set('tables', {
+      users: {},
+    })
+    const errors = TableUtils.validateDataFields('users')
+    expect(errors).toEqual([])
+  })
 })

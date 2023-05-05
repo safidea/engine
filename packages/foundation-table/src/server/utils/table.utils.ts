@@ -32,7 +32,7 @@ class TableUtils {
     action = 'CREATE'
   ): string[] {
     const tables = ConfigUtils.get('tables') as TablesInterface
-    const { fields } = tables[table]
+    const { fields = {} } = tables[table]
     const errors = []
 
     const values = { ...data }

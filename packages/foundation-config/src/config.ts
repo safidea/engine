@@ -2,11 +2,12 @@ import debug from 'debug'
 import { ConfigUtils } from '@common/server'
 import DatabaseConfig from '@database/server/configs/database.config'
 import TableConfig from '@table/server/configs/table.config'
+import PageConfig from '@page/server/configs/page.config'
 
 import type { ConfigInterface } from '@common'
 
 class Config {
-  private Configs: ConfigInterface[] = [DatabaseConfig, TableConfig]
+  private Configs: ConfigInterface[] = [DatabaseConfig, TableConfig, PageConfig]
 
   public init(): void {
     const log = debug('config:init')
