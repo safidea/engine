@@ -1,6 +1,6 @@
 import './config'
 import { createMocks } from 'node-mocks-http'
-import handleTable from '@app/api/table/[base]/[table]'
+import handleTable from '@app/api/table/[base]/[table]/route'
 
 beforeAll(async () => {
   jest.clearAllMocks()

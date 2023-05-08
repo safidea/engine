@@ -81,8 +81,7 @@
         }
     },
     "required": [
-        "database",
-        "fields"
+        "database"
     ],
     "type": "object"
 }

@@ -1,11 +1,11 @@
 {
   "extends": "config-typescript/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["pages/*"],
+      "@app/*": ["app/*"],
       "@database/client": ["../foundation-database/src/client"],
       "@database/server": ["../foundation-database/src/server"],
       "@database/*": ["../foundation-database/src/*"],
@@ -21,6 +21,11 @@
       "@test": ["../utils-test/src/shared"],
       "@test/server": ["../utils-test/src/server"],
       "@test/client": ["../utils-test/src/client"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   }
 }
