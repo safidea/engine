@@ -1,5 +1,5 @@
 import SchemaUtils from '@common/server/utils/schema.utils'
-import FeatureInterfaceSchema from '../feature.interface.json'
+import FeatureInterfaceSchema from './feature.interface.json'
 
 describe('constructor', () => {
   it('should create a new instance', () => {

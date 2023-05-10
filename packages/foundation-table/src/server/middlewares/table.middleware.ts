@@ -1,70 +1,43 @@
 import { DatabaseService } from '@database/server'
 import { TableUtils } from '@table/server'
 
-import type { RouterMiddlewareType } from '@common'
+import type { RouteMiddlewareType } from '@common/server'
 import type { DatabaseDataType } from '@database'
 
 class TableMiddleware {
-  public validateBaseExist: RouterMiddlewareType = async (req, res, next) => {
+  public validateBaseExist: RouteMiddlewareType = async (req) => {
     const { base } = req.query
     const exist = DatabaseService.baseExist(base)
-    if (!exist) {
-      return res.status(404).json({
-        error: `Base ${base} does not exist`,
-      })
-    }
-    if (next) return next()
+    if (!exist) return { json: { error: `Base ${base} does not exist` }, status: 404 }
   }
 
-  public validateTableExist: RouterMiddlewareType = async (req, res, next) => {
+  public validateTableExist: RouteMiddlewareType = async (req) => {
     const { base, table } = req.query
     const exist = DatabaseService.tableExist(base, table)
-    if (!exist) {
-      return res.status(404).json({
-        error: `Table ${table} does not exist`,
-      })
-    }
-    if (next) return next()
+    if (!exist) return { json: { error: `Table ${table} does not exist` }, status: 404 }
   }
 
-  public validateRowExist: RouterMiddlewareType = async (req, res, next) => {
+  public validateRowExist: RouteMiddlewareType = async (req) => {
     const { base, table, id } = req.query
     const row = await DatabaseService.readById(base, table, { id })
-    if (!row) {
-      return res.status(404).json({
-        error: `Row ${id} does not exist in table ${table}`,
-      })
-    }
-    if (next) return next()
+    if (!row) return { json: { error: `Row ${id} does not exist in table ${table}` }, status: 404 }
   }
 
-  public validatePostBody: RouterMiddlewareType = async (req, res, next) => {
+  public validatePostBody: RouteMiddlewareType = async (req) => {
     const errors = TableUtils.validateDataFields(req.query.table, req.body as DatabaseDataType)
-    if (errors.length > 0) {
-      return res.status(400).json({
-        error: 'Invalid body',
-        details: errors,
-      })
-    }
-    if (next) return next()
+    if (errors.length > 0) return { json: { error: 'Invalid body', details: errors }, status: 400 }
   }
 
-  public validatePatchBody: RouterMiddlewareType = async (req, res, next) => {
+  public validatePatchBody: RouteMiddlewareType = async (req) => {
     const errors = TableUtils.validateDataFields(
       req.query.table,
       req.body as DatabaseDataType,
       'UPDATE'
     )
-    if (errors.length > 0) {
-      return res.status(400).json({
-        error: 'Invalid body',
-        details: errors,
-      })
-    }
-    if (next) return next()
+    if (errors.length > 0) return { json: { error: 'Invalid body', details: errors }, status: 400 }
   }
 
-  public validatePutBody: RouterMiddlewareType = this.validatePostBody
+  public validatePutBody: RouteMiddlewareType = this.validatePostBody
 }
 
 export default new TableMiddleware()

@@ -4,7 +4,7 @@ import DatabaseConfig from '@database/server/configs/database.config'
 import TableConfig from '@table/server/configs/table.config'
 import PageConfig from '@page/server/configs/page.config'
 
-import type { ConfigInterface } from '@common'
+import type { ConfigInterface } from '@common/server'
 
 class Config {
   private Configs: ConfigInterface[] = [DatabaseConfig, TableConfig, PageConfig]

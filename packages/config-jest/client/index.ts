@@ -1,6 +1,8 @@
-const base = require('./base.js')
+import base from '../base'
 
-module.exports = {
+import type { Config } from 'jest'
+
+const clientConfig: Config = {
   ...base,
   testEnvironment: 'jest-environment-jsdom',
   testMatch: [
@@ -11,3 +13,5 @@ module.exports = {
   ],
   coverageDirectory: 'coverage/jsdom',
 }
+
+export default clientConfig

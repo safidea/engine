@@ -2,112 +2,80 @@ import TableMiddleware from '@table/server/middlewares/table.middleware'
 import DatabaseService from '@database/server/services/database.service'
 import { ConfigUtils } from '@common/server'
 
-import type { ApiRequestInterface, ApiResponseInterface } from '@common'
+import type { RequestType } from '@common/server'
 
 jest.mock('@database/server/services/database.service')
 
-const res = {
-  status: jest.fn().mockReturnThis(),
-  json: jest.fn(),
-} as unknown as ApiResponseInterface
-
-beforeEach(() => {
-  jest.clearAllMocks()
-})
+const request: RequestType = {
+  locals: {},
+  query: {
+    base: 'base',
+  },
+  body: {},
+}
 
 describe('validateBaseExist', () => {
   it('should return 404 if base does not exist', async () => {
-    const req = {
-      query: {
-        base: 'base',
-      },
-    } as unknown as ApiRequestInterface
     const baseExist = DatabaseService.baseExist as jest.MockedFunction<
       typeof DatabaseService.baseExist
     >
     baseExist.mockReturnValueOnce(false)
-    await TableMiddleware.validateBaseExist(req, res)
-    expect(res.status).toHaveBeenCalledWith(404)
-    expect(res.json).toHaveBeenCalledWith({
+    const response = await TableMiddleware.validateBaseExist(request)
+    expect(response).toBeDefined()
+    expect(response?.status).toEqual(404)
+    expect(response?.json).toEqual({
       error: 'Base base does not exist',
     })
   })
 
   it('should call next if base exist', async () => {
-    const req = {
-      query: {
-        base: 'master',
-      },
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validateBaseExist(req, res, next)
-    expect(next).toHaveBeenCalled()
+    request.query.base = 'master'
+    const response = await TableMiddleware.validateBaseExist(request)
+    expect(response).toBeUndefined()
   })
 })
 
 describe('validateTableExist', () => {
   it('should return 404 if table does not exist', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'table',
-      },
-    } as unknown as ApiRequestInterface
+    request.query.table = 'table'
     const tableExist = DatabaseService.tableExist as jest.MockedFunction<
       typeof DatabaseService.tableExist
     >
     tableExist.mockReturnValueOnce(false)
-    await TableMiddleware.validateTableExist(req, res)
-    expect(res.status).toHaveBeenCalledWith(404)
-    expect(res.json).toHaveBeenCalledWith({
+    const response = await TableMiddleware.validateTableExist(request)
+    expect(response).toBeDefined()
+    expect(response?.status).toEqual(404)
+    expect(response?.json).toEqual({
       error: 'Table table does not exist',
     })
   })
 
   it('should call next if table exist', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'User',
-      },
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validateTableExist(req, res, next)
-    expect(next).toHaveBeenCalled()
+    request.query.table = 'User'
+    const response = await TableMiddleware.validateTableExist(request)
+    expect(response).toBeUndefined()
   })
 })
 
 describe('validateRowExist', () => {
   it('should return 404 if row does not exist', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'users',
-        id: '1',
-      },
-    } as unknown as ApiRequestInterface
+    request.query.table = 'users'
+    request.query.id = '1'
     const readById = DatabaseService.readById as jest.MockedFunction<
       typeof DatabaseService.readById
     >
     readById.mockReturnValueOnce(Promise.resolve(null))
-    await TableMiddleware.validateRowExist(req, res)
-    expect(res.status).toHaveBeenCalledWith(404)
-    expect(res.json).toHaveBeenCalledWith({
+    const response = await TableMiddleware.validateRowExist(request)
+    expect(response).toBeDefined()
+    expect(response?.status).toEqual(404)
+    expect(response?.json).toEqual({
       error: 'Row 1 does not exist in table users',
     })
   })
 
   it('should call next if row exist', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'users',
-        id: '1',
-      },
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validateRowExist(req, res, next)
-    expect(next).toHaveBeenCalled()
+    const response = await TableMiddleware.validateRowExist(request)
+    expect(response).toBeUndefined()
   })
 })
 
@@ -133,37 +101,27 @@ describe('validatePostBody', () => {
   })
 
   it('should return 400 if body is missing required fields', async () => {
-    const req = {
-      query: {
-        table: 'users',
-      },
-      body: {
-        name: 'name',
-        password: 1,
-      },
-    } as unknown as ApiRequestInterface
-    await TableMiddleware.validatePostBody(req, res)
-    expect(res.status).toHaveBeenCalledWith(400)
-    expect(res.json).toHaveBeenCalledWith({
+    request.body = {
+      name: 'name',
+      password: 1,
+    }
+    const response = await TableMiddleware.validatePostBody(request)
+    expect(response).toBeDefined()
+    expect(response?.status).toEqual(400)
+    expect(response?.json).toEqual({
       error: 'Invalid body',
       details: ['Field email is required', 'Field password must be a string'],
     })
   })
 
   it('should call next if body has all required fields', async () => {
-    const req = {
-      query: {
-        table: 'users',
-      },
-      body: {
-        name: 'name',
-        email: 'email',
-        password: 'password',
-      },
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validatePostBody(req, res, next)
-    expect(next).toHaveBeenCalled()
+    request.body = {
+      name: 'name',
+      email: 'email',
+      password: 'password',
+    }
+    const response = await TableMiddleware.validatePostBody(request)
+    expect(response).toBeUndefined()
   })
 })
 
@@ -189,36 +147,26 @@ describe('validatePatchBody', () => {
   })
 
   it('should return 400 if body has unknown fields', async () => {
-    const req = {
-      query: {
-        table: 'users',
-      },
-      body: {
-        name: 'name',
-        role: 'admin',
-        status: 'active',
-      },
-    } as unknown as ApiRequestInterface
-    await TableMiddleware.validatePatchBody(req, res)
-    expect(res.status).toHaveBeenCalledWith(400)
-    expect(res.json).toHaveBeenCalledWith({
+    request.body = {
+      name: 'name',
+      role: 'admin',
+      status: 'active',
+    }
+    const response = await TableMiddleware.validatePatchBody(request)
+    expect(response).toBeDefined()
+    expect(response?.status).toEqual(400)
+    expect(response?.json).toEqual({
       error: 'Invalid body',
       details: ['Invalid fields: role, status'],
     })
   })
 
   it('should call next if body has all fields', async () => {
-    const req = {
-      query: {
-        table: 'users',
-      },
-      body: {
-        name: 'name',
-        email: 'email',
-      },
-    } as unknown as ApiRequestInterface
-    const next = jest.fn()
-    await TableMiddleware.validatePatchBody(req, res, next)
-    expect(next).toHaveBeenCalled()
+    request.body = {
+      name: 'name',
+      email: 'email',
+    }
+    const response = await TableMiddleware.validatePatchBody(request)
+    expect(response).toBeUndefined()
   })
 })

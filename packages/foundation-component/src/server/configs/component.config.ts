@@ -3,7 +3,7 @@ import { ConfigUtils, ObjectUtils, SchemaUtils } from '@common/server'
 import { ComponentInterfaceSchema } from '@component'
 
 import type { ComponentsInterface } from '@component'
-import type { ConfigInterface } from '@common'
+import type { ConfigInterface } from '@common/server'
 
 const log = debug('component:config')
 

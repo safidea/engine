@@ -6,7 +6,7 @@ import { ConfigUtils, SchemaUtils, ObjectUtils } from '@common/server'
 import { DatabaseInterfaceSchema } from '@database'
 
 import type { DatabasesInterface } from '@database'
-import type { ConfigInterface } from '@common'
+import type { ConfigInterface } from '@common/server'
 
 const log = debug('database:config')
 

@@ -19,18 +19,22 @@ class TestData {
         if (type === 'String') {
           data[field] = valid
             ? faker.helpers.unique(faker.name.jobDescriptor)
-            : faker.datatype.number()
+            : faker.helpers.unique(faker.datatype.number)
         }
         if (type === 'Int') {
           data[field] = valid
             ? faker.helpers.unique(faker.datatype.number)
-            : faker.name.jobDescriptor()
+            : faker.helpers.unique(faker.name.jobDescriptor)
         }
         if (type === 'DateTime') {
-          data[field] = valid ? (faker.date.past() as unknown as string) : faker.datatype.string()
+          data[field] = valid
+            ? faker.date.past().toISOString()
+            : faker.helpers.unique(faker.datatype.string)
         }
         if (type === 'Boolean') {
-          data[field] = valid ? faker.datatype.boolean() : faker.datatype.string()
+          data[field] = valid
+            ? faker.datatype.boolean()
+            : faker.helpers.unique(faker.datatype.string)
         }
       }
     }

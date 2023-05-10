@@ -1,4 +1,4 @@
-//const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
 
 module.exports = async () => {
   /** @type {import('next').NextConfig} */
@@ -13,12 +13,12 @@ module.exports = async () => {
       'foundation-common',
       'foundation-page',
     ],
-    /*webpack: (config, { isServer }) => {
+    webpack: (config, { isServer }) => {
       if (isServer) {
         config.plugins.push(new PrismaPlugin())
       }
       return config
-    },*/
+    },
   }
 
   return nextConfig

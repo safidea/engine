@@ -1,12 +1,4 @@
-export type ObjectValueType =
-  | ObjectInterface
-  | ObjectInterface[]
-  | string
-  | string[]
-  | number
-  | number[]
-  | boolean
-  | undefined
+import { ObjectValueType } from '../types/object.type'
 
 export interface ObjectInterface {
   [key: string]: ObjectValueType

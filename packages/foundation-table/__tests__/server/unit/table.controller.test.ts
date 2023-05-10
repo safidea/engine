@@ -1,79 +1,46 @@
 import TableController from '@table/server/controllers/table.controller'
 
-import type { ApiRequestInterface, ApiResponseInterface } from '@common'
+import type { RequestType } from '@common/server'
 
 jest.mock('@database/server/lib/prisma.lib')
 
-const res = {
-  status: jest.fn(() => res),
-  json: jest.fn(() => res),
-} as unknown as ApiResponseInterface
-
-beforeEach(() => {
-  jest.clearAllMocks()
-})
+const request: RequestType = {
+  locals: {},
+  query: {
+    base: 'master',
+    table: 'User',
+  },
+  body: {
+    name: 'test',
+  },
+}
 
 describe('create', () => {
   it('should return a row', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'User',
-      },
-      body: {
-        name: 'test',
-      },
-    } as unknown as ApiRequestInterface
-    await TableController.create(req, res)
-    expect(res.status).toBeCalledWith(200)
-    expect(res.json).toBeCalledWith({ id: '1', name: 'test' })
+    const response = await TableController.create(request)
+    expect(response.json).toEqual({ id: '1', name: 'test' })
   })
 })
 
 describe('update', () => {
   it('should return a row', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'User',
-        id: '1',
-      },
-      body: {
-        name: 'test',
-      },
-    } as unknown as ApiRequestInterface
-    await TableController.update(req, res)
-    expect(res.status).toBeCalledWith(200)
-    expect(res.json).toBeCalledWith({ id: '1', name: 'test' })
+    request.query.id = '1'
+    const response = await TableController.update(request)
+    expect(response.json).toEqual({ id: '1', name: 'test' })
   })
 })
 
 describe('read', () => {
   it('should return a row', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'User',
-        id: '1',
-      },
-    } as unknown as ApiRequestInterface
-    await TableController.read(req, res)
-    expect(res.status).toBeCalledWith(200)
-    expect(res.json).toBeCalledWith({ id: '1', name: 'test' })
+    const response = await TableController.read(request)
+    expect(response.json).toEqual({ id: '1', name: 'test' })
   })
 })
 
 describe('list', () => {
   it('should return rows', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'User',
-      },
-    } as unknown as ApiRequestInterface
-    await TableController.list(req, res)
-    expect(res.status).toBeCalledWith(200)
-    expect(res.json).toBeCalledWith([
+    const response = await TableController.list(request)
+    expect(response.json).toEqual([
       { id: '1', name: 'test' },
       { id: '2', name: 'test' },
     ])
@@ -82,15 +49,7 @@ describe('list', () => {
 
 describe('delete', () => {
   it('should return a row', async () => {
-    const req = {
-      query: {
-        base: 'master',
-        table: 'User',
-        id: '1',
-      },
-    } as unknown as ApiRequestInterface
-    await TableController.delete(req, res)
-    expect(res.status).toBeCalledWith(200)
-    expect(res.json).toBeCalledWith({ id: '1', name: 'test' })
+    const response = await TableController.delete(request)
+    expect(response.json).toEqual({ id: '1', name: 'test' })
   })
 })

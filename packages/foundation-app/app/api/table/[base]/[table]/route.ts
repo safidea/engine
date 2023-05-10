@@ -1,4 +1,5 @@
-import { RouterUtils } from '@common/server'
 import { TableRoute } from '@table/server'
 
-export default RouterUtils.handler(TableRoute)
+const { GET, POST, PATCH, PUT, DELETE } = TableRoute
+
+export { GET, POST, PATCH, PUT, DELETE }

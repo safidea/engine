@@ -1,6 +1,6 @@
 {
   "extends": "config-typescript/base.json",
-  "include": ["src/**/*", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",

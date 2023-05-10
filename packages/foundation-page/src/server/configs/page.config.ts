@@ -3,7 +3,7 @@ import { ConfigUtils, SchemaUtils } from '@common/server'
 import { PageInterfaceSchema } from '@page'
 
 import type { PagesInterface } from '@page'
-import type { ConfigInterface } from '@common'
+import type { ConfigInterface } from '@common/server'
 
 const log = debug('page:config')
 

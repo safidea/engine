@@ -1,50 +1,55 @@
 import TableRoute from '@table/server/routes/table.route'
 
-import type { ApiRequestInterface } from '@common'
+import type { RouteHandlerContextType } from '@common/server'
 
-describe('all', () => {
-  it('should return array of middleware', () => {
-    expect(TableRoute.all()).toHaveLength(2)
-  })
-})
+jest.mock('@common/server/utils/route.utils')
+
+const { GET, POST, PATCH, PUT, DELETE } = TableRoute
+const req = {
+  json: jest.fn(),
+} as unknown as Request
+const context: RouteHandlerContextType = {
+  params: {
+    id: '1',
+  },
+}
 
 describe('get', () => {
-  it('should return array of middleware with id param', () => {
-    const req = {
-      query: {
-        id: 1,
-      },
-    } as unknown as ApiRequestInterface
-    expect(TableRoute.get(req)).toHaveLength(2)
+  it('should return array of middleware with id param', async () => {
+    const response = await GET(req, context)
+    expect(response).toHaveLength(4)
   })
-  it('should return array of middleware', () => {
-    const req = {
-      query: {},
-    } as unknown as ApiRequestInterface
-    expect(TableRoute.get(req)).toHaveLength(1)
+  it('should return array of middleware', async () => {
+    context.params = {}
+    const response = await GET(req, context)
+    expect(response).toHaveLength(3)
   })
 })
 
 describe('post', () => {
-  it('should return array of middleware', () => {
-    expect(TableRoute.post()).toHaveLength(2)
+  it('should return array of middleware', async () => {
+    const response = await POST(req, context)
+    expect(response).toHaveLength(4)
   })
 })
 
 describe('patch', () => {
-  it('should return array of middleware', () => {
-    expect(TableRoute.patch()).toHaveLength(3)
+  it('should return array of middleware', async () => {
+    const response = await PATCH(req, context)
+    expect(response).toHaveLength(5)
   })
 })
 
 describe('put', () => {
-  it('should return array of middleware', () => {
-    expect(TableRoute.put()).toHaveLength(3)
+  it('should return array of middleware', async () => {
+    const response = await PUT(req, context)
+    expect(response).toHaveLength(5)
   })
 })
 
 describe('delete', () => {
-  it('should return array of middleware', () => {
-    expect(TableRoute.delete()).toHaveLength(2)
+  it('should return array of middleware', async () => {
+    const response = await DELETE(req, context)
+    expect(response).toHaveLength(4)
   })
 })

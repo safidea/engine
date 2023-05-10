@@ -1,4 +1,5 @@
-import type { ObjectInterface, ObjectValueType } from '../interfaces/object.interface'
+import type { ObjectInterface } from '../interfaces/object.interface'
+import type { ObjectValueType } from '../types/object.type'
 
 class ObjectUtils {
   public isEmpty(obj: ObjectInterface): boolean {

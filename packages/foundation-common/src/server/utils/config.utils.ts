@@ -1,5 +1,6 @@
 import fs from 'fs-extra'
-import { ObjectUtils, PathUtils } from '@common/server'
+import PathUtils from './path.utils'
+import { ObjectUtils } from '@common'
 
 import type { ObjectInterface, ObjectValueType } from '@common/server'
 

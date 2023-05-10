@@ -7,6 +7,7 @@ import { TestUtils } from '@test/server'
 let baseId = ''
 
 beforeAll(async () => {
+  jest.clearAllMocks()
   baseId = await TestUtils.createTestApp('base')
   TestUtils.loadEnvFile(baseId)
   ConfigUtils.init()

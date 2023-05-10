@@ -5,7 +5,7 @@ import PrismaUtils from '@database/server/utils/prisma.utils'
 import { TableInterfaceSchema } from '@table'
 
 import type { TablesInterface } from '@table'
-import type { ConfigInterface } from '@common'
+import type { ConfigInterface } from '@common/server'
 
 const log = debug('table:config')
 

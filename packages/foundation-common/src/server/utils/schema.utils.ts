@@ -1,6 +1,6 @@
-import AJVLib from '@common/server/lib/ajv.lib'
+import AJVLib from '../lib/ajv.lib'
 
-import type { AJVValidateFunctionType } from '@common/server/lib/ajv.lib'
+import type { AJVValidateFunctionType } from '../lib/ajv.lib'
 import type { ObjectInterface } from '@common'
 
 class SchemaUtils {

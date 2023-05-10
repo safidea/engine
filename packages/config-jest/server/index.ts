@@ -1,8 +1,12 @@
-const base = require('./base.js')
+import base from '../base'
 
-module.exports = {
+import type { Config } from 'jest'
+
+const serverConfig: Config = {
   ...base,
   testEnvironment: 'node',
   testMatch: ['**/server/**/*.test.ts', '**/shared/**/*.test.ts'],
   coverageDirectory: 'coverage/node',
 }
+
+export default serverConfig
