@@ -5,5 +5,7 @@ export type RequestType = {
   query: {
     [key: string]: string
   }
-  body: unknown
+  body?: {
+    [key: string]: unknown
+  }
 }

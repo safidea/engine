@@ -12,11 +12,12 @@ import type { TableFieldInterface } from '@table'
 
 let baseId = ''
 let row: DatabaseRowType
+let request: Request
+let testData: any
 const table = 'tasks'
 const base = 'main'
-const request = { json: () => ({}) } as unknown as Request
 const context: RouteHandlerContextType = { params: { table, base } }
-let testData: any
+const url = `http://localhost:3000/api/table/${base}/${table}`
 
 beforeAll(async () => {
   baseId = await TestUtils.createTestApp('base')
@@ -53,7 +54,10 @@ describe(`with table ${table}`, () => {
 
   it('should allow a POST request to create a row in a table', async () => {
     const { data, fields } = testData.createValid()
-    request.json = () => data
+    request = new Request(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
     const response = await TableRoute.POST(request, context)
     row = (await response.json()) as DatabaseRowType
     expect(response.status).toEqual(200)
@@ -70,7 +74,10 @@ describe(`with table ${table}`, () => {
 
   it('should allow a PATCH request to patch a row in a table', async () => {
     const { data, fields } = testData.updateValid(row as TestDataInterface)
-    request.json = () => data
+    request = new Request(url, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
     context.params = { ...context.params, id: String(data.id) }
     const response = await TableRoute.PATCH(request, context)
     expect(response.status).toEqual(200)
@@ -82,7 +89,10 @@ describe(`with table ${table}`, () => {
 
   it('should allow a PUT request to put a row in a table', async () => {
     const { data, fields } = testData.updateValid(row as TestDataInterface)
-    request.json = () => data
+    request = new Request(url, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
     context.params = { ...context.params, id: String(data.id) }
     const response = await TableRoute.PUT(request, context)
     expect(response.status).toEqual(200)
@@ -93,7 +103,7 @@ describe(`with table ${table}`, () => {
   })
 
   it('should allow a GET request to get a row in a table', async () => {
-    request.json = () => Promise.resolve({})
+    request = new Request(url)
     context.params = { ...context.params, id: String(row.id) }
     const response = await TableRoute.GET(request, context)
     expect(response.status).toEqual(200)
@@ -155,7 +165,10 @@ describe(`with table ${table}`, () => {
       (field) => !fields[field].optional && !fields[field].default
     )
     if (fieldRequired) delete data[fieldRequired]
-    request.json = () => data
+    request = new Request(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
     const response = await TableRoute.POST(request, context)
     expect(response.status).toEqual(400)
     expect(await response.json()).toEqual({
@@ -167,7 +180,10 @@ describe(`with table ${table}`, () => {
   it('should return a 400 if the body is not valid in a PATCH request', async () => {
     const { data, fields } = testData.updateInvalid(row as TestDataInterface)
     context.params = { ...context.params, id: String(row.id) }
-    request.json = () => data
+    request = new Request(url, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
     const response = await TableRoute.PATCH(request, context)
     expect(response.status).toEqual(400)
     expect(await response.json()).toEqual({
@@ -178,7 +194,10 @@ describe(`with table ${table}`, () => {
 
   it('should return a 400 if the body is not valid in a PUT request', async () => {
     const { data, fields } = testData.updateInvalid(row as TestDataInterface)
-    request.json = () => data
+    request = new Request(url, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
     const response = await TableRoute.PUT(request, context)
     expect(response.status).toEqual(400)
     expect(await response.json()).toEqual({
@@ -190,7 +209,10 @@ describe(`with table ${table}`, () => {
   it('should return a 400 if fields are invalids', async () => {
     const { data } = testData.createValid()
     data.token = 'invalid token'
-    request.json = () => data
+    request = new Request(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
     context.params = { ...context.params, id: String(row.id) }
     const response = await TableRoute.POST(request, context)
     expect(response.status).toEqual(400)

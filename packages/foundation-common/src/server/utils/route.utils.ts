@@ -14,7 +14,9 @@ class RouteUtils {
       const request: RequestType = {
         locals: {},
         query: ctx.params,
-        body: req.json(),
+      }
+      if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+        request.body = await req.json()
       }
       const middlewares: RouteMiddlewareType[] = route(request)
 

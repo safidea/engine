@@ -12,11 +12,11 @@ GET http://localhost:3000/api/table/master/categories HTTP/1.1
 
 ###
 
-PATCH  http://localhost:3000/api/table/master/categories/clh95zjmo0000zkcughkhnxu0 HTTP/1.1
+PATCH  http://localhost:3000/api/table/master/categories/clhhklwiv0000zkzoozhtmmsu HTTP/1.1
 Content-Type: application/json
 
 {
-    "description": "films d'horreurs"
+    "description": "films d'actions"
 }
 
 ###
@@ -25,6 +25,6 @@ GET http://localhost:3000/api/table/master/tasks HTTP/1.1
 
 ###
 
-DELETE http://localhost:3000/api/table/master/tasks/7114cf09-294c-4306-a2c4-518bce6b9deb HTTP/1.1
+DELETE http://localhost:3000/api/table/master/categories/clhhklwiv0000zkzoozhtmmsu HTTP/1.1
 
 ###
