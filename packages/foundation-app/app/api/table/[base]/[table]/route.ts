@@ -1,5 +1,5 @@
 import { TableRoute } from '@table/server'
 
-const { GET, POST, PATCH, PUT, DELETE } = TableRoute
+const { GET, POST } = TableRoute
 
-export { GET, POST, PATCH, PUT, DELETE }
+export { GET, POST }

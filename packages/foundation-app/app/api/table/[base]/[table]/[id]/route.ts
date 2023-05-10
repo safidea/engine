@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
+import { TableRoute } from '@table/server'
 
-export async function GET() {
-  return NextResponse.json({})
-}
+const { GET, PATCH, PUT, DELETE } = TableRoute
+
+export { GET, PATCH, PUT, DELETE }
