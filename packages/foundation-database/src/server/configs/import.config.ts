@@ -4,7 +4,6 @@
 
 /** Start import */
 import SystemsPrismaClients from '/Users/thomasjeanneau/Codes/Essentiel/foundation/apps/systems/js/prisma'
-import Baseb85a9d9e_83df_4fb7_b905_deb434f6dd05PrismaClients from '/Users/thomasjeanneau/Codes/Essentiel/foundation/packages/utils-test/data/baseb85a9d9e_83df_4fb7_b905_deb434f6dd05/js/prisma'
 /** End import */
 
 function importConfig() {
@@ -18,7 +17,6 @@ function importConfig() {
 
   /** Start export */
   exportPrismaClients('systems', SystemsPrismaClients)
-exportPrismaClients('baseb85a9d9e_83df_4fb7_b905_deb434f6dd05', Baseb85a9d9e_83df_4fb7_b905_deb434f6dd05PrismaClients)
   /** End export */
 
   return { PrismaClients }

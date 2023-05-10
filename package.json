@@ -6,10 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "scripts/start.sh",
-    "config": "scripts/config.sh",
-    "build": "turbo run build",
-    "dev": "scripts/dev.sh",
+    "start": "scripts/startup.sh -m start",
+    "config": "scripts/startup.sh -m config",
+    "dev": "scripts/startup.sh -m dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

@@ -65,7 +65,7 @@ class DatabaseUtils {
     const lines = script.split('\n')
     const importName = StringUtils.capitalize(appName) + 'PrismaClients'
     const importLine = `import ${importName} from '${PrismaUtils.getClientFolder()}'\n`
-    const exportLine = `exportPrismaClients('${appName}', ${importName})\n`
+    const exportLine = `  exportPrismaClients('${appName}', ${importName})\n`
     return {
       filePath,
       script,

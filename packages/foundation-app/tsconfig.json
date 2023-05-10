@@ -27,5 +27,18 @@
         "name": "next"
       }
     ]
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "ESNext",
+      "target": "es6",
+      "esModuleInterop": true,
+      "sourceMap": true,
+      "baseUrl": ".",
+      "paths": {
+        "@database/server": ["../foundation-database/src/server"]
+      }
+    }
   }
 }
