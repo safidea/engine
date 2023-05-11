@@ -1,7 +1,6 @@
 import DatabaseConfig from '@database/server/configs/database.config'
-import DatabaseUtils from '@database/server/utils/database.utils'
 import PrismaUtils from '@database/server/utils/prisma.utils'
-import { ConfigUtils } from '@common/server'
+import { ConfigUtils, AppUtils } from '@common/server'
 import { TestUtils } from '@test/server'
 
 jest.unmock('fs-extra')
@@ -62,7 +61,7 @@ describe('app with no databases', () => {
     }
     PrismaUtils.updateModelSchema('master', 'Task', tasks)
     DatabaseConfig.js()
-    DatabaseUtils.cleanImport()
+    AppUtils.removeAllImports()
   })
 })
 
@@ -108,6 +107,6 @@ describe('app with databases', () => {
     const tasks = ConfigUtils.get('tables.tasks') as any
     PrismaUtils.updateModelSchema('main', tasks.model, tasks)
     DatabaseConfig.js()
-    DatabaseUtils.cleanImport()
+    AppUtils.removeAllImports()
   })
 })

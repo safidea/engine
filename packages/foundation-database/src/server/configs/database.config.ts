@@ -42,8 +42,7 @@ class DatabaseConfig implements ConfigInterface {
       log(`build prisma client for database ${database}`)
       PrismaUtils.buildClient(database)
     }
-    PrismaUtils.buildIndexClients(Object.keys(databases))
-    DatabaseUtils.buildImport()
+    PrismaUtils.importClients(Object.keys(databases))
   }
 
   private get(): DatabasesInterface {

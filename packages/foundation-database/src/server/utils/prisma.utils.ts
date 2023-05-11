@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import cp from 'child_process'
 import { join } from 'path'
-import { PathUtils, StringUtils } from '@common/server'
+import { PathUtils, StringUtils, AppUtils } from '@common/server'
 
 import type { DatabaseInterface, PrismaModelInterface } from '@database'
 
@@ -94,13 +94,14 @@ class PrismaUtils {
     this.pushDatabase(schemaPath, process.env.NODE_ENV === 'test')
   }
 
-  public buildIndexClients(baseNames: string[]) {
+  public importClients(baseNames: string[]) {
     const indexPath = this.getIndexPath()
     let script = baseNames
       .map((baseName) => `const ${baseName} = require('./${baseName}')`)
       .join('\n')
     script += `\n\nmodule.exports = { ${baseNames.join(', ')} }`
     fs.writeFileSync(indexPath, script)
+    AppUtils.addImport(`export { default as PrismaClients } from '${this.getClientFolder()}'`)
   }
 
   public getClientFolder(): string {

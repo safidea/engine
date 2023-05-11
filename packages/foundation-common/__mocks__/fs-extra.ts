@@ -7,6 +7,7 @@ const mockFs = {
   appendFileSync: jest.fn(),
   readFileSync: jest.fn(() => ''),
   writeFileSync: jest.fn(),
+  removeSync: jest.fn(),
 }
 
 export default mockFs

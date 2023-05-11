@@ -1,6 +1,8 @@
+process.env.APP_NAME = 'base'
 import fs from 'fs-extra'
 import cp from 'child_process'
 import PrismaUtils from '@database/server/utils/prisma.utils'
+import AppUtils from '@common/server/utils/app.utils'
 
 import type { DatabaseInterface, PrismaModelInterface } from '@database'
 
@@ -121,10 +123,12 @@ describe('buildClient', () => {
   })
 })
 
-describe('buildIndexClients', () => {
+describe('importClients', () => {
   it('should build index clients', async () => {
-    PrismaUtils.buildIndexClients(['master'])
+    jest.spyOn(AppUtils, 'addImport')
+    PrismaUtils.importClients(['master'])
     expect(fs.writeFileSync).toBeCalledTimes(1)
+    expect(AppUtils.addImport).toBeCalledTimes(1)
   })
 })
 

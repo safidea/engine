@@ -4,6 +4,7 @@ export { default as SchemaUtils } from './utils/schema.utils'
 export { default as PathUtils } from './utils/path.utils'
 export { default as RouteUtils } from './utils/route.utils'
 export { default as ConfigUtils } from './utils/config.utils'
+export { default as AppUtils } from './utils/app.utils'
 
 export * from './interfaces/config.interface'
 export * from './interfaces/route.interface'

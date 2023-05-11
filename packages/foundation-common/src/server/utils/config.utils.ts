@@ -33,12 +33,6 @@ class ConfigUtils {
     const cachePath = PathUtils.getConfigCache()
     fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
   }
-
-  public getAppName(): string {
-    const name = process.env.APP_NAME
-    if (!name || typeof name !== 'string') throw new Error('APP_NAME is not set in .env file')
-    return name
-  }
 }
 
 export default new ConfigUtils()

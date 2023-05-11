@@ -62,6 +62,6 @@ describe('js', () => {
   it('should build prisma clients', () => {
     DatabaseConfig.js()
     expect(PrismaUtils.buildClient).toBeCalledTimes(3)
-    expect(PrismaUtils.buildIndexClients).toBeCalledTimes(1)
+    expect(PrismaUtils.importClients).toBeCalledTimes(1)
   })
 })

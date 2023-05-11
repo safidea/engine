@@ -79,3 +79,10 @@ describe('getConfigCache', () => {
     expect(fs.ensureFileSync).toHaveBeenCalledWith(expect.any(String))
   })
 })
+
+describe('getCommonAppsFolder', () => {
+  it('should return common apps folder path', () => {
+    const result = PathUtils.getCommonAppsFolder()
+    expect(result.endsWith('foundation-common/src/server/apps')).toBe(true)
+  })
+})

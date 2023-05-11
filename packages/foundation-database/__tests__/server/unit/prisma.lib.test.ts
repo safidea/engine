@@ -1,17 +1,12 @@
+process.env.APP_NAME = 'base'
 import PrismaLib from '@database/server/lib/prisma.lib'
 import PrismaUtils from '@database/server/utils/prisma.utils'
 
 jest.mock('@database/server/utils/prisma.utils')
-jest.mock('@database/server/configs/import.config')
+jest.mock('@common/server/apps')
 
 beforeAll(async () => {
   jest.clearAllMocks()
-})
-
-describe('updateClients', () => {
-  it('should update clients', async () => {
-    await PrismaLib.updateClients('@database/server/configs/import.config')
-  })
 })
 
 describe('base', () => {

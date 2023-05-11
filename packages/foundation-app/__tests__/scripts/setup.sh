@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 app=$1
 path="../utils-test/apps/${app}"
@@ -22,7 +23,12 @@ if [ ! -z "${app}" ] && [ -d $path ]; then
   playwright test --config=__tests__/apps/${app}/playwright.config.ts
 
   echo "Teardown app ${test_app}"
-  rm -rf $test_path
+
+  rm -rf "$test_path"
+  cd "../foundation-common/src/server/apps/"
+  text_to_remove="export \* as ${test_app} from '\./${test_app}'"
+  grep -v "$text_to_remove" index.ts > temp.ts && mv temp.ts index.ts
+  rm -rf "${test_app}.ts"
 else
   echo "App '$1' does not exist"
 fi

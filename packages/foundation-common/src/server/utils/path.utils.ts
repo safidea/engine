@@ -38,6 +38,10 @@ class PathUtils {
     fs.ensureFileSync(path)
     return path
   }
+
+  public getCommonAppsFolder(): string {
+    return join(this.getProjectRoot(), `packages/foundation-common/src/server/apps`)
+  }
 }
 
 export default new PathUtils()

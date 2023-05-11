@@ -1,4 +1,4 @@
-import { SchemaUtils, PathUtils, RouteUtils, ConfigUtils } from '@common/server'
+import { SchemaUtils, PathUtils, RouteUtils, ConfigUtils, AppUtils } from '@common/server'
 
 describe('export', () => {
   it('should export SchemaUtils', () => {
@@ -12,5 +12,8 @@ describe('export', () => {
   })
   it('should export ConfigUtils', () => {
     expect(ConfigUtils).toBeDefined()
+  })
+  it('should export AppUtils', () => {
+    expect(AppUtils).toBeDefined()
   })
 })
