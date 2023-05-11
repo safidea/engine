@@ -27,8 +27,7 @@ if [ ! -z "${app}" ] && [ -d $path ]; then
   rm -rf "$test_path"
   rm -rf ".next/${test_app}"
   cd "../foundation-common/src/server/apps/"
-  text_to_remove="export \* as ${test_app} from '\./${test_app}'"
-  grep -v "$text_to_remove" index.ts > temp.ts && mv temp.ts index.ts
+  grep -v "export \* as ${test_app} from '\./${test_app}'" index.ts > temp.ts && mv temp.ts index.ts
   rm -rf "${test_app}.ts"
 else
   echo "App '$1' does not exist"

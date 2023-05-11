@@ -7,7 +7,9 @@
     ".next/types/**/*.ts",
     ".next/systems/types/**/*.ts",
     ".next/base_b51adfe7abaa9b8d9a044973e0e8b75d/types/**/*.ts",
-    ".next/base_155d2badbbdd95f154c9422d0ce4932d/types/**/*.ts"
+    ".next/base_155d2badbbdd95f154c9422d0ce4932d/types/**/*.ts",
+    ".next/base_087674eb974266bf4da5aa0b7e4481fe/types/**/*.ts",
+    ".next/base_96750ead7dd92fb0044bc94f8a32e27e/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
