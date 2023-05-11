@@ -5,7 +5,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/systems/types/**/*.ts"
+    ".next/systems/types/**/*.ts",
+    ".next/base_b51adfe7abaa9b8d9a044973e0e8b75d/types/**/*.ts",
+    ".next/base_155d2badbbdd95f154c9422d0ce4932d/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
