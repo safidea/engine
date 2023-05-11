@@ -1,26 +1,66 @@
 {
   "extends": "config-typescript/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/systems/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["app/*"],
-      "@database/client": ["../foundation-database/src/client"],
-      "@database/server": ["../foundation-database/src/server"],
-      "@database/*": ["../foundation-database/src/*"],
-      "@database": ["../foundation-database/src/shared"],
-      "@table/client": ["../foundation-table/src/client"],
-      "@table/server": ["../foundation-table/src/server"],
-      "@table/*": ["../foundation-table/src/*"],
-      "@table": ["../foundation-table/src/shared"],
-      "@common/server": ["../foundation-common/src/server"],
-      "@common/client": ["../foundation-common/src/client"],
-      "@common/*": ["../foundation-common/src/*"],
-      "@common": ["../foundation-common/src/shared"],
-      "@test": ["../utils-test/src/shared"],
-      "@test/server": ["../utils-test/src/server"],
-      "@test/client": ["../utils-test/src/client"]
+      "@app/*": [
+        "app/*"
+      ],
+      "@database/client": [
+        "../foundation-database/src/client"
+      ],
+      "@database/server": [
+        "../foundation-database/src/server"
+      ],
+      "@database/*": [
+        "../foundation-database/src/*"
+      ],
+      "@database": [
+        "../foundation-database/src/shared"
+      ],
+      "@table/client": [
+        "../foundation-table/src/client"
+      ],
+      "@table/server": [
+        "../foundation-table/src/server"
+      ],
+      "@table/*": [
+        "../foundation-table/src/*"
+      ],
+      "@table": [
+        "../foundation-table/src/shared"
+      ],
+      "@common/server": [
+        "../foundation-common/src/server"
+      ],
+      "@common/client": [
+        "../foundation-common/src/client"
+      ],
+      "@common/*": [
+        "../foundation-common/src/*"
+      ],
+      "@common": [
+        "../foundation-common/src/shared"
+      ],
+      "@test": [
+        "../utils-test/src/shared"
+      ],
+      "@test/server": [
+        "../utils-test/src/server"
+      ],
+      "@test/client": [
+        "../utils-test/src/client"
+      ]
     },
     "plugins": [
       {
@@ -37,7 +77,9 @@
       "sourceMap": true,
       "baseUrl": ".",
       "paths": {
-        "@database/server": ["../foundation-database/src/server"]
+        "@database/server": [
+          "../foundation-database/src/server"
+        ]
       }
     }
   }

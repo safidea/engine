@@ -7,6 +7,7 @@ module.exports = async () => {
     publicRuntimeConfig: {
       staticFolder: 'custom-public',
     },
+    distDir: `.next/${process.env.APP_NAME || 'app'}`,
     transpilePackages: [
       'foundation-table',
       'foundation-database',

@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "name": "films",
-    "description": "films à voir"
+    "description": "films fantastiques"
 }
 
 ###
@@ -12,11 +12,11 @@ GET http://localhost:3000/api/table/master/categories HTTP/1.1
 
 ###
 
-PATCH  http://localhost:3000/api/table/master/categories/clhhklwiv0000zkzoozhtmmsu HTTP/1.1
+PATCH  http://localhost:3000/api/table/master/categories/clh95zjmo0000zkcughkhnxu0 HTTP/1.1
 Content-Type: application/json
 
 {
-    "description": "films d'actions"
+    "description": "films d'aventure"
 }
 
 ###
