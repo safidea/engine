@@ -1,0 +1,38 @@
+{
+  "name": "app-engine",
+  "main": "./next.config.js",
+  "scripts": {
+    "build:app": "next build",
+    "build:config": "tsc ./config/index.ts",
+    "dev": "next dev",
+    "start": "next start",
+    "config": "node dist/app-engine/config/index.js",
+    "lint": "tsc --noEmit && eslint .",
+    "test:base": "__tests__/scripts/setup.sh base",
+    "test:app:config": "../../scripts/startup.sh -p ../utils-test/data -m config",
+    "test:app:dev": "../../scripts/startup.sh -p ../utils-test/data -m dev",
+    "test:app:start": "../../scripts/startup.sh -p ../utils-test/data -m start"
+  },
+  "dependencies": {
+    "@prisma/nextjs-monorepo-workaround-plugin": "4.13.0",
+    "server-common": "workspace:*",
+    "server-database": "workspace:*",
+    "client-page": "workspace:*",
+    "server-page": "workspace:*",
+    "server-table": "workspace:*",
+    "next": "13.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.32.3",
+    "@types/node": "18.15.10",
+    "@types/react": "18.0.29",
+    "@types/react-dom": "18.0.11",
+    "config-typescript": "workspace:*",
+    "debug": "4.3.4",
+    "eslint": "8.36.0",
+    "eslint-config-foundation": "workspace:*",
+    "typescript": "^4.9.5"
+  }
+}

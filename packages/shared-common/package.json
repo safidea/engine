@@ -1,0 +1,18 @@
+{
+  "name": "shared-common",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint .",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "config-jest": "workspace:^",
+    "config-typescript": "workspace:*",
+    "eslint": "^7.32.0",
+    "eslint-config-foundation": "workspace:*",
+    "jest": "^29.5.0",
+    "ts-jest": "29.0.5",
+    "typescript": "^4.9.5"
+  }
+}

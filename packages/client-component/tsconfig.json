@@ -1,0 +1,21 @@
+{
+  "extends": "config-typescript/react-library.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@component/server": ["src/server"],
+      "@component/client": ["src/client"],
+      "@component/*": ["src/*"],
+      "@component": ["src/shared"],
+      "@common/server": ["../server-common/src/server"],
+      "@common/client": ["../server-common/src/client"],
+      "@common/*": ["../server-common/src/*"],
+      "@common": ["../server-common/src/shared"],
+      "@test": ["../utils-test/src/shared"],
+      "@test/server": ["../utils-test/src/server"],
+      "@test/client": ["../utils-test/src/client"]
+    }
+  }
+}

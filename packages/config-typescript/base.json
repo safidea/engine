@@ -2,6 +2,8 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
     "sourceMap": true,
     "composite": false,
     "declaration": true,
@@ -19,8 +21,5 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

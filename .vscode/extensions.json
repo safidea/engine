@@ -3,23 +3,15 @@
     // Linting / Formatting
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "usernamehw.errorlens",
 
     // Showing todo comments
     "gruntfuggly.todo-tree",
 
-    // Debugging
-    "ms-vscode.vscode-js-profile-flame",
-
     // Database
     "prisma.prisma",
-    "alexcvzz.vscode-sqlite",
 
     // Editing
     "vscode-icons-team.vscode-icons",
-    "jannisx11.batch-rename-extension",
-    "mikestead.dotenv",
-    "ms-vscode.vscode-typescript-next",
 
     // Github Copilot
     "github.copilot",

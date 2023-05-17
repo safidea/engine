@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "ComponentInterface": {
+            "properties": {
+                "components": {
+                    "$ref": "#/definitions/ComponentsInterface"
+                }
+            },
+            "type": "object"
+        },
+        "ComponentsInterface": {
+            "additionalProperties": {
+                "$ref": "#/definitions/ComponentInterface"
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "body": {
+            "$ref": "#/definitions/ComponentInterface"
+        },
+        "head": {
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "favicon": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "robots": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "twitter": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "required": [
+        "body"
+    ],
+    "type": "object"
+}
+

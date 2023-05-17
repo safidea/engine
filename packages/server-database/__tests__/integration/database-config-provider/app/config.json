@@ -1,0 +1,47 @@
+{
+  "databases": {
+    "main": {
+      "url": "file:./test.db",
+      "provider": "sqlite"
+    }
+  },
+  "tables": {
+    "tasks": {
+      "database": "main",
+      "model": "Task",
+      "fields": {
+        "name": {
+          "type": "String"
+        },
+        "description": {
+          "type": "String",
+          "optional": true,
+          "default": "ceci est une description"
+        },
+        "number": {
+          "type": "Int",
+          "unique": true
+        },
+        "priority": {
+          "type": "Int",
+          "default": 3
+        },
+        "done_at": {
+          "type": "DateTime",
+          "optional": true,
+          "default": "now()"
+        },
+        "started_at": {
+          "type": "DateTime"
+        },
+        "done": {
+          "type": "Boolean"
+        },
+        "open": {
+          "type": "Boolean",
+          "default": true
+        }
+      }
+    }
+  }
+}

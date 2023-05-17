@@ -37,9 +37,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# javascript generated
-js/
-
 # generated data
 data/
 

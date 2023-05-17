@@ -1,0 +1,30 @@
+{
+  "name": "foundation-feature",
+  "main": "src/shared/index.ts",
+  "types": "src/shared/index.ts",
+  "browser": "src/client/index.ts",
+  "server": "src/server/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint .",
+    "test": "pnpm run test:server && pnpm run test:client",
+    "test:server": "jest --config=__tests__/server/jest.config.js",
+    "test:client": "jest --config=__tests__/client/jest.config.js"
+  },
+  "dependencies": {
+    "server-common": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "@types/jest": "29.4.0",
+    "@types/node": "^18.11.17",
+    "config-jest": "workspace:*",
+    "utils-test": "workspace:*",
+    "config-typescript": "workspace:*",
+    "debug": "4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-foundation": "workspace:*",
+    "jest": "29.4.1",
+    "ts-jest": "29.0.5",
+    "typescript": "^4.5.2"
+  }
+}

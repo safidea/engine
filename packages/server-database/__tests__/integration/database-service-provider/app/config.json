@@ -1,0 +1,8 @@
+{
+  "databases": {
+    "main": {
+      "url": "file:./test.db",
+      "provider": "sqlite"
+    }
+  }
+}

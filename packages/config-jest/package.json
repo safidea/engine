@@ -1,17 +1,6 @@
 {
   "name": "config-jest",
   "version": "0.0.0",
-  "scripts": {
-    "lint": "tsc --noEmit && eslint ."
-  },
-  "devDependencies": {
-    "@types/jest": "29.4.0",
-    "config-typescript": "workspace:*",
-    "eslint": "8.40.0",
-    "eslint-config-foundation": "workspace:*",
-    "jest": "29.4.1",
-    "next": "13.4.1",
-    "ts-jest": "29.0.5",
-    "typescript": "5.0.4"
-  }
+  "main": "index.js",
+  "private": true
 }

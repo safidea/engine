@@ -1,0 +1,25 @@
+{
+  "name": "shared-component",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint .",
+    "test": "jest",
+    "schema": "typescript-json-schema tsconfig.json ComponentInterface -o src/schemas/component.schema.json --required"
+  },
+  "dependencies": {
+    "shared-common": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "29.4.0",
+    "@types/node": "^18.11.17",
+    "config-jest": "workspace:*",
+    "config-typescript": "workspace:*",
+    "eslint": "^7.32.0",
+    "eslint-config-foundation": "workspace:*",
+    "jest": "29.4.1",
+    "ts-jest": "29.0.5",
+    "typescript": "^4.5.2",
+    "typescript-json-schema": "0.55.0"
+  }
+}

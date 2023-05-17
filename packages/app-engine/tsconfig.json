@@ -1,0 +1,13 @@
+{
+  "extends": "config-typescript/nextjs.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", ".next", "dist"],
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "dist",
+    "baseUrl": "."
+  }
+}

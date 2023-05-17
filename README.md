@@ -36,7 +36,7 @@
   - Database
   - Table
   - Field
-- foundation-common
+- server-common
   - Languages
   - Theme
   - Config
@@ -50,13 +50,13 @@
   - foundation-account
   - foundation-database
 - foundation-automation
-  - foundation-common
+  - server-common
 - foundation-page
-  - foundation-common
+  - server-common
 - foundation-account
-  - foundation-common
+  - server-common
 - foundation-database
-  - foundation-common
+  - server-common
 
 ## Initializer workflow
 

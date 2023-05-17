@@ -38,7 +38,7 @@ All Next.js libraries are used here.
 
 ### Common
 
-A `foundation-common` package is a package where shared code between package is stored. This package is responsible for the configuration management between features.
+A `server-common` package is a package where shared code between package is stored. This package is responsible for the configuration management between features.
 
 ## Architecture
 

@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "/Users/thomas/Documents/Codes/foundation/apps/systems/js/prisma/master"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://thomasjeanneau@localhost:5432/dev"
+}
+
+model Task {
+  task        String
+  done        Boolean?
+  priority    Int
+  description String?
+  assignee    String?
+  id          String    @id @default(cuid())
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  deleted_at  DateTime?
+
+  @@map("tasks")
+}
+
+model Categorie {
+  name        String
+  description String?
+  id          String    @id @default(cuid())
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  deleted_at  DateTime?
+
+  @@map("categories")
+}

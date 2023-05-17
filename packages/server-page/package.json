@@ -1,0 +1,26 @@
+{
+  "name": "server-page",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint ."
+  },
+  "dependencies": {
+    "server-common": "workspace:*",
+    "server-component": "workspace:*",
+    "shared-page": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "@types/jest": "29.4.0",
+    "@types/node": "^18.16.7",
+    "config-jest": "workspace:*",
+    "config-typescript": "workspace:*",
+    "debug": "4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-foundation": "workspace:*",
+    "jest": "29.4.1",
+    "ts-jest": "29.0.5",
+    "typescript": "^4.9.5"
+  }
+}

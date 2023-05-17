@@ -1,0 +1,21 @@
+{
+    "$ref": "#/definitions/ComponentInterface",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "ComponentInterface": {
+            "properties": {
+                "components": {
+                    "$ref": "#/definitions/ComponentsInterface"
+                }
+            },
+            "type": "object"
+        },
+        "ComponentsInterface": {
+            "additionalProperties": {
+                "$ref": "#/definitions/ComponentInterface"
+            },
+            "type": "object"
+        }
+    }
+}
+
