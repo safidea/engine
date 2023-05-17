@@ -3,7 +3,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint ."
+    "lint": "tsc --noEmit && eslint .",
+    "test": "jest"
   },
   "dependencies": {
     "server-common": "workspace:*",

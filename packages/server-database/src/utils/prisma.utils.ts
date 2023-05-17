@@ -102,7 +102,10 @@ class PrismaUtils {
       .join('\n')
     script += `\n\nmodule.exports = { ${baseNames.join(', ')} }`
     fs.writeFileSync(indexPath, script)
-    AppUtils.addImport(`export { default as PrismaClients } from '${this.getClientFolder()}'`, 'server-database')
+    AppUtils.addImport(
+      `export { default as PrismaClients } from '${this.getClientFolder()}'`,
+      'server-database'
+    )
   }
 
   public getClientFolder(): string {

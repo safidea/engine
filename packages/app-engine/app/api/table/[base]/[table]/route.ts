@@ -1,4 +1,4 @@
-import { TableRoute } from '@table/server'
+import { TableRoute } from 'server-table'
 
 const { GET, POST } = TableRoute
 

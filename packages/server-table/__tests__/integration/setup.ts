@@ -5,4 +5,3 @@ jest.unmock('fs-extra')
 beforeAll(TestUtils.beforeAll)
 
 afterAll(TestUtils.afterAll)
-

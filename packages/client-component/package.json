@@ -3,24 +3,27 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint ."
+    "lint": "tsc --noEmit && eslint .",
+    "test": "jest"
   },
   "dependencies": {
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
-    "server-common": "workspace:*",
     "next": "13.4.1",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
+    "shared-component": "workspace:*",
     "tailwindcss": "3.3.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/debug": "4.1.7",
     "@types/jest": "29.4.0",
-    "@types/node": "^18.11.17",
+    "@types/node": "^18.16.12",
     "@types/react": "18.0.29",
+    "@types/react-dom": "18.0.11",
     "@types/testing-library__jest-dom": "5.14.5",
     "config-jest": "workspace:*",
     "config-typescript": "workspace:*",
@@ -29,7 +32,8 @@
     "eslint-config-foundation": "workspace:*",
     "jest": "29.4.1",
     "jest-environment-jsdom": "29.5.0",
+    "resize-observer-polyfill": "^1.5.1",
     "ts-jest": "29.0.5",
-    "typescript": "^4.5.2"
+    "typescript": "^4.9.5"
   }
 }

@@ -1,4 +1,4 @@
-import NextLib from '../lib/next.lib'
+import NextLib from '../libraries/next.library'
 import { RequestInterface } from '../interfaces/request.interface'
 import { ResponseInterface } from '../interfaces/response.interface'
 import type {
