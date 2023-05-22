@@ -1,4 +1,4 @@
-import { SchemaUtils, PathUtils, RouteUtils, ConfigUtils, AppUtils } from '../../src'
+import { SchemaUtils, PathUtils, RouteUtils, ConfigUtils, AppUtils, ProcessUtils } from '../../src'
 
 describe('export', () => {
   it('should export SchemaUtils', () => {
@@ -19,5 +19,9 @@ describe('export', () => {
 
   it('should export AppUtils', () => {
     expect(AppUtils).toBeDefined()
+  })
+
+  it('should export ProcessUtils', () => {
+    expect(ProcessUtils).toBeDefined()
   })
 })

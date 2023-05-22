@@ -12,21 +12,25 @@ class PathUtils {
   }
 
   public getAppDataFolder(): string {
-    const path = join(this.getAppRoot(), './data')
+    const path = join(this.getAppRoot(), 'data')
     fs.ensureDirSync(path)
     return path
   }
 
   public getAppJsFolder(): string {
-    const path = join(this.getAppRoot(), './js')
+    const path = join(this.getAppRoot(), 'js')
     fs.ensureDirSync(path)
     return path
   }
 
   public getAppConfigFile(): string {
-    const path = join(this.getAppRoot(), './config.json')
+    const path = join(this.getAppRoot(), 'config.json')
     if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)
     return path
+  }
+
+  public getAppEnvFile(): string {
+    return join(this.getAppRoot(), '.env')
   }
 
   public getAppConfigCache(): string {

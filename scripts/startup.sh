@@ -22,25 +22,26 @@ path="${path:-"./apps"}/${app}"
 mode="${mode:-"start"}"
 
 if [ ! -z "${app}" ] && [ -d $path ]; then
-  source $path/.env
+  docker compose -f $path/docker-compose.yml up -d
+  export FDT_ROOT_PATH=$(echo $path | sed 's/\.\./packages/g')
+  export FDT_APP_NAME=$app
 
-  export ROOT_PATH=$(echo $path | sed 's/\.\./packages/g')
-  export APP_NAME=$app
-
+  cd packages/app-engine
+  echo $DATABASE_URL
   case "${mode}" in
     config)
       echo "Config app ${app}"
-      export DEBUG=config:*
-      turbo config --filter=foundation-config
+      pnpm run config
       ;;
     dev)
       echo "Starting app ${app} in dev mode"
-      export DEBUG=config:*,startup:*
-      turbo dev --filter=foundation-app
+      pnpm dev
       ;;
     start)
+      echo "Building app ${app}"
+      pnpm build
       echo "Starting app ${app}"
-      turbo start --filter=foundation-app
+      pnpm start
       ;;
     *)
       echo "Invalid mode: ${mode}"

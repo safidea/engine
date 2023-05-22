@@ -38,6 +38,13 @@ describe('getPackageConfigsFolder', () => {
   })
 })
 
+describe('getAppEnvFile', () => {
+  it('should return env file path', () => {
+    const result = PathUtils.getAppEnvFile()
+    expect(result.endsWith('foundation/.env')).toBe(true)
+  })
+})
+
 describe('getAppConfigFile', () => {
   it('should return config file path', () => {
     const result = PathUtils.getAppConfigFile()

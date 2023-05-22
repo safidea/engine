@@ -1,3 +1,6 @@
-import ConfigExec from './exec'
+import { ConfigUtils } from 'server-common'
+import { DatabaseConfig } from 'server-database'
+import { TableConfig } from 'server-table'
+import { PageConfig } from 'server-page'
 
-ConfigExec()
+ConfigUtils.exec([DatabaseConfig, TableConfig, PageConfig])

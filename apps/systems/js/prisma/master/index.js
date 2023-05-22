@@ -29,11 +29,11 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 4.14.0
+ * Prisma Client JS version: 4.14.1
  * Query Engine version: d9a4c5988f480fa576d43970d5a23641aa77bc9c
  */
 Prisma.prismaVersion = {
-  client: "4.14.0",
+  client: "4.14.1",
   engine: "d9a4c5988f480fa576d43970d5a23641aa77bc9c"
 }
 
@@ -143,7 +143,7 @@ const config = {
     "rootEnvPath": null
   },
   "relativePath": "../../../data/prisma/master",
-  "clientVersion": "4.14.0",
+  "clientVersion": "4.14.1",
   "engineVersion": "d9a4c5988f480fa576d43970d5a23641aa77bc9c",
   "datasourceNames": [
     "db"

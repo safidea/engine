@@ -1,9 +1,8 @@
 {
   "databases": {
     "master": {
-      "url": "postgresql://thomasjeanneau@localhost:5432/dev",
-      "provider": "postgresql",
-      "accounts": true
+      "url": "${DATABASE_URL}",
+      "provider": "postgresql"
     }
   },
   "tables": {
@@ -106,18 +105,13 @@
       },
       "implementation": {
         "type": "javascript",
-        "resources": [
-          "math"
-        ],
+        "resources": ["math"],
         "source": "return math.add(input.numbers[0], input.numbers[1]);"
       },
       "tests": {
         "shouldReturnSix": {
           "input": {
-            "numbers": [
-              1,
-              2
-            ]
+            "numbers": [1, 2]
           },
           "output": {
             "result": 3
@@ -137,11 +131,7 @@
       "tests": {
         "shouldReturnSix": {
           "input": {
-            "numbers": [
-              1,
-              2,
-              3
-            ]
+            "numbers": [1, 2, 3]
           },
           "output": {
             "result": 6

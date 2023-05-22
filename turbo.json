@@ -19,18 +19,6 @@
   "pipeline": {
     "lint": {},
     "test": {},
-    "schema": {},
-    "config": {
-      "dependsOn": ["schema"],
-      "cache": false
-    },
-    "dev": {},
-    "build": {
-      "outputs": ["dist/**", ".next/**"],
-      "cache": false
-    },
-    "start": {
-      "dependsOn": ["build"]
-    }
+    "schema": {}
   }
 }

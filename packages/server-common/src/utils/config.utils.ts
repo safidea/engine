@@ -1,4 +1,5 @@
 import fs from 'fs-extra'
+import dotenv from 'dotenv'
 import PathUtils from '../utils/path.utils'
 import { ObjectUtils } from 'shared-common'
 
@@ -17,6 +18,7 @@ class ConfigUtils {
     const path = PathUtils.getAppConfigFile()
     this.config = fs.readJsonSync(path, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${path}`)
+    dotenv.config({ path: PathUtils.getAppEnvFile() })
     this.config = ObjectUtils.replaceVars(this.config, process.env)
     return this.config
   }

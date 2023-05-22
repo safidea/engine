@@ -272,6 +272,9 @@ importers:
       ajv-keywords:
         specifier: 5.1.0
         version: 5.1.0(ajv@8.12.0)
+      dotenv:
+        specifier: ^16.0.3
+        version: 16.0.3
       fs-extra:
         specifier: 11.1.1
         version: 11.1.1
@@ -2025,7 +2028,7 @@ packages:
       eslint: 7.32.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0(eslint@7.32.0)
-      semver: 7.3.8
+      semver: 7.5.1
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -2759,7 +2762,6 @@ packages:
   /dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
-    dev: true
 
   /electron-to-chromium@1.4.397:
     resolution: {integrity: sha512-jwnPxhh350Q/aMatQia31KAIQdhEsYS0fFZ0BQQlN9tfvOEwShu6ZNwI4kL/xBabjcB/nTy6lSt17kNIluJZ8Q==}
