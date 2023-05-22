@@ -9,6 +9,7 @@ const config: PlaywrightTestConfig = {
   timeout: 30 * 1000,
   testDir: join(__dirname, 'e2e'),
   retries: 0,
+  workers: 1,
   outputDir: 'coverage/',
   webServer: {
     command: `pnpm dev`,

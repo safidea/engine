@@ -20,9 +20,9 @@ describe('setupApp', () => {
   })
 
   it('should setup the app for e2e tests', () => {
-    TestUtils.setupApp('/packages/my-test-package/e2e/test-app')
-    expect(process.env.FDT_APP_NAME).toEqual('test_app')
-    expect(process.env.FDT_ROOT_PATH).toEqual('packages/my-test-package/e2e/test-app/app')
+    TestUtils.setupApp('/packages/my-test-package/e2e', 'app-engine-e2e')
+    expect(process.env.FDT_APP_NAME).toEqual('app_engine_e2e')
+    expect(process.env.FDT_ROOT_PATH).toEqual('packages/my-test-package/e2e/app')
   })
 })
 

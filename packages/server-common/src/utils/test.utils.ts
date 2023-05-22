@@ -11,13 +11,13 @@ import ConfigUtils from './config.utils'
 import type { BuildDataOptionsType, BuiltDataType, TestDataType } from '../types/test.type'
 
 class TestUtils {
-  public setupApp(dirPath: string): void {
-    const name = basename(dirPath)
+  public setupApp(dirPath: string, appName?: string): void {
+    const name = appName ?? basename(dirPath)
     const packageMatch = dirPath.match(/\/packages\/([^/]+)/)
     const packageName = packageMatch && packageMatch[1]
-    const testFolder = dirPath.includes('/e2e/') ? 'e2e' : '__tests__/integration'
+    const testFolder = dirPath.includes('/e2e') ? 'e2e' : '__tests__/integration/' + name
     process.env.FDT_APP_NAME = name.replace(/-/g, '_')
-    process.env.FDT_ROOT_PATH = `packages/${packageName}/${testFolder}/${name}/app`
+    process.env.FDT_ROOT_PATH = `packages/${packageName}/${testFolder}/app`
   }
 
   public async updateLibraries(packages: string[]): Promise<void> {
