@@ -114,7 +114,7 @@ describe('buildClient', () => {
     readFileSync.mockReturnValueOnce('test')
     process.env.NODE_ENV = 'production'
     PrismaUtils.buildClient('master')
-    expect(cp.execSync).toBeCalledTimes(3)
+    expect(cp.execSync).toBeCalledTimes(4)
     process.env.NODE_ENV = 'test'
   })
 })

@@ -7,7 +7,7 @@ import { TableSchema } from 'shared-table'
 import type { TablesInterface } from 'shared-table'
 import type { ConfigInterface } from 'server-common'
 
-const log = debug('config:table')
+const log: debug.IDebugger = debug('config:table')
 
 class TableConfig implements ConfigInterface {
   public enrich() {
@@ -30,6 +30,7 @@ class TableConfig implements ConfigInterface {
     for (const table in tables) {
       log(`validate schema ${table}`)
       schema.validate(tables[table])
+      TableUtils.databaseExists(table, tables[table].database)
     }
   }
 

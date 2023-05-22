@@ -68,3 +68,67 @@ describe('setAtPath', () => {
     })
   })
 })
+
+describe('replaceVars', () => {
+  it('should replace vars in object', () => {
+    const obj = {
+      a: '${b}',
+      c: {
+        d: '${e}',
+      },
+      f: 1,
+    }
+    const vars = {
+      b: 'f',
+      e: 'g',
+    }
+    expect(ObjectUtils.replaceVars(obj, vars)).toEqual({
+      a: 'f',
+      c: {
+        d: 'g',
+      },
+      f: 1,
+    })
+  })
+
+  it('should replace vars in object with nested vars', () => {
+    const obj = {
+      a: '${b}',
+      c: {
+        d: '${e}',
+      },
+    }
+    const vars = {
+      b: '${f}',
+      e: 'g',
+      f: 'h',
+    }
+    expect(ObjectUtils.replaceVars(obj, vars)).toEqual({
+      a: 'h',
+      c: {
+        d: 'g',
+      },
+    })
+  })
+})
+
+describe('replaceVarsInString', () => {
+  it('should replace vars in string', () => {
+    const str = '${a} ${b}'
+    const vars = {
+      a: 'c',
+      b: 'd',
+    }
+    expect(ObjectUtils.replaceVarsInString(str, vars)).toBe('c d')
+  })
+
+  it('should replace vars in string with nested vars', () => {
+    const str = '${a} ${b}'
+    const vars = {
+      a: '${c}',
+      b: 'd',
+      c: 'e',
+    }
+    expect(ObjectUtils.replaceVarsInString(str, vars)).toBe('e d')
+  })
+})

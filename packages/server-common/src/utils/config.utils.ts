@@ -17,6 +17,7 @@ class ConfigUtils {
     const path = PathUtils.getAppConfigFile()
     this.config = fs.readJsonSync(path, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${path}`)
+    this.config = ObjectUtils.replaceVars(this.config, process.env)
     return this.config
   }
 
@@ -32,6 +33,7 @@ class ConfigUtils {
 
   public cache(): void {
     const cachePath = PathUtils.getAppConfigCache()
+    fs.ensureFileSync(cachePath)
     fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
   }
 

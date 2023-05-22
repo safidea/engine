@@ -4,7 +4,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/app/types/**/*.ts"
+    ".next/app/types/**/*.ts",
+    ".next/app-e2e/types/**/*.ts",
+    ".next/app_e2e/types/**/*.ts",
+    ".next/app_engine_e2e/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

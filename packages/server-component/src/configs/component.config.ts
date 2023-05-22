@@ -5,7 +5,7 @@ import { ComponentSchema } from 'shared-component'
 import type { ComponentsInterface } from 'shared-component'
 import type { ConfigInterface } from 'server-common'
 
-const log = debug('config:component')
+const log: debug.IDebugger = debug('config:component')
 
 class ComponentConfig implements ConfigInterface {
   public enrich(): void {

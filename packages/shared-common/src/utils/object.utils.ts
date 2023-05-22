@@ -34,6 +34,28 @@ class ObjectUtils {
     }
     return obj
   }
+
+  public replaceVars(
+    obj: ObjectInterface,
+    vars: { [key: string]: string | undefined }
+  ): ObjectInterface {
+    const result: ObjectInterface = {}
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'string') result[key] = this.replaceVarsInString(value, vars)
+      else if (typeof value === 'object' && !Array.isArray(value))
+        result[key] = this.replaceVars(value, vars)
+      else result[key] = value
+    }
+    return result
+  }
+
+  public replaceVarsInString(str: string, vars: { [key: string]: string | undefined }): string {
+    let result = str
+    for (const [key, value] of Object.entries(vars)) {
+      if (value) result = result.replace(new RegExp(`\\$\\{${key}\\}`, 'g'), value)
+    }
+    return result
+  }
 }
 
 export default new ObjectUtils()

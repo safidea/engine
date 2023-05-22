@@ -2,6 +2,10 @@ import './setup'
 import fs from 'fs-extra'
 import DatabaseService from '../../src/services/database.service'
 
+beforeAll(() => {
+  DatabaseService.initLibraries()
+})
+
 describe('baseExist', () => {
   it('should return true', () => {
     const result = DatabaseService.baseExist('master')

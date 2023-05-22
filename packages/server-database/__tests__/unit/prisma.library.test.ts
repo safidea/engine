@@ -1,6 +1,10 @@
 import './setup'
 import PrismaLibrary from '../../src/libraries/prisma.library'
 
+beforeAll(() => {
+  PrismaLibrary.init()
+})
+
 describe('base', () => {
   it('should return a base', () => {
     const result = PrismaLibrary.base('master')

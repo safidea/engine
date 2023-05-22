@@ -39,6 +39,7 @@ next-env.d.ts
 
 # generated data
 data/
+js/
 
 # compile
 dist/

@@ -1,7 +1,7 @@
-import './setup'
+import { TestUtils } from './setup'
 import { DatabaseConfig, DatabaseService } from 'server-database'
 import { TableRoute, TableConfig } from '../../../src'
-import { ConfigUtils, TestUtils } from 'server-common'
+import { ConfigUtils } from 'server-common'
 
 import type { RouteHandlerContextType, TestDataType } from 'server-common'
 import type { DatabaseRowType } from 'shared-database'

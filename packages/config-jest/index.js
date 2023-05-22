@@ -6,7 +6,8 @@ module.exports = (dir) => {
     preset: 'ts-jest',
     maxWorkers: 4,
     testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
-    coveragePathIgnorePatterns: ['/node_modules/', '/__tests__/'],
+    coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/__tests__/', '<rootDir>/src/apps'],
+    watchPathIgnorePatterns: ['<rootDir>/src/apps'],
   }
 
   const isClient = dir.includes('packages/client')

@@ -53,4 +53,16 @@ describe('handler', () => {
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual({})
   })
+
+  it('should return a function that calls middleware that throw an error', async () => {
+    const middleware = jest.fn(async () => {
+      throw new Error('message')
+    })
+    const handler = RouteUtils.handler(() => [middleware])
+    request = new Request(url)
+    const response = await handler(request, context)
+    expect(middleware).toHaveBeenCalled()
+    expect(response.status).toBe(500)
+    expect(await response.json()).toEqual({ error: 'Internal server error' })
+  })
 })

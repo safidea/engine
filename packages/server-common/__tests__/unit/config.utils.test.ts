@@ -11,6 +11,14 @@ describe('init', () => {
     expect(() => ConfigUtils.init()).toThrowError('Config file is not a valid JSON')
   })
 
+  it('should init config with env vars', () => {
+    process.env.FDT_APP_VERSION = '1.0.0'
+    const readJsonSync = fs.readJsonSync as jest.MockedFunction<typeof fs.readJsonSync>
+    readJsonSync.mockReturnValueOnce({ version: '${FDT_APP_VERSION}' })
+    const result = ConfigUtils.init()
+    expect(result).toEqual({ version: '1.0.0' })
+  })
+
   it('should init config', () => {
     const result = ConfigUtils.init()
     expect(result).toEqual({ test: true })
@@ -40,6 +48,7 @@ describe('cache', () => {
   it('should cache config', () => {
     ConfigUtils.init()
     ConfigUtils.cache()
+    expect(fs.ensureFileSync).toHaveBeenCalledWith(expect.any(String))
     expect(fs.writeJsonSync).toHaveBeenCalledWith(expect.any(String), { test: true }, { spaces: 2 })
   })
 })

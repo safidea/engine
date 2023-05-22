@@ -5,7 +5,7 @@ import { PageSchema } from 'shared-page'
 import type { PagesInterface } from 'shared-page'
 import type { ConfigInterface } from 'server-common'
 
-const log = debug('config:page')
+const log: debug.IDebugger = debug('config:page')
 
 class PageConfig implements ConfigInterface {
   public enrich(): void {

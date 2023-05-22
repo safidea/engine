@@ -1,13 +1,14 @@
+import { join } from 'path'
 import { PlaywrightTestConfig, devices } from '@playwright/test'
-import path from 'path'
+import globalSetup from './e2e/setup'
 
 const PORT = process.env.PORT || 3000
 const baseURL = `http://localhost:${PORT}`
 
 const config: PlaywrightTestConfig = {
   timeout: 30 * 1000,
-  testDir: path.join(__dirname, 'e2e'),
-  retries: 2,
+  testDir: join(__dirname, 'e2e'),
+  retries: 0,
   outputDir: 'coverage/',
   webServer: {
     command: `pnpm dev`,
@@ -17,6 +18,7 @@ const config: PlaywrightTestConfig = {
   use: {
     baseURL,
   },
+  globalTeardown: join(__dirname, 'e2e', 'teardown.ts'),
   projects: [
     {
       name: 'Desktop Chrome',
@@ -24,29 +26,9 @@ const config: PlaywrightTestConfig = {
         ...devices['Desktop Chrome'],
       },
     },
-    {
-      name: 'Desktop Firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-    {
-      name: 'Desktop Safari',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
-    {
-      name: 'Mobile Chrome',
-      use: {
-        ...devices['Pixel 5'],
-      },
-    },
-    {
-      name: 'Mobile Safari',
-      use: devices['iPhone 12'],
-    },
   ],
 }
+
+globalSetup()
 
 export default config

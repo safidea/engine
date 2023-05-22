@@ -15,8 +15,9 @@ class TestUtils {
     const name = basename(dirPath)
     const packageMatch = dirPath.match(/\/packages\/([^/]+)/)
     const packageName = packageMatch && packageMatch[1]
-    process.env.APP_NAME = name.replace(/-/g, '_')
-    process.env.ROOT_PATH = `packages/${packageName}/__tests__/integration/${name}/app`
+    const testFolder = dirPath.includes('/e2e/') ? 'e2e' : '__tests__/integration'
+    process.env.FDT_APP_NAME = name.replace(/-/g, '_')
+    process.env.FDT_ROOT_PATH = `packages/${packageName}/${testFolder}/${name}/app`
   }
 
   public async updateLibraries(packages: string[]): Promise<void> {
@@ -31,7 +32,8 @@ class TestUtils {
     ConfigUtils.init()
   }
 
-  public afterAll(): void {
+  public afterAll(packages: string[] = []): void {
+    if (packages.length > 0) for (const packageName of packages) AppUtils.register({}, packageName)
     const path = PathUtils.getAppRoot()
     fs.removeSync(join(path, 'data'))
     fs.removeSync(join(path, 'js'))

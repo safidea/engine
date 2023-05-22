@@ -17,9 +17,13 @@ class AppUtils {
   }
 
   public getName(): string {
-    const name = process.env.APP_NAME
-    if (!name || typeof name !== 'string') throw new Error('APP_NAME is not set in .env file')
+    const name = process.env.FDT_APP_NAME
+    if (!name || typeof name !== 'string') throw new Error('FDT_APP_NAME is not set in .env file')
     return name
+  }
+
+  public getVersion(): string {
+    return process.env.FDT_APP_VERSION || '0.0.0'
   }
 
   public register(Apps: AppsType, packageName: string): void {

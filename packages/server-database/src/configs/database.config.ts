@@ -1,21 +1,19 @@
 import debug from 'debug'
-import DatabaseUtils from '../utils/database.utils'
 import PrismaUtils from '../utils/prisma.utils'
 
-import { ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
+import { ConfigUtils, SchemaUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
 import type { DatabasesInterface } from 'shared-database'
 import type { ConfigInterface } from 'server-common'
 
-const log = debug('config:database')
+const log: debug.IDebugger = debug('config:database')
 
 class DatabaseConfig implements ConfigInterface {
   public enrich() {
     const databases = this.get()
-    if (!databases || typeof databases !== 'object' || ObjectUtils.isEmpty(databases)) {
-      log('set default databases')
-      ConfigUtils.set('databases', DatabaseUtils.getDefaults())
+    for (const database in databases) {
+      log(`enrich config ${database}`)
     }
   }
 
@@ -38,6 +36,7 @@ class DatabaseConfig implements ConfigInterface {
 
   public js() {
     const databases = this.get()
+    if (!databases) return
     for (const database in databases) {
       log(`build prisma client for database ${database}`)
       PrismaUtils.buildClient(database)

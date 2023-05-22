@@ -7,11 +7,11 @@
     "test": "jest"
   },
   "dependencies": {
-    "@prisma/client": "4.14.0",
+    "@prisma/client": "4.14.1",
     "server-common": "workspace:*",
     "shared-database": "workspace:*",
     "fs-extra": "11.1.1",
-    "prisma": "4.14.0"
+    "prisma": "4.14.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

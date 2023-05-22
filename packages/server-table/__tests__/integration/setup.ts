@@ -1,4 +1,4 @@
-import { TestUtils } from 'server-common'
+import TestUtils from 'server-common/src/utils/test.utils'
 
 jest.unmock('fs-extra')
 

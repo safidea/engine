@@ -1,5 +1,6 @@
 import './setup'
-import { TestUtils, AppUtils, PathUtils, ConfigUtils } from '../../src'
+import { AppUtils, PathUtils, ConfigUtils } from '../../src'
+import TestUtils from '../../src/utils/test.utils'
 import fs from 'fs-extra'
 import { join } from 'path'
 
@@ -10,12 +11,18 @@ jest.mock('../../src/utils/path.utils')
 jest.mock('../../src/utils/config.utils')
 
 describe('setupApp', () => {
-  it('should setup the app', () => {
+  it('should setup the app for integration tests', () => {
     TestUtils.setupApp('/packages/my-test-package/test-app')
-    expect(process.env.APP_NAME).toEqual('test_app')
-    expect(process.env.ROOT_PATH).toEqual(
+    expect(process.env.FDT_APP_NAME).toEqual('test_app')
+    expect(process.env.FDT_ROOT_PATH).toEqual(
       'packages/my-test-package/__tests__/integration/test-app/app'
     )
+  })
+
+  it('should setup the app for e2e tests', () => {
+    TestUtils.setupApp('/packages/my-test-package/e2e/test-app')
+    expect(process.env.FDT_APP_NAME).toEqual('test_app')
+    expect(process.env.FDT_ROOT_PATH).toEqual('packages/my-test-package/e2e/test-app/app')
   })
 })
 
@@ -52,6 +59,14 @@ describe('afterAll', () => {
     expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'data'))
     expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'js'))
     expect(AppUtils.removeAllImports).toHaveBeenCalled()
+  })
+
+  it('should remove data and js directories with packages', () => {
+    const path = 'testPath'
+    const getAppRoot = PathUtils.getAppRoot as jest.MockedFunction<typeof PathUtils.getAppRoot>
+    getAppRoot.mockReturnValue(path)
+    TestUtils.afterAll(['package1'])
+    expect(AppUtils.register).toHaveBeenCalled()
   })
 })
 

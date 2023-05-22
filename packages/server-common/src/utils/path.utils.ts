@@ -8,11 +8,11 @@ class PathUtils {
   }
 
   public getAppRoot(): string {
-    return join(this.getProjectRoot(), process.env.ROOT_PATH || './')
+    return join(this.getProjectRoot(), process.env.FDT_ROOT_PATH || './')
   }
 
   public getAppDataFolder(): string {
-    const path = join(this.getAppRoot(), process.env.DATA_FOLDER_PATH || './data')
+    const path = join(this.getAppRoot(), './data')
     fs.ensureDirSync(path)
     return path
   }
@@ -24,15 +24,13 @@ class PathUtils {
   }
 
   public getAppConfigFile(): string {
-    const path = join(this.getAppRoot(), process.env.CONFIG_FILE_PATH || './config.json')
+    const path = join(this.getAppRoot(), './config.json')
     if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)
     return path
   }
 
   public getAppConfigCache(): string {
-    const path = join(this.getAppDataFolder(), `config.cache.json`)
-    fs.ensureFileSync(path)
-    return path
+    return join(this.getAppDataFolder(), `config.cache.json`)
   }
 
   public getPackageConfigsFolder(packageName: string): string {

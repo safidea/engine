@@ -1,4 +1,10 @@
 {
+  "databases": {
+    "main": {
+      "type": "sqlite",
+      "file": "db.sqlite"
+    }
+  },
   "tables": {
     "users": {
       "database": "main",

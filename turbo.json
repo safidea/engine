@@ -1,10 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": [
-    "APP_NAME",
-    "ROOT_PATH",
-    "CONFIG_FILE_PATH",
-    "DATA_FOLDER_PATH",
+    "FDT_APP_NAME",
+    "FDT_ROOT_PATH",
+    "FDT_APP_VERSION",
     "NODE_ENV",
     "DEBUG",
     "EMAIL_SERVER_HOST",
@@ -22,23 +21,16 @@
     "test": {},
     "schema": {},
     "config": {
-      "dependsOn": [
-        "schema"
-      ],
+      "dependsOn": ["schema"],
       "cache": false
     },
     "dev": {},
     "build": {
-      "outputs": [
-        "dist/**",
-        ".next/**"
-      ],
+      "outputs": ["dist/**", ".next/**"],
       "cache": false
     },
     "start": {
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     }
   }
 }

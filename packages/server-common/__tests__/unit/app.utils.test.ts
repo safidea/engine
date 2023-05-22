@@ -12,7 +12,7 @@ describe('AppUtils', () => {
 
   beforeEach(() => {
     jest.resetModules()
-    process.env = { ...OLD_ENV, APP_NAME: 'testApp' }
+    process.env = { ...OLD_ENV, FDT_APP_NAME: 'testApp' }
   })
 
   afterAll(() => {
@@ -45,8 +45,20 @@ describe('AppUtils', () => {
     })
 
     it('should throw error if app name is not set in environment', () => {
-      delete process.env.APP_NAME
-      expect(() => AppUtils.getName()).toThrow('APP_NAME is not set in .env file')
+      delete process.env.FDT_APP_NAME
+      expect(() => AppUtils.getName()).toThrow('FDT_APP_NAME is not set in .env file')
+    })
+  })
+
+  describe('getVersion', () => {
+    it('should return app version from environment variable', () => {
+      process.env.FDT_APP_VERSION = '1.0.0'
+      expect(AppUtils.getVersion()).toBe('1.0.0')
+    })
+
+    it('should return default version if app version is not set in environment', () => {
+      delete process.env.FDT_APP_VERSION
+      expect(AppUtils.getVersion()).toBe('0.0.0')
     })
   })
 

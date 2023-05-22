@@ -1,7 +1,6 @@
 import fs from 'fs-extra'
-import cp from 'child_process'
 import { join } from 'path'
-import { PathUtils, StringUtils, AppUtils } from 'server-common'
+import { PathUtils, StringUtils, AppUtils, ProcessUtils } from 'server-common'
 
 import type { DatabaseInterface } from 'shared-database'
 import type { PrismaModelInterface } from '../interfaces/prisma.interface'
@@ -58,7 +57,7 @@ class PrismaUtils {
             field.type === 'String' && !functions.includes(String(field.default))
               ? `"${field.default}"`
               : field.default
-          const isRequired = field.optional ? '?' : ''
+          const isRequired = field.optional || field.type === 'Boolean' ? '?' : ''
           const isList = field.list ? '[]' : ''
           const isPrimary = field.primary ? ' @id' : ''
           const isUnique = field.unique ? ' @unique' : ''
@@ -92,7 +91,12 @@ class PrismaUtils {
     const schemaPath = this.getSchemaPath(baseName)
     this.formatSchema(schemaPath)
     this.generateClient(schemaPath)
-    this.pushDatabase(schemaPath, process.env.NODE_ENV === 'test')
+    if (process.env.NODE_ENV !== 'production') {
+      this.pushDB(schemaPath)
+    } else {
+      this.devMigration(schemaPath)
+      this.deployMigration(schemaPath)
+    }
   }
 
   public importClients(baseNames: string[]) {
@@ -134,20 +138,29 @@ class PrismaUtils {
     return !!clientSchema && !!schema && clientSchema === schema
   }
 
-  private formatSchema(schemaPath: string) {
-    cp.execSync(`prisma format --schema ${schemaPath}`)
+  private formatSchema(schemaPath: string): void {
+    ProcessUtils.runCommand(`prisma format --schema ${schemaPath}`)
   }
 
-  private generateClient(schemaPath: string) {
-    cp.execSync(`prisma generate --schema ${schemaPath}`)
+  private generateClient(schemaPath: string): void {
+    ProcessUtils.runCommand(`prisma generate --schema ${schemaPath}`)
   }
 
-  private pushDatabase(schemaPath: string, forceReset: boolean) {
-    cp.execSync(
-      `prisma db push --schema ${schemaPath} --accept-data-loss ${
-        forceReset ? '--force-reset' : ''
-      }`
+  private pushDB(schemaPath: string): void {
+    ProcessUtils.runCommand(
+      `prisma db push --schema ${schemaPath} --skip-generate --force-reset --accept-data-loss`
     )
+  }
+
+  private devMigration(schemaPath: string): void {
+    const name = AppUtils.getName() + '-v' + AppUtils.getVersion()
+    ProcessUtils.runCommand(
+      `prisma migrate dev --name=${name} --schema ${schemaPath} --skip-generate --skip-seed --create-only`
+    )
+  }
+
+  private deployMigration(schemaPath: string): void {
+    ProcessUtils.runCommand(`prisma migrate deploy --schema ${schemaPath}`)
   }
 }
 

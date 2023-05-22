@@ -1,15 +1,14 @@
 import { AppUtils } from 'server-common'
 import PrismaUtils from '../utils/prisma.utils'
+import debug from 'debug'
 
 import type { PrismaClientInterface, PrismaClientsInterface } from '../interfaces/prisma.interface'
 import type { PrismaClientType, PrismaClientsType } from '../types/prisma.type'
 
+const log: debug.IDebugger = debug('library:prisma')
+
 class PrismaLibrary {
   private clients: PrismaClientsType = {}
-
-  constructor() {
-    this.init()
-  }
 
   public init(): void {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -20,6 +19,7 @@ class PrismaLibrary {
         this.clients[baseName] = new PrismaClient()
       }
     }
+    log(`${Object.keys(this.clients).length} clients initialized: ${Object.keys(this.clients)}`)
   }
 
   private model(baseName: string, modelName: string): PrismaClientInterface | undefined {

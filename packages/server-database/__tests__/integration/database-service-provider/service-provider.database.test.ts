@@ -1,6 +1,6 @@
-import './setup'
+import { TestUtils } from './setup'
 import { DatabaseService, DatabaseConfig } from '../../../src'
-import { ConfigUtils, TestUtils } from 'server-common'
+import { ConfigUtils } from 'server-common'
 
 const TableConfig = {
   validate: () => true,

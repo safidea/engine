@@ -3,29 +3,21 @@ import fs from 'fs-extra'
 import { PathUtils } from '../../src'
 
 describe('getAppRoot', () => {
-  it('should return root path with ROOT_PATH env', () => {
-    process.env.ROOT_PATH = './test'
+  it('should return root path with FDT_ROOT_PATH env', () => {
+    process.env.FDT_ROOT_PATH = './test'
     const result = PathUtils.getAppRoot()
     expect(result.endsWith('/foundation/test')).toBe(true)
   })
 
-  it('should return root path without ROOT_PATH env', () => {
-    delete process.env.ROOT_PATH
+  it('should return root path without FDT_ROOT_PATH env', () => {
+    delete process.env.FDT_ROOT_PATH
     const result = PathUtils.getAppRoot()
     expect(result.endsWith('/foundation/')).toBe(true)
   })
 })
 
 describe('getAppDataFolder', () => {
-  it('should return data folder path with DATA_FOLDER_PATH env', () => {
-    process.env.DATA_FOLDER_PATH = './test'
-    const result = PathUtils.getAppDataFolder()
-    expect(result.endsWith('foundation/test')).toBe(true)
-    expect(fs.ensureDirSync).toHaveBeenCalledWith(expect.any(String))
-  })
-
-  it('should return data folder path without DATA_FOLDER_PATH env', () => {
-    delete process.env.DATA_FOLDER_PATH
+  it('should return data folder path', () => {
     const result = PathUtils.getAppDataFolder()
     expect(result.endsWith('foundation/data')).toBe(true)
   })
@@ -47,15 +39,7 @@ describe('getPackageConfigsFolder', () => {
 })
 
 describe('getAppConfigFile', () => {
-  it('should return config file path with CONFIG_FILE_PATH env', () => {
-    process.env.CONFIG_FILE_PATH = './test/config.json'
-    const result = PathUtils.getAppConfigFile()
-    expect(result.endsWith('foundation/test/config.json')).toBe(true)
-    expect(fs.pathExistsSync).toHaveBeenCalledWith(expect.any(String))
-  })
-
-  it('should return config file path without CONFIG_FILE_PATH env', () => {
-    delete process.env.CONFIG_FILE_PATH
+  it('should return config file path', () => {
     const result = PathUtils.getAppConfigFile()
     expect(result.endsWith('foundation/config.json')).toBe(true)
   })
@@ -71,7 +55,6 @@ describe('getAppConfigCache', () => {
   it('should return config cache path', () => {
     const result = PathUtils.getAppConfigCache()
     expect(result.endsWith('foundation/data/config.cache.json')).toBe(true)
-    expect(fs.ensureFileSync).toHaveBeenCalledWith(expect.any(String))
   })
 })
 
