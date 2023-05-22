@@ -11,7 +11,7 @@ import ConfigUtils from './config.utils'
 import type { BuildDataOptionsType, BuiltDataType, TestDataType } from '../types/test.type'
 
 class TestUtils {
-  public setupApp(dirPath: string, appName?: string): void {
+  public setupAppEnv(dirPath: string, appName?: string): void {
     const name = appName ?? basename(dirPath)
     const packageMatch = dirPath.match(/\/packages\/([^/]+)/)
     const packageName = packageMatch && packageMatch[1]

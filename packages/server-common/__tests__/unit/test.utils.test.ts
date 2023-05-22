@@ -12,7 +12,7 @@ jest.mock('../../src/utils/config.utils')
 
 describe('setupApp', () => {
   it('should setup the app for integration tests', () => {
-    TestUtils.setupApp('/packages/my-test-package/test-app')
+    TestUtils.setupAppEnv('/packages/my-test-package/test-app')
     expect(process.env.FDT_APP_NAME).toEqual('test_app')
     expect(process.env.FDT_ROOT_PATH).toEqual(
       'packages/my-test-package/__tests__/integration/test-app/app'
@@ -20,7 +20,7 @@ describe('setupApp', () => {
   })
 
   it('should setup the app for e2e tests', () => {
-    TestUtils.setupApp('/packages/my-test-package/e2e', 'app-engine-e2e')
+    TestUtils.setupAppEnv('/packages/my-test-package/e2e', 'app-engine-e2e')
     expect(process.env.FDT_APP_NAME).toEqual('app_engine_e2e')
     expect(process.env.FDT_ROOT_PATH).toEqual('packages/my-test-package/e2e/app')
   })
