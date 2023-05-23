@@ -55,12 +55,12 @@ class TestUtils {
         if (type === 'Int') {
           data[field] = isValid
             ? faker.helpers.unique(faker.datatype.number)
-            : faker.helpers.unique(faker.name.jobDescriptor)
+            : faker.helpers.unique(faker.word.noun)
         }
         if (type === 'DateTime') {
           data[field] = isValid
             ? faker.date.past().toISOString()
-            : faker.helpers.unique(faker.datatype.string)
+            : faker.helpers.unique(faker.name.jobDescriptor)
         }
         if (type === 'Boolean') {
           data[field] = isValid

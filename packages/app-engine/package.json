@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "server-common": "workspace:*",
+    "server-component": "workspace:^",
     "server-database": "workspace:*",
     "server-page": "workspace:*",
     "server-table": "workspace:*"

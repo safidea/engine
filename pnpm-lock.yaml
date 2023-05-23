@@ -43,6 +43,9 @@ importers:
       server-common:
         specifier: workspace:*
         version: link:../server-common
+      server-component:
+        specifier: workspace:^
+        version: link:../server-component
       server-database:
         specifier: workspace:*
         version: link:../server-database
