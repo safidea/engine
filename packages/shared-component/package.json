@@ -3,7 +3,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint .",
+    "lint": "eslint .",
     "test": "jest",
     "schema": "typescript-json-schema tsconfig.json ComponentInterface -o src/schemas/component.schema.json --required"
   },

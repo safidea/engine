@@ -6,6 +6,9 @@
             "properties": {
                 "components": {
                     "$ref": "#/definitions/ComponentsInterface"
+                },
+                "text": {
+                    "type": "string"
                 }
             },
             "type": "object"

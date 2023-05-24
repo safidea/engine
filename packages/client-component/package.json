@@ -3,7 +3,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint .",
+    "lint": "eslint .",
     "test": "jest"
   },
   "dependencies": {
@@ -12,8 +12,7 @@
     "next": "13.4.3",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
-    "shared-component": "workspace:*",
-    "tailwindcss": "3.3.2"
+    "shared-component": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.5",

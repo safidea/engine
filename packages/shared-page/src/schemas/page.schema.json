@@ -5,6 +5,9 @@
             "properties": {
                 "components": {
                     "$ref": "#/definitions/ComponentsInterface"
+                },
+                "content": {
+                    "type": "string"
                 }
             },
             "type": "object"
@@ -14,44 +17,30 @@
                 "$ref": "#/definitions/ComponentInterface"
             },
             "type": "object"
-        }
-    },
-    "properties": {
-        "body": {
-            "$ref": "#/definitions/ComponentInterface"
         },
-        "head": {
+        "MetadataInterface": {
             "properties": {
-                "author": {
-                    "type": "string"
-                },
                 "description": {
-                    "type": "string"
-                },
-                "favicon": {
-                    "type": "string"
-                },
-                "image": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "robots": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "twitter": {
                     "type": "string"
                 }
             },
             "type": "object"
         }
     },
+    "properties": {
+        "components": {
+            "$ref": "#/definitions/ComponentsInterface"
+        },
+        "metadata": {
+            "$ref": "#/definitions/MetadataInterface"
+        },
+        "title": {
+            "type": "string"
+        }
+    },
     "required": [
-        "body"
+        "components",
+        "title"
     ],
     "type": "object"
 }

@@ -1,9 +1,5 @@
 const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
 
-if (!process.env.FDT_APP_NAME) {
-  throw new Error('FDT_APP_NAME is not defined')
-}
-
 module.exports = async () => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
@@ -11,14 +7,25 @@ module.exports = async () => {
     publicRuntimeConfig: {
       staticFolder: 'custom-public',
     },
-    distDir: `.next/${process.env.FDT_APP_NAME}`,
+    distDir: `.next/${process.env.FDT_APP_NAME ?? 'default'}`,
     transpilePackages: [
       'server-table',
       'server-database',
       'server-common',
       'server-page',
+      'server-component',
       'client-page',
+      'client-component',
     ],
+    images: {
+      dangerouslyAllowSVG: true,
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'tailwindui.com',
+        },
+      ],
+    },
     webpack: (config, { isServer }) => {
       if (isServer) {
         config.plugins = [...config.plugins, new PrismaPlugin()]

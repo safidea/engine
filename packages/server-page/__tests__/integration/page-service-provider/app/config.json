@@ -1,11 +1,13 @@
 {
   "pages": {
     "/": {
-      "head": {
-        "title": "Home",
+      "title": "Home",
+      "metadata": {
         "description": "This is the home page"
       },
-      "body": {}
+      "components": {
+        "hero": {}
+      }
     }
   }
 }

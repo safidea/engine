@@ -11,7 +11,8 @@ describe('app with not valid tables schema', () => {
       PageConfig.validate()
       expect(true).toBe(false)
     } catch (e: any) {
-      expect(e.message).toContain("must have required property 'body'")
+      expect(e.message).toContain("must have required property 'title'")
+      expect(e.message).toContain("must have required property 'components'")
     }
   })
 })

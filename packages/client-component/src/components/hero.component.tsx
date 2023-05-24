@@ -1,18 +1,20 @@
+'use client'
+
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Image, Link } from '../libraries/next.library'
 
-import type { ComponentInterface } from 'shared-component'
+import type { CommonPropsType } from '../types/common.type'
 
-export interface HeroInterface extends ComponentInterface {
+export type HeroProps = CommonPropsType & {
   navigation?: {
     name: string
     href: string
   }[]
 }
 
-export default function HeroComponent({ navigation = [] }: HeroInterface) {
+export default function Hero({ navigation = [] }: HeroProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -25,8 +27,8 @@ export default function HeroComponent({ navigation = [] }: HeroInterface) {
               <div className="h-8 w-auto">
                 <Image
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                  width={500}
-                  height={500}
+                  width={50}
+                  height={50}
                   alt="logo"
                 />
               </div>
@@ -69,8 +71,8 @@ export default function HeroComponent({ navigation = [] }: HeroInterface) {
                   <Image
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt=""
-                    width={500}
-                    height={500}
+                    width={50}
+                    height={50}
                   />
                 </div>
               </Link>

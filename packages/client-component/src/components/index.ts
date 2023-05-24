@@ -1,2 +1,1 @@
-export { default as Hero } from './hero.component'
-export type { HeroInterface } from './hero.component'
+export { default as hero } from './hero.component'

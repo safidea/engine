@@ -43,5 +43,15 @@
         }
       }
     }
+  },
+  "pages": {
+    "/": {
+      "title": "Home",
+      "components": {
+        "h1": {
+          "text": "Hello world"
+        }
+      }
+    }
   }
 }

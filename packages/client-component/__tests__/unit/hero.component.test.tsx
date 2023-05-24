@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { Components } from '../../src'
 
 let frame: ReturnType<typeof render>
-const { Hero } = Components
+const { hero: Hero } = Components
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },

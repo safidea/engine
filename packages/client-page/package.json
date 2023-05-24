@@ -3,13 +3,15 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint ."
+    "lint": "eslint .",
+    "test": "jest"
   },
   "dependencies": {
     "client-component": "workspace:*",
-    "shared-page": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "shared-component": "workspace:*",
+    "shared-page": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.5",

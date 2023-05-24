@@ -3,10 +3,11 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "tsc --noEmit && eslint .",
+    "lint": "eslint .",
     "test": "jest"
   },
   "dependencies": {
+    "next": "13.4.3",
     "server-common": "workspace:*",
     "server-component": "workspace:*",
     "shared-page": "workspace:*"

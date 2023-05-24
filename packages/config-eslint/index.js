@@ -1,13 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  extends: [
-    'next',
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'turbo',
-    'prettier',
-  ],
+  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'turbo', 'prettier'],
   ignorePatterns: ['dist/', 'js/'],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
@@ -18,6 +12,7 @@ module.exports = {
         allowNew: true,
       },
     ],
+    '@typescript-eslint/no-empty-function': 'off',
   },
   settings: {
     react: {

@@ -46,34 +46,30 @@
   },
   "pages": {
     "/": {
-      "head": {
-        "title": "Systems",
-        "description": "Build and deploy anything anywhere",
-        "image": "welcome.jpg",
-        "favicon": "favicon.ico"
+      "title": "Systems",
+      "metadata": {
+        "description": "Build and deploy anything anywhere"
       },
-      "body": {
-        "components": {
-          "hero": {
-            "navigation": [
-              {
-                "name": "Product",
-                "href": "#"
-              },
-              {
-                "name": "Features",
-                "href": "#"
-              },
-              {
-                "name": "Marketplace",
-                "href": "#"
-              },
-              {
-                "name": "Company",
-                "href": "#"
-              }
-            ]
-          }
+      "components": {
+        "hero": {
+          "navigation": [
+            {
+              "name": "Product",
+              "href": "#"
+            },
+            {
+              "name": "Features",
+              "href": "#"
+            },
+            {
+              "name": "Customers",
+              "href": "#"
+            },
+            {
+              "name": "Company",
+              "href": "#"
+            }
+          ]
         }
       }
     }
