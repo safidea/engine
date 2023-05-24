@@ -36,7 +36,7 @@ describe('render', () => {
 
   it('should return a page with hero', () => {
     const Html = PageService.render({
-      hero: {
+      'hero.section': {
         navigation: [
           { name: 'Home', href: '/' },
           { name: 'About', href: '/about' },
@@ -49,5 +49,28 @@ describe('render', () => {
     const links = screen.getAllByRole('link')
     expect(links[1]).toHaveAttribute('href', '/')
     expect(links[2]).toHaveAttribute('href', '/about')
+  })
+})
+
+describe('getComponentFromCategory', () => {
+  it('should return a button component', () => {
+    const Html = PageService.getComponentFromCategory('button')
+    render(<Html tag="button">click here</Html>)
+    const button = screen.getByRole('button')
+    expect(button).toBeInTheDocument()
+  })
+
+  it('should return a hero component', () => {
+    const Html = PageService.getComponentFromCategory('hero', 'section')
+    render(<Html />)
+    const button = screen.getByRole('button')
+    expect(button).toBeInTheDocument()
+  })
+
+  it('should return a button component if component not exist', () => {
+    const Html = PageService.getComponentFromCategory('heros', 'section')
+    render(<Html tag="heros">click here</Html>)
+    const button = screen.getByText('click here')
+    expect(button).toBeInTheDocument()
   })
 })

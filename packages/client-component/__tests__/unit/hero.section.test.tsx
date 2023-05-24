@@ -1,9 +1,9 @@
 import { user } from './setup'
 import { render, screen } from '@testing-library/react'
-import { Components } from '../../src'
+import { Sections } from '../../src'
 
 let frame: ReturnType<typeof render>
-const { hero: Hero } = Components
+const { hero: Hero } = Sections
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },

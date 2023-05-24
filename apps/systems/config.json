@@ -51,7 +51,7 @@
         "description": "Build and deploy anything anywhere"
       },
       "components": {
-        "hero": {
+        "hero.section": {
           "navigation": [
             {
               "name": "Product",
@@ -70,7 +70,12 @@
               "href": "#"
             }
           ]
-        }
+        },
+        "logos.section": {},
+        "features.section": {},
+        "testimonials.section": {},
+        "cta.section": {},
+        "footer": {}
       }
     }
   },

@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Image, Link } from '../libraries/next.library'
+import { Image, Link } from '../../libraries/next.library'
 
-import type { CommonPropsType } from '../types/common.type'
+import type { CommonPropsType } from '../../types/common.type'
 
 export type HeroProps = CommonPropsType & {
   navigation?: {
