@@ -27,12 +27,9 @@ if [ ! -z "${app}" ] && [ -d $path ]; then
   export FDT_APP_NAME=$app
 
   cd packages/app-engine
-  echo $DATABASE_URL
+  echo "Config app ${app}"
+  pnpm run config
   case "${mode}" in
-    config)
-      echo "Config app ${app}"
-      pnpm run config
-      ;;
     dev)
       echo "Starting app ${app} in dev mode"
       pnpm dev

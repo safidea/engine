@@ -7,7 +7,6 @@
   ],
   "scripts": {
     "start": "scripts/startup.sh -m start",
-    "config": "scripts/startup.sh -m config",
     "dev": "scripts/startup.sh -m dev",
     "lint": "turbo run lint",
     "test": "turbo run test",

@@ -24,6 +24,10 @@ module.exports = async () => {
           protocol: 'https',
           hostname: 'tailwindui.com',
         },
+        {
+          protocol: 'https',
+          hostname: 'images.unsplash.com',
+        },
       ],
     },
     webpack: (config, { isServer }) => {

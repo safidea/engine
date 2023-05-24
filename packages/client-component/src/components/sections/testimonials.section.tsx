@@ -113,14 +113,14 @@ export default function Testimonials() {
             </blockquote>
             <figcaption className="flex items-center gap-x-4 border-t border-gray-900/10 px-6 py-4">
               <div className="h-10 w-10 flex-none rounded-full bg-gray-50">
-                <Image src={featuredTestimonial.author.imageUrl} alt="" />
+                <Image src={featuredTestimonial.author.imageUrl} alt="" width={100} height={100} />
               </div>
               <div className="flex-auto">
                 <div className="font-semibold">{featuredTestimonial.author.name}</div>
                 <div className="text-gray-600">{`@${featuredTestimonial.author.handle}`}</div>
               </div>
               <div className="h-10 w-auto flex-none">
-                <Image src={featuredTestimonial.author.logoUrl} alt="" />
+                <Image src={featuredTestimonial.author.logoUrl} alt="" width={100} height={100} />
               </div>
             </figcaption>
           </figure>
@@ -148,7 +148,12 @@ export default function Testimonials() {
                       </blockquote>
                       <figcaption className="mt-6 flex items-center gap-x-4">
                         <div className="h-10 w-10 rounded-full bg-gray-50">
-                          <Image src={testimonial.author.imageUrl} alt="" />
+                          <Image
+                            src={testimonial.author.imageUrl}
+                            alt=""
+                            width={100}
+                            height={100}
+                          />
                         </div>
                         <div>
                           <div className="font-semibold">{testimonial.author.name}</div>

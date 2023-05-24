@@ -13,6 +13,6 @@ export async function generateMetadata({ params }) {
 export default function Page({ params }) {
   const components = ServerPageRoute.generateComponents(params)
   if (!components) notFound()
-  const Html = ClientPageService.render(components)
-  return <Html />
+  const PageRendered = ClientPageService.render(components)
+  return <PageRendered />
 }

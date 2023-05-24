@@ -3,7 +3,7 @@
   "main": "./next.config.js",
   "scripts": {
     "config": "ts-node config/index.ts",
-    "build": "pnpm run config && next build",
+    "build": "next build",
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",

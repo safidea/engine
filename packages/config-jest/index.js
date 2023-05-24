@@ -8,6 +8,7 @@ module.exports = (dir) => {
     testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
     coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/__tests__/', '<rootDir>/src/apps'],
     watchPathIgnorePatterns: ['<rootDir>/src/apps'],
+    coverageDirectory: `${dir}/coverage`,
   }
 
   const isClient = dir.includes('packages/client')
@@ -15,13 +16,11 @@ module.exports = (dir) => {
 
   if (isClient) {
     config.testEnvironment = 'jest-environment-jsdom'
-    config.coverageDirectory = `${dir}/coverage/jsdom`
     config.setupFilesAfterEnv = ['@testing-library/jest-dom/extend-expect']
   }
 
   if (isServer) {
     config.testEnvironment = 'node'
-    config.coverageDirectory = `${dir}/coverage/node`
   }
 
   return config
