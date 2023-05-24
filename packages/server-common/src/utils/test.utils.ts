@@ -36,7 +36,7 @@ class TestUtils {
     if (packages.length > 0) for (const packageName of packages) AppUtils.register({}, packageName)
     const path = PathUtils.getAppRoot()
     fs.removeSync(join(path, 'data'))
-    fs.removeSync(join(path, 'js'))
+    fs.removeSync(join(path, 'lib'))
     AppUtils.removeAllImports()
   }
 

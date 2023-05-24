@@ -5,6 +5,12 @@ import { ConfigUtils } from '../../src'
 import type { ConfigInterface } from '../../src'
 
 describe('init', () => {
+  it('should throw error if config file is not found', () => {
+    const pathExistsSync = fs.pathExistsSync as jest.MockedFunction<typeof fs.pathExistsSync>
+    pathExistsSync.mockReturnValueOnce(false)
+    expect(() => ConfigUtils.init()).toThrowError(`Config file not found`)
+  })
+
   it('should throw error if config file is not a valid JSON', () => {
     const readJsonSync = fs.readJsonSync as jest.MockedFunction<typeof fs.readJsonSync>
     readJsonSync.mockReturnValueOnce(null)

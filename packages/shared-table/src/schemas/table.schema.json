@@ -1,89 +1,75 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "TableFieldInterface": {
-            "properties": {
-                "default": {
-                    "type": [
-                        "string",
-                        "number",
-                        "boolean"
-                    ]
-                },
-                "list": {
-                    "type": "boolean"
-                },
-                "optional": {
-                    "type": "boolean"
-                },
-                "primary": {
-                    "type": "boolean"
-                },
-                "relation": {
-                    "properties": {
-                        "fields": {
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        },
-                        "onDelete": {
-                            "type": "string"
-                        },
-                        "references": {
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "fields",
-                        "onDelete",
-                        "references"
-                    ],
-                    "type": "object"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "unique": {
-                    "type": "boolean"
-                }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "TableFieldInterface": {
+      "properties": {
+        "default": {
+          "type": ["string", "number", "boolean"]
+        },
+        "list": {
+          "type": "boolean"
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "relation": {
+          "properties": {
+            "fields": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        },
-        "TableFieldsInterface": {
-            "additionalProperties": {
-                "$ref": "#/definitions/TableFieldInterface"
+            "onDelete": {
+              "type": "string"
             },
-            "type": "object"
-        }
-    },
-    "properties": {
-        "database": {
-            "type": "string"
+            "references": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": ["fields", "onDelete", "references"],
+          "type": "object"
         },
-        "fields": {
-            "$ref": "#/definitions/TableFieldsInterface"
-        },
-        "model": {
-            "type": "string"
+        "type": {
+          "type": "string"
         },
         "unique": {
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
+          "type": "boolean"
         }
+      },
+      "required": ["type"],
+      "type": "object"
     },
-    "required": [
-        "database",
-        "fields"
-    ],
-    "type": "object"
+    "TableFieldsInterface": {
+      "additionalProperties": {
+        "$ref": "#/definitions/TableFieldInterface"
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "database": {
+      "type": "string"
+    },
+    "fields": {
+      "$ref": "#/definitions/TableFieldsInterface"
+    },
+    "model": {
+      "type": "string"
+    },
+    "unique": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": ["database", "fields"],
+  "type": "object"
 }
-

@@ -57,7 +57,7 @@ describe('afterAll', () => {
     TestUtils.afterAll()
     expect(fs.removeSync).toHaveBeenCalledTimes(2)
     expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'data'))
-    expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'js'))
+    expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'lib'))
     expect(AppUtils.removeAllImports).toHaveBeenCalled()
   })
 

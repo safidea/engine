@@ -1,24 +1,23 @@
 {
-    "$ref": "#/definitions/ComponentInterface",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "ComponentInterface": {
-            "properties": {
-                "components": {
-                    "$ref": "#/definitions/ComponentsInterface"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
+  "$ref": "#/definitions/ComponentInterface",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ComponentInterface": {
+      "properties": {
+        "components": {
+          "$ref": "#/definitions/ComponentsInterface"
         },
-        "ComponentsInterface": {
-            "additionalProperties": {
-                "$ref": "#/definitions/ComponentInterface"
-            },
-            "type": "object"
+        "text": {
+          "type": "string"
         }
+      },
+      "type": "object"
+    },
+    "ComponentsInterface": {
+      "additionalProperties": {
+        "$ref": "#/definitions/ComponentInterface"
+      },
+      "type": "object"
     }
+  }
 }
-

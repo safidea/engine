@@ -1,4 +1,3 @@
-import fs from 'fs-extra'
 import { join, dirname } from 'path'
 
 class PathUtils {
@@ -12,21 +11,15 @@ class PathUtils {
   }
 
   public getAppDataFolder(): string {
-    const path = join(this.getAppRoot(), 'data')
-    fs.ensureDirSync(path)
-    return path
+    return join(this.getAppRoot(), 'data')
   }
 
-  public getAppJsFolder(): string {
-    const path = join(this.getAppRoot(), 'js')
-    fs.ensureDirSync(path)
-    return path
+  public getAppLibFolder(): string {
+    return join(this.getAppRoot(), 'lib')
   }
 
   public getAppConfigFile(): string {
-    const path = join(this.getAppRoot(), 'config.json')
-    if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)
-    return path
+    return join(this.getAppRoot(), 'config.json')
   }
 
   public getAppEnvFile(): string {

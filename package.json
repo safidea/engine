@@ -12,7 +12,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "schema": "turbo run schema",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "precommit": "pnpm schema && pnpm format && pnpm lint && pnpm test && git add .",
     "postcommit": "git push",
     "prepare": "husky install"

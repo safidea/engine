@@ -113,7 +113,7 @@ class PrismaUtils {
   }
 
   public getClientFolder(): string {
-    const clientFolderPath = join(PathUtils.getAppJsFolder(), 'prisma')
+    const clientFolderPath = join(PathUtils.getAppLibFolder(), 'prisma')
     fs.ensureDirSync(clientFolderPath)
     return clientFolderPath
   }

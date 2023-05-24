@@ -1,25 +1,14 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "properties": {
-        "provider": {
-            "enum": [
-                "cockroachdb",
-                "mongodb",
-                "mysql",
-                "postgresql",
-                "sqlite",
-                "sqlserver"
-            ],
-            "type": "string"
-        },
-        "url": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "provider": {
+      "enum": ["cockroachdb", "mongodb", "mysql", "postgresql", "sqlite", "sqlserver"],
+      "type": "string"
     },
-    "required": [
-        "provider",
-        "url"
-    ],
-    "type": "object"
+    "url": {
+      "type": "string"
+    }
+  },
+  "required": ["provider", "url"],
+  "type": "object"
 }
-

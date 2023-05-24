@@ -1,28 +1,22 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "properties": {
-        "description": {
-            "type": "string"
-        },
-        "details": {
-            "properties": {
-                "id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "id"
-            ],
-            "type": "object"
-        },
-        "name": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "description": {
+      "type": "string"
     },
-    "required": [
-        "description",
-        "name"
-    ],
-    "type": "object"
+    "details": {
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": ["id"],
+      "type": "object"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "required": ["description", "name"],
+  "type": "object"
 }
-

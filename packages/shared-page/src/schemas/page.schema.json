@@ -1,47 +1,43 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "ComponentInterface": {
-            "properties": {
-                "components": {
-                    "$ref": "#/definitions/ComponentsInterface"
-                },
-                "content": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "ComponentsInterface": {
-            "additionalProperties": {
-                "$ref": "#/definitions/ComponentInterface"
-            },
-            "type": "object"
-        },
-        "MetadataInterface": {
-            "properties": {
-                "description": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        }
-    },
-    "properties": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ComponentInterface": {
+      "properties": {
         "components": {
-            "$ref": "#/definitions/ComponentsInterface"
+          "$ref": "#/definitions/ComponentsInterface"
         },
-        "metadata": {
-            "$ref": "#/definitions/MetadataInterface"
-        },
-        "title": {
-            "type": "string"
+        "text": {
+          "type": "string"
         }
+      },
+      "type": "object"
     },
-    "required": [
-        "components",
-        "title"
-    ],
-    "type": "object"
+    "ComponentsInterface": {
+      "additionalProperties": {
+        "$ref": "#/definitions/ComponentInterface"
+      },
+      "type": "object"
+    },
+    "MetadataInterface": {
+      "properties": {
+        "description": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "components": {
+      "$ref": "#/definitions/ComponentsInterface"
+    },
+    "metadata": {
+      "$ref": "#/definitions/MetadataInterface"
+    },
+    "title": {
+      "type": "string"
+    }
+  },
+  "required": ["components", "title"],
+  "type": "object"
 }
-

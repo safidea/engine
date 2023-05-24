@@ -17,8 +17,8 @@
     "CI"
   ],
   "pipeline": {
+    "schema": {},
     "lint": {},
-    "test": {},
-    "schema": {}
+    "test": {}
   }
 }

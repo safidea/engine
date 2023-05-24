@@ -11,11 +11,15 @@ class ConfigUtils {
 
   constructor() {
     const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
-    if (config) this.config = config
+    if (config) {
+      this.config = config
+      dotenv.config({ path: PathUtils.getAppEnvFile() })
+    }
   }
 
   public init(): ObjectInterface {
     const path = PathUtils.getAppConfigFile()
+    if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)
     this.config = fs.readJsonSync(path, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${path}`)
     dotenv.config({ path: PathUtils.getAppEnvFile() })

@@ -46,7 +46,7 @@ describe('AppUtils', () => {
 
     it('should throw error if app name is not set in environment', () => {
       delete process.env.FDT_APP_NAME
-      expect(() => AppUtils.getName()).toThrow('FDT_APP_NAME is not set in .env file')
+      expect(() => AppUtils.getName()).toThrow('FDT_APP_NAME env variable is not set')
     })
   })
 

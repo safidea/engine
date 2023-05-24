@@ -1,5 +1,4 @@
 import './setup'
-import fs from 'fs-extra'
 import { PathUtils } from '../../src'
 
 describe('getAppRoot', () => {
@@ -23,11 +22,10 @@ describe('getAppDataFolder', () => {
   })
 })
 
-describe('getAppJsFolder', () => {
+describe('getAppLibFolder', () => {
   it('should return js folder path', () => {
-    const result = PathUtils.getAppJsFolder()
-    expect(result.endsWith('foundation/js')).toBe(true)
-    expect(fs.ensureDirSync).toHaveBeenCalledWith(expect.any(String))
+    const result = PathUtils.getAppLibFolder()
+    expect(result.endsWith('foundation/lib')).toBe(true)
   })
 })
 
@@ -49,12 +47,6 @@ describe('getAppConfigFile', () => {
   it('should return config file path', () => {
     const result = PathUtils.getAppConfigFile()
     expect(result.endsWith('foundation/config.json')).toBe(true)
-  })
-
-  it('should throw error if config file not found', () => {
-    const pathExistsSync = fs.pathExistsSync as jest.MockedFunction<typeof fs.pathExistsSync>
-    pathExistsSync.mockReturnValueOnce(false)
-    expect(() => PathUtils.getAppConfigFile()).toThrowError('Config file not found')
   })
 })
 
