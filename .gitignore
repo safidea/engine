@@ -37,9 +37,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# generated data
-data/
-lib/
-
 # compile
 dist/

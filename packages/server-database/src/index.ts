@@ -1,9 +1,9 @@
 import { AppUtils } from 'server-common'
-import * as Apps from './apps'
+import * as App from './app'
 import DatabaseService from './services/database.service'
 import DatabaseConfig from './configs/database.config'
 
-AppUtils.register(Apps, 'server-database')
+AppUtils.registerLibraries(App, 'server-database')
 DatabaseService.initLibraries()
 
 export * from 'shared-database'

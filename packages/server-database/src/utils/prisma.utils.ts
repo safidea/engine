@@ -11,7 +11,10 @@ class PrismaUtils {
   }
 
   public getSchemaPath(baseName: string): string {
-    const schemaPath = join(PathUtils.getAppDataFolder(), `prisma/${baseName}/schema.prisma`)
+    const schemaPath = join(
+      PathUtils.getAppBuildFolder('server-database'),
+      `prisma/${baseName}/schema.prisma`
+    )
     if (!fs.existsSync(schemaPath)) {
       fs.ensureFileSync(schemaPath)
       fs.writeFileSync(
@@ -113,7 +116,11 @@ class PrismaUtils {
   }
 
   public getClientFolder(): string {
-    const clientFolderPath = join(PathUtils.getAppLibFolder(), 'prisma')
+    const clientFolderPath = join(
+      PathUtils.getAppBuildFolder('server-database'),
+      'prisma',
+      'clients'
+    )
     fs.ensureDirSync(clientFolderPath)
     return clientFolderPath
   }

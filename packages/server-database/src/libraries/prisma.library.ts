@@ -12,7 +12,10 @@ class PrismaLibrary {
 
   public init(): void {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const PrismaClients = AppUtils.useLibrary('PrismaClients') as PrismaClientsInterface
+    const PrismaClients = AppUtils.useLibrary(
+      'PrismaClients',
+      'server-database'
+    ) as PrismaClientsInterface
     if (PrismaClients) {
       for (const baseName in PrismaClients) {
         const { PrismaClient } = PrismaClients[baseName]

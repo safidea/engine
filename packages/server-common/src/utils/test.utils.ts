@@ -20,11 +20,15 @@ class TestUtils {
     process.env.FDT_ROOT_PATH = `packages/${packageName}/${testFolder}/app`
   }
 
+  public getPackageAppFile(packageName: string): string {
+    return join(PathUtils.getAppRoot(), `build/${packageName}/app.ts`)
+  }
+
   public async updateLibraries(packages: string[]): Promise<void> {
     for (const packageName of packages) {
-      const path = AppUtils.getPackagePathFile(packageName)
+      const path = PathUtils.getPackageAppFile(packageName)
       const libraries = await import(path)
-      AppUtils.register({ [AppUtils.getName()]: libraries }, packageName)
+      AppUtils.registerLibraries(libraries, packageName)
     }
   }
 
@@ -33,11 +37,9 @@ class TestUtils {
   }
 
   public afterAll(packages: string[] = []): void {
-    if (packages.length > 0) for (const packageName of packages) AppUtils.register({}, packageName)
+    if (packages.length > 0) for (const packageName of packages) AppUtils.clearImports(packageName)
     const path = PathUtils.getAppRoot()
-    fs.removeSync(join(path, 'data'))
-    fs.removeSync(join(path, 'lib'))
-    AppUtils.removeAllImports()
+    fs.removeSync(join(path, 'build'))
   }
 
   private buildData(table: string, options?: BuildDataOptionsType): BuiltDataType {

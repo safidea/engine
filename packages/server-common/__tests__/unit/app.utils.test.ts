@@ -1,11 +1,6 @@
 import './setup'
 import fs from 'fs-extra'
 import AppUtils from '../../src/utils/app.utils'
-import PathUtils from '../../src/utils/path.utils'
-
-jest.mock('../../src/utils/path.utils', () => ({
-  getPackageAppsFolder: jest.fn(),
-}))
 
 describe('AppUtils', () => {
   const OLD_ENV = process.env
@@ -17,26 +12,6 @@ describe('AppUtils', () => {
 
   afterAll(() => {
     process.env = OLD_ENV
-  })
-
-  describe('getPackageIndexPathFile', () => {
-    it('should return correct path', () => {
-      const getPackageAppsFolder = PathUtils.getPackageAppsFolder as jest.MockedFunction<
-        typeof PathUtils.getPackageAppsFolder
-      >
-      getPackageAppsFolder.mockReturnValue('testFolderPath')
-      expect(AppUtils.getPackageIndexPathFile('testPackage')).toBe('testFolderPath/index.ts')
-    })
-  })
-
-  describe('getPackagePathFile', () => {
-    it('should return correct path', () => {
-      const getPackageAppsFolder = PathUtils.getPackageAppsFolder as jest.MockedFunction<
-        typeof PathUtils.getPackageAppsFolder
-      >
-      getPackageAppsFolder.mockReturnValue('testFolderPath')
-      expect(AppUtils.getPackagePathFile('testPackage')).toBe('testFolderPath/testApp.ts')
-    })
   })
 
   describe('getName', () => {
@@ -62,17 +37,39 @@ describe('AppUtils', () => {
     })
   })
 
-  describe('register', () => {
+  describe('registerLibraries', () => {
     it('should register new app library', () => {
-      AppUtils.register({ testApp: { testLib: {} } }, 'testPackage')
-      expect(AppUtils.useLibrary('testLib')).toBeDefined()
+      AppUtils.registerLibraries({ testLib: {} }, 'testPackage')
+      expect(AppUtils.useLibrary('testLib', 'testPackage')).toBeDefined()
     })
 
     it('should not overwrite existing libraries', () => {
-      AppUtils.register({ testApp: { testLib: {} } }, 'testPackage')
-      AppUtils.register({ testApp: { anotherLib: {} } }, 'testPackage')
-      expect(AppUtils.useLibrary('testLib')).toBeDefined()
-      expect(AppUtils.useLibrary('anotherLib')).toBeDefined()
+      AppUtils.registerLibraries({ testLib: {} }, 'testPackage')
+      AppUtils.registerLibraries({ anotherLib: {} }, 'testPackage')
+      expect(AppUtils.useLibrary('testLib', 'testPackage')).toBeDefined()
+      expect(AppUtils.useLibrary('anotherLib', 'testPackage')).toBeDefined()
+    })
+  })
+
+  describe('useLibrary', () => {
+    it('should return library if it is registered', () => {
+      AppUtils.registerLibraries({ testLib: {} }, 'testPackage')
+      expect(AppUtils.useLibrary('testLib', 'testPackage')).toBeDefined()
+    })
+
+    it('should return undefined if package is not registered', () => {
+      expect(AppUtils.useLibrary('testLib', 'testPackage2')).toBeUndefined()
+    })
+
+    it('should return undefined if library is not registered', () => {
+      expect(AppUtils.useLibrary('testLib2', 'testPackage')).toBeUndefined()
+    })
+  })
+
+  describe('clearImports', () => {
+    it('should clear imports file', () => {
+      AppUtils.clearImports('testPackage')
+      expect(fs.writeFileSync).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -84,7 +81,7 @@ describe('AppUtils', () => {
     it('should add import line if file does not exist', () => {
       ;(fs.pathExistsSync as jest.Mock).mockReturnValue(false)
       AppUtils.addImport('import { test } from "test"', 'testPackage')
-      expect(fs.appendFileSync).toHaveBeenCalledTimes(2)
+      expect(fs.appendFileSync).toHaveBeenCalledTimes(1)
     })
 
     it('should not add import line if it is already in the file', () => {
@@ -98,29 +95,6 @@ describe('AppUtils', () => {
       ;(fs.pathExistsSync as jest.Mock).mockReturnValue(true)
       AppUtils.addImport('import { test } from "test"', 'testPackage')
       expect(fs.appendFileSync).toHaveBeenCalled()
-    })
-  })
-
-  describe('removeAllImports', () => {
-    it('should remove all imports for registered packages', () => {
-      AppUtils.register({ testApp: { testLib: {} } }, 'testPackage')
-      ;(fs.pathExistsSync as jest.Mock).mockReturnValue(true)
-      ;(fs.readFileSync as jest.Mock).mockReturnValue('export * as testApp from "./testApp"\n')
-      AppUtils.removeAllImports()
-      expect(fs.removeSync).toHaveBeenCalled()
-      expect(fs.writeFileSync).toHaveBeenCalled()
-    })
-
-    it('should not remove anything if no packages are registered', () => {
-      AppUtils.removeAllImports()
-      expect(fs.removeSync).not.toHaveBeenCalled()
-      expect(fs.writeFileSync).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('getExportLine', () => {
-    it('should return correct export line', () => {
-      expect(AppUtils.getExportLine()).toBe("export * as testApp from './testApp'")
     })
   })
 })

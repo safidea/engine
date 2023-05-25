@@ -1,0 +1,32 @@
+POST http://localhost:3000/api/table/master/tasks/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "task": "aller au jardin",
+    "priority": 3,
+    "description": "ceci est une description",
+    "done": true
+}
+
+###
+
+GET http://localhost:3000/api/table/master/tasks HTTP/1.1
+
+###
+
+PATCH  http://localhost:3000/api/table/master/categories/clhz1ddc70000wv01wan06skh HTTP/1.1
+Content-Type: application/json
+
+{
+    "description": "livre d'aventure"
+}
+
+###
+
+GET http://localhost:3000/api/table/master/tasks HTTP/1.1
+
+###
+
+DELETE http://localhost:3000/api/table/master/categories/clhhklwiv0000zkzoozhtmmsu HTTP/1.1
+
+###

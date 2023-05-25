@@ -1,7 +1,7 @@
-export type AppsLibrariesType = {
+export type AppLibrariesType = {
   [key: string]: unknown
 }
 
-export type AppsType = {
-  [key: string]: AppsLibrariesType
+export type AppPackagesType = {
+  [key: string]: AppLibrariesType
 }

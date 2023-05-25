@@ -4,5 +4,20 @@
       "url": "file:./test.db",
       "provider": "sqlite"
     }
+  },
+  "tables": {
+    "tasks": {
+      "database": "main",
+      "model": "Task",
+      "fields": {
+        "id": {
+          "type": "Int",
+          "primary": true
+        },
+        "name": {
+          "type": "String"
+        }
+      }
+    }
   }
 }

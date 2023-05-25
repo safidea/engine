@@ -28,15 +28,15 @@ describe('setupApp', () => {
 
 describe('updateLibraries', () => {
   it('should update libraries', async () => {
-    const getPackagePathFile = AppUtils.getPackagePathFile as jest.MockedFunction<
-      typeof AppUtils.getPackagePathFile
+    const getPackageAppFile = PathUtils.getPackageAppFile as jest.MockedFunction<
+      typeof PathUtils.getPackageAppFile
     >
-    getPackagePathFile.mockReturnValue('/testPath')
+    getPackageAppFile.mockReturnValue('/testPath')
     const mockLibrary = { name: 'test' }
     jest.mock('/testPath', () => mockLibrary, { virtual: true })
     await TestUtils.updateLibraries(['package1'])
-    expect(AppUtils.register).toHaveBeenCalledWith(
-      { [AppUtils.getName()]: { default: mockLibrary, ...mockLibrary } },
+    expect(AppUtils.registerLibraries).toHaveBeenCalledWith(
+      { default: mockLibrary, ...mockLibrary },
       'package1'
     )
   })
@@ -50,15 +50,12 @@ describe('beforeAll', () => {
 })
 
 describe('afterAll', () => {
-  it('should remove data and js directories', () => {
+  it('should remove packages directory', () => {
     const path = 'testPath'
     const getAppRoot = PathUtils.getAppRoot as jest.MockedFunction<typeof PathUtils.getAppRoot>
     getAppRoot.mockReturnValue(path)
     TestUtils.afterAll()
-    expect(fs.removeSync).toHaveBeenCalledTimes(2)
-    expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'data'))
-    expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'lib'))
-    expect(AppUtils.removeAllImports).toHaveBeenCalled()
+    expect(fs.removeSync).toHaveBeenCalledWith(join(path, 'build'))
   })
 
   it('should remove data and js directories with packages', () => {
@@ -66,7 +63,7 @@ describe('afterAll', () => {
     const getAppRoot = PathUtils.getAppRoot as jest.MockedFunction<typeof PathUtils.getAppRoot>
     getAppRoot.mockReturnValue(path)
     TestUtils.afterAll(['package1'])
-    expect(AppUtils.register).toHaveBeenCalled()
+    expect(AppUtils.clearImports).toHaveBeenCalled()
   })
 })
 

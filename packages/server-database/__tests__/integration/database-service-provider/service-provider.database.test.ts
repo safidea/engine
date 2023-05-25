@@ -1,21 +1,15 @@
 import { TestUtils } from './setup'
 import { DatabaseService, DatabaseConfig } from '../../../src'
 import { ConfigUtils } from 'server-common'
+import config from './app/config.json'
 
+const { fields, database, model } = config.tables.tasks
 const TableConfig = {
   validate: () => true,
   lib: () => {
-    DatabaseService.addModel('main', 'Task', {
+    DatabaseService.addModel(database, model, {
       map: 'tasks',
-      fields: {
-        id: {
-          type: 'Int',
-          primary: true,
-        },
-        name: {
-          type: 'String',
-        },
-      },
+      fields,
     })
   },
 }

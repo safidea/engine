@@ -18,5 +18,5 @@ export type {
   RouteMiddlewareType,
   RouteMiddlewaresType,
 } from './types/route.type'
-export type { AppsType } from './types/app.type'
+export type { AppPackagesType } from './types/app.type'
 export type { TestDataType, BuildDataOptionsType, BuiltDataType } from './types/test.type'

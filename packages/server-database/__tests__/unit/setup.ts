@@ -2,12 +2,12 @@ process.env.FDT_APP_NAME = 'base'
 
 jest.mock('fs-extra')
 jest.mock('child_process')
-jest.mock('../../src/apps')
+jest.mock('../../src/app')
 
 import { AppUtils } from 'server-common'
-import * as Apps from '../../src/apps'
+import * as App from '../../src/app'
 
-AppUtils.register(Apps, 'server-database')
+AppUtils.registerLibraries(App, 'server-database')
 
 beforeEach(() => {
   jest.clearAllMocks()

@@ -1,0 +1,74 @@
+{
+  "databases": {
+    "master": {
+      "url": "postgresql://prisma:prisma@localhost:5433/tests",
+      "provider": "postgresql"
+    }
+  },
+  "tables": {
+    "tasks": {
+      "database": "master",
+      "model": "Task",
+      "fields": {
+        "name": {
+          "type": "String"
+        },
+        "description": {
+          "type": "String",
+          "optional": true,
+          "default": "ceci est une description"
+        },
+        "number": {
+          "type": "Int",
+          "unique": true
+        },
+        "priority": {
+          "type": "Int",
+          "default": 3
+        },
+        "done_at": {
+          "type": "DateTime",
+          "optional": true,
+          "default": "now()"
+        },
+        "started_at": {
+          "type": "DateTime"
+        },
+        "done": {
+          "type": "Boolean"
+        },
+        "open": {
+          "type": "Boolean",
+          "default": true
+        },
+        "id": {
+          "type": "String",
+          "primary": true,
+          "default": "cuid()"
+        },
+        "created_at": {
+          "type": "DateTime",
+          "default": "now()"
+        },
+        "updated_at": {
+          "type": "DateTime",
+          "optional": true
+        },
+        "deleted_at": {
+          "type": "DateTime",
+          "optional": true
+        }
+      }
+    }
+  },
+  "pages": {
+    "/": {
+      "title": "Home",
+      "components": {
+        "h1": {
+          "text": "Hello world"
+        }
+      }
+    }
+  }
+}

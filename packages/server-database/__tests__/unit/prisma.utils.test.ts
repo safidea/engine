@@ -131,6 +131,6 @@ describe('importClients', () => {
 describe('getClientFolder', () => {
   it('should return client folder', async () => {
     const result = PrismaUtils.getClientFolder()
-    expect(result.endsWith('prisma')).toBe(true)
+    expect(result.endsWith('prisma/clients')).toBe(true)
   })
 })

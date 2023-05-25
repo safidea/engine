@@ -1,7 +1,7 @@
 import debug from 'debug'
 import PrismaUtils from '../utils/prisma.utils'
 
-import { ConfigUtils, SchemaUtils } from 'server-common'
+import { AppUtils, ConfigUtils, SchemaUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
 import type { DatabasesInterface } from 'shared-database'
@@ -37,6 +37,7 @@ class DatabaseConfig implements ConfigInterface {
   public js() {
     const databases = this.get()
     if (!databases) return
+    AppUtils.clearImports('server-database')
     for (const database in databases) {
       log(`build prisma client for database ${database}`)
       PrismaUtils.buildClient(database)

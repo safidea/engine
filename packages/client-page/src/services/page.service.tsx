@@ -1,4 +1,4 @@
-import { Sections, Html, Common } from 'client-component'
+import { Sections, Html, Common, Lists } from 'client-component'
 
 import type { ComponentType } from 'client-component'
 import type { ComponentsInterface } from 'shared-component'
@@ -31,17 +31,20 @@ class PageService {
   }
 
   public getComponentFromCategory(name: string, category?: string): ComponentType {
-    let Component: ComponentType
+    let Component
     switch (category) {
       case 'section':
         Component = Sections[name as keyof typeof Sections]
+        break
+      case 'list':
+        Component = Lists[name as keyof typeof Lists]
         break
       default:
         Component = Common[name as keyof typeof Common]
         break
     }
 
-    return Component ?? Html
+    return (Component ?? Html) as unknown as ComponentType
   }
 }
 

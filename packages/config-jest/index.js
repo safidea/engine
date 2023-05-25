@@ -6,8 +6,8 @@ module.exports = (dir) => {
     preset: 'ts-jest',
     maxWorkers: 4,
     testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
-    coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/__tests__/', '<rootDir>/src/apps'],
-    watchPathIgnorePatterns: ['<rootDir>/src/apps'],
+    coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/__tests__/', '<rootDir>/src/app.ts'],
+    watchPathIgnorePatterns: ['<rootDir>/__tests__/', '<rootDir>/src/app.ts'],
     coverageDirectory: `${dir}/coverage`,
   }
 

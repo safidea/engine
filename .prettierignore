@@ -1,4 +1,3 @@
 .next/
-lib/
-data/
+build/
 coverage/
