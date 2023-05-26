@@ -18,7 +18,8 @@
           "optional": true
         },
         "priority": {
-          "type": "Int"
+          "type": "Int",
+          "optional": true
         },
         "description": {
           "type": "String",
@@ -83,7 +84,12 @@
       "components": {
         "table.list": {
           "table": "tasks",
-          "fields": ["task", "done", "priority", "description", "assignee"],
+          "fields": ["task", "done", "priority", "description"],
+          "database": "master"
+        },
+        "create.form": {
+          "table": "tasks",
+          "fields": ["task", "priority", "description"],
           "database": "master"
         }
       }

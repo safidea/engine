@@ -13,6 +13,9 @@
     // Editing
     "vscode-icons-team.vscode-icons",
 
+    // Testing
+    "orta.vscode-jest",
+
     // Github Copilot
     "github.copilot",
 

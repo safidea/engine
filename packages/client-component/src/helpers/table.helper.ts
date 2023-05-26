@@ -9,7 +9,23 @@ class TableHelper {
         .join('&')}`,
       { cache: 'no-store' }
     )
-    return res.json()
+    const data = await res.json()
+    console.log(data)
+    return data
+  }
+
+  public async createRow(
+    table: string,
+    { formData, database }: { formData: { [key: string]: string }; database: string }
+  ) {
+    const res = await fetch(`http://localhost:3000/api/table/${database}/${table}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+    const data = await res.json()
+    console.log(data)
+    return data
   }
 }
 

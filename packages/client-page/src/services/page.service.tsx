@@ -1,4 +1,4 @@
-import { Sections, Html, Common, Lists } from 'client-component'
+import { Sections, Html, Common, Lists, Forms } from 'client-component'
 
 import type { ComponentType } from 'client-component'
 import type { ComponentsInterface } from 'shared-component'
@@ -38,6 +38,9 @@ class PageService {
         break
       case 'list':
         Component = Lists[name as keyof typeof Lists]
+        break
+      case 'form':
+        Component = Forms[name as keyof typeof Forms]
         break
       default:
         Component = Common[name as keyof typeof Common]

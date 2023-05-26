@@ -14,6 +14,7 @@
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
     "@prisma/nextjs-monorepo-workaround-plugin": "4.14.1",
+    "@tailwindcss/forms": "0.5.3",
     "client-page": "workspace:*",
     "next": "13.4.3",
     "react": "^18.2.0",
@@ -23,11 +24,11 @@
     "server-database": "workspace:*",
     "server-page": "workspace:*",
     "server-table": "workspace:*",
-    "tailwindcss": "latest",
-    "sharp": "^0.32.1"
+    "sharp": "^0.32.1",
+    "tailwindcss": "latest"
   },
   "devDependencies": {
-    "@playwright/test": "1.33.0",
+    "@playwright/test": "1.32.3",
     "@types/debug": "4.1.7",
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",

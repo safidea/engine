@@ -3,7 +3,7 @@
   "display": "Default",
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
+    "target": "ESNext",
     "sourceMap": true,
     "composite": false,
     "declaration": true,
