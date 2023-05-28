@@ -1,4 +1,7 @@
+'use client'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from 'react'
 import TableHelper from '../../helpers/table.helper'
 import type { CommonPropsType } from '../../types/common.type'
 
@@ -9,7 +12,13 @@ export type TableProps = CommonPropsType & {
 }
 
 export default async function Table({ table, fields, database }: TableProps) {
-  const rows = await TableHelper.getRows(table, { fields, database })
+  const [rows, refreshRows] = useState([])
+
+  const refresh = async () => {
+    const rows = await TableHelper.getRows(table, { fields, database })
+    refreshRows(rows)
+  }
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -23,8 +32,9 @@ export default async function Table({ table, fields, database }: TableProps) {
           <button
             type="button"
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={refresh}
           >
-            Add user
+            Refresh
           </button>
         </div>
       </div>
@@ -54,7 +64,7 @@ export default async function Table({ table, fields, database }: TableProps) {
                           key={index}
                           className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                         >
-                          {row[field]}
+                          {row[field] ?? ''}
                         </td>
                       ))}
                     </tr>

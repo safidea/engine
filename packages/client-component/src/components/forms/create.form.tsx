@@ -42,7 +42,6 @@ export default async function Create({ table, fields, database }: CreateProps) {
               name={field}
               id={`field${index}`}
               className="w-full px-4 py-2 border rounded"
-              value={formData[field] || ''}
               onChange={handleChange}
             />
           </div>

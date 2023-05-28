@@ -95,7 +95,7 @@ class PrismaUtils {
     this.formatSchema(schemaPath)
     this.generateClient(schemaPath)
     if (process.env.NODE_ENV !== 'production') {
-      this.pushDB(schemaPath)
+      this.pushDB(schemaPath, String(process.env.NODE_ENV) === 'test')
     } else {
       this.devMigration(schemaPath)
       this.deployMigration(schemaPath)
@@ -153,9 +153,11 @@ class PrismaUtils {
     ProcessUtils.runCommand(`prisma generate --schema ${schemaPath}`)
   }
 
-  private pushDB(schemaPath: string): void {
+  private pushDB(schemaPath: string, reset = false): void {
     ProcessUtils.runCommand(
-      `prisma db push --schema ${schemaPath} --skip-generate --force-reset --accept-data-loss`
+      `prisma db push --schema ${schemaPath} --skip-generate --accept-data-loss ${
+        reset ? '--force-reset' : ''
+      }`
     )
   }
 

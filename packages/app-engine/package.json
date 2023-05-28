@@ -7,7 +7,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "test": "playwright test",
+    "test": "NODE_ENV=test playwright test",
     "report": "playwright show-report"
   },
   "dependencies": {

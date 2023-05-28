@@ -13,6 +13,9 @@ coverage/
 out/
 build/
 
+# docker
+data/
+
 # misc
 .DS_Store
 *.pem
