@@ -5,10 +5,9 @@ import type { ComponentsInterface } from 'shared-component'
 
 class PageService {
   public render(components: ComponentsInterface) {
-    const tags = Object.keys(components)
-    const elements = tags.map((tag, index) => {
-      const { components: children, text, ...props } = components[tag]
-      const [name, category] = tag.split('.')
+    const elements = components.map((component, index) => {
+      const { key, components: children, text, ...props } = component
+      const [name, category] = key.split('.')
       const Component = this.getComponentFromCategory(name, category)
       if (children) {
         const Children = this.render(children)
