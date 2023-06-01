@@ -1,10 +1,9 @@
 import type { ObjectInterface } from 'shared-common'
 
 export interface ComponentInterface extends ObjectInterface {
+  key: string
   components?: ComponentsInterface
   text?: string
 }
 
-export interface ComponentsInterface extends ObjectInterface {
-  [key: string]: ComponentInterface
-}
+export type ComponentsInterface = ComponentInterface[]

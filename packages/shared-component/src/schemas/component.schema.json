@@ -7,17 +7,21 @@
         "components": {
           "$ref": "#/definitions/ComponentsInterface"
         },
+        "key": {
+          "type": "string"
+        },
         "text": {
           "type": "string"
         }
       },
+      "required": ["key"],
       "type": "object"
     },
     "ComponentsInterface": {
-      "additionalProperties": {
+      "items": {
         "$ref": "#/definitions/ComponentInterface"
       },
-      "type": "object"
+      "type": "array"
     }
   }
 }

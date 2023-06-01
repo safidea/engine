@@ -2,5 +2,24 @@
   "name": "invoices",
   "databases": {},
   "tables": {},
-  "pages": {}
+  "pages": {
+    "/": {
+      "title": "Invoices",
+      "components": [
+        {
+          "key": "ul",
+          "components": [
+            {
+              "key": "li",
+              "text": "facture 1"
+            },
+            {
+              "key": "li",
+              "text": "facture 2"
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
