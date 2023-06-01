@@ -1,0 +1,160 @@
+{
+  "name": "systems",
+  "databases": {
+    "master": {
+      "url": "${DATABASE_URL}",
+      "provider": "postgresql"
+    }
+  },
+  "tables": {
+    "tasks": {
+      "database": "master",
+      "fields": {
+        "task": {
+          "type": "String"
+        },
+        "done": {
+          "type": "Boolean",
+          "optional": true
+        },
+        "priority": {
+          "type": "Int",
+          "optional": true
+        },
+        "description": {
+          "type": "String",
+          "optional": true
+        },
+        "assignee": {
+          "type": "String",
+          "optional": true
+        }
+      }
+    },
+    "categories": {
+      "database": "master",
+      "fields": {
+        "name": {
+          "type": "String",
+          "optional": false
+        },
+        "description": {
+          "type": "String",
+          "optional": true
+        }
+      }
+    }
+  },
+  "pages": {
+    "/": {
+      "title": "Systems",
+      "metadata": {
+        "description": "Build and deploy anything anywhere"
+      },
+      "components": {
+        "hero.section": {
+          "navigation": [
+            {
+              "name": "Product",
+              "href": "#"
+            },
+            {
+              "name": "Features",
+              "href": "#"
+            },
+            {
+              "name": "Customers",
+              "href": "#"
+            },
+            {
+              "name": "Company",
+              "href": "#"
+            }
+          ]
+        },
+        "logos.section": {},
+        "features.section": {},
+        "testimonials.section": {},
+        "cta.section": {},
+        "footer": {}
+      }
+    },
+    "/app": {
+      "title": "App",
+      "components": {
+        "table.list": {
+          "table": "tasks",
+          "fields": ["task", "done", "priority", "description"],
+          "database": "master"
+        },
+        "create.form": {
+          "table": "tasks",
+          "fields": ["task", "priority", "description"],
+          "database": "master"
+        }
+      }
+    }
+  },
+  "integrations": {
+    "math": {
+      "environment": "shared",
+      "type": "javascript",
+      "source": "module.exports = {\n  add: function (a, b) {\n    return a + b;\n  }\n};"
+    }
+  },
+  "actions": {
+    "add": {
+      "input": {
+        "numbers": {
+          "type": "array",
+          "optional": false,
+          "items": {
+            "type": "Int",
+            "optional": false
+          }
+        }
+      },
+      "output": {
+        "result": {
+          "type": "Int",
+          "optional": false
+        }
+      },
+      "implementation": {
+        "type": "javascript",
+        "resources": ["math"],
+        "source": "return math.add(input.numbers[0], input.numbers[1]);"
+      },
+      "tests": {
+        "shouldReturnSix": {
+          "input": {
+            "numbers": [1, 2]
+          },
+          "output": {
+            "result": 3
+          }
+        }
+      }
+    }
+  },
+  "automations": {
+    "add": {
+      "trigger": "http",
+      "actions": {
+        "math": {
+          "numbers": "$input.numbers"
+        }
+      },
+      "tests": {
+        "shouldReturnSix": {
+          "input": {
+            "numbers": [1, 2, 3]
+          },
+          "output": {
+            "result": 6
+          }
+        }
+      }
+    }
+  }
+}

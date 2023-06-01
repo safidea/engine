@@ -6,7 +6,8 @@
     "**/*.tsx",
     ".next/app_engine_e2e/types/**/*.ts",
     ".next/systems/types/**/*.ts",
-    ".next/default/types/**/*.ts"
+    ".next/default/types/**/*.ts",
+    ".next/invoices/types/**/*.ts"
   ],
   "exclude": ["node_modules", ".next", "dist"],
   "compilerOptions": {

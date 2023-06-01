@@ -7,7 +7,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "test": "NODE_ENV=test playwright test",
+    "test": "#NODE_ENV=test playwright test",
     "report": "playwright show-report"
   },
   "dependencies": {
@@ -28,7 +28,7 @@
     "tailwindcss": "latest"
   },
   "devDependencies": {
-    "@playwright/test": "1.32.3",
+    "@playwright/test": "1.33.0",
     "@types/debug": "4.1.7",
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",
