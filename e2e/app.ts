@@ -18,7 +18,7 @@ class App {
   constructor({ config, env, filename }: AppInterface) {
     this.port = env.PORT || '3000'
     env.DATABASE_URL = env.DATABASE_URL ?? `postgresql://admin:admin@db/master`
-    const name = filename.split('foundation/e2e/')[1].replace('.spec.ts', '')
+    const [name] = filename.match(/[a-z]*(?=\.spec)/) || ['app']
     this.path = join(__dirname, 'tmp', name)
     fs.ensureDirSync(this.path)
     fs.writeFileSync(join(this.path, 'config.json'), JSON.stringify(config, null, 2))

@@ -52,7 +52,7 @@
         "description": "Build and deploy anything anywhere"
       },
       "components": {
-        "hero.section": {
+        "hero": {
           "navigation": [
             {
               "name": "Product",
@@ -72,22 +72,22 @@
             }
           ]
         },
-        "logos.section": {},
-        "features.section": {},
-        "testimonials.section": {},
-        "cta.section": {},
+        "logos": {},
+        "features": {},
+        "testimonials": {},
+        "cta": {},
         "footer": {}
       }
     },
     "/app": {
       "title": "App",
       "components": {
-        "table.list": {
+        "list": {
           "table": "tasks",
           "fields": ["task", "done", "priority", "description"],
           "database": "master"
         },
-        "create.form": {
+        "form": {
           "table": "tasks",
           "fields": ["task", "priority", "description"],
           "database": "master"
