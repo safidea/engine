@@ -1,5 +1,0 @@
-export { default as hero } from './hero.section'
-export { default as cta } from './cta.section'
-export { default as features } from './features.section'
-export { default as logos } from './logos.section'
-export { default as testimonials } from './testimonials.section'

@@ -1,9 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": [
-    "FDT_APP_NAME",
-    "FDT_ROOT_PATH",
-    "FDT_APP_VERSION",
+    "APP_PATH",
     "NODE_ENV",
     "DEBUG",
     "EMAIL_SERVER_HOST",

@@ -1,10 +1,6 @@
-import type { ObjectInterface } from 'server-common'
+import type { ObjectInterface } from 'shared-common'
 
 export interface DatabaseInterface extends ObjectInterface {
   url: string
   provider: 'sqlite' | 'mysql' | 'postgresql' | 'sqlserver' | 'mongodb' | 'cockroachdb'
-}
-
-export interface DatabasesInterface extends ObjectInterface {
-  [key: string]: DatabaseInterface
 }

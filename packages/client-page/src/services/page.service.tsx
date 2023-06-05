@@ -1,4 +1,4 @@
-import { Sections, Html, Common, Lists, Forms } from 'client-component'
+import { Components } from 'client-component'
 
 import type { ComponentType } from 'client-component'
 import type { ComponentsInterface } from 'shared-component'
@@ -7,46 +7,26 @@ class PageService {
   public render(components: ComponentsInterface) {
     const elements = components.map((component, index) => {
       const { key, components: children, text, ...props } = component
-      const [name, category] = key.split('.')
-      const Component = this.getComponentFromCategory(name, category)
+      const Component = (Components[key as keyof typeof Components] ??
+        Components.default) as ComponentType
       if (children) {
         const Children = this.render(children)
         return (
-          <Component key={index} tag={name} {...props}>
+          <Component key={index} tag={key} {...props}>
             <Children />
           </Component>
         )
       }
       if (text)
         return (
-          <Component key={index} tag={name} {...props}>
+          <Component key={index} tag={key} {...props}>
             {text}
           </Component>
         )
-      return <Component key={index} tag={name} {...props} />
+      return <Component key={index} tag={key} {...props} />
     })
     const Render = () => <>{elements}</>
     return Render
-  }
-
-  public getComponentFromCategory(name: string, category?: string): ComponentType {
-    let Component
-    switch (category) {
-      case 'section':
-        Component = Sections[name as keyof typeof Sections]
-        break
-      case 'list':
-        Component = Lists[name as keyof typeof Lists]
-        break
-      case 'form':
-        Component = Forms[name as keyof typeof Forms]
-        break
-      default:
-        Component = Common[name as keyof typeof Common]
-        break
-    }
-
-    return (Component ?? Html) as unknown as ComponentType
   }
 }
 

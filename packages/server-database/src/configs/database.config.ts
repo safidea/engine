@@ -1,52 +1,43 @@
 import debug from 'debug'
 import PrismaUtils from '../utils/prisma.utils'
 
-import { AppUtils, ConfigUtils, SchemaUtils } from 'server-common'
+import { ConfigUtils, SchemaUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
-import type { DatabasesInterface } from 'shared-database'
+import type { DatabaseInterface } from 'shared-database'
 import type { ConfigInterface } from 'server-common'
 
 const log: debug.IDebugger = debug('config:database')
 
 class DatabaseConfig implements ConfigInterface {
   public enrich() {
-    const databases = this.get()
-    for (const database in databases) {
-      log(`enrich config ${database}`)
-    }
+    log(`enrich database config`)
   }
 
   public validate() {
-    const databases = this.get()
+    const database = this.get()
+    if (!database) return
     const schema = new SchemaUtils(DatabaseSchema)
-    for (const database in databases) {
-      log(`validate schema ${database}`)
-      schema.validate(databases[database])
-    }
+    log(`validate database schema`)
+    schema.validate(database)
   }
 
   public lib() {
-    const databases = this.get()
-    for (const database in databases) {
-      log(`setup prisma database schema ${database}`)
-      PrismaUtils.updateDatabaseSchema(database, databases[database])
-    }
+    const database = this.get()
+    if (!database) return
+    log(`setup prisma schema`)
+    PrismaUtils.updateDatabaseSchema(database)
   }
 
   public js() {
-    const databases = this.get()
-    if (!databases) return
-    AppUtils.clearImports('server-database')
-    for (const database in databases) {
-      log(`build prisma client for database ${database}`)
-      PrismaUtils.buildClient(database)
-    }
-    PrismaUtils.importClients(Object.keys(databases))
+    const database = this.get()
+    if (!database) return
+    log(`build prisma client`)
+    PrismaUtils.buildClient()
   }
 
-  private get(): DatabasesInterface {
-    return ConfigUtils.get('databases') as DatabasesInterface
+  private get(): DatabaseInterface {
+    return ConfigUtils.get('database') as DatabaseInterface
   }
 }
 

@@ -1,7 +1,7 @@
 import { ConfigUtils } from 'server-common'
 
 import type { TableFieldsInterface, TablesInterface } from 'shared-table'
-import type { DatabaseDataType, DatabaseInterface } from 'shared-database'
+import type { DatabaseDataType } from 'shared-database'
 
 class TableUtils {
   public getDefaultFields(): TableFieldsInterface {
@@ -72,11 +72,6 @@ class TableUtils {
     }
 
     return errors
-  }
-
-  public databaseExists(table: string, database: string): void {
-    const exist = ConfigUtils.get(`databases.${database}`) as DatabaseInterface
-    if (!exist) throw new Error(`Database "${database}" is not found for table "${table}"`)
   }
 }
 

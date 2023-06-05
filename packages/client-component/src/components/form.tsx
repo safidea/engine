@@ -2,8 +2,8 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
-import TableHelper from '../../helpers/table.helper'
-import type { CommonPropsType } from '../../types/common.type'
+import TableHelper from '../helpers/table.helper'
+import type { CommonPropsType } from '../types/common.type'
 
 export type CreateProps = CommonPropsType & {
   table: string

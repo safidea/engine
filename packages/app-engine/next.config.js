@@ -7,7 +7,6 @@ module.exports = async () => {
     publicRuntimeConfig: {
       staticFolder: 'custom-public',
     },
-    distDir: `.next/${process.env.FDT_APP_NAME ?? 'default'}`,
     transpilePackages: [
       'server-table',
       'server-database',

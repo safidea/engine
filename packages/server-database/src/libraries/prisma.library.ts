@@ -1,43 +1,18 @@
-import { AppUtils } from 'server-common'
+import { PrismaClient } from '../../prisma/client'
 import PrismaUtils from '../utils/prisma.utils'
-import debug from 'debug'
 
-import type { PrismaClientInterface, PrismaClientsInterface } from '../interfaces/prisma.interface'
-import type { PrismaClientType, PrismaClientsType } from '../types/prisma.type'
-
-const log: debug.IDebugger = debug('library:prisma')
+import type { PrismaClientInterface } from '../interfaces/prisma.interface'
 
 class PrismaLibrary {
-  private clients: PrismaClientsType = {}
+  private client: PrismaClient
 
-  public init(): void {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const PrismaClients = AppUtils.useLibrary(
-      'PrismaClients',
-      'server-database'
-    ) as PrismaClientsInterface
-    if (PrismaClients) {
-      for (const baseName in PrismaClients) {
-        const { PrismaClient } = PrismaClients[baseName]
-        this.clients[baseName] = new PrismaClient()
-      }
-    }
-    log(`${Object.keys(this.clients).length} clients initialized: ${Object.keys(this.clients)}`)
+  constructor() {
+    this.client = new PrismaClient()
   }
 
-  private model(baseName: string, modelName: string): PrismaClientInterface | undefined {
-    const base = this.base(baseName)
-    if (!base) return undefined
-    return base[modelName]
-  }
-
-  public base(baseName: string): PrismaClientType | undefined {
-    return this.clients[baseName]
-  }
-
-  public table(baseName: string, tableName: string): PrismaClientInterface | undefined {
+  public table(tableName: string): PrismaClientInterface | undefined {
     const modelName = PrismaUtils.getModelName(tableName).toLowerCase()
-    return this.model(baseName, modelName)
+    return this.client[modelName as keyof typeof this.client] as unknown as PrismaClientInterface
   }
 }
 

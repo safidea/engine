@@ -8,7 +8,7 @@
     "schema": "typescript-json-schema tsconfig.json DatabaseInterface -o src/schemas/database.schema.json --required"
   },
   "dependencies": {
-    "server-common": "workspace:*"
+    "shared-common": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "29.4.0",

@@ -18,30 +18,23 @@ export type DatabaseParamsDataType = {
 }
 
 export type DatabaseServiceFunctionType = (
-  baseName: string,
   tableName: string,
   params: DatabaseParamsIdType & DatabaseParamsDataType
 ) => Promise<DatabaseRowType>
 
-export type DatabaseServiceFunctionListType = (
-  baseName: string,
-  tableName: string
-) => Promise<DatabaseRowType[]>
+export type DatabaseServiceFunctionListType = (tableName: string) => Promise<DatabaseRowType[]>
 
 export type DatabaseServiceFunctionIdType = (
-  baseName: string,
   tableName: string,
   params: DatabaseParamsIdType
 ) => Promise<DatabaseRowType>
 
 export type DatabaseServiceFunctionDataType = (
-  baseName: string,
   tableName: string,
   params: DatabaseParamsDataType
 ) => Promise<DatabaseRowType>
 
 export type DatabaseServiceFunctionReadType = (
-  baseName: string,
   tableName: string,
   params: DatabaseParamsIdType
 ) => Promise<DatabaseRowType | null>

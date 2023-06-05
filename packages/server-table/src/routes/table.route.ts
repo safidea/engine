@@ -11,11 +11,7 @@ import type {
 
 class TableRoute implements RouteInterface {
   private handler(middlewares: RouteMiddlewaresType): RouteHandlerType {
-    return RouteUtils.handler((req) => [
-      TableMiddleware.validateBaseExist,
-      TableMiddleware.validateTableExist,
-      ...middlewares(req),
-    ])
+    return RouteUtils.handler((req) => [TableMiddleware.validateTableExist, ...middlewares(req)])
   }
 
   public GET = this.handler((req: RequestInterface) => {

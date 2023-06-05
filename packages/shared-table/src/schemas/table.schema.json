@@ -54,9 +54,6 @@
     }
   },
   "properties": {
-    "database": {
-      "type": "string"
-    },
     "fields": {
       "$ref": "#/definitions/TableFieldsInterface"
     },
@@ -70,6 +67,6 @@
       "type": "array"
     }
   },
-  "required": ["database", "fields"],
+  "required": ["fields"],
   "type": "object"
 }

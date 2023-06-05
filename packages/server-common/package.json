@@ -12,7 +12,11 @@
     "dotenv": "^16.0.3",
     "fs-extra": "11.1.1",
     "next": "13.4.3",
-    "shared-common": "workspace:*"
+    "shared-common": "workspace:*",
+    "shared-component": "workspace:*",
+    "shared-database": "workspace:*",
+    "shared-page": "workspace:*",
+    "shared-table": "workspace:*"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",

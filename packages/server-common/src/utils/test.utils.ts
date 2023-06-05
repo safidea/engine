@@ -16,20 +16,7 @@ class TestUtils {
     const packageMatch = dirPath.match(/\/packages\/([^/]+)/)
     const packageName = packageMatch && packageMatch[1]
     const testFolder = dirPath.includes('/e2e') ? 'e2e' : '__tests__/integration/' + name
-    process.env.FDT_APP_NAME = name.replace(/-/g, '_')
-    process.env.FDT_ROOT_PATH = `packages/${packageName}/${testFolder}/app`
-  }
-
-  public getPackageAppFile(packageName: string): string {
-    return join(PathUtils.getAppRoot(), `build/${packageName}/app.ts`)
-  }
-
-  public async updateLibraries(packages: string[]): Promise<void> {
-    for (const packageName of packages) {
-      const path = PathUtils.getPackageAppFile(packageName)
-      const libraries = await import(path)
-      AppUtils.registerLibraries(libraries, packageName)
-    }
+    process.env.APP_PATH = `packages/${packageName}/${testFolder}/app`
   }
 
   public beforeAll(): void {

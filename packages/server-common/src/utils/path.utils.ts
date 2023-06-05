@@ -7,11 +7,7 @@ class PathUtils {
   }
 
   public getAppRoot(): string {
-    return join(this.getProjectRoot(), process.env.FDT_ROOT_PATH || './app')
-  }
-
-  public getAppBuildFolder(packageName: string): string {
-    return join(this.getAppRoot(), `build/${packageName}`)
+    return join(this.getProjectRoot(), process.env.APP_PATH || './app')
   }
 
   public getAppConfigFile(): string {
@@ -23,11 +19,7 @@ class PathUtils {
   }
 
   public getAppConfigCache(): string {
-    return join(this.getAppBuildFolder('server-common'), `config.cache.json`)
-  }
-
-  public getPackageAppFile(packageName: string): string {
-    return join(this.getProjectRoot(), `packages/${packageName}/src/app.ts`)
+    return join(this.getAppRoot(), `cache.config.json`)
   }
 }
 

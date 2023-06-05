@@ -5,28 +5,32 @@ import { ObjectUtils } from 'shared-common'
 import debug from 'debug'
 
 import type { ObjectInterface, ObjectValueInterface } from 'shared-common'
-import type { ConfigInterface } from '../interfaces/config.interface'
+import type { ConfigInterface, ConfigSchemaInterface } from '../interfaces/config.interface'
 
 const log = debug('config:common')
 
 class ConfigUtils {
-  private config: ObjectInterface = {}
+  private config: ConfigSchemaInterface = {}
 
   constructor() {
     const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
     if (config) {
+      log('Initializing config from cache...')
       this.config = config
-      dotenv.config({ path: PathUtils.getAppEnvFile() })
+      dotenv.config({ path: PathUtils.getAppEnvFile(), override: true })
     }
   }
 
   public init(): ObjectInterface {
     log('Initializing config...')
-    const path = PathUtils.getAppConfigFile()
-    if (!fs.pathExistsSync(path)) throw new Error(`Config file not found: ${path}`)
-    this.config = fs.readJsonSync(path, { throws: false })
-    if (!this.config) throw new Error(`Config file is not a valid JSON: ${path}`)
-    dotenv.config({ path: PathUtils.getAppEnvFile() })
+    const configPath = PathUtils.getAppConfigFile()
+    log(`Load ${configPath} file`)
+    if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
+    this.config = fs.readJsonSync(configPath, { throws: false })
+    if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
+    const envPath = PathUtils.getAppEnvFile()
+    log(`Load ${envPath} file`)
+    dotenv.config({ path: envPath, override: true })
     this.config = ObjectUtils.replaceVars(this.config, process.env)
     log('Config initialized')
     return this.config

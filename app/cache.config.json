@@ -1,7 +1,7 @@
 {
   "name": "invoices",
   "database": {
-    "url": "${DATABASE_URL}",
+    "url": "postgresql://admin:admin@localhost:5434/master",
     "provider": "postgresql"
   },
   "tables": {
@@ -9,6 +9,23 @@
       "fields": {
         "name": {
           "type": "String"
+        },
+        "id": {
+          "type": "String",
+          "primary": true,
+          "default": "cuid()"
+        },
+        "created_at": {
+          "type": "DateTime",
+          "default": "now()"
+        },
+        "updated_at": {
+          "type": "DateTime",
+          "optional": true
+        },
+        "deleted_at": {
+          "type": "DateTime",
+          "optional": true
         }
       }
     }

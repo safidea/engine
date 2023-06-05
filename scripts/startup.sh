@@ -17,10 +17,6 @@ shift $((OPTIND-1))
 app=$(jq -r '.name' app/config.json)
 mode="${mode:-"start"}"
 
-docker compose -f app/docker-compose.yml up -d
-export FDT_ROOT_PATH=/app
-export FDT_APP_NAME=$app
-
 cd packages/app-engine
 echo "Config app ${app}"
 pnpm run config

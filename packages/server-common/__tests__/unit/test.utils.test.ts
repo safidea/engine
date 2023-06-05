@@ -1,5 +1,5 @@
 import './setup'
-import { AppUtils, PathUtils, ConfigUtils } from '../../src'
+import { PathUtils, ConfigUtils } from '../../src'
 import TestUtils from '../../src/utils/test.utils'
 import fs from 'fs-extra'
 import { join } from 'path'
@@ -9,38 +9,6 @@ import type { TestDataType } from '../../src/types/test.type'
 jest.mock('../../src/utils/app.utils')
 jest.mock('../../src/utils/path.utils')
 jest.mock('../../src/utils/config.utils')
-
-describe('setupApp', () => {
-  it('should setup the app for integration tests', () => {
-    TestUtils.setupAppEnv('/packages/my-test-package/test-app')
-    expect(process.env.FDT_APP_NAME).toEqual('test_app')
-    expect(process.env.FDT_ROOT_PATH).toEqual(
-      'packages/my-test-package/__tests__/integration/test-app/app'
-    )
-  })
-
-  it('should setup the app for e2e tests', () => {
-    TestUtils.setupAppEnv('/packages/my-test-package/e2e', 'app-engine-e2e')
-    expect(process.env.FDT_APP_NAME).toEqual('app_engine_e2e')
-    expect(process.env.FDT_ROOT_PATH).toEqual('packages/my-test-package/e2e/app')
-  })
-})
-
-describe('updateLibraries', () => {
-  it('should update libraries', async () => {
-    const getPackageAppFile = PathUtils.getPackageAppFile as jest.MockedFunction<
-      typeof PathUtils.getPackageAppFile
-    >
-    getPackageAppFile.mockReturnValue('/testPath')
-    const mockLibrary = { name: 'test' }
-    jest.mock('/testPath', () => mockLibrary, { virtual: true })
-    await TestUtils.updateLibraries(['package1'])
-    expect(AppUtils.registerLibraries).toHaveBeenCalledWith(
-      { default: mockLibrary, ...mockLibrary },
-      'package1'
-    )
-  })
-})
 
 describe('beforeAll', () => {
   it('should call ConfigUtils.init', () => {
@@ -63,7 +31,6 @@ describe('afterAll', () => {
     const getAppRoot = PathUtils.getAppRoot as jest.MockedFunction<typeof PathUtils.getAppRoot>
     getAppRoot.mockReturnValue(path)
     TestUtils.afterAll(['package1'])
-    expect(AppUtils.clearImports).toHaveBeenCalled()
   })
 })
 

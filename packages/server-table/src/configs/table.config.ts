@@ -30,7 +30,6 @@ class TableConfig implements ConfigInterface {
     for (const table in tables) {
       log(`validate schema ${table}`)
       schema.validate(tables[table])
-      TableUtils.databaseExists(table, tables[table].database)
     }
   }
 
@@ -38,8 +37,8 @@ class TableConfig implements ConfigInterface {
     const tables = this.get()
     for (const table in tables) {
       log(`setup prisma model schema ${table}`)
-      const { database, model, fields, unique } = tables[table]
-      DatabaseService.addModel(database, model || table, {
+      const { model, fields, unique } = tables[table]
+      DatabaseService.addModel(model || table, {
         fields,
         unique,
         map: table,

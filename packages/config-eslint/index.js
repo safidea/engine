@@ -2,7 +2,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'turbo', 'prettier'],
-  ignorePatterns: ['dist/', 'js/'],
+  ignorePatterns: ['prisma/client'],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
     'react/version': 'off',
@@ -27,7 +27,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/*.test.ts', '**/*.test.tsx'],
+      files: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx'],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
       },

@@ -7,13 +7,12 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "test": "#NODE_ENV=test playwright test",
+    "test": "e2e/start.sh",
     "report": "playwright show-report"
   },
   "dependencies": {
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
-    "@prisma/nextjs-monorepo-workaround-plugin": "4.14.1",
     "@tailwindcss/forms": "0.5.3",
     "client-page": "workspace:*",
     "next": "13.4.3",
@@ -29,6 +28,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.33.0",
+    "@prisma/nextjs-monorepo-workaround-plugin": "4.15.0",
     "@types/debug": "4.1.7",
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",

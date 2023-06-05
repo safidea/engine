@@ -1,0 +1,27 @@
+version: '3.9'
+
+services: 
+  db:
+    image: postgres:latest
+    container_name: "e2e_${APP_NAME}_db"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: master
+    networks:
+      - app-network
+
+  app: 
+    image: foundation-image
+    container_name: "e2e_${APP_NAME}_app"
+    ports:
+      - "${PORT_APP}:3000"
+    volumes:
+      - "${APP_PATH}/config.json:/usr/src/foundation/app/config.json"
+      - "${APP_PATH}/.env:/usr/src/foundation/app/.env"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

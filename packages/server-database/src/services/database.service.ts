@@ -11,51 +11,43 @@ import type {
 import type { PrismaClientInterface, PrismaModelInterface } from '../interfaces/prisma.interface'
 
 class DatabaseService {
-  private table(baseName: string, tableName: string): PrismaClientInterface {
-    const table = PrismaLibrary.table(baseName, tableName)
+  private table(name: string): PrismaClientInterface {
+    const table = PrismaLibrary.table(name)
     if (table == null) {
-      throw new Error(`Table "${tableName}" does not exist in base "${baseName}"`)
+      throw new Error(`Table "${name}" does not exist`)
     }
     return table
   }
 
-  public baseExist(baseName: string): boolean {
-    return PrismaLibrary.base(baseName) != null
+  public tableExist(name: string): boolean {
+    return PrismaLibrary.table(name) != null
   }
 
-  public tableExist(baseName: string, tableName: string): boolean {
-    return PrismaLibrary.table(baseName, tableName) != null
-  }
-
-  public addModel(baseName: string, tableName: string, modelData: PrismaModelInterface): void {
+  public addModel(tableName: string, modelData: PrismaModelInterface): void {
     const modelName = PrismaUtils.getModelName(tableName)
-    PrismaUtils.updateModelSchema(baseName, modelName, modelData)
+    PrismaUtils.updateModelSchema(modelName, modelData)
   }
 
-  public initLibraries(): void {
-    PrismaLibrary.init()
-  }
-
-  public create: DatabaseServiceFunctionDataType = async (baseName, tableName, params) => {
+  public create: DatabaseServiceFunctionDataType = async (tableName, params) => {
     const { data } = params
-    const row = await this.table(baseName, tableName).create({
+    const row = await this.table(tableName).create({
       data,
     })
     return row
   }
 
-  public updateById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
+  public updateById: DatabaseServiceFunctionType = async (tableName, params) => {
     const { data, id } = params
-    const row = await this.table(baseName, tableName).update({
+    const row = await this.table(tableName).update({
       where: { id },
       data,
     })
     return row
   }
 
-  public upsertById: DatabaseServiceFunctionType = async (baseName, tableName, params) => {
+  public upsertById: DatabaseServiceFunctionType = async (tableName, params) => {
     const { data, id } = params
-    const row = await this.table(baseName, tableName).upsert({
+    const row = await this.table(tableName).upsert({
       where: { id },
       create: data,
       update: data,
@@ -63,24 +55,24 @@ class DatabaseService {
     return row
   }
 
-  public readById: DatabaseServiceFunctionReadType = async (baseName, tableName, params) => {
+  public readById: DatabaseServiceFunctionReadType = async (tableName, params) => {
     const { id } = params
-    const row = await this.table(baseName, tableName).findUnique({
+    const row = await this.table(tableName).findUnique({
       where: { id },
     })
     return row
   }
 
-  public deleteById: DatabaseServiceFunctionIdType = async (baseName, tableName, params) => {
+  public deleteById: DatabaseServiceFunctionIdType = async (tableName, params) => {
     const { id } = params
-    const row = await this.table(baseName, tableName).delete({
+    const row = await this.table(tableName).delete({
       where: { id },
     })
     return row
   }
 
-  public list: DatabaseServiceFunctionListType = async (baseName, tableName) => {
-    const rows = await this.table(baseName, tableName).findMany({})
+  public list: DatabaseServiceFunctionListType = async (tableName) => {
+    const rows = await this.table(tableName).findMany({})
     return rows
   }
 }

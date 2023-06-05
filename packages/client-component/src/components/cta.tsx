@@ -1,4 +1,4 @@
-import { Image } from '../../libraries/next.library'
+import { Image } from '../libraries/next.library'
 
 export default function Cta() {
   return (

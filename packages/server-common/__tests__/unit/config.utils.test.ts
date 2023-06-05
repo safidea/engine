@@ -18,9 +18,9 @@ describe('init', () => {
   })
 
   it('should init config with env vars', () => {
-    process.env.FDT_APP_VERSION = '1.0.0'
+    process.env.APP_PATH = '/test'
     const readJsonSync = fs.readJsonSync as jest.MockedFunction<typeof fs.readJsonSync>
-    readJsonSync.mockReturnValueOnce({ version: '${FDT_APP_VERSION}' })
+    readJsonSync.mockReturnValueOnce({ version: '${APP_PATH}' })
     const result = ConfigUtils.init()
     expect(result).toEqual({ version: '1.0.0' })
   })

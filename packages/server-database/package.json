@@ -4,14 +4,14 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "4.14.1",
-    "server-common": "workspace:*",
-    "shared-database": "workspace:*",
+    "@prisma/client": "4.15.0",
     "fs-extra": "11.1.1",
-    "prisma": "4.14.1"
+    "server-common": "workspace:*",
+    "shared-database": "workspace:*"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
@@ -24,6 +24,7 @@
     "eslint": "^7.32.0",
     "eslint-config-foundation": "workspace:*",
     "jest": "29.4.1",
+    "prisma": "^4.15.0",
     "ts-jest": "29.0.5",
     "typescript": "^4.9.5",
     "typescript-json-schema": "0.55.0"

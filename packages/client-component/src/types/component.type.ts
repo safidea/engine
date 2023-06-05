@@ -1,4 +1,7 @@
-import type { HeroProps } from '../components/sections/hero.section'
-import type { TableProps } from '../components/lists/table.list'
+import type { HeroProps } from '../components/hero'
+import type { TableProps } from '../components/table'
+import type { ListProps } from '../components/list'
 
-export type ComponentType = React.FC<HeroProps | TableProps>
+export type ComponentProps = HeroProps | TableProps | ListProps
+
+export type ComponentType = React.FC<ComponentProps>

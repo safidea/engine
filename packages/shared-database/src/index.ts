@@ -1,6 +1,6 @@
 export { default as DatabaseSchema } from './schemas/database.schema.json'
 
-export type { DatabaseInterface, DatabasesInterface } from './interfaces/database.interface'
+export type { DatabaseInterface } from './interfaces/database.interface'
 export type {
   DatabaseDataType,
   DatabaseRowType,

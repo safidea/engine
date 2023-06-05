@@ -20,7 +20,6 @@ export interface TableFieldsInterface extends ObjectInterface {
 
 export interface TableInterface extends ObjectInterface {
   model?: string
-  database: string
   unique?: string[]
   fields: TableFieldsInterface
 }
