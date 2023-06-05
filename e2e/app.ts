@@ -47,19 +47,16 @@ class App {
         if (retries++ > 30) {
           reject(new Error(`${url} is not available`))
         }
+        console.log('Waiting for', url, '(' + retries * 3 + 's.)')
         http
           .get(url, (res) => {
             if (res.statusCode === 200) {
               resolve()
             } else {
-              console.log(retries * 3 + 's. - waiting for', url)
               testUrl()
             }
           })
-          .on('error', () => {
-            console.log(retries * 3 + 's. - waiting for', url)
-            testUrl()
-          })
+          .on('error', testUrl)
       }
       testUrl()
     })
