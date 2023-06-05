@@ -42,7 +42,7 @@ class App {
       const url = 'http://localhost:' + this.port
       let retries = 0
       const interval = setInterval(async () => {
-        if (retries++ > 20) {
+        if (retries++ > 30) {
           clearInterval(interval)
           reject(new Error(`${url} is not available`))
         }
@@ -50,13 +50,14 @@ class App {
           .get(url, (res) => {
             if (res.statusCode === 200) {
               clearInterval(interval)
+              console.log()
               resolve()
             } else {
-              console.log('Waiting for', url)
+              console.log(retries + 's. - waiting for', url)
             }
           })
           .on('error', () => {
-            console.log('Waiting for', url)
+            console.log(retries + 's. - waiting for', url)
           })
       }, 2000)
     })

@@ -27,7 +27,7 @@
     "husky": "8.0.3",
     "jest": "^29.5.0",
     "prettier": "latest",
-    "turbo": "^1.9.9"
+    "turbo": "^1.10.1"
   },
   "engines": {
     "node": ">=18.16.0",
