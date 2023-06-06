@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom'
+import MockAxios from '../__mocks__/axios'
 import ResizeObserver from 'resize-observer-polyfill'
 import userEvent from '@testing-library/user-event'
 import { PageService } from 'client-page'
+import { DatabaseDataType } from 'shared-database'
 
 import type { ConfigSchemaInterface } from 'server-common'
 
@@ -25,6 +27,10 @@ class App {
     const components = pages[path].components
     const Page = PageService.render(components)
     return <Page />
+  }
+
+  public seed(table: string, data: DatabaseDataType[]) {
+    MockAxios.post(`/api/table/${table}`, data)
   }
 }
 

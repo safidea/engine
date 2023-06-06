@@ -1,3 +1,6 @@
+import useSWR from 'swr'
+import fetcher from '../libraries/fetcher.library'
+
 import type { CommonPropsType } from '../types/common.type'
 
 export type ListProps = CommonPropsType & {
@@ -9,16 +12,9 @@ export type ListProps = CommonPropsType & {
 }
 
 export default function List({ table, fields }: ListProps) {
-  const rows = [
-    {
-      name: 'Facture 1',
-      id: 1,
-    },
-    {
-      name: 'Facture 2',
-      id: 2,
-    },
-  ]
+  const { data = [], error, isLoading } = useSWR(`/api/table/${table}`, fetcher)
+  if (error) return <div>failed to load</div>
+  if (isLoading) return <div>loading...</div>
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="flow-root">
@@ -39,7 +35,7 @@ export default function List({ table, fields }: ListProps) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {rows.map((row) => (
+                {data.map((row: { id: string; name: string }) => (
                   <tr key={row.id}>
                     {fields.map((field, index) =>
                       index === 0 ? (

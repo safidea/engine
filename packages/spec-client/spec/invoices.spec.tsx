@@ -1,5 +1,6 @@
 import { ConfigSchemaInterface } from 'server-common'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
+import { DatabaseDataType } from 'shared-database'
 import App from '../src/app'
 
 // GIVEN
@@ -43,22 +44,25 @@ describe('Display a list of invoices', () => {
   const app = new App({ config })
 
   // On fournit 2 factures d'exemple
-  const invoices = [{ name: 'Facture 1' }, { name: 'Facture 2' }]
+  const invoices: DatabaseDataType[] = [{ name: 'Facture 1' }, { name: 'Facture 2' }]
   it('should create 2 invoices througt API', async () => {
-    for (const invoice of invoices) {
-    }
+    app.seed('invoices', invoices)
   })
 
   // WHEN
   // Quand je vais sur la page d'accueil "/"
   it('should navigate to the home page', async () => {
-    render(app.page('/'))
+    await act(async () => {
+      render(app.page('/'))
+    })
   })
 
   // THEN
   // Vérifier que la facture 1 et la facture 2 sont bien affiché dans la liste
   it('should display invoices list', async () => {
-    render(app.page('/'))
+    await act(async () => {
+      render(app.page('/'))
+    })
     const rows = screen.getAllByText(/Facture \d/)
     expect(rows).toHaveLength(2)
     expect(rows[0]).toHaveTextContent('Facture 1')
