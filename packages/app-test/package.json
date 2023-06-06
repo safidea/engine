@@ -1,0 +1,24 @@
+{
+  "name": "app-test",
+  "main": "src/app.ts",
+  "types": "src/app.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "pnpm test:build && pnpm test:run",
+    "test:build": ". build.sh",
+    "test:run": "npx playwright test",
+    "test:run:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "fs-extra": "11.1.1",
+    "server-common": "workspace:*",
+    "@types/fs-extra": "11.0.1",
+    "@playwright/test": "1.33.0",
+    "@types/node": "^18.11.17",
+    "config-typescript": "workspace:*",
+    "eslint": "^7.32.0",
+    "eslint-config-foundation": "workspace:*",
+    "typescript": "^4.5.2"
+  }
+}

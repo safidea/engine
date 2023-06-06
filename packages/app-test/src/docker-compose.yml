@@ -14,7 +14,7 @@ services:
       - "${APP_PATH}/db:/var/lib/postgresql/data"
 
   app: 
-    image: foundation-image
+    image: foundation:latest
     container_name: "e2e_${APP_NAME}_app"
     restart: always
     ports:
@@ -24,8 +24,6 @@ services:
       - "${APP_PATH}/.env:/usr/src/foundation/app/.env"
     networks:
       - app-network
-    depends_on:
-      - db
 
 networks:
   app-network:

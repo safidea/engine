@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ConfigSchemaInterface, EnvInterface } from '../packages/server-common'
+import type { ConfigSchemaInterface, EnvInterface } from 'server-common'
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { join } from 'path'
@@ -20,7 +19,7 @@ class App {
     this.port = env.PORT || '3000'
     env.DATABASE_URL = env.DATABASE_URL ?? `postgresql://admin:admin@db/master`
     this.name = (filename.match(/[a-z]*(?=\.spec)/) || ['app'])[0]
-    this.path = join(__dirname, 'tmp', this.name)
+    this.path = join(__dirname, '../build', this.name)
     fs.ensureDirSync(this.path)
     fs.writeFileSync(join(this.path, 'config.json'), JSON.stringify(config, null, 2))
     fs.writeFileSync(
@@ -39,7 +38,9 @@ class App {
 
   public async start(): Promise<void> {
     const url = 'http://localhost:' + this.port
-    execSync(`docker compose -f ${join(this.path, 'docker-compose.yml')} up -d`)
+    execSync(`docker compose -f ${join(this.path, 'docker-compose.yml')} up -d`, {
+      stdio: 'ignore',
+    })
     await new Promise<void>((resolve, reject) => {
       let retries = 0
       const testUrl = async () => {
@@ -64,8 +65,8 @@ class App {
   }
 
   public async stop(): Promise<void> {
-    execSync(`docker compose -f ${join(this.path, 'docker-compose.yml')} down`)
-    await fs.remove(this.path)
+    execSync(`docker compose -f ${join(this.path, 'docker-compose.yml')} down`, { stdio: 'ignore' })
+    await fs.remove(join(this.path, 'db'))
   }
 }
 

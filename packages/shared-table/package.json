@@ -4,7 +4,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest",
+    "test": "#jest",
     "schema": "typescript-json-schema tsconfig.json TableInterface -o src/schemas/table.schema.json --required"
   },
   "dependencies": {

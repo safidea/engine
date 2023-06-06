@@ -4,7 +4,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest"
+    "test": "#jest"
   },
   "dependencies": {
     "next": "13.4.3",

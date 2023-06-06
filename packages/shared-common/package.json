@@ -4,7 +4,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest"
+    "test": "#jest"
   },
   "devDependencies": {
     "@types/jest": "29.5.1",

@@ -19,6 +19,9 @@ COPY pnpm-workspace.yaml ./
 # Copy the main package.json and package-lock.json (if available)
 COPY package*.json ./
 
+# Copy all of your node modules
+COPY node_modules/ ./node_modules/
+
 # Copy all of your workspace folders
 COPY packages/ ./packages/
 

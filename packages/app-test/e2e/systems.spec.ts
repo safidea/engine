@@ -1,6 +1,6 @@
-import { ConfigSchemaInterface, EnvInterface } from '../../packages/server-common/src'
+import { ConfigSchemaInterface, EnvInterface } from 'server-common'
 import { test, expect } from '@playwright/test'
-import App from '../app'
+import App from '../src/app'
 
 // GIVEN
 // Une configuration .json qui décrit une app de gestion de facture

@@ -4,7 +4,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest"
+    "test": "#jest"
   },
   "dependencies": {
     "@headlessui/react": "1.7.14",

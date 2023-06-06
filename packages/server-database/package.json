@@ -4,7 +4,7 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest",
+    "test": "#jest",
     "postinstall": "npx prisma generate"
   },
   "dependencies": {
