@@ -41,6 +41,7 @@ class App {
     execSync(`docker compose -f ${join(this.path, 'docker-compose.yml')} up -d`, {
       stdio: 'ignore',
     })
+    console.log(`Waiting for app ${this.name} to start...`)
     await new Promise<void>((resolve, reject) => {
       let retries = 0
       const testUrl = async () => {
@@ -48,7 +49,6 @@ class App {
         if (retries++ > 30) {
           reject(new Error(`${url} is not available`))
         }
-        console.log('Waiting for', url, '(' + retries * 3 + 's.)')
         http
           .get(url, (res) => {
             if (res.statusCode === 200) {
@@ -66,7 +66,6 @@ class App {
 
   public async stop(): Promise<void> {
     execSync(`docker compose -f ${join(this.path, 'docker-compose.yml')} down`, { stdio: 'ignore' })
-    await fs.remove(join(this.path, 'db'))
   }
 }
 

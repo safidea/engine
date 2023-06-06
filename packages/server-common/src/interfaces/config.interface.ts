@@ -5,10 +5,10 @@ import type { PagesInterface } from 'shared-page'
 import type { ComponentsInterface } from 'shared-component'
 
 export interface ConfigInterface {
-  enrich?: () => void
-  validate: () => void
-  lib?: () => void
-  js?: () => void
+  enrich?: () => void | Promise<void>
+  validate: () => void | Promise<void>
+  lib?: () => void | Promise<void>
+  js?: () => void | Promise<void>
 }
 
 export interface ConfigSchemaInterface extends ObjectInterface {

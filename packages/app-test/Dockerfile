@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a base image
-FROM node:18
+FROM node:bullseye
 
 # Set the working directory in the container
 WORKDIR /usr/src/foundation
@@ -29,7 +29,7 @@ COPY packages/ ./packages/
 COPY scripts/ ./scripts/
 
 # Install any needed dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # This command will start your app (modify as per your start script)
 CMD [ "pnpm", "run", "dev" ]

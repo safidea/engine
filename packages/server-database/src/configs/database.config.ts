@@ -10,10 +10,6 @@ import type { ConfigInterface } from 'server-common'
 const log: debug.IDebugger = debug('config:database')
 
 class DatabaseConfig implements ConfigInterface {
-  public enrich() {
-    log(`enrich database config`)
-  }
-
   public validate() {
     const database = this.get()
     if (!database) return
@@ -29,11 +25,15 @@ class DatabaseConfig implements ConfigInterface {
     PrismaUtils.updateDatabaseSchema(database)
   }
 
-  public js() {
+  public async js() {
     const database = this.get()
     if (!database) return
     log(`build prisma client`)
-    PrismaUtils.buildClient()
+    PrismaUtils.generateClient()
+    log(`connect database`)
+    await PrismaUtils.connect(log)
+    log(`migrate database`)
+    PrismaUtils.migrateDatabase()
   }
 
   private get(): DatabaseInterface {

@@ -13,11 +13,15 @@ class ConfigUtils {
   private config: ConfigSchemaInterface = {}
 
   constructor() {
-    const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
-    if (config) {
-      log('Initializing config from cache...')
-      this.config = config
-      dotenv.config({ path: PathUtils.getAppEnvFile(), override: true })
+    if (process.env.NO_CONFIG_CACHE) {
+      log('Config from cache disabled')
+    } else {
+      const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
+      if (config) {
+        log('Initializing config from cache...')
+        this.config = config
+        dotenv.config({ path: PathUtils.getAppEnvFile(), override: true })
+      }
     }
   }
 
@@ -44,15 +48,39 @@ class ConfigUtils {
     log('Config cached')
   }
 
-  public exec(configs: ConfigInterface[]): void {
+  public async exec(configs: ConfigInterface[]): Promise<void> {
+    const start = Date.now()
+
     this.init()
     log('Executing config...')
-    for (const config of configs) if (typeof config.enrich === 'function') config.enrich()
-    for (const config of configs) if (typeof config.validate === 'function') config.validate()
-    for (const config of configs) if (typeof config.lib === 'function') config.lib()
-    for (const config of configs) if (typeof config.js === 'function') config.js()
+
+    // Enrich config
+    let promises = []
+    for (const config of configs)
+      if (typeof config.enrich === 'function') promises.push(config.enrich())
+    await Promise.all(promises)
+
+    // Validate config
+    promises = []
+    for (const config of configs)
+      if (typeof config.validate === 'function') promises.push(config.validate())
+    await Promise.all(promises)
+
+    // Setup libs
+    promises = []
+    for (const config of configs) if (typeof config.lib === 'function') promises.push(config.lib())
+    await Promise.all(promises)
+
+    // Build js
+    promises = []
+    for (const config of configs) if (typeof config.js === 'function') promises.push(config.js())
+    await Promise.all(promises)
+
     log('Config executed')
     this.cache()
+
+    const end = Date.now()
+    log(`Config executed in ${end - start}ms`)
   }
 
   public get(path?: string): ObjectValueInterface | undefined {

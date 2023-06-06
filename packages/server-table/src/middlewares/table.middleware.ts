@@ -7,7 +7,7 @@ import type { DatabaseDataType } from 'shared-database'
 class TableMiddleware {
   public validateTableExist: RouteMiddlewareType = async (req) => {
     const { table } = req.query
-    const exist = DatabaseService.tableExist(table)
+    const exist = await DatabaseService.tableExist(table)
     if (!exist) return { json: { error: `Table ${table} does not exist` }, status: 404 }
   }
 
