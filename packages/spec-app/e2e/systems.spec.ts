@@ -3,20 +3,16 @@ import { test, expect } from '@playwright/test'
 import App from '../src/app'
 
 // GIVEN
-// Une configuration .json qui décrit une app de gestion de facture
-const env: EnvInterface = {
-  PORT: '8002',
-}
+// Une configuration .json qui décrit une app de gestion de facture dispaonible au port 8002
 const config: ConfigSchemaInterface = {
   name: 'systems',
+}
+const env: EnvInterface = {
+  PORT: '8002',
 }
 
 test.describe('Display a list of apps', () => {
   // Il faut que dans cette configuration, on ait défini un modèle de données où chaque facture a un nom
-  config.database = {
-    url: '${DATABASE_URL}',
-    provider: 'postgresql',
-  }
   config.tables = {
     apps: {
       fields: {

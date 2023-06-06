@@ -1,7 +1,3 @@
-import { ConfigUtils } from 'server-common'
-import { DatabaseConfig } from 'server-database'
-import { TableConfig } from 'server-table'
-import { ComponentConfig } from 'server-component'
-import { PageConfig } from 'server-page'
+import run from './run'
 
-ConfigUtils.exec([DatabaseConfig, TableConfig, ComponentConfig, PageConfig])
+run()

@@ -16,8 +16,12 @@ class App {
   private name: string
 
   constructor({ config, env, filename }: AppInterface) {
-    this.port = env.PORT || '3000'
     env.DATABASE_URL = env.DATABASE_URL ?? `postgresql://admin:admin@db/master`
+    config.database = config.database ?? {
+      url: '${DATABASE_URL}',
+      provider: 'postgresql',
+    }
+    this.port = env.PORT || '3000'
     this.name = (filename.match(/[a-z]*(?=\.spec)/) || ['app'])[0]
     this.path = join(__dirname, '../build', this.name)
     fs.ensureDirSync(this.path)

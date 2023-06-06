@@ -112,36 +112,6 @@ importers:
         specifier: ^4.9.5
         version: 4.9.5
 
-  packages/app-test:
-    devDependencies:
-      '@playwright/test':
-        specifier: 1.33.0
-        version: 1.33.0
-      '@types/fs-extra':
-        specifier: 11.0.1
-        version: 11.0.1
-      '@types/node':
-        specifier: ^18.11.17
-        version: 18.16.12
-      config-typescript:
-        specifier: workspace:*
-        version: link:../config-typescript
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      eslint-config-foundation:
-        specifier: workspace:*
-        version: link:../config-eslint
-      fs-extra:
-        specifier: 11.1.1
-        version: 11.1.1
-      server-common:
-        specifier: workspace:*
-        version: link:../server-common
-      typescript:
-        specifier: ^4.5.2
-        version: 4.9.5
-
   packages/client-component:
     dependencies:
       '@headlessui/react':
@@ -771,6 +741,159 @@ importers:
       typescript-json-schema:
         specifier: 0.55.0
         version: 0.55.0
+
+  packages/spec-app:
+    devDependencies:
+      '@playwright/test':
+        specifier: 1.33.0
+        version: 1.33.0
+      '@types/fs-extra':
+        specifier: 11.0.1
+        version: 11.0.1
+      '@types/node':
+        specifier: ^18.11.17
+        version: 18.16.12
+      config-typescript:
+        specifier: workspace:*
+        version: link:../config-typescript
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      eslint-config-foundation:
+        specifier: workspace:*
+        version: link:../config-eslint
+      fs-extra:
+        specifier: 11.1.1
+        version: 11.1.1
+      server-common:
+        specifier: workspace:*
+        version: link:../server-common
+      typescript:
+        specifier: ^4.5.2
+        version: 4.9.5
+
+  packages/spec-client:
+    devDependencies:
+      '@testing-library/jest-dom':
+        specifier: 5.16.5
+        version: 5.16.5
+      '@testing-library/react':
+        specifier: 14.0.0
+        version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
+      '@testing-library/user-event':
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@9.3.0)
+      '@types/fs-extra':
+        specifier: 11.0.1
+        version: 11.0.1
+      '@types/jest':
+        specifier: 29.4.0
+        version: 29.4.0
+      '@types/node':
+        specifier: ^18.11.17
+        version: 18.16.12
+      '@types/react':
+        specifier: 18.0.29
+        version: 18.0.29
+      '@types/react-dom':
+        specifier: 18.0.11
+        version: 18.0.11
+      '@types/testing-library__jest-dom':
+        specifier: 5.14.5
+        version: 5.14.5
+      app-engine:
+        specifier: workspace:*
+        version: link:../app-engine
+      client-page:
+        specifier: workspace:^
+        version: link:../client-page
+      config-jest:
+        specifier: workspace:*
+        version: link:../config-jest
+      config-typescript:
+        specifier: workspace:*
+        version: link:../config-typescript
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      eslint-config-foundation:
+        specifier: workspace:*
+        version: link:../config-eslint
+      fs-extra:
+        specifier: 11.1.1
+        version: 11.1.1
+      jest:
+        specifier: 29.4.1
+        version: 29.4.1(@types/node@18.16.12)
+      jest-environment-jsdom:
+        specifier: 29.5.0
+        version: 29.5.0
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      resize-observer-polyfill:
+        specifier: ^1.5.1
+        version: 1.5.1
+      server-common:
+        specifier: workspace:*
+        version: link:../server-common
+      server-database:
+        specifier: workspace:^
+        version: link:../server-database
+      ts-jest:
+        specifier: 29.0.5
+        version: 29.0.5(@babel/core@7.21.8)(jest@29.4.1)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.5.2
+        version: 4.9.5
+
+  packages/spec-server:
+    devDependencies:
+      '@types/fs-extra':
+        specifier: 11.0.1
+        version: 11.0.1
+      '@types/jest':
+        specifier: 29.4.1
+        version: 29.4.1
+      '@types/node':
+        specifier: ^18.11.17
+        version: 18.16.12
+      app-engine:
+        specifier: workspace:*
+        version: link:../app-engine
+      config-jest:
+        specifier: workspace:*
+        version: link:../config-jest
+      config-typescript:
+        specifier: workspace:*
+        version: link:../config-typescript
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      eslint-config-foundation:
+        specifier: workspace:*
+        version: link:../config-eslint
+      fs-extra:
+        specifier: 11.1.1
+        version: 11.1.1
+      jest:
+        specifier: 29.4.1
+        version: 29.4.1(@types/node@18.16.12)
+      server-common:
+        specifier: workspace:*
+        version: link:../server-common
+      server-database:
+        specifier: workspace:^
+        version: link:../server-database
+      ts-jest:
+        specifier: 29.0.5
+        version: 29.0.5(@babel/core@7.21.8)(jest@29.4.1)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.5.2
+        version: 4.9.5
 
 packages:
 
@@ -1840,6 +1963,13 @@ packages:
 
   /@types/jest@29.4.0:
     resolution: {integrity: sha512-VaywcGQ9tPorCX/Jkkni7RWGFfI11whqzs8dvxF41P17Z+z872thvEvlIbznjPJ02kl1HMX3LmLOonsj2n7HeQ==}
+    dependencies:
+      expect: 29.5.0
+      pretty-format: 29.5.0
+    dev: true
+
+  /@types/jest@29.4.1:
+    resolution: {integrity: sha512-zDQSWXG+ZkEvs2zFFMszePhx4euKz+Yt3Gg1P+RHjfJBinTTr6L2DEyovO4V/WrKXuF0Dgn56GWGZPDa6TW9eQ==}
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
@@ -6217,7 +6347,7 @@ packages:
       '@babel/core': 7.21.8
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.4.1(@types/node@18.16.7)
+      jest: 29.4.1(@types/node@18.16.12)
       jest-util: 29.5.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
