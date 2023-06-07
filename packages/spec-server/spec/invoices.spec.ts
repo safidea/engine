@@ -1,9 +1,9 @@
-import { ConfigSchemaInterface } from 'server-common'
+import type { ConfigInterface } from 'shared-config'
 import App from '../src/app'
 
 // GIVEN
 // Une configuration .json qui décrit une app de gestion de facture
-const config: ConfigSchemaInterface = {
+const config: ConfigInterface = {
   name: 'invoices',
 }
 

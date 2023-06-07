@@ -4,19 +4,20 @@ import ResizeObserver from 'resize-observer-polyfill'
 import userEvent from '@testing-library/user-event'
 import { PageService } from 'client-page'
 import { DatabaseDataType } from 'shared-database'
+import { SWRConfig } from 'swr'
 
-import type { ConfigSchemaInterface } from 'server-common'
+import type { ConfigInterface } from 'shared-config'
 
 global.ResizeObserver = ResizeObserver
 
 jest.mock('axios')
 
 interface AppInterface {
-  config: ConfigSchemaInterface
+  config: ConfigInterface
 }
 
 class App {
-  private config: ConfigSchemaInterface
+  private config: ConfigInterface
   public user = userEvent.setup()
 
   constructor({ config }: AppInterface) {
@@ -27,12 +28,16 @@ class App {
     const pages = this.config.pages
     if (!pages || !pages[path]) throw new Error(`Page ${path} not found`)
     const components = pages[path].components
-    const Page = PageService.render(components)
-    return <Page />
+    const Page = PageService.render(components, this.config)
+    return (
+      <SWRConfig value={{ dedupingInterval: 0 }}>
+        <Page />
+      </SWRConfig>
+    )
   }
 
-  public seed(table: string, data: DatabaseDataType[]) {
-    axios.post(`/api/table/${table}`, data)
+  public async seed(table: string, data: DatabaseDataType[]) {
+    await axios.post(`/api/table/${table}`, data)
   }
 }
 

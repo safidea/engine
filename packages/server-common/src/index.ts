@@ -6,11 +6,7 @@ export { default as RouteUtils } from './utils/route.utils'
 export { default as ConfigUtils } from './utils/config.utils'
 export { default as ProcessUtils } from './utils/process.utils'
 
-export type {
-  ConfigInterface,
-  ConfigSchemaInterface,
-  EnvInterface,
-} from './interfaces/config.interface'
+export type { ConfigExecInterface } from './interfaces/config.interface'
 export type { RouteInterface } from './interfaces/route.interface'
 export type { RequestInterface } from './interfaces/request.interface'
 export type { ResponseInterface } from './interfaces/response.interface'

@@ -5,12 +5,13 @@ import { ObjectUtils } from 'shared-common'
 import debug from 'debug'
 
 import type { ObjectInterface, ObjectValueInterface } from 'shared-common'
-import type { ConfigInterface, ConfigSchemaInterface } from '../interfaces/config.interface'
+import type { ConfigExecInterface } from '../interfaces/config.interface'
+import type { ConfigInterface } from 'shared-config'
 
 const log = debug('config:common')
 
 class ConfigUtils {
-  private config: ConfigSchemaInterface = {}
+  private config: ConfigInterface = {}
 
   constructor() {
     if (process.env.NO_CONFIG_CACHE) {
@@ -48,7 +49,7 @@ class ConfigUtils {
     log('Config cached')
   }
 
-  public async exec(configs: ConfigInterface[]): Promise<void> {
+  public async exec(configs: ConfigExecInterface[]): Promise<void> {
     const start = Date.now()
 
     this.init()
@@ -83,7 +84,7 @@ class ConfigUtils {
     log(`Config executed in ${end - start}ms`)
   }
 
-  public get(path?: string): ObjectValueInterface | undefined {
+  public get(path?: string): ConfigInterface | ObjectValueInterface | undefined {
     if (path) return ObjectUtils.getAtPath(this.config, path)
     return this.config
   }

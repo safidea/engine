@@ -20,6 +20,7 @@
     "server-table": "workspace:^",
     "shared-database": "workspace:^",
     "ts-jest": "29.0.5",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "shared-config": "workspace:*"
   }
 }

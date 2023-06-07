@@ -1,11 +1,11 @@
-import type { ConfigSchemaInterface, EnvInterface } from 'server-common'
+import type { ConfigInterface, EnvInterface } from 'shared-config'
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { join } from 'path'
 import http from 'http'
 
 interface AppInterface {
-  config: ConfigSchemaInterface
+  config: ConfigInterface
   env: EnvInterface
   filename: string
 }

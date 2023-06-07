@@ -21,6 +21,7 @@
     "server-database": "workspace:*",
     "server-page": "workspace:*",
     "server-table": "workspace:*",
+    "shared-config": "workspace:*",
     "sharp": "^0.32.1",
     "tailwindcss": "latest"
   },

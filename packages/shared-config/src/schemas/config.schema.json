@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ComponentInterface": {
+      "properties": {
+        "components": {
+          "$ref": "#/definitions/ComponentsInterface"
+        },
+        "key": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["key"],
+      "type": "object"
+    },
+    "ComponentsInterface": {
+      "items": {
+        "$ref": "#/definitions/ComponentInterface"
+      },
+      "type": "array"
+    },
+    "DatabaseInterface": {
+      "properties": {
+        "provider": {
+          "enum": ["cockroachdb", "mongodb", "mysql", "postgresql", "sqlite", "sqlserver"],
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": ["provider", "url"],
+      "type": "object"
+    },
+    "MetadataInterface": {
+      "properties": {
+        "description": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PageInterface": {
+      "properties": {
+        "components": {
+          "$ref": "#/definitions/ComponentsInterface"
+        },
+        "metadata": {
+          "$ref": "#/definitions/MetadataInterface"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": ["components", "title"],
+      "type": "object"
+    },
+    "PagesInterface": {
+      "additionalProperties": {
+        "$ref": "#/definitions/PageInterface"
+      },
+      "type": "object"
+    },
+    "TableFieldInterface": {
+      "properties": {
+        "default": {
+          "type": ["string", "number", "boolean"]
+        },
+        "list": {
+          "type": "boolean"
+        },
+        "optional": {
+          "type": "boolean"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "relation": {
+          "properties": {
+            "fields": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "onDelete": {
+              "type": "string"
+            },
+            "references": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": ["fields", "onDelete", "references"],
+          "type": "object"
+        },
+        "type": {
+          "enum": ["Boolean", "DateTime", "Float", "Int", "Json", "SingleSelect", "String"],
+          "type": "string"
+        },
+        "unique": {
+          "type": "boolean"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    },
+    "TableFieldsInterface": {
+      "additionalProperties": {
+        "$ref": "#/definitions/TableFieldInterface"
+      },
+      "type": "object"
+    },
+    "TableInterface": {
+      "properties": {
+        "fields": {
+          "$ref": "#/definitions/TableFieldsInterface"
+        },
+        "model": {
+          "type": "string"
+        },
+        "unique": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["fields"],
+      "type": "object"
+    },
+    "TablesInterface": {
+      "additionalProperties": {
+        "$ref": "#/definitions/TableInterface"
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "components": {
+      "$ref": "#/definitions/ComponentsInterface"
+    },
+    "database": {
+      "$ref": "#/definitions/DatabaseInterface"
+    },
+    "name": {
+      "type": "string"
+    },
+    "pages": {
+      "$ref": "#/definitions/PagesInterface"
+    },
+    "tables": {
+      "$ref": "#/definitions/TablesInterface"
+    }
+  },
+  "type": "object"
+}

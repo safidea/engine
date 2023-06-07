@@ -30,7 +30,9 @@
     "server-common": "workspace:*",
     "server-database": "workspace:^",
     "shared-database": "workspace:^",
+    "swr": "^2.1.5",
     "ts-jest": "29.0.5",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "shared-config": "workspace:*"
   }
 }

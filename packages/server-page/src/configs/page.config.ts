@@ -3,11 +3,11 @@ import { ConfigUtils, SchemaUtils } from 'server-common'
 import { PageSchema } from 'shared-page'
 
 import type { PagesInterface } from 'shared-page'
-import type { ConfigInterface } from 'server-common'
+import type { ConfigExecInterface } from 'server-common'
 
 const log: debug.IDebugger = debug('config:page')
 
-class PageConfig implements ConfigInterface {
+class PageConfig implements ConfigExecInterface {
   public enrich(): void {
     const pages = this.get()
     for (const page in pages) {

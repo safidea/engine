@@ -5,11 +5,11 @@ import TableUtils from '../utils/table.utils'
 import { TableSchema } from 'shared-table'
 
 import type { TablesInterface } from 'shared-table'
-import type { ConfigInterface } from 'server-common'
+import type { ConfigExecInterface } from 'server-common'
 
 const log: debug.IDebugger = debug('config:table')
 
-class TableConfig implements ConfigInterface {
+class TableConfig implements ConfigExecInterface {
   public enrich() {
     const tables = this.get()
     const defaultFields = TableUtils.getDefaultFields()

@@ -5,11 +5,11 @@ import { ConfigUtils, SchemaUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
 import type { DatabaseInterface } from 'shared-database'
-import type { ConfigInterface } from 'server-common'
+import type { ConfigExecInterface } from 'server-common'
 
 const log: debug.IDebugger = debug('config:database')
 
-class DatabaseConfig implements ConfigInterface {
+class DatabaseConfig implements ConfigExecInterface {
   public validate() {
     const database = this.get()
     if (!database) return

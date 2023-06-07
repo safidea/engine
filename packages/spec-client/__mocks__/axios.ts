@@ -11,12 +11,12 @@ class MockAxios {
     return url.split('/').pop() as string
   }
 
-  public get = jest.fn((url: string) => {
+  public get(url: string) {
     const table = this.getTableFromUrl(url)
     return Promise.resolve({
       data: this.db[table],
     })
-  })
+  }
 
   public post(url: string, data: DatabaseDataType[]): void {
     const table = this.getTableFromUrl(url)

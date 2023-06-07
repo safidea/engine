@@ -1,10 +1,10 @@
-import { ConfigSchemaInterface, EnvInterface } from 'server-common'
+import { ConfigInterface, EnvInterface } from 'shared-config'
 import { test, expect } from '@playwright/test'
 import App from '../src/app'
 
 // GIVEN
 // Une configuration .json qui décrit une app de gestion de facture dispaonible au port 8001
-const config: ConfigSchemaInterface = {
+const config: ConfigInterface = {
   name: 'invoices',
 }
 const env: EnvInterface = {

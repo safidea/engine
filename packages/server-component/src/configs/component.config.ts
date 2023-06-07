@@ -3,11 +3,11 @@ import { ConfigUtils, SchemaUtils } from 'server-common'
 import { ComponentSchema } from 'shared-component'
 
 import type { ComponentsInterface } from 'shared-component'
-import type { ConfigInterface } from 'server-common'
+import type { ConfigExecInterface } from 'server-common'
 
 const log: debug.IDebugger = debug('config:component')
 
-class ComponentConfig implements ConfigInterface {
+class ComponentConfig implements ConfigExecInterface {
   public enrich(): void {
     const components = this.get()
     for (const component in components) {
