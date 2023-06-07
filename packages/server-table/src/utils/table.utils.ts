@@ -58,8 +58,12 @@ class TableUtils {
         errors.push(`Field ${field} must be a string`)
       }
 
-      if (fieldData.type === 'DateTime' && value && !new Date(String(value)).getTime()) {
-        errors.push(`Field ${field} must be a valid date`)
+      if (fieldData.type === 'DateTime' && value) {
+        const date = new Date(String(value))
+        data[field] = date.toISOString()
+        if (isNaN(date.getTime())) {
+          errors.push(`Field ${field} must be a valid date`)
+        }
       }
 
       if (fieldData.type === 'Boolean' && value && typeof value !== 'boolean') {
