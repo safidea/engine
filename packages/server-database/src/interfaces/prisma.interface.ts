@@ -21,6 +21,7 @@ export interface PrismaModelFieldInterface extends ObjectInterface {
   list?: boolean
   default?: string | number | boolean
   unique?: boolean
+  options?: string[]
   relation?: {
     fields: string[]
     references: string[]

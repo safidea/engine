@@ -1,32 +1,16 @@
 /** This file is only used for testing, not in production */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import fs from 'fs-extra'
-import { join, basename } from 'path'
 import { faker } from '@faker-js/faker'
-import AppUtils from './app.utils'
-import PathUtils from './path.utils'
 import ConfigUtils from './config.utils'
 
 import type { BuildDataOptionsType, BuiltDataType, TestDataType } from '../types/test.type'
 
 class TestUtils {
-  public setupAppEnv(dirPath: string, appName?: string): void {
-    const name = appName ?? basename(dirPath)
-    const packageMatch = dirPath.match(/\/packages\/([^/]+)/)
-    const packageName = packageMatch && packageMatch[1]
-    const testFolder = dirPath.includes('/e2e') ? 'e2e' : '__tests__/integration/' + name
-    process.env.APP_PATH = `packages/${packageName}/${testFolder}/app`
-  }
+  public setupAppEnv(): void {}
 
   public beforeAll(): void {
     ConfigUtils.init()
-  }
-
-  public afterAll(packages: string[] = []): void {
-    if (packages.length > 0) for (const packageName of packages) AppUtils.clearImports(packageName)
-    const path = PathUtils.getAppRoot()
-    fs.removeSync(join(path, 'build'))
   }
 
   private buildData(table: string, options?: BuildDataOptionsType): BuiltDataType {

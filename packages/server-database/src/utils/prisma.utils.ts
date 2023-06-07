@@ -14,24 +14,28 @@ class PrismaUtils {
     return StringUtils.singular(StringUtils.capitalize(name))
   }
 
+  public getEnumName(table: string, field: string): string {
+    return StringUtils.capitalize(this.getModelName(table)) + StringUtils.capitalize(field)
+  }
+
   public updateDatabaseSchema(database: DatabaseInterface): void {
-    const datasourceSchema = `\n\ndatasource db {
+    const datasourceSchema = `\n\ngenerator client {
+      provider      = "prisma-client-js"
+      output        = "./client"
+      binaryTargets = ["native", "debian-openssl-1.1.x"]
+    }
+    
+    datasource db {
       provider = "${database.provider}"
       url      = "${database.url}"
     }`
-    const databaseSchema = fs.readFileSync(this.schemaPath, 'utf8')
-    const datasourceSchemaRegex = new RegExp(`datasource db {([\\s\\S]*?)}`, 'g')
-    if (datasourceSchemaRegex.test(databaseSchema)) {
-      const newDatabaseSchema = databaseSchema.replace(datasourceSchemaRegex, datasourceSchema)
-      fs.writeFileSync(this.schemaPath, newDatabaseSchema)
-    } else {
-      fs.appendFileSync(this.schemaPath, datasourceSchema)
-    }
+    fs.writeFileSync(this.schemaPath, datasourceSchema)
   }
 
   public updateModelSchema(modelName: string, modelData: PrismaModelInterface): void {
     const { fields, unique, map } = modelData
-    const modelSchema = `\n\nmodel ${modelName} {
+    const enums: string[] = []
+    let modelSchema = `\n\nmodel ${modelName} {
       ${Object.keys(fields)
         .map((fieldName: string) => {
           const field = fields[fieldName]
@@ -44,7 +48,7 @@ class PrismaUtils {
           const isList = field.list ? '[]' : ''
           const isPrimary = field.primary ? ' @id' : ''
           const isUnique = field.unique ? ' @unique' : ''
-          const hasDefault = field.default ? ` @default(${defaultValue})` : ''
+          const hasDefault = field.default != null ? ` @default(${defaultValue})` : ''
           const hasRelation = field.relation
             ? ` @relation(fields: [${field.relation.fields.join(
                 ','
@@ -52,6 +56,13 @@ class PrismaUtils {
                 field.relation.onDelete
               })`
             : ''
+          if (field.type === 'SingleSelect' && field.options) {
+            const enumName = this.getEnumName(modelName, fieldName)
+            enums.push(`\n\nenum ${enumName} {
+              ${field.options.join('\n')}
+            }`)
+            field.type = enumName
+          }
           return `${fieldName} ${field.type}${isRequired}${isList}${isPrimary}${isUnique}${hasDefault}${hasRelation}`
         })
         .join('\n')}
@@ -59,14 +70,10 @@ class PrismaUtils {
       ${unique ? `@@unique([${unique.join(', ')}])` : ''}
       ${map ? `@@map("${map}")` : ''}
     }`
-    const databaseSchema = fs.readFileSync(this.schemaPath, 'utf8')
-    const modelSchemaRegex = new RegExp(`model ${modelName} {([\\s\\S]*?)}`, 'g')
-    if (modelSchemaRegex.test(databaseSchema)) {
-      const newDatabaseSchema = databaseSchema.replace(modelSchemaRegex, modelSchema)
-      fs.writeFileSync(this.schemaPath, newDatabaseSchema)
-    } else {
-      fs.appendFileSync(this.schemaPath, modelSchema)
+    if (enums.length > 0) {
+      modelSchema += enums.join('')
     }
+    fs.appendFileSync(this.schemaPath, modelSchema)
   }
 
   public async connect(log: debug.IDebugger, retries = 5): Promise<void> {

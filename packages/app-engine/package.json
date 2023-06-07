@@ -2,7 +2,7 @@
   "name": "app-engine",
   "main": "./next.config.js",
   "scripts": {
-    "config": "DEBUG=config:* NO_CONFIG_CACHE=true ts-node config/index.ts",
+    "config": "DEBUG=config:* ts-node config/index.ts",
     "build": "next build",
     "dev": "next dev",
     "start": "next start",

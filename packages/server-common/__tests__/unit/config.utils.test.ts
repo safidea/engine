@@ -2,8 +2,6 @@ import './setup'
 import fs from 'fs-extra'
 import { ConfigUtils } from '../../src'
 
-import type { ConfigInterface } from '../../src'
-
 describe('init', () => {
   it('should throw error if config file is not found', () => {
     const pathExistsSync = fs.pathExistsSync as jest.MockedFunction<typeof fs.pathExistsSync>
@@ -15,14 +13,6 @@ describe('init', () => {
     const readJsonSync = fs.readJsonSync as jest.MockedFunction<typeof fs.readJsonSync>
     readJsonSync.mockReturnValueOnce(null)
     expect(() => ConfigUtils.init()).toThrowError('Config file is not a valid JSON')
-  })
-
-  it('should init config with env vars', () => {
-    process.env.APP_PATH = '/test'
-    const readJsonSync = fs.readJsonSync as jest.MockedFunction<typeof fs.readJsonSync>
-    readJsonSync.mockReturnValueOnce({ version: '${APP_PATH}' })
-    const result = ConfigUtils.init()
-    expect(result).toEqual({ version: '1.0.0' })
   })
 
   it('should init config', () => {
@@ -63,7 +53,7 @@ describe('exec', () => {
   it('should exec config', () => {
     jest.spyOn(ConfigUtils, 'init')
     jest.spyOn(ConfigUtils, 'cache')
-    const config: ConfigInterface = {
+    const config = {
       enrich: jest.fn(),
       validate: jest.fn(),
       lib: jest.fn(),

@@ -28,6 +28,10 @@ class DatabaseService {
     PrismaUtils.updateModelSchema(modelName, modelData)
   }
 
+  public getEnumName(table: string, field: string): string {
+    return PrismaUtils.getEnumName(table, field)
+  }
+
   public create: DatabaseServiceFunctionDataType = async (tableName, params) => {
     const { data } = params
     const row = await this.table(tableName).create({

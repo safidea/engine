@@ -75,6 +75,12 @@
         "optional": {
           "type": "boolean"
         },
+        "options": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "primary": {
           "type": "boolean"
         },

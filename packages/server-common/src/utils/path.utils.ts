@@ -1,25 +1,22 @@
 import { join, dirname } from 'path'
 
 class PathUtils {
-  private getProjectRoot(): string {
+  public getAppRoot(path?: string): string {
+    if (path) return path
     const parentDir = process.cwd()
-    return join(dirname(parentDir), '..')
+    return join(dirname(parentDir), '..', 'app')
   }
 
-  public getAppRoot(): string {
-    return join(this.getProjectRoot(), process.env.APP_PATH || './app')
+  public getAppConfigFile(path?: string): string {
+    return join(this.getAppRoot(path), 'config.json')
   }
 
-  public getAppConfigFile(): string {
-    return join(this.getAppRoot(), 'config.json')
+  public getAppEnvFile(path?: string): string {
+    return join(this.getAppRoot(path), '.env')
   }
 
-  public getAppEnvFile(): string {
-    return join(this.getAppRoot(), '.env')
-  }
-
-  public getAppConfigCache(): string {
-    return join(this.getAppRoot(), `cache.config.json`)
+  public getAppConfigCache(path?: string): string {
+    return join(this.getAppRoot(path), `cache.config.json`)
   }
 }
 

@@ -1,8 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": [
-    "APP_PATH",
-    "NO_CONFIG_CACHE",
     "NODE_ENV",
     "DEBUG",
     "EMAIL_SERVER_HOST",

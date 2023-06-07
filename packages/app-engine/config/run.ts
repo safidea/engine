@@ -4,6 +4,6 @@ import { TableConfig } from 'server-table'
 import { ComponentConfig } from 'server-component'
 import { PageConfig } from 'server-page'
 
-export default async function run() {
-  return ConfigUtils.exec([DatabaseConfig, TableConfig, ComponentConfig, PageConfig])
+export default async function run(path?: string): Promise<void> {
+  return ConfigUtils.exec([DatabaseConfig, TableConfig, ComponentConfig, PageConfig], path)
 }

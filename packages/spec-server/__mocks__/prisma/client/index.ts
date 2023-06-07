@@ -33,8 +33,9 @@ class PrismaClient {
     }),
     delete: jest.fn(({ where }) => {
       const index = this.db.invoices.findIndex((invoice) => invoice.id === where.id)
-      this.db.invoices.splice(index, 1)
-      return this.db.invoices[index]
+      const data = this.db.invoices[index]
+      this.db.invoices = this.db.invoices.filter((invoice) => invoice.id !== where.id)
+      return data
     }),
     findMany: jest.fn(() => {
       return this.db.invoices

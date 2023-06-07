@@ -14,26 +14,22 @@ class ConfigUtils {
   private config: ConfigInterface = {}
 
   constructor() {
-    if (process.env.NO_CONFIG_CACHE) {
-      log('Config from cache disabled')
-    } else {
-      const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
-      if (config) {
-        log('Initializing config from cache...')
-        this.config = config
-        dotenv.config({ path: PathUtils.getAppEnvFile(), override: true })
-      }
+    const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
+    if (config) {
+      log('Load config from cache...')
+      this.config = config
+      dotenv.config({ path: PathUtils.getAppEnvFile(), override: true })
     }
   }
 
-  public init(): ObjectInterface {
+  public init(path?: string): ObjectInterface {
     log('Initializing config...')
-    const configPath = PathUtils.getAppConfigFile()
+    const configPath = PathUtils.getAppConfigFile(path)
     log(`Load ${configPath} file`)
     if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
     this.config = fs.readJsonSync(configPath, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
-    const envPath = PathUtils.getAppEnvFile()
+    const envPath = PathUtils.getAppEnvFile(path)
     log(`Load ${envPath} file`)
     dotenv.config({ path: envPath, override: true })
     this.config = ObjectUtils.replaceVars(this.config, process.env)
@@ -41,18 +37,18 @@ class ConfigUtils {
     return this.config
   }
 
-  public cache(): void {
+  public cache(path?: string): void {
     log('Caching config...')
-    const cachePath = PathUtils.getAppConfigCache()
+    const cachePath = PathUtils.getAppConfigCache(path)
     fs.ensureFileSync(cachePath)
     fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
     log('Config cached')
   }
 
-  public async exec(configs: ConfigExecInterface[]): Promise<void> {
+  public async exec(configs: ConfigExecInterface[], path?: string): Promise<void> {
     const start = Date.now()
 
-    this.init()
+    this.init(path)
     log('Executing config...')
 
     // Enrich config
@@ -78,7 +74,7 @@ class ConfigUtils {
     await Promise.all(promises)
 
     log('Config executed')
-    this.cache()
+    this.cache(path)
 
     const end = Date.now()
     log(`Config executed in ${end - start}ms`)

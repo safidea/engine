@@ -7,6 +7,7 @@ export interface TableFieldInterface extends ObjectInterface {
   list?: boolean
   default?: string | number | boolean
   unique?: boolean
+  options?: string[]
   relation?: {
     fields: string[]
     references: string[]

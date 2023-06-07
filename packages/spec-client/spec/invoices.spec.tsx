@@ -1,7 +1,8 @@
-import { ConfigInterface } from 'shared-config'
 import { waitFor, render, screen, act } from '@testing-library/react'
-import { DatabaseDataType } from 'shared-database'
 import App from '../src/app'
+
+import type { DatabaseDataType } from 'shared-database'
+import type { ConfigInterface } from 'shared-config'
 
 describe('Display a list of invoices', () => {
   // GIVEN
@@ -66,7 +67,7 @@ describe('Display a list of invoices', () => {
   })
 })
 
-describe('Display a list of invoices grouped by status and sorted by date', () => {
+describe('Display a list of invoices grouped by status and sorted by dates', () => {
   // GIVEN
   // Une configuration .json qui décrit une app de gestion de facture
   const config: ConfigInterface = {
@@ -86,7 +87,7 @@ describe('Display a list of invoices grouped by status and sorted by date', () =
         },
         status: {
           type: 'SingleSelect',
-          values: ['draft', 'created', 'sent', 'paid'],
+          options: ['draft', 'finalised', 'sent', 'paid'],
           default: 'draft',
         },
         number: {
@@ -164,14 +165,44 @@ describe('Display a list of invoices grouped by status and sorted by date', () =
 
   // On fournit 8 factures d'exemple
   const invoices: DatabaseDataType[] = [
-    { name: 'Facture 1', amount: 100, finalised_date: '2021-06-03', status: 'draft' },
-    { name: 'Facture 2', amount: 200, finalised_date: '2021-06-04', status: 'draft' },
-    { name: 'Facture 3', amount: 300, finalised_date: '2021-06-05', status: 'draft' },
-    { name: 'Facture 4', amount: 400, finalised_date: '2021-05-04', status: 'finalised' },
-    { name: 'Facture 5', amount: 500, finalised_date: '2021-05-03', status: 'finalised' },
-    { name: 'Facture 6', amount: 600, finalised_date: '2021-04-06', status: 'sent' },
-    { name: 'Facture 7', amount: 700, finalised_date: '2021-04-09', status: 'sent' },
-    { name: 'Facture 8', amount: 800, finalised_date: '2021-04-08', status: 'paid' },
+    { name: 'Facture 1', amount: 100, status: 'draft' },
+    {
+      name: 'Facture 2',
+      amount: 200,
+      finalised_date: '2021-06-04',
+      status: 'finalised',
+      number: '1002',
+    },
+    {
+      name: 'Facture 3',
+      amount: 300,
+      finalised_date: '2021-06-05',
+      status: 'sent',
+      number: '1003',
+    },
+    {
+      name: 'Facture 4',
+      amount: 400,
+      finalised_date: '2021-05-04',
+      status: 'finalised',
+      number: '1004',
+    },
+    { name: 'Facture 5', amount: 500, status: 'draft' },
+    {
+      name: 'Facture 6',
+      amount: 600,
+      finalised_date: '2021-04-06',
+      status: 'paid',
+      number: '1006',
+    },
+    { name: 'Facture 7', amount: 700, status: 'draft' },
+    {
+      name: 'Facture 8',
+      amount: 800,
+      finalised_date: '2021-04-08',
+      status: 'sent',
+      number: '1008',
+    },
   ]
 
   // WHEN
@@ -187,30 +218,30 @@ describe('Display a list of invoices grouped by status and sorted by date', () =
   })
 
   // THEN
-  // Vérifier que les factures sont bien affichées dans la liste
-  it('should display invoices list', async () => {
+  // Vérifier que les factures sont bien affichées dans un groupe par statut
+  it('should display invoices list group by status', async () => {
     const draftRows = screen.getAllByText(/Brouillon/)
-    expect(draftRows).toHaveLength(3)
+    expect(draftRows).toHaveLength(4)
 
     const finalisedRows = screen.getAllByText(/Finalisée/)
-    expect(finalisedRows).toHaveLength(2)
+    expect(finalisedRows).toHaveLength(3)
 
     const sentRows = screen.getAllByText(/Envoyée/)
-    expect(sentRows).toHaveLength(2)
+    expect(sentRows).toHaveLength(3)
 
     const paidRows = screen.getAllByText(/Payée/)
-    expect(paidRows).toHaveLength(1)
+    expect(paidRows).toHaveLength(2)
   })
 
   // Vérifier que les factures sont bien triées par date
-  it('should sort invoices by finalised date then created date', async () => {
+  it('should sortinvoices by finalised date then created date', async () => {
     const rows = screen.getAllByText(/Facture \d/)
-    expect(rows[0]).toHaveTextContent('Facture 3')
-    expect(rows[1]).toHaveTextContent('Facture 2')
-    expect(rows[2]).toHaveTextContent('Facture 1')
-    expect(rows[3]).toHaveTextContent('Facture 4')
-    expect(rows[4]).toHaveTextContent('Facture 5')
-    expect(rows[5]).toHaveTextContent('Facture 7')
+    expect(rows[0]).toHaveTextContent('Facture 1')
+    expect(rows[1]).toHaveTextContent('Facture 5')
+    expect(rows[2]).toHaveTextContent('Facture 7')
+    expect(rows[3]).toHaveTextContent('Facture 2')
+    expect(rows[4]).toHaveTextContent('Facture 4')
+    expect(rows[5]).toHaveTextContent('Facture 3')
     expect(rows[6]).toHaveTextContent('Facture 8')
     expect(rows[7]).toHaveTextContent('Facture 6')
   })

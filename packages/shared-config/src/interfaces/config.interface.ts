@@ -16,5 +16,4 @@ export interface EnvInterface {
   DATABASE_URL?: string
   PORT?: string
   DEBUG?: string
-  APP_PATH?: string
 }

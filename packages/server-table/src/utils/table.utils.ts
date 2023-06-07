@@ -1,4 +1,5 @@
 import { ConfigUtils } from 'server-common'
+import { DatabaseService } from 'server-database'
 
 import type { TableFieldsInterface, TablesInterface } from 'shared-table'
 import type { DatabaseDataType } from 'shared-database'
@@ -68,6 +69,14 @@ class TableUtils {
 
       if (fieldData.type === 'Boolean' && value && typeof value !== 'boolean') {
         errors.push(`Field ${field} must be a boolean`)
+      }
+
+      if (
+        fieldData.type === DatabaseService.getEnumName(table, field) &&
+        value &&
+        !fieldData.options?.includes(String(value))
+      ) {
+        errors.push(`Field ${field} must be one of ${fieldData.options?.join(', ')}`)
       }
     }
 

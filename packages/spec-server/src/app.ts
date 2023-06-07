@@ -13,7 +13,7 @@ jest.mock('server-database/prisma/client', () => {
 
 interface AppInterface {
   config: ConfigInterface
-  env?: EnvInterface
+  env: EnvInterface
   filename: string
 }
 
@@ -22,9 +22,10 @@ class App {
   private name: string
   private serverDomain = 'http://localhost:3000'
 
-  constructor({ config, env = {}, filename }: AppInterface) {
+  constructor({ config, env, filename }: AppInterface) {
+    env.PORT = env.PORT ?? '8000'
     env.DATABASE_URL = env.DATABASE_URL ?? `postgresql://admin:admin@db/master`
-    this.name = (filename.match(/[a-z]*(?=\.spec)/) || ['app'])[0]
+    this.name = (filename.match(/[a-z]*(?=\.spec)/) || ['app'])[0] + '-' + env.PORT
     this.path = join(__dirname, '../build', this.name)
     fs.ensureDirSync(this.path)
     fs.writeFileSync(join(this.path, 'config.json'), JSON.stringify(config, null, 2))
@@ -34,15 +35,16 @@ class App {
         .map(([key, value]) => `${key}=${value}`)
         .join('\n')
     )
-    process.env.APP_PATH = this.path.split('foundation/')[1]
   }
 
   public async start(): Promise<void> {
-    await runConfig()
+    await runConfig(this.path)
   }
 
   public async seed(table: string, data: DatabaseDataType[]): Promise<void> {
-    for (const item of data) await DatabaseService.create(table, { data: item })
+    const rows = await DatabaseService.list(table)
+    for (const row of rows) await DatabaseService.deleteById(table, { id: row.id })
+    for (const item of data) await this.post(`/api/table/${table}`, item)
   }
 
   public async get(url: string) {
@@ -53,6 +55,20 @@ class App {
     switch (feature) {
       case 'table':
         return TableRoute.GET(request, { params: { table: domain, id: key } })
+      default:
+        throw new Error(`Feature ${feature} not supported`)
+    }
+  }
+
+  public async post(url: string, body: any) {
+    const [, , feature, domain, key] = url.split('/')
+    const request = new Request(this.serverDomain + url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+    switch (feature) {
+      case 'table':
+        return TableRoute.POST(request, { params: { table: domain, id: key } })
       default:
         throw new Error(`Feature ${feature} not supported`)
     }

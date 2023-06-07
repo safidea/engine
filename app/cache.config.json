@@ -12,14 +12,20 @@
         },
         "amount": {
           "type": "Int",
-          "optional": true
-        },
-        "date": {
-          "type": "DateTime",
+          "default": 0,
           "optional": true
         },
         "status": {
+          "type": "InvoiceStatus",
+          "options": ["draft", "finalised", "sent", "paid"],
+          "default": "draft"
+        },
+        "number": {
           "type": "String",
+          "optional": true
+        },
+        "finalised_date": {
+          "type": "DateTime",
           "optional": true
         },
         "id": {
@@ -48,9 +54,12 @@
       "components": [
         {
           "key": "list",
-          "database": "master",
           "table": "invoices",
           "fields": [
+            {
+              "key": "id",
+              "label": "ID"
+            },
             {
               "key": "name",
               "label": "Titre"
@@ -60,16 +69,49 @@
               "label": "Montant"
             },
             {
-              "key": "date",
-              "label": "Date"
-            },
-            {
               "key": "status",
-              "label": "Statut"
+              "label": "Statut",
+              "options": [
+                {
+                  "key": "draft",
+                  "label": "Brouillon"
+                },
+                {
+                  "key": "finalised",
+                  "label": "Finalisée"
+                },
+                {
+                  "key": "sent",
+                  "label": "Envoyée"
+                },
+                {
+                  "key": "paid",
+                  "label": "Payée"
+                }
+              ]
             },
             {
-              "key": "actions",
-              "label": "Actions"
+              "key": "finalised_date",
+              "label": "Date de finalisation"
+            },
+            {
+              "key": "created_date",
+              "label": "Date de création"
+            }
+          ],
+          "groupBy": [
+            {
+              "field": "status"
+            }
+          ],
+          "sortBy": [
+            {
+              "field": "finalised_date",
+              "order": "desc"
+            },
+            {
+              "field": "created_date",
+              "order": "desc"
             }
           ]
         }
