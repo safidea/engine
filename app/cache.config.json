@@ -10,6 +10,18 @@
         "name": {
           "type": "String"
         },
+        "amount": {
+          "type": "Int",
+          "optional": true
+        },
+        "date": {
+          "type": "DateTime",
+          "optional": true
+        },
+        "status": {
+          "type": "String",
+          "optional": true
+        },
         "id": {
           "type": "String",
           "primary": true,
@@ -42,6 +54,22 @@
             {
               "key": "name",
               "label": "Titre"
+            },
+            {
+              "key": "amount",
+              "label": "Montant"
+            },
+            {
+              "key": "date",
+              "label": "Date"
+            },
+            {
+              "key": "status",
+              "label": "Statut"
+            },
+            {
+              "key": "actions",
+              "label": "Actions"
             }
           ]
         }

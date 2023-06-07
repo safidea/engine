@@ -37,6 +37,7 @@
           "type": "object"
         },
         "type": {
+          "enum": ["Boolean", "DateTime", "Float", "Int", "Json", "String"],
           "type": "string"
         },
         "unique": {
