@@ -1,4 +1,4 @@
-import { DatabaseRowType, DatabaseDataType } from 'shared-database'
+import { DatabaseRowType } from 'shared-database'
 
 type DbType = {
   [key: string]: DatabaseRowType[]
