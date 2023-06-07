@@ -1,5 +1,4 @@
 import { ConfigSchemaInterface } from 'server-common'
-import { DatabaseService } from 'server-database'
 import App from '../src/app'
 
 // GIVEN
@@ -39,26 +38,30 @@ describe('Display a list of invoices', () => {
     },
   }
 
+  // Configuration de l'app de test
+  const app = new App({ config, filename: __filename })
+  beforeAll(async () => {
+    await app.start()
+  })
+
   // On fournit 2 factures d'exemple
   const invoices = [{ name: 'Facture 1' }, { name: 'Facture 2' }]
-  it('should create 2 invoices througt API', async () => {
-    for (const invoice of invoices) {
-      const row = await DatabaseService.create('invoices', { data: invoice })
-      expect(row.id).toBeDefined()
-    }
+  it('should create 2 invoices', async () => {
+    app.seed('invoices', invoices)
   })
 
   // WHEN
   // Quand je vais sur la page d'accueil "/"
-  it('should navigate to the home page', async () => {})
 
   // THEN
   // Vérifier que la facture 1 et la facture 2 sont bien affiché dans la liste
-  it('should display invoices list', async () => {})
-})
-
-// Configuration de l'app de test
-const app = new App({ config, filename: __filename })
-beforeAll(async () => {
-  await app.start()
+  it('should get 2 invoices from API', async () => {
+    const response = await app.get('/api/table/invoices')
+    expect(response.status).toBe(200)
+    const rows = await response.json()
+    expect(rows).toHaveLength(invoices.length)
+    for (let i = 0; i < rows.length; i++) {
+      expect(rows[i].name).toBe(invoices[i].name)
+    }
+  })
 })

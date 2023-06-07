@@ -1,8 +1,15 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 import runConfig from 'app-engine/config/run'
+import { DatabaseService } from 'server-database'
+import { TableRoute } from 'server-table'
 
 import type { ConfigSchemaInterface, EnvInterface } from 'server-common'
+import type { DatabaseDataType } from 'shared-database'
+
+jest.mock('server-database/prisma/client', () => {
+  return jest.requireActual('../__mocks__/prisma/client')
+})
 
 interface AppInterface {
   config: ConfigSchemaInterface
@@ -13,6 +20,7 @@ interface AppInterface {
 class App {
   private path: string
   private name: string
+  private serverDomain = 'http://localhost:3000'
 
   constructor({ config, env = {}, filename }: AppInterface) {
     env.DATABASE_URL = env.DATABASE_URL ?? `postgresql://admin:admin@db/master`
@@ -31,6 +39,23 @@ class App {
 
   public async start(): Promise<void> {
     await runConfig()
+  }
+
+  public async seed(table: string, data: DatabaseDataType[]): Promise<void> {
+    for (const item of data) await DatabaseService.create(table, { data: item })
+  }
+
+  public async get(url: string) {
+    const [, , feature, domain, key] = url.split('/')
+    const request = new Request(this.serverDomain + url, {
+      method: 'GET',
+    })
+    switch (feature) {
+      case 'table':
+        return TableRoute.GET(request, { params: { table: domain, id: key } })
+      default:
+        throw new Error(`Feature ${feature} not supported`)
+    }
   }
 }
 

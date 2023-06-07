@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import MockAxios from '../__mocks__/axios'
+import axios from 'axios'
 import ResizeObserver from 'resize-observer-polyfill'
 import userEvent from '@testing-library/user-event'
 import { PageService } from 'client-page'
@@ -8,6 +8,8 @@ import { DatabaseDataType } from 'shared-database'
 import type { ConfigSchemaInterface } from 'server-common'
 
 global.ResizeObserver = ResizeObserver
+
+jest.mock('axios')
 
 interface AppInterface {
   config: ConfigSchemaInterface
@@ -30,7 +32,7 @@ class App {
   }
 
   public seed(table: string, data: DatabaseDataType[]) {
-    MockAxios.post(`/api/table/${table}`, data)
+    axios.post(`/api/table/${table}`, data)
   }
 }
 
