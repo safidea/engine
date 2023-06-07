@@ -75,6 +75,7 @@ class PrismaUtils {
       try {
         await prisma.$connect()
         log('Database connection successful')
+        await prisma.$disconnect()
         break
       } catch (error) {
         log(`Database connection failed. Retries left: ${retries}`)

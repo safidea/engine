@@ -64,8 +64,9 @@ describe('Display a list of invoices', () => {
       render(app.page('/'))
     })
     const rows = screen.getAllByText(/Facture \d/)
-    expect(rows).toHaveLength(2)
-    expect(rows[0]).toHaveTextContent('Facture 1')
-    expect(rows[1]).toHaveTextContent('Facture 2')
+    expect(rows).toHaveLength(invoices.length)
+    for (let i = 0; i < rows.length; i++) {
+      expect(rows[i]).toHaveTextContent(String(invoices[i].name))
+    }
   })
 })

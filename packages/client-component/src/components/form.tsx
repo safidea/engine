@@ -2,7 +2,6 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
-import TableHelper from '../helpers/table.helper'
 import type { CommonPropsType } from '../types/common.type'
 
 export type CreateProps = CommonPropsType & {
@@ -12,13 +11,12 @@ export type CreateProps = CommonPropsType & {
 }
 
 // This component is used to create a new item from a form with the given fields and database.
-export default async function Create({ table, fields, database }: CreateProps) {
+export default async function Create({ table, fields }: CreateProps) {
   const [formData, setFormData] = useState<{ [key: string]: string }>({})
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
     console.log('formData', formData)
-    await TableHelper.createRow(table, { formData, database })
   }
 
   const handleChange = (event: any) => {
