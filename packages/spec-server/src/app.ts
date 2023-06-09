@@ -11,6 +11,9 @@ jest.mock('server-database/prisma/client', () => {
   return jest.requireActual('../__mocks__/prisma/client')
 })
 
+// When need to mock child_process when need to provide a database in the configuration
+//jest.mock('child_process')
+
 interface AppInterface {
   config: ConfigInterface
   env: EnvInterface

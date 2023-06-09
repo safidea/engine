@@ -3,14 +3,16 @@ import App from '../src/app'
 import type { ConfigInterface } from 'shared-config'
 import type { DatabaseDataType } from 'shared-database'
 
-// GIVEN
-// Une configuration .json qui décrit une app de gestion de facture
-const config: ConfigInterface = {
-  name: 'invoices',
-}
+function createInvoiceApp() {
+  // Une configuration .json qui décrit une app de gestion de facture
+  const config: ConfigInterface = {
+    name: 'invoices',
+  }
 
-describe('Display a list of invoices', () => {
-  // Il faut que dans cette configuration, on ait défini un modèle de données où chaque facture a un nom
+  /*config.database = {
+    provider: 'sqlite',
+    url: 'file:./db.sqlite',
+  }*/
   config.tables = {
     invoices: {
       fields: {
@@ -39,24 +41,26 @@ describe('Display a list of invoices', () => {
       ],
     },
   }
-
-  // Configuration de l'app de test
   const app = new App({ config, env: { PORT: '8000' }, filename: __filename })
+  return app
+}
 
-  // On fournit 2 factures d'exemple
-  const invoices: DatabaseDataType[] = [{ name: 'Facture 1' }, { name: 'Facture 2' }]
+describe('Display a list of invoices', () => {
+  // Il faut que dans cette configuration, on ait défini un modèle de données où chaque facture a un nom
 
-  // WHEN
-  // Quand je vais sur la page d'accueil "/"
-  beforeAll(async () => {
+  it('should get 2 invoices from API', async () => {
+    // GIVEN an invoice application with 2 invoices
+    // On fournit 2 factures d'exemple
+    const invoices: DatabaseDataType[] = [{ name: 'Facture 1' }, { name: 'Facture 2' }]
+    const app = createInvoiceApp()
     await app.start()
     await app.seed('invoices', invoices)
-  })
 
-  // THEN
-  // Vérifier que la facture 1 et la facture 2 sont bien affiché dans la liste
-  it('should get 2 invoices from API', async () => {
+    // WHEN I request the list of invoices
     const response = await app.get('/api/table/invoices')
+
+    // THEN
+    // Vérifier que la facture 1 et la facture 2 sont bien affiché dans la liste
     expect(response.status).toBe(200)
     const rows = await response.json()
     expect(rows).toHaveLength(invoices.length)

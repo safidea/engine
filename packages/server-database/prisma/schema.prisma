@@ -29,3 +29,37 @@ enum InvoiceStatus {
   sent
   paid
 }
+
+
+model Invoice {
+      name String
+id String @id @default(cuid())
+created_at DateTime @default(now())
+updated_at DateTime?
+deleted_at DateTime?
+  
+      
+      @@map("invoices")
+    }
+
+model Invoice {
+      name String
+amount Int @default(0)
+status InvoiceStatus @default(draft)
+number String?
+finalised_date DateTime?
+id String @id @default(cuid())
+created_at DateTime @default(now())
+updated_at DateTime?
+deleted_at DateTime?
+  
+      
+      @@map("invoices")
+    }
+
+enum InvoiceStatus {
+              draft
+finalised
+sent
+paid
+            }
