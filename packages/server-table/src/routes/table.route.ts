@@ -1,41 +1,72 @@
-import { RouteUtils } from 'server-common'
+import { ConfigUtils } from 'server-common'
 import TableMiddleware from '../middlewares/table.middleware'
 import TableController from '../controllers/table.controller'
+import TableService from '../services/table.service'
 
 import type {
-  RouteInterface,
-  RouteMiddlewaresType,
-  RouteHandlerType,
   RequestInterface,
+  RequestBodyInterface,
+  RequestArrayBodyInterface,
+  ResponseInterface,
 } from 'server-common'
+import { DatabaseService } from 'server-database'
 
-class TableRoute implements RouteInterface {
-  private handler(middlewares: RouteMiddlewaresType): RouteHandlerType {
-    return RouteUtils.handler((req) => [TableMiddleware.validateTableExist, ...middlewares(req)])
+class TableRoute {
+  private tableMiddleware: TableMiddleware
+  private tableController: TableController
+
+  constructor({
+    databaseService,
+    configUtils,
+  }: {
+    databaseService: DatabaseService
+    configUtils: ConfigUtils
+  }) {
+    const tableService = new TableService({ databaseService })
+    this.tableMiddleware = new TableMiddleware({ configUtils, databaseService })
+    this.tableController = new TableController({ tableService })
   }
 
-  public GET = this.handler((req: RequestInterface) => {
-    if (req.query.id) {
-      return [TableMiddleware.validateRowExist, TableController.read]
+  public async all(req: RequestInterface): Promise<void> {
+    await this.tableMiddleware.validateTableExist(req)
+  }
+
+  public async get(req: RequestInterface): Promise<ResponseInterface> {
+    if (req.params.id) {
+      await this.tableMiddleware.validateRowExist(req)
+      return this.tableController.read(req)
     }
-    return [TableController.list]
-  })
+    return this.tableController.list(req)
+  }
 
-  public POST = this.handler(() => [TableMiddleware.validatePostBody, TableController.create])
+  // TODO: Add support for array body and remove "as" casts
+  public async post(
+    req: RequestBodyInterface | RequestArrayBodyInterface
+  ): Promise<ResponseInterface> {
+    if (Array.isArray(req.body)) {
+      await this.tableMiddleware.validatePostArrayBody(req as RequestArrayBodyInterface)
+      return this.tableController.createMany(req as RequestArrayBodyInterface)
+    }
+    await this.tableMiddleware.validatePostBody(req as RequestBodyInterface)
+    return this.tableController.create(req as RequestBodyInterface)
+  }
 
-  public PATCH = this.handler(() => [
-    TableMiddleware.validatePatchBody,
-    TableMiddleware.validateRowExist,
-    TableController.update,
-  ])
+  public async patch(req: RequestBodyInterface): Promise<ResponseInterface> {
+    await this.tableMiddleware.validatePatchBody(req)
+    await this.tableMiddleware.validateRowExist(req)
+    return this.tableController.update(req)
+  }
 
-  public PUT = this.handler(() => [
-    TableMiddleware.validatePutBody,
-    TableMiddleware.validateRowExist,
-    TableController.update,
-  ])
+  public async put(req: RequestBodyInterface): Promise<ResponseInterface> {
+    await this.tableMiddleware.validatePutBody(req)
+    await this.tableMiddleware.validateRowExist(req)
+    return this.tableController.update(req)
+  }
 
-  public DELETE = this.handler(() => [TableMiddleware.validateRowExist, TableController.delete])
+  public async delete(req: RequestInterface): Promise<ResponseInterface> {
+    await this.tableMiddleware.validateRowExist(req)
+    return this.tableController.delete(req)
+  }
 }
 
-export default new TableRoute()
+export default TableRoute

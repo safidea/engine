@@ -1,4 +1,4 @@
-import type { ConfigInterface, EnvInterface } from 'shared-config'
+import type { ConfigInterface, EnvInterface } from 'shared-app'
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { join } from 'path'

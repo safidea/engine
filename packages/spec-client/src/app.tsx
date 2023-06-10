@@ -6,11 +6,15 @@ import { PageService } from 'client-page'
 import { DatabaseDataType } from 'shared-database'
 import { SWRConfig } from 'swr'
 
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 
 global.ResizeObserver = ResizeObserver
 
-jest.mock('axios')
+// Axios is automocked by Jest
+
+jest.mock('server-database/prisma/client', () => {
+  return jest.requireActual('../__mocks__/prisma/client')
+})
 
 interface AppInterface {
   config: ConfigInterface

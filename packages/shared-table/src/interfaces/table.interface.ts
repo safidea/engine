@@ -2,6 +2,7 @@ import type { ObjectInterface } from 'shared-common'
 
 export interface TableFieldInterface extends ObjectInterface {
   type: 'String' | 'Int' | 'Boolean' | 'Float' | 'DateTime' | 'Json' | 'SingleSelect'
+  enum?: string
   primary?: boolean
   optional?: boolean
   list?: boolean
@@ -20,7 +21,6 @@ export interface TableFieldsInterface extends ObjectInterface {
 }
 
 export interface TableInterface extends ObjectInterface {
-  model?: string
   unique?: string[]
   fields: TableFieldsInterface
 }

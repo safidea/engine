@@ -1,5 +1,6 @@
-import { TableRoute } from 'server-table'
+import NextAppServer from '@app/server'
 
-const { GET, PATCH, PUT, DELETE } = TableRoute
-
-export { GET, PATCH, PUT, DELETE }
+export const GET = NextAppServer.route
+export const PATCH = NextAppServer.route
+export const PUT = NextAppServer.route
+export const DELETE = NextAppServer.route

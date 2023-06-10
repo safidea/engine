@@ -1,44 +1,48 @@
 import debug from 'debug'
-import PrismaUtils from '../utils/prisma.utils'
 
-import { ConfigUtils, SchemaUtils } from 'server-common'
+import { SchemaUtils, ConfigUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
 import type { DatabaseInterface } from 'shared-database'
 import type { ConfigExecInterface } from 'server-common'
+import type { DatabaseProviderInterface } from '../interfaces/database.interface'
 
 const log: debug.IDebugger = debug('config:database')
 
 class DatabaseConfig implements ConfigExecInterface {
-  public validate() {
-    const database = this.get()
-    if (!database) return
+  private databaseProvider: DatabaseProviderInterface
+  private databaseConfig: DatabaseInterface
+
+  constructor({
+    databaseProvider,
+    configUtils,
+  }: {
+    databaseProvider: DatabaseProviderInterface
+    configUtils: ConfigUtils
+  }) {
+    this.databaseProvider = databaseProvider
+    this.databaseConfig = configUtils.get('database') as DatabaseInterface
+  }
+
+  public async validateSchema() {
     const schema = new SchemaUtils(DatabaseSchema)
-    log(`validate database schema`)
-    schema.validate(database)
+    log(`validate schema`)
+    schema.validate(this.databaseConfig)
   }
 
-  public lib() {
-    const database = this.get()
-    if (!database) return
-    log(`setup prisma schema`)
-    PrismaUtils.updateDatabaseSchema(database)
+  public async setupProviders() {
+    log(`update connection schema`)
+    this.databaseProvider.setConnectionSchema(this.databaseConfig)
   }
 
-  public async js() {
-    const database = this.get()
-    if (!database) return
-    log(`build prisma client`)
-    PrismaUtils.generateClient()
-    log(`connect database`)
-    await PrismaUtils.connect(log)
-    log(`migrate database`)
-    PrismaUtils.migrateDatabase()
-  }
-
-  private get(): DatabaseInterface {
-    return ConfigUtils.get('database') as DatabaseInterface
+  public async testProviders() {
+    log(`build client`)
+    await this.databaseProvider.generateClient()
+    log(`test connect`)
+    await this.databaseProvider.testConnection()
+    log(`test migrate`)
+    await this.databaseProvider.testMigration()
   }
 }
 
-export default new DatabaseConfig()
+export default DatabaseConfig

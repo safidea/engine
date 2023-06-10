@@ -2,7 +2,7 @@ import { Components } from 'client-component'
 
 import type { ComponentType } from 'client-component'
 import type { ComponentsInterface } from 'shared-component'
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 
 class PageService {
   public render(components: ComponentsInterface, config: ConfigInterface) {

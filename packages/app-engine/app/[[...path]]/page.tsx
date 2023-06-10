@@ -1,27 +1,16 @@
+import NextAppClient from '@app/client'
+import NextAppServer from '@app/server'
 import { notFound } from 'next/navigation'
-import { PageService as ClientPageService } from 'client-page'
-import { PageRoute as ServerPageRoute } from 'server-page'
-import { ConfigUtils } from 'server-common'
 
-import type { NextParamsType } from 'server-page'
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 
-type PropsType = {
-  params: NextParamsType
-}
+export const generateStaticParams = NextAppServer.generateStaticParams
 
-export async function generateStaticParams() {
-  return ServerPageRoute.generateStaticPaths()
-}
+export const generateMetadata = NextAppServer.generateMetadata
 
-export async function generateMetadata({ params }: PropsType) {
-  return ServerPageRoute.generateMetadata(params)
-}
-
-export default function Page({ params }: PropsType) {
-  const components = ServerPageRoute.generateComponents(params)
-  const config = ConfigUtils.get() as ConfigInterface
-  if (!components) notFound()
-  const RenderedPage = ClientPageService.render(components, config)
+export default function Page({ params }) {
+  const config = NextAppServer.getConfigFromPath() as ConfigInterface
+  const RenderedPage = NextAppClient.nextPageHandler(params, config)
+  if (!RenderedPage) notFound()
   return <RenderedPage />
 }

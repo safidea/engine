@@ -1,37 +1,128 @@
 import { DatabaseService } from 'server-database'
-import TableUtils from '../utils/table.utils'
+import { ConfigUtils, ApiError } from 'server-common'
 
-import type { RouteMiddlewareType } from 'server-common'
+import type { TablesInterface } from 'shared-table'
 import type { DatabaseDataType } from 'shared-database'
+import type {
+  RequestInterface,
+  RequestBodyInterface,
+  RequestArrayBodyInterface,
+} from 'server-common'
 
 class TableMiddleware {
-  public validateTableExist: RouteMiddlewareType = async (req) => {
-    const { table } = req.query
-    const exist = await DatabaseService.tableExist(table)
-    if (!exist) return { json: { error: `Table ${table} does not exist` }, status: 404 }
+  private databaseService: DatabaseService
+  private configUtils: ConfigUtils
+
+  constructor({
+    databaseService,
+    configUtils,
+  }: {
+    databaseService: DatabaseService
+    configUtils: ConfigUtils
+  }) {
+    this.databaseService = databaseService
+    this.configUtils = configUtils
   }
 
-  public validateRowExist: RouteMiddlewareType = async (req) => {
-    const { table, id } = req.query
-    const row = await DatabaseService.readById(table, { id })
-    if (!row) return { json: { error: `Row ${id} does not exist in table ${table}` }, status: 404 }
+  public async validateTableExist(req: RequestInterface) {
+    const { table } = req.params
+    const exist = this.databaseService.tableExist(table)
+    if (!exist) throw new ApiError(`Table ${table} does not exist`, { status: 404 })
   }
 
-  public validatePostBody: RouteMiddlewareType = async (req) => {
-    const errors = TableUtils.validateDataFields(req.query.table, req.body as DatabaseDataType)
-    if (errors.length > 0) return { json: { error: 'Invalid body', details: errors }, status: 400 }
+  public async validateRowExist(req: RequestInterface) {
+    const { table, id } = req.params
+    const row = await this.databaseService.readById(table, id)
+    if (!row) throw new ApiError(`Row ${id} does not exist in table ${table}`, { status: 404 })
   }
 
-  public validatePatchBody: RouteMiddlewareType = async (req) => {
-    const errors = TableUtils.validateDataFields(
-      req.query.table,
-      req.body as DatabaseDataType,
-      'UPDATE'
-    )
-    if (errors.length > 0) return { json: { error: 'Invalid body', details: errors }, status: 400 }
+  public async validatePostBody(req: RequestBodyInterface) {
+    const errors = this.validateDataFields(req.params.table, req.body)
+    if (errors.length > 0) throw new ApiError('Invalid body', { errors, status: 400 })
   }
 
-  public validatePutBody: RouteMiddlewareType = this.validatePostBody
+  public async validatePostArrayBody(req: RequestArrayBodyInterface) {
+    const errors = this.validateArrayDataFields(req.params.table, req.body)
+    if (errors.length > 0) throw new ApiError('Invalid body', { errors, status: 400 })
+  }
+
+  public async validatePatchBody(req: RequestBodyInterface) {
+    const errors = this.validateDataFields(req.params.table, req.body, 'UPDATE')
+    if (errors.length > 0) throw new ApiError('Invalid body', { errors, status: 400 })
+  }
+
+  public validatePutBody = this.validatePostBody
+
+  private validateDataFields(
+    table: string,
+    data: DatabaseDataType = {},
+    action = 'CREATE'
+  ): string[] {
+    const tables = this.configUtils.get('tables') as TablesInterface
+    const { fields = {} } = tables[table]
+    const errors = []
+    const values = { ...data }
+
+    for (const field of Object.keys(fields)) {
+      const fieldData = fields[field]
+      const value = values[field]
+      delete values[field]
+
+      if (!value && (action === 'UPDATE' || fieldData.optional || fieldData.default)) {
+        continue
+      }
+
+      if (!fieldData.optional && !fieldData.default && !value && fieldData.type !== 'Boolean') {
+        errors.push(`Field ${field} is required`)
+      }
+
+      if (fieldData.type === 'Int' && value && !Number.isInteger(value)) {
+        errors.push(`Field ${field} must be an integer`)
+      }
+
+      if (fieldData.type === 'String' && value && typeof value !== 'string') {
+        errors.push(`Field ${field} must be a string`)
+      }
+
+      if (fieldData.type === 'DateTime' && value) {
+        const date = new Date(String(value))
+        data[field] = date.toISOString()
+        if (isNaN(date.getTime())) {
+          errors.push(`Field ${field} must be a valid date`)
+        }
+      }
+
+      if (fieldData.type === 'Boolean' && value && typeof value !== 'boolean') {
+        errors.push(`Field ${field} must be a boolean`)
+      }
+
+      if (
+        fieldData.type === this.databaseService.getTableEnumName(table, field) &&
+        value &&
+        !fieldData.options?.includes(String(value))
+      ) {
+        errors.push(`Field ${field} must be one of ${fieldData.options?.join(', ')}`)
+      }
+    }
+
+    if (Object.keys(values).length > 0) {
+      errors.push(`Invalid fields: ${Object.keys(values).join(', ')}`)
+    }
+
+    return errors
+  }
+
+  private validateArrayDataFields(
+    table: string,
+    data: DatabaseDataType[] = [],
+    action = 'CREATE'
+  ): string[] {
+    const errors = []
+    for (const row of data) {
+      errors.push(...this.validateDataFields(table, row, action))
+    }
+    return errors
+  }
 }
 
-export default new TableMiddleware()
+export default TableMiddleware

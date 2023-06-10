@@ -1,51 +1,63 @@
 import debug from 'debug'
 import TableService from '../services/table.service'
 
-import type { RouteControllerType } from 'server-common'
-import type { DatabaseDataType } from 'shared-database'
+import type {
+  RequestInterface,
+  RequestBodyInterface,
+  RequestArrayBodyInterface,
+  ResponseInterface,
+} from 'server-common'
 
 const log: debug.IDebugger = debug('controller:table')
 
 class TableController {
-  public create: RouteControllerType = async (req) => {
-    const { table } = req.query
-    const row = await TableService.create(table, {
-      data: req.body as DatabaseDataType,
-    })
+  private tableService: TableService
+
+  constructor({ tableService }: { tableService: TableService }) {
+    this.tableService = tableService
+  }
+
+  public async create(req: RequestBodyInterface): Promise<ResponseInterface> {
+    const { table } = req.params
+    const row = await this.tableService.create(table, req.body)
     log(`Created new row in ${table} with ID ${row.id}`)
     return { json: row }
   }
 
-  public update: RouteControllerType = async (req) => {
-    const { table, id } = req.query
-    const row = await TableService.update(table, {
-      id,
-      data: req.body as DatabaseDataType,
-    })
+  public async createMany(req: RequestArrayBodyInterface): Promise<ResponseInterface> {
+    const { table } = req.params
+    const rows = await this.tableService.createMany(table, req.body)
+    log(`Created ${rows.length} rows in ${table}`)
+    return { json: rows }
+  }
+
+  public async update(req: RequestBodyInterface): Promise<ResponseInterface> {
+    const { table, id } = req.params
+    const row = await this.tableService.update(table, id, req.body)
     log(`Updated row in ${table} with ID ${row.id}`)
     return { json: row }
   }
 
-  public read: RouteControllerType = async (req) => {
-    const { table, id } = req.query
-    const row = await TableService.read(table, { id })
+  public async read(req: RequestInterface): Promise<ResponseInterface> {
+    const { table, id } = req.params
+    const row = await this.tableService.read(table, id)
     if (row) log(`Got row in ${table} with ID ${row.id}`)
     return { json: row }
   }
 
-  public list: RouteControllerType = async (req) => {
-    const { table } = req.query
-    const rows = await TableService.list(table)
+  public async list(req: RequestInterface): Promise<ResponseInterface> {
+    const { table } = req.params
+    const rows = await this.tableService.list(table)
     log(`Got all rows in ${table}`)
     return { json: rows }
   }
 
-  public delete: RouteControllerType = async (req) => {
-    const { table, id } = req.query
-    const row = await TableService.delete(table, { id })
+  public async delete(req: RequestInterface): Promise<ResponseInterface> {
+    const { table, id } = req.params
+    const row = await this.tableService.delete(table, id)
     log(`Deleted row in ${table} with ID ${row.id}`)
     return { json: row }
   }
 }
 
-export default new TableController()
+export default TableController

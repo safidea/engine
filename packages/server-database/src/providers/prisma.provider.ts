@@ -1,24 +1,42 @@
 import fs from 'fs-extra'
-import debug from 'debug'
 import { join } from 'path'
-import { StringUtils, ProcessUtils } from 'server-common'
+import { execSync } from 'child_process'
+import { StringUtils } from 'shared-common'
 import { PrismaClient } from '../../prisma/client'
 
 import type { DatabaseInterface } from 'shared-database'
-import type { PrismaModelInterface } from '../interfaces/prisma.interface'
+import type {
+  DatabaseProviderInterface,
+  DatabaseProviderTableInterface,
+} from '../interfaces/database.interface'
+import type { TableInterface } from 'shared-table'
 
-class PrismaUtils {
-  private schemaPath = join(__dirname, '../../prisma/schema.prisma')
+const pathToSchema = join(__dirname, '../../prisma/schema.prisma')
+const prisma = new PrismaClient()
 
-  public getModelName(name: string): string {
+class PrismaProvider implements DatabaseProviderInterface {
+  private appName: string
+  private appVersion: string
+
+  constructor({ appVersion, appName }: { appVersion: string; appName: string }) {
+    this.appName = appName
+    this.appVersion = appVersion
+  }
+
+  private getModelName(name: string): string {
     return StringUtils.singular(StringUtils.capitalize(name))
   }
 
-  public getEnumName(table: string, field: string): string {
+  public table(tableName: string): DatabaseProviderTableInterface | undefined {
+    const modelName = this.getModelName(tableName).toLowerCase()
+    return prisma[modelName as keyof typeof prisma] as unknown as DatabaseProviderTableInterface
+  }
+
+  public getTableEnumName(table: string, field: string): string {
     return StringUtils.capitalize(this.getModelName(table)) + StringUtils.capitalize(field)
   }
 
-  public updateDatabaseSchema(database: DatabaseInterface): void {
+  public setConnectionSchema(database: DatabaseInterface): void {
     const datasourceSchema = `\n\ngenerator client {
       provider      = "prisma-client-js"
       output        = "./client"
@@ -29,11 +47,12 @@ class PrismaUtils {
       provider = "${database.provider}"
       url      = "${database.url}"
     }`
-    fs.writeFileSync(this.schemaPath, datasourceSchema)
+    fs.writeFileSync(pathToSchema, datasourceSchema)
   }
 
-  public updateModelSchema(modelName: string, modelData: PrismaModelInterface): void {
-    const { fields, unique, map } = modelData
+  public addTableSchema(tableName: string, tableConfig: TableInterface): void {
+    const modelName = this.getModelName(tableName)
+    const { fields, unique } = tableConfig
     const enums: string[] = []
     let modelSchema = `\n\nmodel ${modelName} {
       ${Object.keys(fields)
@@ -57,35 +76,38 @@ class PrismaUtils {
               })`
             : ''
           if (field.type === 'SingleSelect' && field.options) {
-            const enumName = this.getEnumName(modelName, fieldName)
-            enums.push(`\n\nenum ${enumName} {
+            field.enum = this.getTableEnumName(tableName, fieldName)
+            enums.push(`\n\nenum ${field.enum} {
               ${field.options.join('\n')}
             }`)
-            field.type = enumName
           }
-          return `${fieldName} ${field.type}${isRequired}${isList}${isPrimary}${isUnique}${hasDefault}${hasRelation}`
+          const fieldType = field.enum ?? field.type
+          return `${fieldName} ${fieldType}${isRequired}${isList}${isPrimary}${isUnique}${hasDefault}${hasRelation}`
         })
         .join('\n')}
   
       ${unique ? `@@unique([${unique.join(', ')}])` : ''}
-      ${map ? `@@map("${map}")` : ''}
+      ${tableName ? `@@map("${tableName}")` : ''}
     }`
     if (enums.length > 0) {
       modelSchema += enums.join('')
     }
-    fs.appendFileSync(this.schemaPath, modelSchema)
+    fs.appendFileSync(pathToSchema, modelSchema)
   }
 
-  public async connect(log: debug.IDebugger, retries = 5): Promise<void> {
+  public async generateClient(): Promise<void> {
+    execSync(`npx prisma format --schema ${pathToSchema}`)
+    execSync(`npx prisma generate --schema ${pathToSchema}`)
+  }
+
+  public async testConnection(retries = 5): Promise<void> {
     const prisma = new PrismaClient()
     while (retries) {
       try {
         await prisma.$connect()
-        log('Database connection successful')
         await prisma.$disconnect()
         break
       } catch (error) {
-        log(`Database connection failed. Retries left: ${retries}`)
         retries -= 1
         if (retries === 0) {
           throw new Error('Could not establish a connection with the database')
@@ -95,26 +117,12 @@ class PrismaUtils {
     }
   }
 
-  public generateClient(): void {
-    ProcessUtils.runCommand(`npx prisma format --schema ${this.schemaPath}`)
-    ProcessUtils.runCommand(`npx prisma generate --schema ${this.schemaPath}`)
-  }
-
-  public migrateDatabase(): void {
-    if (process.env.NODE_ENV !== 'production') {
-      const reset = String(process.env.NODE_ENV) === 'test'
-      ProcessUtils.runCommand(
-        `npx prisma db push --schema ${this.schemaPath} --skip-generate --accept-data-loss ${
-          reset ? '--force-reset' : ''
-        }`
-      )
-    } else {
-      ProcessUtils.runCommand(
-        `npx prisma migrate dev --name=${name} --schema ${this.schemaPath} --skip-generate --skip-seed --create-only`
-      )
-      ProcessUtils.runCommand(`npx prisma migrate deploy --schema ${this.schemaPath}`)
-    }
+  public async testMigration(): Promise<void> {
+    const name = StringUtils.slugify(this.appName + '_' + this.appVersion)
+    execSync(
+      `npx prisma migrate dev --name=${name} --schema ${pathToSchema} --skip-generate --skip-seed --create-only`
+    )
   }
 }
 
-export default new PrismaUtils()
+export default PrismaProvider

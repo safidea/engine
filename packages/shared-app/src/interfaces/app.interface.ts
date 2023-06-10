@@ -4,8 +4,12 @@ import type { DatabaseInterface } from 'shared-database'
 import type { PagesInterface } from 'shared-page'
 import type { ComponentsInterface } from 'shared-component'
 
-export interface ConfigInterface extends ObjectInterface {
-  name?: string
+export interface AppInterface extends ObjectInterface {
+  name: string
+  version: string
+}
+
+export interface ConfigInterface extends AppInterface {
   tables?: TablesInterface
   database?: DatabaseInterface
   pages?: PagesInterface

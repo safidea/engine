@@ -1,6 +1,6 @@
 import App from '../src/app'
 
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 import type { DatabaseDataType } from 'shared-database'
 
 function createInvoiceApp() {

@@ -1,4 +1,4 @@
-import { ConfigInterface, EnvInterface } from 'shared-config'
+import { ConfigInterface, EnvInterface } from 'shared-app'
 import { test, expect } from '@playwright/test'
 import App from '../src/app'
 

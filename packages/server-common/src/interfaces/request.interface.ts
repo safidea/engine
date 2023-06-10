@@ -1,11 +1,21 @@
+import { DatabaseDataType } from 'shared-database'
+
 export interface RequestInterface {
-  locals: {
-    [key: string]: unknown
+  url: string
+  method: string
+  params: {
+    [key: string]: string
   }
   query: {
     [key: string]: string
   }
-  body?: {
-    [key: string]: unknown
-  }
+  body?: DatabaseDataType | DatabaseDataType[]
+}
+
+export interface RequestBodyInterface extends RequestInterface {
+  body: DatabaseDataType
+}
+
+export interface RequestArrayBodyInterface extends RequestInterface {
+  body: DatabaseDataType[]
 }

@@ -9,7 +9,6 @@ module.exports = (dir, custom) => {
     coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/(__tests__|spec)/'],
     watchPathIgnorePatterns: ['<rootDir>/(__tests__|spec)/'],
     coverageDirectory: `${dir}/coverage`,
-    ...custom,
   }
 
   const isClient = /packages\/[a-z\-]*client[a-z\-]*/.test(dir)
@@ -24,5 +23,5 @@ module.exports = (dir, custom) => {
     config.testEnvironment = 'node'
   }
 
-  return config
+  return { ...config, ...custom }
 }

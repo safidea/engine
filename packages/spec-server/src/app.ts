@@ -4,7 +4,7 @@ import runConfig from 'app-engine/config/run'
 import { DatabaseService } from 'server-database'
 import { TableRoute } from 'server-table'
 
-import type { ConfigInterface, EnvInterface } from 'shared-config'
+import type { ConfigInterface, EnvInterface } from 'shared-app'
 import type { DatabaseDataType } from 'shared-database'
 
 jest.mock('server-database/prisma/client', () => {

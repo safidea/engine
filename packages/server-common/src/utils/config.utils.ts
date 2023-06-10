@@ -6,89 +6,93 @@ import debug from 'debug'
 
 import type { ObjectInterface, ObjectValueInterface } from 'shared-common'
 import type { ConfigExecInterface } from '../interfaces/config.interface'
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 
 const log = debug('config:common')
 
 class ConfigUtils {
-  private config: ConfigInterface = {}
+  private pathUtils: PathUtils
+  private config?: ConfigInterface
 
-  constructor() {
-    const config = fs.readJsonSync(PathUtils.getAppConfigCache(), { throws: false })
+  constructor({ pathUtils }: { pathUtils: PathUtils }) {
+    this.pathUtils = pathUtils
+    const config = fs.readJsonSync(pathUtils.getAppConfigCache(), { throws: false })
     if (config) {
       log('Load config from cache...')
       this.config = config
-      dotenv.config({ path: PathUtils.getAppEnvFile(), override: true })
+      dotenv.config({ path: pathUtils.getAppEnvFile(), override: true })
     }
   }
 
-  public init(path?: string): ObjectInterface {
+  public init(): ObjectInterface {
     log('Initializing config...')
-    const configPath = PathUtils.getAppConfigFile(path)
+    const configPath = this.pathUtils.getAppConfigFile()
     log(`Load ${configPath} file`)
     if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
     this.config = fs.readJsonSync(configPath, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
-    const envPath = PathUtils.getAppEnvFile(path)
+    const envPath = this.pathUtils.getAppEnvFile()
     log(`Load ${envPath} file`)
     dotenv.config({ path: envPath, override: true })
-    this.config = ObjectUtils.replaceVars(this.config, process.env)
+    this.config = ObjectUtils.replaceVars(this.config, process.env) as ConfigInterface
     log('Config initialized')
     return this.config
   }
 
-  public cache(path?: string): void {
+  public cache(): void {
     log('Caching config...')
-    const cachePath = PathUtils.getAppConfigCache(path)
+    const cachePath = this.pathUtils.getAppConfigCache()
     fs.ensureFileSync(cachePath)
     fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
     log('Config cached')
   }
 
-  public async exec(configs: ConfigExecInterface[], path?: string): Promise<void> {
+  public async exec(...configs: ConfigExecInterface[]): Promise<void> {
     const start = Date.now()
 
-    this.init(path)
+    this.init()
     log('Executing config...')
 
-    // Enrich config
+    // Enrich schema
     let promises = []
     for (const config of configs)
-      if (typeof config.enrich === 'function') promises.push(config.enrich())
+      if (typeof config.enrichSchema === 'function') promises.push(config.enrichSchema())
     await Promise.all(promises)
 
-    // Validate config
+    // Validate schema
     promises = []
     for (const config of configs)
-      if (typeof config.validate === 'function') promises.push(config.validate())
+      if (typeof config.validateSchema === 'function') promises.push(config.validateSchema())
     await Promise.all(promises)
 
-    // Setup libs
+    // Setup providers
     promises = []
-    for (const config of configs) if (typeof config.lib === 'function') promises.push(config.lib())
+    for (const config of configs)
+      if (typeof config.setupProviders === 'function') promises.push(config.setupProviders())
     await Promise.all(promises)
 
-    // Build js
+    // Test providers
     promises = []
-    for (const config of configs) if (typeof config.js === 'function') promises.push(config.js())
+    for (const config of configs)
+      if (typeof config.testProviders === 'function') promises.push(config.testProviders())
     await Promise.all(promises)
 
     log('Config executed')
-    this.cache(path)
+    this.cache()
 
     const end = Date.now()
     log(`Config executed in ${end - start}ms`)
   }
 
   public get(path?: string): ConfigInterface | ObjectValueInterface | undefined {
-    if (path) return ObjectUtils.getAtPath(this.config, path)
+    if (path) return ObjectUtils.getAtPath(this.config ?? {}, path)
     return this.config
   }
 
   public set(path: string, value: ObjectValueInterface): ObjectInterface {
-    this.config = ObjectUtils.setAtPath(this.config, path, value)
+    this.config = ObjectUtils.setAtPath(this.config ?? {}, path, value) as ConfigInterface
     return this.config
   }
 }
 
-export default new ConfigUtils()
+export default ConfigUtils

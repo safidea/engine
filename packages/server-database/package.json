@@ -5,13 +5,16 @@
   "scripts": {
     "lint": "eslint .",
     "test": "#jest",
-    "postinstall": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "4.15.0",
     "fs-extra": "11.1.1",
     "server-common": "workspace:*",
-    "shared-database": "workspace:*"
+    "shared-common": "workspace:^",
+    "shared-database": "workspace:*",
+    "shared-table": "workspace:^"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

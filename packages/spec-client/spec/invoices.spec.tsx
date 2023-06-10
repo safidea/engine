@@ -2,7 +2,7 @@ import { waitFor, render, screen, act } from '@testing-library/react'
 import App from '../src/app'
 
 import type { DatabaseDataType } from 'shared-database'
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 
 describe('An application that manages invoices', () => {
   it('should display a list of named invoices', async () => {
@@ -53,6 +53,9 @@ describe('An application that manages invoices', () => {
     // Quand je vais sur la page d'accueil "/"
     await act(async () => {
       render(app.page('/'))
+    })
+    await waitFor(() => {
+      expect(screen.getByText('Facture 1')).toBeInTheDocument()
     })
 
     // THEN

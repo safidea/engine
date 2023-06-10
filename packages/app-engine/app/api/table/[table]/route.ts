@@ -1,5 +1,4 @@
-import { TableRoute } from 'server-table'
+import NextAppServer from '@app/server'
 
-const { GET, POST } = TableRoute
-
-export { GET, POST }
+export const GET = NextAppServer.route
+export const POST = NextAppServer.route

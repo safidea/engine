@@ -1,35 +1,39 @@
 import { DatabaseService } from 'server-database'
 
-import type {
-  DatabaseServiceFunctionType,
-  DatabaseServiceFunctionDataType,
-  DatabaseServiceFunctionIdType,
-  DatabaseServiceFunctionListType,
-  DatabaseServiceFunctionReadType,
-} from 'shared-database'
+import type { DatabaseDataType } from 'shared-database'
 
 class TableService {
-  public create: DatabaseServiceFunctionDataType = async (tableName, params) => {
-    return DatabaseService.create(tableName, params)
+  private databaseService: DatabaseService
+
+  constructor({ databaseService }: { databaseService: DatabaseService }) {
+    this.databaseService = databaseService
   }
 
-  public read: DatabaseServiceFunctionReadType = async (tableName, params) => {
-    return DatabaseService.readById(tableName, params)
+  public async create(table: string, data: DatabaseDataType) {
+    return this.databaseService.create(table, data)
   }
 
-  public update: DatabaseServiceFunctionType = async (tableName, params) => {
-    params.data.updated_at = new Date().toISOString()
-    return DatabaseService.updateById(tableName, params)
+  public async createMany(table: string, data: DatabaseDataType[]) {
+    return this.databaseService.createMany(table, data)
   }
 
-  public delete: DatabaseServiceFunctionIdType = async (tableName, params) => {
+  public async read(table: string, id: string) {
+    return this.databaseService.readById(table, id)
+  }
+
+  public async update(table: string, id: string, data: DatabaseDataType) {
+    data.updated_at = new Date().toISOString()
+    return this.databaseService.updateById(table, id, data)
+  }
+
+  public async delete(table: string, id: string) {
     const data = { deleted_at: new Date().toISOString() }
-    return DatabaseService.updateById(tableName, { ...params, data })
+    return this.databaseService.updateById(table, id, data)
   }
 
-  public list: DatabaseServiceFunctionListType = async (tableName) => {
-    return DatabaseService.list(tableName)
+  public async list(table: string) {
+    return this.databaseService.list(table)
   }
 }
 
-export default new TableService()
+export default TableService

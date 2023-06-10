@@ -2,7 +2,7 @@
   "name": "app-engine",
   "main": "./next.config.js",
   "scripts": {
-    "config": "DEBUG=config:* ts-node config/index.ts",
+    "config": "DEBUG=config:* ts-node app/config.ts",
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
@@ -21,7 +21,8 @@
     "server-database": "workspace:*",
     "server-page": "workspace:*",
     "server-table": "workspace:*",
-    "shared-config": "workspace:*",
+    "shared-app": "workspace:*",
+    "shared-page": "workspace:^",
     "sharp": "^0.32.1",
     "tailwindcss": "latest"
   },

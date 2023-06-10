@@ -1,5 +1,5 @@
 import type { DatabaseRowType } from 'shared-database'
-import type { ConfigInterface } from 'shared-config'
+import type { ConfigInterface } from 'shared-app'
 
 export type FieldType = {
   key: string

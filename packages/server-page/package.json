@@ -7,7 +7,6 @@
     "test": "#jest"
   },
   "dependencies": {
-    "next": "13.4.3",
     "server-common": "workspace:*",
     "server-component": "workspace:*",
     "shared-page": "workspace:*"

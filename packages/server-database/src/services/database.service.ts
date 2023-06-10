@@ -1,84 +1,69 @@
-import PrismaLibrary from '../libraries/prisma.library'
-import PrismaUtils from '../utils/prisma.utils'
-
 import type {
-  DatabaseServiceFunctionType,
-  DatabaseServiceFunctionIdType,
-  DatabaseServiceFunctionDataType,
-  DatabaseServiceFunctionListType,
-  DatabaseServiceFunctionReadType,
-} from 'shared-database'
-import type { PrismaClientInterface, PrismaModelInterface } from '../interfaces/prisma.interface'
+  DatabaseProviderInterface,
+  DatabaseProviderTableInterface,
+} from '../interfaces/database.interface'
+
+import type { DatabaseDataType } from 'shared-database'
 
 class DatabaseService {
-  private table(name: string): PrismaClientInterface {
-    const table = PrismaLibrary.table(name)
-    if (table == null) {
-      throw new Error(`Table "${name}" does not exist`)
-    }
+  private databaseProvider: DatabaseProviderInterface
+
+  constructor({ databaseProvider }: { databaseProvider: DatabaseProviderInterface }) {
+    this.databaseProvider = databaseProvider
+  }
+
+  private table(name: string): DatabaseProviderTableInterface {
+    const table = this.databaseProvider.table(name)
+    if (table == null) throw new Error(`Table "${name}" does not exist`)
     return table
   }
 
   public tableExist(name: string): boolean {
-    return PrismaLibrary.table(name) != null
+    return this.databaseProvider.table(name) != null
   }
 
-  public addModel(tableName: string, modelData: PrismaModelInterface): void {
-    const modelName = PrismaUtils.getModelName(tableName)
-    PrismaUtils.updateModelSchema(modelName, modelData)
+  public getTableEnumName(table: string, field: string): string {
+    return this.databaseProvider.getTableEnumName(table, field)
   }
 
-  public getEnumName(table: string, field: string): string {
-    return PrismaUtils.getEnumName(table, field)
+  public async create(tableName: string, data: DatabaseDataType) {
+    return this.table(tableName).create({ data })
   }
 
-  public create: DatabaseServiceFunctionDataType = async (tableName, params) => {
-    const { data } = params
-    const row = await this.table(tableName).create({
-      data,
-    })
-    return row
+  public async createMany(tableName: string, data: DatabaseDataType[]) {
+    return this.table(tableName).createMany({ data })
   }
 
-  public updateById: DatabaseServiceFunctionType = async (tableName, params) => {
-    const { data, id } = params
-    const row = await this.table(tableName).update({
+  public async updateById(tableName: string, id: string, data: DatabaseDataType) {
+    return this.table(tableName).update({
       where: { id },
       data,
     })
-    return row
   }
 
-  public upsertById: DatabaseServiceFunctionType = async (tableName, params) => {
-    const { data, id } = params
-    const row = await this.table(tableName).upsert({
+  public async upsertById(tableName: string, id: string, data: DatabaseDataType) {
+    return this.table(tableName).upsert({
       where: { id },
       create: data,
       update: data,
     })
-    return row
   }
 
-  public readById: DatabaseServiceFunctionReadType = async (tableName, params) => {
-    const { id } = params
-    const row = await this.table(tableName).findUnique({
+  public async readById(tableName: string, id: string) {
+    return this.table(tableName).findUnique({
       where: { id },
     })
-    return row
   }
 
-  public deleteById: DatabaseServiceFunctionIdType = async (tableName, params) => {
-    const { id } = params
-    const row = await this.table(tableName).delete({
+  public async deleteById(tableName: string, id: string) {
+    return this.table(tableName).delete({
       where: { id },
     })
-    return row
   }
 
-  public list: DatabaseServiceFunctionListType = async (tableName) => {
-    const rows = await this.table(tableName).findMany({})
-    return rows
+  public async list(tableName: string) {
+    return this.table(tableName).findMany({})
   }
 }
 
-export default new DatabaseService()
+export default DatabaseService
