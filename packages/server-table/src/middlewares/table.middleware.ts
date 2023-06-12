@@ -3,11 +3,7 @@ import { ConfigUtils, ApiError } from 'server-common'
 
 import type { TablesInterface } from 'shared-table'
 import type { DatabaseDataType } from 'shared-database'
-import type {
-  RequestInterface,
-  RequestBodyInterface,
-  RequestArrayBodyInterface,
-} from 'server-common'
+import type { RequestInterface, RequestBodyInterface, RequestArrayBodyInterface } from 'shared-app'
 
 class TableMiddleware {
   private databaseService: DatabaseService
@@ -59,7 +55,7 @@ class TableMiddleware {
     action = 'CREATE'
   ): string[] {
     const tables = this.configUtils.get('tables') as TablesInterface
-    const { fields = {} } = tables[table]
+    const { fields = {} } = tables[table] ?? {}
     const errors = []
     const values = { ...data }
 

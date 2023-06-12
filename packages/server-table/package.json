@@ -10,7 +10,8 @@
     "server-common": "workspace:*",
     "server-database": "workspace:*",
     "shared-database": "workspace:*",
-    "shared-table": "workspace:*"
+    "shared-table": "workspace:*",
+    "shared-app": "workspace:^"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

@@ -1,4 +1,9 @@
 {
   "extends": "config-typescript/base.json",
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "../shared-app/src/interfaces/config.interface.ts",
+    "../shared-app/src/interfaces/request.interface.ts",
+    "../shared-app/src/interfaces/response.interface.ts"
+  ]
 }

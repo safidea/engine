@@ -1,4 +1,0 @@
-{
-  "extends": "config-typescript/base.json",
-  "include": ["**/*.ts", "__mocks__/prisma/client/index.ts"]
-}

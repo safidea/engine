@@ -10,9 +10,10 @@
     "client-component": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "shared-component": "workspace:*",
     "shared-app": "workspace:*",
-    "shared-page": "workspace:*"
+    "shared-component": "workspace:*",
+    "shared-page": "workspace:*",
+    "swr": "^2.1.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.5",

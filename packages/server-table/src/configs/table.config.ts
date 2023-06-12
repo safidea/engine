@@ -4,7 +4,7 @@ import { DatabaseProviderInterface } from 'server-database'
 import { TableFieldsInterface, TableSchema } from 'shared-table'
 
 import type { TablesInterface } from 'shared-table'
-import type { ConfigExecInterface } from 'server-common'
+import type { ConfigExecInterface } from 'shared-app'
 
 const log: debug.IDebugger = debug('config:table')
 
@@ -23,6 +23,11 @@ class TableConfig implements ConfigExecInterface {
     this.configUtils = configUtils
     this.databaseProvider = databaseProvider
     this.tablesConfig = configUtils.get('tables') as TablesInterface
+  }
+
+  public configExists() {
+    log(`check config exists`)
+    return this.tablesConfig !== undefined
   }
 
   public async enrichSchema() {

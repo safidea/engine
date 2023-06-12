@@ -12,7 +12,7 @@ class NextAppServer extends AppServer {
 
   constructor(props: { path: string; DatabaseProvider: DatabaseProviderConstructorInterface }) {
     super(props)
-    this.pages = (this.getConfigFromPath('pages') ?? {}) as PagesInterface
+    this.pages = (super.getConfigFromPath('pages') ?? {}) as PagesInterface
   }
 
   async route(request: Request, params: { [key: string]: string }) {

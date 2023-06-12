@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "server-common": "workspace:*",
-    "shared-component": "workspace:*"
+    "shared-component": "workspace:*",
+    "shared-app": "workspace:^"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

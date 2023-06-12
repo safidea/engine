@@ -1,7 +1,6 @@
 'use client'
 
 import useSWR from 'swr'
-import fetcher from '../libraries/fetcher.library'
 
 import type { CommonPropsType } from '../types/common.type'
 
@@ -11,7 +10,7 @@ export type TableProps = CommonPropsType & {
 }
 
 export default async function Table({ table, fields }: TableProps) {
-  const { data = [], error, isLoading } = useSWR(`/api/table/${table}`, fetcher)
+  const { data = [], error, isLoading } = useSWR(`/api/table/${table}`)
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
   return (

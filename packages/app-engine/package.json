@@ -1,6 +1,6 @@
 {
   "name": "app-engine",
-  "main": "./next.config.js",
+  "main": "./src/index",
   "scripts": {
     "config": "DEBUG=config:* ts-node app/config.ts",
     "build": "next build",
@@ -12,8 +12,9 @@
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
     "@tailwindcss/forms": "0.5.3",
+    "client-component": "workspace:*",
     "client-page": "workspace:*",
-    "next": "13.4.3",
+    "next": "13.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "server-common": "workspace:*",
@@ -22,6 +23,7 @@
     "server-page": "workspace:*",
     "server-table": "workspace:*",
     "shared-app": "workspace:*",
+    "shared-database": "workspace:^",
     "shared-page": "workspace:^",
     "sharp": "^0.32.1",
     "tailwindcss": "latest"

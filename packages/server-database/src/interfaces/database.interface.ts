@@ -4,15 +4,15 @@ import type { TableInterface } from 'shared-table'
 export interface DatabaseProviderTableInterface {
   create: (params: { data: DatabaseDataType }) => Promise<DatabaseRowType>
   createMany: (params: { data: DatabaseDataType[] }) => Promise<DatabaseRowType[]>
-  update: (params: { data: DatabaseDataType; where: DatabaseDataType }) => Promise<DatabaseRowType>
+  update: (params: { data: DatabaseDataType; where: { id: string } }) => Promise<DatabaseRowType>
   upsert: (params: {
     create: DatabaseDataType
     update: DatabaseDataType
-    where: DatabaseDataType
+    where: { id: string }
   }) => Promise<DatabaseRowType>
-  findUnique: (params: { where: DatabaseDataType }) => Promise<DatabaseRowType>
-  findMany: (params: { where?: DatabaseDataType }) => Promise<DatabaseRowType[]>
-  delete: (params: { where: DatabaseDataType }) => Promise<DatabaseRowType>
+  findUnique: (params: { where: { id: string } }) => Promise<DatabaseRowType>
+  findMany: (params: { where?: { id: string } }) => Promise<DatabaseRowType[]>
+  delete: (params: { where: { id: string } }) => Promise<DatabaseRowType>
 }
 
 export interface DatabaseProviderInterface {

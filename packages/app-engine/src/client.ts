@@ -1,21 +1,22 @@
-import { PageRoute } from 'client-page'
+import { PageService } from 'client-page'
 
-import type { ConfigInterface } from 'shared-app'
+import type { CustomComponents } from 'client-component'
+import type { ConfigInterface, FetcherProviderInterface } from 'shared-app'
 
-interface CustomComponents {
-  Image: React.FC
-  Link: React.FC
+type AppClientProps = {
+  customComponents: CustomComponents
+  fetcherProvider: FetcherProviderInterface
 }
 
 class AppClient {
-  customComponents: CustomComponents
+  private pageService: PageService
 
-  constructor({ customComponents }) {
-    this.customComponents = customComponents
+  constructor({ customComponents, fetcherProvider }: AppClientProps) {
+    this.pageService = new PageService({ customComponents, fetcherProvider })
   }
 
   pageHandler(path: string, config: ConfigInterface) {
-    return PageRoute.render(path, config, this.customComponents)
+    return this.pageService.render(path, config)
   }
 }
 

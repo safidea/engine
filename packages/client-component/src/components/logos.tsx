@@ -1,6 +1,7 @@
-import { Image } from '../libraries/next.library'
+import type { CommonPropsType } from '../types/common.type'
 
-export default function Logos() {
+export default function Logos({ customComponents }: CommonPropsType) {
+  const { Image } = customComponents
   return (
     <div className="bg-gray-900 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

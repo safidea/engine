@@ -1,6 +1,7 @@
-import { Image } from '../libraries/next.library'
+import type { CommonPropsType } from '../types/common.type'
 
-export default function Cta() {
+export default function Cta({ customComponents }: CommonPropsType) {
+  const { Image } = customComponents
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">

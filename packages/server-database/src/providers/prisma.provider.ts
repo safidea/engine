@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { execSync } from 'child_process'
+import { execSync, spawn } from 'child_process'
 import { StringUtils } from 'shared-common'
 import { PrismaClient } from '../../prisma/client'
 
@@ -119,9 +119,35 @@ class PrismaProvider implements DatabaseProviderInterface {
 
   public async testMigration(): Promise<void> {
     const name = StringUtils.slugify(this.appName + '_' + this.appVersion)
-    execSync(
-      `npx prisma migrate dev --name=${name} --schema ${pathToSchema} --skip-generate --skip-seed --create-only`
-    )
+    return new Promise((resolve, reject) => {
+      const prisma = spawn('npx', [
+        'prisma',
+        'migrate',
+        'dev',
+        `--name=${name}`,
+        `--schema=${pathToSchema}`,
+        '--skip-generate',
+        '--skip-seed',
+        '--create-only',
+      ])
+
+      // Listen for output (stdout)
+      prisma.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`)
+      })
+
+      // Listen for errors (stderr)
+      prisma.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`)
+        reject(data)
+      })
+
+      // Handle process close event
+      prisma.on('close', (code) => {
+        console.log(`Prisma migrate dev process exited with code ${code}`)
+        resolve()
+      })
+    })
   }
 }
 

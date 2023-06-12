@@ -5,8 +5,7 @@ import { ObjectUtils } from 'shared-common'
 import debug from 'debug'
 
 import type { ObjectInterface, ObjectValueInterface } from 'shared-common'
-import type { ConfigExecInterface } from '../interfaces/config.interface'
-import type { ConfigInterface } from 'shared-app'
+import type { ConfigInterface, ConfigExecInterface } from 'shared-app'
 
 const log = debug('config:common')
 
@@ -48,10 +47,8 @@ class ConfigUtils {
   }
 
   public async exec(...configs: ConfigExecInterface[]): Promise<void> {
-    const start = Date.now()
-
-    this.init()
     log('Executing config...')
+    const start = Date.now()
 
     // Enrich schema
     let promises = []
@@ -76,9 +73,6 @@ class ConfigUtils {
     for (const config of configs)
       if (typeof config.testProviders === 'function') promises.push(config.testProviders())
     await Promise.all(promises)
-
-    log('Config executed')
-    this.cache()
 
     const end = Date.now()
     log(`Config executed in ${end - start}ms`)

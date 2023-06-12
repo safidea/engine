@@ -6,6 +6,9 @@
         "default": {
           "type": ["string", "number", "boolean"]
         },
+        "enum": {
+          "type": "string"
+        },
         "list": {
           "type": "boolean"
         },
@@ -63,9 +66,6 @@
   "properties": {
     "fields": {
       "$ref": "#/definitions/TableFieldsInterface"
-    },
-    "model": {
-      "type": "string"
     },
     "unique": {
       "items": {

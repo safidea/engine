@@ -8,7 +8,7 @@ import type {
   RequestBodyInterface,
   RequestArrayBodyInterface,
   ResponseInterface,
-} from 'server-common'
+} from 'shared-app'
 import { DatabaseService } from 'server-database'
 
 class TableRoute {

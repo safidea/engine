@@ -3,7 +3,7 @@ import { ConfigUtils, SchemaUtils } from 'server-common'
 import { ComponentSchema } from 'shared-component'
 
 import type { ComponentsInterface } from 'shared-component'
-import type { ConfigExecInterface } from 'server-common'
+import type { ConfigExecInterface } from 'shared-app'
 
 const log: debug.IDebugger = debug('config:component')
 
@@ -12,6 +12,11 @@ class ComponentConfig implements ConfigExecInterface {
 
   constructor({ configUtils }: { configUtils: ConfigUtils }) {
     this.componentsConfig = configUtils.get('components') as ComponentsInterface
+  }
+
+  public configExists() {
+    log(`check config exists`)
+    return this.componentsConfig !== undefined
   }
 
   public async validateSchema(): Promise<void> {

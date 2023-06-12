@@ -6,7 +6,7 @@ import type {
   RequestBodyInterface,
   RequestArrayBodyInterface,
   ResponseInterface,
-} from 'server-common'
+} from 'shared-app'
 
 const log: debug.IDebugger = debug('controller:table')
 

@@ -11,7 +11,7 @@ module.exports = (dir, custom) => {
     coverageDirectory: `${dir}/coverage`,
   }
 
-  const isClient = /packages\/[a-z\-]*client[a-z\-]*/.test(dir)
+  const isClient = /packages\/[a-z\-]*client[a-z\-]*/.test(dir) || dir.includes('spec-app')
   const isServer = /packages\/[a-z\-]*server[a-z\-]*/.test(dir)
 
   if (isClient) {

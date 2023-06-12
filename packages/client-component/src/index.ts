@@ -1,5 +1,4 @@
 export * from 'shared-component'
 
-export * as Components from './components'
-
-export type { ComponentType } from './types/component.type'
+export { default as ComponentService } from './services/component.service'
+export type { ComponentType, CustomComponents } from './types/component.type'

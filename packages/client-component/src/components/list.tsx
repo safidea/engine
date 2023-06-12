@@ -2,7 +2,6 @@
 
 import useSWR from 'swr'
 import { Fragment } from 'react'
-import fetcher from '../libraries/fetcher.library'
 import ListHelper from '../helpers/list.helper'
 
 import type { CommonPropsType } from '../types/common.type'
@@ -77,8 +76,8 @@ export function Group({ group, fields }: { group: GroupType; fields: ListProps['
 }
 
 export default function List({ table, fields, sortBy, groupBy, config }: ListProps) {
-  const { data, error, isLoading } = useSWR(`/api/table/${table}`, fetcher)
-  let rows: DatabaseRowType[] = data ?? []
+  const { data, error, isLoading } = useSWR(`/api/table/${table}`, { refreshInterval: 0 })
+  let rows = (data ?? []) as DatabaseRowType[]
   let groups: GroupType[] = []
 
   if (error) return <div>failed to load</div>

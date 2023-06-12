@@ -4,7 +4,7 @@ import { SchemaUtils, ConfigUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
 import type { DatabaseInterface } from 'shared-database'
-import type { ConfigExecInterface } from 'server-common'
+import type { ConfigExecInterface } from 'shared-app'
 import type { DatabaseProviderInterface } from '../interfaces/database.interface'
 
 const log: debug.IDebugger = debug('config:database')
@@ -22,6 +22,11 @@ class DatabaseConfig implements ConfigExecInterface {
   }) {
     this.databaseProvider = databaseProvider
     this.databaseConfig = configUtils.get('database') as DatabaseInterface
+  }
+
+  public configExists() {
+    log(`check config exists`)
+    return this.databaseConfig !== undefined
   }
 
   public async validateSchema() {

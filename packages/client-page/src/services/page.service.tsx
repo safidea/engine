@@ -1,34 +1,42 @@
-import { Components } from 'client-component'
+import { ComponentService } from 'client-component'
+import { SWRConfig } from 'swr'
 
-import type { ComponentType } from 'client-component'
-import type { ComponentsInterface } from 'shared-component'
-import type { ConfigInterface } from 'shared-app'
+import type { CustomComponents } from 'client-component'
+import type { ConfigInterface, FetcherProviderInterface } from 'shared-app'
+
+type PageServiceProps = {
+  customComponents: CustomComponents
+  fetcherProvider: FetcherProviderInterface
+}
 
 class PageService {
-  public render(components: ComponentsInterface, config: ConfigInterface) {
-    const elements = components.map((component, index) => {
-      const { key, components: children, text, ...props } = component
-      const Component = (Components[key as keyof typeof Components] ??
-        Components.default) as ComponentType
-      if (children) {
-        const Children = this.render(children, config)
-        return (
-          <Component key={index} tag={key} {...props} config={config}>
-            <Children />
-          </Component>
-        )
-      }
-      if (text)
-        return (
-          <Component key={index} tag={key} {...props} config={config}>
-            {text}
-          </Component>
-        )
-      return <Component key={index} tag={key} {...props} config={config} />
+  private customComponents: CustomComponents
+  private fetcherProvider: FetcherProviderInterface
+
+  constructor({ customComponents, fetcherProvider }: PageServiceProps) {
+    this.customComponents = customComponents
+    this.fetcherProvider = fetcherProvider
+  }
+
+  public render(path: string, config: ConfigInterface) {
+    const { components } = config.pages?.[path] ?? { components: [] }
+    const componentService = new ComponentService({
+      customComponents: this.customComponents,
+      fetcherProvider: this.fetcherProvider,
+      config,
     })
-    const Render = () => <>{elements}</>
-    return Render
+    const Page = componentService.renderChildren(components)
+    return (
+      <SWRConfig
+        value={{
+          refreshInterval: 3000,
+          fetcher: (resource, init) => this.fetcherProvider.get(resource, init),
+        }}
+      >
+        <Page />
+      </SWRConfig>
+    )
   }
 }
 
-export default new PageService()
+export default PageService

@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Image, Link } from '../libraries/next.library'
 
 import type { CommonPropsType } from '../types/common.type'
 
@@ -14,9 +13,9 @@ export type HeroProps = CommonPropsType & {
   }[]
 }
 
-export default function Hero({ navigation = [] }: HeroProps) {
+export default function Hero({ navigation = [], customComponents }: HeroProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+  const { Link, Image } = customComponents
   return (
     <div className="bg-gray-900">
       <header className="absolute inset-x-0 top-0 z-50">

@@ -1,15 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import AppClient from '../src/client'
+import FetchProvider from '../src/providers/fetch.provider'
 import { getPathFromParams } from './shared'
 
 import type { ParamsType } from './shared'
 import type { ConfigInterface } from 'shared-app'
-
-const customComponents = {
-  Image,
-  Link,
-}
 
 class NextAppClient extends AppClient {
   nextPageHandler(params: ParamsType, config: ConfigInterface) {
@@ -18,4 +14,7 @@ class NextAppClient extends AppClient {
   }
 }
 
-export default new NextAppClient({ customComponents })
+export default new NextAppClient({
+  customComponents: { Image, Link },
+  fetcherProvider: new FetchProvider(),
+})

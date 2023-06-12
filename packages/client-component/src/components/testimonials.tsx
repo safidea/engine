@@ -1,5 +1,6 @@
+import type { CommonPropsType } from '../types/common.type'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Image } from '../libraries/next.library'
 
 const featuredTestimonial = {
   body: 'Integer id nunc sit semper purus. Bibendum at lacus ut arcu blandit montes vitae auctor libero. Hac condimentum dignissim nibh vulputate ut nunc. Amet nibh orci mi venenatis blandit vel et proin. Non hendrerit in vel ac diam.',
@@ -70,7 +71,8 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Testimonials() {
+export default function Testimonials({ customComponents }: CommonPropsType) {
+  const { Image } = customComponents
   return (
     <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
       <div

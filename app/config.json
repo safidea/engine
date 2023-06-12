@@ -1,5 +1,6 @@
 {
   "name": "invoices",
+  "version": "0.0.1",
   "database": {
     "url": "${DATABASE_URL}",
     "provider": "postgresql"
