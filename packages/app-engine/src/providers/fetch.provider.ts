@@ -4,15 +4,15 @@ import type { DatabaseDataType } from 'shared-database'
 // Use built-in next fetch API to make HTTP requests
 
 class FetchProvider implements FetcherProviderInterface {
-  public async get(url: string, options: FetcherProviderOptionsInterface = {}) {
+  public get = async (url: string, options: FetcherProviderOptionsInterface = {}) => {
     return fetch(url, options).then((res) => res.json())
   }
 
-  public async post(
+  public post = async (
     url: string,
     data: DatabaseDataType | DatabaseDataType[],
     options: FetcherProviderOptionsInterface = {}
-  ) {
+  ) => {
     return fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -20,11 +20,11 @@ class FetchProvider implements FetcherProviderInterface {
     }).then((res) => res.json())
   }
 
-  public async patch(
+  public patch = async (
     url: string,
     data: DatabaseDataType | DatabaseDataType[],
     options: FetcherProviderOptionsInterface = {}
-  ) {
+  ) => {
     return fetch(url, {
       method: 'PATCH',
       body: JSON.stringify(data),
@@ -32,11 +32,11 @@ class FetchProvider implements FetcherProviderInterface {
     }).then((res) => res.json())
   }
 
-  public async put(
+  public put = async (
     url: string,
     data: DatabaseDataType | DatabaseDataType[],
     options: FetcherProviderOptionsInterface = {}
-  ) {
+  ) => {
     return fetch(url, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -44,7 +44,7 @@ class FetchProvider implements FetcherProviderInterface {
     }).then((res) => res.json())
   }
 
-  public async delete(url: string, options: FetcherProviderOptionsInterface = {}) {
+  public delete = async (url: string, options: FetcherProviderOptionsInterface = {}) => {
     return fetch(url, {
       method: 'DELETE',
       ...options,

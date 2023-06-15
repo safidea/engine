@@ -17,15 +17,14 @@ shift $((OPTIND-1))
 app=$(jq -r '.name' app/config.json)
 mode="${mode:-"start"}"
 
-echo "Config app ${app}"
 cd packages/app-engine
+
+echo "Config app ${app}"
 pnpm run config
 
 echo "Migrate database ${app}"
-cd ../server-database
 pnpm run migrate
 
-cd ../app-engine
 case "${mode}" in
   dev)
     echo "Starting app ${app} in dev mode"

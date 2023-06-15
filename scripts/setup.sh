@@ -1,2 +1,2 @@
-cd packages/server-database
+cd packages/app-engine
 pnpm run generate

@@ -3,6 +3,7 @@
   "globalEnv": [
     "NODE_ENV",
     "DEBUG",
+    "PRISMA_BINARY_TARGETS",
     "EMAIL_SERVER_HOST",
     "EMAIL_SERVER_PORT",
     "EMAIL_SERVER_USER",

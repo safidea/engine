@@ -1,16 +1,15 @@
 import NextAppClient from '@app/client'
 import NextAppServer from '@app/server'
-import { notFound } from 'next/navigation'
+import { getPathFromParams } from '../shared'
 
-import type { ConfigInterface } from 'shared-app'
+import type { OptionsType } from '../shared'
 
-export const generateStaticParams = NextAppServer.generateStaticParams
+export const generateStaticParams = () => NextAppServer.generateStaticParams()
 
-export const generateMetadata = NextAppServer.generateMetadata
+export const generateMetadata = (options: OptionsType) => NextAppServer.generateMetadata(options)
 
 export default function Page({ params }) {
-  const config = NextAppServer.getConfigFromPath() as ConfigInterface
-  const RenderedPage = NextAppClient.nextPageHandler(params, config)
-  if (!RenderedPage) notFound()
-  return <RenderedPage />
+  const config = NextAppServer.getConfig()
+  const path = getPathFromParams(params)
+  return <NextAppClient path={path} config={config} />
 }

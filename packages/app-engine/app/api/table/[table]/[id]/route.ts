@@ -1,6 +1,12 @@
 import NextAppServer from '@app/server'
 
-export const GET = NextAppServer.route
-export const PATCH = NextAppServer.route
-export const PUT = NextAppServer.route
-export const DELETE = NextAppServer.route
+import type { ContextRouteType } from '@app/server'
+
+export const GET = async (request: Request, context: ContextRouteType) =>
+  NextAppServer.route(request, context)
+export const PATCH = async (request: Request, context: ContextRouteType) =>
+  NextAppServer.route(request, context)
+export const PUT = async (request: Request, context: ContextRouteType) =>
+  NextAppServer.route(request, context)
+export const DELETE = async (request: Request, context: ContextRouteType) =>
+  NextAppServer.route(request, context)

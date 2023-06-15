@@ -10,7 +10,7 @@ import type {
   DatabaseProviderConstructorInterface,
 } from 'server-database'
 
-type AppServerProps = {
+export type AppServerProps = {
   path: string
   DatabaseProvider: DatabaseProviderConstructorInterface
 }

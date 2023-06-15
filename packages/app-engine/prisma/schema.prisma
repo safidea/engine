@@ -1,7 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-  output        = "./client"
-  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  provider = "prisma-client-js"
+  output   = "./client"
 }
 
 datasource db {
@@ -11,7 +10,7 @@ datasource db {
 
 model Invoice {
   name           String
-  amount         Int?          @default(0)
+  amount         Int           @default(0)
   status         InvoiceStatus @default(draft)
   number         String?
   finalised_date DateTime?

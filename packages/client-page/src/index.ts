@@ -1,3 +1,3 @@
 export * from 'shared-page'
 
-export { default as PageService } from './services/page.service'
+export { default as PageComponent } from './components/page.component'

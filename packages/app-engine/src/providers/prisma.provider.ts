@@ -8,7 +8,7 @@ import type { DatabaseInterface } from 'shared-database'
 import type {
   DatabaseProviderInterface,
   DatabaseProviderTableInterface,
-} from '../interfaces/database.interface'
+} from 'server-database/src/interfaces/database.interface'
 import type { TableInterface } from 'shared-table'
 
 const pathToSchema = join(__dirname, '../../prisma/schema.prisma')
@@ -37,10 +37,13 @@ class PrismaProvider implements DatabaseProviderInterface {
   }
 
   public setConnectionSchema(database: DatabaseInterface): void {
+    let binaryTargets = process.env.PRISMA_BINARY_TARGETS ?? ''
+    if (binaryTargets)
+      binaryTargets = `binaryTargets = ["${binaryTargets.split(',').join('", "')}"]`
     const datasourceSchema = `\n\ngenerator client {
       provider      = "prisma-client-js"
       output        = "./client"
-      binaryTargets = ["native", "debian-openssl-1.1.x"]
+      ${binaryTargets}
     }
     
     datasource db {

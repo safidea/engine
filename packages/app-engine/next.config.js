@@ -1,12 +1,7 @@
-const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
-
 module.exports = async () => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
     reactStrictMode: true,
-    publicRuntimeConfig: {
-      staticFolder: 'custom-public',
-    },
     transpilePackages: [
       'server-table',
       'server-database',
@@ -28,12 +23,6 @@ module.exports = async () => {
           hostname: 'images.unsplash.com',
         },
       ],
-    },
-    webpack: (config, { isServer }) => {
-      if (isServer) {
-        config.plugins = [...config.plugins, new PrismaPlugin()]
-      }
-      return config
     },
   }
 

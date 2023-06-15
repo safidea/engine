@@ -6,15 +6,19 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
+    "@prisma/client": "4.15.0",
     "@tailwindcss/forms": "0.5.3",
     "client-component": "workspace:*",
     "client-page": "workspace:*",
     "next": "13.4.4",
+    "prisma": "^4.15.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "server-common": "workspace:*",
@@ -23,13 +27,14 @@
     "server-page": "workspace:*",
     "server-table": "workspace:*",
     "shared-app": "workspace:*",
+    "shared-common": "workspace:^",
     "shared-database": "workspace:^",
     "shared-page": "workspace:^",
+    "shared-table": "workspace:^",
     "sharp": "^0.32.1",
     "tailwindcss": "latest"
   },
   "devDependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "4.15.0",
     "@types/debug": "4.1.7",
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",
