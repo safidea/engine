@@ -1,3 +1,13 @@
+Dockerfile
+.dockerignore
 node_modules
 npm-debug.log
-.env
+README.md
+.next
+.git
+.husky
+.prettierignore
+.prettierrc.json
+.vscode
+CONTRIBUTING.md
+turbo.json

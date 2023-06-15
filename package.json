@@ -6,22 +6,20 @@
     "packages/*"
   ],
   "scripts": {
-    "setup": "scripts/setup.sh",
-    "start": "scripts/startup.sh -m start",
-    "dev": "scripts/startup.sh -m dev",
+    "setup": ". scripts/setup.sh",
+    "start": ". scripts/command.sh -c start",
+    "dev": ". scripts/command.sh -c dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "schema": "turbo run schema",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-    "precommit": "#pnpm schema && pnpm format && pnpm lint && pnpm test && git add .",
-    "prepare": "husky install"
+    "precommit": "#pnpm schema && pnpm format && pnpm lint && pnpm test && git add ."
   },
   "devDependencies": {
     "eslint": "8.37.0",
     "eslint-config-foundation": "workspace:*",
     "husky": "8.0.3",
     "prettier": "latest",
-    "prisma": "^4.15.0",
     "turbo": "^1.10.3"
   },
   "engines": {

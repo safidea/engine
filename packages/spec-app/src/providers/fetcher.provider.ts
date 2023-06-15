@@ -6,7 +6,7 @@ import { AppServer } from 'app-engine'
 
 const domain = 'http://localhost:3000'
 
-class FetcherProvider implements FetcherProviderInterface {
+export async function fetch() {
   private server
 
   constructor({ server }: { server: AppServer }) {

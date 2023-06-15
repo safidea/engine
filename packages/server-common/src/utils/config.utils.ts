@@ -1,5 +1,4 @@
 import fs from 'fs-extra'
-import dotenv from 'dotenv'
 import PathUtils from '../utils/path.utils'
 import { ObjectUtils } from 'shared-common'
 import debug from 'debug'
@@ -19,7 +18,6 @@ class ConfigUtils {
     if (config) {
       log('Load config from cache...')
       this.config = config
-      dotenv.config({ path: pathUtils.getAppEnvFile(), override: true })
     }
   }
 
@@ -30,9 +28,6 @@ class ConfigUtils {
     if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
     this.config = fs.readJsonSync(configPath, { throws: false })
     if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
-    const envPath = this.pathUtils.getAppEnvFile()
-    log(`Load ${envPath} file`)
-    dotenv.config({ path: envPath, override: true })
     this.config = ObjectUtils.replaceVars(this.config, process.env) as ConfigInterface
     log('Config initialized')
     return this.config

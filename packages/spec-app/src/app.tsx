@@ -15,6 +15,7 @@ import type { DatabaseProviderConstructorInterface } from 'server-database'
 import type { ConfigInterface, FetcherProviderInterface } from 'shared-app'
 
 global.ResizeObserver = ResizeObserver
+global.fetch = new FetcherProvider()
 
 interface AppInterface {
   config: ConfigInterface
@@ -54,13 +55,9 @@ class App {
 
   public page(path: string) {
     const config = this.server.getConfigFromPath() as ConfigInterface
-    const client = new AppClient({
-      customComponents: { Image, Link },
-      fetcherProvider: this.customerFetcherProvider,
-    })
     return (
       <SWRConfig value={{ provider: () => new Map() }}>
-        {client.pageHandler(path, config)}
+        <AppClient customComponents={{ Image, Link }} path={path} config={config} />
       </SWRConfig>
     )
   }

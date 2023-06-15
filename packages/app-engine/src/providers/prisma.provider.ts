@@ -113,7 +113,7 @@ class PrismaProvider implements DatabaseProviderInterface {
       } catch (error) {
         retries -= 1
         if (retries === 0) {
-          throw new Error('Could not establish a connection with the database')
+          throw new Error('Could not establish a connection with the database: ' + error.message)
         }
         await new Promise((resolve) => setTimeout(resolve, 5000))
       }

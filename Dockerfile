@@ -1,35 +1,33 @@
-# Use an official Node.js runtime as a base image
-FROM node:18
+# Base image
+FROM node:18-alpine AS base
+WORKDIR /foundation
 
-# Set the working directory in the container
-WORKDIR /usr/src/foundation
+# Install pnpm globally
+RUN npm install -g pnpm
 
-# Install jq
-RUN apt-get update && apt-get install -y jq
+# Dependencies
+FROM base AS dependencies
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages ./packages
 
-# Install pnpm at the global level
-RUN npm install -g pnpm prisma
+# Install all dependencies - also the ones for production
+RUN pnpm install -r --frozen-lockfile
 
-# Copy pnpm's lock file
-COPY pnpm-lock.yaml ./
+# Runner
+FROM base AS runner
+RUN apk add --no-cache libc6-compat jq
+RUN apk update
+WORKDIR /foundation
 
-# Copu pnpm's workspace.yaml file
-COPY pnpm-workspace.yaml ./
+# Install only production dependencies
+COPY . .
+RUN cd packages/app-engine && pnpm install --frozen-lockfile
 
-# Copy the main package.json and package-lock.json (if available)
-COPY package*.json ./
+# Set environment to production
+ENV NODE_ENV production
 
-# Copy all of your workspace folders
-COPY packages/ ./packages/
-
-# Copy all of your scripts
-COPY scripts/ ./scripts/
-
-# Install any needed dependencies
-RUN pnpm install --frozen-lockfile
-
-# This command will start your app (modify as per your start script)
-CMD [ "pnpm", "run", "dev" ]
-
-# Expose the port your app runs on
+# Expose the port
 EXPOSE 3000
+
+# Start the app
+CMD ["pnpm", "start"]
