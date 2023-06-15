@@ -1,5 +1,5 @@
 export interface ConfigExecInterface {
-  configExists: () => boolean
+  isUpdated: () => boolean
   enrichSchema?: () => Promise<void>
   validateSchema: () => Promise<void>
   setupProviders?: () => Promise<void>

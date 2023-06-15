@@ -1,5 +1,5 @@
 import debug from 'debug'
-import { ConfigUtils, SchemaUtils } from 'server-common'
+import { ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
 import { DatabaseProviderInterface } from 'server-database'
 import { TableFieldsInterface, TableSchema } from 'shared-table'
 
@@ -12,6 +12,7 @@ class TableConfig implements ConfigExecInterface {
   private configUtils: ConfigUtils
   private databaseProvider: DatabaseProviderInterface
   private tablesConfig: TablesInterface
+  private tablesCached: TablesInterface
 
   constructor({
     configUtils,
@@ -23,11 +24,13 @@ class TableConfig implements ConfigExecInterface {
     this.configUtils = configUtils
     this.databaseProvider = databaseProvider
     this.tablesConfig = configUtils.get('tables') as TablesInterface
+    this.tablesCached = configUtils.getCached('tables') as TablesInterface
   }
 
-  public configExists() {
-    log(`check config exists`)
-    return this.tablesConfig !== undefined
+  public isUpdated() {
+    log(`check if config is updated`)
+    if (!this.tablesConfig) return false
+    return !ObjectUtils.isSame(this.tablesConfig, this.tablesCached)
   }
 
   public async enrichSchema() {

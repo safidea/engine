@@ -1,13 +1,8 @@
 Dockerfile
 .dockerignore
+.cache
 node_modules
 npm-debug.log
 README.md
-.next
-.git
-.husky
-.prettierignore
-.prettierrc.json
-.vscode
 CONTRIBUTING.md
 turbo.json

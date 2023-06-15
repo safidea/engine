@@ -1,5 +1,5 @@
 import debug from 'debug'
-import { ConfigUtils, SchemaUtils } from 'server-common'
+import { ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
 import { PageSchema } from 'shared-page'
 
 import type { PagesInterface } from 'shared-page'
@@ -9,14 +9,17 @@ const log: debug.IDebugger = debug('config:page')
 
 class PageConfig implements ConfigExecInterface {
   private pagesConfig: PagesInterface
+  private pagesCached: PagesInterface
 
   constructor({ configUtils }: { configUtils: ConfigUtils }) {
     this.pagesConfig = configUtils.get('pages') as PagesInterface
+    this.pagesCached = configUtils.getCached('pages') as PagesInterface
   }
 
-  public configExists() {
-    log(`check config exists`)
-    return this.pagesConfig !== undefined
+  public isUpdated() {
+    log(`check if config is updated`)
+    if (!this.pagesConfig) return false
+    return !ObjectUtils.isSame(this.pagesConfig, this.pagesCached)
   }
 
   public async validateSchema(): Promise<void> {

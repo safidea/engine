@@ -12,7 +12,7 @@ class PathUtils {
   }
 
   public getAppConfigCache(): string {
-    return join(this.path, `cache.config.json`)
+    return join(this.path, `.cache/config.json`)
   }
 }
 

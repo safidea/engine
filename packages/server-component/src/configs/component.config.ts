@@ -14,9 +14,10 @@ class ComponentConfig implements ConfigExecInterface {
     this.componentsConfig = configUtils.get('components') as ComponentsInterface
   }
 
-  public configExists() {
-    log(`check config exists`)
-    return this.componentsConfig !== undefined
+  public isUpdated() {
+    log(`check if config is updated`)
+    if (!this.componentsConfig) return false
+    return true
   }
 
   public async validateSchema(): Promise<void> {

@@ -35,14 +35,13 @@ class AppServer {
     const tableConfig = new TableConfig({ databaseProvider, configUtils })
     const componentConfig = new ComponentConfig({ configUtils })
     const pageConfig = new PageConfig({ configUtils })
-    const configs = []
-    if (databaseConfig.configExists()) configs.push(databaseConfig)
-    if (tableConfig.configExists()) configs.push(tableConfig)
-    if (componentConfig.configExists()) configs.push(componentConfig)
-    if (pageConfig.configExists()) configs.push(pageConfig)
-    if (configs.length === 0) throw new Error('No config found')
-    await configUtils.exec(...configs)
-    configUtils.cache()
+    const isUpdated = await configUtils.exec([
+      databaseConfig,
+      tableConfig,
+      componentConfig,
+      pageConfig,
+    ])
+    if (isUpdated) configUtils.cache()
   }
 
   public async apiHandler(request: RequestInterface): Promise<ResponseInterface> {

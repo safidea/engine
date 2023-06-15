@@ -1,6 +1,6 @@
 import debug from 'debug'
 
-import { SchemaUtils, ConfigUtils } from 'server-common'
+import { SchemaUtils, ConfigUtils, ObjectUtils } from 'server-common'
 import { DatabaseSchema } from 'shared-database'
 
 import type { DatabaseInterface } from 'shared-database'
@@ -12,6 +12,7 @@ const log: debug.IDebugger = debug('config:database')
 class DatabaseConfig implements ConfigExecInterface {
   private databaseProvider: DatabaseProviderInterface
   private databaseConfig: DatabaseInterface
+  private databaseCached: DatabaseInterface
 
   constructor({
     databaseProvider,
@@ -22,11 +23,13 @@ class DatabaseConfig implements ConfigExecInterface {
   }) {
     this.databaseProvider = databaseProvider
     this.databaseConfig = configUtils.get('database') as DatabaseInterface
+    this.databaseCached = configUtils.getCached('database') as DatabaseInterface
   }
 
-  public configExists() {
-    log(`check config exists`)
-    return this.databaseConfig !== undefined
+  public isUpdated() {
+    log(`check if config is updated`)
+    if (!this.databaseConfig) return false
+    return !ObjectUtils.isSame(this.databaseConfig, this.databaseCached)
   }
 
   public async validateSchema() {

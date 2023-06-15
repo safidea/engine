@@ -17,6 +17,8 @@ shift $((OPTIND-1))
 app=$(jq -r '.name' app/config.json)
 mode="${mode:-"start"}"
 
+source app/.env
+
 cd packages/app-engine
 
 case "${mode}" in

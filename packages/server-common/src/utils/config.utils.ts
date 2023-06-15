@@ -14,11 +14,17 @@ class ConfigUtils {
 
   constructor({ pathUtils }: { pathUtils: PathUtils }) {
     this.pathUtils = pathUtils
-    const config = fs.readJsonSync(pathUtils.getAppConfigCache(), { throws: false })
+    const config = this.getCached() as ConfigInterface
     if (config) {
       log('Load config from cache...')
       this.config = config
     }
+  }
+
+  public getCached(path?: string): ConfigInterface | ObjectValueInterface | undefined {
+    const cached = fs.readJsonSync(this.pathUtils.getAppConfigCache(), { throws: false })
+    if (cached && path) return ObjectUtils.getAtPath(cached, path)
+    return cached
   }
 
   public init(): ObjectInterface {
@@ -41,7 +47,7 @@ class ConfigUtils {
     log('Config cached')
   }
 
-  public async exec(...configs: ConfigExecInterface[]): Promise<void> {
+  public async exec(configs: ConfigExecInterface[]): Promise<boolean> {
     log('Executing config...')
     const start = Date.now()
 
@@ -51,26 +57,31 @@ class ConfigUtils {
       if (typeof config.enrichSchema === 'function') promises.push(config.enrichSchema())
     await Promise.all(promises)
 
+    // Check if config is updated
+    const configsUpdated = []
+    for (const config of configs) if (config.isUpdated()) configsUpdated.push(config)
+
     // Validate schema
     promises = []
-    for (const config of configs)
-      if (typeof config.validateSchema === 'function') promises.push(config.validateSchema())
+    for (const config of configsUpdated) promises.push(config.validateSchema())
     await Promise.all(promises)
 
     // Setup providers
     promises = []
-    for (const config of configs)
+    for (const config of configsUpdated)
       if (typeof config.setupProviders === 'function') promises.push(config.setupProviders())
     await Promise.all(promises)
 
     // Test providers
     promises = []
-    for (const config of configs)
+    for (const config of configsUpdated)
       if (typeof config.testProviders === 'function') promises.push(config.testProviders())
     await Promise.all(promises)
 
     const end = Date.now()
-    log(`Config executed in ${end - start}ms`)
+    log(`Config executed in ${Math.round((end - start) / 1000)}s`)
+
+    return configsUpdated.length > 0
   }
 
   public get(path?: string): ConfigInterface | ObjectValueInterface | undefined {

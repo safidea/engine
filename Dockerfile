@@ -19,12 +19,13 @@ RUN apk add --no-cache libc6-compat jq
 RUN apk update
 WORKDIR /foundation
 
-# Install only production dependencies
-COPY . .
-RUN cd packages/app-engine && pnpm install --frozen-lockfile
-
 # Set environment to production
 ENV NODE_ENV production
+ENV PRISMA_BINARY_TARGETS "native,linux-musl-openssl-3.0.x"
+
+# Install only production dependencies
+COPY . .
+RUN cd packages/app-engine && pnpm install --prod --frozen-lockfile
 
 # Expose the port
 EXPOSE 3000

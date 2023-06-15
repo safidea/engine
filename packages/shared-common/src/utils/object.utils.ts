@@ -1,6 +1,10 @@
 import type { ObjectInterface, ObjectValueInterface } from '../interfaces/object.interface'
 
 class ObjectUtils {
+  public isSame(obj1: ObjectInterface, obj2: ObjectInterface): boolean {
+    return JSON.stringify(obj1) === JSON.stringify(obj2)
+  }
+
   public isEmpty(obj: ObjectInterface): boolean {
     return Object.keys(obj).length === 0
   }
