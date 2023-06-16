@@ -1,3 +1,4 @@
 .next/
+.cache/
 build/
 coverage/
