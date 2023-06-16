@@ -1,5 +1,6 @@
 import type { ConfigInterface } from 'shared-app'
-import mergeConfigs from '../src/utils/merge-configs'
+import mergeConfigs from '../utils/merge-configs.utils'
+import { ObjectInterface } from 'shared-common'
 
 const config: ConfigInterface = {
   name: 'invoices',
@@ -88,7 +89,7 @@ const config: ConfigInterface = {
   },
 }
 
-export default function getInvoicesConfig(customConfig?: ConfigInterface): ConfigInterface {
+export default function getInvoicesConfig(customConfig?: ObjectInterface): ConfigInterface {
   if (customConfig) mergeConfigs(config, customConfig) as ConfigInterface
   return config
 }

@@ -3,13 +3,13 @@ import { URL } from 'url'
 import type { RequestInterface } from 'shared-app'
 import { AppServer } from 'app-engine'
 
-const domain = 'http://localhost:3000'
-
 class FetcherProvider {
   private server
+  private domain
 
-  constructor({ server }: { server: AppServer }) {
+  constructor({ server, port }: { server: AppServer; port: string }) {
     this.server = server
+    this.domain = 'http://localhost:' + port
   }
 
   public async fetch(url: RequestInfo | URL, init?: RequestInit | undefined): Promise<Response> {
@@ -35,7 +35,7 @@ class FetcherProvider {
   }
 
   private getQuery(url: string): { [key: string]: string } {
-    const parsedUrl = new URL(domain + url)
+    const parsedUrl = new URL(this.domain + url)
     return [...parsedUrl.searchParams.entries()].reduce(
       (acc, [key, value]) => ({ ...acc, [key]: value }),
       {}

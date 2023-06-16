@@ -21,22 +21,17 @@ source app/.env
 
 cd packages/app-engine
 
+echo "Config app ${app}"
+pnpm run config
+
 case "${mode}" in
   dev)
-    echo "Config app ${app}"
-    pnpm run config
-    echo "Migrate database ${app}"
-    pnpm run migrate
     echo "Starting app ${app} in dev mode"
     pnpm dev
     ;;
   start)
-    echo "Config app ${app}"
-    pnpm run config
     echo "Building app ${app}"
     pnpm build
-    echo "Migrate database ${app}"
-    pnpm run migrate
     echo "Starting app ${app}"
     pnpm start
     ;;

@@ -60,6 +60,8 @@ class AppServer {
               return await tableRoute.put(request as RequestBodyInterface)
             case 'PATCH':
               return await tableRoute.patch(request as RequestBodyInterface)
+            case 'DELETE':
+              return await tableRoute.delete(request as RequestBodyInterface)
             default:
               return { status: 405, json: { error: 'Method not allowed' } }
           }

@@ -1,6 +1,5 @@
-import fs from 'fs-extra'
-import { join } from 'path'
 import '@testing-library/jest-dom'
+import fs from 'fs-extra'
 import { Response } from 'node-fetch'
 import ResizeObserver from 'resize-observer-polyfill'
 import { DatabaseDataType } from 'shared-database'
@@ -8,46 +7,29 @@ import { AppClient, AppServer } from 'app-engine'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SWRConfig } from 'swr'
+import buildApp from '../utils/build-app.utils'
+import FetcherProvider from '../providers/fetcher.provider'
+import DatabaseProvider from '../providers/database.provider'
 
-import FetcherProvider from './providers/fetcher.provider'
-import DatabaseProvider from './providers/database.provider'
-
-import type { DatabaseProviderConstructorInterface } from 'server-database'
 import type { ConfigInterface } from 'shared-app'
+import type { AppInterface } from '../utils/build-app.utils'
 
 global.ResizeObserver = ResizeObserver
 global.Response = Response as any
-
-interface AppInterface {
-  config: ConfigInterface
-  env?: Record<string, string>
-  CustomDatabaseProvider?: DatabaseProviderConstructorInterface
-}
 
 class App {
   private server: AppServer
   private path: string
 
   constructor({ config, env = {}, CustomDatabaseProvider }: AppInterface) {
-    if (!env.PORT) {
-      const nbApps = fs.readdirSync(join(__dirname, '../build')).length
-      env.PORT = String(8000 + nbApps)
-    }
-    this.path = join(__dirname, '../build', config.name + '-' + env.PORT)
-    fs.ensureDirSync(this.path)
-    fs.writeFileSync(join(this.path, 'config.json'), JSON.stringify(config, null, 2))
-    fs.writeFileSync(
-      join(this.path, '.env'),
-      Object.entries(env)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('\n')
-    )
+    const { path, port } = buildApp({ config, env }, 'spec')
+    this.path = path
     this.server = new AppServer({
-      path: this.path,
+      path,
       DatabaseProvider: CustomDatabaseProvider ?? DatabaseProvider,
     })
     global.fetch = async (url: RequestInfo | URL, init?: RequestInit | undefined) =>
-      new FetcherProvider({ server: this.server }).fetch(url, init)
+      new FetcherProvider({ server: this.server, port }).fetch(url, init)
   }
 
   public async start() {

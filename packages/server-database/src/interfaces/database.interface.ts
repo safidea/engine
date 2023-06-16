@@ -19,10 +19,12 @@ export interface DatabaseProviderInterface {
   setConnectionSchema(database: DatabaseInterface): void
   addTableSchema(tableName: string, tableConfig: TableInterface): void
   generateClient(): Promise<void>
-  testConnection(): Promise<void>
-  testMigration(): Promise<void>
+  prepareMigration(): Promise<void>
+  applyMigration(): Promise<void>
   table(tableName: string): DatabaseProviderTableInterface | undefined
   getTableEnumName(table: string, field: string): string
+  loadCached(): Promise<void>
+  cache(): Promise<void>
 }
 
 export interface DatabaseProviderConstructorInterface {

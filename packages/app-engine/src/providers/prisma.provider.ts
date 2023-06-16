@@ -2,7 +2,6 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { execSync } from 'child_process'
 import { StringUtils } from 'shared-common'
-import { PrismaClient } from '../../prisma/client'
 
 import type { DatabaseInterface } from 'shared-database'
 import type {
@@ -11,7 +10,20 @@ import type {
 } from 'server-database/src/interfaces/database.interface'
 import type { TableInterface } from 'shared-table'
 
-const pathToSchema = join(__dirname, '../../prisma/schema.prisma')
+const pathToPrismaCache = join(__dirname, '../../../../app/.cache/prisma')
+const pathToPrisma = join(__dirname, '../../prisma')
+const pathToSchema = join(pathToPrisma, 'schema.prisma')
+const pathToClient = join(pathToPrisma, 'client/index.js')
+
+if (!fs.existsSync(pathToClient)) {
+  fs.ensureFileSync(pathToClient)
+  fs.writeFileSync(pathToClient, 'module.exports.PrismaClient = class {}')
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { PrismaClient } from '../../prisma/client'
+
 const prisma = new PrismaClient()
 
 class PrismaProvider implements DatabaseProviderInterface {
@@ -50,6 +62,7 @@ class PrismaProvider implements DatabaseProviderInterface {
       provider = "${database.provider}"
       url      = "${database.url}"
     }`
+    fs.ensureFileSync(pathToSchema)
     fs.writeFileSync(pathToSchema, datasourceSchema)
   }
 
@@ -100,33 +113,25 @@ class PrismaProvider implements DatabaseProviderInterface {
   }
 
   public async generateClient(): Promise<void> {
-    execSync(`npx prisma format --schema ${pathToSchema}`)
-    execSync(`npx prisma generate --schema ${pathToSchema}`)
+    execSync(`npx prisma format`)
+    execSync(`npx prisma generate`)
   }
 
-  public async testConnection(retries = 5): Promise<void> {
-    const prisma = new PrismaClient()
-    while (retries) {
-      try {
-        await prisma.$connect()
-        await prisma.$disconnect()
-        break
-      } catch (error) {
-        retries -= 1
-        if (retries === 0) {
-          throw new Error('Could not establish a connection with the database: ' + error.message)
-        }
-        await new Promise((resolve) => setTimeout(resolve, 5000))
-      }
-    }
-  }
-
-  public async testMigration(): Promise<void> {
+  public async prepareMigration(): Promise<void> {
     const name = StringUtils.slugify(this.appName + '_' + this.appVersion)
-    execSync(
-      `npx prisma migrate dev --name=${name} --schema=${pathToSchema} --skip-generate --skip-seed --create-only`,
-      { stdio: 'inherit' }
-    )
+    execSync(`npx prisma migrate dev --name=${name} --skip-generate --skip-seed --create-only`)
+  }
+
+  public async applyMigration(): Promise<void> {
+    execSync(`npx prisma migrate deploy`)
+  }
+
+  public async loadCached(): Promise<void> {
+    await fs.copy(pathToPrismaCache, pathToPrisma)
+  }
+
+  public async cache(): Promise<void> {
+    await fs.copy(pathToPrisma, pathToPrismaCache)
   }
 }
 

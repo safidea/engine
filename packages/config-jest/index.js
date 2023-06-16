@@ -6,12 +6,13 @@ module.exports = (dir, custom) => {
     preset: 'ts-jest',
     maxWorkers: 4,
     testMatch: ['<rootDir>/(__tests__|spec)/**/*.(test|spec).ts?(x)'],
+    testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
     coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/(__tests__|spec)/'],
     watchPathIgnorePatterns: ['<rootDir>/(__tests__|spec)/'],
     coverageDirectory: `${dir}/coverage`,
   }
 
-  const isClient = /packages\/[a-z\-]*client[a-z\-]*/.test(dir) || dir.includes('spec-app')
+  const isClient = /packages\/[a-z\-]*(client|app)[a-z\-]*/.test(dir)
   const isServer = /packages\/[a-z\-]*server[a-z\-]*/.test(dir)
 
   if (isClient) {

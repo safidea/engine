@@ -1,8 +1,8 @@
 import { render, act } from '@testing-library/react'
-import App from '../../src/app'
+import App from '../../src/app/spec.app'
+import getInvoicesConfig from '../../src/configs/invoices.config'
 
 import type { DatabaseDataType } from 'shared-database'
-import getInvoicesConfig from '../config'
 
 describe('A page that allow to edit draft invoices', () => {
   it('should create a new draft', async () => {

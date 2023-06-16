@@ -1,8 +1,8 @@
 import { render, screen, act } from '@testing-library/react'
-import App from '../../src/app'
+import App from '../../src/app/spec.app'
+import getInvoicesConfig from '../../src/configs/invoices.config'
 
 import type { DatabaseDataType } from 'shared-database'
-import getInvoicesConfig from '../config'
 
 describe('A page that list invoices', () => {
   it('should display a list of invoices grouped by status and sorted by dates', async () => {

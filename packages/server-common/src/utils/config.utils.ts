@@ -59,7 +59,10 @@ class ConfigUtils {
 
     // Check if config is updated
     const configsUpdated = []
-    for (const config of configs) if (config.isUpdated()) configsUpdated.push(config)
+    const configsCached = []
+    for (const config of configs)
+      if (config.isUpdated()) configsUpdated.push(config)
+      else configsCached.push(config)
 
     // Validate schema
     promises = []
@@ -72,10 +75,22 @@ class ConfigUtils {
       if (typeof config.setupProviders === 'function') promises.push(config.setupProviders())
     await Promise.all(promises)
 
-    // Test providers
+    // Build providers
     promises = []
     for (const config of configsUpdated)
-      if (typeof config.testProviders === 'function') promises.push(config.testProviders())
+      if (typeof config.buildProviders === 'function') promises.push(config.buildProviders())
+    await Promise.all(promises)
+
+    // Cache providers
+    promises = []
+    for (const config of configsUpdated)
+      if (typeof config.cacheProviders === 'function') promises.push(config.cacheProviders())
+    await Promise.all(promises)
+
+    // Load cached config
+    promises = []
+    for (const config of configsCached)
+      if (typeof config.loadCached === 'function') promises.push(config.loadCached())
     await Promise.all(promises)
 
     const end = Date.now()

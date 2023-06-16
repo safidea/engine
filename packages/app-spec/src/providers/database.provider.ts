@@ -25,16 +25,16 @@ class DatabaseProvider implements DatabaseProviderInterface {
     this.tables[tableName] = tableConfig
   }
 
-  async testMigration(): Promise<void> {
-    log('testMigration')
-  }
-
-  async testConnection(): Promise<void> {
-    log('testConnection')
-  }
-
   async generateClient(): Promise<void> {
     log('testConnection')
+  }
+
+  async prepareMigration(): Promise<void> {
+    log('prepareMigration')
+  }
+
+  async applyMigration(): Promise<void> {
+    log('applyMigration')
   }
 
   getTableEnumName(table: string, field: string): string {
@@ -100,6 +100,14 @@ class DatabaseProvider implements DatabaseProviderInterface {
         return row
       },
     }
+  }
+
+  async loadCached(): Promise<void> {
+    log('loadCached')
+  }
+
+  async cache(): Promise<void> {
+    log('cache')
   }
 }
 

@@ -7,19 +7,20 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "generate": "npx prisma generate",
     "migrate": "npx prisma migrate deploy"
   },
   "dependencies": {
-    "@types/react": "18.0.29",
     "@headlessui/react": "1.7.14",
     "@heroicons/react": "2.0.17",
     "@prisma/client": "4.15.0",
     "@tailwindcss/forms": "0.5.3",
+    "@types/react": "18.0.29",
     "autoprefixer": "^10.4.14",
     "client-component": "workspace:*",
     "client-page": "workspace:*",
     "dotenv": "^16.1.4",
+    "eslint": "8.36.0",
+    "eslint-config-foundation": "workspace:*",
     "next": "13.4.4",
     "prisma": "^4.15.0",
     "react": "^18.2.0",
@@ -35,9 +36,7 @@
     "shared-page": "workspace:^",
     "shared-table": "workspace:^",
     "sharp": "^0.32.1",
-    "tailwindcss": "latest",
-    "eslint": "8.36.0",
-    "eslint-config-foundation": "workspace:*"
+    "tailwindcss": "latest"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

@@ -1,10 +1,17 @@
 {
-  "name": "spec-client",
+  "name": "app-spec",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "pnpm test:e2e:build && pnpm test:e2e:run",
+    "test:e2e:build": ". build.sh",
+    "test:e2e:run": "npx playwright test",
+    "test:e2e:run:ui": "npx playwright test --ui",
+    "test:e2e:report": "npx playwright show-report",
+    "test:all": "pnpm test && pnpm test:e2e"
   },
   "devDependencies": {
+    "@playwright/test": "1.33.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -13,6 +20,7 @@
     "@types/jest": "29.4.0",
     "@types/node": "^18.11.17",
     "@types/node-fetch": "^2.6.4",
+    "@types/pg": "^8.10.2",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
     "@types/testing-library__jest-dom": "5.14.5",
@@ -31,6 +39,7 @@
     "jest-environment-jsdom": "29.5.0",
     "next": "13.4.4",
     "node-fetch": "2",
+    "pg": "^8.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resize-observer-polyfill": "^1.5.1",

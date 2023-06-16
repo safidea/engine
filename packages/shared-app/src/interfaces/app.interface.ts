@@ -18,6 +18,14 @@ export interface ConfigInterface extends AppInterface {
 
 export interface EnvInterface {
   DATABASE_URL?: string
+  DATABASE_HOST?: string
+  DATABASE_PORT?: string
+  DATABASE_NAME?: string
+  DATABASE_USER?: string
+  DATABASE_PASSWORD?: string
+  PRISMA_BINARY_TARGETS?: string
   PORT?: string
   DEBUG?: string
+  APP_PATH?: string
+  APP_NAME?: string
 }

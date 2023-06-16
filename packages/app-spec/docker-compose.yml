@@ -1,0 +1,37 @@
+version: '3.9'
+
+networks:
+  app-network:
+    driver: bridge
+
+services: 
+  db:
+    image: postgres:latest
+    container_name: "e2e_${APP_NAME}_db"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "${DATABASE_PORT}:5432"
+    volumes:
+      - "${APP_PATH}/db:/var/lib/postgresql/data"
+    networks:
+      - app-network
+
+  app: 
+    image: foundation:e2e
+    container_name: "e2e_${APP_NAME}_app"
+    ports:
+      - "${PORT}:3000"
+    volumes:
+      - "${APP_PATH}:/foundation/app"
+    networks:
+      - app-network
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:

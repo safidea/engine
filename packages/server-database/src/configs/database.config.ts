@@ -43,13 +43,23 @@ class DatabaseConfig implements ConfigExecInterface {
     this.databaseProvider.setConnectionSchema(this.databaseConfig)
   }
 
-  public async testProviders() {
+  public async buildProviders() {
     log(`build client`)
     await this.databaseProvider.generateClient()
-    log(`test connect`)
-    await this.databaseProvider.testConnection()
-    log(`test migrate`)
-    await this.databaseProvider.testMigration()
+    log(`prepare migration`)
+    await this.databaseProvider.prepareMigration()
+    log(`apply migration`)
+    await this.databaseProvider.applyMigration()
+  }
+
+  public async cacheProviders() {
+    log(`cache providers`)
+    await this.databaseProvider.cache()
+  }
+
+  public async loadCached() {
+    log(`load cached config`)
+    await this.databaseProvider.loadCached()
   }
 }
 
