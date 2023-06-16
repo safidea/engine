@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react'
+import { render, act } from '@testing-library/react'
 import App from '../../src/app'
 
 import type { DatabaseDataType } from 'shared-database'
@@ -26,5 +26,7 @@ describe('A page that allow to edit draft invoices', () => {
 
     // THEN
     // Vérifier que les factures sont bien affichées dans un groupe par statut
+
+    await app.stop()
   })
 })

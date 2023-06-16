@@ -1,10 +1,9 @@
 import AppServer from '../src/server'
 import { NextResponse } from 'next/server'
 import { getPathFromParams, getAppPath } from './shared'
-import { DatabaseDataType } from 'server-database'
 import PrismaProvider from '../src/providers/prisma.provider'
 
-import type { ConfigInterface } from 'shared-app'
+import type { ConfigInterface, RequestInterface } from 'shared-app'
 import type { PagesInterface } from 'shared-page'
 import type { OptionsType } from './shared'
 import type { AppServerProps } from '../src/server'
@@ -21,19 +20,11 @@ class NextAppServer {
   }
 
   async route(request: Request, { params }: ContextRouteType) {
-    const { url, method } = request
+    const { url, method, body } = request
     const query = {}
-    let body: DatabaseDataType | DatabaseDataType[] | undefined
-    if (['POST', 'PUT', 'PATCH'].includes(method)) {
-      body = await request.json()
-    }
-    const { json, status = 200 } = await this.server.apiHandler({
-      body,
-      method,
-      params,
-      url,
-      query,
-    })
+    const req: RequestInterface = { url, method, query, params }
+    if (body && ['POST', 'PUT', 'PATCH'].includes(method)) req.body = await request.json()
+    const { json, status = 200 } = await this.server.apiHandler(req)
     return NextResponse.json(json, { status })
   }
 

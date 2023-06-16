@@ -12,8 +12,3 @@ export type {
   ResponseJsonType,
   ResponseErrorInterface,
 } from './interfaces/response.interface'
-export type {
-  FetcherProviderInterface,
-  FetcherProviderOptionsInterface,
-  FetcherProviderConstructorInterface,
-} from './interfaces/fetcher.interface'

@@ -1,16 +1,25 @@
-import { DatabaseRowType } from 'shared-database'
 import { URL } from 'url'
 
-import type { FetcherProviderInterface, ResponseJsonType } from 'shared-app'
+import type { RequestInterface } from 'shared-app'
 import { AppServer } from 'app-engine'
 
 const domain = 'http://localhost:3000'
 
-export async function fetch() {
+class FetcherProvider {
   private server
 
   constructor({ server }: { server: AppServer }) {
     this.server = server
+  }
+
+  public async fetch(url: RequestInfo | URL, init?: RequestInit | undefined): Promise<Response> {
+    const { method = 'GET', body } = init || {}
+    const params = this.getParams(String(url))
+    const query = this.getQuery(String(url))
+    const request: RequestInterface = { url: String(url), method, params, query }
+    if (body && ['POST', 'PUT', 'PATCH'].includes(method)) request.body = JSON.parse(body as string)
+    const { json, status = 200 } = await this.server.apiHandler(request)
+    return new Response(JSON.stringify(json), { status })
   }
 
   private getParams(url: string): { [key: string]: string } {
@@ -31,70 +40,6 @@ export async function fetch() {
       (acc, [key, value]) => ({ ...acc, [key]: value }),
       {}
     )
-  }
-
-  public async get(url: string): Promise<ResponseJsonType> {
-    const params = this.getParams(url)
-    const query = this.getQuery(url)
-    const { status = 200, json } = await this.server.apiHandler({
-      url,
-      method: 'GET',
-      params,
-      query,
-    })
-    if (status !== 200) throw new Error(`Error ${status} fetching ${url}`)
-    return json
-  }
-
-  public async post(url: string, body: DatabaseRowType): Promise<ResponseJsonType> {
-    const params = this.getParams(url)
-    const { status = 200, json } = await this.server.apiHandler({
-      url,
-      method: 'POST',
-      params,
-      query: {},
-      body,
-    })
-    if (status !== 200) throw new Error(`Error ${status} fetching ${url}`)
-    return json
-  }
-
-  public async put(url: string, body: DatabaseRowType): Promise<ResponseJsonType> {
-    const params = this.getParams(url)
-    const { status = 200, json } = await this.server.apiHandler({
-      url,
-      method: 'PUT',
-      params,
-      query: {},
-      body,
-    })
-    if (status !== 200) throw new Error(`Error ${status} fetching ${url}`)
-    return json
-  }
-
-  public async delete(url: string): Promise<ResponseJsonType> {
-    const params = this.getParams(url)
-    const { status = 200, json } = await this.server.apiHandler({
-      url,
-      method: 'DELETE',
-      params,
-      query: {},
-    })
-    if (status !== 200) throw new Error(`Error ${status} fetching ${url}`)
-    return json
-  }
-
-  public async patch(url: string, body: DatabaseRowType): Promise<ResponseJsonType> {
-    const params = this.getParams(url)
-    const { status = 200, json } = await this.server.apiHandler({
-      url,
-      method: 'PATCH',
-      params,
-      query: {},
-      body,
-    })
-    if (status !== 200) throw new Error(`Error ${status} fetching ${url}`)
-    return json
   }
 }
 

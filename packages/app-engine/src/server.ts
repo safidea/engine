@@ -71,6 +71,7 @@ class AppServer {
         const { status, errors = [] } = error.data
         return { status, json: { error: error.message, details: errors.join('\n') } }
       }
+      console.error(error)
       return { status: 500, json: { error: 'Internal server error' } }
     }
   }

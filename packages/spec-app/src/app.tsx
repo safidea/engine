@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import { join } from 'path'
 import '@testing-library/jest-dom'
+import { Response } from 'node-fetch'
 import ResizeObserver from 'resize-observer-polyfill'
 import { DatabaseDataType } from 'shared-database'
 import { AppClient, AppServer } from 'app-engine'
@@ -12,10 +13,10 @@ import FetcherProvider from './providers/fetcher.provider'
 import DatabaseProvider from './providers/database.provider'
 
 import type { DatabaseProviderConstructorInterface } from 'server-database'
-import type { ConfigInterface, FetcherProviderInterface } from 'shared-app'
+import type { ConfigInterface } from 'shared-app'
 
 global.ResizeObserver = ResizeObserver
-global.fetch = new FetcherProvider()
+global.Response = Response as any
 
 interface AppInterface {
   config: ConfigInterface
@@ -25,32 +26,43 @@ interface AppInterface {
 
 class App {
   private server: AppServer
-  private customerFetcherProvider: FetcherProviderInterface
+  private path: string
 
   constructor({ config, env = {}, CustomDatabaseProvider }: AppInterface) {
-    env.PORT = env.PORT ?? '8000'
-    const path = join(__dirname, '../build', config.name + '-' + env.PORT)
-    fs.ensureDirSync(path)
-    fs.writeFileSync(join(path, 'config.json'), JSON.stringify(config, null, 2))
+    if (!env.PORT) {
+      const nbApps = fs.readdirSync(join(__dirname, '../build')).length
+      env.PORT = String(8000 + nbApps)
+    }
+    this.path = join(__dirname, '../build', config.name + '-' + env.PORT)
+    fs.ensureDirSync(this.path)
+    fs.writeFileSync(join(this.path, 'config.json'), JSON.stringify(config, null, 2))
     fs.writeFileSync(
-      join(path, '.env'),
+      join(this.path, '.env'),
       Object.entries(env)
         .map(([key, value]) => `${key}=${value}`)
         .join('\n')
     )
     this.server = new AppServer({
-      path,
+      path: this.path,
       DatabaseProvider: CustomDatabaseProvider ?? DatabaseProvider,
     })
-    this.customerFetcherProvider = new FetcherProvider({ server: this.server })
+    global.fetch = async (url: RequestInfo | URL, init?: RequestInit | undefined) =>
+      new FetcherProvider({ server: this.server }).fetch(url, init)
   }
 
   public async start() {
     await this.server.execConfig()
   }
 
+  public async stop() {
+    fs.removeSync(this.path)
+  }
+
   public async seed(table: string, data: DatabaseDataType[]) {
-    await this.customerFetcherProvider.post(`/api/table/${table}`, data)
+    await fetch(`/api/table/${table}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
   }
 
   public page(path: string) {

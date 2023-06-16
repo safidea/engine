@@ -88,6 +88,8 @@ describe('A page that list invoices', () => {
     expect(rows[5]).toHaveTextContent('Facture 3')
     expect(rows[6]).toHaveTextContent('Facture 8')
     expect(rows[7]).toHaveTextContent('Facture 6')
+
+    await app.stop()
   })
 
   it('should navigate to drafts page', async () => {
