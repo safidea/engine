@@ -53,13 +53,13 @@ class AppServer {
         case 'table':
           switch (request.method) {
             case 'GET':
-              return tableRoute.get(request)
+              return await tableRoute.get(request)
             case 'POST':
-              return tableRoute.post(request as RequestBodyInterface)
+              return await tableRoute.post(request as RequestBodyInterface)
             case 'PUT':
-              return tableRoute.put(request as RequestBodyInterface)
+              return await tableRoute.put(request as RequestBodyInterface)
             case 'PATCH':
-              return tableRoute.patch(request as RequestBodyInterface)
+              return await tableRoute.patch(request as RequestBodyInterface)
             default:
               return { status: 405, json: { error: 'Method not allowed' } }
           }
