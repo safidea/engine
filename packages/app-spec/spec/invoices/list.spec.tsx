@@ -95,5 +95,16 @@ describe('A page that list invoices', () => {
   it('should navigate to drafts page', async () => {
     // GIVEN
     // Une configuration .json qui décrit une app de gestion de facture
+    const config = getInvoicesConfig()
+
+    // Configuration de l'app de test
+    const app = new App({ config })
+    await app.start()
+
+    // WHEN
+    // Quand je vais sur la page d'accueil "/"
+    await act(async () => {
+      render(app.page('/'))
+    })
   })
 })

@@ -36,53 +36,126 @@ const config: ConfigInterface = {
       title: 'Invoices',
       components: [
         {
-          key: 'list',
-          table: 'invoices',
-          fields: [
+          key: 'appNavigation',
+          components: [
             {
-              key: 'name',
-              label: 'Titre',
+              key: 'list',
+              table: 'invoices',
+              fields: [
+                {
+                  key: 'name',
+                  label: 'Titre',
+                },
+                {
+                  key: 'amount',
+                  label: 'Montant',
+                },
+                {
+                  key: 'status',
+                  label: 'Statut',
+                  options: [
+                    {
+                      key: 'draft',
+                      label: 'Brouillon',
+                    },
+                    {
+                      key: 'finalised',
+                      label: 'Finalisée',
+                    },
+                    {
+                      key: 'sent',
+                      label: 'Envoyée',
+                    },
+                    {
+                      key: 'paid',
+                      label: 'Payée',
+                    },
+                  ],
+                },
+                {
+                  key: 'finalised_date',
+                  label: 'Date de finalisation',
+                },
+                {
+                  key: 'created_date',
+                  label: 'Date de création',
+                },
+              ],
+              groupBy: [{ field: 'status', order: 'first_to_last' }],
+              sortBy: [
+                { field: 'finalised_date', order: 'desc' },
+                { field: 'created_date', order: 'desc' },
+              ],
             },
+          ],
+        },
+      ],
+    },
+    '/create': {
+      title: 'Créer une facture',
+      components: [
+        {
+          key: 'appNavigation',
+          components: [
             {
-              key: 'amount',
-              label: 'Montant',
-            },
-            {
-              key: 'status',
-              label: 'Statut',
-              options: [
+              key: 'form',
+              table: 'invoices',
+              fields: [
                 {
-                  key: 'draft',
-                  label: 'Brouillon',
+                  key: 'name',
+                  label: 'Titre',
                 },
                 {
-                  key: 'finalised',
-                  label: 'Finalisée',
+                  key: 'amount',
+                  label: 'Montant',
                 },
                 {
-                  key: 'sent',
-                  label: 'Envoyée',
+                  key: 'status',
+                  label: 'Statut',
+                  options: [
+                    {
+                      key: 'draft',
+                      label: 'Brouillon',
+                    },
+                    {
+                      key: 'finalised',
+                      label: 'Finalisée',
+                    },
+                    {
+                      key: 'sent',
+                      label: 'Envoyée',
+                    },
+                    {
+                      key: 'paid',
+                      label: 'Payée',
+                    },
+                  ],
                 },
                 {
-                  key: 'paid',
-                  label: 'Payée',
+                  key: 'finalised_date',
+                  label: 'Date de finalisation',
                 },
               ],
             },
-            {
-              key: 'finalised_date',
-              label: 'Date de finalisation',
-            },
-            {
-              key: 'created_date',
-              label: 'Date de création',
-            },
           ],
-          groupBy: [{ field: 'status', order: 'first_to_last' }],
-          sortBy: [
-            { field: 'finalised_date', order: 'desc' },
-            { field: 'created_date', order: 'desc' },
-          ],
+        },
+      ],
+    },
+  },
+  components: {
+    appNavigation: {
+      key: 'navigation',
+      title: 'Factures',
+      navigation: [
+        {
+          label: 'Toutes les factures',
+          icon: 'HomeIcon',
+          path: '/',
+        },
+        {
+          label: 'Ajouter une facture',
+          icon: 'DocumentDuplicateIcon',
+          path: '/nouvelle',
         },
       ],
     },

@@ -1,14 +1,20 @@
 import type { ObjectInterface } from 'shared-common'
-import type { ComponentsInterface } from 'shared-component'
+import type { ComponentInterface } from 'shared-component'
 
 export interface MetadataInterface extends ObjectInterface {
   description?: string
 }
 
+export type PagesComponentInterface = ComponentInterface & {
+  components?: PagesComponentsInterface
+}
+
+export type PagesComponentsInterface = PagesComponentInterface[]
+
 export interface PageInterface extends ObjectInterface {
   title: string
   metadata?: MetadataInterface
-  components: ComponentsInterface
+  components: PagesComponentsInterface
 }
 
 export interface PagesInterface extends ObjectInterface {

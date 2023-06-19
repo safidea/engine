@@ -3,9 +3,6 @@
   "definitions": {
     "ComponentInterface": {
       "properties": {
-        "components": {
-          "$ref": "#/definitions/ComponentsInterface"
-        },
         "key": {
           "type": "string"
         },
@@ -16,12 +13,6 @@
       "required": ["key"],
       "type": "object"
     },
-    "ComponentsInterface": {
-      "items": {
-        "$ref": "#/definitions/ComponentInterface"
-      },
-      "type": "array"
-    },
     "MetadataInterface": {
       "properties": {
         "description": {
@@ -29,11 +20,32 @@
         }
       },
       "type": "object"
+    },
+    "PagesComponentInterface": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ComponentInterface"
+        },
+        {
+          "properties": {
+            "components": {
+              "$ref": "#/definitions/PagesComponentsInterface"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "PagesComponentsInterface": {
+      "items": {
+        "$ref": "#/definitions/PagesComponentInterface"
+      },
+      "type": "array"
     }
   },
   "properties": {
     "components": {
-      "$ref": "#/definitions/ComponentsInterface"
+      "$ref": "#/definitions/PagesComponentsInterface"
     },
     "metadata": {
       "$ref": "#/definitions/MetadataInterface"
