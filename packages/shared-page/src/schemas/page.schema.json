@@ -1,8 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "ComponentInterface": {
+    "MetadataInterface": {
       "properties": {
+        "description": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PageComponentInterface": {
+      "properties": {
+        "components": {
+          "$ref": "#/definitions/PageComponentsInterface"
+        },
         "key": {
           "type": "string"
         },
@@ -13,39 +24,16 @@
       "required": ["key"],
       "type": "object"
     },
-    "MetadataInterface": {
-      "properties": {
-        "description": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "PagesComponentInterface": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ComponentInterface"
-        },
-        {
-          "properties": {
-            "components": {
-              "$ref": "#/definitions/PagesComponentsInterface"
-            }
-          },
-          "type": "object"
-        }
-      ]
-    },
-    "PagesComponentsInterface": {
+    "PageComponentsInterface": {
       "items": {
-        "$ref": "#/definitions/PagesComponentInterface"
+        "$ref": "#/definitions/PageComponentInterface"
       },
       "type": "array"
     }
   },
   "properties": {
     "components": {
-      "$ref": "#/definitions/PagesComponentsInterface"
+      "$ref": "#/definitions/PageComponentsInterface"
     },
     "metadata": {
       "$ref": "#/definitions/MetadataInterface"

@@ -12,9 +12,10 @@
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
-    "shared-component": "workspace:*",
     "shared-app": "workspace:*",
+    "shared-component": "workspace:*",
     "shared-database": "workspace:^",
+    "shared-page": "workspace:^",
     "swr": "^2.1.5"
   },
   "devDependencies": {

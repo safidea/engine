@@ -291,6 +291,9 @@ importers:
       shared-database:
         specifier: workspace:^
         version: link:../shared-database
+      shared-page:
+        specifier: workspace:^
+        version: link:../shared-page
       swr:
         specifier: ^2.1.5
         version: 2.1.5(react@18.2.0)

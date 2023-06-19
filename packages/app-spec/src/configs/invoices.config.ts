@@ -8,7 +8,7 @@ const config: ConfigInterface = {
   tables: {
     invoices: {
       fields: {
-        name: {
+        title: {
           type: 'String',
         },
         amount: {
@@ -33,52 +33,56 @@ const config: ConfigInterface = {
   },
   pages: {
     '/': {
-      title: 'Invoices',
+      title: 'All invoices',
       components: [
         {
           key: 'appNavigation',
           components: [
             {
+              key: 'h1',
+              text: 'All invoices',
+            },
+            {
               key: 'list',
               table: 'invoices',
               fields: [
                 {
-                  key: 'name',
-                  label: 'Titre',
+                  key: 'title',
+                  label: 'Title',
                 },
                 {
                   key: 'amount',
-                  label: 'Montant',
+                  label: 'Amount',
                 },
                 {
                   key: 'status',
-                  label: 'Statut',
+                  label: 'Status',
                   options: [
                     {
                       key: 'draft',
-                      label: 'Brouillon',
+                      label: 'Draft',
                     },
                     {
                       key: 'finalised',
-                      label: 'Finalisée',
+                      label: 'Finalised',
                     },
                     {
                       key: 'sent',
-                      label: 'Envoyée',
+                      label: 'Sent',
                     },
                     {
                       key: 'paid',
-                      label: 'Payée',
+                      label: 'Paid',
                     },
                   ],
                 },
                 {
                   key: 'finalised_date',
-                  label: 'Date de finalisation',
+                  label: 'Finalised date',
                 },
                 {
                   key: 'created_date',
-                  label: 'Date de création',
+                  label: 'Created date',
                 },
               ],
               groupBy: [{ field: 'status', order: 'first_to_last' }],
@@ -92,51 +96,55 @@ const config: ConfigInterface = {
       ],
     },
     '/create': {
-      title: 'Créer une facture',
+      title: 'Create an invoice',
       components: [
         {
           key: 'appNavigation',
           components: [
             {
+              key: 'h1',
+              text: 'Create an invoice',
+            },
+            /*{
               key: 'form',
               table: 'invoices',
               fields: [
                 {
-                  key: 'name',
-                  label: 'Titre',
+                  key: 'title',
+                  label: 'Title',
                 },
                 {
                   key: 'amount',
-                  label: 'Montant',
+                  label: 'Amount',
                 },
                 {
                   key: 'status',
-                  label: 'Statut',
+                  label: 'Status',
                   options: [
                     {
                       key: 'draft',
-                      label: 'Brouillon',
+                      label: 'Draft',
                     },
                     {
                       key: 'finalised',
-                      label: 'Finalisée',
+                      label: 'Finalised',
                     },
                     {
                       key: 'sent',
-                      label: 'Envoyée',
+                      label: 'Sent',
                     },
                     {
                       key: 'paid',
-                      label: 'Payée',
+                      label: 'Paid',
                     },
                   ],
                 },
                 {
                   key: 'finalised_date',
-                  label: 'Date de finalisation',
+                  label: 'Finalised date',
                 },
               ],
-            },
+            },*/
           ],
         },
       ],
@@ -145,17 +153,17 @@ const config: ConfigInterface = {
   components: {
     appNavigation: {
       key: 'navigation',
-      title: 'Factures',
+      title: 'Invoices',
       navigation: [
         {
-          label: 'Toutes les factures',
+          label: 'All invoices',
           icon: 'HomeIcon',
           path: '/',
         },
         {
-          label: 'Ajouter une facture',
+          label: 'Create an invoice',
           icon: 'DocumentDuplicateIcon',
-          path: '/nouvelle',
+          path: '/create',
         },
       ],
     },

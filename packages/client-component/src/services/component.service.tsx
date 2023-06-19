@@ -2,7 +2,7 @@ import * as Components from '../components'
 import { CustomComponents } from '../types/component.type'
 
 import type { ConfigInterface } from 'shared-app'
-import type { ComponentInterface } from 'shared-component'
+import type { PageComponentInterface, PageComponentsInterface } from 'shared-page'
 import type { ComponentType } from '../types/component.type'
 
 type ComponentServiceProps = {
@@ -19,10 +19,19 @@ class ComponentService {
     this.config = config
   }
 
-  public render(component: ComponentInterface, index: number) {
+  public get(key: string, index: number, components?: PageComponentsInterface): ComponentType {
+    if (key in Components) return Components[key as keyof typeof Components] as ComponentType
+    if (this.config?.components?.[key]) {
+      const component = this.config.components[key]
+      if (components) component.components = components
+      return () => this.render(component, index)
+    }
+    return Components.default
+  }
+
+  public render(component: PageComponentInterface, index: number): JSX.Element {
     const { key, components: children, text, ...res } = component
-    const Component = (Components[key as keyof typeof Components] ??
-      Components.default) as ComponentType
+    const Component = this.get(key, index, children)
     const props = {
       ...res,
       tag: key,
@@ -46,7 +55,7 @@ class ComponentService {
     return <Component key={index} {...props} />
   }
 
-  public renderChildren(components: ComponentInterface[]) {
+  public renderChildren(components: PageComponentInterface[]): () => JSX.Element {
     const Children = () => <>{components.map((c, i) => this.render(c, i))}</>
     return Children
   }

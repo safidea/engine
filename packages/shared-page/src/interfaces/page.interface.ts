@@ -5,16 +5,16 @@ export interface MetadataInterface extends ObjectInterface {
   description?: string
 }
 
-export type PagesComponentInterface = ComponentInterface & {
-  components?: PagesComponentsInterface
+export interface PageComponentInterface extends ComponentInterface {
+  components?: PageComponentsInterface
 }
 
-export type PagesComponentsInterface = PagesComponentInterface[]
+export type PageComponentsInterface = PageComponentInterface[]
 
 export interface PageInterface extends ObjectInterface {
   title: string
   metadata?: MetadataInterface
-  components: PagesComponentsInterface
+  components: PageComponentsInterface
 }
 
 export interface PagesInterface extends ObjectInterface {

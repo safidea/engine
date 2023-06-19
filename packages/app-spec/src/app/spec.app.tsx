@@ -41,10 +41,14 @@ class App {
   }
 
   public async seed(table: string, data: DatabaseDataType[]) {
-    await fetch(`/api/table/${table}`, {
+    const res = await fetch(`/api/table/${table}`, {
       method: 'POST',
       body: JSON.stringify(data),
     })
+    if (res.status !== 200) {
+      console.warn(await res.json())
+      throw new Error(`Failed to seed table ${table}`)
+    }
   }
 
   public page(path: string) {

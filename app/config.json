@@ -36,21 +36,13 @@
       "title": "Factures",
       "components": [
         {
-          "key": "navigation",
-          "title": "Factures",
-          "navigation": [
-            {
-              "label": "Toutes les factures",
-              "icon": "HomeIcon",
-              "path": "/"
-            },
-            {
-              "label": "Ajouter une facture",
-              "icon": "DocumentDuplicateIcon",
-              "path": "/nouvelle"
-            }
-          ],
+          "key": "appNavigation",
           "components": [
+            {
+              "key": "h1",
+              "text": "Toutes les factures",
+              "className": "p-2 text-4xl font-bold text-gray-800"
+            },
             {
               "key": "list",
               "table": "invoices",
@@ -101,6 +93,39 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "/create": {
+      "title": "Factures",
+      "components": [
+        {
+          "key": "appNavigation",
+          "components": [
+            {
+              "key": "h1",
+              "text": "Créer une facture",
+              "className": "p-2 text-4xl font-bold text-gray-800"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "components": {
+    "appNavigation": {
+      "key": "navigation",
+      "title": "Factures",
+      "navigation": [
+        {
+          "label": "Toutes les factures",
+          "icon": "HomeIcon",
+          "path": "/"
+        },
+        {
+          "label": "Créer une facture",
+          "icon": "DocumentDuplicateIcon",
+          "path": "/create"
         }
       ]
     }
