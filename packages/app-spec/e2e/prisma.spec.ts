@@ -32,9 +32,8 @@ test.describe('An api build with Next.js and Prisma', () => {
 
     // WHEN
     // Quand je vais sur la page d'accueil "/"
-    const rows = await request
-      .post('/api/table/invoices', { data: invoices })
-      .then((res) => res.json())
+    await request.post('/api/table/invoices', { data: invoices }).then((res) => res.json())
+    const { rows } = await app.sendPGQuery('SELECT * FROM invoices')
 
     // THEN
     // Vérifier que la facture 1 et la facture 2 ont bien été créées

@@ -87,6 +87,15 @@ class App {
     })
   }
 
+  public async sendPGQuery(query: string): Promise<any> {
+    const client = await this.pg.connect()
+    try {
+      return await client.query(query)
+    } finally {
+      client.release()
+    }
+  }
+
   public async clear(): Promise<void> {
     const client = await this.pg.connect()
     try {
