@@ -96,7 +96,7 @@ describe('A page that list invoices', () => {
     await app.stop()
   })
 
-  it('should be able to navigate to /create page by using the navigation component', async () => {
+  it('should display a navigation to the /create page', async () => {
     // GIVEN
     // A configuration .json that describe an invoice management app
     const config = getInvoicesConfig()

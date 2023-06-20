@@ -2,11 +2,11 @@
 
 ## Objectif Fin Juin > Fonctionnalité de facturation
 
-- [ ] Liste des factures
-  - [ ] Groupe brouillon > pour voir ce qu'il reste à créer
-  - [ ] Groupe finalisées > pour voir qu'est-ce qu'il y a émettre
-  - [ ] Groupe émises > pour voir ce qu'y n'a pas encore été payé
-  - [ ] Groupe réglées > pour voir tout ce qui a été réglé
+- [x] Liste des factures
+  - [x] Groupe brouillon > pour voir ce qu'il reste à créer
+  - [x] Groupe finalisées > pour voir qu'est-ce qu'il y a émettre
+  - [x] Groupe émises > pour voir ce qu'y n'a pas encore été payé
+  - [x] Groupe réglées > pour voir tout ce qui a été réglé
 - [ ] Créer / éditer une facture manuellement (Timebox pour 1 facture : 15 minutes max)
   - [ ] Formulaire de création d'une facture
     - [ ] Coordonnée client
@@ -24,3 +24,7 @@
   - [ ] Saisir la date de paiement
 - [ ] Faire un export pour le comptable des factures de l'année pour la date de finalisation de la facture
   - [ ] Mettre à disposition un tableau qui permet d'accéder à chacune des factures (mêmes informations précédentes à afficher)
+
+TODO
+
+- [ ] Pouvoir commit en ignorant les tests (avoir un indicateur dans le commit si les tests ne passe pas)

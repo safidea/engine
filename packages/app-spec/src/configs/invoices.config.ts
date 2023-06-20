@@ -106,46 +106,16 @@ const config: ConfigInterface = {
               key: 'h1',
               text: 'Create an invoice',
             },
-            /*{
+            {
               key: 'form',
               table: 'invoices',
               fields: [
                 {
-                  key: 'title',
-                  label: 'Title',
-                },
-                {
-                  key: 'amount',
-                  label: 'Amount',
-                },
-                {
-                  key: 'status',
-                  label: 'Status',
-                  options: [
-                    {
-                      key: 'draft',
-                      label: 'Draft',
-                    },
-                    {
-                      key: 'finalised',
-                      label: 'Finalised',
-                    },
-                    {
-                      key: 'sent',
-                      label: 'Sent',
-                    },
-                    {
-                      key: 'paid',
-                      label: 'Paid',
-                    },
-                  ],
-                },
-                {
-                  key: 'finalised_date',
-                  label: 'Finalised date',
+                  key: 'address',
+                  label: 'Address',
                 },
               ],
-            },*/
+            },
           ],
         },
       ],

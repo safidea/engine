@@ -106,6 +106,16 @@
               "key": "h1",
               "text": "Créer une facture",
               "className": "p-2 text-4xl font-bold text-gray-800"
+            },
+            {
+              "key": "form",
+              "table": "invoices",
+              "fields": [
+                {
+                  "key": "address",
+                  "label": "Address"
+                }
+              ]
             }
           ]
         }

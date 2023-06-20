@@ -10,6 +10,7 @@ import { SWRConfig } from 'swr'
 import buildApp from '../utils/build-app.utils'
 import FetcherProvider from '../providers/fetcher.provider'
 import DatabaseProvider from '../providers/database.provider'
+//import { Route, Routes, BrowserRouter } from 'react-router-dom'
 
 import type { ConfigInterface } from 'shared-app'
 import type { AppInterface } from '../utils/build-app.utils'
@@ -58,6 +59,25 @@ class App {
         <AppClient customComponents={{ Image, Link }} path={path} config={config} />
       </SWRConfig>
     )
+    //const history = createMemoryHistory();
+    /*return (
+      <SWRConfig value={{ provider: () => new Map() }}>
+      <Router history={history}>
+          <Routes location={path}>
+            <Route
+              path="/"
+              element={<AppClient customComponents={{ Image, Link }} path={'/'} config={config} />}
+            />
+            <Route
+              path="/create"
+              element={
+                <AppClient customComponents={{ Image, Link }} path={'/create'} config={config} />
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </SWRConfig>
+    )*/
   }
 }
 

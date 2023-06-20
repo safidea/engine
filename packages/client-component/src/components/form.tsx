@@ -1,45 +1,45 @@
 'use client'
 
-import { useState } from 'react'
+//import { useState } from 'react'
 import type { CommonPropsType } from '../types/common.type'
+//import { useHistory } from 'react-router-dom';
 
 export type CreateProps = CommonPropsType & {
   table: string
-  fields: string[]
-  database: string
+  // TODO: infer the type from the json schema
+  fields: {
+    key: string
+    label: string
+  }[]
 }
 
-// This component is used to create a new item from a form with the given fields and database.
-export default async function Create({ table, fields }: CreateProps) {
-  const [formData, setFormData] = useState<{ [key: string]: string }>({})
+export default function FormComponent({ fields }: CreateProps) {
+  //const history = useHistory();
+  //const location = useLocation()
+  //const navigate = useNavigate()
 
-  const handleSubmit = async (event: any) => {
+  const handlingForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log('formData', formData)
-  }
-
-  const handleChange = (event: any) => {
-    console.log(event.target.name, event.target.value)
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    })
+    //location.pathname = '/'
+    //navigate('/')
+    //redirect('/')
+    //window.history.pushState({}, 'Home page', '/')
+    //history.push('/');
   }
 
   return (
     <div className="p-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
+      <form onSubmit={handlingForm} className="w-full max-w-lg mx-auto">
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>
             <label htmlFor={`field${index}`} className="block font-medium mb-1">
-              {field}
+              {field.label}
             </label>
             <input
               type="text"
-              name={field}
+              name={field.key}
               id={`field${index}`}
               className="w-full px-4 py-2 border rounded"
-              onChange={handleChange}
             />
           </div>
         ))}
@@ -47,7 +47,7 @@ export default async function Create({ table, fields }: CreateProps) {
           type="submit"
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Submit
+          Save
         </button>
       </form>
     </div>
