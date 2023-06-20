@@ -51,6 +51,7 @@ test.describe('An api build with Next.js and Prisma', () => {
       { title: 'Invoice 1', amount: 1000 },
       { title: 'Invoice 2', amount: 2000 },
     ]
+    // TODO: use the sendPGQuery to insert the rows (Timebox: 30 minutes => Appeler Adrien si trop long)
     await request.post('/api/table/invoices', { data: invoices })
 
     // WHEN
@@ -68,6 +69,7 @@ test.describe('An api build with Next.js and Prisma', () => {
     // GIVEN
     // On fournit 1 facture d'exemple
     const invoice = { title: 'Facture 1', amount: 1000 }
+    // TODO: use the sendPGQuery to insert the rows (Timebox: 30 minutes => Appeler Adrien si trop long)
     const row = await request
       .post('/api/table/invoices', { data: invoice })
       .then((res) => res.json())
@@ -77,6 +79,7 @@ test.describe('An api build with Next.js and Prisma', () => {
     const updatedRow = await request
       .patch(`/api/table/invoices/${row.id}`, { data: { title: 'Invoice 2' } })
       .then((res) => res.json())
+    // TODO: use the sendPGQuery to get the rows (Timebox: 30 minutes => Appeler Adrien si trop long)
 
     // THEN
     // Vérifier que la facture a bien été mise à jour
@@ -84,10 +87,11 @@ test.describe('An api build with Next.js and Prisma', () => {
     expect(updatedRow.title).toEqual('Invoice 2')
   })
 
-  test('should delete a row', async ({ request }) => {
+  test('should soft delete a row', async ({ request }) => {
     // GIVEN
     // On fournit 1 facture d'exemple
     const invoice = { title: 'Invoice 1', amount: 1000 }
+    // TODO: use the sendPGQuery to get the rows (Timebox: 30 minutes => Appeler Adrien si trop long)
     const row = await request
       .post('/api/table/invoices', { data: invoice })
       .then((res) => res.json())
@@ -97,6 +101,7 @@ test.describe('An api build with Next.js and Prisma', () => {
     const deletedRow = await request
       .delete(`/api/table/invoices/${row.id}`)
       .then((res) => res.json())
+    // TODO: use the sendPGQuery to check if the soft delete is valid (Timebox: 30 minutes => Appeler Adrien si trop long)
 
     // THEN
     // Vérifier que la facture a bien été supprimée

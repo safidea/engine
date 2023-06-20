@@ -3,7 +3,7 @@ import App from '../../src/app/spec.app'
 import getInvoicesConfig from '../../src/configs/invoices.config'
 
 describe('A page that allow to create an invoice', () => {
-  it('should create a new invoice', async () => {
+  it('should dispaly a page title', async () => {
     // GIVEN
     // A Configuration .json that describe an invoice management app
     const config = getInvoicesConfig()

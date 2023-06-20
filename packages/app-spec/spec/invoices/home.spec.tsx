@@ -114,5 +114,7 @@ describe('A page that list invoices', () => {
     // THEN
     // Check that I'm on the /create page
     expect(screen.getByText(/Create an invoice/)).toBeInTheDocument()
+
+    await app.stop()
   })
 })
