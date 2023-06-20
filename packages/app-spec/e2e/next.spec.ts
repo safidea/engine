@@ -29,15 +29,15 @@ test.describe('An app build with Next.js', () => {
 
     // THEN
     // Vérifier que le titre de la page est "Invoices"
-    await expect(page).toHaveTitle('Invoices')
+    await expect(page).toHaveTitle('All invoices')
   })
 
   test('should display a list of rows', async ({ page, request }) => {
     // GIVEN
     // On fournit 2 factures d'exemple
     const invoices = [
-      { name: 'Facture 1', amount: 1000 },
-      { name: 'Facture 2', amount: 2000 },
+      { title: 'Invoice 1', amount: 1000 },
+      { title: 'Invoice 2', amount: 2000 },
     ]
     await request.post('/api/table/invoices', { data: invoices })
 
@@ -47,6 +47,6 @@ test.describe('An app build with Next.js', () => {
 
     // THEN
     // Vérifier que la facture 1 et la facture 2 sont bien affiché dans la liste
-    await expect(page.locator('td')).toContainText(invoices.map((i) => i.name))
+    await expect(page.locator('td')).toContainText(invoices.map((i) => i.title))
   })
 })
