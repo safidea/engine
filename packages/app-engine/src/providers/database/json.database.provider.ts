@@ -1,5 +1,6 @@
-import debug from 'debug'
 import { v4 as uuidv4 } from 'uuid'
+import fs from 'fs-extra'
+import { join } from 'path'
 import type {
   DatabaseDataType,
   DatabaseInterface,
@@ -10,32 +11,32 @@ import type {
 
 import type { TableInterface } from 'server-table'
 
-const log = debug('spec:database-provider')
+const pathToJsonCache = join(process.env.APP_PATH, '.cache/database.json')
+
+function updateDB(json) {
+  fs.writeJSONSync(pathToJsonCache, json)
+}
 
 class DatabaseProvider implements DatabaseProviderInterface {
-  private db: { [key: string]: any } = {}
-  private tables: { [key: string]: TableInterface } = {}
+  private db: { [key: string]: any }
 
-  setConnectionSchema(database: DatabaseInterface): void {
-    log('setConnectionSchema', database)
+  constructor({ appVersion, appName }: { appVersion: string; appName: string }) {
+    fs.ensureFileSync(pathToJsonCache)
+    this.db = fs.readJSONSync(pathToJsonCache, { throws: false }) || {}
   }
+
+  setConnectionSchema(database: DatabaseInterface): void {}
 
   addTableSchema(tableName: string, tableConfig: TableInterface): void {
     this.db[tableName] = []
-    this.tables[tableName] = tableConfig
+    updateDB(this.db)
   }
 
-  async generateClient(): Promise<void> {
-    log('testConnection')
-  }
+  async generateClient(): Promise<void> {}
 
-  async prepareMigration(): Promise<void> {
-    log('prepareMigration')
-  }
+  async prepareMigration(): Promise<void> {}
 
-  async applyMigration(): Promise<void> {
-    log('applyMigration')
-  }
+  async applyMigration(): Promise<void> {}
 
   getTableEnumName(table: string, field: string): string {
     return `${table}_${field}`
@@ -50,6 +51,7 @@ class DatabaseProvider implements DatabaseProviderInterface {
         created_at: new Date().toISOString(),
       }
       this.db[tableName].push(row)
+      updateDB(this.db)
       return row
     }
     const updateRow = async ({
@@ -61,6 +63,7 @@ class DatabaseProvider implements DatabaseProviderInterface {
     }): Promise<DatabaseRowType> => {
       const index = this.db[tableName].findIndex((row: any) => row.id === id)
       this.db[tableName][index] = { ...this.db[tableName][index], ...data }
+      updateDB(this.db)
       return this.db[tableName][index]
     }
     return {
@@ -97,18 +100,15 @@ class DatabaseProvider implements DatabaseProviderInterface {
       delete: async ({ where: { id } }: { where: { id: string } }): Promise<DatabaseRowType> => {
         const row = this.db[tableName].find((row: any) => row.id === id)
         this.db[tableName] = this.db[tableName].filter((row: any) => row.id !== id)
+        updateDB(this.db)
         return row
       },
     }
   }
 
-  async loadCached(): Promise<void> {
-    log('loadCached')
-  }
+  async loadCached(): Promise<void> {}
 
-  async cache(): Promise<void> {
-    log('cache')
-  }
+  async cache(): Promise<void> {}
 }
 
 export default DatabaseProvider

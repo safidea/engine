@@ -11,7 +11,7 @@ import type {
 import type { TableInterface } from 'shared-table'
 
 const pathToPrismaCache = join(process.env.APP_PATH, '.cache/prisma')
-const pathToPrisma = join(__dirname, '../../prisma')
+const pathToPrisma = join(__dirname, '../../../prisma')
 const pathToSchema = join(pathToPrisma, 'schema.prisma')
 const pathToClient = join(pathToPrisma, 'client/index.js')
 
@@ -22,7 +22,7 @@ if (!fs.existsSync(pathToClient)) {
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { PrismaClient } from '../../prisma/client'
+import { PrismaClient } from '../../../prisma/client'
 
 const prisma = new PrismaClient()
 

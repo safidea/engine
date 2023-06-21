@@ -1,8 +1,8 @@
-import NextAppClient from '@app/client'
-import NextAppServer from '@app/server'
-import { getPathFromParams } from '../shared'
+import NextAppClient from '@providers/client/next.client.provider'
+import NextAppServer from '@providers/server/next.server.provider'
+import { getPathFromParams } from '@utils/next.utils'
 
-import type { OptionsType } from '../shared'
+import type { OptionsType } from '@utils/next.utils'
 
 export const generateStaticParams = () => NextAppServer.generateStaticParams()
 

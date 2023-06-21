@@ -12,20 +12,23 @@ import type {
 
 export type AppServerProps = {
   path: string
+  cache: boolean
   DatabaseProvider: DatabaseProviderConstructorInterface
 }
 
 class AppServer {
+  private cache: boolean
   private configUtils: ConfigUtils
   private databaseProvider: DatabaseProviderInterface
 
-  constructor({ path, DatabaseProvider }: AppServerProps) {
+  constructor({ path, cache, DatabaseProvider }: AppServerProps) {
     const pathUtils = new PathUtils({ path })
     this.configUtils = new ConfigUtils({ pathUtils })
     this.configUtils.init()
     const appName = this.configUtils.get('name') as string
     const appVersion = this.configUtils.get('version') as string
     this.databaseProvider = new DatabaseProvider({ appName, appVersion })
+    this.cache = cache
   }
 
   public async execConfig(): Promise<void> {
@@ -35,12 +38,10 @@ class AppServer {
     const tableConfig = new TableConfig({ databaseProvider, configUtils })
     const componentConfig = new ComponentConfig({ configUtils })
     const pageConfig = new PageConfig({ configUtils })
-    const isUpdated = await configUtils.exec([
-      databaseConfig,
-      tableConfig,
-      componentConfig,
-      pageConfig,
-    ])
+    const isUpdated = await configUtils.exec(
+      [databaseConfig, tableConfig, componentConfig, pageConfig],
+      this.cache
+    )
     if (isUpdated) configUtils.cache()
   }
 

@@ -20,7 +20,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["app/*"]
+      "@providers/*": ["src/providers/*"],
+      "@utils/*": ["src/utils/*"]
     }
   }
 }

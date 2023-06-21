@@ -47,7 +47,7 @@ class ConfigUtils {
     log('Config cached')
   }
 
-  public async exec(configs: ConfigExecInterface[]): Promise<boolean> {
+  public async exec(configs: ConfigExecInterface[], cache = true): Promise<boolean> {
     log('Executing config...')
     const start = Date.now()
 
@@ -61,7 +61,7 @@ class ConfigUtils {
     const configsUpdated = []
     const configsCached = []
     for (const config of configs)
-      if (config.isUpdated()) configsUpdated.push(config)
+      if (config.isUpdated() || cache === false) configsUpdated.push(config)
       else configsCached.push(config)
 
     // Validate schema

@@ -1,12 +1,12 @@
-import AppServer from '../src/server'
+import AppServer from '../../server'
 import { NextResponse } from 'next/server'
-import { getPathFromParams, getAppPath } from './shared'
-import PrismaProvider from '../src/providers/prisma.provider'
+import { getPathFromParams } from '../../utils/next.utils'
+import { getAppPath, getDatabaseProvider, getDatabaseProviderName } from '../../utils/server.utils'
 
 import type { ConfigInterface, RequestInterface } from 'shared-app'
 import type { PagesInterface } from 'shared-page'
-import type { OptionsType } from './shared'
-import type { AppServerProps } from '../src/server'
+import type { OptionsType } from '../../utils/next.utils'
+import type { AppServerProps } from '../../server'
 
 export type ContextRouteType = {
   params: { [key: string]: string }
@@ -56,5 +56,6 @@ class NextAppServer {
 
 export default new NextAppServer({
   path: getAppPath(),
-  DatabaseProvider: PrismaProvider,
+  cache: getDatabaseProviderName() !== 'json',
+  DatabaseProvider: getDatabaseProvider(),
 })
