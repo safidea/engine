@@ -1,4 +1,10 @@
 {
   "extends": "config-typescript/react-library.json",
-  "include": ["**/*.ts", "**/*.tsx", "jest.config.js"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "jest.config.js",
+    "../../test/e2e/invoices/home.spec.ts",
+    "spec/utils.ts"
+  ]
 }

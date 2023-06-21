@@ -1,5 +1,5 @@
 import type { ConfigInterface } from 'shared-app'
-import mergeConfigs from '../utils/merge-configs.utils'
+import { mergeConfigs } from '../../utils'
 import { ObjectInterface } from 'shared-common'
 
 // TODO: Si besoin, faire un builder avec Adrien (ne pas le faire tout seul)

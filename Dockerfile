@@ -3,7 +3,7 @@ FROM node:18-alpine AS base
 WORKDIR /foundation
 
 # Install pnpm globally
-RUN npm install -g pnpm
+RUN npm install -g pnpm ts-node
 
 # Runner
 RUN apk add --no-cache libc6-compat jq

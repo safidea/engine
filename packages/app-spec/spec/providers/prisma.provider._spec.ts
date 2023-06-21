@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import App from '../src/app/e2e.app'
-import getInvoicesConfig from '../src/configs/invoices.config'
+import App from '../../src/app/e2e.app'
+import getInvoicesConfig from '../apps/invoices/config'
 
 test.describe('An api build with Next.js and Prisma', () => {
   // GIVEN

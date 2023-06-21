@@ -26,9 +26,13 @@ class DatabaseConfig implements ConfigExecInterface {
     this.databaseCached = configUtils.getCached('database') as DatabaseInterface
   }
 
+  public exists() {
+    log(`check if config exists`)
+    return !!this.databaseConfig
+  }
+
   public isUpdated() {
     log(`check if config is updated`)
-    if (!this.databaseConfig) return false
     return !ObjectUtils.isSame(this.databaseConfig, this.databaseCached)
   }
 

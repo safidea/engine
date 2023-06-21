@@ -57,12 +57,20 @@ class ConfigUtils {
       if (typeof config.enrichSchema === 'function') promises.push(config.enrichSchema())
     await Promise.all(promises)
 
+    // Check if config exists
+    promises = []
+    for (const config of configs) promises.push(config.exists())
+    const exists = await Promise.all(promises)
+
     // Check if config is updated
     const configsUpdated = []
     const configsCached = []
-    for (const config of configs)
+    for (let i = 0; i < configs.length; i++) {
+      const config = configs[i]
+      if (!exists[i]) continue
       if (config.isUpdated() || cache === false) configsUpdated.push(config)
       else configsCached.push(config)
+    }
 
     // Validate schema
     promises = []

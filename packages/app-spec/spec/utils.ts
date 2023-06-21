@@ -1,6 +1,6 @@
 import type { ObjectInterface } from 'shared-common'
 
-export default function mergeConfigs(target: ObjectInterface, source: ObjectInterface) {
+export function mergeConfigs(target: ObjectInterface, source: ObjectInterface) {
   if (typeof source !== 'object' || source === null) {
     return target
   }

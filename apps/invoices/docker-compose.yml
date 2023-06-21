@@ -1,13 +1,13 @@
 version: '3.9'
 
 networks:
-  systems-network:
+  invoices-network:
     driver: bridge
 
 services:
   db:
     image: postgres:latest
-    container_name: systems-tests-db
+    container_name: invoices-database
     ports:
       - '5432:5432'
     environment:
@@ -17,4 +17,4 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
     networks:
-      - systems-network
+      - invoices-network

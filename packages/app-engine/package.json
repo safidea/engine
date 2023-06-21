@@ -3,11 +3,10 @@
   "main": "./src/index",
   "scripts": {
     "config": "DEBUG=config:* npx ts-node src/configs/next.config.ts",
-    "build": "next build",
-    "dev": "next dev",
-    "start": "next start",
-    "lint": "next lint",
-    "migrate": "npx prisma migrate deploy"
+    "build": "npx next build",
+    "dev": "npx next dev",
+    "start": "npx next start",
+    "lint": "npx next lint"
   },
   "dependencies": {
     "@headlessui/react": "1.7.14",

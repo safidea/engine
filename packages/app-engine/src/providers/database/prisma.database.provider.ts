@@ -14,6 +14,7 @@ const pathToPrismaCache = join(process.env.APP_PATH, '.cache/prisma')
 const pathToPrisma = join(__dirname, '../../../prisma')
 const pathToSchema = join(pathToPrisma, 'schema.prisma')
 const pathToClient = join(pathToPrisma, 'client/index.js')
+const stdio = process.env.DEBUG?.includes('config:') ? 'inherit' : 'ignore'
 
 if (!fs.existsSync(pathToClient)) {
   fs.ensureFileSync(pathToClient)
@@ -126,11 +127,13 @@ class PrismaProvider implements DatabaseProviderInterface {
     } else {
       fs.removeSync(migrationsPath)
     }
-    execSync(`npx prisma migrate dev --name=${name} --skip-generate --skip-seed --create-only`)
+    execSync(`npx prisma migrate dev --name=${name} --skip-generate --skip-seed --create-only`, {
+      stdio,
+    })
   }
 
   public async applyMigration(): Promise<void> {
-    execSync(`npx prisma migrate deploy`)
+    execSync(`npx prisma migrate deploy`, { stdio })
   }
 
   public async loadCached(): Promise<void> {

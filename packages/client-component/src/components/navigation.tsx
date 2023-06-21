@@ -85,7 +85,7 @@ export default function Navigation({ navigation, children, title, config }: Navi
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
-                      <h1 className="text-4xl font-semibold text-white">{title ?? config.name}</h1>
+                      <p className="text-4xl font-semibold text-white">{title ?? config.name}</p>
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -143,7 +143,7 @@ export default function Navigation({ navigation, children, title, config }: Navi
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <h1 className="text-4xl font-semibold text-white">{title ?? config.name}</h1>
+              <p className="text-4xl font-semibold text-white">{title ?? config.name}</p>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">

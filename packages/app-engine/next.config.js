@@ -1,7 +1,10 @@
+const { PORT } = process.env
+
 module.exports = async () => {
   /** @type {import('next').NextConfig} */
   const nextConfig = {
     reactStrictMode: true,
+    distDir: '.next/' + (PORT ?? 3000),
     transpilePackages: [
       'server-table',
       'server-database',

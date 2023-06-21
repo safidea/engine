@@ -2,7 +2,7 @@
 set -e
 
 # Get params
-while getopts ":m:f:d:" opt; do
+while getopts ":m:f:d:p:" opt; do
   case ${opt} in
     m)
       mode=$OPTARG
@@ -13,6 +13,9 @@ while getopts ":m:f:d:" opt; do
     d) 
       database_provider=$OPTARG
       ;;
+    p)
+      port=$OPTARG
+      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       ;;
@@ -20,14 +23,19 @@ while getopts ":m:f:d:" opt; do
 done
 shift $((OPTIND-1))
 mode="${mode:-"prod"}"
-folder="${folder:-"app"}"
 database_provider="${database_provider:-"prisma"}"
+port="${port:-"3000"}"
+
+if [[ -z "$folder" ]]; then
+  echo "App folder is not defined."
+  exit 1
+fi
 
 # Get app folder path
-script_dir="$(cd "$(dirname "$0")" && pwd -P)"
-app_path="$script_dir/$folder"
+app_path=$(readlink -f "$folder")
 
 # Set env variables
+export PORT=$port
 source $app_path/.env
 export APP_PATH=$app_path
 export DATABASE_PROVIDER=$database_provider
@@ -35,23 +43,25 @@ export DATABASE_PROVIDER=$database_provider
 # Get app name
 app_name=$(jq -r '.name' $app_path/config.json)
 
+# Go to app engine package
+cd $(dirname "$0")/../packages/app-engine
+
 # Start app
-cd packages/app-engine
-echo "\nConfig app ${app_name}"
+echo "Config app ${app_name}"
 pnpm run config
 case "${mode}" in
   dev)
-    echo "\nStarting app ${app_name} in development mode"
-    pnpm dev
+    echo "Starting app ${app_name} on port ${port} in development mode"
+    pnpm dev -p $port
     ;;
   prod)
-    echo "\nBuilding app ${app_name}"
+    echo "Building app ${app_name}"
     pnpm build
-    echo "\nStarting app ${app_name} in production mode"
-    pnpm start
+    echo "Starting app ${app_name} on port ${port} in production mode"
+    pnpm start -p $port
     ;;
   *)
-    echo "\nInvalid mode: ${mode}"
+    echo "Invalid mode: ${mode}"
     ;;
 esac
 

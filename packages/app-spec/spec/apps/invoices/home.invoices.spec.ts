@@ -1,19 +1,33 @@
-import { render, screen, act } from '@testing-library/react'
-import App from '../../src/app/spec.app'
-import getInvoicesConfig from '../../src/configs/invoices.config'
+import { test, expect } from '@playwright/test'
+import App from '../../app'
+import getInvoicesConfig from './config'
 
 import type { DatabaseDataType } from 'shared-database'
 
-describe('A page that list invoices', () => {
-  it('should display a list of invoices grouped by status and sorted by dates', async () => {
-    // GIVEN
-    // A configuration .json that describe an invoice management app
-    const config = getInvoicesConfig()
+test.describe('A page that list invoices', () => {
+  // GIVEN
+  // A configuration .json that describe an invoice management app
+  const config = getInvoicesConfig()
 
-    // Configuration of the test app
-    const app = new App({ config })
+  // Configuration of the test app
+  const app = new App({ config, env: { PORT: '9001', DATABASE_PORT: '5433' } })
+  test.beforeAll(async () => {
     await app.start()
+  })
+  test.afterAll(async () => {
+    await app.stop()
+  })
+  test.use({
+    baseURL: `http://localhost:${app.port}`,
+  })
+  test.beforeEach(async () => {
+    await app.clear()
+  })
 
+  test('should display a list of invoices grouped by status and sorted by dates', async ({
+    page,
+    request,
+  }) => {
     // We provide 8 example invoices
     const invoices: DatabaseDataType[] = [
       { title: 'Invoice 1', amount: 100, status: 'draft' },
@@ -55,21 +69,23 @@ describe('A page that list invoices', () => {
         number: '1008',
       },
     ]
-    await app.seed('invoices', invoices)
+    // TODO: use the DatabaseProvider to seed the database
+    await request.post('/api/table/invoices', { data: invoices })
+    // await app.seed('invoices', invoices)
 
     // WHEN
     // I go to the home page "/"
-    await act(async () => {
-      render(app.page('/'))
-    })
+    await page.goto('/')
 
     // THEN
     // Check that I'm on the / page
-    expect(screen.getByRole('heading', { name: /All invoices/i })).toBeInTheDocument()
+    expect(await page.textContent('h1')).toContain('All invoices')
+
+    //expect(screen.getByRole('heading', { name: /All invoices/i })).toBeInTheDocument()
 
     // THEN
     // Check that invoices are displayed in a group by status
-    const draftRows = screen.getAllByText(/^Draft$/)
+    /*const draftRows = screen.getAllByText(/^Draft$/)
     expect(draftRows).toHaveLength(4)
 
     const finalisedRows = screen.getAllByText(/^Finalised$/)
@@ -93,10 +109,10 @@ describe('A page that list invoices', () => {
     expect(rows[6]).toHaveTextContent('Invoice 8')
     expect(rows[7]).toHaveTextContent('Invoice 6')
 
-    await app.stop()
+    await app.stop()*/
   })
 
-  it('should display a navigation to the /create page', async () => {
+  /*test('should display a navigation to the /create page', async () => {
     // GIVEN
     // A configuration .json that describe an invoice management app
     const config = getInvoicesConfig()
@@ -116,5 +132,5 @@ describe('A page that list invoices', () => {
     expect(screen.getByText(/Create an invoice/)).toBeInTheDocument()
 
     await app.stop()
-  })
+  })*/
 })

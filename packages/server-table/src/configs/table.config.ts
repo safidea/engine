@@ -27,9 +27,13 @@ class TableConfig implements ConfigExecInterface {
     this.tablesCached = configUtils.getCached('tables') as TablesInterface
   }
 
+  public exists() {
+    log(`check if config exists`)
+    return !!this.tablesConfig
+  }
+
   public isUpdated() {
     log(`check if config is updated`)
-    if (!this.tablesConfig) return false
     return !ObjectUtils.isSame(this.tablesConfig, this.tablesCached)
   }
 

@@ -16,9 +16,13 @@ class PageConfig implements ConfigExecInterface {
     this.pagesCached = configUtils.getCached('pages') as PagesInterface
   }
 
+  public exists() {
+    log(`check if config exists`)
+    return !!this.pagesConfig
+  }
+
   public isUpdated() {
     log(`check if config is updated`)
-    if (!this.pagesConfig) return false
     return !ObjectUtils.isSame(this.pagesConfig, this.pagesCached)
   }
 
