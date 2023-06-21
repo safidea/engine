@@ -10,7 +10,7 @@ import type {
 } from 'server-database/src/interfaces/database.interface'
 import type { TableInterface } from 'shared-table'
 
-const pathToPrismaCache = join(__dirname, '../../../../app/.cache/prisma')
+const pathToPrismaCache = join(process.env.APP_PATH, '.cache/prisma')
 const pathToPrisma = join(__dirname, '../../prisma')
 const pathToSchema = join(pathToPrisma, 'schema.prisma')
 const pathToClient = join(pathToPrisma, 'client/index.js')
@@ -119,6 +119,13 @@ class PrismaProvider implements DatabaseProviderInterface {
 
   public async prepareMigration(): Promise<void> {
     const name = StringUtils.slugify(this.appName + '_' + this.appVersion)
+    const migrationsPath = join(pathToPrisma, 'migrations')
+    const migrationsCachedPath = join(pathToPrismaCache, 'migrations')
+    if (fs.existsSync(migrationsCachedPath)) {
+      await fs.copy(migrationsCachedPath, migrationsPath)
+    } else {
+      fs.removeSync(migrationsPath)
+    }
     execSync(`npx prisma migrate dev --name=${name} --skip-generate --skip-seed --create-only`)
   }
 

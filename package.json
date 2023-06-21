@@ -7,8 +7,8 @@
   ],
   "scripts": {
     "setup": ". scripts/setup.sh",
-    "start": ". scripts/command.sh -c start",
-    "dev": ". scripts/command.sh -c dev",
+    "start": ". scripts/start.sh -m prod",
+    "dev": ". scripts/start.sh -m dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "schema": "turbo run schema",

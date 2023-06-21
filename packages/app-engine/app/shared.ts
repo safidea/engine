@@ -11,6 +11,6 @@ export function getPathFromParams(params: ParamsType): string {
 }
 
 export function getAppPath(): string {
-  const parentDir = process.cwd()
-  return join(dirname(parentDir), '..', 'app')
+  if (!process.env.APP_PATH) throw new Error('APP_PATH is not defined')
+  return process.env.APP_PATH
 }

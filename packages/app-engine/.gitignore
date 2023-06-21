@@ -3,5 +3,4 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 !/e2e/app/.env
-prisma/client/*
-prisma/migrations/*
+prisma/*

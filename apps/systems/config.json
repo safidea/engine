@@ -1,14 +1,12 @@
 {
   "name": "systems",
-  "databases": {
-    "master": {
-      "url": "${DATABASE_URL}",
-      "provider": "postgresql"
-    }
+  "version": "0.0.1",
+  "database": {
+    "url": "${DATABASE_URL}",
+    "provider": "sqlite"
   },
   "tables": {
     "tasks": {
-      "database": "master",
       "fields": {
         "task": {
           "type": "String"
@@ -32,7 +30,6 @@
       }
     },
     "categories": {
-      "database": "master",
       "fields": {
         "name": {
           "type": "String",
@@ -51,8 +48,9 @@
       "metadata": {
         "description": "Build and deploy anything anywhere"
       },
-      "components": {
-        "hero": {
+      "components": [
+        {
+          "key": "hero",
           "navigation": [
             {
               "name": "Product",
@@ -72,27 +70,27 @@
             }
           ]
         },
-        "logos": {},
-        "features": {},
-        "testimonials": {},
-        "cta": {},
-        "footer": {}
-      }
+        { "key": "logos" },
+        { "key": "features" },
+        { "key": "testimonials" },
+        { "key": "cta" },
+        { "key": "footer" }
+      ]
     },
     "/app": {
       "title": "App",
-      "components": {
-        "list": {
+      "components": [
+        {
+          "key": "list",
           "table": "tasks",
-          "fields": ["task", "done", "priority", "description"],
-          "database": "master"
+          "fields": ["task", "done", "priority", "description"]
         },
-        "form": {
+        {
+          "key": "form",
           "table": "tasks",
-          "fields": ["task", "priority", "description"],
-          "database": "master"
+          "fields": ["task", "priority", "description"]
         }
-      }
+      ]
     }
   },
   "integrations": {
