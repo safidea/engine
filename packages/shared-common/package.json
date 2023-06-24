@@ -1,13 +1,14 @@
 {
   "name": "shared-common",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "#jest"
+    "test": "#jest",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/jest": "29.5.1",
+    "@types/react": "18.0.29",
     "config-jest": "workspace:^",
     "config-typescript": "workspace:*",
     "eslint": "^7.32.0",

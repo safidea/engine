@@ -43,5 +43,5 @@ next-env.d.ts
 # compile
 dist/
 
-# app
-.cache/
+# foundation
+.foundation/

@@ -75,7 +75,7 @@ export function Group({ group, fields }: { group: GroupType; fields: ListProps['
   )
 }
 
-export default function List({ table, fields, sortBy, groupBy, config }: ListProps) {
+export default function List({ table, fields, sortBy, groupBy }: ListProps) {
   const { data, error, isLoading } = useSWR(`/api/table/${table}`, { refreshInterval: 0 })
   let rows = (data ?? []) as DatabaseRowType[]
   let groups: GroupType[] = []
@@ -85,9 +85,9 @@ export default function List({ table, fields, sortBy, groupBy, config }: ListPro
   if (isLoading) return <div>loading...</div>
 
   if (groupBy && groupBy.length > 0) {
-    groups = ListHelper.group({ rows, groupBy, sortBy, config, table, fields })
+    groups = ListHelper.group({ rows, groupBy, sortBy, fields })
   } else if (sortBy && sortBy.length > 0) {
-    rows = ListHelper.sort({ rows, sortBy, config, table })
+    rows = ListHelper.sort({ rows, sortBy, fields })
   }
 
   return (

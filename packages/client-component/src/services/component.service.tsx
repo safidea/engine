@@ -1,42 +1,32 @@
 import * as Components from '../components'
-import { CustomComponents } from '../types/component.type'
 
-import type { ConfigInterface } from 'shared-app'
-import type { PageComponentInterface, PageComponentsInterface } from 'shared-page'
+import type { PageComponentInterface } from 'shared-page'
 import type { ComponentType } from '../types/component.type'
+import type { ServerProviderComponentsInterface } from 'shared-common'
 
 type ComponentServiceProps = {
-  customComponents: CustomComponents
-  config: ConfigInterface
+  serverProviderComponents: ServerProviderComponentsInterface
 }
 
 class ComponentService {
-  private customComponents: CustomComponents
-  private config: ConfigInterface
+  private serverProviderComponents: ServerProviderComponentsInterface
 
-  constructor({ customComponents, config }: ComponentServiceProps) {
-    this.customComponents = customComponents
-    this.config = config
+  constructor({ serverProviderComponents }: ComponentServiceProps) {
+    this.serverProviderComponents = serverProviderComponents
   }
 
-  public get(key: string, index: number, components?: PageComponentsInterface): ComponentType {
+  public get(key: string): ComponentType {
     if (key in Components) return Components[key as keyof typeof Components] as ComponentType
-    if (this.config?.components?.[key]) {
-      const component = this.config.components[key]
-      if (components) component.components = components
-      return () => this.render(component, index)
-    }
     return Components.default
   }
 
   public render(component: PageComponentInterface, index: number): JSX.Element {
     const { key, components: children, text, ...res } = component
-    const Component = this.get(key, index, children)
+    const Component = this.get(key)
     const props = {
       ...res,
       tag: key,
-      config: this.config,
-      customComponents: this.customComponents,
+      serverProviderComponents: this.serverProviderComponents,
     }
     if (children) {
       const Children = this.renderChildren(children)

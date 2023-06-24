@@ -1,18 +1,18 @@
 import { join } from 'path'
 
 class PathUtils {
-  private path: string
+  private cwd: string
 
-  constructor({ path }: { path: string }) {
-    this.path = path
+  constructor() {
+    this.cwd = process.cwd()
   }
 
   public getAppConfigFile(): string {
-    return join(this.path, 'config.json')
+    return join(this.cwd, 'config.json')
   }
 
   public getAppConfigCache(): string {
-    return join(this.path, `.cache/config.json`)
+    return join(this.cwd, `.foundation/config.json`)
   }
 }
 

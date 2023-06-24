@@ -2,8 +2,8 @@
   "name": "app-spec",
   "scripts": {
     "lint": "eslint .",
-    "test": "npx playwright test",
-    "test:ui": "npx playwright test --ui",
+    "test": "#playwright test",
+    "test:ui": "playwright test --ui",
     "test:e2e": "pnpm test:e2e:build && pnpm test:e2e:run",
     "test:e2e:build": ". build.sh",
     "test:e2e:run": "npx playwright test",

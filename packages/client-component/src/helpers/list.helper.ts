@@ -1,5 +1,4 @@
 import type { DatabaseRowType } from 'shared-database'
-import type { ConfigInterface } from 'shared-app'
 
 export type FieldType = {
   key: string
@@ -8,6 +7,7 @@ export type FieldType = {
     key: string
     label: string
   }[]
+  type: string
 }
 
 export type SortByType = {
@@ -18,8 +18,7 @@ export type SortByType = {
 export type SortProps = {
   rows: DatabaseRowType[]
   sortBy: SortByType[]
-  config: ConfigInterface
-  table: string
+  fields: FieldType[]
 }
 
 export type GroupByType = {
@@ -31,8 +30,6 @@ export type GroupProps = {
   rows: DatabaseRowType[]
   groupBy: GroupByType[]
   sortBy?: SortByType[]
-  config: ConfigInterface
-  table: string
   fields: FieldType[]
 }
 
@@ -43,19 +40,17 @@ export type GroupType = {
 }
 
 class ListHelper {
-  sort({ rows, sortBy, config, table }: SortProps): DatabaseRowType[] {
+  sort({ rows, sortBy, fields }: SortProps): DatabaseRowType[] {
     return rows.sort((a: DatabaseRowType, b: DatabaseRowType) => {
       for (let i = 0; i < sortBy.length; i++) {
         const field = sortBy[i].field
         const order = sortBy[i].order
         let aField = a[field]
         let bField = b[field]
-        if (config.tables && config.tables[table]) {
-          const configFields = config.tables && config.tables[table] && config.tables[table].fields
-          if (configFields[field] && configFields[field].type === 'DateTime' && aField && bField) {
-            aField = Date.parse(String(aField))
-            bField = Date.parse(String(bField))
-          }
+        const fieldType = fields.find((f) => f.key === field)?.type
+        if (fieldType === 'DateTime' && aField && bField) {
+          aField = Date.parse(String(aField))
+          bField = Date.parse(String(bField))
         }
         if (aField > bField) {
           return order === 'desc' ? -1 : 1
@@ -67,7 +62,7 @@ class ListHelper {
     })
   }
 
-  group({ rows, groupBy, sortBy, config, table, fields }: GroupProps): GroupType[] {
+  group({ rows, groupBy, sortBy, fields }: GroupProps): GroupType[] {
     const groups: GroupType[] = []
     for (let i = 0; i < groupBy.length; i++) {
       const field = groupBy[i].field
@@ -81,8 +76,7 @@ class ListHelper {
           groupedRows = this.sort({
             rows: groupedRows,
             sortBy,
-            config,
-            table,
+            fields,
           })
         groups.push({
           key: option.key,

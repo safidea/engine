@@ -2,7 +2,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'turbo', 'prettier'],
-  ignorePatterns: ['prisma/client'],
+  ignorePatterns: ['prisma/client', 'dist'],
   rules: {
     '@next/next/no-html-link-for-pages': 'off',
     'react/version': 'off',
@@ -13,6 +13,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-empty-function': 'off',
+    'turbo/no-undeclared-env-vars': 'off',
   },
   settings: {
     react: {

@@ -7,7 +7,6 @@ import type { AppInterface } from '../src/utils/build-app.utils'
 
 class App {
   private path: string
-  private name: string
   public port: string
   private server: ChildProcess
 
@@ -29,12 +28,11 @@ class App {
     )
     this.port = env.PORT
     this.path = path
-    this.name = name
     const command = join(__dirname.split('/packages')[0], 'scripts/start.sh')
     const args = ['-m', 'dev', '-f', this.path, '-d', 'json', '-p', this.port]
     this.server = spawn(command, args, {
       detached: true,
-      stdio: 'ignore',
+      stdio: 'inherit',
     })
     this.server.on('error', (error) => {
       console.error('An error occurred:', error.message)

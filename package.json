@@ -10,8 +10,9 @@
     "dev": "scripts/start.sh -m dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "build": "turbo run build",
     "schema": "turbo run schema",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "precommit": "pnpm schema && pnpm format && pnpm lint && pnpm test && git add .",
     "prepare": "husky install"
   },
@@ -20,7 +21,7 @@
     "eslint-config-foundation": "workspace:*",
     "husky": "8.0.3",
     "prettier": "latest",
-    "turbo": "^1.10.3"
+    "turbo": "^1.10.5"
   },
   "engines": {
     "node": ">=18.16.0",

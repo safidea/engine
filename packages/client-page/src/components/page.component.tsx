@@ -3,20 +3,18 @@
 import { SWRConfig } from 'swr'
 import { ComponentService } from 'client-component'
 
-import type { CustomComponents } from 'client-component'
-import type { ConfigInterface } from 'shared-app'
+import type { PageInterface } from 'shared-page'
+import type { ServerProviderComponentsInterface } from 'shared-common'
 
-type PageComponentProps = {
-  path: string
-  config: ConfigInterface
-  customComponents: CustomComponents
+export type PageComponentProps = {
+  page: PageInterface
+  serverProviderComponents: ServerProviderComponentsInterface
 }
 
-export default function PageComponent({ path, config, customComponents }: PageComponentProps) {
-  const { components } = config.pages?.[path] ?? { components: [] }
+export default function PageComponent({ page, serverProviderComponents }: PageComponentProps) {
+  const { components } = page
   const componentService = new ComponentService({
-    customComponents,
-    config,
+    serverProviderComponents,
   })
   const Children = componentService.renderChildren(components)
   return (

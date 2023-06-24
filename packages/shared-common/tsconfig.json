@@ -1,9 +1,9 @@
 {
   "extends": "config-typescript/base.json",
-  "include": [
-    "**/*.ts",
-    "../shared-app/src/interfaces/config.interface.ts",
-    "../shared-app/src/interfaces/request.interface.ts",
-    "../shared-app/src/interfaces/response.interface.ts"
-  ]
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "jsx": "preserve"
+  },
+  "include": ["src/**/*.ts", "src/interfaces/server.provider.interface.ts"]
 }

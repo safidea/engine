@@ -1,7 +1,7 @@
 import type {
   DatabaseProviderInterface,
   DatabaseProviderTableInterface,
-} from '../interfaces/database.interface'
+} from '../interfaces/orm.interface'
 
 import type { DatabaseDataType } from 'shared-database'
 

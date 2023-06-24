@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "#jest",
-    "schema": "typescript-json-schema tsconfig.json DatabaseInterface -o src/schemas/database.schema.json --required"
+    "schema": "typescript-json-schema tsconfig.json DatabaseInterface -o src/schemas/database.schema.json --required",
+    "build": "tsc"
   },
   "dependencies": {
     "shared-common": "workspace:*"

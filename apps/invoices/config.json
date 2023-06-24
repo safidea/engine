@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "database": {
     "url": "${DATABASE_URL}",
-    "provider": "postgresql"
+    "provider": "sqlite"
   },
   "tables": {
     "invoices": {

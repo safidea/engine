@@ -5,7 +5,7 @@ import { DatabaseSchema } from 'shared-database'
 
 import type { DatabaseInterface } from 'shared-database'
 import type { ConfigExecInterface } from 'shared-app'
-import type { DatabaseProviderInterface } from '../interfaces/database.interface'
+import type { DatabaseProviderInterface } from '../interfaces/orm.interface'
 
 const log: debug.IDebugger = debug('config:database')
 

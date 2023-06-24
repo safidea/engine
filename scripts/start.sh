@@ -55,8 +55,6 @@ case "${mode}" in
     pnpm dev -p $port
     ;;
   prod)
-    echo "Building app ${app_name}"
-    pnpm build
     echo "Starting app ${app_name} on port ${port} in production mode"
     pnpm start -p $port
     ;;

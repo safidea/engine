@@ -1,0 +1,9 @@
+{
+  "extends": "config-typescript/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "jsx": "preserve"
+  },
+  "include": ["src/**/*.ts", "src/client.tsx"]
+}

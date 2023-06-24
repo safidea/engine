@@ -1,11 +1,11 @@
 {
   "name": "shared-page",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint .",
     "test": "#jest",
-    "schema": "typescript-json-schema tsconfig.json PageInterface -o src/schemas/page.schema.json --required"
+    "schema": "typescript-json-schema tsconfig.json PageInterface -o src/schemas/page.schema.json --required",
+    "build": "tsc"
   },
   "dependencies": {
     "shared-common": "workspace:*",
