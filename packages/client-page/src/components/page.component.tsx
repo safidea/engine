@@ -4,17 +4,17 @@ import { SWRConfig } from 'swr'
 import { ComponentService } from 'client-component'
 
 import type { PageInterface } from 'shared-page'
-import type { ServerProviderComponentsInterface } from 'shared-common'
+import type { AppProviderComponentsInterface } from 'shared-common'
 
 export type PageComponentProps = {
   page: PageInterface
-  serverProviderComponents: ServerProviderComponentsInterface
+  appProviderComponents: AppProviderComponentsInterface
 }
 
-export default function PageComponent({ page, serverProviderComponents }: PageComponentProps) {
+export default function PageComponent({ page, appProviderComponents }: PageComponentProps) {
   const { components } = page
   const componentService = new ComponentService({
-    serverProviderComponents,
+    appProviderComponents,
   })
   const Children = componentService.renderChildren(components)
   return (

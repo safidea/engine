@@ -5,32 +5,26 @@ import { DatabaseSchema } from 'shared-database'
 
 import type { DatabaseInterface } from 'shared-database'
 import type { ConfigExecInterface } from 'shared-app'
-import type { DatabaseProviderInterface } from '../interfaces/orm.interface'
+import type { OrmProviderInterface } from '../interfaces/orm.interface'
 
 const log: debug.IDebugger = debug('config:database')
 
 class DatabaseConfig implements ConfigExecInterface {
-  private databaseProvider: DatabaseProviderInterface
+  private ormProvider: OrmProviderInterface
   private databaseConfig: DatabaseInterface
   private databaseCached: DatabaseInterface
 
   constructor({
-    databaseProvider,
+    ormProvider,
     configUtils,
   }: {
-    databaseProvider: DatabaseProviderInterface
+    ormProvider: OrmProviderInterface
     configUtils: ConfigUtils
   }) {
-    this.databaseProvider = databaseProvider
+    this.ormProvider = ormProvider
     this.databaseConfig = configUtils.get('database') as DatabaseInterface
     this.databaseCached = configUtils.getCached('database') as DatabaseInterface
   }
-
-  public exists() {
-    log(`check if config exists`)
-    return !!this.databaseConfig
-  }
-
   public isUpdated() {
     log(`check if config is updated`)
     return !ObjectUtils.isSame(this.databaseConfig, this.databaseCached)
@@ -44,26 +38,18 @@ class DatabaseConfig implements ConfigExecInterface {
 
   public async setupProviders() {
     log(`update connection schema`)
-    this.databaseProvider.setConnectionSchema(this.databaseConfig)
+    this.ormProvider.setConnectionSchema(this.databaseConfig)
   }
 
   public async buildProviders() {
     log(`build client`)
-    await this.databaseProvider.generateClient()
+    await this.ormProvider.generateClient()
+    log(`build orm file`)
+    await this.ormProvider.buildOrmFile()
     log(`prepare migration`)
-    await this.databaseProvider.prepareMigration()
+    await this.ormProvider.prepareMigration()
     log(`apply migration`)
-    await this.databaseProvider.applyMigration()
-  }
-
-  public async cacheProviders() {
-    log(`cache providers`)
-    await this.databaseProvider.cache()
-  }
-
-  public async loadCached() {
-    log(`load cached config`)
-    await this.databaseProvider.loadCached()
+    await this.ormProvider.applyMigration()
   }
 }
 

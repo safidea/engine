@@ -12,31 +12,31 @@ class ConfigUtils {
   private pathUtils: PathUtils
   private config?: ConfigInterface
 
-  constructor({ pathUtils }: { pathUtils: PathUtils }) {
+  constructor({ pathUtils, fromCache = false }: { pathUtils: PathUtils; fromCache?: boolean }) {
     this.pathUtils = pathUtils
-    const config = this.getCached() as ConfigInterface
-    if (config) {
+    if (fromCache) {
       log('Load config from cache...')
-      this.config = config
+      const configCached = this.getCached() as ConfigInterface
+      if (!configCached)
+        throw new Error(`Cache file is not a valid JSON: ${this.pathUtils.getAppConfigCache()}`)
+      this.config = configCached
+    } else {
+      const configPath = this.pathUtils.getAppConfigFile()
+      log(`Load config from file at path ${configPath}`)
+      if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
+      this.config = fs.readJsonSync(configPath, { throws: false })
+      if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
+      this.config = ObjectUtils.replaceVars(this.config, process.env) as ConfigInterface
     }
+    log('Config loaded')
   }
 
   public getCached(path?: string): ConfigInterface | ObjectValueInterface | undefined {
-    const cached = fs.readJsonSync(this.pathUtils.getAppConfigCache(), { throws: false })
-    if (cached && path) return ObjectUtils.getAtPath(cached, path)
-    return cached
-  }
-
-  public init(): ObjectInterface {
-    log('Initializing config...')
-    const configPath = this.pathUtils.getAppConfigFile()
-    log(`Load ${configPath} file`)
-    if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
-    this.config = fs.readJsonSync(configPath, { throws: false })
-    if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
-    this.config = ObjectUtils.replaceVars(this.config, process.env) as ConfigInterface
-    log('Config initialized')
-    return this.config
+    const cachePath = this.pathUtils.getAppConfigCache()
+    if (!fs.pathExistsSync(cachePath)) throw new Error(`Cache file not found: ${cachePath}`)
+    const configCached = fs.readJsonSync(cachePath, { throws: false })
+    if (configCached && path) return ObjectUtils.getAtPath(configCached, path)
+    return configCached
   }
 
   public cache(): void {
@@ -47,7 +47,7 @@ class ConfigUtils {
     log('Config cached')
   }
 
-  public async exec(configs: ConfigExecInterface[], cache = true): Promise<boolean> {
+  public async exec(configs: ConfigExecInterface[], noCache = false): Promise<boolean> {
     log('Executing config...')
     const start = Date.now()
 
@@ -57,54 +57,32 @@ class ConfigUtils {
       if (typeof config.enrichSchema === 'function') promises.push(config.enrichSchema())
     await Promise.all(promises)
 
-    // Check if config exists
-    promises = []
-    for (const config of configs) promises.push(config.exists())
-    const exists = await Promise.all(promises)
-
     // Check if config is updated
-    const configsUpdated = []
-    const configsCached = []
-    for (let i = 0; i < configs.length; i++) {
-      const config = configs[i]
-      if (!exists[i]) continue
-      if (config.isUpdated() || cache === false) configsUpdated.push(config)
-      else configsCached.push(config)
-    }
+    const configsToUpdate = []
+    for (const config of configs)
+      if (config.isUpdated() || noCache === true) configsToUpdate.push(config)
 
     // Validate schema
     promises = []
-    for (const config of configsUpdated) promises.push(config.validateSchema())
+    for (const config of configsToUpdate) promises.push(config.validateSchema())
     await Promise.all(promises)
 
     // Setup providers
     promises = []
-    for (const config of configsUpdated)
+    for (const config of configsToUpdate)
       if (typeof config.setupProviders === 'function') promises.push(config.setupProviders())
     await Promise.all(promises)
 
     // Build providers
     promises = []
-    for (const config of configsUpdated)
+    for (const config of configsToUpdate)
       if (typeof config.buildProviders === 'function') promises.push(config.buildProviders())
-    await Promise.all(promises)
-
-    // Cache providers
-    promises = []
-    for (const config of configsUpdated)
-      if (typeof config.cacheProviders === 'function') promises.push(config.cacheProviders())
-    await Promise.all(promises)
-
-    // Load cached config
-    promises = []
-    for (const config of configsCached)
-      if (typeof config.loadCached === 'function') promises.push(config.loadCached())
     await Promise.all(promises)
 
     const end = Date.now()
     log(`Config executed in ${Math.round((end - start) / 1000)}s`)
 
-    return configsUpdated.length > 0
+    return configsToUpdate.length > 0
   }
 
   public get(path?: string): ConfigInterface | ObjectValueInterface | undefined {

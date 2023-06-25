@@ -1,63 +1,43 @@
-import dotenv from 'dotenv'
-if (process.env.NODE_ENV === 'test') dotenv.config({ path: '.env.test' })
-else dotenv.config()
-
-import PrismaOrmProvider from './providers/orm/prisma.orm.provider'
-import NextServerProvider from './providers/server/next.server.provider'
+import './env'
 import { ApiError, ConfigUtils, PathUtils } from 'server-common'
-//import { DatabaseConfig, DatabaseService } from 'server-database'
-/*import { TableConfig, TableRoute } from 'server-table'
-import { ComponentConfig } from 'server-component'*/
-import { PageConfig } from 'server-page'
+import { DatabaseService } from 'server-database'
+import { TableRoute } from 'server-table'
+import { getOrmProvider } from './utils'
 
-import type { ConfigInterface } from 'shared-app'
-//import type { OrmProviderInterface } from 'server-database'
-import type { ServerProviderInterface, ObjectValueInterface } from 'shared-common'
-
-const { FOUNDATION_SERVER, FOUNDATION_ORM } = process.env
+import type {
+  ConfigInterface,
+  RequestInterface,
+  ResponseInterface,
+  RequestBodyInterface,
+} from 'shared-app'
+import type { OrmProviderInterface, OrmProviderTablesInterface } from 'server-database'
+import type { ObjectValueInterface } from 'shared-common'
 
 class AppServer {
   private configUtils: ConfigUtils
-  //private ormProvider: OrmProviderInterface
-  private serverProvider: ServerProviderInterface
+  private orm?: OrmProviderTablesInterface
+  private ormProvider?: OrmProviderInterface
 
-  constructor() {
+  constructor({ orm }: { orm?: OrmProviderTablesInterface }) {
     const pathUtils = new PathUtils()
-    this.configUtils = new ConfigUtils({ pathUtils })
-    this.configUtils.init()
-    /*switch(FOUNDATION_ORM) {
-      case 'prisma':
-        this.ormProvider = new PrismaOrmProvider()
-        break
-      default:
-        throw new Error('ORM provider not found')
-    }*/
-    switch (FOUNDATION_SERVER) {
-      case 'next':
-        this.serverProvider = new NextServerProvider({ configUtils: this.configUtils })
-        break
-      default:
-        throw new Error('Server provider not found')
+    this.configUtils = new ConfigUtils({ pathUtils, fromCache: true })
+    const {
+      version: appVersion,
+      name: appName,
+      database,
+    } = this.configUtils.get() as ConfigInterface
+    if (database) {
+      this.orm = orm
+      this.ormProvider = getOrmProvider({ appVersion, appName, database })
     }
   }
 
-  public async execConfig({ withCache = false }): Promise<void> {
-    const configUtils = this.configUtils
-    const serverProvider = this.serverProvider
-    const pageConfig = new PageConfig({ configUtils, serverProvider })
-    const isUpdated = await configUtils.exec([pageConfig], withCache)
-    if (isUpdated) configUtils.cache()
-    /*const databaseProvider = this.databaseProvider
-    const databaseConfig = new DatabaseConfig({ databaseProvider, configUtils })
-    const tableConfig = new TableConfig({ databaseProvider, configUtils })
-    const componentConfig = new ComponentConfig({ configUtils })*/
-  }
-
-  /*public async apiHandler(request: RequestInterface): Promise<ResponseInterface> {
-    const databaseService = new DatabaseService({ databaseProvider: this.databaseProvider })
-    const tableRoute = new TableRoute({ databaseService, configUtils: this.configUtils })
-    const api = request.url.match(/(?<=api\/)[a-z]+(?=\/)/)?.[0]
+  public async apiHandler(request: RequestInterface): Promise<ResponseInterface> {
     try {
+      if (!this.orm || !this.ormProvider) throw new Error('Database not found')
+      const databaseService = new DatabaseService({ orm: this.orm, ormProvider: this.ormProvider })
+      const tableRoute = new TableRoute({ databaseService, configUtils: this.configUtils })
+      const api = request.url.match(/(?<=api\/)[a-z]+(?=\/)/)?.[0]
       switch (api) {
         case 'table':
           switch (request.method) {
@@ -85,7 +65,7 @@ class AppServer {
       console.error(error)
       return { status: 500, json: { error: 'Internal server error' } }
     }
-  }*/
+  }
 
   public getConfigFromPath(path?: string): ConfigInterface | ObjectValueInterface {
     return this.configUtils.get(path)

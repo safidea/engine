@@ -26,6 +26,9 @@ importers:
 
   apps/invoices:
     dependencies:
+      '@prisma/client':
+        specifier: 4.15.0
+        version: 4.15.0(prisma@4.15.0)
       autoprefixer:
         specifier: 10.4.14
         version: 10.4.14(postcss@8.4.24)
@@ -799,8 +802,11 @@ importers:
         specifier: workspace:*
         version: link:../server-database
       shared-app:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../shared-app
+      shared-common:
+        specifier: workspace:*
+        version: link:../shared-common
       shared-database:
         specifier: workspace:*
         version: link:../shared-database

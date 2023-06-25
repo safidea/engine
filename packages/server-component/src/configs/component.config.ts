@@ -14,11 +14,6 @@ class ComponentConfig implements ConfigExecInterface {
     this.componentsConfig = configUtils.get('components') as ComponentsInterface
   }
 
-  public exists() {
-    log(`check if config exists`)
-    return !!this.componentsConfig
-  }
-
   public isUpdated() {
     log(`check if config is updated`)
     return true

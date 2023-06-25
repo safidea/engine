@@ -6,5 +6,6 @@ export { default as DatabaseConfig } from './configs/database.config'
 export type {
   OrmProviderInterface,
   OrmProviderTableInterface,
+  OrmProviderTablesInterface,
   OrmProviderConstructorInterface,
 } from './interfaces/orm.interface'

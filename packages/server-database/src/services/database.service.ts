@@ -1,29 +1,36 @@
 import type {
-  DatabaseProviderInterface,
-  DatabaseProviderTableInterface,
+  OrmProviderTablesInterface,
+  OrmProviderTableInterface,
+  OrmProviderInterface,
 } from '../interfaces/orm.interface'
 
 import type { DatabaseDataType } from 'shared-database'
 
 class DatabaseService {
-  private databaseProvider: DatabaseProviderInterface
+  private orm: OrmProviderTablesInterface
+  private ormProvider: OrmProviderInterface
 
-  constructor({ databaseProvider }: { databaseProvider: DatabaseProviderInterface }) {
-    this.databaseProvider = databaseProvider
+  constructor({
+    orm,
+    ormProvider,
+  }: {
+    orm: OrmProviderTablesInterface
+    ormProvider: OrmProviderInterface
+  }) {
+    this.orm = orm
+    this.ormProvider = ormProvider
   }
 
-  private table(name: string): DatabaseProviderTableInterface {
-    const table = this.databaseProvider.table(name)
-    if (table == null) throw new Error(`Table "${name}" does not exist`)
-    return table
+  private table(name: string): OrmProviderTableInterface {
+    return this.ormProvider.getTable(name, this.orm)
   }
 
   public tableExist(name: string): boolean {
-    return this.databaseProvider.table(name) != null
+    return name in this.orm
   }
 
   public getTableEnumName(table: string, field: string): string {
-    return this.databaseProvider.getTableEnumName(table, field)
+    return this.ormProvider.getTableEnumName(table, field)
   }
 
   public async create(tableName: string, data: DatabaseDataType) {

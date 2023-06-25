@@ -6,7 +6,7 @@ import type { CommonPropsType } from '../types/common.type'
 export default function Html({
   tag,
   children,
-  serverProviderComponents,
+  appProviderComponents,
   ...props
 }: CommonPropsType): JSX.Element {
   if (tag && !HTML_TAGS.includes(tag)) {

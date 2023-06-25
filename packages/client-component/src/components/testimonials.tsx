@@ -71,8 +71,8 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Testimonials({ serverProviderComponents }: CommonPropsType) {
-  const { Image } = serverProviderComponents
+export default function Testimonials({ appProviderComponents }: CommonPropsType) {
+  const { Image } = appProviderComponents
   return (
     <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
       <div

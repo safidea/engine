@@ -1,7 +1,7 @@
 import type { CommonPropsType } from '../types/common.type'
 
-export default function Logos({ serverProviderComponents }: CommonPropsType) {
-  const { Image } = serverProviderComponents
+export default function Logos({ appProviderComponents }: CommonPropsType) {
+  const { Image } = appProviderComponents
   return (
     <div className="bg-gray-900 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

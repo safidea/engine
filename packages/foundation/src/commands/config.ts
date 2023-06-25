@@ -1,8 +1,42 @@
-import AppServer from '../server'
+import { ConfigUtils, PathUtils } from 'server-common'
+import { DatabaseConfig } from 'server-database'
+import { TableConfig } from 'server-table'
+import { ComponentConfig } from 'server-component'
+import { PageConfig } from 'server-page'
+import { getAppProvider, getOrmProvider } from '../utils'
 
-export default function Config() {
+import type { ConfigInterface } from 'shared-app'
+
+export default async function Config() {
   const options = process.argv.slice(3)
-  new AppServer().execConfig({
-    withCache: !options.includes('--no-cache'),
-  })
+  const noCache = options.includes('--no-cache')
+
+  const pathUtils = new PathUtils()
+  const configUtils = new ConfigUtils({ pathUtils })
+  const {
+    version: appVersion,
+    name: appName,
+    database,
+    tables,
+    components,
+    pages,
+  } = configUtils.get() as ConfigInterface
+
+  const configs = []
+  const appProvider = getAppProvider()
+  await appProvider.writeServerFile(!!database)
+
+  if (database) {
+    const ormProvider = getOrmProvider({ appVersion, appName, database })
+    configs.push(new DatabaseConfig({ ormProvider, configUtils }))
+    if (tables) configs.push(new TableConfig({ appProvider, ormProvider, configUtils }))
+  }
+  if (pages) {
+    await appProvider.writeClientFile()
+    configs.push(new PageConfig({ configUtils, appProvider }))
+    if (components) configs.push(new ComponentConfig({ configUtils }))
+  }
+
+  const isUpdated = await configUtils.exec(configs, noCache)
+  if (isUpdated) configUtils.cache()
 }

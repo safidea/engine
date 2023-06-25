@@ -4,30 +4,25 @@ import { PageSchema } from 'shared-page'
 
 import type { PagesInterface } from 'shared-page'
 import type { ConfigExecInterface } from 'shared-app'
-import type { ServerProviderInterface } from 'shared-common'
+import type { AppProviderInterface } from 'shared-common'
 
 const log: debug.IDebugger = debug('config:page')
 
 class PageConfig implements ConfigExecInterface {
   private pagesConfig: PagesInterface
   private pagesCached: PagesInterface
-  private serverProvider: ServerProviderInterface
+  private appProvider: AppProviderInterface
 
   constructor({
     configUtils,
-    serverProvider,
+    appProvider,
   }: {
     configUtils: ConfigUtils
-    serverProvider: ServerProviderInterface
+    appProvider: AppProviderInterface
   }) {
     this.pagesConfig = configUtils.get('pages') as PagesInterface
     this.pagesCached = configUtils.getCached('pages') as PagesInterface
-    this.serverProvider = serverProvider
-  }
-
-  public exists() {
-    log(`check if config exists`)
-    return !!this.pagesConfig
+    this.appProvider = appProvider
   }
 
   public isUpdated() {
@@ -50,7 +45,8 @@ class PageConfig implements ConfigExecInterface {
 
   public async buildProviders() {
     log(`setup pages`)
-    this.serverProvider.buildPages()
+    const pages = this.pagesConfig
+    this.appProvider.buildPages(Object.keys(pages).map((page) => ({ path: page })))
   }
 }
 

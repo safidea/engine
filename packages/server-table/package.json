@@ -1,17 +1,18 @@
 {
   "name": "server-table",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "#jest"
+    "test": "#jest",
+    "build": "tsc"
   },
   "dependencies": {
     "server-common": "workspace:*",
     "server-database": "workspace:*",
+    "shared-app": "workspace:*",
+    "shared-common": "workspace:*",
     "shared-database": "workspace:*",
-    "shared-table": "workspace:*",
-    "shared-app": "workspace:^"
+    "shared-table": "workspace:*"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

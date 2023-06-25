@@ -1,11 +1,22 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Invoice {
+  name           String
+  amount         Int       @default(0)
+  status         String    @default("draft")
+  number         String?
+  finalised_date DateTime?
+  id             String    @id @default(cuid())
+  created_at     DateTime  @default(now())
+  updated_at     DateTime?
+  deleted_at     DateTime?
+
+  @@map("invoices")
 }

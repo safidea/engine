@@ -45,3 +45,7 @@ dist/
 
 # foundation
 .foundation/
+
+# prisma
+migrations/
+dev.db*

@@ -2,17 +2,17 @@ import * as Components from '../components'
 
 import type { PageComponentInterface } from 'shared-page'
 import type { ComponentType } from '../types/component.type'
-import type { ServerProviderComponentsInterface } from 'shared-common'
+import type { AppProviderComponentsInterface } from 'shared-common'
 
 type ComponentServiceProps = {
-  serverProviderComponents: ServerProviderComponentsInterface
+  appProviderComponents: AppProviderComponentsInterface
 }
 
 class ComponentService {
-  private serverProviderComponents: ServerProviderComponentsInterface
+  private appProviderComponents: AppProviderComponentsInterface
 
-  constructor({ serverProviderComponents }: ComponentServiceProps) {
-    this.serverProviderComponents = serverProviderComponents
+  constructor({ appProviderComponents }: ComponentServiceProps) {
+    this.appProviderComponents = appProviderComponents
   }
 
   public get(key: string): ComponentType {
@@ -26,7 +26,7 @@ class ComponentService {
     const props = {
       ...res,
       tag: key,
-      serverProviderComponents: this.serverProviderComponents,
+      appProviderComponents: this.appProviderComponents,
     }
     if (children) {
       const Children = this.renderChildren(children)

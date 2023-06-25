@@ -1,35 +1,35 @@
 import debug from 'debug'
 import { ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
-import { DatabaseProviderInterface } from 'server-database'
+import { OrmProviderInterface } from 'server-database'
 import { TableFieldsInterface, TableSchema } from 'shared-table'
 
 import type { TablesInterface } from 'shared-table'
 import type { ConfigExecInterface } from 'shared-app'
+import type { AppProviderInterface } from 'shared-common'
 
 const log: debug.IDebugger = debug('config:table')
 
 class TableConfig implements ConfigExecInterface {
   private configUtils: ConfigUtils
-  private databaseProvider: DatabaseProviderInterface
+  private ormProvider: OrmProviderInterface
+  private appProvider: AppProviderInterface
   private tablesConfig: TablesInterface
   private tablesCached: TablesInterface
 
   constructor({
     configUtils,
-    databaseProvider,
+    ormProvider,
+    appProvider,
   }: {
     configUtils: ConfigUtils
-    databaseProvider: DatabaseProviderInterface
+    ormProvider: OrmProviderInterface
+    appProvider: AppProviderInterface
   }) {
     this.configUtils = configUtils
-    this.databaseProvider = databaseProvider
+    this.ormProvider = ormProvider
+    this.appProvider = appProvider
     this.tablesConfig = configUtils.get('tables') as TablesInterface
     this.tablesCached = configUtils.getCached('tables') as TablesInterface
-  }
-
-  public exists() {
-    log(`check if config exists`)
-    return !!this.tablesConfig
   }
 
   public isUpdated() {
@@ -82,8 +82,16 @@ class TableConfig implements ConfigExecInterface {
     const tables = this.tablesConfig
     for (const table in tables) {
       log(`add database table ${table}`)
-      this.databaseProvider.addTableSchema(table, tables[table])
+      this.ormProvider.addTableSchema(table, tables[table])
     }
+  }
+
+  public async buildProviders() {
+    log(`build tables routes`)
+    this.appProvider.buildRoutes([
+      { path: `/table/[table]`, methods: ['GET', 'POST'] },
+      { path: `/table/[table]/[id]`, methods: ['GET', 'PATCH', 'PUT', 'DELETE'] },
+    ])
   }
 }
 

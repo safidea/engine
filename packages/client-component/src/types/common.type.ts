@@ -1,7 +1,7 @@
-import type { ServerProviderComponentsInterface } from 'shared-common'
+import type { AppProviderComponentsInterface } from 'shared-common'
 
 export type CommonPropsType = {
   children?: React.ReactNode
   tag?: string
-  serverProviderComponents: ServerProviderComponentsInterface
+  appProviderComponents: AppProviderComponentsInterface
 }

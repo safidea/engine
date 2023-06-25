@@ -13,9 +13,9 @@ export type HeroProps = CommonPropsType & {
   }[]
 }
 
-export default function Hero({ navigation = [], serverProviderComponents }: HeroProps) {
+export default function Hero({ navigation = [], appProviderComponents }: HeroProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { Link, Image } = serverProviderComponents
+  const { Link, Image } = appProviderComponents
   return (
     <div className="bg-gray-900">
       <header className="absolute inset-x-0 top-0 z-50">
