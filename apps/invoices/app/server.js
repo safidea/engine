@@ -1,4 +1,4 @@
 import AppServer from 'foundation/server'
-import orm from './orm'
+    import orm from './orm'
 
-export default new AppServer({ orm })
+    export default new AppServer({ orm })

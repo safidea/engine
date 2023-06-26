@@ -4,7 +4,7 @@ import { ObjectUtils } from 'shared-common'
 import debug from 'debug'
 
 import type { ObjectInterface, ObjectValueInterface } from 'shared-common'
-import type { ConfigInterface, ConfigExecInterface } from 'shared-app'
+import type { ConfigInterface, ConfigsExecInterface } from 'shared-app'
 
 const log = debug('config:common')
 
@@ -47,20 +47,30 @@ class ConfigUtils {
     log('Config cached')
   }
 
-  public async exec(configs: ConfigExecInterface[], noCache = false): Promise<boolean> {
+  public async exec(configs: ConfigsExecInterface, noCache = false): Promise<boolean> {
     log('Executing config...')
     const start = Date.now()
 
     // Enrich schema
     let promises = []
-    for (const config of configs)
+    for (const config of Object.values(configs))
       if (typeof config.enrichSchema === 'function') promises.push(config.enrichSchema())
     await Promise.all(promises)
 
     // Check if config is updated
     const configsToUpdate = []
-    for (const config of configs)
-      if (config.isUpdated() || noCache === true) configsToUpdate.push(config)
+    for (const config in configs) {
+      let shouldUpdate = configs[config].isUpdated() || noCache === true
+      if (!shouldUpdate) {
+        const dependsOn = configs[config].dependsOn
+        if (dependsOn && dependsOn.length > 0) {
+          for (const dependency of dependsOn) {
+            if (configs[dependency].isUpdated()) shouldUpdate = true
+          }
+        }
+      }
+      if (shouldUpdate) configsToUpdate.push(configs[config])
+    }
 
     // Validate schema
     promises = []

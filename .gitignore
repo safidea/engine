@@ -49,3 +49,4 @@ dist/
 # prisma
 migrations/
 dev.db*
+test.db*

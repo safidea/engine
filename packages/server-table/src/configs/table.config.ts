@@ -10,6 +10,7 @@ import type { AppProviderInterface } from 'shared-common'
 const log: debug.IDebugger = debug('config:table')
 
 class TableConfig implements ConfigExecInterface {
+  public dependsOn = ['database']
   private configUtils: ConfigUtils
   private ormProvider: OrmProviderInterface
   private appProvider: AppProviderInterface

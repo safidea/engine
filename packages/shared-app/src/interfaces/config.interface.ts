@@ -1,4 +1,5 @@
 export interface ConfigExecInterface {
+  dependsOn?: string[]
   isUpdated: () => boolean
   enrichSchema?: () => Promise<void>
   validateSchema: () => Promise<void>
@@ -6,4 +7,8 @@ export interface ConfigExecInterface {
   buildProviders?: () => Promise<void>
   cacheProviders?: () => Promise<void>
   loadCached?: () => Promise<void>
+}
+
+export interface ConfigsExecInterface {
+  [key: string]: ConfigExecInterface
 }
