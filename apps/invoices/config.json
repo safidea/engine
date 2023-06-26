@@ -8,7 +8,7 @@
   "tables": {
     "invoices": {
       "fields": {
-        "name": {
+        "title": {
           "type": "String"
         },
         "amount": {
@@ -48,7 +48,7 @@
               "table": "invoices",
               "fields": [
                 {
-                  "key": "name",
+                  "key": "title",
                   "label": "Titre"
                 },
                 {

@@ -108,7 +108,15 @@ class PrismaOrmProvider implements OrmProviderInterface {
     if (enums.length > 0) {
       modelSchema += enums.join('')
     }
-    fs.appendFileSync(this.pathToSchema, modelSchema)
+    // update the prisma.schema if the model already exist in schema, append it otherwise
+    const schema = fs.readFileSync(this.pathToSchema, 'utf8')
+    if (schema.includes(`model ${modelName}`)) {
+      const regex = new RegExp(`model ${modelName} {[^}]*}`, 'g')
+      modelSchema = schema.replace(regex, modelSchema)
+      fs.writeFileSync(this.pathToSchema, modelSchema)
+    } else {
+      fs.appendFileSync(this.pathToSchema, modelSchema)
+    }
   }
 
   public async generateClient(): Promise<void> {

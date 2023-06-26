@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Invoice {
-  name           String
+  title          String
   amount         Int       @default(0)
   status         String    @default("draft")
   number         String?

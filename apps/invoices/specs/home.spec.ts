@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
+import orm from '../app/orm'
 
-test.describe('A page that list invoices', () => {
+test.describe('A page that list factures', () => {
   test('should display a title', async ({ page }) => {
     // WHEN
     // I go to the home page "/"
@@ -11,89 +12,85 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  /*test('should display a list of invoices grouped by status and sorted by dates', async ({
+  test('should display a list of factures grouped by status and sorted by dates', async ({
     page,
-    request,
   }) => {
-    // We provide 8 example invoices
-    const invoices: DatabaseDataType[] = [
-      { title: 'Invoice 1', amount: 100, status: 'draft' },
+    // GIVEN
+    // We provide 8 example factures
+    const factures = [
+      { title: 'Facture 1', amount: 100, status: 'draft' },
       {
-        title: 'Invoice 2',
+        title: 'Facture 2',
         amount: 200,
-        finalised_date: '2021-06-04',
+        finalised_date: new Date(2021, 6, 4).toISOString(),
         status: 'finalised',
         number: '1002',
       },
       {
-        title: 'Invoice 3',
+        title: 'Facture 3',
         amount: 300,
-        finalised_date: '2021-06-05',
+        finalised_date: new Date(2021, 6, 5).toISOString(),
         status: 'sent',
         number: '1003',
       },
       {
-        title: 'Invoice 4',
+        title: 'Facture 4',
         amount: 400,
-        finalised_date: '2021-05-04',
+        finalised_date: new Date(2021, 5, 4).toISOString(),
         status: 'finalised',
         number: '1004',
       },
-      { title: 'Invoice 5', amount: 500, status: 'draft' },
+      { title: 'Facture 5', amount: 500, status: 'draft' },
       {
-        title: 'Invoice 6',
+        title: 'Facture 6',
         amount: 600,
-        finalised_date: '2021-04-06',
+        finalised_date: new Date(2021, 4, 6).toISOString(),
         status: 'paid',
         number: '1006',
       },
-      { title: 'Invoice 7', amount: 700, status: 'draft' },
+      { title: 'Facture 7', amount: 700, status: 'draft' },
       {
-        title: 'Invoice 8',
+        title: 'Facture 8',
         amount: 800,
-        finalised_date: '2021-04-08',
+        finalised_date: new Date(2021, 4, 8).toISOString(),
         status: 'sent',
         number: '1008',
       },
     ]
-    // TODO: use the DatabaseProvider to seed the database
-    await request.post('/api/table/invoices', { data: invoices })
-    // await app.seed('invoices', invoices)
+    await orm.invoice.deleteMany({})
+    for (const data of factures) await orm.invoice.create({ data })
 
     // WHEN
-    // I go to the home page "/"
+    // I go to the home page "/" and invoices are loaded
     await page.goto('/')
+    await page.waitForSelector('text=/^Brouillon$/')
 
     // THEN
-    // Check that I'm on the / page
-    expect(await page.textContent('h1')).toContain('All invoices')
+    // Check that factures are displayed in a group by status
+    const draftRows = await page.$$('text=/^Brouillon$/')
+    expect(draftRows.length).toBe(4)
 
-    //expect(screen.getByRole('heading', { name: /All invoices/i })).toBeInTheDocument()
+    // Check the number of finalised rows
+    const finalisedRows = await page.$$('text=/^Finalisée$/')
+    expect(finalisedRows.length).toBe(3)
 
-    // THEN
-    // Check that invoices are displayed in a group by status
-    /*const draftRows = screen.getAllByText(/^Draft$/)
-    expect(draftRows).toHaveLength(4)
+    // Check the number of sent rows
+    const sentRows = await page.$$('text=/^Envoyée$/')
+    expect(sentRows.length).toBe(3)
 
-    const finalisedRows = screen.getAllByText(/^Finalised$/)
-    expect(finalisedRows).toHaveLength(3)
+    // Check the number of paid rows
+    const paidRows = await page.$$('text=/^Payée$/')
+    expect(paidRows.length).toBe(2)
 
-    const sentRows = screen.getAllByText(/^Sent$/)
-    expect(sentRows).toHaveLength(3)
-
-    const paidRows = screen.getAllByText(/^Paid$/)
-    expect(paidRows).toHaveLength(2)
-
-    // THEN
-    // Check that invoices are sorted by finalised_date
-    const rows = screen.getAllByText(/Invoice \d/)
-    expect(rows[0]).toHaveTextContent('Invoice 1')
-    expect(rows[1]).toHaveTextContent('Invoice 5')
-    expect(rows[2]).toHaveTextContent('Invoice 7')
-    expect(rows[3]).toHaveTextContent('Invoice 2')
-    expect(rows[4]).toHaveTextContent('Invoice 4')
-    expect(rows[5]).toHaveTextContent('Invoice 3')
-    expect(rows[6]).toHaveTextContent('Invoice 8')
-    expect(rows[7]).toHaveTextContent('Invoice 6')
-  })*/
+    // Check that factures are sorted by finalised_date
+    const rows = await page.$$('text=/Facture \\d/')
+    expect(await rows[0].innerText()).toBe('Facture 1')
+    expect(await rows[1].innerText()).toBe('Facture 5')
+    expect(await rows[2].innerText()).toBe('Facture 7')
+    expect(await rows[3].innerText()).toBe('Facture 2')
+    expect(await rows[4].innerText()).toBe('Facture 4')
+    expect(await rows[5].innerText()).toBe('Facture 3')
+    expect(await rows[6].innerText()).toBe('Facture 8')
+    expect(await rows[7].innerText()).toBe('Facture 6')
+  })
 })
