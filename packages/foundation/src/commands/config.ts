@@ -34,7 +34,7 @@ export default async function Config() {
   if (pages) {
     await appProvider.writeClientFile()
     configs.pages = new PageConfig({ configUtils, appProvider })
-    if (components) configs.components = new ComponentConfig({ configUtils })
+    if (components) configs.components = new ComponentConfig({ configUtils, appProvider })
   }
 
   const isUpdated = await configUtils.exec(configs, noCache)

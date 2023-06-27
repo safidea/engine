@@ -1,5 +1,5 @@
 import debug from 'debug'
-import { ConfigUtils, SchemaUtils } from 'server-common'
+import { AppProviderInterface, ConfigUtils, SchemaUtils } from 'server-common'
 import { ComponentSchema } from 'shared-component'
 
 import type { ComponentsInterface } from 'shared-component'
@@ -9,8 +9,16 @@ const log: debug.IDebugger = debug('config:component')
 
 class ComponentConfig implements ConfigExecInterface {
   private componentsConfig: ComponentsInterface
+  private appProvider: AppProviderInterface
 
-  constructor({ configUtils }: { configUtils: ConfigUtils }) {
+  constructor({
+    configUtils,
+    appProvider,
+  }: {
+    configUtils: ConfigUtils
+    appProvider: AppProviderInterface
+  }) {
+    this.appProvider = appProvider
     this.componentsConfig = configUtils.get('components') as ComponentsInterface
   }
 
@@ -19,13 +27,18 @@ class ComponentConfig implements ConfigExecInterface {
     return true
   }
 
-  public async validateSchema(): Promise<void> {
+  public async validateSchema() {
     const components = this.componentsConfig
     const schema = new SchemaUtils(ComponentSchema)
     for (const component in components) {
       log(`validate schema ${component}`)
       schema.validate(components[component])
     }
+  }
+
+  public async buildProviders() {
+    log(`build providers`)
+    await this.appProvider.buildClientComponents(['list', 'form', 'navigation'])
   }
 }
 

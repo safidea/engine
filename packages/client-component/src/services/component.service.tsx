@@ -16,6 +16,9 @@ class ComponentService {
   }
 
   public get(key: string): ComponentType {
+    const { appProviderComponents } = this
+    if (key in appProviderComponents)
+      return appProviderComponents[key as keyof typeof appProviderComponents] as ComponentType
     if (key in Components) return Components[key as keyof typeof Components] as ComponentType
     return Components.default
   }

@@ -1,5 +1,3 @@
-'use client'
-
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import * as Icons from '@heroicons/react/24/outline'

@@ -7,6 +7,7 @@ export default function Html({
   tag,
   children,
   appProviderComponents,
+  router,
   ...props
 }: CommonPropsType): JSX.Element {
   if (tag && !HTML_TAGS.includes(tag)) {

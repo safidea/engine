@@ -5,5 +5,5 @@
     "rootDir": "src",
     "jsx": "preserve"
   },
-  "include": ["src/**/*.ts", "src/client.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

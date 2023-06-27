@@ -5,7 +5,8 @@
   },
   "exports": {
     "./server": "./dist/server.js",
-    "./client": "./dist/client.jsx"
+    "./client": "./dist/client.jsx",
+    "./components": "./dist/components.jsx"
   },
   "scripts": {
     "lint": "eslint .",

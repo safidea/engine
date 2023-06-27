@@ -1,8 +1,4 @@
-'use client'
-
-//import { useState } from 'react'
 import type { CommonPropsType } from '../types/common.type'
-//import { useHistory } from 'react-router-dom';
 
 export type CreateProps = CommonPropsType & {
   table: string
@@ -13,10 +9,10 @@ export type CreateProps = CommonPropsType & {
   }[]
 }
 
-export default function FormComponent({ fields }: CreateProps) {
+export default function FormComponent({ fields, router }: CreateProps) {
   const handlingForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    //router.push('/')
+    router?.push('/')
   }
 
   return (

@@ -12,6 +12,7 @@ export interface AppProviderInterface {
   writeClientFile: () => Promise<void>
   buildPages: (pages: AppProviderPageInterface[]) => Promise<void>
   buildRoutes: (routes: AppProviderRouteInterface[]) => Promise<void>
+  buildClientComponents: (names: string[]) => Promise<void>
 }
 
 export interface AppProviderConstructorInterface {

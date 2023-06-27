@@ -1,5 +1,3 @@
-'use client'
-
 import useSWR from 'swr'
 
 import type { CommonPropsType } from '../types/common.type'

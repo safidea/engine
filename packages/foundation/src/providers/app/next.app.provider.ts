@@ -1,5 +1,6 @@
 import fs from 'fs-extra'
 import { join } from 'path'
+import { StringUtils } from 'shared-common'
 
 import type {
   AppProviderInterface,
@@ -10,10 +11,12 @@ import type { PagesInterface } from 'shared-page'
 
 class NextServerProvider implements AppProviderInterface {
   private appPath: string
+  private componentsPath: string
   private pages: PagesInterface | undefined
 
   constructor({ pages }: { pages?: PagesInterface }) {
     this.appPath = join(process.cwd(), 'app')
+    this.componentsPath = join(process.cwd(), 'components')
     this.pages = pages
   }
 
@@ -37,6 +40,11 @@ class NextServerProvider implements AppProviderInterface {
     await Promise.all(routes.map((route) => this.writeRouteFile(route)))
   }
 
+  public async buildClientComponents(names: string[]) {
+    await this.writeClientComponentsIndexFile(names)
+    await Promise.all(names.map((name) => this.writeClientComponentFile(name)))
+  }
+
   private async writePageFile(page: AppProviderPageInterface) {
     const pagePath = join(this.appPath, page.path, 'page.js')
     await fs.ensureFile(pagePath)
@@ -47,6 +55,21 @@ class NextServerProvider implements AppProviderInterface {
     const pagePath = join(this.appPath, 'api', route.path, 'route.js')
     await fs.ensureFile(pagePath)
     await fs.writeFile(pagePath, this.getRouteTemplate(route))
+  }
+
+  private async writeClientComponentFile(name: string) {
+    const componentPath = join(this.componentsPath, `${name}.jsx`)
+    await fs.ensureFile(componentPath)
+    await fs.writeFile(componentPath, this.getClientComponentTemplate(name))
+  }
+
+  private async writeClientComponentsIndexFile(names: string[]) {
+    const indexFilePath = join(this.componentsPath, 'index.js')
+    await fs.ensureFile(indexFilePath)
+    await fs.writeFile(
+      indexFilePath,
+      names.map((name) => `export { default as ${name} } from './${name}'`).join('\n')
+    )
   }
 
   private getServerTemplate(withOrm: boolean) {
@@ -60,9 +83,10 @@ class NextServerProvider implements AppProviderInterface {
     return `import AppClient from 'foundation/client'
     import Image from 'next/image'
     import Link from 'next/link'
+    import * as Components from '../components'
 
     export default function NextAppClient({ page }) {
-      return <AppClient appProviderComponents={{ Image, Link }} page={page} />
+      return <AppClient appProviderComponents={{ Image, Link, ...Components }} page={page} />
     }`
   }
 
@@ -108,6 +132,19 @@ class NextServerProvider implements AppProviderInterface {
       const page = NextAppServer.getConfigFromPath('pages.${page.path}')
       return <NextAppClient page={page} />
     }
+    `
+  }
+
+  private getClientComponentTemplate(name: string) {
+    const capitalizeName = StringUtils.capitalize(name)
+    return `'use client'
+
+    import Components from 'foundation/components'
+    import { useRouter } from 'next/navigation'
+
+    const ${capitalizeName} = (props) => Components.${name}({ ...props, router: useRouter() })
+    
+    export default ${capitalizeName}
     `
   }
 }

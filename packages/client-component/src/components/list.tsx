@@ -1,5 +1,3 @@
-'use client'
-
 import useSWR from 'swr'
 import { Fragment } from 'react'
 import ListHelper from '../helpers/list.helper'

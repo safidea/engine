@@ -25,6 +25,10 @@ test.describe('A page that create an invoices', () => {
     await page.click('button[type="submit"]')
 
     // THEN
+    // Wait for the page to be redirected
+    await page.waitForTimeout(5000)
+
+    // AND
     // Check that I'm on the home page
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
