@@ -90,3 +90,16 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(deletedRow.deleted_at).toBeDefined()
   })
 })
+
+test.describe('An api that render error messages', () => {
+  test('should return a 404 error when the table does not exist', async ({ request }) => {
+    // WHEN
+    // I make a GET request on an unknown table
+    const res = await request.get('/api/table/unknown')
+
+    // THEN
+    // I should have a 404 error
+    expect(res.status()).toEqual(404)
+    expect((await res.json()).error).toEqual('Table unknown does not exist')
+  })
+})

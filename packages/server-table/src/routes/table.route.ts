@@ -32,6 +32,7 @@ class TableRoute {
   }
 
   public async get(req: RequestInterface): Promise<ResponseInterface> {
+    await this.all(req)
     if (req.params.id) {
       await this.tableMiddleware.validateRowExist(req)
       return this.tableController.read(req)
@@ -44,6 +45,7 @@ class TableRoute {
   public async post(
     req: RequestBodyInterface | RequestArrayBodyInterface
   ): Promise<ResponseInterface> {
+    await this.all(req)
     if (Array.isArray(req.body)) {
       await this.tableMiddleware.validatePostArrayBody(req as RequestArrayBodyInterface)
       return this.tableController.createMany(req as RequestArrayBodyInterface)
@@ -53,18 +55,21 @@ class TableRoute {
   }
 
   public async patch(req: RequestBodyInterface): Promise<ResponseInterface> {
+    await this.all(req)
     await this.tableMiddleware.validatePatchBody(req)
     await this.tableMiddleware.validateRowExist(req)
     return this.tableController.update(req)
   }
 
   public async put(req: RequestBodyInterface): Promise<ResponseInterface> {
+    await this.all(req)
     await this.tableMiddleware.validatePutBody(req)
     await this.tableMiddleware.validateRowExist(req)
     return this.tableController.update(req)
   }
 
   public async delete(req: RequestInterface): Promise<ResponseInterface> {
+    await this.all(req)
     await this.tableMiddleware.validateRowExist(req)
     return this.tableController.delete(req)
   }

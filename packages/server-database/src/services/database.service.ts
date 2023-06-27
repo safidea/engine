@@ -26,7 +26,7 @@ class DatabaseService {
   }
 
   public tableExist(name: string): boolean {
-    return name in this.orm
+    return this.table(name) !== undefined
   }
 
   public getTableEnumName(table: string, field: string): string {

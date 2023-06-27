@@ -38,7 +38,7 @@ class PrismaOrmProvider implements OrmProviderInterface {
 
   public getTable(name: string, orm: OrmProviderTablesInterface): OrmProviderTableInterface {
     const table = orm[StringUtils.singular(name).toLowerCase()]
-    if (this.database.provider === 'sqlite') {
+    if (table && this.database.provider === 'sqlite') {
       table.createMany = async ({ data }) =>
         Promise.all(data.map((row) => table.create({ data: row })))
     }
