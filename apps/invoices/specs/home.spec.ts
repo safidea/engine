@@ -92,4 +92,20 @@ test.describe('A page that list invoices', () => {
     expect(await rows[6].innerText()).toBe('Facture 8')
     expect(await rows[7].innerText()).toBe('Facture 6')
   })
+
+  test('should go to the /create page when clicking on the "Créer une facture" button', async ({
+    page,
+  }) => {
+    // WHEN
+    // I go to the home page "/"
+    await page.goto('/')
+
+    // AND
+    // I click on the "Créer une facture" button
+    await page.click('text="Créer une facture"')
+
+    // THEN
+    // Check that I'm on the /create page
+    expect(await page.textContent('h1')).toContain('Créer une facture')
+  })
 })
