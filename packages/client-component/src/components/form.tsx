@@ -14,17 +14,9 @@ export type CreateProps = CommonPropsType & {
 }
 
 export default function FormComponent({ fields }: CreateProps) {
-  //const history = useHistory();
-  //const location = useLocation()
-  //const navigate = useNavigate()
-
   const handlingForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    //location.pathname = '/'
-    //navigate('/')
-    //redirect('/')
-    //window.history.pushState({}, 'Home page', '/')
-    //history.push('/');
+    //router.push('/')
   }
 
   return (

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "config": "pnpm pkg:build && foundation config",
-    "dev": "pnpm run config && next dev",
+    "dev": "pnpm run config && next dev --turbo",
     "start": "pnpm run config && next build && next start",
     "lint": "next lint",
     "test": "playwright test",

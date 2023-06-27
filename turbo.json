@@ -22,6 +22,8 @@
     },
     "lint": {},
     "test": {},
-    "build": {}
+    "build": {
+      "cache": true
+    }
   }
 }
