@@ -2,15 +2,17 @@ import debug from 'debug'
 import { ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
 import { PageSchema } from 'shared-page'
 
-import type { PagesInterface } from 'shared-page'
+import type { PagesInterface, PageComponentsInterface } from 'shared-page'
 import type { ConfigExecInterface } from 'shared-app'
 import type { AppProviderInterface } from 'shared-common'
+import type { ComponentsInterface } from 'server-component'
 
 const log: debug.IDebugger = debug('config:page')
 
 class PageConfig implements ConfigExecInterface {
+  public dependsOn = ['components']
   private pagesConfig: PagesInterface
-  private pagesCached: PagesInterface
+  private configUtils: ConfigUtils
   private appProvider: AppProviderInterface
 
   constructor({
@@ -21,13 +23,43 @@ class PageConfig implements ConfigExecInterface {
     appProvider: AppProviderInterface
   }) {
     this.pagesConfig = configUtils.get('pages') as PagesInterface
-    this.pagesCached = configUtils.getCached('pages') as PagesInterface
+    this.configUtils = configUtils
     this.appProvider = appProvider
   }
 
   public isUpdated() {
     log(`check if config is updated`)
-    return !ObjectUtils.isSame(this.pagesConfig, this.pagesCached)
+    const pagesCached = this.configUtils.getCached('pages') as PagesInterface
+    return !ObjectUtils.isSame(this.pagesConfig, pagesCached)
+  }
+
+  public async enrichSchema() {
+    log(`enrich schema`)
+    const pages = this.pagesConfig
+    const components = this.configUtils.get('components') as ComponentsInterface
+    const enrichComponents = (childComponents: PageComponentsInterface) => {
+      for (const childComponent in childComponents) {
+        const componentConfig = childComponents[childComponent]
+        if (componentConfig.key) {
+          const commonConfig = components[componentConfig.key]
+          if (commonConfig) {
+            childComponents[childComponent] = { ...componentConfig, ...commonConfig }
+            const component = childComponents[childComponent]
+            if (component.components) {
+              childComponents[childComponent].components = enrichComponents(component.components)
+            }
+          }
+        }
+      }
+      return childComponents
+    }
+    for (const page in pages) {
+      const pageConfig = pages[page]
+      if (pageConfig.components) {
+        pageConfig.components = enrichComponents(pageConfig.components)
+      }
+    }
+    this.configUtils.set('pages', pages)
   }
 
   public async validateSchema() {

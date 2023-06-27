@@ -3,6 +3,7 @@ import NextAppProvider from './providers/app/next.app.provider'
 
 import type { DatabaseInterface, OrmProviderInterface } from 'server-database'
 import type { AppProviderInterface } from 'shared-common'
+import type { PagesInterface } from 'shared-page'
 
 const { FOUNDATION_SERVER, FOUNDATION_ORM } = process.env
 
@@ -24,10 +25,10 @@ export function getOrmProvider({
   }
 }
 
-export function getAppProvider(): AppProviderInterface {
+export function getAppProvider({ pages }: { pages?: PagesInterface }): AppProviderInterface {
   switch (FOUNDATION_SERVER) {
     case 'next':
-      return new NextAppProvider()
+      return new NextAppProvider({ pages })
       break
     default:
       throw new Error('App provider not found')

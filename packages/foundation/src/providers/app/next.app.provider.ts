@@ -6,12 +6,15 @@ import type {
   AppProviderPageInterface,
   AppProviderRouteInterface,
 } from 'shared-common'
+import type { PagesInterface } from 'shared-page'
 
 class NextServerProvider implements AppProviderInterface {
   private appPath: string
+  private pages: PagesInterface | undefined
 
-  constructor() {
+  constructor({ pages }: { pages?: PagesInterface }) {
     this.appPath = join(process.cwd(), 'app')
+    this.pages = pages
   }
 
   public async writeServerFile(withOrm = false) {
@@ -95,14 +98,11 @@ class NextServerProvider implements AppProviderInterface {
 
   private getPageTemplate(page: AppProviderPageInterface) {
     const pathDots = this.getPathDots(page.path)
+    const { title, metadata = {} } = this.pages?.[page.path] ?? {}
     return `import NextAppClient from '${pathDots}/client'
     import NextAppServer from '${pathDots}/server'
                 
-    export async function generateMetadata() {
-      const page = NextAppServer.getConfigFromPath('pages.${page.path}')
-      const { title, metadata = {} } = page
-      return { title, ...metadata }
-    }
+    export const metadata = ${JSON.stringify({ title, ...metadata }, null, 2)}
     
     export default function Page() {
       const page = NextAppServer.getConfigFromPath('pages.${page.path}')

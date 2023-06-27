@@ -23,7 +23,7 @@ export default async function Config() {
   } = configUtils.get() as ConfigInterface
 
   const configs: ConfigsExecInterface = {}
-  const appProvider = getAppProvider()
+  const appProvider = getAppProvider({ pages })
   await appProvider.writeServerFile(!!database)
 
   if (database) {
