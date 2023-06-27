@@ -83,6 +83,7 @@ class NextServerProvider implements AppProviderInterface {
               method: '${method}',
               url: request.url,
               params,
+              local: {},
               ${['POST', 'PUT', 'PATCH'].includes(method) ? 'body: await request.json(),' : ''}
               ${method === 'GET' ? 'query: querystring.parse(url.parse(request.url).query)' : ''}
             })

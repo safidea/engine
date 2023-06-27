@@ -4,9 +4,6 @@ export type { DatabaseInterface } from './interfaces/database.interface'
 export type {
   DatabaseDataType,
   DatabaseRowType,
-  DatabaseServiceFunctionDataType,
-  DatabaseServiceFunctionIdType,
-  DatabaseServiceFunctionListType,
-  DatabaseServiceFunctionReadType,
-  DatabaseServiceFunctionType,
+  DatabaseListParamsInterface,
+  DatabaseListParamsFiltersInterface,
 } from './types/database.type'

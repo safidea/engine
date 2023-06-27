@@ -8,6 +8,7 @@ export async function GET(request, { params = {} }) {
     method: 'GET',
     url: request.url,
     params,
+    local: {},
 
     query: querystring.parse(url.parse(request.url).query),
   })
@@ -19,6 +20,7 @@ export async function POST(request, { params = {} }) {
     method: 'POST',
     url: request.url,
     params,
+    local: {},
     body: await request.json(),
   })
   return NextResponse.json(json, { status })

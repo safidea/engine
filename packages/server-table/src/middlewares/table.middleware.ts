@@ -2,7 +2,7 @@ import { DatabaseService } from 'server-database'
 import { ConfigUtils, ApiError } from 'server-common'
 
 import type { TablesInterface } from 'shared-table'
-import type { DatabaseDataType } from 'shared-database'
+import type { DatabaseDataType, DatabaseListParamsFiltersInterface } from 'shared-database'
 import type { RequestInterface, RequestBodyInterface, RequestArrayBodyInterface } from 'shared-app'
 
 class TableMiddleware {
@@ -18,6 +18,26 @@ class TableMiddleware {
   }) {
     this.databaseService = databaseService
     this.configUtils = configUtils
+  }
+
+  public async validateAndExtractQuery(req: RequestInterface) {
+    const { query } = req
+    const filters: DatabaseListParamsFiltersInterface[] = []
+    for (const key in query) {
+      const matchFilter = key.match(/filter_(key|operator|value)_(\d+)$/)
+      if (matchFilter) {
+        const index = Number(matchFilter[2])
+        filters[index] = filters[index] || {}
+        if (key.startsWith('filter_key_')) {
+          filters[index].key = query[key]
+        } else if (key.startsWith('filter_operator_')) {
+          filters[index].operator = query[key]
+        } else if (key.startsWith('filter_value_')) {
+          filters[index].value = query[key]
+        }
+      }
+    }
+    if (filters.length > 0) req.local.filters = filters
   }
 
   public async validateTableExist(req: RequestInterface) {

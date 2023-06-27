@@ -1,6 +1,6 @@
 import { DatabaseService } from 'server-database'
 
-import type { DatabaseDataType } from 'shared-database'
+import type { DatabaseDataType, DatabaseListParamsInterface } from 'shared-database'
 
 class TableService {
   private databaseService: DatabaseService
@@ -31,8 +31,8 @@ class TableService {
     return this.databaseService.updateById(table, id, data)
   }
 
-  public async list(table: string) {
-    return this.databaseService.list(table)
+  public async list(table: string, params: DatabaseListParamsInterface) {
+    return this.databaseService.list(table, params)
   }
 }
 

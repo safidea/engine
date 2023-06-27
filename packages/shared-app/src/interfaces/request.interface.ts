@@ -1,4 +1,4 @@
-import { DatabaseDataType } from 'shared-database'
+import { DatabaseDataType, DatabaseListParamsInterface } from 'shared-database'
 
 export interface RequestInterface {
   url: string
@@ -9,6 +9,7 @@ export interface RequestInterface {
   query: {
     [key: string]: string
   }
+  local: DatabaseListParamsInterface
   body?: DatabaseDataType | DatabaseDataType[]
 }
 

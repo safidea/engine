@@ -17,24 +17,12 @@ export type DatabaseParamsDataType = {
   data: DatabaseDataType
 }
 
-export type DatabaseServiceFunctionType = (
-  tableName: string,
-  params: DatabaseParamsIdType & DatabaseParamsDataType
-) => Promise<DatabaseRowType>
+export type DatabaseListParamsFiltersInterface = {
+  key: string
+  operator: string
+  value: string
+}
 
-export type DatabaseServiceFunctionListType = (tableName: string) => Promise<DatabaseRowType[]>
-
-export type DatabaseServiceFunctionIdType = (
-  tableName: string,
-  params: DatabaseParamsIdType
-) => Promise<DatabaseRowType>
-
-export type DatabaseServiceFunctionDataType = (
-  tableName: string,
-  params: DatabaseParamsDataType
-) => Promise<DatabaseRowType>
-
-export type DatabaseServiceFunctionReadType = (
-  tableName: string,
-  params: DatabaseParamsIdType
-) => Promise<DatabaseRowType | null>
+export type DatabaseListParamsInterface = {
+  filters?: DatabaseListParamsFiltersInterface[]
+}

@@ -37,7 +37,12 @@ class PrismaOrmProvider implements OrmProviderInterface {
   }
 
   public getTable(name: string, orm: OrmProviderTablesInterface): OrmProviderTableInterface {
-    return orm[StringUtils.singular(name).toLowerCase()]
+    const table = orm[StringUtils.singular(name).toLowerCase()]
+    if (this.database.provider === 'sqlite') {
+      table.createMany = async ({ data }) =>
+        Promise.all(data.map((row) => table.create({ data: row })))
+    }
+    return table
   }
 
   public getTableEnumName(table: string, field: string): string {

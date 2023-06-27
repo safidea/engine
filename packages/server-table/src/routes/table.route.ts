@@ -36,6 +36,7 @@ class TableRoute {
       await this.tableMiddleware.validateRowExist(req)
       return this.tableController.read(req)
     }
+    await this.tableMiddleware.validateAndExtractQuery(req)
     return this.tableController.list(req)
   }
 

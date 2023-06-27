@@ -4,7 +4,7 @@ import type {
   OrmProviderInterface,
 } from '../interfaces/orm.interface'
 
-import type { DatabaseDataType } from 'shared-database'
+import type { DatabaseDataType, DatabaseListParamsInterface } from 'shared-database'
 
 class DatabaseService {
   private orm: OrmProviderTablesInterface
@@ -68,8 +68,24 @@ class DatabaseService {
     })
   }
 
-  public async list(tableName: string) {
-    return this.table(tableName).findMany({})
+  public async list(tableName: string, params: DatabaseListParamsInterface) {
+    const options: any = {}
+    if (params.filters) {
+      options.where = {}
+      params.filters.forEach((filter) => {
+        const { key, operator, value } = filter
+        switch (operator) {
+          case 'is_any_of':
+            options.where[key] = {
+              in: value.split(','),
+            }
+            break
+          default:
+            throw new Error(`Operator ${operator} not implemented`)
+        }
+      })
+    }
+    return this.table(tableName).findMany(options)
   }
 }
 

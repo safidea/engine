@@ -1,3 +1,9 @@
 import dotenv from 'dotenv'
-if (process.env.NODE_ENV === 'test') dotenv.config({ path: '.env.test' })
-else dotenv.config()
+
+const { ENV_FILE } = process.env
+
+if (ENV_FILE) {
+  dotenv.config({ path: ENV_FILE })
+} else {
+  dotenv.config()
+}

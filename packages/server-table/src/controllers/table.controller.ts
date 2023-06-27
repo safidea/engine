@@ -8,7 +8,7 @@ import type {
   ResponseInterface,
 } from 'shared-app'
 
-const log: debug.IDebugger = debug('controller:table')
+const log: debug.IDebugger = debug('table:controller')
 
 class TableController {
   private tableService: TableService
@@ -47,7 +47,8 @@ class TableController {
 
   public async list(req: RequestInterface): Promise<ResponseInterface> {
     const { table } = req.params
-    const rows = await this.tableService.list(table)
+    const { filters } = req.local
+    const rows = await this.tableService.list(table, { filters })
     log(`Got all rows in ${table}`)
     return { json: rows }
   }

@@ -1,7 +1,6 @@
-import { test, expect } from '@playwright/test'
-import orm from '../app/orm'
+import { test, expect } from './fixtures'
 
-test.describe('A page that list factures', () => {
+test.describe('A page that list invoices', () => {
   test('should display a title', async ({ page }) => {
     // WHEN
     // I go to the home page "/"
@@ -14,10 +13,11 @@ test.describe('A page that list factures', () => {
 
   test('should display a list of factures grouped by status and sorted by dates', async ({
     page,
+    db,
   }) => {
     // GIVEN
-    // We provide 8 example factures
-    const factures = [
+    // We provide 8 example invoices
+    const invoices = [
       { title: 'Facture 1', amount: 100, status: 'draft' },
       {
         title: 'Facture 2',
@@ -57,8 +57,7 @@ test.describe('A page that list factures', () => {
         number: '1008',
       },
     ]
-    await orm.invoice.deleteMany({})
-    for (const data of factures) await orm.invoice.create({ data })
+    for (const data of invoices) await db.invoice.create({ data })
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
