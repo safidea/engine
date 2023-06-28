@@ -1,7 +1,7 @@
 import type { ObjectInterface } from 'shared-common'
 
 export interface TableFieldInterface extends ObjectInterface {
-  type: 'String' | 'Int' | 'Boolean' | 'Float' | 'DateTime' | 'Json' | 'SingleSelect'
+  type: 'String' | 'Int' | 'Boolean' | 'Float' | 'Decimal' | 'DateTime' | 'Json' | 'SingleSelect'
   enum?: string
   primary?: boolean
   optional?: boolean

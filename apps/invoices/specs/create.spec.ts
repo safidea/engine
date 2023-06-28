@@ -18,7 +18,15 @@ test.describe('A page that create an invoices', () => {
 
     // AND
     // I fill the form
-    await page.fill('input[name="address"]', 'Test')
+    await page.fill('input[name="customer"]', 'ESSENTIAL SERVICE')
+    await page.fill('input[name="address"]', '128 RUE LA BÉOTIE 75008 PARIS')
+    await page.fill('input[name="postal_code"]', '75008')
+    await page.fill('input[name="postal_code"]', '75008')
+
+    await page.fill('input[name="activity"]', 'CTO Low Code - Conseil et Développement')
+    await page.fill('input[name="unit"]', 'heure')
+    await page.fill('input[name="quantity"]', '1')
+    await page.fill('input[name="unit_price"]', '1000')
 
     // AND
     // I click on the submit button
@@ -26,7 +34,7 @@ test.describe('A page that create an invoices', () => {
 
     // THEN
     // Wait for the page to be redirected
-    await page.waitForTimeout(5000)
+    await page.waitForURL('/')
 
     // AND
     // Check that I'm on the home page

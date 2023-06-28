@@ -8,12 +8,29 @@
   "tables": {
     "invoices": {
       "fields": {
-        "title": {
+        "customer": {
           "type": "String"
         },
-        "amount": {
-          "type": "Int",
-          "default": 0
+        "address": {
+          "type": "String"
+        },
+        "zip_code": {
+          "type": "String"
+        },
+        "country": {
+          "type": "String"
+        },
+        "activity": {
+          "type": "String"
+        },
+        "unit": {
+          "type": "String"
+        },
+        "quantity": {
+          "type": "Int"
+        },
+        "unit_price": {
+          "type": "Decimal"
         },
         "status": {
           "type": "SingleSelect",
@@ -48,12 +65,24 @@
               "table": "invoices",
               "fields": [
                 {
-                  "key": "title",
-                  "label": "Titre"
+                  "key": "customer",
+                  "label": "Client"
                 },
                 {
-                  "key": "amount",
-                  "label": "Montant"
+                  "key": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "key": "quantity",
+                  "label": "Quantité"
+                },
+                {
+                  "key": "unit",
+                  "label": "Unité"
+                },
+                {
+                  "key": "unit_price",
+                  "label": "Prix unitaire"
                 },
                 {
                   "key": "status",
@@ -112,8 +141,28 @@
               "table": "invoices",
               "fields": [
                 {
+                  "key": "customer",
+                  "label": "Client"
+                },
+                {
                   "key": "address",
-                  "label": "Address"
+                  "label": "Adresse"
+                },
+                {
+                  "key": "activity",
+                  "label": "Activité"
+                },
+                {
+                  "key": "unit",
+                  "label": "Unité"
+                },
+                {
+                  "key": "quantity",
+                  "label": "Quantité"
+                },
+                {
+                  "key": "unit_price",
+                  "label": "Prix unitaire"
                 }
               ]
             }

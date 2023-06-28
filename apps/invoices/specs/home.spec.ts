@@ -11,86 +11,84 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of factures grouped by status and sorted by dates', async ({
-    page,
-    db,
-  }) => {
+  test('should display a list of invoices grouped by status', async ({ page, db, faker }) => {
     // GIVEN
     // We provide 8 example invoices
-    const invoices = [
-      { title: 'Facture 1', amount: 100, status: 'draft' },
-      {
-        title: 'Facture 2',
-        amount: 200,
-        finalised_date: new Date(2021, 6, 4).toISOString(),
-        status: 'finalised',
-        number: '1002',
-      },
-      {
-        title: 'Facture 3',
-        amount: 300,
-        finalised_date: new Date(2021, 6, 5).toISOString(),
-        status: 'sent',
-        number: '1003',
-      },
-      {
-        title: 'Facture 4',
-        amount: 400,
-        finalised_date: new Date(2021, 5, 4).toISOString(),
-        status: 'finalised',
-        number: '1004',
-      },
-      { title: 'Facture 5', amount: 500, status: 'draft' },
-      {
-        title: 'Facture 6',
-        amount: 600,
-        finalised_date: new Date(2021, 4, 6).toISOString(),
-        status: 'paid',
-        number: '1006',
-      },
-      { title: 'Facture 7', amount: 700, status: 'draft' },
-      {
-        title: 'Facture 8',
-        amount: 800,
-        finalised_date: new Date(2021, 4, 8).toISOString(),
-        status: 'sent',
-        number: '1008',
-      },
-    ]
+    const invoices = faker.generate('invoices', 8)
     for (const data of invoices) await db.invoice.create({ data })
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
     await page.goto('/')
-    await page.waitForSelector('text=/^Brouillon$/')
+    await page.waitForSelector('text=/^Statut$/')
 
     // THEN
-    // Check that factures are displayed in a group by status
+    // Check that invoices are displayed in a group by status
     const draftRows = await page.$$('text=/^Brouillon$/')
-    expect(draftRows.length).toBe(4)
+    expect(draftRows.length).toBe(invoices.filter((i) => i.status === 'draft').length + 1)
 
     // Check the number of finalised rows
     const finalisedRows = await page.$$('text=/^Finalisée$/')
-    expect(finalisedRows.length).toBe(3)
+    expect(finalisedRows.length).toBe(invoices.filter((i) => i.status === 'finalised').length + 1)
 
     // Check the number of sent rows
     const sentRows = await page.$$('text=/^Envoyée$/')
-    expect(sentRows.length).toBe(3)
+    expect(sentRows.length).toBe(invoices.filter((i) => i.status === 'sent').length + 1)
 
     // Check the number of paid rows
     const paidRows = await page.$$('text=/^Payée$/')
-    expect(paidRows.length).toBe(2)
+    expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
+  })
 
+  test('should display a list of invoices sorted by dates in status groups', async ({
+    page,
+    db,
+    faker,
+  }) => {
+    // GIVEN
+    // We provide 5 example invoices with finalised dates and status
+    const invoices = faker.generate('invoices', [
+      {
+        finalised_date: new Date(2021, 3, 15).toISOString(),
+        status: 'finalised',
+      },
+      {
+        finalised_date: new Date(2021, 4, 25).toISOString(),
+        status: 'paid',
+      },
+      {
+        finalised_date: new Date(2021, 4, 6).toISOString(),
+        status: 'finalised',
+      },
+      {
+        finalised_date: new Date(2021, 5, 4).toISOString(),
+        status: 'sent',
+      },
+      {
+        finalised_date: new Date(2021, 4, 20).toISOString(),
+        status: 'sent',
+      },
+    ])
+    await db.invoice.deleteMany({})
+    for (let i = 0; i < invoices.length; i++)
+      invoices[i] = await db.invoice.create({ data: invoices[i] })
+
+    // WHEN
+    // I go to the home page "/" and invoices are loaded
+    await page.goto('/')
+    await page.waitForSelector('text=/^Date de finalisation$/')
+
+    // THEN
     // Check that factures are sorted by finalised_date
-    const rows = await page.$$('text=/Facture \\d/')
-    expect(await rows[0].innerText()).toBe('Facture 1')
-    expect(await rows[1].innerText()).toBe('Facture 5')
-    expect(await rows[2].innerText()).toBe('Facture 7')
-    expect(await rows[3].innerText()).toBe('Facture 2')
-    expect(await rows[4].innerText()).toBe('Facture 4')
-    expect(await rows[5].innerText()).toBe('Facture 3')
-    expect(await rows[6].innerText()).toBe('Facture 8')
-    expect(await rows[7].innerText()).toBe('Facture 6')
+    const rows = await page.$$('tr[id]')
+    const ids = await Promise.all(rows.map((row) => row.getAttribute('id')))
+    expect(ids).toEqual([
+      invoices[2].id,
+      invoices[0].id,
+      invoices[3].id,
+      invoices[4].id,
+      invoices[1].id,
+    ])
   })
 
   test('should go to the /create page when clicking on the "Créer une facture" button', async ({
@@ -103,6 +101,7 @@ test.describe('A page that list invoices', () => {
     // AND
     // I click on the "Créer une facture" button
     await page.click('text="Créer une facture"')
+    await page.waitForURL('/create')
 
     // THEN
     // Check that I'm on the /create page

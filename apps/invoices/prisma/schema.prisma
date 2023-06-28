@@ -8,8 +8,14 @@ datasource db {
 }
 
 model Invoice {
-  title          String
-  amount         Int       @default(0)
+  customer       String
+  address        String
+  zip_code       String
+  country        String
+  activity       String
+  unit           String
+  quantity       Int
+  unit_price     Decimal
   status         String    @default("draft")
   number         String?
   finalised_date DateTime?

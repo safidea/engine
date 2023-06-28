@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { CommonPropsType } from '../types/common.type'
 
 export type CreateProps = CommonPropsType & {
@@ -9,24 +10,53 @@ export type CreateProps = CommonPropsType & {
   }[]
 }
 
-export default function FormComponent({ fields, router }: CreateProps) {
-  const handlingForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    router?.push('/')
+export default function FormComponent({ table, fields, router }: CreateProps) {
+  const [formData, setFormData] = useState(
+    fields.reduce((acc, field) => {
+      acc[field.key] = ''
+      return acc
+    }, {} as Record<string, string>)
+  )
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault()
+      console.log('Form data submitted:', formData)
+      await fetch(`/api/table/${table}`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      console.log(JSON.stringify(router, null, 2))
+      router?.push('/')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <div className="p-4">
-      <form onSubmit={handlingForm} className="w-full max-w-lg mx-auto">
+      <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>
-            <label htmlFor={`field${index}`} className="block font-medium mb-1">
+            <label htmlFor={field.key} className="block font-medium mb-1">
               {field.label}
             </label>
             <input
               type="text"
               name={field.key}
-              id={`field${index}`}
+              id={field.key}
+              onChange={handleChange}
+              value={formData[field.key]}
               className="w-full px-4 py-2 border rounded"
             />
           </div>

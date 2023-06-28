@@ -54,17 +54,17 @@ class TableMiddleware {
 
   public async validatePostBody(req: RequestBodyInterface) {
     const errors = this.validateDataFields(req.params.table, req.body)
-    if (errors.length > 0) throw new ApiError('Invalid body', { errors, status: 400 })
+    if (errors.length > 0) throw new ApiError('Invalid row', { errors, status: 400 })
   }
 
   public async validatePostArrayBody(req: RequestArrayBodyInterface) {
     const errors = this.validateArrayDataFields(req.params.table, req.body)
-    if (errors.length > 0) throw new ApiError('Invalid body', { errors, status: 400 })
+    if (errors.length > 0) throw new ApiError('Invalid row', { errors, status: 400 })
   }
 
   public async validatePatchBody(req: RequestBodyInterface) {
     const errors = this.validateDataFields(req.params.table, req.body, 'UPDATE')
-    if (errors.length > 0) throw new ApiError('Invalid body', { errors, status: 400 })
+    if (errors.length > 0) throw new ApiError('Invalid row', { errors, status: 400 })
   }
 
   public validatePutBody = this.validatePostBody

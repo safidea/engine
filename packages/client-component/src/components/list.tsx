@@ -31,7 +31,7 @@ export function Header({ fields }: { fields: FieldType[] }) {
 
 export function Row({ row, fields }: { row: DatabaseRowType; fields: FieldType[] }) {
   return (
-    <tr>
+    <tr id={String(row.id)}>
       {fields.map((field, index) => {
         let value = row[field.key as keyof typeof row]
         if (field.options) {
@@ -40,12 +40,17 @@ export function Row({ row, fields }: { row: DatabaseRowType; fields: FieldType[]
         return index === 0 ? (
           <td
             key={index}
+            data-field={field.key}
             className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"
           >
             {value}
           </td>
         ) : (
-          <td key={index} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <td
+            key={index}
+            data-field={field.key}
+            className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+          >
             {value}
           </td>
         )

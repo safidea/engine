@@ -46,7 +46,16 @@
           "type": "object"
         },
         "type": {
-          "enum": ["Boolean", "DateTime", "Float", "Int", "Json", "SingleSelect", "String"],
+          "enum": [
+            "Boolean",
+            "DateTime",
+            "Decimal",
+            "Float",
+            "Int",
+            "Json",
+            "SingleSelect",
+            "String"
+          ],
           "type": "string"
         },
         "unique": {
