@@ -149,6 +149,14 @@
                   "label": "Adresse"
                 },
                 {
+                  "key": "zip_code",
+                  "label": "Code postal"
+                },
+                {
+                  "key": "country",
+                  "label": "Pays"
+                },
+                {
                   "key": "activity",
                   "label": "Activité"
                 },
