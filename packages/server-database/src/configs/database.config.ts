@@ -27,7 +27,7 @@ class DatabaseConfig implements ConfigExecInterface {
   }
   public isUpdated() {
     log(`check if config is updated`)
-    return !ObjectUtils.isSame({ a: 1 }, { a: 'abc' })
+    return !ObjectUtils.isSame(this.databaseConfig, this.databaseCached)
   }
 
   public async validateSchema() {

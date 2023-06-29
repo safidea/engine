@@ -12,7 +12,7 @@ class PathUtils {
   }
 
   public getAppConfigCache(): string {
-    return join(this.cwd, `.foundation/compiled.json`)
+    return join(this.cwd, `.foundation/compiled.config.json`)
   }
 }
 

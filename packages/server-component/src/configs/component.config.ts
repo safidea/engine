@@ -38,7 +38,7 @@ class ComponentConfig implements ConfigExecInterface {
 
   public async buildProviders() {
     log(`build providers`)
-    await this.appProvider.buildClientComponents(['list', 'form', 'navigation'])
+    await this.appProvider.buildClientComponents(['List', 'Form', 'Navigation'])
   }
 }
 
