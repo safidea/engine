@@ -1,12 +1,4 @@
-export type ObjectValueInterface =
-  | ObjectInterface
-  | ObjectInterface[]
-  | string
-  | string[]
-  | number
-  | number[]
-  | boolean
-  | undefined
+export type ObjectValueInterface = any
 
 export interface ObjectInterface {
   [key: string]: ObjectValueInterface

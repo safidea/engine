@@ -1,7 +1,8 @@
 import type { CommonPropsType } from '../types/common.type'
 
 export default function Cta({ appProviderComponents }: CommonPropsType) {
-  const { Image } = appProviderComponents
+  const { Image } = appProviderComponents ?? {}
+  if (!Image) throw new Error('Image component is required in Logos component')
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">

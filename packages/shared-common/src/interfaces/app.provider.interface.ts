@@ -7,9 +7,13 @@ export interface AppProviderRouteInterface {
   methods: string[]
 }
 
+export interface AppProviderFoundationFileOptions {
+  withOrm: boolean
+  withComponents: boolean
+}
+
 export interface AppProviderInterface {
-  writeServerFile: (withOrm?: boolean) => Promise<void>
-  writeClientFile: () => Promise<void>
+  writeFoundationFile: (options: AppProviderFoundationFileOptions) => Promise<void>
   buildPages: (pages: AppProviderPageInterface[]) => Promise<void>
   buildRoutes: (routes: AppProviderRouteInterface[]) => Promise<void>
   buildClientComponents: (names: string[]) => Promise<void>

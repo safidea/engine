@@ -19,33 +19,42 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('handleChange')
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async () => {
+    console.log('handleSubmit')
     try {
-      e.preventDefault()
-      console.log('Form data submitted:', formData)
+      /*console.log('Form data submitted:', formData)
       await fetch(`/api/table/${table}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-      console.log(JSON.stringify(router, null, 2))
-      router?.push('/')
+      })*/
+      //console.warn(JSON.stringify(router, null, 2))
+      // eslint-disable-next-line
+      // @ts-ignore
+      router.push('/')
+      //window.location.href = '/'
     } catch (error) {
       console.error(error)
     }
   }
 
+  console.log('formData', formData)
+  console.log('handleChange', handleChange)
+
+  //throw new Error('TODO: implement the form component')
+
   return (
     <div className="p-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
+      <div className="w-full max-w-lg mx-auto">
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>
             <label htmlFor={field.key} className="block font-medium mb-1">
@@ -62,12 +71,14 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
           </div>
         ))}
         <button
-          type="submit"
+          role="submit"
+          disabled={!handleSubmit || !router}
+          onClick={handleSubmit}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Save
         </button>
-      </form>
+      </div>
     </div>
   )
 }

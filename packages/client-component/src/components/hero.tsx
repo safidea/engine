@@ -13,7 +13,9 @@ export type HeroProps = CommonPropsType & {
 
 export default function Hero({ navigation = [], appProviderComponents }: HeroProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { Link, Image } = appProviderComponents
+  const { Link, Image } = appProviderComponents ?? {}
+  if (!Image) throw new Error('Image component is required in Logos component')
+  if (!Link) throw new Error('Link component is required in Logos component')
   return (
     <div className="bg-gray-900">
       <header className="absolute inset-x-0 top-0 z-50">

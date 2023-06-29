@@ -1,12 +1,10 @@
-import NextAppClient from '../client'
-    import NextAppServer from '../server'
+import Foundation from '../foundation'
                 
     export const metadata = {
   "title": "Factures"
 }
     
     export default function Page() {
-      const page = NextAppServer.getConfigFromPath('pages./create')
-      return <NextAppClient page={page} />
+      return <Foundation.Page path="/create" />
     }
     

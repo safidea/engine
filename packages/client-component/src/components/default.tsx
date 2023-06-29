@@ -11,8 +11,7 @@ export default function Html({
   ...props
 }: CommonPropsType): JSX.Element {
   if (tag && !HTML_TAGS.includes(tag)) {
-    console.warn(`Tag "${tag}" is not a valid HTML tag, fallback to div tag`)
-    tag = 'div'
+    throw new Error(`Invalid tag: ${tag}`)
   }
   const Tag = tag as keyof JSX.IntrinsicElements
   if (!children) return <Tag {...props} />

@@ -4,19 +4,23 @@ import type { DatabaseInterface } from 'shared-database'
 import type { PagesInterface } from 'shared-page'
 import type { ComponentsInterface } from 'shared-component'
 
-export interface AppInterface extends ObjectInterface {
+export interface App {
   name: string
   version: string
 }
 
-export interface ConfigInterface extends AppInterface {
+export interface AppConfig extends App {
   tables?: TablesInterface
   database?: DatabaseInterface
   pages?: PagesInterface
   components?: ComponentsInterface
 }
 
-export interface EnvInterface {
+export interface CompiledAppConfig extends AppConfig {
+  compiled: boolean
+}
+
+export interface Env {
   DATABASE_URL?: string
   DATABASE_HOST?: string
   DATABASE_PORT?: string

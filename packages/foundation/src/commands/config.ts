@@ -5,7 +5,7 @@ import { ComponentConfig } from 'server-component'
 import { PageConfig } from 'server-page'
 import { getAppProvider, getOrmProvider } from '../utils'
 
-import type { ConfigInterface, ConfigsExecInterface } from 'shared-app'
+import type { AppConfig, ConfigsExecInterface } from 'shared-app'
 
 export default async function Config() {
   const options = process.argv.slice(3)
@@ -20,11 +20,11 @@ export default async function Config() {
     tables,
     components,
     pages,
-  } = configUtils.get() as ConfigInterface
+  } = configUtils.get() as AppConfig
 
   const configs: ConfigsExecInterface = {}
   const appProvider = getAppProvider({ pages })
-  await appProvider.writeServerFile(!!database)
+  await appProvider.writeFoundationFile({ withOrm: !!database, withComponents: !!pages })
 
   if (database) {
     const ormProvider = getOrmProvider({ appVersion, appName, database })
@@ -32,7 +32,6 @@ export default async function Config() {
     if (tables) configs.tables = new TableConfig({ appProvider, ormProvider, configUtils })
   }
   if (pages) {
-    await appProvider.writeClientFile()
     configs.pages = new PageConfig({ configUtils, appProvider })
     if (components) configs.components = new ComponentConfig({ configUtils, appProvider })
   }

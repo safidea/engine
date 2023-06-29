@@ -1,6 +1,6 @@
 export { default as AppSchema } from './schemas/app.schema.json'
 
-export type { AppInterface, ConfigInterface, EnvInterface } from './interfaces/app.interface'
+export type { App, AppConfig, CompiledAppConfig, Env } from './interfaces/app.interface'
 export type { ConfigsExecInterface, ConfigExecInterface } from './interfaces/config.interface'
 export type {
   RequestInterface,

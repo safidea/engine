@@ -2,8 +2,9 @@
 
     import Components from 'foundation/components'
     import { useRouter } from 'next/navigation'
-
-    const List = (props) => Components.list({ ...props, router: useRouter() })
     
-    export default List
+    export default function List() {
+      const router = useRouter()
+      return <Components.List router={router} />
+    }
     

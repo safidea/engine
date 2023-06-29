@@ -11,7 +11,7 @@ dotenv.config({ path: './.env.test' })
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './specs',
+  testDir: './specs/e2e',
   /* Run tests in files in parallel */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -35,7 +35,9 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+      },
     },
 
     /*{
@@ -71,7 +73,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'ENV_FILE=.env.test pnpm dev',
+    command: 'ENV_FILE=.env.test pnpm start',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
   },

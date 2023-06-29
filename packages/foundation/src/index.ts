@@ -3,41 +3,57 @@ import { ApiError, ConfigUtils, PathUtils } from 'server-common'
 import { DatabaseService } from 'server-database'
 import { TableRoute } from 'server-table'
 import { getOrmProvider } from './utils'
+import { PageComponent, PageComponentProps } from 'client-page'
 
 import type {
-  ConfigInterface,
+  AppConfig,
   RequestInterface,
   ResponseInterface,
   RequestBodyInterface,
 } from 'shared-app'
 import type { OrmProviderInterface, OrmProviderTablesInterface } from 'server-database'
-import type { ObjectValueInterface } from 'shared-common'
+import type { AppProviderComponentsInterface, ObjectValueInterface } from 'shared-common'
 
-class AppServer {
+type FoundationProps = {
+  orm?: OrmProviderTablesInterface
+  components?: AppProviderComponentsInterface
+}
+
+class Foundation {
   private configUtils: ConfigUtils
   private orm?: OrmProviderTablesInterface
   private ormProvider?: OrmProviderInterface
+  private components?: AppProviderComponentsInterface
 
-  constructor({ orm }: { orm?: OrmProviderTablesInterface }) {
+  constructor(props?: FoundationProps) {
+    const { orm, components } = props || {}
     const pathUtils = new PathUtils()
     this.configUtils = new ConfigUtils({ pathUtils, fromCache: true })
     const {
       version: appVersion,
       name: appName,
       database,
-    } = this.configUtils.get() as ConfigInterface
+      pages,
+    } = this.configUtils.get() as AppConfig
     if (database) {
       this.orm = orm
       this.ormProvider = getOrmProvider({ appVersion, appName, database })
     }
+    if (pages) this.components = components
   }
 
-  public async apiHandler(request: RequestInterface): Promise<ResponseInterface> {
+  public page({ path, ...props }: JSX.IntrinsicAttributes & { path: string }) {
+    const page = this.configUtils.get('pages.' + path)
+    return PageComponent({ ...props, appProviderComponents: this.components, page })
+  }
+
+  public async api(request: RequestInterface): Promise<ResponseInterface> {
     try {
       if (!this.orm || !this.ormProvider) throw new Error('Database not found')
       const databaseService = new DatabaseService({ orm: this.orm, ormProvider: this.ormProvider })
       const tableRoute = new TableRoute({ databaseService, configUtils: this.configUtils })
       const api = request.url.match(/(?<=api\/)[a-z]+(?=\/)/)?.[0]
+      request.local = {}
       switch (api) {
         case 'table':
           switch (request.method) {
@@ -66,10 +82,6 @@ class AppServer {
       return { status: 500, json: { error: 'Internal server error' } }
     }
   }
-
-  public getConfigFromPath(path?: string): ConfigInterface | ObjectValueInterface {
-    return this.configUtils.get(path)
-  }
 }
 
-export default AppServer
+export default Foundation

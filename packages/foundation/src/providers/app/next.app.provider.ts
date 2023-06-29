@@ -6,6 +6,7 @@ import type {
   AppProviderInterface,
   AppProviderPageInterface,
   AppProviderRouteInterface,
+  AppProviderFoundationFileOptions,
 } from 'shared-common'
 import type { PagesInterface } from 'shared-page'
 
@@ -20,16 +21,13 @@ class NextServerProvider implements AppProviderInterface {
     this.pages = pages
   }
 
-  public async writeServerFile(withOrm = false) {
-    const serverPath = join(this.appPath, 'server.js')
+  public async writeFoundationFile({
+    withOrm = false,
+    withComponents = false,
+  }: AppProviderFoundationFileOptions) {
+    const serverPath = join(this.appPath, 'foundation.js')
     await fs.ensureFile(serverPath)
-    await fs.writeFile(serverPath, this.getServerTemplate(withOrm))
-  }
-
-  public async writeClientFile() {
-    const clientPath = join(this.appPath, 'client.js')
-    await fs.ensureFile(clientPath)
-    await fs.writeFile(clientPath, this.getClientTemplate())
+    await fs.writeFile(serverPath, this.getFoundationTemplate({ withOrm, withComponents }))
   }
 
   public async buildPages(pages: AppProviderPageInterface[]) {
@@ -72,22 +70,17 @@ class NextServerProvider implements AppProviderInterface {
     )
   }
 
-  private getServerTemplate(withOrm: boolean) {
-    return `import AppServer from 'foundation/server'
-    ${withOrm ? "import orm from './orm'" : ''}
-
-    export default new AppServer(${withOrm ? '{ orm }' : ''})`
-  }
-
-  private getClientTemplate() {
-    return `import AppClient from 'foundation/client'
+  private getFoundationTemplate({ withOrm, withComponents }: AppProviderFoundationFileOptions) {
+    return `import Foundation from 'foundation'
     import Image from 'next/image'
     import Link from 'next/link'
-    import * as Components from '../components'
+    ${withOrm ? "import orm from './orm'" : ''}
+    ${withComponents ? "import * as Components from '../components'" : ''}
 
-    export default function NextAppClient({ page }) {
-      return <AppClient appProviderComponents={{ Image, Link, ...Components }} page={page} />
-    }`
+    export default new Foundation({
+      components: { Image, Link ${withComponents ? ', ...Components' : ''} },
+      ${withOrm ? 'orm,' : ''}
+    })`
   }
 
   private getPathDots(path: string): string {
@@ -97,7 +90,7 @@ class NextServerProvider implements AppProviderInterface {
 
   private getRouteTemplate(route: AppProviderRouteInterface) {
     const pathDots = this.getPathDots(route.path)
-    return `import NextAppServer from '${pathDots}/../server'
+    return `import Foundation from '${pathDots}/../foundation'
     import { NextResponse } from 'next/server'
     ${route.methods.includes('GET') ? "import url from 'url'" : ''}
     ${route.methods.includes('GET') ? "import querystring from 'querystring'" : ''}
@@ -106,11 +99,10 @@ class NextServerProvider implements AppProviderInterface {
       .map((method) => {
         method = method.toUpperCase()
         return `export async function ${method}(request, { params = {} }) {
-            const { json, status = 200 } = await NextAppServer.apiHandler({
+            const { json, status = 200 } = await Foundation.api({
               method: '${method}',
               url: request.url,
               params,
-              local: {},
               ${['POST', 'PUT', 'PATCH'].includes(method) ? 'body: await request.json(),' : ''}
               ${method === 'GET' ? 'query: querystring.parse(url.parse(request.url).query)' : ''}
             })
@@ -123,14 +115,12 @@ class NextServerProvider implements AppProviderInterface {
   private getPageTemplate(page: AppProviderPageInterface) {
     const pathDots = this.getPathDots(page.path)
     const { title, metadata = {} } = this.pages?.[page.path] ?? {}
-    return `import NextAppClient from '${pathDots}/client'
-    import NextAppServer from '${pathDots}/server'
+    return `import Foundation from '${pathDots}/foundation'
                 
     export const metadata = ${JSON.stringify({ title, ...metadata }, null, 2)}
     
     export default function Page() {
-      const page = NextAppServer.getConfigFromPath('pages.${page.path}')
-      return <NextAppClient page={page} />
+      return <Foundation.Page path="${page.path}" />
     }
     `
   }
@@ -141,10 +131,11 @@ class NextServerProvider implements AppProviderInterface {
 
     import Components from 'foundation/components'
     import { useRouter } from 'next/navigation'
-
-    const ${capitalizeName} = (props) => Components.${name}({ ...props, router: useRouter() })
     
-    export default ${capitalizeName}
+    export default function ${StringUtils.capitalize(name)}() {
+      const router = useRouter()
+      return <Components.${capitalizeName} router={router} />
+    }
     `
   }
 }

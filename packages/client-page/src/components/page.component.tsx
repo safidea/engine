@@ -8,7 +8,7 @@ import type { AppProviderComponentsInterface } from 'shared-common'
 
 export type PageComponentProps = {
   page: PageInterface
-  appProviderComponents: AppProviderComponentsInterface
+  appProviderComponents?: AppProviderComponentsInterface
 }
 
 export default function PageComponent({ page, appProviderComponents }: PageComponentProps) {

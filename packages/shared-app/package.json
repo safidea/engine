@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "#jest",
-    "schema": "typescript-json-schema tsconfig.json AppInterface -o src/schemas/app.schema.json --required",
+    "schema": "typescript-json-schema tsconfig.json App -o src/schemas/app.schema.json --required",
     "build": "tsc"
   },
   "dependencies": {

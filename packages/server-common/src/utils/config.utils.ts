@@ -4,19 +4,19 @@ import { ObjectUtils } from 'shared-common'
 import debug from 'debug'
 
 import type { ObjectInterface, ObjectValueInterface } from 'shared-common'
-import type { ConfigInterface, ConfigsExecInterface } from 'shared-app'
+import type { AppConfig, ConfigsExecInterface } from 'shared-app'
 
 const log = debug('config:common')
 
 class ConfigUtils {
   private pathUtils: PathUtils
-  private config?: ConfigInterface
+  private config?: AppConfig
 
   constructor({ pathUtils, fromCache = false }: { pathUtils: PathUtils; fromCache?: boolean }) {
     this.pathUtils = pathUtils
     if (fromCache) {
       log('Load config from cache...')
-      const configCached = this.getCached() as ConfigInterface
+      const configCached = this.getCached() as AppConfig
       if (!configCached)
         throw new Error(`Cache file is not a valid JSON: ${this.pathUtils.getAppConfigCache()}`)
       this.config = configCached
@@ -26,14 +26,13 @@ class ConfigUtils {
       if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
       this.config = fs.readJsonSync(configPath, { throws: false })
       if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
-      this.config = ObjectUtils.replaceVars(this.config, process.env) as ConfigInterface
+      this.config = ObjectUtils.replaceVars(this.config, process.env) as AppConfig
     }
     log('Config loaded')
   }
 
-  public getCached(path?: string): ConfigInterface | ObjectValueInterface | undefined {
+  public getCached(path?: string): AppConfig | ObjectValueInterface | undefined {
     const cachePath = this.pathUtils.getAppConfigCache()
-    if (!fs.pathExistsSync(cachePath)) throw new Error(`Cache file not found: ${cachePath}`)
     const configCached = fs.readJsonSync(cachePath, { throws: false })
     if (configCached && path) return ObjectUtils.getAtPath(configCached, path)
     return configCached
@@ -95,13 +94,13 @@ class ConfigUtils {
     return configsToUpdate.length > 0
   }
 
-  public get(path?: string): ConfigInterface | ObjectValueInterface | undefined {
+  public get(path?: string): AppConfig | ObjectValueInterface | undefined {
     if (path) return ObjectUtils.getAtPath(this.config ?? {}, path)
     return this.config
   }
 
   public set(path: string, value: ObjectValueInterface): ObjectInterface {
-    this.config = ObjectUtils.setAtPath(this.config ?? {}, path, value) as ConfigInterface
+    this.config = ObjectUtils.setAtPath(this.config ?? {}, path, value) as AppConfig
     return this.config
   }
 }

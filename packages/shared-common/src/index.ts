@@ -8,4 +8,5 @@ export type {
   AppProviderComponentsInterface,
   AppProviderPageInterface,
   AppProviderRouteInterface,
+  AppProviderFoundationFileOptions,
 } from './interfaces/app.provider.interface'

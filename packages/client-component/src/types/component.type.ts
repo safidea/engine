@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { HeroProps } from '../components/hero'
-import type { TableProps } from '../components/table'
-import type { ListProps } from '../components/list'
+import type { HeroProps } from '../components/Hero'
+import type { TableProps } from '../components/Table'
+import type { ListProps } from '../components/List'
 
 export type ComponentProps = HeroProps | TableProps | ListProps
 

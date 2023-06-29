@@ -1,11 +1,12 @@
 {
   "name": "foundation",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.js",
   "bin": {
     "foundation": "./dist/command.js"
   },
   "exports": {
-    "./server": "./dist/server.js",
-    "./client": "./dist/client.jsx",
+    ".": "./dist/index.js",
     "./components": "./dist/components.jsx"
   },
   "scripts": {
