@@ -1,5 +1,4 @@
-// @ts-check
-import { render, screen, user } from './fixtures'
+import { render, screen, userEvent, router, faker } from './fixtures'
 import Foundation from './app/foundation'
 
 // Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
@@ -14,18 +13,26 @@ describe('Invoice creation page', () => {
     expect(screen.getByRole('heading', { name: /facture/i })).toBeInTheDocument()
   })
 
-  it.skip('it compute the total amount', () => {
-    // GIVEN
+  it('should fill a form and redirect to home page', async () => {
+    // WHEN
     render(<CreatePage />)
+    const user = userEvent.setup()
 
     // WHEN
-    const quantity = 2
-    const unit_price = 10
-    user.type(screen.getByLabelText('Quantité'), quantity.toString())
-    user.type(screen.getByLabelText('Prix unitaire'), unit_price.toString())
+    await user.type(screen.getByLabelText('Client'), faker.company.name())
+    await user.type(screen.getByLabelText('Adresse'), faker.location.streetAddress())
+    await user.type(screen.getByLabelText('Code postal'), faker.location.zipCode())
+    await user.type(screen.getByLabelText('Pays'), faker.location.country())
+    await user.type(screen.getByLabelText('Activité'), faker.commerce.productName())
+    await user.type(screen.getByLabelText('Unité'), faker.commerce.product())
+    await user.type(screen.getByLabelText('Quantité'), faker.number.int(20).toString())
+    await user.type(
+      screen.getByLabelText('Prix unitaire'),
+      faker.number.int({ max: 500 }).toString()
+    )
+    await user.click(screen.getByText('Enregistrer'))
 
     // THEN
-    const expectedTotal = quantity * unit_price
-    expect(screen.getByLabelText('Total')).toEqual(expectedTotal)
+    expect(router.push).toHaveBeenCalledWith('/')
   })
 })

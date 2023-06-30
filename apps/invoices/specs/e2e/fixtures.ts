@@ -1,6 +1,6 @@
 import { test as baseTest, expect } from '@playwright/test'
 import orm from '../../app/orm'
-import faker from './faker'
+import faker from '../faker'
 
 const test = baseTest.extend({
   db: async ({}, use) => {

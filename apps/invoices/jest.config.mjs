@@ -18,6 +18,7 @@ const config = {
 
   testEnvironment: 'jest-environment-jsdom',
   testMatch: ['<rootDir>/specs/integration/**/*.test.js?(x)'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

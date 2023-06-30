@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
+import faker from '../faker'
 
 const router = {
-  push: (/** @type {string} */ path) => {
-    console.warn(`Should redirect to page ${path}`)
-  },
+  push: jest.fn((/** @type {string} */ path) => path),
 }
 
 jest.mock('next/navigation', () => {
@@ -14,6 +13,4 @@ jest.mock('next/navigation', () => {
   }
 })
 
-const user = userEvent.setup()
-
-export { render, screen, user }
+export { render, screen, userEvent, router, faker }

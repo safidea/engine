@@ -45,6 +45,10 @@
           "type": "DateTime",
           "optional": true
         },
+        "total_amount": {
+          "type": "Formula",
+          "formula": "quantity * unit_price"
+        },
         "id": {
           "type": "String",
           "primary": true,
@@ -213,7 +217,10 @@
                   "key": "unit_price",
                   "label": "Prix unitaire"
                 }
-              ]
+              ],
+              "submit": {
+                "label": "Enregistrer"
+              }
             }
           ],
           "title": "Factures",

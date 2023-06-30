@@ -11,9 +11,12 @@ export type CreateProps = CommonPropsType & {
   router: {
     push: (path: string) => void
   }
+  submit: {
+    label: string
+  }
 }
 
-export default function FormComponent({ table, fields, router }: CreateProps) {
+export default function FormComponent({ table, fields, router, submit }: CreateProps) {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field.key] = ''
@@ -28,19 +31,19 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
     })
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
     console.log('handleSubmit')
     try {
       console.log('Form data submitted:', formData)
-      await fetch(`/api/table/${table}`, {
+      /*await fetch(`/api/table/${table}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json',
         },
-      })
+      })*/
       router.push('/')
-      //window.location.href = '/'
     } catch (error) {
       console.error(error)
     }
@@ -48,7 +51,7 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
 
   return (
     <div className="p-4">
-      <div className="w-full max-w-lg mx-auto">
+      <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
         {fields.map((field, index) => (
           <div className="mb-4" key={index}>
             <label htmlFor={field.key} className="block font-medium mb-1">
@@ -65,14 +68,12 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
           </div>
         ))}
         <button
-          role="submit"
-          disabled={!handleSubmit || !router}
-          onClick={handleSubmit}
+          type="submit"
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Save
+          {submit.label}
         </button>
-      </div>
+      </form>
     </div>
   )
 }

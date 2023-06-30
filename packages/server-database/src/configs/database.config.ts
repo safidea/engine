@@ -10,6 +10,7 @@ import type { OrmProviderInterface } from '../interfaces/orm.interface'
 const log: debug.IDebugger = debug('config:database')
 
 class DatabaseConfig implements ConfigExecInterface {
+  public dependsOn = ['tables']
   private ormProvider: OrmProviderInterface
   private databaseConfig: DatabaseInterface
   private databaseCached: DatabaseInterface

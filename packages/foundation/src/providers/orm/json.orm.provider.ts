@@ -108,7 +108,28 @@ class JsonOrmProvider implements OrmProviderInterface {
         .join('\n\n')}
     }
 
-    export default new JsonOrm()`
+    const orm = new JsonOrm()
+
+    orm.invoice.findUnique = async (params) => {
+      const invoice = await orm.invoice.findUnique(params)
+      if (invoice) {
+        const { quantity, unit_price } = invoice
+        invoice.total_amount = quantity * unit_price
+      }
+      return invoice
+    }
+    orm.invoice.findMany = async (params) => {
+      const invoices = await orm.invoice.findMany(params)
+      if (invoices?.length > 0) {
+        for (const invoice of invoices) {
+          const { quantity, unit_price } = invoice
+          invoice.total_amount = quantity * unit_price
+        }
+      }
+      return invoices
+    }
+
+    export default orm`
     fs.ensureFileSync(ormFile)
     fs.writeFileSync(ormFile, ormFileContent)
   }

@@ -51,6 +51,7 @@
             "DateTime",
             "Decimal",
             "Float",
+            "Formula",
             "Int",
             "Json",
             "SingleSelect",
