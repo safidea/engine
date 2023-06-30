@@ -29,7 +29,7 @@ class PageConfig implements ConfigExecInterface {
 
   public isUpdated() {
     log(`check if config is updated`)
-    const pagesCached = this.configUtils.getCached('pages') as PagesInterface
+    const pagesCached = this.configUtils.getCompiledConfig('pages') as PagesInterface
     return !ObjectUtils.isSame(this.pagesConfig, pagesCached)
   }
 

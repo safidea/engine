@@ -29,7 +29,7 @@ class Foundation {
   constructor(props?: FoundationProps) {
     const { orm, components } = props || {}
     const pathUtils = new PathUtils()
-    this.configUtils = new ConfigUtils({ pathUtils, fromCache: true })
+    this.configUtils = new ConfigUtils({ pathUtils, fromCompiled: true })
     const {
       version: appVersion,
       name: appName,
@@ -38,7 +38,7 @@ class Foundation {
     } = this.configUtils.get() as AppConfig
     if (database) {
       this.orm = orm
-      this.ormProvider = getOrmProvider({ appVersion, appName, database })
+      this.ormProvider = getOrmProvider({ pathUtils, configUtils: this.configUtils })
     }
     if (pages) this.components = components
   }

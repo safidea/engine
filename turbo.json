@@ -1,8 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": [
-    "FOUNDATION_SERVER",
-    "FOUNDATION_ORM",
+    "FOUNDATION_APP_PATH",
+    "FOUNDATION_APP_PROVIDER",
+    "FOUNDATION_ORM_PROVIDER",
     "NODE_ENV",
     "DEBUG",
     "PRISMA_BINARY_TARGETS",

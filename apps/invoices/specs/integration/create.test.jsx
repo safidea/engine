@@ -1,30 +1,14 @@
 // @ts-check
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import '@testing-library/jest-dom'
-import Foundation from '../../app/foundation'
-import { Components } from 'foundation'
+import { render, screen, user } from './fixtures'
+import Foundation from './app/foundation'
 
-const router = {
-  push: (/** @type {string} */ path) => {
-    console.warn(`Should redirect to page ${path}`)
-  },
-}
-
-function Form(props) {
-  return <Components.Form {...props} router={router} />
-}
-
-function Navigation(props) {
-  return <Components.Navigation {...props} router={router} />
-}
+// Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
+const CreatePage = () => Foundation.page({ path: '/create' })
 
 describe('Invoice creation page', () => {
   it('renders a heading', () => {
-    // GIVEN
-
     // WHEN
-    render(Foundation.page({ path: '/create', components: { Form, Navigation } }))
+    render(<CreatePage />)
 
     // THEN
     expect(screen.getByRole('heading', { name: /facture/i })).toBeInTheDocument()
@@ -32,8 +16,7 @@ describe('Invoice creation page', () => {
 
   it.skip('it compute the total amount', () => {
     // GIVEN
-    render(Foundation.page({ path: '/create' }))
-    const user = userEvent.setup()
+    render(<CreatePage />)
 
     // WHEN
     const quantity = 2

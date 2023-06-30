@@ -8,21 +8,28 @@ import type { AppConfig, ConfigsExecInterface } from 'shared-app'
 
 const log = debug('config:common')
 
+interface ConfigUtilsProps {
+  pathUtils: PathUtils
+  fromCompiled?: boolean
+}
+
 class ConfigUtils {
   private pathUtils: PathUtils
   private config?: AppConfig
 
-  constructor({ pathUtils, fromCache = false }: { pathUtils: PathUtils; fromCache?: boolean }) {
+  constructor({ pathUtils, fromCompiled = false }: ConfigUtilsProps) {
     this.pathUtils = pathUtils
-    if (fromCache) {
-      log('Load config from cache...')
-      const configCached = this.getCached() as AppConfig
-      if (!configCached)
-        throw new Error(`Cache file is not a valid JSON: ${this.pathUtils.getAppConfigCache()}`)
-      this.config = configCached
+    if (fromCompiled) {
+      log('Load compiled config...')
+      const compiledConfig = this.getCompiledConfig() as AppConfig
+      if (!compiledConfig)
+        throw new Error(
+          `Compiled config file is not a valid JSON: ${this.pathUtils.getCompiledAppConfig()}`
+        )
+      this.config = compiledConfig
     } else {
       const configPath = this.pathUtils.getAppConfigFile()
-      log(`Load config from file at path ${configPath}`)
+      log(`Load config from file ${configPath}`)
       if (!fs.pathExistsSync(configPath)) throw new Error(`Config file not found: ${configPath}`)
       this.config = fs.readJsonSync(configPath, { throws: false })
       if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
@@ -31,22 +38,14 @@ class ConfigUtils {
     log('Config loaded')
   }
 
-  public getCached(path?: string): AppConfig | ObjectValueInterface | undefined {
-    const cachePath = this.pathUtils.getAppConfigCache()
-    const configCached = fs.readJsonSync(cachePath, { throws: false })
-    if (configCached && path) return ObjectUtils.getAtPath(configCached, path)
-    return configCached
+  public getCompiledConfig(path?: string): AppConfig | ObjectValueInterface | undefined {
+    const compiledConfigPath = this.pathUtils.getCompiledAppConfig()
+    const compiledConfig = fs.readJsonSync(compiledConfigPath, { throws: false })
+    if (compiledConfig && path) return ObjectUtils.getAtPath(compiledConfig, path)
+    return compiledConfig
   }
 
-  public cache(): void {
-    log('Caching config...')
-    const cachePath = this.pathUtils.getAppConfigCache()
-    fs.ensureFileSync(cachePath)
-    fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
-    log('Config cached')
-  }
-
-  public async exec(configs: ConfigsExecInterface, noCache = false): Promise<boolean> {
+  public async exec(configs: ConfigsExecInterface, noCache = false): Promise<void> {
     log('Executing config...')
     const start = Date.now()
 
@@ -88,10 +87,17 @@ class ConfigUtils {
       if (typeof config.buildProviders === 'function') promises.push(config.buildProviders())
     await Promise.all(promises)
 
-    const end = Date.now()
-    log(`Config executed in ${Math.round((end - start) / 1000)}s`)
-
-    return configsToUpdate.length > 0
+    if (configsToUpdate.length > 0) {
+      log('Save compiled config...')
+      const cachePath = this.pathUtils.getCompiledAppConfig()
+      fs.ensureFileSync(cachePath)
+      fs.writeJsonSync(cachePath, this.config, { spaces: 2 })
+      log('Config compiled saved')
+      const end = Date.now()
+      log(`Config executed in ${Math.round((end - start) / 1000)}s`)
+    } else {
+      log('No config to update')
+    }
   }
 
   public get(path?: string): AppConfig | ObjectValueInterface | undefined {

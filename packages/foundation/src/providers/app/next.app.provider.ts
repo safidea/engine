@@ -9,16 +9,17 @@ import type {
   AppProviderFoundationFileOptions,
 } from 'shared-common'
 import type { PagesInterface } from 'shared-page'
+import type { ProviderProps } from '../../interfaces/provider'
 
 class NextServerProvider implements AppProviderInterface {
   private appPath: string
   private componentsPath: string
   private pages: PagesInterface | undefined
 
-  constructor({ pages }: { pages?: PagesInterface }) {
-    this.appPath = join(process.cwd(), 'app')
-    this.componentsPath = join(process.cwd(), 'components')
-    this.pages = pages
+  constructor({ configUtils, pathUtils }: ProviderProps) {
+    this.appPath = pathUtils.getAppPath()
+    this.componentsPath = join(this.appPath, 'components')
+    this.pages = configUtils.get('pages')
   }
 
   public async writeFoundationFile({
@@ -75,7 +76,7 @@ class NextServerProvider implements AppProviderInterface {
     import Image from 'next/image'
     import Link from 'next/link'
     ${withOrm ? "import orm from './orm'" : ''}
-    ${withComponents ? "import * as Components from '../components'" : ''}
+    ${withComponents ? "import * as Components from './components'" : ''}
 
     export default new Foundation({
       components: { Image, Link ${withComponents ? ', ...Components' : ''} },
@@ -119,8 +120,8 @@ class NextServerProvider implements AppProviderInterface {
                 
     export const metadata = ${JSON.stringify({ title, ...metadata }, null, 2)}
     
-    export default function Page() {
-      return <Foundation.Page path="${page.path}" />
+    export default function Page(props) {
+      return <Foundation.Page {...props} path="${page.path}" />
     }
     `
   }

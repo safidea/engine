@@ -23,11 +23,11 @@ export default async function Config() {
   } = configUtils.get() as AppConfig
 
   const configs: ConfigsExecInterface = {}
-  const appProvider = getAppProvider({ pages })
+  const appProvider = getAppProvider({ pathUtils, configUtils })
   await appProvider.writeFoundationFile({ withOrm: !!database, withComponents: !!pages })
 
   if (database) {
-    const ormProvider = getOrmProvider({ appVersion, appName, database })
+    const ormProvider = getOrmProvider({ pathUtils, configUtils })
     configs.database = new DatabaseConfig({ ormProvider, configUtils })
     if (tables) configs.tables = new TableConfig({ appProvider, ormProvider, configUtils })
   }
@@ -36,6 +36,5 @@ export default async function Config() {
     if (components) configs.components = new ComponentConfig({ configUtils, appProvider })
   }
 
-  const isUpdated = await configUtils.exec(configs, noCache)
-  if (isUpdated) configUtils.cache()
+  await configUtils.exec(configs, noCache)
 }

@@ -23,7 +23,7 @@ class DatabaseConfig implements ConfigExecInterface {
   }) {
     this.ormProvider = ormProvider
     this.databaseConfig = configUtils.get('database') as DatabaseInterface
-    this.databaseCached = configUtils.getCached('database') as DatabaseInterface
+    this.databaseCached = configUtils.getCompiledConfig('database') as DatabaseInterface
   }
   public isUpdated() {
     log(`check if config is updated`)

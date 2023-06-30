@@ -15,9 +15,9 @@ describe('getAppConfigFile', () => {
   })
 })
 
-describe('getAppConfigCache', () => {
+describe('getCompiledAppConfig', () => {
   it('should return config cache path', () => {
-    const result = PathUtils.getAppConfigCache()
+    const result = PathUtils.getCompiledAppConfig()
     expect(result.endsWith('foundation/app/build/server-common/config.cache.json')).toBe(true)
   })
 })

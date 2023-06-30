@@ -30,7 +30,7 @@ class TableConfig implements ConfigExecInterface {
     this.ormProvider = ormProvider
     this.appProvider = appProvider
     this.tablesConfig = configUtils.get('tables') as TablesInterface
-    this.tablesCached = configUtils.getCached('tables') as TablesInterface
+    this.tablesCached = configUtils.getCompiledConfig('tables') as TablesInterface
   }
 
   public isUpdated() {

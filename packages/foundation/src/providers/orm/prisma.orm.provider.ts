@@ -10,6 +10,7 @@ import type {
   OrmProviderTablesInterface,
 } from 'server-database'
 import type { TableInterface } from 'shared-table'
+import type { ProviderProps } from '../../interfaces/provider'
 
 class PrismaOrmProvider implements OrmProviderInterface {
   private appName: string
@@ -17,19 +18,12 @@ class PrismaOrmProvider implements OrmProviderInterface {
   private database: DatabaseInterface
   private pathToSchema: string
 
-  constructor({
-    appVersion,
-    appName,
-    database,
-  }: {
-    appVersion: string
-    appName: string
-    database: DatabaseInterface
-  }) {
+  constructor({ configUtils, pathUtils }: ProviderProps) {
+    const { name: appName, version: appVersion, database } = configUtils.get()
     this.appName = appName
     this.appVersion = appVersion
     this.database = database
-    this.pathToSchema = join(process.cwd(), 'prisma/schema.prisma')
+    this.pathToSchema = join(pathUtils.getAppPath(), 'prisma/schema.prisma')
   }
 
   private getModelName(name: string): string {

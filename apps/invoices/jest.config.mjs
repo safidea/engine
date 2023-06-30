@@ -1,4 +1,9 @@
 import nextJest from 'next/jest.js'
+import { execSync } from 'child_process'
+
+process.env.ENV_FILE = './specs/integration/.env.integration'
+
+execSync('pnpm run config', { stdio: 'inherit' })
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment

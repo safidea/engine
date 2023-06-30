@@ -1,36 +1,29 @@
 import PrismaOrmProvider from './providers/orm/prisma.orm.provider'
+import JsonOrmProvider from './providers/orm/json.orm.provider'
 import NextAppProvider from './providers/app/next.app.provider'
 
-import type { DatabaseInterface, OrmProviderInterface } from 'server-database'
+import type { OrmProviderInterface } from 'server-database'
 import type { AppProviderInterface } from 'shared-common'
-import type { PagesInterface } from 'shared-page'
+import type { ProviderProps } from './interfaces/provider'
 
-const { FOUNDATION_SERVER, FOUNDATION_ORM } = process.env
+const { FOUNDATION_APP_PROVIDER = 'next', FOUNDATION_ORM_PROVIDER = 'prisma' } = process.env
 
-export function getOrmProvider({
-  appVersion,
-  appName,
-  database,
-}: {
-  appVersion: string
-  appName: string
-  database: DatabaseInterface
-}): OrmProviderInterface {
-  switch (FOUNDATION_ORM) {
+export function getOrmProvider({ configUtils, pathUtils }: ProviderProps): OrmProviderInterface {
+  switch (FOUNDATION_ORM_PROVIDER) {
     case 'prisma':
-      return new PrismaOrmProvider({ appVersion, appName, database })
-      break
+      return new PrismaOrmProvider({ configUtils, pathUtils })
+    case 'json':
+      return new JsonOrmProvider({ configUtils, pathUtils })
     default:
-      throw new Error('ORM provider not found')
+      throw new Error(`ORM provider ${FOUNDATION_ORM_PROVIDER} not found`)
   }
 }
 
-export function getAppProvider({ pages }: { pages?: PagesInterface }): AppProviderInterface {
-  switch (FOUNDATION_SERVER) {
+export function getAppProvider({ configUtils, pathUtils }: ProviderProps): AppProviderInterface {
+  switch (FOUNDATION_APP_PROVIDER) {
     case 'next':
-      return new NextAppProvider({ pages })
-      break
+      return new NextAppProvider({ configUtils, pathUtils })
     default:
-      throw new Error('App provider not found')
+      throw new Error(`App provider ${FOUNDATION_APP_PROVIDER} not found`)
   }
 }
