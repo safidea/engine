@@ -1,9 +1,10 @@
 'use client'
 
-import Components from 'foundation/components'
-import { useRouter } from 'next/navigation'
-
-export default function List() {
-  const router = useRouter()
-  return <Components.List router={router} />
-}
+    import { Components } from 'foundation'
+    import { useRouter } from 'next/navigation'
+    
+    export default function List(props) {
+      const router = useRouter()
+      return <Components.List {...props} router={router} />
+    }
+    

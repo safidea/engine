@@ -3,7 +3,8 @@ import { ApiError, ConfigUtils, PathUtils } from 'server-common'
 import { DatabaseService } from 'server-database'
 import { TableRoute } from 'server-table'
 import { getOrmProvider } from './utils'
-import { PageComponent, PageComponentProps } from 'client-page'
+import { PageComponent } from 'client-page'
+import { Components } from 'client-component'
 
 import type {
   AppConfig,
@@ -42,9 +43,17 @@ class Foundation {
     if (pages) this.components = components
   }
 
-  public page({ path, ...props }: JSX.IntrinsicAttributes & { path: string }) {
+  public page({
+    path,
+    components = {},
+    ...props
+  }: JSX.IntrinsicAttributes & { path: string; components?: AppProviderComponentsInterface }) {
     const page = this.configUtils.get('pages.' + path)
-    return PageComponent({ ...props, appProviderComponents: this.components, page })
+    return PageComponent({
+      ...props,
+      appProviderComponents: { ...this.components, ...components },
+      page,
+    })
   }
 
   public async api(request: RequestInterface): Promise<ResponseInterface> {
@@ -84,4 +93,5 @@ class Foundation {
   }
 }
 
+export { Components }
 export default Foundation

@@ -129,12 +129,12 @@ class NextServerProvider implements AppProviderInterface {
     const capitalizeName = StringUtils.capitalize(name)
     return `'use client'
 
-    import Components from 'foundation/components'
+    import { Components } from 'foundation'
     import { useRouter } from 'next/navigation'
     
-    export default function ${StringUtils.capitalize(name)}() {
+    export default function ${StringUtils.capitalize(name)}(props) {
       const router = useRouter()
-      return <Components.${capitalizeName} router={router} />
+      return <Components.${capitalizeName} {...props} router={router} />
     }
     `
   }

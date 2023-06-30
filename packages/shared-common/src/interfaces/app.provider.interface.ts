@@ -24,6 +24,9 @@ export interface AppProviderConstructorInterface {
 }
 
 export interface AppProviderComponentsInterface {
-  Image: React.FC<any>
-  Link: React.FC<any>
+  Image?: React.FC<any>
+  Link?: React.FC<any>
+  Form?: React.FC<any>
+  List?: React.FC<any>
+  Navigation?: React.FC<any>
 }
