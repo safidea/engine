@@ -3,7 +3,7 @@ import { DatabaseConfig } from 'server-database'
 import { TableConfig } from 'server-table'
 import { ComponentConfig } from 'server-component'
 import { PageConfig } from 'server-page'
-import { getAppProvider, getOrmProvider } from '../utils'
+import { getAppProvider, getOrmProvider } from '../providers'
 
 import type { AppConfig, ConfigsExecInterface } from 'shared-app'
 

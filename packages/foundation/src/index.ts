@@ -2,7 +2,7 @@ import './env'
 import { ApiError, ConfigUtils, PathUtils } from 'server-common'
 import { DatabaseService } from 'server-database'
 import { TableRoute } from 'server-table'
-import { getOrmProvider } from './utils'
+import { getOrmProvider } from './providers'
 import { PageComponent } from 'client-page'
 import { Components } from 'client-component'
 
