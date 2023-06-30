@@ -1,5 +1,5 @@
 import debug from 'debug'
-import { AppProviderInterface, ConfigUtils, SchemaUtils } from 'server-common'
+import { AppProviderInterface, ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
 import { ComponentSchema } from 'shared-component'
 
 import type { ComponentsInterface } from 'shared-component'
@@ -10,6 +10,7 @@ const log: debug.IDebugger = debug('config:component')
 class ComponentConfig implements ConfigExecInterface {
   private componentsConfig: ComponentsInterface
   private appProvider: AppProviderInterface
+  private configUtils: ConfigUtils
 
   constructor({
     configUtils,
@@ -18,13 +19,25 @@ class ComponentConfig implements ConfigExecInterface {
     configUtils: ConfigUtils
     appProvider: AppProviderInterface
   }) {
+    this.configUtils = configUtils
     this.appProvider = appProvider
     this.componentsConfig = configUtils.get('components') as ComponentsInterface
   }
 
-  public isUpdated() {
-    log(`check if config is updated`)
-    return true
+  public isUpdated(props?: { silent?: boolean }) {
+    const { silent = false } = props || {}
+    const componentCompiledConfig = this.configUtils.getCompiledConfig(
+      'components'
+    ) as ComponentsInterface
+    const toUpdate = !ObjectUtils.isSame(this.componentsConfig, componentCompiledConfig)
+    if (!silent) {
+      if (toUpdate) {
+        log(`config updated, start execution`)
+      } else {
+        log(`config not updated, skip`)
+      }
+    }
+    return toUpdate
   }
 
   public async validateSchema() {

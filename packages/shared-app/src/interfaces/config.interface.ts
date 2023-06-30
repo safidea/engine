@@ -1,6 +1,6 @@
 export interface ConfigExecInterface {
   dependsOn?: string[]
-  isUpdated: () => boolean
+  isUpdated: ({ silent }?: { silent: boolean }) => boolean
   enrichSchema?: () => Promise<void>
   validateSchema: () => Promise<void>
   setupProviders?: () => Promise<void>

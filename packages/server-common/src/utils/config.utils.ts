@@ -35,7 +35,6 @@ class ConfigUtils {
       if (!this.config) throw new Error(`Config file is not a valid JSON: ${configPath}`)
       this.config = ObjectUtils.replaceVars(this.config, process.env) as AppConfig
     }
-    log('Config loaded')
   }
 
   public getCompiledConfig(path?: string): AppConfig | ObjectValueInterface | undefined {
@@ -63,13 +62,12 @@ class ConfigUtils {
         const dependsOn = configs[config].dependsOn
         if (dependsOn && dependsOn.length > 0) {
           for (const dependency of dependsOn) {
-            if (configs[dependency].isUpdated()) shouldUpdate = true
+            if (configs[dependency].isUpdated({ silent: true })) shouldUpdate = true
           }
         }
       }
       if (shouldUpdate) configsToUpdate.push(configs[config])
     }
-
     // Validate schema
     promises = []
     for (const config of configsToUpdate) promises.push(config.validateSchema())

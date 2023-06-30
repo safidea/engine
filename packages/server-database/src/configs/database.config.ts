@@ -25,9 +25,17 @@ class DatabaseConfig implements ConfigExecInterface {
     this.databaseConfig = configUtils.get('database') as DatabaseInterface
     this.databaseCached = configUtils.getCompiledConfig('database') as DatabaseInterface
   }
-  public isUpdated() {
-    log(`check if config is updated`)
-    return !ObjectUtils.isSame(this.databaseConfig, this.databaseCached)
+  public isUpdated(props?: { silent?: boolean }) {
+    const { silent = false } = props || {}
+    const toUpdate = !ObjectUtils.isSame(this.databaseConfig, this.databaseCached)
+    if (!silent) {
+      if (toUpdate) {
+        log(`config updated, start execution`)
+      } else {
+        log(`config not updated, skip`)
+      }
+    }
+    return toUpdate
   }
 
   public async validateSchema() {

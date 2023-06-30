@@ -33,9 +33,17 @@ class TableConfig implements ConfigExecInterface {
     this.tablesCached = configUtils.getCompiledConfig('tables') as TablesInterface
   }
 
-  public isUpdated() {
-    log(`check if config is updated`)
-    return !ObjectUtils.isSame(this.tablesConfig, this.tablesCached)
+  public isUpdated(props?: { silent?: boolean }) {
+    const { silent = false } = props || {}
+    const toUpdate = !ObjectUtils.isSame(this.tablesConfig, this.tablesCached)
+    if (!silent) {
+      if (toUpdate) {
+        log(`config updated, start execution`)
+      } else {
+        log(`config not updated, skip`)
+      }
+    }
+    return toUpdate
   }
 
   public async enrichSchema() {

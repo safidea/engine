@@ -27,10 +27,18 @@ class PageConfig implements ConfigExecInterface {
     this.appProvider = appProvider
   }
 
-  public isUpdated() {
-    log(`check if config is updated`)
+  public isUpdated(props?: { silent?: boolean }) {
+    const { silent = false } = props || {}
     const pagesCached = this.configUtils.getCompiledConfig('pages') as PagesInterface
-    return !ObjectUtils.isSame(this.pagesConfig, pagesCached)
+    const toUpdate = !ObjectUtils.isSame(this.pagesConfig, pagesCached)
+    if (!silent) {
+      if (toUpdate) {
+        log(`config updated, start execution`)
+      } else {
+        log(`config not updated, skip`)
+      }
+    }
+    return toUpdate
   }
 
   public async enrichSchema() {

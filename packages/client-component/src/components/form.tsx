@@ -8,6 +8,9 @@ export type CreateProps = CommonPropsType & {
     key: string
     label: string
   }[]
+  router: {
+    push: (path: string) => void
+  }
 }
 
 export default function FormComponent({ table, fields, router }: CreateProps) {
@@ -19,7 +22,6 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handleChange')
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -29,28 +31,20 @@ export default function FormComponent({ table, fields, router }: CreateProps) {
   const handleSubmit = async () => {
     console.log('handleSubmit')
     try {
-      /*console.log('Form data submitted:', formData)
+      console.log('Form data submitted:', formData)
       await fetch(`/api/table/${table}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json',
         },
-      })*/
-      //console.warn(JSON.stringify(router, null, 2))
-      // eslint-disable-next-line
-      // @ts-ignore
+      })
       router.push('/')
       //window.location.href = '/'
     } catch (error) {
       console.error(error)
     }
   }
-
-  console.log('formData', formData)
-  console.log('handleChange', handleChange)
-
-  //throw new Error('TODO: implement the form component')
 
   return (
     <div className="p-4">
