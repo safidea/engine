@@ -152,9 +152,11 @@ class NextServerProvider implements AppProviderInterface {
   private getServerComponentTemplate(name: string) {
     const capitalizeName = StringUtils.capitalize(name)
     return `import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
+    import Image from 'next/image'
+    import Link from 'next/link'
     
     export default function Next${capitalizeName}(props) {
-      return <${capitalizeName} {...props} />
+      return <${capitalizeName} {...props} components={{ Image, Link }} />
     }
     `
   }
