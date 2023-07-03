@@ -1,10 +1,9 @@
 import './env'
 import { ApiError, ConfigUtils, PathUtils } from 'server-common'
 import { DatabaseService } from 'server-database'
+import { PageComponent } from 'client-page'
 import { TableRoute } from 'server-table'
 import { getOrmProvider } from './providers'
-import { PageComponent } from 'client-page'
-import { Components } from 'client-component'
 
 import type {
   AppConfig,
@@ -13,7 +12,7 @@ import type {
   RequestBodyInterface,
 } from 'shared-app'
 import type { OrmProviderInterface, OrmProviderTablesInterface } from 'server-database'
-import type { AppProviderComponentsInterface, ObjectValueInterface } from 'shared-common'
+import type { AppProviderComponentsInterface } from 'shared-common'
 
 type FoundationProps = {
   orm?: OrmProviderTablesInterface
@@ -45,9 +44,12 @@ class Foundation {
 
   public page({
     path,
-    components = {},
+    components,
     ...props
-  }: JSX.IntrinsicAttributes & { path: string; components?: AppProviderComponentsInterface }) {
+  }: JSX.IntrinsicAttributes & {
+    path: string
+    components: AppProviderComponentsInterface
+  }) {
     const page = this.configUtils.get('pages.' + path)
     return PageComponent({
       ...props,
@@ -93,5 +95,4 @@ class Foundation {
   }
 }
 
-export { Components }
 export default Foundation

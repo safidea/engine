@@ -4,6 +4,6 @@ export const metadata = {
   title: 'Factures',
 }
 
-export default function Page() {
-  return <Foundation.Page path="/" />
+export default function Page(props) {
+  return Foundation.page({ path: '/', ...props })
 }

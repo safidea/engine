@@ -1,5 +1,3 @@
-import type { CommonPropsType } from '../types/common.type'
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const featuredTestimonial = {
@@ -71,9 +69,8 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Testimonials({ appProviderComponents }: CommonPropsType) {
-  const { Image } = appProviderComponents ?? {}
-  if (!Image) throw new Error('Image component is required in Testimonials component')
+export default function Testimonials({ components }: { components: any }) {
+  const { Image } = components
   return (
     <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
       <div

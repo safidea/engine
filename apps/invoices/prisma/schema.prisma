@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = "file:./test.db"
 }
 
 model Invoice {
@@ -19,10 +19,11 @@ model Invoice {
   status         String    @default("draft")
   number         String?
   finalised_date DateTime?
-  id             String    @id @default(cuid())
-  created_at     DateTime  @default(now())
-  updated_at     DateTime?
-  deleted_at     DateTime?
+
+  id         String    @id @default(cuid())
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  deleted_at DateTime?
 
   @@map("invoices")
 }

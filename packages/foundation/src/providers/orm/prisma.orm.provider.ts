@@ -23,7 +23,7 @@ class PrismaOrmProvider implements OrmProviderInterface {
     this.appName = appName
     this.appVersion = appVersion
     this.database = database
-    this.pathToSchema = join(pathUtils.getAppPath(), 'prisma/schema.prisma')
+    this.pathToSchema = join(process.cwd(), 'prisma/schema.prisma')
   }
 
   private getModelName(name: string): string {
@@ -67,6 +67,7 @@ class PrismaOrmProvider implements OrmProviderInterface {
     let modelSchema = `\n\nmodel ${modelName} {
       ${Object.keys(fields)
         .map((fieldName: string) => {
+          if (['Formula'].includes(fields[fieldName].type)) return ''
           const field = fields[fieldName]
           const functions = ['uuid()', 'cuid()', 'autoincrement()', 'now()']
           let enumName: string | undefined
@@ -138,28 +139,40 @@ class PrismaOrmProvider implements OrmProviderInterface {
     const ormFile = join(process.cwd(), 'app/orm.js')
     const ormFileContent = `import { PrismaClient } from '@prisma/client'
 
-    const orm = new PrismaClient()
+    const prisma = new PrismaClient()
 
-    orm.invoice.findUnique = async (params) => {
-      const invoice = await orm.invoice.findUnique(params)
-      if (invoice) {
-        const { quantity, unit_price } = invoice
-        invoice.total_amount = qantity * unit_price
-      }
-      return invoice
-    }
-    orm.invoice.findMany = async (params) => {
-      const invoices = await orm.invoice.findMany(params)
-      if (invoices?.length > 0) {
-        for (const invoice of invoices) {
-          const { quantity, unit_price } = invoice
-          invoice.total_amount = quantity * unit_price
-        }
-      }
-      return invoices
-    }
-    
-    export default orm`
+    export default prisma.$extends({
+      query: {
+        invoice: {
+          async create({ args, query }) {
+            delete args.data.total_amount
+            return query(args)
+          },
+          async update({ args, query }) {
+            delete args.data.total_amount
+            return query(args)
+          },
+          async findMany({ args, query }) {
+            const invoices = await query(args)
+            if (invoices?.length > 0) {
+              for (const invoice of invoices) {
+                const { quantity, unit_price } = invoice
+                invoice.total_amount = quantity * unit_price
+              }
+            }
+            return invoices
+          },
+          async findUnique ({ args, query }) {
+            const invoice = await query(args)
+            if (invoice) {
+              const { quantity, unit_price } = invoice
+              invoice.total_amount = quantity * unit_price
+            }
+            return invoice
+          }
+        },
+      },
+    })`
     fs.ensureFileSync(ormFile)
     fs.writeFileSync(ormFile, ormFileContent)
   }

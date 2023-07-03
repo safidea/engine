@@ -1,8 +1,5 @@
-import type { CommonPropsType } from '../types/common.type'
-
-export default function Logos({ appProviderComponents }: CommonPropsType) {
-  const { Image } = appProviderComponents ?? {}
-  if (!Image) throw new Error('Image component is required in Logos component')
+export default function Logos({ components }: { components: any }) {
+  const { Image } = components
   return (
     <div className="bg-gray-900 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

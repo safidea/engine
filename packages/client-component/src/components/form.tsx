@@ -33,7 +33,6 @@ export default function FormComponent({ table, fields, router, submit }: CreateP
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    console.log('handleSubmit')
     try {
       console.log('Form data submitted:', formData)
       /*await fetch(`/api/table/${table}`, {

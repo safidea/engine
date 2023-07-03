@@ -1,27 +1,21 @@
-import * as Components from '../components'
-
 import type { PageComponentInterface } from 'shared-page'
-import type { ComponentType } from '../types/component.type'
 import { StringUtils, type AppProviderComponentsInterface } from 'shared-common'
 
 type ComponentServiceProps = {
-  appProviderComponents?: AppProviderComponentsInterface
+  appProviderComponents: AppProviderComponentsInterface
 }
 
 class ComponentService {
-  private appProviderComponents?: AppProviderComponentsInterface
+  private appProviderComponents: AppProviderComponentsInterface
 
   constructor({ appProviderComponents }: ComponentServiceProps) {
     this.appProviderComponents = appProviderComponents
   }
 
-  public get(key: string): ComponentType {
+  public get(key: string) {
     const name = StringUtils.capitalize(key)
-    const { appProviderComponents } = this
-    if (appProviderComponents && name in appProviderComponents)
-      return appProviderComponents[name as keyof typeof appProviderComponents] as ComponentType
-    if (name in Components) return Components[name as keyof typeof Components] as ComponentType
-    return Components.Default
+    if (name in this.appProviderComponents) return this.appProviderComponents[name]
+    return this.appProviderComponents.Default
   }
 
   public render(component: PageComponentInterface, index: number): JSX.Element {
@@ -30,7 +24,6 @@ class ComponentService {
     const props = {
       ...res,
       tag: key,
-      appProviderComponents: this.appProviderComponents,
     }
     if (children) {
       const Children = this.renderChildren(children)

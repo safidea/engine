@@ -1,8 +1,6 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 
-const { FOUNDATION_APP_PATH = 'app' } = process.env
-
 class PathUtils {
   private cwd: string
 
@@ -11,7 +9,7 @@ class PathUtils {
   }
 
   public getAppPath(): string {
-    const path = join(this.cwd, FOUNDATION_APP_PATH)
+    const path = join(this.cwd, 'app')
     fs.ensureDirSync(path)
     return path
   }

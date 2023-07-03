@@ -31,8 +31,7 @@ test.describe('A page that create an invoices', () => {
 
     // AND
     // I click on the submit button
-    await page.waitForSelector('button[role="submit"]', { state: 'visible' })
-    await page.locator('button[role="submit"]').click()
+    await page.locator('button[type="submit"]').click()
 
     // THEN
     // Wait for the page to be redirected

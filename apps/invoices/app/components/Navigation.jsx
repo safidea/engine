@@ -1,9 +1,11 @@
 'use client'
 
-import { Components } from 'foundation'
+import Navigation from 'client-component/dist/components/Navigation'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function Navigation(props) {
+export default function NextNavigation(props) {
   const router = useRouter()
-  return <Components.Navigation {...props} router={router} />
+  return <Navigation {...props} router={router} components={{ Image, Link }} />
 }

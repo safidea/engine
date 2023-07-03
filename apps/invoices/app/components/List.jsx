@@ -1,9 +1,11 @@
 'use client'
 
-import { Components } from 'foundation'
+import List from 'client-component/dist/components/List'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 
-export default function List(props) {
+export default function NextList(props) {
   const router = useRouter()
-  return <Components.List {...props} router={router} />
+  return <List {...props} router={router} components={{ Image, Link }} />
 }

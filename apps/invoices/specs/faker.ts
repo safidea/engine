@@ -46,6 +46,8 @@ function generateRandomValueByType({ field, type, options }: PropsType) {
       return options[Math.floor(Math.random() * options.length)]
     case 'DateTime':
       return faker.date.recent().toISOString()
+    case 'Formula':
+      return faker.word.words()
     default:
       throw new Error(`Unknown type ${type} in faker generator`)
   }

@@ -1,5 +1,4 @@
-import { render, screen, userEvent, router, faker } from './fixtures'
-import Foundation from './app/foundation'
+import { render, screen, userEvent, router, faker, Foundation } from './fixtures'
 
 // Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
 const CreatePage = () => Foundation.page({ path: '/create' })

@@ -1,6 +1,3 @@
-'use client'
-
-import { SWRConfig } from 'swr'
 import { ComponentService } from 'client-component'
 
 import type { PageInterface } from 'shared-page'
@@ -8,7 +5,7 @@ import type { AppProviderComponentsInterface } from 'shared-common'
 
 export type PageComponentProps = {
   page: PageInterface
-  appProviderComponents?: AppProviderComponentsInterface
+  appProviderComponents: AppProviderComponentsInterface
 }
 
 export default function PageComponent({ page, appProviderComponents }: PageComponentProps) {
@@ -17,14 +14,11 @@ export default function PageComponent({ page, appProviderComponents }: PageCompo
     appProviderComponents,
   })
   const Children = componentService.renderChildren(components)
+  const { Page } = appProviderComponents ?? {}
+  if (!Page) return <Children />
   return (
-    <SWRConfig
-      value={{
-        refreshInterval: 3000,
-        fetcher: (url, init) => fetch(url, init).then((res) => res.json()),
-      }}
-    >
+    <Page>
       <Children />
-    </SWRConfig>
+    </Page>
   )
 }

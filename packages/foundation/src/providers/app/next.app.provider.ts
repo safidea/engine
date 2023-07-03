@@ -39,9 +39,12 @@ class NextServerProvider implements AppProviderInterface {
     await Promise.all(routes.map((route) => this.writeRouteFile(route)))
   }
 
-  public async buildClientComponents(names: string[]) {
-    await this.writeClientComponentsIndexFile(names)
-    await Promise.all(names.map((name) => this.writeClientComponentFile(name)))
+  public async buildComponents({ clients, servers }: { clients: string[]; servers: string[] }) {
+    await this.writeComponentsIndexFile([clients, servers].flat())
+    await Promise.all([
+      ...clients.map((name) => this.writeClientComponentFile(name)),
+      ...servers.map((name) => this.writeServerComponentFile(name)),
+    ])
   }
 
   private async writePageFile(page: AppProviderPageInterface) {
@@ -62,7 +65,13 @@ class NextServerProvider implements AppProviderInterface {
     await fs.writeFile(componentPath, this.getClientComponentTemplate(name))
   }
 
-  private async writeClientComponentsIndexFile(names: string[]) {
+  private async writeServerComponentFile(name: string) {
+    const componentPath = join(this.componentsPath, `${name}.jsx`)
+    await fs.ensureFile(componentPath)
+    await fs.writeFile(componentPath, this.getServerComponentTemplate(name))
+  }
+
+  private async writeComponentsIndexFile(names: string[]) {
     const indexFilePath = join(this.componentsPath, 'index.js')
     await fs.ensureFile(indexFilePath)
     await fs.writeFile(
@@ -73,13 +82,11 @@ class NextServerProvider implements AppProviderInterface {
 
   private getFoundationTemplate({ withOrm, withComponents }: AppProviderFoundationFileOptions) {
     return `import Foundation from 'foundation'
-    import Image from 'next/image'
-    import Link from 'next/link'
     ${withOrm ? "import orm from './orm'" : ''}
-    ${withComponents ? "import * as Components from './components'" : ''}
+    ${withComponents ? `import * as Components from './components'` : ''}
 
     export default new Foundation({
-      components: { Image, Link ${withComponents ? ', ...Components' : ''} },
+      ${withComponents ? `components: Components,` : ''}
       ${withOrm ? 'orm,' : ''}
     })`
   }
@@ -121,7 +128,7 @@ class NextServerProvider implements AppProviderInterface {
     export const metadata = ${JSON.stringify({ title, ...metadata }, null, 2)}
     
     export default function Page(props) {
-      return <Foundation.Page {...props} path="${page.path}" />
+      return Foundation.page({ path: '${page.path}', ...props }) 
     }
     `
   }
@@ -130,12 +137,24 @@ class NextServerProvider implements AppProviderInterface {
     const capitalizeName = StringUtils.capitalize(name)
     return `'use client'
 
-    import { Components } from 'foundation'
+    import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
     import { useRouter } from 'next/navigation'
+    import Image from 'next/image'
+    import Link from 'next/link'
     
-    export default function ${StringUtils.capitalize(name)}(props) {
+    export default function Next${capitalizeName}(props) {
       const router = useRouter()
-      return <Components.${capitalizeName} {...props} router={router} />
+      return <${capitalizeName} {...props} router={router} components={{ Image, Link }} />
+    }
+    `
+  }
+
+  private getServerComponentTemplate(name: string) {
+    const capitalizeName = StringUtils.capitalize(name)
+    return `import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
+    
+    export default function Next${capitalizeName}(props) {
+      return <${capitalizeName} {...props} />
     }
     `
   }
