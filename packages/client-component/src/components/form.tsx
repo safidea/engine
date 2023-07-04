@@ -3,6 +3,8 @@ import { useState } from 'react'
 import type { FormProps } from 'shared-component'
 
 export default function Form({ table, fields, router, submit }: FormProps) {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState({ message: '', details: '' })
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field.key] = ''
@@ -19,14 +21,22 @@ export default function Form({ table, fields, router, submit }: FormProps) {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    await fetch(`/api/table/${table}`, {
+    setIsLoading(true)
+    const res = await fetch(`/api/table/${table}`, {
       method: 'POST',
       body: JSON.stringify(formData),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    router.push('/')
+    const data = await res.json()
+    console.log(data)
+    if (res.status !== 200) {
+      setError({ message: data.error, details: data.details })
+    } else {
+      router.push('/')
+    }
+    setIsLoading(false)
   }
 
   return (
@@ -49,10 +59,23 @@ export default function Form({ table, fields, router, submit }: FormProps) {
         ))}
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+          disabled={isLoading}
         >
-          {submit.label}
+          {isLoading ? submit.loading_label ?? 'Loading...' : submit.label ?? 'Save'}
         </button>
+        {error.message && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">{error.message}</h3>
+                <div className="mt-2 text-sm text-red-700">
+                  <p>{error.details}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   )

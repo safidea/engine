@@ -14,6 +14,7 @@ test.describe('A page that list invoices', () => {
   test('should display a list of invoices grouped by status', async ({ page, db, faker }) => {
     // GIVEN
     // We provide 8 example invoices
+    await db.invoice.deleteMany({})
     const invoices = faker.generate('invoices', 8)
     for (const data of invoices) await db.invoice.create({ data })
 

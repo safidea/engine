@@ -11,6 +11,10 @@ const test = baseTest.extend({
   },
 })
 
+test.beforeAll(async ({ db }) => {
+  await db.invoice.deleteMany({})
+})
+
 test.beforeEach(async ({ page, db }) => {
   await db.invoice.deleteMany({})
 
@@ -30,6 +34,10 @@ test.beforeEach(async ({ page, db }) => {
 })
 
 test.afterEach(async ({ db }) => {
+  await db.invoice.deleteMany({})
+})
+
+test.afterAll(async ({ db }) => {
   await db.invoice.deleteMany({})
 })
 

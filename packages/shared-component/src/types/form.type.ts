@@ -14,6 +14,7 @@ export type Form = {
   }
   submit: {
     label: string
+    loading_label: string
   }
 }
 

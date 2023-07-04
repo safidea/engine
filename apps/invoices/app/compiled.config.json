@@ -111,6 +111,10 @@
                   "label": "Prix unitaire"
                 },
                 {
+                  "key": "total_amount",
+                  "label": "Montant total"
+                },
+                {
                   "key": "status",
                   "label": "Statut",
                   "options": [
@@ -232,7 +236,8 @@
                 }
               ],
               "submit": {
-                "label": "Enregistrer"
+                "label": "Enregistrer",
+                "loading_label": "Enregistrement en cours..."
               }
             }
           ],

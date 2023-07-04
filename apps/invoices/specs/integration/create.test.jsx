@@ -14,7 +14,7 @@ describe('Invoice creation page', () => {
   })
 
   it('should fill a form and redirect to home page', async () => {
-    // WHEN
+    // GIVEN
     const { rerender } = render(<CreatePage />)
     const user = userEvent.setup()
 
@@ -40,5 +40,19 @@ describe('Invoice creation page', () => {
     expect(router.push).toHaveBeenCalledWith('/')
     expect(rows.length).toBe(1)
     expect(screen.getByText(rows[0].customer)).toBeInTheDocument()
+  })
+
+  it('should display an error message when form is invalid', async () => {
+    // GIVEN
+    render(<CreatePage />)
+    const user = userEvent.setup()
+
+    // WHEN
+    await user.type(screen.getByLabelText('Client'), faker.company.name())
+    await user.click(screen.getByText('Enregistrer'))
+
+    // THEN
+    expect(screen.getByText('Invalid row')).toBeInTheDocument()
+    expect(screen.getByText(/Field address is required/i)).toBeInTheDocument()
   })
 })
