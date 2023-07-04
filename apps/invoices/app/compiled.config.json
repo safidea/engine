@@ -2,7 +2,7 @@
   "name": "invoices",
   "version": "0.0.1",
   "database": {
-    "url": "${DATABASE_URL}",
+    "url": "file:./test.db",
     "provider": "sqlite"
   },
   "tables": {

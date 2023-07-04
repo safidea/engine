@@ -9,7 +9,7 @@
     "start": "scripts/start.sh -m prod",
     "dev": "scripts/start.sh -m dev",
     "lint": "turbo run lint",
-    "test": "turbo run test",
+    "test": "turbo run test && turbo run test:e2e",
     "build": "turbo run build",
     "schema": "turbo run schema",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -21,7 +21,7 @@
     "eslint-config-foundation": "workspace:*",
     "husky": "8.0.3",
     "prettier": "latest",
-    "turbo": "^1.10.6"
+    "turbo": "^1.10.7"
   },
   "engines": {
     "node": ">=18.16.0",
