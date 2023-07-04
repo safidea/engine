@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
-import type { CommonPropsType } from '../types/common.type'
+import type { CommonProps } from 'shared-component'
 
-export type HeroProps = CommonPropsType & {
+export type HeroProps = CommonProps & {
   navigation?: {
     name: string
     href: string

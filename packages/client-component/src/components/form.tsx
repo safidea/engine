@@ -1,22 +1,8 @@
 import { useState } from 'react'
-import type { CommonPropsType } from '../types/common.type'
 
-export type CreateProps = CommonPropsType & {
-  table: string
-  // TODO: infer the type from the json schema
-  fields: {
-    key: string
-    label: string
-  }[]
-  router: {
-    push: (path: string) => void
-  }
-  submit: {
-    label: string
-  }
-}
+import type { FormProps } from 'shared-component'
 
-export default function FormComponent({ table, fields, router, submit }: CreateProps) {
+export default function Form({ table, fields, router, submit }: FormProps) {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field.key] = ''
@@ -33,19 +19,14 @@ export default function FormComponent({ table, fields, router, submit }: CreateP
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    try {
-      console.log('Form data submitted:', formData)
-      /*await fetch(`/api/table/${table}`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })*/
-      router.push('/')
-    } catch (error) {
-      console.error(error)
-    }
+    await fetch(`/api/table/${table}`, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    router.push('/')
   }
 
   return (
@@ -57,7 +38,7 @@ export default function FormComponent({ table, fields, router, submit }: CreateP
               {field.label}
             </label>
             <input
-              type="text"
+              type={field.type}
               name={field.key}
               id={field.key}
               onChange={handleChange}

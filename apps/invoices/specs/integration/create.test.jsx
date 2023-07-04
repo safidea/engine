@@ -1,7 +1,8 @@
-import { render, screen, userEvent, router, faker, Foundation } from './fixtures'
+import { render, screen, userEvent, router, faker, Foundation, act, orm } from './fixtures'
 
 // Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
 const CreatePage = () => Foundation.page({ path: '/create' })
+const HomePage = () => Foundation.page({ path: '/' })
 
 describe('Invoice creation page', () => {
   it('renders a heading', () => {
@@ -14,7 +15,7 @@ describe('Invoice creation page', () => {
 
   it('should fill a form and redirect to home page', async () => {
     // WHEN
-    render(<CreatePage />)
+    const { rerender } = render(<CreatePage />)
     const user = userEvent.setup()
 
     // WHEN
@@ -30,8 +31,14 @@ describe('Invoice creation page', () => {
       faker.number.int({ max: 500 }).toString()
     )
     await user.click(screen.getByText('Enregistrer'))
+    await act(async () => {
+      rerender(<HomePage />)
+    })
 
     // THEN
+    const rows = await orm.invoice.findMany()
     expect(router.push).toHaveBeenCalledWith('/')
+    expect(rows.length).toBe(1)
+    expect(screen.getByText(rows[0].customer)).toBeInTheDocument()
   })
 })

@@ -192,35 +192,43 @@
               "fields": [
                 {
                   "key": "customer",
-                  "label": "Client"
+                  "label": "Client",
+                  "type": "text"
                 },
                 {
                   "key": "address",
-                  "label": "Adresse"
+                  "label": "Adresse",
+                  "type": "text"
                 },
                 {
                   "key": "zip_code",
-                  "label": "Code postal"
+                  "label": "Code postal",
+                  "type": "text"
                 },
                 {
                   "key": "country",
-                  "label": "Pays"
+                  "label": "Pays",
+                  "type": "text"
                 },
                 {
                   "key": "activity",
-                  "label": "Activité"
+                  "label": "Activité",
+                  "type": "text"
                 },
                 {
                   "key": "unit",
-                  "label": "Unité"
+                  "label": "Unité",
+                  "type": "text"
                 },
                 {
                   "key": "quantity",
-                  "label": "Quantité"
+                  "label": "Quantité",
+                  "type": "number"
                 },
                 {
                   "key": "unit_price",
-                  "label": "Prix unitaire"
+                  "label": "Prix unitaire",
+                  "type": "number"
                 }
               ],
               "submit": {

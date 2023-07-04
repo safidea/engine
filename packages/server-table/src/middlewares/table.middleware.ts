@@ -84,7 +84,13 @@ class TableMiddleware {
       const value = values[field]
       delete values[field]
 
-      if (!value && (action === 'UPDATE' || fieldData.optional || fieldData.default)) {
+      if (
+        !value &&
+        (action === 'UPDATE' ||
+          fieldData.optional ||
+          fieldData.default ||
+          ['Formula'].includes(fieldData.type))
+      ) {
         continue
       }
 
@@ -92,8 +98,22 @@ class TableMiddleware {
         errors.push(`Field ${field} is required`)
       }
 
-      if (fieldData.type === 'Int' && value && !Number.isInteger(value)) {
-        errors.push(`Field ${field} must be an integer`)
+      if (fieldData.type === 'Int' && value) {
+        const number = Number(value)
+        if (isNaN(number) || !Number.isInteger(number)) {
+          errors.push(`Field ${field} must be an integer`)
+        } else {
+          data[field] = number
+        }
+      }
+
+      if (fieldData.type === 'Decimal' && value) {
+        const decimal = Number(value)
+        if (isNaN(decimal)) {
+          errors.push(`Field ${field} must be a decimal`)
+        } else {
+          data[field] = decimal
+        }
       }
 
       if (fieldData.type === 'String' && value && typeof value !== 'string') {
@@ -102,9 +122,10 @@ class TableMiddleware {
 
       if (fieldData.type === 'DateTime' && value) {
         const date = new Date(String(value))
-        data[field] = date.toISOString()
         if (isNaN(date.getTime())) {
           errors.push(`Field ${field} must be a valid date`)
+        } else {
+          data[field] = date.toISOString()
         }
       }
 

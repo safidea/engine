@@ -2,11 +2,11 @@ import useSWR from 'swr'
 import { Fragment } from 'react'
 import ListHelper from '../helpers/list.helper'
 
-import type { CommonPropsType } from '../types/common.type'
+import type { CommonProps } from 'shared-component'
 import type { DatabaseRowType } from 'shared-database'
 import type { SortByType, GroupByType, GroupType, FieldType } from '../helpers/list.helper'
 
-export type ListProps = CommonPropsType & {
+export type ListProps = CommonProps & {
   table: string
   fields: FieldType[]
   sortBy?: SortByType[]

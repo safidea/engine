@@ -1,8 +1,8 @@
 import useSWR from 'swr'
 
-import type { CommonPropsType } from '../types/common.type'
+import type { CommonProps } from 'shared-component'
 
-export type TableProps = CommonPropsType & {
+export type TableProps = CommonProps & {
   table: string
   fields: string[]
 }

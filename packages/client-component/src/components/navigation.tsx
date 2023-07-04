@@ -2,9 +2,9 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import * as Icons from '@heroicons/react/24/outline'
 import { Bars3Icon, Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import type { CommonPropsType } from '../types/common.type'
+import type { CommonProps } from 'shared-component'
 
-export type NavigationProps = CommonPropsType & {
+export type NavigationProps = CommonProps & {
   navigation: {
     label: string
     path: string

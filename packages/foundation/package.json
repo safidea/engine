@@ -5,10 +5,6 @@
   "bin": {
     "foundation": "./dist/command.js"
   },
-  "exports": {
-    ".": "./dist/index.js",
-    "./components": "./dist/components.js"
-  },
   "scripts": {
     "lint": "eslint .",
     "build": "tsc"

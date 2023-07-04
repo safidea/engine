@@ -1,11 +1,12 @@
 import debug from 'debug'
 import { ConfigUtils, SchemaUtils, ObjectUtils } from 'server-common'
 import { PageSchema } from 'shared-page'
+import { Form } from 'server-component'
 
 import type { PagesInterface, PageComponentsInterface } from 'shared-page'
 import type { ConfigExecInterface } from 'shared-app'
 import type { AppProviderInterface } from 'shared-common'
-import type { ComponentsInterface } from 'server-component'
+import type { ComponentsInterface, FormConfig } from 'server-component'
 
 const log: debug.IDebugger = debug('config:page')
 
@@ -47,8 +48,14 @@ class PageConfig implements ConfigExecInterface {
     const components = this.configUtils.get('components') as ComponentsInterface
     const enrichComponents = (childComponents: PageComponentsInterface) => {
       for (const childComponent in childComponents) {
-        const componentConfig = childComponents[childComponent]
+        let componentConfig = childComponents[childComponent]
         if (componentConfig.key) {
+          switch (componentConfig.key) {
+            case 'form':
+              componentConfig = Form.enrich(componentConfig as FormConfig, this.configUtils.get())
+            default:
+              break
+          }
           const commonConfig = components[componentConfig.key]
           if (commonConfig) {
             childComponents[childComponent] = { ...componentConfig, ...commonConfig }

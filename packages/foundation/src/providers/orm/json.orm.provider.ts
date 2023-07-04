@@ -69,12 +69,26 @@ class JsonOrmProvider implements OrmProviderInterface {
         .map((tableName) => {
           return `${StringUtils.singular(tableName)} = {
             findUnique: async ({ where: { id } }) => {
-              return this._db.${tableName}.find((row) => row.id === id)
+              const row = this._db.${tableName}.find((row) => row.id === id)
+              if (row) {
+                const { quantity, unit_price } = row
+                row.total_amount = quantity * unit_price
+              }
+              return row
             },
             findMany: async () => {
-              return this._db.${tableName}
+              const rows = this._db.${tableName}
+              if (rows?.length > 0) {
+                for (const row of rows) {
+                  const { quantity, unit_price } = row
+                  row.total_amount = quantity * unit_price
+                }
+              }
+              return rows
             },
             create: async ({ data }) => {
+              delete data.total_amount
+              if (!data.status) data.status = 'draft'
               const row = {
                 ...data,
                 id: uuidv4(),
@@ -87,6 +101,7 @@ class JsonOrmProvider implements OrmProviderInterface {
               return Promise.all(data.map((row) => this.create({ data: row })))
             },
             update: async ({ where: { id }, data }) => {
+              delete data.total_amount
               const index = this._db.${tableName}.findIndex((row) => row.id === id)
               this._db.${tableName}[index] = { ...this._db.${tableName}[index], ...data }
               return this._db.${tableName}[index]
@@ -109,25 +124,6 @@ class JsonOrmProvider implements OrmProviderInterface {
     }
 
     const orm = new JsonOrm()
-
-    orm.invoice.findUnique = async (params) => {
-      const invoice = await orm.invoice.findUnique(params)
-      if (invoice) {
-        const { quantity, unit_price } = invoice
-        invoice.total_amount = quantity * unit_price
-      }
-      return invoice
-    }
-    orm.invoice.findMany = async (params) => {
-      const invoices = await orm.invoice.findMany(params)
-      if (invoices?.length > 0) {
-        for (const invoice of invoices) {
-          const { quantity, unit_price } = invoice
-          invoice.total_amount = quantity * unit_price
-        }
-      }
-      return invoices
-    }
 
     export default orm`
     fs.ensureFileSync(ormFile)
