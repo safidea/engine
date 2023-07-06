@@ -3,7 +3,7 @@ import orm from '../../app/orm'
 import faker from '../faker'
 
 const test = baseTest.extend({
-  db: async ({}, use) => {
+  orm: async ({}, use) => {
     await use(orm)
   },
   faker: async ({}, use) => {
@@ -11,12 +11,12 @@ const test = baseTest.extend({
   },
 })
 
-test.beforeAll(async ({ db }) => {
-  await db.invoice.deleteMany({})
+test.beforeAll(async ({ orm }) => {
+  await orm.invoice.deleteMany({})
 })
 
-test.beforeEach(async ({ page, db }) => {
-  await db.invoice.deleteMany({})
+test.beforeEach(async ({ page, orm }) => {
+  await orm.invoice.deleteMany({})
 
   page.on('console', (message) => {
     console.log(`Browser console: ${message.text()}`)
@@ -33,12 +33,12 @@ test.beforeEach(async ({ page, db }) => {
   })
 })
 
-test.afterEach(async ({ db }) => {
-  await db.invoice.deleteMany({})
+test.afterEach(async ({ orm }) => {
+  await orm.invoice.deleteMany({})
 })
 
-test.afterAll(async ({ db }) => {
-  await db.invoice.deleteMany({})
+test.afterAll(async ({ orm }) => {
+  await orm.invoice.deleteMany({})
 })
 
 export { expect, test }

@@ -11,12 +11,12 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({ page, db, faker }) => {
+  test('should display a list of invoices grouped by status', async ({ page, orm, faker }) => {
     // GIVEN
     // We provide 8 example invoices
-    await db.invoice.deleteMany({})
+    await orm.invoice.deleteMany({})
     const invoices = faker.generate('invoices', 8)
-    for (const data of invoices) await db.invoice.create({ data })
+    for (const data of invoices) await orm.invoice.create({ data })
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
@@ -43,7 +43,7 @@ test.describe('A page that list invoices', () => {
 
   test('should display a list of invoices sorted by dates in status groups', async ({
     page,
-    db,
+    orm,
     faker,
   }) => {
     // GIVEN
@@ -70,9 +70,9 @@ test.describe('A page that list invoices', () => {
         status: 'sent',
       },
     ])
-    await db.invoice.deleteMany({})
+    await orm.invoice.deleteMany({})
     for (let i = 0; i < invoices.length; i++)
-      invoices[i] = await db.invoice.create({ data: invoices[i] })
+      invoices[i] = await orm.invoice.create({ data: invoices[i] })
 
     // WHEN
     // I go to the home page "/" and invoices are loaded

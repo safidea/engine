@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test('should create a list of rows', async ({ request, db, faker }) => {
+  test('should create a list of rows', async ({ request, orm, faker }) => {
     // GIVEN
     // We create 2 invoices
     const invoices = faker.generate('invoices', 2)
@@ -13,20 +13,20 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // I have created 2 invoices
     expect(res.status()).toEqual(200)
-    const rows = await db.invoice.findMany({})
+    const rows = await orm.invoice.findMany({})
     for (let i = 0; i > rows.length; i++) {
       expect(rows[i].id).toBeDefined()
       expect(rows[i].created_at).toBeDefined()
     }
   })
 
-  test('should read a list of rows from a list of ids', async ({ request, db, faker }) => {
+  test('should read a list of rows from a list of ids', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const invoices = faker.generate('invoices', 3)
     const ids = []
     for (let i = 0; i < invoices.length; i++) {
-      invoices[i] = await db.invoice.create({ data: invoices[i] })
+      invoices[i] = await orm.invoice.create({ data: invoices[i] })
       if (i < invoices.length - 1) ids.push(invoices[i].id)
     }
 
@@ -47,11 +47,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(rows[1].id).toEqual(invoices[1].id)
   })
 
-  test('should update a row', async ({ request, db, faker }) => {
+  test('should update a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)
-    const row = await db.invoice.create({ data: invoice })
+    const row = await orm.invoice.create({ data: invoice })
 
     // WHEN
     // I make a PATCH request to update this invoice
@@ -65,17 +65,17 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // The updated invocie should have a new name
     expect(res.status()).toEqual(200)
-    const updatedRow = await db.invoice.findUniqueOrThrow({ where: { id: row.id } })
+    const updatedRow = await orm.invoice.findUniqueOrThrow({ where: { id: row.id } })
     expect(updatedRow.id).toEqual(row.id)
     expect(updatedRow.customer).toEqual(update.customer)
     expect(updatedRow.updated_at).toBeDefined()
   })
 
-  test('should soft delete a row', async ({ request, db, faker }) => {
+  test('should soft delete a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)
-    const row = await db.invoice.create({ data: invoice })
+    const row = await orm.invoice.create({ data: invoice })
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
@@ -84,7 +84,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
     expect(res.status()).toEqual(200)
-    const deletedRow = await db.invoice.findUniqueOrThrow({ where: { id: row.id } })
+    const deletedRow = await orm.invoice.findUniqueOrThrow({ where: { id: row.id } })
     expect(deletedRow.id).toEqual(row.id)
     expect(deletedRow.deleted_at).toBeDefined()
   })
