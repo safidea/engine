@@ -23,17 +23,19 @@ class TableMiddleware {
   public async validateAndExtractQuery(req: RequestInterface) {
     const { query } = req
     const filters: DatabaseListParamsFiltersInterface[] = []
-    for (const key in query) {
-      const matchFilter = key.match(/filter_(key|operator|value)_(\d+)$/)
-      if (matchFilter) {
-        const index = Number(matchFilter[2])
-        filters[index] = filters[index] || {}
-        if (key.startsWith('filter_key_')) {
-          filters[index].key = query[key]
-        } else if (key.startsWith('filter_operator_')) {
-          filters[index].operator = query[key]
-        } else if (key.startsWith('filter_value_')) {
-          filters[index].value = query[key]
+    if (query) {
+      for (const key in query) {
+        const matchFilter = key.match(/filter_(key|operator|value)_(\d+)$/)
+        if (matchFilter) {
+          const index = Number(matchFilter[2])
+          filters[index] = filters[index] || {}
+          if (key.startsWith('filter_key_')) {
+            filters[index].key = query[key]
+          } else if (key.startsWith('filter_operator_')) {
+            filters[index].operator = query[key]
+          } else if (key.startsWith('filter_value_')) {
+            filters[index].value = query[key]
+          }
         }
       }
     }

@@ -51,7 +51,16 @@ export function Row({ row, fields }: { row: DatabaseRowType; fields: FieldType[]
             data-field={field.key}
             className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
           >
-            {value}
+            {field.format === 'button' ? (
+              <a
+                href={field.actions?.[0].path.replace(':id', String(row.id))}
+                className="text-indigo-600 hover:text-indigo-900"
+              >
+                {field.label}
+              </a>
+            ) : (
+              value
+            )}
           </td>
         )
       })}

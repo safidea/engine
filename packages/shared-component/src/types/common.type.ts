@@ -4,4 +4,5 @@ export type CommonProps = {
   router?: {
     push: (path: string) => void
   }
+  pathParams?: Record<string, string>
 }

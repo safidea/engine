@@ -42,3 +42,8 @@ node_modules/
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# codegen
+/app/
+!/app/global.css
+!/app/layout.js

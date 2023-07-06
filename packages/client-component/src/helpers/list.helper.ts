@@ -8,6 +8,11 @@ export type FieldType = {
     label: string
   }[]
   type: string
+  format?: 'button'
+  actions?: {
+    type: 'redirect'
+    path: string
+  }[]
 }
 
 export type SortByType = {

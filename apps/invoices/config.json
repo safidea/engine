@@ -121,6 +121,17 @@
                 {
                   "key": "created_date",
                   "label": "Date de création"
+                },
+                {
+                  "key": "edit",
+                  "label": "Éditer",
+                  "format": "button",
+                  "actions": [
+                    {
+                      "type": "redirect",
+                      "path": "/update/:id"
+                    }
+                  ]
                 }
               ],
               "groupBy": [{ "field": "status", "order": "first_to_last" }],
@@ -187,6 +198,53 @@
               }
             }
           ]
+        }
+      ]
+    },
+    "/update/[id]": {
+      "title": "Mise à jour d'une facture",
+      "components": [
+        {
+          "key": "form",
+          "table": "invoices",
+          "fields": [
+            {
+              "key": "customer",
+              "label": "Client"
+            },
+            {
+              "key": "address",
+              "label": "Adresse"
+            },
+            {
+              "key": "zip_code",
+              "label": "Code postal"
+            },
+            {
+              "key": "country",
+              "label": "Pays"
+            },
+            {
+              "key": "activity",
+              "label": "Activité"
+            },
+            {
+              "key": "unit",
+              "label": "Unité"
+            },
+            {
+              "key": "quantity",
+              "label": "Quantité"
+            },
+            {
+              "key": "unit_price",
+              "label": "Prix unitaire"
+            }
+          ],
+          "submit": {
+            "label": "Enregistrer",
+            "loading_label": "Enregistrement en cours..."
+          }
         }
       ]
     }

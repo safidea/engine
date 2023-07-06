@@ -44,17 +44,18 @@ class Foundation {
 
   public page({
     path,
-    components,
-    ...props
+    components = {},
+    pathParams = {},
   }: JSX.IntrinsicAttributes & {
     path: string
-    components: AppProviderComponentsInterface
+    components?: AppProviderComponentsInterface
+    pathParams?: Record<string, string>
   }) {
     const page = this.configUtils.get('pages.' + path)
     return PageComponent({
-      ...props,
       appProviderComponents: { ...this.components, ...components },
       page,
+      pathParams,
     })
   }
 

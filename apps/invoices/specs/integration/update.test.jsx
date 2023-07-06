@@ -1,3 +1,4 @@
+// @ts-check
 import { render, screen, userEvent, faker, Foundation, act, orm } from './fixtures'
 
 const HomePage = () => Foundation.page({ path: '/' })
@@ -23,20 +24,23 @@ describe('Invoice update page', () => {
 
     // WHEN
     // The user clicks on an invoice
-    const editButton = screen.getByRole('button', { name: /modifier/i })
+    const editButton = screen.getByRole('link', { name: /Éditer/i })
     await user.click(editButton)
-    const UpdatePage = () => Foundation.page({ path: `/update/${row.id}` })
+    const UpdatePage = () => Foundation.page({ path: `/update/[id]`, pathParams: { id: row.id } })
     await act(async () => {
       render(<UpdatePage />)
     })
 
     // THEN
     // The invoice data should be displayed
+    /** @type {HTMLInputElement} */
     const companyField = screen.getByLabelText('Client')
+    /** @type {HTMLInputElement} */
     const quantityField = screen.getByLabelText('Quantité')
+    /** @type {HTMLInputElement} */
     const unitPriceField = screen.getByLabelText('Prix unitaire')
-    expect(companyField).toContain(companyValue)
-    expect(quantityField).toContain(quantityValue)
-    expect(unitPriceField).toContain(unitPriceValue)
+    expect(companyField.value).toContain(companyValue)
+    expect(quantityField.value).toContain(quantityValue)
+    expect(unitPriceField.value).toContain(unitPriceValue)
   })
 })

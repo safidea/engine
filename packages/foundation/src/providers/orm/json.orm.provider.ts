@@ -51,6 +51,7 @@ class JsonOrmProvider implements OrmProviderInterface {
     log('applyMigration')
   }
 
+  // TODO: typer les fonctions avec JSDoc pour ne plus avoir de auvaise surprise dans les tests
   public async buildOrmFile(): Promise<void> {
     const ormFile = join(this.pathUtils.getAppPath(), 'orm.js')
     const ormFileContent = `

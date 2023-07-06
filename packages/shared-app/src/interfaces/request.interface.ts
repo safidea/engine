@@ -6,7 +6,7 @@ export interface RequestInterface {
   params: {
     [key: string]: string
   }
-  query: {
+  query?: {
     [key: string]: string
   }
   local: DatabaseListParamsInterface

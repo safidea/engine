@@ -81,7 +81,8 @@ class NextServerProvider implements AppProviderInterface {
   }
 
   private getFoundationTemplate({ withOrm, withComponents }: AppProviderFoundationFileOptions) {
-    return `import Foundation from 'foundation'
+    return `// @ts-check
+    import Foundation from 'foundation'
     ${withOrm ? "import orm from './orm'" : ''}
     ${withComponents ? `import * as Components from './components'` : ''}
 
@@ -98,24 +99,30 @@ class NextServerProvider implements AppProviderInterface {
 
   private getRouteTemplate(route: AppProviderRouteInterface) {
     const pathDots = this.getPathDots(route.path)
-    return `import Foundation from '${pathDots}/../foundation'
+    return `// @ts-check
+    import Foundation from '${pathDots}/../foundation'
     import { NextResponse } from 'next/server'
-    ${route.methods.includes('GET') ? "import url from 'url'" : ''}
-    ${route.methods.includes('GET') ? "import querystring from 'querystring'" : ''}
     
     ${route.methods
       .map((method) => {
         method = method.toUpperCase()
         return `export async function ${method}(request, { params = {} }) {
-            const { json, status = 200 } = await Foundation.api({
-              method: '${method}',
-              url: request.url,
-              params,
-              ${['POST', 'PUT', 'PATCH'].includes(method) ? 'body: await request.json(),' : ''}
-              ${method === 'GET' ? 'query: querystring.parse(url.parse(request.url).query)' : ''}
-            })
-            return NextResponse.json(json, { status })
-          }`
+          ${
+            method === 'GET'
+              ? `const queryParams = Array.from(new URL(request.url).searchParams.entries())
+          const query = queryParams.length > 0 ? queryParams.reduce((acc, [key, value]) => { acc[key] = value; return acc; }, {}) : null`
+              : ''
+          }
+          const { json, status = 200 } = await Foundation.api({
+            method: '${method}',
+            url: request.url,
+            params,
+            local: {},
+            ${method === 'GET' ? 'query,' : ''}
+            ${['POST', 'PUT', 'PATCH'].includes(method) ? 'body: await request.json(),' : ''}
+          })
+          return NextResponse.json(json, { status })
+        }`
       })
       .join('\n\n')}`
   }
@@ -123,7 +130,8 @@ class NextServerProvider implements AppProviderInterface {
   private getPageTemplate(page: AppProviderPageInterface) {
     const pathDots = this.getPathDots(page.path)
     const { title, metadata = {} } = this.pages?.[page.path] ?? {}
-    return `import Foundation from '${pathDots}/foundation'
+    return `// @ts-check
+    import Foundation from '${pathDots}/foundation'
                 
     export const metadata = ${JSON.stringify({ title, ...metadata }, null, 2)}
     
@@ -135,7 +143,8 @@ class NextServerProvider implements AppProviderInterface {
 
   private getClientComponentTemplate(name: string) {
     const capitalizeName = StringUtils.capitalize(name)
-    return `'use client'
+    return `// @ts-check
+    'use client'
 
     import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
     import { useRouter } from 'next/navigation'
@@ -151,7 +160,8 @@ class NextServerProvider implements AppProviderInterface {
 
   private getServerComponentTemplate(name: string) {
     const capitalizeName = StringUtils.capitalize(name)
-    return `import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
+    return `// @ts-check
+    import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
     import Image from 'next/image'
     import Link from 'next/link'
     

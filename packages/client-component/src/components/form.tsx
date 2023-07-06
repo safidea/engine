@@ -1,16 +1,20 @@
 import { useState } from 'react'
+import useSWR from 'swr'
 
 import type { FormProps } from 'shared-component'
 
-export default function Form({ table, fields, router, submit }: FormProps) {
+type FieldsProps = FormProps & {
+  defaultFieldValues?: Record<string, string>
+}
+
+function Fields({ table, fields, router, submit, defaultFieldValues }: FieldsProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState({ message: '', details: '' })
-  const [formData, setFormData] = useState(
-    fields.reduce((acc, field) => {
-      acc[field.key] = ''
-      return acc
-    }, {} as Record<string, string>)
-  )
+  const defaultValues = fields.reduce((acc, field) => {
+    acc[field.key] = defaultFieldValues?.[field.key] ?? ''
+    return acc
+  }, {} as Record<string, string>)
+  const [formData, setFormData] = useState(defaultValues)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -78,4 +82,26 @@ export default function Form({ table, fields, router, submit }: FormProps) {
       </form>
     </div>
   )
+}
+
+function Create(props: FormProps) {
+  return <Fields {...props} />
+}
+
+function Update({ table, pathParams, ...props }: FormProps) {
+  const {
+    data,
+    error: dataError,
+    isLoading: isDataLoading,
+  } = useSWR(`/api/table/${table}/${pathParams?.id}`)
+  if (isDataLoading) return <div>Loading...</div>
+  if (dataError) return <div>Failed to load</div>
+  return <Fields table={table} pathParams={pathParams} defaultFieldValues={data} {...props} />
+}
+
+export default function Form(props: FormProps) {
+  if (props.pathParams?.id) {
+    return <Update {...props} />
+  }
+  return <Create {...props} />
 }
