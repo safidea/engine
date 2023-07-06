@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('Invoice update page', () => {
-  test.skip('should display the invoice data', async ({ page, faker, orm }) => {
+  test('should display the invoice data', async ({ page, faker, orm }) => {
     // GIVEN
     // An invoice is listed on the home page
     const invoice = faker.generate('invoices')
@@ -23,12 +23,12 @@ test.describe('Invoice update page', () => {
 
     // THEN
     // The invoice data should be displayed
-    const companyFieldValue = await page.inputValue('input[aria-label="Client"]')
-    const quantityFieldValue = await page.inputValue('input[aria-label="Quantité"]')
-    const unitPriceFieldValue = await page.inputValue('input[aria-label="Prix unitaire"]')
+    const companyFieldValue = page.locator('input[name="customer"]')
+    const quantityFieldValue = page.locator('input[name="quantity"]')
+    const unitPriceFieldValue = page.locator('input[name="unit_price"]')
 
-    expect(companyFieldValue).toContain(invoice.customer)
-    expect(quantityFieldValue).toContain(invoice.quantity.toString())
-    expect(unitPriceFieldValue).toContain(invoice.unit_price.toString())
+    await expect(companyFieldValue).toHaveValue(invoice.customer)
+    await expect(quantityFieldValue).toHaveValue(invoice.quantity.toString())
+    await expect(unitPriceFieldValue).toHaveValue(invoice.unit_price.toString())
   })
 })

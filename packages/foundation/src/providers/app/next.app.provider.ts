@@ -130,13 +130,14 @@ class NextServerProvider implements AppProviderInterface {
   private getPageTemplate(page: AppProviderPageInterface) {
     const pathDots = this.getPathDots(page.path)
     const { title, metadata = {} } = this.pages?.[page.path] ?? {}
+    const isDynamic = page.path.includes('[')
     return `// @ts-check
     import Foundation from '${pathDots}/foundation'
                 
     export const metadata = ${JSON.stringify({ title, ...metadata }, null, 2)}
     
-    export default function Page(props) {
-      return Foundation.page({ path: '${page.path}', ...props }) 
+    export default function Page(${isDynamic ? '{ params }' : ''}) {
+      return Foundation.page({ path: '${page.path}'${isDynamic ? ', pathParams: params' : ''} }) 
     }
     `
   }

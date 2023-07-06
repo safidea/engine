@@ -66,7 +66,7 @@ function generateFakeRecord(table: string) {
   return record
 }
 
-function generateDynamicFakeData(table: string, count?: number | any[]) {
+function generateDynamicFakeData(table: string, count?: number | Record<string, unknown>[]) {
   if (!count) return generateFakeRecord(table)
   const data = []
   if (Array.isArray(count)) {
