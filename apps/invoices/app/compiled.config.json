@@ -34,12 +34,7 @@
         },
         "status": {
           "type": "SingleSelect",
-          "options": [
-            "draft",
-            "finalised",
-            "sent",
-            "paid"
-          ],
+          "options": ["draft", "finalised", "sent", "paid"],
           "default": "draft"
         },
         "number": {

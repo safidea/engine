@@ -30,7 +30,6 @@ export default function Form({ table, fields, router, submit }: FormProps) {
       },
     })
     const data = await res.json()
-    console.log(data)
     if (res.status !== 200) {
       setError({ message: data.error, details: data.details })
     } else {
