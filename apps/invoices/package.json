@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "config": "pnpm pkg:build && foundation config",
+    "config": "pnpm pkg:build && foundation config --no-cache",
     "dev": "pnpm run config && next dev --turbo",
     "start": "pnpm run config && next build && next start",
     "lint": "next lint",
