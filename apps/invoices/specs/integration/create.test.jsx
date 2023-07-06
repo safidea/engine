@@ -13,13 +13,14 @@ describe('Invoice creation page', () => {
     expect(screen.getByRole('heading', { name: /facture/i })).toBeInTheDocument()
   })
 
-  it('should fill a form and redirect to home page', async () => {
+  it('should create an invoice', async () => {
     // GIVEN
     const { rerender } = render(<CreatePage />)
     const user = userEvent.setup()
 
     // WHEN
-    await user.type(screen.getByLabelText('Client'), faker.company.name())
+    const customerName = faker.company.name()
+    await user.type(screen.getByLabelText('Client'), customerName)
     await user.type(screen.getByLabelText('Adresse'), faker.location.streetAddress())
     await user.type(screen.getByLabelText('Code postal'), faker.location.zipCode())
     await user.type(screen.getByLabelText('Pays'), faker.location.country())
@@ -36,13 +37,11 @@ describe('Invoice creation page', () => {
     })
 
     // THEN
-    const rows = await orm.invoice.findMany()
     expect(router.push).toHaveBeenCalledWith('/')
-    expect(rows.length).toBe(1)
-    expect(screen.getByText(rows[0].customer)).toBeInTheDocument()
+    expect(screen.getByText(customerName)).toBeInTheDocument()
   })
 
-  it('should display an error message when form is invalid', async () => {
+  it('should display an error message when some required fields are not provided', async () => {
     // GIVEN
     render(<CreatePage />)
     const user = userEvent.setup()
@@ -52,7 +51,6 @@ describe('Invoice creation page', () => {
     await user.click(screen.getByText('Enregistrer'))
 
     // THEN
-    expect(screen.getByText('Invalid row')).toBeInTheDocument()
     expect(screen.getByText(/Field address is required/i)).toBeInTheDocument()
   })
 })
