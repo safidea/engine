@@ -52,6 +52,7 @@ class Foundation {
     pathParams?: Record<string, string>
   }) {
     const page = this.configUtils.get('pages.' + path)
+    if (!page) throw new Error(`Page from path ${path} not found in compiled config`)
     return PageComponent({
       appProviderComponents: { ...this.components, ...components },
       page,

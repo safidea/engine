@@ -14,7 +14,6 @@ export default function PageComponent({
   appProviderComponents,
   pathParams,
 }: PageComponentProps) {
-  // TODO: throw a proper error message if page doesn't exist
   const { components } = page
   const componentService = new ComponentService({
     appProviderComponents,

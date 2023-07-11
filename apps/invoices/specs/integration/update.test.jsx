@@ -1,16 +1,13 @@
 // @ts-check
-import { render, screen, userEvent, faker, Foundation, act, orm } from './fixtures'
+import { render, screen, faker, Foundation, act, orm } from './fixtures'
 
-const HomePage = () => Foundation.page({ path: '/' })
-
-describe('Invoice update page', () => {
-  it('should display the invoice data', async () => {
+describe('A page that update an invoice', () => {
+  it('should display the invoice data from the home page', async () => {
     // GIVEN
     // An invoice is listed on the home page
     const companyValue = faker.company.name()
     const quantityValue = faker.number.int(20).toString()
     const unitPriceValue = faker.number.int({ max: 500 }).toString()
-    const user = userEvent.setup()
     const row = await orm.invoice.create({
       data: {
         customer: companyValue,
@@ -19,16 +16,15 @@ describe('Invoice update page', () => {
       },
     })
     await act(async () => {
-      render(<HomePage />)
+      render(Foundation.page({ path: '/' }))
     })
 
     // WHEN
     // The user clicks on an invoice
     const editButton = screen.getByRole('link', { name: /Éditer/i })
-    await user.click(editButton)
-    const UpdatePage = () => Foundation.page({ path: `/update/[id]`, pathParams: { id: row.id } })
+    expect(editButton).toHaveAttribute('href', `/update/${row.id}`)
     await act(async () => {
-      render(<UpdatePage />)
+      render(Foundation.page({ path: `/update/[id]`, pathParams: { id: row.id } }))
     })
 
     // THEN

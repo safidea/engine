@@ -9,6 +9,7 @@ import orm from '../../app/orm'
 
 const domain = 'http://localhost:3000'
 
+// Mock next/navigation
 const router = {
   push: jest.fn((/** @type {string} */ path) => path),
 }
@@ -19,6 +20,7 @@ jest.mock('next/navigation', () => {
   }
 })
 
+// Mock fetch
 global.fetch = async (url, init) => {
   const { method = 'GET', body } = init || {}
   let params = {}

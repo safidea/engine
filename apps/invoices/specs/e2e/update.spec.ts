@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures'
 
-test.describe('Invoice update page', () => {
+test.describe('A page that update an invoice', () => {
   test('should display the invoice data', async ({ page, faker, orm }) => {
     // GIVEN
     // An invoice is listed on the home page
