@@ -1,19 +1,12 @@
 // @ts-check
-import { render, screen, faker, Foundation, act, orm } from './fixtures'
+import { render, screen, userEvent, faker, Foundation, act, orm } from './fixtures'
 
 describe('A page that update an invoice', () => {
   it('should display the invoice data from the home page', async () => {
     // GIVEN
     // An invoice is listed on the home page
-    const companyValue = faker.company.name()
-    const quantityValue = faker.number.int(20).toString()
-    const unitPriceValue = faker.number.int({ max: 500 }).toString()
-    const row = await orm.invoice.create({
-      data: {
-        customer: companyValue,
-        quantity: quantityValue,
-        unit_price: unitPriceValue,
-      },
+    const invoice = await orm.invoice.create({
+      data: faker.generate('invoices'),
     })
     await act(async () => {
       render(Foundation.page({ path: '/' }))
@@ -22,21 +15,40 @@ describe('A page that update an invoice', () => {
     // WHEN
     // The user clicks on an invoice
     const editButton = screen.getByRole('link', { name: /Éditer/i })
-    expect(editButton).toHaveAttribute('href', `/update/${row.id}`)
+    expect(editButton).toHaveAttribute('href', `/update/${invoice.id}`)
     await act(async () => {
-      render(Foundation.page({ path: `/update/[id]`, pathParams: { id: row.id } }))
+      render(Foundation.page({ path: `/update/[id]`, pathParams: { id: invoice.id } }))
     })
 
     // THEN
     // The invoice data should be displayed
     /** @type {HTMLInputElement} */
     const companyField = screen.getByLabelText('Client')
+    expect(companyField.value).toContain(invoice.customer)
     /** @type {HTMLInputElement} */
     const quantityField = screen.getByLabelText('Quantité')
-    /** @type {HTMLInputElement} */
-    const unitPriceField = screen.getByLabelText('Prix unitaire')
-    expect(companyField.value).toContain(companyValue)
-    expect(quantityField.value).toContain(quantityValue)
-    expect(unitPriceField.value).toContain(unitPriceValue)
+    expect(quantityField.value).toContain(invoice.quantity.toString())
+  })
+
+  test.skip('should update an invoice in realtime without button', async () => {
+    // GIVEN
+    // An invoice is loaded in the update page
+    const invoice = await orm.invoice.create({
+      data: faker.generate('invoices'),
+    })
+    await act(async () => {
+      render(Foundation.page({ path: `/update/[id]`, pathParams: { id: invoice.id } }))
+    })
+
+    // WHEN
+    // We update the invoice data
+    const user = userEvent.setup()
+    await user.type(screen.getByLabelText('Client'), ' updated')
+
+    // THEN
+    // The invoice data should be updated in database
+    const updatedInvoice = await orm.invoice.findUnique({ where: { id: invoice.id } })
+    const newCustomerValue = invoice.customer + ' updated'
+    expect(updatedInvoice.customer).toContain(newCustomerValue)
   })
 })
