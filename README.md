@@ -7,11 +7,11 @@
   - [x] Groupe finalisées > pour voir qu'est-ce qu'il y a émettre
   - [x] Groupe émises > pour voir ce qu'y n'a pas encore été payé
   - [x] Groupe réglées > pour voir tout ce qui a été réglé
-- [ ] Créer / éditer une facture manuellement (Timebox pour 1 facture : 15 minutes max)
+- [x] Créer / éditer une facture manuellement (Timebox pour 1 facture : 15 minutes max)
   - [x] Formulaire de création d'une facture
     - [x] Coordonnée client
       - [ ] Saisie automatique depuis la liste des clients ⚠ _(lien avec gestion de client)_
-    - [ ] Numéro de facture
+    - [x] Numéro de facture
     - [x] Prestation de service à l'heure : nombre d'heure
     - [ ] Refacturation optionnelle : libellé + prix
     - [ ] => Montant total avec TVA est calculé automatiquement en fonction de : TVA, nombre d'heure, prix unitaire

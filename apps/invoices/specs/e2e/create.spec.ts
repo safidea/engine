@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures'
 
-test.describe('A page that create an invoices', () => {
+test.describe('A page that create an invoice', () => {
   test('should display a title', async ({ page }) => {
     // WHEN
     // I go to the create page "/create"
