@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react'
+import { render, screen, act, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { URL } from 'url'
@@ -13,10 +13,10 @@ const domain = 'http://localhost:3000'
 const router = {
   push: jest.fn((/** @type {string} */ path) => path),
 }
-
 jest.mock('next/navigation', () => {
   return {
     useRouter: () => router,
+    usePathname: () => '/',
   }
 })
 
@@ -45,4 +45,4 @@ global.fetch = async (url, init) => {
   return new Response(JSON.stringify(json), { status })
 }
 
-export { render, screen, userEvent, router, faker, Foundation, act, orm }
+export { render, screen, userEvent, router, faker, Foundation, act, orm, waitForElementToBeRemoved }

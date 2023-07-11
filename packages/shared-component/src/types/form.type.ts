@@ -13,8 +13,14 @@ export type Form = {
     push: (path: string) => void
   }
   submit: {
-    label: string
-    loading_label: string
+    label?: string
+    savingLabel: string
+    autosave?: boolean
+    type?: 'create' | 'update' | 'upsert'
+    actionsOnSuccess: {
+      type: string
+      path: string
+    }[]
   }
 }
 

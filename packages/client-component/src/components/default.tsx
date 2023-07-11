@@ -8,6 +8,7 @@ export default function Html({
   children,
   router,
   pathParams,
+  pathname,
   ...props
 }: CommonProps): JSX.Element {
   if (tag && !HTML_TAGS.includes(tag)) {

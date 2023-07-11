@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import useSWR from 'swr'
 
 import type { FormProps } from 'shared-component'
@@ -7,8 +7,9 @@ type FieldsProps = FormProps & {
   defaultFieldValues?: Record<string, string>
 }
 
-function Fields({ table, fields, router, submit, defaultFieldValues }: FieldsProps) {
-  const [isLoading, setIsLoading] = useState(false)
+function Fields({ table, fields, router, submit, defaultFieldValues, pathParams }: FieldsProps) {
+  const [isSaving, setIsSaving] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [error, setError] = useState({ message: '', details: '' })
   const defaultValues = fields.reduce((acc, field) => {
     acc[field.key] = defaultFieldValues?.[field.key] ?? ''
@@ -16,30 +17,49 @@ function Fields({ table, fields, router, submit, defaultFieldValues }: FieldsPro
   }, {} as Record<string, string>)
   const [formData, setFormData] = useState(defaultValues)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-    setIsLoading(true)
-    const res = await fetch(`/api/table/${table}`, {
-      method: 'POST',
-      body: JSON.stringify(formData),
+  const saveData = async (data: Record<string, string>) => {
+    setIsSaving(true)
+    const url = `/api/table/${table}` + (submit.type === 'update' ? `/${pathParams?.id}` : '')
+    const method = submit.type === 'update' ? 'PATCH' : 'POST'
+    const res = await fetch(url, {
+      method,
+      body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    const data = await res.json()
     if (res.status !== 200) {
-      setError({ message: data.error, details: data.details })
-    } else {
-      router.push('/')
+      const { error, details } = await res.json()
+      setError({ message: error, details })
+    } else if (submit?.actionsOnSuccess) {
+      for (const action of submit.actionsOnSuccess) {
+        switch (action.type) {
+          case 'redirect':
+            router.push(action.path)
+            break
+          default:
+            break
+        }
+      }
     }
-    setIsLoading(false)
+    setIsSaving(false)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedData = { ...formData, [e.target.name]: e.target.value }
+    setFormData(updatedData)
+    if (submit.autosave === true) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      setIsSaving(true)
+      timeoutRef.current = setTimeout(() => saveData(updatedData), 1000)
+    }
+  }
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    saveData(formData)
   }
 
   return (
@@ -60,13 +80,19 @@ function Fields({ table, fields, router, submit, defaultFieldValues }: FieldsPro
             />
           </div>
         ))}
-        <button
-          type="submit"
-          className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600"
-          disabled={isLoading}
-        >
-          {isLoading ? submit.loading_label ?? 'Loading...' : submit.label ?? 'Save'}
-        </button>
+        {submit.label ? (
+          <button
+            type="submit"
+            className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+            disabled={isSaving}
+          >
+            {isSaving ? submit.savingLabel ?? 'Saving...' : submit.label ?? 'Save'}
+          </button>
+        ) : submit.autosave === true && isSaving ? (
+          <div className="px-4 py-2 mb-4 bg-blue-500 text-white rounded">
+            {submit.savingLabel ?? 'Saving...'}
+          </div>
+        ) : null}
         {error.message && (
           <div className="rounded-md bg-red-50 p-4">
             <div className="flex">

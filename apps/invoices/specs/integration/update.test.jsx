@@ -1,5 +1,14 @@
 // @ts-check
-import { render, screen, userEvent, faker, Foundation, act, orm } from './fixtures'
+import {
+  render,
+  screen,
+  userEvent,
+  faker,
+  Foundation,
+  act,
+  orm,
+  waitForElementToBeRemoved,
+} from './fixtures'
 
 describe('A page that update an invoice', () => {
   it('should display the invoice data from the home page', async () => {
@@ -30,7 +39,7 @@ describe('A page that update an invoice', () => {
     expect(quantityField.value).toContain(invoice.quantity.toString())
   })
 
-  test.skip('should update an invoice in realtime without button', async () => {
+  test('should update an invoice in realtime', async () => {
     // GIVEN
     // An invoice is loaded in the update page
     const invoice = await orm.invoice.create({
@@ -41,14 +50,16 @@ describe('A page that update an invoice', () => {
     })
 
     // WHEN
-    // We update the invoice data
+    // We update the invoice data and wait for autosave
+    const updatedText = ' updated'
     const user = userEvent.setup()
-    await user.type(screen.getByLabelText('Client'), ' updated')
+    await user.type(screen.getByLabelText('Client'), updatedText)
+    await waitForElementToBeRemoved(screen.getByText('Saving...'))
 
     // THEN
     // The invoice data should be updated in database
     const updatedInvoice = await orm.invoice.findUnique({ where: { id: invoice.id } })
-    const newCustomerValue = invoice.customer + ' updated'
+    const newCustomerValue = invoice.customer + updatedText
     expect(updatedInvoice.customer).toContain(newCustomerValue)
   })
 })

@@ -194,7 +194,13 @@
               ],
               "submit": {
                 "label": "Enregistrer",
-                "loading_label": "Enregistrement en cours..."
+                "loading_label": "Enregistrement en cours...",
+                "actionsOnSuccess": [
+                  {
+                    "type": "redirect",
+                    "path": "/"
+                  }
+                ]
               }
             }
           ]
@@ -205,46 +211,56 @@
       "title": "Mise à jour d'une facture",
       "components": [
         {
-          "key": "form",
-          "table": "invoices",
-          "fields": [
+          "key": "appNavigation",
+          "components": [
             {
-              "key": "customer",
-              "label": "Client"
+              "key": "h1",
+              "text": "Mise à jour d'une facture",
+              "className": "p-2 text-4xl font-bold text-gray-800"
             },
             {
-              "key": "address",
-              "label": "Adresse"
-            },
-            {
-              "key": "zip_code",
-              "label": "Code postal"
-            },
-            {
-              "key": "country",
-              "label": "Pays"
-            },
-            {
-              "key": "activity",
-              "label": "Activité"
-            },
-            {
-              "key": "unit",
-              "label": "Unité"
-            },
-            {
-              "key": "quantity",
-              "label": "Quantité"
-            },
-            {
-              "key": "unit_price",
-              "label": "Prix unitaire"
+              "key": "form",
+              "table": "invoices",
+              "fields": [
+                {
+                  "key": "customer",
+                  "label": "Client"
+                },
+                {
+                  "key": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "key": "zip_code",
+                  "label": "Code postal"
+                },
+                {
+                  "key": "country",
+                  "label": "Pays"
+                },
+                {
+                  "key": "activity",
+                  "label": "Activité"
+                },
+                {
+                  "key": "unit",
+                  "label": "Unité"
+                },
+                {
+                  "key": "quantity",
+                  "label": "Quantité"
+                },
+                {
+                  "key": "unit_price",
+                  "label": "Prix unitaire"
+                }
+              ],
+              "submit": {
+                "autosave": true,
+                "type": "update"
+              }
             }
-          ],
-          "submit": {
-            "label": "Enregistrer",
-            "loading_label": "Enregistrement en cours..."
-          }
+          ]
         }
       ]
     }

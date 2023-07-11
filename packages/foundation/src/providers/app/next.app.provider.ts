@@ -148,13 +148,14 @@ class NextServerProvider implements AppProviderInterface {
     'use client'
 
     import ${capitalizeName} from 'client-component/dist/components/${capitalizeName}'
-    import { useRouter } from 'next/navigation'
+    import { useRouter, usePathname } from 'next/navigation'
     import Image from 'next/image'
     import Link from 'next/link'
     
     export default function Next${capitalizeName}(props) {
       const router = useRouter()
-      return <${capitalizeName} {...props} router={router} components={{ Image, Link }} />
+      const pathname = usePathname()
+      return <${capitalizeName} {...props} router={router} pathname={pathname} components={{ Image, Link }} />
     }
     `
   }

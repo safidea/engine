@@ -18,22 +18,15 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Navigation({ navigation, children, title }: NavigationProps) {
+export default function Navigation({ navigation, children, title, pathname }: NavigationProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   navigation = navigation.map((item) => ({
     ...item,
     icon: Icons[item.icon as keyof typeof Icons],
+    current: pathname === item.path,
   }))
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>

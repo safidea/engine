@@ -5,4 +5,5 @@ export type CommonProps = {
     push: (path: string) => void
   }
   pathParams?: Record<string, string>
+  pathname?: string
 }
