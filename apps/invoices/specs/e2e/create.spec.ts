@@ -20,14 +20,14 @@ test.describe('A page that create an invoices', () => {
     // I fill the form
     await page.waitForSelector('input[name="customer"]', { state: 'visible' })
     await page.locator('input[name="customer"]').fill(faker.company.name())
-    await page.fill('input[name="customer"]', faker.company.name())
-    await page.fill('input[name="address"]', faker.location.streetAddress())
-    await page.fill('input[name="zip_code"]', faker.location.zipCode())
-    await page.fill('input[name="country"]', faker.location.country())
-    await page.fill('input[name="activity"]', faker.commerce.productName())
-    await page.fill('input[name="unit"]', faker.commerce.product())
-    await page.fill('input[name="quantity"]', faker.number.int(20).toString())
-    await page.fill('input[name="unit_price"]', faker.number.int({ max: 500 }).toString())
+    await page.locator('input[name="customer"]').fill(faker.company.name())
+    await page.locator('input[name="address"]').fill(faker.location.streetAddress())
+    await page.locator('input[name="zip_code"]').fill(faker.location.zipCode())
+    await page.locator('input[name="country"]').fill(faker.location.country())
+    await page.locator('input[name="activity"]').fill(faker.commerce.productName())
+    await page.locator('input[name="unit"]').fill(faker.commerce.product())
+    await page.locator('input[name="quantity"]').fill(faker.number.int(20).toString())
+    await page.locator('input[name="unit_price"]').fill(faker.number.int({ max: 500 }).toString())
 
     // AND
     // I click on the submit button
