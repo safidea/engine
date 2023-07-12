@@ -20,17 +20,10 @@
         "country": {
           "type": "String"
         },
-        "activity": {
-          "type": "String"
-        },
-        "unit": {
-          "type": "String"
-        },
-        "quantity": {
-          "type": "Int"
-        },
-        "unit_price": {
-          "type": "Decimal"
+        "items": {
+          "type": "Link",
+          "table": "invoices_items",
+          "multiple": true
         },
         "status": {
           "type": "SingleSelect",
@@ -44,6 +37,30 @@
         "finalised_date": {
           "type": "DateTime",
           "optional": true
+        },
+        "total_amount": {
+          "type": "Formula",
+          "formula": "quantity * unit_price"
+        }
+      }
+    },
+    "invoices_items": {
+      "fields": {
+        "invoice": {
+          "type": "Link",
+          "table": "invoices"
+        },
+        "activity": {
+          "type": "String"
+        },
+        "quantity": {
+          "type": "Int"
+        },
+        "unit": {
+          "type": "String"
+        },
+        "unit_price": {
+          "type": "Decimal"
         },
         "total_amount": {
           "type": "Formula",
@@ -75,18 +92,6 @@
                 {
                   "key": "address",
                   "label": "Adresse"
-                },
-                {
-                  "key": "quantity",
-                  "label": "Quantité"
-                },
-                {
-                  "key": "unit",
-                  "label": "Unité"
-                },
-                {
-                  "key": "unit_price",
-                  "label": "Prix unitaire"
                 },
                 {
                   "key": "total_amount",
@@ -176,20 +181,30 @@
                   "label": "Pays"
                 },
                 {
-                  "key": "activity",
-                  "label": "Activité"
-                },
-                {
-                  "key": "unit",
-                  "label": "Unité"
-                },
-                {
-                  "key": "quantity",
-                  "label": "Quantité"
-                },
-                {
-                  "key": "unit_price",
-                  "label": "Prix unitaire"
+                  "key": "items",
+                  "fields": [
+                    {
+                      "key": "activity",
+                      "label": "Activité",
+                      "placeholder": "Activité"
+                    },
+                    {
+                      "key": "quantity",
+                      "label": "Quantité",
+                      "placeholder": "Quantité"
+                    },
+                    {
+                      "key": "unit",
+                      "label": "Unité",
+                      "placeholder": "Unité"
+                    },
+                    {
+                      "key": "unit_price",
+                      "label": "Prix unitaire",
+                      "placeholder": "Prix unitaire"
+                    }
+                  ],
+                  "addLabel": "Nouvelle ligne"
                 }
               ],
               "submit": {
@@ -239,20 +254,30 @@
                   "label": "Pays"
                 },
                 {
-                  "key": "activity",
-                  "label": "Activité"
-                },
-                {
-                  "key": "unit",
-                  "label": "Unité"
-                },
-                {
-                  "key": "quantity",
-                  "label": "Quantité"
-                },
-                {
-                  "key": "unit_price",
-                  "label": "Prix unitaire"
+                  "key": "items",
+                  "fields": [
+                    {
+                      "key": "activity",
+                      "label": "Activité",
+                      "placeholder": "Activité"
+                    },
+                    {
+                      "key": "quantity",
+                      "label": "Quantité",
+                      "placeholder": "Quantité"
+                    },
+                    {
+                      "key": "unit",
+                      "label": "Unité",
+                      "placeholder": "Unité"
+                    },
+                    {
+                      "key": "unit_price",
+                      "label": "Prix unitaire",
+                      "placeholder": "Prix unitaire"
+                    }
+                  ],
+                  "addLabel": "Nouvelle ligne"
                 }
               ],
               "submit": {

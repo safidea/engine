@@ -67,7 +67,8 @@ class PrismaOrmProvider implements OrmProviderInterface {
     let modelSchema = `\n\nmodel ${modelName} {
       ${Object.keys(fields)
         .map((fieldName: string) => {
-          if (['Formula'].includes(fields[fieldName].type)) return ''
+          // TODO: add Link type support
+          if (['Formula', 'Link'].includes(fields[fieldName].type)) return ''
           const field = fields[fieldName]
           const functions = ['uuid()', 'cuid()', 'autoincrement()', 'now()']
           let enumName: string | undefined

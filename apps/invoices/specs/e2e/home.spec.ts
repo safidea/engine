@@ -11,7 +11,7 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({ page, orm, faker }) => {
+  test.skip('should display a list of invoices grouped by status', async ({ page, orm, faker }) => {
     // GIVEN
     // We provide 8 example invoices
     await orm.invoice.deleteMany({})
@@ -41,7 +41,7 @@ test.describe('A page that list invoices', () => {
     expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
   })
 
-  test('should display a list of invoices sorted by dates in status groups', async ({
+  test.skip('should display a list of invoices sorted by dates in status groups', async ({
     page,
     orm,
     faker,

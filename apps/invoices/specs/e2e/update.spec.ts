@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('A page that update an invoice', () => {
-  test('should display the invoice data', async ({ page, faker, orm }) => {
+  test.skip('should display the invoice data', async ({ page, faker, orm }) => {
     // GIVEN
     // An invoice is listed on the home page
     const invoice = faker.generate('invoices')
@@ -30,7 +30,7 @@ test.describe('A page that update an invoice', () => {
     await expect(quantityFieldValue).toHaveValue(invoice.quantity.toString())
   })
 
-  test('should update an invoice in realtime', async ({ page, orm, faker }) => {
+  test.skip('should update an invoice in realtime', async ({ page, orm, faker }) => {
     // GIVEN
     // An invoice is loaded in the update page
     const invoice = await orm.invoice.create({

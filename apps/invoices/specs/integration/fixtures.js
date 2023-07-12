@@ -1,4 +1,4 @@
-import { render, screen, act, waitForElementToBeRemoved } from '@testing-library/react'
+import { render, screen, act, waitForElementToBeRemoved, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { URL } from 'url'
@@ -6,6 +6,7 @@ import { Response } from 'node-fetch'
 import faker from '../faker'
 import Foundation from '../../app/foundation'
 import orm from '../../app/orm'
+import types from '../types'
 
 const domain = 'http://localhost:3000'
 
@@ -45,4 +46,16 @@ global.fetch = async (url, init) => {
   return new Response(JSON.stringify(json), { status })
 }
 
-export { render, screen, userEvent, router, faker, Foundation, act, orm, waitForElementToBeRemoved }
+export {
+  render,
+  screen,
+  userEvent,
+  router,
+  faker,
+  Foundation,
+  act,
+  orm,
+  waitForElementToBeRemoved,
+  within,
+  types,
+}

@@ -54,6 +54,7 @@
             "Formula",
             "Int",
             "Json",
+            "Link",
             "SingleSelect",
             "String"
           ],

@@ -11,6 +11,7 @@ export interface TableFieldInterface extends ObjectInterface {
     | 'Json'
     | 'SingleSelect'
     | 'Formula'
+    | 'Link'
   enum?: string
   primary?: boolean
   optional?: boolean

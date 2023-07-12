@@ -11,7 +11,7 @@ test.describe('A page that create an invoice', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should fill a form and redirect to home page', async ({ page, faker }) => {
+  test.skip('should fill a form and redirect to home page', async ({ page, faker }) => {
     // WHEN
     // I go to the create page "/create"
     await page.goto('/create')

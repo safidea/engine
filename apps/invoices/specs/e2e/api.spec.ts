@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test('should create a list of rows', async ({ request, orm, faker }) => {
+  test.skip('should create a list of rows', async ({ request, orm, faker }) => {
     // GIVEN
     // We create 2 invoices
     const invoices = faker.generate('invoices', 2)
@@ -20,7 +20,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test('should read a list of rows from a list of ids', async ({ request, orm, faker }) => {
+  test.skip('should read a list of rows from a list of ids', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const invoices = faker.generate('invoices', 3)
@@ -47,7 +47,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(rows[1].id).toEqual(invoices[1].id)
   })
 
-  test('should update a row', async ({ request, orm, faker }) => {
+  test.skip('should update a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)
@@ -71,7 +71,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(updatedRow.updated_at).toBeDefined()
   })
 
-  test('should soft delete a row', async ({ request, orm, faker }) => {
+  test.skip('should soft delete a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)

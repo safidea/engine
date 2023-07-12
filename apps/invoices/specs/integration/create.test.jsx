@@ -1,4 +1,5 @@
-import { render, screen, userEvent, router, faker, Foundation, act } from './fixtures'
+// @ts-check
+import { render, screen, userEvent, router, faker, Foundation, act, within } from './fixtures'
 
 // Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
 const CreatePage = () => Foundation.page({ path: '/create' })
@@ -15,40 +16,31 @@ describe('A page that create an invoice', () => {
 
   it.skip('should create an invoice', async () => {
     // GIVEN
-    render(<CreatePage />)
+    const invoice = faker.generate('invoices')
     const user = userEvent.setup()
+    render(<CreatePage />)
+    console.log(invoice)
 
     // WHEN
     // Fill the form
-    const customerName = faker.company.name()
-    await user.type(screen.getByLabelText('Client'), customerName)
-    await user.type(screen.getByLabelText('Adresse'), faker.location.streetAddress())
-    await user.type(screen.getByLabelText('Code postal'), faker.location.zipCode())
-    await user.type(screen.getByLabelText('Pays'), faker.location.country())
-    // Add a first line
-    await user.click(screen.getByText('Nouvelle ligne'))
-    let rows = screen.getAllByRole('row')
-    let lastRow = rows[rows.length - 1]
-    let utils = within(lastRow)
-    await user.type(utils.getByPlaceholderText('Activité'), faker.commerce.productName())
-    await user.type(utils.getByPlaceholderText('Unité'), faker.commerce.product())
-    await user.type(utils.getByPlaceholderText('Quantité'), faker.number.int(20).toString())
-    await user.type(
-      utils.getByPlaceholderText('Prix unitaire'),
-      faker.number.int({ max: 500 }).toString()
-    )
-    // Add a second line
-    await user.click(screen.getByText('Nouvelle ligne'))
-    rows = screen.getAllByRole('row')
-    lastRow = rows[rows.length - 1]
-    utils = within(lastRow)
-    await user.type(utils.getByPlaceholderText('Activité'), faker.commerce.productName())
-    await user.type(utils.getByPlaceholderText('Unité'), faker.commerce.product())
-    await user.type(utils.getByPlaceholderText('Quantité'), faker.number.int(20).toString())
-    await user.type(
-      utils.getByPlaceholderText('Prix unitaire'),
-      faker.number.int({ max: 500 }).toString()
-    )
+    await user.type(screen.getByLabelText('Client'), invoice.customer)
+    await user.type(screen.getByLabelText('Adresse'), invoice.address)
+    await user.type(screen.getByLabelText('Code postal'), invoice.zip_code)
+    await user.type(screen.getByLabelText('Pays'), invoice.country)
+    // Add lines
+    for (let i = 0; i < invoice.items.length; i++) {
+      await user.click(screen.getByText('Nouvelle ligne'))
+      const rows = screen.getAllByRole('row')
+      const lastRow = rows[rows.length - 1]
+      const utils = within(lastRow)
+      await user.type(utils.getByPlaceholderText('Activité'), invoice.items[i].activity)
+      await user.type(utils.getByPlaceholderText('Unité'), invoice.items[i].unity)
+      await user.type(utils.getByPlaceholderText('Quantité'), invoice.items[i].quantity.toString())
+      await user.type(
+        utils.getByPlaceholderText('Prix unitaire'),
+        invoice.items[i].unit_price.toString()
+      )
+    }
     // Submit the form
     await user.click(screen.getByText('Enregistrer'))
     await act(async () => {
@@ -57,7 +49,7 @@ describe('A page that create an invoice', () => {
 
     // THEN
     expect(router.push).toHaveBeenCalledWith('/')
-    expect(screen.getByText(customerName)).toBeInTheDocument()
+    expect(screen.getByText(invoice.customer)).toBeInTheDocument()
   })
 
   it('should display an error message when some required fields are not provided', async () => {

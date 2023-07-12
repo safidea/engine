@@ -1,15 +1,21 @@
 import { fakerFR as faker } from '@faker-js/faker'
 import fs from 'fs-extra'
 
+import type { Invoice } from './types'
+
 const config = fs.readJSONSync(`./config.json`)
 
 type PropsType = {
   field: string
   type: string
-  options: string[]
+  options?: string[]
+  multiple?: boolean
+  table?: string
+  sourceTable?: string
 }
 
-function generateRandomValueByType({ field, type, options }: PropsType) {
+function generateRandomValueByType(fieldConfig: PropsType) {
+  const { type, field, options } = fieldConfig
   switch (type) {
     case 'String':
       if (field.includes('email')) return faker.internet.email()
@@ -48,39 +54,58 @@ function generateRandomValueByType({ field, type, options }: PropsType) {
       return faker.date.recent().toISOString()
     case 'Formula':
       return faker.word.words()
+    case 'Link':
+      const { table, multiple, sourceTable } = fieldConfig
+      if (multiple)
+        return generateDynamicFakeData(table, faker.number.int({ max: 5, min: 1 }), sourceTable)
+      return generateDynamicFakeData(table, null, sourceTable)
     default:
       throw new Error(`Unknown type ${type} in faker generator`)
   }
 }
 
-function generateFakeRecord(table: string) {
+function generateFakeRecord(table: string, sourceTable?: string) {
   const tableConfig = config.tables[table]
   const record = {}
   for (const field in tableConfig.fields) {
     const fieldConfig = tableConfig.fields[field]
+    if (fieldConfig.type === 'Link' && fieldConfig.table === sourceTable) continue
     if (!fieldConfig.optional || (fieldConfig.optional && Math.random() > 0.5)) {
-      const { type, options } = fieldConfig
-      record[field] = generateRandomValueByType({ field, type, options })
+      record[field] = generateRandomValueByType({ field, sourceTable: table, ...fieldConfig })
     }
   }
   return record
 }
 
-function generateDynamicFakeData(table: string, count?: number | Record<string, unknown>[]) {
-  if (!count) return generateFakeRecord(table)
-  const data = []
-  if (Array.isArray(count)) {
-    for (const record of count) {
-      const newRecord = generateFakeRecord(table)
-      data.push({ ...newRecord, ...record })
-    }
+function generateDynamicFakeData(
+  table: string,
+  count?: number | Record<string, unknown>[],
+  sourceTable?: string
+) {
+  let data
+  if (!count) {
+    data = generateFakeRecord(table)
   } else {
-    for (let i = 0; i < count; i++) {
-      const record = generateFakeRecord(table)
-      data.push(record)
+    data = []
+    if (Array.isArray(count)) {
+      for (const record of count) {
+        const newRecord = generateFakeRecord(table, sourceTable)
+        data.push({ ...newRecord, ...record })
+      }
+    } else {
+      for (let i = 0; i < count; i++) {
+        const record = generateFakeRecord(table, sourceTable)
+        data.push(record)
+      }
     }
   }
-  return data
+  switch (table) {
+    case 'invoices':
+      if (Array.isArray(data)) return data as Invoice[]
+      return data as Invoice
+    default:
+      return data
+  }
 }
 
 const extendsFaker = { ...faker, generate: generateDynamicFakeData }

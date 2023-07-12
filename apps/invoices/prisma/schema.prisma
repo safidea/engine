@@ -8,14 +8,11 @@ datasource db {
 }
 
 model Invoice {
-  customer       String
-  address        String
-  zip_code       String
-  country        String
-  activity       String
-  unit           String
-  quantity       Int
-  unit_price     Decimal
+  customer String
+  address  String
+  zip_code String
+  country  String
+
   status         String    @default("draft")
   number         String?
   finalised_date DateTime?
@@ -26,4 +23,18 @@ model Invoice {
   deleted_at DateTime?
 
   @@map("invoices")
+}
+
+model Invoices_item {
+  activity   String
+  quantity   Int
+  unit       String
+  unit_price Decimal
+
+  id         String    @id @default(cuid())
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@map("invoices_items")
 }
