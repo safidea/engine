@@ -6,7 +6,6 @@ import { Response } from 'node-fetch'
 import faker from '../faker'
 import Foundation from '../../app/foundation'
 import orm from '../../app/orm'
-import types from '../types'
 
 const domain = 'http://localhost:3000'
 
@@ -57,5 +56,4 @@ export {
   orm,
   waitForElementToBeRemoved,
   within,
-  types,
 }

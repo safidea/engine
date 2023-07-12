@@ -11,10 +11,13 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
   const [isSaving, setIsSaving] = useState(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [error, setError] = useState({ message: '', details: '' })
-  const defaultValues = fields.reduce((acc, field) => {
-    acc[field.key] = defaultFieldValues?.[field.key] ?? ''
-    return acc
-  }, {} as Record<string, string>)
+  const defaultValues = fields.reduce(
+    (acc, field) => {
+      acc[field.key] = defaultFieldValues?.[field.key] ?? ''
+      return acc
+    },
+    {} as Record<string, string>
+  )
   const [formData, setFormData] = useState(defaultValues)
 
   const saveData = async (data: Record<string, string>) => {

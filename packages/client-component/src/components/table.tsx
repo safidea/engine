@@ -7,7 +7,7 @@ export type TableProps = CommonProps & {
   fields: string[]
 }
 
-export default async function Table({ table, fields }: TableProps) {
+export default function Table({ table, fields }: TableProps) {
   const { data = [], error, isLoading } = useSWR(`/api/table/${table}`)
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
