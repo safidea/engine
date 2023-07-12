@@ -1,5 +1,5 @@
 export type DatabaseDataType = {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean | string[] | DatabaseDataType[]
 }
 
 export type DatabaseRowType = DatabaseDataType & {

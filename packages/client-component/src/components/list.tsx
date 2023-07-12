@@ -43,7 +43,7 @@ export function Row({ row, fields }: { row: DatabaseRowType; fields: FieldType[]
             data-field={field.key}
             className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"
           >
-            {value}
+            {String(value)}
           </td>
         ) : (
           <td
@@ -59,7 +59,7 @@ export function Row({ row, fields }: { row: DatabaseRowType; fields: FieldType[]
                 {field.label}
               </a>
             ) : (
-              value
+              String(value)
             )}
           </td>
         )

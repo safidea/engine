@@ -69,6 +69,7 @@ class DatabaseService {
   }
 
   public async list(tableName: string, params: DatabaseListParamsInterface) {
+    // TODO: remove any type
     const options: any = {}
     if (params.filters) {
       options.where = {}

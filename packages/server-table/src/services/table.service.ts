@@ -1,15 +1,42 @@
 import { DatabaseService } from 'server-database'
+import { ConfigUtils } from 'server-common'
 
 import type { DatabaseDataType, DatabaseListParamsInterface } from 'shared-database'
+import type { TableFieldsInterface } from 'shared-table'
 
 class TableService {
   private databaseService: DatabaseService
+  private configUtils: ConfigUtils
 
-  constructor({ databaseService }: { databaseService: DatabaseService }) {
+  constructor({
+    databaseService,
+    configUtils,
+  }: {
+    databaseService: DatabaseService
+    configUtils: ConfigUtils
+  }) {
     this.databaseService = databaseService
+    this.configUtils = configUtils
   }
 
   public async create(table: string, data: DatabaseDataType) {
+    const fields = this.configUtils.get(`tables.${table}.fields`) as TableFieldsInterface
+    for (const [field, config] of Object.entries(fields)) {
+      const value = data[field]
+      if (config.type === 'Link' && value) {
+        const newValue = []
+        if (Array.isArray(value)) {
+          for (const row of value) {
+            if (typeof row !== 'string') {
+              newValue.push(
+                this.databaseService.create(config.table, row).then((row) => String(row.id))
+              )
+            }
+          }
+        }
+        data[field] = await Promise.all(newValue)
+      }
+    }
     return this.databaseService.create(table, data)
   }
 

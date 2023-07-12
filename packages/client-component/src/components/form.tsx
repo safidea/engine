@@ -1,10 +1,55 @@
 import { useState, useRef } from 'react'
 import useSWR from 'swr'
+import Table from './Table'
 
-import type { FormProps } from 'shared-component'
+import type { FormProps, FormField } from 'shared-component'
 
 type FieldsProps = FormProps & {
   defaultFieldValues?: Record<string, string>
+}
+
+type FieldProps = {
+  field: FormField
+  value: string | { [key: string]: string }[]
+  handleChange: (name: string, value: string | { [key: string]: string }[]) => void
+}
+
+function Field({ field, value, handleChange }: FieldProps) {
+  switch (field.type) {
+    case 'table': {
+      if (!field.table) throw new Error('Link field must have a table')
+      if (!field.fields) throw new Error('Link field must have fields')
+      return (
+        <div className="mb-4">
+          <Table
+            table={field.table}
+            fields={field.fields}
+            addLabel={field.addLabel}
+            label={field.label}
+            submit={field.submit}
+            onDataChange={(data: { [key: string]: string }[]) => handleChange(field.key, data)}
+          />
+        </div>
+      )
+    }
+    default:
+      return (
+        <div className="mb-4">
+          <label htmlFor={field.key} className="block font-medium mb-1">
+            {field.label}
+          </label>
+          <input
+            type={field.type}
+            name={field.key}
+            id={field.key}
+            placeholder={field.placeholder}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
+            value={String(value)}
+            className="w-full px-4 py-2 border rounded"
+          />
+        </div>
+      )
+  }
 }
 
 function Fields({ table, fields, router, submit, defaultFieldValues, pathParams }: FieldsProps) {
@@ -13,14 +58,14 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
   const [error, setError] = useState({ message: '', details: '' })
   const defaultValues = fields.reduce(
     (acc, field) => {
-      acc[field.key] = defaultFieldValues?.[field.key] ?? ''
+      acc[field.key] = field.type === 'table' ? [] : defaultFieldValues?.[field.key] ?? ''
       return acc
     },
-    {} as Record<string, string>
+    {} as Record<string, string | { [key: string]: string }[]>
   )
   const [formData, setFormData] = useState(defaultValues)
 
-  const saveData = async (data: Record<string, string>) => {
+  const saveData = async (data: Record<string, string | { [key: string]: string }[]>) => {
     setIsSaving(true)
     const url = `/api/table/${table}` + (submit.type === 'update' ? `/${pathParams?.id}` : '')
     const method = submit.type === 'update' ? 'PATCH' : 'POST'
@@ -48,8 +93,8 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
     setIsSaving(false)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedData = { ...formData, [e.target.name]: e.target.value }
+  const handleChange = (name: string, value: string | { [key: string]: string }[]) => {
+    const updatedData = { ...formData, [name]: value }
     setFormData(updatedData)
     if (submit.autosave === true) {
       if (timeoutRef.current) {
@@ -69,19 +114,12 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
     <div className="p-4">
       <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto">
         {fields.map((field, index) => (
-          <div className="mb-4" key={index}>
-            <label htmlFor={field.key} className="block font-medium mb-1">
-              {field.label}
-            </label>
-            <input
-              type={field.type}
-              name={field.key}
-              id={field.key}
-              onChange={handleChange}
-              value={formData[field.key]}
-              className="w-full px-4 py-2 border rounded"
-            />
-          </div>
+          <Field
+            key={index}
+            field={field}
+            value={formData[field.key]}
+            handleChange={handleChange}
+          />
         ))}
         {submit.label ? (
           <button

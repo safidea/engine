@@ -432,11 +432,14 @@ importers:
         specifier: workspace:*
         version: link:../server-common
       shared-app:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../shared-app
       shared-component:
         specifier: workspace:*
         version: link:../shared-component
+      shared-table:
+        specifier: workspace:*
+        version: link:../shared-table
     devDependencies:
       '@types/debug':
         specifier: 4.1.7
@@ -3297,7 +3300,7 @@ packages:
       side-channel: 1.0.4
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
-      which-typed-array: 1.1.9
+      which-typed-array: 1.1.10
     dev: true
 
   /deep-is@0.1.4:
@@ -6967,19 +6970,6 @@ packages:
       gopd: 1.0.1
       has-tostringtag: 1.0.0
       is-typed-array: 1.1.10
-    dev: false
-
-  /which-typed-array@1.1.9:
-    resolution: {integrity: sha512-w9c4xkx6mPidwp7180ckYWfMmvxpjlZuIudNtDf4N/tTAUB8VJbX25qZoAsrtGuYNnGw3pa0AXgbGKRB8/EceA==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      available-typed-arrays: 1.0.5
-      call-bind: 1.0.2
-      for-each: 0.3.3
-      gopd: 1.0.1
-      has-tostringtag: 1.0.0
-      is-typed-array: 1.1.10
-    dev: true
 
   /which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}

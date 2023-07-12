@@ -18,7 +18,7 @@ class PrismaOrmProvider implements OrmProviderInterface {
   private database: DatabaseInterface
   private pathToSchema: string
 
-  constructor({ configUtils, pathUtils }: ProviderProps) {
+  constructor({ configUtils }: ProviderProps) {
     const { name: appName, version: appVersion, database } = configUtils.get()
     this.appName = appName
     this.appVersion = appVersion

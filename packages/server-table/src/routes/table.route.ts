@@ -22,7 +22,7 @@ class TableRoute {
     databaseService: DatabaseService
     configUtils: ConfigUtils
   }) {
-    const tableService = new TableService({ databaseService })
+    const tableService = new TableService({ databaseService, configUtils })
     this.tableMiddleware = new TableMiddleware({ configUtils, databaseService })
     this.tableController = new TableController({ tableService })
   }

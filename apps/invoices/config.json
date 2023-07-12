@@ -56,7 +56,7 @@
         "quantity": {
           "type": "Int"
         },
-        "unit": {
+        "unity": {
           "type": "String"
         },
         "unit_price": {
@@ -182,6 +182,7 @@
                 },
                 {
                   "key": "items",
+                  "label": "Lignes de facture",
                   "fields": [
                     {
                       "key": "activity",
@@ -194,7 +195,7 @@
                       "placeholder": "Quantité"
                     },
                     {
-                      "key": "unit",
+                      "key": "unity",
                       "label": "Unité",
                       "placeholder": "Unité"
                     },
@@ -267,7 +268,7 @@
                       "placeholder": "Quantité"
                     },
                     {
-                      "key": "unit",
+                      "key": "unity",
                       "label": "Unité",
                       "placeholder": "Unité"
                     },

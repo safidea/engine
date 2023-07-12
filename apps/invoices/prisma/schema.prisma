@@ -28,7 +28,7 @@ model Invoice {
 model Invoices_item {
   activity   String
   quantity   Int
-  unit       String
+  unity      String
   unit_price Decimal
 
   id         String    @id @default(cuid())

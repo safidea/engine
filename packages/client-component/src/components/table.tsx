@@ -1,45 +1,103 @@
 import useSWR from 'swr'
+import { useState } from 'react'
 
 import type { CommonProps } from 'shared-component'
 
-export type TableProps = CommonProps & {
-  table: string
-  fields: string[]
+export type RowsProps = TableProps & {
+  data?: { [key: string]: string }[]
 }
 
-export default function Table({ table, fields }: TableProps) {
-  const { data = [], error, isLoading } = useSWR(`/api/table/${table}`)
-  if (error) return <div>failed to load</div>
-  if (isLoading) return <div>loading...</div>
+export type TableProps = CommonProps & {
+  table: string
+  fields: {
+    key: string
+    type: string
+    label?: string
+    placeholder?: string
+  }[]
+  label?: string
+  addLabel?: string
+  submit: {
+    type: 'create' | 'update' | 'upsert'
+  }
+  onDataChange: (data: { [key: string]: string }[]) => void
+}
+
+function Rows({ data = [], fields, label, addLabel, onDataChange }: RowsProps) {
+  const [tableData, setTableData] = useState(data)
+
+  const addRow = () => {
+    const newRow = fields.reduce(
+      (acc, field) => {
+        acc[field.key] = ''
+        return acc
+      },
+      {} as Record<string, string>
+    )
+    setTableData([...tableData, newRow])
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const { name, value } = e.target
+    const newData = [...tableData]
+    newData[index][name] = value
+    setTableData(newData)
+    onDataChange(newData)
+  }
+
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="mt-8 flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
+    <div>
+      {label && addLabel && (
+        <div className="sm:flex sm:items-center">
+          {label && (
+            <div className="sm:flex-auto">
+              <p className="text-base font-semibold leading-6 text-gray-900">{label}</p>
+            </div>
+          )}
+          {addLabel && (
+            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+              <button
+                type="button"
+                onClick={addRow}
+                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                {addLabel}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flow-root">
+          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full pt-2 align-middle">
+              <table className="min-w-full divide-y divide-gray-300 border">
+                <thead>
+                  <tr className="divide-x divide-gray-200">
                     {fields.map((field, index) => (
                       <th
                         key={index}
                         scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                        className="px-2 py-1.5 text-left text-sm font-semibold text-gray-900"
                       >
-                        {field}
+                        {field.label}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {data.map((row: { id: string; [key: string]: string }) => (
-                    <tr key={row.id}>
-                      {fields.map((field, index) => (
-                        <td
-                          key={index}
-                          className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                        >
-                          {row[field] ?? ''}
+                  {tableData.map((row, indexRow) => (
+                    <tr key={row.id ?? indexRow} className="divide-x divide-gray-200">
+                      {fields.map((field, indexCell) => (
+                        <td key={indexCell}>
+                          <input
+                            type={field.type}
+                            name={field.key}
+                            onChange={(e) => handleChange(e, indexRow)}
+                            placeholder={field.placeholder}
+                            value={row[field.key] ?? ''}
+                            className="px-2 py-1.5 border-0 text-sm text-gray-900 placeholder:text-gray-400 w-full"
+                          />
                         </td>
                       ))}
                     </tr>
@@ -52,4 +110,22 @@ export default function Table({ table, fields }: TableProps) {
       </div>
     </div>
   )
+}
+
+function Create(props: TableProps) {
+  return <Rows {...props} />
+}
+
+function Update({ table, ...props }: TableProps) {
+  const { data = [], error, isLoading } = useSWR(`/api/table/${table}`)
+  if (error) return <div>failed to load</div>
+  if (isLoading) return <div>loading...</div>
+  return <Rows data={data} {...props} table={table} />
+}
+
+export default function Table({ submit, ...props }: TableProps) {
+  if (submit.type === 'create') {
+    return <Create {...props} submit={submit} />
+  }
+  return <Update {...props} submit={submit} />
 }
