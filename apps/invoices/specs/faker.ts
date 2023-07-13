@@ -52,8 +52,6 @@ function generateRandomValueByType(fieldConfig: PropsType) {
       return options[Math.floor(Math.random() * options.length)]
     case 'DateTime':
       return faker.date.recent().toISOString()
-    case 'Formula':
-      return faker.word.words()
     case 'Link':
       const { table, multiple, sourceTable } = fieldConfig
       if (multiple)
@@ -69,6 +67,7 @@ function generateFakeRecord(table: string, sourceTable?: string) {
   const record = {}
   for (const field in tableConfig.fields) {
     const fieldConfig = tableConfig.fields[field]
+    if (fieldConfig.type === 'Formula') continue
     if (fieldConfig.type === 'Link' && fieldConfig.table === sourceTable) continue
     if (!fieldConfig.optional || (fieldConfig.optional && Math.random() > 0.5)) {
       record[field] = generateRandomValueByType({ field, sourceTable: table, ...fieldConfig })

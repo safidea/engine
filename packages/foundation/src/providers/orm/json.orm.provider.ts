@@ -65,6 +65,7 @@ class JsonOrmProvider implements OrmProviderInterface {
           })
           .join(',\n')}
       }
+      _tables = ${JSON.stringify(this.tables, null, 2)}
       
       ${Object.keys(this.tables)
         .map((tableName) => {
@@ -95,11 +96,17 @@ class JsonOrmProvider implements OrmProviderInterface {
                 id: uuidv4(),
                 created_at: new Date().toISOString(),
               }
+              if (row.items?.create) {
+                const rows = await this.invoices_item.createMany({ data: row.items.create })
+                row.items = rows.map((r) => r.id)
+              }
               this._db.${tableName}.push(row)
               return row
             },
             createMany: async ({ data }) => {
-              return Promise.all(data.map((row) => this.create({ data: row })))
+              return Promise.all(data.map((row) => this.${StringUtils.singular(
+                tableName
+              )}.create({ data: row })))
             },
             update: async ({ where: { id }, data }) => {
               delete data.total_amount
@@ -110,9 +117,9 @@ class JsonOrmProvider implements OrmProviderInterface {
             upsert: async ({ where: { id }, create, update }) => {
               const index = this._db.${tableName}.findIndex((row) => row.id === id)
               if (index === -1) {
-                return this.create({ data: create })
+                return this.${StringUtils.singular(tableName)}.create({ data: create })
               }
-              return this.update({ where: { id }, data: update })
+              return this.${StringUtils.singular(tableName)}.update({ where: { id }, data: update })
             },
             delete: async ({ where: { id } }) => {
               const row = this._db.${tableName}.find((row) => row.id === id)

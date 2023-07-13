@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test.skip('should create a list of rows', async ({ request, orm, faker }) => {
+  test('should create a list of rows', async ({ request, orm, faker }) => {
     // GIVEN
     // We create 2 invoices
     const invoices = faker.generate('invoices', 2)
@@ -20,13 +20,14 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test.skip('should read a list of rows from a list of ids', async ({ request, orm, faker }) => {
+  test('should read a list of rows from a list of ids', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const invoices = faker.generate('invoices', 3)
     const ids = []
     for (let i = 0; i < invoices.length; i++) {
-      invoices[i] = await orm.invoice.create({ data: invoices[i] })
+      const data = { ...invoices[i], items: { create: invoices[i].items } }
+      invoices[i] = await orm.invoice.create({ data })
       if (i < invoices.length - 1) ids.push(invoices[i].id)
     }
 
@@ -47,11 +48,12 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(rows[1].id).toEqual(invoices[1].id)
   })
 
-  test.skip('should update a row', async ({ request, orm, faker }) => {
+  test('should update a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)
-    const row = await orm.invoice.create({ data: invoice })
+    const data = { ...invoice, items: { create: invoice.items } }
+    const row = await orm.invoice.create({ data })
 
     // WHEN
     // I make a PATCH request to update this invoice
@@ -71,11 +73,12 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(updatedRow.updated_at).toBeDefined()
   })
 
-  test.skip('should soft delete a row', async ({ request, orm, faker }) => {
+  test('should soft delete a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)
-    const row = await orm.invoice.create({ data: invoice })
+    const data = { ...invoice, items: { create: invoice.items } }
+    const row = await orm.invoice.create({ data })
 
     // WHEN
     // I make a DELETE request to soft delete this invoice

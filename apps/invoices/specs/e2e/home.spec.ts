@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures'
+import { test, expect, deleteAll } from './fixtures'
 
 test.describe('A page that list invoices', () => {
   test('should display a title', async ({ page }) => {
@@ -11,12 +11,15 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test.skip('should display a list of invoices grouped by status', async ({ page, orm, faker }) => {
+  test('should display a list of invoices grouped by status', async ({ page, orm, faker }) => {
     // GIVEN
     // We provide 8 example invoices
-    await orm.invoice.deleteMany({})
+    await deleteAll(orm)
     const invoices = faker.generate('invoices', 8)
-    for (const data of invoices) await orm.invoice.create({ data })
+    for (const invoice of invoices) {
+      const data = { ...invoice, items: { create: invoice.items } }
+      await orm.invoice.create({ data })
+    }
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
@@ -41,7 +44,7 @@ test.describe('A page that list invoices', () => {
     expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
   })
 
-  test.skip('should display a list of invoices sorted by dates in status groups', async ({
+  test('should display a list of invoices sorted by dates in status groups', async ({
     page,
     orm,
     faker,
@@ -70,9 +73,11 @@ test.describe('A page that list invoices', () => {
         status: 'sent',
       },
     ])
-    await orm.invoice.deleteMany({})
-    for (let i = 0; i < invoices.length; i++)
-      invoices[i] = await orm.invoice.create({ data: invoices[i] })
+    await deleteAll(orm)
+    for (let i = 0; i < invoices.length; i++) {
+      const data = { ...invoices[i], items: { create: invoices[i].items } }
+      invoices[i] = await orm.invoice.create({ data })
+    }
 
     // WHEN
     // I go to the home page "/" and invoices are loaded

@@ -11,12 +11,17 @@ const test = baseTest.extend({
   },
 })
 
+const deleteAll = async (currentOrm) => {
+  await currentOrm.invoiceItem.deleteMany({})
+  await currentOrm.invoice.deleteMany({})
+}
+
 test.beforeAll(async ({ orm }) => {
-  await orm.invoice.deleteMany({})
+  await deleteAll(orm)
 })
 
 test.beforeEach(async ({ page, orm }) => {
-  await orm.invoice.deleteMany({})
+  await deleteAll(orm)
 
   page.on('console', (message) => {
     console.log(`Browser console: ${message.text()}`)
@@ -34,11 +39,11 @@ test.beforeEach(async ({ page, orm }) => {
 })
 
 test.afterEach(async ({ orm }) => {
-  await orm.invoice.deleteMany({})
+  await deleteAll(orm)
 })
 
 test.afterAll(async ({ orm }) => {
-  await orm.invoice.deleteMany({})
+  await deleteAll(orm)
 })
 
-export { expect, test }
+export { expect, test, deleteAll }

@@ -16,19 +16,9 @@ describe('A page that update an invoice', () => {
     // GIVEN
     // An invoice is listed on the home page
     const data = faker.generate('invoices')
-    const items = []
-    for (const item of data.items) {
-      const row = await orm.invoices_item.create({ data: item })
-      items.push(row)
-    }
-    data.items = items.map((item) => item.id)
+    const items = data.items
+    data.items = { create: items }
     const invoice = await orm.invoice.create({ data })
-    for (const item of items) {
-      await orm.invoices_item.update({
-        where: { id: item.id },
-        data: { invoice: invoice.id },
-      })
-    }
 
     // WHEN
     // We open the update page with an invoice
@@ -54,9 +44,9 @@ describe('A page that update an invoice', () => {
   it('should update an invoice in realtime', async () => {
     // GIVEN
     // An invoice is loaded in the update page
-    const invoice = await orm.invoice.create({
-      data: faker.generate('invoices'),
-    })
+    const data = faker.generate('invoices')
+    data.items = { create: data.items }
+    const invoice = await orm.invoice.create({ data })
     await act(async () => {
       render(<Page path="/update/[id]" pathParams={{ id: invoice.id }} />)
     })

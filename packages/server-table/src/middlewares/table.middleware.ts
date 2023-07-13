@@ -74,7 +74,8 @@ class TableMiddleware {
   private validateDataFields(
     table: string,
     data: DatabaseDataType = {},
-    action = 'CREATE'
+    action = 'CREATE',
+    sourceTable?: string
   ): string[] {
     const tables = this.configUtils.get('tables') as TablesInterface
     const { fields = {} } = tables[table] ?? {}
@@ -86,12 +87,17 @@ class TableMiddleware {
       const value = values[field]
       delete values[field]
 
+      if (['Formula'].includes(fieldData.type)) {
+        if (value) delete data[field]
+        continue
+      }
+
       if (
         !value &&
         (action === 'UPDATE' ||
           fieldData.optional ||
           fieldData.default ||
-          ['Formula'].includes(fieldData.type))
+          (!!sourceTable && sourceTable === fieldData.table))
       ) {
         continue
       }
@@ -133,6 +139,24 @@ class TableMiddleware {
 
       if (fieldData.type === 'Boolean' && value && typeof value !== 'boolean') {
         errors.push(`Field ${field} must be a boolean`)
+      }
+
+      if (fieldData.type === 'Link' && value) {
+        if (Array.isArray(value)) {
+          if (value.length > 0) {
+            if (action === 'CREATE') {
+              for (const row of value) {
+                if (typeof row === 'object') {
+                  errors.push(...this.validateDataFields(fieldData.table, row, action, table))
+                }
+              }
+            }
+          } else {
+            errors.push(`Array of field ${field} should not be empty`)
+          }
+        } else {
+          errors.push(`Field ${field} must be an array of rows`)
+        }
       }
 
       if (

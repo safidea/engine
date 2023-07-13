@@ -11,23 +11,32 @@ test.describe('A page that create an invoice', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test.skip('should fill a form and redirect to home page', async ({ page, faker }) => {
+  test('should fill a form and redirect to home page', async ({ page, faker }) => {
     // WHEN
     // I go to the create page "/create"
     await page.goto('/create')
 
     // AND
     // I fill the form
+    const invoice = faker.generate('invoices')
     await page.waitForSelector('input[name="customer"]', { state: 'visible' })
-    await page.locator('input[name="customer"]').fill(faker.company.name())
-    await page.locator('input[name="customer"]').fill(faker.company.name())
-    await page.locator('input[name="address"]').fill(faker.location.streetAddress())
-    await page.locator('input[name="zip_code"]').fill(faker.location.zipCode())
-    await page.locator('input[name="country"]').fill(faker.location.country())
-    await page.locator('input[name="activity"]').fill(faker.commerce.productName())
-    await page.locator('input[name="unit"]').fill(faker.commerce.product())
-    await page.locator('input[name="quantity"]').fill(faker.number.int(20).toString())
-    await page.locator('input[name="unit_price"]').fill(faker.number.int({ max: 500 }).toString())
+    await page.locator('input[name="customer"]').fill(invoice.customer)
+    await page.locator('input[name="address"]').fill(invoice.address)
+    await page.locator('input[name="zip_code"]').fill(invoice.zip_code)
+    await page.locator('input[name="country"]').fill(invoice.country)
+    for (let i = 0; i < invoice.items.length; i++) {
+      await page.click('text=Nouvelle ligne')
+
+      const activitySelector = `input[placeholder="Activité"][value=""]`
+      const unitySelector = `input[placeholder="Unité"][value=""]`
+      const quantitySelector = `input[placeholder="Quantité"][value=""]`
+      const unitPriceSelector = `input[placeholder="Prix unitaire"][value=""]`
+
+      await page.locator(activitySelector).fill(invoice.items[i].activity)
+      await page.locator(unitySelector).fill(invoice.items[i].unity)
+      await page.locator(quantitySelector).fill(String(invoice.items[i].quantity))
+      await page.locator(unitPriceSelector).fill(String(invoice.items[i].unit_price))
+    }
 
     // AND
     // I click on the submit button

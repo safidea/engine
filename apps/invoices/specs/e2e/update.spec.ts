@@ -1,15 +1,12 @@
 import { test, expect } from './fixtures'
 
 test.describe('A page that update an invoice', () => {
-  test.skip('should display the invoice data', async ({ page, faker, orm }) => {
+  test('should display the invoice data', async ({ page, faker, orm }) => {
     // GIVEN
     // An invoice is listed on the home page
     const invoice = faker.generate('invoices')
-
-    // Assuming that the row is created and the web server is running
-    const row = await orm.invoice.create({
-      data: invoice,
-    })
+    const data = { ...invoice, items: { create: invoice.items } }
+    const row = await orm.invoice.create({ data })
 
     // Go to the homepage
     await page.goto('/') // replace with the URL of your app's home page
@@ -23,26 +20,23 @@ test.describe('A page that update an invoice', () => {
 
     // THEN
     // The invoice data should be displayed
-    const companyFieldValue = page.locator('input[name="customer"]')
-    const quantityFieldValue = page.locator('input[name="quantity"]')
-
-    await expect(companyFieldValue).toHaveValue(invoice.customer)
-    await expect(quantityFieldValue).toHaveValue(invoice.quantity.toString())
+    const companyFieldValue = await page.locator('input[name="customer"]').inputValue()
+    expect(companyFieldValue).toBe(row.customer)
   })
 
-  test.skip('should update an invoice in realtime', async ({ page, orm, faker }) => {
+  test('should update an invoice in realtime', async ({ page, orm, faker }) => {
     // GIVEN
     // An invoice is loaded in the update page
-    const invoice = await orm.invoice.create({
-      data: faker.generate('invoices'),
-    })
+    const invoice = faker.generate('invoices')
+    const data = { ...invoice, items: { create: invoice.items } }
+    const row = await orm.invoice.create({ data })
 
     // You'll have to navigate to the page you want to test
-    await page.goto(`/update/${invoice.id}`)
+    await page.goto(`/update/${row.id}`)
 
     // WHEN
     // We update the invoice data and wait for autosave
-    const newCustomerValue = invoice.customer + ' updated'
+    const newCustomerValue = row.customer + ' updated'
 
     // Type the updatedText into the input with name "customer"
     await page.locator('input[name="customer"]').fill(newCustomerValue)
@@ -52,7 +46,7 @@ test.describe('A page that update an invoice', () => {
 
     // THEN
     // The invoice data should be updated in database
-    const updatedInvoice = await orm.invoice.findUnique({ where: { id: invoice.id } })
+    const updatedInvoice = await orm.invoice.findUnique({ where: { id: row.id } })
 
     expect(updatedInvoice.customer).toContain(newCustomerValue)
   })

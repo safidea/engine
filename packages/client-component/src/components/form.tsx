@@ -97,6 +97,8 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
 
   const handleChange = (name: string, value: string | { [key: string]: string }[]) => {
     const updatedData = { ...formData, [name]: value }
+    // TODO: remove this when we have a better way to handle table fields
+    if (updatedData.items && submit.type === 'update') delete updatedData.items
     setFormData(updatedData)
     if (submit.autosave === true) {
       if (timeoutRef.current) {

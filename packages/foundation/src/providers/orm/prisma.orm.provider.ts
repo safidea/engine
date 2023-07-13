@@ -27,11 +27,14 @@ class PrismaOrmProvider implements OrmProviderInterface {
   }
 
   private getModelName(name: string): string {
-    return StringUtils.singular(StringUtils.capitalize(name))
+    return name
+      .split('_')
+      .map((word) => StringUtils.singular(StringUtils.capitalize(word)))
+      .join('')
   }
 
   public getTable(name: string, orm: OrmProviderTablesInterface): OrmProviderTableInterface {
-    const table = orm[StringUtils.singular(name).toLowerCase()]
+    const table = orm[StringUtils.lowarize(this.getModelName(name))]
     if (table && this.database.provider === 'sqlite') {
       table.createMany = async ({ data }) =>
         Promise.all(data.map((row) => table.create({ data: row })))
@@ -67,11 +70,11 @@ class PrismaOrmProvider implements OrmProviderInterface {
     let modelSchema = `\n\nmodel ${modelName} {
       ${Object.keys(fields)
         .map((fieldName: string) => {
-          // TODO: add Link type support
-          if (['Formula', 'Link'].includes(fields[fieldName].type)) return ''
+          if (['Formula'].includes(fields[fieldName].type)) return ''
           const field = fields[fieldName]
           const functions = ['uuid()', 'cuid()', 'autoincrement()', 'now()']
           let enumName: string | undefined
+          let relationName: string | undefined
           if (field.type === 'SingleSelect' && field.options) {
             if (!['sqlite', 'sqlserver'].includes(this.database.provider)) {
               enumName = this.getTableEnumName(tableName, fieldName)
@@ -81,14 +84,16 @@ class PrismaOrmProvider implements OrmProviderInterface {
             } else {
               enumName = 'String'
             }
+          } else if (field.type === 'Link') {
+            relationName = this.getModelName(field.table)
           }
-          const fieldType = enumName ?? field.type
+          const fieldType = enumName ?? relationName ?? field.type
           const defaultValue =
             fieldType === 'String' && !functions.includes(String(field.default))
               ? `"${field.default}"`
               : field.default
           const isRequired = field.optional || fieldType === 'Boolean' ? '?' : ''
-          const isList = field.list ? '[]' : ''
+          const isList = field.multiple ? '[]' : ''
           const isPrimary = field.primary ? ' @id' : ''
           const isUnique = field.unique ? ' @unique' : ''
           const hasDefault = field.default != null ? ` @default(${defaultValue})` : ''

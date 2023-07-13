@@ -8,12 +8,12 @@ datasource db {
 }
 
 model Invoice {
-  customer String
-  address  String
-  zip_code String
-  country  String
-
-  status         String    @default("draft")
+  customer       String
+  address        String
+  zip_code       String
+  country        String
+  items          InvoiceItem[]
+  status         String        @default("draft")
   number         String?
   finalised_date DateTime?
 
@@ -25,7 +25,8 @@ model Invoice {
   @@map("invoices")
 }
 
-model Invoices_item {
+model InvoiceItem {
+  invoice    Invoice @relation(fields: [invoiceId], references: [id])
   activity   String
   quantity   Int
   unity      String
@@ -35,6 +36,7 @@ model Invoices_item {
   created_at DateTime  @default(now())
   updated_at DateTime?
   deleted_at DateTime?
+  invoiceId  String
 
   @@map("invoices_items")
 }

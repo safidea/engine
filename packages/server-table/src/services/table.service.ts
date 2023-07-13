@@ -24,23 +24,30 @@ class TableService {
     for (const [field, config] of Object.entries(fields)) {
       const value = data[field]
       if (config.type === 'Link' && value) {
-        const newValue = []
-        if (Array.isArray(value)) {
-          for (const row of value) {
-            if (typeof row !== 'string') {
-              newValue.push(
-                this.databaseService.create(config.table, row).then((row) => String(row.id))
-              )
-            }
-          }
+        data[field] = {
+          // eslint-disable-next-line
+          // @ts-ignore
+          create: value,
         }
-        data[field] = await Promise.all(newValue)
       }
     }
     return this.databaseService.create(table, data)
   }
 
   public async createMany(table: string, data: DatabaseDataType[]) {
+    const fields = this.configUtils.get(`tables.${table}.fields`) as TableFieldsInterface
+    for (const [field, config] of Object.entries(fields)) {
+      for (const row of data) {
+        const value = row[field]
+        if (config.type === 'Link' && value) {
+          row[field] = {
+            // eslint-disable-next-line
+            // @ts-ignore
+            create: value,
+          }
+        }
+      }
+    }
     return this.databaseService.createMany(table, data)
   }
 
