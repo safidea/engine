@@ -16,13 +16,19 @@ describe('Invoice creation page', () => {
     // GIVEN
     // An invoice is listed on the home page
     const data = faker.generate('invoices')
-    const items = []
+    const itemsIds = []
     for (const item of data.items) {
       const row = await orm.invoices_item.create({ data: item })
-      items.push(row.id)
+      itemsIds.push(row.id)
     }
-    data.items = items
+    data.items = itemsIds
     const invoice = await orm.invoice.create({ data })
+    for (const itemId of itemsIds) {
+      await orm.invoices_item.update({
+        where: { id: itemId },
+        data: { invoice: invoice.id },
+      })
+    }
 
     // WHEN
     // We open the home page with an invoice

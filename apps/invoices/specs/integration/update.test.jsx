@@ -12,11 +12,23 @@ import {
 } from './fixtures'
 
 describe('A page that update an invoice', () => {
-  it.skip('should display the invoice data from the home page', async () => {
+  it('should display the invoice data from the home page', async () => {
     // GIVEN
     // An invoice is listed on the home page
     const data = faker.generate('invoices')
+    const items = []
+    for (const item of data.items) {
+      const row = await orm.invoices_item.create({ data: item })
+      items.push(row)
+    }
+    data.items = items.map((item) => item.id)
     const invoice = await orm.invoice.create({ data })
+    for (const item of items) {
+      await orm.invoices_item.update({
+        where: { id: item.id },
+        data: { invoice: invoice.id },
+      })
+    }
 
     // WHEN
     // We open the update page with an invoice
@@ -30,12 +42,12 @@ describe('A page that update an invoice', () => {
     const companyField = screen.getByLabelText('Client')
     expect(companyField.value).toContain(invoice.customer)
     const rows = screen.getAllByRole('row')
-    for (let i = 0; i < data.items.length; i++) {
-      const row = rows[i]
+    for (let i = 0; i < items.length; i++) {
+      const row = rows[i + 1]
       const utils = within(row)
       /** @type {HTMLInputElement} */
       const field = utils.getByPlaceholderText('Activité')
-      expect(field.value).toContain(data.items[i].activity)
+      expect(field.value).toContain(items[i].activity)
     }
   })
 

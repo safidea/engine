@@ -119,13 +119,9 @@ function Create(props: TableProps) {
 
 function Update({ table, rowsIds, ...props }: TableProps) {
   const ids = rowsIds.join(',')
-  const {
-    data = [],
-    error,
-    isLoading,
-  } = useSWR(
-    `/api/table/${table}?filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${ids}`
-  )
+  let url = `/api/table/${table}`
+  if (ids.length > 0) url += `filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${ids}`
+  const { data = [], error, isLoading } = useSWR(url)
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
   if (data.error) throw new Error(data.error)

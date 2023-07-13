@@ -256,6 +256,7 @@
                 },
                 {
                   "key": "items",
+                  "label": "Lignes de facture",
                   "fields": [
                     {
                       "key": "activity",
