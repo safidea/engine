@@ -13,7 +13,7 @@
       - [ ] Saisie automatique depuis la liste des clients ⚠ _(lien avec gestion de client)_
     - [x] Numéro de facture
     - [x] Prestation de service à l'heure : nombre d'heure
-    - [ ] Refacturation optionnelle : libellé + prix
+    - [x] Refacturation optionnelle : libellé + prix
     - [ ] => Montant total avec TVA est calculé automatiquement en fonction de : TVA, nombre d'heure, prix unitaire
     - [ ] Finaliser la facture : enregistrement de la date de facturation + génération de PDF et stockage du PDF + la facture devient non éditable
 - [ ] Émission de la facture vers le client

@@ -41,7 +41,7 @@ describe('A page that update an invoice', () => {
     }
   })
 
-  it('should update an invoice in realtime', async () => {
+  it('should update client invoice information in realtime', async () => {
     // GIVEN
     // An invoice is loaded in the update page
     const data = faker.generate('invoices')
@@ -63,5 +63,31 @@ describe('A page that update an invoice', () => {
     const updatedInvoice = await orm.invoice.findUnique({ where: { id: invoice.id } })
     const newCustomerValue = invoice.customer + updatedText
     expect(updatedInvoice.customer).toContain(newCustomerValue)
+  })
+
+  // TODO: make sure that this test can run as expected even while others are running
+  it.skip('should update invoice items in realtime', async () => {
+    // GIVEN
+    // There is an invoice with 1 item
+    const data = faker.generate('invoices')
+    const item = { ...data.items[0], activity: 'activity A' }
+    data.items = { create: [item] }
+    const invoice = await orm.invoice.create({ data })
+    await act(async () => {
+      render(<Page path="/update/[id]" pathParams={{ id: invoice.id }} />)
+    })
+
+    // WHEN
+    // We update the activity of the first invoice item line
+    const updatedActivity = 'activity B'
+    const user = userEvent.setup()
+    await user.clear(screen.getByPlaceholderText('Activité'))
+    await user.type(screen.getByPlaceholderText('Activité'), updatedActivity)
+    await waitForElementToBeRemoved(screen.getByText('Saving...'))
+
+    // THEN
+    // activity was updated
+    const [firstInvoiceItem] = await orm.invoices_item.findMany()
+    expect(firstInvoiceItem.activity).toBe(updatedActivity)
   })
 })
