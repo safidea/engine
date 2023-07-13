@@ -1,14 +1,10 @@
 // @ts-check
-import { render, screen, userEvent, router, faker, Foundation, act, within, orm } from './fixtures'
-
-// Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
-const CreatePage = () => Foundation.page({ path: '/create' })
-const HomePage = () => Foundation.page({ path: '/' })
+import { render, screen, userEvent, router, faker, Page, act, within, orm } from './fixtures'
 
 describe('A page that create an invoice', () => {
   it('renders a heading', () => {
     // WHEN
-    render(<CreatePage />)
+    render(<Page path="/create" />)
 
     // THEN
     expect(screen.getByRole('heading', { name: /facture/i })).toBeInTheDocument()
@@ -18,7 +14,7 @@ describe('A page that create an invoice', () => {
     // GIVEN
     const invoice = faker.generate('invoices')
     const user = userEvent.setup()
-    render(<CreatePage />)
+    render(<Page path="/create" />)
 
     // WHEN
     // Fill the form
@@ -43,7 +39,7 @@ describe('A page that create an invoice', () => {
     // Submit the form
     await user.click(screen.getByText('Enregistrer'))
     await act(async () => {
-      render(<HomePage />)
+      render(<Page path="/" />)
     })
 
     // THEN
@@ -55,7 +51,7 @@ describe('A page that create an invoice', () => {
 
   it('should display an error message when some required fields are not provided', async () => {
     // GIVEN
-    render(<CreatePage />)
+    render(<Page path="/create" />)
     const user = userEvent.setup()
 
     // WHEN

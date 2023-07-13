@@ -6,6 +6,7 @@ import { Response } from 'node-fetch'
 import faker from '../faker'
 import Foundation from '../../app/foundation'
 import orm from '../../app/orm'
+import { SWRConfig } from 'swr'
 
 const domain = 'http://localhost:3000'
 
@@ -24,7 +25,7 @@ jest.mock('next/navigation', () => {
 global.fetch = async (url, init) => {
   const { method = 'GET', body } = init || {}
   let params = {}
-  const path = url.match(/(?<=api\/).*(?=\??)/)?.[0]
+  const path = url.match(/(?<=api\/)[^?]+/)?.[0]
   if (!path) return {}
   const [api, p1, p2] = path.split('/')
   switch (api) {
@@ -45,15 +46,26 @@ global.fetch = async (url, init) => {
   return new Response(JSON.stringify(json), { status })
 }
 
+function Page(props) {
+  const { path, pathParams } = props
+  // Can't import directly CreatePage from app/create/page because of metadata : https://github.com/vercel/next.js/issues/47299
+  const FoundationPage = () => Foundation.page({ path, pathParams })
+  return (
+    <SWRConfig value={{ provider: () => new Map() }}>
+      <FoundationPage />
+    </SWRConfig>
+  )
+}
+
 export {
   render,
   screen,
   userEvent,
   router,
   faker,
-  Foundation,
   act,
   orm,
   waitForElementToBeRemoved,
   within,
+  Page,
 }

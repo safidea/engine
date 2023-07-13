@@ -39,6 +39,7 @@
     "jest-environment-jsdom": "29.5.0",
     "node-fetch": "2",
     "prisma": "^5.0.0",
+    "swr": "^2.1.5",
     "uuid": "^9.0.0"
   }
 }

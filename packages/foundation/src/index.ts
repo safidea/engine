@@ -29,12 +29,7 @@ class Foundation {
     const { orm, components } = props || {}
     const pathUtils = new PathUtils()
     this.configUtils = new ConfigUtils({ pathUtils, fromCompiled: true })
-    const {
-      version: appVersion,
-      name: appName,
-      database,
-      pages,
-    } = this.configUtils.get() as AppConfig
+    const { database, pages } = this.configUtils.get() as AppConfig
     if (database) {
       this.orm = orm
       this.ormProvider = getOrmProvider({ pathUtils, configUtils: this.configUtils })

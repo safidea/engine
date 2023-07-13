@@ -21,6 +21,7 @@ export type TableProps = CommonProps & {
     type: 'create' | 'update' | 'upsert'
   }
   onDataChange: (data: { [key: string]: string }[]) => void
+  rowsIds: string[]
 }
 
 function Rows({ data = [], fields, label, addLabel, onDataChange }: RowsProps) {
@@ -116,11 +117,19 @@ function Create(props: TableProps) {
   return <Rows {...props} />
 }
 
-function Update({ table, ...props }: TableProps) {
-  const { data = [], error, isLoading } = useSWR(`/api/table/${table}`)
+function Update({ table, rowsIds, ...props }: TableProps) {
+  const ids = rowsIds.join(',')
+  const {
+    data = [],
+    error,
+    isLoading,
+  } = useSWR(
+    `/api/table/${table}?filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${ids}`
+  )
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>
-  return <Rows data={data} {...props} table={table} />
+  if (data.error) throw new Error(data.error)
+  return <Rows data={data} {...props} table={table} rowsIds={rowsIds} />
 }
 
 export default function Table({ submit, ...props }: TableProps) {

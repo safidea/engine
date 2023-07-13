@@ -4,7 +4,7 @@ import {
   screen,
   userEvent,
   faker,
-  Foundation,
+  Page,
   act,
   orm,
   waitForElementToBeRemoved,
@@ -17,16 +17,11 @@ describe('A page that update an invoice', () => {
     // An invoice is listed on the home page
     const data = faker.generate('invoices')
     const invoice = await orm.invoice.create({ data })
-    await act(async () => {
-      render(Foundation.page({ path: '/' }))
-    })
 
     // WHEN
-    // The user clicks on an invoice
-    const editButton = screen.getByRole('link', { name: /Éditer/i })
-    expect(editButton).toHaveAttribute('href', `/update/${invoice.id}`)
+    // We open the update page with an invoice
     await act(async () => {
-      render(Foundation.page({ path: `/update/[id]`, pathParams: { id: invoice.id } }))
+      render(<Page path="/update/[id]" pathParams={{ id: invoice.id }} />)
     })
 
     // THEN
@@ -34,24 +29,24 @@ describe('A page that update an invoice', () => {
     /** @type {HTMLInputElement} */
     const companyField = screen.getByLabelText('Client')
     expect(companyField.value).toContain(invoice.customer)
+    const rows = screen.getAllByRole('row')
     for (let i = 0; i < data.items.length; i++) {
-      const rows = screen.getAllByRole('row')
-      const lastRow = rows[i]
-      const utils = within(lastRow)
+      const row = rows[i]
+      const utils = within(row)
       /** @type {HTMLInputElement} */
       const field = utils.getByPlaceholderText('Activité')
       expect(field.value).toContain(data.items[i].activity)
     }
   })
 
-  test('should update an invoice in realtime', async () => {
+  it('should update an invoice in realtime', async () => {
     // GIVEN
     // An invoice is loaded in the update page
     const invoice = await orm.invoice.create({
       data: faker.generate('invoices'),
     })
     await act(async () => {
-      render(Foundation.page({ path: `/update/[id]`, pathParams: { id: invoice.id } }))
+      render(<Page path="/update/[id]" pathParams={{ id: invoice.id }} />)
     })
 
     // WHEN

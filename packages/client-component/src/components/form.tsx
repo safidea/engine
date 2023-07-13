@@ -10,7 +10,7 @@ type FieldsProps = FormProps & {
 
 type FieldProps = {
   field: FormField
-  value: string | { [key: string]: string }[]
+  value: string | string[] | { [key: string]: string }[]
   handleChange: (name: string, value: string | { [key: string]: string }[]) => void
 }
 
@@ -19,6 +19,7 @@ function Field({ field, value, handleChange }: FieldProps) {
     case 'table': {
       if (!field.table) throw new Error('Link field must have a table')
       if (!field.fields) throw new Error('Link field must have fields')
+      const rowsIds = Array.isArray(value) ? value : []
       return (
         <div className="mb-4">
           <Table
@@ -27,6 +28,7 @@ function Field({ field, value, handleChange }: FieldProps) {
             addLabel={field.addLabel}
             label={field.label}
             submit={field.submit}
+            rowsIds={rowsIds.map((id) => String(id))}
             onDataChange={(data: { [key: string]: string }[]) => handleChange(field.key, data)}
           />
         </div>
