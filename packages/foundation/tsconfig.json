@@ -2,8 +2,7 @@
   "extends": "config-typescript/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
     "jsx": "preserve"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "specs/**/*.ts", "playwright.config.ts"]
 }

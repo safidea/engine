@@ -66,7 +66,6 @@ describe('A page that update an invoice', () => {
     expect(updatedInvoice.customer).toContain(newCustomerValue)
   })
 
-  // TODO: make sure that this test can run as expected even while others are running
   it('should update invoice items in realtime', async () => {
     // GIVEN
     // There is an invoice with 1 item
