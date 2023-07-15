@@ -1,5 +1,5 @@
-import './env'
-import Config from './commands/config'
+import './infrastructure/env'
+import Config from './infrastructure/commands/config'
 
 const [cmd] = process.argv.slice(2)
 

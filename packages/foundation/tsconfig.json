@@ -1,8 +1,9 @@
 {
-  "extends": "config-typescript/base.json",
+  "extends": "config-typescript/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
-    "jsx": "preserve"
+    "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "specs/**/*.ts", "playwright.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "specs/**/*.ts", "playwright.config.ts"],
+  "exclude": ["src/infrastructure/client/**/*"]
 }

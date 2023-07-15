@@ -11,7 +11,7 @@ import type {
   OrmProviderTablesInterface,
 } from 'server-database'
 import type { TableInterface } from 'server-table'
-import type { ProviderProps } from '../../interfaces/provider'
+import type { ProviderProps } from '../../../domain/interfaces/provider'
 
 const log = debug('spec:database-provider')
 

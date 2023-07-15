@@ -5,7 +5,7 @@ import debug from 'debug'
 
 import type { OrmProviderInterface } from 'server-database'
 import type { AppProviderInterface } from 'shared-common'
-import type { ProviderProps } from '../interfaces/provider'
+import type { ProviderProps } from '../../domain/interfaces/provider'
 
 const { FOUNDATION_APP_PROVIDER = 'next', FOUNDATION_ORM_PROVIDER = 'prisma' } = process.env
 

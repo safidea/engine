@@ -1,9 +1,9 @@
-import './env'
+import './infrastructure/env'
 import { ApiError, ConfigUtils, PathUtils } from 'server-common'
 import { DatabaseService } from 'server-database'
 import { PageComponent } from 'client-page'
 import { TableRoute } from 'server-table'
-import { getOrmProvider } from './providers'
+import { getOrmProvider } from './infrastructure/providers'
 
 import type {
   AppConfig,

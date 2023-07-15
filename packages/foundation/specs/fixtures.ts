@@ -31,7 +31,9 @@ async function findAvailablePort(): Promise<number> {
 
 async function startServer(env: Env = {}): Promise<ChildProcessWithoutNullStreams> {
   return new Promise((resolve, reject) => {
-    const server = spawn('node', ['dist/src/server.js'], { env: { ...process.env, ...env } })
+    const server = spawn('node', ['dist/src/infrastructure/server.js'], {
+      env: { ...process.env, ...env },
+    })
     server.stdout.on('data', (data) => {
       const output = data.toString()
       log(`stdout: ${output}`)
