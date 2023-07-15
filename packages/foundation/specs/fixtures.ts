@@ -10,12 +10,12 @@ const log = debug('specs:fixtures')
 type Env = Record<string, string>
 type AppConfig = {
   database: {
-    url: string
-    provider?: string
+    url?: string
+    provider: string
   }
 }
 
-async function findAvailablePort() {
+async function findAvailablePort(): Promise<number> {
   return new Promise<number>((resolve, reject) => {
     const server = net.createServer()
     server.unref()
@@ -53,7 +53,12 @@ async function startServer(env: Env = {}): Promise<ChildProcessWithoutNullStream
   })
 }
 
-const test = base.extend({
+type Fixtures = {
+  port: number
+  app: (config: AppConfig, env?: Env) => Promise<void>
+}
+
+const test = base.extend<Fixtures>({
   port: async ({}, use) => {
     const freePort = await findAvailablePort()
     await use(freePort)
@@ -65,7 +70,7 @@ const test = base.extend({
   app: async ({ port }, use) => {
     let server: ChildProcessWithoutNullStreams | undefined
     await fs.ensureDir(join(__dirname, './tmp/' + port))
-    await use(async (config: AppConfig, env: Env = {}) => {
+    await use(async (config, env = {}) => {
       const path = join(__dirname, `./tmp/${port}/config.json`)
       await fs.writeJSON(path, config)
       server = await startServer({
