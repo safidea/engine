@@ -1,4 +1,11 @@
-import { render, screen, act, waitForElementToBeRemoved, within } from '@testing-library/react'
+import {
+  render,
+  screen,
+  act,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { URL } from 'url'
@@ -57,6 +64,10 @@ function Page(props) {
   )
 }
 
+beforeEach(async () => {
+  await orm.deleteAll()
+})
+
 export {
   render,
   screen,
@@ -66,6 +77,7 @@ export {
   act,
   orm,
   waitForElementToBeRemoved,
+  waitFor,
   within,
   Page,
 }

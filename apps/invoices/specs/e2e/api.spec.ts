@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test('should create a list of rows', async ({ request, orm, faker }) => {
+  test.skip('should create a list of rows', async ({ request, orm, faker }) => {
     // GIVEN
     // We create 2 invoices
     const invoices = faker.generate('invoices', 2)

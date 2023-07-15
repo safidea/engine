@@ -22,27 +22,14 @@ export type TableProps = CommonProps & {
   }
   onDataChange: (data: { [key: string]: string }[]) => void
   rowsIds: string[]
+  addRow?: () => void
 }
 
-function Rows({ data = [], fields, label, addLabel, onDataChange }: RowsProps) {
-  const [tableData, setTableData] = useState(data)
-
-  const addRow = () => {
-    const newRow = fields.reduce(
-      (acc, field) => {
-        acc[field.key] = ''
-        return acc
-      },
-      {} as Record<string, string>
-    )
-    setTableData([...tableData, newRow])
-  }
-
+function Rows({ data = [], fields, label, addLabel, onDataChange, addRow }: RowsProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value } = e.target
-    const newData = [...tableData]
+    const newData = [...data]
     newData[index][name] = value
-    setTableData(newData)
     onDataChange(newData)
   }
 
@@ -87,7 +74,7 @@ function Rows({ data = [], fields, label, addLabel, onDataChange }: RowsProps) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {tableData.map((row, indexRow) => (
+                  {data.map((row, indexRow) => (
                     <tr key={row.id ?? indexRow} className="divide-x divide-gray-200">
                       {fields.map((field, indexCell) => (
                         <td key={indexCell}>
@@ -113,19 +100,47 @@ function Rows({ data = [], fields, label, addLabel, onDataChange }: RowsProps) {
   )
 }
 
-function Create(props: TableProps) {
-  return <Rows {...props} />
+type CreateRecord = Record<string, string>[]
+
+function Create({ fields, ...props }: TableProps) {
+  const [tableData, setTableData] = useState<CreateRecord>([])
+
+  const addRow = () => {
+    const newRow = fields.reduce(
+      (acc, field) => {
+        acc[field.key] = ''
+        return acc
+      },
+      {} as Record<string, string>
+    )
+    setTableData([...tableData, newRow])
+  }
+  return <Rows data={tableData} fields={fields} {...props} addRow={addRow} />
 }
 
-function Update({ table, rowsIds, ...props }: TableProps) {
+function Update({ table, rowsIds, onDataChange, ...props }: TableProps) {
+  const [tableData, setTableData] = useState<CreateRecord>([])
   const ids = rowsIds.join(',')
   let url = `/api/table/${table}`
   if (ids.length > 0) url += `?filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${ids}`
-  const { data = [], error, isLoading } = useSWR(url)
-  if (error) return <div>failed to load</div>
-  if (isLoading) return <div>loading...</div>
-  if (data.error) throw new Error(data.error)
-  return <Rows data={data} {...props} table={table} rowsIds={rowsIds} />
+  const { data = [], error, mutate } = useSWR(url, { keepPreviousData: true })
+  if (error) return <div>Failed to load</div>
+  if (data.length > 0 && tableData.length === 0) {
+    setTableData([...data])
+    onDataChange([...data])
+  }
+  return (
+    <Rows
+      data={tableData}
+      {...props}
+      table={table}
+      rowsIds={rowsIds}
+      onDataChange={(data) => {
+        setTableData([...data])
+        onDataChange([...data])
+      }}
+    />
+  )
 }
 
 export default function Table({ submit, ...props }: TableProps) {

@@ -66,6 +66,16 @@ class JsonOrmProvider implements OrmProviderInterface {
           .join(',\n')}
       }
       _tables = ${JSON.stringify(this.tables, null, 2)}
+
+      deleteAll = async () => {
+        this._db = {
+          ${Object.keys(this.tables)
+            .map((tableName) => {
+              return `${tableName}: []`
+            })
+            .join(',\n')}
+        }
+      }
       
       ${Object.keys(this.tables)
         .map((tableName) => {
@@ -96,6 +106,7 @@ class JsonOrmProvider implements OrmProviderInterface {
                 id: uuidv4(),
                 created_at: new Date().toISOString(),
               }
+              // TODO: make this generic for all generated tables
               if (row.items?.create) {
                 const rows = await this.invoices_item.createMany({ data: row.items.create })
                 row.items = rows.map((r) => r.id)
@@ -111,8 +122,18 @@ class JsonOrmProvider implements OrmProviderInterface {
             update: async ({ where: { id }, data }) => {
               delete data.total_amount
               const index = this._db.${tableName}.findIndex((row) => row.id === id)
-              this._db.${tableName}[index] = { ...this._db.${tableName}[index], ...data }
-              return this._db.${tableName}[index]
+              const row = { ...this._db.${tableName}[index], ...data }
+              if (row.items?.update) {
+                const rows = await this.invoices_item.updateMany({ data: row.items.update })
+                row.items = rows.map((r) => r.id)
+              }
+              this._db.${tableName}[index] = row
+              return row
+            },
+            updateMany: async ({ data }) => {
+              return Promise.all(data.map((row) => this.${StringUtils.singular(
+                tableName
+              )}.update({ data: row, where: { id: row.id } })))
             },
             upsert: async ({ where: { id }, create, update }) => {
               const index = this._db.${tableName}.findIndex((row) => row.id === id)

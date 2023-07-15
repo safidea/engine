@@ -8,6 +8,7 @@ import {
   act,
   orm,
   waitForElementToBeRemoved,
+  waitFor,
   within,
 } from './fixtures'
 
@@ -66,11 +67,11 @@ describe('A page that update an invoice', () => {
   })
 
   // TODO: make sure that this test can run as expected even while others are running
-  it.skip('should update invoice items in realtime', async () => {
+  it('should update invoice items in realtime', async () => {
     // GIVEN
     // There is an invoice with 1 item
     const data = faker.generate('invoices')
-    const item = { ...data.items[0], activity: 'activity A' }
+    const item = { ...data.items[0], activity: 'activity' }
     data.items = { create: [item] }
     const invoice = await orm.invoice.create({ data })
     await act(async () => {
@@ -80,9 +81,7 @@ describe('A page that update an invoice', () => {
     // WHEN
     // We update the activity of the first invoice item line
     const updatedActivity = 'activity B'
-    const user = userEvent.setup()
-    await user.clear(screen.getByPlaceholderText('Activité'))
-    await user.type(screen.getByPlaceholderText('Activité'), updatedActivity)
+    await userEvent.type(screen.getByPlaceholderText('Activité'), ' B')
     await waitForElementToBeRemoved(screen.getByText('Saving...'))
 
     // THEN

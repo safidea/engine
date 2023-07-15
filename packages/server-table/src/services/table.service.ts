@@ -56,6 +56,17 @@ class TableService {
   }
 
   public async update(table: string, id: string, data: DatabaseDataType) {
+    const fields = this.configUtils.get(`tables.${table}.fields`) as TableFieldsInterface
+    for (const [field, config] of Object.entries(fields)) {
+      const value = data[field]
+      if (config.type === 'Link' && value) {
+        data[field] = {
+          // eslint-disable-next-line
+          // @ts-ignore
+          update: value,
+        }
+      }
+    }
     data.updated_at = new Date().toISOString()
     return this.databaseService.updateById(table, id, data)
   }

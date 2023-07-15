@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import useSWR from 'swr'
 import Table from './Table'
 
@@ -68,7 +68,7 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
   const [formData, setFormData] = useState(defaultValues)
 
   const saveData = async (data: Record<string, string | { [key: string]: string }[]>) => {
-    setIsSaving(true)
+    if (!isSaving) setIsSaving(true)
     const url = `/api/table/${table}` + (submit.type === 'update' ? `/${pathParams?.id}` : '')
     const method = submit.type === 'update' ? 'PATCH' : 'POST'
     const res = await fetch(url, {
@@ -97,21 +97,20 @@ function Fields({ table, fields, router, submit, defaultFieldValues, pathParams 
 
   const handleChange = (name: string, value: string | { [key: string]: string }[]) => {
     const updatedData = { ...formData, [name]: value }
-    // TODO: remove this when we have a better way to handle table fields
-    if (updatedData.items && submit.type === 'update') delete updatedData.items
     setFormData(updatedData)
     if (submit.autosave === true) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
+      } else {
+        setIsSaving(true)
       }
-      setIsSaving(true)
       timeoutRef.current = setTimeout(() => saveData(updatedData), 1000)
     }
   }
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    saveData(formData)
+    await saveData(formData)
   }
 
   return (
