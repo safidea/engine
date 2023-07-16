@@ -9,7 +9,7 @@ import type {
   AppProviderFoundationFileOptions,
 } from 'shared-common'
 import type { PagesInterface } from 'shared-page'
-import type { ProviderProps } from '../../../domain/interfaces/provider'
+import type { ProviderProps } from '../../interfaces/provider'
 
 class NextServerProvider implements AppProviderInterface {
   private appPath: string

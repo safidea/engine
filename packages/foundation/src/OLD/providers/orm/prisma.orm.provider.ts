@@ -10,7 +10,7 @@ import type {
   OrmProviderTablesInterface,
 } from 'server-database'
 import type { TableInterface } from 'shared-table'
-import type { ProviderProps } from '../../../domain/interfaces/provider'
+import type { ProviderProps } from '../../interfaces/provider'
 
 class PrismaOrmProvider implements OrmProviderInterface {
   private appName: string

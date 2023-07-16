@@ -312,6 +312,9 @@ importers:
       fs-extra:
         specifier: 11.1.1
         version: 11.1.1
+      module-alias:
+        specifier: ^2.2.3
+        version: 2.2.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -6919,6 +6922,10 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+    dev: false
+
+  /module-alias@2.2.3:
+    resolution: {integrity: sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==}
     dev: false
 
   /ms@2.0.0:
