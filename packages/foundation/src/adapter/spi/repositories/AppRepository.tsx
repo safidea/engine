@@ -8,9 +8,14 @@ export class AppRepository {
     return getSchema()
   }
   async getPage(path: string): Promise<ReactElement> {
-    return <div>{path}</div>
+    return (
+      <div>
+        <h1>Hello World!</h1>
+        <p>path: {path}</p>
+      </div>
+    )
   }
   async requestRoute(): Promise<ResponseDto> {
-    return { message: 'Hello World !!!' }
+    return { message: 'Hello World!' }
   }
 }
