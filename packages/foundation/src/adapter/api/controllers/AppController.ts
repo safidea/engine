@@ -3,6 +3,7 @@ import { GetAppPage } from '@application/usecases/GetAppPage'
 import { RequestAppRoute } from '@application/usecases/RequestAppRoute'
 import { AppRepository } from '@adapter/spi/repositories/AppRepository'
 import { AppDto } from '@application/dtos/AppDto'
+import { ResponseDto } from '@application/dtos/ResponseDto'
 import { ReactElement } from 'react'
 
 export class AppController {
@@ -25,7 +26,7 @@ export class AppController {
     return this.getAppPage.execute(path)
   }
 
-  async requestRoute(): Promise<any> {
+  async requestRoute(): Promise<ResponseDto> {
     return this.requestAppRoute.execute()
   }
 }
