@@ -1,18 +1,19 @@
-import { test as base, expect } from '@playwright/test'
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process'
 import debug from 'debug'
 import fs from 'fs-extra'
 import { join } from 'path'
 import net from 'net'
+import { test as base, expect } from '@playwright/test'
+import { AppDto } from '@application/dtos/AppDto'
 
 const log = debug('specs:fixtures')
 
-type Env = Record<string, string>
-type AppConfig = {
-  database: {
-    url?: string
-    provider: string
-  }
+interface Env {
+  [key: string]: string
+}
+interface Fixtures {
+  port: number
+  app: (schema: AppDto, env?: Env) => Promise<void>
 }
 
 async function findAvailablePort(): Promise<number> {
@@ -31,7 +32,7 @@ async function findAvailablePort(): Promise<number> {
 
 async function startServer(env: Env = {}): Promise<ChildProcessWithoutNullStreams> {
   return new Promise((resolve, reject) => {
-    const server = spawn('node', ['dist/src/infrastructure/server/server.js'], {
+    const server = spawn('node', ['dist/src/infrastructure/server/express.js'], {
       env: { ...process.env, ...env },
     })
     server.stdout.on('data', (data) => {
@@ -55,11 +56,6 @@ async function startServer(env: Env = {}): Promise<ChildProcessWithoutNullStream
   })
 }
 
-type Fixtures = {
-  port: number
-  app: (config: AppConfig, env?: Env) => Promise<void>
-}
-
 const test = base.extend<Fixtures>({
   port: async ({}, use) => {
     const freePort = await findAvailablePort()
@@ -73,10 +69,10 @@ const test = base.extend<Fixtures>({
     let server: ChildProcessWithoutNullStreams | undefined
     await fs.ensureDir(join(__dirname, './tmp/' + port))
     await use(async (config, env = {}) => {
-      const path = join(__dirname, `./tmp/${port}/config.json`)
-      await fs.writeJSON(path, config)
+      const path = `specs/tmp/${port}/app.json`
+      await fs.writeJSON(join(process.cwd(), path), config)
       server = await startServer({
-        FOUNDATION_CONFIG: path,
+        FOUNDATION_APP: path,
         PORT: String(port),
         ...env,
       })

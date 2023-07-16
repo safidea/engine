@@ -45,6 +45,7 @@
     "@types/debug": "4.1.7",
     "@types/express": "^4.17.17",
     "@types/fs-extra": "11.0.1",
+    "@types/module-alias": "^2.0.1",
     "@types/node": "^18.16.19",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
@@ -62,6 +63,6 @@
     "@application": "dist/src/application",
     "@domain": "dist/src/domain",
     "@infrastructure": "dist/src/infrastructure",
-    "@interface": "dist/src/interface"
+    "@adapter": "dist/src/adapter"
   }
 }

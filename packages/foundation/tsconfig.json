@@ -8,7 +8,7 @@
       "@application/*": ["application/*"],
       "@domain/*": ["domain/*"],
       "@infrastructure/*": ["infrastructure/*"],
-      "@interface/*": ["interface/*"]
+      "@adapter/*": ["adapter/*"]
     },
     "typeRoots": ["./node_modules/@types", "src/infrastructure/@types"]
   },

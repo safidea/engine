@@ -4,7 +4,7 @@ type Database = {
   }[]
 }
 
-export class MemoryDatabase {
+export class InmemoryOrm {
   private db: Database = {}
 
   async create(collection: string, data: any): Promise<any> {
