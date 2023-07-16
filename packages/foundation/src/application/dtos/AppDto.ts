@@ -1,7 +1,7 @@
-import { PagesDto } from './PagesDto'
+import { PageDto } from './PageDto'
 
 export interface AppDto {
   name?: string
   version?: string
-  pages?: PagesDto
+  pages?: PageDto[]
 }

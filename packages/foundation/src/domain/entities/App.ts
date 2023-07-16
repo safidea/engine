@@ -1,9 +1,12 @@
+import { Page } from './Page'
 export class App {
   public name: string
   public version: string
+  public pages: Page[]
 
-  constructor(config: App) {
-    this.name = config.name
-    this.version = config.version
+  constructor(schema: App) {
+    this.name = schema.name
+    this.version = schema.version
+    this.pages = schema.pages.map((page) => new Page(page))
   }
 }

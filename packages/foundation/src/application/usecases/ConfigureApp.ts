@@ -1,6 +1,6 @@
 import { App } from '@domain/entities/App'
 import { AppDto } from '@application/dtos/AppDto'
-import { mapDtoToApp } from '@application/mappers/AppMapper'
+import { mapDtoToApp, mapAppToDto } from '@application/mappers/AppMapper'
 import { AppRepository } from '@adapter/spi/repositories/AppRepository'
 
 export class ConfigureApp {
@@ -8,6 +8,7 @@ export class ConfigureApp {
 
   async execute(): Promise<AppDto> {
     const schema: AppDto = await this.appRepository.getSchema()
-    return new App(mapDtoToApp(schema))
+    const appConfig = new App(mapDtoToApp(schema))
+    return mapAppToDto(appConfig)
   }
 }

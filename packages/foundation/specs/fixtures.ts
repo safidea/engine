@@ -13,7 +13,7 @@ interface Env {
 }
 interface Fixtures {
   port: number
-  app: (schema: AppDto, env?: Env) => Promise<void>
+  startApp: (schema: AppDto, env?: Env) => Promise<void>
 }
 
 async function findAvailablePort(): Promise<number> {
@@ -37,21 +37,13 @@ async function startServer(env: Env = {}): Promise<ChildProcessWithoutNullStream
     })
     server.stdout.on('data', (data) => {
       const output = data.toString()
-      log(`stdout: ${output}`)
       if (output.includes('Server is running')) {
-        log('Server is ready, you can start testing now')
         resolve(server)
       }
-    })
-    server.stderr.on('data', (data) => {
-      log(`stderr: ${data.toString()}`)
     })
     server.on('error', (error) => {
       log(`Error: ${error.message}`)
       reject(error)
-    })
-    server.on('close', (code) => {
-      log(`Server process exited with code ${code}`)
     })
   })
 }
@@ -65,7 +57,7 @@ const test = base.extend<Fixtures>({
     const baseURL = `http://localhost:${port}`
     await use(baseURL)
   },
-  app: async ({ port }, use) => {
+  startApp: async ({ port }, use) => {
     let server: ChildProcessWithoutNullStreams | undefined
     await fs.ensureDir(join(__dirname, './tmp/' + port))
     await use(async (config, env = {}) => {
@@ -76,10 +68,28 @@ const test = base.extend<Fixtures>({
         PORT: String(port),
         ...env,
       })
+      server.stdout.on('data', (data) => {
+        log(`Server console: ${data.toString()}`)
+      })
+      server.stderr.on('data', (data) => {
+        log(`Server error: ${data.toString()}`)
+      })
     })
     if (server) server.kill('SIGTERM')
     await fs.remove(join(__dirname, './tmp/' + port))
   },
+})
+
+test.beforeEach(async ({ page }) => {
+  page.on('console', (message) => {
+    log(`Browser console: ${message.text()}`)
+  })
+  page.on('request', (request) => {
+    log(`Request: ${request.url()}`)
+  })
+  page.on('response', (response) => {
+    log(`Response: ${response.url()} Status: ${response.status()}`)
+  })
 })
 
 export { test, expect }

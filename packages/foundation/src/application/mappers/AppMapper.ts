@@ -1,9 +1,18 @@
 import { AppDto } from '@application/dtos/AppDto'
-import { App } from 'shared-app'
+import { App } from '@domain/entities/App'
 
-export function mapDtoToApp(app: AppDto): App {
+export function mapDtoToApp(schema: AppDto): App {
   return {
-    name: app.name ?? 'My new app',
-    version: app.version ?? '0.0.0',
+    name: schema.name ?? 'My new app',
+    version: schema.version ?? '0.0.0',
+    pages: schema.pages ?? [],
+  }
+}
+
+export function mapAppToDto(app: App): AppDto {
+  return {
+    name: app.name,
+    version: app.version,
+    pages: app.pages,
   }
 }

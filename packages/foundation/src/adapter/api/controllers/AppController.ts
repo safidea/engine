@@ -7,6 +7,7 @@ import { ResponseDto } from '@application/dtos/ResponseDto'
 import { ReactElement } from 'react'
 
 export class AppController {
+  private appConfig: AppDto | undefined
   private getAppPage: GetAppPage
   private requestAppRoute: RequestAppRoute
   private configureApp: ConfigureApp
@@ -23,10 +24,12 @@ export class AppController {
   }
 
   async getPage(path: string): Promise<ReactElement> {
-    return this.getAppPage.execute(path)
+    if (!this.appConfig) this.appConfig = await this.configure()
+    return this.getAppPage.execute(path, this.appConfig)
   }
 
   async requestRoute(): Promise<ResponseDto> {
+    if (!this.appConfig) this.appConfig = await this.configure()
     return this.requestAppRoute.execute()
   }
 }
