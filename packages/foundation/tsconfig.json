@@ -2,7 +2,6 @@
   "extends": "config-typescript/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
-    "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
       "@application/*": ["application/*"],
@@ -12,6 +11,5 @@
     },
     "typeRoots": ["./node_modules/@types", "src/infrastructure/@types"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "specs/**/*.ts", "playwright.config.ts"],
-  "exclude": ["src/infrastructure/client/**/*"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "specs/**/*.ts", "playwright.config.ts"]
 }

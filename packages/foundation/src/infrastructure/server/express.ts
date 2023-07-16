@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
-import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { AppController } from '@adapter/api/controllers/AppController'
 
@@ -38,14 +37,6 @@ async function startServer() {
         </html>
       `)
     })
-
-    // Serve static files from the React build directory
-    //app.use(express.static(join(process.cwd(), 'dist/public')))
-
-    // Handles any requests that don't match the ones above
-    /*app.get('*', (req, res) => {
-      res.sendFile(join(process.cwd(), 'public/index.html'))
-    })*/
 
     app.listen(PORT, () => {
       console.log(`Server is running at port ${PORT}`)
