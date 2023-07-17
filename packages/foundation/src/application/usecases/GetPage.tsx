@@ -12,7 +12,7 @@ export class GetPage {
   ) {}
 
   async execute(path: string): Promise<ReactElement> {
-    const { pages } = await this.appController.getConfig()
+    const { pages } = this.appController.get()
     if (!pages) throw new Error('Pages not found')
     const page = pages.find((page) => page.path === path)
     if (!page) throw new Error(`Page ${path} not found`)

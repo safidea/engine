@@ -6,8 +6,8 @@ import { AppRepository } from '@adapter/spi/repositories/AppRepository'
 export class ConfigureApp {
   constructor(private appRepository: AppRepository) {}
 
-  async execute(): Promise<AppDto> {
-    const schema: AppDto = await this.appRepository.getSchema()
+  execute(): AppDto {
+    const schema: AppDto = this.appRepository.getSchema()
     const appConfig = new App(mapDtoToApp(schema))
     return mapAppToDto(appConfig)
   }

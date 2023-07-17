@@ -11,25 +11,19 @@ interface IAppControllerProps {
 }
 
 export class AppController {
-  private configureApp: ConfigureApp
-  private app: AppDto | undefined
+  private app: AppDto
   public orm: IOrmRepository
   public components: IComponentsRepository
 
   constructor({ orm, schema, components }: IAppControllerProps) {
     const appRepository = new AppRepository(schema)
-    this.configureApp = new ConfigureApp(appRepository)
+    const configureApp = new ConfigureApp(appRepository)
+    this.app = configureApp.execute()
     this.orm = orm
     this.components = components
   }
 
-  async configure(): Promise<AppDto> {
-    this.app = await this.configureApp.execute()
-    return this.app
-  }
-
-  async getConfig(): Promise<AppDto> {
-    if (!this.app) this.app = await this.configure()
+  get(): AppDto {
     return this.app
   }
 }
