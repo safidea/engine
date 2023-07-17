@@ -6,6 +6,7 @@ export function mapDtoToApp(schema: AppDto): App {
     name: schema.name ?? 'My new app',
     version: schema.version ?? '0.0.0',
     pages: schema.pages ?? [],
+    tables: schema.tables ?? [],
   }
 }
 
@@ -14,5 +15,6 @@ export function mapAppToDto(app: App): AppDto {
     name: app.name,
     version: app.version,
     pages: app.pages,
+    tables: app.tables,
   }
 }

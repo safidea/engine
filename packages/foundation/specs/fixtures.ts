@@ -5,6 +5,7 @@ import { join } from 'path'
 import net from 'net'
 import { test as base, expect } from '@playwright/test'
 import { AppDto } from '@application/dtos/AppDto'
+import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 
 const log = debug('specs:fixtures')
 
@@ -13,7 +14,7 @@ interface Env {
 }
 interface Fixtures {
   port: number
-  startApp: (schema: AppDto, env?: Env) => Promise<void>
+  startApp: (schema: AppDto, env?: Env) => Promise<InMemoryOrm>
 }
 
 async function findAvailablePort(): Promise<number> {
@@ -61,10 +62,10 @@ const test = base.extend<Fixtures>({
     let server: ChildProcessWithoutNullStreams | undefined
     await fs.ensureDir(join(__dirname, './tmp/' + port))
     await use(async (config, env = {}) => {
-      const path = `specs/tmp/${port}/app.json`
-      await fs.writeJSON(join(process.cwd(), path), config)
+      const appFolder = join(process.cwd(), `specs/tmp/${port}`)
+      await fs.writeJSON(join(appFolder, 'app.json'), config)
       server = await startServer({
-        FOUNDATION_APP: path,
+        FOUNDATION_APP_FOLDER: appFolder,
         PORT: String(port),
         ...env,
       })
@@ -74,6 +75,7 @@ const test = base.extend<Fixtures>({
       server.stderr.on('data', (data) => {
         log(`Server error: ${data.toString()}`)
       })
+      return new InMemoryOrm(appFolder)
     })
     if (server) server.kill('SIGTERM')
     await fs.remove(join(__dirname, './tmp/' + port))

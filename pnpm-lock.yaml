@@ -352,6 +352,9 @@ importers:
         specifier: workspace:*
         version: link:../shared-table
     devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
       '@playwright/test':
         specifier: 1.33.0
         version: 1.33.0

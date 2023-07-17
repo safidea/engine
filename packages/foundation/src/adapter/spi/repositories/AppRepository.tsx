@@ -1,6 +1,6 @@
 import { AppDto } from '@application/dtos/AppDto'
 import { ResponseDto } from '@application/dtos/ResponseDto'
-import { getSchema } from '@infrastructure/config/schema'
+import { getSchema } from '@infrastructure/config/Schema'
 import * as Components from '@infrastructure/client/components'
 import type { HtmlProps } from '@infrastructure/client/components'
 import { ReactElement } from 'react'

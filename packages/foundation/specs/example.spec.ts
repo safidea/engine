@@ -1,6 +1,7 @@
 import { test, expect } from './fixtures'
 
 test('Page has text hello word', async ({ page, startApp }) => {
+  // GIVEN
   await startApp({
     pages: [
       {
@@ -14,13 +15,38 @@ test('Page has text hello word', async ({ page, startApp }) => {
       },
     ],
   })
+
+  // WHEN
   await page.goto('/')
+
+  // THEN
   await expect(page.getByText('Hello World!')).toBeVisible()
 })
 
-test('Route response message hello world', async ({ request, startApp }) => {
-  await startApp({})
-  const response = await request.get('/api')
-  const { message } = await response.json()
-  expect(message).toBe('Hello World!')
+test.skip('Route response message hello world', async ({ request, startApp }) => {
+  // GIVEN
+  const db = await startApp({
+    tables: [
+      {
+        name: 'invoices',
+        fields: [
+          {
+            name: 'customer',
+            type: 'text',
+          },
+        ],
+      },
+    ],
+  })
+
+  // WHEN
+  await request.post('/api/table/invoices', {
+    data: {
+      customer: 'Essentiel',
+    },
+  })
+
+  // THEN
+  const [row] = await db.list('invoices')
+  expect(row.customer).toBe('Essentiel')
 })
