@@ -4,8 +4,6 @@ import net from 'net'
 import { App } from './app'
 import { Helpers } from './helpers'
 
-const log = debug('specs:fixtures')
-
 interface Fixtures {
   port: number
   app: App
@@ -45,6 +43,8 @@ const test = base.extend<Fixtures>({
     await use(helpers)
   },
 })
+
+const log = debug('specs:playwright')
 
 test.beforeEach(async ({ page }) => {
   page.on('console', (message) => {

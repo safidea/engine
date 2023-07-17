@@ -33,9 +33,17 @@ export class App {
           resolve(server)
         }
       })
-      server.on('error', (error) => {
-        log(`Error: ${error.message}`)
+      server.stderr.on('data', (data) => {
+        const error = data.toString()
+        log(`Server error: ${error}`)
         reject(error)
+      })
+      server.on('error', (error) => {
+        log(`Server error: ${error.message}`)
+        reject(error)
+      })
+      server.on('close', (code) => {
+        log(`Server closed with code: ${code}`)
       })
     })
     this.server.stdout.on('data', (data) => {
