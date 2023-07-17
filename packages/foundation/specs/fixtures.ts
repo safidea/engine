@@ -1,20 +1,15 @@
-import { spawn, ChildProcessWithoutNullStreams } from 'child_process'
 import debug from 'debug'
-import fs from 'fs-extra'
-import { join } from 'path'
-import net from 'net'
 import { test as base, expect } from '@playwright/test'
-import { AppDto } from '@application/dtos/AppDto'
-import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import net from 'net'
+import { App } from './app'
+import { Helpers } from './helpers'
 
 const log = debug('specs:fixtures')
 
-interface Env {
-  [key: string]: string
-}
 interface Fixtures {
   port: number
-  startApp: (schema: AppDto, env?: Env) => Promise<InMemoryOrm>
+  app: App
+  helpers: Helpers
 }
 
 async function findAvailablePort(): Promise<number> {
@@ -31,24 +26,6 @@ async function findAvailablePort(): Promise<number> {
   })
 }
 
-async function startServer(env: Env = {}): Promise<ChildProcessWithoutNullStreams> {
-  return new Promise((resolve, reject) => {
-    const server = spawn('node', ['dist/src/infrastructure/app.js'], {
-      env: { ...process.env, ...env },
-    })
-    server.stdout.on('data', (data) => {
-      const output = data.toString()
-      if (output.includes('Server is running')) {
-        resolve(server)
-      }
-    })
-    server.on('error', (error) => {
-      log(`Error: ${error.message}`)
-      reject(error)
-    })
-  })
-}
-
 const test = base.extend<Fixtures>({
   port: async ({}, use) => {
     const freePort = await findAvailablePort()
@@ -58,27 +35,14 @@ const test = base.extend<Fixtures>({
     const baseURL = `http://localhost:${port}`
     await use(baseURL)
   },
-  startApp: async ({ port }, use) => {
-    let server: ChildProcessWithoutNullStreams | undefined
-    await fs.ensureDir(join(__dirname, './tmp/' + port))
-    await use(async (config, env = {}) => {
-      const appFolder = join(process.cwd(), `specs/tmp/${port}`)
-      await fs.writeJSON(join(appFolder, 'app.json'), config)
-      server = await startServer({
-        FOUNDATION_APP_FOLDER: appFolder,
-        PORT: String(port),
-        ...env,
-      })
-      server.stdout.on('data', (data) => {
-        log(`Server console: ${data.toString()}`)
-      })
-      server.stderr.on('data', (data) => {
-        log(`Server error: ${data.toString()}`)
-      })
-      return new InMemoryOrm(appFolder)
-    })
-    if (server) server.kill('SIGTERM')
-    await fs.remove(join(__dirname, './tmp/' + port))
+  app: async ({ port }, use) => {
+    const app = new App(port)
+    await use(app)
+    app.stop()
+  },
+  helpers: async ({}, use) => {
+    const helpers = new Helpers()
+    await use(helpers)
   },
 })
 
