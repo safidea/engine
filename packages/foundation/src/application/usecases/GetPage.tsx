@@ -1,15 +1,18 @@
-import { AppRepository } from '@adapter/spi/repositories/AppRepository'
-import { AppDto } from '@application/dtos/AppDto'
+import { AppController } from '@adapter/api/controllers/AppController'
+import { PageRepository } from '@adapter/spi/repositories/PageRepository'
 import { ComponentDto } from '@application/dtos/ComponentDto'
 import { capitalize } from '@application/utils/StringUtils'
 import { TAGS } from '@domain/constants/Tags'
 import { ReactElement } from 'react'
 
-export class GetAppPage {
-  constructor(private appRepository: AppRepository) {}
+export class GetPage {
+  constructor(
+    private pageRepository: PageRepository,
+    private appController: AppController
+  ) {}
 
-  async execute(path: string, appConfig: AppDto): Promise<ReactElement> {
-    const { pages } = appConfig
+  async execute(path: string): Promise<ReactElement> {
+    const { pages } = await this.appController.getConfig()
     if (!pages) throw new Error('Pages not found')
     const page = pages.find((page) => page.path === path)
     if (!page) throw new Error(`Page ${path} not found`)
@@ -18,7 +21,7 @@ export class GetAppPage {
   }
 
   private getComponent(key: string) {
-    const Components = this.appRepository.getComponents()
+    const Components = this.pageRepository.getComponents()
     const name = capitalize(key)
     if (name in Components) return Components[name]
     return Components.Html
