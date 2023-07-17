@@ -21,10 +21,8 @@ export class GetPage {
   }
 
   private getComponent(key: string) {
-    const Components = this.pageRepository.getComponents()
     const name = capitalize(key)
-    if (name in Components) return Components[name]
-    return Components.Html
+    return this.pageRepository.getComponent(name)
   }
 
   private getProps(component: ComponentDto) {

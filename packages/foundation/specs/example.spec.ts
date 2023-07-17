@@ -23,7 +23,7 @@ test('Page has text hello word', async ({ page, startApp }) => {
   await expect(page.getByText('Hello World!')).toBeVisible()
 })
 
-test.skip('Route response message hello world', async ({ request, startApp }) => {
+test('Route response message hello world', async ({ request, startApp }) => {
   // GIVEN
   const db = await startApp({
     tables: [

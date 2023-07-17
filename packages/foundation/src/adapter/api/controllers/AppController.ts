@@ -1,14 +1,26 @@
 import { ConfigureApp } from '@application/usecases/ConfigureApp'
 import { AppRepository } from '@adapter/spi/repositories/AppRepository'
 import { AppDto } from '@application/dtos/AppDto'
+import { IOrmRepository } from '@domain/repositories/IOrmRepository'
+import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
+
+interface IAppControllerProps {
+  orm: IOrmRepository
+  schema: AppDto
+  components: IComponentsRepository
+}
 
 export class AppController {
   private configureApp: ConfigureApp
   private app: AppDto | undefined
+  public orm: IOrmRepository
+  public components: IComponentsRepository
 
-  constructor() {
-    const appRepository = new AppRepository()
+  constructor({ orm, schema, components }: IAppControllerProps) {
+    const appRepository = new AppRepository(schema)
     this.configureApp = new ConfigureApp(appRepository)
+    this.orm = orm
+    this.components = components
   }
 
   async configure(): Promise<AppDto> {

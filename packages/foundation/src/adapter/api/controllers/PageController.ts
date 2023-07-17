@@ -6,7 +6,7 @@ export class PageController {
   private getPage: GetPage
 
   constructor(appController: AppController) {
-    const pageRepository = new PageRepository()
+    const pageRepository = new PageRepository(appController)
     this.getPage = new GetPage(pageRepository, appController)
   }
 

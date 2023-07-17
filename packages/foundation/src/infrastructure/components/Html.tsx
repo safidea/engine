@@ -1,7 +1,4 @@
-export interface HtmlProps {
-  Tag: keyof JSX.IntrinsicElements
-  children?: React.ReactNode
-}
+import { HtmlProps } from '@domain/components/IHtmlProps'
 
 export default function Html({ Tag, children, ...props }: HtmlProps) {
   if (!children) return <Tag {...props} />

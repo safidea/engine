@@ -4,13 +4,15 @@ dotenv.config()
 
 import express from 'express'
 import ReactDOMServer from 'react-dom/server'
-import { getRootHtml } from '@infrastructure/client/root'
 import { AppController } from '@adapter/api/controllers/AppController'
 import { PageRoutes } from '@adapter/api/routes/PageRoutes'
 import { TableRoutes } from '@adapter/api/routes/TableRoutes'
+import { getRootHtml } from '@infrastructure/client/root'
+import { orm } from '@infrastructure/orm'
+import { schema } from '@infrastructure/config/Schema'
+import { components } from '@infrastructure/components'
 
 const app = express()
-const appController = new AppController()
 const port = Number(process.env.PORT ?? 3000)
 
 app.use(express.json())
@@ -18,6 +20,11 @@ app.use(express.urlencoded({ extended: true }))
 
 async function startServer() {
   try {
+    const appController = new AppController({
+      orm,
+      schema,
+      components,
+    })
     await appController.configure()
     const pageRoutes = new PageRoutes(appController)
     const tableRoutes = new TableRoutes(appController)

@@ -1,8 +1,9 @@
 import { AppDto } from '@application/dtos/AppDto'
-import { getSchema } from '@infrastructure/config/Schema'
 
 export class AppRepository {
+  constructor(private schema: AppDto) {}
+
   async getSchema(): Promise<AppDto> {
-    return getSchema()
+    return this.schema
   }
 }

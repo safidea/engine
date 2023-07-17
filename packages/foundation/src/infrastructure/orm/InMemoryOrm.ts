@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import { join } from 'path'
 import { getAppFolder } from '@infrastructure/utils/PathUtils'
+import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 
 interface Data {
   [key: string]: string | number | boolean
@@ -10,7 +11,7 @@ interface Database {
   [key: string]: Data[]
 }
 
-export class InMemoryOrm {
+export class InMemoryOrm implements IOrmRepository {
   private url: string
 
   constructor(appFolder?: string) {

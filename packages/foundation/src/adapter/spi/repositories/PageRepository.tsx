@@ -1,9 +1,15 @@
-import * as Components from '@infrastructure/client/components'
-import { HtmlProps } from '@infrastructure/client/components'
-import { ReactElement } from 'react'
+import { AppController } from '@adapter/api/controllers/AppController'
+import { HtmlProps } from '@domain/components/IHtmlProps'
+import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
 
 export class PageRepository {
-  getComponents(): Record<string, (props: HtmlProps) => ReactElement> {
-    return Components
+  private components: IComponentsRepository
+
+  constructor(appController: AppController) {
+    this.components = appController.components
+  }
+
+  getComponent(name: string): React.FC<HtmlProps> {
+    return this.components.get(name)
   }
 }

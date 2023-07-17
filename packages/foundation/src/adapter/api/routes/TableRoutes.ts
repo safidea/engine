@@ -9,7 +9,14 @@ export class TableRoutes {
     this.tableController = new TableController(appController)
   }
 
-  async get(request: RequestDto) {}
+  async get(request: RequestDto) {
+    if (request.params?.id) {
+      return this.tableController.read(request)
+    }
+    return this.tableController.list(request)
+  }
 
-  async post(request: RequestDto) {}
+  async post(request: RequestDto) {
+    return this.tableController.create(request)
+  }
 }
