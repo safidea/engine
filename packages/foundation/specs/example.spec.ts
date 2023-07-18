@@ -33,7 +33,7 @@ test.describe('Tests Example', () => {
           fields: [
             {
               name: 'customer',
-              type: 'text',
+              type: 'single_line_text',
             },
           ],
         },

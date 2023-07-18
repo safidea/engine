@@ -4,7 +4,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, app, helpers }) => {
     // GIVEN
     const db = await app.start({
-      tables: [helpers.getTableSchema('invoices')],
+      tables: helpers.getTableSchema('invoices'),
     })
     const invoices = helpers.generateArrayTableData('invoices', 2)
 
@@ -16,7 +16,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const rows = await db.list('invoices')
     for (let i = 0; i < rows.length; i++) {
       expect(rows[i].id).toBeDefined()
-      expect(rows[i].created_at).toBeDefined()
+      expect(rows[i].created_time).toBeDefined()
     }
   })
 
@@ -27,9 +27,22 @@ test.describe('An api that allow CRUD operations on invoices', () => {
   }) => {
     // GIVEN
     const db = await app.start({
-      tables: [helpers.getTableSchema('invoices')],
+      tables: helpers.getTableSchema('invoices'),
     })
-    const invoice = helpers.generateTableData('invoices', { items: [] })
+    const invoice = helpers.generateTableData('invoices', {
+      items: [
+        {
+          quantity: 4,
+          unit_price: 20,
+          vat: 0.2,
+        },
+        {
+          quantity: 2,
+          unit_price: 10,
+          vat: 0.2,
+        },
+      ],
+    })
     const row = await db.create('invoices', invoice)
 
     // WHEN
@@ -38,8 +51,9 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     expect(res.status()).toEqual(200)
     const recordWithVat = await res.json()
-    expect(recordWithVat.vat).toEqual(20)
-    expect(recordWithVat.total).toEqual(120)
+    expect(recordWithVat.total_net_amount).toEqual(100)
+    expect(recordWithVat.total_vat).toEqual(20)
+    expect(recordWithVat.total_amount).toEqual(120)
   })
 
   /*test('should read a list of rows from a list of ids', async ({ request, app, helpers }) => {

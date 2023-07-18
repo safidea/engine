@@ -33,7 +33,7 @@ export class InMemoryOrm implements IOrmRepository {
   private addRecordFields(data: DataDto): RecordDto {
     return {
       id: uuidv4(),
-      created_at: new Date().toISOString(),
+      created_time: new Date().toISOString(),
       ...data,
     }
   }
