@@ -3,18 +3,15 @@ import { test, expect } from '../fixtures'
 test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, app, helpers }) => {
     // GIVEN
-    // We create 2 invoices
     const db = await app.start({
       tables: [helpers.getTableSchema('invoices')],
     })
-    const invoices = helpers.generateTableRecords('invoices', 2)
+    const invoices = helpers.generateArrayTableData('invoices', 2)
 
     // WHEN
-    // I make a POST request with 2 invoices
     const res = await request.post('/api/table/invoices', { data: invoices })
 
     // THEN
-    // I have created 2 invoices
     expect(res.status()).toEqual(200)
     const rows = await db.list('invoices')
     for (let i = 0; i < rows.length; i++) {
@@ -23,13 +20,35 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
+  test.skip('should read an invoice with calculated vat and total', async ({
+    request,
+    app,
+    helpers,
+  }) => {
+    // GIVEN
+    const db = await app.start({
+      tables: [helpers.getTableSchema('invoices')],
+    })
+    const invoice = helpers.generateTableData('invoices', { items: [] })
+    const row = await db.create('invoices', invoice)
+
+    // WHEN
+    const res = await request.get(`/api/table/invoices/${row.id}`)
+
+    // THEN
+    expect(res.status()).toEqual(200)
+    const recordWithVat = await res.json()
+    expect(recordWithVat.vat).toEqual(20)
+    expect(recordWithVat.total).toEqual(120)
+  })
+
   /*test('should read a list of rows from a list of ids', async ({ request, app, helpers }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const db = await app.start({
       tables: [helpers.getTableSchema('invoices')],
     })
-    const invoices = helpers.generateTableRecords('invoices', 3)
+    const invoices = helpers.generateTableRecord('invoices', 3)
     const ids = []
     for (let i = 0; i < invoices.length; i++) {
       const data = { ...invoices[i], items: { create: invoices[i].items } }

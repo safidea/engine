@@ -3,8 +3,9 @@ import { fakerFR as faker } from '@faker-js/faker'
 import { FieldDto } from '@application/dtos/FieldDto'
 import { DataDto } from '@application/dtos/DataDto'
 
+type SelectTable = 'invoices'
 export class Helpers {
-  public getTableSchema(table: string): TableDto {
+  public getTableSchema(table: SelectTable): TableDto {
     switch (table) {
       case 'invoices':
         return {
@@ -37,31 +38,40 @@ export class Helpers {
     }
   }
 
-  public generateTableRecords(table: string, count: number | DataDto[]) {
-    let data
-    if (!count) {
-      data = this.generateFakeRecord(table)
+  public generateTableData(table: SelectTable, data: DataDto = {}): DataDto {
+    return { ...this.generateFakeData(table), ...data }
+  }
+
+  public generateArrayTableData(
+    table: SelectTable,
+    countOrDatas: number | DataDto[]
+  ): DataDto | DataDto[] {
+    const array = []
+    if (Array.isArray(countOrDatas)) {
+      const datas: DataDto[] = countOrDatas
+      for (const data of datas) {
+        const newData = this.generateFakeData(table)
+        array.push({ ...newData, ...data })
+      }
     } else {
-      data = []
-      if (Array.isArray(count)) {
-        for (const record of count) {
-          const newRecord = this.generateFakeRecord(table)
-          data.push({ ...newRecord, ...record })
-        }
-      } else {
-        for (let i = 0; i < count; i++) {
-          const record = this.generateFakeRecord(table)
-          data.push(record)
-        }
+      const count: number = countOrDatas
+      for (let i = 0; i < count; i++) {
+        const data = this.generateFakeData(table)
+        array.push(data)
       }
     }
-    switch (table) {
-      case 'invoices':
-        if (Array.isArray(data)) return data
-        return data
-      default:
-        return data
+    return array
+  }
+
+  private generateFakeData(table: SelectTable): DataDto {
+    const tableConfig = this.getTableSchema(table)
+    const data: DataDto = {}
+    for (const field of tableConfig.fields) {
+      if (field.required || (!field.required && Math.random() > 0.5)) {
+        data[field.name] = this.generateRandomValueByType(field)
+      }
     }
+    return data
   }
 
   private generateRandomValueByType(field: FieldDto): string | number | boolean {
@@ -103,16 +113,5 @@ export class Helpers {
       default:
         throw new Error(`Unknown type ${type} in faker generator`)
     }
-  }
-
-  private generateFakeRecord(table: string): DataDto {
-    const tableConfig = this.getTableSchema(table)
-    const record: DataDto = {}
-    for (const field of tableConfig.fields) {
-      if (field.required || (!field.required && Math.random() > 0.5)) {
-        record[field.name] = this.generateRandomValueByType(field)
-      }
-    }
-    return record
   }
 }
