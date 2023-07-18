@@ -1,16 +1,7 @@
 import { TableDto } from '@application/dtos/TableDto'
 import { fakerFR as faker } from '@faker-js/faker'
-import { Invoice } from './types'
-import { RecordDto } from '@application/dtos/RecordDto'
-
-interface PropsType {
-  field: string
-  type: string
-  options?: string[]
-  multiple?: boolean
-  table?: string
-  sourceTable?: string
-}
+import { FieldDto } from '@application/dtos/FieldDto'
+import { DataDto } from '@application/dtos/DataDto'
 
 export class Helpers {
   public getTableSchema(table: string): TableDto {
@@ -22,18 +13,22 @@ export class Helpers {
             {
               name: 'customer',
               type: 'String',
+              required: true,
             },
             {
               name: 'address',
               type: 'String',
+              required: true,
             },
             {
               name: 'zip_code',
               type: 'String',
+              required: true,
             },
             {
               name: 'country',
               type: 'String',
+              required: true,
             },
           ],
         }
@@ -42,7 +37,7 @@ export class Helpers {
     }
   }
 
-  public generateTableRecords(table: string, count: number | Record<string, unknown>[]) {
+  public generateTableRecords(table: string, count: number | DataDto[]) {
     let data
     if (!count) {
       data = this.generateFakeRecord(table)
@@ -62,50 +57,46 @@ export class Helpers {
     }
     switch (table) {
       case 'invoices':
-        if (Array.isArray(data)) return data as Invoice[]
-        return data as Invoice
+        if (Array.isArray(data)) return data
+        return data
       default:
         return data
     }
   }
 
-  private generateRandomValueByType(fieldConfig: PropsType): string | number | boolean {
-    const { type, field } = fieldConfig
+  private generateRandomValueByType(field: FieldDto): string | number | boolean {
+    const { type, name } = field
     switch (type) {
       case 'String':
-        if (field.includes('email')) return faker.internet.email()
-        if (field.includes('phone')) return faker.phone.number()
-        if (field.includes('address')) return faker.location.streetAddress()
-        if (field.includes('city')) return faker.location.city()
-        if (field.includes('state')) return faker.location.state()
-        if (field.includes('zip')) return faker.location.zipCode()
-        if (field.includes('country')) return faker.location.country()
-        if (field.includes('firstName')) return faker.person.firstName()
-        if (field.includes('lastName')) return faker.person.lastName()
-        if (field.includes('fullname')) return faker.person.fullName()
-        if (
-          field.includes('company') ||
-          field.includes('organization') ||
-          field.includes('customer')
-        )
+        if (name.includes('email')) return faker.internet.email()
+        if (name.includes('phone')) return faker.phone.number()
+        if (name.includes('address')) return faker.location.streetAddress()
+        if (name.includes('city')) return faker.location.city()
+        if (name.includes('state')) return faker.location.state()
+        if (name.includes('zip')) return faker.location.zipCode()
+        if (name.includes('country')) return faker.location.country()
+        if (name.includes('firstName')) return faker.person.firstName()
+        if (name.includes('lastName')) return faker.person.lastName()
+        if (name.includes('fullname')) return faker.person.fullName()
+        if (name.includes('company') || name.includes('organization') || name.includes('customer'))
           return faker.company.name()
-        if (field.includes('domain')) return faker.internet.domainName()
-        if (field.includes('title')) return faker.person.jobTitle()
-        if (field.includes('description')) return faker.lorem.paragraph()
-        if (field.includes('url')) return faker.internet.url()
-        if (field.includes('image')) return faker.image.url()
-        if (field.includes('color')) return faker.internet.color()
-        if (field.includes('username')) return faker.internet.userName()
-        if (field.includes('password')) return faker.internet.password()
-        if (field.includes('text')) return faker.lorem.text()
-        if (field.includes('unit')) return faker.commerce.productName()
-        if (field.includes('number')) return String(faker.number.int(1000))
+        if (name.includes('domain')) return faker.internet.domainName()
+        if (name.includes('title')) return faker.person.jobTitle()
+        if (name.includes('description')) return faker.lorem.paragraph()
+        if (name.includes('url')) return faker.internet.url()
+        if (name.includes('image')) return faker.image.url()
+        if (name.includes('color')) return faker.internet.color()
+        if (name.includes('username')) return faker.internet.userName()
+        if (name.includes('password')) return faker.internet.password()
+        if (name.includes('text')) return faker.lorem.text()
+        if (name.includes('unit')) return faker.commerce.productName()
+        if (name.includes('number')) return String(faker.number.int(1000))
         return faker.word.words()
       case 'Int':
-        if (field.includes('quantity')) return faker.number.int(50)
+        if (name.includes('quantity')) return faker.number.int(50)
         return faker.number.int(1000)
       case 'Decimal':
-        if (field.includes('price')) return faker.number.float({ max: 1000, precision: 0.01 })
+        if (name.includes('price')) return faker.number.float({ max: 1000, precision: 0.01 })
         return faker.number.float({ precision: 0.01 })
       case 'DateTime':
         return faker.date.recent().toISOString()
@@ -114,16 +105,12 @@ export class Helpers {
     }
   }
 
-  private generateFakeRecord(table: string) {
+  private generateFakeRecord(table: string): DataDto {
     const tableConfig = this.getTableSchema(table)
-    const record: RecordDto = {}
-    for (const field in tableConfig.fields) {
-      const fieldConfig = tableConfig.fields[field]
-      if (fieldConfig.required || (!fieldConfig.required && Math.random() > 0.5)) {
-        record[field] = this.generateRandomValueByType({
-          field,
-          ...fieldConfig,
-        })
+    const record: DataDto = {}
+    for (const field of tableConfig.fields) {
+      if (field.required || (!field.required && Math.random() > 0.5)) {
+        record[field.name] = this.generateRandomValueByType(field)
       }
     }
     return record

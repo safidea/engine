@@ -1,14 +1,13 @@
 import { test, expect } from '../fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test.skip('should create a list of rows', async ({ request, app, helpers }) => {
+  test('should create a list of invoices', async ({ request, app, helpers }) => {
     // GIVEN
     // We create 2 invoices
     const db = await app.start({
       tables: [helpers.getTableSchema('invoices')],
     })
     const invoices = helpers.generateTableRecords('invoices', 2)
-    console.log(invoices)
 
     // WHEN
     // I make a POST request with 2 invoices
@@ -18,8 +17,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // I have created 2 invoices
     expect(res.status()).toEqual(200)
     const rows = await db.list('invoices')
-    console.log(rows)
-    for (let i = 0; i > rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
       expect(rows[i].id).toBeDefined()
       expect(rows[i].created_at).toBeDefined()
     }
