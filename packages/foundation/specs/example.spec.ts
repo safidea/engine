@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures'
 
 test.describe('Tests Example', () => {
-  test('A page can display the a text', async ({ page, app }) => {
+  test('A page can display a text', async ({ page, app }) => {
     // GIVEN
     await app.start({
       pages: [
@@ -41,14 +41,16 @@ test.describe('Tests Example', () => {
     })
 
     // WHEN
-    await request.post('/api/table/invoices', {
+    const res = await request.post('/api/table/invoices', {
       data: {
         customer: 'Essentiel',
       },
     })
 
     // THEN
+    expect(res.status()).toEqual(200)
     const [row] = await db.list('invoices')
+    expect(row.id).toBeDefined()
     expect(row.customer).toBe('Essentiel')
   })
 })

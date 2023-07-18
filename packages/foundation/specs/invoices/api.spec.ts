@@ -1,3 +1,4 @@
+import { RecordDto } from '@application/dtos/RecordDto'
 import { test, expect } from '../fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
@@ -43,17 +44,17 @@ test.describe('An api that allow CRUD operations on invoices', () => {
         },
       ],
     })
-    const row = await db.create('invoices', invoice)
+    const { id } = await db.create('invoices', invoice)
 
     // WHEN
-    const res = await request.get(`/api/table/invoices/${row.id}`)
+    const res = await request.get(`/api/table/invoices/${id}`)
 
     // THEN
     expect(res.status()).toEqual(200)
-    const recordWithVat = await res.json()
-    expect(recordWithVat.total_net_amount).toEqual(100)
-    expect(recordWithVat.total_vat).toEqual(20)
-    expect(recordWithVat.total_amount).toEqual(120)
+    const record: RecordDto = await res.json()
+    expect(record.total_net_amount).toEqual(100)
+    expect(record.total_vat).toEqual(20)
+    expect(record.total_amount).toEqual(120)
   })
 
   /*test('should read a list of rows from a list of ids', async ({ request, app, helpers }) => {

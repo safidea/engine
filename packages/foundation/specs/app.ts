@@ -29,6 +29,7 @@ export class App {
       })
       server.stdout.on('data', (data) => {
         const output = data.toString()
+        log(`Server console: ${output}`)
         if (output.includes('Server is running')) {
           resolve(server)
         }
@@ -45,12 +46,6 @@ export class App {
       server.on('close', (code) => {
         log(`Server closed with code: ${code}`)
       })
-    })
-    this.server.stdout.on('data', (data) => {
-      log(`Server console: ${data.toString()}`)
-    })
-    this.server.stderr.on('data', (data) => {
-      log(`Server error: ${data.toString()}`)
     })
     return new InMemoryOrm(appFolder)
   }

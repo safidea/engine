@@ -19,7 +19,7 @@ const appController = new AppController({
 })
 const { pages, tables } = appController.get()
 
-if (tables) {
+if (tables && tables.length > 0) {
   const tableRoutes = new TableRoutes(appController)
   server.configureRoutes([
     {
@@ -40,7 +40,7 @@ if (tables) {
   ])
 }
 
-if (pages) {
+if (pages && pages.length > 0) {
   const pageRoutes = new PageRoutes(appController)
   server.configurePages([
     {
