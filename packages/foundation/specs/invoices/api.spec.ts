@@ -31,7 +31,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
       tables: helpers.getTableSchema('invoices'),
     })
     const invoice = helpers.generateTableData('invoices', {
-      items: [
+      items: helpers.generateArrayTableData('invoices_items', [
         {
           quantity: 4,
           unit_price: 20,
@@ -42,7 +42,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
           unit_price: 10,
           vat: 0.2,
         },
-      ],
+      ]),
     })
     const { id } = await db.create('invoices', invoice)
 

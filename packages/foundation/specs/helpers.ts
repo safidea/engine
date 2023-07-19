@@ -2,94 +2,16 @@ import { TableDto } from '@application/dtos/TableDto'
 import { fakerFR as faker } from '@faker-js/faker'
 import { FieldDto } from '@application/dtos/FieldDto'
 import { DataDto } from '@application/dtos/DataDto'
+import { TABLE_INVOICES, TABLE_INVOICES_ITEMS } from './schema'
 
-type SelectTable = 'invoices'
+type SelectTable = 'invoices' | 'invoices_items'
 export class Helpers {
   public getTableSchema(tableName: SelectTable): TableDto[] {
     switch (tableName) {
       case 'invoices':
-        return [
-          {
-            name: 'invoices',
-            fields: [
-              {
-                name: 'customer',
-                type: 'single_line_text',
-              },
-              {
-                name: 'address',
-                type: 'single_line_text',
-              },
-              {
-                name: 'zip_code',
-                type: 'single_line_text',
-              },
-              {
-                name: 'country',
-                type: 'single_line_text',
-              },
-              {
-                name: 'items',
-                type: 'multiple_linked_records',
-                table: 'invoices_items',
-              },
-              {
-                name: 'total_net_amount',
-                type: 'rollup',
-                linked_records: 'items',
-                linked_field: 'total_net_amount',
-                formula: 'sum(values)',
-                format: 'currency',
-              },
-              {
-                name: 'total_vat',
-                type: 'rollup',
-                linked_records: 'items',
-                linked_field: 'total_vat',
-                formula: 'sum(values)',
-                format: 'currency',
-              },
-              {
-                name: 'total_amount',
-                type: 'rollup',
-                linked_records: 'items',
-                linked_field: 'total_amount',
-                formula: 'sum(values)',
-                format: 'currency',
-              },
-            ],
-          },
-          {
-            name: 'invoices_items',
-            fields: [
-              { name: 'invoice', type: 'single_linked_record', table: 'invoices' },
-              { name: 'name', type: 'single_line_text' },
-              { name: 'description', type: 'long_text', optional: true },
-              { name: 'quantity', type: 'number' },
-              { name: 'unity', type: 'single_line_text' },
-              { name: 'unit_price', type: 'currency' },
-              { name: 'vat', type: 'number' },
-              {
-                name: 'total_net_amount',
-                type: 'formula',
-                formula: 'quantity * unit_price',
-                format: 'currency',
-              },
-              {
-                name: 'total_vat',
-                type: 'formula',
-                formula: 'total_net_amount * vat',
-                format: 'currency',
-              },
-              {
-                name: 'total_amount',
-                type: 'formula',
-                formula: 'total_net_amount + total_vat',
-                format: 'currency',
-              },
-            ],
-          },
-        ]
+        return [TABLE_INVOICES, TABLE_INVOICES_ITEMS]
+      case 'invoices_items':
+        return [TABLE_INVOICES_ITEMS]
       default:
         throw new Error(`Table schema ${tableName} from helper not found`)
     }
@@ -127,7 +49,8 @@ export class Helpers {
     const data: DataDto = {}
     for (const field of table.fields) {
       if (!field.optional || (field.optional && Math.random() > 0.5)) {
-        data[field.name] = this.generateRandomValueByType(field)
+        const value = this.generateRandomValueByType(field)
+        if (value !== null) data[field.name] = value
       }
     }
     return data
@@ -135,7 +58,7 @@ export class Helpers {
 
   private generateRandomValueByType(
     field: FieldDto
-  ): string | number | boolean | DataDto | DataDto[] {
+  ): string | number | boolean | DataDto | DataDto[] | null {
     const { type, name } = field
     switch (type) {
       case 'single_line_text':
@@ -173,13 +96,13 @@ export class Helpers {
       case 'date':
         return faker.date.recent().toISOString()
       case 'multiple_linked_records':
-        return []
+        return null
       case 'single_linked_record':
-        return {}
+        return null
       case 'formula':
-        return 0
+        return null
       case 'rollup':
-        return 0
+        return null
       default:
         throw new Error(`Unknown type ${type} in faker generator`)
     }
