@@ -6,10 +6,7 @@ import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { DataDto } from '@application/dtos/DataDto'
 import { RecordDto } from '@application/dtos/RecordDto'
 import { TableDto } from '@application/dtos/TableDto'
-
-interface Filter {
-  [key: string]: string | number | boolean
-}
+import { FilterDto } from '@application/dtos/FilterDto'
 
 interface Database {
   [key: string]: RecordDto[]
@@ -103,15 +100,23 @@ export class InMemoryOrm implements IOrmRepository {
     return records.map((record) => record.id)
   }
 
-  async list(table: string, filter?: Filter): Promise<RecordDto[]> {
+  async list(table: string, filters?: FilterDto[]): Promise<RecordDto[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    if (!filter) return db[table]
-    return db[table].filter((row) => {
-      for (const key in filter) {
-        if (filter[key] !== row[key]) return false
+    const records = db[table]
+    if (!filters) return records
+    return records.filter((record) => {
+      for (const filter of filters) {
+        const value = record[filter.field]
+        switch (filter.operator) {
+          case 'is_any_of':
+            if (!filter.value || !Array.isArray(filter.value) || typeof filter.value === 'string')
+              throw new Error('Invalid filter value')
+            return filter.value.filter((v) => v === value).length > 0
+          default:
+            throw new Error(`Operator ${filter.operator} not supported`)
+        }
       }
-      return true
     })
   }
 

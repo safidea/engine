@@ -21,7 +21,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test.skip('should read an invoice with calculated vat and total', async ({
+  test('should read an invoice with calculated vat and total', async ({
     request,
     app,
     helpers,
@@ -52,8 +52,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     expect(res.status()).toEqual(200)
     const record: RecordDto = await res.json()
-    console.log(record)
-    console.log(await db.list('invoices_items'))
     expect(record.total_net_amount).toEqual(100)
     expect(record.total_vat).toEqual(20)
     expect(record.total_amount).toEqual(120)

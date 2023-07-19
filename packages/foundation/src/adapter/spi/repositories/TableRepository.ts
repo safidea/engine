@@ -1,6 +1,7 @@
 import { AppController } from '@adapter/api/controllers/AppController'
 import { AppDto } from '@application/dtos/AppDto'
 import { DataDto } from '@application/dtos/DataDto'
+import { FilterDto } from '@application/dtos/FilterDto'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 
@@ -26,8 +27,8 @@ export class TableRepository {
     return this.orm.createMany(table, body)
   }
 
-  async list(table: string) {
-    return this.orm.list(table)
+  async list(table: string, filters?: FilterDto[]) {
+    return this.orm.list(table, filters)
   }
 
   async read(table: string, id: string) {
@@ -36,9 +37,17 @@ export class TableRepository {
 
   async runFormula(
     formula: string,
-    context: { [key: string]: string | number | boolean | undefined }
+    context: {
+      [key: string]:
+        | string
+        | number
+        | boolean
+        | undefined
+        | (number | string | boolean | undefined)[]
+    },
+    functions: { [key: string]: string }
   ) {
-    return this.codegen.runScript(formula, context)
+    return this.codegen.runScript(formula, context, functions)
   }
 
   async getTableFields(tableName: string) {

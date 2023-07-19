@@ -3,7 +3,7 @@ import { Request } from '../entities/Request'
 export interface Route {
   path: string
   method: string
-  handler: (request: Request) => Promise<RecordDto | RecordDto[]>
+  handler: (request: Request) => Promise<RecordDto | RecordDto[] | string | string[]>
 }
 
 export interface Page {

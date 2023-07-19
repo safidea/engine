@@ -29,7 +29,7 @@ export function mapAppToDto(app: App): AppDto {
         const type = field.type
         const common = {
           name: field.name,
-          required: field.required,
+          optional: field.optional,
         }
         if (field instanceof FieldFormula)
           return {
