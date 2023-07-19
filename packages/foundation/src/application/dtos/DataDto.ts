@@ -1,3 +1,3 @@
 export interface DataDto {
-  [key: string]: string | number | boolean | DataDto | DataDto[] | undefined
+  [key: string]: string | string[] | number | boolean | DataDto | DataDto[] | undefined
 }

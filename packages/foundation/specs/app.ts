@@ -47,7 +47,9 @@ export class App {
         log(`Server closed with code: ${code}`)
       })
     })
-    return new InMemoryOrm(appFolder)
+    const orm = new InMemoryOrm(appFolder)
+    if (appSchema.tables) orm.configure(appSchema.tables)
+    return orm
   }
 
   async stop(): Promise<void> {

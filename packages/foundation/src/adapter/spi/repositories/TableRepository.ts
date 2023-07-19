@@ -13,6 +13,9 @@ export class TableRepository {
     this.orm = appController.orm
     this.codegen = appController.codegen
     this.app = appController.get()
+    const { tables } = this.app
+    if (!tables) throw new Error('Tables not found in app')
+    this.orm.configure(tables)
   }
 
   async create(table: string, body: DataDto) {
