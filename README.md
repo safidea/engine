@@ -14,7 +14,7 @@
     - [x] Numéro de facture
     - [x] Prestation de service à l'heure : nombre d'heure
     - [x] Refacturation optionnelle : libellé + prix
-    - [ ] => Montant total avec TVA est calculé automatiquement en fonction de : TVA, nombre d'heure, prix unitaire
+    - [x] => Montant total avec TVA est calculé automatiquement en fonction de : TVA, nombre d'heure, prix unitaire
     - [ ] Finaliser la facture : enregistrement de la date de facturation + génération de PDF et stockage du PDF + la facture devient non éditable
 - [ ] Émission de la facture vers le client
   - [ ] La date d'émission de la facture est sauvegardée dans le système
