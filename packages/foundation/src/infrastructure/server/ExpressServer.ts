@@ -22,6 +22,7 @@ export class ExpressServer implements IServerRepository {
             const json = await route.handler({
               method: req.method,
               path: req.url,
+              params: req.params,
             })
             res.json(json)
           })

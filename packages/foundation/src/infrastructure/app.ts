@@ -9,6 +9,7 @@ import { orm } from '@infrastructure/orm'
 import { schema } from '@infrastructure/config/Schema'
 import { components } from '@infrastructure/components'
 import { Server } from '@infrastructure/server'
+import { codegen } from '@infrastructure/codegen'
 import { Request } from '@domain/entities/Request'
 
 const server = new Server()
@@ -16,6 +17,7 @@ const appController = new AppController({
   orm,
   schema,
   components,
+  codegen,
 })
 const { pages, tables } = appController.get()
 
@@ -23,7 +25,7 @@ if (tables && tables.length > 0) {
   const tableRoutes = new TableRoutes(appController)
   server.configureRoutes([
     {
-      path: '/api/table/:table:/id',
+      path: '/api/table/:table/:id',
       method: 'GET',
       handler: async (request: Request) => tableRoutes.get(request),
     },

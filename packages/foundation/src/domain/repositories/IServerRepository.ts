@@ -1,8 +1,9 @@
+import { RecordDto } from '@application/dtos/RecordDto'
 import { Request } from '../entities/Request'
 export interface Route {
   path: string
   method: string
-  handler: (request: Request) => Promise<Request>
+  handler: (request: Request) => Promise<RecordDto | RecordDto[]>
 }
 
 export interface Page {

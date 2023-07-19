@@ -52,6 +52,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     expect(res.status()).toEqual(200)
     const record: RecordDto = await res.json()
+    console.log(record)
     expect(record.total_net_amount).toEqual(100)
     expect(record.total_vat).toEqual(20)
     expect(record.total_amount).toEqual(120)
