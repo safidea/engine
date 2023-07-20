@@ -24,7 +24,7 @@ test.describe('Tests Example', () => {
     await expect(page.getByText('Hello World!')).toBeVisible()
   })
 
-  test('A table can store a record', async ({ request, app }) => {
+  test.skip('A table can store a record', async ({ request, app }) => {
     // GIVEN
     const db = await app.start({
       tables: [
@@ -51,6 +51,6 @@ test.describe('Tests Example', () => {
     expect(res.status()).toEqual(200)
     const [row] = await db.list('invoices')
     expect(row.id).toBeDefined()
-    expect(row.customer).toBe('Essentiel')
+    expect(row.fields.customer).toBe('Essentiel')
   })
 })

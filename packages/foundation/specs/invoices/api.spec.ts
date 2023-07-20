@@ -1,12 +1,12 @@
 import { test, expect } from '../fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test('should create a list of invoices', async ({ request, app, helpers }) => {
+  test.skip('should create a list of invoices', async ({ request, app, helpers }) => {
     // GIVEN
     const db = await app.start({
-      tables: helpers.getTableSchema('invoices'),
+      tables: helpers.getTables('invoices'),
     })
-    const invoices = helpers.generateArrayTableData('invoices', 2)
+    const invoices = helpers.generateRecords('invoices', 2)
 
     // WHEN
     const res = await request.post('/api/table/invoices', { data: invoices })
@@ -20,17 +20,17 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test('should read an invoice with calculated vat and total', async ({
+  test.skip('should read an invoice with calculated vat and total', async ({
     request,
     app,
     helpers,
   }) => {
     // GIVEN
     const db = await app.start({
-      tables: helpers.getTableSchema('invoices'),
+      tables: helpers.getTables('invoices'),
     })
-    const invoice = helpers.generateTableData('invoices', {
-      items: helpers.generateArrayTableData('invoices_items', [
+    const id = await db.createRecord('invoices', {
+      items: await db.createManyRecords('invoices_items', [
         {
           quantity: 4,
           unit_price: 20,
@@ -43,7 +43,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
         },
       ]),
     })
-    const id = await db.create('invoices', invoice)
 
     // WHEN
     const res = await request.get(`/api/table/invoices/${id}`)

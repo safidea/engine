@@ -1,7 +1,17 @@
+type RecordFieldDto = string | number | boolean | string[]
+
+interface SingleLinkedRecordDto {
+  create: RecordToCreateDto
+}
+
+interface MultipleLinkedRecordsDto {
+  create: RecordToCreateDto[]
+}
+
+export interface RecordToCreateDto {
+  [key: string]: RecordFieldDto | SingleLinkedRecordDto | MultipleLinkedRecordsDto
+}
+
 export interface RecordDto {
-  [key: string]: string | number | boolean | undefined
-  id: string
-  created_time: string
-  last_modified_time?: string
-  deleted_time?: string
+  [key: string]: RecordFieldDto
 }

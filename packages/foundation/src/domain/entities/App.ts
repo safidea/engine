@@ -1,15 +1,26 @@
 import { Page } from './Page'
 import { Table } from './Table'
 export class App {
-  public name: string
-  public version: string
-  public pages: Page[]
-  public tables: Table[]
+  constructor(
+    private readonly _name: string = 'My app',
+    private readonly _version: string = '0.0.1',
+    private readonly _pages: Page[] = [],
+    private readonly _tables: Table[] = []
+  ) {}
 
-  constructor(schema: App) {
-    this.name = schema.name
-    this.version = schema.version
-    this.pages = schema.pages.map((page) => new Page(page as any))
-    this.tables = schema.tables.map((table) => new Table(table))
+  get name(): string {
+    return this._name
+  }
+
+  get version(): string {
+    return this._version
+  }
+
+  get pages(): Page[] {
+    return this._pages
+  }
+
+  get tables(): Table[] {
+    return this._tables
   }
 }

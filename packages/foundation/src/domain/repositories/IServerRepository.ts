@@ -1,9 +1,9 @@
-import { RecordDto } from '@application/dtos/RecordDto'
-import { Request } from '../entities/Request'
+import { Record } from '@domain/entities/Record'
+import { Request } from '@domain/entities/Request'
 export interface Route {
   path: string
   method: string
-  handler: (request: Request) => Promise<RecordDto | RecordDto[] | string | string[]>
+  handler: (request: Request) => Promise<Record | Record[] | string | string[]>
 }
 
 export interface Page {

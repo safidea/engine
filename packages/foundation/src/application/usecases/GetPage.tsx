@@ -1,7 +1,6 @@
 import { AppController } from '@adapter/api/controllers/AppController'
 import { PageRepository } from '@adapter/spi/repositories/PageRepository'
 import { capitalize } from '@application/utils/StringUtils'
-import { TAGS } from '@domain/constants/Tags'
 import { Component } from '@domain/entities/Component'
 import { Link } from '@domain/entities/components/Link'
 import { Paragraph } from '@domain/entities/components/Paragraph'
@@ -18,7 +17,7 @@ export class GetPage {
     if (!pages) throw new Error('Pages not found')
     const page = pages.find((page) => page.path === path)
     if (!page) throw new Error(`Page ${path} not found`)
-    const Page = this.children(page.components as any)
+    const Page = this.children(page.components)
     return <Page />
   }
 
@@ -34,19 +33,20 @@ export class GetPage {
         Tag: 'a' as keyof JSX.IntrinsicElements,
         href: component.href,
       }
-    } else {
-      if (!TAGS.includes(type)) throw new Error(`Invalid tag: ${type}`)
+    }
+    if (component instanceof Paragraph) {
       return {
-        Tag: type as keyof JSX.IntrinsicElements,
+        Tag: 'p' as keyof JSX.IntrinsicElements,
       }
     }
+    throw new Error(`Component type ${type} not found`)
   }
 
   private render(component: Component, index: number) {
     const { type } = component
     const Component = this.getComponent(type)
     const props = this.getProps(component)
-    if (component instanceof Paragraph || component instanceof Link) {
+    if ('text' in component) {
       return (
         <Component key={index} {...props}>
           {component.text}

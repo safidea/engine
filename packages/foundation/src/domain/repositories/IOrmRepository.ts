@@ -1,12 +1,11 @@
-import { DataDto } from '@application/dtos/DataDto'
-import { FilterDto } from '@application/dtos/FilterDto'
-import { RecordDto } from '@application/dtos/RecordDto'
-import { TableDto } from '@application/dtos/TableDto'
+import { Table } from '@domain/entities/Table'
+import { Filter } from '@domain/entities/Filter'
+import { Record } from '@domain/entities/Record'
 
 export interface IOrmRepository {
-  configure(tables: TableDto[]): void
-  create(table: string, body: DataDto): Promise<string>
-  createMany(table: string, body: DataDto[]): Promise<string[]>
-  list(table: string, filters?: FilterDto[]): Promise<RecordDto[]>
-  readById(table: string, id: string): Promise<RecordDto>
+  configure(tables: Table[]): void
+  create(table: string, record: Record): Promise<string>
+  createMany(table: string, record: Record[]): Promise<string[]>
+  list(table: string, filters?: Filter[]): Promise<Record[]>
+  readById(table: string, id: string): Promise<Record>
 }

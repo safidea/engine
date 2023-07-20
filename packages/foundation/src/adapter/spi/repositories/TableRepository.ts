@@ -1,14 +1,14 @@
 import { AppController } from '@adapter/api/controllers/AppController'
-import { AppDto } from '@application/dtos/AppDto'
-import { DataDto } from '@application/dtos/DataDto'
-import { FilterDto } from '@application/dtos/FilterDto'
+import { App } from '@domain/entities/App'
+import { Filter } from '@domain/entities/Filter'
+import { Record } from '@domain/entities/Record'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 
 export class TableRepository {
   private orm: IOrmRepository
   private codegen: ICodegenRepository
-  private app: AppDto
+  private app: App
 
   constructor(appController: AppController) {
     this.orm = appController.orm
@@ -19,15 +19,15 @@ export class TableRepository {
     this.orm.configure(tables)
   }
 
-  async create(table: string, body: DataDto) {
-    return this.orm.create(table, body)
+  async create(table: string, record: Record) {
+    return this.orm.create(table, record)
   }
 
-  async createMany(table: string, body: DataDto[]) {
-    return this.orm.createMany(table, body)
+  async createMany(table: string, record: Record[]) {
+    return this.orm.createMany(table, record)
   }
 
-  async list(table: string, filters?: FilterDto[]) {
+  async list(table: string, filters?: Filter[]) {
     return this.orm.list(table, filters)
   }
 
@@ -38,12 +38,7 @@ export class TableRepository {
   async runFormula(
     formula: string,
     context: {
-      [key: string]:
-        | string
-        | number
-        | boolean
-        | undefined
-        | (number | string | boolean | undefined)[]
+      [key: string]: string | number | boolean | undefined | string[] | number[] | boolean[]
     },
     functions: { [key: string]: string }
   ) {

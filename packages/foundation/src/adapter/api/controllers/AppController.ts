@@ -4,6 +4,7 @@ import { AppDto } from '@application/dtos/AppDto'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { App } from '@domain/entities/App'
 
 interface IAppControllerProps {
   orm: IOrmRepository
@@ -13,7 +14,7 @@ interface IAppControllerProps {
 }
 
 export class AppController {
-  private app: AppDto
+  private app: App
   public orm: IOrmRepository
   public components: IComponentsRepository
   public codegen: ICodegenRepository
@@ -27,7 +28,7 @@ export class AppController {
     this.codegen = codegen
   }
 
-  get(): AppDto {
+  get(): App {
     return this.app
   }
 }

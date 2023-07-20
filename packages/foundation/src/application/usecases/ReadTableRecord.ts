@@ -1,58 +1,52 @@
 import { TableRepository } from '@adapter/spi/repositories/TableRepository'
-import { FieldFormulaDto } from '@application/dtos/FieldFormulaDto'
-import { FieldRollupDto } from '@application/dtos/FieldRollupDto'
-import { RecordDto } from '@application/dtos/RecordDto'
 import { ListTableRecords } from './ListTableRecords'
+import { Rollup } from '@domain/entities/fields/Rollup'
+import { Formula } from '@domain/entities/fields/Formula'
+import { Record } from '@domain/entities/Record'
+import { MultipleLinkedRecords } from '@domain/entities/fields/MultipleLinkedRecords'
 
 export class ReadTableRecord {
-  private tableRepository: TableRepository
+  constructor(private tableRepository: TableRepository) {}
 
-  constructor(tableRepository: TableRepository) {
-    this.tableRepository = tableRepository
-  }
-
-  async execute(table: string, id: string): Promise<RecordDto> {
+  async execute(table: string, id: string): Promise<Record> {
     const record = await this.tableRepository.read(table, id)
     return this.enrichRecord(record, table)
   }
 
-  async enrichRecord(record: RecordDto, table: string) {
+  async enrichRecord(record: Record, table: string) {
     const fields = await this.tableRepository.getTableFields(table)
-    const fieldsRollup = fields.filter((f) => f.type === 'rollup')
-    if (fieldsRollup.length > 0) {
-      for (const fieldRollup of fieldsRollup)
-        if (fieldRollup.type === 'rollup')
-          await this.runFieldRollupFormula(record, fieldRollup, table)
-    }
-    const fieldsFormula = fields.filter((f) => f.type === 'formula')
-    if (fieldsFormula.length > 0) {
-      for (const fieldFormula of fieldsFormula)
-        if (fieldFormula.type === 'formula') await this.runFieldFormula(record, fieldFormula)
+    if (fields.length > 0) {
+      for (const field of fields)
+        if (field instanceof Rollup) await this.runFieldRollupFormula(record, field, table)
+      for (const field of fields)
+        if (field instanceof Formula) await this.runFieldFormula(record, field)
     }
     return record
   }
 
-  async runFieldRollupFormula(record: RecordDto, fieldRollup: FieldRollupDto, table: string) {
+  async runFieldRollupFormula(record: Record, fieldRollup: Rollup, table: string) {
     const { formula } = fieldRollup
     const fields = await this.tableRepository.getTableFields(table)
-    const field = fields.find((f) => f.name === fieldRollup.linked_records)
-    if (!field || field.type !== 'multiple_linked_records') throw new Error('Field not found')
+    const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
+    if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
     const listTableRepository = new ListTableRecords(this.tableRepository)
+    const values = record.fields[field.name]
+    if (!Array.isArray(values)) throw new Error('Values are not an array')
     const linkedRecords = await listTableRepository.execute(field.table, [
-      { field: 'id', operator: 'is_any_of', value: record[field.name] },
+      { field: 'id', operator: 'is_any_of', value: values },
     ])
     const context = {
-      values: linkedRecords.map((r) => r[fieldRollup.linked_field]),
+      values: linkedRecords.map((record) => String(record.fields[fieldRollup.linkedField])),
     }
     const result = await this.tableRepository.runFormula(formula, context, this.getFunctions())
-    record[fieldRollup.name] = result
+    if (result) record.fields[fieldRollup.name] = result
   }
 
-  async runFieldFormula(record: RecordDto, fieldRollup: FieldFormulaDto) {
-    const { formula } = fieldRollup
-    const context = record
+  async runFieldFormula(record: Record, fieldFormula: Formula) {
+    const { formula } = fieldFormula
+    const context = record.fields
     const result = await this.tableRepository.runFormula(formula, context, this.getFunctions())
-    record[fieldRollup.name] = result
+    if (result) record.fields[fieldFormula.name] = result
   }
 
   getFunctions(): { [key: string]: string } {

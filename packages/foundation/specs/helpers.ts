@@ -1,64 +1,77 @@
-import { TableDto } from '@application/dtos/TableDto'
 import { fakerFR as faker } from '@faker-js/faker'
+import { TableDto } from '@application/dtos/TableDto'
 import { FieldDto } from '@application/dtos/FieldDto'
-import { DataDto } from '@application/dtos/DataDto'
-import { TABLE_INVOICES, TABLE_INVOICES_ITEMS } from './schema'
-
-type SelectTable = 'invoices' | 'invoices_items'
+import { RecordToCreateDto } from '@application/dtos/RecordDto'
+import { TABLE_INVOICES, TABLE_INVOICES_ITEMS } from './schemas'
 export class Helpers {
-  public getTableSchema(tableName: SelectTable): TableDto[] {
+  public getTables(tableName: string): TableDto[] {
     switch (tableName) {
       case 'invoices':
         return [TABLE_INVOICES, TABLE_INVOICES_ITEMS]
       case 'invoices_items':
         return [TABLE_INVOICES_ITEMS]
       default:
-        throw new Error(`Table schema ${tableName} from helper not found`)
+        throw new Error(`Table ${tableName} not found in schemas`)
     }
   }
 
-  public generateTableData(tableName: SelectTable, data: DataDto = {}): DataDto {
-    return { ...this.generateFakeData(tableName), ...data }
+  public generateRecord(tableName: string, data: RecordToCreateDto = {}): RecordToCreateDto {
+    return { ...this.generateFakeRecord(tableName), ...data }
   }
 
-  public generateArrayTableData(
-    tableName: SelectTable,
-    countOrDatas: number | DataDto[]
-  ): DataDto | DataDto[] {
+  public generateRecords(
+    tableName: string,
+    countOrRecords: number | RecordToCreateDto[]
+  ): RecordToCreateDto[] {
     const array = []
-    if (Array.isArray(countOrDatas)) {
-      const datas: DataDto[] = countOrDatas
-      for (const data of datas) {
-        const newData = this.generateFakeData(tableName)
-        array.push({ ...newData, ...data })
+    if (Array.isArray(countOrRecords)) {
+      const records: RecordToCreateDto[] = countOrRecords
+      for (const record of records) {
+        const newRecord = this.generateFakeRecord(tableName)
+        array.push({ ...newRecord, ...record })
       }
     } else {
-      const count: number = countOrDatas
+      const count: number = countOrRecords
       for (let i = 0; i < count; i++) {
-        const data = this.generateFakeData(tableName)
-        array.push(data)
+        const record = this.generateFakeRecord(tableName)
+        array.push(record)
       }
     }
     return array
   }
 
-  private generateFakeData(tableName: SelectTable): DataDto {
-    const tables = this.getTableSchema(tableName)
+  private generateFakeRecord(tableName: string): RecordToCreateDto {
+    const tables = this.getTables(tableName)
     const table = tables.find((table) => table.name === tableName)
     if (!table) throw new Error(`Table ${tableName} not found`)
-    const data: DataDto = {}
+    const recordToCreate: RecordToCreateDto = {}
     for (const field of table.fields) {
       if (!field.optional || (field.optional && Math.random() > 0.5)) {
         const value = this.generateRandomValueByType(field)
-        if (value !== null) data[field.name] = value
+        if (value !== null) {
+          if (typeof value === 'object') {
+            if (field.type === 'multiple_linked_records' && Array.isArray(value)) {
+              recordToCreate[field.name] = {
+                create: value,
+              }
+            }
+            if (field.type === 'single_linked_record' && !Array.isArray(value)) {
+              recordToCreate[field.name] = {
+                create: value,
+              }
+            }
+          } else {
+            recordToCreate[field.name] = value
+          }
+        }
       }
     }
-    return data
+    return recordToCreate
   }
 
   private generateRandomValueByType(
     field: FieldDto
-  ): string | number | boolean | DataDto | DataDto[] | null {
+  ): string | number | boolean | RecordToCreateDto | RecordToCreateDto[] | null {
     const { type, name } = field
     switch (type) {
       case 'single_line_text':
@@ -93,12 +106,10 @@ export class Helpers {
       case 'currency':
         if (name.includes('price')) return faker.number.float({ max: 1000, precision: 0.01 })
         return faker.number.float({ precision: 0.01 })
-      case 'date':
-        return faker.date.recent().toISOString()
       case 'multiple_linked_records':
-        return null
+        return this.generateRecords(field.table, faker.number.int(5))
       case 'single_linked_record':
-        return null
+        return this.generateRecord(field.table)
       case 'formula':
         return null
       case 'rollup':

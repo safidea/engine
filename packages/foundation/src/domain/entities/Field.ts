@@ -1,11 +1,18 @@
-export class Field {
-  public name: string
-  public type: string
-  public optional?: boolean
+import { Currency } from './fields/Currency'
+import { Formula } from './fields/Formula'
+import { LongText } from './fields/LongText'
+import { MultipleLinkedRecords } from './fields/MultipleLinkedRecords'
+import { NumberField } from './fields/NumberField'
+import { Rollup } from './fields/Rollup'
+import { SingleLineText } from './fields/SingleLineText'
+import { SingleLinkRecord } from './fields/SingleLinkedRecord'
 
-  constructor(schema: Field) {
-    this.name = schema.name
-    this.type = schema.type ?? 'single_line_text'
-    this.optional = schema.optional ?? true
-  }
-}
+export type Field =
+  | Currency
+  | Formula
+  | LongText
+  | MultipleLinkedRecords
+  | NumberField
+  | Rollup
+  | SingleLineText
+  | SingleLinkRecord
