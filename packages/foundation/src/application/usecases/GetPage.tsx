@@ -26,12 +26,13 @@ export class GetPage {
   }
 
   private getProps(component: ComponentDto) {
-    const { key } = component
+    const { key, href } = component
     switch (key) {
       default:
         if (!TAGS.includes(key)) throw new Error(`Invalid tag: ${key}`)
         return {
           Tag: key as keyof JSX.IntrinsicElements,
+          href, // only supported by a the A tag
         }
     }
   }
