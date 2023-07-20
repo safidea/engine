@@ -1,15 +1,16 @@
 import { IServerRepository, Route, Page } from '@domain/repositories/IServerRepository'
-import express from 'express'
+import express, { Express } from 'express'
+import { Server as HTTPServer } from 'http'
 import ReactDOMServer from 'react-dom/server'
 import { getRootHtml } from '@infrastructure/client/root'
 
 export class ExpressServer implements IServerRepository {
-  private app: express.Application
-  private port: number
+  private app: Express
+  private server: HTTPServer | null
 
-  constructor() {
+  constructor(private readonly port: number) {
+    this.server = null
     this.app = express()
-    this.port = Number(process.env.PORT ?? 3000)
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
   }
@@ -55,8 +56,23 @@ export class ExpressServer implements IServerRepository {
   }
 
   async start() {
-    this.app.listen(this.port, () => {
-      console.log(`Server is running at port ${this.port}`)
+    await new Promise((resolve) => {
+      this.server = this.app.listen(this.port, () => {
+        resolve(true)
+      })
+    })
+  }
+
+  async stop() {
+    await new Promise((resolve) => {
+      if (this.server) {
+        this.server.close(() => {
+          resolve(true)
+        })
+        this.server = null
+      } else {
+        resolve(true)
+      }
     })
   }
 }

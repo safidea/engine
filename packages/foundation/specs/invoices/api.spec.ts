@@ -1,12 +1,12 @@
-import { test, expect } from '../fixtures'
+import { test, expect, helpers } from '../fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test.skip('should create a list of invoices', async ({ request, app, helpers }) => {
+  test('should create a list of invoices', async ({ request, foundation }) => {
     // GIVEN
-    const db = await app.start({
+    const db = await foundation.start({
       tables: helpers.getTables('invoices'),
     })
-    const invoices = helpers.generateRecords('invoices', 2)
+    const invoices = helpers.generateManyRecords('invoices', 2)
 
     // WHEN
     const res = await request.post('/api/table/invoices', { data: invoices })
@@ -20,28 +20,26 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test.skip('should read an invoice with calculated vat and total', async ({
-    request,
-    app,
-    helpers,
-  }) => {
+  test('should read an invoice with calculated vat and total', async ({ request, foundation }) => {
     // GIVEN
-    const db = await app.start({
+    const db = await foundation.start({
       tables: helpers.getTables('invoices'),
     })
     const id = await db.createRecord('invoices', {
-      items: await db.createManyRecords('invoices_items', [
-        {
-          quantity: 4,
-          unit_price: 20,
-          vat: 0.2,
-        },
-        {
-          quantity: 2,
-          unit_price: 10,
-          vat: 0.2,
-        },
-      ]),
+      items: {
+        create: helpers.generateManyRecords('invoices_items', [
+          {
+            quantity: 4,
+            unit_price: 20,
+            vat: 0.2,
+          },
+          {
+            quantity: 2,
+            unit_price: 10,
+            vat: 0.2,
+          },
+        ]),
+      },
     })
 
     // WHEN

@@ -1,32 +1,27 @@
 import debug from 'debug'
 import { test as base, expect } from '@playwright/test'
-import { App } from './app'
-import { Helpers } from './helpers'
-import { findAvailablePort } from './utils'
+import { FixtureFoundation } from './FixtureFoundation'
+import * as helpers from './helpers'
 
 interface Fixtures {
   port: number
-  app: App
-  helpers: Helpers
+  foundation: FixtureFoundation
+  helpers: typeof helpers
 }
 
 const test = base.extend<Fixtures>({
   port: async ({}, use) => {
-    const freePort = await findAvailablePort()
+    const freePort = await helpers.findAvailablePort()
     await use(freePort)
   },
   baseURL: async ({ port }, use) => {
     const baseURL = `http://localhost:${port}`
     await use(baseURL)
   },
-  app: async ({ port }, use) => {
-    const app = new App(port)
+  foundation: async ({ port }, use) => {
+    const app = new FixtureFoundation(port)
     await use(app)
     app.stop()
-  },
-  helpers: async ({}, use) => {
-    const helpers = new Helpers()
-    await use(helpers)
   },
 })
 
@@ -44,4 +39,4 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-export { test, expect }
+export { test, expect, helpers }

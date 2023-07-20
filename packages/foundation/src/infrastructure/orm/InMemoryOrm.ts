@@ -1,22 +1,26 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { getAppFolder } from '@infrastructure/utils/PathUtils'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { Record } from '@domain/entities/Record'
 import { Table } from '@domain/entities/Table'
 import { Filter } from '@domain/entities/Filter'
 import { IsAnyOf } from '@domain/entities/filters/IsAnyOf'
 
+interface Row {
+  id: string
+  created_time: string
+  [key: string]: string | number | boolean
+}
 interface Database {
-  [key: string]: Record[]
+  [key: string]: Row[]
 }
 
 export class InMemoryOrm implements IOrmRepository {
   private url: string
   private tables: Table[] = []
 
-  constructor(appFolder?: string) {
-    this.url = join(appFolder ?? getAppFolder(), 'db.json')
+  constructor(folder: string) {
+    this.url = join(folder, 'db.json')
     fs.ensureFileSync(this.url)
   }
 
@@ -38,10 +42,23 @@ export class InMemoryOrm implements IOrmRepository {
     return fs.writeJSON(this.url, db)
   }
 
+  mapRecordToRow(record: Record): Row {
+    return {
+      ...record.fields,
+      id: record.id,
+      created_time: record.created_time,
+    }
+  }
+
+  mapRowToRecord(table: string, row: Row): Record {
+    const { id, created_time, ...fields } = row
+    return new Record(table, fields, id, created_time)
+  }
+
   async create(tableName: string, record: Record): Promise<string> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
-    db[tableName].push(record)
+    db[tableName].push(this.mapRecordToRow(record))
     await this.setDB(db)
     return record.id
   }
@@ -49,7 +66,7 @@ export class InMemoryOrm implements IOrmRepository {
   async createMany(table: string, records: Record[]): Promise<string[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    db[table].push(...records)
+    db[table].push(...records.map((record) => this.mapRecordToRow(record)))
     await this.setDB(db)
     return records.map((record) => record.id)
   }
@@ -58,41 +75,44 @@ export class InMemoryOrm implements IOrmRepository {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const records = db[table]
-    if (!filters) return records
-    return records.filter((record) => {
-      for (const filter of filters) {
-        const value = record.fields[filter.field]
-        const field = this.getTable(table).fields.find((field) => field.name === filter.field)
-        if (!field) throw new Error(`Field ${filter.field} not found in table ${table}`)
-        if (filter instanceof IsAnyOf) {
-          if (field.format === 'text')
-            return filter.values.map((v) => String(v)).filter((v: string) => v === value).length > 0
-          if (field.format === 'number')
-            return filter.values.map((v) => Number(v)).filter((v: number) => v === value).length > 0
+    if (!filters) return records.map((row) => this.mapRowToRecord(table, row))
+    return records
+      .filter((record) => {
+        for (const filter of filters) {
+          const value = record[filter.field]
+          const field = this.getTable(table).fields.find((field) => field.name === filter.field)
+          if (filter instanceof IsAnyOf) {
+            if (filter.field === 'id' || field?.format === 'text')
+              return (
+                filter.values.map((v) => String(v)).filter((v: string) => v === value).length > 0
+              )
+            if (field?.format === 'number')
+              return (
+                filter.values.map((v) => Number(v)).filter((v: number) => v === value).length > 0
+              )
+          }
+          throw new Error(`Operator ${filter.operator} not supported`)
         }
-        throw new Error(`Operator ${filter.operator} not supported`)
-      }
-    })
+      })
+      .map((row) => this.mapRowToRecord(table, row))
   }
 
-  async updateById(table: string, id: string, record: Record): Promise<Record> {
+  async updateById(table: string, id: string, record: Record): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const row = db[table].find((row) => row.id === id)
     if (!row) throw new Error(`Row not found for id ${id} in table ${table}`)
-    Object.assign(row, record)
+    Object.assign(row, this.mapRecordToRow(record))
     await this.setDB(db)
-    return row
   }
 
-  async deleteById(table: string, id: string): Promise<Record> {
+  async deleteById(table: string, id: string): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const index = db[table].findIndex((row) => row.id === id)
     if (index === -1) throw new Error(`Row not found for id ${id} in table ${table}`)
     db[table].splice(index, 1)
     await this.setDB(db)
-    return db[table][index]
   }
 
   async readById(table: string, id: string): Promise<Record> {
@@ -100,6 +120,6 @@ export class InMemoryOrm implements IOrmRepository {
     if (!db[table]) db[table] = []
     const row = db[table].find((row) => row.id === id)
     if (!row) throw new Error(`Row not found for id ${id} in table ${table}`)
-    return row
+    return this.mapRowToRecord(table, row)
   }
 }

@@ -1,8 +1,9 @@
 import { TableRepository } from '@adapter/spi/repositories/TableRepository'
 import { ReadTableRecord } from './ReadTableRecord'
-import { Record } from '@domain/entities/Record'
 import { FilterDto } from '@application/dtos/FilterDto'
 import { mapDtoToFilter } from '@application/mappers/FilterMapper'
+import { mapRecordToDto } from '@application/mappers/RecordMapper'
+import { RecordDto } from '@application/dtos/RecordDto'
 
 export class ListTableRecords {
   private readTableRecord: ReadTableRecord
@@ -11,14 +12,15 @@ export class ListTableRecords {
     this.readTableRecord = new ReadTableRecord(tableRepository)
   }
 
-  async execute(table: string, filters?: FilterDto[]): Promise<Record[]> {
+  async execute(table: string, filters?: FilterDto[]): Promise<RecordDto[]> {
     const records = await this.tableRepository.list(
       table,
       filters?.map((filter) => mapDtoToFilter(filter))
     )
-    for (let record of records) {
-      record = await this.readTableRecord.enrichRecord(record, table)
+    const promises = []
+    for (const record of records) {
+      promises.push(this.readTableRecord.enrichRecord(mapRecordToDto(record), table))
     }
-    return records
+    return Promise.all(promises)
   }
 }

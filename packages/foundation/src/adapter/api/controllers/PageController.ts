@@ -1,13 +1,14 @@
 import { GetPage } from '@application/usecases/GetPage'
-import { AppController } from './AppController'
 import { PageRepository } from '@adapter/spi/repositories/PageRepository'
+import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
+import { App } from '@domain/entities/App'
 
 export class PageController {
   private getPage: GetPage
 
-  constructor(appController: AppController) {
-    const pageRepository = new PageRepository(appController)
-    this.getPage = new GetPage(pageRepository, appController)
+  constructor(app: App, components: IComponentsRepository) {
+    const pageRepository = new PageRepository(components)
+    this.getPage = new GetPage(pageRepository, app)
   }
 
   async get(path: string) {

@@ -6,7 +6,7 @@ export class ConfigureApp {
   constructor(private appRepository: AppRepository) {}
 
   execute(): App {
-    const appDto = this.appRepository.getSchema()
+    const appDto = this.appRepository.appDto
     return mapDtoToApp(appDto)
   }
 }

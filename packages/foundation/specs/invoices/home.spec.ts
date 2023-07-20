@@ -1,9 +1,12 @@
 import { test, expect } from '../fixtures'
 
 test.describe('A home page of an invoice app', () => {
-  test('should go to the /about page when click on the "about" link', async ({ page, app }) => {
+  test('should go to the /about page when click on the "about" link', async ({
+    page,
+    foundation,
+  }) => {
     // GIVEN
-    await app.start({
+    await foundation.start({
       pages: [
         {
           path: '/',

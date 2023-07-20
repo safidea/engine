@@ -1,6 +1,6 @@
-import { AppController } from '@adapter/api/controllers/AppController'
 import { PageRepository } from '@adapter/spi/repositories/PageRepository'
 import { capitalize } from '@application/utils/StringUtils'
+import { App } from '@domain/entities/App'
 import { Component } from '@domain/entities/Component'
 import { Link } from '@domain/entities/components/Link'
 import { Paragraph } from '@domain/entities/components/Paragraph'
@@ -9,11 +9,11 @@ import { ReactElement } from 'react'
 export class GetPage {
   constructor(
     private pageRepository: PageRepository,
-    private appController: AppController
+    private app: App
   ) {}
 
   async execute(path: string): Promise<ReactElement> {
-    const { pages } = this.appController.get()
+    const { pages } = this.app
     if (!pages) throw new Error('Pages not found')
     const page = pages.find((page) => page.path === path)
     if (!page) throw new Error(`Page ${path} not found`)

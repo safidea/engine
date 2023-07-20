@@ -1,12 +1,34 @@
 import { RequestDto } from '@application/dtos/RequestDto'
-import { AppController } from '../controllers/AppController'
 import { TableController } from '../controllers/TableController'
+import { IOrmRepository } from '@domain/repositories/IOrmRepository'
+import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { App } from '@domain/entities/App'
 
 export class TableRoutes {
   private tableController: TableController
 
-  constructor(appController: AppController) {
-    this.tableController = new TableController(appController)
+  constructor(app: App, orm: IOrmRepository, codegen: ICodegenRepository) {
+    this.tableController = new TableController(app, orm, codegen)
+  }
+
+  get routes() {
+    return [
+      {
+        path: '/api/table/:table/:id',
+        method: 'GET',
+        handler: async (request: RequestDto) => this.get(request),
+      },
+      {
+        path: '/api/table/:table',
+        method: 'GET',
+        handler: async (request: RequestDto) => this.get(request),
+      },
+      {
+        path: '/api/table/:table',
+        method: 'POST',
+        handler: async (request: RequestDto) => this.post(request),
+      },
+    ]
   }
 
   async get(request: RequestDto) {

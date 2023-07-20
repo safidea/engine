@@ -1,9 +1,9 @@
 import { test, expect } from './fixtures'
 
 test.describe('Tests Example', () => {
-  test('A page can display a text', async ({ page, app }) => {
+  test('A page can display a text', async ({ page, foundation }) => {
     // GIVEN
-    await app.start({
+    await foundation.start({
       pages: [
         {
           path: '/',
@@ -24,9 +24,9 @@ test.describe('Tests Example', () => {
     await expect(page.getByText('Hello World!')).toBeVisible()
   })
 
-  test.skip('A table can store a record', async ({ request, app }) => {
+  test('A table can store a record', async ({ request, foundation }) => {
     // GIVEN
-    const db = await app.start({
+    const db = await foundation.start({
       tables: [
         {
           name: 'invoices',
@@ -51,6 +51,6 @@ test.describe('Tests Example', () => {
     expect(res.status()).toEqual(200)
     const [row] = await db.list('invoices')
     expect(row.id).toBeDefined()
-    expect(row.fields.customer).toBe('Essentiel')
+    expect(row.customer).toBe('Essentiel')
   })
 })
