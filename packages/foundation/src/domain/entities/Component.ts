@@ -1,11 +1,4 @@
-export class Component {
-  public key: string
-  public text?: string
-  public href?: string
+import { Link } from './Link'
+import { Paragraph } from './Paragraph'
 
-  constructor(schema: Component) {
-    this.key = schema.key
-    this.text = schema.text
-    this.href = schema.href
-  }
-}
+export type Component = Link | Paragraph

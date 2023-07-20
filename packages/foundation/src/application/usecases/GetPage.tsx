@@ -28,11 +28,15 @@ export class GetPage {
   private getProps(component: ComponentDto) {
     const { key, href } = component
     switch (key) {
+      case 'a':
+        return {
+          Tag: 'a' as keyof JSX.IntrinsicElements,
+          href,
+        }
       default:
         if (!TAGS.includes(key)) throw new Error(`Invalid tag: ${key}`)
         return {
           Tag: key as keyof JSX.IntrinsicElements,
-          href, // only supported by a the A tag
         }
     }
   }
