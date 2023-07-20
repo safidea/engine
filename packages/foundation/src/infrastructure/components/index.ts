@@ -2,8 +2,8 @@ import { IComponentsRepository } from '@domain/repositories/IComponentsRepositor
 import { default as Html } from './Html'
 
 export class Components implements IComponentsRepository {
-  get(name: string) {
-    switch (name) {
+  get(key: string) {
+    switch (key) {
       default:
         return Html
     }
