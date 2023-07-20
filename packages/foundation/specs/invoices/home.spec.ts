@@ -10,7 +10,7 @@ test.describe('A home page of an invoice app', () => {
           title: 'Home',
           components: [
             {
-              key: 'a',
+              type: 'link',
               text: 'About',
               href: '/about',
             },

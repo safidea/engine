@@ -13,7 +13,7 @@ export function mapDtoToApp(schema: AppDto): App {
   return {
     name: schema.name ?? 'My new app',
     version: schema.version ?? '0.0.0',
-    pages: schema.pages ?? [],
+    pages: schema.pages ?? ([] as any),
     tables: schema.tables ?? [],
   }
 }
@@ -22,7 +22,7 @@ export function mapAppToDto(app: App): AppDto {
   return {
     name: app.name,
     version: app.version,
-    pages: app.pages,
+    pages: app.pages as any,
     tables: app.tables.map((table) => ({
       name: table.name,
       fields: table.fields.map((field) => {

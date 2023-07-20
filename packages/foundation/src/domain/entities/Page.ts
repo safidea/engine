@@ -1,7 +1,7 @@
 import { PageDto } from '@application/dtos/PageDto'
 import { Component } from './Component'
-import { Link } from './Link'
-import { Paragraph } from './Paragraph'
+import { Link } from './components/Link'
+import { Paragraph } from './components/Paragraph'
 
 export class Page {
   public components: Component[]
@@ -11,7 +11,7 @@ export class Page {
   // TODO: we should not rely on a DTO here
   constructor(page: PageDto) {
     this.components = page.components.map((component) =>
-      component.key === 'a'
+      component.type === 'link'
         ? new Link(component.href, component.text)
         : new Paragraph(component.text)
     )

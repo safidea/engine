@@ -9,7 +9,7 @@ export class App {
   constructor(schema: App) {
     this.name = schema.name
     this.version = schema.version
-    this.pages = schema.pages.map((page) => new Page(page))
+    this.pages = schema.pages.map((page) => new Page(page as any))
     this.tables = schema.tables.map((table) => new Table(table))
   }
 }

@@ -9,7 +9,7 @@ test.describe('Tests Example', () => {
           path: '/',
           components: [
             {
-              key: 'div',
+              type: 'paragraph',
               text: 'Hello World!',
             },
           ],

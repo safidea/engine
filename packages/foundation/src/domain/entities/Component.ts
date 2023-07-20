@@ -1,4 +1,4 @@
-import { Link } from './Link'
-import { Paragraph } from './Paragraph'
+import { Link } from './components/Link'
+import { Paragraph } from './components/Paragraph'
 
 export type Component = Link | Paragraph
