@@ -29,8 +29,8 @@ export class FixtureDatabase {
     return this.createTableRecord.execute(table, record)
   }
 
-  createManyRecords(table: string, recordsToCreateDto: RecordToCreateDto[]) {
-    const records = generateManyRecords(table, recordsToCreateDto)
+  createManyRecords(table: string, countOrRecordsToCreateDto: number | RecordToCreateDto[]) {
+    const records = generateManyRecords(table, countOrRecordsToCreateDto)
     return this.createManyTableRecords.execute(table, records)
   }
 }

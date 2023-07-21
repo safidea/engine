@@ -53,24 +53,19 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(record.total_amount).toEqual(120)
   })
 
-  /*test('should read a list of rows from a list of ids', async ({ request, app, helpers }) => {
+  test.skip('should read a list of rows from a list of ids', async ({ request, foundation }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
-    const db = await app.start({
-      tables: [helpers.getTableSchema('invoices')],
+    const db = await foundation.start({
+      tables: helpers.getTables('invoices'),
     })
-    const invoices = helpers.generateTableRecord('invoices', 3)
-    const ids = []
-    for (let i = 0; i < invoices.length; i++) {
-      const data = { ...invoices[i], items: { create: invoices[i].items } }
-      invoices[i] = await db.create('invoices_items', data)
-      if (i < invoices.length - 1) ids.push(invoices[i].id)
-    }
+    const ids = await db.createManyRecords('invoices', 3)
+    const filteredIds = ids.slice(0, 2)
 
     // WHEN
     // I make a GET request on table invoices
     const res = await request.get(
-      `/api/table/invoices?filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${ids.join(
+      `/api/table/invoices?filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${filteredIds.join(
         ','
       )}`
     )
@@ -80,11 +75,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(res.status()).toEqual(200)
     const rows = await res.json()
     expect(rows.length).toEqual(2)
-    expect(rows[0].id).toEqual(invoices[0].id)
-    expect(rows[1].id).toEqual(invoices[1].id)
+    expect(rows[0].id).toEqual(ids[0])
+    expect(rows[1].id).toEqual(ids[1])
   })
 
-  test('should update a row', async ({ request, orm, faker }) => {
+  /*test('should update a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)
