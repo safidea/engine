@@ -1,3 +1,7 @@
+export interface RequestQuery {
+  [key: string]: string
+}
+
 export interface Request {
   method: string
   path: string
@@ -7,4 +11,5 @@ export interface Request {
   params?: {
     [key: string]: string
   }
+  query?: RequestQuery
 }

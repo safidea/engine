@@ -25,7 +25,7 @@ export class AppController {
     const { pages, tables } = this._app
     if (tables.length > 0) {
       const tableRoutes = new TableRoutes(this._app, this._orm, this._codegen)
-      this._server.configureRoutes(tableRoutes.routes)
+      this._server.configureTables(tableRoutes.routes)
     }
     if (pages.length > 0) {
       const pageRoutes = new PageRoutes(this._app, this._components)

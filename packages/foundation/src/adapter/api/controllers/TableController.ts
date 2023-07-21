@@ -1,4 +1,4 @@
-import { RequestDto } from '@application/dtos/RequestDto'
+import { RequestWithLocalDto } from '@application/dtos/RequestDto'
 import { TableRepository } from '@adapter/spi/repositories/TableRepository'
 import { CreateTableRecord } from '@application/usecases/CreateTableRecord'
 import { ReadTableRecord } from '@application/usecases/ReadTableRecord'
@@ -22,20 +22,21 @@ export class TableController {
     this.createManyTableRecord = new CreateManyTableRecord(tableRepository)
   }
 
-  async create(request: RequestDto) {
+  async create(request: RequestWithLocalDto) {
     const { table } = request.params ?? {}
     if (!request.body) throw new Error('Body is required')
     if (Array.isArray(request.body)) return this.createManyTableRecord.execute(table, request.body)
     return this.createTableRecord.execute(table, request.body)
   }
 
-  async read(request: RequestDto) {
+  async read(request: RequestWithLocalDto) {
     const { table, id } = request.params ?? {}
     return this.readTableRecord.execute(table, id)
   }
 
-  async list(request: RequestDto) {
+  async list(request: RequestWithLocalDto) {
     const { table } = request.params ?? {}
-    return this.listTableRecords.execute(table)
+    const { filters } = request.local
+    return this.listTableRecords.execute(table, filters)
   }
 }

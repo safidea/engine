@@ -53,7 +53,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(record.total_amount).toEqual(120)
   })
 
-  test.skip('should read a list of rows from a list of ids', async ({ request, foundation }) => {
+  test('should read a list of rows from a list of ids', async ({ request, foundation }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const db = await foundation.start({
@@ -65,7 +65,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // WHEN
     // I make a GET request on table invoices
     const res = await request.get(
-      `/api/table/invoices?filter_key_0=id&filter_operator_0=is_any_of&filter_value_0=${filteredIds.join(
+      `/api/table/invoices?filter_field_0=id&filter_operator_0=is_any_of&filter_value_0=${filteredIds.join(
         ','
       )}`
     )

@@ -1,6 +1,7 @@
 import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
 import { PageController } from '../controllers/PageController'
 import { App } from '@domain/entities/App'
+import { PageRoute } from '@domain/repositories/IServerRepository'
 
 export class PageRoutes {
   private pageController: PageController
@@ -9,7 +10,7 @@ export class PageRoutes {
     this.pageController = new PageController(app, components)
   }
 
-  get routes() {
+  get routes(): PageRoute[] {
     return [
       {
         path: '*',
