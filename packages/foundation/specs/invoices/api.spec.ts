@@ -79,32 +79,36 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(rows[1].id).toEqual(ids[1])
   })
 
-  /*test('should update a row', async ({ request, orm, faker }) => {
+  test.skip('should update a row', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
-    const [invoice] = faker.generate('invoices', 1)
-    const data = { ...invoice, items: { create: invoice.items } }
-    const row = await orm.invoice.create({ data })
+    const db = await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+    const id = await db.createRecord('invoices', {
+      customer: 'Customer A',
+    })
 
     // WHEN
     // I make a PATCH request to update this invoice
     const update = {
-      customer: faker.company.name(),
+      customer: 'Customer B',
     }
-    const res = await request.patch(`/api/table/invoices/${row.id}`, {
+    const res = await request.patch(`/api/table/invoices/${id}`, {
       data: update,
     })
 
     // THEN
     // The updated invocie should have a new name
     expect(res.status()).toEqual(200)
-    const updatedRow = await orm.invoice.findUniqueOrThrow({ where: { id: row.id } })
-    expect(updatedRow.id).toEqual(row.id)
-    expect(updatedRow.customer).toEqual(update.customer)
-    expect(updatedRow.updated_at).toBeDefined()
+    const [updatedRecord] = await db.list('invoices')
+    console.log(updatedRecord)
+    expect(updatedRecord.id).toEqual(id)
+    expect(updatedRecord.customer).toEqual(update.customer)
+    expect(updatedRecord.updated_at).toBeDefined()
   })
 
-  test('should soft delete a row', async ({ request, orm, faker }) => {
+  /*test('should soft delete a row', async ({ request, orm, faker }) => {
     // GIVEN
     // We provide an invoice
     const [invoice] = faker.generate('invoices', 1)

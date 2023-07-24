@@ -24,12 +24,12 @@ export class FixtureDatabase {
     return this.listTableRecords.execute(table)
   }
 
-  createRecord(table: string, recordToCreateDto: RecordToCreateDto) {
+  createRecord(table: string, recordToCreateDto?: RecordToCreateDto) {
     const record = generateRecord(table, recordToCreateDto)
     return this.createTableRecord.execute(table, record)
   }
 
-  createManyRecords(table: string, countOrRecordsToCreateDto: number | RecordToCreateDto[]) {
+  createManyRecords(table: string, countOrRecordsToCreateDto: number | RecordToCreateDto[] = 1) {
     const records = generateManyRecords(table, countOrRecordsToCreateDto)
     return this.createManyTableRecords.execute(table, records)
   }
