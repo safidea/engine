@@ -28,6 +28,11 @@ export class TableRoutes {
         handler: async (request: RequestDto) => this.patch({ ...request, local: {} }),
       },
       {
+        path: '/api/table/:table/:id',
+        method: 'DELETE',
+        handler: async (request: RequestDto) => this.delete({ ...request, local: {} }),
+      },
+      {
         path: '/api/table/:table',
         method: 'GET',
         handler: async (request: RequestDto) => this.get({ ...request, local: {} }),
@@ -54,5 +59,9 @@ export class TableRoutes {
 
   async patch(request: RequestWithLocalDto) {
     return this.tableController.update(request)
+  }
+
+  async delete(request: RequestWithLocalDto) {
+    return this.tableController.delete(request)
   }
 }

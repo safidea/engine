@@ -10,7 +10,8 @@ export class Record {
     private readonly _fields: Fields,
     private readonly _id: string = uuidv4(),
     private readonly _created_time?: string,
-    private readonly _last_modified_time?: string
+    private readonly _last_modified_time?: string,
+    private readonly _deleted_time?: string
   ) {}
 
   get id(): string {
@@ -27,6 +28,10 @@ export class Record {
 
   get last_modified_time(): string | undefined {
     return this._last_modified_time
+  }
+
+  get deleted_time(): string | undefined {
+    return this._deleted_time
   }
 
   get table(): string {

@@ -107,24 +107,25 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(updatedRecord.last_modified_time).toBeDefined()
   })
 
-  /*test('should soft delete a row', async ({ request, orm, faker }) => {
+  test('should soft delete a row', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
-    const [invoice] = faker.generate('invoices', 1)
-    const data = { ...invoice, items: { create: invoice.items } }
-    const row = await orm.invoice.create({ data })
+    const db = await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+    const id = await db.createRecord('invoices')
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
-    const res = await request.delete(`/api/table/invoices/${row.id}`)
+    const res = await request.delete(`/api/table/invoices/${id}`)
 
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
     expect(res.status()).toEqual(200)
-    const deletedRow = await orm.invoice.findUniqueOrThrow({ where: { id: row.id } })
-    expect(deletedRow.id).toEqual(row.id)
-    expect(deletedRow.deleted_at).toBeDefined()
-  })*/
+    const [deletedRow] = await db.list('invoices')
+    expect(deletedRow.id).toEqual(id)
+    expect(deletedRow.deleted_time).toBeDefined()
+  })
 })
 
 test.describe('An api that render error messages', () => {

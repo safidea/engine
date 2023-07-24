@@ -10,6 +10,7 @@ interface Row {
   id: string
   created_time?: string
   last_modified_time?: string
+  deleted_time?: string
   [key: string]: string | number | boolean | undefined
 }
 interface Database {
@@ -50,17 +51,19 @@ export class InMemoryOrm implements IOrmRepository {
     }
     if (record.created_time) row.created_time = record.created_time
     if (record.last_modified_time) row.last_modified_time = record.last_modified_time
+    if (record.deleted_time) row.deleted_time = record.deleted_time
     return row
   }
 
   mapRowToRecord(table: string, row: Row): Record {
-    const { id, created_time, last_modified_time, ...fields } = row
+    const { id, created_time, last_modified_time, deleted_time, ...fields } = row
     return new Record(
       table,
       fields,
       id,
       created_time ? String(created_time) : undefined,
-      last_modified_time ? String(last_modified_time) : undefined
+      last_modified_time ? String(last_modified_time) : undefined,
+      deleted_time ? String(deleted_time) : undefined
     )
   }
 

@@ -8,6 +8,7 @@ import { UpdateTableRecord } from '@application/usecases/UpdateTableRecord'
 import { App } from '@domain/entities/App'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { DeleteTableRecord } from '@application/usecases/DeleteTableRecord'
 
 export class TableController {
   private createTableRecord: CreateTableRecord
@@ -15,6 +16,7 @@ export class TableController {
   private listTableRecords: ListTableRecords
   private createManyTableRecord: CreateManyTableRecord
   private updateTableRecord: UpdateTableRecord
+  private deleteTableRecord: DeleteTableRecord
 
   constructor(app: App, orm: IOrmRepository, codegen: ICodegenRepository) {
     const tableRepository = new TableRepository(app, orm, codegen)
@@ -23,6 +25,7 @@ export class TableController {
     this.listTableRecords = new ListTableRecords(tableRepository)
     this.createManyTableRecord = new CreateManyTableRecord(tableRepository)
     this.updateTableRecord = new UpdateTableRecord(tableRepository)
+    this.deleteTableRecord = new DeleteTableRecord(tableRepository)
   }
 
   async create(request: RequestWithLocalDto) {
@@ -47,5 +50,10 @@ export class TableController {
     const { table, id } = request.params ?? {}
     if (!request.body) throw new Error('Body is required')
     return this.updateTableRecord.execute(table, request.body, id)
+  }
+
+  async delete(request: RequestWithLocalDto) {
+    const { table, id } = request.params ?? {}
+    return this.deleteTableRecord.execute(table, id)
   }
 }
