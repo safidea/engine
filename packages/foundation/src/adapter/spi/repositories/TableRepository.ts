@@ -23,6 +23,10 @@ export class TableRepository {
     return this._orm.createMany(table, record)
   }
 
+  async update(table: string, record: Record, id: string) {
+    return this._orm.softUpdateById(table, record, id)
+  }
+
   async list(table: string, filters?: Filter[]) {
     return this._orm.list(table, filters)
   }

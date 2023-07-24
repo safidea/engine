@@ -23,6 +23,11 @@ export class TableRoutes {
         handler: async (request: RequestDto) => this.get({ ...request, local: {} }),
       },
       {
+        path: '/api/table/:table/:id',
+        method: 'PATCH',
+        handler: async (request: RequestDto) => this.patch({ ...request, local: {} }),
+      },
+      {
         path: '/api/table/:table',
         method: 'GET',
         handler: async (request: RequestDto) => this.get({ ...request, local: {} }),
@@ -45,5 +50,9 @@ export class TableRoutes {
 
   async post(request: RequestWithLocalDto) {
     return this.tableController.create(request)
+  }
+
+  async patch(request: RequestWithLocalDto) {
+    return this.tableController.update(request)
   }
 }

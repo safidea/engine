@@ -6,6 +6,7 @@ export interface IOrmRepository {
   configure(tables: Table[]): void
   create(table: string, record: Record): Promise<string>
   createMany(table: string, record: Record[]): Promise<string[]>
+  softUpdateById(table: string, record: Record, id: string): Promise<void>
   list(table: string, filters?: Filter[]): Promise<Record[]>
   readById(table: string, id: string): Promise<Record>
 }

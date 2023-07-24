@@ -79,7 +79,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(rows[1].id).toEqual(ids[1])
   })
 
-  test.skip('should update a row', async ({ request, foundation }) => {
+  test('should update a row', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
     const db = await foundation.start({
@@ -102,10 +102,9 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // The updated invocie should have a new name
     expect(res.status()).toEqual(200)
     const [updatedRecord] = await db.list('invoices')
-    console.log(updatedRecord)
     expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.customer).toEqual(update.customer)
-    expect(updatedRecord.updated_at).toBeDefined()
+    expect(updatedRecord.last_modified_time).toBeDefined()
   })
 
   /*test('should soft delete a row', async ({ request, orm, faker }) => {

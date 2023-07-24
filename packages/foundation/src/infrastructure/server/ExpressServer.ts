@@ -47,6 +47,16 @@ export class ExpressServer implements IServerRepository {
             res.json(json)
           })
           break
+        case 'PATCH':
+          this.app.patch(route.path, async (req, res) => {
+            const json = await route.handler({
+              method: req.method,
+              path: req.url,
+              params: req.params,
+              body: req.body,
+            })
+            res.json(json)
+          })
         default:
           break
       }

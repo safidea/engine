@@ -6,7 +6,6 @@ import * as helpers from './helpers'
 interface Fixtures {
   port: number
   foundation: FixtureFoundation
-  helpers: typeof helpers
 }
 
 const test = base.extend<Fixtures>({

@@ -18,6 +18,7 @@ export class CreateTableRecord {
     const fields = await this.tableRepository.getTableFields(table)
     const recordDto: RecordDto = {
       id: uuidv4(),
+      created_time: new Date().toISOString(),
     }
     for (const fieldName in recordToCreateDto) {
       const field = fields.find((f) => f.name === fieldName)

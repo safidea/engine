@@ -8,8 +8,9 @@ import { IsAnyOf } from '@domain/entities/filters/IsAnyOf'
 
 interface Row {
   id: string
-  created_time: string
-  [key: string]: string | number | boolean
+  created_time?: string
+  last_modified_time?: string
+  [key: string]: string | number | boolean | undefined
 }
 interface Database {
   [key: string]: Row[]
@@ -43,16 +44,24 @@ export class InMemoryOrm implements IOrmRepository {
   }
 
   mapRecordToRow(record: Record): Row {
-    return {
+    const row: Row = {
       ...record.fields,
       id: record.id,
-      created_time: record.created_time,
     }
+    if (record.created_time) row.created_time = record.created_time
+    if (record.last_modified_time) row.last_modified_time = record.last_modified_time
+    return row
   }
 
   mapRowToRecord(table: string, row: Row): Record {
-    const { id, created_time, ...fields } = row
-    return new Record(table, fields, id, created_time)
+    const { id, created_time, last_modified_time, ...fields } = row
+    return new Record(
+      table,
+      fields,
+      id,
+      created_time ? String(created_time) : undefined,
+      last_modified_time ? String(last_modified_time) : undefined
+    )
   }
 
   async create(tableName: string, record: Record): Promise<string> {
@@ -69,6 +78,15 @@ export class InMemoryOrm implements IOrmRepository {
     db[table].push(...records.map((record) => this.mapRecordToRow(record)))
     await this.setDB(db)
     return records.map((record) => record.id)
+  }
+
+  async softUpdateById(table: string, record: Record, id: string): Promise<void> {
+    const db = await this.getDB()
+    if (!db[table]) db[table] = []
+    const index = db[table].findIndex((row) => row.id === id)
+    if (index === -1) throw new Error(`Record ${id} not found`)
+    db[table][index] = { ...db[table][index], ...this.mapRecordToRow(record) }
+    await this.setDB(db)
   }
 
   async list(table: string, filters?: Filter[]): Promise<Record[]> {

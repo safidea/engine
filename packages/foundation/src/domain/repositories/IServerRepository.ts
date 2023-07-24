@@ -3,7 +3,7 @@ import { Request } from '@domain/entities/Request'
 export interface TableRoute {
   path: string
   method: string
-  handler: (request: Request) => Promise<RecordDto | RecordDto[] | string | string[]>
+  handler: (request: Request) => Promise<RecordDto | RecordDto[] | string | string[] | void>
 }
 
 export interface PageRoute {

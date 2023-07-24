@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 interface Fields {
-  [key: string]: string | number | boolean | string[]
+  [key: string]: string | number | boolean | undefined | string[]
 }
 
 export class Record {
@@ -9,7 +9,8 @@ export class Record {
     private readonly _table: string,
     private readonly _fields: Fields,
     private readonly _id: string = uuidv4(),
-    private readonly _created_time: string = new Date().toISOString()
+    private readonly _created_time?: string,
+    private readonly _last_modified_time?: string
   ) {}
 
   get id(): string {
@@ -20,8 +21,12 @@ export class Record {
     return this._fields
   }
 
-  get created_time(): string {
+  get created_time(): string | undefined {
     return this._created_time
+  }
+
+  get last_modified_time(): string | undefined {
+    return this._last_modified_time
   }
 
   get table(): string {

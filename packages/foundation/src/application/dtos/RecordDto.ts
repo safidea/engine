@@ -1,15 +1,27 @@
-type RecordFieldDto = string | number | boolean | string[]
+type RecordFieldDto = string | number | boolean | undefined | string[]
 
-interface SingleLinkedRecordDto {
+interface CreateSingleLinkedRecordDto {
   create: RecordToCreateDto
 }
 
-interface MultipleLinkedRecordsDto {
+interface CreateMultipleLinkedRecordsDto {
   create: RecordToCreateDto[]
 }
 
+interface UpdateSingleLinkedRecordDto {
+  update: RecordToCreateDto
+}
+
+interface UpdateMultipleLinkedRecordsDto {
+  update: RecordToCreateDto[]
+}
+
 export interface RecordToCreateDto {
-  [key: string]: RecordFieldDto | SingleLinkedRecordDto | MultipleLinkedRecordsDto
+  [key: string]: RecordFieldDto | CreateSingleLinkedRecordDto | CreateMultipleLinkedRecordsDto
+}
+
+export interface RecordToUpdateDto {
+  [key: string]: RecordFieldDto | UpdateSingleLinkedRecordDto | UpdateMultipleLinkedRecordsDto
 }
 
 export interface RecordDto {

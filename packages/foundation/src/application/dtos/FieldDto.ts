@@ -27,7 +27,7 @@ interface FormulaDto extends BaseFieldDto {
   formula: string
 }
 
-interface SingleLinkedRecordDto extends BaseFieldDto {
+interface CreateSingleLinkedRecordDto extends BaseFieldDto {
   type: 'single_linked_record'
   table: string
 }
@@ -50,6 +50,6 @@ export type FieldDto =
   | CurrencyDto
   | NumberDto
   | FormulaDto
-  | SingleLinkedRecordDto
+  | CreateSingleLinkedRecordDto
   | MultipleLinkedRecordDto
   | RollupDto
