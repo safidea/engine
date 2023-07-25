@@ -49,20 +49,14 @@ export class TableRoutes {
 
   async get(request: RequestDto): Promise<Response> {
     try {
-      const localWithTable = await this.tableMiddleware.validateTableExist(request)
+      const table = await this.tableMiddleware.validateTableExist(request)
       if (request.params?.id) {
-        const localWithTableAndId = await this.tableMiddleware.validateRowExist(
-          request,
-          localWithTable
-        )
-        const record = await this.tableController.read(localWithTableAndId)
+        const id = await this.tableMiddleware.validateRowExist(request)
+        const record = await this.tableController.read(table, id)
         return { json: record }
       }
-      const localWithTableAndFilters = await this.tableMiddleware.validateAndExtractQuery(
-        request,
-        localWithTable
-      )
-      const records = await this.tableController.list(localWithTableAndFilters)
+      const filters = await this.tableMiddleware.validateAndExtractQuery(request)
+      const records = await this.tableController.list(table, filters)
       return { json: records }
     } catch (error) {
       return this.catchError(error)
@@ -71,18 +65,15 @@ export class TableRoutes {
 
   async post(request: RequestDto): Promise<Response> {
     try {
-      const localWithTable = await this.tableMiddleware.validateTableExist(request)
-      const localWithTableAndBody = await this.tableMiddleware.validateBodyExist(
-        request,
-        localWithTable
-      )
-      if ('records' in localWithTableAndBody) {
-        await this.tableMiddleware.validatePostArrayBody(localWithTableAndBody)
-        const ids = await this.tableController.createMany(localWithTableAndBody)
+      const table = await this.tableMiddleware.validateTableExist(request)
+      const body = await this.tableMiddleware.validateBodyExist(request)
+      if (Array.isArray(body)) {
+        await this.tableMiddleware.validatePostArrayBody(table, body)
+        const ids = await this.tableController.createMany(table, body)
         return { json: { ids } }
       }
-      await this.tableMiddleware.validatePostBody(localWithTableAndBody)
-      const id = await this.tableController.create(localWithTableAndBody)
+      await this.tableMiddleware.validatePostBody(table, body)
+      const id = await this.tableController.create(table, body)
       return { json: { id } }
     } catch (error) {
       return this.catchError(error)
@@ -91,20 +82,14 @@ export class TableRoutes {
 
   async patch(request: RequestDto): Promise<Response> {
     try {
-      const localWithTable = await this.tableMiddleware.validateTableExist(request)
-      const localWithTableAndBody = await this.tableMiddleware.validateBodyExist(
-        request,
-        localWithTable
-      )
-      if ('records' in localWithTableAndBody) {
+      const table = await this.tableMiddleware.validateTableExist(request)
+      const body = await this.tableMiddleware.validateBodyExist(request)
+      if (Array.isArray(body)) {
         throw new ApiError('Method not implemented', 405)
       }
-      const localWithTableAndId = await this.tableMiddleware.validateRowExist(
-        request,
-        localWithTable
-      )
-      await this.tableMiddleware.validatePatchBody(localWithTableAndBody)
-      await this.tableController.update({ ...localWithTableAndBody, ...localWithTableAndId })
+      const id = await this.tableMiddleware.validateRowExist(request)
+      await this.tableMiddleware.validatePatchBody(table, body)
+      await this.tableController.update(table, id, body)
       return { json: { success: true } }
     } catch (error) {
       return this.catchError(error)
@@ -113,12 +98,9 @@ export class TableRoutes {
 
   async delete(request: RequestDto): Promise<Response> {
     try {
-      const localWithTable = await this.tableMiddleware.validateTableExist(request)
-      const localWithTableAndId = await this.tableMiddleware.validateRowExist(
-        request,
-        localWithTable
-      )
-      await this.tableController.delete(localWithTableAndId)
+      const table = await this.tableMiddleware.validateTableExist(request)
+      const id = await this.tableMiddleware.validateRowExist(request)
+      await this.tableController.delete(table, id)
       return { json: { success: true } }
     } catch (error) {
       return this.catchError(error)

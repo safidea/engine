@@ -8,13 +8,8 @@ import { App } from '@domain/entities/App'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
 import { DeleteTableRecord } from '@application/usecases/DeleteTableRecord'
-import {
-  LocalWithTableAndRecordDto,
-  LocalWithTableAndArrayRecordDto,
-  LocalWithTableAndIdDto,
-  LocalWithTableAndFiltersDto,
-  LocalWithTableAndRecordAndIdDto,
-} from '@application/dtos/LocalDto'
+import { RecordDto } from '@application/dtos/RecordDto'
+import { FilterDto } from '@application/dtos/FilterDto'
 
 export class TableController {
   private createTableRecord: CreateTableRecord
@@ -34,33 +29,27 @@ export class TableController {
     this.deleteTableRecord = new DeleteTableRecord(tableRepository)
   }
 
-  async create(local: LocalWithTableAndRecordDto) {
-    const { table, record } = local
+  async create(table: string, record: RecordDto) {
     return this.createTableRecord.execute(table, record)
   }
 
-  async createMany(local: LocalWithTableAndArrayRecordDto) {
-    const { table, records } = local
+  async createMany(table: string, records: RecordDto[]) {
     return this.createManyTableRecord.execute(table, records)
   }
 
-  async read(local: LocalWithTableAndIdDto) {
-    const { table, id } = local
+  async read(table: string, id: string) {
     return this.readTableRecord.execute(table, id)
   }
 
-  async list(local: LocalWithTableAndFiltersDto) {
-    const { table, filters } = local
+  async list(table: string, filters: FilterDto[]) {
     return this.listTableRecords.execute(table, filters)
   }
 
-  async update(local: LocalWithTableAndRecordAndIdDto) {
-    const { table, id, record } = local
+  async update(table: string, id: string, record: RecordDto) {
     return this.updateTableRecord.execute(table, record, id)
   }
 
-  async delete(local: LocalWithTableAndIdDto) {
-    const { table, id } = local
+  async delete(table: string, id: string) {
     return this.deleteTableRecord.execute(table, id)
   }
 }

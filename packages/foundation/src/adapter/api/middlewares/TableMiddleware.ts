@@ -4,13 +4,6 @@ import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { ApiError } from '@domain/entities/errors/ApiError'
 import { RecordDto } from '@application/dtos/RecordDto'
 import { RequestDto } from '@application/dtos/RequestDto'
-import {
-  LocalWithTableAndArrayRecordDto,
-  LocalWithTableAndFiltersDto,
-  LocalWithTableAndIdDto,
-  LocalWithTableAndRecordDto,
-  LocalWithTableDto,
-} from '@application/dtos/LocalDto'
 
 export class TableMiddleware {
   constructor(
@@ -18,17 +11,14 @@ export class TableMiddleware {
     private readonly _orm: IOrmRepository
   ) {}
 
-  public async validateTableExist(request: RequestDto): Promise<LocalWithTableDto> {
+  public async validateTableExist(request: RequestDto): Promise<string> {
     const { table } = request.params ?? {}
     const exist = this._orm.tableExists(table)
     if (!exist) throw new ApiError(`Table ${table} does not exist`, 404)
-    return { table }
+    return table
   }
 
-  public async validateAndExtractQuery(
-    request: RequestDto,
-    local: LocalWithTableDto
-  ): Promise<LocalWithTableAndFiltersDto> {
+  public async validateAndExtractQuery(request: RequestDto): Promise<FilterDto[]> {
     const { query } = request
     const filters: FilterDto[] = []
     if (query) {
@@ -54,46 +44,34 @@ export class TableMiddleware {
         }
       }
     }
-    return { ...local, filters }
+    return filters
   }
 
-  public async validateRowExist(
-    request: RequestDto,
-    local: LocalWithTableDto
-  ): Promise<LocalWithTableAndIdDto> {
+  public async validateRowExist(request: RequestDto): Promise<string> {
     const { table, id } = request.params ?? {}
     const row = await this._orm.readById(table, id)
     if (!row) throw new ApiError(`Row ${id} does not exist in table ${table}`, 404)
-    return { ...local, table, id }
+    return id
   }
 
-  public async validateBodyExist(
-    request: RequestDto,
-    local: LocalWithTableDto
-  ): Promise<LocalWithTableAndRecordDto | LocalWithTableAndArrayRecordDto> {
+  public async validateBodyExist(request: RequestDto): Promise<RecordDto | RecordDto[]> {
     const { body } = request
     if (!body) throw new ApiError(`Body is empty`, 400)
-    if (Array.isArray(body)) {
-      return { ...local, records: body }
-    }
-    return { ...local, record: body }
+    return body
   }
 
-  public async validatePostBody(local: LocalWithTableAndRecordDto): Promise<void> {
-    const { table, record } = local
+  public async validatePostBody(table: string, record: RecordDto): Promise<void> {
     const errors = this.validateRecordValues(table, record)
     if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}'`, 400)
   }
 
-  public async validatePostArrayBody(local: LocalWithTableAndArrayRecordDto): Promise<void> {
-    const { table, records } = local
+  public async validatePostArrayBody(table: string, records: RecordDto[]): Promise<void> {
     if (!records) throw new ApiError(`Body is empty`, 400)
     const errors = this.validateArrayRecordValues(table, records)
     if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}'`, 400)
   }
 
-  public async validatePatchBody(local: LocalWithTableAndRecordDto): Promise<void> {
-    const { table, record } = local
+  public async validatePatchBody(table: string, record: RecordDto): Promise<void> {
     const errors = this.validateRecordValues(table, record, 'UPDATE')
     if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}'`, 400)
   }
