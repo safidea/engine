@@ -3,7 +3,8 @@ import { fakerFR as faker } from '@faker-js/faker'
 import { TableDto } from '@application/dtos/TableDto'
 import { FieldDto } from '@application/dtos/FieldDto'
 import { RecordToCreateDto } from '@application/dtos/RecordDto'
-import { TABLE_INVOICES, TABLE_INVOICES_ITEMS } from './schemas'
+import { TABLE_INVOICES, TABLE_INVOICES_ITEMS, PAGE_LIST_INVOICES } from './schemas'
+import { PageDto } from '@application/dtos/PageDto'
 
 export async function findAvailablePort(): Promise<number> {
   return new Promise<number>((resolve, reject) => {
@@ -19,15 +20,38 @@ export async function findAvailablePort(): Promise<number> {
   })
 }
 
-export function getTables(tableName: string): TableDto[] {
-  switch (tableName) {
-    case 'invoices':
-      return [TABLE_INVOICES, TABLE_INVOICES_ITEMS]
-    case 'invoices_items':
-      return [TABLE_INVOICES_ITEMS]
-    default:
-      throw new Error(`Table ${tableName} not found in schemas`)
+export function getTables(...args: string[]): TableDto[] {
+  const tables: TableDto[] = []
+  for (const tableName of args) {
+    switch (tableName) {
+      case 'invoices':
+        tables.push(TABLE_INVOICES, TABLE_INVOICES_ITEMS)
+        break
+      case 'invoices_items':
+        tables.push(TABLE_INVOICES_ITEMS)
+        break
+      default:
+        throw new Error(`Table ${tableName} not found in schemas`)
+    }
   }
+  return tables
+}
+
+export function getPages(...args: string[]): PageDto[] {
+  const pages: PageDto[] = []
+  for (const pageName of args) {
+    switch (pageName) {
+      case 'invoices_list':
+        pages.push(PAGE_LIST_INVOICES)
+        break
+      case 'invoices_create':
+        pages.push(PAGE_LIST_INVOICES)
+        break
+      default:
+        throw new Error(`Page ${pageName} not found in schemas`)
+    }
+  }
+  return pages
 }
 
 export function generateRecord(tableName: string, data: RecordToCreateDto = {}): RecordToCreateDto {
