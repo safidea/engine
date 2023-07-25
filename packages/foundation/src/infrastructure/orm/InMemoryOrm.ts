@@ -30,6 +30,10 @@ export class InMemoryOrm implements IOrmRepository {
     this.tables = tables
   }
 
+  public tableExists(tableName: string): boolean {
+    return this.tables.some((table) => table.name === tableName)
+  }
+
   private getTable(tableName: string): Table {
     const table = this.tables.find((table) => table.name === tableName)
     if (!table) throw new Error(`Table ${tableName} not found`)
@@ -136,11 +140,11 @@ export class InMemoryOrm implements IOrmRepository {
     await this.setDB(db)
   }
 
-  async readById(table: string, id: string): Promise<Record> {
+  async readById(table: string, id: string): Promise<Record | undefined> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const row = db[table].find((row) => row.id === id)
-    if (!row) throw new Error(`Row not found for id ${id} in table ${table}`)
+    if (!row) return undefined
     return this.mapRowToRecord(table, row)
   }
 }

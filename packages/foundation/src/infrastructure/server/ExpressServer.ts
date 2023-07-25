@@ -32,40 +32,40 @@ export class ExpressServer implements IServerRepository {
                 return acc
               }, {})
             }
-            const json = await route.handler(options)
-            res.json(json)
+            const { status = 200, json } = await route.handler(options)
+            res.status(status).json(json)
           })
           break
         case 'POST':
           this.app.post(route.path, async (req, res) => {
-            const json = await route.handler({
+            const { status = 200, json } = await route.handler({
               method: req.method,
               path: req.url,
               params: req.params,
               body: req.body,
             })
-            res.json(json)
+            res.status(status).json(json)
           })
           break
         case 'PATCH':
           this.app.patch(route.path, async (req, res) => {
-            const json = await route.handler({
+            const { status = 200, json } = await route.handler({
               method: req.method,
               path: req.url,
               params: req.params,
               body: req.body,
             })
-            res.json(json)
+            res.status(status).json(json)
           })
           break
         case 'DELETE':
           this.app.delete(route.path, async (req, res) => {
-            const json = await route.handler({
+            const { status = 200, json } = await route.handler({
               method: req.method,
               path: req.url,
               params: req.params,
             })
-            res.json(json)
+            res.status(status).json(json)
           })
           break
         default:

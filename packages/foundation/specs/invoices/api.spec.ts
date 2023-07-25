@@ -129,7 +129,16 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 })
 
 test.describe('An api that render error messages', () => {
-  /*test('should return a 404 error when the table does not exist', async ({ request }) => {
+  test('should return a 404 error when the table does not exist', async ({
+    request,
+    foundation,
+  }) => {
+    // GIVEN
+    // We provide an app with tables
+    await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+
     // WHEN
     // I make a GET request on an unknown table
     const res = await request.get('/api/table/unknown')
@@ -140,7 +149,13 @@ test.describe('An api that render error messages', () => {
     expect((await res.json()).error).toEqual('Table unknown does not exist')
   })
 
-  test('should return a 404 error when the row does not exist', async ({ request }) => {
+  test('should return a 404 error when the row does not exist', async ({ request, foundation }) => {
+    // GIVEN
+    // We provide an app with tables
+    await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+
     // WHEN
     // I make a GET request on an unknown row
     const res = await request.get('/api/table/invoices/unknown')
@@ -151,7 +166,7 @@ test.describe('An api that render error messages', () => {
     expect((await res.json()).error).toEqual('Row unknown does not exist in table invoices')
   })
 
-  test('should return a 400 error when the row is not valid', async ({ request }) => {
+  /*test('should return a 400 error when the row is not valid', async ({ request }) => {
     // WHEN
     // I make a POST request with an invalid row
     const res = await request.post('/api/table/invoices', { data: { invalid: 'invalid' } })

@@ -11,6 +11,7 @@ export class ReadTableRecord {
 
   async execute(table: string, id: string): Promise<RecordDto> {
     const record = await this.tableRepository.read(table, id)
+    if (!record) throw new Error(`Record ${id} not found`)
     return this.enrichRecord(mapRecordToDto(record), table)
   }
 

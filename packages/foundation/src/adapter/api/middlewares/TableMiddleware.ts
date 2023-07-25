@@ -2,6 +2,7 @@ import { FilterDto } from '@application/dtos/FilterDto'
 import { RequestWithLocalDto } from '@application/dtos/RequestDto'
 import { App } from '@domain/entities/App'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
+import { ApiError } from '@domain/entities/errors/ApiError'
 
 export class TableMiddleware {
   constructor(
@@ -36,5 +37,17 @@ export class TableMiddleware {
       }
     }
     if (filters.length > 0) request.local.filters = filters
+  }
+
+  public async validateTableExist(request: RequestWithLocalDto) {
+    const { table } = request.params ?? {}
+    const exist = this._orm.tableExists(table)
+    if (!exist) throw new ApiError(`Table ${table} does not exist`, 404)
+  }
+
+  public async validateRowExist(request: RequestWithLocalDto) {
+    const { table, id } = request.params ?? {}
+    const row = await this._orm.readById(table, id)
+    if (!row) throw new ApiError(`Row ${id} does not exist in table ${table}`, 404)
   }
 }

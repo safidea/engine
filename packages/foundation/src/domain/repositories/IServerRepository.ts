@@ -1,9 +1,9 @@
-import { RecordDto } from '@application/dtos/RecordDto'
+import { Response } from '@domain/entities/Response'
 import { Request } from '@domain/entities/Request'
 export interface TableRoute {
   path: string
   method: string
-  handler: (request: Request) => Promise<RecordDto | RecordDto[] | string | string[] | void>
+  handler: (request: Request) => Promise<Response>
 }
 
 export interface PageRoute {
