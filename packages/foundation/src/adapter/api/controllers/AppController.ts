@@ -4,7 +4,7 @@ import { AppDto } from '@application/dtos/AppDto'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { App } from '@domain/entities/App'
 import { IServerRepository } from '@domain/repositories/IServerRepository'
-import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
+import { IUIRepository } from '@domain/repositories/IUIRepository'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
 import { TableRoutes } from '../routes/TableRoutes'
 import { PageRoutes } from '../routes/PageRoutes'
@@ -16,11 +16,11 @@ export class AppController {
     appDto: AppDto,
     private readonly _server: IServerRepository,
     private readonly _orm: IOrmRepository,
-    private readonly _components: IComponentsRepository,
+    private readonly _ui: IUIRepository,
     private readonly _codegen: ICodegenRepository
   ) {
     const appRepository = new AppRepository(appDto)
-    const configureApp = new ConfigureApp(appRepository)
+    const configureApp = new ConfigureApp(appRepository, this._ui)
     this._app = configureApp.execute()
     const { pages, tables } = this._app
     if (tables.length > 0) {
@@ -28,7 +28,7 @@ export class AppController {
       this._server.configureTables(tableRoutes.routes)
     }
     if (pages.length > 0) {
-      const pageRoutes = new PageRoutes(this._app, this._components)
+      const pageRoutes = new PageRoutes(this._app, this._ui)
       this._server.configurePages(pageRoutes.routes)
     }
   }
@@ -49,8 +49,8 @@ export class AppController {
     return this._orm
   }
 
-  get components(): IComponentsRepository {
-    return this._components
+  get ui(): IUIRepository {
+    return this._ui
   }
 
   get codegen(): ICodegenRepository {

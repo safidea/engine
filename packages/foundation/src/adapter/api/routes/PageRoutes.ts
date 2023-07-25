@@ -1,4 +1,4 @@
-import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
+import { IUIRepository } from '@domain/repositories/IUIRepository'
 import { PageController } from '../controllers/PageController'
 import { App } from '@domain/entities/App'
 import { PageRoute } from '@domain/repositories/IServerRepository'
@@ -6,8 +6,8 @@ import { PageRoute } from '@domain/repositories/IServerRepository'
 export class PageRoutes {
   private pageController: PageController
 
-  constructor(app: App, components: IComponentsRepository) {
-    this.pageController = new PageController(app, components)
+  constructor(app: App, ui: IUIRepository) {
+    this.pageController = new PageController(app, ui)
   }
 
   get routes(): PageRoute[] {

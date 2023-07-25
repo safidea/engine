@@ -1,10 +1,9 @@
-import { HtmlProps } from '@domain/components/IHtmlProps'
-import { IComponentsRepository } from '@domain/repositories/IComponentsRepository'
+import { IUIRepository } from '@domain/repositories/IUIRepository'
 
 export class PageRepository {
-  constructor(private readonly _components: IComponentsRepository) {}
+  constructor(private readonly _ui: IUIRepository) {}
 
-  getComponent(name: string): React.FC<HtmlProps> {
-    return this._components.get(name)
+  getUI(): IUIRepository {
+    return this._ui
   }
 }

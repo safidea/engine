@@ -1,16 +1,18 @@
 import { PageRepository } from '@adapter/spi/repositories/PageRepository'
-import { capitalize } from '@application/utils/StringUtils'
 import { App } from '@domain/entities/App'
 import { Component } from '@domain/entities/Component'
-import { Link } from '@domain/entities/components/Link'
-import { Paragraph } from '@domain/entities/components/Paragraph'
 import { ReactElement } from 'react'
+import { IUIRepository } from '@domain/repositories/IUIRepository'
 
 export class GetPage {
+  private readonly _ui: IUIRepository
+
   constructor(
     private pageRepository: PageRepository,
     private app: App
-  ) {}
+  ) {
+    this._ui = this.pageRepository.getUI()
+  }
 
   async execute(path: string): Promise<ReactElement> {
     const { pages } = this.app
@@ -21,39 +23,9 @@ export class GetPage {
     return <Page />
   }
 
-  private getComponent(type: Component['type']) {
-    const name = capitalize(type)
-    return this.pageRepository.getComponent(name)
-  }
-
-  private getProps(component: Component) {
-    const { type } = component
-    if (component instanceof Link) {
-      return {
-        Tag: 'a' as keyof JSX.IntrinsicElements,
-        href: component.href,
-      }
-    }
-    if (component instanceof Paragraph) {
-      return {
-        Tag: 'p' as keyof JSX.IntrinsicElements,
-      }
-    }
-    throw new Error(`Component type ${type} not found`)
-  }
-
   private render(component: Component, index: number) {
-    const { type } = component
-    const Component = this.getComponent(type)
-    const props = this.getProps(component)
-    if ('text' in component) {
-      return (
-        <Component key={index} {...props}>
-          {component.text}
-        </Component>
-      )
-    }
-    return <Component key={index} {...props} />
+    const Component = component.render
+    return <Component key={index} />
   }
 
   private children(components: Component[]) {

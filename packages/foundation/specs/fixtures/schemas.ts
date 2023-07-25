@@ -88,61 +88,77 @@ export const PAGE_LIST_INVOICES: PageDto = {
   title: 'Factures',
   components: [
     {
-      type: 'appNavigation',
-      components: [
+      type: 'navigation',
+      title: {
+        type: 'title',
+        size: 'md',
+        text: 'Factures',
+      },
+      links: [
         {
-          key: 'h1',
-          text: 'Toutes les factures',
-          className: 'p-2 text-4xl font-bold text-gray-800',
+          type: 'link',
+          label: 'Toutes les factures',
+          path: '/',
         },
         {
-          key: 'list',
+          type: 'link',
+          label: 'Créer une facture',
+          path: '/create',
+        },
+      ],
+      components: [
+        {
+          type: 'title',
+          size: 'xl',
+          text: 'Toutes les factures',
+        },
+        {
+          type: 'list',
           table: 'invoices',
-          fields: [
+          columns: [
             {
-              key: 'customer',
+              field: 'customer',
               label: 'Client',
             },
             {
-              key: 'address',
+              field: 'address',
               label: 'Adresse',
             },
             {
-              key: 'total_amount',
+              field: 'total_amount',
               label: 'Montant total',
             },
             {
-              key: 'status',
+              field: 'status',
               label: 'Statut',
               options: [
                 {
-                  key: 'draft',
+                  name: 'draft',
                   label: 'Brouillon',
                 },
                 {
-                  key: 'finalised',
+                  name: 'finalised',
                   label: 'Finalisée',
                 },
                 {
-                  key: 'sent',
+                  name: 'sent',
                   label: 'Envoyée',
                 },
                 {
-                  key: 'paid',
+                  name: 'paid',
                   label: 'Payée',
                 },
               ],
             },
             {
-              key: 'finalised_date',
+              field: 'finalised_date',
               label: 'Date de finalisation',
             },
             {
-              key: 'created_date',
+              field: 'created_date',
               label: 'Date de création',
             },
             {
-              key: 'edit',
               label: 'Éditer',
               format: 'button',
               actions: [
@@ -169,54 +185,71 @@ export const PAGE_CREATE_INVOICE: PageDto = {
   title: 'Factures',
   components: [
     {
-      key: 'appNavigation',
-      components: [
+      type: 'navigation',
+      title: {
+        type: 'title',
+        size: 'md',
+        text: 'Factures',
+      },
+      links: [
         {
-          key: 'h1',
-          text: 'Créer une facture',
-          className: 'p-2 text-4xl font-bold text-gray-800',
+          type: 'link',
+          label: 'Toutes les factures',
+          path: '/',
         },
         {
-          key: 'form',
+          type: 'link',
+          label: 'Créer une facture',
+          path: '/create',
+        },
+      ],
+      components: [
+        {
+          type: 'title',
+          size: 'xl',
+          text: 'Créer une facture',
+        },
+        {
+          type: 'form',
           table: 'invoices',
-          fields: [
+          inputs: [
             {
-              key: 'customer',
+              field: 'customer',
               label: 'Client',
             },
             {
-              key: 'address',
+              field: 'address',
               label: 'Adresse',
             },
             {
-              key: 'zip_code',
+              field: 'zip_code',
               label: 'Code postal',
             },
             {
-              key: 'country',
+              field: 'country',
               label: 'Pays',
             },
             {
-              key: 'items',
+              field: 'items',
               label: 'Lignes de facture',
-              fields: [
+              columns: [
                 {
-                  key: 'activity',
+                  field: 'activity',
                   label: 'Activité',
                   placeholder: 'Activité',
                 },
                 {
-                  key: 'quantity',
+                  field: 'quantity',
                   label: 'Quantité',
                   placeholder: 'Quantité',
                 },
                 {
-                  key: 'unity',
+                  field: 'unity',
                   label: 'Unité',
                   placeholder: 'Unité',
                 },
                 {
-                  key: 'unit_price',
+                  field: 'unit_price',
                   label: 'Prix unitaire',
                   placeholder: 'Prix unitaire',
                 },
@@ -226,7 +259,7 @@ export const PAGE_CREATE_INVOICE: PageDto = {
           ],
           submit: {
             label: 'Enregistrer',
-            loading_label: 'Enregistrement en cours...',
+            loadingLabel: 'Enregistrement en cours...',
             actionsOnSuccess: [
               {
                 type: 'redirect',
