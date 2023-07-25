@@ -1,4 +1,3 @@
-import { RequestWithLocalDto } from '@application/dtos/RequestDto'
 import { TableRepository } from '@adapter/spi/repositories/TableRepository'
 import { CreateTableRecord } from '@application/usecases/CreateTableRecord'
 import { ReadTableRecord } from '@application/usecases/ReadTableRecord'
@@ -9,6 +8,13 @@ import { App } from '@domain/entities/App'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
 import { DeleteTableRecord } from '@application/usecases/DeleteTableRecord'
+import {
+  LocalWithTableAndRecordDto,
+  LocalWithTableAndArrayRecordDto,
+  LocalWithTableAndIdDto,
+  LocalWithTableAndFiltersDto,
+  LocalWithTableAndRecordAndIdDto,
+} from '@application/dtos/LocalDto'
 
 export class TableController {
   private createTableRecord: CreateTableRecord
@@ -28,32 +34,33 @@ export class TableController {
     this.deleteTableRecord = new DeleteTableRecord(tableRepository)
   }
 
-  async create(request: RequestWithLocalDto) {
-    const { table } = request.params ?? {}
-    if (!request.body) throw new Error('Body is required')
-    if (Array.isArray(request.body)) return this.createManyTableRecord.execute(table, request.body)
-    return this.createTableRecord.execute(table, request.body)
+  async create(local: LocalWithTableAndRecordDto) {
+    const { table, record } = local
+    return this.createTableRecord.execute(table, record)
   }
 
-  async read(request: RequestWithLocalDto) {
-    const { table, id } = request.params ?? {}
+  async createMany(local: LocalWithTableAndArrayRecordDto) {
+    const { table, records } = local
+    return this.createManyTableRecord.execute(table, records)
+  }
+
+  async read(local: LocalWithTableAndIdDto) {
+    const { table, id } = local
     return this.readTableRecord.execute(table, id)
   }
 
-  async list(request: RequestWithLocalDto) {
-    const { table } = request.params ?? {}
-    const { filters } = request.local
+  async list(local: LocalWithTableAndFiltersDto) {
+    const { table, filters } = local
     return this.listTableRecords.execute(table, filters)
   }
 
-  async update(request: RequestWithLocalDto) {
-    const { table, id } = request.params ?? {}
-    if (!request.body) throw new Error('Body is required')
-    return this.updateTableRecord.execute(table, request.body, id)
+  async update(local: LocalWithTableAndRecordAndIdDto) {
+    const { table, id, record } = local
+    return this.updateTableRecord.execute(table, record, id)
   }
 
-  async delete(request: RequestWithLocalDto) {
-    const { table, id } = request.params ?? {}
+  async delete(local: LocalWithTableAndIdDto) {
+    const { table, id } = local
     return this.deleteTableRecord.execute(table, id)
   }
 }

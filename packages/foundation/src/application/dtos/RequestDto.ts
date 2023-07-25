@@ -1,5 +1,3 @@
-import { FilterDto } from './FilterDto'
-
 export interface RequestDto {
   method: string
   path: string
@@ -11,11 +9,5 @@ export interface RequestDto {
   }
   query?: {
     [key: string]: string
-  }
-}
-
-export interface RequestWithLocalDto extends RequestDto {
-  local: {
-    filters?: FilterDto[]
   }
 }

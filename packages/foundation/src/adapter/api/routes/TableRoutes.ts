@@ -1,4 +1,4 @@
-import { RequestDto, RequestWithLocalDto } from '@application/dtos/RequestDto'
+import { RequestDto } from '@application/dtos/RequestDto'
 import { TableController } from '../controllers/TableController'
 import { TableMiddleware } from '../middlewares/TableMiddleware'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
@@ -22,71 +22,103 @@ export class TableRoutes {
       {
         path: '/api/table/:table/:id',
         method: 'GET',
-        handler: async (request: RequestDto) => this.get({ ...request, local: {} }),
+        handler: async (request: RequestDto) => this.get(request),
       },
       {
         path: '/api/table/:table/:id',
         method: 'PATCH',
-        handler: async (request: RequestDto) => this.patch({ ...request, local: {} }),
+        handler: async (request: RequestDto) => this.patch(request),
       },
       {
         path: '/api/table/:table/:id',
         method: 'DELETE',
-        handler: async (request: RequestDto) => this.delete({ ...request, local: {} }),
+        handler: async (request: RequestDto) => this.delete(request),
       },
       {
         path: '/api/table/:table',
         method: 'GET',
-        handler: async (request: RequestDto) => this.get({ ...request, local: {} }),
+        handler: async (request: RequestDto) => this.get(request),
       },
       {
         path: '/api/table/:table',
         method: 'POST',
-        handler: async (request: RequestDto) => this.post({ ...request, local: {} }),
+        handler: async (request: RequestDto) => this.post(request),
       },
     ]
   }
 
-  async get(request: RequestWithLocalDto): Promise<Response> {
+  async get(request: RequestDto): Promise<Response> {
     try {
-      await this.tableMiddleware.validateTableExist(request)
+      const localWithTable = await this.tableMiddleware.validateTableExist(request)
       if (request.params?.id) {
-        await this.tableMiddleware.validateRowExist(request)
-        const record = await this.tableController.read(request)
+        const localWithTableAndId = await this.tableMiddleware.validateRowExist(
+          request,
+          localWithTable
+        )
+        const record = await this.tableController.read(localWithTableAndId)
         return { json: record }
       }
-      await this.tableMiddleware.validateAndExtractQuery(request)
-      const records = await this.tableController.list(request)
+      const localWithTableAndFilters = await this.tableMiddleware.validateAndExtractQuery(
+        request,
+        localWithTable
+      )
+      const records = await this.tableController.list(localWithTableAndFilters)
       return { json: records }
     } catch (error) {
       return this.catchError(error)
     }
   }
 
-  async post(request: RequestWithLocalDto): Promise<Response> {
+  async post(request: RequestDto): Promise<Response> {
     try {
-      await this.tableMiddleware.validateTableExist(request)
-      const id = await this.tableController.create(request)
+      const localWithTable = await this.tableMiddleware.validateTableExist(request)
+      const localWithTableAndBody = await this.tableMiddleware.validateBodyExist(
+        request,
+        localWithTable
+      )
+      if ('records' in localWithTableAndBody) {
+        await this.tableMiddleware.validatePostArrayBody(localWithTableAndBody)
+        const ids = await this.tableController.createMany(localWithTableAndBody)
+        return { json: { ids } }
+      }
+      await this.tableMiddleware.validatePostBody(localWithTableAndBody)
+      const id = await this.tableController.create(localWithTableAndBody)
       return { json: { id } }
     } catch (error) {
       return this.catchError(error)
     }
   }
 
-  async patch(request: RequestWithLocalDto): Promise<Response> {
+  async patch(request: RequestDto): Promise<Response> {
     try {
-      await this.tableMiddleware.validateTableExist(request)
-      await this.tableController.update(request)
+      const localWithTable = await this.tableMiddleware.validateTableExist(request)
+      const localWithTableAndBody = await this.tableMiddleware.validateBodyExist(
+        request,
+        localWithTable
+      )
+      if ('records' in localWithTableAndBody) {
+        throw new ApiError('Method not implemented', 405)
+      }
+      const localWithTableAndId = await this.tableMiddleware.validateRowExist(
+        request,
+        localWithTable
+      )
+      await this.tableMiddleware.validatePatchBody(localWithTableAndBody)
+      await this.tableController.update({ ...localWithTableAndBody, ...localWithTableAndId })
       return { json: { success: true } }
     } catch (error) {
       return this.catchError(error)
     }
   }
 
-  async delete(request: RequestWithLocalDto): Promise<Response> {
+  async delete(request: RequestDto): Promise<Response> {
     try {
-      await this.tableMiddleware.validateTableExist(request)
-      await this.tableController.delete(request)
+      const localWithTable = await this.tableMiddleware.validateTableExist(request)
+      const localWithTableAndId = await this.tableMiddleware.validateRowExist(
+        request,
+        localWithTable
+      )
+      await this.tableController.delete(localWithTableAndId)
       return { json: { success: true } }
     } catch (error) {
       return this.catchError(error)
