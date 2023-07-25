@@ -1,11 +1,11 @@
-import { IUIRepository } from '@domain/repositories/IUIRepository'
+import { LinkUIProps } from '@domain/repositories/IUIRepository'
 import { BaseComponent } from './BaseComponent'
 
-export class Link extends BaseComponent {
+export class List extends BaseComponent {
   constructor(
     private readonly _path: string = '#',
     private readonly _label: string = '',
-    private readonly _ui: IUIRepository['LinkUI']
+    private readonly _ui: React.FC<LinkUIProps>
   ) {
     super('link')
   }

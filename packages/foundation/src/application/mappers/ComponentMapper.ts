@@ -1,16 +1,58 @@
-import { ComponentDto } from '@application/dtos/ComponentDto'
+import {
+  ComponentDto,
+  LinkDto,
+  NavigationDto,
+  ParagraphDto,
+  TitleDto,
+} from '@application/dtos/ComponentDto'
 import { Component } from '@domain/entities/Component'
 import { Link } from '@domain/entities/components/Link'
 import { Paragraph } from '@domain/entities/components/Paragraph'
+import { Navigation } from '@domain/entities/components/Navigation'
+import { Title } from '@domain/entities/components/Title'
+import { List } from '@domain/entities/components/List'
 import { IUIRepository } from '@domain/repositories/IUIRepository'
+
+export function mapDtoToTitle(titleDto: TitleDto, ui: IUIRepository): Title {
+  return new Title(titleDto.text, titleDto.size, ui.TitleUI)
+}
+
+export function mapDtoToParagraph(paragraphDto: ParagraphDto, ui: IUIRepository): Paragraph {
+  return new Paragraph(paragraphDto.text, ui.ParagraphUI)
+}
+
+export function mapDtoToLink(linkDto: LinkDto, ui: IUIRepository): Link {
+  return new Link(linkDto.path, linkDto.label, ui.LinkUI)
+}
+
+export function mapDtoToNavigation(navigationDto: NavigationDto, ui: IUIRepository): Navigation {
+  const title = mapDtoToTitle(navigationDto.title, ui)
+  const links = navigationDto.links.map((link) => mapDtoToLink(link, ui))
+  const components = navigationDto.components.map((component) => mapDtoToComponent(component, ui))
+  return new Navigation(title, links, components, ui.NavigationUI)
+}
 
 export function mapDtoToComponent(componentDto: ComponentDto, ui: IUIRepository): Component {
   const { type } = componentDto
   if (type === 'link') {
-    return new Link(componentDto.path, componentDto.label, ui.LinkUI)
+    return mapDtoToLink(componentDto, ui)
   }
   if (type === 'paragraph') {
-    return new Paragraph(componentDto.text, ui.ParagraphUI)
+    return mapDtoToParagraph(componentDto, ui)
   }
+  if (type === 'title') {
+    return mapDtoToTitle(componentDto, ui)
+  }
+  if (type === 'navigation') {
+    return mapDtoToNavigation(componentDto, ui)
+  }
+  /*if (type === 'list') {
+    return new List(
+      componentDto.table,
+      componentDto.groupBy,
+      componentDto.sortBy,
+      componentDto.columns
+    )
+  }*/
   throw new Error(`Invalid component type ${type}`)
 }

@@ -3,8 +3,13 @@ import { fakerFR as faker } from '@faker-js/faker'
 import { TableDto } from '@application/dtos/TableDto'
 import { FieldDto } from '@application/dtos/FieldDto'
 import { RecordToCreateDto } from '@application/dtos/RecordDto'
-import { TABLE_INVOICES, TABLE_INVOICES_ITEMS, PAGE_LIST_INVOICES } from './schemas'
 import { PageDto } from '@application/dtos/PageDto'
+import {
+  TABLE_INVOICES,
+  TABLE_INVOICES_ITEMS,
+  PAGE_LIST_INVOICES,
+  PAGE_CREATE_INVOICE,
+} from './schemas'
 
 export async function findAvailablePort(): Promise<number> {
   return new Promise<number>((resolve, reject) => {
@@ -45,7 +50,7 @@ export function getPages(...args: string[]): PageDto[] {
         pages.push(PAGE_LIST_INVOICES)
         break
       case 'invoices_create':
-        pages.push(PAGE_LIST_INVOICES)
+        pages.push(PAGE_CREATE_INVOICE)
         break
       default:
         throw new Error(`Page ${pageName} not found in schemas`)

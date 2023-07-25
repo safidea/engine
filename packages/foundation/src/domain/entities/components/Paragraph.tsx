@@ -1,11 +1,10 @@
-import { UIProps } from '@domain/repositories/IUIRepository'
+import { IUIRepository } from '@domain/repositories/IUIRepository'
 import { BaseComponent } from './BaseComponent'
-import { FC } from 'react'
 
 export class Paragraph extends BaseComponent {
   constructor(
     private readonly _text: string = '',
-    private readonly _ui: FC<UIProps>
+    private readonly _ui: IUIRepository['ParagraphUI']
   ) {
     super('paragraph')
   }

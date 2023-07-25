@@ -1,13 +1,15 @@
-import { IUIRepository } from '@domain/repositories/IUIRepository'
 import { PageController } from '../controllers/PageController'
 import { App } from '@domain/entities/App'
 import { PageRoute } from '@domain/repositories/IServerRepository'
+import { PageMiddleware } from '../middlewares/PageMiddleware'
 
 export class PageRoutes {
   private pageController: PageController
+  private pageMiddleware: PageMiddleware
 
-  constructor(app: App, ui: IUIRepository) {
-    this.pageController = new PageController(app, ui)
+  constructor(app: App) {
+    this.pageController = new PageController()
+    this.pageMiddleware = new PageMiddleware(app)
   }
 
   get routes(): PageRoute[] {
@@ -15,12 +17,13 @@ export class PageRoutes {
       {
         path: '*',
         method: 'GET',
-        handler: async (path: string) => this.get(path),
+        handler: async (path: string) => this.render(path),
       },
     ]
   }
 
-  async get(path: string) {
-    return this.pageController.get(path)
+  async render(path: string) {
+    const page = await this.pageMiddleware.pathExists(path)
+    return this.pageController.render(page)
   }
 }

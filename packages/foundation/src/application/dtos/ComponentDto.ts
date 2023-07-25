@@ -1,28 +1,28 @@
-interface LinkDto {
+export interface LinkDto {
   type: 'link'
   path: string
   label: string
 }
 
-interface ParagraphDto {
+export interface ParagraphDto {
   type: 'paragraph'
   text: string
 }
 
-interface NavigationDto {
-  type: 'navigation'
-  title: TitleDto
-  links: LinkDto[]
-  components?: ComponentDto[]
-}
-
-interface TitleDto {
+export interface TitleDto {
   type: 'title'
   size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   text: string
 }
 
-interface ListDto {
+export interface NavigationDto {
+  type: 'navigation'
+  title: TitleDto
+  links: LinkDto[]
+  components: ComponentDto[]
+}
+
+export interface ListDto {
   type: 'list'
   table: string
   groupBy?: {
@@ -48,7 +48,7 @@ interface ListDto {
   }[]
 }
 
-interface FormDto {
+export interface FormDto {
   type: 'form'
   table: string
   inputs: {

@@ -1,17 +1,14 @@
-import { GetPage } from '@application/usecases/GetPage'
-import { PageRepository } from '@adapter/spi/repositories/PageRepository'
-import { IUIRepository } from '@domain/repositories/IUIRepository'
-import { App } from '@domain/entities/App'
+import { RenderPage } from '@application/usecases/RenderPage'
+import { Page } from '@domain/entities/Page'
 
 export class PageController {
-  private getPage: GetPage
+  private renderPage: RenderPage
 
-  constructor(app: App, ui: IUIRepository) {
-    const pageRepository = new PageRepository(ui)
-    this.getPage = new GetPage(pageRepository, app)
+  constructor() {
+    this.renderPage = new RenderPage()
   }
 
-  async get(path: string) {
-    return this.getPage.execute(path)
+  async render(page: Page) {
+    return this.renderPage.execute(page)
   }
 }
