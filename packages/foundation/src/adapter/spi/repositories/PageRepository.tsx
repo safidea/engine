@@ -6,4 +6,12 @@ export class PageRepository {
   getUI(): IUIRepository {
     return this._ui
   }
+
+  useTable(table: string) {
+    return {
+      records: [],
+      error: undefined,
+      isLoading: false,
+    }
+  }
 }

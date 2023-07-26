@@ -4,6 +4,12 @@ import { Link } from './Link'
 import { Title } from './Title'
 import { Component } from '../Component'
 
+export interface NavigationProps {
+  TitleComponent: React.FC
+  LinksComponent: React.FC[]
+  Components: React.FC[]
+}
+
 export class Navigation extends BaseComponent {
   constructor(
     private readonly _title: Title,
@@ -26,25 +32,22 @@ export class Navigation extends BaseComponent {
     return this._components
   }
 
-  get render() {
+  renderUI() {
     const UI = this._ui
-    const title = this._title
-    const links = this._links
-    const components = this._components
-    return function NavigationComponent() {
+    return function Component({ TitleComponent, LinksComponent, Components }: NavigationProps) {
       return (
         <UI.container>
           <UI.sidebar>
-            <title.render />
+            <TitleComponent />
             <UI.links>
-              {links.map((link, index) => (
-                <link.render key={index} />
+              {LinksComponent.map((LinkComponent, index) => (
+                <LinkComponent key={index} />
               ))}
             </UI.links>
           </UI.sidebar>
           <UI.content>
-            {components.map((component, index) => (
-              <component.render key={index} />
+            {Components.map((Component, index) => (
+              <Component key={index} />
             ))}
           </UI.content>
         </UI.container>

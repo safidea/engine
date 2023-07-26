@@ -18,7 +18,7 @@ export class Title extends BaseComponent {
     return this._size
   }
 
-  get render() {
+  renderUI() {
     const UI = this._ui
     const text = this.text
     const size = this.size

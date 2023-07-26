@@ -1,7 +1,7 @@
 import { test, expect, helpers } from '../fixtures'
 
 test.describe('A page that list invoices', () => {
-  test.skip('should display a title', async ({ page, foundation }) => {
+  test('should display a title', async ({ page, foundation }) => {
     // GIVEN
     await foundation.start({
       pages: helpers.getPages('invoices_list'),
@@ -9,7 +9,7 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/"
-    await page.goto('/')
+    await page.goto('/list')
 
     // THEN
     // Check that I'm on the / page

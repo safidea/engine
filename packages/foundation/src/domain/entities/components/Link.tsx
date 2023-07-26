@@ -18,7 +18,7 @@ export class Link extends BaseComponent {
     return this._label
   }
 
-  get render() {
+  renderUI() {
     const UI = this._ui
     const path = this._path
     const label = this._label

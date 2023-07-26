@@ -13,7 +13,7 @@ export class Paragraph extends BaseComponent {
     return this._text
   }
 
-  get render() {
+  renderUI() {
     const UI = this._ui
     const text = this._text
     return function Component() {

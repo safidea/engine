@@ -1,6 +1,7 @@
 import {
   ComponentDto,
   LinkDto,
+  ListDto,
   NavigationDto,
   ParagraphDto,
   TitleDto,
@@ -32,6 +33,10 @@ export function mapDtoToNavigation(navigationDto: NavigationDto, ui: IUIReposito
   return new Navigation(title, links, components, ui.NavigationUI)
 }
 
+export function mapDtoToList(listDto: ListDto, ui: IUIRepository): List {
+  return new List(listDto.table, listDto.groupBy, listDto.sortBy, listDto.columns, ui.ListUI)
+}
+
 export function mapDtoToComponent(componentDto: ComponentDto, ui: IUIRepository): Component {
   const { type } = componentDto
   if (type === 'link') {
@@ -46,13 +51,8 @@ export function mapDtoToComponent(componentDto: ComponentDto, ui: IUIRepository)
   if (type === 'navigation') {
     return mapDtoToNavigation(componentDto, ui)
   }
-  /*if (type === 'list') {
-    return new List(
-      componentDto.table,
-      componentDto.groupBy,
-      componentDto.sortBy,
-      componentDto.columns
-    )
-  }*/
+  if (type === 'list') {
+    return mapDtoToList(componentDto, ui)
+  }
   throw new Error(`Invalid component type ${type}`)
 }
