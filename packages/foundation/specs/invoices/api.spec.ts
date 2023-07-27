@@ -152,6 +152,37 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(finalisedRecord.number).toEqual(update.number)
     expect(finalisedRecord.status).toEqual(update.status)
   })
+
+  test.skip('should not be able to update a finalised invoice', async ({ request, foundation }) => {
+    // GIVEN
+    const db = await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+    const id = await db.createRecord('invoices', {
+      customer: 'Customer A',
+      status: 'finalised',
+      finalised_time: new Date().toISOString(),
+      number: 1,
+    })
+
+    // WHEN
+    const update = {
+      customer: 'Customer B',
+      number: 2,
+    }
+    const res = await request.patch(`/api/table/invoices/${id}`, {
+      data: update,
+    })
+
+    // THEN
+    expect(res.status()).toEqual(400)
+    const { error } = await res.json()
+    expect(error).toEqual('Cannot update a finalised invoice')
+    const [updatedRecord] = await db.list('invoices')
+    expect(updatedRecord.id).toEqual(id)
+    expect(updatedRecord.customer).toEqual('Customer A')
+    expect(updatedRecord.number).toEqual(1)
+  })
 })
 
 test.describe('An api that render error messages', () => {
