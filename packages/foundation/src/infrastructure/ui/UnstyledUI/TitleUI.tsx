@@ -1,11 +1,11 @@
 import { UIProps } from '@domain/repositories/IUIRepository'
 
 const TitleUI = {
-  xs: ({ children, ...props }: UIProps) => <h5 {...props}>{children}</h5>,
-  sm: ({ children, ...props }: UIProps) => <h4 {...props}>{children}</h4>,
-  md: ({ children, ...props }: UIProps) => <h3 {...props}>{children}</h3>,
-  lg: ({ children, ...props }: UIProps) => <h2 {...props}>{children}</h2>,
-  xl: ({ children, ...props }: UIProps) => <h1 {...props}>{children}</h1>,
+  xs: ({ children }: UIProps) => <h5>{children}</h5>,
+  sm: ({ children }: UIProps) => <h4>{children}</h4>,
+  md: ({ children }: UIProps) => <h3>{children}</h3>,
+  lg: ({ children }: UIProps) => <h2>{children}</h2>,
+  xl: ({ children }: UIProps) => <h1>{children}</h1>,
 }
 
 export default TitleUI

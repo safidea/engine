@@ -8,16 +8,19 @@ import { codegen } from '@infrastructure/codegen'
 import { AppDto } from '@application/dtos/AppDto'
 import { ExpressServer } from './server/ExpressServer'
 import { InMemoryOrm } from './orm/InMemoryOrm'
+import { NativeFetcher } from './fetcher/NativeFetcher'
 import { IServerRepository } from '@domain/repositories/IServerRepository'
 import { IOrmRepository } from '@domain/repositories/IOrmRepository'
 import { IUIRepository } from '@domain/repositories/IUIRepository'
 import { App } from '@domain/entities/App'
+import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
 
 export class Foundation {
   private readonly _app: AppController
   private readonly _server: IServerRepository
   private readonly _orm: IOrmRepository
   private readonly _ui: IUIRepository
+  private readonly _fetcher: IFetcherRepository
 
   constructor(
     appDto: AppDto,
@@ -25,12 +28,17 @@ export class Foundation {
     port: number,
     serverName?: string,
     ormName?: string,
-    uiName?: string
+    uiName?: string,
+    fetcherName?: string,
+    domain?: string,
+    ssl?: boolean
   ) {
+    const path = (ssl === true ? 'https://' : 'http://') + (domain ?? 'localhost:' + port)
     this._server = this.selectServer(serverName, port)
     this._orm = this.selectOrm(ormName, folder)
     this._ui = this.selectUI(uiName)
-    this._app = new AppController(appDto, this._server, this._orm, this._ui, codegen)
+    this._fetcher = this.selectFetcher(fetcherName, path)
+    this._app = new AppController(appDto, this._server, this._orm, this._ui, codegen, this._fetcher)
   }
 
   selectServer(serverName = 'express', port: number): IServerRepository {
@@ -57,6 +65,15 @@ export class Foundation {
         return UnstyledUI
       default:
         throw new Error(`UI ${uiName} not found`)
+    }
+  }
+
+  selectFetcher(fetcherName = 'swr', path: string): IFetcherRepository {
+    switch (fetcherName) {
+      case 'swr':
+        return NativeFetcher(path)
+      default:
+        throw new Error(`Fetcher ${fetcherName} not found`)
     }
   }
 

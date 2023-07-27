@@ -67,10 +67,19 @@ export class List extends BaseComponent {
       if (isLoading) return <UI.loading />
       return (
         <UI.container>
-          <UI.header columns={columns} />
+          <UI.header>
+            {columns.map((column: Column, index: number) => (
+              <UI.headerColumn label={column.label} key={index} />
+            ))}
+          </UI.header>
           <UI.rows>
             {records.map((record: Record) => (
-              <UI.row key={record.id} record={record} columns={columns} />
+              <UI.row key={record.id}>
+                {columns.map((column: Column, index: number) => {
+                  const value = column.field ? record.fields[column.field] : ''
+                  return <UI.rowColumn value={String(value)} key={index} />
+                })}
+              </UI.row>
             ))}
           </UI.rows>
         </UI.container>

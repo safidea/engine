@@ -41,7 +41,9 @@ export class Navigation extends BaseComponent {
             <TitleComponent />
             <UI.links>
               {LinksComponent.map((LinkComponent, index) => (
-                <LinkComponent key={index} />
+                <UI.link key={index}>
+                  <LinkComponent />
+                </UI.link>
               ))}
             </UI.links>
           </UI.sidebar>

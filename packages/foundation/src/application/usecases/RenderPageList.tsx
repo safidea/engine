@@ -1,4 +1,5 @@
 import { PageRepository } from '@adapter/spi/repositories/PageRepository'
+import { mapDtoToRecord } from '@application/mappers/RecordMapper'
 import { List } from '@domain/entities/components/List'
 
 export class RenderPageList {
@@ -6,10 +7,19 @@ export class RenderPageList {
 
   execute(list: List): () => JSX.Element {
     const UI = list.renderUI()
-    const { useTable } = this.pageRepository
+    const getRecords = this.pageRepository.getTableRecords(list.table, {
+      groupBy: list.groupBy,
+      sortBy: list.sortBy,
+    })
     return function Component() {
-      const { records, error, isLoading } = useTable(list.table)
-      return <UI records={records} error={error} isLoading={isLoading} />
+      const { records, error, isLoading } = getRecords()
+      return (
+        <UI
+          records={records.map((recordDto) => mapDtoToRecord(list.table, recordDto))}
+          error={error?.message}
+          isLoading={isLoading}
+        />
+      )
     }
   }
 }

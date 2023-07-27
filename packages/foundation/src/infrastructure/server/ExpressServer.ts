@@ -2,7 +2,6 @@ import { IServerRepository, TableRoute, PageRoute } from '@domain/repositories/I
 import express, { Express } from 'express'
 import { Server as HTTPServer } from 'http'
 import ReactDOMServer from 'react-dom/server'
-import { getRootHtml } from '@infrastructure/client/root'
 import { Request, RequestQuery } from '@domain/entities/Request'
 
 export class ExpressServer implements IServerRepository {
@@ -79,7 +78,17 @@ export class ExpressServer implements IServerRepository {
       this.app.get(route.path, async (req, res) => {
         const Page = await route.handler(req.url.split('?')[0])
         const html = ReactDOMServer.renderToString(Page)
-        res.send(getRootHtml(html))
+        res.send(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>My react app</title>
+            </head>
+            <body>
+              <div id="root">${html}</div>
+            </body>
+          </html>
+        `)
       })
     })
   }

@@ -1,5 +1,5 @@
 import { LinkUIProps } from '@domain/repositories/IUIRepository'
 
-export default function LinkUI({ children, ...props }: LinkUIProps) {
-  return <a {...props}>{children}</a>
+export default function LinkUI({ children, href }: LinkUIProps) {
+  return <a href={href}>{children}</a>
 }

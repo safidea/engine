@@ -9,13 +9,12 @@ export interface LinkUIProps extends UIProps {
   href: string
 }
 
-export interface ListUIHeaderProps {
-  columns: Column[]
+export interface ListUIHeaderColumnProps {
+  label: string
 }
 
-export interface ListUIRowProps {
-  columns: Column[]
-  record: Record
+export interface ListUIRowColumnProps {
+  value: string
 }
 
 export interface IUIRepository {
@@ -32,13 +31,16 @@ export interface IUIRepository {
     container: React.FC<UIProps>
     sidebar: React.FC<UIProps>
     links: React.FC<UIProps>
+    link: React.FC<UIProps>
     content: React.FC<UIProps>
   }
   ListUI: {
     container: React.FC<UIProps>
-    header: React.FC<ListUIHeaderProps>
+    header: React.FC<UIProps>
+    headerColumn: React.FC<ListUIHeaderColumnProps>
     rows: React.FC<UIProps>
-    row: React.FC<ListUIRowProps>
+    row: React.FC<UIProps>
+    rowColumn: React.FC<ListUIRowColumnProps>
     error: React.FC
     loading: React.FC
   }

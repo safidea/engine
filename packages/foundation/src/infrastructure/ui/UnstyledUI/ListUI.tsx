@@ -1,20 +1,34 @@
-import { ListUIHeaderProps, ListUIRowProps, UIProps } from '@domain/repositories/IUIRepository'
+import {
+  ListUIHeaderColumnProps,
+  ListUIRowColumnProps,
+  UIProps,
+} from '@domain/repositories/IUIRepository'
 
 const ListUI = {
-  container: ({ children, ...props }: UIProps) => {
-    return <div {...props}>{children}</div>
+  container: ({ children }: UIProps) => {
+    return <table>{children}</table>
   },
-  header: ({ ...props }: ListUIHeaderProps) => {
-    return <div {...props}>header</div>
+  header: ({ children }: UIProps) => {
+    return (
+      <thead>
+        <tr>{children}</tr>
+      </thead>
+    )
   },
-  rows: ({ children, ...props }: UIProps) => {
-    return <div {...props}>{children}</div>
+  headerColumn: ({ label }: ListUIHeaderColumnProps) => {
+    return <th>{label}</th>
   },
-  row: ({ ...props }: ListUIRowProps) => {
-    return <div {...props}>row</div>
+  rows: ({ children }: UIProps) => {
+    return <tbody>{children}</tbody>
+  },
+  row: ({ children }: UIProps) => {
+    return <tr>{children}</tr>
+  },
+  rowColumn: ({ value }: ListUIRowColumnProps) => {
+    return <td>{value}</td>
   },
   error: () => {
-    return <div>error</div>
+    return <div>failed to load</div>
   },
   loading: () => {
     return <div>loading</div>

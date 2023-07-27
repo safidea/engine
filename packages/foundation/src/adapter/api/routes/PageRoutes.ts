@@ -3,13 +3,14 @@ import { App } from '@domain/entities/App'
 import { PageRoute } from '@domain/repositories/IServerRepository'
 import { PageMiddleware } from '../middlewares/PageMiddleware'
 import { IUIRepository } from '@domain/repositories/IUIRepository'
+import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
 
 export class PageRoutes {
   private pageController: PageController
   private pageMiddleware: PageMiddleware
 
-  constructor(app: App, ui: IUIRepository) {
-    this.pageController = new PageController(ui)
+  constructor(app: App, ui: IUIRepository, fetcher: IFetcherRepository) {
+    this.pageController = new PageController(ui, fetcher)
     this.pageMiddleware = new PageMiddleware(app)
   }
 

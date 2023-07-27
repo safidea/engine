@@ -8,6 +8,7 @@ import { IUIRepository } from '@domain/repositories/IUIRepository'
 import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
 import { TableRoutes } from '../routes/TableRoutes'
 import { PageRoutes } from '../routes/PageRoutes'
+import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
 
 export class AppController {
   private readonly _app: App
@@ -17,7 +18,8 @@ export class AppController {
     private readonly _server: IServerRepository,
     private readonly _orm: IOrmRepository,
     private readonly _ui: IUIRepository,
-    private readonly _codegen: ICodegenRepository
+    private readonly _codegen: ICodegenRepository,
+    private readonly _fetcher: IFetcherRepository
   ) {
     const appRepository = new AppRepository(appDto)
     const configureApp = new ConfigureApp(appRepository, this._ui)
@@ -28,7 +30,7 @@ export class AppController {
       this._server.configureTables(tableRoutes.routes)
     }
     if (pages.length > 0) {
-      const pageRoutes = new PageRoutes(this._app, this._ui)
+      const pageRoutes = new PageRoutes(this._app, this._ui, this._fetcher)
       this._server.configurePages(pageRoutes.routes)
     }
   }

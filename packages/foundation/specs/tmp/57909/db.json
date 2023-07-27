@@ -1,0 +1,77 @@
+{
+  "invoices_items": [],
+  "invoices": [
+    {
+      "customer": "Petit et Lucas",
+      "address": "7 Boulevard de la Ferronnerie",
+      "zip_code": "90855",
+      "country": "Guinée",
+      "items": [],
+      "id": "a762396c-71d0-4bc9-9d02-6eab5db7f127",
+      "created_time": "2023-07-26T13:25:43.448Z"
+    },
+    {
+      "customer": "Robin SAS",
+      "address": "2928 Quai du Bac",
+      "zip_code": "03641",
+      "country": "Cap-Vert",
+      "items": [],
+      "id": "13336fbc-5085-4ba0-8648-76de0aa44c71",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    },
+    {
+      "customer": "Giraud et Thomas",
+      "address": "6331 Place Vaneau",
+      "zip_code": "08790",
+      "country": "Yémen",
+      "items": [],
+      "id": "7bc25721-3863-400e-ab4c-1c2db5cb0fdd",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    },
+    {
+      "customer": "Garnier et Bourgeois",
+      "address": "907 Impasse d'Argenteuil",
+      "zip_code": "15335",
+      "country": "Kazakhstan",
+      "items": [],
+      "id": "c8ef7b66-a01b-48eb-9491-60d232c7fe61",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    },
+    {
+      "customer": "Philippe EI",
+      "address": "7 Voie Montorgueil",
+      "zip_code": "46560",
+      "country": "Émirats arabes unis",
+      "items": [],
+      "id": "e6286518-302c-4d79-b9fb-9004d089de04",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    },
+    {
+      "customer": "Menard GIE",
+      "address": "5 Boulevard du Bac",
+      "zip_code": "78540",
+      "country": "Guinée-Bissau",
+      "items": [],
+      "id": "0437ef94-d28a-4f61-8d5a-f12d7bf88ab1",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    },
+    {
+      "customer": "David et Collet",
+      "address": "6490 Place d'Argenteuil",
+      "zip_code": "64298",
+      "country": "Islande",
+      "items": [],
+      "id": "deccb00f-30f4-4492-8b19-ce767f6a9ad7",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    },
+    {
+      "customer": "Breton et Lopez",
+      "address": "6 Quai des Lombards",
+      "zip_code": "29914",
+      "country": "Slovénie",
+      "items": [],
+      "id": "74a4f055-7d80-49bf-8abf-7efc4a081053",
+      "created_time": "2023-07-26T13:25:43.449Z"
+    }
+  ]
+}

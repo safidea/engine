@@ -1,17 +1,34 @@
+import { RecordDto } from '@application/dtos/RecordDto'
+import { GroupBy, SortBy } from '@domain/entities/components/List'
 import { IUIRepository } from '@domain/repositories/IUIRepository'
+import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
 
 export class PageRepository {
-  constructor(private readonly _ui: IUIRepository) {}
+  constructor(
+    private readonly ui: IUIRepository,
+    private readonly fetcher: IFetcherRepository
+  ) {}
 
   getUI(): IUIRepository {
-    return this._ui
+    return this.ui
   }
 
-  useTable(table: string) {
-    return {
-      records: [],
-      error: undefined,
-      isLoading: false,
+  getTableRecords(
+    table: string,
+    options: { groupBy: GroupBy[]; sortBy: SortBy[] }
+  ): () => {
+    records: RecordDto[]
+    error: Error | undefined
+    isLoading: boolean
+  } {
+    const useFetch = this.fetcher
+    return function () {
+      const { data = [], error, isLoading } = useFetch<RecordDto[]>(`/api/table/${table}`)
+      return {
+        records: data,
+        error,
+        isLoading,
+      }
     }
   }
 }

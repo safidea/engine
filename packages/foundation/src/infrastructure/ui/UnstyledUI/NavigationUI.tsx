@@ -1,17 +1,20 @@
 import { UIProps } from '@domain/repositories/IUIRepository'
 
 const NavigationUI = {
-  container: ({ children, ...props }: UIProps) => {
-    return <div {...props}>{children}</div>
+  container: ({ children }: UIProps) => {
+    return <div>{children}</div>
   },
-  sidebar: ({ children, ...props }: UIProps) => {
-    return <nav {...props}>{children}</nav>
+  sidebar: ({ children }: UIProps) => {
+    return <nav>{children}</nav>
   },
-  links: ({ children, ...props }: UIProps) => {
-    return <ul {...props}>{children}</ul>
+  links: ({ children }: UIProps) => {
+    return <ul>{children}</ul>
   },
-  content: ({ children, ...props }: UIProps) => {
-    return <div {...props}>{children}</div>
+  link: ({ children }: UIProps) => {
+    return <li>{children}</li>
+  },
+  content: ({ children }: UIProps) => {
+    return <div>{children}</div>
   },
 }
 
