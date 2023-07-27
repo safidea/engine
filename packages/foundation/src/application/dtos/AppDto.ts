@@ -6,4 +6,5 @@ export interface AppDto {
   version?: string
   pages?: PageDto[]
   tables?: TableDto[]
+  automations?: unknown
 }
