@@ -13,10 +13,10 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // THEN
     expect(res.status()).toEqual(200)
-    const rows = await db.list('invoices')
-    for (let i = 0; i < rows.length; i++) {
-      expect(rows[i].id).toBeDefined()
-      expect(rows[i].created_time).toBeDefined()
+    const records = await db.list('invoices')
+    for (let i = 0; i < records.length; i++) {
+      expect(records[i].id).toBeDefined()
+      expect(records[i].created_time).toBeDefined()
     }
   })
 
@@ -53,7 +53,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(record.total_amount).toEqual(120)
   })
 
-  test('should read a list of rows from a list of ids', async ({ request, foundation }) => {
+  test('should read a list of invoices from a list of ids', async ({ request, foundation }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const db = await foundation.start({
@@ -73,13 +73,13 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // I have read 2 invoices
     expect(res.status()).toEqual(200)
-    const rows = await res.json()
-    expect(rows.length).toEqual(2)
-    expect(rows[0].id).toEqual(ids[0])
-    expect(rows[1].id).toEqual(ids[1])
+    const records = await res.json()
+    expect(records.length).toEqual(2)
+    expect(records[0].id).toEqual(ids[0])
+    expect(records[1].id).toEqual(ids[1])
   })
 
-  test('should update a row', async ({ request, foundation }) => {
+  test('should update an invoice', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
     const db = await foundation.start({
@@ -107,7 +107,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(updatedRecord.last_modified_time).toBeDefined()
   })
 
-  test('should soft delete a row', async ({ request, foundation }) => {
+  test('should soft delete an invoice', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
     const db = await foundation.start({
@@ -122,9 +122,35 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
     expect(res.status()).toEqual(200)
-    const [deletedRow] = await db.list('invoices')
-    expect(deletedRow.id).toEqual(id)
-    expect(deletedRow.deleted_time).toBeDefined()
+    const [deletedRecord] = await db.list('invoices')
+    expect(deletedRecord.id).toEqual(id)
+    expect(deletedRecord.deleted_time).toBeDefined()
+  })
+
+  test('should finalised an invoice', async ({ request, foundation }) => {
+    // GIVEN
+    const db = await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+    const id = await db.createRecord('invoices')
+
+    // WHEN
+    const update = {
+      finalised_time: new Date().toISOString(),
+      number: 1,
+      status: 'finalised',
+    }
+    const res = await request.patch(`/api/table/invoices/${id}`, {
+      data: update,
+    })
+
+    // THEN
+    expect(res.status()).toEqual(200)
+    const [finalisedRecord] = await db.list('invoices')
+    expect(finalisedRecord.id).toEqual(id)
+    expect(finalisedRecord.finalised_time).toEqual(update.finalised_time)
+    expect(finalisedRecord.number).toEqual(update.number)
+    expect(finalisedRecord.status).toEqual(update.status)
   })
 })
 

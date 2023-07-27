@@ -158,6 +158,10 @@ export function generateRandomValueByType(
       return null
     case 'rollup':
       return null
+    case 'datetime':
+      return faker.date.past().toISOString()
+    case 'single_select':
+      return field.default ?? faker.helpers.arrayElement(field.options)
     default:
       throw new Error(`Unknown type ${type} in faker generator`)
   }

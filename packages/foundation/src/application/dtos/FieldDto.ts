@@ -4,6 +4,7 @@ interface BaseFieldDto {
   name: string
   optional?: boolean
   format?: Format
+  default?: string
 }
 
 interface SingleLineTextDto extends BaseFieldDto {
@@ -44,6 +45,15 @@ interface RollupDto extends BaseFieldDto {
   formula: string
 }
 
+interface DatetimeDto extends BaseFieldDto {
+  type: 'datetime'
+}
+
+interface SingleSelectDto extends BaseFieldDto {
+  type: 'single_select'
+  options: string[]
+}
+
 export type FieldDto =
   | SingleLineTextDto
   | LongTextDto
@@ -53,3 +63,5 @@ export type FieldDto =
   | CreateSingleLinkedRecordDto
   | MultipleLinkedRecordDto
   | RollupDto
+  | DatetimeDto
+  | SingleSelectDto

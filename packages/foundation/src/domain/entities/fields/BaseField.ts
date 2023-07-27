@@ -1,4 +1,11 @@
-export type Format = 'text' | 'number' | 'currency' | 'boolean' | 'recordId' | 'recordsIds'
+export type Format =
+  | 'text'
+  | 'number'
+  | 'currency'
+  | 'datetime'
+  | 'boolean'
+  | 'recordId'
+  | 'recordsIds'
 
 export class BaseField {
   constructor(

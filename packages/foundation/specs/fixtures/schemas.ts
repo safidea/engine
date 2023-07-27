@@ -49,6 +49,22 @@ export const TABLE_INVOICES: TableDto = {
       formula: 'sum(values)',
       format: 'currency',
     },
+    {
+      name: 'status',
+      type: 'single_select',
+      options: ['draft', 'finalised', 'sent', 'paid'],
+      default: 'draft',
+    },
+    {
+      name: 'finalised_time',
+      type: 'datetime',
+      optional: true,
+    },
+    {
+      name: 'number',
+      type: 'number',
+      optional: true,
+    },
   ],
 }
 
