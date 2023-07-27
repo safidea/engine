@@ -3,15 +3,15 @@ import { App } from '@domain/entities/App'
 import { mapDtoToPage } from './PageMapper'
 import { mapDtoToTable } from './TableMapper'
 import { IUIRepository } from '@domain/repositories/IUIRepository'
+import { mapDtoToAutomation } from './AutomationMapper'
 
 export function mapDtoToApp(appDto: AppDto, ui: IUIRepository): App {
-  if (Object.keys(appDto.automations?.[0].actions?.[0].fields ?? {})[0] === 'fieldX')
-    throw new Error('field X in automation A is not defined in table "invoices"')
-
+  const tables = appDto.tables?.map((tableDto) => mapDtoToTable(tableDto))
   return new App(
     appDto.name,
     appDto.version,
     appDto.pages?.map((pageDto) => mapDtoToPage(pageDto, ui)),
-    appDto.tables?.map((tableDto) => mapDtoToTable(tableDto))
+    tables,
+    appDto.automations?.map((automationDto) => mapDtoToAutomation(automationDto, tables))
   )
 }

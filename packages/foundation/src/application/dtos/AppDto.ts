@@ -1,3 +1,4 @@
+import { AutomationDto } from './AutomationDto'
 import { PageDto } from './PageDto'
 import { TableDto } from './TableDto'
 
@@ -6,9 +7,5 @@ export interface AppDto {
   version?: string
   pages?: PageDto[]
   tables?: TableDto[]
-  automations?: {
-    actions: {
-      fields: Record<string, string>
-    }[]
-  }[]
+  automations?: AutomationDto[]
 }

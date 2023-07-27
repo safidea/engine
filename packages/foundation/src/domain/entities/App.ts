@@ -1,11 +1,14 @@
 import { Page } from './Page'
 import { Table } from './Table'
+
+export type Automation = unknown
 export class App {
   constructor(
     private readonly _name: string = 'My app',
     private readonly _version: string = '0.0.1',
     private readonly _pages: Page[] = [],
-    private readonly _tables: Table[] = []
+    private readonly _tables: Table[] = [],
+    private readonly _automations: Automation[] = []
   ) {}
 
   get name(): string {
