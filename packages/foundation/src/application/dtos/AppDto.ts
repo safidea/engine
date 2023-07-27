@@ -6,5 +6,9 @@ export interface AppDto {
   version?: string
   pages?: PageDto[]
   tables?: TableDto[]
-  automations?: unknown
+  automations?: {
+    actions: {
+      fields: Record<string, string>
+    }[]
+  }[]
 }

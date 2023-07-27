@@ -3,7 +3,9 @@ import { test, expect } from '@playwright/test'
 import * as helpers from '../fixtures/helpers'
 import { ConfigureApp } from '@application/usecases/ConfigureApp'
 import { AppRepository } from '@adapter/spi/repositories/AppRepository'
+import { mapDtoToApp } from '@application/mappers/AppMapper'
 
+// TODO : Move unit test in tests folder
 test.describe('automations', () => {
   // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
   test('Config validation fail if automation references an invalid field', async () => {
@@ -19,11 +21,9 @@ test.describe('automations', () => {
     }
 
     // WHEN
-    // const errors = await foundation.validateConfig(config)
     const errors = []
     try {
-      new AppRepository(config)
-      //new ConfigureApp(appRepository, null as any).execute()
+      mapDtoToApp(config, null as any)
     } catch (err) {
       errors.push((err as any).message)
     }
