@@ -18,7 +18,7 @@ export class FixtureFoundation {
     await fs.ensureDir(this.folder)
     this.foundation = new Foundation(config, this.folder, this.port, options?.server, options?.orm)
     await this.foundation.start()
-    return new FixtureDatabase(this.foundation.app, this.foundation.orm, this.foundation.codegen)
+    return new FixtureDatabase(this.foundation.app, this.foundation.orm)
   }
 
   async stop(): Promise<void> {

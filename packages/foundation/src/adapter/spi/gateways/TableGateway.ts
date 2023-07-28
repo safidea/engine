@@ -1,14 +1,12 @@
 import { App } from '@domain/entities/App'
 import { Filter } from '@domain/entities/table/Filter'
 import { Record } from '@domain/entities/table/Record'
-import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 
 export class TableGateway {
   constructor(
     private readonly _app: App,
-    private readonly _orm: IOrmGateway,
-    private readonly _codegen: ICodegenGateway
+    private readonly _orm: IOrmGateway
   ) {
     const { tables } = this._app
     if (!tables) throw new Error('Tables not found in app')
@@ -33,16 +31,6 @@ export class TableGateway {
 
   async read(table: string, id: string) {
     return this._orm.readById(table, id)
-  }
-
-  async runFormula(
-    formula: string,
-    context: {
-      [key: string]: string | number | boolean | undefined | string[] | number[] | boolean[]
-    },
-    functions: { [key: string]: string }
-  ) {
-    return this._codegen.runScript(formula, context, functions)
   }
 
   async getTableFields(tableName: string) {

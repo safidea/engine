@@ -2,7 +2,6 @@ import { RequestDto } from '@application/dtos/table/RequestDto'
 import { TableController } from '../controllers/TableController'
 import { TableMiddleware } from '../middlewares/TableMiddleware'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
-import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { App } from '@domain/entities/App'
 import { TableRoute } from '@domain/gateways/IServerGateway'
 import { ApiError } from '@domain/entities/errors/ApiError'
@@ -12,9 +11,9 @@ export class TableRoutes {
   private readonly tableController: TableController
   private readonly tableMiddleware: TableMiddleware
 
-  constructor(app: App, orm: IOrmGateway, codegen: ICodegenGateway) {
+  constructor(app: App, orm: IOrmGateway) {
     this.tableMiddleware = new TableMiddleware(app, orm)
-    this.tableController = new TableController(app, orm, codegen)
+    this.tableController = new TableController(app, orm)
   }
 
   get routes(): TableRoute[] {

@@ -6,7 +6,6 @@ import { CreateManyTableRecord } from '@application/usecases/table/CreateManyTab
 import { UpdateTableRecord } from '@application/usecases/table/UpdateTableRecord'
 import { App } from '@domain/entities/App'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
-import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { DeleteTableRecord } from '@application/usecases/table/DeleteTableRecord'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { FilterDto } from '@application/dtos/table/FilterDto'
@@ -19,8 +18,8 @@ export class TableController {
   private updateTableRecord: UpdateTableRecord
   private deleteTableRecord: DeleteTableRecord
 
-  constructor(app: App, orm: IOrmGateway, codegen: ICodegenGateway) {
-    const tableGateway = new TableGateway(app, orm, codegen)
+  constructor(app: App, orm: IOrmGateway) {
+    const tableGateway = new TableGateway(app, orm)
     this.createTableRecord = new CreateTableRecord(tableGateway)
     this.readTableRecord = new ReadTableRecord(tableGateway)
     this.listTableRecords = new ListTableRecords(tableGateway)

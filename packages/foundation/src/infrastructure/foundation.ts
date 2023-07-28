@@ -4,7 +4,6 @@ dotenv.config()
 
 import { AppController } from '@adapter/api/controllers/AppController'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
-import { codegen } from '@infrastructure/codegen'
 import { ExpressServer } from './server/ExpressServer'
 import { InMemoryOrm } from './orm/InMemoryOrm'
 import { NativeFetcher } from './fetcher/NativeFetcher'
@@ -37,7 +36,7 @@ export class Foundation {
     this._orm = this.selectOrm(ormName, folder)
     this._ui = this.selectUI(uiName)
     this._fetcher = this.selectFetcher(fetcherName, path)
-    this._app = new AppController(config, this._server, this._orm, this._ui, codegen, this._fetcher)
+    this._app = new AppController(config, this._server, this._orm, this._ui, this._fetcher)
   }
 
   selectServer(serverName = 'express', port: number): IServerGateway {
@@ -98,9 +97,5 @@ export class Foundation {
 
   get ui() {
     return this._ui
-  }
-
-  get codegen() {
-    return codegen
   }
 }

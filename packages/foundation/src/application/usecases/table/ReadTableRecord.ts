@@ -5,6 +5,7 @@ import { Formula } from '@domain/entities/table/fields/Formula'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
 import { mapRecordToDto } from '@application/mappers/table/RecordMapper'
 import { RecordDto } from '@application/dtos/table/RecordDto'
+import { runFormula } from '@application/utils/FormulaUtils'
 
 export class ReadTableRecord {
   constructor(private TableGateway: TableGateway) {}
@@ -40,14 +41,14 @@ export class ReadTableRecord {
     const context = {
       values: linkedRecords.map((record) => String(record[fieldRollup.linkedField])),
     }
-    const result = await this.TableGateway.runFormula(formula, context, this.getFunctions())
+    const result = await runFormula(formula, context, this.getFunctions())
     if (result) record[fieldRollup.name] = result
   }
 
   async runFieldFormula(record: RecordDto, fieldFormula: Formula) {
     const { formula } = fieldFormula
     const context = record
-    const result = await this.TableGateway.runFormula(formula, context, this.getFunctions())
+    const result = await runFormula(formula, context, this.getFunctions())
     if (result) record[fieldFormula.name] = result
   }
 

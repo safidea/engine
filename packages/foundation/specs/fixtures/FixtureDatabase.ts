@@ -5,7 +5,6 @@ import { TableGateway } from '@adapter/spi/gateways/TableGateway'
 import { ListTableRecords } from '@application/usecases/table/ListTableRecords'
 import { CreateManyTableRecord } from '@application/usecases/table/CreateManyTableRecord'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
-import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { App } from '@domain/entities/App'
 
 export class FixtureDatabase {
@@ -13,8 +12,8 @@ export class FixtureDatabase {
   private listTableRecords: ListTableRecords
   private createManyTableRecords: CreateManyTableRecord
 
-  constructor(app: App, orm: IOrmGateway, codegen: ICodegenGateway) {
-    const tableGateway = new TableGateway(app, orm, codegen)
+  constructor(app: App, orm: IOrmGateway) {
+    const tableGateway = new TableGateway(app, orm)
     this.createTableRecord = new CreateTableRecord(tableGateway)
     this.listTableRecords = new ListTableRecords(tableGateway)
     this.createManyTableRecords = new CreateManyTableRecord(tableGateway)
