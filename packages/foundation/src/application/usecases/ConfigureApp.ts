@@ -11,6 +11,9 @@ export class ConfigureApp {
   ) {}
 
   execute(): App {
+    // TODO: install AJV and validate config from AppDto schema
+    if (typeof this.config === 'object' && this.config && 'unknown' in this.config)
+      throw new Error('Config validation fail : "unknown" property is not allowed')
     return mapDtoToApp(this.config as AppDto, this.ui)
   }
 }
