@@ -1,7 +1,7 @@
+import { Automation } from './automation/Automation'
 import { Page } from './page/Page'
 import { Table } from './table/Table'
 
-export type Automation = unknown // TODO: define an actual Automation
 export class App {
   constructor(
     private readonly _name: string = 'My app',
@@ -25,5 +25,9 @@ export class App {
 
   get tables(): Table[] {
     return this._tables
+  }
+
+  get automations(): Automation[] {
+    return this._automations
   }
 }
