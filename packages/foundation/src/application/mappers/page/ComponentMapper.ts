@@ -11,8 +11,13 @@ import { Paragraph } from '@domain/entities/page/components/Paragraph'
 import { Title } from '@domain/entities/page/components/Title'
 import { Navigation } from '@domain/entities/page/components/Navigation'
 import { List } from '@domain/entities/page/components/List'
+import { Table } from '@domain/entities/table/Table'
 
-export function mapDtoToComponent(componentDto: ComponentDto, ui: IUIGateway): Component {
+export function mapDtoToComponent(
+  componentDto: ComponentDto,
+  ui: IUIGateway,
+  tables: Table[]
+): Component {
   const { type } = componentDto
   if (type === 'link') {
     return mapDtoToLink(componentDto, ui)
@@ -24,10 +29,10 @@ export function mapDtoToComponent(componentDto: ComponentDto, ui: IUIGateway): C
     return mapDtoToTitle(componentDto, ui)
   }
   if (type === 'navigation') {
-    return mapDtoToNavigation(componentDto, ui)
+    return mapDtoToNavigation(componentDto, ui, tables)
   }
   if (type === 'list') {
-    return mapDtoToList(componentDto, ui)
+    return mapDtoToList(componentDto, ui, tables)
   }
   throw new Error(`Invalid component type ${type}`)
 }

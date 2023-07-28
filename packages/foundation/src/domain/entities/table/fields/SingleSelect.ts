@@ -5,7 +5,7 @@ export class SingleSelect extends BaseField {
     name: string,
     private readonly _options: string[],
     optional?: boolean,
-    defaultValue?: string
+    defaultValue?: string | number | boolean
   ) {
     super(name, 'single_select', optional, 'text', defaultValue)
   }

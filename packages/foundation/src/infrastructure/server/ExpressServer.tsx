@@ -93,11 +93,13 @@ export class ExpressServer implements IServerGateway {
       this.app.get(route.path, async (req, res) => {
         const Page = await route.handler(req.url.split('?')[0])
         const pageHtml = ReactDOMServer.renderToString(<Page />)
+        // TODO: add a type to data, same in the ExpressClient file
         const data = {
           uiName: this.uiName,
           fetcherName: this.fetcherName,
           domain: this.domain,
-          config: route.config,
+          pageDto: route.pageDto,
+          tablesDto: route.tablesDto,
         }
         const html = `
           <!DOCTYPE html>

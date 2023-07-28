@@ -4,6 +4,7 @@ test.describe('A page that list invoices', () => {
   test('should display a title', async ({ page, foundation }) => {
     // GIVEN
     await foundation.start({
+      tables: helpers.getTables('invoices'),
       pages: helpers.getPages('invoices_list'),
     })
 
@@ -16,19 +17,44 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test.skip('should display a list of invoices grouped by status', async ({ page, foundation }) => {
+  test('should display a list of invoices grouped by status', async ({ page, foundation }) => {
     // GIVEN
     // We provide 8 example invoices
     const db = await foundation.start({
       tables: helpers.getTables('invoices'),
       pages: helpers.getPages('invoices_list'),
     })
-    await db.createManyRecords('invoices', 8)
+    await db.createManyRecords('invoices', [
+      {
+        status: 'draft',
+      },
+      {
+        status: 'draft',
+      },
+      {
+        status: 'finalised',
+      },
+      {
+        status: 'finalised',
+      },
+      {
+        status: 'sent',
+      },
+      {
+        status: 'sent',
+      },
+      {
+        status: 'sent',
+      },
+      {
+        status: 'paid',
+      },
+    ])
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
     await page.goto('/list')
-    await page.waitForSelector('text=/^draft$/')
+    await page.waitForSelector('text=/^Statut$/')
 
     // THEN
     // Check that invoices are displayed in a group by status

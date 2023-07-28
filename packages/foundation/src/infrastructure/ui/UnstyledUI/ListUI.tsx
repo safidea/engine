@@ -1,7 +1,13 @@
 import React from 'react'
-import { ListUIHeaderColumnProps, ListUIRowColumnProps, UIProps } from '@domain/gateways/IUIGateway'
+import {
+  IUIGateway,
+  ListUIGroupProps,
+  ListUIHeaderColumnProps,
+  ListUIRowColumnProps,
+  UIProps,
+} from '@domain/gateways/IUIGateway'
 
-const ListUI = {
+const ListUI: IUIGateway['ListUI'] = {
   container: ({ children }: UIProps) => {
     return <table>{children}</table>
   },
@@ -14,6 +20,13 @@ const ListUI = {
   },
   headerColumn: ({ label }: ListUIHeaderColumnProps) => {
     return <th>{label}</th>
+  },
+  group: ({ label, colSpan }: ListUIGroupProps) => {
+    return (
+      <tr>
+        <th colSpan={colSpan}>{label}</th>
+      </tr>
+    )
   },
   rows: ({ children }: UIProps) => {
     return <tbody>{children}</tbody>

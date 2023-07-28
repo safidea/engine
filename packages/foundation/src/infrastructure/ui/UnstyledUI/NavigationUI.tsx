@@ -1,7 +1,7 @@
 import React from 'react'
-import { UIProps } from '@domain/gateways/IUIGateway'
+import { IUIGateway, UIProps } from '@domain/gateways/IUIGateway'
 
-const NavigationUI = {
+const NavigationUI: IUIGateway['NavigationUI'] = {
   container: ({ children }: UIProps) => {
     return <div>{children}</div>
   },

@@ -1,7 +1,7 @@
 import React from 'react'
-import { UIProps } from '@domain/gateways/IUIGateway'
+import { IUIGateway, UIProps } from '@domain/gateways/IUIGateway'
 
-const TitleUI = {
+const TitleUI: IUIGateway['TitleUI'] = {
   xs: ({ children }: UIProps) => <h5>{children}</h5>,
   sm: ({ children }: UIProps) => <h4>{children}</h4>,
   md: ({ children }: UIProps) => <h3>{children}</h3>,

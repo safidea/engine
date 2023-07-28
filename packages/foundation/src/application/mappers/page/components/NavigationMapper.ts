@@ -4,11 +4,18 @@ import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { mapComponentToDto, mapDtoToComponent } from '../ComponentMapper'
 import { mapDtoToTitle, mapTitleToDto } from './TitleMapper'
 import { mapDtoToLink, mapLinkToDto } from './LinkMapper'
+import { Table } from '@domain/entities/table/Table'
 
-export function mapDtoToNavigation(navigationDto: NavigationDto, ui: IUIGateway): Navigation {
+export function mapDtoToNavigation(
+  navigationDto: NavigationDto,
+  ui: IUIGateway,
+  tables: Table[]
+): Navigation {
   const title = mapDtoToTitle(navigationDto.title, ui)
   const links = navigationDto.links.map((link) => mapDtoToLink(link, ui))
-  const components = navigationDto.components.map((component) => mapDtoToComponent(component, ui))
+  const components = navigationDto.components.map((component) =>
+    mapDtoToComponent(component, ui, tables)
+  )
   return new Navigation(title, links, components, ui.NavigationUI)
 }
 

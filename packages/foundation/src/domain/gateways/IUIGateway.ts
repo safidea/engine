@@ -1,6 +1,3 @@
-import { Record } from '@domain/entities/table/Record'
-import { Column } from '@domain/entities/page/components/List'
-
 export interface UIProps {
   children: string | JSX.Element | JSX.Element[]
 }
@@ -11,6 +8,11 @@ export interface LinkUIProps extends UIProps {
 
 export interface ListUIHeaderColumnProps {
   label: string
+}
+
+export interface ListUIGroupProps {
+  label: string
+  colSpan: number
 }
 
 export interface ListUIRowColumnProps {
@@ -38,6 +40,7 @@ export interface IUIGateway {
     container: React.FC<UIProps>
     header: React.FC<UIProps>
     headerColumn: React.FC<ListUIHeaderColumnProps>
+    group: React.FC<ListUIGroupProps>
     rows: React.FC<UIProps>
     row: React.FC<UIProps>
     rowColumn: React.FC<ListUIRowColumnProps>

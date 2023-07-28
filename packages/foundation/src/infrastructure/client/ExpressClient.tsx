@@ -5,6 +5,8 @@ import { PageDto } from '@application/dtos/page/PageDto'
 import { mapDtoToPage } from '@application/mappers/table/PageMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import { mapDtoToTable } from '@application/mappers/table/TableMapper'
+import { TableDto } from '@application/dtos/table/TableDto'
 
 function selectUI(uiName: string) {
   switch (uiName) {
@@ -30,14 +32,16 @@ declare global {
       uiName: string
       fetcherName: string
       domain: string
-      config: PageDto
+      pageDto: PageDto
+      tablesDto: TableDto[]
     }
   }
 }
 
 ;(async () => {
-  const { uiName, fetcherName, domain, config } = window.__FOUNDATION_DATA__
-  const page = mapDtoToPage(config, selectUI(uiName))
+  const { uiName, fetcherName, domain, pageDto, tablesDto } = window.__FOUNDATION_DATA__
+  const tables = tablesDto.map((tableDto: TableDto) => mapDtoToTable(tableDto))
+  const page = mapDtoToPage(pageDto, selectUI(uiName), tables)
   const pageController = new PageController(selectFetcher(fetcherName, domain))
   const Page = await pageController.render(page)
   const container = document.getElementById('root')

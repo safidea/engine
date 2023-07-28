@@ -7,7 +7,7 @@ import { mapDtoToAutomation } from './automation/AutomationMapper'
 
 export function mapDtoToApp(appDto: AppDto, ui: IUIGateway): App {
   const tables = appDto.tables?.map((tableDto) => mapDtoToTable(tableDto))
-  const pages = appDto.pages?.map((pageDto) => mapDtoToPage(pageDto, ui))
+  const pages = appDto.pages?.map((pageDto) => mapDtoToPage(pageDto, ui, tables ?? []))
   const automations = appDto.automations?.map((automationDto) =>
     mapDtoToAutomation(automationDto, tables)
   )

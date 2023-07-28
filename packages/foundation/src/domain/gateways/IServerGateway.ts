@@ -1,6 +1,7 @@
 import { Response } from '@domain/entities/table/Response'
 import { Request } from '@domain/entities/table/Request'
 import { PageDto } from '@application/dtos/page/PageDto'
+import { TableDto } from '@application/dtos/table/TableDto'
 export interface TableRoute {
   path: string
   method: string
@@ -12,8 +13,9 @@ export interface PageRoute {
   method: string
   title: string
   handler: (path: string) => Promise<() => JSX.Element>
-  // TODO: remove the DTO from domain
-  config: PageDto
+  // TODO: remove the DTOs from domain
+  pageDto: PageDto
+  tablesDto: TableDto[]
 }
 
 export interface IServerGateway {

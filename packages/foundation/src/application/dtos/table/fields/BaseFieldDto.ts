@@ -5,7 +5,7 @@ export interface BaseFieldDto {
   name: string
   optional?: boolean
   format?: Format
-  default?: string
+  default?: string | number | boolean
 }
 
 export const BaseFieldDtoSchema: JSONSchemaType<BaseFieldDto> = {

@@ -4,6 +4,7 @@ import { PageRoute } from '@domain/gateways/IServerGateway'
 import { PageMiddleware } from '../middlewares/PageMiddleware'
 import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 import { mapPageToDto } from '@application/mappers/table/PageMapper'
+import { mapTableToDto } from '@application/mappers/table/TableMapper'
 
 export class PageRoutes {
   private pageController: PageController
@@ -23,7 +24,8 @@ export class PageRoutes {
       method: 'GET',
       title: page.title ?? 'My react app',
       handler: async (path: string) => this.render(path),
-      config: mapPageToDto(page),
+      pageDto: mapPageToDto(page),
+      tablesDto: this.app.tables.map((table) => mapTableToDto(table)),
     }))
   }
 

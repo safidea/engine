@@ -52,3 +52,87 @@ export function mapDtoToField(fieldDto: FieldDto): Field {
   }
   throw new Error(`Invalid field type ${type}`)
 }
+
+export function mapFieldToDto(field: Field): FieldDto {
+  if (field instanceof SingleLineText) {
+    return {
+      type: 'single_line_text',
+      name: field.name,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof LongText) {
+    return {
+      type: 'long_text',
+      name: field.name,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof NumberField) {
+    return {
+      type: 'number',
+      name: field.name,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof Currency) {
+    return {
+      type: 'currency',
+      name: field.name,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof SingleLinkRecord) {
+    return {
+      type: 'single_linked_record',
+      name: field.name,
+      table: field.table,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof MultipleLinkedRecords) {
+    return {
+      type: 'multiple_linked_records',
+      name: field.name,
+      table: field.table,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof Formula) {
+    return {
+      type: 'formula',
+      name: field.name,
+      formula: field.formula,
+      format: field.format,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof Rollup) {
+    return {
+      type: 'rollup',
+      name: field.name,
+      linked_records: field.linkedRecords,
+      linked_field: field.linkedField,
+      formula: field.formula,
+      format: field.format,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof Datetime) {
+    return {
+      type: 'datetime',
+      name: field.name,
+      optional: field.optional,
+    }
+  }
+  if (field instanceof SingleSelect) {
+    return {
+      type: 'single_select',
+      name: field.name,
+      options: field.options,
+      optional: field.optional,
+      default: field.default,
+    }
+  }
+  throw new Error(`Invalid field instance ${field}`)
+}
