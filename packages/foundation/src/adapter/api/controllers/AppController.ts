@@ -1,6 +1,4 @@
 import { ConfigureApp } from '@application/usecases/ConfigureApp'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
-import { AppDto } from '@application/dtos/AppDto'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { App } from '@domain/entities/App'
 import { IServerGateway } from '@domain/gateways/IServerGateway'

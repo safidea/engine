@@ -15,6 +15,7 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
+    "ajv": "8.12.0",
     "client-component": "workspace:*",
     "client-page": "workspace:^",
     "dotenv": "^16.3.1",

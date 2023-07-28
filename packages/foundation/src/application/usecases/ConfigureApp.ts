@@ -1,8 +1,10 @@
 import { App } from '@domain/entities/App'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 import { mapDtoToApp } from '@application/mappers/AppMapper'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
-import { AppDto } from '@application/dtos/AppDto'
+import { ajv } from '@application/utils/SchemaValidator'
+import { AppDtoSchema } from '@application/dtos/AppDto'
+
+const validate = ajv.compile(AppDtoSchema)
 
 export class ConfigureApp {
   constructor(
@@ -11,9 +13,8 @@ export class ConfigureApp {
   ) {}
 
   execute(): App {
-    // TODO: install AJV and validate config from AppDto schema
-    if (typeof this.config === 'object' && this.config && 'unknown' in this.config)
-      throw new Error('Config validation fail : "unknown" property is not allowed')
-    return mapDtoToApp(this.config as AppDto, this.ui)
+    if (validate(this.config)) return mapDtoToApp(this.config, this.ui)
+    if (validate.errors) throw new Error(validate.errors[0].message)
+    throw new Error('should throw a validation error')
   }
 }

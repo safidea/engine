@@ -1,58 +1,17 @@
-import { Format } from '@domain/entities/table/fields/BaseField'
-
-interface BaseFieldDto {
-  name: string
-  optional?: boolean
-  format?: Format
-  default?: string
-}
-
-interface SingleLineTextDto extends BaseFieldDto {
-  type: 'single_line_text'
-}
-
-interface LongTextDto extends BaseFieldDto {
-  type: 'long_text'
-}
-
-interface NumberDto extends BaseFieldDto {
-  type: 'number'
-}
-
-interface CurrencyDto extends BaseFieldDto {
-  type: 'currency'
-}
-
-interface FormulaDto extends BaseFieldDto {
-  type: 'formula'
-  formula: string
-}
-
-interface CreateSingleLinkedRecordDto extends BaseFieldDto {
-  type: 'single_linked_record'
-  table: string
-}
-
-interface MultipleLinkedRecordDto extends BaseFieldDto {
-  type: 'multiple_linked_records'
-  table: string
-}
-
-interface RollupDto extends BaseFieldDto {
-  type: 'rollup'
-  linked_records: string
-  linked_field: string
-  formula: string
-}
-
-interface DatetimeDto extends BaseFieldDto {
-  type: 'datetime'
-}
-
-interface SingleSelectDto extends BaseFieldDto {
-  type: 'single_select'
-  options: string[]
-}
+import { JSONSchemaType } from '@application/utils/SchemaValidator'
+import { CurrencyDto, CurrencyDtoSchema } from './fields/CurrencyDto'
+import { DatetimeDto, DatetimeDtoSchema } from './fields/DatetimeDto'
+import { FormulaDto, FormulaDtoSchema } from './fields/FormulaDto'
+import { LongTextDto, LongTextDtoSchema } from './fields/LongTextDto'
+import {
+  MultipleLinkedRecordDto,
+  MultipleLinkedRecordDtoSchema,
+} from './fields/MultipleLinkedRecordDto'
+import { NumberDto, NumberDtoSchema } from './fields/NumberDto'
+import { RollupDto, RollupDtoSchema } from './fields/RollupDto'
+import { SingleLineTextDto, SingleLineTextDtoSchema } from './fields/SingleLineTextDto'
+import { SingleLinkedRecordDto, SingleLinkedRecordDtoSchema } from './fields/SingleLinkedRecordDto'
+import { SingleSelectDto, SingleSelectDtoSchema } from './fields/SingleSelectDto'
 
 export type FieldDto =
   | SingleLineTextDto
@@ -60,8 +19,23 @@ export type FieldDto =
   | CurrencyDto
   | NumberDto
   | FormulaDto
-  | CreateSingleLinkedRecordDto
+  | SingleLinkedRecordDto
   | MultipleLinkedRecordDto
   | RollupDto
   | DatetimeDto
   | SingleSelectDto
+
+export const FieldDtoSchema: JSONSchemaType<FieldDto> = {
+  oneOf: [
+    SingleLineTextDtoSchema,
+    LongTextDtoSchema,
+    CurrencyDtoSchema,
+    NumberDtoSchema,
+    FormulaDtoSchema,
+    SingleLinkedRecordDtoSchema,
+    MultipleLinkedRecordDtoSchema,
+    RollupDtoSchema,
+    DatetimeDtoSchema,
+    SingleSelectDtoSchema,
+  ],
+}

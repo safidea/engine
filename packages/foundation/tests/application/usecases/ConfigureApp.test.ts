@@ -2,16 +2,16 @@ import { ConfigureApp } from '@application/usecases/ConfigureApp'
 import { describe, test, expect } from '@jest/globals'
 
 describe('ConfigureApp', () => {
-  test('should throw an error if schema is not as the same format as expected', async () => {
+  test('should throw an error if validation failed', () => {
     // GIVEN
     const config = {
       unknown: 'unknown',
     }
 
     // WHEN
-    const call = () => new ConfigureApp(config, null as any).execute()
+    const call = () => new ConfigureApp(config, {} as any).execute()
 
     // THEN
-    expect(call).toThrow('Config validation fail : "unknown" property is not allowed')
+    expect(call).toThrowError('must NOT have additional properties')
   })
 })
