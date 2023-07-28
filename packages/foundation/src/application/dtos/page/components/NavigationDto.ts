@@ -1,7 +1,7 @@
 import { JSONSchemaType } from 'ajv'
-import { ComponentDto, ComponentDtoSchema } from '../ComponentDto'
 import { LinkDto, LinkDtoSchema } from './LinkDto'
 import { TitleDto, TitleDtoSchema } from './TitleDto'
+import { ComponentDto } from '../ComponentDto'
 
 export interface NavigationDto {
   type: 'navigation'
@@ -21,7 +21,11 @@ export const NavigationDtoSchema: JSONSchemaType<NavigationDto> = {
     },
     components: {
       type: 'array',
-      items: ComponentDtoSchema,
+      items: {
+        type: 'object',
+        $ref: 'https://example.com/component.json',
+        required: [],
+      },
     },
   },
   required: ['type', 'title', 'links', 'components'],

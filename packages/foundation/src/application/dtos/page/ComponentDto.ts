@@ -9,6 +9,7 @@ import { TitleDto, TitleDtoSchema } from './components/TitleDto'
 export type ComponentDto = LinkDto | ParagraphDto | NavigationDto | TitleDto | ListDto | FormDto
 
 export const ComponentDtoSchema: JSONSchemaType<ComponentDto> = {
+  $id: 'https://example.com/component.json',
   oneOf: [
     LinkDtoSchema,
     ParagraphDtoSchema,

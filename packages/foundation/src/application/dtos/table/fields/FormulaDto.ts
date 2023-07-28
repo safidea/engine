@@ -1,5 +1,5 @@
-import { JSONSchemaType } from "@application/utils/SchemaValidator"
-import { BaseFieldDto, BaseFieldDtoSchema } from "./BaseFieldDto"
+import { JSONSchemaType } from '@application/utils/SchemaValidator'
+import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
 export interface FormulaDto extends BaseFieldDto {
   type: 'formula'

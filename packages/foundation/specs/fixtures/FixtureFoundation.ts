@@ -11,7 +11,10 @@ export class FixtureFoundation {
     this.folder = join(process.cwd(), `specs/tmp/${port}`)
   }
 
-  async start(config: unknown, options?: { server: string; orm: string }): Promise<FixtureDatabase> {
+  async start(
+    config: unknown,
+    options?: { server: string; orm: string }
+  ): Promise<FixtureDatabase> {
     await fs.ensureDir(this.folder)
     this.foundation = new Foundation(config, this.folder, this.port, options?.server, options?.orm)
     await this.foundation.start()
