@@ -8,10 +8,7 @@ export class RenderPageList {
 
   execute(list: List): () => JSX.Element {
     const UI = list.renderUI()
-    const getRecords = this.pageGateway.getTableRecords(list.table, {
-      groupBy: list.groupBy,
-      sortBy: list.sortBy,
-    })
+    const getRecords = this.pageGateway.getTableRecords(list.table)
     return function Component() {
       const { records } = getRecords()
       return <UI records={records.map((recordDto) => mapDtoToRecord(list.table, recordDto))} />

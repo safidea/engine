@@ -1,5 +1,4 @@
 import { RecordDto } from '@application/dtos/table/RecordDto'
-import { GroupBy, SortBy } from '@domain/entities/page/components/List'
 import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
 export class PageGateway {
@@ -7,7 +6,6 @@ export class PageGateway {
 
   getTableRecords(
     table: string,
-    options: { groupBy: GroupBy[]; sortBy: SortBy[] }
   ): () => {
     records: RecordDto[]
     error: Error | undefined
