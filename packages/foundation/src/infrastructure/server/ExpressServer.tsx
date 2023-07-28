@@ -3,6 +3,8 @@ import express, { Express } from 'express'
 import { Server as HTTPServer } from 'http'
 import ReactDOMServer from 'react-dom/server'
 import { Request, RequestQuery } from '@domain/entities/table/Request'
+import path from 'path'
+import fs from 'fs-extra'
 
 export class ExpressServer implements IServerGateway {
   private app: Express
@@ -74,21 +76,27 @@ export class ExpressServer implements IServerGateway {
   }
 
   async configurePages(routes: PageRoute[]) {
+    this.app.get('/bundle.js', async (req, res) => {
+      const bundle = await fs.readFile(path.resolve(process.cwd(), 'dist/bundle.js'), 'utf8')
+      return res.send(bundle)
+    })
     routes.forEach((route) => {
       this.app.get(route.path, async (req, res) => {
         const Page = await route.handler(req.url.split('?')[0])
-        const html = ReactDOMServer.renderToString(Page)
-        res.send(`
+        const pageHtml = ReactDOMServer.renderToString(Page)
+        const html = `
           <!DOCTYPE html>
           <html>
             <head>
-              <title>My react app</title>
+              <title>${route.title}</title>
             </head>
             <body>
-              <div id="root">${html}</div>
+              <div id="root">${pageHtml}</div>
+              <script src="/bundle.js"></script>
             </body>
           </html>
-        `)
+        `
+        res.send(html)
       })
     })
   }

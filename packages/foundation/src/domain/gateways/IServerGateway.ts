@@ -9,6 +9,7 @@ export interface TableRoute {
 export interface PageRoute {
   path: string
   method: string
+  title: string
   handler: (path: string) => Promise<JSX.Element>
 }
 

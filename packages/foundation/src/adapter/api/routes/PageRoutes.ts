@@ -9,19 +9,22 @@ export class PageRoutes {
   private pageController: PageController
   private pageMiddleware: PageMiddleware
 
-  constructor(app: App, ui: IUIGateway, fetcher: IFetcherGateway) {
+  constructor(
+    private app: App,
+    ui: IUIGateway,
+    fetcher: IFetcherGateway
+  ) {
     this.pageController = new PageController(ui, fetcher)
     this.pageMiddleware = new PageMiddleware(app)
   }
 
   get routes(): PageRoute[] {
-    return [
-      {
-        path: '*',
-        method: 'GET',
-        handler: async (path: string) => this.render(path),
-      },
-    ]
+    return this.app.pages.map((page) => ({
+      path: page.path,
+      method: 'GET',
+      title: page.title ?? 'My react app',
+      handler: async (path: string) => this.render(path),
+    }))
   }
 
   async render(path: string) {
