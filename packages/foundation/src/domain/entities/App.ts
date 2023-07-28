@@ -1,7 +1,7 @@
 import { Page } from './Page'
 import { Table } from './Table'
 
-export type Automation = unknown
+export type Automation = unknown // TODO: define an actual Automation
 export class App {
   constructor(
     private readonly _name: string = 'My app',

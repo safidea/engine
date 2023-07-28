@@ -1,16 +1,14 @@
-import { Foundation } from '@infrastructure/foundation'
 import { test, expect } from '@playwright/test'
 import * as helpers from '../fixtures/helpers'
-import { ConfigureApp } from '@application/usecases/ConfigureApp'
-import { AppRepository } from '@adapter/spi/repositories/AppRepository'
 import { mapDtoToApp } from '@application/mappers/AppMapper'
+import { AppDto } from '@application/dtos/AppDto'
 
 // TODO : Move unit test in tests folder
 test.describe('automations', () => {
   // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
   test('Config validation fail if automation references an invalid field', async () => {
     // GIVEN
-    const config = {
+    const config: AppDto = {
       tables: helpers.getTables('invoices'), // includes tables "invoices" and "invoices_items"
       automations: [
         {
@@ -21,14 +19,53 @@ test.describe('automations', () => {
     }
 
     // WHEN
-    const errors = []
-    try {
-      mapDtoToApp(config, null as any)
-    } catch (err) {
-      errors.push((err as any).message)
-    }
+    const call = () => mapDtoToApp(config, null as any)
 
     // THEN
-    expect(errors).toContain('field X in automation A is not defined in table "invoices"')
+    expect(call).toThrow('fieldX in automation A is not defined in table "invoices"')
+  })
+
+  test('Config validation fail if automation references an invalid table', async () => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTables('invoices'), // includes tables "invoices" and "invoices_items"
+      automations: [
+        {
+          name: 'A',
+          actions: [{ type: 'updateTable', fields: {}, table: 'tableX' }],
+        },
+      ],
+    }
+
+    // WHEN
+    const call = () => mapDtoToApp(config, null as any)
+
+    // THEN
+    expect(call).toThrow('table tableX in automation A is not defined in tables')
+  })
+
+  test('Config validation fail if automation references an invalid field and a valid field', async () => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTables('invoices'), // includes tables "invoices" and "invoices_items"
+      automations: [
+        {
+          name: 'A',
+          actions: [
+            {
+              type: 'updateTable',
+              fields: { customer: 'Essentiel', fieldY: 'test' },
+              table: 'invoices',
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const call = () => mapDtoToApp(config, null as any)
+
+    // THEN
+    expect(call).toThrow('fieldY in automation A is not defined in table "invoices"')
   })
 })
