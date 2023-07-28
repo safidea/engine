@@ -1,0 +1,89 @@
+{
+  "invoices": [
+    {
+      "customer": "Perrin EURL",
+      "address": "931 Place Saint-Bernard",
+      "zip_code": "02533",
+      "country": "Monténégro",
+      "items": [],
+      "status": "draft",
+      "id": "ac8cf2dd-fc33-4c7e-ad88-ea9ab797e990",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Boyer et Garnier",
+      "address": "9107 Avenue de Vaugirard",
+      "zip_code": "03955",
+      "country": "Seychelles",
+      "items": [],
+      "status": "draft",
+      "finalised_time": "2022-08-29T04:05:16.959Z",
+      "id": "90f3cf7a-62b7-405b-856e-73f30a6e8f42",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Dupont et Collet",
+      "address": "147 Quai Vaneau",
+      "zip_code": "33293",
+      "country": "Bolivie",
+      "items": [],
+      "status": "draft",
+      "finalised_time": "2022-10-16T06:40:37.002Z",
+      "id": "62b5beb8-c31b-4afb-8bdd-205ce2742351",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Gerard GIE",
+      "address": "9 Place des Grands Augustins",
+      "zip_code": "08364",
+      "country": "Guinée-Bissau",
+      "items": [],
+      "status": "draft",
+      "finalised_time": "2022-08-23T14:48:28.178Z",
+      "id": "c6066c13-b1c2-496b-bb56-29ac0fac137d",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Clement et Denis",
+      "address": "91 Allée de la Pompe",
+      "zip_code": "29492",
+      "country": "Antigua-et-Barbuda",
+      "items": [],
+      "status": "draft",
+      "finalised_time": "2023-05-29T10:17:21.089Z",
+      "id": "f67638d0-5c56-4363-9946-817dba6615d2",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Muller et Gaillard",
+      "address": "379 Quai de Paris",
+      "zip_code": "69930",
+      "country": "Maroc",
+      "items": [],
+      "status": "draft",
+      "id": "b76e5e9a-870d-4c42-9aaa-ccc4870140f7",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Morin SA",
+      "address": "94 Impasse des Lombards",
+      "zip_code": "76314",
+      "country": "Kazakhstan",
+      "items": [],
+      "status": "draft",
+      "number": 526,
+      "id": "bb3a0dbf-e91b-48d6-8c25-c4c927266db1",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    },
+    {
+      "customer": "Fleury EURL",
+      "zip_code": "51566",
+      "country": "Côte d’Ivoire",
+      "items": [],
+      "status": "draft",
+      "finalised_time": "2023-06-19T11:04:45.267Z",
+      "id": "ce7ecc85-104a-47a7-8f1f-25d7e4aa0e5e",
+      "created_time": "2023-07-28T21:06:05.565Z"
+    }
+  ]
+}

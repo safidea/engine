@@ -1,0 +1,313 @@
+{
+  "name": "invoices",
+  "version": "0.0.1",
+  "database": {
+    "url": "${DATABASE_URL}",
+    "provider": "sqlite"
+  },
+  "tables": {
+    "invoices": {
+      "fields": {
+        "customer": {
+          "type": "String"
+        },
+        "address": {
+          "type": "String"
+        },
+        "zip_code": {
+          "type": "String"
+        },
+        "country": {
+          "type": "String"
+        },
+        "items": {
+          "type": "Link",
+          "table": "invoices_items",
+          "multiple": true
+        },
+        "status": {
+          "type": "SingleSelect",
+          "options": ["draft", "finalised", "sent", "paid"],
+          "default": "draft"
+        },
+        "number": {
+          "type": "String",
+          "optional": true
+        },
+        "finalised_date": {
+          "type": "DateTime",
+          "optional": true
+        },
+        "total_amount": {
+          "type": "Formula",
+          "formula": "quantity * unit_price"
+        }
+      }
+    },
+    "invoices_items": {
+      "fields": {
+        "invoice": {
+          "type": "Link",
+          "table": "invoices"
+        },
+        "activity": {
+          "type": "String"
+        },
+        "quantity": {
+          "type": "Int"
+        },
+        "unity": {
+          "type": "String"
+        },
+        "unit_price": {
+          "type": "Decimal"
+        },
+        "total_amount": {
+          "type": "Formula",
+          "formula": "quantity * unit_price"
+        }
+      }
+    }
+  },
+  "pages": {
+    "/": {
+      "title": "Factures",
+      "components": [
+        {
+          "key": "appNavigation",
+          "components": [
+            {
+              "key": "h1",
+              "text": "Toutes les factures",
+              "className": "p-2 text-4xl font-bold text-gray-800"
+            },
+            {
+              "key": "list",
+              "table": "invoices",
+              "fields": [
+                {
+                  "key": "customer",
+                  "label": "Client"
+                },
+                {
+                  "key": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "key": "total_amount",
+                  "label": "Montant total"
+                },
+                {
+                  "key": "status",
+                  "label": "Statut",
+                  "options": [
+                    {
+                      "key": "draft",
+                      "label": "Brouillon"
+                    },
+                    {
+                      "key": "finalised",
+                      "label": "Finalisée"
+                    },
+                    {
+                      "key": "sent",
+                      "label": "Envoyée"
+                    },
+                    {
+                      "key": "paid",
+                      "label": "Payée"
+                    }
+                  ]
+                },
+                {
+                  "key": "finalised_date",
+                  "label": "Date de finalisation"
+                },
+                {
+                  "key": "created_date",
+                  "label": "Date de création"
+                },
+                {
+                  "key": "edit",
+                  "label": "Éditer",
+                  "format": "button",
+                  "actions": [
+                    {
+                      "type": "redirect",
+                      "path": "/update/:id"
+                    }
+                  ]
+                }
+              ],
+              "groupBy": [{ "field": "status", "order": "first_to_last" }],
+              "sortBy": [
+                { "field": "finalised_date", "order": "desc" },
+                { "field": "created_date", "order": "desc" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "/create": {
+      "title": "Factures",
+      "components": [
+        {
+          "key": "appNavigation",
+          "components": [
+            {
+              "key": "h1",
+              "text": "Créer une facture",
+              "className": "p-2 text-4xl font-bold text-gray-800"
+            },
+            {
+              "key": "form",
+              "table": "invoices",
+              "fields": [
+                {
+                  "key": "customer",
+                  "label": "Client"
+                },
+                {
+                  "key": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "key": "zip_code",
+                  "label": "Code postal"
+                },
+                {
+                  "key": "country",
+                  "label": "Pays"
+                },
+                {
+                  "key": "items",
+                  "label": "Lignes de facture",
+                  "fields": [
+                    {
+                      "key": "activity",
+                      "label": "Activité",
+                      "placeholder": "Activité"
+                    },
+                    {
+                      "key": "quantity",
+                      "label": "Quantité",
+                      "placeholder": "Quantité"
+                    },
+                    {
+                      "key": "unity",
+                      "label": "Unité",
+                      "placeholder": "Unité"
+                    },
+                    {
+                      "key": "unit_price",
+                      "label": "Prix unitaire",
+                      "placeholder": "Prix unitaire"
+                    }
+                  ],
+                  "addLabel": "Nouvelle ligne"
+                }
+              ],
+              "submit": {
+                "label": "Enregistrer",
+                "loading_label": "Enregistrement en cours...",
+                "actionsOnSuccess": [
+                  {
+                    "type": "redirect",
+                    "path": "/"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "/update/[id]": {
+      "title": "Mise à jour d'une facture",
+      "components": [
+        {
+          "key": "appNavigation",
+          "components": [
+            {
+              "key": "h1",
+              "text": "Mise à jour d'une facture",
+              "className": "p-2 text-4xl font-bold text-gray-800"
+            },
+            {
+              "key": "form",
+              "table": "invoices",
+              "fields": [
+                {
+                  "key": "customer",
+                  "label": "Client"
+                },
+                {
+                  "key": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "key": "zip_code",
+                  "label": "Code postal"
+                },
+                {
+                  "key": "country",
+                  "label": "Pays"
+                },
+                {
+                  "key": "items",
+                  "label": "Lignes de facture",
+                  "fields": [
+                    {
+                      "key": "activity",
+                      "label": "Activité",
+                      "placeholder": "Activité"
+                    },
+                    {
+                      "key": "quantity",
+                      "label": "Quantité",
+                      "placeholder": "Quantité"
+                    },
+                    {
+                      "key": "unity",
+                      "label": "Unité",
+                      "placeholder": "Unité"
+                    },
+                    {
+                      "key": "unit_price",
+                      "label": "Prix unitaire",
+                      "placeholder": "Prix unitaire"
+                    }
+                  ],
+                  "addLabel": "Nouvelle ligne"
+                }
+              ],
+              "submit": {
+                "autosave": true,
+                "type": "update"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "components": {
+    "appNavigation": {
+      "key": "navigation",
+      "title": "Factures",
+      "navigation": [
+        {
+          "label": "Toutes les factures",
+          "icon": "HomeIcon",
+          "path": "/"
+        },
+        {
+          "label": "Créer une facture",
+          "icon": "DocumentDuplicateIcon",
+          "path": "/create"
+        }
+      ]
+    }
+  }
+}

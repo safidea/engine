@@ -1,134 +1,181 @@
 {
   "name": "invoices",
   "version": "0.0.1",
-  "database": {
-    "url": "${DATABASE_URL}",
-    "provider": "sqlite"
-  },
-  "tables": {
-    "invoices": {
-      "fields": {
-        "customer": {
-          "type": "String"
+  "tables": [
+    {
+      "name": "invoices",
+      "fields": [
+        {
+          "name": "customer",
+          "type": "single_line_text"
         },
-        "address": {
-          "type": "String"
+        {
+          "name": "address",
+          "type": "single_line_text"
         },
-        "zip_code": {
-          "type": "String"
+        {
+          "name": "zip_code",
+          "type": "single_line_text"
         },
-        "country": {
-          "type": "String"
+        {
+          "name": "country",
+          "type": "single_line_text"
         },
-        "items": {
-          "type": "Link",
-          "table": "invoices_items",
-          "multiple": true
+        {
+          "name": "items",
+          "type": "multiple_linked_records",
+          "table": "invoices_items"
         },
-        "status": {
-          "type": "SingleSelect",
+        {
+          "name": "total_net_amount",
+          "type": "rollup",
+          "linked_records": "items",
+          "linked_field": "total_net_amount",
+          "formula": "sum(values)",
+          "format": "currency"
+        },
+        {
+          "name": "total_vat",
+          "type": "rollup",
+          "linked_records": "items",
+          "linked_field": "total_vat",
+          "formula": "sum(values)",
+          "format": "currency"
+        },
+        {
+          "name": "total_amount",
+          "type": "rollup",
+          "linked_records": "items",
+          "linked_field": "total_amount",
+          "formula": "sum(values)",
+          "format": "currency"
+        },
+        {
+          "name": "status",
+          "type": "single_select",
           "options": ["draft", "finalised", "sent", "paid"],
           "default": "draft"
         },
-        "number": {
-          "type": "String",
+        {
+          "name": "finalised_time",
+          "type": "datetime",
           "optional": true
         },
-        "finalised_date": {
-          "type": "DateTime",
+        {
+          "name": "number",
+          "type": "number",
           "optional": true
-        },
-        "total_amount": {
-          "type": "Formula",
-          "formula": "quantity * unit_price"
         }
-      }
+      ]
     },
-    "invoices_items": {
-      "fields": {
-        "invoice": {
-          "type": "Link",
-          "table": "invoices"
+    {
+      "name": "invoices_items",
+      "fields": [
+        { "name": "invoice", "type": "single_linked_record", "table": "invoices" },
+        { "name": "name", "type": "single_line_text" },
+        { "name": "description", "type": "long_text", "optional": true },
+        { "name": "quantity", "type": "number" },
+        { "name": "unity", "type": "single_line_text" },
+        { "name": "unit_price", "type": "currency" },
+        { "name": "vat", "type": "number" },
+        {
+          "name": "total_net_amount",
+          "type": "formula",
+          "formula": "quantity * unit_price",
+          "format": "currency"
         },
-        "activity": {
-          "type": "String"
+        {
+          "name": "total_vat",
+          "type": "formula",
+          "formula": "total_net_amount * vat",
+          "format": "currency"
         },
-        "quantity": {
-          "type": "Int"
-        },
-        "unity": {
-          "type": "String"
-        },
-        "unit_price": {
-          "type": "Decimal"
-        },
-        "total_amount": {
-          "type": "Formula",
-          "formula": "quantity * unit_price"
+        {
+          "name": "total_amount",
+          "type": "formula",
+          "formula": "total_net_amount + total_vat",
+          "format": "currency"
         }
-      }
+      ]
     }
-  },
-  "pages": {
-    "/": {
+  ],
+  "pages": [
+    {
+      "path": "/list",
       "title": "Factures",
       "components": [
         {
-          "key": "appNavigation",
-          "components": [
+          "type": "navigation",
+          "title": {
+            "type": "title",
+            "size": "md",
+            "text": "Factures"
+          },
+          "links": [
             {
-              "key": "h1",
-              "text": "Toutes les factures",
-              "className": "p-2 text-4xl font-bold text-gray-800"
+              "type": "link",
+              "label": "Toutes les factures",
+              "path": "/"
             },
             {
-              "key": "list",
+              "type": "link",
+              "label": "Créer une facture",
+              "path": "/create"
+            }
+          ],
+          "components": [
+            {
+              "type": "title",
+              "size": "xl",
+              "text": "Toutes les factures"
+            },
+            {
+              "type": "list",
               "table": "invoices",
-              "fields": [
+              "columns": [
                 {
-                  "key": "customer",
+                  "field": "customer",
                   "label": "Client"
                 },
                 {
-                  "key": "address",
+                  "field": "address",
                   "label": "Adresse"
                 },
                 {
-                  "key": "total_amount",
+                  "field": "total_amount",
                   "label": "Montant total"
                 },
                 {
-                  "key": "status",
+                  "field": "status",
                   "label": "Statut",
                   "options": [
                     {
-                      "key": "draft",
+                      "name": "draft",
                       "label": "Brouillon"
                     },
                     {
-                      "key": "finalised",
+                      "name": "finalised",
                       "label": "Finalisée"
                     },
                     {
-                      "key": "sent",
+                      "name": "sent",
                       "label": "Envoyée"
                     },
                     {
-                      "key": "paid",
+                      "name": "paid",
                       "label": "Payée"
                     }
                   ]
                 },
                 {
-                  "key": "finalised_date",
+                  "field": "finalised_date",
                   "label": "Date de finalisation"
                 },
                 {
-                  "key": "created_date",
+                  "field": "created_date",
                   "label": "Date de création"
                 },
                 {
-                  "key": "edit",
                   "label": "Éditer",
                   "format": "button",
                   "actions": [
@@ -148,166 +195,6 @@
           ]
         }
       ]
-    },
-    "/create": {
-      "title": "Factures",
-      "components": [
-        {
-          "key": "appNavigation",
-          "components": [
-            {
-              "key": "h1",
-              "text": "Créer une facture",
-              "className": "p-2 text-4xl font-bold text-gray-800"
-            },
-            {
-              "key": "form",
-              "table": "invoices",
-              "fields": [
-                {
-                  "key": "customer",
-                  "label": "Client"
-                },
-                {
-                  "key": "address",
-                  "label": "Adresse"
-                },
-                {
-                  "key": "zip_code",
-                  "label": "Code postal"
-                },
-                {
-                  "key": "country",
-                  "label": "Pays"
-                },
-                {
-                  "key": "items",
-                  "label": "Lignes de facture",
-                  "fields": [
-                    {
-                      "key": "activity",
-                      "label": "Activité",
-                      "placeholder": "Activité"
-                    },
-                    {
-                      "key": "quantity",
-                      "label": "Quantité",
-                      "placeholder": "Quantité"
-                    },
-                    {
-                      "key": "unity",
-                      "label": "Unité",
-                      "placeholder": "Unité"
-                    },
-                    {
-                      "key": "unit_price",
-                      "label": "Prix unitaire",
-                      "placeholder": "Prix unitaire"
-                    }
-                  ],
-                  "addLabel": "Nouvelle ligne"
-                }
-              ],
-              "submit": {
-                "label": "Enregistrer",
-                "loading_label": "Enregistrement en cours...",
-                "actionsOnSuccess": [
-                  {
-                    "type": "redirect",
-                    "path": "/"
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    "/update/[id]": {
-      "title": "Mise à jour d'une facture",
-      "components": [
-        {
-          "key": "appNavigation",
-          "components": [
-            {
-              "key": "h1",
-              "text": "Mise à jour d'une facture",
-              "className": "p-2 text-4xl font-bold text-gray-800"
-            },
-            {
-              "key": "form",
-              "table": "invoices",
-              "fields": [
-                {
-                  "key": "customer",
-                  "label": "Client"
-                },
-                {
-                  "key": "address",
-                  "label": "Adresse"
-                },
-                {
-                  "key": "zip_code",
-                  "label": "Code postal"
-                },
-                {
-                  "key": "country",
-                  "label": "Pays"
-                },
-                {
-                  "key": "items",
-                  "label": "Lignes de facture",
-                  "fields": [
-                    {
-                      "key": "activity",
-                      "label": "Activité",
-                      "placeholder": "Activité"
-                    },
-                    {
-                      "key": "quantity",
-                      "label": "Quantité",
-                      "placeholder": "Quantité"
-                    },
-                    {
-                      "key": "unity",
-                      "label": "Unité",
-                      "placeholder": "Unité"
-                    },
-                    {
-                      "key": "unit_price",
-                      "label": "Prix unitaire",
-                      "placeholder": "Prix unitaire"
-                    }
-                  ],
-                  "addLabel": "Nouvelle ligne"
-                }
-              ],
-              "submit": {
-                "autosave": true,
-                "type": "update"
-              }
-            }
-          ]
-        }
-      ]
     }
-  },
-  "components": {
-    "appNavigation": {
-      "key": "navigation",
-      "title": "Factures",
-      "navigation": [
-        {
-          "label": "Toutes les factures",
-          "icon": "HomeIcon",
-          "path": "/"
-        },
-        {
-          "label": "Créer une facture",
-          "icon": "DocumentDuplicateIcon",
-          "path": "/create"
-        }
-      ]
-    }
-  }
+  ]
 }
