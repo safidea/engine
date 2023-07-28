@@ -101,7 +101,7 @@
   ],
   "pages": [
     {
-      "path": "/list",
+      "path": "/",
       "title": "Factures",
       "components": [
         {

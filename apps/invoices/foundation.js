@@ -7,4 +7,6 @@ const folder = join(process.cwd(), 'app')
 
 const foundation = new Foundation(config, folder, 3000)
 
-foundation.start()
+foundation.start().then(() => {
+  console.log('Server started on port 3000')
+})
