@@ -1,3 +1,4 @@
+import React from 'react'
 import { UIProps } from '@domain/gateways/IUIGateway'
 
 const TitleUI = {

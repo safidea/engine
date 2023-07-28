@@ -11,7 +11,7 @@ export interface PageRoute {
   path: string
   method: string
   title: string
-  handler: (path: string) => Promise<JSX.Element>
+  handler: (path: string) => Promise<() => JSX.Element>
   // TODO: remove the DTO from domain
   config: PageDto
 }

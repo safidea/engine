@@ -1,3 +1,4 @@
+import React from 'react'
 import { PageGateway } from '@adapter/spi/gateways/PageGateway'
 import { Navigation } from '@domain/entities/page/components/Navigation'
 import { RenderPageComponent } from './RenderPageComponent'
@@ -5,8 +6,8 @@ import { RenderPageComponent } from './RenderPageComponent'
 export class RenderPageNavigation {
   private renderPageComponent: RenderPageComponent
 
-  constructor(PageGateway: PageGateway) {
-    this.renderPageComponent = new RenderPageComponent(PageGateway)
+  constructor(pageGateway: PageGateway) {
+    this.renderPageComponent = new RenderPageComponent(pageGateway)
   }
 
   execute(navigation: Navigation): () => JSX.Element {

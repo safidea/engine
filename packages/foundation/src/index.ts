@@ -1,95 +1,100 @@
-import './OLD/env'
-import { ApiError, ConfigUtils, PathUtils } from 'server-common'
-import { DatabaseService } from 'server-database'
-import { PageComponent } from 'client-page'
-import { TableRoute } from 'server-table'
-import { getOrmProvider } from './OLD/providers'
+import 'module-alias/register'
 
-import type {
-  AppConfig,
-  RequestInterface,
-  ResponseInterface,
-  RequestBodyInterface,
-} from 'shared-app'
-import type { OrmProviderInterface, OrmProviderTablesInterface } from 'server-database'
-import type { AppProviderComponentsInterface } from 'shared-common'
+import { AppController } from '@adapter/api/controllers/AppController'
+import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import { ExpressServer } from '@infrastructure/server/ExpressServer'
+import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
+import { IServerGateway } from '@domain/gateways/IServerGateway'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
+import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { App } from '@domain/entities/App'
+import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
-type FoundationProps = {
-  orm?: OrmProviderTablesInterface
-  components?: AppProviderComponentsInterface
-}
+export default class Foundation {
+  private readonly path: string
+  private readonly _app: AppController
+  private readonly _server: IServerGateway
+  private readonly _orm: IOrmGateway
+  private readonly _ui: IUIGateway
+  private readonly _fetcher: IFetcherGateway
 
-class Foundation {
-  private configUtils: ConfigUtils
-  private orm?: OrmProviderTablesInterface
-  private ormProvider?: OrmProviderInterface
-  private components?: AppProviderComponentsInterface
-
-  constructor(props?: FoundationProps) {
-    const { orm, components } = props || {}
-    const pathUtils = new PathUtils()
-    this.configUtils = new ConfigUtils({ pathUtils, fromCompiled: true })
-    const { database, pages } = this.configUtils.get() as AppConfig
-    if (database) {
-      this.orm = orm
-      this.ormProvider = getOrmProvider({ pathUtils, configUtils: this.configUtils })
-    }
-    if (pages) this.components = components
+  constructor(
+    config: unknown,
+    private folder: string,
+    private port: number,
+    private serverName = 'express',
+    private ormName = 'inmemory',
+    private uiName = 'unstyled',
+    private fetcherName = 'native',
+    private domain = 'localhost:' + port,
+    private ssl = false
+  ) {
+    this.path = (this.ssl === true ? 'https://' : 'http://') + this.domain
+    this._server = this.selectServer()
+    this._orm = this.selectOrm()
+    this._ui = this.selectUI()
+    this._fetcher = this.selectFetcher()
+    this._app = new AppController(config, this._server, this._orm, this._ui, this._fetcher)
   }
 
-  public page({
-    path,
-    components = {},
-    pathParams = {},
-  }: JSX.IntrinsicAttributes & {
-    path: string
-    components?: AppProviderComponentsInterface
-    pathParams?: Record<string, string>
-  }) {
-    const page = this.configUtils.get('pages.' + path)
-    if (!page) throw new Error(`Page from path ${path} not found in compiled config`)
-    return PageComponent({
-      appProviderComponents: { ...this.components, ...components },
-      page,
-      pathParams,
-    })
-  }
-
-  public async api(request: RequestInterface): Promise<ResponseInterface> {
-    try {
-      if (!this.orm || !this.ormProvider) throw new Error('Database not found')
-      const databaseService = new DatabaseService({ orm: this.orm, ormProvider: this.ormProvider })
-      const tableRoute = new TableRoute({ databaseService, configUtils: this.configUtils })
-      const api = request.url.match(/(?<=api\/)[a-z]+(?=\/)/)?.[0]
-      request.local = {}
-      switch (api) {
-        case 'table':
-          switch (request.method) {
-            case 'GET':
-              return await tableRoute.get(request)
-            case 'POST':
-              return await tableRoute.post(request as RequestBodyInterface)
-            case 'PUT':
-              return await tableRoute.put(request as RequestBodyInterface)
-            case 'PATCH':
-              return await tableRoute.patch(request as RequestBodyInterface)
-            case 'DELETE':
-              return await tableRoute.delete(request as RequestBodyInterface)
-            default:
-              return { status: 405, json: { error: 'Method not allowed' } }
-          }
-        default:
-          return { status: 404, json: { error: 'Not found' } }
-      }
-    } catch (error: unknown) {
-      if (error instanceof ApiError) {
-        const { status, errors = [] } = error.data
-        return { status, json: { error: error.message, details: errors.join('\n') } }
-      }
-      console.warn(error)
-      return { status: 500, json: { error: 'Internal server error' } }
+  selectServer(): IServerGateway {
+    switch (this.serverName) {
+      case 'express':
+        return new ExpressServer(this.port, this.uiName, this.fetcherName, this.path)
+      default:
+        throw new Error(`Server ${this.serverName} not found`)
     }
   }
-}
 
-export default Foundation
+  selectOrm(): IOrmGateway {
+    switch (this.ormName) {
+      case 'inmemory':
+        return new InMemoryOrm(this.folder)
+      default:
+        throw new Error(`Orm ${this.ormName} not found`)
+    }
+  }
+
+  selectUI(): IUIGateway {
+    switch (this.uiName) {
+      case 'unstyled':
+        return UnstyledUI
+      default:
+        throw new Error(`UI ${this.uiName} not found`)
+    }
+  }
+
+  selectFetcher(): IFetcherGateway {
+    switch (this.fetcherName) {
+      case 'native':
+        return NativeFetcher(this.path)
+      default:
+        throw new Error(`Fetcher ${this.fetcherName} not found`)
+    }
+  }
+
+  async start() {
+    await this._app.startServer()
+  }
+
+  async stop() {
+    await this._app.stopServer()
+  }
+
+  get server(): IServerGateway {
+    return this._server
+  }
+
+  get orm(): IOrmGateway {
+    return this._orm
+  }
+
+  get ui(): IUIGateway {
+    return this._ui
+  }
+
+  get app(): App {
+    return this._app.app
+  }
+}

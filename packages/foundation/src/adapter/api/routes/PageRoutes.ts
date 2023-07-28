@@ -23,7 +23,7 @@ export class PageRoutes {
       method: 'GET',
       title: page.title ?? 'My react app',
       handler: async (path: string) => this.render(path),
-      config: mapPageToDto(page) 
+      config: mapPageToDto(page),
     }))
   }
 

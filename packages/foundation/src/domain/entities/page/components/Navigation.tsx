@@ -1,3 +1,4 @@
+import React from 'react'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
 import { Link } from './Link'

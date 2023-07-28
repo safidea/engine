@@ -6,15 +6,15 @@ import { CreateTableRecord } from './CreateTableRecord'
 export class CreateManyTableRecord {
   private createTableRecord: CreateTableRecord
 
-  constructor(private TableGateway: TableGateway) {
-    this.createTableRecord = new CreateTableRecord(TableGateway)
+  constructor(private tableGateway: TableGateway) {
+    this.createTableRecord = new CreateTableRecord(tableGateway)
   }
 
   async execute(table: string, records: RecordToCreateDto[]): Promise<string[]> {
     const recordsDtos = await Promise.all(
       records.map((record) => this.createTableRecord.buildRecordDto(table, record))
     )
-    return this.TableGateway.createMany(
+    return this.tableGateway.createMany(
       table,
       recordsDtos.map((record) => mapDtoToRecord(table, record))
     )

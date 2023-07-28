@@ -1,3 +1,4 @@
+import React from 'react'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
 import { Record } from '../../table/Record'
@@ -28,8 +29,6 @@ export interface Column {
 
 export interface ListProps {
   records: Record[]
-  error: string | undefined
-  isLoading: boolean
 }
 
 export class List extends BaseComponent {
@@ -62,9 +61,7 @@ export class List extends BaseComponent {
   renderUI() {
     const UI = this._ui
     const columns = this._columns
-    return function Component({ records = [], error, isLoading }: ListProps) {
-      if (error) return <UI.error />
-      if (isLoading) return <UI.loading />
+    return function Component({ records }: ListProps) {
       return (
         <UI.container>
           <UI.header>

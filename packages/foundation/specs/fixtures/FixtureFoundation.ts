@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { Foundation } from '@infrastructure/foundation'
+import Foundation from '../../src'
 import { FixtureDatabase } from './FixtureDatabase'
 
 export class FixtureFoundation {

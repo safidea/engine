@@ -28,7 +28,7 @@ test.describe('A page that list invoices', () => {
     // WHEN
     // I go to the home page "/" and invoices are loaded
     await page.goto('/list')
-    await page.waitForSelector('text=/^Statut$/')
+    await page.waitForSelector('text=/^draft$/')
 
     // THEN
     // Check that invoices are displayed in a group by status

@@ -1,3 +1,4 @@
+import React from 'react'
 import { IServerGateway, TableRoute, PageRoute } from '@domain/gateways/IServerGateway'
 import express, { Express } from 'express'
 import { Server as HTTPServer } from 'http'
@@ -5,6 +6,9 @@ import ReactDOMServer from 'react-dom/server'
 import { Request, RequestQuery } from '@domain/entities/table/Request'
 import path from 'path'
 import fs from 'fs-extra'
+import debug from 'debug'
+
+const log = debug('server:express')
 
 export class ExpressServer implements IServerGateway {
   private app: Express
@@ -82,13 +86,13 @@ export class ExpressServer implements IServerGateway {
 
   async configurePages(routes: PageRoute[]) {
     this.app.get('/bundle.js', async (req, res) => {
-      const bundle = await fs.readFile(path.resolve(process.cwd(), 'dist/bundle.js'), 'utf8')
+      const bundle = await fs.readFile(path.resolve(__dirname, '../../../bundle.js'), 'utf8')
       return res.send(bundle)
     })
     routes.forEach((route) => {
       this.app.get(route.path, async (req, res) => {
         const Page = await route.handler(req.url.split('?')[0])
-        const pageHtml = ReactDOMServer.renderToString(Page)
+        const pageHtml = ReactDOMServer.renderToString(<Page />)
         const data = {
           uiName: this.uiName,
           fetcherName: this.fetcherName,
@@ -118,6 +122,7 @@ export class ExpressServer implements IServerGateway {
   async start() {
     await new Promise((resolve) => {
       this.server = this.app.listen(this.port, () => {
+        log(`Server listening on port ${this.port}`)
         resolve(true)
       })
     })

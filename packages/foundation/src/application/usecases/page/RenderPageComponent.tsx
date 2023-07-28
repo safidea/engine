@@ -6,15 +6,15 @@ import { RenderPageList } from './RenderPageList'
 import { RenderPageNavigation } from './RenderPageNavigation'
 
 export class RenderPageComponent {
-  constructor(private PageGateway: PageGateway) {}
+  constructor(private pageGateway: PageGateway) {}
 
   execute(component: Component): () => JSX.Element {
     if (component instanceof Navigation) {
-      const renderPageNavigation = new RenderPageNavigation(this.PageGateway)
+      const renderPageNavigation = new RenderPageNavigation(this.pageGateway)
       return renderPageNavigation.execute(component)
     }
     if (component instanceof List) {
-      const renderPageList = new RenderPageList(this.PageGateway)
+      const renderPageList = new RenderPageList(this.pageGateway)
       return renderPageList.execute(component)
     }
     return component.renderUI()

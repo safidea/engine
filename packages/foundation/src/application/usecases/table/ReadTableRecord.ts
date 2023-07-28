@@ -8,16 +8,16 @@ import { RecordDto } from '@application/dtos/table/RecordDto'
 import { runFormula } from '@application/utils/FormulaUtils'
 
 export class ReadTableRecord {
-  constructor(private TableGateway: TableGateway) {}
+  constructor(private tableGateway: TableGateway) {}
 
   async execute(table: string, id: string): Promise<RecordDto> {
-    const record = await this.TableGateway.read(table, id)
+    const record = await this.tableGateway.read(table, id)
     if (!record) throw new Error(`Record ${id} not found`)
     return this.enrichRecord(mapRecordToDto(record), table)
   }
 
   async enrichRecord(record: RecordDto, table: string) {
-    const fields = await this.TableGateway.getTableFields(table)
+    const fields = await this.tableGateway.getTableFields(table)
     if (fields.length > 0) {
       for (const field of fields)
         if (field instanceof Rollup) await this.runFieldRollupFormula(record, field, table)
@@ -29,10 +29,10 @@ export class ReadTableRecord {
 
   async runFieldRollupFormula(record: RecordDto, fieldRollup: Rollup, table: string) {
     const { formula } = fieldRollup
-    const fields = await this.TableGateway.getTableFields(table)
+    const fields = await this.tableGateway.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
     if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
-    const listTableGateway = new ListTableRecords(this.TableGateway)
+    const listTableGateway = new ListTableRecords(this.tableGateway)
     const values = record[field.name]
     if (!Array.isArray(values)) throw new Error('Values are not an array')
     const linkedRecords = await listTableGateway.execute(field.table, [

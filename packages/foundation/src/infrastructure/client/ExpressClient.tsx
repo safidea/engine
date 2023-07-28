@@ -1,3 +1,4 @@
+import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapter/api/controllers/PageController'
 import { PageDto } from '@application/dtos/page/PageDto'
@@ -37,9 +38,9 @@ declare global {
 ;(async () => {
   const { uiName, fetcherName, domain, config } = window.__FOUNDATION_DATA__
   const page = mapDtoToPage(config, selectUI(uiName))
-  const controller = new PageController(selectFetcher(fetcherName, domain))
-  const Page = await controller.render(page)
+  const pageController = new PageController(selectFetcher(fetcherName, domain))
+  const Page = await pageController.render(page)
   const container = document.getElementById('root')
   if (!container) throw new Error('Root element not found')
-  hydrateRoot(container, Page)
+  hydrateRoot(container, <Page />)
 })()

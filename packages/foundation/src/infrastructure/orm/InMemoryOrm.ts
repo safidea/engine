@@ -96,11 +96,11 @@ export class InMemoryOrm implements IOrmGateway {
     await this.setDB(db)
   }
 
-  async list(table: string, filters?: Filter[]): Promise<Record[]> {
+  async list(table: string, filters: Filter[]): Promise<Record[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const records = db[table]
-    if (!filters) return records.map((row) => this.mapRowToRecord(table, row))
+    if (filters.length === 0) return records.map((row) => this.mapRowToRecord(table, row))
     return records
       .filter((record) => {
         for (const filter of filters) {

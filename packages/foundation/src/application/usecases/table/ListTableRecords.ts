@@ -8,14 +8,14 @@ import { RecordDto } from '@application/dtos/table/RecordDto'
 export class ListTableRecords {
   private readTableRecord: ReadTableRecord
 
-  constructor(private TableGateway: TableGateway) {
-    this.readTableRecord = new ReadTableRecord(TableGateway)
+  constructor(private tableGateway: TableGateway) {
+    this.readTableRecord = new ReadTableRecord(tableGateway)
   }
 
-  async execute(table: string, filters?: FilterDto[]): Promise<RecordDto[]> {
-    const records = await this.TableGateway.list(
+  async execute(table: string, filters: FilterDto[] = []): Promise<RecordDto[]> {
+    const records = await this.tableGateway.list(
       table,
-      filters?.map((filter) => mapDtoToFilter(filter))
+      filters.map((filter) => mapDtoToFilter(filter))
     )
     const promises = []
     for (const record of records) {
