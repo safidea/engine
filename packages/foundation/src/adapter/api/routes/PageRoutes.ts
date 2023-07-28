@@ -1,15 +1,15 @@
 import { PageController } from '../controllers/PageController'
 import { App } from '@domain/entities/App'
-import { PageRoute } from '@domain/repositories/IServerRepository'
+import { PageRoute } from '@domain/gateways/IServerGateway'
 import { PageMiddleware } from '../middlewares/PageMiddleware'
-import { IUIRepository } from '@domain/repositories/IUIRepository'
-import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
+import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
 export class PageRoutes {
   private pageController: PageController
   private pageMiddleware: PageMiddleware
 
-  constructor(app: App, ui: IUIRepository, fetcher: IFetcherRepository) {
+  constructor(app: App, ui: IUIGateway, fetcher: IFetcherGateway) {
     this.pageController = new PageController(ui, fetcher)
     this.pageMiddleware = new PageMiddleware(app)
   }

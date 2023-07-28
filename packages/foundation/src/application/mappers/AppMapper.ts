@@ -1,11 +1,11 @@
 import { AppDto } from '@application/dtos/AppDto'
 import { App } from '@domain/entities/App'
-import { mapDtoToPage } from './PageMapper'
-import { mapDtoToTable } from './TableMapper'
-import { IUIRepository } from '@domain/repositories/IUIRepository'
-import { mapDtoToAutomation } from './AutomationMapper'
+import { mapDtoToPage } from './table/PageMapper'
+import { mapDtoToTable } from './table/TableMapper'
+import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { mapDtoToAutomation } from './automation/AutomationMapper'
 
-export function mapDtoToApp(appDto: AppDto, ui: IUIRepository): App {
+export function mapDtoToApp(appDto: AppDto, ui: IUIGateway): App {
   const tables = appDto.tables?.map((tableDto) => mapDtoToTable(tableDto))
   return new App(
     appDto.name,

@@ -1,8 +1,4 @@
-import {
-  ListUIHeaderColumnProps,
-  ListUIRowColumnProps,
-  UIProps,
-} from '@domain/repositories/IUIRepository'
+import { ListUIHeaderColumnProps, ListUIRowColumnProps, UIProps } from '@domain/gateways/IUIGateway'
 
 const ListUI = {
   container: ({ children }: UIProps) => {

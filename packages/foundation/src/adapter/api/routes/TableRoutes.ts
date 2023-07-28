@@ -1,18 +1,18 @@
-import { RequestDto } from '@application/dtos/RequestDto'
+import { RequestDto } from '@application/dtos/table/RequestDto'
 import { TableController } from '../controllers/TableController'
 import { TableMiddleware } from '../middlewares/TableMiddleware'
-import { IOrmRepository } from '@domain/repositories/IOrmRepository'
-import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
+import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { App } from '@domain/entities/App'
-import { TableRoute } from '@domain/repositories/IServerRepository'
+import { TableRoute } from '@domain/gateways/IServerGateway'
 import { ApiError } from '@domain/entities/errors/ApiError'
-import { Response } from '@domain/entities/Response'
+import { Response } from '@domain/entities/table/Response'
 
 export class TableRoutes {
   private readonly tableController: TableController
   private readonly tableMiddleware: TableMiddleware
 
-  constructor(app: App, orm: IOrmRepository, codegen: ICodegenRepository) {
+  constructor(app: App, orm: IOrmGateway, codegen: ICodegenGateway) {
     this.tableMiddleware = new TableMiddleware(app, orm)
     this.tableController = new TableController(app, orm, codegen)
   }

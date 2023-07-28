@@ -9,18 +9,18 @@ import { AppDto } from '@application/dtos/AppDto'
 import { ExpressServer } from './server/ExpressServer'
 import { InMemoryOrm } from './orm/InMemoryOrm'
 import { NativeFetcher } from './fetcher/NativeFetcher'
-import { IServerRepository } from '@domain/repositories/IServerRepository'
-import { IOrmRepository } from '@domain/repositories/IOrmRepository'
-import { IUIRepository } from '@domain/repositories/IUIRepository'
+import { IServerGateway } from '@domain/gateways/IServerGateway'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
+import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { App } from '@domain/entities/App'
-import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
+import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
 export class Foundation {
   private readonly _app: AppController
-  private readonly _server: IServerRepository
-  private readonly _orm: IOrmRepository
-  private readonly _ui: IUIRepository
-  private readonly _fetcher: IFetcherRepository
+  private readonly _server: IServerGateway
+  private readonly _orm: IOrmGateway
+  private readonly _ui: IUIGateway
+  private readonly _fetcher: IFetcherGateway
 
   constructor(
     appDto: AppDto,
@@ -41,7 +41,7 @@ export class Foundation {
     this._app = new AppController(appDto, this._server, this._orm, this._ui, codegen, this._fetcher)
   }
 
-  selectServer(serverName = 'express', port: number): IServerRepository {
+  selectServer(serverName = 'express', port: number): IServerGateway {
     switch (serverName) {
       case 'express':
         return new ExpressServer(port)
@@ -50,7 +50,7 @@ export class Foundation {
     }
   }
 
-  selectOrm(ormName = 'inmemory', folder: string): IOrmRepository {
+  selectOrm(ormName = 'inmemory', folder: string): IOrmGateway {
     switch (ormName) {
       case 'inmemory':
         return new InMemoryOrm(folder)
@@ -59,7 +59,7 @@ export class Foundation {
     }
   }
 
-  selectUI(uiName = 'unstyled'): IUIRepository {
+  selectUI(uiName = 'unstyled'): IUIGateway {
     switch (uiName) {
       case 'unstyled':
         return UnstyledUI
@@ -68,7 +68,7 @@ export class Foundation {
     }
   }
 
-  selectFetcher(fetcherName = 'swr', path: string): IFetcherRepository {
+  selectFetcher(fetcherName = 'swr', path: string): IFetcherGateway {
     switch (fetcherName) {
       case 'swr':
         return NativeFetcher(path)
@@ -85,11 +85,11 @@ export class Foundation {
     await this._app.stopServer()
   }
 
-  get server(): IServerRepository {
+  get server(): IServerGateway {
     return this._server
   }
 
-  get orm(): IOrmRepository {
+  get orm(): IOrmGateway {
     return this._orm
   }
 

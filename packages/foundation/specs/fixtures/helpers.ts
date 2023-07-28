@@ -1,9 +1,9 @@
 import net from 'net'
 import { fakerFR as faker } from '@faker-js/faker'
-import { TableDto } from '@application/dtos/TableDto'
-import { FieldDto } from '@application/dtos/FieldDto'
-import { RecordToCreateDto } from '@application/dtos/RecordDto'
-import { PageDto } from '@application/dtos/PageDto'
+import { TableDto } from '@application/dtos/table/TableDto'
+import { FieldDto } from '@application/dtos/table/FieldDto'
+import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
+import { PageDto } from '@application/dtos/page/PageDto'
 import {
   TABLE_INVOICES,
   TABLE_INVOICES_ITEMS,

@@ -1,10 +1,10 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { IOrmRepository } from '@domain/repositories/IOrmRepository'
-import { Record } from '@domain/entities/Record'
-import { Table } from '@domain/entities/Table'
-import { Filter } from '@domain/entities/Filter'
-import { IsAnyOf } from '@domain/entities/filters/IsAnyOf'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
+import { Record } from '@domain/entities/table/Record'
+import { Table } from '@domain/entities/table/Table'
+import { Filter } from '@domain/entities/table/Filter'
+import { IsAnyOf } from '@domain/entities/table/filters/IsAnyOf'
 
 interface Row {
   id: string
@@ -17,7 +17,7 @@ interface Database {
   [key: string]: Row[]
 }
 
-export class InMemoryOrm implements IOrmRepository {
+export class InMemoryOrm implements IOrmGateway {
   private url: string
   private tables: Table[] = []
 

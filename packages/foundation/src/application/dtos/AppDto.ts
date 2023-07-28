@@ -1,6 +1,6 @@
-import { AutomationDto } from './AutomationDto'
-import { PageDto } from './PageDto'
-import { TableDto } from './TableDto'
+import { AutomationDto } from './automation/AutomationDto'
+import { PageDto } from './page/PageDto'
+import { TableDto } from './table/TableDto'
 
 export interface AppDto {
   name?: string

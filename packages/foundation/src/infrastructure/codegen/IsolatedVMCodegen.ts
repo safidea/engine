@@ -1,7 +1,7 @@
-import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import ivm from 'isolated-vm'
 
-export class IsolatedVMCodegen implements ICodegenRepository {
+export class IsolatedVMCodegen implements ICodegenGateway {
   async runScript(
     script: string,
     context: {

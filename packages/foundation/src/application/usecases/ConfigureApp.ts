@@ -1,16 +1,16 @@
 import { App } from '@domain/entities/App'
-import { AppRepository } from '@adapter/spi/repositories/AppRepository'
+import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 import { mapDtoToApp } from '@application/mappers/AppMapper'
-import { IUIRepository } from '@domain/repositories/IUIRepository'
+import { IUIGateway } from '@domain/gateways/IUIGateway'
 
 export class ConfigureApp {
   constructor(
-    private appRepository: AppRepository,
-    private ui: IUIRepository
+    private AppGateway: AppGateway,
+    private ui: IUIGateway
   ) {}
 
   execute(): App {
-    const appDto = this.appRepository.appDto
+    const appDto = this.AppGateway.appDto
     return mapDtoToApp(appDto, this.ui)
   }
 }

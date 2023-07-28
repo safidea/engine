@@ -1,5 +1,5 @@
-import { Page } from './Page'
-import { Table } from './Table'
+import { Page } from './page/Page'
+import { Table } from './table/Table'
 
 export type Automation = unknown // TODO: define an actual Automation
 export class App {

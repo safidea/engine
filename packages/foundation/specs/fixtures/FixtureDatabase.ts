@@ -1,11 +1,11 @@
-import { RecordToCreateDto } from '@application/dtos/RecordDto'
+import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
 import { generateRecord, generateManyRecords } from './helpers'
-import { CreateTableRecord } from '@application/usecases/CreateTableRecord'
-import { TableRepository } from '@adapter/spi/repositories/TableRepository'
-import { ListTableRecords } from '@application/usecases/ListTableRecords'
-import { CreateManyTableRecord } from '@application/usecases/CreateManyTableRecord'
-import { IOrmRepository } from '@domain/repositories/IOrmRepository'
-import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { CreateTableRecord } from '@application/usecases/table/CreateTableRecord'
+import { TableGateway } from '@adapter/spi/gateways/TableGateway'
+import { ListTableRecords } from '@application/usecases/table/ListTableRecords'
+import { CreateManyTableRecord } from '@application/usecases/table/CreateManyTableRecord'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
+import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { App } from '@domain/entities/App'
 
 export class FixtureDatabase {
@@ -13,11 +13,11 @@ export class FixtureDatabase {
   private listTableRecords: ListTableRecords
   private createManyTableRecords: CreateManyTableRecord
 
-  constructor(app: App, orm: IOrmRepository, codegen: ICodegenRepository) {
-    const tableRepository = new TableRepository(app, orm, codegen)
-    this.createTableRecord = new CreateTableRecord(tableRepository)
-    this.listTableRecords = new ListTableRecords(tableRepository)
-    this.createManyTableRecords = new CreateManyTableRecord(tableRepository)
+  constructor(app: App, orm: IOrmGateway, codegen: ICodegenGateway) {
+    const tableGateway = new TableGateway(app, orm, codegen)
+    this.createTableRecord = new CreateTableRecord(tableGateway)
+    this.listTableRecords = new ListTableRecords(tableGateway)
+    this.createManyTableRecords = new CreateManyTableRecord(tableGateway)
   }
 
   list(table: string) {

@@ -1,10 +1,10 @@
-import { IServerRepository, TableRoute, PageRoute } from '@domain/repositories/IServerRepository'
+import { IServerGateway, TableRoute, PageRoute } from '@domain/gateways/IServerGateway'
 import express, { Express } from 'express'
 import { Server as HTTPServer } from 'http'
 import ReactDOMServer from 'react-dom/server'
-import { Request, RequestQuery } from '@domain/entities/Request'
+import { Request, RequestQuery } from '@domain/entities/table/Request'
 
-export class ExpressServer implements IServerRepository {
+export class ExpressServer implements IServerGateway {
   private app: Express
   private server: HTTPServer | null
 

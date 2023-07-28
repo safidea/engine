@@ -1,7 +1,7 @@
-import { IFetcherRepository, FetchState } from '@domain/repositories/IFetcherRepository'
+import { IFetcherGateway, FetchState } from '@domain/gateways/IFetcherGateway'
 import { useState, useEffect } from 'react'
 
-export function NativeFetcher(domain: string): IFetcherRepository {
+export function NativeFetcher(domain: string): IFetcherGateway {
   return function useFetch<T>(url: string, options?: RequestInit) {
     const [state, setState] = useState<FetchState<T>>({
       data: undefined,

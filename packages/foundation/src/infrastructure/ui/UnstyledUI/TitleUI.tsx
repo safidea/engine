@@ -1,4 +1,4 @@
-import { UIProps } from '@domain/repositories/IUIRepository'
+import { UIProps } from '@domain/gateways/IUIGateway'
 
 const TitleUI = {
   xs: ({ children }: UIProps) => <h5>{children}</h5>,

@@ -1,14 +1,14 @@
-import { FilterDto } from '@application/dtos/FilterDto'
+import { FilterDto } from '@application/dtos/table/FilterDto'
 import { App } from '@domain/entities/App'
-import { IOrmRepository } from '@domain/repositories/IOrmRepository'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { ApiError } from '@domain/entities/errors/ApiError'
-import { RecordDto } from '@application/dtos/RecordDto'
-import { RequestDto } from '@application/dtos/RequestDto'
+import { RecordDto } from '@application/dtos/table/RecordDto'
+import { RequestDto } from '@application/dtos/table/RequestDto'
 
 export class TableMiddleware {
   constructor(
     private readonly _app: App,
-    private readonly _orm: IOrmRepository
+    private readonly _orm: IOrmGateway
   ) {}
 
   public async validateTableExist(request: RequestDto): Promise<string> {

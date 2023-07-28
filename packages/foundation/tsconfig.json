@@ -8,8 +8,13 @@
       "@domain/*": ["domain/*"],
       "@infrastructure/*": ["infrastructure/*"],
       "@adapter/*": ["adapter/*"]
-    },
-    "typeRoots": ["./node_modules/@types", "src/infrastructure/@types"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "specs/**/*.ts", "playwright.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "specs/**/*.ts",
+    "tests/**/*.ts",
+    "playwright.config.ts"
+  ]
 }

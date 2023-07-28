@@ -1,28 +1,28 @@
 import { ConfigureApp } from '@application/usecases/ConfigureApp'
-import { AppRepository } from '@adapter/spi/repositories/AppRepository'
+import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 import { AppDto } from '@application/dtos/AppDto'
-import { IOrmRepository } from '@domain/repositories/IOrmRepository'
+import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { App } from '@domain/entities/App'
-import { IServerRepository } from '@domain/repositories/IServerRepository'
-import { IUIRepository } from '@domain/repositories/IUIRepository'
-import { ICodegenRepository } from '@domain/repositories/ICodegenRepository'
+import { IServerGateway } from '@domain/gateways/IServerGateway'
+import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { ICodegenGateway } from '@domain/gateways/ICodegenGateway'
 import { TableRoutes } from '../routes/TableRoutes'
 import { PageRoutes } from '../routes/PageRoutes'
-import { IFetcherRepository } from '@domain/repositories/IFetcherRepository'
+import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
 export class AppController {
   private readonly _app: App
 
   constructor(
     appDto: AppDto,
-    private readonly _server: IServerRepository,
-    private readonly _orm: IOrmRepository,
-    private readonly _ui: IUIRepository,
-    private readonly _codegen: ICodegenRepository,
-    private readonly _fetcher: IFetcherRepository
+    private readonly _server: IServerGateway,
+    private readonly _orm: IOrmGateway,
+    private readonly _ui: IUIGateway,
+    private readonly _codegen: ICodegenGateway,
+    private readonly _fetcher: IFetcherGateway
   ) {
-    const appRepository = new AppRepository(appDto)
-    const configureApp = new ConfigureApp(appRepository, this._ui)
+    const appGateway = new AppGateway(appDto)
+    const configureApp = new ConfigureApp(appGateway, this._ui)
     this._app = configureApp.execute()
     const { pages, tables } = this._app
     if (tables.length > 0) {
@@ -47,15 +47,15 @@ export class AppController {
     await this._server.stop()
   }
 
-  get orm(): IOrmRepository {
+  get orm(): IOrmGateway {
     return this._orm
   }
 
-  get ui(): IUIRepository {
+  get ui(): IUIGateway {
     return this._ui
   }
 
-  get codegen(): ICodegenRepository {
+  get codegen(): ICodegenGateway {
     return this._codegen
   }
 }
