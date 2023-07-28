@@ -14,15 +14,14 @@ export class AppController {
   private readonly _app: App
 
   constructor(
-    appDto: AppDto,
+    config: unknown,
     private readonly _server: IServerGateway,
     private readonly _orm: IOrmGateway,
     private readonly _ui: IUIGateway,
     private readonly _codegen: ICodegenGateway,
     private readonly _fetcher: IFetcherGateway
   ) {
-    const appGateway = new AppGateway(appDto)
-    const configureApp = new ConfigureApp(appGateway, this._ui)
+    const configureApp = new ConfigureApp(config, this._ui)
     this._app = configureApp.execute()
     const { pages, tables } = this._app
     if (tables.length > 0) {
