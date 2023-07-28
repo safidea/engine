@@ -1,6 +1,5 @@
 import { PageGateway } from '@adapter/spi/gateways/PageGateway'
 import { Page } from '@domain/entities/page/Page'
-import { ReactElement } from 'react'
 import { RenderPageComponent } from './RenderPageComponent'
 
 export class RenderPage {
@@ -10,7 +9,7 @@ export class RenderPage {
     this.renderPageComponent = new RenderPageComponent(PageGateway)
   }
 
-  execute(page: Page): ReactElement {
+  execute(page: Page): JSX.Element {
     const { components } = page
     return (
       <div>

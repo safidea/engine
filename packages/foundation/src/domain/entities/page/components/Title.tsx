@@ -1,10 +1,11 @@
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
 
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export class Title extends BaseComponent {
   constructor(
     private readonly _text: string = '#',
-    private readonly _size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md',
+    private readonly _size: Size = 'md',
     private readonly _ui: IUIGateway['TitleUI']
   ) {
     super('title')
@@ -14,7 +15,7 @@ export class Title extends BaseComponent {
     return this._text
   }
 
-  get size(): string {
+  get size(): Size {
     return this._size
   }
 

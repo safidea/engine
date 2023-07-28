@@ -1,6 +1,4 @@
 import 'module-alias/register'
-import dotenv from 'dotenv'
-dotenv.config()
 
 import { AppController } from '@adapter/api/controllers/AppController'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
@@ -22,56 +20,56 @@ export class Foundation {
 
   constructor(
     config: unknown,
-    folder: string,
-    port: number,
-    serverName?: string,
-    ormName?: string,
-    uiName?: string,
-    fetcherName?: string,
-    domain?: string,
-    ssl?: boolean
+    private folder: string,
+    private port: number,
+    private serverName = 'express',
+    private ormName = 'inmemory',
+    private uiName = 'unstyled',
+    private fetcherName = 'native',
+    private domain = 'localhost:' + port,
+    private ssl = false
   ) {
-    const path = (ssl === true ? 'https://' : 'http://') + (domain ?? 'localhost:' + port)
-    this._server = this.selectServer(serverName, port)
-    this._orm = this.selectOrm(ormName, folder)
-    this._ui = this.selectUI(uiName)
-    this._fetcher = this.selectFetcher(fetcherName, path)
+    this._server = this.selectServer()
+    this._orm = this.selectOrm()
+    this._ui = this.selectUI()
+    this._fetcher = this.selectFetcher()
     this._app = new AppController(config, this._server, this._orm, this._ui, this._fetcher)
   }
 
-  selectServer(serverName = 'express', port: number): IServerGateway {
-    switch (serverName) {
+  selectServer(): IServerGateway {
+    switch (this.serverName) {
       case 'express':
-        return new ExpressServer(port)
+        return new ExpressServer(this.port, this.uiName, this.fetcherName, this.domain)
       default:
-        throw new Error(`Server ${serverName} not found`)
+        throw new Error(`Server ${this.serverName} not found`)
     }
   }
 
-  selectOrm(ormName = 'inmemory', folder: string): IOrmGateway {
-    switch (ormName) {
+  selectOrm(): IOrmGateway {
+    switch (this.ormName) {
       case 'inmemory':
-        return new InMemoryOrm(folder)
+        return new InMemoryOrm(this.folder)
       default:
-        throw new Error(`Orm ${ormName} not found`)
+        throw new Error(`Orm ${this.ormName} not found`)
     }
   }
 
-  selectUI(uiName = 'unstyled'): IUIGateway {
-    switch (uiName) {
+  selectUI(): IUIGateway {
+    switch (this.uiName) {
       case 'unstyled':
         return UnstyledUI
       default:
-        throw new Error(`UI ${uiName} not found`)
+        throw new Error(`UI ${this.uiName} not found`)
     }
   }
 
-  selectFetcher(fetcherName = 'swr', path: string): IFetcherGateway {
-    switch (fetcherName) {
-      case 'swr':
+  selectFetcher(): IFetcherGateway {
+    const path = (this.ssl === true ? 'https://' : 'http://') + this.domain
+    switch (this.fetcherName) {
+      case 'native':
         return NativeFetcher(path)
       default:
-        throw new Error(`Fetcher ${fetcherName} not found`)
+        throw new Error(`Fetcher ${this.fetcherName} not found`)
     }
   }
 
@@ -91,11 +89,11 @@ export class Foundation {
     return this._orm
   }
 
-  get app(): App {
-    return this._app.app
+  get ui(): IUIGateway {
+    return this._ui
   }
 
-  get ui() {
-    return this._ui
+  get app(): App {
+    return this._app.app
   }
 }

@@ -1,17 +1,9 @@
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { GroupBy, SortBy } from '@domain/entities/page/components/List'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
 export class PageGateway {
-  constructor(
-    private readonly ui: IUIGateway,
-    private readonly fetcher: IFetcherGateway
-  ) {}
-
-  getUI(): IUIGateway {
-    return this.ui
-  }
+  constructor(private readonly fetcher: IFetcherGateway) {}
 
   getTableRecords(
     table: string,

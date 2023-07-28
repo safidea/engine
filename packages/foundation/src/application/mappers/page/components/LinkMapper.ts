@@ -5,3 +5,11 @@ import { IUIGateway } from '@domain/gateways/IUIGateway'
 export function mapDtoToLink(linkDto: LinkDto, ui: IUIGateway): Link {
   return new Link(linkDto.path, linkDto.label, ui.LinkUI)
 }
+
+export function mapLinkToDto(link: Link): LinkDto {
+  return {
+    type: 'link',
+    path: link.path,
+    label: link.label,
+  }
+}

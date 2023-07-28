@@ -5,3 +5,13 @@ import { IUIGateway } from '@domain/gateways/IUIGateway'
 export function mapDtoToList(listDto: ListDto, ui: IUIGateway): List {
   return new List(listDto.table, listDto.groupBy, listDto.sortBy, listDto.columns, ui.ListUI)
 }
+
+export function mapListToDto(list: List): ListDto {
+  return {
+    type: 'list',
+    table: list.table,
+    groupBy: list.groupBy,
+    sortBy: list.sortBy,
+    columns: list.columns,
+  }
+}

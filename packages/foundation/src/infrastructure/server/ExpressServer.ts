@@ -10,7 +10,12 @@ export class ExpressServer implements IServerGateway {
   private app: Express
   private server: HTTPServer | null
 
-  constructor(private readonly port: number) {
+  constructor(
+    private readonly port: number,
+    private readonly uiName: string,
+    private readonly fetcherName: string,
+    private readonly domain: string
+  ) {
     this.server = null
     this.app = express()
     this.app.use(express.json())
@@ -84,11 +89,20 @@ export class ExpressServer implements IServerGateway {
       this.app.get(route.path, async (req, res) => {
         const Page = await route.handler(req.url.split('?')[0])
         const pageHtml = ReactDOMServer.renderToString(Page)
+        const data = {
+          uiName: this.uiName,
+          fetcherName: this.fetcherName,
+          domain: this.domain,
+          config: route.config,
+        }
         const html = `
           <!DOCTYPE html>
           <html>
             <head>
               <title>${route.title}</title>
+              <script>
+                window.__FOUNDATION_DATA__ = ${JSON.stringify(data)}
+              </script>
             </head>
             <body>
               <div id="root">${pageHtml}</div>
