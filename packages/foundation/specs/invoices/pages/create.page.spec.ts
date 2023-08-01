@@ -15,10 +15,10 @@ test.describe('A page that create an invoice', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test.skip('should fill a form and create an invoice', async ({ page, foundation }) => {
+  test('should fill a form and create an invoice', async ({ page, foundation }) => {
     // GIVEN
     // An invoicing app with a create page
-    await foundation.start({
+    const db = await foundation.start({
       tables: helpers.getTables('invoices'),
       pages: helpers.getPages('invoices_list', 'invoices_create'),
     })
@@ -60,11 +60,10 @@ test.describe('A page that create an invoice', () => {
     await page.locator('button[type="submit"]').click()
 
     // THEN
-    // Wait for the page to be redirected
-    await page.waitForURL('/')
-
-    // AND
-    // Check that I'm on the home page
-    expect(await page.textContent('h1')).toContain('Toutes les factures')
+    // An invoice should be created
+    const [invoiceRecord] = await db.list('invoices')
+    expect(invoiceRecord).toBeDefined()
+    expect(invoiceRecord.id).toBeDefined()
+    expect(invoiceRecord.customer).toEqual(invoice.customer)
   })
 })

@@ -153,9 +153,7 @@ export function generateRandomValueByType(
       if (name.includes('price')) return faker.number.float({ max: 1000, precision: 0.01 })
       return faker.number.float({ precision: 0.01 })
     case 'multiple_linked_records':
-      return Array.from({ length: faker.number.int({ min: 1, max: 5 }) }).map(() =>
-        generateFakeRecord(field.table, sourceTableName)
-      )
+      return Array.from({ length: 3 }).map(() => generateFakeRecord(field.table, sourceTableName))
     case 'single_linked_record':
       return generateFakeRecord(field.table, sourceTableName)
     case 'formula':

@@ -81,15 +81,15 @@ export class TableInput extends BaseInput {
               ))}
             </UI.header>
             <UI.rows>
-              {rows.map((row, indexRow) => (
-                <UI.row key={indexRow}>
-                  {columns.map((column, indexColumn) => (
+              {rows.map((row, index) => (
+                <UI.row key={index}>
+                  {columns.map((column) => (
                     <UI.rowColumn
                       key={column.field}
                       name={column.field}
                       placeholder={column.placeholder}
-                      value={row[column.field]}
-                      onChange={(e) => handleCellChange(e.target.name, e.target.value, indexColumn)}
+                      value={row[column.field] ?? ''}
+                      onChange={(e) => handleCellChange(e.target.name, e.target.value, index)}
                     />
                   ))}
                 </UI.row>
