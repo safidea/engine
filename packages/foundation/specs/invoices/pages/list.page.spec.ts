@@ -77,7 +77,7 @@ test.describe('A page that list invoices', () => {
     expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
   })
 
-  test.skip('should display a list of invoices sorted by dates in status groups', async ({
+  test.only('should display a list of invoices sorted by dates in status groups', async ({
     page,
     foundation,
   }) => {
@@ -89,7 +89,7 @@ test.describe('A page that list invoices', () => {
     })
     await db.createManyRecords('invoices', [
       {
-        finalised_time: new Date(2021, 4, 6).toISOString(),
+        finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
       },
       {
@@ -97,7 +97,7 @@ test.describe('A page that list invoices', () => {
         status: 'paid',
       },
       {
-        finalised_time: new Date(2021, 3, 15).toISOString(),
+        finalised_time: new Date(2021, 4, 6).toISOString(),
         status: 'finalised',
       },
       {
