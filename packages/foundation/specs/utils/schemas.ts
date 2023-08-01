@@ -77,7 +77,7 @@ export const TABLE_INVOICES_ITEMS: TableDto = {
     { name: 'quantity', type: 'number' },
     { name: 'unity', type: 'single_line_text' },
     { name: 'unit_price', type: 'currency' },
-    { name: 'vat', type: 'number' },
+    { name: 'vat', type: 'number', default: '0.2' },
     {
       name: 'total_net_amount',
       type: 'formula',

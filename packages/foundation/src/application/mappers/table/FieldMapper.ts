@@ -14,16 +14,32 @@ import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
 export function mapDtoToField(fieldDto: FieldDto): Field {
   const { type } = fieldDto
   if (type === 'single_line_text') {
-    return new SingleLineText(fieldDto.name, fieldDto.optional, fieldDto.default ? String(fieldDto.default) : undefined)
+    return new SingleLineText(
+      fieldDto.name,
+      fieldDto.optional,
+      fieldDto.default ? String(fieldDto.default) : undefined
+    )
   }
   if (type === 'long_text') {
-    return new LongText(fieldDto.name, fieldDto.optional, fieldDto.default ? String(fieldDto.default) : undefined)
+    return new LongText(
+      fieldDto.name,
+      fieldDto.optional,
+      fieldDto.default ? String(fieldDto.default) : undefined
+    )
   }
   if (type === 'number') {
-    return new NumberField(fieldDto.name, fieldDto.optional, fieldDto.default ? Number(fieldDto.default) : undefined)
+    return new NumberField(
+      fieldDto.name,
+      fieldDto.optional,
+      fieldDto.default ? Number(fieldDto.default) : undefined
+    )
   }
   if (type === 'currency') {
-    return new Currency(fieldDto.name, fieldDto.optional, fieldDto.default ? Number(fieldDto.default) : undefined)
+    return new Currency(
+      fieldDto.name,
+      fieldDto.optional,
+      fieldDto.default ? Number(fieldDto.default) : undefined
+    )
   }
   if (type === 'single_linked_record') {
     return new SingleLinkRecord(fieldDto.name, fieldDto.table, fieldDto.optional)
@@ -45,7 +61,11 @@ export function mapDtoToField(fieldDto: FieldDto): Field {
     )
   }
   if (type === 'datetime') {
-    return new Datetime(fieldDto.name, fieldDto.optional, fieldDto.default ? String(fieldDto.default) : undefined)
+    return new Datetime(
+      fieldDto.name,
+      fieldDto.optional,
+      fieldDto.default ? String(fieldDto.default) : undefined
+    )
   }
   if (type === 'single_select') {
     return new SingleSelect(fieldDto.name, fieldDto.options, fieldDto.optional, fieldDto.default)

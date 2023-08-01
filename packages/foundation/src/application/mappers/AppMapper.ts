@@ -26,4 +26,3 @@ export function mapAppToDto(app: App): AppDto {
     automations,
   }
 }
-

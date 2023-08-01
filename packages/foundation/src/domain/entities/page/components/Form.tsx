@@ -3,11 +3,14 @@ import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
 
-export type HandleChange = (name: string, value: string | { [key: string]: string }[]) => void
+export type FormInputValue = string | { create: { [key: string]: string }[] }
+export type HandleChange = (name: string, value: FormInputValue) => void
+
 export interface FormProps {
   handleSubmit: (e: { preventDefault: () => void }) => Promise<void>
   handleChange: HandleChange
   InputComponents: React.FC<{ handleChange: HandleChange }>[]
+  isSaving: boolean
 }
 
 export class Form extends BaseComponent {
@@ -46,7 +49,12 @@ export class Form extends BaseComponent {
   renderUI() {
     const UI = this._ui
     const submit = this._submit
-    return function Component({ handleSubmit, handleChange, InputComponents }: FormProps) {
+    return function Component({
+      handleSubmit,
+      handleChange,
+      InputComponents,
+      isSaving,
+    }: FormProps) {
       return (
         <UI.form onSubmit={handleSubmit}>
           <UI.inputs>
@@ -56,7 +64,7 @@ export class Form extends BaseComponent {
               </UI.input>
             ))}
           </UI.inputs>
-          <UI.submit label={submit.label} />
+          <UI.submit label={isSaving === false ? submit.label : submit.loadingLabel} />
         </UI.form>
       )
     }

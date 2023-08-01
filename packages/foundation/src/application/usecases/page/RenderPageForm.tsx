@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
-import { Form } from '@domain/entities/page/components/Form'
+import { Form, FormInputValue } from '@domain/entities/page/components/Form'
 
 export class RenderPageForm {
   constructor(private fetcherGateway: FetcherGateway) {}
@@ -13,8 +13,8 @@ export class RenderPageForm {
       const [isSaving, setIsSaving] = useState(false)
       const [formData, setFormData] = useState({})
 
-      const saveRecord = async (record: Record<string, string | { [key: string]: string }[]>) => {
-        if (!isSaving) setIsSaving(true)
+      const saveRecord = async (record: Record<string, FormInputValue>) => {
+        setIsSaving(true)
         const url = `/api/table/${table}`
         // TODO use the fetcher
         const res = await fetch(url, {
@@ -31,7 +31,7 @@ export class RenderPageForm {
         setIsSaving(false)
       }
 
-      const handleChange = (name: string, value: string | { [key: string]: string }[]) => {
+      const handleChange = (name: string, value: FormInputValue) => {
         const updatedData = { ...formData, [name]: value }
         setFormData(updatedData)
       }
@@ -46,6 +46,7 @@ export class RenderPageForm {
           handleSubmit={handleSubmit}
           handleChange={handleChange}
           InputComponents={InputComponents}
+          isSaving={isSaving}
         />
       )
     }

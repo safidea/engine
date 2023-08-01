@@ -14,6 +14,10 @@ export class DeleteTableRecord {
     const recordDto: RecordDto = {
       deleted_time: new Date().toISOString(),
     }
-    await this.ormGateway.update(table, mapDtoToRecord(table, { ...recordDto, id }, fields, 'deleted'), id)
+    await this.ormGateway.update(
+      table,
+      mapDtoToRecord(table, { ...recordDto, id }, fields, 'deleted'),
+      id
+    )
   }
 }

@@ -15,7 +15,7 @@ test.describe('A page that create an invoice', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test.skip('should fill a form and create an invoice', async ({ page, foundation }) => {
+  test.only('should fill a form and create an invoice', async ({ page, foundation }) => {
     // GIVEN
     // An invoicing app with a create page and an invoice
     const db = await foundation.start({
@@ -58,6 +58,7 @@ test.describe('A page that create an invoice', () => {
     // AND
     // I click on the submit button
     await page.locator('button[type="submit"]').click()
+    await page.waitForSelector(':has-text("Enregistrement en cours...")', { state: 'detached' })
 
     // THEN
     // An invoice should be created
@@ -69,17 +70,17 @@ test.describe('A page that create an invoice', () => {
     expect(invoiceRecord.zip_code).toEqual(invoice.zip_code)
     expect(invoiceRecord.country).toEqual(invoice.country)
     expect(invoiceRecord.status).toEqual('draft')
-    expect(invoiceRecord.finalised_time).toBeNull()
+    expect(invoiceRecord.finalised_time).toBeUndefined()
 
     // AND
     // All invoices items should be created
-    const invoiceItemsRecords = await db.list('invoice_items')
+    const invoiceItemsRecords = await db.list('invoices_items')
     expect(invoiceItemsRecords.length).toEqual(items.length)
     for (let i = 0; i < items.length; i++) {
       expect(invoiceItemsRecords[i].activity).toEqual(items[i].activity)
       expect(invoiceItemsRecords[i].unity).toEqual(items[i].unity)
-      expect(invoiceItemsRecords[i].quantity).toEqual(items[i].quantity)
-      expect(invoiceItemsRecords[i].unit_price).toEqual(items[i].unit_price)
+      expect(invoiceItemsRecords[i].quantity).toEqual(String(items[i].quantity))
+      expect(invoiceItemsRecords[i].unit_price).toEqual(String(items[i].unit_price))
     }
   })
 })

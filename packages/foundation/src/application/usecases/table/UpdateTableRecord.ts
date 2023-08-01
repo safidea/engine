@@ -19,6 +19,10 @@ export class UpdateTableRecord {
       return acc
     }, {})
     recordDto.last_modified_time = new Date().toISOString()
-    await this.ormGateway.update(table, mapDtoToRecord(table, { ...recordDto, id }, fields, 'updated'), id)
+    await this.ormGateway.update(
+      table,
+      mapDtoToRecord(table, { ...recordDto, id }, fields, 'updated'),
+      id
+    )
   }
 }

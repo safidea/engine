@@ -63,7 +63,7 @@ export class TableInput extends BaseInput {
         const newRows = [...rows]
         newRows[index][name] = value
         setRows(newRows)
-        handleChange(field, newRows)
+        handleChange(field, { create: newRows })
       }
 
       return (
