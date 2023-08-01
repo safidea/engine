@@ -77,7 +77,7 @@ test.describe('A page that list invoices', () => {
     expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
   })
 
-  test.only('should display a list of invoices sorted by dates in status groups', async ({
+  test('should display a list of invoices sorted by dates in status groups', async ({
     page,
     foundation,
   }) => {
