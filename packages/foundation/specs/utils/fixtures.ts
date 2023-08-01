@@ -1,11 +1,11 @@
 import debug from 'debug'
 import { test as base, expect } from '@playwright/test'
-import { FixtureFoundation } from './FixtureFoundation'
+import { FoundationHelper } from './FoundationHelper'
 import * as helpers from './helpers'
 
 interface Fixtures {
   port: number
-  foundation: FixtureFoundation
+  foundation: FoundationHelper
 }
 
 const test = base.extend<Fixtures>({
@@ -18,7 +18,7 @@ const test = base.extend<Fixtures>({
     await use(baseURL)
   },
   foundation: async ({ port }, use) => {
-    const app = new FixtureFoundation(port)
+    const app = new FoundationHelper(port)
     await use(app)
     await app.stop()
   },

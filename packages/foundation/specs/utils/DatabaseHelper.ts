@@ -7,7 +7,7 @@ import { CreateManyTableRecord } from '@application/usecases/table/CreateManyTab
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { App } from '@domain/entities/App'
 
-export class FixtureDatabase {
+export class DatabaseHelper {
   private createTableRecord: CreateTableRecord
   private listTableRecords: ListTableRecords
   private createManyTableRecords: CreateManyTableRecord

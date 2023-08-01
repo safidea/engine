@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures'
+import { test, expect } from './utils/fixtures'
 
 test.describe('Tests Example', () => {
   test('A page can display a text', async ({ page, foundation }) => {

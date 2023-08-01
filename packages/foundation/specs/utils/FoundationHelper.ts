@@ -1,9 +1,9 @@
 import fs from 'fs-extra'
 import { join } from 'path'
 import Foundation from '../../src'
-import { FixtureDatabase } from './FixtureDatabase'
+import { DatabaseHelper } from './DatabaseHelper'
 
-export class FixtureFoundation {
+export class FoundationHelper {
   private foundation: Foundation | undefined
   private readonly folder: string
 
@@ -14,15 +14,15 @@ export class FixtureFoundation {
   async start(
     config: unknown,
     options?: { server: string; orm: string }
-  ): Promise<FixtureDatabase> {
+  ): Promise<DatabaseHelper> {
     await fs.ensureDir(this.folder)
     this.foundation = new Foundation(config, this.folder, this.port, options?.server, options?.orm)
     await this.foundation.start()
-    return new FixtureDatabase(this.foundation.app, this.foundation.orm)
+    return new DatabaseHelper(this.foundation.app, this.foundation.orm)
   }
 
   async stop(): Promise<void> {
     if (!this.foundation) throw new Error('Foundation not started')
-    await Promise.all([this.foundation.stop(), fs.remove(this.folder)])
+    await this.foundation.stop()
   }
 }

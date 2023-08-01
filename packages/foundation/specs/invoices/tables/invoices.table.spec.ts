@@ -1,4 +1,4 @@
-import { test, expect, helpers } from '../../fixtures'
+import { test, expect, helpers } from '../../utils/fixtures'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, foundation }) => {

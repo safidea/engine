@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { join } from 'path'
 
 /**
  * Read environment variables from file.
@@ -30,6 +31,7 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   timeout: 10 * 1000,
+  globalTeardown: join(__dirname, './specs/utils/global-teardown'),
 
   /* Configure projects for major browsers */
   projects: [
