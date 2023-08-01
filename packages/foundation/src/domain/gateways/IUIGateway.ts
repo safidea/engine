@@ -51,4 +51,8 @@ export interface IUIGateway {
     error: React.FC
     loading: React.FC
   }
+  FormUI: {
+    form: React.FC<UIProps>
+    input: React.FC
+  }
 }

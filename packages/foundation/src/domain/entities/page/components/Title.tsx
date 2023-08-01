@@ -3,6 +3,7 @@ import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
 export class Title extends BaseComponent {
   constructor(
     private readonly _text: string = '#',

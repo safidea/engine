@@ -4,5 +4,6 @@ import ParagraphUI from './ParagraphUI'
 import TitleUI from './TitleUI'
 import NavigationUI from './NavigationUI'
 import ListUI from './ListUI'
+import FormUI from './FormUI'
 
-export const UnstyledUI: IUIGateway = { LinkUI, ParagraphUI, TitleUI, NavigationUI, ListUI }
+export const UnstyledUI: IUIGateway = { LinkUI, ParagraphUI, TitleUI, NavigationUI, ListUI, FormUI }

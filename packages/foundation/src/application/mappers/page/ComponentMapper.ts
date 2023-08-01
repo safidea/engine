@@ -12,6 +12,8 @@ import { Title } from '@domain/entities/page/components/Title'
 import { Navigation } from '@domain/entities/page/components/Navigation'
 import { List } from '@domain/entities/page/components/List'
 import { Table } from '@domain/entities/table/Table'
+import { Form } from '@domain/entities/page/components/Form'
+import { mapDtoToForm, mapFormToDto } from './components/FormMapper'
 
 export function mapDtoToComponent(
   componentDto: ComponentDto,
@@ -34,6 +36,9 @@ export function mapDtoToComponent(
   if (type === 'list') {
     return mapDtoToList(componentDto, ui, tables)
   }
+  if (type === 'form') {
+    return mapDtoToForm(componentDto, ui) 
+  }
   throw new Error(`Invalid component type ${type}`)
 }
 
@@ -52,6 +57,9 @@ export function mapComponentToDto(component: Component): ComponentDto {
   }
   if (component instanceof List) {
     return mapListToDto(component)
+  }
+  if (component instanceof Form) {
+    return mapFormToDto(component)
   }
   throw new Error(`Invalid component instance ${component}`)
 }

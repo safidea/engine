@@ -129,12 +129,13 @@ test.describe('A page that list invoices', () => {
     ])
   })
 
-  test.skip('should go to the /create page when clicking on the "Créer une facture" button', async ({
+  test('should go to the /create page when clicking on the "Créer une facture" button', async ({
     page,
     foundation,
   }) => {
     // GIVEN
     await foundation.start({
+      tables: helpers.getTables('invoices'),
       pages: helpers.getPages('invoices_list', 'invoices_create'),
     })
 
