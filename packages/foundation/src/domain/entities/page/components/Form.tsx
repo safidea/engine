@@ -3,7 +3,14 @@ import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
 
 // TODO create a real entity for Input
-export type Input = unknown
+export type Input = {
+  field: string
+}
+
+export interface FormProps {
+  handleSubmit: (e: { preventDefault: () => void }) => Promise<void>
+  handleChange: (name: string, value: string | { [key: string]: string }[]) => void
+}
 
 export class Form extends BaseComponent {
   constructor(
@@ -41,12 +48,13 @@ export class Form extends BaseComponent {
   renderUI() {
     const UI = this._ui
     const inputs = this._inputs
-    return function Component() {
+    return function Component({ handleSubmit, handleChange }: FormProps) {
       return (
-        <UI.form>
+        <UI.form onSubmit={handleSubmit}>
           {inputs.map((input, index) => (
-            <UI.input key={index} />
+            <UI.input key={index} name={input.field} handleChange={handleChange} />
           ))}
+          <UI.submit label="Submit" />
         </UI.form>
       )
     }

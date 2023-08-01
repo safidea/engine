@@ -23,6 +23,19 @@ export interface ListUIRowColumnProps {
   value: string
 }
 
+export interface FormUIFormProps extends UIProps {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+}
+
+export interface FormUIInputProps {
+  name: string
+  handleChange: (name: string, value: string | { [key: string]: string }[]) => void
+}
+
+export interface FormUISubmitProps {
+  label: string
+}
+
 export interface IUIGateway {
   LinkUI: React.FC<LinkUIProps>
   ParagraphUI: React.FC<UIProps>
@@ -52,7 +65,8 @@ export interface IUIGateway {
     loading: React.FC
   }
   FormUI: {
-    form: React.FC<UIProps>
-    input: React.FC
+    form: React.FC<FormUIFormProps>
+    input: React.FC<FormUIInputProps>
+    submit: React.FC<FormUISubmitProps>
   }
 }

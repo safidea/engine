@@ -1,3 +1,4 @@
+import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
 import { test, expect, helpers } from '../../utils/fixtures'
 
 test.describe('A page that create an invoice', () => {
@@ -15,7 +16,14 @@ test.describe('A page that create an invoice', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test.skip('should fill a form and redirect to home page', async ({ page }) => {
+  test.skip('should fill a form and create an invoice', async ({ page, foundation }) => {
+    // GIVEN
+    // An invoicing app with a create page
+    await foundation.start({
+      tables: helpers.getTables('invoices'),
+      pages: helpers.getPages('invoices_list', 'invoices_create'),
+    })
+
     // WHEN
     // I go to the create page "/create"
     await page.goto('/create')
@@ -24,11 +32,11 @@ test.describe('A page that create an invoice', () => {
     // I fill the form
     const invoice = helpers.generateRecord('invoices')
     await page.waitForSelector('input[name="customer"]', { state: 'visible' })
-    await page.locator('input[name="customer"]').fill(invoice.customer)
-    await page.locator('input[name="address"]').fill(invoice.address)
-    await page.locator('input[name="zip_code"]').fill(invoice.zip_code)
-    await page.locator('input[name="country"]').fill(invoice.country)
-    for (let i = 0; i < invoice.items.length; i++) {
+    await page.locator('input[name="customer"]').fill(invoice.customer as string)
+    await page.locator('input[name="address"]').fill(invoice.address as string)
+    await page.locator('input[name="zip_code"]').fill(invoice.zip_code as string)
+    await page.locator('input[name="country"]').fill(invoice.country as string)
+    /*for (let i = 0; i < invoice.items?.create?.length; i++) {
       await page.click('text=Nouvelle ligne')
 
       const activitySelector = `input[placeholder="Activité"][value=""]`
@@ -40,7 +48,7 @@ test.describe('A page that create an invoice', () => {
       await page.locator(unitySelector).fill(invoice.items[i].unity)
       await page.locator(quantitySelector).fill(String(invoice.items[i].quantity))
       await page.locator(unitPriceSelector).fill(String(invoice.items[i].unit_price))
-    }
+    }*/
 
     // AND
     // I click on the submit button
