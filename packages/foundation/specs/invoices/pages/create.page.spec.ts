@@ -15,7 +15,7 @@ test.describe('A page that create an invoice', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test.only('should fill a form and create an invoice', async ({ page, foundation }) => {
+  test('should fill a form and create an invoice', async ({ page, foundation }) => {
     // GIVEN
     // An invoicing app with a create page and an invoice
     const db = await foundation.start({
