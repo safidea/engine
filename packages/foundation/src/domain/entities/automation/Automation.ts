@@ -23,7 +23,7 @@ export class Automation {
         (fieldName) => !table.fields.some((f) => f.name === fieldName)
       )
       if (missingField)
-        throw new Error(`${missingField} in automation A is not defined in table "invoices"`)
+        throw new Error(`${missingField} in automation A is not defined in table "${action.table}"`)
     }
   }
 

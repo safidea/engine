@@ -4,6 +4,7 @@ import {
   ListUIGroupProps,
   ListUIHeaderColumnProps,
   ListUIRowColumnProps,
+  ListUIRowProps,
   UIProps,
 } from '@domain/gateways/IUIGateway'
 
@@ -31,8 +32,8 @@ const ListUI: IUIGateway['ListUI'] = {
   rows: ({ children }: UIProps) => {
     return <tbody>{children}</tbody>
   },
-  row: ({ children }: UIProps) => {
-    return <tr>{children}</tr>
+  row: ({ children, id }: ListUIRowProps) => {
+    return <tr id={id}>{children}</tr>
   },
   rowColumn: ({ value }: ListUIRowColumnProps) => {
     return <td>{value}</td>

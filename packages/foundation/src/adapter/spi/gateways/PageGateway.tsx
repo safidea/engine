@@ -4,9 +4,7 @@ import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 export class PageGateway {
   constructor(private readonly fetcher: IFetcherGateway) {}
 
-  getTableRecords(
-    table: string,
-  ): () => {
+  getTableRecords(table: string): () => {
     records: RecordDto[]
     error: Error | undefined
     isLoading: boolean

@@ -15,6 +15,10 @@ export interface ListUIGroupProps {
   colSpan: number
 }
 
+export interface ListUIRowProps extends UIProps {
+  id: string
+}
+
 export interface ListUIRowColumnProps {
   value: string
 }
@@ -42,7 +46,7 @@ export interface IUIGateway {
     headerColumn: React.FC<ListUIHeaderColumnProps>
     group: React.FC<ListUIGroupProps>
     rows: React.FC<UIProps>
-    row: React.FC<UIProps>
+    row: React.FC<ListUIRowProps>
     rowColumn: React.FC<ListUIRowColumnProps>
     error: React.FC
     loading: React.FC

@@ -69,7 +69,7 @@ export class List extends BaseComponent {
   ) {
     super('link')
     const table = this._tables.find((table) => this._table === table.name)
-    if (!table) throw new Error(`Table ${this._table} not found`)
+    if (!table) throw new Error(`table ${this._table} is not defined in tables`)
     this._fields = table.fields
   }
 
@@ -103,7 +103,7 @@ export class List extends BaseComponent {
     const sortRecords = this.sortRecords
     function Row({ record }: { record: Record }) {
       return (
-        <UI.row>
+        <UI.row id={record.id}>
           {columns.map((column: Column, index: number) => {
             let value = column.field ? record.fields[column.field] : ''
             if (column.options) {

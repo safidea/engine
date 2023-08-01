@@ -89,23 +89,23 @@ test.describe('A page that list invoices', () => {
     })
     await db.createManyRecords('invoices', [
       {
-        finalised_date: new Date(2021, 3, 15).toISOString(),
+        finalised_time: new Date(2021, 4, 6).toISOString(),
         status: 'finalised',
       },
       {
-        finalised_date: new Date(2021, 4, 25).toISOString(),
+        finalised_time: new Date(2021, 4, 25).toISOString(),
         status: 'paid',
       },
       {
-        finalised_date: new Date(2021, 4, 6).toISOString(),
+        finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
       },
       {
-        finalised_date: new Date(2021, 5, 4).toISOString(),
+        finalised_time: new Date(2021, 5, 4).toISOString(),
         status: 'sent',
       },
       {
-        finalised_date: new Date(2021, 4, 20).toISOString(),
+        finalised_time: new Date(2021, 4, 20).toISOString(),
         status: 'sent',
       },
     ])
