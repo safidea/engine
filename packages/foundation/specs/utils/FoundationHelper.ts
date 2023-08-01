@@ -11,18 +11,10 @@ export class FoundationHelper {
     this.folder = join(process.cwd(), `specs/tmp/${port}`)
   }
 
-  async start(
-    config: unknown,
-    options?: { server: string; orm: string }
-  ): Promise<DatabaseHelper> {
+  async start(config: unknown, options?: { server: string; orm: string }): Promise<DatabaseHelper> {
     await fs.ensureDir(this.folder)
     this.foundation = new Foundation(config, this.folder, this.port, options?.server, options?.orm)
     await this.foundation.start()
     return new DatabaseHelper(this.foundation.app, this.foundation.orm)
-  }
-
-  async stop(): Promise<void> {
-    if (!this.foundation) throw new Error('Foundation not started')
-    await this.foundation.stop()
   }
 }

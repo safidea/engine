@@ -20,7 +20,6 @@ const test = base.extend<Fixtures>({
   foundation: async ({ port }, use) => {
     const app = new FoundationHelper(port)
     await use(app)
-    await app.stop()
   },
 })
 
