@@ -14,7 +14,7 @@ export class PageRoutes {
     private app: App,
     fetcher: IFetcherGateway
   ) {
-    this.pageController = new PageController(fetcher)
+    this.pageController = new PageController(fetcher, app)
     this.pageMiddleware = new PageMiddleware(app)
   }
 

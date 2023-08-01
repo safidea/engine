@@ -40,11 +40,11 @@ export class InMemoryOrm implements IOrmGateway {
     return table
   }
 
-  private async getDB(): Promise<Database> {
+  public async getDB(): Promise<Database> {
     return (await fs.readJSON(this.url, { throws: false })) ?? {}
   }
 
-  private async setDB(db: Database): Promise<void> {
+  public async setDB(db: Database): Promise<void> {
     return fs.writeJSON(this.url, db)
   }
 
@@ -60,15 +60,7 @@ export class InMemoryOrm implements IOrmGateway {
   }
 
   mapRowToRecord(table: string, row: Row): Record {
-    const { id, created_time, last_modified_time, deleted_time, ...fields } = row
-    return new Record(
-      table,
-      fields,
-      id,
-      created_time ? String(created_time) : undefined,
-      last_modified_time ? String(last_modified_time) : undefined,
-      deleted_time ? String(deleted_time) : undefined
-    )
+    return new Record(table, row, this.getTable(table).fields)
   }
 
   async create(tableName: string, record: Record): Promise<string> {
@@ -120,15 +112,6 @@ export class InMemoryOrm implements IOrmGateway {
         }
       })
       .map((row) => this.mapRowToRecord(table, row))
-  }
-
-  async updateById(table: string, id: string, record: Record): Promise<void> {
-    const db = await this.getDB()
-    if (!db[table]) db[table] = []
-    const row = db[table].find((row) => row.id === id)
-    if (!row) throw new Error(`Row not found for id ${id} in table ${table}`)
-    Object.assign(row, this.mapRecordToRow(record))
-    await this.setDB(db)
   }
 
   async deleteById(table: string, id: string): Promise<void> {

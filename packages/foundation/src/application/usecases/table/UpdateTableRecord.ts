@@ -1,11 +1,16 @@
-import { TableGateway } from '@adapter/spi/gateways/TableGateway'
+import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
 import { RecordDto, RecordToUpdateDto } from '@application/dtos/table/RecordDto'
 import { mapDtoToRecord } from '@application/mappers/table/RecordMapper'
 
 export class UpdateTableRecord {
-  constructor(private tableGateway: TableGateway) {}
+  constructor(
+    private ormGateway: OrmGateway,
+    private appGateway: AppGateway
+  ) {}
 
   async execute(table: string, recordToUpdateDto: RecordToUpdateDto, id: string): Promise<void> {
+    const fields = this.appGateway.getTableFields(table)
     const recordDto = Object.keys(recordToUpdateDto).reduce((acc: RecordDto, field: string) => {
       const value = recordToUpdateDto[field]
       if (typeof value !== 'object') {
@@ -14,6 +19,6 @@ export class UpdateTableRecord {
       return acc
     }, {})
     recordDto.last_modified_time = new Date().toISOString()
-    await this.tableGateway.update(table, mapDtoToRecord(table, { ...recordDto, id }), id)
+    await this.ormGateway.update(table, mapDtoToRecord(table, { ...recordDto, id }, fields, 'updated'), id)
   }
 }

@@ -26,7 +26,7 @@ export class AppController {
     }
     if (pages.length > 0) {
       const pageRoutes = new PageRoutes(this._app, this._fetcher)
-      this._server.configurePages(pageRoutes.routes)
+      this._server.configurePages(pageRoutes.routes, this._app)
     }
   }
 

@@ -1,12 +1,11 @@
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapter/api/controllers/PageController'
-import { PageDto } from '@application/dtos/page/PageDto'
-import { mapDtoToPage } from '@application/mappers/table/PageMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
-import { mapDtoToTable } from '@application/mappers/table/TableMapper'
-import { TableDto } from '@application/dtos/table/TableDto'
+import { mapDtoToApp } from '@application/mappers/AppMapper'
+
+import type { FoundationData } from '@infrastructure/server/ExpressServer'
 
 function selectUI(uiName: string) {
   switch (uiName) {
@@ -28,21 +27,17 @@ function selectFetcher(fetcherName: string, domain: string) {
 
 declare global {
   interface Window {
-    __FOUNDATION_DATA__: {
-      uiName: string
-      fetcherName: string
-      domain: string
-      pageDto: PageDto
-      tablesDto: TableDto[]
-    }
+    __FOUNDATION_DATA__: FoundationData
   }
 }
 
 ;(async () => {
-  const { uiName, fetcherName, domain, pageDto, tablesDto } = window.__FOUNDATION_DATA__
-  const tables = tablesDto.map((tableDto: TableDto) => mapDtoToTable(tableDto))
-  const page = mapDtoToPage(pageDto, selectUI(uiName), tables)
-  const pageController = new PageController(selectFetcher(fetcherName, domain))
+  const { uiName, fetcherName, domain, appDto, pagePath } = window.__FOUNDATION_DATA__
+  const app = mapDtoToApp(appDto, selectUI(uiName))
+  const { pages } = app
+  const page = pages.find((page) => page.path === pagePath)
+  if (!page) throw new Error(`Page ${pagePath} not found`)
+  const pageController = new PageController(selectFetcher(fetcherName, domain), app)
   const Page = await pageController.render(page)
   const container = document.getElementById('root')
   if (!container) throw new Error('Root element not found')

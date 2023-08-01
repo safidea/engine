@@ -111,7 +111,7 @@ describe('List Component', () => {
         id: '3',
         fieldA: 'c',
       },
-    ].map((record) => mapDtoToRecord(tableName, record as RecordDto))
+    ].map((record) => mapDtoToRecord(tableName, record as RecordDto, fields))
 
     // WHEN
     const sortedRecords = new List(tableName, [], sortBy, [], {} as any, tables).sortRecords({
@@ -158,7 +158,7 @@ describe('List Component', () => {
         id: '3',
         fieldA: new Date('2022-01-01').toISOString(),
       },
-    ].map((record) => mapDtoToRecord(tableName, record as RecordDto))
+    ].map((record) => mapDtoToRecord(tableName, record as RecordDto, fields))
 
     // WHEN
     const sortedRecords = new List(tableName, [], sortBy, [], {} as any, tables).sortRecords({

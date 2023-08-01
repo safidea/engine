@@ -1,13 +1,14 @@
 import React from 'react'
-import { PageGateway } from '@adapter/spi/gateways/PageGateway'
+import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { Page } from '@domain/entities/page/Page'
 import { RenderPageComponent } from './RenderPageComponent'
+import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 
 export class RenderPage {
   private renderPageComponent: RenderPageComponent
 
-  constructor(pageGateway: PageGateway) {
-    this.renderPageComponent = new RenderPageComponent(pageGateway)
+  constructor(fetcherGateway: FetcherGateway, appGateway: AppGateway) {
+    this.renderPageComponent = new RenderPageComponent(fetcherGateway, appGateway)
   }
 
   execute(page: Page): () => JSX.Element {

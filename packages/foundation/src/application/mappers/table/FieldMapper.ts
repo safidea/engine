@@ -14,16 +14,16 @@ import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
 export function mapDtoToField(fieldDto: FieldDto): Field {
   const { type } = fieldDto
   if (type === 'single_line_text') {
-    return new SingleLineText(fieldDto.name, fieldDto.optional)
+    return new SingleLineText(fieldDto.name, fieldDto.optional, fieldDto.default ? String(fieldDto.default) : undefined)
   }
   if (type === 'long_text') {
-    return new LongText(fieldDto.name, fieldDto.optional)
+    return new LongText(fieldDto.name, fieldDto.optional, fieldDto.default ? String(fieldDto.default) : undefined)
   }
   if (type === 'number') {
-    return new NumberField(fieldDto.name, fieldDto.optional)
+    return new NumberField(fieldDto.name, fieldDto.optional, fieldDto.default ? Number(fieldDto.default) : undefined)
   }
   if (type === 'currency') {
-    return new Currency(fieldDto.name, fieldDto.optional)
+    return new Currency(fieldDto.name, fieldDto.optional, fieldDto.default ? Number(fieldDto.default) : undefined)
   }
   if (type === 'single_linked_record') {
     return new SingleLinkRecord(fieldDto.name, fieldDto.table, fieldDto.optional)
@@ -45,7 +45,7 @@ export function mapDtoToField(fieldDto: FieldDto): Field {
     )
   }
   if (type === 'datetime') {
-    return new Datetime(fieldDto.name, fieldDto.optional)
+    return new Datetime(fieldDto.name, fieldDto.optional, fieldDto.default ? String(fieldDto.default) : undefined)
   }
   if (type === 'single_select') {
     return new SingleSelect(fieldDto.name, fieldDto.options, fieldDto.optional, fieldDto.default)
@@ -59,6 +59,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       type: 'single_line_text',
       name: field.name,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof LongText) {
@@ -66,6 +67,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       type: 'long_text',
       name: field.name,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof NumberField) {
@@ -73,6 +75,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       type: 'number',
       name: field.name,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof Currency) {
@@ -80,6 +83,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       type: 'currency',
       name: field.name,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof SingleLinkRecord) {
@@ -88,6 +92,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       name: field.name,
       table: field.table,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof MultipleLinkedRecords) {
@@ -96,6 +101,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       name: field.name,
       table: field.table,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof Formula) {
@@ -105,6 +111,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       formula: field.formula,
       format: field.format,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof Rollup) {
@@ -116,6 +123,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       formula: field.formula,
       format: field.format,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof Datetime) {
@@ -123,6 +131,7 @@ export function mapFieldToDto(field: Field): FieldDto {
       type: 'datetime',
       name: field.name,
       optional: field.optional,
+      default: field.default,
     }
   }
   if (field instanceof SingleSelect) {

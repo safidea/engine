@@ -1,7 +1,7 @@
 import { BaseField } from './BaseField'
 
 export class NumberField extends BaseField {
-  constructor(name: string, optional?: boolean) {
-    super(name, 'number', optional, 'number')
+  constructor(name: string, optional?: boolean, defaultValue?: number) {
+    super(name, 'number', optional, 'number', defaultValue)
   }
 }

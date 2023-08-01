@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { PageGateway } from '@adapter/spi/gateways/PageGateway'
+import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { Form } from '@domain/entities/page/components/Form'
 
 export class RenderPageForm {
-  constructor(private pageGateway: PageGateway) {}
+  constructor(private fetcherGateway: FetcherGateway) {}
 
   execute(form: Form): () => JSX.Element {
     const UI = form.renderUI()

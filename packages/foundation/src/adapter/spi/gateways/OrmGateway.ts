@@ -1,15 +1,13 @@
-import { App } from '@domain/entities/App'
 import { Filter } from '@domain/entities/table/Filter'
 import { Record } from '@domain/entities/table/Record'
+import { Table } from '@domain/entities/table/Table'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 
-export class TableGateway {
+export class OrmGateway {
   constructor(
-    private readonly _app: App,
-    private readonly _orm: IOrmGateway
+    private readonly _orm: IOrmGateway,
+    tables: Table[]
   ) {
-    const { tables } = this._app
-    if (!tables) throw new Error('Tables not found in app')
     this._orm.configure(tables)
   }
 
@@ -31,13 +29,5 @@ export class TableGateway {
 
   async read(table: string, id: string) {
     return this._orm.readById(table, id)
-  }
-
-  async getTableFields(tableName: string) {
-    const { tables } = this._app
-    if (!tables) throw new Error('Tables not found in app')
-    const table = tables.find((t) => t.name === tableName)
-    if (!table) throw new Error(`Table ${tableName} not found`)
-    return table.fields
   }
 }

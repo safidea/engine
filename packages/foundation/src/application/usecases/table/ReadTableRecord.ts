@@ -1,4 +1,4 @@
-import { TableGateway } from '@adapter/spi/gateways/TableGateway'
+import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
 import { ListTableRecords } from './ListTableRecords'
 import { Rollup } from '@domain/entities/table/fields/Rollup'
 import { Formula } from '@domain/entities/table/fields/Formula'
@@ -6,18 +6,22 @@ import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLin
 import { mapRecordToDto } from '@application/mappers/table/RecordMapper'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { runFormula } from '@application/utils/FormulaUtils'
+import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 
 export class ReadTableRecord {
-  constructor(private tableGateway: TableGateway) {}
+  constructor(
+    private ormGateway: OrmGateway,
+    private appGateway: AppGateway
+  ) {}
 
   async execute(table: string, id: string): Promise<RecordDto> {
-    const record = await this.tableGateway.read(table, id)
+    const record = await this.ormGateway.read(table, id)
     if (!record) throw new Error(`Record ${id} not found`)
     return this.enrichRecord(mapRecordToDto(record), table)
   }
 
   async enrichRecord(record: RecordDto, table: string) {
-    const fields = await this.tableGateway.getTableFields(table)
+    const fields = this.appGateway.getTableFields(table)
     if (fields.length > 0) {
       for (const field of fields)
         if (field instanceof Rollup) await this.runFieldRollupFormula(record, field, table)
@@ -29,10 +33,10 @@ export class ReadTableRecord {
 
   async runFieldRollupFormula(record: RecordDto, fieldRollup: Rollup, table: string) {
     const { formula } = fieldRollup
-    const fields = await this.tableGateway.getTableFields(table)
+    const fields = this.appGateway.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
     if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
-    const listTableGateway = new ListTableRecords(this.tableGateway)
+    const listTableGateway = new ListTableRecords(this.ormGateway, this.appGateway)
     const values = record[field.name]
     if (!Array.isArray(values)) throw new Error('Values are not an array')
     const linkedRecords = await listTableGateway.execute(field.table, [

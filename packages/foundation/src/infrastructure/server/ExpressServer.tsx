@@ -7,8 +7,19 @@ import { Request, RequestQuery } from '@domain/entities/table/Request'
 import path from 'path'
 import fs from 'fs-extra'
 import debug from 'debug'
+import { AppDto } from '@application/dtos/AppDto'
+import { App } from '@domain/entities/App'
+import { mapAppToDto } from '@application/mappers/AppMapper'
 
 const log = debug('server:express')
+
+export interface FoundationData {
+  uiName: string
+  fetcherName: string
+  domain: string
+  appDto: AppDto
+  pagePath: string
+}
 
 export class ExpressServer implements IServerGateway {
   private app: Express
@@ -84,7 +95,7 @@ export class ExpressServer implements IServerGateway {
     })
   }
 
-  async configurePages(routes: PageRoute[]) {
+  async configurePages(routes: PageRoute[], app: App) {
     this.app.get('/bundle.js', async (req, res) => {
       const bundle = await fs.readFile(path.resolve(__dirname, '../../../bundle.js'), 'utf8')
       return res.send(bundle)
@@ -93,13 +104,12 @@ export class ExpressServer implements IServerGateway {
       this.app.get(route.path, async (req, res) => {
         const Page = await route.handler(req.url.split('?')[0])
         const pageHtml = ReactDOMServer.renderToString(<Page />)
-        // TODO: add a type to data, same in the ExpressClient file
-        const data = {
+        const data: FoundationData = {
           uiName: this.uiName,
           fetcherName: this.fetcherName,
           domain: this.domain,
-          pageDto: route.pageDto,
-          tablesDto: route.tablesDto,
+          appDto: mapAppToDto(app),
+          pagePath: route.path,
         }
         const html = `
           <!DOCTYPE html>

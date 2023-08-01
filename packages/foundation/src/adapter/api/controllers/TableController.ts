@@ -1,4 +1,4 @@
-import { TableGateway } from '@adapter/spi/gateways/TableGateway'
+import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
 import { CreateTableRecord } from '@application/usecases/table/CreateTableRecord'
 import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
 import { ListTableRecords } from '@application/usecases/table/ListTableRecords'
@@ -9,6 +9,7 @@ import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { DeleteTableRecord } from '@application/usecases/table/DeleteTableRecord'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { FilterDto } from '@application/dtos/table/FilterDto'
+import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 
 export class TableController {
   private createTableRecord: CreateTableRecord
@@ -19,13 +20,15 @@ export class TableController {
   private deleteTableRecord: DeleteTableRecord
 
   constructor(app: App, orm: IOrmGateway) {
-    const tableGateway = new TableGateway(app, orm)
-    this.createTableRecord = new CreateTableRecord(tableGateway)
-    this.readTableRecord = new ReadTableRecord(tableGateway)
-    this.listTableRecords = new ListTableRecords(tableGateway)
-    this.createManyTableRecord = new CreateManyTableRecord(tableGateway)
-    this.updateTableRecord = new UpdateTableRecord(tableGateway)
-    this.deleteTableRecord = new DeleteTableRecord(tableGateway)
+    const { tables } = app
+    const ormGateway = new OrmGateway(orm, tables)
+    const appGateway = new AppGateway(app)
+    this.createTableRecord = new CreateTableRecord(ormGateway, appGateway)
+    this.readTableRecord = new ReadTableRecord(ormGateway, appGateway)
+    this.listTableRecords = new ListTableRecords(ormGateway, appGateway)
+    this.createManyTableRecord = new CreateManyTableRecord(ormGateway, appGateway)
+    this.updateTableRecord = new UpdateTableRecord(ormGateway, appGateway)
+    this.deleteTableRecord = new DeleteTableRecord(ormGateway, appGateway)
   }
 
   async create(table: string, record: RecordDto) {

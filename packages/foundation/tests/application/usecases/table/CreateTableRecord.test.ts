@@ -5,8 +5,10 @@ import { describe, test, expect } from '@jest/globals'
 describe('CreateTableRecord', () => {
   test('should create a record in ORM from DTO', async () => {
     // GIVEN
-    const tableGateway = {
+    const ormGateway = {
       create: () => 1,
+    }
+    const appGateway = {
       getTableFields: () => [
         {
           name: 'name',
@@ -16,9 +18,12 @@ describe('CreateTableRecord', () => {
     }
 
     // WHEN
-    const recordId = await new CreateTableRecord(tableGateway as any).execute('table', {
-      name: 'test',
-    })
+    const recordId = await new CreateTableRecord(ormGateway as any, appGateway as any).execute(
+      'table',
+      {
+        name: 'test',
+      }
+    )
 
     // THEN
     expect(recordId).toEqual(1)
@@ -26,7 +31,7 @@ describe('CreateTableRecord', () => {
 
   test('should throw an error if a field from the record DTO is missing in the table', async () => {
     // GIVEN
-    const tableGateway = {
+    const appGateway = {
       getTableFields: () => [
         {
           name: 'first_name',
@@ -37,7 +42,7 @@ describe('CreateTableRecord', () => {
 
     // WHEN
     const call = () =>
-      new CreateTableRecord(tableGateway as any).execute('table', {
+      new CreateTableRecord({} as any, appGateway as any).execute('table', {
         last_name: 'test',
       })
 
@@ -45,10 +50,12 @@ describe('CreateTableRecord', () => {
     await expect(call).rejects.toThrowError('Field last_name not found')
   })
 
-  test.skip('should create a record with a default value', async () => {
+  test('should create a record with a default value', async () => {
     // GIVEN
-    const tableGateway = {
+    const ormGateway = {
       create: (table: string, record: Record) => record.fields,
+    }
+    const appGateway = {
       getTableFields: () => [
         {
           name: 'name',
@@ -59,7 +66,10 @@ describe('CreateTableRecord', () => {
     }
 
     // WHEN
-    const record = await new CreateTableRecord(tableGateway as any).execute('table', {})
+    const record = await new CreateTableRecord(ormGateway as any, appGateway as any).execute(
+      'table',
+      {}
+    )
 
     // THEN
     expect(record).toEqual({

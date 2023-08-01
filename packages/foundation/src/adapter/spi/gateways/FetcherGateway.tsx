@@ -1,7 +1,7 @@
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 
-export class PageGateway {
+export class FetcherGateway {
   constructor(private readonly fetcher: IFetcherGateway) {}
 
   getTableRecords(table: string): () => {
