@@ -71,6 +71,20 @@ export class List extends BaseComponent {
     const table = this._tables.find((table) => this._table === table.name)
     if (!table) throw new Error(`table ${this._table} is not defined in tables`)
     this._fields = table.fields
+    if (this._groupBy.length > 0) {
+      for (const groupBy of this._groupBy) {
+        if (!this._fields.find((field) => field.name === groupBy.field))
+          throw new Error(
+            `field ${groupBy.field} in groupBy is not defined in table ${this._table}`
+          )
+      }
+    }
+    if (this._sortBy.length > 0) {
+      for (const sortBy of this._sortBy) {
+        if (!this._fields.find((field) => field.name === sortBy.field))
+          throw new Error(`field ${sortBy.field} in sortBy is not defined in table ${this._table}`)
+      }
+    }
   }
 
   get table(): string {

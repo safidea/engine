@@ -6,7 +6,7 @@ import { TableDto } from '@application/dtos/table/TableDto'
 
 describe('Automation', () => {
   // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
-  test('Config validation fail if automation references an invalid field', async () => {
+  test('config validation fail if automation references an invalid field', async () => {
     // GIVEN
     const name = 'A'
     const actions: Action[] = [{ type: 'updateTable', fields: { fieldX: 'test' }, table: 'tableA' }]
@@ -29,7 +29,7 @@ describe('Automation', () => {
     expect(call).toThrow('fieldX in automation A is not defined in table "tableA"')
   })
 
-  test('Config validation fail if automation references an invalid table', async () => {
+  test('config validation fail if automation references an invalid table', async () => {
     // GIVEN
     const name = 'A'
     const actions: Action[] = [{ type: 'updateTable', fields: {}, table: 'tableX' }]
@@ -52,7 +52,7 @@ describe('Automation', () => {
     expect(call).toThrow('table tableX in automation A is not defined in tables')
   })
 
-  test('Config validation fail if automation references an invalid field and a valid field', async () => {
+  test('config validation fail if automation references an invalid field and a valid field', async () => {
     // GIVEN
     const name = 'A'
     const actions: Action[] = [

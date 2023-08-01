@@ -187,8 +187,8 @@ export const PAGE_LIST_INVOICES: PageDto = {
           ],
           groupBy: [{ field: 'status', order: 'first_to_last' }],
           sortBy: [
-            { field: 'finalised_date', order: 'desc' },
-            { field: 'created_date', order: 'desc' },
+            { field: 'finalised_time', order: 'desc' },
+            { field: 'created_time', order: 'desc' },
           ],
         },
       ],

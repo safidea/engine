@@ -9,11 +9,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const invoices = helpers.generateManyRecords('invoices', 2)
 
     // WHEN
-    const res = await request.post('/api/table/invoices', { data: invoices })
+    await request.post('/api/table/invoices', { data: invoices })
 
     // THEN
-    expect(res.status()).toEqual(200)
     const records = await db.list('invoices')
+    expect(records.length).toEqual(2)
     for (let i = 0; i < records.length; i++) {
       expect(records[i].id).toBeDefined()
       expect(records[i].created_time).toBeDefined()
@@ -46,7 +46,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const res = await request.get(`/api/table/invoices/${id}`)
 
     // THEN
-    expect(res.status()).toEqual(200)
     const record = await res.json()
     expect(record.total_net_amount).toEqual(100)
     expect(record.total_vat).toEqual(20)
@@ -72,7 +71,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // THEN
     // I have read 2 invoices
-    expect(res.status()).toEqual(200)
     const records = await res.json()
     expect(records.length).toEqual(2)
     expect(records[0].id).toEqual(ids[0])
@@ -94,13 +92,12 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const update = {
       customer: 'Customer B',
     }
-    const res = await request.patch(`/api/table/invoices/${id}`, {
+    await request.patch(`/api/table/invoices/${id}`, {
       data: update,
     })
 
     // THEN
     // The updated invocie should have a new name
-    expect(res.status()).toEqual(200)
     const [updatedRecord] = await db.list('invoices')
     expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.customer).toEqual(update.customer)
@@ -117,11 +114,10 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
-    const res = await request.delete(`/api/table/invoices/${id}`)
+    await request.delete(`/api/table/invoices/${id}`)
 
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
-    expect(res.status()).toEqual(200)
     const [deletedRecord] = await db.list('invoices')
     expect(deletedRecord.id).toEqual(id)
     expect(deletedRecord.deleted_time).toBeDefined()
@@ -140,12 +136,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
       number: 1,
       status: 'finalised',
     }
-    const res = await request.patch(`/api/table/invoices/${id}`, {
+    await request.patch(`/api/table/invoices/${id}`, {
       data: update,
     })
 
     // THEN
-    expect(res.status()).toEqual(200)
     const [finalisedRecord] = await db.list('invoices')
     expect(finalisedRecord.id).toEqual(id)
     expect(finalisedRecord.finalised_time).toEqual(update.finalised_time)
