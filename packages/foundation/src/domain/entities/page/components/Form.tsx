@@ -1,15 +1,13 @@
 import React from 'react'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseComponent } from './BaseComponent'
+import { Input } from './Input'
 
-// TODO create a real entity for Input
-export type Input = {
-  field: string
-}
-
+export type HandleChange = (name: string, value: string | { [key: string]: string }[]) => void
 export interface FormProps {
   handleSubmit: (e: { preventDefault: () => void }) => Promise<void>
-  handleChange: (name: string, value: string | { [key: string]: string }[]) => void
+  handleChange: HandleChange
+  InputComponents: React.FC<{ handleChange: HandleChange }>[]
 }
 
 export class Form extends BaseComponent {
@@ -47,14 +45,18 @@ export class Form extends BaseComponent {
 
   renderUI() {
     const UI = this._ui
-    const inputs = this._inputs
-    return function Component({ handleSubmit, handleChange }: FormProps) {
+    const submit = this._submit
+    return function Component({ handleSubmit, handleChange, InputComponents }: FormProps) {
       return (
         <UI.form onSubmit={handleSubmit}>
-          {inputs.map((input, index) => (
-            <UI.input key={index} name={input.field} handleChange={handleChange} />
-          ))}
-          <UI.submit label="Submit" />
+          <UI.inputs>
+            {InputComponents.map((InputComponent, index) => (
+              <UI.input key={index}>
+                <InputComponent handleChange={handleChange} />
+              </UI.input>
+            ))}
+          </UI.inputs>
+          <UI.submit label={submit.label} />
         </UI.form>
       )
     }

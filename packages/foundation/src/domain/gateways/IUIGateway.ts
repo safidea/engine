@@ -66,7 +66,10 @@ export interface IUIGateway {
   }
   FormUI: {
     form: React.FC<FormUIFormProps>
-    input: React.FC<FormUIInputProps>
+    input: React.FC<UIProps>
+    inputs: React.FC<UIProps>
     submit: React.FC<FormUISubmitProps>
   }
+  TextInputUI: React.FC<FormUIInputProps>
+  TableInputUI: React.FC<FormUIInputProps>
 }

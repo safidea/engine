@@ -37,7 +37,7 @@ export function mapDtoToComponent(
     return mapDtoToList(componentDto, ui, tables)
   }
   if (type === 'form') {
-    return mapDtoToForm(componentDto, ui)
+    return mapDtoToForm(componentDto, ui, tables)
   }
   throw new Error(`Invalid component type ${type}`)
 }

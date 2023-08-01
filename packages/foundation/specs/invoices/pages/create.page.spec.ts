@@ -1,4 +1,3 @@
-import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
 import { test, expect, helpers } from '../../utils/fixtures'
 
 test.describe('A page that create an invoice', () => {
@@ -32,23 +31,29 @@ test.describe('A page that create an invoice', () => {
     // I fill the form
     const invoice = helpers.generateRecord('invoices')
     await page.waitForSelector('input[name="customer"]', { state: 'visible' })
-    await page.locator('input[name="customer"]').fill(invoice.customer as string)
-    await page.locator('input[name="address"]').fill(invoice.address as string)
-    await page.locator('input[name="zip_code"]').fill(invoice.zip_code as string)
-    await page.locator('input[name="country"]').fill(invoice.country as string)
-    /*for (let i = 0; i < invoice.items?.create?.length; i++) {
-      await page.click('text=Nouvelle ligne')
+    await page.locator('input[name="customer"]').fill(String(invoice.customer))
+    await page.locator('input[name="address"]').fill(String(invoice.address))
+    await page.locator('input[name="zip_code"]').fill(String(invoice.zip_code))
+    await page.locator('input[name="country"]').fill(String(invoice.country))
+    if (
+      typeof invoice.items === 'object' &&
+      'create' in invoice.items &&
+      Array.isArray(invoice.items.create)
+    ) {
+      for (let i = 0; i < invoice.items.create.length; i++) {
+        await page.click('text=Nouvelle ligne')
 
-      const activitySelector = `input[placeholder="Activité"][value=""]`
-      const unitySelector = `input[placeholder="Unité"][value=""]`
-      const quantitySelector = `input[placeholder="Quantité"][value=""]`
-      const unitPriceSelector = `input[placeholder="Prix unitaire"][value=""]`
+        const activitySelector = `input[placeholder="Activité"][value=""]`
+        const unitySelector = `input[placeholder="Unité"][value=""]`
+        const quantitySelector = `input[placeholder="Quantité"][value=""]`
+        const unitPriceSelector = `input[placeholder="Prix unitaire"][value=""]`
 
-      await page.locator(activitySelector).fill(invoice.items[i].activity)
-      await page.locator(unitySelector).fill(invoice.items[i].unity)
-      await page.locator(quantitySelector).fill(String(invoice.items[i].quantity))
-      await page.locator(unitPriceSelector).fill(String(invoice.items[i].unit_price))
-    }*/
+        await page.locator(activitySelector).fill(String(invoice.items.create[i].activity))
+        await page.locator(unitySelector).fill(String(invoice.items.create[i].unity))
+        await page.locator(quantitySelector).fill(String(invoice.items.create[i].quantity))
+        await page.locator(unitPriceSelector).fill(String(invoice.items.create[i].unit_price))
+      }
+    }
 
     // AND
     // I click on the submit button

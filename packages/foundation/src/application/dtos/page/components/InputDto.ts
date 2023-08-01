@@ -1,8 +1,8 @@
 import { JSONSchemaType } from 'ajv'
-import { TableDto, TableDtoSchema } from './inputs/TableDto'
-import { TextDto, TextDtoSchema } from './inputs/TextDto'
+import { TableInputDto, TableDtoSchema } from './inputs/TableInputDto'
+import { TextInputDto, TextDtoSchema } from './inputs/TextInputDto'
 
-export type InputDto = TextDto | TableDto
+export type InputDto = TextInputDto | TableInputDto
 
 export const InputDtoSchema: JSONSchemaType<InputDto> = {
   oneOf: [TextDtoSchema, TableDtoSchema],

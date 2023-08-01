@@ -7,7 +7,8 @@ export class RenderPageForm {
 
   execute(form: Form): () => JSX.Element {
     const UI = form.renderUI()
-    const { table } = form
+    const { table, inputs } = form
+    const InputComponents = inputs.map((input) => input.renderUI())
     return function Component() {
       const [isSaving, setIsSaving] = useState(false)
       const [formData, setFormData] = useState({})
@@ -15,6 +16,7 @@ export class RenderPageForm {
       const saveRecord = async (record: Record<string, string | { [key: string]: string }[]>) => {
         if (!isSaving) setIsSaving(true)
         const url = `/api/table/${table}`
+        // TODO use the fetcher
         const res = await fetch(url, {
           method: 'POST',
           body: JSON.stringify(record),
@@ -38,8 +40,14 @@ export class RenderPageForm {
         e.preventDefault()
         await saveRecord(formData)
       }
-      
-      return <UI handleSubmit={handleSubmit} handleChange={handleChange} />
+
+      return (
+        <UI
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          InputComponents={InputComponents}
+        />
+      )
     }
   }
 }

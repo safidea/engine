@@ -1,7 +1,7 @@
 import { JSONSchemaType } from '@application/utils/SchemaValidator'
 import { BaseInputDto, BaseInputDtoSchema } from './BaseInputDto'
 
-export interface TableDto extends BaseInputDto {
+export interface TableInputDto extends BaseInputDto {
   columns: {
     label: string
     field?: string
@@ -10,7 +10,7 @@ export interface TableDto extends BaseInputDto {
   addLabel?: string
 }
 
-export const TableDtoSchema: JSONSchemaType<TableDto> = {
+export const TableDtoSchema: JSONSchemaType<TableInputDto> = {
   type: 'object',
   properties: {
     ...BaseInputDtoSchema.properties,

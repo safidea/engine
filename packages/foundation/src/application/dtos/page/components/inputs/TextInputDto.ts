@@ -1,15 +1,16 @@
 import { JSONSchemaType } from '@application/utils/SchemaValidator'
 import { BaseInputDto, BaseInputDtoSchema } from './BaseInputDto'
 
-export interface TextDto extends BaseInputDto {
+export interface TextInputDto extends BaseInputDto {
   placeholder?: string
 }
 
-export const TextDtoSchema: JSONSchemaType<TextDto> = {
+export const TextDtoSchema: JSONSchemaType<TextInputDto> = {
   type: 'object',
   properties: {
     ...BaseInputDtoSchema.properties,
     placeholder: { type: 'string' },
+    type: { type: 'string', enum: ['text'] },
   },
   required: [...BaseInputDtoSchema.required],
   additionalProperties: false,

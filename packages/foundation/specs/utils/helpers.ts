@@ -84,14 +84,15 @@ export function generateManyRecords(
   return array
 }
 
-export function generateFakeRecord(tableName: string): RecordToCreateDto {
+export function generateFakeRecord(tableName: string, sourceTableName?: string): RecordToCreateDto {
   const tables = getTables(tableName)
   const table = tables.find((table) => table.name === tableName)
   if (!table) throw new Error(`Table ${tableName} not found`)
   const recordToCreate: RecordToCreateDto = {}
   for (const field of table.fields) {
+    if ('table' in field && field.table === sourceTableName) continue
     if (!field.optional || (field.optional && Math.random() > 0.5)) {
-      const value = generateRandomValueByType(field)
+      const value = generateRandomValueByType(field, tableName)
       if (value !== null) {
         if (typeof value === 'object') {
           if (field.type === 'multiple_linked_records' && Array.isArray(value)) {
@@ -114,7 +115,8 @@ export function generateFakeRecord(tableName: string): RecordToCreateDto {
 }
 
 export function generateRandomValueByType(
-  field: FieldDto
+  field: FieldDto,
+  sourceTableName: string
 ): string | number | boolean | RecordToCreateDto | RecordToCreateDto[] | null {
   const { type, name } = field
   switch (type) {
@@ -151,9 +153,11 @@ export function generateRandomValueByType(
       if (name.includes('price')) return faker.number.float({ max: 1000, precision: 0.01 })
       return faker.number.float({ precision: 0.01 })
     case 'multiple_linked_records':
-      return []
+      return Array.from({ length: faker.number.int({ min: 1, max: 5 }) }).map(() =>
+        generateFakeRecord(field.table, sourceTableName)
+      )
     case 'single_linked_record':
-      return []
+      return generateFakeRecord(field.table, sourceTableName)
     case 'formula':
       return null
     case 'rollup':
