@@ -1,4 +1,5 @@
 import { CreateTableRecord } from '@application/usecases/table/CreateTableRecord'
+import { Record } from '@domain/entities/table/Record'
 import { describe, test, expect } from '@jest/globals'
 
 describe('CreateTableRecord', () => {
@@ -42,5 +43,27 @@ describe('CreateTableRecord', () => {
 
     // THEN
     await expect(call).rejects.toThrowError('Field last_name not found')
+  })
+
+  test.skip('should create a record with a default value', async () => {
+    // GIVEN
+    const tableGateway = {
+      create: (table: string, record: Record) => record.fields,
+      getTableFields: () => [
+        {
+          name: 'name',
+          type: 'single_line_text',
+          default: 'test',
+        },
+      ],
+    }
+
+    // WHEN
+    const record = await new CreateTableRecord(tableGateway as any).execute('table', {})
+
+    // THEN
+    expect(record).toEqual({
+      name: 'test',
+    })
   })
 })
