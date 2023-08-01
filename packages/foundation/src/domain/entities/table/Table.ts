@@ -28,4 +28,8 @@ export class Table {
   get fields(): Field[] {
     return this._fields
   }
+
+  hasColumn(columnName: string): boolean {
+    return this._fields.some((field) => field.name === columnName)
+  }
 }

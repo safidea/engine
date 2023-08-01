@@ -2,6 +2,7 @@ import React from 'react'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseInput } from './BaseInput'
 import { HandleChange } from '../Form'
+import { Table } from '@domain/entities/table/Table'
 
 export type Column = {
   label: string
@@ -21,11 +22,19 @@ export class TableInput extends BaseInput {
   constructor(
     field: string,
     private readonly _columns: Column[],
+    private readonly _table: Table,
     private readonly _ui: IUIGateway['TableInputUI'],
     label?: string,
     private readonly _addLabel?: string
   ) {
     super('text', field, label)
+    for (const column of this._columns) {
+      if (!this._table.hasColumn(column.field)) {
+        throw new Error(
+          `field ${column.field} in table input columns is not defined in table ${this._table.name}`
+        )
+      }
+    }
   }
 
   get columns() {

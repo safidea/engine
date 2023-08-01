@@ -5,12 +5,8 @@ import { mapDtoToInput, mapInputToDto } from './InputMapper'
 import { Table } from '@domain/entities/table/Table'
 
 export function mapDtoToForm(formDto: FormDto, ui: IUIGateway, tables: Table[]): Form {
-  const table = tables.find((table) => table.name === formDto.table)
-  if (!table) {
-    throw new Error(`table ${formDto.table} is not defined in tables`)
-  }
   const inputs = formDto.inputs.map((inputDto) =>
-    mapDtoToInput(inputDto, ui, table.fields, formDto.table)
+    mapDtoToInput(inputDto, ui, formDto.table, tables)
   )
   return new Form(formDto.table, inputs, formDto.submit, ui.FormUI)
 }

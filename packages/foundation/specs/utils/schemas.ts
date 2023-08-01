@@ -72,7 +72,7 @@ export const TABLE_INVOICES_ITEMS: TableDto = {
   name: 'invoices_items',
   fields: [
     { name: 'invoice', type: 'single_linked_record', table: 'invoices' },
-    { name: 'name', type: 'single_line_text' },
+    { name: 'activity', type: 'single_line_text' },
     { name: 'description', type: 'long_text', optional: true },
     { name: 'quantity', type: 'number' },
     { name: 'unity', type: 'single_line_text' },
