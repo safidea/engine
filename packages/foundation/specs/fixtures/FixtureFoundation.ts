@@ -23,7 +23,6 @@ export class FixtureFoundation {
 
   async stop(): Promise<void> {
     if (!this.foundation) throw new Error('Foundation not started')
-    await this.foundation.stop()
-    await fs.remove(this.folder)
+    await Promise.all([this.foundation.stop(), fs.remove(this.folder)])
   }
 }

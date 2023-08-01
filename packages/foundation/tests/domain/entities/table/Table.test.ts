@@ -27,18 +27,22 @@ describe('Table', () => {
       mapDtoToField({
         name: 'id',
         type: 'single_line_text',
+        optional: true,
       }),
       mapDtoToField({
         name: 'created_time',
         type: 'datetime',
+        optional: true,
       }),
       mapDtoToField({
         name: 'last_modified_time',
         type: 'datetime',
+        optional: true,
       }),
       mapDtoToField({
         name: 'deleted_time',
         type: 'datetime',
+        optional: true,
       }),
     ])
   })

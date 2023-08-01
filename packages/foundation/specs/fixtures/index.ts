@@ -20,7 +20,7 @@ const test = base.extend<Fixtures>({
   foundation: async ({ port }, use) => {
     const app = new FixtureFoundation(port)
     await use(app)
-    app.stop()
+    await app.stop()
   },
 })
 
