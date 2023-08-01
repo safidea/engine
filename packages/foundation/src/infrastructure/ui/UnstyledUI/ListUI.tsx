@@ -38,12 +38,6 @@ const ListUI: IUIGateway['ListUI'] = {
   rowColumn: ({ value }: ListUIRowColumnProps) => {
     return <td>{value}</td>
   },
-  error: () => {
-    return <div>failed to load</div>
-  },
-  loading: () => {
-    return <div>loading</div>
-  },
 }
 
 export default ListUI

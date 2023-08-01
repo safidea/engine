@@ -1,5 +1,5 @@
 export interface UIProps {
-  children: string | JSX.Element | JSX.Element[]
+  children: string | JSX.Element | (string | JSX.Element | JSX.Element | undefined)[]
 }
 
 export interface LinkUIProps extends UIProps {
@@ -29,11 +29,31 @@ export interface FormUIFormProps extends UIProps {
 
 export interface FormUIInputProps {
   name: string
-  handleChange: (name: string, value: string | { [key: string]: string }[]) => void
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface FormUISubmitProps {
   label: string
+}
+
+export interface TableInputUILabelProps {
+  label: string
+}
+
+export interface TableInputUIAddButtonProps {
+  label: string
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
+export interface TableInputUIHeaderColumnProps {
+  label: string
+}
+
+export interface TableInputUIRowColumnProps {
+  name: string
+  placeholder?: string
+  value: string
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface IUIGateway {
@@ -61,8 +81,6 @@ export interface IUIGateway {
     rows: React.FC<UIProps>
     row: React.FC<ListUIRowProps>
     rowColumn: React.FC<ListUIRowColumnProps>
-    error: React.FC
-    loading: React.FC
   }
   FormUI: {
     form: React.FC<FormUIFormProps>
@@ -71,5 +89,16 @@ export interface IUIGateway {
     submit: React.FC<FormUISubmitProps>
   }
   TextInputUI: React.FC<FormUIInputProps>
-  TableInputUI: React.FC<FormUIInputProps>
+  TableInputUI: {
+    container: React.FC<UIProps>
+    menu: React.FC<UIProps>
+    label: React.FC<TableInputUILabelProps>
+    addButton: React.FC<TableInputUIAddButtonProps>
+    table: React.FC<UIProps>
+    header: React.FC<UIProps>
+    headerColumn: React.FC<TableInputUIHeaderColumnProps>
+    rows: React.FC<UIProps>
+    row: React.FC<UIProps>
+    rowColumn: React.FC<TableInputUIRowColumnProps>
+  }
 }

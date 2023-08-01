@@ -4,7 +4,7 @@ import { BaseInputDto, BaseInputDtoSchema } from './BaseInputDto'
 export interface TableInputDto extends BaseInputDto {
   columns: {
     label: string
-    field?: string
+    field: string
     placeholder?: string
   }[]
   addLabel?: string

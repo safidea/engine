@@ -29,7 +29,7 @@ export class TextInput extends BaseInput {
     const UI = this._ui
     const field = this.field
     return function Component({ handleChange }: TextInputProps) {
-      return <UI handleChange={handleChange} name={field} />
+      return <UI onChange={(e) => handleChange(e.target.name, e.target.value)} name={field} />
     }
   }
 }
