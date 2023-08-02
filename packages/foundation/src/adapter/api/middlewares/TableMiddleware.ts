@@ -62,18 +62,18 @@ export class TableMiddleware {
 
   public async validatePostBody(table: string, record: RecordDto): Promise<void> {
     const errors = this.validateRecordValues(table, record)
-    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}'`, 400)
+    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
   }
 
   public async validatePostArrayBody(table: string, records: RecordDto[]): Promise<void> {
     if (!records) throw new ApiError(`Body is empty`, 400)
     const errors = this.validateArrayRecordValues(table, records)
-    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}'`, 400)
+    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
   }
 
   public async validatePatchBody(table: string, record: RecordDto): Promise<void> {
     const errors = this.validateRecordValues(table, record, 'UPDATE')
-    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}'`, 400)
+    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
   }
 
   private validateRecordValues(

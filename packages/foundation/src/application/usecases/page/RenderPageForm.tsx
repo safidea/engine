@@ -12,6 +12,7 @@ export class RenderPageForm {
     return function Component() {
       const [isSaving, setIsSaving] = useState(false)
       const [formData, setFormData] = useState({})
+      const [errorMessage, setErrorMessage] = useState(undefined)
 
       const saveRecord = async (record: Record<string, FormInputValue>) => {
         setIsSaving(true)
@@ -25,8 +26,8 @@ export class RenderPageForm {
           },
         })
         if (res.status !== 200) {
-          const { error, details } = await res.json()
-          console.log(error, details)
+          const { error } = await res.json()
+          setErrorMessage(error)
         }
         setIsSaving(false)
       }
@@ -47,6 +48,7 @@ export class RenderPageForm {
           handleChange={handleChange}
           InputComponents={InputComponents}
           isSaving={isSaving}
+          errorMessage={errorMessage}
         />
       )
     }

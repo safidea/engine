@@ -18,9 +18,8 @@ export async function findAvailablePort(): Promise<number> {
     server.on('error', reject)
     server.listen(0, () => {
       const { port } = server.address() as net.AddressInfo
-      server.close(() => {
-        resolve(port)
-      })
+      resolve(port)
+      server.close()
     })
   })
 }

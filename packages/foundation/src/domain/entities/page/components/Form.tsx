@@ -11,6 +11,7 @@ export interface FormProps {
   handleChange: HandleChange
   InputComponents: React.FC<{ handleChange: HandleChange }>[]
   isSaving: boolean
+  errorMessage?: string
 }
 
 export class Form extends BaseComponent {
@@ -54,6 +55,7 @@ export class Form extends BaseComponent {
       handleChange,
       InputComponents,
       isSaving,
+      errorMessage,
     }: FormProps) {
       return (
         <UI.form onSubmit={handleSubmit}>
@@ -65,6 +67,7 @@ export class Form extends BaseComponent {
             ))}
           </UI.inputs>
           <UI.submit label={isSaving === false ? submit.label : submit.loadingLabel} />
+          {errorMessage && <UI.errorMessage message={errorMessage} />}
         </UI.form>
       )
     }

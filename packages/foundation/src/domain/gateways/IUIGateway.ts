@@ -36,6 +36,10 @@ export interface FormUISubmitProps {
   label: string
 }
 
+export interface FormUIErrorMessageProps {
+  message: string
+}
+
 export interface TableInputUILabelProps {
   label: string
 }
@@ -87,6 +91,7 @@ export interface IUIGateway {
     input: React.FC<UIProps>
     inputs: React.FC<UIProps>
     submit: React.FC<FormUISubmitProps>
+    errorMessage: React.FC<FormUIErrorMessageProps>
   }
   TextInputUI: React.FC<FormUIInputProps>
   TableInputUI: {

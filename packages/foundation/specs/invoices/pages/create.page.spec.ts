@@ -83,7 +83,7 @@ test.describe('A page that create an invoice', () => {
     }
   })
 
-  test.skip('should display an error message when some required fields are not provided', async ({
+  test('should display an error message when some required fields are not provided', async ({
     page,
     foundation,
   }) => {
@@ -95,7 +95,12 @@ test.describe('A page that create an invoice', () => {
     const invoice = helpers.generateRecord('invoices')
 
     // WHEN
+    await page.goto('/create')
+
+    // AND
     await page.locator('input[name="customer"]').fill(String(invoice.customer))
+
+    // AND
     await page.locator('button[type="submit"]').click()
     await page.waitForSelector(':has-text("Enregistrement en cours...")', { state: 'detached' })
 
