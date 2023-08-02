@@ -1,10 +1,11 @@
 import React from 'react'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseInput } from './BaseInput'
-import { HandleChange } from '../Form'
+import { FormInputValue, HandleChange } from '../Form'
 
 export interface TextInputProps {
   handleChange: HandleChange
+  formData: { [key: string]: FormInputValue }
 }
 
 export class TextInput extends BaseInput {
@@ -28,8 +29,20 @@ export class TextInput extends BaseInput {
   renderUI() {
     const UI = this._ui
     const field = this.field
-    return function Component({ handleChange }: TextInputProps) {
-      return <UI onChange={(e) => handleChange(e.target.name, e.target.value)} name={field} />
+    const label = this.label
+    return function Component({ handleChange, formData }: TextInputProps) {
+      const fieldValue = formData[field] !== undefined ? String(formData[field]) : ''
+      return (
+        <>
+          {label && <UI.label label={label} htmlFor={field} />}
+          <UI.input
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
+            name={field}
+            id={field}
+            value={fieldValue}
+          />
+        </>
+      )
     }
   }
 }

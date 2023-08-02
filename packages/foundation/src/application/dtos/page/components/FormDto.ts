@@ -8,7 +8,7 @@ export interface FormDto {
   submit: {
     label: string
     loadingLabel: string
-    actionsOnSuccess: {
+    actionsOnSuccess?: {
       type: string
       path: string
     }[]
@@ -40,9 +40,10 @@ export const FormDtoSchema: JSONSchemaType<FormDto> = {
             required: ['type', 'path'],
             additionalProperties: false,
           },
+          nullable: true,
         },
       },
-      required: ['label', 'loadingLabel', 'actionsOnSuccess'],
+      required: ['label', 'loadingLabel'],
       additionalProperties: false,
     },
   },

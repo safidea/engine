@@ -1,7 +1,7 @@
 import React from 'react'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { BaseInput } from './BaseInput'
-import { HandleChange } from '../Form'
+import { FormInputValue, HandleChange } from '../Form'
 import { Table } from '@domain/entities/table/Table'
 
 export type Column = {
@@ -16,6 +16,7 @@ export type Row = {
 
 export interface TableInputProps {
   handleChange: HandleChange
+  formData: { [key: string]: FormInputValue }
 }
 
 export class TableInput extends BaseInput {
@@ -51,8 +52,11 @@ export class TableInput extends BaseInput {
     const addLabel = this.addLabel
     const columns = this.columns
     const field = this.field
-    return function Component({ handleChange }: TableInputProps) {
-      const [rows, setRows] = React.useState<Row[]>([])
+    return function Component({ handleChange, formData }: TableInputProps) {
+      const fieldValue = formData[field]
+      const defaultValue =
+        typeof fieldValue === 'object' && 'create' in fieldValue ? fieldValue.create : []
+      const [rows, setRows] = React.useState<Row[]>(defaultValue)
 
       const addRow = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()

@@ -21,6 +21,8 @@ export class RenderPageForm {
         const { error } = await createRecord(record)
         if (error) {
           setErrorMessage(error)
+        } else {
+          setFormData({})
         }
         setIsSaving(false)
       }
@@ -42,6 +44,7 @@ export class RenderPageForm {
           InputComponents={InputComponents}
           isSaving={isSaving}
           errorMessage={errorMessage}
+          formData={formData}
         />
       )
     }

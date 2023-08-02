@@ -17,5 +17,5 @@
     "specs/**/*.ts",
     "tests/**/*.ts",
     "playwright.config.ts"
-  ]
+, "tests/application/usecases/page/RenderPageForm.test.tsx"  ]
 }

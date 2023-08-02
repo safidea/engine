@@ -9,9 +9,13 @@ export type HandleChange = (name: string, value: FormInputValue) => void
 export interface FormProps {
   handleSubmit: (e: { preventDefault: () => void }) => Promise<void>
   handleChange: HandleChange
-  InputComponents: React.FC<{ handleChange: HandleChange }>[]
+  InputComponents: React.FC<{
+    handleChange: HandleChange
+    formData: { [key: string]: FormInputValue }
+  }>[]
   isSaving: boolean
   errorMessage?: string
+  formData: { [key: string]: FormInputValue }
 }
 
 export class Form extends BaseComponent {
@@ -21,7 +25,7 @@ export class Form extends BaseComponent {
     private readonly _submit: {
       label: string
       loadingLabel: string
-      actionsOnSuccess: {
+      actionsOnSuccess?: {
         type: string
         path: string
       }[]
@@ -56,13 +60,14 @@ export class Form extends BaseComponent {
       InputComponents,
       isSaving,
       errorMessage,
+      formData,
     }: FormProps) {
       return (
         <UI.form onSubmit={handleSubmit}>
           <UI.inputs>
             {InputComponents.map((InputComponent, index) => (
               <UI.input key={index}>
-                <InputComponent handleChange={handleChange} />
+                <InputComponent handleChange={handleChange} formData={formData} />
               </UI.input>
             ))}
           </UI.inputs>

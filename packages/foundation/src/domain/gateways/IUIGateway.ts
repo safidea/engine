@@ -27,17 +27,24 @@ export interface FormUIFormProps extends UIProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
-export interface FormUIInputProps {
-  name: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-}
-
 export interface FormUISubmitProps {
   label: string
 }
 
 export interface FormUIErrorMessageProps {
   message: string
+}
+
+export interface InputTextUILabelProps {
+  label: string
+  htmlFor: string
+}
+
+export interface InputTextUIInputProps {
+  name: string
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  id: string
+  value: string
 }
 
 export interface TableInputUILabelProps {
@@ -93,7 +100,10 @@ export interface IUIGateway {
     submit: React.FC<FormUISubmitProps>
     errorMessage: React.FC<FormUIErrorMessageProps>
   }
-  TextInputUI: React.FC<FormUIInputProps>
+  TextInputUI: {
+    label: React.FC<InputTextUILabelProps>
+    input: React.FC<InputTextUIInputProps>
+  }
   TableInputUI: {
     container: React.FC<UIProps>
     menu: React.FC<UIProps>
