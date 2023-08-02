@@ -288,3 +288,93 @@ export const PAGE_CREATE_INVOICE: PageDto = {
     },
   ],
 }
+
+export const PAGE_UPDATE_INVOICE: PageDto = {
+  path: '/update/:id',
+  title: "Mise à jour d'une facture",
+  components: [
+    {
+      type: 'navigation',
+      title: {
+        type: 'title',
+        size: 'md',
+        text: 'Factures',
+      },
+      links: [
+        {
+          type: 'link',
+          label: 'Toutes les factures',
+          path: '/',
+        },
+        {
+          type: 'link',
+          label: 'Créer une facture',
+          path: '/create',
+        },
+      ],
+      components: [
+        {
+          type: 'title',
+          text: "Mise à jour d'une facture",
+          size: 'xl',
+        },
+        {
+          type: 'form',
+          table: 'invoices',
+          defaultRecordId: {
+            formula: 'path.params.id',
+          },
+          inputs: [
+            {
+              field: 'customer',
+              label: 'Client',
+            },
+            {
+              field: 'address',
+              label: 'Adresse',
+            },
+            {
+              field: 'zip_code',
+              label: 'Code postal',
+            },
+            {
+              field: 'country',
+              label: 'Pays',
+            },
+            {
+              field: 'items',
+              label: 'Lignes de facture',
+              columns: [
+                {
+                  field: 'activity',
+                  label: 'Activité',
+                  placeholder: 'Activité',
+                },
+                {
+                  field: 'quantity',
+                  label: 'Quantité',
+                  placeholder: 'Quantité',
+                },
+                {
+                  field: 'unity',
+                  label: 'Unité',
+                  placeholder: 'Unité',
+                },
+                {
+                  field: 'unit_price',
+                  label: 'Prix unitaire',
+                  placeholder: 'Prix unitaire',
+                },
+              ],
+              addLabel: 'Nouvelle ligne',
+            },
+          ],
+          submit: {
+            label: 'Mettre à jour',
+            loadingLabel: 'Mise à jour en cours...',
+          },
+        },
+      ],
+    },
+  ],
+}

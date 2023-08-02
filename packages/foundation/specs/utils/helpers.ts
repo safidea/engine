@@ -9,6 +9,7 @@ import {
   TABLE_INVOICES_ITEMS,
   PAGE_LIST_INVOICES,
   PAGE_CREATE_INVOICE,
+  PAGE_UPDATE_INVOICE,
 } from './schemas'
 
 export async function findAvailablePort(): Promise<number> {
@@ -50,6 +51,9 @@ export function getPages(...args: string[]): PageDto[] {
         break
       case 'invoices_create':
         pages.push(PAGE_CREATE_INVOICE)
+        break
+      case 'invoices_update':
+        pages.push(PAGE_UPDATE_INVOICE)
         break
       default:
         throw new Error(`Page ${pageName} not found in schemas`)
