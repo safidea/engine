@@ -41,7 +41,7 @@ test.describe('A page that create an invoice', () => {
     await page.locator('input[name="zip_code"]').fill(String(invoice.zip_code))
     await page.locator('input[name="country"]').fill(String(invoice.country))
     for (let i = 0; i < items.length; i++) {
-      await page.click('text=Nouvelle ligne')
+      if (i > 0) await page.click('text=Nouvelle ligne')
 
       const activitySelector = `input[placeholder="Activité"][value=""]`
       const unitySelector = `input[placeholder="Unité"][value=""]`

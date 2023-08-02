@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { Form, FormInputValue } from '@domain/entities/page/components/Form'
-import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
 
 export class RenderPageForm {
   constructor(private fetcherGateway: FetcherGateway) {}
@@ -16,9 +15,9 @@ export class RenderPageForm {
       const [formData, setFormData] = useState({})
       const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
-      const saveRecord = async (record: RecordToCreateDto) => {
+      const saveRecord = async () => {
         setIsSaving(true)
-        const { error } = await createRecord(record)
+        const { error } = await createRecord(formData)
         if (error) {
           setErrorMessage(error)
         } else {
@@ -34,7 +33,7 @@ export class RenderPageForm {
 
       const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault()
-        await saveRecord(formData)
+        await saveRecord()
       }
 
       return (

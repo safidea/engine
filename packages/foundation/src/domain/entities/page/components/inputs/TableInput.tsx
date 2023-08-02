@@ -54,19 +54,19 @@ export class TableInput extends BaseInput {
     const field = this.field
     return function Component({ handleChange, formData }: TableInputProps) {
       const fieldValue = formData[field]
-      const defaultValue =
-        typeof fieldValue === 'object' && 'create' in fieldValue ? fieldValue.create : []
-      const [rows, setRows] = React.useState<Row[]>(defaultValue)
+      const rows =
+        fieldValue && typeof fieldValue === 'object' && 'create' in fieldValue
+          ? fieldValue.create
+          : [{}]
 
       const addRow = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        setRows([...rows, {}])
+        handleChange(field, { create: [...rows, {}] })
       }
 
       const handleCellChange = (name: string, value: string, index: number) => {
         const newRows = [...rows]
         newRows[index][name] = value
-        setRows(newRows)
         handleChange(field, { create: newRows })
       }
 
