@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { Form, FormInputValue } from '@domain/entities/page/components/Form'
+import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
 
 export class RenderPageForm {
   constructor(private fetcherGateway: FetcherGateway) {}
@@ -9,24 +10,16 @@ export class RenderPageForm {
     const UI = form.renderUI()
     const { table, inputs } = form
     const InputComponents = inputs.map((input) => input.renderUI())
+    const createRecord = this.fetcherGateway.createTableRecord(table)
     return function Component() {
       const [isSaving, setIsSaving] = useState(false)
       const [formData, setFormData] = useState({})
-      const [errorMessage, setErrorMessage] = useState(undefined)
+      const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
-      const saveRecord = async (record: Record<string, FormInputValue>) => {
+      const saveRecord = async (record: RecordToCreateDto) => {
         setIsSaving(true)
-        const url = `/api/table/${table}`
-        // TODO use the fetcher
-        const res = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify(record),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        if (res.status !== 200) {
-          const { error } = await res.json()
+        const { error } = await createRecord(record)
+        if (error) {
           setErrorMessage(error)
         }
         setIsSaving(false)

@@ -12,10 +12,10 @@ export class RenderPageList {
 
   execute(list: List): () => JSX.Element {
     const UI = list.renderUI()
-    const getRecords = this.fetcherGateway.getTableRecords(list.table)
+    const getRecordsHook = this.fetcherGateway.getTableRecordsHook(list.table)
     const fields = this.appGateway.getTableFields(list.table)
     return function Component() {
-      const { records } = getRecords()
+      const { records } = getRecordsHook()
       return (
         <UI records={records.map((recordDto) => mapDtoToRecord(list.table, recordDto, fields))} />
       )

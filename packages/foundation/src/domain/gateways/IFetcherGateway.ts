@@ -3,4 +3,7 @@ export interface FetchState<T> {
   error: Error | undefined
   isLoading: boolean
 }
-export type IFetcherGateway = <T>(url: string) => FetchState<T>
+export type IFetcherGateway = {
+  fetch: (url: string, options?: RequestInit) => Promise<Response>
+  useFetch: <T>(url: string) => FetchState<T>
+}
