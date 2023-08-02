@@ -78,8 +78,8 @@ test.describe('A page that create an invoice', () => {
     for (let i = 0; i < items.length; i++) {
       expect(invoiceItemsRecords[i].activity).toEqual(items[i].activity)
       expect(invoiceItemsRecords[i].unity).toEqual(items[i].unity)
-      expect(invoiceItemsRecords[i].quantity).toEqual(String(items[i].quantity))
-      expect(invoiceItemsRecords[i].unit_price).toEqual(String(items[i].unit_price))
+      expect(invoiceItemsRecords[i].quantity).toEqual(items[i].quantity)
+      expect(invoiceItemsRecords[i].unit_price).toEqual(items[i].unit_price)
     }
   })
 
@@ -105,7 +105,7 @@ test.describe('A page that create an invoice', () => {
     await page.waitForSelector(':has-text("Enregistrement en cours...")', { state: 'detached' })
 
     // THEN
-    const errorExist = await page.$('text=Field address is required')
+    const errorExist = await page.$('text=field "address" is required')
     expect(errorExist).toBeTruthy()
   })
 })

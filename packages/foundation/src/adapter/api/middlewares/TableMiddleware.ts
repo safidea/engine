@@ -2,8 +2,17 @@ import { FilterDto } from '@application/dtos/table/FilterDto'
 import { App } from '@domain/entities/App'
 import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { ApiError } from '@domain/entities/errors/ApiError'
-import { RecordDto } from '@application/dtos/table/RecordDto'
+import { RecordDto, RecordToCreateDto } from '@application/dtos/table/RecordDto'
 import { RequestDto } from '@application/dtos/table/RequestDto'
+import { NumberField } from '@domain/entities/table/fields/NumberField'
+import { Currency } from '@domain/entities/table/fields/Currency'
+import { SingleLineText } from '@domain/entities/table/fields/SingleLineText'
+import { LongText } from '@domain/entities/table/fields/LongText'
+import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
+import { Datetime } from '@domain/entities/table/fields/Datetime'
+import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
+import { Formula } from '@domain/entities/table/fields/Formula'
+import { Rollup } from '@domain/entities/table/fields/Rollup'
 
 export class TableMiddleware {
   constructor(
@@ -60,7 +69,7 @@ export class TableMiddleware {
     return body
   }
 
-  public async validatePostBody(table: string, record: RecordDto): Promise<void> {
+  public async validatePostBody(table: string, record: RecordToCreateDto): Promise<void> {
     const errors = this.validateRecordValues(table, record)
     if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
   }
@@ -78,7 +87,7 @@ export class TableMiddleware {
 
   private validateRecordValues(
     table: string,
-    record: RecordDto = {},
+    record: RecordToCreateDto = {},
     action = 'CREATE',
     sourceTable?: string
   ): string[] {
@@ -89,12 +98,12 @@ export class TableMiddleware {
 
     for (const field of fields) {
       if (!field) {
-        throw new Error(`Field ${field} does not exist in table ${table}`)
+        throw new Error(`field "${field}" does not exist in table ${table}`)
       }
       const value = values[field.name]
       delete values[field.name]
 
-      if (['formula', 'rollup'].includes(field.type)) {
+      if (field instanceof Formula || field instanceof Rollup) {
         if (value) delete record[field.name]
         continue
       }
@@ -110,59 +119,54 @@ export class TableMiddleware {
       }
 
       if (!field.optional && !field.default && !value && field.type !== 'Boolean') {
-        errors.push(`Field ${field.name} is required`)
+        errors.push(`field "${field.name}" is required`)
       }
 
-      if (field.type === 'Int' && value) {
+      if ((field instanceof NumberField || field instanceof Currency) && value) {
         const number = Number(value)
-        if (isNaN(number) || !Number.isInteger(number)) {
-          errors.push(`Field ${field.name} must be an integer`)
+        if (isNaN(number)) {
+          errors.push(`field "${field.name}" must be a number`)
         } else {
           record[field.name] = number
         }
       }
 
-      if (field.type === 'Decimal' && value) {
-        const decimal = Number(value)
-        if (isNaN(decimal)) {
-          errors.push(`Field ${field.name} must be a decimal`)
-        } else {
-          record[field.name] = decimal
-        }
+      if (
+        (field instanceof SingleLineText ||
+          field instanceof LongText ||
+          field instanceof SingleSelect) &&
+        value &&
+        typeof value !== 'string'
+      ) {
+        errors.push(`field "${field.name}" must be a string`)
       }
 
-      if (field.type === 'String' && value && typeof value !== 'string') {
-        errors.push(`Field ${field.name} must be a string`)
-      }
-
-      if (field.type === 'DateTime' && value) {
+      if (field instanceof Datetime && value) {
         const date = new Date(String(value))
         if (isNaN(date.getTime())) {
-          errors.push(`Field ${field.name} must be a valid date`)
+          errors.push(`field "${field.name}" must be a valid date`)
         } else {
           record[field.name] = date.toISOString()
         }
       }
 
-      if (field.type === 'Boolean' && value && typeof value !== 'boolean') {
-        errors.push(`Field ${field} must be a boolean`)
+      if (field.type === 'checkbox' && value && typeof value !== 'boolean') {
+        errors.push(`field "${field}" must be a boolean`)
       }
 
-      if (field.type === 'Link' && value) {
-        if (Array.isArray(value)) {
-          if (value.length > 0) {
-            if (action === 'CREATE') {
-              for (const row of value) {
-                if (typeof row === 'object' && 'table' in field) {
-                  errors.push(...this.validateRecordValues(field.table, row, action, table))
-                }
+      if (field instanceof MultipleLinkedRecords && value) {
+        if (typeof value === 'object' && 'create' in value) {
+          if (Array.isArray(value.create) && value.create.length > 0) {
+            for (const record of value.create) {
+              if (typeof record === 'object' && 'table' in field) {
+                errors.push(...this.validateRecordValues(field.table, record, action, table))
               }
             }
           } else {
-            errors.push(`Array of field ${field.name} should not be empty`)
+            errors.push(`property "create" at field "${field.name}" should be an array of records`)
           }
         } else {
-          errors.push(`Field ${field.name} must be an array of rows`)
+          errors.push(`field "${field.name}" must be an object with create property`)
         }
       }
     }

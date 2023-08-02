@@ -218,7 +218,7 @@ test.describe('An api that render error messages', () => {
     expect((await res.json()).error).toEqual('Row unknown does not exist in table invoices')
   })
 
-  test('should return a 400 error when the row is not valid', async ({ request, foundation }) => {
+  test('should return a 400 error when fields are required', async ({ request, foundation }) => {
     // GIVEN
     // We provide an app with tables
     await foundation.start({
@@ -227,17 +227,65 @@ test.describe('An api that render error messages', () => {
 
     // WHEN
     // I make a POST request with an invalid row
-    const res = await request.post('/api/table/invoices', { data: { invalid: 'invalid' } })
+    const res = await request.post('/api/table/invoices', { data: { customer: 'Essentiel' } })
 
     // THEN
     // I should have a 400 error
     expect(res.status()).toEqual(400)
     const { error } = await res.json()
-    expect(error).toContain('Field customer is required')
-    expect(error).toContain('Field address is required')
-    expect(error).toContain('Field zip_code is required')
-    expect(error).toContain('Field country is required')
-    expect(error).toContain('Field items is required')
+    expect(error).toContain('field "address" is required')
+    expect(error).toContain('field "zip_code" is required')
+    expect(error).toContain('field "country" is required')
+    expect(error).toContain('field "items" is required')
+  })
+
+  test('should return a 400 error when a field is not valid', async ({ request, foundation }) => {
+    // GIVEN
+    // We provide an app with tables
+    await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+    const invoice = helpers.generateRecord('invoices')
+    invoice.invalid = 'invalid'
+
+    // WHEN
+    // I make a POST request with an invalid row
+    const res = await request.post('/api/table/invoices', { data: invoice })
+
+    // THEN
+    // I should have a 400 error
+    expect(res.status()).toEqual(400)
+    const { error } = await res.json()
     expect(error).toContain('Invalid fields: invalid')
+  })
+
+  test('should return a 400 error when a record of a multiple linked field is not valid', async ({
+    request,
+    foundation,
+  }) => {
+    // GIVEN
+    // We provide an app with tables
+    await foundation.start({
+      tables: helpers.getTables('invoices'),
+    })
+    const invoice = helpers.generateRecord('invoices', {
+      items: {
+        create: helpers.generateManyRecords('invoices_items', [
+          {
+            quantity: 'test',
+          },
+        ]),
+      },
+    })
+
+    // WHEN
+    // I make a POST request with an invalid row
+    const res = await request.post('/api/table/invoices', { data: invoice })
+
+    // THEN
+    // I should have a 400 error
+    expect(res.status()).toEqual(400)
+    const { error } = await res.json()
+    expect(error).toContain('field "quantity" must be a number')
   })
 })
