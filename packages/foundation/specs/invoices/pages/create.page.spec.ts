@@ -20,7 +20,7 @@ test.describe('A page that create an invoice', () => {
     // An invoicing app with a create page and an invoice
     const db = await foundation.start({
       tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_list', 'invoices_create'),
+      pages: helpers.getPages('invoices_create'),
     })
     const invoice = helpers.generateRecord('invoices')
     const items =
@@ -36,7 +36,6 @@ test.describe('A page that create an invoice', () => {
 
     // AND
     // I fill the form
-    await page.waitForSelector('input[name="customer"]', { state: 'visible' })
     await page.locator('input[name="customer"]').fill(String(invoice.customer))
     await page.locator('input[name="address"]').fill(String(invoice.address))
     await page.locator('input[name="zip_code"]').fill(String(invoice.zip_code))
@@ -82,5 +81,26 @@ test.describe('A page that create an invoice', () => {
       expect(invoiceItemsRecords[i].quantity).toEqual(String(items[i].quantity))
       expect(invoiceItemsRecords[i].unit_price).toEqual(String(items[i].unit_price))
     }
+  })
+
+  test.skip('should display an error message when some required fields are not provided', async ({
+    page,
+    foundation,
+  }) => {
+    // GIVEN
+    await foundation.start({
+      tables: helpers.getTables('invoices'),
+      pages: helpers.getPages('invoices_create'),
+    })
+    const invoice = helpers.generateRecord('invoices')
+
+    // WHEN
+    await page.locator('input[name="customer"]').fill(String(invoice.customer))
+    await page.locator('button[type="submit"]').click()
+    await page.waitForSelector(':has-text("Enregistrement en cours...")', { state: 'detached' })
+
+    // THEN
+    const errorExist = await page.$('text=Field address is required')
+    expect(errorExist).toBeTruthy()
   })
 })
