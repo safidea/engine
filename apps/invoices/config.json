@@ -72,12 +72,12 @@
       "name": "invoices_items",
       "fields": [
         { "name": "invoice", "type": "single_linked_record", "table": "invoices" },
-        { "name": "name", "type": "single_line_text" },
+        { "name": "activity", "type": "single_line_text" },
         { "name": "description", "type": "long_text", "optional": true },
         { "name": "quantity", "type": "number" },
         { "name": "unity", "type": "single_line_text" },
         { "name": "unit_price", "type": "currency" },
-        { "name": "vat", "type": "number" },
+        { "name": "vat", "type": "number", "default": "0.2" },
         {
           "name": "total_net_amount",
           "type": "formula",
@@ -177,20 +177,197 @@
                 },
                 {
                   "label": "Éditer",
-                  "format": "button",
-                  "actions": [
-                    {
-                      "type": "redirect",
-                      "path": "/update/:id"
-                    }
-                  ]
+                  "type": "button",
+                  "action": {
+                    "type": "redirect",
+                    "path": "/update/:id"
+                  }
                 }
               ],
               "groupBy": [{ "field": "status", "order": "first_to_last" }],
               "sortBy": [
-                { "field": "finalised_date", "order": "desc" },
-                { "field": "created_date", "order": "desc" }
+                { "field": "finalised_time", "order": "desc" },
+                { "field": "created_time", "order": "desc" }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/create",
+      "title": "Factures",
+      "components": [
+        {
+          "type": "navigation",
+          "title": {
+            "type": "title",
+            "size": "md",
+            "text": "Factures"
+          },
+          "links": [
+            {
+              "type": "link",
+              "label": "Toutes les factures",
+              "path": "/"
+            },
+            {
+              "type": "link",
+              "label": "Créer une facture",
+              "path": "/create"
+            }
+          ],
+          "components": [
+            {
+              "type": "title",
+              "size": "xl",
+              "text": "Créer une facture"
+            },
+            {
+              "type": "form",
+              "table": "invoices",
+              "inputs": [
+                {
+                  "field": "customer",
+                  "label": "Client"
+                },
+                {
+                  "field": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "field": "zip_code",
+                  "label": "Code postal"
+                },
+                {
+                  "field": "country",
+                  "label": "Pays"
+                },
+                {
+                  "field": "items",
+                  "label": "Lignes de facture",
+                  "columns": [
+                    {
+                      "field": "activity",
+                      "label": "Activité",
+                      "placeholder": "Activité"
+                    },
+                    {
+                      "field": "quantity",
+                      "label": "Quantité",
+                      "placeholder": "Quantité"
+                    },
+                    {
+                      "field": "unity",
+                      "label": "Unité",
+                      "placeholder": "Unité"
+                    },
+                    {
+                      "field": "unit_price",
+                      "label": "Prix unitaire",
+                      "placeholder": "Prix unitaire"
+                    }
+                  ],
+                  "addLabel": "Nouvelle ligne"
+                }
+              ],
+              "submit": {
+                "label": "Enregistrer",
+                "loadingLabel": "Enregistrement en cours...",
+                "actionsOnSuccess": [
+                  {
+                    "type": "redirect",
+                    "path": "/"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/update/:id",
+      "title": "Mise à jour d'une facture",
+      "components": [
+        {
+          "type": "navigation",
+          "title": {
+            "type": "title",
+            "size": "md",
+            "text": "Factures"
+          },
+          "links": [
+            {
+              "type": "link",
+              "label": "Toutes les factures",
+              "path": "/"
+            },
+            {
+              "type": "link",
+              "label": "Créer une facture",
+              "path": "/create"
+            }
+          ],
+          "components": [
+            {
+              "type": "title",
+              "text": "Mise à jour d'une facture",
+              "size": "xl"
+            },
+            {
+              "type": "form",
+              "table": "invoices",
+              "recordIdToUpdate": "{{path.params.id}}",
+              "inputs": [
+                {
+                  "field": "customer",
+                  "label": "Client"
+                },
+                {
+                  "field": "address",
+                  "label": "Adresse"
+                },
+                {
+                  "field": "zip_code",
+                  "label": "Code postal"
+                },
+                {
+                  "field": "country",
+                  "label": "Pays"
+                },
+                {
+                  "field": "items",
+                  "label": "Lignes de facture",
+                  "columns": [
+                    {
+                      "field": "activity",
+                      "label": "Activité",
+                      "placeholder": "Activité"
+                    },
+                    {
+                      "field": "quantity",
+                      "label": "Quantité",
+                      "placeholder": "Quantité"
+                    },
+                    {
+                      "field": "unity",
+                      "label": "Unité",
+                      "placeholder": "Unité"
+                    },
+                    {
+                      "field": "unit_price",
+                      "label": "Prix unitaire",
+                      "placeholder": "Prix unitaire"
+                    }
+                  ],
+                  "addLabel": "Nouvelle ligne"
+                }
+              ],
+              "submit": {
+                "label": "Mettre à jour",
+                "loadingLabel": "Mise à jour en cours..."
+              }
             }
           ]
         }
