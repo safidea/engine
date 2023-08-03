@@ -19,8 +19,16 @@ export interface ListUIRowProps extends UIProps {
   id: string
 }
 
-export interface ListUIRowColumnProps {
+export interface ListUITextCellProps {
   value: string
+}
+
+export interface ListUIButtonCellProps {
+  label: string
+}
+
+export interface ListUILinkCellProps {
+  label: string
 }
 
 export interface FormUIFormProps extends UIProps {
@@ -91,7 +99,10 @@ export interface IUIGateway {
     group: React.FC<ListUIGroupProps>
     rows: React.FC<UIProps>
     row: React.FC<ListUIRowProps>
-    rowColumn: React.FC<ListUIRowColumnProps>
+    cell: React.FC<UIProps>
+    textCell: React.FC<ListUITextCellProps>
+    buttonCell: React.FC<ListUIButtonCellProps>
+    linkCell: React.FC<ListUILinkCellProps>
   }
   FormUI: {
     form: React.FC<FormUIFormProps>

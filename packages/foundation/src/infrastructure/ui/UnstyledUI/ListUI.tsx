@@ -3,7 +3,9 @@ import {
   IUIGateway,
   ListUIGroupProps,
   ListUIHeaderColumnProps,
-  ListUIRowColumnProps,
+  ListUITextCellProps,
+  ListUIButtonCellProps,
+  ListUILinkCellProps,
   ListUIRowProps,
   UIProps,
 } from '@domain/gateways/IUIGateway'
@@ -35,8 +37,17 @@ const ListUI: IUIGateway['ListUI'] = {
   row: ({ children, id }: ListUIRowProps) => {
     return <tr id={id}>{children}</tr>
   },
-  rowColumn: ({ value }: ListUIRowColumnProps) => {
-    return <td>{value}</td>
+  cell: ({ children }: UIProps) => {
+    return <td>{children}</td>
+  },
+  textCell: ({ value }: ListUITextCellProps) => {
+    return <>{value}</>
+  },
+  buttonCell: ({ label }: ListUIButtonCellProps) => {
+    return <button>{label}</button>
+  },
+  linkCell: ({ label }: ListUILinkCellProps) => {
+    return <a href="#">{label}</a>
   },
 }
 

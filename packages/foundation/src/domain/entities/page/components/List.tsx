@@ -123,7 +123,17 @@ export class List extends BaseComponent {
             if (column.options) {
               value = column.options.find((option) => option.name === value)?.label ?? value
             }
-            return <UI.rowColumn value={String(value)} key={index} />
+            function getCellByFormat() {
+              switch (column.format) {
+                case 'link':
+                  return <UI.linkCell label={column.label} />
+                case 'button':
+                  return <UI.buttonCell label={column.label} />
+                default:
+                  return <UI.textCell key={index} value={String(value)} />
+              }
+            }
+            return <UI.cell key={index}>{getCellByFormat()}</UI.cell>
           })}
         </UI.row>
       )
