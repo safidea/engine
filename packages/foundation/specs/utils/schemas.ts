@@ -176,13 +176,11 @@ export const PAGE_LIST_INVOICES: PageDto = {
             },
             {
               label: 'Éditer',
-              format: 'button',
-              actions: [
-                {
-                  type: 'redirect',
-                  path: '/update/:id',
-                },
-              ],
+              type: 'button',
+              action: {
+                type: 'redirect',
+                path: '/update/:id',
+              },
             },
           ],
           groupBy: [{ field: 'status', order: 'first_to_last' }],

@@ -3,8 +3,8 @@ import { ComponentDto, ComponentDtoSchema } from './ComponentDto'
 
 export interface PageDto {
   path: string
+  components: ComponentDto[]
   title?: string
-  components?: ComponentDto[]
 }
 
 export const PageDtoSchema: JSONSchemaType<PageDto> = {
@@ -15,9 +15,8 @@ export const PageDtoSchema: JSONSchemaType<PageDto> = {
     components: {
       type: 'array',
       items: ComponentDtoSchema,
-      nullable: true,
     },
   },
-  required: ['path'],
+  required: ['path', 'components'],
   additionalProperties: false,
 }

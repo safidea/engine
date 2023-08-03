@@ -18,11 +18,11 @@ export interface ListDto {
       name: string
       label: string
     }[]
-    format?: string
-    actions?: {
+    type?: string
+    action?: {
       type: string
-      path: string
-    }[]
+      path?: string
+    }
   }[]
 }
 
@@ -77,18 +77,15 @@ export const ListDtoSchema: JSONSchemaType<ListDto> = {
             },
             nullable: true,
           },
-          format: { type: 'string', nullable: true },
-          actions: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                type: { type: 'string' },
-                path: { type: 'string' },
-              },
-              required: ['type', 'path'],
-              additionalProperties: false,
+          type: { type: 'string', nullable: true },
+          action: {
+            type: 'object',
+            properties: {
+              type: { type: 'string' },
+              path: { type: 'string', nullable: true },
             },
+            required: ['type'],
+            additionalProperties: false,
             nullable: true,
           },
         },

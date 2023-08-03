@@ -3,7 +3,7 @@ import { App } from '@domain/entities/App'
 import { PageRoute } from '@domain/gateways/IServerGateway'
 import { PageMiddleware } from '../middlewares/PageMiddleware'
 import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
-import { mapPageToDto } from '@application/mappers/table/PageMapper'
+import { mapPageToDto } from '@application/mappers/page/PageMapper'
 import { mapTableToDto } from '@application/mappers/table/TableMapper'
 
 export class PageRoutes {

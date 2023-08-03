@@ -6,9 +6,9 @@ type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 export class Title extends BaseComponent {
   constructor(
-    private readonly _text: string = '#',
-    private readonly _size: Size = 'md',
-    private readonly _ui: IUIGateway['TitleUI']
+    private readonly _text: string,
+    private readonly _ui: IUIGateway['TitleUI'],
+    private readonly _size: Size = 'md'
   ) {
     super('title')
   }

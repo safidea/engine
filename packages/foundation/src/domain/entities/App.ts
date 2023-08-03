@@ -30,4 +30,20 @@ export class App {
   get automations(): Automation[] {
     return this._automations
   }
+
+  pageExists(path: string) {
+    return this.pages.find((page) => this.matchPath(page.path, path))
+  }
+
+  private matchPath(pagePath: string, path: string): boolean {
+    const pagePathParts = pagePath.split('/').filter(Boolean)
+    const pathParts = path.split('/').filter(Boolean)
+
+    if (pagePathParts.length !== pathParts.length) return false
+
+    return pagePathParts.every((part, i) => {
+      if (part.startsWith(':')) return true
+      return part === pathParts[i]
+    })
+  }
 }

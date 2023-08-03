@@ -1,6 +1,6 @@
 import { AppDto } from '@application/dtos/AppDto'
 import { App } from '@domain/entities/App'
-import { mapDtoToPage, mapPageToDto } from './table/PageMapper'
+import { mapDtoToPage, mapPageToDto } from './page/PageMapper'
 import { mapDtoToTable, mapTableToDto } from './table/TableMapper'
 import { IUIGateway } from '@domain/gateways/IUIGateway'
 import { mapAutomationToDto, mapDtoToAutomation } from './automation/AutomationMapper'

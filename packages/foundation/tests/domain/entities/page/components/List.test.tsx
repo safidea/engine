@@ -4,16 +4,22 @@
 import React from 'react'
 import { describe, test, expect } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Table } from '@domain/entities/table/Table'
 import { mapDtoToTable } from '@application/mappers/table/TableMapper'
 import { TableDto } from '@application/dtos/table/TableDto'
-import { GroupBy, List, SortBy } from '@domain/entities/page/components/List'
+import { Column, GroupBy, List, SortBy } from '@domain/entities/page/components/List'
 import { mapDtoToRecord } from '@application/mappers/table/RecordMapper'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { Field } from '@domain/entities/table/Field'
 import { mapDtoToField } from '@application/mappers/table/FieldMapper'
 import { FieldDto } from '@application/dtos/table/FieldDto'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+
+Object.defineProperty(window, 'location', {
+  writable: true,
+  value: { href: 'http://localhost' },
+})
 
 describe('List Component', () => {
   test('config validation fail if table reference an invalid table', async () => {
@@ -180,14 +186,14 @@ describe('List Component', () => {
   test('should display a column in button format', async () => {
     // GIVEN
     const tableName = 'tableA'
-    const columns = [
+    const columns: Column[] = [
       {
         field: 'fieldA',
         label: 'Field A',
       },
       {
         label: 'Action',
-        format: 'button',
+        type: 'button',
       },
     ]
     const table = mapDtoToTable({
@@ -211,21 +217,26 @@ describe('List Component', () => {
     )
 
     // THEN
-    const buttons = screen.getAllByText('Action')
-    expect(buttons.length).toEqual(2)
+    const button = screen.getByText('Action')
+    expect(button).toBeDefined()
   })
 
-  test('should display a column in link format', async () => {
+  test('should display a button with a redirect action', async () => {
     // GIVEN
+    const user = userEvent.setup()
     const tableName = 'tableA'
-    const columns = [
+    const columns: Column[] = [
       {
         field: 'fieldA',
         label: 'Field A',
       },
       {
         label: 'Redirect',
-        format: 'link',
+        type: 'button',
+        action: {
+          type: 'redirect',
+          path: '/tableA/:id',
+        },
       },
     ]
     const table = mapDtoToTable({
@@ -248,8 +259,10 @@ describe('List Component', () => {
       />
     )
 
+    // AND
+    await user.click(screen.getByText(/Redirect/i))
+
     // THEN
-    const buttons = screen.getAllByText('Redirect')
-    expect(buttons.length).toEqual(2)
+    expect(window.location.href).toEqual('/tableA/1')
   })
 })

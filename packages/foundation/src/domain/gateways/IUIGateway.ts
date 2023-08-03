@@ -25,6 +25,7 @@ export interface ListUITextCellProps {
 
 export interface ListUIButtonCellProps {
   label: string
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 export interface ListUILinkCellProps {

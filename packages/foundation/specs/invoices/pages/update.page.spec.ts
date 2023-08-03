@@ -6,19 +6,19 @@ test.describe('A page that update an invoice', () => {
     // An invoice is listed on the home page
     const db = await foundation.start({
       tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_update'),
+      pages: helpers.getPages('invoices_list', 'invoices_update'),
     })
-    const invoiceId = await db.createRecord('invoices')
+    const invoiceId = await db.createRecord('invoices', {
+      status: 'draft',
+    })
 
     // Go to the homepage
-    await page.goto('/') // replace with the URL of your app's home page
+    await page.goto('/list') // replace with the URL of your app's home page
 
     // WHEN
     // The user clicks on an invoice
-    await page.click('a:has-text("Éditer")') // Assuming the edit button has text "Éditer"
-
-    // Go to the update page
-    await page.goto(`/update/${invoiceId}`) // replace with the URL of your app's update page
+    await page.click('button:has-text("Éditer")') // Assuming the edit button has text "Éditer"
+    await page.waitForURL(`/update/${invoiceId}`);
 
     // THEN
     // The invoice data should be displayed

@@ -43,8 +43,8 @@ const ListUI: IUIGateway['ListUI'] = {
   textCell: ({ value }: ListUITextCellProps) => {
     return <>{value}</>
   },
-  buttonCell: ({ label }: ListUIButtonCellProps) => {
-    return <button>{label}</button>
+  buttonCell: ({ label, onClick }: ListUIButtonCellProps) => {
+    return <button onClick={onClick}>{label}</button>
   },
   linkCell: ({ label }: ListUILinkCellProps) => {
     return <a href="#">{label}</a>

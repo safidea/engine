@@ -45,11 +45,11 @@ export interface Column {
   label: string
   field?: string
   options?: ColumnOption[]
-  format?: string
-  actions?: {
+  type?: string
+  action?: {
     type: string
-    path: string
-  }[]
+    path?: string
+  }
 }
 
 export interface ListProps {
@@ -103,6 +103,10 @@ export class List extends BaseComponent {
     return this._columns
   }
 
+  get buttons(): Column[] {
+    return this._columns.filter((column) => column.type === 'button')
+  }
+
   get fields(): Field[] {
     return this._fields
   }
@@ -124,13 +128,24 @@ export class List extends BaseComponent {
               value = column.options.find((option) => option.name === value)?.label ?? value
             }
             function getCellByFormat() {
-              switch (column.format) {
-                case 'link':
-                  return <UI.linkCell label={column.label} />
+              switch (column.type) {
                 case 'button':
-                  return <UI.buttonCell label={column.label} />
+                  function triggerAction() {
+                    if (!column.action) throw new Error('action is not defined')
+                    switch (column.action.type) {
+                      case 'redirect':
+                        if (!column.action.path)
+                          throw new Error('path is not defined inredirect  action')
+                        const path = column.action.path.replace(':id', record.id)
+                        window.location.href = path
+                        break
+                      default:
+                        throw new Error(`action type ${column.action.type} is not defined`)
+                    }
+                  }
+                  return <UI.buttonCell label={column.label} onClick={() => triggerAction()} />
                 default:
-                  return <UI.textCell key={index} value={String(value)} />
+                  return <UI.textCell value={String(value)} />
               }
             }
             return <UI.cell key={index}>{getCellByFormat()}</UI.cell>
@@ -148,9 +163,10 @@ export class List extends BaseComponent {
       return (
         <UI.container>
           <UI.header>
-            {columns.map((column: Column, index: number) => (
-              <UI.headerColumn label={column.label} key={index} />
-            ))}
+            {columns.map((column: Column, index: number) => {
+              if (column.type === 'button') return undefined
+              return <UI.headerColumn label={column.label} key={index} />
+            })}
           </UI.header>
           <UI.rows>
             {groups.length > 0
