@@ -54,10 +54,14 @@ export class TableInput extends BaseInput {
     const field = this.field
     return function Component({ handleChange, formData }: TableInputProps) {
       const fieldValue = formData[field]
-      const rows =
-        fieldValue && typeof fieldValue === 'object' && 'create' in fieldValue
-          ? fieldValue.create
-          : [{}]
+      let rows: { [key: string]: string }[] = [{}]
+      if (fieldValue && typeof fieldValue === 'object') {
+        if ('create' in fieldValue && Array.isArray(fieldValue.create)) {
+          rows = fieldValue.create
+        } else if (Array.isArray(fieldValue)) {
+          rows = fieldValue
+        }
+      }
 
       const addRow = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()

@@ -32,13 +32,13 @@ declare global {
 }
 
 ;(async () => {
-  const { uiName, fetcherName, domain, appDto, pagePath } = window.__FOUNDATION_DATA__
+  const { uiName, fetcherName, domain, appDto, pagePath, params } = window.__FOUNDATION_DATA__
   const app = mapDtoToApp(appDto, selectUI(uiName))
   const { pages } = app
   const page = pages.find((page) => page.path === pagePath)
   if (!page) throw new Error(`Page ${pagePath} not found`)
   const pageController = new PageController(selectFetcher(fetcherName, domain), app)
-  const Page = await pageController.render(page)
+  const Page = await pageController.render(page, params)
   const container = document.getElementById('root')
   if (!container) throw new Error('Root element not found')
   hydrateRoot(container, <Page />)

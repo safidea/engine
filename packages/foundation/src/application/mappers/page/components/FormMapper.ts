@@ -8,7 +8,7 @@ export function mapDtoToForm(formDto: FormDto, ui: IUIGateway, tables: Table[]):
   const inputs = formDto.inputs.map((inputDto) =>
     mapDtoToInput(inputDto, ui, formDto.table, tables)
   )
-  return new Form(formDto.table, inputs, formDto.submit, ui.FormUI)
+  return new Form(formDto.table, inputs, formDto.submit, ui.FormUI, formDto.recordIdToUpdate)
 }
 
 export function mapFormToDto(form: Form): FormDto {
@@ -18,5 +18,6 @@ export function mapFormToDto(form: Form): FormDto {
     table: form.table,
     inputs,
     submit: form.submit,
+    recordIdToUpdate: form.recordIdToUpdate,
   }
 }

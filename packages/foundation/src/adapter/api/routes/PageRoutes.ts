@@ -1,6 +1,6 @@
 import { PageController } from '../controllers/PageController'
 import { App } from '@domain/entities/App'
-import { PageRoute } from '@domain/gateways/IServerGateway'
+import { PageRequest, PageRoute } from '@domain/gateways/IServerGateway'
 import { PageMiddleware } from '../middlewares/PageMiddleware'
 import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
 import { mapPageToDto } from '@application/mappers/page/PageMapper'
@@ -23,14 +23,14 @@ export class PageRoutes {
       path: page.path,
       method: 'GET',
       title: page.title ?? 'My react app',
-      handler: async (path: string) => this.render(path),
+      handler: async (request: PageRequest) => this.render(request),
       pageDto: mapPageToDto(page),
       tablesDto: this.app.tables.map((table) => mapTableToDto(table)),
     }))
   }
 
-  async render(path: string) {
+  async render({ path, params }: PageRequest): Promise<() => JSX.Element> {
     const page = await this.pageMiddleware.pathExists(path)
-    return this.pageController.render(page)
+    return this.pageController.render(page, params)
   }
 }

@@ -11,7 +11,12 @@ export interface PageRoute {
   path: string
   method: string
   title: string
-  handler: (path: string) => Promise<() => JSX.Element>
+  handler: (request: PageRequest) => Promise<() => JSX.Element>
+}
+
+export interface PageRequest {
+  path: string
+  params: { [key: string]: string }
 }
 
 export interface IServerGateway {

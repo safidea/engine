@@ -19,6 +19,7 @@ export interface FoundationData {
   domain: string
   appDto: AppDto
   pagePath: string
+  params: { [key: string]: string }
 }
 
 export class ExpressServer implements IServerGateway {
@@ -102,7 +103,7 @@ export class ExpressServer implements IServerGateway {
     })
     routes.forEach((route) => {
       this.app.get(route.path, async (req, res) => {
-        const Page = await route.handler(req.url.split('?')[0])
+        const Page = await route.handler({ path: req.url.split('?')[0], params: req.params })
         const pageHtml = ReactDOMServer.renderToString(<Page />)
         const data: FoundationData = {
           uiName: this.uiName,
@@ -110,6 +111,7 @@ export class ExpressServer implements IServerGateway {
           domain: this.domain,
           appDto: mapAppToDto(app),
           pagePath: route.path,
+          params: req.params,
         }
         const html = `
           <!DOCTYPE html>

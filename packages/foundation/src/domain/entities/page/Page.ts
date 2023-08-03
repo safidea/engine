@@ -1,5 +1,11 @@
 import { Component } from './Component'
 
+export interface PageContext {
+  path: {
+    params: { [key: string]: string }
+  }
+}
+
 export class Page {
   constructor(
     private readonly _path: string,

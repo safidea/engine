@@ -319,9 +319,7 @@ export const PAGE_UPDATE_INVOICE: PageDto = {
         {
           type: 'form',
           table: 'invoices',
-          defaultRecordId: {
-            formula: 'path.params.id',
-          },
+          recordIdToUpdate: '{{path.params.id}}',
           inputs: [
             {
               field: 'customer',

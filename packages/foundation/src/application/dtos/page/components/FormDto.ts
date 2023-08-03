@@ -5,9 +5,7 @@ export interface FormDto {
   type: 'form'
   table: string
   inputs: InputDto[]
-  defaultRecordId?: {
-    formula: string
-  }
+  recordIdToUpdate?: string
   submit: {
     label: string
     loadingLabel: string
@@ -27,15 +25,7 @@ export const FormDtoSchema: JSONSchemaType<FormDto> = {
       type: 'array',
       items: InputDtoSchema,
     },
-    defaultRecordId: {
-      type: 'object',
-      properties: {
-        formula: { type: 'string' },
-      },
-      required: ['formula'],
-      additionalProperties: false,
-      nullable: true,
-    },
+    recordIdToUpdate: { type: 'string', nullable: true },
     submit: {
       type: 'object',
       properties: {

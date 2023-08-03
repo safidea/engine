@@ -3,6 +3,7 @@ import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { Page } from '@domain/entities/page/Page'
 import { RenderPageComponent } from './RenderPageComponent'
 import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { Context } from '@domain/entities/page/Context'
 
 export class RenderPage {
   private renderPageComponent: RenderPageComponent
@@ -11,9 +12,11 @@ export class RenderPage {
     this.renderPageComponent = new RenderPageComponent(fetcherGateway, appGateway)
   }
 
-  execute(page: Page): () => JSX.Element {
+  async execute(page: Page, context: Context): Promise<() => JSX.Element> {
     const { components } = page
-    const Components = components.map((component) => this.renderPageComponent.execute(component))
+    const Components = await Promise.all(
+      components.map((component) => this.renderPageComponent.execute(component, context))
+    )
     return function PageComponent() {
       return (
         <div>

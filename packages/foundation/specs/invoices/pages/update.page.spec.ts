@@ -18,7 +18,7 @@ test.describe('A page that update an invoice', () => {
     // WHEN
     // The user clicks on an invoice
     await page.click('button:has-text("Éditer")') // Assuming the edit button has text "Éditer"
-    await page.waitForURL(`/update/${invoiceId}`);
+    await page.waitForURL(`/update/${invoiceId}`)
 
     // THEN
     // The invoice data should be displayed

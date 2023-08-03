@@ -30,7 +30,8 @@ export class Form extends BaseComponent {
         path: string
       }[]
     },
-    private readonly _ui: IUIGateway['FormUI']
+    private readonly _ui: IUIGateway['FormUI'],
+    private readonly _recordIdToUpdate?: string
   ) {
     super('title')
   }
@@ -49,6 +50,10 @@ export class Form extends BaseComponent {
 
   get ui() {
     return this._ui
+  }
+
+  get recordIdToUpdate() {
+    return this._recordIdToUpdate
   }
 
   renderUI() {

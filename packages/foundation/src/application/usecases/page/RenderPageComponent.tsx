@@ -7,6 +7,7 @@ import { RenderPageNavigation } from './RenderPageNavigation'
 import { RenderPageForm } from './RenderPageForm'
 import { Form } from '@domain/entities/page/components/Form'
 import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { Context } from '@domain/entities/page/Context'
 
 export class RenderPageComponent {
   constructor(
@@ -14,10 +15,10 @@ export class RenderPageComponent {
     private appGateway: AppGateway
   ) {}
 
-  execute(component: Component): () => JSX.Element {
+  async execute(component: Component, context: Context): Promise<() => JSX.Element> {
     if (component instanceof Navigation) {
       const renderPageNavigation = new RenderPageNavigation(this.fetcherGateway, this.appGateway)
-      return renderPageNavigation.execute(component)
+      return renderPageNavigation.execute(component, context)
     }
     if (component instanceof List) {
       const renderPageList = new RenderPageList(this.fetcherGateway, this.appGateway)
@@ -25,7 +26,7 @@ export class RenderPageComponent {
     }
     if (component instanceof Form) {
       const renderPageForm = new RenderPageForm(this.fetcherGateway)
-      return renderPageForm.execute(component)
+      return renderPageForm.execute(component, context)
     }
     return component.renderUI()
   }

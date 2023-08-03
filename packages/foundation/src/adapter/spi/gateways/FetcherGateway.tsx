@@ -39,4 +39,16 @@ export class FetcherGateway {
       return { id }
     }
   }
+
+  async getTableRecord(table: string, recordId: string): Promise<() => RecordDto> {
+    const res = await this.fetcher.fetch(`/api/table/${table}/${recordId}`, {
+      method: 'GET',
+    })
+    if (res.status !== 200) {
+      const { error } = await res.json()
+      throw new Error(error)
+    }
+    const record = await res.json()
+    return record
+  }
 }
