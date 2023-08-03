@@ -6,22 +6,22 @@ import { RenderPageList } from './RenderPageList'
 import { RenderPageNavigation } from './RenderPageNavigation'
 import { RenderPageForm } from './RenderPageForm'
 import { Form } from '@domain/entities/page/components/Form'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 import { Context } from '@domain/entities/page/Context'
+import { App } from '@domain/entities/App'
 
 export class RenderPageComponent {
   constructor(
     private fetcherGateway: FetcherGateway,
-    private appGateway: AppGateway
+    private app: App
   ) {}
 
   async execute(component: Component, context: Context): Promise<() => JSX.Element> {
     if (component instanceof Navigation) {
-      const renderPageNavigation = new RenderPageNavigation(this.fetcherGateway, this.appGateway)
+      const renderPageNavigation = new RenderPageNavigation(this.fetcherGateway, this.app)
       return renderPageNavigation.execute(component, context)
     }
     if (component instanceof List) {
-      const renderPageList = new RenderPageList(this.fetcherGateway, this.appGateway)
+      const renderPageList = new RenderPageList(this.fetcherGateway, this.app)
       return renderPageList.execute(component)
     }
     if (component instanceof Form) {

@@ -4,16 +4,16 @@ import { FilterDto } from '@application/dtos/table/FilterDto'
 import { mapDtoToFilter } from '@application/mappers/table/FilterMapper'
 import { mapRecordToDto } from '@application/mappers/table/RecordMapper'
 import { RecordDto } from '@application/dtos/table/RecordDto'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { App } from '@domain/entities/App'
 
 export class ListTableRecords {
   private readTableRecord: ReadTableRecord
 
   constructor(
     private ormGateway: OrmGateway,
-    appGateway: AppGateway
+    app: App
   ) {
-    this.readTableRecord = new ReadTableRecord(ormGateway, appGateway)
+    this.readTableRecord = new ReadTableRecord(ormGateway, app)
   }
 
   async execute(table: string, filters: FilterDto[] = []): Promise<RecordDto[]> {
@@ -23,7 +23,7 @@ export class ListTableRecords {
     )
     const promises = []
     for (const record of records) {
-      promises.push(this.readTableRecord.enrichRecord(mapRecordToDto(record), table))
+      promises.push(this.readTableRecord.runRecordFormulas(mapRecordToDto(record), table))
     }
     return Promise.all(promises)
   }

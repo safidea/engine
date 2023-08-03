@@ -160,7 +160,7 @@ describe('RenderPageForm', () => {
     render(<FormComponent />)
 
     // THEN
-    expect(fetch).toBeCalledWith('/api/table/tableA/1', {
+    expect(fetch).toBeCalledWith('/api/table/tableA/1?enriched=true', {
       method: 'GET',
     })
     const fieldA = screen.getByLabelText('Field A') as HTMLInputElement

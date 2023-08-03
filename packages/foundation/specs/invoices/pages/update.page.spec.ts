@@ -1,7 +1,7 @@
 import { test, expect, helpers } from '../../utils/fixtures'
 
 test.describe('A page that update an invoice', () => {
-  test.skip('should display the invoice data', async ({ page, foundation }) => {
+  test('should display the invoice data', async ({ page, foundation }) => {
     // GIVEN
     // An invoice is listed on the home page
     const db = await foundation.start({
@@ -10,6 +10,9 @@ test.describe('A page that update an invoice', () => {
     })
     const invoiceId = await db.createRecord('invoices', {
       status: 'draft',
+      items: {
+        create: [helpers.generateRecord('invoices_items')],
+      },
     })
 
     // Go to the homepage
@@ -25,6 +28,9 @@ test.describe('A page that update an invoice', () => {
     const companyFieldValue = await page.locator('input[name="customer"]').inputValue()
     const [invoice] = await db.list('invoices')
     expect(companyFieldValue).toBe(invoice.customer)
+    const activityFieldValue = await page.locator('input[placeholder="Activité"]').inputValue()
+    const [invoiceItem] = await db.list('invoices_items')
+    expect(activityFieldValue).toBe(invoiceItem.activity)
   })
 
   test.skip('should update an invoice in realtime', async ({ page, foundation }) => {

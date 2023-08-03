@@ -9,7 +9,7 @@ import { IOrmGateway } from '@domain/gateways/IOrmGateway'
 import { DeleteTableRecord } from '@application/usecases/table/DeleteTableRecord'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { FilterDto } from '@application/dtos/table/FilterDto'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { ReadAndEnrichTableRecord } from '@application/usecases/table/ReadAndEnrichTableRecord'
 
 export class TableController {
   private createTableRecord: CreateTableRecord
@@ -18,17 +18,18 @@ export class TableController {
   private createManyTableRecord: CreateManyTableRecord
   private updateTableRecord: UpdateTableRecord
   private deleteTableRecord: DeleteTableRecord
+  private readAndEnrichTableRecord: ReadAndEnrichTableRecord
 
   constructor(app: App, orm: IOrmGateway) {
     const { tables } = app
     const ormGateway = new OrmGateway(orm, tables)
-    const appGateway = new AppGateway(app)
-    this.createTableRecord = new CreateTableRecord(ormGateway, appGateway)
-    this.readTableRecord = new ReadTableRecord(ormGateway, appGateway)
-    this.listTableRecords = new ListTableRecords(ormGateway, appGateway)
-    this.createManyTableRecord = new CreateManyTableRecord(ormGateway, appGateway)
-    this.updateTableRecord = new UpdateTableRecord(ormGateway, appGateway)
-    this.deleteTableRecord = new DeleteTableRecord(ormGateway, appGateway)
+    this.createTableRecord = new CreateTableRecord(ormGateway, app)
+    this.readTableRecord = new ReadTableRecord(ormGateway, app)
+    this.readAndEnrichTableRecord = new ReadAndEnrichTableRecord(ormGateway, app)
+    this.listTableRecords = new ListTableRecords(ormGateway, app)
+    this.createManyTableRecord = new CreateManyTableRecord(ormGateway, app)
+    this.updateTableRecord = new UpdateTableRecord(ormGateway, app)
+    this.deleteTableRecord = new DeleteTableRecord(ormGateway, app)
   }
 
   async create(table: string, record: RecordDto) {
@@ -41,6 +42,10 @@ export class TableController {
 
   async read(table: string, id: string) {
     return this.readTableRecord.execute(table, id)
+  }
+
+  async readAndEnrich(table: string, id: string) {
+    return this.readAndEnrichTableRecord.execute(table, id)
   }
 
   async list(table: string, filters: FilterDto[]) {

@@ -1,4 +1,3 @@
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { RenderPage } from '@application/usecases/page/RenderPage'
 import { App } from '@domain/entities/App'
@@ -11,8 +10,7 @@ export class PageController {
 
   constructor(fetcher: IFetcherGateway, app: App) {
     const fetcherGateway = new FetcherGateway(fetcher)
-    const appGateway = new AppGateway(app)
-    this.renderPage = new RenderPage(fetcherGateway, appGateway)
+    this.renderPage = new RenderPage(fetcherGateway, app)
   }
 
   async render(page: Page, params: { [key: string]: string }) {

@@ -1,5 +1,6 @@
 import { Automation } from './automation/Automation'
 import { Page } from './page/Page'
+import { Field } from './table/Field'
 import { Table } from './table/Table'
 
 export class App {
@@ -29,6 +30,14 @@ export class App {
 
   get automations(): Automation[] {
     return this._automations
+  }
+
+  getTableFields(tableName: string): Field[] {
+    const tables = this._tables
+    if (!tables) throw new Error('Tables not found in app')
+    const table = tables.find((t) => t.name === tableName)
+    if (!table) throw new Error(`Table ${tableName} not found`)
+    return table.fields
   }
 
   pageExists(path: string) {

@@ -6,22 +6,22 @@ import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLin
 import { mapRecordToDto } from '@application/mappers/table/RecordMapper'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { runFormula } from '@application/utils/FormulaUtils'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { App } from '@domain/entities/App'
 
 export class ReadTableRecord {
   constructor(
     private ormGateway: OrmGateway,
-    private appGateway: AppGateway
+    private app: App
   ) {}
 
   async execute(table: string, id: string): Promise<RecordDto> {
     const record = await this.ormGateway.read(table, id)
     if (!record) throw new Error(`Record ${id} not found`)
-    return this.enrichRecord(mapRecordToDto(record), table)
+    return this.runRecordFormulas(mapRecordToDto(record), table)
   }
 
-  async enrichRecord(record: RecordDto, table: string) {
-    const fields = this.appGateway.getTableFields(table)
+  async runRecordFormulas(record: RecordDto, table: string) {
+    const fields = this.app.getTableFields(table)
     if (fields.length > 0) {
       for (const field of fields)
         if (field instanceof Rollup) await this.runFieldRollupFormula(record, field, table)
@@ -33,10 +33,10 @@ export class ReadTableRecord {
 
   async runFieldRollupFormula(record: RecordDto, fieldRollup: Rollup, table: string) {
     const { formula } = fieldRollup
-    const fields = this.appGateway.getTableFields(table)
+    const fields = this.app.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
     if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
-    const listTableGateway = new ListTableRecords(this.ormGateway, this.appGateway)
+    const listTableGateway = new ListTableRecords(this.ormGateway, this.app)
     const values = record[field.name]
     if (!Array.isArray(values)) throw new Error('Values are not an array')
     const linkedRecords = await listTableGateway.execute(field.table, [

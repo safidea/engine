@@ -6,16 +6,16 @@ import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLin
 import { SingleLinkRecord } from '@domain/entities/table/fields/SingleLinkedRecord'
 import { CreateManyTableRecord } from './CreateManyTableRecord'
 import { Field } from '@domain/entities/table/Field'
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
+import { App } from '@domain/entities/App'
 
 export class CreateTableRecord {
   constructor(
     private ormGateway: OrmGateway,
-    private appGateway: AppGateway
+    private app: App
   ) {}
 
   async execute(table: string, recordToCreateDto: RecordToCreateDto): Promise<string> {
-    const fields = this.appGateway.getTableFields(table)
+    const fields = this.app.getTableFields(table)
     const recordDto = await this.buildRecordDto(table, recordToCreateDto, fields)
     return this.ormGateway.create(table, mapDtoToRecord(table, recordDto, fields))
   }
@@ -37,7 +37,7 @@ export class CreateTableRecord {
         if (field instanceof MultipleLinkedRecords) {
           if (!Array.isArray(value.create))
             throw new Error(`Property create of field ${fieldName} must be an array`)
-          const createManyTableRecord = new CreateManyTableRecord(this.ormGateway, this.appGateway)
+          const createManyTableRecord = new CreateManyTableRecord(this.ormGateway, this.app)
           const linkedField = await this.getLinkedFields(field.table, table)
           if (!linkedField) throw new Error(`Linked field not found for table ${field.table}`)
           recordDto[fieldName] = await createManyTableRecord.execute(
@@ -72,7 +72,7 @@ export class CreateTableRecord {
   }
 
   async getLinkedFields(fromTableName: string, toTableName: string) {
-    const fields = this.appGateway.getTableFields(fromTableName)
+    const fields = this.app.getTableFields(fromTableName)
     return fields.find(
       (field) =>
         ['single_linked_record', 'multiple_linked_records'].includes(field.type) &&

@@ -1,16 +1,16 @@
-import { AppGateway } from '@adapter/spi/gateways/AppGateway'
 import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { mapDtoToRecord } from '@application/mappers/table/RecordMapper'
+import { App } from '@domain/entities/App'
 
 export class DeleteTableRecord {
   constructor(
     private ormGateway: OrmGateway,
-    private appGateway: AppGateway
+    private app: App
   ) {}
 
   async execute(table: string, id: string): Promise<void> {
-    const fields = this.appGateway.getTableFields(table)
+    const fields = this.app.getTableFields(table)
     const recordDto: RecordDto = {
       deleted_time: new Date().toISOString(),
     }

@@ -14,7 +14,7 @@ export class ConfigureApp {
 
   execute(): App {
     if (validate(this.config)) return mapDtoToApp(this.config, this.ui)
-    if (validate.errors) throw new Error(validate.errors[0].message)
+    if (validate.errors) throw new Error(JSON.stringify(validate.errors[0], null, 2))
     throw new Error('should throw a validation error')
   }
 }

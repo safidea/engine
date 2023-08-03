@@ -51,6 +51,10 @@ export class TableRoutes {
       const table = await this.tableMiddleware.validateTableExist(request)
       if (request.params?.id) {
         const id = await this.tableMiddleware.validateRowExist(request)
+        if (request.query?.enriched) {
+          const record = await this.tableController.readAndEnrich(table, id)
+          return { json: record }
+        }
         const record = await this.tableController.read(table, id)
         return { json: record }
       }

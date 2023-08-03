@@ -41,7 +41,7 @@ export class FetcherGateway {
   }
 
   async getTableRecord(table: string, recordId: string): Promise<() => RecordDto> {
-    const res = await this.fetcher.fetch(`/api/table/${table}/${recordId}`, {
+    const res = await this.fetcher.fetch(`/api/table/${table}/${recordId}?enriched=true`, {
       method: 'GET',
     })
     if (res.status !== 200) {
