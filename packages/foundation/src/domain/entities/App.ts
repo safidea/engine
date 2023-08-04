@@ -33,11 +33,16 @@ export class App {
   }
 
   getTableFields(tableName: string): Field[] {
+    const table = this.getTableByName(tableName)
+    return table.fields
+  }
+
+  getTableByName(tableName: string): Table {
     const tables = this._tables
     if (!tables) throw new Error('Tables not found in app')
     const table = tables.find((t) => t.name === tableName)
     if (!table) throw new Error(`Table ${tableName} not found`)
-    return table.fields
+    return table
   }
 
   pageExists(path: string) {

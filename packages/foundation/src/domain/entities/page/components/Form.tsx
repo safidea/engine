@@ -59,7 +59,7 @@ export class Form extends BaseComponent {
   renderUI() {
     const UI = this._ui
     const submit = this._submit
-    return function Component({
+    return function FormUI({
       handleSubmit,
       handleChange,
       InputComponents,

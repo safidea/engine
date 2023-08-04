@@ -52,7 +52,7 @@ export class TableInput extends BaseInput {
     const addLabel = this.addLabel
     const columns = this.columns
     const field = this.field
-    return function Component({ handleChange, formData }: TableInputProps) {
+    return function TableInputUI({ handleChange, formData }: TableInputProps) {
       const fieldValue = formData[field]
       let rows: { [key: string]: string }[] = [{}]
       if (fieldValue && typeof fieldValue === 'object') {

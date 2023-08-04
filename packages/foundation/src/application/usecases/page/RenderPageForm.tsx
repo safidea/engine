@@ -16,7 +16,7 @@ export class RenderPageForm {
       const recordId = context.getValue(recordIdToUpdate)
       defaultValue = await this.fetcherGateway.getTableRecord(table, recordId)
     }
-    return function Component() {
+    return function FormComponent() {
       const [isSaving, setIsSaving] = useState(false)
       const [formData, setFormData] = useState(defaultValue)
       const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
