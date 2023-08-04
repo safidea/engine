@@ -3,8 +3,8 @@ import { BaseField, Format } from './BaseField'
 export class Rollup extends BaseField {
   constructor(
     name: string,
-    private readonly _linked_records: string,
-    private readonly _linked_field: string,
+    private readonly _linkedRecords: string,
+    private readonly _linkedField: string,
     private readonly _formula: string,
     format?: Format,
     optional?: boolean
@@ -13,11 +13,11 @@ export class Rollup extends BaseField {
   }
 
   get linkedRecords(): string {
-    return this._linked_records
+    return this._linkedRecords
   }
 
   get linkedField(): string {
-    return this._linked_field
+    return this._linkedField
   }
 
   get formula(): string {

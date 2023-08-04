@@ -3,8 +3,8 @@ import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
 export interface RollupDto extends BaseFieldDto {
   type: 'rollup'
-  linked_records: string
-  linked_field: string
+  linkedRecords: string
+  linkedField: string
   formula: string
 }
 
@@ -13,10 +13,10 @@ export const RollupDtoSchema: JSONSchemaType<RollupDto> = {
   properties: {
     ...BaseFieldDtoSchema.properties,
     type: { type: 'string', enum: ['rollup'] },
-    linked_records: { type: 'string' },
-    linked_field: { type: 'string' },
+    linkedRecords: { type: 'string' },
+    linkedField: { type: 'string' },
     formula: { type: 'string' },
   },
-  required: [...BaseFieldDtoSchema.required, 'type', 'linked_records', 'linked_field', 'formula'],
+  required: [...BaseFieldDtoSchema.required, 'type', 'linkedRecords', 'linkedField', 'formula'],
   additionalProperties: false,
 }

@@ -218,5 +218,45 @@ describe('TableMiddleware', () => {
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldB" must be a number')
     })
+
+    test('should not throw an error if a number field is 0', async () => {
+      // GIVEN
+      const tables: Table[] = [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'multiple_linked_records',
+              table: 'tableB',
+            },
+          ],
+        },
+        {
+          name: 'tableB',
+          fields: [
+            {
+              name: 'fieldB',
+              type: 'number',
+            },
+          ],
+        },
+      ].map((table) => mapDtoToTable(table as TableDto))
+
+      // WHEN
+      const call = () =>
+        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
+          fieldA: {
+            create: [
+              {
+                fieldB: 0,
+              },
+            ],
+          },
+        })
+
+      // THEN
+      await expect(call()).resolves.not.toThrow()
+    })
   })
 })

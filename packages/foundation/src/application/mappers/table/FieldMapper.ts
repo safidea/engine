@@ -53,8 +53,8 @@ export function mapDtoToField(fieldDto: FieldDto): Field {
   if (type === 'rollup') {
     return new Rollup(
       fieldDto.name,
-      fieldDto.linked_records,
-      fieldDto.linked_field,
+      fieldDto.linkedRecords,
+      fieldDto.linkedField,
       fieldDto.formula,
       fieldDto.format,
       fieldDto.optional
@@ -138,8 +138,8 @@ export function mapFieldToDto(field: Field): FieldDto {
     return {
       type: 'rollup',
       name: field.name,
-      linked_records: field.linkedRecords,
-      linked_field: field.linkedField,
+      linkedRecords: field.linkedRecords,
+      linkedField: field.linkedField,
       formula: field.formula,
       format: field.format,
       optional: field.optional,

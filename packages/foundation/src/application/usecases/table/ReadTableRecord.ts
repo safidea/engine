@@ -52,8 +52,10 @@ export class ReadTableRecord {
   async runFieldFormula(record: RecordDto, fieldFormula: Formula) {
     const { formula } = fieldFormula
     const context = record
+    if (formula.includes('total_net_amount') && context.total_net_amount == null)
+      console.log('runFieldFormula', formula, context)
     const result = await runFormula(formula, context, this.getFunctions())
-    if (result) record[fieldFormula.name] = result
+    record[fieldFormula.name] = result
   }
 
   getFunctions(): { [key: string]: string } {

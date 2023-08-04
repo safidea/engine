@@ -118,7 +118,7 @@ export class TableMiddleware {
         continue
       }
 
-      if (!field.optional && !field.default && !value && field.type !== 'Boolean') {
+      if (!field.optional && !field.default && value == null && field.type !== 'Boolean') {
         errors.push(`field "${field.name}" is required`)
       }
 
