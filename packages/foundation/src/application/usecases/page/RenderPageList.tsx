@@ -14,7 +14,7 @@ export class RenderPageList {
     const UI = list.renderUI()
     const getRecordsHook = this.fetcherGateway.getTableRecordsHook(list.table)
     const fields = this.app.getTableFields(list.table)
-    return function Component() {
+    return function ListComponent() {
       const { records } = getRecordsHook()
       return (
         <UI records={records.map((recordDto) => mapDtoToRecord(list.table, recordDto, fields))} />

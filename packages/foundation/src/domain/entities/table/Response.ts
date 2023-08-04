@@ -5,7 +5,7 @@ export interface Response {
   json:
     | RecordDto
     | RecordDto[]
-    | EnrichedRecordDto 
+    | EnrichedRecordDto
     | { id: string }
     | { ids: string[] }
     | { error: string }

@@ -69,7 +69,7 @@ export interface TableInputUIHeaderColumnProps {
   label: string
 }
 
-export interface TableInputUIRowColumnProps {
+export interface TableInputUICellProps {
   name: string
   placeholder?: string
   value: string
@@ -126,6 +126,6 @@ export interface IUIGateway {
     headerColumn: React.FC<TableInputUIHeaderColumnProps>
     rows: React.FC<UIProps>
     row: React.FC<UIProps>
-    rowColumn: React.FC<TableInputUIRowColumnProps>
+    cell: React.FC<TableInputUICellProps>
   }
 }

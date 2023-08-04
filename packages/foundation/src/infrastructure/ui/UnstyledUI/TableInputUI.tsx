@@ -33,7 +33,7 @@ const TableInputUI: IUIGateway['TableInputUI'] = {
   row: ({ children }) => {
     return <tr>{children}</tr>
   },
-  rowColumn: ({ name, placeholder, value, onChange }) => {
+  cell: ({ name, placeholder, value, onChange }) => {
     return (
       <td>
         <input name={name} placeholder={placeholder} onChange={onChange} value={value} />

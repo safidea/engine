@@ -17,7 +17,7 @@ export class Paragraph extends BaseComponent {
   renderUI() {
     const UI = this._ui
     const text = this._text
-    return function Component() {
+    return function ParagraphUI() {
       return <UI>{text}</UI>
     }
   }

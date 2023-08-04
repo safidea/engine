@@ -92,7 +92,7 @@ export class TableInput extends BaseInput {
               {rows.map((row, index) => (
                 <UI.row key={index}>
                   {columns.map((column) => (
-                    <UI.rowColumn
+                    <UI.cell
                       key={column.field}
                       name={column.field}
                       placeholder={column.placeholder}

@@ -25,7 +25,7 @@ export class Title extends BaseComponent {
     const UI = this._ui
     const text = this.text
     const size = this.size
-    return function Component() {
+    return function TitleUI() {
       switch (size) {
         case 'xs':
           return <UI.xs>{text}</UI.xs>

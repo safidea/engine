@@ -23,7 +23,7 @@ export class Link extends BaseComponent {
     const UI = this._ui
     const path = this._path
     const label = this._label
-    return function Component() {
+    return function LinkUI() {
       return <UI href={path}>{label}</UI>
     }
   }

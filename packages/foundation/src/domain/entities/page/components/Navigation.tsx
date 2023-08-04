@@ -35,7 +35,7 @@ export class Navigation extends BaseComponent {
 
   renderUI() {
     const UI = this._ui
-    return function Component({ TitleComponent, LinksComponent, Components }: NavigationProps) {
+    return function NavigationUI({ TitleComponent, LinksComponent, Components }: NavigationProps) {
       return (
         <UI.container>
           <UI.sidebar>

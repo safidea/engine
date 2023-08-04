@@ -119,7 +119,7 @@ export class List extends BaseComponent {
     const fields = this.fields
     const groupRecords = this.groupRecords
     const sortRecords = this.sortRecords
-    function Row({ record }: { record: Record }) {
+    function ListRowUI({ record }: { record: Record }) {
       return (
         <UI.row id={record.id}>
           {columns.map((column: Column, index: number) => {
@@ -153,7 +153,7 @@ export class List extends BaseComponent {
         </UI.row>
       )
     }
-    return function Component({ records }: ListProps) {
+    return function ListUI({ records }: ListProps) {
       let groups: GroupType[] = []
       if (groupBy.length > 0) {
         groups = groupRecords({ records, groupBy, fields, sortBy, columns, sortRecords })
@@ -174,11 +174,11 @@ export class List extends BaseComponent {
                   <Fragment key={group.name}>
                     <UI.group colSpan={columns.length} label={group.label} />
                     {group.records.map((record) => (
-                      <Row key={record.id} record={record} />
+                      <ListRowUI key={record.id} record={record} />
                     ))}
                   </Fragment>
                 ))
-              : records.map((record: Record) => <Row key={record.id} record={record} />)}
+              : records.map((record: Record) => <ListRowUI key={record.id} record={record} />)}
           </UI.rows>
         </UI.container>
       )

@@ -29,4 +29,22 @@ describe('TableInput Component', () => {
     // THEN
     expect(call).toThrowError('field fieldX in table input columns is not defined in table tableA')
   })
+
+  test.skip('should add a row when click on add label', async () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
+    expect(false).toBe(true)
+  })
+
+  test.skip('should remove a row when click on remove button', async () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
+    expect(false).toBe(true)
+  })
 })

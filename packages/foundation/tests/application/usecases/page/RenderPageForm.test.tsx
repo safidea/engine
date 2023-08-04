@@ -149,7 +149,8 @@ describe('RenderPageForm', () => {
     }
     const fetch = jest.fn(async () => ({
       status: 200,
-      json: () => Promise.resolve({ id: '1', fieldA: 'test A', items: [{ fieldB: 'test B' }] }),
+      json: () =>
+        Promise.resolve({ id: '1', fieldA: 'test A', items: [{ id: '2', fieldB: 'test B' }] }),
     }))
     const fetcherGateway = new FetcherGateway({ fetch } as any)
     const form = mapDtoToForm(formDto, UnstyledUI, tables)
@@ -167,5 +168,101 @@ describe('RenderPageForm', () => {
     expect(fieldA.value).toBe('test A')
     const fieldB = screen.getByPlaceholderText('Field B') as HTMLInputElement
     expect(fieldB.value).toBe('test B')
+  })
+
+  test.skip('should update a record when submit a form', async () => {
+    // GIVEN
+    const user = userEvent.setup()
+    const tables = [
+      {
+        name: 'tableA',
+        fields: [
+          { name: 'fieldA', type: 'single_line_text' },
+          { name: 'items', type: 'multiple_linked_records', table: 'tableB' },
+        ],
+      },
+      {
+        name: 'tableB',
+        fields: [{ name: 'fieldB', type: 'single_line_text' }],
+      },
+    ].map((table) => mapDtoToTable(table as TableDto))
+    const formDto: FormDto = {
+      type: 'form',
+      table: 'tableA',
+      recordIdToUpdate: '{{path.params.id}}',
+      inputs: [
+        {
+          field: 'fieldA',
+          label: 'Field A',
+        },
+        {
+          field: 'items',
+          label: 'Items',
+          columns: [
+            {
+              field: 'fieldB',
+              label: 'Field B',
+              placeholder: 'Field B',
+            },
+          ],
+          addLabel: 'Add item',
+        },
+      ],
+      submit: { label: 'Update', loadingLabel: 'Updating...' },
+    }
+    const fetch = jest.fn()
+    fetch.mockImplementationOnce(async () => ({
+      status: 200,
+      json: () =>
+        Promise.resolve({
+          id: '1',
+          fieldA: 'test A',
+          items: [
+            { id: '2', fieldB: 'test B' },
+            { id: '3', fieldB: 'test C' },
+          ],
+        }),
+    }))
+    fetch.mockImplementationOnce(async () => ({
+      status: 200,
+      json: () => Promise.resolve(undefined),
+    }))
+    const fetcherGateway = new FetcherGateway({ fetch } as any)
+    const form = mapDtoToForm(formDto, UnstyledUI, tables)
+    const context = new Context({ id: '1' })
+    const FormComponent = await new RenderPageForm(fetcherGateway).execute(form, context)
+    render(<FormComponent />)
+
+    // WHEN
+    await user.type(screen.getByLabelText('Field A'), ' updated')
+    await user.type(screen.getAllByPlaceholderText('Field B')[0], ' updated')
+    await user.click(screen.getByText(/Add item/i))
+    await user.type(screen.getAllByPlaceholderText('Field B')[2], 'new row')
+    await user.click(screen.getByText(/Update/i))
+    await screen.findByText('Update')
+
+    // THEN
+    expect(fetch.mock.calls[1][0]).toBe('/api/table/tableA/1')
+    expect(fetch.mock.calls[1][1]).toStrictEqual({
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: '1',
+        fieldA: 'test A updated',
+        items: {
+          create: [
+            {
+              fieldB: 'new row',
+            },
+          ],
+          update: [
+            {
+              id: '2',
+              fieldB: 'test B updated',
+            },
+          ],
+        },
+      }),
+    })
   })
 })

@@ -394,6 +394,12 @@ importers:
       '@swc/jest':
         specifier: ^0.2.27
         version: 0.2.27(@swc/core@1.3.71)
+      '@testing-library/react':
+        specifier: 14.0.0
+        version: 14.0.0(react-dom@18.2.0)(react@18.2.0)
+      '@testing-library/user-event':
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@9.3.1)
       '@types/cors':
         specifier: ^2.8.13
         version: 2.8.13
@@ -406,6 +412,9 @@ importers:
       '@types/fs-extra':
         specifier: 11.0.1
         version: 11.0.1
+      '@types/jest':
+        specifier: ^29.5.3
+        version: 29.5.3
       '@types/module-alias':
         specifier: ^2.0.1
         version: 2.0.1
@@ -445,6 +454,9 @@ importers:
       jest:
         specifier: ^29.6.2
         version: 29.6.2(@types/node@18.16.19)
+      jest-environment-jsdom:
+        specifier: 29.5.0
+        version: 29.5.0
       tsconfig-paths-webpack-plugin:
         specifier: ^4.1.0
         version: 4.1.0
@@ -2227,13 +2239,6 @@ packages:
     resolution: {integrity: sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==}
     dev: true
 
-  /@babel/runtime@7.22.5:
-    resolution: {integrity: sha512-ecjvYlnAaZ/KVneE/OdKYBYfgXV3Ptu6zQWmgEF7vwKhQnvVS6bjMD2XYgj+SNvQ1GfK/pjgokfPkC/2CO8CuA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.11
-    dev: true
-
   /@babel/runtime@7.22.6:
     resolution: {integrity: sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==}
     engines: {node: '>=6.9.0'}
@@ -2670,13 +2675,6 @@ packages:
       - supports-color
     dev: true
 
-  /@jest/schemas@29.4.3:
-    resolution: {integrity: sha512-VLYKXQmtmuEz6IxJsrZwzG9NvtkQsWNnWMsKxqWNu3+CnfzJQhp0WDDKWLVV9hLKr0l3SLLFRqcYHjhtyuDVxg==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dependencies:
-      '@sinclair/typebox': 0.25.24
-    dev: true
-
   /@jest/schemas@29.6.0:
     resolution: {integrity: sha512-rxLjXyJBTL4LQeJW3aKo0M/+GkCOXsO+8i9Iu7eDb6KwtP65ayoDsitrdPBtujxQ88k4wI2FNYfa6TOGwSn6cQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2793,7 +2791,7 @@ packages:
     resolution: {integrity: sha512-qbu7kN6czmVRc3xWFQcAN03RAUamgppVUdXrvl1Wr3jlNF93o9mJbGcDWrwGB6ht44u7efB1qCFgVQmca24Uog==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/schemas': 29.4.3
+      '@jest/schemas': 29.6.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
       '@types/node': 18.16.19
@@ -3018,10 +3016,6 @@ packages:
     resolution: {integrity: sha512-V+MvGwaHH03hYhY+k6Ef/xKd6RYlc4q8WBx+2ANmipHJcKuktNcI/NgEsJgdSUF6Lw32njT6OnrRsKYCdgHjYw==}
     dev: false
 
-  /@sinclair/typebox@0.25.24:
-    resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
-    dev: true
-
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
@@ -3195,8 +3189,8 @@ packages:
     engines: {node: '>=8', npm: '>=6', yarn: '>=1'}
     dependencies:
       '@adobe/css-tools': 4.2.0
-      '@babel/runtime': 7.22.5
-      '@types/testing-library__jest-dom': 5.14.6
+      '@babel/runtime': 7.22.6
+      '@types/testing-library__jest-dom': 5.14.5
       aria-query: 5.3.0
       chalk: 3.0.0
       css.escape: 1.5.1
@@ -3513,13 +3507,7 @@ packages:
   /@types/testing-library__jest-dom@5.14.5:
     resolution: {integrity: sha512-SBwbxYoyPIvxHbeHxTZX2Pe/74F/tX2/D3mMvzabdeJ25bBojfW0TyB8BHrbq/9zaaKICJZjLP+8r6AeZMFCuQ==}
     dependencies:
-      '@types/jest': 29.5.3
-    dev: true
-
-  /@types/testing-library__jest-dom@5.14.6:
-    resolution: {integrity: sha512-FkHXCb+ikSoUP4Y4rOslzTdX5sqYwMxfefKh1GmZ8ce1GOkEHntSp6b5cGadmNfp5e4BMEWOMx+WSKd5/MqlDA==}
-    dependencies:
-      '@types/jest': 29.5.3
+      '@types/jest': 29.5.1
     dev: true
 
   /@types/tough-cookie@4.0.2:

@@ -25,7 +25,7 @@ export interface RecordToUpdateDto {
 }
 
 export interface RecordDto {
-  [key: string]: RecordFieldDto 
+  [key: string]: RecordFieldDto
 }
 
 export interface EnrichedRecordDto {

@@ -19,7 +19,7 @@ export class RenderPageNavigation {
     const Components = await Promise.all(
       navigation.components.map((component) => this.renderPageComponent.execute(component, context))
     )
-    return function Component() {
+    return function NavigationComponent() {
       return (
         <UI
           TitleComponent={TitleComponent}

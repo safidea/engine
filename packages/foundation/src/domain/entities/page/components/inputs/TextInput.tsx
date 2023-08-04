@@ -30,7 +30,7 @@ export class TextInput extends BaseInput {
     const UI = this._ui
     const field = this.field
     const label = this.label
-    return function Component({ handleChange, formData }: TextInputProps) {
+    return function TextInputUI({ handleChange, formData }: TextInputProps) {
       const fieldValue = formData[field] !== undefined ? String(formData[field]) : ''
       return (
         <>
