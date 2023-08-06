@@ -5,6 +5,7 @@ import { Record } from '@domain/entities/app/Record'
 import { RecordDto } from '../../api/app/dtos/RecordDto'
 import { RecordMapper } from '../../api/app/mappers/RecordMapper'
 import { App } from '@domain/entities/app/App'
+import { SyncCommandDto } from '@adapter/api/app/dtos/SyncDto'
 
 export class FetcherGateway implements FetcherGatewayAbstract {
   private fetcherConnection: FetcherConnection
@@ -21,9 +22,9 @@ export class FetcherGateway implements FetcherGatewayAbstract {
     error?: string
     isLoading: boolean
   } {
-    const { useFetch } = this.fetcherConnection
+    const useFetch = this.fetcherConnection.getUseFetch()
     const toEntities = (recordsDto: RecordDto[]) =>
-      RecordMapper.toEntities(recordsDto, this.app, table)
+      RecordMapper.toEntities(recordsDto, this.app.getTableByName(table))
     return function () {
       const {
         data: recordsDto = [],
@@ -38,26 +39,23 @@ export class FetcherGateway implements FetcherGatewayAbstract {
     }
   }
 
-  createTableRecord(table: string): (record: Record) => Promise<{ id?: string; error?: string }> {
-    const { fetch } = this.fetcherConnection
-    return async function (record: Record) {
-      const res = await fetch(`/api/table/${table}`, {
+  syncTableRecords(): (records: Record[]) => Promise<{ error?: string }> {
+    const fetch = this.fetcherConnection.getFetch()
+    return async (records: Record[]) => {
+      const commands: SyncCommandDto[] = records.map((record) => {
+        if (record.state === 'read') throw new Error('Record is read-only')
+        return {
+          type: record.state,
+          table: record.table.name,
+          record: RecordMapper.toDto(record),
+        }
+      })
+      const res = await fetch(`/api/table/sync`, {
         method: 'POST',
-        body: JSON.stringify(RecordMapper.toDto(record)),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ commands }),
       })
       return res.json()
     }
-  }
-
-  async getEnrichedTableRecord(
-    table: string,
-    recordId: string
-  ): Promise<{ record?: Record; error?: string }> {
-    const res = await this.fetcherConnection.fetch(`/api/table/${table}/${recordId}?enriched=true`)
-    const { record: recordDto, error } = await res.json()
-    return { record: RecordMapper.toEntity(recordDto, this.app, table), error }
   }
 }

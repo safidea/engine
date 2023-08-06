@@ -7,7 +7,7 @@ import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLin
 import { NumberField } from '@domain/entities/table/fields/NumberField'
 import { Rollup } from '@domain/entities/table/fields/Rollup'
 import { SingleLineText } from '@domain/entities/table/fields/SingleLineText'
-import { SingleLinkRecord } from '@domain/entities/table/fields/SingleLinkedRecord'
+import { SingleLinkedRecord } from '@domain/entities/table/fields/SingleLinkedRecord'
 import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
 import { FieldDto } from '../dtos/FieldDto'
 
@@ -43,7 +43,7 @@ export class FieldMapper {
       )
     }
     if (type === 'single_linked_record') {
-      return new SingleLinkRecord(fieldDto.name, fieldDto.table, fieldDto.optional)
+      return new SingleLinkedRecord(fieldDto.name, fieldDto.table, fieldDto.optional)
     }
     if (type === 'multiple_linked_records') {
       return new MultipleLinkedRecords(fieldDto.name, fieldDto.table, fieldDto.optional)
@@ -107,7 +107,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof SingleLinkRecord) {
+    if (field instanceof SingleLinkedRecord) {
       return {
         type: 'single_linked_record',
         name: field.name,

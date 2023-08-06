@@ -2,25 +2,30 @@ import React from 'react'
 import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
+import { Record, RecordFieldValue } from '@domain/entities/app/Record'
 
-export type FormInputValue = string | { create: { [key: string]: string }[] }
-export type HandleChange = (name: string, value: FormInputValue) => void
+export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
+export type AddRecord = (tableName: string) => void
 
 export interface FormProps {
-  handleSubmit: (e: { preventDefault: () => void }) => Promise<void>
-  handleChange: HandleChange
+  saveRecords: () => Promise<void>
+  updateRecord: UpdateRecord
+  addRecord: AddRecord
   InputComponents: React.FC<{
-    handleChange: HandleChange
-    formData: { [key: string]: FormInputValue }
+    updateRecord: UpdateRecord
+    addRecord: AddRecord
+    records: Record[]
+    currentRecord: Record
   }>[]
   isSaving: boolean
   errorMessage?: string
-  formData: { [key: string]: FormInputValue }
+  records: Record[]
+  currentRecord: Record
 }
 
 export class Form extends BaseComponent {
   constructor(
-    private readonly _table: string,
+    private readonly _tableName: string,
     private readonly _inputs: Input[],
     private readonly _submit: {
       label: string
@@ -36,8 +41,8 @@ export class Form extends BaseComponent {
     super('title')
   }
 
-  get table() {
-    return this._table
+  get tableName() {
+    return this._tableName
   }
 
   get inputs() {
@@ -60,19 +65,30 @@ export class Form extends BaseComponent {
     const UI = this._ui
     const submit = this._submit
     return function FormUI({
-      handleSubmit,
-      handleChange,
+      saveRecords,
+      updateRecord,
+      addRecord,
       InputComponents,
       isSaving,
       errorMessage,
-      formData,
+      records,
+      currentRecord,
     }: FormProps) {
+      const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        await saveRecords()
+      }
       return (
         <UI.form onSubmit={handleSubmit}>
           <UI.inputs>
             {InputComponents.map((InputComponent, index) => (
               <UI.input key={index}>
-                <InputComponent handleChange={handleChange} formData={formData} />
+                <InputComponent
+                  updateRecord={updateRecord}
+                  addRecord={addRecord}
+                  currentRecord={currentRecord}
+                  records={records}
+                />
               </UI.input>
             ))}
           </UI.inputs>

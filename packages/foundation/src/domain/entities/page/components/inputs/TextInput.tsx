@@ -1,12 +1,6 @@
 import React from 'react'
 import { UI } from '@adapter/spi/ui/UI'
-import { BaseInput } from './BaseInput'
-import { FormInputValue, HandleChange } from '../Form'
-
-export interface TextInputProps {
-  handleChange: HandleChange
-  formData: { [key: string]: FormInputValue }
-}
+import { BaseInput, BaseInputProps } from './BaseInput'
 
 export class TextInput extends BaseInput {
   constructor(
@@ -30,16 +24,22 @@ export class TextInput extends BaseInput {
     const UI = this._ui
     const field = this.field
     const label = this.label
-    return function TextInputUI({ handleChange, formData }: TextInputProps) {
-      const fieldValue = formData[field] !== undefined ? String(formData[field]) : ''
+    return function TextInputUI({ updateRecord, currentRecord }: BaseInputProps) {
+      const fieldValue = currentRecord.getFieldValue(field) ?? ''
+
+      const handleUpdateRecord = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        updateRecord(id, e.target.name, e.target.value)
+      }
+
       return (
         <>
           {label && <UI.label label={label} htmlFor={field} />}
           <UI.input
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
+            onChange={(e) => handleUpdateRecord(currentRecord.id, e)}
             name={field}
             id={field}
-            value={fieldValue}
+            value={String(fieldValue)}
           />
         </>
       )

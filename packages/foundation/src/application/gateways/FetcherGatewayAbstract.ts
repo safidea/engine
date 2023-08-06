@@ -6,9 +6,5 @@ export interface FetcherGatewayAbstract {
     error?: string
     isLoading: boolean
   }
-  createTableRecord: (table: string) => (record: Record) => Promise<{ id?: string; error?: string }>
-  getEnrichedTableRecord: (
-    table: string,
-    recordId: string
-  ) => Promise<{ record?: Record; error?: string }>
+  syncTableRecords: () => (records: Record[]) => Promise<{ error?: string }>
 }

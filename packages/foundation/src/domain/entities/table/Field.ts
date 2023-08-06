@@ -6,7 +6,7 @@ import { MultipleLinkedRecords } from './fields/MultipleLinkedRecords'
 import { NumberField } from './fields/NumberField'
 import { Rollup } from './fields/Rollup'
 import { SingleLineText } from './fields/SingleLineText'
-import { SingleLinkRecord } from './fields/SingleLinkedRecord'
+import { SingleLinkedRecord } from './fields/SingleLinkedRecord'
 import { SingleSelect } from './fields/SingleSelect'
 
 export type Field =
@@ -17,6 +17,6 @@ export type Field =
   | NumberField
   | Rollup
   | SingleLineText
-  | SingleLinkRecord
+  | SingleLinkedRecord
   | Datetime
   | SingleSelect

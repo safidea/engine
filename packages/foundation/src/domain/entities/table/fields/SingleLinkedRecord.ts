@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField'
 
-export class SingleLinkRecord extends BaseField {
+export class SingleLinkedRecord extends BaseField {
   constructor(
     name: string,
     private readonly _table: string,

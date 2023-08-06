@@ -22,7 +22,7 @@ describe('Record', () => {
     const call = () => new Record(values, table)
 
     // THEN
-    expect(call).toThrowError('Record must have an id')
+    expect(call).toThrowError('Read record must have an id')
   })
 
   test('should create a record with default values', async () => {

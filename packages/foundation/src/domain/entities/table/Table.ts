@@ -1,6 +1,8 @@
 import { Field } from './Field'
 import { Datetime } from './fields/Datetime'
+import { MultipleLinkedRecords } from './fields/MultipleLinkedRecords'
 import { SingleLineText } from './fields/SingleLineText'
+import { SingleLinkedRecord } from './fields/SingleLinkedRecord'
 
 export class Table {
   constructor(
@@ -31,5 +33,13 @@ export class Table {
 
   hasColumn(columnName: string): boolean {
     return this._fields.some((field) => field.name === columnName)
+  }
+
+  getLinkedFieldByLinkedTableName(linkedTableName: string): Field {
+    const field = this._fields.find((field) => (field instanceof MultipleLinkedRecords || field instanceof SingleLinkedRecord) && field.table === linkedTableName)
+    if (!field) {
+      throw new Error(`Table ${this._name} has no linked field for table ${linkedTableName}`)
+    }
+    return field
   }
 }

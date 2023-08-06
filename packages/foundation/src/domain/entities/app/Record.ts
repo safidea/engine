@@ -31,16 +31,18 @@ export class Record {
     switch (_state) {
       case 'read':
         if (!id) {
-          throw new Error('Record must have an id')
+          throw new Error('Read record must have an id')
         }
         this._id = id
         this._created_time = created_time
         this._last_modified_time = last_modified_time
         this._deleted_time = deleted_time
+        this._fieldsValues = fieldsValues
         break
       case 'create':
-        this._id = uuidv4()
-        this._created_time = new Date().toISOString()
+        this._id = id ?? uuidv4()
+        this._created_time = id ? new Date().toISOString() : undefined
+        this._fieldsValues = id ? this.validateFieldsValues(fieldsValues) : fieldsValues
         break
       case 'update':
         if (!id) {
@@ -50,6 +52,7 @@ export class Record {
         this._created_time = created_time
         this._last_modified_time = new Date().toISOString()
         this._deleted_time = deleted_time
+        this._fieldsValues = this.validateFieldsValues(fieldsValues)
         break
       case 'delete':
         if (!id) {
@@ -59,11 +62,11 @@ export class Record {
         this._created_time = created_time
         this._last_modified_time = last_modified_time
         this._deleted_time = new Date().toISOString()
+        this._fieldsValues = {}
         break
       default:
         throw new Error('Invalid record state')
     }
-    this._fieldsValues = this.validateFieldsValues(fieldsValues)
   }
 
   get id(): string {
@@ -96,6 +99,15 @@ export class Record {
 
   getFieldValue(fieldName: string): RecordFieldValue {
     return this._fieldsValues[fieldName]
+  }
+
+  getMultipleLinkedRecordsValue(fieldName: string): string[] {
+    const value = this.getFieldValue(fieldName)
+    if (value === undefined) return []
+    if (!Array.isArray(value)) {
+      throw new Error(`Field "${fieldName}" is not a multiple linked records field`)
+    }
+    return value
   }
 
   setFieldValue(fieldName: string, value: RecordFieldValue): void {

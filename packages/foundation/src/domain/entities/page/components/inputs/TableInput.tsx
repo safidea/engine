@@ -1,7 +1,6 @@
 import React from 'react'
 import { UI } from '@adapter/spi/ui/UI'
-import { BaseInput } from './BaseInput'
-import { FormInputValue, HandleChange } from '../Form'
+import { BaseInput, BaseInputProps } from './BaseInput'
 import { Table } from '@domain/entities/table/Table'
 
 export type Column = {
@@ -12,11 +11,6 @@ export type Column = {
 
 export type Row = {
   [key: string]: string
-}
-
-export interface TableInputProps {
-  handleChange: HandleChange
-  formData: { [key: string]: FormInputValue }
 }
 
 export class TableInput extends BaseInput {
@@ -52,26 +46,24 @@ export class TableInput extends BaseInput {
     const addLabel = this.addLabel
     const columns = this.columns
     const field = this.field
-    return function TableInputUI({ handleChange, formData }: TableInputProps) {
-      const fieldValue = formData[field]
-      let rows: { [key: string]: string }[] = [{}]
-      if (fieldValue && typeof fieldValue === 'object') {
-        if ('create' in fieldValue && Array.isArray(fieldValue.create)) {
-          rows = fieldValue.create
-        } else if (Array.isArray(fieldValue)) {
-          rows = fieldValue
-        }
-      }
+    const tableName = this._table.name
+    return function TableInputUI({
+      updateRecord,
+      addRecord,
+      records,
+      currentRecord,
+    }: BaseInputProps) {
+      const recordsIds = currentRecord.getMultipleLinkedRecordsValue(field)
+      const rows = records.filter((record) => recordsIds.includes(record.id))
 
-      const addRow = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const handleAddRecord = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        handleChange(field, { create: [...rows, {}] })
+        addRecord(tableName)
       }
 
-      const handleCellChange = (name: string, value: string, index: number) => {
-        const newRows = [...rows]
-        newRows[index][name] = value
-        handleChange(field, { create: newRows })
+      const handleUpdateRecord = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        updateRecord(id, e.target.name, e.target.value)
       }
 
       return (
@@ -79,7 +71,7 @@ export class TableInput extends BaseInput {
           {(label || addLabel) && (
             <UI.menu>
               {label && <UI.label label={label} />}
-              {addLabel && <UI.addButton label={addLabel} onClick={addRow} />}
+              {addLabel && <UI.addButton label={addLabel} onClick={handleAddRecord} />}
             </UI.menu>
           )}
           <UI.table>
@@ -89,15 +81,15 @@ export class TableInput extends BaseInput {
               ))}
             </UI.header>
             <UI.rows>
-              {rows.map((row, index) => (
-                <UI.row key={index}>
+              {rows.map((row) => (
+                <UI.row key={row.id}>
                   {columns.map((column) => (
                     <UI.cell
                       key={column.field}
                       name={column.field}
                       placeholder={column.placeholder}
-                      value={row[column.field] ?? ''}
-                      onChange={(e) => handleCellChange(e.target.name, e.target.value, index)}
+                      value={String(row.getFieldValue(column.field) ?? '')}
+                      onChange={(e) => handleUpdateRecord(row.id, e)}
                     />
                   ))}
                 </UI.row>

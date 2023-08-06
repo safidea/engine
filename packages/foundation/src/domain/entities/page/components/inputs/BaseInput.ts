@@ -1,3 +1,13 @@
+import { AddRecord, UpdateRecord } from '../Form'
+import { Record } from '@domain/entities/app/Record'
+
+export interface BaseInputProps {
+  updateRecord: UpdateRecord
+  addRecord: AddRecord
+  currentRecord: Record
+  records: Record[]
+}
+
 export class BaseInput {
   constructor(
     private readonly _type: string,

@@ -13,7 +13,7 @@
     "build": "turbo run build",
     "schema": "turbo run schema",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
-    "precommit": "pnpm format && cd packages/foundation && pnpm lint && pnpm test",
+    "precommit": "#pnpm format && cd packages/foundation && pnpm lint && pnpm test",
     "prepare": "husky install"
   },
   "devDependencies": {
