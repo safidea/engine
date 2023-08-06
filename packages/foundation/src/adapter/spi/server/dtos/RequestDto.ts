@@ -5,9 +5,7 @@ export interface RequestQueryDto {
 export interface RequestDto {
   method: string
   path: string
-  body?: {
-    [key: string]: string | number | boolean
-  }
+  body?: unknown
   params?: {
     [key: string]: string
   }

@@ -5,18 +5,10 @@ import React from 'react'
 import { describe, test, expect } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Table } from '@domain/entities/table/Table'
-import { mapDtoToTable } from '@application/mappers/table/TableMapper'
-import { TableDto } from '@application/dtos/table/TableDto'
 import { Column, GroupBy, List, SortBy } from '@domain/entities/page/components/List'
-import { RecordMapper, mapDtoToRecord } from '@adapter/spi/orm/mappers/RecordMapper'
-import { RecordDto } from '@application/dtos/table/RecordDto'
-import { Field } from '@domain/entities/table/Field'
-import { FieldMapper, mapDtoToField } from '@adapter/api/table/mappers/FieldMapper'
-import { FieldDto } from '@application/dtos/table/FieldDto'
+import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
-import { App } from '@domain/entities/app/App'
 
 Object.defineProperty(window, 'location', {
   writable: true,
@@ -100,15 +92,14 @@ describe('List Component', () => {
         order: 'desc',
       },
     ]
-    const fields = FieldMapper.toEntities([
-      {
-        name: 'fieldA',
-        type: 'single_line_text',
-      },
-    ])
     const table = TableMapper.toEntity({
       name: 'tableA',
-      fields: fields,
+      fields: [
+        {
+          name: 'fieldA',
+          type: 'single_line_text',
+        },
+      ],
     })
     const records = RecordMapper.toEntities(
       [
@@ -132,7 +123,7 @@ describe('List Component', () => {
     const sortedRecords = new List(tableName, [], sortBy, [], {} as any, [table]).sortRecords({
       records,
       sortBy,
-      fields,
+      fields: table.fields,
     })
 
     // THEN
@@ -148,15 +139,14 @@ describe('List Component', () => {
         order: 'desc',
       },
     ]
-    const fields = FieldMapper.toEntities([
-      {
-        name: 'fieldA',
-        type: 'datetime',
-      },
-    ])
     const table = TableMapper.toEntity({
       name: 'tableA',
-      fields: fields,
+      fields: [
+        {
+          name: 'fieldA',
+          type: 'datetime',
+        },
+      ],
     })
     const records = RecordMapper.toEntities(
       [
@@ -180,7 +170,7 @@ describe('List Component', () => {
     const sortedRecords = new List(tableName, [], sortBy, [], {} as any, [table]).sortRecords({
       records,
       sortBy,
-      fields,
+      fields: table.fields,
     })
 
     // THEN

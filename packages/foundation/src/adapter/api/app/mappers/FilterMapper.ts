@@ -1,4 +1,4 @@
-import { FilterDto } from '@adapter/spi/orm/dtos/FilterDto'
+import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
 import { Filter } from '@domain/entities/app/Filter'
 import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
 

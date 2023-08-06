@@ -1,9 +1,9 @@
-import { EnrichedRecordDto, RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
+import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
 
 export interface ResponseDto {
   status?: number
   json: {
-    record?: RecordDto | EnrichedRecordDto
+    record?: RecordDto
     records?: RecordDto[]
     id?: string
     ids?: string[]

@@ -1,6 +1,6 @@
 import { Orm } from '@adapter/spi/orm/Orm'
-import { RecordDto } from './dtos/RecordDto'
-import { FilterDto } from './dtos/FilterDto'
+import { RecordDto } from '../../api/app/dtos/RecordDto'
+import { FilterDto } from '../../api/app/dtos/FilterDto'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 
 export class OrmConnection {
@@ -19,12 +19,16 @@ export class OrmConnection {
     return this._orm.create(table, recordDto)
   }
 
-  async createMany(table: string, recordDto: RecordDto[]) {
-    return this._orm.createMany(table, recordDto)
+  async createMany(table: string, recordsDto: RecordDto[]) {
+    return this._orm.createMany(table, recordsDto)
   }
 
   async update(table: string, recordDto: RecordDto, id: string) {
     return this._orm.softUpdateById(table, recordDto, id)
+  }
+
+  async updateMany(table: string, recordsDto: RecordDto[]) {
+    return this._orm.softUpdateMany(table, recordsDto)
   }
 
   async list(table: string, filtersDto: FilterDto[]) {

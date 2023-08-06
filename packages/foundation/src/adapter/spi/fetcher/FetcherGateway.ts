@@ -2,8 +2,8 @@ import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbst
 import { FetcherConnection } from './FetcherConnection'
 import { Fetcher } from './Fetcher'
 import { Record } from '@domain/entities/app/Record'
-import { RecordDto } from '../orm/dtos/RecordDto'
-import { RecordMapper } from '../orm/mappers/RecordMapper'
+import { RecordDto } from '../../api/app/dtos/RecordDto'
+import { RecordMapper } from '../../api/app/mappers/RecordMapper'
 import { App } from '@domain/entities/app/App'
 
 export class FetcherGateway implements FetcherGatewayAbstract {

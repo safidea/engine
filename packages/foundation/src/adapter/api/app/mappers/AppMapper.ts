@@ -1,9 +1,9 @@
-import { AppDto } from '@adapter/api/app/AppDto'
+import { AppDto } from '@adapter/api/app/dtos/AppDto'
 import { App } from '@domain/entities/app/App'
 import { UI } from '@adapter/spi/ui/UI'
-import { AutomationMapper } from '../automation/mappers/AutomationMapper'
-import { TableMapper } from '../table/mappers/TableMapper'
-import { PageMapper } from '../page/mappers/PageMapper'
+import { AutomationMapper } from '../../automation/mappers/AutomationMapper'
+import { TableMapper } from '../../table/mappers/TableMapper'
+import { PageMapper } from '../../page/mappers/PageMapper'
 
 export class AppMapper {
   static toEntity(appDto: AppDto, ui: UI): App {

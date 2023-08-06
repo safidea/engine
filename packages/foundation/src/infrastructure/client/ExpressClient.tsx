@@ -3,7 +3,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapter/api/page/PageController'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
-import { AppMapper } from '@adapter/api/app/AppMapper'
+import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 
 import type { FoundationData } from '@infrastructure/server/ExpressServer'
 

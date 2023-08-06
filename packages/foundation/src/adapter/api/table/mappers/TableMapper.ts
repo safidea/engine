@@ -3,13 +3,6 @@ import { TableDto } from '../dtos/TableDto'
 import { FieldMapper } from './FieldMapper'
 
 export class TableMapper {
-  static toDto(table: Table): TableDto {
-    return {
-      name: table.name,
-      fields: FieldMapper.toDtos(table.fields),
-    }
-  }
-
   static toEntity(tableDto: TableDto): Table {
     return new Table(
       tableDto.name,
@@ -17,11 +10,18 @@ export class TableMapper {
     )
   }
 
-  static toDtos(tables: Table[]): TableDto[] {
-    return tables.map((table) => this.toDto(table))
+  static toDto(table: Table): TableDto {
+    return {
+      name: table.name,
+      fields: FieldMapper.toDtos(table.fields),
+    }
   }
 
   static toEntities(tablesDto: TableDto[]): Table[] {
     return tablesDto.map((tableDto) => this.toEntity(tableDto))
+  }
+
+  static toDtos(tables: Table[]): TableDto[] {
+    return tables.map((table) => this.toDto(table))
   }
 }

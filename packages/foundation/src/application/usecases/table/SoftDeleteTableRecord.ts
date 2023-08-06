@@ -9,7 +9,7 @@ export class SoftDeleteTableRecord {
   ) {}
 
   async execute(tableName: string, id: string): Promise<void> {
-    const record = new Record({ id }, this.app.tables, tableName, 'delete')
+    const record = new Record({ id }, this.app.getTableByName(tableName), 'delete')
     await this.ormGateway.update(tableName, record, id)
   }
 }

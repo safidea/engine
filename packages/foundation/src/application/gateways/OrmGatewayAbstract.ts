@@ -8,4 +8,5 @@ export interface OrmGatewayAbstract {
   read(table: string, id: string): Promise<Record | undefined>
   list(table: string, filters: Filter[]): Promise<Record[]>
   update(table: string, record: Record, id: string): Promise<void>
+  updateMany(table: string, records: Record[]): Promise<void>
 }

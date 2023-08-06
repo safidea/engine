@@ -6,7 +6,7 @@ import { App } from '@domain/entities/app/App'
 import { ApiRoute } from '@adapter/spi/server/Server'
 import { ApiError } from '@domain/entities/app/errors/ApiError'
 import { ResponseDto } from '@adapter/spi/server/dtos/ResponseDto'
-import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
+import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
 
 export class TableRoutes {
@@ -37,6 +37,11 @@ export class TableRoutes {
         handler: async (request: RequestDto) => this.delete(request),
       },
       {
+        path: '/api/table/sync',
+        method: 'POST',
+        handler: async (request: RequestDto) => this.sync(request),
+      },
+      {
         path: '/api/table/:table',
         method: 'GET',
         handler: async (request: RequestDto) => this.get(request),
@@ -49,6 +54,16 @@ export class TableRoutes {
     ]
   }
 
+  async sync(request: RequestDto): Promise<ResponseDto> {
+    try {
+      const { records } = await this.tableMiddleware.validateSyncBody(request.body)
+      await this.tableController.sync(records)
+      return { json: { records: RecordMapper.toDtos(records) } }
+    } catch (error) {
+      return this.catchError(error)
+    }
+  }
+
   async get(request: RequestDto): Promise<ResponseDto> {
     try {
       const table = await this.tableMiddleware.validateTableExist(request)
@@ -57,7 +72,7 @@ export class TableRoutes {
         const record = await this.tableController.read(table, id)
         return { json: { record: RecordMapper.toDto(record) } }
       }
-      const filters = await this.tableMiddleware.validateAndExtractQuery(request)
+      const filters = await this.tableMiddleware.extractAndValidateQuery(request)
       const records = await this.tableController.list(table, filters)
       return { json: { records: RecordMapper.toDtos(records) } }
     } catch (error) {
@@ -68,13 +83,12 @@ export class TableRoutes {
   async post(request: RequestDto): Promise<ResponseDto> {
     try {
       const table = await this.tableMiddleware.validateTableExist(request)
-      const body = await this.tableMiddleware.validateBodyExist(request)
-      if (Array.isArray(body)) {
-        const record = await this.tableMiddleware.validatePostArrayBody(table, body)
+      if (Array.isArray(request.body)) {
+        const record = await this.tableMiddleware.validateRecordsBody(table, request.body, 'create')
         const ids = await this.tableController.createMany(table, record)
         return { json: { ids } }
       }
-      const record = await this.tableMiddleware.validatePostBody(table, body)
+      const record = await this.tableMiddleware.validateRecordBody(table, request.body, 'create')
       const id = await this.tableController.create(table, record)
       return { json: { id } }
     } catch (error) {
@@ -85,12 +99,11 @@ export class TableRoutes {
   async patch(request: RequestDto): Promise<ResponseDto> {
     try {
       const table = await this.tableMiddleware.validateTableExist(request)
-      const body = await this.tableMiddleware.validateBodyExist(request)
-      if (Array.isArray(body)) {
+      if (Array.isArray(request.body)) {
         throw new ApiError('Method not implemented', 405)
       }
       const id = await this.tableMiddleware.validateRecordExist(request)
-      const record = await this.tableMiddleware.validatePatchBody(table, body)
+      const record = await this.tableMiddleware.validateRecordBody(table, request.body, 'update')
       await this.tableController.update(table, id, record)
       return { json: { id } }
     } catch (error) {

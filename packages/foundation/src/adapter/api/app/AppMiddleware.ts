@@ -1,5 +1,5 @@
-import { AppMapper } from '@adapter/api/app/AppMapper'
-import { validate } from '@adapter/api/app/AppUtils'
+import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { validateAppDto } from '@adapter/api/utils/AjvUtils'
 import { UI } from '@adapter/spi/ui/UI'
 import { App } from '@domain/entities/app/App'
 
@@ -10,10 +10,10 @@ export class AppMiddleware {
   ) {}
 
   validateConfig(): App {
-    if (validate(this.config)) {
+    if (validateAppDto(this.config)) {
       return AppMapper.toEntity(this.config, this.ui)
     }
-    if (validate.errors) throw new Error(JSON.stringify(validate.errors[0], null, 2))
+    if (validateAppDto.errors) throw new Error(JSON.stringify(validateAppDto.errors[0], null, 2))
     throw new Error('should throw a validation error')
   }
 }

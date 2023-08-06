@@ -1,4 +1,4 @@
-import { JSONSchemaType } from '@adapter/api/app/AppUtils'
+import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
 import { CurrencyDto, CurrencyDtoSchema } from './fields/CurrencyDto'
 import { DatetimeDto, DatetimeDtoSchema } from './fields/DatetimeDto'
 import { FormulaDto, FormulaDtoSchema } from './fields/FormulaDto'

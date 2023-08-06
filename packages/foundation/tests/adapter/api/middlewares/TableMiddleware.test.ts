@@ -1,29 +1,38 @@
+import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 import { TableMiddleware } from '@adapter/api/table/TableMiddleware'
-import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
-import { App } from '@domain/entities/app/App'
+import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
 
 describe('TableMiddleware', () => {
-  describe('validatePostBody', () => {
+  describe('validateRecordBody', () => {
     test('should validate the request body', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'single_line_text',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'single_line_text',
+                },
+              ],
             },
           ],
         },
-      ])
+        UnstyledUI
+      )
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: 'valueA',
-        })
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            fieldA: 'valueA',
+          },
+          'create'
+        )
 
       // THEN
       await expect(call()).resolves.not.toThrow()
@@ -31,21 +40,26 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is missing', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'single_line_text',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'single_line_text',
+                },
+              ],
             },
           ],
         },
-      ])
+        UnstyledUI
+      )
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {})
+        new TableMiddleware(app, {} as any).validateRecordBody('tableA', {}, 'create')
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" is required')
@@ -53,23 +67,32 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is not an number and should be', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'number',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'number',
+                },
+              ],
             },
           ],
         },
-      ])
+        UnstyledUI
+      )
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: 'test',
-        })
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            fieldA: 'test',
+          },
+          'create'
+        )
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" must be a number')
@@ -77,23 +100,32 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is not an string and should be', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'single_line_text',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'single_line_text',
+                },
+              ],
             },
           ],
         },
-      ])
+        UnstyledUI
+      )
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: 123,
-        })
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            fieldA: 123,
+          },
+          'create'
+        )
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" must be a string')
@@ -101,23 +133,32 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is not an datetime and should be', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'datetime',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'datetime',
+                },
+              ],
             },
           ],
         },
-      ])
+        UnstyledUI
+      )
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: 'text',
-        })
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            fieldA: 'text',
+          },
+          'create'
+        )
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" must be a valid date')
@@ -125,135 +166,76 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a multiple linked field is not valid', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'multiple_linked_records',
-              table: 'tableB',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'multiple_linked_records',
+                  table: 'tableB',
+                },
+              ],
             },
           ],
         },
-      ])
-
-      // WHEN
-      const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: 'text',
-        })
-
-      // THEN
-      await expect(call()).rejects.toThrowError(
-        'field "fieldA" must be an object with create property'
+        UnstyledUI
       )
-    })
-
-    test('should throw an error if create property of a multiple linked field is not valid', async () => {
-      // GIVEN
-      const tables = TableMapper.toEntities([
-        {
-          name: 'tableA',
-          fields: [
-            {
-              name: 'fieldA',
-              type: 'multiple_linked_records',
-              table: 'tableB',
-            },
-          ],
-        },
-      ])
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: {
-            create: 'test' as any,
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            fieldA: 'text',
           },
-        })
+          'create'
+        )
 
       // THEN
-      await expect(call()).rejects.toThrowError(
-        'property "create" at field "fieldA" should be an array of records'
-      )
-    })
-
-    test('should throw an error if a record of a multiple linked field is not valid', async () => {
-      // GIVEN
-      const tables = TableMapper.toEntities([
-        {
-          name: 'tableA',
-          fields: [
-            {
-              name: 'fieldA',
-              type: 'multiple_linked_records',
-              table: 'tableB',
-            },
-          ],
-        },
-        {
-          name: 'tableB',
-          fields: [
-            {
-              name: 'fieldB',
-              type: 'number',
-            },
-          ],
-        },
-      ])
-
-      // WHEN
-      const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: {
-            create: [
-              {
-                fieldB: 'test',
-              },
-            ],
-          },
-        })
-
-      // THEN
-      await expect(call()).rejects.toThrowError('field "fieldB" must be a number')
+      await expect(call()).rejects.toThrowError('field "fieldA" must be an array')
     })
 
     test('should not throw an error if a number field is 0', async () => {
       // GIVEN
-      const tables = TableMapper.toEntities([
+      const app = AppMapper.toEntity(
         {
-          name: 'tableA',
-          fields: [
+          tables: [
             {
-              name: 'fieldA',
-              type: 'multiple_linked_records',
-              table: 'tableB',
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'multiple_linked_records',
+                  table: 'tableB',
+                },
+              ],
+            },
+            {
+              name: 'tableB',
+              fields: [
+                {
+                  name: 'fieldB',
+                  type: 'number',
+                },
+              ],
             },
           ],
         },
-        {
-          name: 'tableB',
-          fields: [
-            {
-              name: 'fieldB',
-              type: 'number',
-            },
-          ],
-        },
-      ])
+        UnstyledUI
+      )
 
       // WHEN
       const call = () =>
-        new TableMiddleware({ tables } as App, {} as any).validatePostBody('tableA', {
-          fieldA: {
-            create: [
-              {
-                fieldB: 0,
-              },
-            ],
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            fieldA: ['1'],
           },
-        })
+          'create'
+        )
 
       // THEN
       await expect(call()).resolves.not.toThrow()

@@ -1,9 +1,5 @@
 import net from 'net'
 import { fakerFR as faker } from '@faker-js/faker'
-import { TableDto } from '@application/dtos/table/TableDto'
-import { FieldDto } from '@application/dtos/table/FieldDto'
-import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
-import { PageDto } from '@application/dtos/page/PageDto'
 import {
   TABLE_INVOICES,
   TABLE_INVOICES_ITEMS,
@@ -11,6 +7,9 @@ import {
   PAGE_CREATE_INVOICE,
   PAGE_UPDATE_INVOICE,
 } from './schemas'
+import { PageDto } from '@adapter/api/page/dtos/PageDto'
+import { FieldDto } from '@adapter/api/table/dtos/FieldDto'
+import { TableDto } from '@adapter/api/table/dtos/TableDto'
 
 export async function findAvailablePort(): Promise<number> {
   return new Promise<number>((resolve, reject) => {
@@ -62,17 +61,17 @@ export function getPages(...args: string[]): PageDto[] {
   return pages
 }
 
-export function generateRecord(tableName: string, data: RecordToCreateDto = {}): RecordToCreateDto {
+export function generateRecord(tableName: string, data: RecordDto = {}): RecordDto {
   return { ...generateFakeRecord(tableName), ...data }
 }
 
 export function generateManyRecords(
   tableName: string,
-  countOrRecords: number | RecordToCreateDto[]
-): RecordToCreateDto[] {
+  countOrRecords: number | RecordDto[]
+): RecordDto[] {
   const array = []
   if (Array.isArray(countOrRecords)) {
-    const records: RecordToCreateDto[] = countOrRecords
+    const records: RecordDto[] = countOrRecords
     for (const record of records) {
       const newRecord = generateFakeRecord(tableName)
       array.push({ ...newRecord, ...record })

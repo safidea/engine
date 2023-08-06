@@ -1,4 +1,4 @@
-import { FilterDto } from '@adapter/spi/orm/dtos/FilterDto'
+import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
 import { App } from '@domain/entities/app/App'
 import { ApiError } from '@domain/entities/app/errors/ApiError'
 import { RequestDto } from '@adapter/spi/server/dtos/RequestDto'
@@ -11,12 +11,13 @@ import { Datetime } from '@domain/entities/table/fields/Datetime'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
 import { Formula } from '@domain/entities/table/fields/Formula'
 import { Rollup } from '@domain/entities/table/fields/Rollup'
-import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
-import { FilterMapper } from '@adapter/spi/orm/mappers/FilterMapper'
+import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
+import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
 import { Filter } from '@domain/entities/app/Filter'
-import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
-import { Record } from '@domain/entities/app/Record'
+import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
+import { Record, RecordState } from '@domain/entities/app/Record'
 import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
+import { validateRecordDto, validateSyncDto } from '../utils/AjvUtils'
 
 export class TableMiddleware {
   constructor(
@@ -31,7 +32,7 @@ export class TableMiddleware {
     return table
   }
 
-  public async validateAndExtractQuery(request: RequestDto): Promise<Filter[]> {
+  public async extractAndValidateQuery(request: RequestDto): Promise<Filter[]> {
     const { query } = request
     const filters: FilterDto[] = []
     if (query) {
@@ -60,6 +61,20 @@ export class TableMiddleware {
     return FilterMapper.toEntities(filters)
   }
 
+  public async validateSyncBody(body: unknown): Promise<{ records: Record[] }> {
+    if (validateSyncDto(body)) {
+      const { commands } = body
+      const records = await Promise.all(
+        commands.map((record) => {
+          const { type, table, record: recordDto } = record
+          return this.validateRecordValues(table, recordDto, type)
+        })
+      )
+      return { records }
+    }
+    throw new ApiError(`Invalid sync body`, 400)
+  }
+
   public async validateRecordExist(request: RequestDto): Promise<string> {
     const { table, id } = request.params ?? {}
     const record = await this.ormGateway.read(table, id)
@@ -67,37 +82,33 @@ export class TableMiddleware {
     return id
   }
 
-  public async validateBodyExist(request: RequestDto): Promise<RecordDto | RecordDto[]> {
-    const { body } = request
-    if (!body) throw new ApiError(`Body is empty`, 400)
-    return body
-  }
-
-  public async validatePostBody(table: string, record: RecordDto): Promise<Record> {
-    const errors = this.validateRecordValues(table, record)
-    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
-    return RecordMapper.toEntity(record, this.app.getTableByName(table), 'create')
-  }
-
-  public async validatePostArrayBody(table: string, records: RecordDto[]): Promise<Record[]> {
-    if (!records) throw new ApiError(`Body is empty`, 400)
-    const errors = this.validateArrayRecordValues(table, records)
-    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
-    return RecordMapper.toEntities(records, this.app.getTableByName(table), 'create')
-  }
-
-  public async validatePatchBody(table: string, record: RecordDto): Promise<Record> {
-    const errors = this.validateRecordValues(table, record, 'update')
-    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
-    return RecordMapper.toEntity(record, this.app.getTableByName(table), 'update')
-  }
-
-  private validateRecordValues(
+  public async validateRecordBody(
     table: string,
-    record: RecordDto = {},
-    state = 'create',
+    body: unknown,
+    state: RecordState
+  ): Promise<Record> {
+    if (validateRecordDto(body)) return this.validateRecordValues(table, body, state)
+    throw new ApiError(`Invalid record body`, 400)
+  }
+
+  public async validateRecordsBody(
+    table: string,
+    body: unknown[],
+    state: RecordState
+  ): Promise<Record[]> {
+    const records = []
+    for (const record of body) {
+      records.push(this.validateRecordBody(table, record, state))
+    }
+    return Promise.all(records)
+  }
+
+  public async validateRecordValues(
+    table: string,
+    record: RecordDto,
+    state: RecordState,
     sourceTable?: string
-  ): string[] {
+  ): Promise<Record> {
     const { tables } = this.app
     const { fields = [] } = tables.find((t) => t.name === table) ?? {}
     const errors = []
@@ -162,18 +173,14 @@ export class TableMiddleware {
       }
 
       if (field instanceof MultipleLinkedRecords && value) {
-        if (typeof value === 'object' && 'create' in value) {
-          if (Array.isArray(value.create) && value.create.length > 0) {
-            for (const record of value.create) {
-              if (typeof record === 'object' && 'table' in field) {
-                errors.push(...this.validateRecordValues(field.table, record, state, table))
-              }
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            if (typeof v !== 'string') {
+              throw new Error(`field "${field.name}" must be an array of string`)
             }
-          } else {
-            errors.push(`property "create" at field "${field.name}" should be an array of records`)
           }
         } else {
-          errors.push(`field "${field.name}" must be an object with create property`)
+          errors.push(`field "${field.name}" must be an array`)
         }
       }
     }
@@ -182,18 +189,8 @@ export class TableMiddleware {
       errors.push(`Invalid fields: ${Object.keys(values).join(', ')}`)
     }
 
-    return errors
-  }
+    if (errors.length > 0) throw new ApiError(`Invalid record values :\n${errors.join('\n')}`, 400)
 
-  private validateArrayRecordValues(
-    table: string,
-    records: RecordDto[] = [],
-    state = 'create'
-  ): string[] {
-    const errors = []
-    for (const record of records) {
-      errors.push(...this.validateRecordValues(table, record, state))
-    }
-    return errors
+    return RecordMapper.toEntity(record, this.app.getTableByName(table), state)
   }
 }

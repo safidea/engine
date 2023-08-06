@@ -1,14 +1,11 @@
-import { FieldDto } from '@application/dtos/table/FieldDto'
-import { mapDtoToField } from '@adapter/api/table/mappers/FieldMapper'
-import { mapDtoToRecord } from '@adapter/spi/orm/mappers/RecordMapper'
-import { Field } from '@domain/entities/table/Field'
 import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 import { describe, test, expect } from '@jest/globals'
+import { helpers } from '../../fixtures'
 
 describe('InMemoryOrm', () => {
   test('should update a record by id', async () => {
     // GIVEN
-    const inMemoryOrm = new InMemoryOrm('../../tmp')
+    const inMemoryOrm = new InMemoryOrm(helpers.getTmpFolder())
     await inMemoryOrm.setDB({
       tableA: [
         {
@@ -17,22 +14,12 @@ describe('InMemoryOrm', () => {
         },
       ],
     })
-    const fields: Field[] = [
-      {
-        name: 'name',
-        type: 'single_line_text',
-      },
-    ].map((field) => mapDtoToField(field as FieldDto))
 
     // WHEN
-    const update = mapDtoToRecord(
-      'tableA',
-      {
-        id: '1',
-        name: 'test B',
-      },
-      fields
-    )
+    const update = {
+      id: '1',
+      name: 'test B',
+    }
     await inMemoryOrm.softUpdateById('tableA', update, '1')
 
     // THEN

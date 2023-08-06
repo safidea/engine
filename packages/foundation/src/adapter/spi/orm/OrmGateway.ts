@@ -3,8 +3,8 @@ import { OrmConnection } from './OrmConnection'
 import { Orm } from './Orm'
 import { Record } from '@domain/entities/app/Record'
 import { Filter } from '@domain/entities/app/Filter'
-import { RecordMapper } from './mappers/RecordMapper'
-import { FilterMapper } from './mappers/FilterMapper'
+import { RecordMapper } from '../../api/app/mappers/RecordMapper'
+import { FilterMapper } from '../../api/app/mappers/FilterMapper'
 import { App } from '@domain/entities/app/App'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 
@@ -36,6 +36,11 @@ export class OrmGateway implements OrmGatewayAbstract {
   async update(table: string, record: Record, id: string) {
     const recordDto = RecordMapper.toDto(record)
     return this.ormConnection.update(table, recordDto, id)
+  }
+
+  async updateMany(table: string, records: Record[]) {
+    const recordsDto = RecordMapper.toDtos(records)
+    return this.ormConnection.updateMany(table, recordsDto)
   }
 
   async list(table: string, filters: Filter[]) {

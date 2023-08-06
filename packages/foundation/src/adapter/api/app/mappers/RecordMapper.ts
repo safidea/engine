@@ -16,11 +16,7 @@ export class RecordMapper {
     return records.map((record) => this.toDto(record))
   }
 
-  static toEntities(
-    recordsDto: RecordDto[],
-    table: Table,
-    state?: RecordState
-  ): Record[] {
+  static toEntities(recordsDto: RecordDto[], table: Table, state?: RecordState): Record[] {
     return recordsDto.map((recordDto) => this.toEntity(recordDto, table, state))
   }
 }

@@ -1,4 +1,4 @@
-import { JSONSchemaType } from '@adapter/api/app/AppUtils'
+import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
 import { ComponentDto, ComponentDtoSchema } from './ComponentDto'
 
 export interface PageDto {

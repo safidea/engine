@@ -86,6 +86,14 @@ export class Record {
     return this._deleted_time
   }
 
+  get state(): RecordState {
+    return this._state
+  }
+
+  get table(): Table {
+    return this._table
+  }
+
   getFieldValue(fieldName: string): RecordFieldValue {
     return this._fieldsValues[fieldName]
   }

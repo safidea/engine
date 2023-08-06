@@ -6,9 +6,9 @@ import ReactDOMServer from 'react-dom/server'
 import path from 'path'
 import fs from 'fs-extra'
 import debug from 'debug'
-import { AppDto } from '@adapter/api/app/AppDto'
+import { AppDto } from '@adapter/api/app/dtos/AppDto'
 import { App } from '@domain/entities/app/App'
-import { AppMapper } from '@adapter/api/app/AppMapper'
+import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 import { RequestDto, RequestQueryDto } from '@adapter/spi/server/dtos/RequestDto'
 
 const log = debug('server:express')

@@ -2,8 +2,8 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { Orm } from '@adapter/spi/orm/Orm'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
-import { RecordDto, RecordFieldValue } from '@adapter/spi/orm/dtos/RecordDto'
-import { FilterDto } from '@adapter/spi/orm/dtos/FilterDto'
+import { RecordDto, RecordFieldValue } from '@adapter/api/app/dtos/RecordDto'
+import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
 
 interface TableRecord {
   [key: string]: RecordFieldValue
@@ -65,6 +65,17 @@ export class InMemoryOrm implements Orm {
     const index = db[table].findIndex((row) => row.id === id)
     if (index === -1) throw new Error(`Record ${id} not found`)
     db[table][index] = { ...db[table][index], ...recordDto }
+    await this.setDB(db)
+  }
+
+  async softUpdateMany(table: string, recordsDto: RecordDto[]): Promise<void> {
+    const db = await this.getDB()
+    if (!db[table]) db[table] = []
+    for (const recordDto of recordsDto) {
+      const index = db[table].findIndex((row) => row.id === recordDto.id)
+      if (index === -1) throw new Error(`Record ${recordDto.id} not found`)
+      db[table][index] = { ...db[table][index], ...recordDto }
+    }
     await this.setDB(db)
   }
 
