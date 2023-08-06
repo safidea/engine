@@ -1,8 +1,6 @@
 import { describe, test, expect } from '@jest/globals'
 import { Action, Automation } from '@domain/entities/automation/Automation'
-import { Table } from '@domain/entities/table/Table'
-import { mapDtoToTable } from '@application/mappers/table/TableMapper'
-import { TableDto } from '@application/dtos/table/TableDto'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 
 describe('Automation', () => {
   // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
@@ -10,7 +8,7 @@ describe('Automation', () => {
     // GIVEN
     const name = 'A'
     const actions: Action[] = [{ type: 'updateTable', fields: { fieldX: 'test' }, table: 'tableA' }]
-    const tables: Table[] = [
+    const tables = TableMapper.toEntities([
       {
         name: 'tableA',
         fields: [
@@ -20,7 +18,7 @@ describe('Automation', () => {
           },
         ],
       },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
+    ])
 
     // WHEN
     const call = () => new Automation(name, actions, tables)
@@ -33,7 +31,7 @@ describe('Automation', () => {
     // GIVEN
     const name = 'A'
     const actions: Action[] = [{ type: 'updateTable', fields: {}, table: 'tableX' }]
-    const tables: Table[] = [
+    const tables = TableMapper.toEntities([
       {
         name: 'tableA',
         fields: [
@@ -43,7 +41,7 @@ describe('Automation', () => {
           },
         ],
       },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
+    ])
 
     // WHEN
     const call = () => new Automation(name, actions, tables)
@@ -58,7 +56,7 @@ describe('Automation', () => {
     const actions: Action[] = [
       { type: 'updateTable', fields: { fieldA: 'Essentiel', fieldY: 'test' }, table: 'tableA' },
     ]
-    const tables: Table[] = [
+    const tables = TableMapper.toEntities([
       {
         name: 'tableA',
         fields: [
@@ -68,7 +66,7 @@ describe('Automation', () => {
           },
         ],
       },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
+    ])
 
     // WHEN
     const call = () => new Automation(name, actions, tables)

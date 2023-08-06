@@ -1,23 +1,23 @@
 import { RecordToCreateDto } from '@application/dtos/table/RecordDto'
 import { generateRecord, generateManyRecords } from './helpers'
 import { CreateTableRecord } from '@application/usecases/table/CreateTableRecord'
-import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
+import { OrmConnection } from '@adapter/spi/orm/OrmConnection'
 import { ListTableRecords } from '@application/usecases/table/ListTableRecords'
 import { CreateManyTableRecord } from '@application/usecases/table/CreateManyTableRecord'
-import { IOrmGateway } from '@domain/gateways/IOrmGateway'
-import { App } from '@domain/entities/App'
+import { Orm } from '@adapter/spi/orm/Orm'
+import { App } from '@domain/entities/app/App'
 
 export class DatabaseHelper {
   private createTableRecord: CreateTableRecord
   private listTableRecords: ListTableRecords
   private createManyTableRecords: CreateManyTableRecord
 
-  constructor(app: App, orm: IOrmGateway) {
+  constructor(app: App, orm: Orm) {
     const { tables } = app
-    const ormGateway = new OrmGateway(orm, tables)
-    this.createTableRecord = new CreateTableRecord(ormGateway, app)
-    this.listTableRecords = new ListTableRecords(ormGateway, app)
-    this.createManyTableRecords = new CreateManyTableRecord(ormGateway, app)
+    const ormConnection = new OrmConnection(orm, tables)
+    this.createTableRecord = new CreateTableRecord(ormConnection, app)
+    this.listTableRecords = new ListTableRecords(ormConnection, app)
+    this.createManyTableRecords = new CreateManyTableRecord(ormConnection, app)
   }
 
   list(table: string) {

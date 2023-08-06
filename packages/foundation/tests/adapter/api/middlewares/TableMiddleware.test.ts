@@ -1,15 +1,13 @@
-import { TableMiddleware } from '@adapter/api/middlewares/TableMiddleware'
-import { TableDto } from '@application/dtos/table/TableDto'
-import { mapDtoToTable } from '@application/mappers/table/TableMapper'
-import { App } from '@domain/entities/App'
-import { Table } from '@domain/entities/table/Table'
+import { TableMiddleware } from '@adapter/api/table/TableMiddleware'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
+import { App } from '@domain/entities/app/App'
 import { describe, test, expect } from '@jest/globals'
 
 describe('TableMiddleware', () => {
   describe('validatePostBody', () => {
     test('should validate the request body', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -19,7 +17,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -33,7 +31,7 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is missing', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -43,7 +41,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -55,7 +53,7 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is not an number and should be', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -65,7 +63,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -79,7 +77,7 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is not an string and should be', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -89,7 +87,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -103,7 +101,7 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a field is not an datetime and should be', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -113,7 +111,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -127,17 +125,18 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a multiple linked field is not valid', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
             {
               name: 'fieldA',
               type: 'multiple_linked_records',
+              table: 'tableB',
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -153,17 +152,18 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if create property of a multiple linked field is not valid', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
             {
               name: 'fieldA',
               type: 'multiple_linked_records',
+              table: 'tableB',
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -181,7 +181,7 @@ describe('TableMiddleware', () => {
 
     test('should throw an error if a record of a multiple linked field is not valid', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -201,7 +201,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>
@@ -221,7 +221,7 @@ describe('TableMiddleware', () => {
 
     test('should not throw an error if a number field is 0', async () => {
       // GIVEN
-      const tables: Table[] = [
+      const tables = TableMapper.toEntities([
         {
           name: 'tableA',
           fields: [
@@ -241,7 +241,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-      ].map((table) => mapDtoToTable(table as TableDto))
+      ])
 
       // WHEN
       const call = () =>

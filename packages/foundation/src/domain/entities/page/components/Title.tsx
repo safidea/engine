@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -7,7 +7,7 @@ type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export class Title extends BaseComponent {
   constructor(
     private readonly _text: string,
-    private readonly _ui: IUIGateway['TitleUI'],
+    private readonly _ui: UI['TitleUI'],
     private readonly _size: Size = 'md'
   ) {
     super('title')

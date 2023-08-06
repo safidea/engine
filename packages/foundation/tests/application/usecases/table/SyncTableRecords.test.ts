@@ -1,5 +1,5 @@
-import { mapDtoToApp } from '@application/mappers/AppMapper'
-import { mapDtoToRecord } from '@application/mappers/table/RecordMapper'
+import { mapDtoToApp } from '@adapter/api/app/AppMapper'
+import { mapDtoToRecord } from '@adapter/spi/orm/mappers/RecordMapper'
 import { SyncTableRecords } from '@application/usecases/table/SyncTableRecords'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'

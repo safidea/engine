@@ -1,40 +1,48 @@
-import { FieldDto } from '@application/dtos/table/FieldDto'
-import { mapDtoToField } from '@application/mappers/table/FieldMapper'
-import { Field } from '@domain/entities/table/Field'
-import { Record } from '@domain/entities/table/Record'
+import { Record } from '@domain/entities/app/Record'
 import { describe, test, expect } from '@jest/globals'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 
 describe('Record', () => {
   test('should throw an error if there is no id in values', async () => {
     // GIVEN
-    const tableName = 'tableA'
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: [
+        {
+          name: 'fieldA',
+          type: 'single_line_text',
+        },
+      ],
+    })
     const values = {
       name: 'test',
     }
 
     // WHEN
-    const call = () => new Record(tableName, values, [])
+    const call = () => new Record(values, table)
 
     // THEN
     expect(call).toThrowError('Record must have an id')
   })
 
-  test('should return a record with default values', async () => {
+  test('should create a record with default values', async () => {
     // GIVEN
-    const tableName = 'tableA'
     const values = {
       id: '1',
     }
-    const fields: Field[] = [
-      {
-        name: 'name',
-        type: 'single_line_text',
-        default: 'test',
-      },
-    ].map((field) => mapDtoToField(field as FieldDto))
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: [
+        {
+          name: 'name',
+          type: 'single_line_text',
+          default: 'test',
+        },
+      ],
+    })
 
     // WHEN
-    const record = new Record(tableName, values, fields)
+    const record = new Record(values, table, 'create')
 
     // THEN
     expect(record.fields.name).toEqual('test')
@@ -42,26 +50,28 @@ describe('Record', () => {
 
   test('should create a record without calculated fields', async () => {
     // GIVEN
-    const tableName = 'tableA'
     const values = {
       id: '1',
       fieldA: 'test',
       fieldB: 'test',
     }
-    const fields: Field[] = [
-      {
-        name: 'fieldA',
-        type: 'formula',
-        formula: '"test"',
-      },
-      {
-        name: 'fieldB',
-        type: 'single_line_text',
-      },
-    ].map((field) => mapDtoToField(field as FieldDto))
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: [
+        {
+          name: 'fieldA',
+          type: 'formula',
+          formula: '"test"',
+        },
+        {
+          name: 'fieldB',
+          type: 'single_line_text',
+        },
+      ],
+    })
 
     // WHEN
-    const record = new Record(tableName, values, fields)
+    const record = new Record(values, table, 'create')
 
     // THEN
     expect(record.fields).toEqual({
@@ -71,19 +81,21 @@ describe('Record', () => {
 
   test('should throw an error if a field is required in "created" status', async () => {
     // GIVEN
-    const tableName = 'tableA'
     const values = {
       id: '1',
     }
-    const fields: Field[] = [
-      {
-        name: 'name',
-        type: 'single_line_text',
-      },
-    ].map((field) => mapDtoToField(field as FieldDto))
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: [
+        {
+          name: 'name',
+          type: 'single_line_text',
+        },
+      ],
+    })
 
     // WHEN
-    const call = () => new Record(tableName, values, fields)
+    const call = () => new Record(values, table, 'create')
 
     // THEN
     expect(call).toThrowError('Field "name" is required')
@@ -91,24 +103,26 @@ describe('Record', () => {
 
   test('should create a record with "updated" status', async () => {
     // GIVEN
-    const tableName = 'tableA'
     const values = {
       id: '1',
       name: 'test',
     }
-    const fields: Field[] = [
-      {
-        name: 'name',
-        type: 'single_line_text',
-      },
-      {
-        name: 'age',
-        type: 'number',
-      },
-    ].map((field) => mapDtoToField(field as FieldDto))
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: [
+        {
+          name: 'name',
+          type: 'single_line_text',
+        },
+        {
+          name: 'age',
+          type: 'number',
+        },
+      ],
+    })
 
     // WHEN
-    const record = new Record(tableName, values, fields, 'updated')
+    const record = new Record(values, table, 'update')
 
     // THEN
     expect(record.fields.name).toEqual('test')

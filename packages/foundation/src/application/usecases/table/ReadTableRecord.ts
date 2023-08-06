@@ -1,26 +1,26 @@
-import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
 import { ListTableRecords } from './ListTableRecords'
 import { Rollup } from '@domain/entities/table/fields/Rollup'
 import { Formula } from '@domain/entities/table/fields/Formula'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
-import { mapRecordToDto } from '@application/mappers/table/RecordMapper'
-import { RecordDto } from '@application/dtos/table/RecordDto'
 import { runFormula } from '@application/utils/FormulaUtils'
-import { App } from '@domain/entities/App'
+import { App } from '@domain/entities/app/App'
+import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
+import { Record } from '@domain/entities/app/Record'
+import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
 
 export class ReadTableRecord {
   constructor(
-    private ormGateway: OrmGateway,
+    private ormGateway: OrmGatewayAbstract,
     private app: App
   ) {}
 
-  async execute(table: string, id: string): Promise<RecordDto> {
+  async execute(table: string, id: string): Promise<Record> {
     const record = await this.ormGateway.read(table, id)
     if (!record) throw new Error(`Record ${id} not found`)
-    return this.runRecordFormulas(mapRecordToDto(record), table)
+    return this.runRecordFormulas(record, table)
   }
 
-  async runRecordFormulas(record: RecordDto, table: string) {
+  async runRecordFormulas(record: Record, table: string) {
     const fields = this.app.getTableFields(table)
     if (fields.length > 0) {
       for (const field of fields)
@@ -31,31 +31,27 @@ export class ReadTableRecord {
     return record
   }
 
-  async runFieldRollupFormula(record: RecordDto, fieldRollup: Rollup, table: string) {
+  async runFieldRollupFormula(record: Record, fieldRollup: Rollup, table: string) {
     const { formula } = fieldRollup
     const fields = this.app.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
     if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
     const listTableGateway = new ListTableRecords(this.ormGateway, this.app)
-    const values = record[field.name]
+    const values = record.getFieldValue(field.name)
     if (!Array.isArray(values)) throw new Error('Values are not an array')
-    const linkedRecords = await listTableGateway.execute(field.table, [
-      { field: 'id', operator: 'is_any_of', value: values },
-    ])
+    const linkedRecords = await listTableGateway.execute(field.table, [new IsAnyOf('id', values)])
     const context = {
-      values: linkedRecords.map((record) => String(record[fieldRollup.linkedField])),
+      values: linkedRecords.map((record) => String(record.getFieldValue(fieldRollup.linkedField))),
     }
     const result = await runFormula(formula, context, this.getFunctions())
-    if (result) record[fieldRollup.name] = result
+    record.setFieldValue(fieldRollup.name, result)
   }
 
-  async runFieldFormula(record: RecordDto, fieldFormula: Formula) {
+  async runFieldFormula(record: Record, fieldFormula: Formula) {
     const { formula } = fieldFormula
-    const context = record
-    if (formula.includes('total_net_amount') && context.total_net_amount == null)
-      console.log('runFieldFormula', formula, context)
+    const context = record.fields
     const result = await runFormula(formula, context, this.getFunctions())
-    record[fieldFormula.name] = result
+    record.setFieldValue(fieldFormula.name, result)
   }
 
   getFunctions(): { [key: string]: string } {

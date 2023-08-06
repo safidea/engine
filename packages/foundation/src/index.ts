@@ -1,23 +1,25 @@
 import 'module-alias/register'
 
-import { AppController } from '@adapter/api/controllers/AppController'
+import { AppController } from '@adapter/api/app/AppController'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { ExpressServer } from '@infrastructure/server/ExpressServer'
 import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
-import { IServerGateway } from '@domain/gateways/IServerGateway'
-import { IOrmGateway } from '@domain/gateways/IOrmGateway'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
-import { App } from '@domain/entities/App'
-import { IFetcherGateway } from '@domain/gateways/IFetcherGateway'
+import { Server } from '@adapter/spi/server/Server'
+import { Orm } from '@adapter/spi/orm/Orm'
+import { UI } from '@adapter/spi/ui/UI'
+import { App } from '@domain/entities/app/App'
+import { Fetcher } from '@adapter/spi/fetcher/Fetcher'
+import { AppMiddleware } from '@adapter/api/app/AppMiddleware'
 
 export default class Foundation {
-  private readonly path: string
-  private readonly _app: AppController
-  private readonly _server: IServerGateway
-  private readonly _orm: IOrmGateway
-  private readonly _ui: IUIGateway
-  private readonly _fetcher: IFetcherGateway
+  private readonly _path: string
+  private readonly _app: App
+  private readonly _appController: AppController
+  private readonly _server: Server
+  private readonly _orm: Orm
+  private readonly _ui: UI
+  private readonly _fetcher: Fetcher
 
   constructor(
     config: unknown,
@@ -30,24 +32,31 @@ export default class Foundation {
     private domain = 'localhost:' + port,
     private ssl = false
   ) {
-    this.path = (this.ssl === true ? 'https://' : 'http://') + this.domain
+    this._ui = this.selectUI()
+    const appMiddleware = new AppMiddleware(config, this._ui)
+    this._app = appMiddleware.validateConfig()
+    this._path = (this.ssl === true ? 'https://' : 'http://') + this.domain
     this._server = this.selectServer()
     this._orm = this.selectOrm()
-    this._ui = this.selectUI()
     this._fetcher = this.selectFetcher()
-    this._app = new AppController(config, this._server, this._orm, this._ui, this._fetcher)
+    this._appController = new AppController(
+      this._app,
+      this._server,
+      this._orm,
+      this._fetcher
+    )
   }
 
-  selectServer(): IServerGateway {
+  selectServer(): Server {
     switch (this.serverName) {
       case 'express':
-        return new ExpressServer(this.port, this.uiName, this.fetcherName, this.path)
+        return new ExpressServer(this.port, this.uiName, this.fetcherName, this._path)
       default:
         throw new Error(`Server ${this.serverName} not found`)
     }
   }
 
-  selectOrm(): IOrmGateway {
+  selectOrm(): Orm {
     switch (this.ormName) {
       case 'inmemory':
         return new InMemoryOrm(this.folder)
@@ -56,7 +65,7 @@ export default class Foundation {
     }
   }
 
-  selectUI(): IUIGateway {
+  selectUI(): UI {
     switch (this.uiName) {
       case 'unstyled':
         return UnstyledUI
@@ -65,36 +74,36 @@ export default class Foundation {
     }
   }
 
-  selectFetcher(): IFetcherGateway {
+  selectFetcher(): Fetcher {
     switch (this.fetcherName) {
       case 'native':
-        return NativeFetcher(this.path)
+        return NativeFetcher(this._path)
       default:
         throw new Error(`Fetcher ${this.fetcherName} not found`)
     }
   }
 
   async start() {
-    await this._app.startServer()
+    await this._appController.startServer()
   }
 
   async stop() {
-    await this._app.stopServer()
+    await this._appController.stopServer()
   }
 
-  get server(): IServerGateway {
+  get server(): Server {
     return this._server
   }
 
-  get orm(): IOrmGateway {
+  get orm(): Orm {
     return this._orm
   }
 
-  get ui(): IUIGateway {
+  get ui(): UI {
     return this._ui
   }
 
   get app(): App {
-    return this._app.app
+    return this._app
   }
 }

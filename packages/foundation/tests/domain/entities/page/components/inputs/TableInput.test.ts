@@ -1,6 +1,5 @@
-import { mapDtoToTable } from '@application/mappers/table/TableMapper'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { TableInput } from '@domain/entities/page/components/inputs/TableInput'
-import { Table } from '@domain/entities/table/Table'
 import { describe, test, expect } from '@jest/globals'
 
 describe('TableInput Component', () => {
@@ -13,7 +12,7 @@ describe('TableInput Component', () => {
         label: 'Field X',
       },
     ]
-    const table: Table = mapDtoToTable({
+    const table = TableMapper.toEntity({
       name: 'tableA',
       fields: [
         {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
 
@@ -30,7 +30,7 @@ export class Form extends BaseComponent {
         path: string
       }[]
     },
-    private readonly _ui: IUIGateway['FormUI'],
+    private readonly _ui: UI['FormUI'],
     private readonly _recordIdToUpdate?: string
   ) {
     super('title')

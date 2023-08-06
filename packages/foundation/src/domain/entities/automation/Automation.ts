@@ -10,11 +10,11 @@ export class Automation {
   constructor(
     private readonly _name: string,
     private readonly _actions: Action[],
-    _tables?: Table[]
+    tables: Table[]
   ) {
     for (const action of _actions) {
       if (action.type !== 'updateTable') throw new Error(`unsupported action type: ${action.type}`)
-      const table = _tables?.find((table) => table.name === action.table)
+      const table = tables.find((table) => table.name === action.table)
       if (!table) {
         throw new Error(`table ${action.table} in automation ${_name} is not defined in tables`)
       }

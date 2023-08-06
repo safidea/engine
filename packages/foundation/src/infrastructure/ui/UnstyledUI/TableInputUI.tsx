@@ -1,7 +1,7 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 
-const TableInputUI: IUIGateway['TableInputUI'] = {
+const TableInputUI: UI['TableInputUI'] = {
   container: ({ children }) => {
     return <>{children}</>
   },

@@ -1,32 +1,27 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { IOrmGateway } from '@domain/gateways/IOrmGateway'
-import { Record } from '@domain/entities/table/Record'
-import { Table } from '@domain/entities/table/Table'
-import { Filter } from '@domain/entities/table/Filter'
-import { IsAnyOf } from '@domain/entities/table/filters/IsAnyOf'
+import { Orm } from '@adapter/spi/orm/Orm'
+import { TableDto } from '@adapter/api/table/dtos/TableDto'
+import { RecordDto, RecordFieldValue } from '@adapter/spi/orm/dtos/RecordDto'
+import { FilterDto } from '@adapter/spi/orm/dtos/FilterDto'
 
-interface Row {
-  id: string
-  created_time?: string
-  last_modified_time?: string
-  deleted_time?: string
-  [key: string]: string | number | boolean | undefined
+interface TableRecord {
+  [key: string]: RecordFieldValue
 }
 interface Database {
-  [key: string]: Row[]
+  [key: string]: TableRecord[]
 }
 
-export class InMemoryOrm implements IOrmGateway {
+export class InMemoryOrm implements Orm {
   private url: string
-  private tables: Table[] = []
+  private tables: TableDto[] = []
 
   constructor(folder: string) {
     this.url = join(folder, 'db.json')
     fs.ensureFileSync(this.url)
   }
 
-  public configure(tables: Table[]): void {
+  public configure(tables: TableDto[]): void {
     this.tables = tables
   }
 
@@ -34,7 +29,7 @@ export class InMemoryOrm implements IOrmGateway {
     return this.tables.some((table) => table.name === tableName)
   }
 
-  private getTable(tableName: string): Table {
+  private getTable(tableName: string): TableDto {
     const table = this.tables.find((table) => table.name === tableName)
     if (!table) throw new Error(`Table ${tableName} not found`)
     return table
@@ -48,86 +43,66 @@ export class InMemoryOrm implements IOrmGateway {
     return fs.writeJSON(this.url, db)
   }
 
-  mapRecordToRow(record: Record): Row {
-    const row: Row = {
-      ...record.fields,
-      id: record.id,
-    }
-    if (record.created_time) row.created_time = record.created_time
-    if (record.last_modified_time) row.last_modified_time = record.last_modified_time
-    if (record.deleted_time) row.deleted_time = record.deleted_time
-    return row
-  }
-
-  mapRowToRecord(table: string, row: Row): Record {
-    return new Record(table, row, this.getTable(table).fields)
-  }
-
-  async create(tableName: string, record: Record): Promise<string> {
+  async create(tableName: string, recordDto: RecordDto): Promise<string> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
-    db[tableName].push(this.mapRecordToRow(record))
+    db[tableName].push(recordDto)
     await this.setDB(db)
-    return record.id
+    return String(recordDto.id)
   }
 
-  async createMany(table: string, records: Record[]): Promise<string[]> {
+  async createMany(table: string, recordsDto: RecordDto[]): Promise<string[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    db[table].push(...records.map((record) => this.mapRecordToRow(record)))
+    db[table].push(...recordsDto)
     await this.setDB(db)
-    return records.map((record) => record.id)
+    return recordsDto.map((recordDto) => String(recordDto.id))
   }
 
-  async softUpdateById(table: string, record: Record, id: string): Promise<void> {
+  async softUpdateById(table: string, recordDto: RecordDto, id: string): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const index = db[table].findIndex((row) => row.id === id)
     if (index === -1) throw new Error(`Record ${id} not found`)
-    db[table][index] = { ...db[table][index], ...this.mapRecordToRow(record) }
+    db[table][index] = { ...db[table][index], ...recordDto }
     await this.setDB(db)
   }
 
-  async list(table: string, filters: Filter[]): Promise<Record[]> {
+  async list(table: string, filters: FilterDto[]): Promise<RecordDto[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    const records = db[table]
-    if (filters.length === 0) return records.map((row) => this.mapRowToRecord(table, row))
-    return records
-      .filter((record) => {
-        for (const filter of filters) {
-          const value = record[filter.field]
-          const field = this.getTable(table).fields.find((field) => field.name === filter.field)
-          if (filter instanceof IsAnyOf) {
-            if (filter.field === 'id' || field?.format === 'text')
-              return (
-                filter.values.map((v) => String(v)).filter((v: string) => v === value).length > 0
-              )
-            if (field?.format === 'number')
-              return (
-                filter.values.map((v) => Number(v)).filter((v: number) => v === value).length > 0
-              )
-          }
-          throw new Error(`Operator ${filter.operator} not supported`)
+    const recordsDto = db[table]
+    if (filters.length === 0) return recordsDto
+    return recordsDto.filter((recordDto) => {
+      for (const filter of filters) {
+        const value = recordDto[filter.field]
+        const field = this.getTable(table).fields.find((field) => field.name === filter.field)
+        if (filter.operator === 'is_any_of') {
+          if (!Array.isArray(filter.value)) throw new Error('Value must be an array')
+          if (filter.field === 'id' || field?.format === 'text')
+            return filter.value.map((v) => String(v)).filter((v: string) => v === value).length > 0
+          if (field?.format === 'number')
+            return filter.value.map((v) => Number(v)).filter((v: number) => v === value).length > 0
         }
-      })
-      .map((row) => this.mapRowToRecord(table, row))
+        throw new Error(`Operator ${filter.operator} not supported`)
+      }
+    })
   }
 
   async deleteById(table: string, id: string): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    const index = db[table].findIndex((row) => row.id === id)
-    if (index === -1) throw new Error(`Row not found for id ${id} in table ${table}`)
+    const index = db[table].findIndex((recordDto) => recordDto.id === id)
+    if (index === -1) throw new Error(`Record not found for id ${id} in table ${table}`)
     db[table].splice(index, 1)
     await this.setDB(db)
   }
 
-  async readById(table: string, id: string): Promise<Record | undefined> {
+  async readById(table: string, id: string): Promise<RecordDto | undefined> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    const row = db[table].find((row) => row.id === id)
-    if (!row) return undefined
-    return this.mapRowToRecord(table, row)
+    const recordDto = db[table].find((row) => row.id === id)
+    if (!recordDto) return undefined
+    return recordDto
   }
 }

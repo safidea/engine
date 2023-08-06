@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  IUIGateway,
+  UI,
   ListUIGroupProps,
   ListUIHeaderColumnProps,
   ListUITextCellProps,
@@ -8,9 +8,9 @@ import {
   ListUILinkCellProps,
   ListUIRowProps,
   UIProps,
-} from '@domain/gateways/IUIGateway'
+} from '@adapter/spi/ui/UI'
 
-const ListUI: IUIGateway['ListUI'] = {
+const ListUI: UI['ListUI'] = {
   container: ({ children }: UIProps) => {
     return <table>{children}</table>
   },

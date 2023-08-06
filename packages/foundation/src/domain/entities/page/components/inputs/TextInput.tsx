@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseInput } from './BaseInput'
 import { FormInputValue, HandleChange } from '../Form'
 
@@ -11,7 +11,7 @@ export interface TextInputProps {
 export class TextInput extends BaseInput {
   constructor(
     field: string,
-    private readonly _ui: IUIGateway['TextInputUI'],
+    private readonly _ui: UI['TextInputUI'],
     label?: string,
     private readonly _placeholder?: string
   ) {

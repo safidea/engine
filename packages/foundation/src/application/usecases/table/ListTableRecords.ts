@@ -1,29 +1,24 @@
-import { OrmGateway } from '@adapter/spi/gateways/OrmGateway'
 import { ReadTableRecord } from './ReadTableRecord'
-import { FilterDto } from '@application/dtos/table/FilterDto'
-import { mapDtoToFilter } from '@application/mappers/table/FilterMapper'
-import { mapRecordToDto } from '@application/mappers/table/RecordMapper'
-import { RecordDto } from '@application/dtos/table/RecordDto'
-import { App } from '@domain/entities/App'
+import { App } from '@domain/entities/app/App'
+import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
+import { Record } from '@domain/entities/app/Record'
+import { Filter } from '@domain/entities/app/Filter'
 
 export class ListTableRecords {
   private readTableRecord: ReadTableRecord
 
   constructor(
-    private ormGateway: OrmGateway,
+    private ormGateway: OrmGatewayAbstract,
     app: App
   ) {
     this.readTableRecord = new ReadTableRecord(ormGateway, app)
   }
 
-  async execute(table: string, filters: FilterDto[] = []): Promise<RecordDto[]> {
-    const records = await this.ormGateway.list(
-      table,
-      filters.map((filter) => mapDtoToFilter(filter))
-    )
+  async execute(table: string, filters: Filter[] = []): Promise<Record[]> {
+    const records = await this.ormGateway.list(table, filters)
     const promises = []
     for (const record of records) {
-      promises.push(this.readTableRecord.runRecordFormulas(mapRecordToDto(record), table))
+      promises.push(this.readTableRecord.runRecordFormulas(record, table))
     }
     return Promise.all(promises)
   }

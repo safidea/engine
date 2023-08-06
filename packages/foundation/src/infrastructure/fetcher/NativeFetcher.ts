@@ -1,7 +1,7 @@
-import { IFetcherGateway, FetchState } from '@domain/gateways/IFetcherGateway'
+import { Fetcher, FetchState } from '@adapter/spi/fetcher/Fetcher'
 import { useState, useEffect } from 'react'
 
-export function NativeFetcher(domain: string): IFetcherGateway {
+export function NativeFetcher(domain: string): Fetcher {
   return {
     fetch: (url: string, options?: RequestInit) => fetch(domain + url, options),
     useFetch: <T>(url: string, options?: RequestInit) => {

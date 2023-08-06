@@ -1,13 +1,13 @@
-import { App } from '@domain/entities/App'
-import { IOrmGateway } from '@domain/gateways/IOrmGateway'
+import { App } from '@domain/entities/app/App'
+import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
 
 export class SyncTableRecords {
   constructor(
-    private orm: IOrmGateway,
+    private ormGateway: OrmGatewayAbstract,
     private app: App
   ) {}
 
-  async execute(tableName: string, records: any[]) {
+  /*async execute(tableName: string, records: any[]) {
     const fields = this.app.getTableFields(tableName)
     const fieldNames = fields.map((field) => field.name)
 
@@ -20,5 +20,5 @@ export class SyncTableRecords {
     })
 
     //await this.orm.update(tableName, recordsToSync)
-  }
+  }*/
 }

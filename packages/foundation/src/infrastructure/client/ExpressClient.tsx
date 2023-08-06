@@ -1,9 +1,9 @@
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
-import { PageController } from '@adapter/api/controllers/PageController'
+import { PageController } from '@adapter/api/page/PageController'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
-import { mapDtoToApp } from '@application/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 
 import type { FoundationData } from '@infrastructure/server/ExpressServer'
 
@@ -33,10 +33,8 @@ declare global {
 
 ;(async () => {
   const { uiName, fetcherName, domain, appDto, pagePath, params } = window.__FOUNDATION_DATA__
-  const app = mapDtoToApp(appDto, selectUI(uiName))
-  const { pages } = app
-  const page = pages.find((page) => page.path === pagePath)
-  if (!page) throw new Error(`Page ${pagePath} not found`)
+  const app = AppMapper.toEntity(appDto, selectUI(uiName))
+  const page = app.getPageByPath(pagePath)
   const pageController = new PageController(selectFetcher(fetcherName, domain), app)
   const Page = await pageController.render(page, params)
   const container = document.getElementById('root')

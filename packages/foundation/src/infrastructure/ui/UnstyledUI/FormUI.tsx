@@ -1,13 +1,13 @@
 import React from 'react'
 import {
-  IUIGateway,
+  UI,
   FormUIFormProps,
   FormUISubmitProps,
   FormUIErrorMessageProps,
   UIProps,
-} from '@domain/gateways/IUIGateway'
+} from '@adapter/spi/ui/UI'
 
-const FormUI: IUIGateway['FormUI'] = {
+const FormUI: UI['FormUI'] = {
   form: ({ children, onSubmit }: FormUIFormProps) => <form onSubmit={onSubmit}>{children}</form>,
   inputs: ({ children }: UIProps) => <>{children}</>,
   input: ({ children }: UIProps) => <>{children}</>,

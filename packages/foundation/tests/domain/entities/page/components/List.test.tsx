@@ -9,12 +9,14 @@ import { Table } from '@domain/entities/table/Table'
 import { mapDtoToTable } from '@application/mappers/table/TableMapper'
 import { TableDto } from '@application/dtos/table/TableDto'
 import { Column, GroupBy, List, SortBy } from '@domain/entities/page/components/List'
-import { mapDtoToRecord } from '@application/mappers/table/RecordMapper'
+import { RecordMapper, mapDtoToRecord } from '@adapter/spi/orm/mappers/RecordMapper'
 import { RecordDto } from '@application/dtos/table/RecordDto'
 import { Field } from '@domain/entities/table/Field'
-import { mapDtoToField } from '@application/mappers/table/FieldMapper'
+import { FieldMapper, mapDtoToField } from '@adapter/api/table/mappers/FieldMapper'
 import { FieldDto } from '@application/dtos/table/FieldDto'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
+import { App } from '@domain/entities/app/App'
 
 Object.defineProperty(window, 'location', {
   writable: true,
@@ -42,7 +44,7 @@ describe('List Component', () => {
         order: 'desc',
       },
     ]
-    const tables: Table[] = [
+    const tables = TableMapper.toEntities([
       {
         name: 'tableA',
         fields: [
@@ -52,7 +54,7 @@ describe('List Component', () => {
           },
         ],
       },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
+    ])
 
     // WHEN
     const call = () => new List(tableName, groupBy, [], [], {} as any, tables)
@@ -70,7 +72,7 @@ describe('List Component', () => {
         order: 'desc',
       },
     ]
-    const tables: Table[] = [
+    const tables = TableMapper.toEntities([
       {
         name: 'tableA',
         fields: [
@@ -80,7 +82,7 @@ describe('List Component', () => {
           },
         ],
       },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
+    ])
 
     // WHEN
     const call = () => new List(tableName, [], sortBy, [], {} as any, tables)
@@ -98,35 +100,36 @@ describe('List Component', () => {
         order: 'desc',
       },
     ]
-    const fields: Field[] = [
+    const fields = FieldMapper.toEntities([
       {
         name: 'fieldA',
         type: 'single_line_text',
       },
-    ].map((fieldDto) => mapDtoToField(fieldDto as FieldDto))
-    const tables: Table[] = [
-      {
-        name: 'tableA',
-        fields: fields,
-      },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
-    const records = [
-      {
-        id: '1',
-        fieldA: 'a',
-      },
-      {
-        id: '2',
-        fieldA: 'b',
-      },
-      {
-        id: '3',
-        fieldA: 'c',
-      },
-    ].map((record) => mapDtoToRecord(tableName, record as RecordDto, fields))
+    ])
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: fields,
+    })
+    const records = RecordMapper.toEntities(
+      [
+        {
+          id: '1',
+          fieldA: 'a',
+        },
+        {
+          id: '2',
+          fieldA: 'b',
+        },
+        {
+          id: '3',
+          fieldA: 'c',
+        },
+      ],
+      table
+    )
 
     // WHEN
-    const sortedRecords = new List(tableName, [], sortBy, [], {} as any, tables).sortRecords({
+    const sortedRecords = new List(tableName, [], sortBy, [], {} as any, [table]).sortRecords({
       records,
       sortBy,
       fields,
@@ -145,35 +148,36 @@ describe('List Component', () => {
         order: 'desc',
       },
     ]
-    const fields: Field[] = [
+    const fields = FieldMapper.toEntities([
       {
         name: 'fieldA',
         type: 'datetime',
       },
-    ].map((fieldDto) => mapDtoToField(fieldDto as FieldDto))
-    const tables: Table[] = [
-      {
-        name: 'tableA',
-        fields: fields,
-      },
-    ].map((tableDto) => mapDtoToTable(tableDto as TableDto))
-    const records = [
-      {
-        id: '1',
-        fieldA: new Date('2020-01-01').toISOString(),
-      },
-      {
-        id: '2',
-        fieldA: new Date('2021-01-01').toISOString(),
-      },
-      {
-        id: '3',
-        fieldA: new Date('2022-01-01').toISOString(),
-      },
-    ].map((record) => mapDtoToRecord(tableName, record as RecordDto, fields))
+    ])
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: fields,
+    })
+    const records = RecordMapper.toEntities(
+      [
+        {
+          id: '1',
+          fieldA: new Date('2020-01-01').toISOString(),
+        },
+        {
+          id: '2',
+          fieldA: new Date('2021-01-01').toISOString(),
+        },
+        {
+          id: '3',
+          fieldA: new Date('2022-01-01').toISOString(),
+        },
+      ],
+      table
+    )
 
     // WHEN
-    const sortedRecords = new List(tableName, [], sortBy, [], {} as any, tables).sortRecords({
+    const sortedRecords = new List(tableName, [], sortBy, [], {} as any, [table]).sortRecords({
       records,
       sortBy,
       fields,
@@ -196,7 +200,7 @@ describe('List Component', () => {
         type: 'button',
       },
     ]
-    const table = mapDtoToTable({
+    const table = TableMapper.toEntity({
       name: 'tableA',
       fields: [
         {
@@ -204,17 +208,13 @@ describe('List Component', () => {
           type: 'single_line_text',
         },
       ],
-    } as TableDto)
+    })
     const ListComponent = new List(tableName, [], [], columns, UnstyledUI.ListUI, [
       table,
     ]).renderUI()
 
     // WHEN
-    render(
-      <ListComponent
-        records={[mapDtoToRecord(tableName, { id: '1', fieldA: 'test' }, table.fields)]}
-      />
-    )
+    render(<ListComponent records={[RecordMapper.toEntity({ id: '1', fieldA: 'test' }, table)]} />)
 
     // THEN
     const button = screen.getByText('Action')
@@ -239,7 +239,7 @@ describe('List Component', () => {
         },
       },
     ]
-    const table = mapDtoToTable({
+    const table = TableMapper.toEntity({
       name: 'tableA',
       fields: [
         {
@@ -247,17 +247,13 @@ describe('List Component', () => {
           type: 'single_line_text',
         },
       ],
-    } as TableDto)
+    })
     const ListComponent = new List(tableName, [], [], columns, UnstyledUI.ListUI, [
       table,
     ]).renderUI()
 
     // WHEN
-    render(
-      <ListComponent
-        records={[mapDtoToRecord(tableName, { id: '1', fieldA: 'test' }, table.fields)]}
-      />
-    )
+    render(<ListComponent records={[RecordMapper.toEntity({ id: '1', fieldA: 'test' }, table)]} />)
 
     // AND
     await user.click(screen.getByText(/Redirect/i))

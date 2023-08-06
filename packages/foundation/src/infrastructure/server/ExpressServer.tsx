@@ -1,15 +1,15 @@
 import React from 'react'
-import { IServerGateway, TableRoute, PageRoute } from '@domain/gateways/IServerGateway'
+import { Server, ApiRoute, PageRoute } from '@adapter/spi/server/Server'
 import express, { Express } from 'express'
 import { Server as HTTPServer } from 'http'
 import ReactDOMServer from 'react-dom/server'
-import { Request, RequestQuery } from '@domain/entities/table/Request'
 import path from 'path'
 import fs from 'fs-extra'
 import debug from 'debug'
-import { AppDto } from '@application/dtos/AppDto'
-import { App } from '@domain/entities/App'
-import { mapAppToDto } from '@application/mappers/AppMapper'
+import { AppDto } from '@adapter/api/app/AppDto'
+import { App } from '@domain/entities/app/App'
+import { AppMapper } from '@adapter/api/app/AppMapper'
+import { RequestDto, RequestQueryDto } from '@adapter/spi/server/dtos/RequestDto'
 
 const log = debug('server:express')
 
@@ -22,7 +22,7 @@ export interface FoundationData {
   params: { [key: string]: string }
 }
 
-export class ExpressServer implements IServerGateway {
+export class ExpressServer implements Server {
   private app: Express
   private server: HTTPServer | null
 
@@ -38,18 +38,18 @@ export class ExpressServer implements IServerGateway {
     this.app.use(express.urlencoded({ extended: true }))
   }
 
-  async configureTables(routes: TableRoute[]) {
+  async configureTables(routes: ApiRoute[]) {
     routes.forEach((route) => {
       switch (route.method) {
         case 'GET':
           this.app.get(route.path, async (req, res) => {
-            const options: Request = {
+            const options: RequestDto = {
               method: req.method,
               path: req.url.split('?')[0],
               params: req.params,
             }
             if (req.query) {
-              options.query = Object.keys(req.query).reduce((acc: RequestQuery, key: string) => {
+              options.query = Object.keys(req.query).reduce((acc: RequestQueryDto, key: string) => {
                 acc[key] = String(req.query[key])
                 return acc
               }, {})
@@ -109,7 +109,7 @@ export class ExpressServer implements IServerGateway {
           uiName: this.uiName,
           fetcherName: this.fetcherName,
           domain: this.domain,
-          appDto: mapAppToDto(app),
+          appDto: AppMapper.toDto(app),
           pagePath: route.path,
           params: req.params,
         }

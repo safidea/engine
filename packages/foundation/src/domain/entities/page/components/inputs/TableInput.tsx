@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseInput } from './BaseInput'
 import { FormInputValue, HandleChange } from '../Form'
 import { Table } from '@domain/entities/table/Table'
@@ -24,7 +24,7 @@ export class TableInput extends BaseInput {
     field: string,
     private readonly _columns: Column[],
     private readonly _table: Table,
-    private readonly _ui: IUIGateway['TableInputUI'],
+    private readonly _ui: UI['TableInputUI'],
     label?: string,
     private readonly _addLabel?: string
   ) {

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
-import { Record } from '@domain/entities/table/Record'
+import { Record } from '@domain/entities/app/Record'
 import { Field } from '@domain/entities/table/Field'
 import { Table } from '@domain/entities/table/Table'
 
@@ -64,7 +64,7 @@ export class List extends BaseComponent {
     private readonly _groupBy: GroupBy[] = [],
     private readonly _sortBy: SortBy[] = [],
     private readonly _columns: Column[] = [],
-    private readonly _ui: IUIGateway['ListUI'],
+    private readonly _ui: UI['ListUI'],
     private readonly _tables: Table[] = []
   ) {
     super('link')

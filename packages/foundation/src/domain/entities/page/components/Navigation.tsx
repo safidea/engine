@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 import { Link } from './Link'
 import { Title } from './Title'
@@ -16,7 +16,7 @@ export class Navigation extends BaseComponent {
     private readonly _title: Title,
     private readonly _links: Link[],
     private readonly _components: Component[],
-    private readonly _ui: IUIGateway['NavigationUI']
+    private readonly _ui: UI['NavigationUI']
   ) {
     super('navigation')
   }

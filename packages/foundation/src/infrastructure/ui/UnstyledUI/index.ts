@@ -1,4 +1,4 @@
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import LinkUI from './LinkUI'
 import ParagraphUI from './ParagraphUI'
 import TitleUI from './TitleUI'
@@ -8,7 +8,7 @@ import FormUI from './FormUI'
 import TableInputUI from './TableInputUI'
 import TextInputUI from './TextInputUI'
 
-export const UnstyledUI: IUIGateway = {
+export const UnstyledUI: UI = {
   LinkUI,
   ParagraphUI,
   TitleUI,

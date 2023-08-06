@@ -1,24 +1,29 @@
 import React, { useState } from 'react'
-import { FetcherGateway } from '@adapter/spi/gateways/FetcherGateway'
 import { Form, FormInputValue } from '@domain/entities/page/components/Form'
 import { Context } from '@domain/entities/page/Context'
+import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbstract'
+import { Record } from '@domain/entities/app/Record'
 
 export class RenderPageForm {
-  constructor(private fetcherGateway: FetcherGateway) {}
+  constructor(private fetcherGateway: FetcherGatewayAbstract) {}
 
   async execute(form: Form, context: Context): Promise<() => JSX.Element> {
     const UI = form.renderUI()
     const { table, inputs, recordIdToUpdate } = form
     const InputComponents = inputs.map((input) => input.renderUI())
     const createRecord = this.fetcherGateway.createTableRecord(table)
-    let defaultValue = {}
+    let recordToUpdate: Record
     if (recordIdToUpdate) {
       const recordId = context.getValue(recordIdToUpdate)
-      defaultValue = await this.fetcherGateway.getTableRecord(table, recordId)
+      const { record, error } = await this.fetcherGateway.getEnrichedTableRecord(table, recordId)
+      if (error) {
+        throw new Error(error)
+      }
+      if (record) recordToUpdate = record
     }
     return function FormComponent() {
       const [isSaving, setIsSaving] = useState(false)
-      const [formData, setFormData] = useState(defaultValue)
+      const [formData, setFormData] = useState(recordToUpdate.fields ?? {})
       const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
       const saveRecord = async () => {

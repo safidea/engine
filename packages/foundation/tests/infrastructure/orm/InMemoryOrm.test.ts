@@ -1,6 +1,6 @@
 import { FieldDto } from '@application/dtos/table/FieldDto'
-import { mapDtoToField } from '@application/mappers/table/FieldMapper'
-import { mapDtoToRecord } from '@application/mappers/table/RecordMapper'
+import { mapDtoToField } from '@adapter/api/table/mappers/FieldMapper'
+import { mapDtoToRecord } from '@adapter/spi/orm/mappers/RecordMapper'
 import { Field } from '@domain/entities/table/Field'
 import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 import { describe, test, expect } from '@jest/globals'

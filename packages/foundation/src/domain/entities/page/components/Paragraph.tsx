@@ -1,11 +1,11 @@
 import React from 'react'
-import { IUIGateway } from '@domain/gateways/IUIGateway'
+import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 
 export class Paragraph extends BaseComponent {
   constructor(
     private readonly _text: string = '',
-    private readonly _ui: IUIGateway['ParagraphUI']
+    private readonly _ui: UI['ParagraphUI']
   ) {
     super('paragraph')
   }
