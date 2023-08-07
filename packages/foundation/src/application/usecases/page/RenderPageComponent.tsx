@@ -7,13 +7,17 @@ import { RenderPageForm } from './RenderPageForm'
 import { Form } from '@domain/entities/page/components/Form'
 import { Context } from '@domain/entities/page/Context'
 import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbstract'
+import { App } from '@domain/entities/app/App'
 
 export class RenderPageComponent {
-  constructor(private fetcherGateway: FetcherGatewayAbstract) {}
+  constructor(
+    private fetcherGateway: FetcherGatewayAbstract,
+    private app: App
+  ) {}
 
   async execute(component: Component, context: Context): Promise<() => JSX.Element> {
     if (component instanceof Navigation) {
-      const renderPageNavigation = new RenderPageNavigation(this.fetcherGateway)
+      const renderPageNavigation = new RenderPageNavigation(this.fetcherGateway, this.app)
       return renderPageNavigation.execute(component, context)
     }
     if (component instanceof List) {
@@ -21,7 +25,7 @@ export class RenderPageComponent {
       return renderPageList.execute(component)
     }
     if (component instanceof Form) {
-      const renderPageForm = new RenderPageForm(this.fetcherGateway)
+      const renderPageForm = new RenderPageForm(this.fetcherGateway, this.app)
       return renderPageForm.execute(component, context)
     }
     return component.renderUI()

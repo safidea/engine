@@ -240,5 +240,39 @@ describe('TableMiddleware', () => {
       // THEN
       await expect(call()).resolves.not.toThrow()
     })
+
+    test('should validate a request body with an updated record', async () => {
+      // GIVEN
+      const app = AppMapper.toEntity(
+        {
+          tables: [
+            {
+              name: 'tableA',
+              fields: [
+                {
+                  name: 'fieldA',
+                  type: 'single_line_text',
+                },
+              ],
+            },
+          ],
+        },
+        UnstyledUI
+      )
+
+      // WHEN
+      const call = () =>
+        new TableMiddleware(app, {} as any).validateRecordBody(
+          'tableA',
+          {
+            id: '1',
+            fieldA: 'text',
+          },
+          'update'
+        )
+
+      // THEN
+      await expect(call()).resolves.not.toThrow()
+    })
   })
 })

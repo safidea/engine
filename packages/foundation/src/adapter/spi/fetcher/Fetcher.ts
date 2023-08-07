@@ -5,6 +5,9 @@ export interface FetchState<T> {
 }
 
 export interface Fetcher {
-  fetch: (url: string, options?: RequestInit) => Promise<Response>
-  useFetch: <T>(url: string) => FetchState<T>
+  url: string
+  name: string
+  setUrl: (url: string) => void
+  getFetch: () => (url: string, options?: RequestInit) => Promise<Response>
+  getUseFetch: () => <T>(url: string, options?: RequestInit) => FetchState<T>
 }

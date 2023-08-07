@@ -6,7 +6,7 @@ test.describe('A home page of an invoice app', () => {
     foundation,
   }) => {
     // GIVEN
-    await foundation.start({
+    await foundation.config({
       pages: [
         {
           path: '/',

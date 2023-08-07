@@ -10,7 +10,7 @@ export class PageController {
 
   constructor(fetcher: Fetcher, app: App) {
     const fetcherGateway = new FetcherGateway(fetcher, app)
-    this.renderPage = new RenderPage(fetcherGateway)
+    this.renderPage = new RenderPage(fetcherGateway, app)
   }
 
   async render(page: Page, params: { [key: string]: string }) {

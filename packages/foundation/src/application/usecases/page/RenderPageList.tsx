@@ -7,9 +7,10 @@ export class RenderPageList {
 
   async execute(list: List): Promise<() => JSX.Element> {
     const UI = list.renderUI()
-    const getRecordsHook = this.fetcherGateway.getTableRecordsHook(list.table)
+    const useSyncRecords = this.fetcherGateway.getSyncRecordsHook([{ table: list.table }])
     return function ListComponent() {
-      const { records } = getRecordsHook()
+      const { tables } = useSyncRecords()
+      const records = tables[list.table] ?? []
       return <UI records={records} />
     }
   }

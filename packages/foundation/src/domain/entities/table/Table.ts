@@ -36,7 +36,11 @@ export class Table {
   }
 
   getLinkedFieldByLinkedTableName(linkedTableName: string): Field {
-    const field = this._fields.find((field) => (field instanceof MultipleLinkedRecords || field instanceof SingleLinkedRecord) && field.table === linkedTableName)
+    const field = this._fields.find(
+      (field) =>
+        (field instanceof MultipleLinkedRecords || field instanceof SingleLinkedRecord) &&
+        field.table === linkedTableName
+    )
     if (!field) {
       throw new Error(`Table ${this._name} has no linked field for table ${linkedTableName}`)
     }

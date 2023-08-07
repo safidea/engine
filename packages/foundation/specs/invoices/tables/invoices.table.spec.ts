@@ -3,10 +3,10 @@ import { test, expect, helpers } from '../../utils/fixtures'
 test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, foundation }) => {
     // GIVEN
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const invoices = helpers.generateManyRecords('invoices', 2)
+    const { invoices } = helpers.generateRecordsDto('invoices', 2)
 
     // WHEN
     await request.post('/api/table/invoices', { data: invoices })
@@ -22,12 +22,12 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
   test('should read an invoice with calculated vat and total', async ({ request, foundation }) => {
     // GIVEN
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const id = await db.createRecord('invoices', {
-      items: {
-        create: helpers.generateManyRecords('invoices_items', [
+    const tables = await db.createRecords('invoices', [
+      {
+        items: [
           {
             quantity: 4,
             unit_price: 20,
@@ -38,15 +38,18 @@ test.describe('An api that allow CRUD operations on invoices', () => {
             unit_price: 10,
             vat: 0.2,
           },
-        ]),
+        ],
       },
-    })
+    ])
+    const {
+      invoices: [{ id }],
+    } = tables
 
     // WHEN
     const res = await request.get(`/api/table/invoices/${id}`)
 
     // THEN
-    const record = await res.json()
+    const { record } = await res.json()
     expect(record.total_net_amount).toEqual(100)
     expect(record.total_vat).toEqual(20)
     expect(record.total_amount).toEqual(120)
@@ -55,10 +58,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
   test('should read a list of invoices from a list of ids', async ({ request, foundation }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const ids = await db.createManyRecords('invoices', 3)
+    const { invoices } = await db.createRecords('invoices', 3)
+    const ids = invoices.map((i) => i.id)
     const filteredIds = ids.slice(0, 2)
 
     // WHEN
@@ -71,7 +75,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // THEN
     // I have read 2 invoices
-    const records = await res.json()
+    const { records } = await res.json()
     expect(records.length).toEqual(2)
     expect(records[0].id).toEqual(ids[0])
     expect(records[1].id).toEqual(ids[1])
@@ -80,12 +84,16 @@ test.describe('An api that allow CRUD operations on invoices', () => {
   test('should update an invoice', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const id = await db.createRecord('invoices', {
-      customer: 'Customer A',
-    })
+    const {
+      invoices: [{ id }],
+    } = await db.createRecords('invoices', [
+      {
+        customer: 'Customer A',
+      },
+    ])
 
     // WHEN
     // I make a PATCH request to update this invoice
@@ -100,17 +108,19 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // The updated invocie should have a new name
     const [updatedRecord] = await db.list('invoices')
     expect(updatedRecord.id).toEqual(id)
-    expect(updatedRecord.customer).toEqual(update.customer)
+    expect(updatedRecord.getFieldValue('customer')).toEqual(update.customer)
     expect(updatedRecord.last_modified_time).toBeDefined()
   })
 
   test('should soft delete an invoice', async ({ request, foundation }) => {
     // GIVEN
     // We provide an invoice
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const id = await db.createRecord('invoices')
+    const {
+      invoices: [{ id }],
+    } = await db.createRecords('invoices')
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
@@ -125,10 +135,12 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
   test('should finalised an invoice', async ({ request, foundation }) => {
     // GIVEN
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const id = await db.createRecord('invoices')
+    const {
+      invoices: [{ id }],
+    } = await db.createRecords('invoices')
 
     // WHEN
     const update = {
@@ -143,22 +155,24 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     const [finalisedRecord] = await db.list('invoices')
     expect(finalisedRecord.id).toEqual(id)
-    expect(finalisedRecord.finalised_time).toEqual(update.finalised_time)
-    expect(finalisedRecord.number).toEqual(update.number)
-    expect(finalisedRecord.status).toEqual(update.status)
+    expect(finalisedRecord.getFieldValue('finalised_time')).toEqual(update.finalised_time)
+    expect(finalisedRecord.getFieldValue('number')).toEqual(update.number)
+    expect(finalisedRecord.getFieldValue('status')).toEqual(update.status)
   })
 
   test.skip('should not be able to update a finalised invoice', async ({ request, foundation }) => {
     // GIVEN
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const id = await db.createRecord('invoices', {
-      customer: 'Customer A',
-      status: 'finalised',
-      finalised_time: new Date().toISOString(),
-      number: 1,
-    })
+    const id = await db.createRecords('invoices', [
+      {
+        customer: 'Customer A',
+        status: 'finalised',
+        finalised_time: new Date().toISOString(),
+        number: 1,
+      },
+    ])
 
     // WHEN
     const update = {
@@ -175,8 +189,8 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(error).toEqual('Cannot update a finalised invoice')
     const [updatedRecord] = await db.list('invoices')
     expect(updatedRecord.id).toEqual(id)
-    expect(updatedRecord.customer).toEqual('Customer A')
-    expect(updatedRecord.number).toEqual(1)
+    expect(updatedRecord.getFieldValue('customer')).toEqual('Customer A')
+    expect(updatedRecord.getFieldValue('number')).toEqual(1)
   })
 })
 
@@ -187,8 +201,8 @@ test.describe('An api that render error messages', () => {
   }) => {
     // GIVEN
     // We provide an app with tables
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
 
     // WHEN
@@ -204,8 +218,8 @@ test.describe('An api that render error messages', () => {
   test('should return a 404 error when the row does not exist', async ({ request, foundation }) => {
     // GIVEN
     // We provide an app with tables
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
 
     // WHEN
@@ -215,14 +229,14 @@ test.describe('An api that render error messages', () => {
     // THEN
     // I should have a 404 error
     expect(res.status()).toEqual(404)
-    expect((await res.json()).error).toEqual('Row unknown does not exist in table invoices')
+    expect((await res.json()).error).toEqual('Record unknown does not exist in table invoices')
   })
 
   test('should return a 400 error when fields are required', async ({ request, foundation }) => {
     // GIVEN
     // We provide an app with tables
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
 
     // WHEN
@@ -242,10 +256,12 @@ test.describe('An api that render error messages', () => {
   test('should return a 400 error when a field is not valid', async ({ request, foundation }) => {
     // GIVEN
     // We provide an app with tables
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const invoice = helpers.generateRecord('invoices')
+    const {
+      invoices: [invoice],
+    } = helpers.generateRecordsDto('invoices')
     invoice.invalid = 'invalid'
 
     // WHEN
@@ -265,22 +281,24 @@ test.describe('An api that render error messages', () => {
   }) => {
     // GIVEN
     // We provide an app with tables
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
     })
-    const invoice = helpers.generateRecord('invoices', {
-      items: {
-        create: helpers.generateManyRecords('invoices_items', [
+    const {
+      invoices_items: [item],
+    } = helpers.generateRecordsDto('invoices', [
+      {
+        items: [
           {
             quantity: 'test',
           },
-        ]),
+        ],
       },
-    })
+    ])
 
     // WHEN
     // I make a POST request with an invalid row
-    const res = await request.post('/api/table/invoices', { data: invoice })
+    const res = await request.post('/api/table/invoices_items', { data: item })
 
     // THEN
     // I should have a 400 error

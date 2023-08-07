@@ -4,6 +4,8 @@ import { Context } from '@domain/entities/page/Context'
 import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbstract'
 import { Record, RecordFieldValue } from '@domain/entities/app/Record'
 import { App } from '@domain/entities/app/App'
+import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
+import { SyncResource } from '@domain/entities/app/Sync'
 
 export class RenderPageForm {
   constructor(
@@ -13,26 +15,46 @@ export class RenderPageForm {
 
   async execute(form: Form, context: Context): Promise<() => JSX.Element> {
     const UI = form.renderUI()
-    const { tableName, inputs } = form
+    const { tableName, inputs, recordIdToUpdate } = form
     const app = this.app
     const table = app.getTableByName(tableName)
     const InputComponents = inputs.map((input) => input.renderUI())
-    const syncRecords = this.fetcherGateway.syncTableRecords()
+    const syncRecords = this.fetcherGateway.getSyncRecordsFunction()
     let defaultRecords: Record[]
     let defaultRecordId: string
-    const record = new Record({}, table, 'create')
-    /*if (recordIdToUpdate) {
-      const recordId = context.getValue(recordIdToUpdate)
-      const { record, error } = await this.fetcherGateway.getEnrichedTableRecord(table, recordId)
+
+    if (recordIdToUpdate) {
+      defaultRecordId = context.getValue(recordIdToUpdate)
+      const resources: SyncResource[] = [
+        {
+          table: tableName,
+          filters: [new IsAnyOf('id', [defaultRecordId])],
+        },
+      ]
+      const tablesInputs = form.getTablesInputs()
+      for (const tableInput of tablesInputs) {
+        resources.push({
+          table: tableInput.table.name,
+        })
+      }
+      const { tables, error } = await syncRecords({ resources })
       if (error) {
         throw new Error(error)
       }
-      if (record) recordToUpdate = record
-    }*/
+      defaultRecords = []
+      for (const record of Object.values(tables).flat()) {
+        if (record) defaultRecords.push(record)
+      }
+    } else {
+      const record = new Record({}, table, 'create')
+      defaultRecords = [record]
+      defaultRecordId = record.id
+    }
+
     return function FormComponent() {
       const [isSaving, setIsSaving] = useState(false)
-      const [recordId, setRecordId] = useState<string>(defaultRecordId ?? record.id)
-      const [records, setRecords] = useState<Record[]>(defaultRecords ?? [record])
+      const [recordId, setRecordId] = useState<string>(defaultRecordId)
+      const [records, setRecords] = useState<Record[]>(defaultRecords)
       const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
 
       const getRecordFromId = (id: string) => {
@@ -43,7 +65,7 @@ export class RenderPageForm {
 
       const saveRecords = async () => {
         setIsSaving(true)
-        const { error } = await syncRecords(records)
+        const { error } = await syncRecords({ records })
         if (error) {
           setErrorMessage(error)
         } else {

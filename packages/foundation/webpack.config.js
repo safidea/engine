@@ -1,8 +1,12 @@
 const path = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
+  optimization: {
+    minimizer: [new TerserPlugin({})],
+  },
   entry: './src/infrastructure/client/ExpressClient.tsx',
   output: {
     path: path.resolve(process.cwd(), 'dist'),

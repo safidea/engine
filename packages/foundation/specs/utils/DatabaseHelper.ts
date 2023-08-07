@@ -1,9 +1,9 @@
-import { generateRecord, generateManyRecords } from './helpers'
 import { ListTableRecords } from '@application/usecases/table/ListTableRecords'
 import { Orm } from '@adapter/spi/orm/Orm'
 import { App } from '@domain/entities/app/App'
 import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
-import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
+import { ExtendRecordDto, RecordsByTables, generateRecords } from './helpers'
+import { Record } from '@domain/entities/app/Record'
 
 export class DatabaseHelper {
   private ormGateway: OrmGateway
@@ -14,17 +14,18 @@ export class DatabaseHelper {
     this.listTableRecords = new ListTableRecords(this.ormGateway, app)
   }
 
-  list(table: string) {
+  async list(table: string): Promise<Record[]> {
     return this.listTableRecords.execute(table)
   }
 
-  createRecord(table: string, recordDto?: RecordDto) {
-    const record = generateRecord(table, recordToCreateDto)
-    return this.ormGateway.create(table, record)
-  }
-
-  createManyRecords(table: string, countOrRecordsToCreateDto: number | RecordToCreateDto[] = 1) {
-    const records = generateManyRecords(table, countOrRecordsToCreateDto)
-    return this.ormGateway.createMany(table, records)
+  async createRecords(
+    table: string,
+    countOrRecordsDto?: number | ExtendRecordDto[]
+  ): Promise<RecordsByTables> {
+    const tables = generateRecords(table, countOrRecordsDto)
+    for (const [table, records] of Object.entries(tables)) {
+      await this.ormGateway.createMany(table, records)
+    }
+    return tables
   }
 }

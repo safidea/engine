@@ -8,6 +8,7 @@ import { ApiError } from '@domain/entities/app/errors/ApiError'
 import { ResponseDto } from '@adapter/spi/server/dtos/ResponseDto'
 import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
+import { SyncTablesMapper } from '../app/mappers/sync/SyncTablesMapper'
 
 export class TableRoutes {
   private readonly tableController: TableController
@@ -56,9 +57,10 @@ export class TableRoutes {
 
   async sync(request: RequestDto): Promise<ResponseDto> {
     try {
-      const { records } = await this.tableMiddleware.validateSyncBody(request.body)
-      await this.tableController.sync(records)
-      return { json: { records: RecordMapper.toDtos(records) } }
+      const { records, resources } = await this.tableMiddleware.validateSyncBody(request.body)
+      const tablesDto = await this.tableController.sync(records, resources)
+      const tables = SyncTablesMapper.toDtos(tablesDto)
+      return { json: { tables } }
     } catch (error) {
       return this.catchError(error)
     }
@@ -103,7 +105,8 @@ export class TableRoutes {
         throw new ApiError('Method not implemented', 405)
       }
       const id = await this.tableMiddleware.validateRecordExist(request)
-      const record = await this.tableMiddleware.validateRecordBody(table, request.body, 'update')
+      const recordDto = { ...(request.body ?? {}), id }
+      const record = await this.tableMiddleware.validateRecordBody(table, recordDto, 'update')
       await this.tableController.update(table, id, record)
       return { json: { id } }
     } catch (error) {

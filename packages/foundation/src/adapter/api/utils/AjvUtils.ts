@@ -1,7 +1,7 @@
 import Ajv, { JSONSchemaType } from 'ajv'
 import { AppDtoSchema } from '@adapter/api/app/dtos/AppDto'
 import { RecordDtoSchema } from '@adapter/api/app/dtos/RecordDto'
-import { SyncDtoSchema } from '@adapter/api/app/dtos/SyncDto'
+import { SyncDtoSchema } from '@adapter/api/app/dtos/sync/SyncDto'
 
 const ajv = new Ajv()
 export type { JSONSchemaType }

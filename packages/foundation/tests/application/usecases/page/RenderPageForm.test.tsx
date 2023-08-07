@@ -8,14 +8,13 @@ import { render, screen } from '@testing-library/react'
 import { RenderPageForm } from '@application/usecases/page/RenderPageForm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { Context } from '@domain/entities/page/Context'
-import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { FetcherGateway } from '@adapter/spi/fetcher/FetcherGateway'
-import { App } from '@domain/entities/app/App'
 import { FormMapper } from '@adapter/api/page/mappers/components/FormMapper'
 import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
-import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { Record } from '@domain/entities/app/Record'
+import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
+import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
 
 describe('RenderPageForm', () => {
   test('should clear the form after submit', async () => {
@@ -42,10 +41,10 @@ describe('RenderPageForm', () => {
       UnstyledUI,
       app.tables
     )
-    const fetcher = NativeFetcher('http://localhost')
+    const fetcher = new NativeFetcher('http://localhost')
     const fetcherGateway = new FetcherGateway(fetcher, app)
-    const syncRecord = jest.fn(() => Promise.resolve({ error: undefined }))
-    fetcherGateway.syncTableRecords = () => syncRecord
+    const syncRecords = jest.fn(async () => ({ error: undefined, tables: {} }))
+    fetcherGateway.getSyncRecordsFunction = () => syncRecords
     const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, {} as any)
     render(<FormComponent />)
 
@@ -57,7 +56,7 @@ describe('RenderPageForm', () => {
     // THEN
     const input = screen.getByLabelText('Name') as HTMLInputElement
     expect(input.value).toBe('')
-    expect(syncRecord).toBeCalledWith(expect.arrayContaining([expect.any(Record)]))
+    expect(syncRecords).toBeCalledWith({ records: expect.arrayContaining([expect.any(Record)]) })
   })
 
   test('should clear a table in a form after submit', async () => {
@@ -104,10 +103,10 @@ describe('RenderPageForm', () => {
       UnstyledUI,
       app.tables
     )
-    const fetcher = NativeFetcher('http://localhost')
+    const fetcher = new NativeFetcher('http://localhost')
     const fetcherGateway = new FetcherGateway(fetcher, app)
-    const syncRecord = jest.fn(() => Promise.resolve({ error: undefined }))
-    fetcherGateway.syncTableRecords = () => syncRecord
+    const syncRecords = jest.fn(async () => ({ error: undefined, tables: {} }))
+    fetcherGateway.getSyncRecordsFunction = () => syncRecords
     const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, {} as any)
     render(<FormComponent />)
 
@@ -120,24 +119,31 @@ describe('RenderPageForm', () => {
     // THEN
     const inputs = screen.queryAllByPlaceholderText('Name')
     expect(inputs.length).toBe(0)
-    expect(syncRecord).toBeCalledWith(expect.arrayContaining([expect.any(Record), expect.any(Record)]))
+    expect(syncRecords).toBeCalledWith({
+      records: expect.arrayContaining([expect.any(Record), expect.any(Record)]),
+    })
   })
 
-  test.skip('should render a form with default record values', async () => {
+  test('should render a form with default record values', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const app = AppMapper.toEntity(
       {
-        name: 'tableA',
-        fields: [
-          { name: 'fieldA', type: 'single_line_text' },
-          { name: 'items', type: 'multiple_linked_records', table: 'tableB' },
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              { name: 'fieldA', type: 'single_line_text' },
+              { name: 'items', type: 'multiple_linked_records', table: 'tableB' },
+            ],
+          },
+          {
+            name: 'tableB',
+            fields: [{ name: 'fieldB', type: 'single_line_text' }],
+          },
         ],
       },
-      {
-        name: 'tableB',
-        fields: [{ name: 'fieldB', type: 'single_line_text' }],
-      },
-    ])
+      UnstyledUI
+    )
     const form = FormMapper.toEntity(
       {
         type: 'form',
@@ -163,46 +169,94 @@ describe('RenderPageForm', () => {
         submit: { label: 'Save', loadingLabel: 'Saving...' },
       },
       UnstyledUI,
-      tables
+      app.tables
     )
-    const fetch = jest.fn(async () => ({
-      status: 200,
-      json: () =>
-        Promise.resolve({ id: '1', fieldA: 'test A', items: [{ id: '2', fieldB: 'test B' }] }),
+    const fetcher = new NativeFetcher('http://localhost')
+    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const syncRecords = jest.fn(async () => ({
+      error: undefined,
+      tables: {
+        tableA: RecordMapper.toEntities(
+          [
+            {
+              id: '1',
+              fieldA: 'test A',
+              items: ['2'],
+            },
+          ],
+          app.getTableByName('tableA')
+        ),
+        tableB: RecordMapper.toEntities(
+          [
+            {
+              id: '2',
+              fieldB: 'test B',
+            },
+            {
+              id: '3',
+              fieldB: 'test C',
+            },
+          ],
+          app.getTableByName('tableB')
+        ),
+      },
     }))
-    const fetcherGateway = new FetcherGateway({ fetch } as any, {} as App)
+    fetcherGateway.getSyncRecordsFunction = () => syncRecords
     const context = new Context({ id: '1' })
-    const FormComponent = await new RenderPageForm(fetcherGateway).execute(form, context)
+    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, context)
 
     // WHEN
     render(<FormComponent />)
 
     // THEN
-    expect(fetch).toBeCalledWith('/api/table/tableA/1?enriched=true', {
-      method: 'GET',
+    expect(syncRecords).toBeCalledWith({
+      resources: [
+        {
+          table: 'tableA',
+          filters: FilterMapper.toEntities([
+            {
+              field: 'id',
+              operator: 'is_any_of',
+              value: ['1'],
+            },
+          ]),
+        },
+        {
+          table: 'tableB',
+        },
+      ],
     })
     const fieldA = screen.getByLabelText('Field A') as HTMLInputElement
     expect(fieldA.value).toBe('test A')
-    const fieldB = screen.getByPlaceholderText('Field B') as HTMLInputElement
-    expect(fieldB.value).toBe('test B')
+    const [rowA, rowB] = screen.getAllByPlaceholderText('Field B') as HTMLInputElement[]
+    expect(rowA.value).toBe('test B')
+    expect(rowB).toBeUndefined()
   })
 
-  test.skip('should update a record when submit a form', async () => {
+  test('should update a record when submit a form', async () => {
     // GIVEN
     const user = userEvent.setup()
-    const tables = TableMapper.toEntities([
+    const app = AppMapper.toEntity(
       {
-        name: 'tableA',
-        fields: [
-          { name: 'fieldA', type: 'single_line_text' },
-          { name: 'items', type: 'multiple_linked_records', table: 'tableB' },
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              { name: 'fieldA', type: 'single_line_text' },
+              { name: 'items', type: 'multiple_linked_records', table: 'tableB' },
+            ],
+          },
+          {
+            name: 'tableB',
+            fields: [
+              { name: 'fieldB', type: 'single_line_text' },
+              { name: 'tableA', type: 'single_linked_record', table: 'tableA' },
+            ],
+          },
         ],
       },
-      {
-        name: 'tableB',
-        fields: [{ name: 'fieldB', type: 'single_line_text' }],
-      },
-    ])
+      UnstyledUI
+    )
     const form = FormMapper.toEntity(
       {
         type: 'form',
@@ -229,28 +283,46 @@ describe('RenderPageForm', () => {
         submit: { label: 'Update', loadingLabel: 'Updating...' },
       },
       UnstyledUI,
-      tables
+      app.tables
     )
-    const fetch = jest.fn()
-    fetch.mockImplementationOnce(async () => ({
-      status: 200,
-      json: () =>
-        Promise.resolve({
-          id: '1',
-          fieldA: 'test A',
-          items: [
-            { id: '2', fieldB: 'test B' },
-            { id: '3', fieldB: 'test C' },
+    const fetcher = new NativeFetcher('http://localhost')
+    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const syncRecords = jest.fn()
+    syncRecords.mockImplementationOnce(async () => ({
+      error: undefined,
+      tables: {
+        tableA: RecordMapper.toEntities(
+          [
+            {
+              id: '1',
+              fieldA: 'test A',
+              items: ['2', '3'],
+            },
           ],
-        }),
+          app.getTableByName('tableA')
+        ),
+        tableB: RecordMapper.toEntities(
+          [
+            {
+              id: '2',
+              fieldB: 'test B',
+            },
+            {
+              id: '3',
+              fieldB: 'test C',
+            },
+          ],
+          app.getTableByName('tableB')
+        ),
+      },
     }))
-    fetch.mockImplementationOnce(async () => ({
-      status: 200,
-      json: () => Promise.resolve(undefined),
+    syncRecords.mockImplementationOnce(async () => ({
+      error: undefined,
+      tables: {},
     }))
-    const fetcherGateway = new FetcherGateway({ fetch } as any, {} as App)
+    fetcherGateway.getSyncRecordsFunction = () => syncRecords
     const context = new Context({ id: '1' })
-    const FormComponent = await new RenderPageForm(fetcherGateway).execute(form, context)
+    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, context)
     render(<FormComponent />)
 
     // WHEN
@@ -262,27 +334,20 @@ describe('RenderPageForm', () => {
     await screen.findByText('Update')
 
     // THEN
-    expect(fetch.mock.calls[1][0]).toBe('/api/table/tableA/1')
-    expect(fetch.mock.calls[1][1]).toStrictEqual({
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: '1',
-        fieldA: 'test A updated',
-        items: {
-          create: [
-            {
-              fieldB: 'new row',
-            },
-          ],
-          update: [
-            {
-              id: '2',
-              fieldB: 'test B updated',
-            },
-          ],
-        },
-      }),
-    })
+    const { records } = syncRecords.mock.calls[1][0]
+    expect(records[0].state).toEqual('update')
+    expect(records[1].state).toEqual('update')
+    expect(records[2].state).toEqual('read')
+    expect(records[3].state).toEqual('create')
+    const recordsDto = RecordMapper.toDtos(records)
+    expect(recordsDto[0].id).toEqual('1')
+    expect(recordsDto[0].fieldA).toEqual('test A updated')
+    expect(recordsDto[0].items).toEqual(['2', '3', expect.any(String)])
+    expect(recordsDto[1].id).toEqual('2')
+    expect(recordsDto[1].fieldB).toEqual('test B updated')
+    expect(recordsDto[2].id).toEqual('3')
+    expect(recordsDto[2].fieldB).toEqual('test C')
+    expect(recordsDto[3].id).toEqual(expect.any(String))
+    expect(recordsDto[3].fieldB).toEqual('new row')
   })
 })

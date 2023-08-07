@@ -3,12 +3,13 @@ import { Navigation } from '@domain/entities/page/components/Navigation'
 import { RenderPageComponent } from './RenderPageComponent'
 import { Context } from '@domain/entities/page/Context'
 import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbstract'
+import { App } from '@domain/entities/app/App'
 
 export class RenderPageNavigation {
   private renderPageComponent: RenderPageComponent
 
-  constructor(fetcherGateway: FetcherGatewayAbstract) {
-    this.renderPageComponent = new RenderPageComponent(fetcherGateway)
+  constructor(fetcherGateway: FetcherGatewayAbstract, app: App) {
+    this.renderPageComponent = new RenderPageComponent(fetcherGateway, app)
   }
 
   async execute(navigation: Navigation, context: Context): Promise<() => JSX.Element> {

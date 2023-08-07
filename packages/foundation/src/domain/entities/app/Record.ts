@@ -18,7 +18,7 @@ export type RecordState = 'read' | 'create' | 'update' | 'delete'
 export class Record {
   private readonly _id: string
   private readonly _created_time?: string
-  private readonly _last_modified_time?: string
+  private _last_modified_time?: string
   private readonly _deleted_time?: string
   private readonly _fieldsValues: RecordFieldsValues
 
@@ -93,8 +93,8 @@ export class Record {
     return this._state
   }
 
-  get table(): Table {
-    return this._table
+  get tableName(): string {
+    return this._table.name
   }
 
   getFieldValue(fieldName: string): RecordFieldValue {
@@ -112,6 +112,8 @@ export class Record {
 
   setFieldValue(fieldName: string, value: RecordFieldValue): void {
     this._fieldsValues[fieldName] = value
+    this._state = this._state === 'read' ? 'update' : this._state
+    this._last_modified_time = new Date().toISOString()
   }
 
   validateFieldsValues(fieldsValues: RecordFieldsValues): RecordFieldsValues {

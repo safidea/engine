@@ -3,6 +3,7 @@ import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
 import { Record, RecordFieldValue } from '@domain/entities/app/Record'
+import { TableInput } from './inputs/TableInput'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void
@@ -59,6 +60,16 @@ export class Form extends BaseComponent {
 
   get recordIdToUpdate() {
     return this._recordIdToUpdate
+  }
+
+  getTablesInputs(): TableInput[] {
+    const tablesInputs: TableInput[] = []
+    for (const input of this.inputs) {
+      if (input instanceof TableInput) {
+        tablesInputs.push(input)
+      }
+    }
+    return tablesInputs
   }
 
   renderUI() {

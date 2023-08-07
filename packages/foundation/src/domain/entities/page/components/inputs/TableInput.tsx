@@ -40,6 +40,10 @@ export class TableInput extends BaseInput {
     return this._addLabel
   }
 
+  get table() {
+    return this._table
+  }
+
   renderUI() {
     const UI = this._ui
     const label = this.label

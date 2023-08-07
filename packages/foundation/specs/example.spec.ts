@@ -3,7 +3,7 @@ import { test, expect } from './utils/fixtures'
 test.describe('Tests Example', () => {
   test('A page can display a text', async ({ page, foundation }) => {
     // GIVEN
-    await foundation.start({
+    await foundation.config({
       pages: [
         {
           path: '/',
@@ -26,7 +26,7 @@ test.describe('Tests Example', () => {
 
   test('A table can store a record', async ({ request, foundation }) => {
     // GIVEN
-    const db = await foundation.start({
+    const db = await foundation.config({
       tables: [
         {
           name: 'invoices',
@@ -49,8 +49,8 @@ test.describe('Tests Example', () => {
 
     // THEN
     expect(res.status()).toEqual(200)
-    const [row] = await db.list('invoices')
-    expect(row.id).toBeDefined()
-    expect(row.customer).toBe('Essentiel')
+    const [record] = await db.list('invoices')
+    expect(record.id).toBeDefined()
+    expect(record.getFieldValue('customer')).toBe('Essentiel')
   })
 })

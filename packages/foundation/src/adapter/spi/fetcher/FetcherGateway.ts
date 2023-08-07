@@ -2,10 +2,13 @@ import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbst
 import { FetcherConnection } from './FetcherConnection'
 import { Fetcher } from './Fetcher'
 import { Record } from '@domain/entities/app/Record'
-import { RecordDto } from '../../api/app/dtos/RecordDto'
-import { RecordMapper } from '../../api/app/mappers/RecordMapper'
 import { App } from '@domain/entities/app/App'
-import { SyncCommandDto } from '@adapter/api/app/dtos/SyncDto'
+import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
+import { SyncCommandMapper } from '@adapter/api/app/mappers/sync/SyncCommandMapper'
+import { SyncResourceMapper } from '@adapter/api/app/mappers/sync/SyncResourceMapper'
+import { SyncTablesMapper } from '@adapter/api/app/mappers/sync/SyncTablesMapper'
+import { SyncTablesDto } from '@adapter/api/app/dtos/sync/SyncTablesDto'
+import { useMemo } from 'react'
 
 export class FetcherGateway implements FetcherGatewayAbstract {
   private fetcherConnection: FetcherConnection
@@ -17,45 +20,57 @@ export class FetcherGateway implements FetcherGatewayAbstract {
     this.fetcherConnection = new FetcherConnection(fetcher)
   }
 
-  getTableRecordsHook(table: string): () => {
-    records: Record[]
+  getSyncRecordsHook(resources: SyncResource[]): () => {
+    tables: SyncTables
     error?: string
     isLoading: boolean
   } {
     const useFetch = this.fetcherConnection.getUseFetch()
-    const toEntities = (recordsDto: RecordDto[]) =>
-      RecordMapper.toEntities(recordsDto, this.app.getTableByName(table))
-    return function () {
+    const app = this.app
+    const resourcesDto = SyncResourceMapper.toDtos(resources)
+    return function useSyncRecords() {
+      const options = useMemo(() => {
+        return {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ resources: resourcesDto }),
+        }
+      }, [])
+
       const {
-        data: recordsDto = [],
+        data: { tables } = { tables: {} },
         error,
         isLoading,
-      } = useFetch<RecordDto[]>(`/api/table/${table}`)
+      } = useFetch<{ tables: SyncTablesDto }>('/api/table/sync', options)
+
       return {
-        records: toEntities(recordsDto),
+        tables: SyncTablesMapper.toEntities(tables, app),
         error,
         isLoading,
       }
     }
   }
 
-  syncTableRecords(): (records: Record[]) => Promise<{ error?: string }> {
+  getSyncRecordsFunction(): (options: {
+    records?: Record[]
+    resources?: SyncResource[]
+  }) => Promise<{ error?: string; tables: SyncTables }> {
     const fetch = this.fetcherConnection.getFetch()
-    return async (records: Record[]) => {
-      const commands: SyncCommandDto[] = records.map((record) => {
-        if (record.state === 'read') throw new Error('Record is read-only')
-        return {
-          type: record.state,
-          table: record.table.name,
-          record: RecordMapper.toDto(record),
-        }
-      })
-      const res = await fetch(`/api/table/sync`, {
+    const app = this.app
+    return async ({ records = [], resources = [] }) => {
+      const commandsDto = SyncCommandMapper.toDtos(records)
+      const resourcesDto = SyncResourceMapper.toDtos(resources)
+      const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commands }),
-      })
-      return res.json()
+        body: JSON.stringify({ commands: commandsDto, resources: resourcesDto }),
+      }
+      const res = await fetch('/api/table/sync', options)
+      const { error, tables } = await res.json()
+      return {
+        error,
+        tables: SyncTablesMapper.toEntities(tables, app),
+      }
     }
   }
 }

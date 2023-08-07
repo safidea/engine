@@ -3,27 +3,24 @@ import { test as base, expect } from '@playwright/test'
 import { FoundationHelper } from './FoundationHelper'
 import * as helpers from './helpers'
 
+const log = debug('foundation:specs')
+
 interface Fixtures {
   port: number
   foundation: FoundationHelper
 }
 
 const test = base.extend<Fixtures>({
-  port: async ({}, use) => {
-    const freePort = await helpers.findAvailablePort()
-    await use(freePort)
+  foundation: async ({}, use) => {
+    const foundation = new FoundationHelper()
+    await use(foundation)
   },
-  baseURL: async ({ port }, use) => {
-    const baseURL = `http://localhost:${port}`
-    await use(baseURL)
-  },
-  foundation: async ({ port }, use) => {
-    const app = new FoundationHelper(port)
-    await use(app)
+  baseURL: async ({ foundation }, use) => {
+    const { url, port } = await foundation.start()
+    log(`Starting foundation app on port ${port}`)
+    await use(url)
   },
 })
-
-const log = debug('specs:playwright')
 
 test.beforeEach(async ({ page }) => {
   page.on('console', (message) => {

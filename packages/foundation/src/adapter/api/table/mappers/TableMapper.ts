@@ -4,10 +4,7 @@ import { FieldMapper } from './FieldMapper'
 
 export class TableMapper {
   static toEntity(tableDto: TableDto): Table {
-    return new Table(
-      tableDto.name,
-      FieldMapper.toEntities(tableDto.fields)
-    )
+    return new Table(tableDto.name, FieldMapper.toEntities(tableDto.fields))
   }
 
   static toDto(table: Table): TableDto {

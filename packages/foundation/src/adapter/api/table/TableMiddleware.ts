@@ -18,6 +18,8 @@ import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { Record, RecordState } from '@domain/entities/app/Record'
 import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
 import { validateRecordDto, validateSyncDto } from '../utils/AjvUtils'
+import { SyncResource } from '@domain/entities/app/Sync'
+import { SyncResourceMapper } from '../app/mappers/sync/SyncResourceMapper'
 
 export class TableMiddleware {
   constructor(
@@ -61,16 +63,19 @@ export class TableMiddleware {
     return FilterMapper.toEntities(filters)
   }
 
-  public async validateSyncBody(body: unknown): Promise<{ records: Record[] }> {
+  public async validateSyncBody(
+    body: unknown
+  ): Promise<{ records: Record[]; resources: SyncResource[] }> {
     if (validateSyncDto(body)) {
-      const { commands } = body
+      const { commands: commandsDto = [], resources: resourcesDto = [] } = body
       const records = await Promise.all(
-        commands.map((record) => {
-          const { type, table, record: recordDto } = record
+        commandsDto.map((commandDto) => {
+          const { type, table, record: recordDto } = commandDto
           return this.validateRecordValues(table, recordDto, type)
         })
       )
-      return { records }
+      const resources = SyncResourceMapper.toEntities(resourcesDto)
+      return { records, resources }
     }
     throw new ApiError(`Invalid sync body`, 400)
   }
@@ -106,8 +111,7 @@ export class TableMiddleware {
   public async validateRecordValues(
     table: string,
     record: RecordDto,
-    state: RecordState,
-    sourceTable?: string
+    state: RecordState
   ): Promise<Record> {
     const { tables } = this.app
     const { fields = [] } = tables.find((t) => t.name === table) ?? {}
@@ -126,13 +130,7 @@ export class TableMiddleware {
         continue
       }
 
-      if (
-        !value &&
-        (state === 'update' ||
-          field.optional ||
-          field.default ||
-          (!!sourceTable && 'table' in field && sourceTable === field.table))
-      ) {
+      if (!value && (state === 'update' || field.optional || field.default)) {
         continue
       }
 

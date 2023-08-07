@@ -6,12 +6,13 @@ import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
 import { Record } from '@domain/entities/app/Record'
 import { Filter } from '@domain/entities/app/Filter'
 import { SyncTableRecords } from '@application/usecases/table/SyncTableRecords'
+import { SyncResource } from '@domain/entities/app/Sync'
 
 export class TableController {
   private readTableRecord: ReadTableRecord
   private listTableRecords: ListTableRecords
   private softDeleteTableRecord: SoftDeleteTableRecord
-  private syncTableRecords: SyncTableRecords
+  private getSyncRecordsFunction: SyncTableRecords
 
   constructor(
     app: App,
@@ -20,11 +21,11 @@ export class TableController {
     this.readTableRecord = new ReadTableRecord(ormGateway, app)
     this.listTableRecords = new ListTableRecords(ormGateway, app)
     this.softDeleteTableRecord = new SoftDeleteTableRecord(ormGateway, app)
-    this.syncTableRecords = new SyncTableRecords(ormGateway)
+    this.getSyncRecordsFunction = new SyncTableRecords(ormGateway)
   }
 
-  async sync(records: Record[]) {
-    return this.syncTableRecords.execute(records)
+  async sync(records: Record[], resources: SyncResource[]) {
+    return this.getSyncRecordsFunction.execute(records, resources)
   }
 
   async create(table: string, record: Record) {

@@ -1,19 +1,39 @@
 import { Fetcher, FetchState } from '@adapter/spi/fetcher/Fetcher'
 import { useState, useEffect } from 'react'
 
-export function NativeFetcher(domain: string): Fetcher {
-  return {
-    fetch: (url: string, options?: RequestInit) => fetch(domain + url, options),
-    useFetch: <T>(url: string, options?: RequestInit) => {
+export class NativeFetcher implements Fetcher {
+  private readonly _name = 'native'
+
+  constructor(private _url?: string) {}
+
+  setUrl(url: string) {
+    this._url = url
+  }
+
+  get url(): string {
+    return this._url || ''
+  }
+
+  get name(): string {
+    return this._name
+  }
+
+  getFetch(): (path: string, options?: RequestInit) => Promise<Response> {
+    const url = this._url
+    return (path, options) => fetch(url + path, options)
+  }
+
+  getUseFetch(): <T>(path: string, options?: RequestInit) => FetchState<T> {
+    const url = this._url
+    return function useFetch<T>(path: string, options?: RequestInit) {
       const [state, setState] = useState<FetchState<T>>({
         data: undefined,
         error: undefined,
-        isLoading: false,
+        isLoading: true,
       })
 
       useEffect(() => {
-        setState((currentState) => ({ ...currentState, isLoading: true }))
-        fetch(domain + url, options)
+        fetch(url + path, options)
           .then((response) => {
             if (response.ok) {
               return response.json() as Promise<T>
@@ -35,9 +55,9 @@ export function NativeFetcher(domain: string): Fetcher {
               isLoading: false,
             })
           })
-      }, [url, options])
+      }, [path, options])
 
       return state
-    },
+    }
   }
 }

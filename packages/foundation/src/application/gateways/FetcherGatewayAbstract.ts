@@ -1,10 +1,14 @@
 import { Record } from '@domain/entities/app/Record'
+import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
 
 export interface FetcherGatewayAbstract {
-  getTableRecordsHook: (table: string) => () => {
-    records: Record[]
+  getSyncRecordsHook: (resources: SyncResource[]) => () => {
+    tables: SyncTables
     error?: string
     isLoading: boolean
   }
-  syncTableRecords: () => (records: Record[]) => Promise<{ error?: string }>
+  getSyncRecordsFunction: () => (options: {
+    records?: Record[]
+    resources?: SyncResource[]
+  }) => Promise<{ error?: string; tables: SyncTables }>
 }

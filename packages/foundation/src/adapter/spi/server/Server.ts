@@ -23,6 +23,6 @@ export interface PageRequest {
 export interface Server {
   configureTables(routes: ApiRoute[]): Promise<void>
   configurePages(pages: PageRoute[], app: App): Promise<void>
-  start(): Promise<void>
+  start(): Promise<{ port: number; url: string }>
   stop(): Promise<void>
 }

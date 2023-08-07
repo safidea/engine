@@ -3,9 +3,9 @@ import { test, expect, helpers } from '../../utils/fixtures'
 test.describe('A page that create an invoice', () => {
   test('should display a title', async ({ page, foundation }) => {
     // GIVEN
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_create'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_create'),
     })
 
     // WHEN
@@ -18,17 +18,14 @@ test.describe('A page that create an invoice', () => {
   test('should fill a form and create an invoice', async ({ page, foundation }) => {
     // GIVEN
     // An invoicing app with a create page and an invoice
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_create'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_create'),
     })
-    const invoice = helpers.generateRecord('invoices')
-    const items =
-      typeof invoice.items === 'object' &&
-      'create' in invoice.items &&
-      Array.isArray(invoice.items.create)
-        ? invoice.items.create
-        : []
+    const {
+      invoices: [invoice],
+      invoices_items: items,
+    } = helpers.generateRecords('invoices')
 
     // WHEN
     // I go to the create page "/create"
@@ -36,22 +33,22 @@ test.describe('A page that create an invoice', () => {
 
     // AND
     // I fill the form
-    await page.locator('input[name="customer"]').fill(String(invoice.customer))
-    await page.locator('input[name="address"]').fill(String(invoice.address))
-    await page.locator('input[name="zip_code"]').fill(String(invoice.zip_code))
-    await page.locator('input[name="country"]').fill(String(invoice.country))
+    await page.locator('input[name="customer"]').fill(String(invoice.getFieldValue('customer')))
+    await page.locator('input[name="address"]').fill(String(invoice.getFieldValue('address')))
+    await page.locator('input[name="zip_code"]').fill(String(invoice.getFieldValue('zip_code')))
+    await page.locator('input[name="country"]').fill(String(invoice.getFieldValue('country')))
     for (let i = 0; i < items.length; i++) {
-      if (i > 0) await page.click('text=Nouvelle ligne')
+      await page.click('text=Nouvelle ligne')
 
       const activitySelector = `input[placeholder="Activité"][value=""]`
       const unitySelector = `input[placeholder="Unité"][value=""]`
       const quantitySelector = `input[placeholder="Quantité"][value=""]`
       const unitPriceSelector = `input[placeholder="Prix unitaire"][value=""]`
 
-      await page.locator(activitySelector).fill(String(items[i].activity))
-      await page.locator(unitySelector).fill(String(items[i].unity))
-      await page.locator(quantitySelector).fill(String(items[i].quantity))
-      await page.locator(unitPriceSelector).fill(String(items[i].unit_price))
+      await page.locator(activitySelector).fill(String(items[i].getFieldValue('activity')))
+      await page.locator(unitySelector).fill(String(items[i].getFieldValue('unity')))
+      await page.locator(quantitySelector).fill(String(items[i].getFieldValue('quantity')))
+      await page.locator(unitPriceSelector).fill(String(items[i].getFieldValue('unit_price')))
     }
 
     // AND
@@ -64,22 +61,24 @@ test.describe('A page that create an invoice', () => {
     const [invoiceRecord] = await db.list('invoices')
     expect(invoiceRecord).toBeDefined()
     expect(invoiceRecord.id).toBeDefined()
-    expect(invoiceRecord.customer).toEqual(invoice.customer)
-    expect(invoiceRecord.address).toEqual(invoice.address)
-    expect(invoiceRecord.zip_code).toEqual(invoice.zip_code)
-    expect(invoiceRecord.country).toEqual(invoice.country)
-    expect(invoiceRecord.status).toEqual('draft')
-    expect(invoiceRecord.finalised_time).toBeUndefined()
+    expect(invoiceRecord.getFieldValue('customer')).toEqual(invoice.getFieldValue('customer'))
+    expect(invoiceRecord.getFieldValue('address')).toEqual(invoice.getFieldValue('address'))
+    expect(invoiceRecord.getFieldValue('zip_code')).toEqual(invoice.getFieldValue('zip_code'))
+    expect(invoiceRecord.getFieldValue('country')).toEqual(invoice.getFieldValue('country'))
+    expect(invoiceRecord.getFieldValue('status')).toEqual('draft')
+    expect(invoiceRecord.getFieldValue('finalised_time')).toBeUndefined()
 
     // AND
     // All invoices items should be created
-    const invoiceItemsRecords = await db.list('invoices_items')
-    expect(invoiceItemsRecords.length).toEqual(items.length)
+    const itemsRecords = await db.list('invoices_items')
+    expect(itemsRecords.length).toEqual(items.length)
     for (let i = 0; i < items.length; i++) {
-      expect(invoiceItemsRecords[i].activity).toEqual(items[i].activity)
-      expect(invoiceItemsRecords[i].unity).toEqual(items[i].unity)
-      expect(invoiceItemsRecords[i].quantity).toEqual(items[i].quantity)
-      expect(invoiceItemsRecords[i].unit_price).toEqual(items[i].unit_price)
+      expect(itemsRecords[i].getFieldValue('activity')).toEqual(items[i].getFieldValue('activity'))
+      expect(itemsRecords[i].getFieldValue('unity')).toEqual(items[i].getFieldValue('unity'))
+      expect(itemsRecords[i].getFieldValue('quantity')).toEqual(items[i].getFieldValue('quantity'))
+      expect(itemsRecords[i].getFieldValue('unit_price')).toEqual(
+        items[i].getFieldValue('unit_price')
+      )
     }
   })
 
@@ -88,17 +87,19 @@ test.describe('A page that create an invoice', () => {
     foundation,
   }) => {
     // GIVEN
-    await foundation.start({
-      tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_create'),
+    await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_create'),
     })
-    const invoice = helpers.generateRecord('invoices')
+    const {
+      invoices: [invoice],
+    } = helpers.generateRecords('invoices')
 
     // WHEN
     await page.goto('/create')
 
     // AND
-    await page.locator('input[name="customer"]').fill(String(invoice.customer))
+    await page.locator('input[name="customer"]').fill(String(invoice.getFieldValue('customer')))
 
     // AND
     await page.locator('button[type="submit"]').click()

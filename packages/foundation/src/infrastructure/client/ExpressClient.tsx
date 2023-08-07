@@ -16,10 +16,10 @@ function selectUI(uiName: string) {
   }
 }
 
-function selectFetcher(fetcherName: string, domain: string) {
+function selectFetcher(fetcherName: string, url: string) {
   switch (fetcherName) {
     case 'native':
-      return NativeFetcher(domain)
+      return new NativeFetcher(url)
     default:
       throw new Error('UI not found')
   }
@@ -32,10 +32,10 @@ declare global {
 }
 
 ;(async () => {
-  const { uiName, fetcherName, domain, appDto, pagePath, params } = window.__FOUNDATION_DATA__
+  const { uiName, fetcherName, url, appDto, pagePath, params } = window.__FOUNDATION_DATA__
   const app = AppMapper.toEntity(appDto, selectUI(uiName))
   const page = app.getPageByPath(pagePath)
-  const pageController = new PageController(selectFetcher(fetcherName, domain), app)
+  const pageController = new PageController(selectFetcher(fetcherName, url), app)
   const Page = await pageController.render(page, params)
   const container = document.getElementById('root')
   if (!container) throw new Error('Root element not found')

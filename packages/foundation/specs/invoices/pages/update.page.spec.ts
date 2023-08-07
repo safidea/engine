@@ -4,16 +4,17 @@ test.describe('A page that update an invoice', () => {
   test('should display the invoice data', async ({ page, foundation }) => {
     // GIVEN
     // An invoice is listed on the home page
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_list', 'invoices_update'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_list', 'invoices_update'),
     })
-    const invoiceId = await db.createRecord('invoices', {
-      status: 'draft',
-      items: {
-        create: [helpers.generateRecord('invoices_items')],
+    const {
+      invoices: [{ id }],
+    } = await db.createRecords('invoices', [
+      {
+        status: 'draft',
       },
-    })
+    ])
 
     // Go to the homepage
     await page.goto('/list') // replace with the URL of your app's home page
@@ -21,34 +22,39 @@ test.describe('A page that update an invoice', () => {
     // WHEN
     // The user clicks on an invoice
     await page.click('button:has-text("Éditer")') // Assuming the edit button has text "Éditer"
-    await page.waitForURL(`/update/${invoiceId}`)
+    await page.waitForURL(`/update/${id}`)
 
     // THEN
     // The invoice data should be displayed
     const companyFieldValue = await page.locator('input[name="customer"]').inputValue()
     const [invoice] = await db.list('invoices')
-    expect(companyFieldValue).toBe(invoice.customer)
-    const activityFieldValue = await page.locator('input[placeholder="Activité"]').inputValue()
+    expect(companyFieldValue).toBe(invoice.getFieldValue('customer'))
+    const activityFieldValue = await page
+      .locator('input[placeholder="Activité"]')
+      .first()
+      .inputValue()
     const [invoiceItem] = await db.list('invoices_items')
-    expect(activityFieldValue).toBe(invoiceItem.activity)
+    expect(activityFieldValue).toBe(invoiceItem.getFieldValue('activity'))
   })
 
   test.skip('should update an invoice in realtime', async ({ page, foundation }) => {
     // GIVEN
     // An invoice is loaded in the update page
-    const db = await foundation.start({
-      tables: helpers.getTables('invoices'),
-      pages: helpers.getPages('invoices_update'),
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_update'),
     })
-    const invoiceId = await db.createRecord('invoices')
+    const {
+      invoices: [{ id }],
+    } = await db.createRecords('invoices')
 
     // You'll have to navigate to the page you want to test
-    await page.goto(`/update/${invoiceId}`)
+    await page.goto(`/update/${id}`)
 
     // WHEN
     // We update the invoice data and wait for autosave
     const [invoice] = await db.list('invoices')
-    const newCustomerValue = invoice.customer + ' updated'
+    const newCustomerValue = invoice.getFieldValue('customer') + ' updated'
 
     // Type the updatedText into the input with name "customer"
     await page.locator('input[name="customer"]').fill(newCustomerValue)
@@ -59,6 +65,6 @@ test.describe('A page that update an invoice', () => {
     // THEN
     // The invoice data should be updated in database
     const [updatedInvoice] = await db.list('invoices')
-    expect(updatedInvoice.customer).toContain(newCustomerValue)
+    expect(updatedInvoice.getFieldValue('customer')).toContain(newCustomerValue)
   })
 })

@@ -1,5 +1,5 @@
-import { PageDto } from '@application/dtos/page/PageDto'
-import { TableDto } from '@application/dtos/table/TableDto'
+import { PageDto } from '@adapter/api/page/dtos/PageDto'
+import { TableDto } from '@adapter/api/table/dtos/TableDto'
 
 export const TABLE_INVOICES: TableDto = {
   name: 'invoices',

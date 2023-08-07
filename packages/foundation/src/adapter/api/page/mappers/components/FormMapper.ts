@@ -17,10 +17,10 @@ export class FormMapper {
   }
 
   static toDto(form: Form): FormDto {
-    const { table, inputs, submit, recordIdToUpdate } = form
+    const { tableName, inputs, submit, recordIdToUpdate } = form
     return {
       type: 'form',
-      table,
+      table: tableName,
       inputs: InputMapper.toDtos(inputs),
       submit,
       recordIdToUpdate,

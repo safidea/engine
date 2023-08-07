@@ -3,12 +3,13 @@ import { Page } from '@domain/entities/page/Page'
 import { RenderPageComponent } from './RenderPageComponent'
 import { Context } from '@domain/entities/page/Context'
 import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbstract'
+import { App } from '@domain/entities/app/App'
 
 export class RenderPage {
   private renderPageComponent: RenderPageComponent
 
-  constructor(fetcherGateway: FetcherGatewayAbstract) {
-    this.renderPageComponent = new RenderPageComponent(fetcherGateway)
+  constructor(fetcherGateway: FetcherGatewayAbstract, app: App) {
+    this.renderPageComponent = new RenderPageComponent(fetcherGateway, app)
   }
 
   async execute(page: Page, context: Context): Promise<() => JSX.Element> {
