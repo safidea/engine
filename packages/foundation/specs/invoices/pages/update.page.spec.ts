@@ -37,7 +37,7 @@ test.describe('A page that update an invoice', () => {
     expect(activityFieldValue).toBe(invoiceItem.getFieldValue('activity'))
   })
 
-  test.skip('should update an invoice in realtime', async ({ page, foundation }) => {
+  test('should update an invoice in realtime', async ({ page, foundation }) => {
     // GIVEN
     // An invoice is loaded in the update page
     const db = await foundation.config({
@@ -60,7 +60,8 @@ test.describe('A page that update an invoice', () => {
     await page.locator('input[name="customer"]').fill(newCustomerValue)
 
     // Wait for the "Saving..." text to disappear
-    await page.waitForSelector(':has-text("Saving...")', { state: 'detached' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
     // The invoice data should be updated in database

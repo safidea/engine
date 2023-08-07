@@ -1,0 +1,53 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "0d7a8dc7-3cf2-4a34-a003-f90ec7bd9bf5",
+      "activity": "équipe mourir malade",
+      "quantity": 18,
+      "unity": "Fantastique Métal Savon",
+      "unit_price": 118.42,
+      "vat": 898,
+      "last_modified_time": "2023-08-07T21:10:20.681Z",
+      "id": "daeb84df-2019-4473-b3f1-eb8d826ebc57"
+    },
+    {
+      "invoice": "0d7a8dc7-3cf2-4a34-a003-f90ec7bd9bf5",
+      "activity": "pacifique toc-toc à peine",
+      "description": "Ad vero ullam magni tenetur quae. Perferendis nulla nostrum sed velit tempore praesentium. Sit debitis nemo quisquam amet quibusdam perspiciatis facilis quos qui.",
+      "quantity": 48,
+      "unity": "Artisanal Granit Chaise",
+      "unit_price": 415.64,
+      "vat": 972,
+      "id": "b8c13dc6-0fdd-4334-973c-fa272cf3beab",
+      "last_modified_time": "2023-08-07T21:10:20.681Z"
+    },
+    {
+      "invoice": "0d7a8dc7-3cf2-4a34-a003-f90ec7bd9bf5",
+      "activity": "oh",
+      "quantity": 44,
+      "unity": "Pratique Plastique Chaise",
+      "unit_price": 421.85,
+      "vat": 955,
+      "id": "bf097a20-9de8-47b5-b76f-aed24afcde1b",
+      "last_modified_time": "2023-08-07T21:10:20.682Z"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Pons et Paris",
+      "address": "5 Boulevard Vaneau",
+      "zip_code": "15913",
+      "country": "Thaïlande",
+      "items": [
+        "daeb84df-2019-4473-b3f1-eb8d826ebc57",
+        "b8c13dc6-0fdd-4334-973c-fa272cf3beab",
+        "bf097a20-9de8-47b5-b76f-aed24afcde1b"
+      ],
+      "status": "draft",
+      "finalised_time": "2022-09-30T00:42:14.821Z",
+      "number": 698,
+      "id": "0d7a8dc7-3cf2-4a34-a003-f90ec7bd9bf5",
+      "last_modified_time": "2023-08-07T21:10:20.682Z"
+    }
+  ]
+}

@@ -40,6 +40,10 @@ export interface FormUISubmitProps {
   label: string
 }
 
+export interface FormUILoadingProps {
+  label: string
+}
+
 export interface FormUIErrorMessageProps {
   message: string
 }
@@ -111,6 +115,7 @@ export interface UI {
     inputs: React.FC<UIProps>
     submit: React.FC<FormUISubmitProps>
     errorMessage: React.FC<FormUIErrorMessageProps>
+    loading: React.FC<FormUILoadingProps>
   }
   TextInputUI: {
     label: React.FC<InputTextUILabelProps>

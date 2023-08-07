@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Form } from '@domain/entities/page/components/Form'
 import { Context } from '@domain/entities/page/Context'
 import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbstract'
@@ -56,6 +56,7 @@ export class RenderPageForm {
       const [recordId, setRecordId] = useState<string>(defaultRecordId)
       const [records, setRecords] = useState<Record[]>(defaultRecords)
       const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
+      const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
       const getRecordFromId = (id: string) => {
         const record = records.find((record) => record.id === id)
@@ -68,7 +69,7 @@ export class RenderPageForm {
         const { error } = await syncRecords({ records })
         if (error) {
           setErrorMessage(error)
-        } else {
+        } else if (!form.submit.autosave) {
           const newRecord = new Record({}, table, 'create')
           setRecordId(newRecord.id)
           setRecords([newRecord])
@@ -80,6 +81,13 @@ export class RenderPageForm {
         const { index } = getRecordFromId(id)
         records[index].setFieldValue(field, value)
         setRecords([...records])
+        if (form.submit.autosave === true) {
+          setIsSaving(true)
+          if (timeoutRef.current) clearTimeout(timeoutRef.current)
+          timeoutRef.current = setTimeout(() => {
+            saveRecords()
+          }, 1000)
+        }
       }
 
       const addRecord = (linkedTableName: string) => {

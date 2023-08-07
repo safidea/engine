@@ -1,0 +1,53 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "ebd4e961-1ef6-46d3-b843-465478653346",
+      "activity": "ça",
+      "quantity": 40,
+      "unity": "Fantastique Béton Vélo",
+      "unit_price": 455.28,
+      "vat": 468,
+      "id": "5d03e263-d6ae-4389-9021-a66c79d5d8c9",
+      "last_modified_time": "2023-08-07T21:20:02.302Z"
+    },
+    {
+      "invoice": "ebd4e961-1ef6-46d3-b843-465478653346",
+      "activity": "magenta",
+      "description": "Excepturi vel neque. Deserunt quis provident non nostrum optio. Dolorum nostrum tenetur veniam.",
+      "quantity": 33,
+      "unity": "Pratique Bois Serviettes",
+      "unit_price": 274.27,
+      "vat": 929,
+      "id": "b58664fe-cabe-433d-a7bf-1a40719e5cd2",
+      "last_modified_time": "2023-08-07T21:20:02.302Z"
+    },
+    {
+      "invoice": "ebd4e961-1ef6-46d3-b843-465478653346",
+      "activity": "sans doute",
+      "description": "Sunt soluta iste minus eaque dolorem incidunt delectus doloremque. Vitae fugit optio officiis. Vitae animi dolore magni corrupti atque maxime cum.",
+      "quantity": 39,
+      "unity": "Génial Caoutchouc Chemise",
+      "unit_price": 263.28,
+      "vat": 529,
+      "id": "ec7a6563-f7b1-4773-b464-9ff350aedf42",
+      "last_modified_time": "2023-08-07T21:20:02.302Z"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Perrin EURL",
+      "address": "3494 Passage du Bac",
+      "zip_code": "99067",
+      "country": "Pologne",
+      "items": [
+        "5d03e263-d6ae-4389-9021-a66c79d5d8c9",
+        "b58664fe-cabe-433d-a7bf-1a40719e5cd2",
+        "ec7a6563-f7b1-4773-b464-9ff350aedf42"
+      ],
+      "status": "draft",
+      "finalised_time": "2022-11-16T14:20:02.680Z",
+      "id": "ebd4e961-1ef6-46d3-b843-465478653346",
+      "last_modified_time": "2023-08-07T21:20:02.302Z"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "9acd637a-57d4-482f-b9a0-974fcc566ef8",
+      "activity": "déchirer",
+      "description": "Corporis culpa qui eaque rem voluptatem. Vero iure dicta ut optio veritatis. Sunt minus et labore aspernatur mollitia.",
+      "quantity": 44,
+      "unity": "Élégant Bois Clavier",
+      "unit_price": 701.64,
+      "vat": 751,
+      "id": "c70941be-1684-41b5-9aaf-1a471ddd20d6",
+      "last_modified_time": "2023-08-07T21:00:54.794Z"
+    },
+    {
+      "invoice": "9acd637a-57d4-482f-b9a0-974fcc566ef8",
+      "activity": "secouriste vivace",
+      "description": "Atque numquam magni ea velit a dignissimos maxime magnam saepe. Aliquam magnam atque culpa corporis assumenda ex autem doloremque dolore. Saepe magni a sint iusto repellat sint eaque fuga nemo.",
+      "quantity": 35,
+      "unity": "Pratique Doux Boule",
+      "unit_price": 223.66,
+      "vat": 20,
+      "last_modified_time": "2023-08-07T21:00:54.794Z",
+      "id": "bf03d27c-4c34-437c-9f4a-c86f1f10a3ec"
+    },
+    {
+      "invoice": "9acd637a-57d4-482f-b9a0-974fcc566ef8",
+      "activity": "depuis bien que étaler",
+      "description": "Ipsa fugiat laborum deserunt. Aliquam dolorum voluptas facere. Enim soluta officia.",
+      "quantity": 37,
+      "unity": "Artisanal Métal Fromage",
+      "unit_price": 318.06,
+      "vat": 887,
+      "id": "1d1f1b4e-b5d9-44d7-b9f9-43c2b19ba6ce",
+      "last_modified_time": "2023-08-07T21:00:54.794Z"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Jean et Bonnet",
+      "address": "500 Voie Pierre Charron",
+      "zip_code": "50352",
+      "country": "Colombie",
+      "items": [
+        "c70941be-1684-41b5-9aaf-1a471ddd20d6",
+        "bf03d27c-4c34-437c-9f4a-c86f1f10a3ec",
+        "1d1f1b4e-b5d9-44d7-b9f9-43c2b19ba6ce"
+      ],
+      "status": "draft",
+      "finalised_time": "2022-12-31T20:58:20.880Z",
+      "number": 955,
+      "id": "9acd637a-57d4-482f-b9a0-974fcc566ef8",
+      "last_modified_time": "2023-08-07T21:00:54.794Z"
+    }
+  ]
+}

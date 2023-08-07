@@ -29,7 +29,8 @@ export class Form extends BaseComponent {
     private readonly _tableName: string,
     private readonly _inputs: Input[],
     private readonly _submit: {
-      label: string
+      label?: string
+      autosave?: boolean
       loadingLabel: string
       actionsOnSuccess?: {
         type: string
@@ -103,7 +104,12 @@ export class Form extends BaseComponent {
               </UI.input>
             ))}
           </UI.inputs>
-          <UI.submit label={isSaving === false ? submit.label : submit.loadingLabel} />
+          {submit.label && (
+            <UI.submit label={isSaving === false ? submit.label : submit.loadingLabel} />
+          )}
+          {submit.autosave === true && isSaving === true ? (
+            <UI.loading label={submit.loadingLabel} />
+          ) : undefined}
           {errorMessage && <UI.errorMessage message={errorMessage} />}
         </UI.form>
       )

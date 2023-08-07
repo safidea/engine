@@ -1,0 +1,52 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "42db558e-c154-43a8-aac6-d55af7e3fd02",
+      "activity": "hebdomadaire",
+      "quantity": 42,
+      "unity": "Incroyable Granit Fromage",
+      "unit_price": 502.88,
+      "vat": 133,
+      "id": "2831fc3a-bff9-477f-9f84-5206fdb66029",
+      "last_modified_time": "2023-08-07T21:20:03.174Z"
+    },
+    {
+      "invoice": "42db558e-c154-43a8-aac6-d55af7e3fd02",
+      "activity": "clientèle",
+      "description": "Quas nihil amet facilis architecto fugiat dicta. Exercitationem soluta officia odio non architecto suscipit atque laborum. Impedit sint facere accusantium nisi in.",
+      "quantity": 32,
+      "unity": "Magnifique Frais Gants",
+      "unit_price": 692.21,
+      "vat": 163,
+      "id": "a25c1069-8ce3-4ce3-b5a2-310644d68bc5",
+      "last_modified_time": "2023-08-07T21:20:03.174Z"
+    },
+    {
+      "invoice": "42db558e-c154-43a8-aac6-d55af7e3fd02",
+      "activity": "serviable",
+      "quantity": 48,
+      "unity": "Incroyable Frais Frites",
+      "unit_price": 576.91,
+      "vat": 578,
+      "id": "33fc741b-7ebe-4a59-914c-af6a51d3b28f",
+      "last_modified_time": "2023-08-07T21:20:03.174Z"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Dufour EI updated",
+      "address": "2 Quai de Richelieu",
+      "zip_code": "53115",
+      "country": "Sri Lanka",
+      "items": [
+        "2831fc3a-bff9-477f-9f84-5206fdb66029",
+        "a25c1069-8ce3-4ce3-b5a2-310644d68bc5",
+        "33fc741b-7ebe-4a59-914c-af6a51d3b28f"
+      ],
+      "status": "draft",
+      "number": 526,
+      "id": "42db558e-c154-43a8-aac6-d55af7e3fd02",
+      "last_modified_time": "2023-08-07T21:20:04.556Z"
+    }
+  ]
+}

@@ -7,7 +7,8 @@ export interface FormDto {
   inputs: InputDto[]
   recordIdToUpdate?: string
   submit: {
-    label: string
+    label?: string
+    autosave?: boolean
     loadingLabel: string
     actionsOnSuccess?: {
       type: string
@@ -29,7 +30,8 @@ export const FormDtoSchema: JSONSchemaType<FormDto> = {
     submit: {
       type: 'object',
       properties: {
-        label: { type: 'string' },
+        label: { type: 'string', nullable: true },
+        autosave: { type: 'boolean', nullable: true },
         loadingLabel: { type: 'string' },
         actionsOnSuccess: {
           type: 'array',
@@ -45,7 +47,7 @@ export const FormDtoSchema: JSONSchemaType<FormDto> = {
           nullable: true,
         },
       },
-      required: ['label', 'loadingLabel'],
+      required: ['loadingLabel'],
       additionalProperties: false,
     },
   },

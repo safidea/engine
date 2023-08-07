@@ -1,0 +1,54 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "8c2e4705-317a-4762-87f1-9faa1983178f",
+      "activity": "pacifique quitter considérable",
+      "description": "Rerum facilis itaque recusandae laborum. Aliquam magni eveniet tempora officia officia sapiente ipsa optio. Iste impedit dolore officia a in.",
+      "quantity": 27,
+      "unity": "Artisanal Bronze Frites",
+      "unit_price": 730.4,
+      "vat": 952,
+      "last_modified_time": "2023-08-07T21:15:42.891Z",
+      "id": "68087466-55fb-4c37-a1f4-ca1a6b96e05d"
+    },
+    {
+      "invoice": "8c2e4705-317a-4762-87f1-9faa1983178f",
+      "activity": "dissimuler",
+      "description": "Id iure tempora ea adipisci quas sint. Veritatis praesentium repellat nisi. Incidunt excepturi est suscipit similique voluptatum corporis reiciendis sunt possimus.",
+      "quantity": 50,
+      "unity": "Licencié Métal Vélo",
+      "unit_price": 817.87,
+      "vat": 527,
+      "last_modified_time": "2023-08-07T21:15:42.891Z",
+      "id": "b1b42812-e4d8-44da-8698-0ae9f8b6d784"
+    },
+    {
+      "invoice": "8c2e4705-317a-4762-87f1-9faa1983178f",
+      "activity": "meuh psitt débile",
+      "description": "Repellat vero quidem praesentium aspernatur tenetur. Inventore a vero similique occaecati eius. Reprehenderit dolorum recusandae.",
+      "quantity": 16,
+      "unity": "Artisanal Acier Poulet",
+      "unit_price": 511.66,
+      "vat": 961,
+      "last_modified_time": "2023-08-07T21:15:42.891Z",
+      "id": "9ba8caec-6934-4f13-8cb7-4d5e6cb80931"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Duval et Philippe updated",
+      "address": "8 Place Vaneau",
+      "zip_code": "94659",
+      "country": "France",
+      "items": [
+        "68087466-55fb-4c37-a1f4-ca1a6b96e05d",
+        "b1b42812-e4d8-44da-8698-0ae9f8b6d784",
+        "9ba8caec-6934-4f13-8cb7-4d5e6cb80931"
+      ],
+      "status": "draft",
+      "number": 667,
+      "last_modified_time": "2023-08-07T21:15:44.311Z",
+      "id": "8c2e4705-317a-4762-87f1-9faa1983178f"
+    }
+  ]
+}

@@ -366,7 +366,7 @@ export const PAGE_UPDATE_INVOICE: PageDto = {
             },
           ],
           submit: {
-            label: 'Mettre à jour',
+            autosave: true,
             loadingLabel: 'Mise à jour en cours...',
           },
         },

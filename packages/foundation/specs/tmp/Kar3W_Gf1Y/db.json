@@ -1,0 +1,53 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "784ae9b2-1662-4fa2-ab65-2a9b82a7e04e",
+      "activity": "aux alentours de",
+      "quantity": 18,
+      "unity": "Raffiné Caoutchouc Pizza",
+      "unit_price": 791.84,
+      "vat": 402,
+      "last_modified_time": "2023-08-07T21:05:08.965Z",
+      "id": "9cb7645d-75c3-4139-b929-5cd4d614be72"
+    },
+    {
+      "invoice": "784ae9b2-1662-4fa2-ab65-2a9b82a7e04e",
+      "activity": "mature chut équipe de recherche",
+      "quantity": 47,
+      "unity": "Raffiné Caoutchouc Lard",
+      "unit_price": 151.9,
+      "vat": 467,
+      "last_modified_time": "2023-08-07T21:05:08.965Z",
+      "id": "68f7136d-69b0-4d9e-8c57-1dd6ecf2264c"
+    },
+    {
+      "invoice": "784ae9b2-1662-4fa2-ab65-2a9b82a7e04e",
+      "activity": "d'abord sédentaire depuis",
+      "description": "Aspernatur possimus laborum excepturi cum molestiae illum fugit architecto voluptatum. Eos aut iste saepe itaque. Voluptas mollitia debitis labore dignissimos dolorem natus ipsum.",
+      "quantity": 39,
+      "unity": "Oriental Béton Fromage",
+      "unit_price": 918.67,
+      "vat": 555,
+      "last_modified_time": "2023-08-07T21:05:08.966Z",
+      "id": "ac4f4cd7-a888-4203-90b3-cfc2bad38e01"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Lambert GIE updated",
+      "address": "960 Boulevard Vaneau",
+      "zip_code": "46860",
+      "country": "Égypte",
+      "items": [
+        "9cb7645d-75c3-4139-b929-5cd4d614be72",
+        "68f7136d-69b0-4d9e-8c57-1dd6ecf2264c",
+        "ac4f4cd7-a888-4203-90b3-cfc2bad38e01"
+      ],
+      "status": "draft",
+      "finalised_time": "2022-11-26T16:31:10.738Z",
+      "number": 164,
+      "id": "784ae9b2-1662-4fa2-ab65-2a9b82a7e04e",
+      "last_modified_time": "2023-08-07T21:05:10.449Z"
+    }
+  ]
+}

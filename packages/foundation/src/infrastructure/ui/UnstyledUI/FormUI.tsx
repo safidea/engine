@@ -4,6 +4,7 @@ import {
   FormUIFormProps,
   FormUISubmitProps,
   FormUIErrorMessageProps,
+  FormUILoadingProps,
   UIProps,
 } from '@adapter/spi/ui/UI'
 
@@ -14,6 +15,7 @@ const FormUI: UI['FormUI'] = {
   // TODO: replace <button type="submit"> with a button entity instance
   submit: ({ label }: FormUISubmitProps) => <button type="submit">{label}</button>,
   errorMessage: ({ message }: FormUIErrorMessageProps) => <p>{message}</p>,
+  loading: ({ label }: FormUILoadingProps) => <p>{label}</p>,
 }
 
 export default FormUI

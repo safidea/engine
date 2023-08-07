@@ -1,0 +1,53 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "7a8fa194-8c50-4d6e-b223-f4f8957a2111",
+      "activity": "lectorat",
+      "quantity": 50,
+      "unity": "Raffiné Béton Chemise",
+      "unit_price": 645.24,
+      "vat": 585,
+      "id": "de6f4694-3414-4408-a940-799f2b9d0d64",
+      "last_modified_time": "2023-08-07T21:03:06.661Z"
+    },
+    {
+      "invoice": "7a8fa194-8c50-4d6e-b223-f4f8957a2111",
+      "activity": "dessous sans doute si",
+      "description": "Ab asperiores quasi vel expedita perspiciatis suscipit nesciunt quod deleniti. Quidem placeat illum voluptates ab assumenda dolorem voluptatum. Quibusdam dolorem blanditiis similique ipsa iure magnam fuga laboriosam culpa.",
+      "quantity": 46,
+      "unity": "Génial Congelé Salade",
+      "unit_price": 887.58,
+      "vat": 515,
+      "id": "f1e4723f-98bc-4d42-afa8-bd7f03db172b",
+      "last_modified_time": "2023-08-07T21:03:06.662Z"
+    },
+    {
+      "invoice": "7a8fa194-8c50-4d6e-b223-f4f8957a2111",
+      "activity": "si athlète",
+      "quantity": 19,
+      "unity": "Générique Bronze Chapeau",
+      "unit_price": 789.82,
+      "vat": 986,
+      "id": "8748bcba-431e-4470-96a8-87316a0da2bb",
+      "last_modified_time": "2023-08-07T21:03:06.662Z"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Bonnet SAS",
+      "address": "2866 Voie de Rivoli",
+      "zip_code": "73427",
+      "country": "Madagascar",
+      "items": [
+        "de6f4694-3414-4408-a940-799f2b9d0d64",
+        "f1e4723f-98bc-4d42-afa8-bd7f03db172b",
+        "8748bcba-431e-4470-96a8-87316a0da2bb"
+      ],
+      "status": "draft",
+      "finalised_time": "2022-11-16T08:46:54.214Z",
+      "number": 235,
+      "last_modified_time": "2023-08-07T21:03:06.662Z",
+      "id": "7a8fa194-8c50-4d6e-b223-f4f8957a2111"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "invoices_items": [
+    {
+      "invoice": "418365c7-befd-4e3b-a8a0-a8c81f318355",
+      "activity": "cependant quelque équiper",
+      "description": "Reiciendis possimus alias. Doloremque molestiae molestias adipisci doloribus facere. Accusantium architecto perferendis tenetur ullam non debitis.",
+      "quantity": 42,
+      "unity": "Élégant Béton Chapeau",
+      "unit_price": 140.63,
+      "vat": 599,
+      "id": "4ee8f1dc-bbea-42e9-b748-e8302491011e",
+      "last_modified_time": "2023-08-07T21:09:54.952Z"
+    },
+    {
+      "invoice": "418365c7-befd-4e3b-a8a0-a8c81f318355",
+      "activity": "aimable prolonger",
+      "quantity": 12,
+      "unity": "Intelligent Bois Poulet",
+      "unit_price": 536.77,
+      "vat": 942,
+      "id": "7e018a65-a6df-44d6-94bd-58f21c789696",
+      "last_modified_time": "2023-08-07T21:09:54.953Z"
+    },
+    {
+      "invoice": "418365c7-befd-4e3b-a8a0-a8c81f318355",
+      "activity": "debout",
+      "description": "Ut perspiciatis laboriosam similique labore. Nemo dolores enim. Placeat dolore error officia incidunt facere asperiores.",
+      "quantity": 46,
+      "unity": "Ergonomique Frais Chaussures",
+      "unit_price": 70.43,
+      "vat": 94,
+      "id": "5892765e-446c-41af-9465-4149d1799352",
+      "last_modified_time": "2023-08-07T21:09:54.953Z"
+    }
+  ],
+  "invoices": [
+    {
+      "customer": "Marchal et Roy updated",
+      "address": "6 Passage Royale",
+      "zip_code": "46252",
+      "country": "Biélorussie",
+      "items": [
+        "4ee8f1dc-bbea-42e9-b748-e8302491011e",
+        "7e018a65-a6df-44d6-94bd-58f21c789696",
+        "5892765e-446c-41af-9465-4149d1799352"
+      ],
+      "status": "draft",
+      "finalised_time": "2023-01-25T22:31:22.091Z",
+      "id": "418365c7-befd-4e3b-a8a0-a8c81f318355",
+      "last_modified_time": "2023-08-07T21:09:56.415Z"
+    }
+  ]
+}
