@@ -10,19 +10,33 @@
       "id": "ab9541dd-df39-4088-9db7-4d3e7536adf5",
       "created_time": "2023-08-07T17:16:43.098Z",
       "last_modified_time": "2023-08-07T21:08:32.135Z"
+    },
+    {
+      "invoice": "84873e90-0f91-47ca-8dc4-77fa4ecdeb14",
+      "activity": "test",
+      "quantity": 34,
+      "unity": "heures",
+      "unit_price": 123,
+      "vat": 0.2,
+      "id": "72c9e7ba-1e74-419b-9200-bae7e4e6cd6d",
+      "created_time": "2023-08-07T22:05:01.512Z"
     }
   ],
   "invoices": [
     {
       "customer": "Essentiel",
-      "address": "test",
-      "zip_code": "test",
-      "country": "test",
-      "items": ["ab9541dd-df39-4088-9db7-4d3e7536adf5"],
+      "address": "128 RUE LA BOÉTIE",
+      "zip_code": "75018",
+      "country": "FRANCE",
+      "items": [
+        "ab9541dd-df39-4088-9db7-4d3e7536adf5",
+        "72c9e7ba-1e74-419b-9200-bae7e4e6cd6d"
+      ],
       "status": "draft",
       "id": "84873e90-0f91-47ca-8dc4-77fa4ecdeb14",
       "created_time": "2023-08-07T17:16:43.098Z",
-      "last_modified_time": "2023-08-07T21:19:32.119Z"
+      "last_modified_time": "2023-08-07T22:05:01.512Z",
+      "city": "Paris"
     }
   ]
 }

@@ -18,6 +18,10 @@
           "type": "single_line_text"
         },
         {
+          "name": "city",
+          "type": "single_line_text"
+        },
+        {
           "name": "country",
           "type": "single_line_text"
         },
@@ -142,6 +146,14 @@
                   "label": "Adresse"
                 },
                 {
+                  "field": "city",
+                  "label": "Ville"
+                },
+                {
+                  "field": "country",
+                  "label": "Pays"
+                },
+                {
                   "field": "total_amount",
                   "label": "Montant total"
                 },
@@ -240,6 +252,10 @@
                   "label": "Code postal"
                 },
                 {
+                  "field": "city",
+                  "label": "Ville"
+                },
+                {
                   "field": "country",
                   "label": "Pays"
                 },
@@ -331,6 +347,10 @@
                 {
                   "field": "zip_code",
                   "label": "Code postal"
+                },
+                {
+                  "field": "city",
+                  "label": "Ville"
                 },
                 {
                   "field": "country",

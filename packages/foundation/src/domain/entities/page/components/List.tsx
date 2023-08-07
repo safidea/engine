@@ -145,7 +145,7 @@ export class List extends BaseComponent {
                   }
                   return <UI.buttonCell label={column.label} onClick={() => triggerAction()} />
                 default:
-                  return <UI.textCell value={String(value)} />
+                  return <UI.textCell value={String(value ?? '')} />
               }
             }
             return <UI.cell key={index}>{getCellByFormat()}</UI.cell>

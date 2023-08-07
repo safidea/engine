@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node foundation.js"
+    "start": "nodemon foundation.js"
   },
   "dependencies": {
     "foundation": "workspace:*",
     "fs-extra": "11.1.1",
     "module-alias": "^2.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   },
   "_moduleAliases": {
     "@application": "../../packages/foundation/dist/src/application",
