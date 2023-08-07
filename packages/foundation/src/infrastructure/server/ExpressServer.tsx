@@ -149,22 +149,33 @@ export class ExpressServer implements Server {
     })
   }
 
-  async start() {
-    this.port = await this.findAvailablePort()
-    await new Promise((resolve) => {
-      this.server = this.app.listen(this.port, () => {
-        log(`Server listening on port ${this.port}`)
-        resolve(true)
+  async start(): Promise<{ port: number; url: string }> {
+    const port = await this.findAvailablePort()
+    return new Promise((resolve, reject) => {
+      this.server = this.app.listen(port, () => {
+        this.port = port
+        if (!this.fetcher.url || this.url !== this.fetcher.url) {
+          if (!this.url) this.url = 'http://localhost:' + port
+          this.fetcher.setUrl(this.url)
+        }
+        resolve({ port, url: this.url })
+      })
+      this.server.on('error', async (error: { code?: string }) => {
+        const maxRetries = 5
+        const retryDelay = 1000
+        if (error.code === 'EADDRINUSE' && maxRetries > 0) {
+          log(`Port ${this.port} is in use. Retrying in ${retryDelay}ms...`)
+          await new Promise((r) => setTimeout(r, retryDelay))
+          const { port, url } = await this.start()
+          resolve({ port, url })
+        } else {
+          reject(error)
+        }
       })
     })
-    if (!this.fetcher.url || this.url !== this.fetcher.url) {
-      if (!this.url) this.url = 'http://localhost:' + this.port
-      this.fetcher.setUrl(this.url)
-    }
-    return { port: this.port, url: this.url }
   }
 
-  async stop() {
+  async stop(): Promise<void> {
     await new Promise((resolve, reject) => {
       if (this.server) {
         this.server.close(() => {
