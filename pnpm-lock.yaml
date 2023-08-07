@@ -19,7 +19,7 @@ importers:
         version: 8.0.3
       prettier:
         specifier: latest
-        version: 3.0.0
+        version: 3.0.1
       turbo:
         specifier: ^1.10.7
         version: 1.10.7
@@ -295,13 +295,13 @@ importers:
         version: 5.57.0(eslint@8.45.0)(typescript@4.9.5)
       eslint-config-next:
         specifier: latest
-        version: 13.4.9(eslint@8.45.0)(typescript@4.9.5)
+        version: 13.4.13(eslint@8.45.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.3.0
         version: 8.6.0(eslint@8.45.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.7(eslint@8.45.0)
+        version: 1.10.12(eslint@8.45.0)
 
   packages/config-jest: {}
 
@@ -327,6 +327,9 @@ importers:
       module-alias:
         specifier: ^2.2.3
         version: 2.2.3
+      proper-lockfile:
+        specifier: ^4.1.2
+        version: 4.1.2
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -421,6 +424,9 @@ importers:
       '@types/node':
         specifier: ^18.16.19
         version: 18.16.19
+      '@types/proper-lockfile':
+        specifier: ^4.1.2
+        version: 4.1.2
       '@types/react':
         specifier: 18.0.29
         version: 18.0.29
@@ -457,6 +463,12 @@ importers:
       jest-environment-jsdom:
         specifier: 29.5.0
         version: 29.5.0
+      nanoid:
+        specifier: '3'
+        version: 3.3.6
+      terser-webpack-plugin:
+        specifier: ^5.3.9
+        version: 5.3.9(@swc/core@1.3.71)(webpack@5.88.2)
       tsconfig-paths-webpack-plugin:
         specifier: ^4.1.0
         version: 4.1.0
@@ -2862,8 +2874,8 @@ packages:
     resolution: {integrity: sha512-vuDRK05BOKfmoBYLNi2cujG2jrYbEod/ubSSyqgmEx9n/W3eZaJQdRNhTfumO+qmq/QTzLurW487n/PM/fHOkw==}
     dev: false
 
-  /@next/eslint-plugin-next@13.4.9:
-    resolution: {integrity: sha512-nDtGpa992tNyAkT/KmSMy7QkHfNZmGCBYhHtafU97DubqxzNdvLsqRtliQ4FU04CysRCtvP2hg8rRC1sAKUTUA==}
+  /@next/eslint-plugin-next@13.4.13:
+    resolution: {integrity: sha512-RpZeXlPxQ9FLeYN84XHDqRN20XxmVNclYCraLYdifRsmibtcWUWdwE/ANp2C8kgesFRsvwfsw6eOkYNl9sLJ3A==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -3455,6 +3467,12 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
 
+  /@types/proper-lockfile@4.1.2:
+    resolution: {integrity: sha512-kd4LMvcnpYkspDcp7rmXKedn8iJSCoa331zRRamUp5oanKt/CefbEGPQP7G89enz7sKD4bvsr8mHSsC8j5WOvA==}
+    dependencies:
+      '@types/retry': 0.12.2
+    dev: true
+
   /@types/qs@6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
     dev: true
@@ -3475,6 +3493,10 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
+    dev: true
+
+  /@types/retry@0.12.2:
+    resolution: {integrity: sha512-XISRgDJ2Tc5q4TRqvgJtzsRkFYNJzZrhTdtMoGVBttwzzQJkPnS3WWTFc7kuDRoPtPakl+T+OfdEUjYJj7Jbow==}
     dev: true
 
   /@types/scheduler@0.16.3:
@@ -4979,8 +5001,8 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /eslint-config-next@13.4.9(eslint@8.45.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-0fLtKRR268NArpqeXXwnLgMXPvF64YESQvptVg+RMLCaijKm3FICN9Y7Jc1p2o+yrWwE4DufJXDM/Vo53D1L7g==}
+  /eslint-config-next@13.4.13(eslint@8.45.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-EXAh5h1yG/YTNa5YdskzaSZncBjKjvFe2zclMCi2KXyTsXha22wB6MPs/U7idB6a2qjpBdbZcruQY1TWjfNMZw==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -4988,7 +5010,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.4.9
+      '@next/eslint-plugin-next': 13.4.13
       '@rushstack/eslint-patch': 1.3.2
       '@typescript-eslint/parser': 5.57.0(eslint@8.45.0)(typescript@4.9.5)
       eslint: 8.45.0
@@ -5013,13 +5035,13 @@ packages:
       eslint: 8.45.0
     dev: false
 
-  /eslint-config-turbo@1.10.7(eslint@8.45.0):
-    resolution: {integrity: sha512-0yHt5UlXVph8S4SOvP6gYehLvYjJj6XFKTYOG/WUQbjlcF0OU4pOT1a1juqmmBPWYlvJ0evt7v+RekY4tOopPQ==}
+  /eslint-config-turbo@1.10.12(eslint@8.45.0):
+    resolution: {integrity: sha512-z3jfh+D7UGYlzMWGh+Kqz++hf8LOE96q3o5R8X4HTjmxaBWlLAWG+0Ounr38h+JLR2TJno0hU9zfzoPNkR9BdA==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.45.0
-      eslint-plugin-turbo: 1.10.7(eslint@8.45.0)
+      eslint-plugin-turbo: 1.10.12(eslint@8.45.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.7:
@@ -5177,8 +5199,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo@1.10.7(eslint@8.45.0):
-    resolution: {integrity: sha512-YikBHc75DY9VV1vAFUIBekHLQlxqVT5zTNibK8zBQInCUhF7PvyPJc0xXw5FSz8EYtt4uOV3r0Km3CmFRclS4Q==}
+  /eslint-plugin-turbo@1.10.12(eslint@8.45.0):
+    resolution: {integrity: sha512-uNbdj+ohZaYo4tFJ6dStRXu2FZigwulR1b3URPXe0Q8YaE7thuekKNP+54CHtZPH9Zey9dmDx5btAQl9mfzGOw==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
@@ -7464,7 +7486,6 @@ packages:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: false
 
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
@@ -7918,8 +7939,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  /prettier@3.0.0:
-    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
+  /prettier@3.0.1:
+    resolution: {integrity: sha512-fcOWSnnpCrovBsmFZIGIy9UqK2FaI7Hqax+DIO0A9UxeVoY4iweyaFjS5TavZN97Hfehph0nhsZnjlVKzEQSrQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
@@ -7978,6 +7999,14 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+    dev: false
+
+  /proper-lockfile@4.1.2:
+    resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
+    dependencies:
+      graceful-fs: 4.2.11
+      retry: 0.12.0
+      signal-exit: 3.0.7
     dev: false
 
   /proxy-addr@2.0.7:
@@ -8202,6 +8231,11 @@ packages:
       is-core-module: 2.12.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+    dev: false
+
+  /retry@0.12.0:
+    resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
+    engines: {node: '>= 4'}
     dev: false
 
   /reusify@1.0.4:

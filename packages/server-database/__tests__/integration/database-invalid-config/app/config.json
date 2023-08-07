@@ -1,7 +1,0 @@
-{
-  "databases": {
-    "master": {
-      "provider": "sqlite"
-    }
-  }
-}

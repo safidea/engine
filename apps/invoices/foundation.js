@@ -1,12 +1,10 @@
-const Foundation = require('foundation').default
+const Foundation = require('foundation/dist/src/Foundation').default
 const fs = require('fs-extra')
-const { join } = require('path')
 
-const config = fs.readJsonSync('./config.json')
-const folder = join(process.cwd(), 'app')
-
-const foundation = new Foundation(config, folder, 3000)
-
-foundation.start().then(() => {
-  console.log('Server started on port 3000')
-})
+;(async () => {
+  const foundation = new Foundation()
+  const config = await fs.readJson('./config.json')
+  await foundation.config(config)
+  const { url } = await foundation.start()
+  console.log(`Foundation app started at ${url}`)
+})()

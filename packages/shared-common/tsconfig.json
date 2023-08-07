@@ -1,9 +1,0 @@
-{
-  "extends": "config-typescript/base.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "jsx": "preserve"
-  },
-  "include": ["src/**/*.ts", "src/interfaces/app.provider.interface.ts"]
-}
