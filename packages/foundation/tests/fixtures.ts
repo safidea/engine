@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 const tmpFolders: string[] = []
 const helpers = {
   getTmpFolder: () => {
-    const tmpFolder = join(__dirname, 'tmp/' + uuidv4())
+    const tmpFolder = join(process.cwd(), 'tests/tmp/' + uuidv4())
     fs.ensureDirSync(tmpFolder)
     tmpFolders.push(tmpFolder)
     return tmpFolder
