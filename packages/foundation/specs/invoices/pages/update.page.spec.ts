@@ -54,10 +54,11 @@ test.describe('A page that update an invoice', () => {
     // WHEN
     // We update the invoice data and wait for autosave
     const [invoice] = await db.list('invoices')
-    const newCustomerValue = invoice.getFieldValue('customer') + ' updated'
+    const customer = invoice.getFieldValue('customer')
+    const update = 'updated '
 
     // Type the updatedText into the input with name "customer"
-    await page.locator('input[name="customer"]').type(newCustomerValue)
+    await page.locator('input[name="customer"]').type(update, { delay: 100 })
 
     // Wait for the "Saving..." text to disappear
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })
@@ -66,6 +67,6 @@ test.describe('A page that update an invoice', () => {
     // THEN
     // The invoice data should be updated in database
     const [updatedInvoice] = await db.list('invoices')
-    expect(updatedInvoice.getFieldValue('customer')).toContain(newCustomerValue)
+    expect(updatedInvoice.getFieldValue('customer')).toContain(update + customer)
   })
 })
