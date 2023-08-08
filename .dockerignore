@@ -1,5 +1,0 @@
-packages/app-spec
-packages/app-engine/prisma/migrations
-packages/app-engine/prisma/client
-packages/config-jest
-scripts/setup.sh

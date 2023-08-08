@@ -8,11 +8,6 @@ node_modules/
 # testing
 coverage/
 
-# next.js
-.next/
-out/
-build/
-
 # docker
 data/
 
@@ -42,11 +37,3 @@ next-env.d.ts
 
 # compile
 dist/
-
-# foundation
-.foundation/
-
-# prisma
-migrations/
-dev.db*
-test.db*

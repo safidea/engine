@@ -56,7 +56,6 @@ export interface ListProps {
   records: Record[]
 }
 
-
 export class List extends BaseComponent {
   private readonly _fields: Field[] = []
 

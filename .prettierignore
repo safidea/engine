@@ -1,6 +1,2 @@
-.next/
-.cache/
-build/
 dist/
 coverage/
-prisma/client/

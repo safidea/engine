@@ -1,4 +1,4 @@
-import { BaseUIProps } from "./BaseUI"
+import { BaseUIProps } from './BaseUI'
 
 export interface TitleUI {
   xs: React.FC<BaseUIProps>
