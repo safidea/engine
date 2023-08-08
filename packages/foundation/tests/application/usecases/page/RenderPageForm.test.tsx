@@ -4,7 +4,7 @@
 import React from 'react'
 import { describe, test, expect } from '@jest/globals'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { RenderPageForm } from '@application/usecases/page/RenderPageForm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { Context } from '@domain/entities/page/Context'
@@ -349,5 +349,107 @@ describe('RenderPageForm', () => {
     expect(recordsDto[2].fieldB).toEqual('test C')
     expect(recordsDto[3].id).toEqual(expect.any(String))
     expect(recordsDto[3].fieldB).toEqual('new row')
+  })
+
+  test('should remove a row when click on remove button in a table form', async () => {
+    // GIVEN
+    const user = userEvent.setup()
+    const app = AppMapper.toEntity(
+      {
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              {
+                name: 'items',
+                type: 'multiple_linked_records',
+                table: 'tableB',
+              },
+            ],
+          },
+          {
+            name: 'tableB',
+            fields: [
+              {
+                name: 'fieldA',
+                type: 'single_line_text',
+              },
+              {
+                name: 'tableA',
+                type: 'single_linked_record',
+                table: 'tableA',
+              },
+            ],
+          },
+        ],
+      },
+      UnstyledUI
+    )
+    const form = FormMapper.toEntity(
+      {
+        type: 'form',
+        table: 'tableA',
+        recordIdToUpdate: '{{path.params.id}}',
+        inputs: [
+          {
+            field: 'items',
+            label: 'Items',
+            columns: [
+              {
+                field: 'fieldA',
+                label: 'Field A',
+                placeholder: 'Field A',
+              },
+            ],
+            addLabel: 'Add item',
+          },
+        ],
+        submit: { autosave: true, loadingLabel: 'Updating...' },
+      },
+      UnstyledUI,
+      app.tables
+    )
+    const fetcher = new NativeFetcher('http://localhost')
+    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const syncRecords = jest.fn()
+    syncRecords.mockImplementationOnce(async () => ({
+      error: undefined,
+      tables: {
+        tableA: RecordMapper.toEntities(
+          [{ id: '1', items: ['2', '3'] }],
+          app.getTableByName('tableA')
+        ),
+        tableB: RecordMapper.toEntities(
+          [
+            { id: '2', tableA: '1', fieldA: 'textA' },
+            { id: '3', tableA: '1', fieldA: 'textB' },
+          ],
+          app.getTableByName('tableB')
+        ),
+      },
+    }))
+    syncRecords.mockImplementationOnce(async () => ({
+      error: undefined,
+      tables: {},
+    }))
+    fetcherGateway.getSyncRecordsFunction = () => syncRecords
+    const context = new Context({ id: '1' })
+    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, context)
+    render(<FormComponent />)
+
+    // WHEN
+    await user.click(screen.getAllByText(/Remove/i)[0])
+    await waitForElementToBeRemoved(screen.queryByText(/Updating.../i), { timeout: 3000 })
+
+    // THEN
+    const rows = screen.getAllByRole('row')
+    expect(rows.length).toBe(2)
+
+    // AND
+    const { records } = syncRecords.mock.calls[1][0]
+    expect(records[0].state).toEqual('update')
+    expect(records[0].getFieldValue('items')).toEqual(['3'])
+    expect(records[1].state).toEqual('delete')
+    expect(records[1].id).toEqual('2')
   })
 })

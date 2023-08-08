@@ -19,7 +19,7 @@ export class Record {
   private readonly _id: string
   private readonly _created_time?: string
   private _last_modified_time?: string
-  private readonly _deleted_time?: string
+  private _deleted_time?: string
   private readonly _fieldsValues: RecordFieldsValues
 
   constructor(
@@ -114,6 +114,11 @@ export class Record {
     this._fieldsValues[fieldName] = value
     this._state = this._state === 'read' ? 'update' : this._state
     this._last_modified_time = new Date().toISOString()
+  }
+
+  softDelete(): void {
+    this._state = 'delete'
+    this._deleted_time = new Date().toISOString()
   }
 
   validateFieldsValues(fieldsValues: RecordFieldsValues): RecordFieldsValues {

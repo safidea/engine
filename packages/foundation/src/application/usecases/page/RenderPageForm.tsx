@@ -65,7 +65,7 @@ export class RenderPageForm {
       }
 
       const saveRecords = async () => {
-        setIsSaving(true)
+        if (isSaving === false) setIsSaving(true)
         const { error } = await syncRecords({ records })
         if (error) {
           setErrorMessage(error)
@@ -77,10 +77,7 @@ export class RenderPageForm {
         setIsSaving(false)
       }
 
-      const updateRecord = (id: string, field: string, value: RecordFieldValue) => {
-        const { index } = getRecordFromId(id)
-        records[index].setFieldValue(field, value)
-        setRecords([...records])
+      const autosave = () => {
         if (form.submit.autosave === true) {
           setIsSaving(true)
           if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -88,6 +85,13 @@ export class RenderPageForm {
             saveRecords()
           }, 1000)
         }
+      }
+
+      const updateRecord = (id: string, field: string, value: RecordFieldValue) => {
+        const { index } = getRecordFromId(id)
+        records[index].setFieldValue(field, value)
+        setRecords([...records])
+        autosave()
       }
 
       const addRecord = (linkedTableName: string) => {
@@ -105,6 +109,20 @@ export class RenderPageForm {
         const recordsIds = record.getMultipleLinkedRecordsValue(field.name)
         records[index].setFieldValue(field.name, [...recordsIds, newRecord.id])
         setRecords([...records, newRecord])
+        autosave()
+      }
+
+      const removeRecord = (field: string, id: string) => {
+        const { index } = getRecordFromId(id)
+        records[index].softDelete()
+        const { record: currentRecord, index: currentIndex } = getRecordFromId(recordId)
+        const recordsIds = currentRecord.getMultipleLinkedRecordsValue(field)
+        records[currentIndex].setFieldValue(
+          field,
+          recordsIds.filter((recordId) => recordId !== id)
+        )
+        setRecords([...records])
+        autosave()
       }
 
       const currentRecord = records.find((record) => record.id === recordId)
@@ -115,6 +133,7 @@ export class RenderPageForm {
           saveRecords={saveRecords}
           updateRecord={updateRecord}
           addRecord={addRecord}
+          removeRecord={removeRecord}
           InputComponents={InputComponents}
           isSaving={isSaving}
           errorMessage={errorMessage}

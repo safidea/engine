@@ -7,14 +7,17 @@ import { FormUI } from '../ui/FormUI'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void
+export type RemoveRecord = (field: string, id: string) => void
 
 export interface FormProps {
   saveRecords: () => Promise<void>
   updateRecord: UpdateRecord
   addRecord: AddRecord
+  removeRecord: RemoveRecord
   InputComponents: React.FC<{
     updateRecord: UpdateRecord
     addRecord: AddRecord
+    removeRecord: RemoveRecord
     records: Record[]
     currentRecord: Record
   }>[]
@@ -80,6 +83,7 @@ export class Form extends BaseComponent {
       saveRecords,
       updateRecord,
       addRecord,
+      removeRecord,
       InputComponents,
       isSaving,
       errorMessage,
@@ -98,6 +102,7 @@ export class Form extends BaseComponent {
                 <InputComponent
                   updateRecord={updateRecord}
                   addRecord={addRecord}
+                  removeRecord={removeRecord}
                   currentRecord={currentRecord}
                   records={records}
                 />

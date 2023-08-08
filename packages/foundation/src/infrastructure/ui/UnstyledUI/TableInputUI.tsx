@@ -40,6 +40,9 @@ const TableInputUI: UI['TableInputUI'] = {
       </td>
     )
   },
+  remove({ onClick }) {
+    return <td><button onClick={onClick}>Remove</button></td>
+  },
 }
 
 export default TableInputUI

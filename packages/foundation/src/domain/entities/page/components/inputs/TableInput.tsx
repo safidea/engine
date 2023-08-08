@@ -54,6 +54,7 @@ export class TableInput extends BaseInput {
     return function TableInputUI({
       updateRecord,
       addRecord,
+      removeRecord,
       records,
       currentRecord,
     }: BaseInputProps) {
@@ -68,6 +69,11 @@ export class TableInput extends BaseInput {
       const handleUpdateRecord = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         updateRecord(id, e.target.name, e.target.value)
+      }
+
+      const handlerRemoveRecord = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        removeRecord(field, id)
       }
 
       return (
@@ -87,15 +93,18 @@ export class TableInput extends BaseInput {
             <UI.rows>
               {rows.map((row) => (
                 <UI.row key={row.id}>
-                  {columns.map((column) => (
-                    <UI.cell
-                      key={column.field}
-                      name={column.field}
-                      placeholder={column.placeholder}
-                      value={String(row.getFieldValue(column.field) ?? '')}
-                      onChange={(e) => handleUpdateRecord(row.id, e)}
-                    />
-                  ))}
+                  <>
+                    {columns.map((column) => (
+                      <UI.cell
+                        key={column.field}
+                        name={column.field}
+                        placeholder={column.placeholder}
+                        value={String(row.getFieldValue(column.field) ?? '')}
+                        onChange={(e) => handleUpdateRecord(row.id, e)}
+                      />
+                    ))}
+                  </>
+                  <UI.remove onClick={(e) => handlerRemoveRecord(row.id, e)} />
                 </UI.row>
               ))}
             </UI.rows>

@@ -20,6 +20,10 @@ export interface TableInputUICellProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
+export interface TableInputUIRemoveProps {
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
 export interface TableInputUI {
   container: React.FC<BaseUIProps>
   menu: React.FC<BaseUIProps>
@@ -31,4 +35,5 @@ export interface TableInputUI {
   rows: React.FC<BaseUIProps>
   row: React.FC<BaseUIProps>
   cell: React.FC<TableInputUICellProps>
+  remove: React.FC<TableInputUIRemoveProps>
 }

@@ -1,9 +1,10 @@
-import { AddRecord, UpdateRecord } from '../Form'
+import { AddRecord, UpdateRecord, RemoveRecord } from '../Form'
 import { Record } from '@domain/entities/app/Record'
 
 export interface BaseInputProps {
   updateRecord: UpdateRecord
   addRecord: AddRecord
+  removeRecord: RemoveRecord
   currentRecord: Record
   records: Record[]
 }
