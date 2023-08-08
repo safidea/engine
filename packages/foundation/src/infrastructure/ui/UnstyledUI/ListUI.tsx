@@ -7,6 +7,7 @@ import {
   ListUIButtonCellProps,
   ListUILinkCellProps,
   ListUIRowProps,
+  ListUICurrencyCellProps,
   UIProps,
 } from '@adapter/spi/ui/UI'
 
@@ -48,6 +49,14 @@ const ListUI: UI['ListUI'] = {
   },
   linkCell: ({ label }: ListUILinkCellProps) => {
     return <a href="#">{label}</a>
+  },
+  currencyCell: ({ value, currency }: ListUICurrencyCellProps) => {
+    return (
+      <>
+        {value}
+        {currency}
+      </>
+    )
   },
 }
 

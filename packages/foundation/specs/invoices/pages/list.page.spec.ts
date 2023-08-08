@@ -198,8 +198,8 @@ test.describe('A page that list invoices', () => {
     ).toBeVisible()
 
     // THEN
-    await expect(page.getByRole('cell', { name: /^65$/i })).toBeVisible()
-    await expect(page.getByRole('cell', { name: /^13$/i })).toBeVisible()
-    await expect(page.getByRole('cell', { name: /^78$/i })).toBeVisible()
+    await expect(page.getByRole('cell', { name: /^65€$/i })).toBeVisible()
+    await expect(page.getByRole('cell', { name: /^13€$/i })).toBeVisible()
+    await expect(page.getByRole('cell', { name: /^78€$/i })).toBeVisible()
   })
 })

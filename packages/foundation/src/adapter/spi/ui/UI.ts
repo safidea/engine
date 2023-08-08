@@ -23,6 +23,11 @@ export interface ListUITextCellProps {
   value: string
 }
 
+export interface ListUICurrencyCellProps {
+  value: number
+  currency: '€'
+}
+
 export interface ListUIButtonCellProps {
   label: string
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -108,6 +113,7 @@ export interface UI {
     textCell: React.FC<ListUITextCellProps>
     buttonCell: React.FC<ListUIButtonCellProps>
     linkCell: React.FC<ListUILinkCellProps>
+    currencyCell: React.FC<ListUICurrencyCellProps>
   }
   FormUI: {
     form: React.FC<FormUIFormProps>

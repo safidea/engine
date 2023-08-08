@@ -191,11 +191,11 @@ export const PAGE_LIST_INVOICES: PageDto = {
               ],
             },
             {
-              field: 'finalised_date',
+              field: 'finalised_time',
               label: 'Date de finalisation',
             },
             {
-              field: 'created_date',
+              field: 'created_time',
               label: 'Date de création',
             },
             {

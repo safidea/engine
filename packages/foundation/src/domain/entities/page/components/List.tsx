@@ -85,6 +85,20 @@ export class List extends BaseComponent {
           throw new Error(`field ${sortBy.field} in sortBy is not defined in table ${this._table}`)
       }
     }
+    if (this._columns.length > 0) {
+      for (const column of this._columns) {
+        if (!column.type) {
+          const field = this._fields.find((field) => field.name === column.field)
+          if (!field) {
+            throw new Error(
+              `field "${column.field}" in columns is not defined in table ${this._table}`
+            )
+          } else {
+            column.type = field.format ?? 'text'
+          }
+        }
+      }
+    }
   }
 
   get table(): string {
@@ -144,8 +158,12 @@ export class List extends BaseComponent {
                     }
                   }
                   return <UI.buttonCell label={column.label} onClick={() => triggerAction()} />
+                case 'currency':
+                  value = Math.round(Number(value ?? 0) * 100) / 100
+                  return <UI.currencyCell value={value} currency={'€'} />
                 default:
-                  return <UI.textCell value={String(value ?? '')} />
+                  value = String(value ?? '')
+                  return <UI.textCell value={value} />
               }
             }
             return <UI.cell key={index}>{getCellByFormat()}</UI.cell>

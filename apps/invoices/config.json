@@ -154,6 +154,14 @@
                   "label": "Pays"
                 },
                 {
+                  "field": "total_net_amount",
+                  "label": "Montant net total"
+                },
+                {
+                  "field": "total_vat",
+                  "label": "TVA total"
+                },
+                {
                   "field": "total_amount",
                   "label": "Montant total"
                 },
@@ -180,11 +188,11 @@
                   ]
                 },
                 {
-                  "field": "finalised_date",
+                  "field": "finalised_time",
                   "label": "Date de finalisation"
                 },
                 {
-                  "field": "created_date",
+                  "field": "created_time",
                   "label": "Date de création"
                 },
                 {
