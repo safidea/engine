@@ -27,4 +27,99 @@ describe('InMemoryOrm', () => {
     const updatedRecord = db.tableA.find((record: any) => record.id === '1')
     expect(updatedRecord?.name).toEqual('test B')
   })
+
+  test('should bulk create and update records at the same time', async () => {
+    // GIVEN
+    const inMemoryOrm = new InMemoryOrm(helpers.getTmpFolder())
+    inMemoryOrm.configure([
+      {
+        name: 'tableA',
+        fields: [
+          {
+            name: 'id',
+            type: 'single_line_text',
+          },
+          {
+            name: 'name',
+            type: 'single_line_text',
+          },
+        ],
+      },
+    ])
+
+    // WHEN
+    await inMemoryOrm.createMany('tableA', [
+      {
+        id: '1',
+        name: 'test A',
+      },
+      {
+        id: '2',
+        name: 'test B',
+      },
+      {
+        id: '3',
+        name: 'test C',
+      },
+    ])
+    await Promise.all([
+      inMemoryOrm.createMany('tableA', [
+        {
+          id: '4',
+          name: 'test A',
+        },
+        {
+          id: '5',
+          name: 'test B',
+        },
+        {
+          id: '6',
+          name: 'test C',
+        },
+      ]),
+      inMemoryOrm.softUpdateMany('tableA', [
+        {
+          id: '1',
+          name: 'test D',
+        },
+        {
+          id: '2',
+          name: 'test E',
+        },
+        {
+          id: '3',
+          name: 'test F',
+        },
+      ]),
+    ])
+
+    // THEN
+    const db = await inMemoryOrm.list('tableA')
+    expect(db).toStrictEqual([
+      {
+        id: '1',
+        name: 'test D',
+      },
+      {
+        id: '2',
+        name: 'test E',
+      },
+      {
+        id: '3',
+        name: 'test F',
+      },
+      {
+        id: '4',
+        name: 'test A',
+      },
+      {
+        id: '5',
+        name: 'test B',
+      },
+      {
+        id: '6',
+        name: 'test C',
+      },
+    ])
+  })
 })

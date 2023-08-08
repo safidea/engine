@@ -33,10 +33,11 @@ test.describe('A page that create an invoice', () => {
 
     // AND
     // I fill the form
-    await page.locator('input[name="customer"]').fill(String(invoice.getFieldValue('customer')))
-    await page.locator('input[name="address"]').fill(String(invoice.getFieldValue('address')))
-    await page.locator('input[name="zip_code"]').fill(String(invoice.getFieldValue('zip_code')))
-    await page.locator('input[name="country"]').fill(String(invoice.getFieldValue('country')))
+    await page.locator('input[name="customer"]').type(String(invoice.getFieldValue('customer')))
+    await page.locator('input[name="address"]').type(String(invoice.getFieldValue('address')))
+    await page.locator('input[name="zip_code"]').type(String(invoice.getFieldValue('zip_code')))
+    await page.locator('input[name="city"]').type(String(invoice.getFieldValue('city')))
+    await page.locator('input[name="country"]').type(String(invoice.getFieldValue('country')))
     for (let i = 0; i < items.length; i++) {
       await page.click('text=Nouvelle ligne')
 
@@ -45,16 +46,16 @@ test.describe('A page that create an invoice', () => {
       const quantitySelector = `input[placeholder="Quantité"][value=""]`
       const unitPriceSelector = `input[placeholder="Prix unitaire"][value=""]`
 
-      await page.locator(activitySelector).fill(String(items[i].getFieldValue('activity')))
-      await page.locator(unitySelector).fill(String(items[i].getFieldValue('unity')))
-      await page.locator(quantitySelector).fill(String(items[i].getFieldValue('quantity')))
-      await page.locator(unitPriceSelector).fill(String(items[i].getFieldValue('unit_price')))
+      await page.locator(activitySelector).type(String(items[i].getFieldValue('activity')))
+      await page.locator(unitySelector).type(String(items[i].getFieldValue('unity')))
+      await page.locator(quantitySelector).type(String(items[i].getFieldValue('quantity')))
+      await page.locator(unitPriceSelector).type(String(items[i].getFieldValue('unit_price')))
     }
 
     // AND
     // I click on the submit button
     await page.locator('button[type="submit"]').click()
-    await page.waitForSelector(':has-text("Enregistrement en cours...")', { state: 'detached' })
+    await page.getByText('Enregistrement en cours...').waitFor({ state: 'detached' })
 
     // THEN
     // An invoice should be created
@@ -64,6 +65,7 @@ test.describe('A page that create an invoice', () => {
     expect(invoiceRecord.getFieldValue('customer')).toEqual(invoice.getFieldValue('customer'))
     expect(invoiceRecord.getFieldValue('address')).toEqual(invoice.getFieldValue('address'))
     expect(invoiceRecord.getFieldValue('zip_code')).toEqual(invoice.getFieldValue('zip_code'))
+    expect(invoiceRecord.getFieldValue('city')).toEqual(invoice.getFieldValue('city'))
     expect(invoiceRecord.getFieldValue('country')).toEqual(invoice.getFieldValue('country'))
     expect(invoiceRecord.getFieldValue('status')).toEqual('draft')
     expect(invoiceRecord.getFieldValue('finalised_time')).toBeUndefined()
@@ -99,7 +101,7 @@ test.describe('A page that create an invoice', () => {
     await page.goto('/create')
 
     // AND
-    await page.locator('input[name="customer"]').fill(String(invoice.getFieldValue('customer')))
+    await page.locator('input[name="customer"]').type(String(invoice.getFieldValue('customer')))
 
     // AND
     await page.locator('button[type="submit"]').click()

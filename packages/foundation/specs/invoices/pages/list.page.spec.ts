@@ -24,7 +24,9 @@ test.describe('A page that list invoices', () => {
       tables: helpers.getTablesDto('invoices'),
       pages: helpers.getPagesDto('invoices_list'),
     })
-    await db.createRecords('invoices', [
+    const {
+      invoices: [firstInvoice],
+    } = await db.createRecords('invoices', [
       {
         status: 'draft',
       },
@@ -54,32 +56,32 @@ test.describe('A page that list invoices', () => {
     // WHEN
     // I go to the home page "/" and invoices are loaded
     await page.goto('/list')
-    await page.getByRole('cell', { name: 'Statut' }).waitFor()
+    await page.getByRole('cell', { name: String(firstInvoice.getFieldValue('customer')) }).waitFor()
 
     // THEN
     // Check that invoices are displayed in a group by status
     const invoices = await db.list('invoices')
 
     // Check the number of draft rows
-    const draftRows = await page.$$('text=/^Brouillon$/')
+    const draftRows = await page.getByRole('cell', { name: /^Brouillon$/ }).all()
     expect(draftRows.length).toBe(
       invoices.filter((i) => i.getFieldValue('status') === 'draft').length + 1
     )
 
     // Check the number of finalised rows
-    const finalisedRows = await page.$$('text=/^Finalisée$/')
+    const finalisedRows = await page.getByRole('cell', { name: /^Finalisée$/ }).all()
     expect(finalisedRows.length).toBe(
       invoices.filter((i) => i.getFieldValue('status') === 'finalised').length + 1
     )
 
     // Check the number of sent rows
-    const sentRows = await page.$$('text=/^Envoyée$/')
+    const sentRows = await page.getByRole('cell', { name: /^Envoyée$/ }).all()
     expect(sentRows.length).toBe(
       invoices.filter((i) => i.getFieldValue('status') === 'sent').length + 1
     )
 
     // Check the number of paid rows
-    const paidRows = await page.$$('text=/^Payée$/')
+    const paidRows = await page.getByRole('cell', { name: /^Payée$/ }).all()
     expect(paidRows.length).toBe(
       invoices.filter((i) => i.getFieldValue('status') === 'paid').length + 1
     )
@@ -95,7 +97,9 @@ test.describe('A page that list invoices', () => {
       tables: helpers.getTablesDto('invoices'),
       pages: helpers.getPagesDto('invoices_list'),
     })
-    await db.createRecords('invoices', [
+    const {
+      invoices: [firstInvoice],
+    } = await db.createRecords('invoices', [
       {
         finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
@@ -121,14 +125,14 @@ test.describe('A page that list invoices', () => {
     // WHEN
     // I go to the home page "/" and invoices are loaded
     await page.goto('/list')
-    await page.waitForSelector('text=/^Date de finalisation$/')
+    await page.getByRole('cell', { name: String(firstInvoice.getFieldValue('customer')) }).waitFor()
 
     // THEN
     // Check that factures are sorted by finalised_date
     const invoices = await db.list('invoices')
-    const rows = await page.$$('tr[id]')
+    const rows = await page.getByRole('row').all()
     const ids = await Promise.all(rows.map((row) => row.getAttribute('id')))
-    expect(ids).toEqual([
+    expect(ids.filter((i) => !!i)).toEqual([
       invoices[3].id,
       invoices[0].id,
       invoices[2].id,
@@ -159,5 +163,43 @@ test.describe('A page that list invoices', () => {
     // THEN
     // Check that I'm on the /create page
     expect(await page.textContent('h1')).toContain('Créer une facture')
+  })
+
+  test('should display an invoice with calculated vat and total', async ({ page, foundation }) => {
+    // GIVEN
+    const db = await foundation.config({
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_list'),
+    })
+    const {
+      invoices: [invoice],
+    } = await db.createRecords('invoices', [
+      {
+        status: 'draft',
+        items: [
+          {
+            quantity: 3,
+            unit_price: 15,
+            vat: 0.2,
+          },
+          {
+            quantity: 2,
+            unit_price: 10,
+            vat: 0.2,
+          },
+        ],
+      },
+    ])
+
+    // WHEN
+    await page.goto('/list')
+    await expect(
+      page.getByRole('cell', { name: String(invoice.getFieldValue('customer')) })
+    ).toBeVisible()
+
+    // THEN
+    await expect(page.getByRole('cell', { name: /^65$/i })).toBeVisible()
+    await expect(page.getByRole('cell', { name: /^13$/i })).toBeVisible()
+    await expect(page.getByRole('cell', { name: /^78$/i })).toBeVisible()
   })
 })

@@ -17,6 +17,10 @@ export const TABLE_INVOICES: TableDto = {
       type: 'single_line_text',
     },
     {
+      name: 'city',
+      type: 'single_line_text',
+    },
+    {
       name: 'country',
       type: 'single_line_text',
     },
@@ -141,6 +145,26 @@ export const PAGE_LIST_INVOICES: PageDto = {
               label: 'Adresse',
             },
             {
+              field: 'zip_code',
+              label: 'Code postal',
+            },
+            {
+              field: 'city',
+              label: 'Ville',
+            },
+            {
+              field: 'country',
+              label: 'Pays',
+            },
+            {
+              field: 'total_net_amount',
+              label: 'Montant net total',
+            },
+            {
+              field: 'total_vat',
+              label: 'TVA total',
+            },
+            {
               field: 'total_amount',
               label: 'Montant total',
             },
@@ -240,6 +264,10 @@ export const PAGE_CREATE_INVOICE: PageDto = {
               label: 'Code postal',
             },
             {
+              field: 'city',
+              label: 'Ville',
+            },
+            {
               field: 'country',
               label: 'Pays',
             },
@@ -332,6 +360,10 @@ export const PAGE_UPDATE_INVOICE: PageDto = {
             {
               field: 'zip_code',
               label: 'Code postal',
+            },
+            {
+              field: 'city',
+              label: 'Ville',
             },
             {
               field: 'country',

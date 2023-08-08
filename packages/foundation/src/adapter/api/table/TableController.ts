@@ -21,7 +21,7 @@ export class TableController {
     this.readTableRecord = new ReadTableRecord(ormGateway, app)
     this.listTableRecords = new ListTableRecords(ormGateway, app)
     this.softDeleteTableRecord = new SoftDeleteTableRecord(ormGateway, app)
-    this.getSyncRecordsFunction = new SyncTableRecords(ormGateway)
+    this.getSyncRecordsFunction = new SyncTableRecords(ormGateway, app)
   }
 
   async sync(records: Record[], resources: SyncResource[]) {

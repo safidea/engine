@@ -6,6 +6,7 @@ import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { helpers, describe, test, expect } from '../../../fixtures'
 import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
+import { Filter } from '@domain/entities/app/Filter'
 
 describe('SyncTableRecords', () => {
   test('should sync a created record', async () => {
@@ -39,7 +40,7 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway).execute([record])
+    await new SyncTableRecords(ormGateway, app).execute([record])
 
     // THEN
     expect(ormGateway.createMany).toBeCalledWith('tableA', [record])
@@ -86,7 +87,7 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway).execute(records)
+    await new SyncTableRecords(ormGateway, app).execute(records)
 
     // THEN
     expect(ormGateway.createMany).toBeCalledWith('tableA', records)
@@ -123,7 +124,7 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway).execute([record])
+    await new SyncTableRecords(ormGateway, app).execute([record])
 
     // THEN
     expect(ormGateway.updateMany).toBeCalledWith('tableA', [record])
@@ -170,7 +171,7 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway).execute(records)
+    await new SyncTableRecords(ormGateway, app).execute(records)
 
     // THEN
     expect(ormGateway.updateMany).toBeCalledWith('tableA', records)
@@ -227,7 +228,7 @@ describe('SyncTableRecords', () => {
     const records = [recordToUpdate, ...recordsToCreate]
 
     // WHEN
-    await new SyncTableRecords(ormGateway).execute(records)
+    await new SyncTableRecords(ormGateway, app).execute(records)
 
     // THEN
     expect(ormGateway.updateMany).toBeCalledWith('tableA', [recordToUpdate])
@@ -308,7 +309,7 @@ describe('SyncTableRecords', () => {
     })
 
     // WHEN
-    const { tableA, tableB } = await new SyncTableRecords(ormGateway).execute(
+    const { tableA, tableB } = await new SyncTableRecords(ormGateway, app).execute(
       [],
       [
         {
@@ -387,19 +388,19 @@ describe('SyncTableRecords', () => {
       ],
       app.getTableByName('tableA')
     )
-    ormGateway.list = jest.fn(async (table: string) => {
+    ormGateway.list = jest.fn(async (table: string, filters: Filter[]) => {
       switch (table) {
         case 'tableA':
-          return recordsTableA
+          return recordsTableA.filter((record) => filters[0].values.includes(record.id as never))
         case 'tableB':
-          return recordsTableB
+          return recordsTableB.filter((record) => filters[0].values.includes(record.id as never))
         default:
           return []
       }
     })
 
     // WHEN
-    const { tableA, tableB } = await new SyncTableRecords(ormGateway).execute(
+    const { tableA, tableB } = await new SyncTableRecords(ormGateway, app).execute(
       [],
       [
         {
@@ -430,5 +431,58 @@ describe('SyncTableRecords', () => {
     recordsTableB.shift()
     expect(tableA).toStrictEqual(recordsTableA)
     expect(tableB).toStrictEqual(recordsTableB)
+  })
+
+  test('should sync resources with formulas', async () => {
+    // GIVEN
+    const app = AppMapper.toEntity(
+      {
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              {
+                name: 'fieldA',
+                type: 'number',
+              },
+              {
+                name: 'fieldB',
+                type: 'number',
+              },
+              {
+                name: 'fieldFormula',
+                type: 'formula',
+                formula: 'fieldA * fieldB',
+              },
+            ],
+          },
+        ],
+      },
+      UnstyledUI
+    )
+    const ormGateway = new OrmGateway(new InMemoryOrm(helpers.getTmpFolder()), app)
+    const record = RecordMapper.toEntity(
+      {
+        id: '1',
+        fieldA: 5,
+        fieldB: 3,
+      },
+      app.getTableByName('tableA')
+    )
+    ormGateway.list = jest.fn(async () => [record])
+
+    // WHEN
+    const { tableA } = await new SyncTableRecords(ormGateway, app).execute(
+      [],
+      [
+        {
+          table: 'tableA',
+        },
+      ]
+    )
+
+    // THEN
+    const readRecord = tableA?.[0]
+    expect(readRecord?.getFieldValue('fieldFormula')).toStrictEqual(15)
   })
 })

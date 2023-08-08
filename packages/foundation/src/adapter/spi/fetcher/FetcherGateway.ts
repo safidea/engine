@@ -60,6 +60,7 @@ export class FetcherGateway implements FetcherGatewayAbstract {
     return async ({ records = [], resources = [] }) => {
       const commandsDto = SyncCommandMapper.toDtos(records)
       const resourcesDto = SyncResourceMapper.toDtos(resources)
+
       const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -1,6 +1,8 @@
 import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
 import { Record } from '@domain/entities/app/Record'
 import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
+import { ListTableRecords } from './ListTableRecords'
+import { App } from '@domain/entities/app/App'
 
 export interface TableToHandle {
   table: string
@@ -8,7 +10,14 @@ export interface TableToHandle {
 }
 
 export class SyncTableRecords {
-  constructor(private ormGateway: OrmGatewayAbstract) {}
+  private listTableRecord: ListTableRecords
+
+  constructor(
+    private ormGateway: OrmGatewayAbstract,
+    app: App
+  ) {
+    this.listTableRecord = new ListTableRecords(ormGateway, app)
+  }
 
   async execute(records: Record[] = [], resources: SyncResource[] = []): Promise<SyncTables> {
     if (records.length > 0) {
@@ -58,7 +67,9 @@ export class SyncTableRecords {
       const promises = []
       for (const { table, filters } of resources) {
         promises.push(
-          this.ormGateway.list(table, filters ?? []).then((records) => (tables[table] = records))
+          this.listTableRecord
+            .execute(table, filters ?? [])
+            .then((records) => (tables[table] = records))
         )
       }
       await Promise.all(promises)

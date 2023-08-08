@@ -1,6 +1,6 @@
 import { test, expect } from './utils/fixtures'
 
-test.describe('Tests Example', () => {
+test.describe('Specs examples', () => {
   test('A page can display a text', async ({ page, foundation }) => {
     // GIVEN
     await foundation.config({

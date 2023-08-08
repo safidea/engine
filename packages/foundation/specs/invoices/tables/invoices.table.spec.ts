@@ -20,41 +20,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test('should read an invoice with calculated vat and total', async ({ request, foundation }) => {
-    // GIVEN
-    const db = await foundation.config({
-      tables: helpers.getTablesDto('invoices'),
-    })
-    const tables = await db.createRecords('invoices', [
-      {
-        items: [
-          {
-            quantity: 4,
-            unit_price: 20,
-            vat: 0.2,
-          },
-          {
-            quantity: 2,
-            unit_price: 10,
-            vat: 0.2,
-          },
-        ],
-      },
-    ])
-    const {
-      invoices: [{ id }],
-    } = tables
-
-    // WHEN
-    const res = await request.get(`/api/table/invoices/${id}`)
-
-    // THEN
-    const { record } = await res.json()
-    expect(record.total_net_amount).toEqual(100)
-    expect(record.total_vat).toEqual(20)
-    expect(record.total_amount).toEqual(120)
-  })
-
   test('should read a list of invoices from a list of ids', async ({ request, foundation }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids

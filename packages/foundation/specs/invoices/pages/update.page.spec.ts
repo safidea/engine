@@ -57,7 +57,7 @@ test.describe('A page that update an invoice', () => {
     const newCustomerValue = invoice.getFieldValue('customer') + ' updated'
 
     // Type the updatedText into the input with name "customer"
-    await page.locator('input[name="customer"]').fill(newCustomerValue)
+    await page.locator('input[name="customer"]').type(newCustomerValue)
 
     // Wait for the "Saving..." text to disappear
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })

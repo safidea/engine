@@ -16,6 +16,7 @@ interface Database {
 export class InMemoryOrm implements Orm {
   private url: string
   private tables: TableDto[] = []
+  private fileExists = false
 
   constructor(folder: string) {
     this.url = join(folder, 'db.json')
@@ -27,10 +28,10 @@ export class InMemoryOrm implements Orm {
   private async withLock<T>(fn: () => Promise<T>): Promise<T> {
     await lockfile.lock(this.url, {
       retries: {
-        retries: 10, // Retry 10 times
-        factor: 1.5, // Exponential factor of 1.5
+        retries: 20, // Retry 10 times
+        factor: 1.2, // Exponential factor of 1.5
         minTimeout: 100, // Start at 100ms
-        maxTimeout: 10 * 1000, // Don't wait more than 10s between retries
+        maxTimeout: 5 * 1000, // Don't wait more than 10s between retries
       },
     })
     try {
@@ -59,7 +60,7 @@ export class InMemoryOrm implements Orm {
   }
 
   public async setDB(db: Database): Promise<void> {
-    await fs.writeJSON(this.url, db, { spaces: 2 })
+    await fs.outputJson(this.url, db, { spaces: 2 })
   }
 
   async create(tableName: string, recordDto: RecordDto): Promise<string> {
