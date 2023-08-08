@@ -177,7 +177,7 @@ describe('SyncTableRecords', () => {
     expect(ormGateway.updateMany).toBeCalledWith('tableA', records)
   })
 
-  test('should sync an updated record and created records', async () => {
+  test('should sync an updated, a created and a deleted record', async () => {
     // GIVEN
     const app = AppMapper.toEntity(
       {
@@ -225,7 +225,21 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'create'
     )
-    const records = [recordToUpdate, ...recordsToCreate]
+    const recordsToDelete = RecordMapper.toEntities(
+      [
+        {
+          id: '5',
+          fieldA: 'test D',
+        },
+        {
+          id: '6',
+          fieldA: 'test E',
+        },
+      ],
+      app.getTableByName('tableA'),
+      'delete'
+    )
+    const records = [recordToUpdate, ...recordsToCreate, ...recordsToDelete]
 
     // WHEN
     await new SyncTableRecords(ormGateway, app).execute(records)
@@ -233,6 +247,7 @@ describe('SyncTableRecords', () => {
     // THEN
     expect(ormGateway.updateMany).toBeCalledWith('tableA', [recordToUpdate])
     expect(ormGateway.createMany).toBeCalledWith('tableA', recordsToCreate)
+    expect(ormGateway.updateMany).toBeCalledWith('tableA', recordsToDelete)
   })
 
   test('should sync resources', async () => {

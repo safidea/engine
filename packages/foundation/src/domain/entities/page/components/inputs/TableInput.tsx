@@ -71,7 +71,10 @@ export class TableInput extends BaseInput {
         updateRecord(id, e.target.name, e.target.value)
       }
 
-      const handlerRemoveRecord = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const handlerRemoveRecord = (
+        id: string,
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      ) => {
         e.preventDefault()
         removeRecord(field, id)
       }

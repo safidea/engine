@@ -452,4 +452,6 @@ describe('RenderPageForm', () => {
     expect(records[1].state).toEqual('delete')
     expect(records[1].id).toEqual('2')
   })
+
+  test.skip('should autosave a new row created in a table form', async () => {})
 })

@@ -41,7 +41,7 @@ export class FetcherGateway implements FetcherGatewayAbstract {
         data: { tables } = { tables: {} },
         error,
         isLoading,
-      } = useFetch<{ tables: SyncTablesDto }>('/api/table/sync', options)
+      } = useFetch<{ tables: SyncTablesDto }>('/api/sync/table', options)
 
       return {
         tables: SyncTablesMapper.toEntities(tables, app),
@@ -66,7 +66,7 @@ export class FetcherGateway implements FetcherGatewayAbstract {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ commands: commandsDto, resources: resourcesDto }),
       }
-      const res = await fetch('/api/table/sync', options)
+      const res = await fetch('/api/sync/table', options)
       const { error, tables } = await res.json()
       return {
         error,

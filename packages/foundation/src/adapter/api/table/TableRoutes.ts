@@ -23,6 +23,11 @@ export class TableRoutes {
   get routes(): ApiRoute[] {
     return [
       {
+        path: '/api/sync/table',
+        method: 'POST',
+        handler: async (request: RequestDto) => this.sync(request),
+      },
+      {
         path: '/api/table/:table/:id',
         method: 'GET',
         handler: async (request: RequestDto) => this.get(request),
@@ -36,11 +41,6 @@ export class TableRoutes {
         path: '/api/table/:table/:id',
         method: 'DELETE',
         handler: async (request: RequestDto) => this.delete(request),
-      },
-      {
-        path: '/api/table/sync',
-        method: 'POST',
-        handler: async (request: RequestDto) => this.sync(request),
       },
       {
         path: '/api/table/:table',

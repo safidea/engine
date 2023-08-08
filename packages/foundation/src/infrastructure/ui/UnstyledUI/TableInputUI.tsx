@@ -41,7 +41,11 @@ const TableInputUI: UI['TableInputUI'] = {
     )
   },
   remove({ onClick }) {
-    return <td><button onClick={onClick}>Remove</button></td>
+    return (
+      <td>
+        <button onClick={onClick}>Remove</button>
+      </td>
+    )
   },
 }
 

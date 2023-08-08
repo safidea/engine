@@ -5,7 +5,11 @@ import { Table } from '@domain/entities/table/Table'
 export class RecordMapper {
   static toDto(record: Record): RecordDto {
     const { id, created_time, last_modified_time, deleted_time, fields } = record
-    return { ...fields, id, created_time, last_modified_time, deleted_time }
+    const recordDto: RecordDto = { ...fields, id }
+    if (created_time) recordDto.created_time = created_time
+    if (last_modified_time) recordDto.last_modified_time = last_modified_time
+    if (deleted_time) recordDto.deleted_time = deleted_time
+    return recordDto
   }
 
   static toEntity(recordDto: RecordDto, table: Table, state?: RecordState): Record {

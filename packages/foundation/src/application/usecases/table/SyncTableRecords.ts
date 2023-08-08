@@ -3,6 +3,7 @@ import { Record } from '@domain/entities/app/Record'
 import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@domain/entities/app/App'
+import { SoftDeleteManyTableRecords } from './SoftDeleteManyTableRecords'
 
 export interface TableToHandle {
   table: string
@@ -11,11 +12,13 @@ export interface TableToHandle {
 
 export class SyncTableRecords {
   private listTableRecord: ListTableRecords
+  private softDeleteManyRecords: SoftDeleteManyTableRecords
 
   constructor(
     private ormGateway: OrmGatewayAbstract,
     app: App
   ) {
+    this.softDeleteManyRecords = new SoftDeleteManyTableRecords(ormGateway, app)
     this.listTableRecord = new ListTableRecords(ormGateway, app)
   }
 
@@ -23,6 +26,7 @@ export class SyncTableRecords {
     if (records.length > 0) {
       const recordsToCreate: TableToHandle[] = []
       const recordsToUpdate: TableToHandle[] = []
+      const recordsToDelete: TableToHandle[] = []
       for (const record of records) {
         switch (record.state) {
           case 'create':
@@ -47,8 +51,19 @@ export class SyncTableRecords {
               })
             }
             break
+          case 'delete':
+            const recordsToDeleteTable = recordsToDelete.find((r) => r.table === record.tableName)
+            if (recordsToDeleteTable) {
+              recordsToDeleteTable.records.push(record)
+            } else {
+              recordsToDelete.push({
+                table: record.tableName,
+                records: [record],
+              })
+            }
+            break
           default:
-            throw new Error('Record state not supported')
+            throw new Error(`Record state "${record.state}" not supported`)
         }
       }
       const promises = []
@@ -57,6 +72,14 @@ export class SyncTableRecords {
       }
       for (const { table, records } of recordsToUpdate) {
         promises.push(this.ormGateway.updateMany(table, records))
+      }
+      for (const { table, records } of recordsToDelete) {
+        promises.push(
+          this.softDeleteManyRecords.execute(
+            table,
+            records.map((r) => r.id)
+          )
+        )
       }
       await Promise.all(promises)
     }
