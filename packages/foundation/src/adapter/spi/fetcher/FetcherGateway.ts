@@ -66,7 +66,9 @@ export class FetcherGateway implements FetcherGatewayAbstract {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ commands: commandsDto, resources: resourcesDto }),
       }
-      const res = await fetch('/api/sync/table', options)
+      const res = await fetch('/api/sync/table', options).catch((e) => {
+        return { json: () => Promise.resolve({ error: e.message }) }
+      })
       const { error, tables } = await res.json()
       return {
         error,

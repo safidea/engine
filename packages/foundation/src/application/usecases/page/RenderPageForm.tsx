@@ -5,7 +5,7 @@ import { FetcherGatewayAbstract } from '@application/gateways/FetcherGatewayAbst
 import { Record, RecordFieldValue } from '@domain/entities/app/Record'
 import { App } from '@domain/entities/app/App'
 import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
-import { SyncResource } from '@domain/entities/app/Sync'
+import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
 
 export class RenderPageForm {
   constructor(
@@ -23,8 +23,7 @@ export class RenderPageForm {
     let defaultRecords: Record[]
     let defaultRecordId: string
 
-    if (recordIdToUpdate) {
-      defaultRecordId = context.getValue(recordIdToUpdate)
+    const getFormResources = (): SyncResource[] => {
       const resources: SyncResource[] = [
         {
           table: tableName,
@@ -37,14 +36,23 @@ export class RenderPageForm {
           table: tableInput.table.name,
         })
       }
-      const { tables, error } = await syncRecords({ resources })
-      if (error) {
-        throw new Error(error)
-      }
-      defaultRecords = []
+      return resources
+    }
+
+    const getRecordsFromTables = (tables: SyncTables): Record[] => {
+      const records: Record[] = []
       for (const record of Object.values(tables).flat()) {
-        if (record) defaultRecords.push(record)
+        if (record) records.push(record)
       }
+      return records
+    }
+
+    if (recordIdToUpdate) {
+      defaultRecordId = context.getValue(recordIdToUpdate)
+      const resources: SyncResource[] = getFormResources()
+      const { tables, error } = await syncRecords({ resources })
+      if (error) throw new Error('Sync records error: ' + error)
+      defaultRecords = getRecordsFromTables(tables)
     } else {
       const record = new Record({}, table, 'create')
       defaultRecords = [record]
@@ -66,13 +74,20 @@ export class RenderPageForm {
 
       const saveRecords = async () => {
         if (isSaving === false) setIsSaving(true)
-        const { error } = await syncRecords({ records })
+        const resources = getFormResources()
+        const { error, tables } = await syncRecords({ records, resources })
         if (error) {
           setErrorMessage(error)
-        } else if (!form.submit.autosave) {
-          const newRecord = new Record({}, table, 'create')
-          setRecordId(newRecord.id)
-          setRecords([newRecord])
+        } else {
+          if (!form.submit.autosave) {
+            const newRecord = new Record({}, table, 'create')
+            setRecordId(newRecord.id)
+            setRecords([newRecord])
+          } else {
+            const newRecords = getRecordsFromTables(tables)
+            setRecords(newRecords)
+          }
+          if (errorMessage) setErrorMessage(undefined)
         }
         setIsSaving(false)
       }
@@ -108,7 +123,8 @@ export class RenderPageForm {
         const field = table.getLinkedFieldByLinkedTableName(linkedTableName)
         const recordsIds = record.getMultipleLinkedRecordsValue(field.name)
         records[index].setFieldValue(field.name, [...recordsIds, newRecord.id])
-        setRecords([...records, newRecord])
+        records.push(newRecord)
+        setRecords([...records])
         autosave()
       }
 

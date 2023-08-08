@@ -15,6 +15,7 @@ import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { Record } from '@domain/entities/app/Record'
 import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
+import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
 
 describe('RenderPageForm', () => {
   test('should clear the form after submit', async () => {
@@ -56,7 +57,15 @@ describe('RenderPageForm', () => {
     // THEN
     const input = screen.getByLabelText('Name') as HTMLInputElement
     expect(input.value).toBe('')
-    expect(syncRecords).toBeCalledWith({ records: expect.arrayContaining([expect.any(Record)]) })
+    expect(syncRecords).toBeCalledWith({
+      records: expect.arrayContaining([expect.any(Record)]),
+      resources: [
+        {
+          table: 'tableA',
+          filters: expect.arrayContaining([expect.any(IsAnyOf)]),
+        },
+      ],
+    })
   })
 
   test('should clear a table in a form after submit', async () => {
@@ -121,6 +130,15 @@ describe('RenderPageForm', () => {
     expect(inputs.length).toBe(0)
     expect(syncRecords).toBeCalledWith({
       records: expect.arrayContaining([expect.any(Record), expect.any(Record)]),
+      resources: [
+        {
+          filters: expect.arrayContaining([expect.any(IsAnyOf)]),
+          table: 'tableA',
+        },
+        {
+          table: 'items',
+        },
+      ],
     })
   })
 
@@ -430,7 +448,16 @@ describe('RenderPageForm', () => {
     }))
     syncRecords.mockImplementationOnce(async () => ({
       error: undefined,
-      tables: {},
+      tables: {
+        tableA: RecordMapper.toEntities(
+          [{ id: '1', items: ['2', '3'] }],
+          app.getTableByName('tableA')
+        ),
+        tableB: RecordMapper.toEntities(
+          [{ id: '3', tableA: '1', fieldA: 'textB' }],
+          app.getTableByName('tableB')
+        ),
+      },
     }))
     fetcherGateway.getSyncRecordsFunction = () => syncRecords
     const context = new Context({ id: '1' })
@@ -452,6 +479,4 @@ describe('RenderPageForm', () => {
     expect(records[1].state).toEqual('delete')
     expect(records[1].id).toEqual('2')
   })
-
-  test.skip('should autosave a new row created in a table form', async () => {})
 })
