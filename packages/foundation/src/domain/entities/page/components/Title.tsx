@@ -1,13 +1,13 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
+import { TitleUI } from '../ui/TitleUI'
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 export class Title extends BaseComponent {
   constructor(
     private readonly _text: string,
-    private readonly _ui: UI['TitleUI'],
+    private readonly _ui: TitleUI,
     private readonly _size: Size = 'md'
   ) {
     super('title')

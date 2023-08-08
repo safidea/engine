@@ -1,12 +1,12 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
+import { LinkUI } from '../ui/LinkUI'
 
 export class Link extends BaseComponent {
   constructor(
     private readonly _path: string = '#',
     private readonly _label: string = '',
-    private readonly _ui: UI['LinkUI']
+    private readonly _ui: LinkUI
   ) {
     super('link')
   }
@@ -24,7 +24,7 @@ export class Link extends BaseComponent {
     const path = this._path
     const label = this._label
     return function LinkUI() {
-      return <UI href={path}>{label}</UI>
+      return <UI.link href={path}>{label}</UI.link>
     }
   }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseInput, BaseInputProps } from './BaseInput'
+import { TextInputUI } from '../../ui/inputs/TextInputUI'
 
 export class TextInput extends BaseInput {
   constructor(
     field: string,
-    private readonly _ui: UI['TextInputUI'],
+    private readonly _ui: TextInputUI,
     label?: string,
     private readonly _placeholder?: string
   ) {

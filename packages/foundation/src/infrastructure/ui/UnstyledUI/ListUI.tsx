@@ -1,56 +1,46 @@
 import React from 'react'
-import {
-  UI,
-  ListUIGroupProps,
-  ListUIHeaderColumnProps,
-  ListUITextCellProps,
-  ListUIButtonCellProps,
-  ListUILinkCellProps,
-  ListUIRowProps,
-  ListUICurrencyCellProps,
-  UIProps,
-} from '@adapter/spi/ui/UI'
+import { UI } from '@adapter/spi/ui/UI'
 
 const ListUI: UI['ListUI'] = {
-  container: ({ children }: UIProps) => {
+  container: ({ children }) => {
     return <table>{children}</table>
   },
-  header: ({ children }: UIProps) => {
+  header: ({ children }) => {
     return (
       <thead>
         <tr>{children}</tr>
       </thead>
     )
   },
-  headerColumn: ({ label }: ListUIHeaderColumnProps) => {
+  headerColumn: ({ label }) => {
     return <th>{label}</th>
   },
-  group: ({ label, colSpan }: ListUIGroupProps) => {
+  group: ({ label, colSpan }) => {
     return (
       <tr>
         <th colSpan={colSpan}>{label}</th>
       </tr>
     )
   },
-  rows: ({ children }: UIProps) => {
+  rows: ({ children }) => {
     return <tbody>{children}</tbody>
   },
-  row: ({ children, id }: ListUIRowProps) => {
+  row: ({ children, id }) => {
     return <tr id={id}>{children}</tr>
   },
-  cell: ({ children }: UIProps) => {
+  cell: ({ children }) => {
     return <td>{children}</td>
   },
-  textCell: ({ value }: ListUITextCellProps) => {
+  textCell: ({ value }) => {
     return <>{value}</>
   },
-  buttonCell: ({ label, onClick }: ListUIButtonCellProps) => {
+  buttonCell: ({ label, onClick }) => {
     return <button onClick={onClick}>{label}</button>
   },
-  linkCell: ({ label }: ListUILinkCellProps) => {
+  linkCell: ({ label }) => {
     return <a href="#">{label}</a>
   },
-  currencyCell: ({ value, currency }: ListUICurrencyCellProps) => {
+  currencyCell: ({ value, currency }) => {
     return (
       <>
         {value}

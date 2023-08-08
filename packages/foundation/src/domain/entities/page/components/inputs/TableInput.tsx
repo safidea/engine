@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseInput, BaseInputProps } from './BaseInput'
 import { Table } from '@domain/entities/table/Table'
+import { TableInputUI } from '../../ui/inputs/TableInputUI'
 
 export type Column = {
   label: string
@@ -18,7 +18,7 @@ export class TableInput extends BaseInput {
     field: string,
     private readonly _columns: Column[],
     private readonly _table: Table,
-    private readonly _ui: UI['TableInputUI'],
+    private readonly _ui: TableInputUI,
     label?: string,
     private readonly _addLabel?: string
   ) {

@@ -1,6 +1,10 @@
 import React from 'react'
-import { UIProps } from '@adapter/spi/ui/UI'
+import { UI } from '@adapter/spi/ui/UI'
 
-export default function ParagraphUI({ children }: UIProps) {
-  return <p>{children}</p>
+const ParagraphUI: UI['ParagraphUI'] = {
+  paragraph: ({ children }) => {
+    return <p>{children}</p>
+  },
 }
+
+export default ParagraphUI

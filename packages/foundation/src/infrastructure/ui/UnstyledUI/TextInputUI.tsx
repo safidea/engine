@@ -1,9 +1,9 @@
 import React from 'react'
-import { InputTextUIInputProps, UI, InputTextUILabelProps } from '@adapter/spi/ui/UI'
+import { UI } from '@adapter/spi/ui/UI'
 
 const TextInputUI: UI['TextInputUI'] = {
-  label: ({ label, htmlFor }: InputTextUILabelProps) => <label htmlFor={htmlFor}>{label}</label>,
-  input: ({ name, onChange, id, value }: InputTextUIInputProps) => (
+  label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,
+  input: ({ name, onChange, id, value }) => (
     <input type="text" name={name} onChange={onChange} id={id} value={value} />
   ),
 }

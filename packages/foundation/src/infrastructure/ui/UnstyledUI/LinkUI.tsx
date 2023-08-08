@@ -1,6 +1,10 @@
 import React from 'react'
-import { LinkUIProps } from '@adapter/spi/ui/UI'
+import { UI } from '@adapter/spi/ui/UI'
 
-export default function LinkUI({ children, href }: LinkUIProps) {
-  return <a href={href}>{children}</a>
+const LinkUI: UI['LinkUI'] = {
+  link: ({ children, href }) => {
+    return <a href={href}>{children}</a>
+  },
 }
+
+export default LinkUI

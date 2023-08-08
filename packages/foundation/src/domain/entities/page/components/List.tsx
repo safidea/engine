@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 import { Record } from '@domain/entities/app/Record'
 import { Field } from '@domain/entities/table/Field'
 import { Table } from '@domain/entities/table/Table'
+import { ListUI } from '../ui/ListUI'
 
 export interface GroupBy {
   field: string
@@ -56,6 +56,7 @@ export interface ListProps {
   records: Record[]
 }
 
+
 export class List extends BaseComponent {
   private readonly _fields: Field[] = []
 
@@ -64,7 +65,7 @@ export class List extends BaseComponent {
     private readonly _groupBy: GroupBy[] = [],
     private readonly _sortBy: SortBy[] = [],
     private readonly _columns: Column[] = [],
-    private readonly _ui: UI['ListUI'],
+    private readonly _ui: ListUI,
     private readonly _tables: Table[] = []
   ) {
     super('link')

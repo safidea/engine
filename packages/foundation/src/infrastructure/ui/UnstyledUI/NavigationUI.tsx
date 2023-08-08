@@ -1,20 +1,20 @@
 import React from 'react'
-import { UI, UIProps } from '@adapter/spi/ui/UI'
+import { UI } from '@adapter/spi/ui/UI'
 
 const NavigationUI: UI['NavigationUI'] = {
-  container: ({ children }: UIProps) => {
+  container: ({ children }) => {
     return <div>{children}</div>
   },
-  sidebar: ({ children }: UIProps) => {
+  sidebar: ({ children }) => {
     return <nav>{children}</nav>
   },
-  links: ({ children }: UIProps) => {
+  links: ({ children }) => {
     return <ul>{children}</ul>
   },
-  link: ({ children }: UIProps) => {
+  link: ({ children }) => {
     return <li>{children}</li>
   },
-  content: ({ children }: UIProps) => {
+  content: ({ children }) => {
     return <div>{children}</div>
   },
 }

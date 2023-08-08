@@ -1,9 +1,9 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
 import { Record, RecordFieldValue } from '@domain/entities/app/Record'
 import { TableInput } from './inputs/TableInput'
+import { FormUI } from '../ui/FormUI'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void
@@ -37,7 +37,7 @@ export class Form extends BaseComponent {
         path: string
       }[]
     },
-    private readonly _ui: UI['FormUI'],
+    private readonly _ui: FormUI,
     private readonly _recordIdToUpdate?: string
   ) {
     super('title')

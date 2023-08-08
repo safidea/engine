@@ -1,11 +1,11 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
 import { BaseComponent } from './BaseComponent'
+import { ParagraphUI } from '../ui/ParagraphUI'
 
 export class Paragraph extends BaseComponent {
   constructor(
     private readonly _text: string = '',
-    private readonly _ui: UI['ParagraphUI']
+    private readonly _ui: ParagraphUI
   ) {
     super('paragraph')
   }
@@ -18,7 +18,7 @@ export class Paragraph extends BaseComponent {
     const UI = this._ui
     const text = this._text
     return function ParagraphUI() {
-      return <UI>{text}</UI>
+      return <UI.paragraph>{text}</UI.paragraph>
     }
   }
 }
