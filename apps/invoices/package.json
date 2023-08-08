@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon foundation.js"
+    "start": "nodemon foundation.js --ignore app"
   },
   "dependencies": {
     "foundation": "workspace:*",
