@@ -7,13 +7,24 @@ export type Format =
   | 'recordId'
   | 'recordsIds'
 
+export interface FieldPermissions {
+  update?:
+    | boolean
+    | {
+        formula: string
+      }
+}
+
 export class BaseField {
   constructor(
     private readonly _name: string,
     private readonly _type: string,
     private readonly _optional: boolean = false,
     private readonly _format: Format = 'text',
-    private readonly _default: string | number | boolean | undefined = undefined
+    private readonly _default: string | number | boolean | undefined = undefined,
+    private readonly _permissions: FieldPermissions = {
+      update: true,
+    }
   ) {}
 
   get name(): string {
@@ -34,5 +45,9 @@ export class BaseField {
 
   get default(): string | number | boolean | undefined {
     return this._default
+  }
+
+  get permissions(): FieldPermissions {
+    return this._permissions
   }
 }

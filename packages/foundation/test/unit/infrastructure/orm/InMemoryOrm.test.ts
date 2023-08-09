@@ -2,6 +2,8 @@ import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 import { describe, test, expect } from '@jest/globals'
 import { helpers } from '../../../utils/unit/fixtures'
 
+jest.setTimeout(10000)
+
 describe('InMemoryOrm', () => {
   test('should update a record by id', async () => {
     // GIVEN

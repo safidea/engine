@@ -1,33 +1,45 @@
 import { PageDto } from '@adapter/api/page/dtos/PageDto'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 
+const invoiceFieldPermission = {
+  update: {
+    formula: 'number !== undefined',
+  },
+}
+
 export const TABLE_INVOICES: TableDto = {
   name: 'invoices',
   fields: [
     {
       name: 'customer',
       type: 'single_line_text',
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'address',
       type: 'single_line_text',
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'zip_code',
       type: 'single_line_text',
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'city',
       type: 'single_line_text',
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'country',
       type: 'single_line_text',
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'items',
       type: 'multiple_linked_records',
       table: 'invoices_items',
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'total_net_amount',
@@ -63,11 +75,13 @@ export const TABLE_INVOICES: TableDto = {
       name: 'finalised_time',
       type: 'datetime',
       optional: true,
+      permissions: invoiceFieldPermission,
     },
     {
       name: 'number',
       type: 'number',
       optional: true,
+      permissions: invoiceFieldPermission,
     },
   ],
 }

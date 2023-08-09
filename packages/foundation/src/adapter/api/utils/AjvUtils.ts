@@ -3,7 +3,7 @@ import { AppDtoSchema } from '@adapter/api/app/dtos/AppDto'
 import { RecordDtoSchema } from '@adapter/api/app/dtos/RecordDto'
 import { SyncDtoSchema } from '@adapter/api/app/dtos/sync/SyncDto'
 
-const ajv = new Ajv()
+const ajv = new Ajv({ allowUnionTypes: true })
 export type { JSONSchemaType }
 
 export const validateAppDto = ajv.compile(AppDtoSchema)
