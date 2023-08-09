@@ -128,4 +128,8 @@ describe('Record', () => {
     expect(record.fields.name).toEqual('test')
     expect(record.fields).not.toHaveProperty('age')
   })
+
+  test.skip('should throw an error if update permission is not respected', async () => {
+
+  })
 })

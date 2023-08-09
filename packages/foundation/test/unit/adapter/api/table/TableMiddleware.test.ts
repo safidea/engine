@@ -37,7 +37,9 @@ describe('TableMiddleware', () => {
       // THEN
       await expect(call()).resolves.not.toThrow()
     })
+  })
 
+  describe('validateRecordValues', () => {
     test('should throw an error if a field is missing', async () => {
       // GIVEN
       const app = AppMapper.toEntity(
