@@ -24,7 +24,7 @@ describe('Automation', () => {
     const call = () => new Automation(name, actions, tables)
 
     // THEN
-    expect(call).toThrow('fieldX in automation A is not defined in table "tableA"')
+    expect(call).toThrow('field "fieldX" in automation "A" is not defined in table "tableA"')
   })
 
   test('config validation fail if automation references an invalid table', async () => {
@@ -47,7 +47,7 @@ describe('Automation', () => {
     const call = () => new Automation(name, actions, tables)
 
     // THEN
-    expect(call).toThrow('table tableX in automation A is not defined in tables')
+    expect(call).toThrow('table "tableX" in automation "A" is not defined in tables')
   })
 
   test('config validation fail if automation references an invalid field and a valid field', async () => {
@@ -72,6 +72,6 @@ describe('Automation', () => {
     const call = () => new Automation(name, actions, tables)
 
     // THEN
-    expect(call).toThrow('fieldY in automation A is not defined in table "tableA"')
+    expect(call).toThrow('field "fieldY" in automation "A" is not defined in table "tableA"')
   })
 })

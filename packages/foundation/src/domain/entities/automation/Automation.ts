@@ -16,14 +16,16 @@ export class Automation {
       if (action.type !== 'updateTable') throw new Error(`unsupported action type: ${action.type}`)
       const table = tables.find((table) => table.name === action.table)
       if (!table) {
-        throw new Error(`table ${action.table} in automation ${_name} is not defined in tables`)
+        throw new Error(`table "${action.table}" in automation "${_name}" is not defined in tables`)
       }
       const fieldsNames = Object.keys(action.fields ?? {})
       const missingField = fieldsNames.find(
         (fieldName) => !table.fields.some((f) => f.name === fieldName)
       )
       if (missingField)
-        throw new Error(`${missingField} in automation A is not defined in table "${action.table}"`)
+        throw new Error(
+          `field "${missingField}" in automation "${_name}" is not defined in table "${action.table}"`
+        )
     }
   }
 

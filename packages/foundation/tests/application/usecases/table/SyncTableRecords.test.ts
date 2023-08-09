@@ -7,6 +7,7 @@ import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { helpers, describe, test, expect } from '../../../fixtures'
 import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
 import { Filter } from '@domain/entities/app/Filter'
+import { Record } from '@domain/entities/app/Record'
 
 describe('SyncTableRecords', () => {
   test('should sync a created record', async () => {
@@ -177,7 +178,7 @@ describe('SyncTableRecords', () => {
     expect(ormGateway.updateMany).toBeCalledWith('tableA', records)
   })
 
-  test('should sync an updated, a created and a deleted record', async () => {
+  test('should sync updated, created and deleted records', async () => {
     // GIVEN
     const app = AppMapper.toEntity(
       {
@@ -197,8 +198,13 @@ describe('SyncTableRecords', () => {
     )
     const orm = new InMemoryOrm(helpers.getTmpFolder())
     const ormGateway = new OrmGateway(orm, app)
-    ormGateway.createMany = jest.fn()
-    ormGateway.updateMany = jest.fn()
+    const db: { [key: string]: Record[] } = {}
+    ormGateway.createMany = (table: string, records: Record[]): any => {
+      db[table] = [...(db[table] ?? []), ...records]
+    }
+    ormGateway.updateMany = (table: string, records: Record[]): any => {
+      db[table] = [...(db[table] ?? []), ...records]
+    }
     const recordToUpdate = RecordMapper.toEntity(
       {
         id: '1',
@@ -245,9 +251,13 @@ describe('SyncTableRecords', () => {
     await new SyncTableRecords(ormGateway, app).execute(records)
 
     // THEN
-    expect(ormGateway.updateMany).toBeCalledWith('tableA', [recordToUpdate])
-    expect(ormGateway.createMany).toBeCalledWith('tableA', recordsToCreate)
-    expect(ormGateway.updateMany).toBeCalledWith('tableA', recordsToDelete)
+    expect(db.tableA).toHaveLength(6)
+    expect(db.tableA).toContainEqual(recordToUpdate)
+    expect(db.tableA).toContainEqual(recordsToCreate[0])
+    expect(db.tableA).toContainEqual(recordsToCreate[1])
+    expect(db.tableA).toContainEqual(recordsToCreate[2])
+    expect(db.tableA).toContainEqual(recordsToDelete[0])
+    expect(db.tableA).toContainEqual(recordsToDelete[1])
   })
 
   test('should sync resources', async () => {
