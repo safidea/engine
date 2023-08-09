@@ -50,7 +50,7 @@ export class Record {
         }
         this._id = id
         this._created_time = created_time
-        this._last_modified_time = new Date().toISOString()
+        this._last_modified_time = last_modified_time ?? new Date().toISOString()
         this._deleted_time = deleted_time
         this._fieldsValues = this.validateFieldsValues(fieldsValues)
         break
@@ -61,7 +61,7 @@ export class Record {
         this._id = id
         this._created_time = created_time
         this._last_modified_time = last_modified_time
-        this._deleted_time = new Date().toISOString()
+        this._deleted_time = deleted_time ?? new Date().toISOString()
         this._fieldsValues = {}
         break
       default:

@@ -11,12 +11,5 @@
       "@adapter/*": ["adapter/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "specs/**/*.ts",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "playwright.config.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"]
 }

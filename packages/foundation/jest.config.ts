@@ -64,7 +64,7 @@ const config: Config = {
   // globalSetup: undefined,
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  // globalTeardown: undefined,
+  globalTeardown: '<rootDir>/test/utils/teardown.ts',
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
@@ -160,7 +160,7 @@ const config: Config = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/tests/**/*.test.ts?(x)'],
+  testMatch: ['**/test/unit/**/*.test.ts?(x)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [

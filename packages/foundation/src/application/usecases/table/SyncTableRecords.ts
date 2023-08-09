@@ -3,7 +3,6 @@ import { Record } from '@domain/entities/app/Record'
 import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@domain/entities/app/App'
-import { SoftDeleteManyTableRecords } from './SoftDeleteManyTableRecords'
 
 export interface TableToHandle {
   table: string
@@ -12,13 +11,11 @@ export interface TableToHandle {
 
 export class SyncTableRecords {
   private listTableRecord: ListTableRecords
-  private softDeleteManyRecords: SoftDeleteManyTableRecords
 
   constructor(
     private ormGateway: OrmGatewayAbstract,
     app: App
   ) {
-    this.softDeleteManyRecords = new SoftDeleteManyTableRecords(ormGateway, app)
     this.listTableRecord = new ListTableRecords(ormGateway, app)
   }
 
@@ -26,7 +23,7 @@ export class SyncTableRecords {
     if (records.length > 0) {
       const recordsToCreate: TableToHandle[] = []
       const recordsToUpdate: TableToHandle[] = []
-      const recordsToDelete: TableToHandle[] = []
+      const recordsToSoftDelete: TableToHandle[] = []
       for (const record of records) {
         switch (record.state) {
           case 'create':
@@ -52,11 +49,13 @@ export class SyncTableRecords {
             }
             break
           case 'delete':
-            const recordsToDeleteTable = recordsToDelete.find((r) => r.table === record.tableName)
+            const recordsToDeleteTable = recordsToSoftDelete.find(
+              (r) => r.table === record.tableName
+            )
             if (recordsToDeleteTable) {
               recordsToDeleteTable.records.push(record)
             } else {
-              recordsToDelete.push({
+              recordsToSoftDelete.push({
                 table: record.tableName,
                 records: [record],
               })
@@ -73,13 +72,8 @@ export class SyncTableRecords {
       for (const { table, records } of recordsToUpdate) {
         promises.push(this.ormGateway.updateMany(table, records))
       }
-      for (const { table, records } of recordsToDelete) {
-        promises.push(
-          this.softDeleteManyRecords.execute(
-            table,
-            records.map((r) => r.id)
-          )
-        )
+      for (const { table, records } of recordsToSoftDelete) {
+        promises.push(this.ormGateway.updateMany(table, records))
       }
       await Promise.all(promises)
     }
