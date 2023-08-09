@@ -126,7 +126,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(finalisedRecord.getFieldValue('status')).toEqual(update.status)
   })
 
-  test.skip('should not be able to update a finalised invoice', async ({ request, foundation }) => {
+  test('should not be able to update a finalised invoice', async ({ request, foundation }) => {
     // GIVEN
     const db = await foundation.config({
       tables: helpers.getTablesDto('invoices'),
@@ -154,7 +154,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     expect(res.status()).toEqual(400)
     const { error } = await res.json()
-    expect(error).toEqual('Cannot update a finalised invoice')
+    expect(error).toEqual('field "customer" cannot be updated')
     const [updatedRecord] = await db.list('invoices')
     expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.getFieldValue('customer')).toEqual('Customer A')
@@ -218,10 +218,7 @@ test.describe('An api that render error messages', () => {
     expect(error).toContain('field "address" is required')
   })
 
-  test('should return a 400 error when a field is not valid', async ({
-    request,
-    foundation,
-  }) => {
+  test('should return a 400 error when a field is not valid', async ({ request, foundation }) => {
     // GIVEN
     // We provide an app with tables
     await foundation.config({

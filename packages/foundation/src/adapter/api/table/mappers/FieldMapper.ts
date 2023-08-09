@@ -18,7 +18,8 @@ export class FieldMapper {
       return new SingleLineText(
         fieldDto.name,
         fieldDto.optional,
-        fieldDto.default ? String(fieldDto.default) : undefined
+        fieldDto.default ? String(fieldDto.default) : undefined,
+        fieldDto.permissions
       )
     }
     if (type === 'long_text') {

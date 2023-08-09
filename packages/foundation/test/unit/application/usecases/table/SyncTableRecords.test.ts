@@ -492,7 +492,7 @@ describe('SyncTableRecords', () => {
         fieldA: 5,
         fieldB: 3,
       },
-      app.getTableByName('tableA'),
+      app.getTableByName('tableA')
     )
     ormGateway.list = jest.fn(async () => [record])
 

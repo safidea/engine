@@ -129,5 +129,37 @@ describe('Record', () => {
     expect(record.fields).not.toHaveProperty('age')
   })
 
-  test.skip('should throw an error if update permission is not respected', async () => {})
+  test('should throw an error if update permission is not respected', async () => {
+    // GIVEN
+    const values = {
+      id: '1',
+      name: 'test',
+      age: 10,
+    }
+    const table = TableMapper.toEntity({
+      name: 'tableA',
+      fields: [
+        {
+          name: 'name',
+          type: 'single_line_text',
+          permissions: {
+            update: {
+              formula: 'age === undefined',
+            },
+          },
+        },
+        {
+          name: 'age',
+          type: 'number',
+          optional: true,
+        },
+      ],
+    })
+
+    // WHEN
+    const call = () => new Record(values, table, 'update')
+
+    // THEN
+    expect(call).toThrowError('field "name" cannot be updated')
+  })
 })

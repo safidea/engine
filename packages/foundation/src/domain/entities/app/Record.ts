@@ -10,6 +10,7 @@ import { Datetime } from '../table/fields/Datetime'
 import { MultipleLinkedRecords } from '../table/fields/MultipleLinkedRecords'
 import { Formula } from '../table/fields/Formula'
 import { Rollup } from '../table/fields/Rollup'
+import { Script } from './Script'
 
 export type RecordFieldValue = string | number | boolean | undefined | string[]
 
@@ -153,20 +154,21 @@ export class Record {
   }
 
   validateFieldsValues(unknownValues: RecordFieldsValues): RecordFieldsValues {
-    const validatedValues: RecordFieldsValues = {}
     const fields = this._table.fields.filter(
       (field) => !['id', 'created_time', 'last_modified_time', 'deleted_time'].includes(field.name)
     )
     for (const field of Object.keys(unknownValues)) {
       this.getFieldFromName(field)
     }
-    return fields.reduce((values, field) => {
+    const validatedValues = fields.reduce((values: RecordFieldsValues, field) => {
       const validatedValue = this.validateFieldValue(field, unknownValues[field.name])
       if (validatedValue !== undefined) {
         values[field.name] = validatedValue
       }
       return values
-    }, validatedValues)
+    }, {})
+    this.validateFieldsPermissions(fields, validatedValues)
+    return validatedValues
   }
 
   validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
@@ -223,5 +225,24 @@ export class Record {
     }
 
     return value
+  }
+
+  validateFieldsPermissions(fields: Field[], validatedValues: RecordFieldsValues): void {
+    const context = fields.reduce((acc: RecordFieldsValues, field) => {
+      acc[field.name] = validatedValues[field.name] ?? undefined
+      return acc
+    }, {})
+    for (const field of fields) {
+      const value = context[field.name]
+      if (value && this._state === 'update' && field.permissions.update) {
+        if (typeof field.permissions.update === 'object') {
+          const { formula } = field.permissions.update
+          const allowed = new Script(formula, context).run()
+          if (!allowed) {
+            throw new Error(`field "${field.name}" cannot be updated`)
+          }
+        }
+      }
+    }
   }
 }

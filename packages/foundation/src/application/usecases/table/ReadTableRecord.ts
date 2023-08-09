@@ -2,11 +2,11 @@ import { ListTableRecords } from './ListTableRecords'
 import { Rollup } from '@domain/entities/table/fields/Rollup'
 import { Formula } from '@domain/entities/table/fields/Formula'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
-import { runFormula } from '@application/utils/FormulaUtils'
 import { App } from '@domain/entities/app/App'
 import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
 import { Record } from '@domain/entities/app/Record'
 import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
+import { Script } from '@domain/entities/app/Script'
 
 export class ReadTableRecord {
   constructor(
@@ -43,14 +43,14 @@ export class ReadTableRecord {
     const context = {
       values: linkedRecords.map((record) => String(record.getFieldValue(fieldRollup.linkedField))),
     }
-    const result = await runFormula(formula, context, this.getFunctions())
+    const result = new Script(formula, context).run()
     record.setCalculatedFieldValue(fieldRollup.name, result)
   }
 
   async runFieldFormula(record: Record, fieldFormula: Formula) {
     const { formula } = fieldFormula
     const context = record.fields
-    const result = await runFormula(formula, context, this.getFunctions())
+    const result = new Script(formula, context).run()
     record.setCalculatedFieldValue(fieldFormula.name, result)
   }
 

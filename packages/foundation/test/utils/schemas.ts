@@ -3,7 +3,7 @@ import { TableDto } from '@adapter/api/table/dtos/TableDto'
 
 const invoiceFieldPermission = {
   update: {
-    formula: 'number !== undefined',
+    formula: 'number === undefined',
   },
 }
 
