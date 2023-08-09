@@ -100,7 +100,7 @@ describe('TableMiddleware', () => {
       await expect(call()).rejects.toThrowError('field "fieldA" must be a number')
     })
 
-    test('should throw an error if a field is not an string and should be', async () => {
+    test('should convert a non string value to a string if field is a text type', async () => {
       // GIVEN
       const app = AppMapper.toEntity(
         {
@@ -120,17 +120,16 @@ describe('TableMiddleware', () => {
       )
 
       // WHEN
-      const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
-          'tableA',
-          {
-            fieldA: 123,
-          },
-          'create'
-        )
+      const record = await new TableMiddleware(app, {} as any).validateRecordBody(
+        'tableA',
+        {
+          fieldA: 123,
+        },
+        'create'
+      )
 
       // THEN
-      await expect(call()).rejects.toThrowError('field "fieldA" must be a string')
+      expect(record.getFieldValue('fieldA')).toBe('123')
     })
 
     test('should throw an error if a field is not an datetime and should be', async () => {

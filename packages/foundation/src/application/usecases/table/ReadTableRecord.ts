@@ -44,14 +44,14 @@ export class ReadTableRecord {
       values: linkedRecords.map((record) => String(record.getFieldValue(fieldRollup.linkedField))),
     }
     const result = await runFormula(formula, context, this.getFunctions())
-    record.setFieldValue(fieldRollup.name, result)
+    record.setCalculatedFieldValue(fieldRollup.name, result)
   }
 
   async runFieldFormula(record: Record, fieldFormula: Formula) {
     const { formula } = fieldFormula
     const context = record.fields
     const result = await runFormula(formula, context, this.getFunctions())
-    record.setFieldValue(fieldFormula.name, result)
+    record.setCalculatedFieldValue(fieldFormula.name, result)
   }
 
   getFunctions(): { [key: string]: string } {

@@ -61,10 +61,11 @@ export function generateRecords(
   for (let i = 0; i < length; i++) {
     const defaultValues: ExtendRecordDto =
       typeof countOrRecordsDto !== 'number' ? countOrRecordsDto[i] : {}
-    const record = new Record({}, table, 'create')
+    const record = new Record({}, table, 'create', false)
     for (const field of table.fields) {
       const defaultValue = defaultValues[field.name]
       if (defaultValue || !field.optional || (field.optional && Math.random() > 0.5)) {
+        if (field instanceof Formula || field instanceof Rollup) continue
         record.setFieldValue(
           field.name,
           generateRandomValueByField(field, records, record, defaultValue)
@@ -178,9 +179,6 @@ export function generateRandomValueByField(
     ])
     records.push(record)
     return record.id
-  }
-  if (field instanceof Formula || field instanceof Rollup) {
-    return undefined
   }
   if (field instanceof Datetime) {
     return faker.date.past().toISOString()

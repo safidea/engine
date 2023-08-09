@@ -479,4 +479,88 @@ describe('RenderPageForm', () => {
     expect(records[1].state).toEqual('delete')
     expect(records[1].id).toEqual('2')
   })
+
+  test('should be able to save a table form if a row has been added then removed', async () => {
+    // GIVEN
+    const user = userEvent.setup()
+    const app = AppMapper.toEntity(
+      {
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              {
+                name: 'items',
+                type: 'multiple_linked_records',
+                table: 'tableB',
+              },
+            ],
+          },
+          {
+            name: 'tableB',
+            fields: [
+              {
+                name: 'fieldA',
+                type: 'single_line_text',
+              },
+              {
+                name: 'tableA',
+                type: 'single_linked_record',
+                table: 'tableA',
+              },
+            ],
+          },
+        ],
+      },
+      UnstyledUI
+    )
+    const form = FormMapper.toEntity(
+      {
+        type: 'form',
+        table: 'tableA',
+        inputs: [
+          {
+            field: 'items',
+            label: 'Items',
+            columns: [
+              {
+                field: 'fieldA',
+                label: 'Field A',
+                placeholder: 'Field A',
+              },
+            ],
+            addLabel: 'Add item',
+          },
+        ],
+        submit: { label: 'Save', loadingLabel: 'Saving...' },
+      },
+      UnstyledUI,
+      app.tables
+    )
+    const fetcher = new NativeFetcher('http://localhost')
+    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const syncRecords = jest.fn(async () => ({
+      error: undefined,
+      tables: {},
+    }))
+    fetcherGateway.getSyncRecordsFunction = () => syncRecords
+    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, {} as any)
+    render(<FormComponent />)
+
+    // WHEN
+    await user.click(screen.getByText(/Add item/i))
+    await user.type(screen.getAllByPlaceholderText('Field A')[0], 'Text A')
+    await user.click(screen.getByText(/Add item/i))
+    await user.type(screen.getAllByPlaceholderText('Field A')[1], 'Text B')
+    await user.click(screen.getAllByText(/Remove/i)[0])
+    await user.click(screen.getByText(/Save/i))
+    await screen.findByText('Save')
+
+    // THEN
+    const [{ records }] = syncRecords.mock.calls[0] as any
+    expect(records.length).toBe(2)
+    expect(records[0].state).toBe('create')
+    expect(records[1].state).toBe('create')
+    expect(records[1].getFieldValue('fieldA')).toBe('Text B')
+  })
 })

@@ -1,5 +1,15 @@
+import { Field } from '../table/Field'
 import { Table } from '../table/Table'
 import { v4 as uuidv4 } from 'uuid'
+import { NumberField } from '../table/fields/NumberField'
+import { Currency } from '../table/fields/Currency'
+import { SingleLineText } from '../table/fields/SingleLineText'
+import { LongText } from '../table/fields/LongText'
+import { SingleSelect } from '../table/fields/SingleSelect'
+import { Datetime } from '../table/fields/Datetime'
+import { MultipleLinkedRecords } from '../table/fields/MultipleLinkedRecords'
+import { Formula } from '../table/fields/Formula'
+import { Rollup } from '../table/fields/Rollup'
 
 export type RecordFieldValue = string | number | boolean | undefined | string[]
 
@@ -25,13 +35,14 @@ export class Record {
   constructor(
     recordData: RecordData,
     private _table: Table,
-    private _state: RecordState = 'read'
+    private _state: RecordState = 'read',
+    private _validation: boolean = true
   ) {
     const { id, created_time, deleted_time, last_modified_time, ...fieldsValues } = recordData
     switch (_state) {
       case 'read':
         if (!id) {
-          throw new Error('Read record must have an id')
+          throw new Error('read record must have an id')
         }
         this._id = id
         this._created_time = created_time
@@ -41,12 +52,12 @@ export class Record {
         break
       case 'create':
         this._id = id ?? uuidv4()
-        this._created_time = id ? new Date().toISOString() : undefined
-        this._fieldsValues = id ? this.validateFieldsValues(fieldsValues) : fieldsValues
+        this._created_time = created_time ?? new Date().toISOString()
+        this._fieldsValues = this.validateFieldsValues(fieldsValues)
         break
       case 'update':
         if (!id) {
-          throw new Error('Updated record must have an id')
+          throw new Error('updated record must have an id')
         }
         this._id = id
         this._created_time = created_time
@@ -56,7 +67,7 @@ export class Record {
         break
       case 'delete':
         if (!id) {
-          throw new Error('Deleted record must have an id')
+          throw new Error('deleted record must have an id')
         }
         this._id = id
         this._created_time = created_time
@@ -65,7 +76,7 @@ export class Record {
         this._fieldsValues = {}
         break
       default:
-        throw new Error('Invalid record state')
+        throw new Error(`record state ${this._state} is not supported`)
     }
   }
 
@@ -97,6 +108,14 @@ export class Record {
     return this._table.name
   }
 
+  getFieldFromName(fieldName: string): Field {
+    const field = this._table.fields.find((field) => field.name === fieldName)
+    if (!field) {
+      throw new Error(`field "${fieldName}" does not exist`)
+    }
+    return field
+  }
+
   getFieldValue(fieldName: string): RecordFieldValue {
     return this._fieldsValues[fieldName]
   }
@@ -105,15 +124,27 @@ export class Record {
     const value = this.getFieldValue(fieldName)
     if (value === undefined) return []
     if (!Array.isArray(value)) {
-      throw new Error(`Field "${fieldName}" is not a multiple linked records field`)
+      throw new Error(`field "${fieldName}" is not a multiple linked records field`)
     }
     return value
   }
 
   setFieldValue(fieldName: string, value: RecordFieldValue): void {
-    this._fieldsValues[fieldName] = value
+    const field = this.getFieldFromName(fieldName)
+    if (field instanceof Formula || field instanceof Rollup) {
+      throw new Error(`field "${fieldName}" is a formula or a rollup`)
+    }
+    this._fieldsValues[fieldName] = this.validateFieldValue(field, value)
     this._state = this._state === 'read' ? 'update' : this._state
     this._last_modified_time = new Date().toISOString()
+  }
+
+  setCalculatedFieldValue(fieldName: string, value: RecordFieldValue): void {
+    const field = this.getFieldFromName(fieldName)
+    if (!(field instanceof Formula || field instanceof Rollup)) {
+      throw new Error(`field "${fieldName}" is not a formula or a rollup`)
+    }
+    this._fieldsValues[fieldName] = value
   }
 
   softDelete(): void {
@@ -121,23 +152,76 @@ export class Record {
     this._deleted_time = new Date().toISOString()
   }
 
-  validateFieldsValues(fieldsValues: RecordFieldsValues): RecordFieldsValues {
-    const validatedFieldsValues: RecordFieldsValues = {}
-    return this._table.fields.reduce((values, field) => {
-      if (['formula', 'rollup'].includes(field.type)) return values
-      const value = fieldsValues[field.name]
-      if (value === undefined) {
-        if (this._state === 'create') {
-          if (field.default !== undefined) {
-            values[field.name] = field.default
-          } else if (!field.optional) {
-            throw new Error(`Field "${field.name}" is required`)
+  validateFieldsValues(unknownValues: RecordFieldsValues): RecordFieldsValues {
+    const validatedValues: RecordFieldsValues = {}
+    const fields = this._table.fields.filter(
+      (field) => !['id', 'created_time', 'last_modified_time', 'deleted_time'].includes(field.name)
+    )
+    for (const field of Object.keys(unknownValues)) {
+      this.getFieldFromName(field)
+    }
+    return fields.reduce((values, field) => {
+      const validatedValue = this.validateFieldValue(field, unknownValues[field.name])
+      if (validatedValue !== undefined) {
+        values[field.name] = validatedValue
+      }
+      return values
+    }, validatedValues)
+  }
+
+  validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
+    if (field instanceof Formula || field instanceof Rollup) return undefined
+
+    if (!this._validation) return value
+
+    if (value === undefined) {
+      if (this._state === 'create') {
+        if (field.default !== undefined) {
+          return field.default
+        }
+        if (!field.optional) {
+          throw new Error(`field "${field.name}" is required`)
+        }
+      }
+      return undefined
+    }
+
+    if ((field instanceof NumberField || field instanceof Currency) && typeof value !== 'number') {
+      value = Number(value)
+      if (isNaN(value)) {
+        throw new Error(`field "${field.name}" must be a number`)
+      }
+    }
+
+    if (
+      (field instanceof SingleLineText ||
+        field instanceof LongText ||
+        field instanceof SingleSelect) &&
+      typeof value !== 'string'
+    ) {
+      value = String(value)
+    }
+
+    if (field instanceof Datetime) {
+      const date = new Date(String(value))
+      if (isNaN(date.getTime())) {
+        throw new Error(`field "${field.name}" must be a valid date`)
+      }
+      value = date.toISOString()
+    }
+
+    if (field instanceof MultipleLinkedRecords) {
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          if (typeof v !== 'string') {
+            throw new Error(`field "${field.name}" must be an array of string`)
           }
         }
       } else {
-        values[field.name] = value
+        throw new Error(`field "${field.name}" must be an array`)
       }
-      return values
-    }, validatedFieldsValues)
+    }
+
+    return value
   }
 }

@@ -54,7 +54,7 @@ export class RenderPageForm {
       if (error) throw new Error('Sync records error: ' + error)
       defaultRecords = getRecordsFromTables(tables)
     } else {
-      const record = new Record({}, table, 'create')
+      const record = new Record({}, table, 'create', false)
       defaultRecords = [record]
       defaultRecordId = record.id
     }
@@ -68,7 +68,7 @@ export class RenderPageForm {
 
       const getRecordFromId = (id: string) => {
         const record = records.find((record) => record.id === id)
-        if (!record) throw new Error(`Record with id ${id} not found`)
+        if (!record) throw new Error(`record with id ${id} not found`)
         return { record, index: records.indexOf(record) }
       }
 
@@ -80,7 +80,7 @@ export class RenderPageForm {
           setErrorMessage(error)
         } else {
           if (!form.submit.autosave) {
-            const newRecord = new Record({}, table, 'create')
+            const newRecord = new Record({}, table, 'create', false)
             setRecordId(newRecord.id)
             setRecords([newRecord])
           } else {
@@ -117,7 +117,8 @@ export class RenderPageForm {
             [linkedField.name]: recordId,
           },
           linkedTable,
-          'create'
+          'create',
+          false
         )
         const { record, index } = getRecordFromId(recordId)
         const field = table.getLinkedFieldByLinkedTableName(linkedTableName)
@@ -130,7 +131,11 @@ export class RenderPageForm {
 
       const removeRecord = (field: string, id: string) => {
         const { index } = getRecordFromId(id)
-        records[index].softDelete()
+        if (form.submit.autosave === true) {
+          records[index].softDelete()
+        } else {
+          records.splice(index, 1)
+        }
         const { record: currentRecord, index: currentIndex } = getRecordFromId(recordId)
         const recordsIds = currentRecord.getMultipleLinkedRecordsValue(field)
         records[currentIndex].setFieldValue(

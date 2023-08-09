@@ -180,7 +180,7 @@ test.describe('An api that render error messages', () => {
     // THEN
     // I should have a 404 error
     expect(res.status()).toEqual(404)
-    expect((await res.json()).error).toEqual('Table unknown does not exist')
+    expect((await res.json()).error).toEqual('table "unknown" does not exist')
   })
 
   test('should return a 404 error when the row does not exist', async ({ request, foundation }) => {
@@ -197,7 +197,7 @@ test.describe('An api that render error messages', () => {
     // THEN
     // I should have a 404 error
     expect(res.status()).toEqual(404)
-    expect((await res.json()).error).toEqual('Record unknown does not exist in table invoices')
+    expect((await res.json()).error).toEqual('record "unknown" does not exist in table "invoices"')
   })
 
   test('should return a 400 error when fields are required', async ({ request, foundation }) => {
@@ -216,12 +216,12 @@ test.describe('An api that render error messages', () => {
     expect(res.status()).toEqual(400)
     const { error } = await res.json()
     expect(error).toContain('field "address" is required')
-    expect(error).toContain('field "zip_code" is required')
-    expect(error).toContain('field "country" is required')
-    expect(error).toContain('field "items" is required')
   })
 
-  test('should return a 400 error when a field is not valid', async ({ request, foundation }) => {
+  test('should return a 400 error when a field is not valid', async ({
+    request,
+    foundation,
+  }) => {
     // GIVEN
     // We provide an app with tables
     await foundation.config({
@@ -240,7 +240,7 @@ test.describe('An api that render error messages', () => {
     // I should have a 400 error
     expect(res.status()).toEqual(400)
     const { error } = await res.json()
-    expect(error).toContain('Invalid fields: invalid')
+    expect(error).toContain('field "invalid" does not exist')
   })
 
   test('should return a 400 error when a record of a multiple linked field is not valid', async ({

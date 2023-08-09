@@ -22,7 +22,7 @@ describe('Record', () => {
     const call = () => new Record(values, table)
 
     // THEN
-    expect(call).toThrowError('Read record must have an id')
+    expect(call).toThrowError('read record must have an id')
   })
 
   test('should create a record with default values', async () => {
@@ -98,7 +98,7 @@ describe('Record', () => {
     const call = () => new Record(values, table, 'create')
 
     // THEN
-    expect(call).toThrowError('Field "name" is required')
+    expect(call).toThrowError('field "name" is required')
   })
 
   test('should create a record with "updated" status', async () => {
@@ -129,7 +129,5 @@ describe('Record', () => {
     expect(record.fields).not.toHaveProperty('age')
   })
 
-  test.skip('should throw an error if update permission is not respected', async () => {
-
-  })
+  test.skip('should throw an error if update permission is not respected', async () => {})
 })
