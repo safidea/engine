@@ -26,6 +26,7 @@ export interface RecordData extends RecordFieldsValues {
 
 export type RecordState = 'read' | 'create' | 'update' | 'delete'
 
+// TODO: transformer cette classe en structure abstraite et découper les états en classes de usecases (ReadRecord, CreateRecord, UpdateRecord, DeleteRecord)
 export class Record {
   private readonly _id: string
   private readonly _created_time?: string

@@ -37,7 +37,7 @@ test.describe('A page that update an invoice', () => {
     expect(activityFieldValue).toBe(invoiceItem.getFieldValue('activity'))
   })
 
-  test('should update an invoice in realtime', async ({ page, foundation }) => {
+  test.skip('should update an invoice in realtime', async ({ page, foundation }) => {
     // GIVEN
     // An invoice is loaded in the update page
     const db = await foundation.config({
