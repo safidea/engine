@@ -13,12 +13,21 @@ export interface ActionLogDto {
 
 export type ActionDto = ActionUpdateTableDto | ActionLogDto
 
+// TODO: use snake case on all event names
+export interface TriggerRecordCreatedDto {
+  event: 'recordCreated'
+  table: string
+}
+
+export interface TriggerOnStartupDto {
+  event: 'on_startup'
+}
+
+export type TriggerDto = TriggerRecordCreatedDto | TriggerOnStartupDto
+
 export type AutomationDto = {
   name: string
-  trigger: {
-    event: 'recordCreated'
-    table: string
-  }
+  trigger: TriggerDto
   actions: ActionDto[]
 }
 
@@ -28,12 +37,25 @@ export const AutomationDtoSchema: JSONSchemaType<AutomationDto> = {
     name: { type: 'string' },
     trigger: {
       type: 'object',
-      properties: {
-        event: { type: 'string', enum: ['recordCreated'] },
-        table: { type: 'string' },
-      },
-      required: ['event', 'table'],
-      additionalProperties: false,
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            event: { type: 'string', enum: ['on_startup'] },
+          },
+          required: ['event'],
+          additionalProperties: false,
+        },
+        {
+          type: 'object',
+          properties: {
+            event: { type: 'string', enum: ['recordCreated'] },
+            table: { type: 'string' },
+          },
+          required: ['event', 'table'],
+          additionalProperties: false,
+        },
+      ],
     },
     actions: {
       type: 'array',
@@ -63,7 +85,6 @@ export const AutomationDtoSchema: JSONSchemaType<AutomationDto> = {
           },
         ],
       },
-      additionalProperties: false,
     },
   },
   required: ['name', 'actions'],

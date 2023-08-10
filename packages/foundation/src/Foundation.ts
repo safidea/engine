@@ -41,6 +41,7 @@ export default class Foundation {
   private ui: UI
   private fetcher: Fetcher
   private log?: (message: string) => void
+  private app?: App
 
   constructor(options?: FoundationOptions) {
     const {
@@ -62,17 +63,27 @@ export default class Foundation {
   }
 
   async config(config: unknown): Promise<App> {
-    const app = new AppMiddleware(config, this.ui, this.log).validateConfig()
-    const { pages, tables } = app
+    this.app = new AppMiddleware(config, this.ui, this.log).validateConfig()
+    const { pages, tables } = this.app
     if (tables.length > 0) {
-      const tableRoutes = new TableRoutes(app, this.orm)
+      const tableRoutes = new TableRoutes(this.app, this.orm, this.event)
       this.server.configureTables(tableRoutes.routes)
     }
     if (pages.length > 0) {
-      const pageRoutes = new PageRoutes(app, this.fetcher)
-      this.server.configurePages(pageRoutes.routes, app)
+      const pageRoutes = new PageRoutes(this.app, this.fetcher)
+      this.server.configurePages(pageRoutes.routes, this.app)
     }
-    return app
+    // TODO : ajouter un listener qui permet d'écouter les événements qui est en charge de déclencher les automations'
+    this.event('on_startup')
+    return this.app
+  }
+
+  async event(event: string) {
+    this.app?.automations.forEach((automation) => {
+      if (automation.shouldTrigger(event)) {
+        automation.executeActions()
+      }
+    })
   }
 
   async start() {

@@ -13,7 +13,8 @@ export class OrmGateway implements OrmGatewayAbstract {
 
   constructor(
     orm: Orm,
-    private app: App
+    private app: App,
+    private emit: any
   ) {
     const tablesDto = TableMapper.toDtos(app.tables)
     this.ormConnection = new OrmConnection(orm, tablesDto)
@@ -25,7 +26,9 @@ export class OrmGateway implements OrmGatewayAbstract {
 
   async create(table: string, record: Record) {
     const recordDto = RecordMapper.toDto(record)
-    return this.ormConnection.create(table, recordDto)
+    const id = await this.ormConnection.create(table, recordDto)
+    this.emit('recordCreated', { table, id, record })
+    return id
   }
 
   async createMany(table: string, records: Record[]) {

@@ -14,8 +14,8 @@ export class TableRoutes {
   private readonly tableController: TableController
   private readonly tableMiddleware: TableMiddleware
 
-  constructor(app: App, orm: Orm) {
-    const ormGateway = new OrmGateway(orm, app)
+  constructor(app: App, orm: Orm, emit: any) {
+    const ormGateway = new OrmGateway(orm, app, emit)
     this.tableMiddleware = new TableMiddleware(app, ormGateway)
     this.tableController = new TableController(app, ormGateway)
   }
