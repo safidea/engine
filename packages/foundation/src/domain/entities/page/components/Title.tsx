@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseComponent } from './BaseComponent'
-import { TitleUI } from '../ui/TitleUI'
+import { TitleUI } from '../../../spi/ui/TitleUI'
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseComponent } from './BaseComponent'
-import { ParagraphUI } from '../ui/ParagraphUI'
+import { ParagraphUI } from '../../../spi/ui/ParagraphUI'
 
 export class Paragraph extends BaseComponent {
   constructor(

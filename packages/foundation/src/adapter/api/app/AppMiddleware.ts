@@ -2,12 +2,13 @@ import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 import { validateAppDto } from '@adapter/api/utils/AjvUtils'
 import { UI } from '@adapter/spi/ui/UI'
 import { App } from '@domain/entities/app/App'
+import { Log } from '@domain/spi/log/LogSpi'
 
 export class AppMiddleware {
   constructor(
     private config: unknown,
     private ui: UI,
-    private log: any
+    private log?: Log
   ) {}
 
   validateConfig(): App {

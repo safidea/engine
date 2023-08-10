@@ -3,7 +3,7 @@ import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
 import { Record, RecordFieldValue } from '@domain/entities/app/Record'
 import { TableInput } from './inputs/TableInput'
-import { FormUI } from '../ui/FormUI'
+import { FormUI } from '../../../spi/ui/FormUI'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void

@@ -3,7 +3,7 @@ import { BaseComponent } from './BaseComponent'
 import { Link } from './Link'
 import { Title } from './Title'
 import { Component } from '../Component'
-import { NavigationUI } from '../ui/NavigationUI'
+import { NavigationUI } from '../../../spi/ui/NavigationUI'
 
 export interface NavigationProps {
   TitleComponent: React.FC

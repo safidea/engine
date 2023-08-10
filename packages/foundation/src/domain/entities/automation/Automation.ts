@@ -1,3 +1,4 @@
+import { Log } from '@domain/spi/log/LogSpi'
 import { Table } from '../table/Table'
 
 export interface ActionTable {
@@ -22,7 +23,7 @@ export class Automation {
     },
     private readonly _actions: Action[],
     tables: Table[],
-    log?: any
+    log?: Log
   ) {
     for (const action of _actions) {
       const { type } = action
@@ -45,7 +46,7 @@ export class Automation {
         if (!action.message) {
           throw new Error(`message is required for log action in automation "${_name}"`)
         }
-        log(action.message)
+        if (log) log(action.message)
       } else {
         throw new Error(`unsupported action type: ${type}`)
       }

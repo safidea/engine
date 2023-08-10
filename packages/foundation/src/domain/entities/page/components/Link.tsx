@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseComponent } from './BaseComponent'
-import { LinkUI } from '../ui/LinkUI'
+import { LinkUI } from '../../../spi/ui/LinkUI'
 
 export class Link extends BaseComponent {
   constructor(

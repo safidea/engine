@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseInput, BaseInputProps } from './BaseInput'
 import { Table } from '@domain/entities/table/Table'
-import { TableInputUI } from '../../ui/inputs/TableInputUI'
+import { TableInputUI } from '../../../../spi/ui/inputs/TableInputUI'
 
 export type Column = {
   label: string

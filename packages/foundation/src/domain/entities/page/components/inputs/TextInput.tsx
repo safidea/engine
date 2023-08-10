@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseInput, BaseInputProps } from './BaseInput'
-import { TextInputUI } from '../../ui/inputs/TextInputUI'
+import { TextInputUI } from '../../../../spi/ui/inputs/TextInputUI'
 
 export class TextInput extends BaseInput {
   constructor(

@@ -3,7 +3,7 @@ import { BaseComponent } from './BaseComponent'
 import { Record } from '@domain/entities/app/Record'
 import { Field } from '@domain/entities/table/Field'
 import { Table } from '@domain/entities/table/Table'
-import { ListUI } from '../ui/ListUI'
+import { ListUI } from '../../../spi/ui/ListUI'
 
 export interface GroupBy {
   field: string

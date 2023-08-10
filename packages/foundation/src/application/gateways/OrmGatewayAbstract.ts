@@ -1,6 +1,8 @@
 import { Filter } from '@domain/entities/app/Filter'
 import { Record } from '@domain/entities/app/Record'
 
+
+// TODO: renommme to OrmSpi and put spi 
 export interface OrmGatewayAbstract {
   tableExists(table: string): Promise<boolean>
   create(table: string, record: Record): Promise<string>
