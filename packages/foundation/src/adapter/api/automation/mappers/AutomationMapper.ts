@@ -3,8 +3,8 @@ import { Automation } from '@domain/entities/automation/Automation'
 import { Table } from '@domain/entities/table/Table'
 
 export class AutomationMapper {
-  static toEntity(automationDto: AutomationDto, tables: Table[]): Automation {
-    return new Automation(automationDto.name, automationDto.actions, tables)
+  static toEntity(automationDto: AutomationDto, tables: Table[], log: any): Automation {
+    return new Automation(automationDto.name, automationDto.actions, tables, log)
   }
 
   static toDto(automation: Automation): AutomationDto {
@@ -14,8 +14,8 @@ export class AutomationMapper {
     }
   }
 
-  static toEntities(automationsDto: AutomationDto[], tables: Table[]): Automation[] {
-    return automationsDto.map((automationDto) => this.toEntity(automationDto, tables))
+  static toEntities(automationsDto: AutomationDto[], tables: Table[], log: any): Automation[] {
+    return automationsDto.map((automationDto) => this.toEntity(automationDto, tables, log))
   }
 
   static toDtos(automations: Automation[]): AutomationDto[] {

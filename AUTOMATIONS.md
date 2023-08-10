@@ -17,9 +17,9 @@ User stories for "automations":
 - As a <persona>, I want to <action>, in order to <goal>
 - As app developer, I want to define a template, in order to personalize the documents to be generated
 - As app developer, I want to include record fields in templates, in order to populate the documents to be generated
-- As app developer, I want to write an automation in order to generate a document whenever a record is created
+[] As app developer, I want to write an automation in order to generate a document whenever a record is created
 - As app developer, I want to write an automation in order to generate a document whenever a record is updated
-- As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
+[x] As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
 
 Examples:
 

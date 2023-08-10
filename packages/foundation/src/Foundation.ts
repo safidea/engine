@@ -21,6 +21,7 @@ interface FoundationOptions {
   folder?: string
   port?: number
   url?: string
+  log: (message: string) => void
 }
 
 interface FoundationParams {
@@ -39,6 +40,7 @@ export default class Foundation {
   private orm: Orm
   private ui: UI
   private fetcher: Fetcher
+  private log?: (message: string) => void
 
   constructor(options?: FoundationOptions) {
     const {
@@ -49,16 +51,18 @@ export default class Foundation {
       folder = join(process.cwd(), 'app'),
       port,
       url,
+      log,
     } = options || {}
     this.params = { folder, server, orm, ui, fetcher, port, url }
     this.orm = this.getOrm()
     this.ui = this.getUI()
     this.fetcher = this.getFetcher()
     this.server = this.getServer()
+    this.log = log
   }
 
   async config(config: unknown): Promise<App> {
-    const app = new AppMiddleware(config, this.ui).validateConfig()
+    const app = new AppMiddleware(config, this.ui, this.log).validateConfig()
     const { pages, tables } = app
     if (tables.length > 0) {
       const tableRoutes = new TableRoutes(app, this.orm)
