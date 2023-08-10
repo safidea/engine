@@ -21,7 +21,7 @@ interface FoundationOptions {
   folder?: string
   port?: number
   url?: string
-  log: (message: string) => void
+  log?: (message: string) => void
 }
 
 interface FoundationParams {

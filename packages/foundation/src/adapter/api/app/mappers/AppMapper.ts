@@ -6,7 +6,7 @@ import { TableMapper } from '../../table/mappers/TableMapper'
 import { PageMapper } from '../../page/mappers/PageMapper'
 
 export class AppMapper {
-  static toEntity(appDto: AppDto, ui: UI, log: any): App {
+  static toEntity(appDto: AppDto, ui: UI, log?: any): App {
     const tables = TableMapper.toEntities(appDto.tables ?? [])
     const pages = PageMapper.toEntities(appDto.pages ?? [], ui, tables ?? [])
     const automations = AutomationMapper.toEntities(appDto.automations ?? [], tables ?? [], log)

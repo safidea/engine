@@ -1,17 +1,25 @@
 import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
 
+export interface ActionUpdateTableDto {
+  type: 'updateTable'
+  table: string
+  fields: Record<string, string>
+}
+
+export interface ActionLogDto {
+  type: 'log'
+  message: string
+}
+
+export type ActionDto = ActionUpdateTableDto | ActionLogDto
+
 export type AutomationDto = {
   name: string
   trigger: {
     event: 'recordCreated'
     table: string
   }
-  actions: {
-    type: 'updateTable' | 'log'
-    message?: string
-    table?: string
-    fields?: Record<string, string>
-  }[]
+  actions: ActionDto[]
 }
 
 export const AutomationDtoSchema: JSONSchemaType<AutomationDto> = {
@@ -31,20 +39,31 @@ export const AutomationDtoSchema: JSONSchemaType<AutomationDto> = {
       type: 'array',
       items: {
         type: 'object',
-        properties: {
-          type: { type: 'string', enum: ['updateTable', 'log'] },
-          table: { type: 'string', nullable: true },
-          fields: {
+        oneOf: [
+          {
             type: 'object',
-            additionalProperties: { type: 'string' },
-            required: [],
-            nullable: true,
+            properties: {
+              type: { type: 'string', enum: ['updateTable'] },
+              table: { type: 'string' },
+              fields: {
+                type: 'object',
+                additionalProperties: { type: 'string' },
+                required: [],
+              },
+            },
+            required: ['type', 'table', 'fields'],
           },
-          message: { type: 'string', nullable: true },
-        },
-        required: ['type'],
-        additionalProperties: false,
+          {
+            type: 'object',
+            properties: {
+              type: { type: 'string', enum: ['log'] },
+              message: { type: 'string' },
+            },
+            required: ['type', 'message'],
+          },
+        ],
       },
+      additionalProperties: false,
     },
   },
   required: ['name', 'actions'],

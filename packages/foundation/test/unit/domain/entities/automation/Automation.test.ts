@@ -21,7 +21,7 @@ describe('Automation', () => {
     ])
 
     // WHEN
-    const call = () => new Automation(name, actions, tables)
+    const call = () => new Automation(name, {} as any, actions, tables)
 
     // THEN
     expect(call).toThrow('field "fieldX" in automation "A" is not defined in table "tableA"')
@@ -44,7 +44,7 @@ describe('Automation', () => {
     ])
 
     // WHEN
-    const call = () => new Automation(name, actions, tables)
+    const call = () => new Automation(name,  {} as any, actions, tables)
 
     // THEN
     expect(call).toThrow('table "tableX" in automation "A" is not defined in tables')
@@ -69,7 +69,7 @@ describe('Automation', () => {
     ])
 
     // WHEN
-    const call = () => new Automation(name, actions, tables)
+    const call = () => new Automation(name,  {} as any, actions, tables)
 
     // THEN
     expect(call).toThrow('field "fieldY" in automation "A" is not defined in table "tableA"')

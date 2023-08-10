@@ -1,4 +1,3 @@
-import { App } from '../app/App'
 import { Table } from '../table/Table'
 
 export interface ActionTable {
@@ -17,9 +16,13 @@ export type Action = ActionTable | ActionLog
 export class Automation {
   constructor(
     private readonly _name: string,
+    private readonly _trigger: {
+      event: 'recordCreated'
+      table: string
+    },
     private readonly _actions: Action[],
     tables: Table[],
-    log: any
+    log?: any
   ) {
     for (const action of _actions) {
       const { type } = action
@@ -55,5 +58,9 @@ export class Automation {
 
   get actions(): Action[] {
     return this._actions
+  }
+
+  get trigger(): { event: 'recordCreated'; table: string } {
+    return this._trigger
   }
 }
