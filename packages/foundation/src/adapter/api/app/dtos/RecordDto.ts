@@ -1,4 +1,4 @@
-import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
+import { JSONSchemaType } from 'ajv'
 
 export type RecordFieldValue = string | number | boolean | undefined | string[]
 

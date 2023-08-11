@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import { join } from 'path'
 import lockfile from 'proper-lockfile'
-import { Orm } from '@adapter/spi/orm/Orm'
+import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { RecordDto, RecordFieldValue } from '@adapter/api/app/dtos/RecordDto'
 import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
@@ -13,10 +13,9 @@ interface Database {
   [key: string]: TableRecord[]
 }
 
-export class InMemoryOrm implements Orm {
+export class InMemoryOrm implements IOrmAdapter {
   private url: string
   private tables: TableDto[] = []
-  private fileExists = false
 
   constructor(folder: string) {
     this.url = join(folder, 'db.json')

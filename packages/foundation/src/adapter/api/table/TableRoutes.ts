@@ -1,23 +1,21 @@
 import { RequestDto } from '@adapter/spi/server/dtos/RequestDto'
 import { TableController } from './TableController'
 import { TableMiddleware } from './TableMiddleware'
-import { Orm } from '@adapter/spi/orm/Orm'
 import { App } from '@domain/entities/app/App'
-import { ApiRoute } from '@adapter/spi/server/Server'
+import { ApiRoute } from '@adapter/spi/server/IServerAdapter'
 import { ApiError } from '@domain/entities/app/errors/ApiError'
 import { ResponseDto } from '@adapter/spi/server/dtos/ResponseDto'
 import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
-import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
-import { SyncTablesMapper } from '../app/mappers/sync/SyncTablesMapper'
+import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
+import { TablesSyncMapper } from '../app/mappers/sync/TablesSyncMapper'
 
 export class TableRoutes {
   private readonly tableController: TableController
   private readonly tableMiddleware: TableMiddleware
 
-  constructor(app: App, orm: Orm, emit: any) {
-    const ormGateway = new OrmGateway(orm, app, emit)
-    this.tableMiddleware = new TableMiddleware(app, ormGateway)
-    this.tableController = new TableController(app, ormGateway)
+  constructor(app: App, ormSpi: OrmSpi) {
+    this.tableMiddleware = new TableMiddleware(app, ormSpi)
+    this.tableController = new TableController(app, ormSpi)
   }
 
   get routes(): ApiRoute[] {
@@ -59,7 +57,7 @@ export class TableRoutes {
     try {
       const { records, resources } = await this.tableMiddleware.validateSyncBody(request.body)
       const tablesDto = await this.tableController.sync(records, resources)
-      const tables = SyncTablesMapper.toDtos(tablesDto)
+      const tables = TablesSyncMapper.toDtos(tablesDto)
       return { json: { tables } }
     } catch (error) {
       return this.catchError(error)

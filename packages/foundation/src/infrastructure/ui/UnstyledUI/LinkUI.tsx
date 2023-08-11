@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const LinkUI: UI['LinkUI'] = {
+const LinkUI: IUISpi['LinkUI'] = {
   link: ({ children, href }) => {
     return <a href={href}>{children}</a>
   },

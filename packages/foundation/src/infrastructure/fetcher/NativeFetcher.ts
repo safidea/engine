@@ -1,7 +1,7 @@
-import { Fetcher, FetchState } from '@adapter/spi/fetcher/Fetcher'
+import { IFetcherAdapter, FetchState } from '@adapter/spi/fetcher/IFetcherAdapter'
 import { useState, useEffect } from 'react'
 
-export class NativeFetcher implements Fetcher {
+export class NativeFetcher implements IFetcherAdapter {
   private readonly _name = 'native'
 
   constructor(private _url?: string) {}

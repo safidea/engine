@@ -1,5 +1,5 @@
 import { Format } from '@domain/entities/table/fields/BaseField'
-import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
+import { JSONSchemaType } from 'ajv'
 
 export interface BaseFieldDto {
   name: string

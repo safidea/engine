@@ -1,9 +1,9 @@
 import { LinkDto } from '@adapter/api/page/dtos/components/LinkDto'
 import { Link } from '@domain/entities/page/components/Link'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
 export class LinkMapper {
-  static toEntity(linkDto: LinkDto, ui: UI): Link {
+  static toEntity(linkDto: LinkDto, ui: IUISpi): Link {
     return new Link(linkDto.path, linkDto.label, ui.LinkUI)
   }
 
@@ -15,7 +15,7 @@ export class LinkMapper {
     }
   }
 
-  static toEntities(linkDtos: LinkDto[], ui: UI): Link[] {
+  static toEntities(linkDtos: LinkDto[], ui: IUISpi): Link[] {
     return linkDtos.map((linkDto) => this.toEntity(linkDto, ui))
   }
 

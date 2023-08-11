@@ -1,28 +1,30 @@
 import { Page } from '@domain/entities/page/Page'
 import { ComponentMapper } from './ComponentMapper'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 import { Table } from '@domain/entities/table/Table'
 import { PageDto } from '../dtos/PageDto'
 
+export interface PageMapperSpis {
+  ui: IUISpi
+}
+
 export class PageMapper {
-  static toEntity(pageDto: PageDto, ui: UI, tables: Table[]): Page {
-    return new Page(
-      pageDto.path,
-      ComponentMapper.toEntities(pageDto.components, ui, tables),
-      pageDto.title
-    )
+  static toEntity(pageDto: PageDto, tables: Table[], spis: PageMapperSpis): Page {
+    const components = ComponentMapper.toEntities(pageDto.components, tables, spis)
+    return new Page(pageDto.path, components, pageDto.title)
   }
 
   static toDto(page: Page): PageDto {
+    const components = ComponentMapper.toDtos(page.components)
     return {
       path: page.path,
       title: page.title,
-      components: ComponentMapper.toDtos(page.components),
+      components,
     }
   }
 
-  static toEntities(pageDtos: PageDto[], ui: UI, tables: Table[]): Page[] {
-    return pageDtos.map((pageDto) => this.toEntity(pageDto, ui, tables))
+  static toEntities(pageDtos: PageDto[], tables: Table[], spis: PageMapperSpis): Page[] {
+    return pageDtos.map((pageDto) => this.toEntity(pageDto, tables, spis))
   }
 
   static toDtos(pages: Page[]): PageDto[] {

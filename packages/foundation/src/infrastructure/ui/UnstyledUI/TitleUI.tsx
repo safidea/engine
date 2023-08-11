@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const TitleUI: UI['TitleUI'] = {
+const TitleUI: IUISpi['TitleUI'] = {
   xs: ({ children }) => <h5>{children}</h5>,
   sm: ({ children }) => <h4>{children}</h4>,
   md: ({ children }) => <h3>{children}</h3>,

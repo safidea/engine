@@ -1,11 +1,11 @@
 import { FormDto } from '@adapter/api/page/dtos/components/FormDto'
 import { Form } from '@domain/entities/page/components/Form'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 import { InputMapper } from './InputMapper'
 import { Table } from '@domain/entities/table/Table'
 
 export class FormMapper {
-  static toEntity(formDto: FormDto, ui: UI, tables: Table[]): Form {
+  static toEntity(formDto: FormDto, ui: IUISpi, tables: Table[]): Form {
     const { table, inputs, submit, recordIdToUpdate } = formDto
     return new Form(
       table,
@@ -27,7 +27,7 @@ export class FormMapper {
     }
   }
 
-  static toEntities(formDtos: FormDto[], ui: UI, tables: Table[]): Form[] {
+  static toEntities(formDtos: FormDto[], ui: IUISpi, tables: Table[]): Form[] {
     return formDtos.map((formDto) => this.toEntity(formDto, ui, tables))
   }
 

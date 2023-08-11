@@ -1,5 +1,5 @@
 import { Component } from '@domain/entities/page/Component'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 import { ListMapper } from './components/ListMapper'
 import { NavigationMapper } from './components/NavigationMapper'
 import { ParagraphMapper } from './components/ParagraphMapper'
@@ -15,8 +15,17 @@ import { FormMapper } from './components/FormMapper'
 import { LinkMapper } from './components/LinkMapper'
 import { ComponentDto } from '../dtos/ComponentDto'
 
+export interface ComponentMapperSpis {
+  ui: IUISpi
+}
+
 export class ComponentMapper {
-  static toEntity(componentDto: ComponentDto, ui: UI, tables: Table[]): Component {
+  static toEntity(
+    componentDto: ComponentDto,
+    tables: Table[],
+    spis: ComponentMapperSpis
+  ): Component {
+    const { ui } = spis
     const { type } = componentDto
     if (type === 'link') {
       return LinkMapper.toEntity(componentDto, ui)
@@ -61,8 +70,12 @@ export class ComponentMapper {
     throw new Error(`Invalid component instance ${component}`)
   }
 
-  static toEntities(componentDtos: ComponentDto[], ui: UI, tables: Table[]): Component[] {
-    return componentDtos.map((componentDto) => this.toEntity(componentDto, ui, tables))
+  static toEntities(
+    componentDtos: ComponentDto[],
+    tables: Table[],
+    spis: ComponentMapperSpis
+  ): Component[] {
+    return componentDtos.map((componentDto) => this.toEntity(componentDto, tables, spis))
   }
 
   static toDtos(components: Component[]): ComponentDto[] {

@@ -1,9 +1,9 @@
 import { TitleDto } from '@adapter/api/page/dtos/components/TitleDto'
 import { Title } from '@domain/entities/page/components/Title'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
 export class TitleMapper {
-  static toEntity(titleDto: TitleDto, ui: UI): Title {
+  static toEntity(titleDto: TitleDto, ui: IUISpi): Title {
     return new Title(titleDto.text, ui.TitleUI, titleDto.size)
   }
 
@@ -15,7 +15,7 @@ export class TitleMapper {
     }
   }
 
-  static toEntities(titleDtos: TitleDto[], ui: UI): Title[] {
+  static toEntities(titleDtos: TitleDto[], ui: IUISpi): Title[] {
     return titleDtos.map((titleDto) => this.toEntity(titleDto, ui))
   }
 

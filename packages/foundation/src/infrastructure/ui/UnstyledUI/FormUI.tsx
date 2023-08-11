@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const FormUI: UI['FormUI'] = {
+const FormUI: IUISpi['FormUI'] = {
   form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,
   inputs: ({ children }) => <>{children}</>,
   input: ({ children }) => <>{children}</>,

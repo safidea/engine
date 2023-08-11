@@ -129,7 +129,7 @@ describe('TableMiddleware', () => {
       )
 
       // THEN
-      expect(record.getFieldValue('fieldA')).toBe('123')
+      expect(record.fieldA')).toBe('123')
     })
 
     test('should throw an error if a field is not an datetime and should be', async () => {

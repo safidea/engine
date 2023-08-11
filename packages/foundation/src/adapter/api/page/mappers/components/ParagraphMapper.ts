@@ -1,9 +1,9 @@
 import { ParagraphDto } from '@adapter/api/page/dtos/components/ParagraphDto'
 import { Paragraph } from '@domain/entities/page/components/Paragraph'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
 export class ParagraphMapper {
-  static toEntity(paragraphDto: ParagraphDto, ui: UI): Paragraph {
+  static toEntity(paragraphDto: ParagraphDto, ui: IUISpi): Paragraph {
     return new Paragraph(paragraphDto.text, ui.ParagraphUI)
   }
 
@@ -14,7 +14,7 @@ export class ParagraphMapper {
     }
   }
 
-  static toEntities(paragraphDtos: ParagraphDto[], ui: UI): Paragraph[] {
+  static toEntities(paragraphDtos: ParagraphDto[], ui: IUISpi): Paragraph[] {
     return paragraphDtos.map((paragraphDto) => this.toEntity(paragraphDto, ui))
   }
 

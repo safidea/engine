@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const ParagraphUI: UI['ParagraphUI'] = {
+const ParagraphUI: IUISpi['ParagraphUI'] = {
   paragraph: ({ children }) => {
     return <p>{children}</p>
   },

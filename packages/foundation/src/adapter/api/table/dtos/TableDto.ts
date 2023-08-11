@@ -1,4 +1,4 @@
-import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
+import { JSONSchemaType } from 'ajv'
 import { FieldDto, FieldDtoSchema } from './FieldDto'
 
 export interface TableDto {

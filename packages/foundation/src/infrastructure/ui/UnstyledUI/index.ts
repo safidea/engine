@@ -1,4 +1,4 @@
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 import LinkUI from './LinkUI'
 import ParagraphUI from './ParagraphUI'
 import TitleUI from './TitleUI'
@@ -8,7 +8,8 @@ import FormUI from './FormUI'
 import TableInputUI from './TableInputUI'
 import TextInputUI from './TextInputUI'
 
-export const UnstyledUI: UI = {
+export const UnstyledUI: IUISpi = {
+  name: 'UnstyledUI',
   LinkUI,
   ParagraphUI,
   TitleUI,

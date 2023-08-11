@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const TextInputUI: UI['TextInputUI'] = {
+const TextInputUI: IUISpi['TextInputUI'] = {
   label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,
   input: ({ name, onChange, id, value }) => (
     <input type="text" name={name} onChange={onChange} id={id} value={value} />

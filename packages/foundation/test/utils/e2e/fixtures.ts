@@ -1,29 +1,35 @@
 import debug from 'debug'
 import { test as base, expect } from '@playwright/test'
-import { FoundationHelper } from './FoundationHelper'
 import * as recordHelpers from '../helpers/record'
 import * as schemaHelpers from '../helpers/schema'
+import { getDedicatedTmpFolder } from '../helpers/tmp'
+import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import Foundation from '../../../src/Foundation'
 
 const log = debug('foundation:specs')
-
-interface Fixtures {
-  port: number
-  foundation: FoundationHelper
-}
 
 const helpers = {
   ...recordHelpers,
   ...schemaHelpers,
 }
 
+interface Fixtures {
+  folder: string
+  orm: InMemoryOrm
+  url: (port: number, path: string) => string
+}
+
 const test = base.extend<Fixtures>({
-  foundation: async ({}, use) => {
-    const foundation = new FoundationHelper()
-    await use(foundation)
+  folder: async ({}, use) => {
+    const folder = getDedicatedTmpFolder()
+    await use(folder)
   },
-  baseURL: async ({ foundation }, use) => {
-    const { url, port } = await foundation.start()
-    log(`Starting foundation app on port ${port}`)
+  orm: async ({ folder }, use) => {
+    const orm = new InMemoryOrm(folder)
+    await use(orm)
+  },
+  url: async ({}, use) => {
+    const url = (port: number, path: string) => `http://localhost:${port}${path}`
     await use(url)
   },
 })
@@ -40,4 +46,4 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-export { test, expect, helpers }
+export { test, expect, helpers, Foundation }

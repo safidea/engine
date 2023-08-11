@@ -1,4 +1,4 @@
-import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
+import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
 export interface SingleSelectDto extends BaseFieldDto {

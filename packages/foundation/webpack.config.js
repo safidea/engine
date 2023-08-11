@@ -1,4 +1,4 @@
-const path = require('path')
+const {resolve} = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -7,10 +7,13 @@ module.exports = {
   optimization: {
     minimizer: [new TerserPlugin({})],
   },
-  entry: './src/infrastructure/client/ExpressClient.tsx',
+  entry: {
+    express: './src/infrastructure/server/ExpressServer/client.tsx',
+    unstyledUI: './src/infrastructure/UI/UnstyledUI/index.ts',
+    nativeFetcher: './src/infrastructure/fetcher/NativeFetcher.ts',
   output: {
-    path: path.resolve(process.cwd(), 'dist'),
-    filename: 'bundle.js',
+    path: resolve(process.cwd(), 'dist'),
+    filename: '[name].bundle.js',
   },
   module: {
     rules: [

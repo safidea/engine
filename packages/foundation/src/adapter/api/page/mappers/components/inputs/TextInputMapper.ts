@@ -1,9 +1,9 @@
 import { TextInputDto } from '@adapter/api/page/dtos/components/inputs/TextInputDto'
 import { TextInput } from '@domain/entities/page/components/inputs/TextInput'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
 export class TextInputMapper {
-  static toEntity(textInputDto: TextInputDto, ui: UI): TextInput {
+  static toEntity(textInputDto: TextInputDto, ui: IUISpi): TextInput {
     const { label, field, placeholder } = textInputDto
     return new TextInput(field, ui.TextInputUI, label, placeholder)
   }
@@ -17,7 +17,7 @@ export class TextInputMapper {
     }
   }
 
-  static toEntities(textInputDtos: TextInputDto[], ui: UI): TextInput[] {
+  static toEntities(textInputDtos: TextInputDto[], ui: IUISpi): TextInput[] {
     return textInputDtos.map((textInputDto) => this.toEntity(textInputDto, ui))
   }
 

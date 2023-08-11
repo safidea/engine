@@ -3,19 +3,19 @@ import { Rollup } from '@domain/entities/table/fields/Rollup'
 import { Formula } from '@domain/entities/table/fields/Formula'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
 import { App } from '@domain/entities/app/App'
-import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
+import { IOrmSpi } from '@domain/spi/IOrmSpi'
 import { Record } from '@domain/entities/app/Record'
 import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
 import { Script } from '@domain/entities/app/Script'
 
 export class ReadTableRecord {
   constructor(
-    private ormGateway: OrmGatewayAbstract,
+    private ormSpi: IOrmSpi,
     private app: App
   ) {}
 
   async execute(table: string, id: string): Promise<Record> {
-    const record = await this.ormGateway.read(table, id)
+    const record = await this.ormSpi.read(table, id)
     if (!record) throw new Error(`Record ${id} not found`)
     return this.runRecordFormulas(record, table)
   }
@@ -36,7 +36,7 @@ export class ReadTableRecord {
     const fields = this.app.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
     if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
-    const listTableGateway = new ListTableRecords(this.ormGateway, this.app)
+    const listTableGateway = new ListTableRecords(this.ormSpi, this.app)
     const values = record.getFieldValue(field.name)
     if (!Array.isArray(values)) throw new Error('Values are not an array')
     const linkedRecords = await listTableGateway.execute(field.table, [new IsAnyOf('id', values)])

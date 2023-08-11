@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const NavigationUI: UI['NavigationUI'] = {
+const NavigationUI: IUISpi['NavigationUI'] = {
   container: ({ children }) => {
     return <div>{children}</div>
   },

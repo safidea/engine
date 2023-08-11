@@ -1,7 +1,7 @@
 import React from 'react'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
-const TableInputUI: UI['TableInputUI'] = {
+const TableInputUI: IUISpi['TableInputUI'] = {
   container: ({ children }) => {
     return <>{children}</>
   },

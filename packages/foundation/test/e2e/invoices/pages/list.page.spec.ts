@@ -1,32 +1,43 @@
-import { test, expect, helpers } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('A page that list invoices', () => {
-  test('should display a title', async ({ page, foundation }) => {
+  test('should display a title', async ({ page, url, folder }) => {
     // GIVEN
-    await foundation.config({
-      tables: helpers.getTablesDto('invoices'),
-      pages: helpers.getPagesDto('invoices_list'),
-    })
+    const port = 50301
+    await new Foundation({ folder, port })
+      .config({
+        tables: helpers.getTablesDto('invoices'),
+        pages: helpers.getPagesDto('invoices_list'),
+      })
+      .start()
 
     // WHEN
     // I go to the home page "/"
-    await page.goto('/list')
+    await page.goto(url(port, '/list'))
 
     // THEN
     // Check that I'm on the / page
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({ page, foundation }) => {
+  test('should display a list of invoices grouped by status', async ({
+    page,
+    url,
+    orm,
+    folder,
+  }) => {
     // GIVEN
     // We provide 8 example invoices
-    const db = await foundation.config({
-      tables: helpers.getTablesDto('invoices'),
-      pages: helpers.getPagesDto('invoices_list'),
-    })
+    const port = 50302
+    await new Foundation({ folder, port, adapters: { orm } })
+      .config({
+        tables: helpers.getTablesDto('invoices'),
+        pages: helpers.getPagesDto('invoices_list'),
+      })
+      .start()
     const {
       invoices: [firstInvoice],
-    } = await db.createRecords('invoices', [
+    } = await helpers.generateRecords(orm, 'invoices', [
       {
         status: 'draft',
       },
@@ -55,51 +66,48 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
-    await page.goto('/list')
-    await page.getByRole('cell', { name: String(firstInvoice.getFieldValue('customer')) }).waitFor()
+    await page.goto(url(port, '/list'))
+    await page.getByRole('cell', { name: String(firstInvoice.customer) }).waitFor()
 
     // THEN
     // Check that invoices are displayed in a group by status
-    const invoices = await db.list('invoices')
+    const invoices = await orm.list('invoices')
 
     // Check the number of draft rows
     const draftRows = await page.getByRole('cell', { name: /^Brouillon$/ }).all()
-    expect(draftRows.length).toBe(
-      invoices.filter((i) => i.getFieldValue('status') === 'draft').length + 1
-    )
+    expect(draftRows.length).toBe(invoices.filter((i) => i.status === 'draft').length + 1)
 
     // Check the number of finalised rows
     const finalisedRows = await page.getByRole('cell', { name: /^Finalisée$/ }).all()
-    expect(finalisedRows.length).toBe(
-      invoices.filter((i) => i.getFieldValue('status') === 'finalised').length + 1
-    )
+    expect(finalisedRows.length).toBe(invoices.filter((i) => i.status === 'finalised').length + 1)
 
     // Check the number of sent rows
     const sentRows = await page.getByRole('cell', { name: /^Envoyée$/ }).all()
-    expect(sentRows.length).toBe(
-      invoices.filter((i) => i.getFieldValue('status') === 'sent').length + 1
-    )
+    expect(sentRows.length).toBe(invoices.filter((i) => i.status === 'sent').length + 1)
 
     // Check the number of paid rows
     const paidRows = await page.getByRole('cell', { name: /^Payée$/ }).all()
-    expect(paidRows.length).toBe(
-      invoices.filter((i) => i.getFieldValue('status') === 'paid').length + 1
-    )
+    expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
   })
 
   test('should display a list of invoices sorted by dates in status groups', async ({
     page,
-    foundation,
+    url,
+    folder,
+    orm,
   }) => {
     // GIVEN
     // We provide 5 example invoices with finalised dates and status
-    const db = await foundation.config({
-      tables: helpers.getTablesDto('invoices'),
-      pages: helpers.getPagesDto('invoices_list'),
-    })
+    const port = 50303
+    await new Foundation({ port, folder, adapters: { orm } })
+      .config({
+        tables: helpers.getTablesDto('invoices'),
+        pages: helpers.getPagesDto('invoices_list'),
+      })
+      .start()
     const {
       invoices: [firstInvoice],
-    } = await db.createRecords('invoices', [
+    } = await helpers.generateRecords(orm, 'invoices', [
       {
         finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
@@ -124,12 +132,12 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
-    await page.goto('/list')
-    await page.getByRole('cell', { name: String(firstInvoice.getFieldValue('customer')) }).waitFor()
+    await page.goto(url(port, '/list'))
+    await page.getByRole('cell', { name: String(firstInvoice.customer) }).waitFor()
 
     // THEN
     // Check that factures are sorted by finalised_date
-    const invoices = await db.list('invoices')
+    const invoices = await orm.list('invoices')
     const rows = await page.getByRole('row').all()
     const ids = await Promise.all(rows.map((row) => row.getAttribute('id')))
     expect(ids.filter((i) => !!i)).toEqual([
@@ -143,17 +151,21 @@ test.describe('A page that list invoices', () => {
 
   test('should go to the /create page when clicking on the "Créer une facture" button', async ({
     page,
-    foundation,
+    folder,
+    url,
   }) => {
     // GIVEN
-    await foundation.config({
-      tables: helpers.getTablesDto('invoices'),
-      pages: helpers.getPagesDto('invoices_list', 'invoices_create'),
-    })
+    const port = 50304
+    await new Foundation({ port, folder })
+      .config({
+        tables: helpers.getTablesDto('invoices'),
+        pages: helpers.getPagesDto('invoices_list', 'invoices_create'),
+      })
+      .start()
 
     // WHEN
     // I go to the home page "/"
-    await page.goto('/list')
+    await page.goto(url(port, '/list'))
 
     // AND
     // I click on the "Créer une facture" button
@@ -165,15 +177,23 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should display an invoice with calculated vat and total', async ({ page, foundation }) => {
+  test('should display an invoice with calculated vat and total', async ({
+    page,
+    url,
+    orm,
+    folder,
+  }) => {
     // GIVEN
-    const db = await foundation.config({
-      tables: helpers.getTablesDto('invoices'),
-      pages: helpers.getPagesDto('invoices_list'),
-    })
+    const port = 50305
+    await new Foundation({ port, folder, adapters: { orm } })
+      .config({
+        tables: helpers.getTablesDto('invoices'),
+        pages: helpers.getPagesDto('invoices_list'),
+      })
+      .start()
     const {
       invoices: [invoice],
-    } = await db.createRecords('invoices', [
+    } = await helpers.generateRecords(orm, 'invoices', [
       {
         status: 'draft',
         items: [
@@ -192,10 +212,8 @@ test.describe('A page that list invoices', () => {
     ])
 
     // WHEN
-    await page.goto('/list')
-    await expect(
-      page.getByRole('cell', { name: String(invoice.getFieldValue('customer')) })
-    ).toBeVisible()
+    await page.goto(url(port, '/list'))
+    await expect(page.getByRole('cell', { name: String(invoice.customer) })).toBeVisible()
 
     // THEN
     await expect(page.getByRole('cell', { name: /^65€$/i })).toBeVisible()

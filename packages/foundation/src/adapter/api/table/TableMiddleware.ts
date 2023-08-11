@@ -1,26 +1,31 @@
+import Ajv from 'ajv'
 import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
 import { App } from '@domain/entities/app/App'
 import { ApiError } from '@domain/entities/app/errors/ApiError'
 import { RequestDto } from '@adapter/spi/server/dtos/RequestDto'
-import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
+import { RecordDto, RecordDtoSchema } from '@adapter/api/app/dtos/RecordDto'
 import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
 import { Filter } from '@domain/entities/app/Filter'
 import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { Record, RecordState } from '@domain/entities/app/Record'
-import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
-import { validateRecordDto, validateSyncDto } from '../utils/AjvUtils'
+import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { SyncResource } from '@domain/entities/app/Sync'
-import { SyncResourceMapper } from '../app/mappers/sync/SyncResourceMapper'
+import { ResourceSyncMapper } from '../app/mappers/sync/ResourceSyncMapper'
+import { SyncDtoSchema } from '../app/dtos/SyncDto'
+
+const ajv = new Ajv({ allowUnionTypes: true })
+const validateRecordDto = ajv.compile(RecordDtoSchema)
+const validateSyncDto = ajv.compile(SyncDtoSchema)
 
 export class TableMiddleware {
   constructor(
     private app: App,
-    private ormGateway: OrmGateway
+    private ormSpi: OrmSpi
   ) {}
 
   public async validateTableExist(request: RequestDto): Promise<string> {
     const { table } = request.params ?? {}
-    const exist = await this.ormGateway.tableExists(table)
+    const exist = await this.ormSpi.tableExists(table)
     if (!exist) throw new ApiError(`table "${table}" does not exist`, 404)
     return table
   }
@@ -65,7 +70,7 @@ export class TableMiddleware {
           return this.validateRecordValues(table, recordDto, type)
         })
       )
-      const resources = SyncResourceMapper.toEntities(resourcesDto)
+      const resources = ResourceSyncMapper.toEntities(resourcesDto)
       return { records, resources }
     }
     throw new ApiError(`sync body is not valid`, 400)
@@ -73,7 +78,7 @@ export class TableMiddleware {
 
   public async validateRecordExist(request: RequestDto): Promise<string> {
     const { table, id } = request.params ?? {}
-    const record = await this.ormGateway.read(table, id)
+    const record = await this.ormSpi.read(table, id)
     if (!record) throw new ApiError(`record "${id}" does not exist in table "${table}"`, 404)
     return id
   }

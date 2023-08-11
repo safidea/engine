@@ -1,4 +1,4 @@
-import { JSONSchemaType } from '@adapter/api/utils/AjvUtils'
+import { JSONSchemaType } from 'ajv'
 import { InputDto, InputDtoSchema } from './InputDto'
 
 export interface FormDto {

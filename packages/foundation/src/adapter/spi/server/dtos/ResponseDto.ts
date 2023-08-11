@@ -1,5 +1,5 @@
 import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
-import { SyncTablesDto } from '@adapter/api/app/dtos/sync/SyncTablesDto'
+import { TablesSyncDto } from '@adapter/api/app/dtos/sync/TablesSyncDto'
 
 export interface ResponseDto {
   status?: number
@@ -9,6 +9,6 @@ export interface ResponseDto {
     id?: string
     ids?: string[]
     error?: string
-    tables?: SyncTablesDto
+    tables?: TablesSyncDto
   }
 }

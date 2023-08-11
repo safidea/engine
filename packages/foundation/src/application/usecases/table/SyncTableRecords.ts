@@ -1,4 +1,4 @@
-import { OrmGatewayAbstract } from '@application/gateways/OrmGatewayAbstract'
+import { IOrmSpi } from '@domain/spi/IOrmSpi'
 import { Record } from '@domain/entities/app/Record'
 import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
 import { ListTableRecords } from './ListTableRecords'
@@ -13,10 +13,10 @@ export class SyncTableRecords {
   private listTableRecord: ListTableRecords
 
   constructor(
-    private ormGateway: OrmGatewayAbstract,
+    private ormSpi: IOrmSpi,
     app: App
   ) {
-    this.listTableRecord = new ListTableRecords(ormGateway, app)
+    this.listTableRecord = new ListTableRecords(ormSpi, app)
   }
 
   async execute(records: Record[] = [], resources: SyncResource[] = []): Promise<SyncTables> {
@@ -67,13 +67,13 @@ export class SyncTableRecords {
       }
       const promises = []
       for (const { table, records } of recordsToCreate) {
-        promises.push(this.ormGateway.createMany(table, records))
+        promises.push(this.ormSpi.createMany(table, records))
       }
       for (const { table, records } of recordsToUpdate) {
-        promises.push(this.ormGateway.updateMany(table, records))
+        promises.push(this.ormSpi.updateMany(table, records))
       }
       for (const { table, records } of recordsToSoftDelete) {
-        promises.push(this.ormGateway.updateMany(table, records))
+        promises.push(this.ormSpi.updateMany(table, records))
       }
       await Promise.all(promises)
     }

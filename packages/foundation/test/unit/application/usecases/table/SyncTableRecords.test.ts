@@ -1,5 +1,5 @@
 import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
-import { OrmGateway } from '@adapter/spi/orm/OrmGateway'
+import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
 import { SyncTableRecords } from '@application/usecases/table/SyncTableRecords'
 import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
@@ -29,8 +29,8 @@ describe('SyncTableRecords', () => {
       UnstyledUI
     )
     const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
-    const ormGateway = new OrmGateway(orm, app)
-    ormGateway.createMany = jest.fn()
+    const ormSpi = new OrmSpi(orm, app)
+    ormSpi.createMany = jest.fn()
     const record = RecordMapper.toEntity(
       {
         id: '1',
@@ -41,10 +41,10 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway, app).execute([record])
+    await new SyncTableRecords(ormSpi, app).execute([record])
 
     // THEN
-    expect(ormGateway.createMany).toBeCalledWith('tableA', [record])
+    expect(ormSpi.createMany).toBeCalledWith('tableA', [record])
   })
 
   test('should sync multiple created records', async () => {
@@ -66,8 +66,8 @@ describe('SyncTableRecords', () => {
       UnstyledUI
     )
     const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
-    const ormGateway = new OrmGateway(orm, app)
-    ormGateway.createMany = jest.fn()
+    const ormSpi = new OrmSpi(orm, app)
+    ormSpi.createMany = jest.fn()
     const records = RecordMapper.toEntities(
       [
         {
@@ -88,10 +88,10 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway, app).execute(records)
+    await new SyncTableRecords(ormSpi, app).execute(records)
 
     // THEN
-    expect(ormGateway.createMany).toBeCalledWith('tableA', records)
+    expect(ormSpi.createMany).toBeCalledWith('tableA', records)
   })
 
   test('should sync an updated record', async () => {
@@ -113,8 +113,8 @@ describe('SyncTableRecords', () => {
       UnstyledUI
     )
     const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
-    const ormGateway = new OrmGateway(orm, app)
-    ormGateway.updateMany = jest.fn()
+    const ormSpi = new OrmSpi(orm, app)
+    ormSpi.updateMany = jest.fn()
     const record = RecordMapper.toEntity(
       {
         id: '1',
@@ -125,10 +125,10 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway, app).execute([record])
+    await new SyncTableRecords(ormSpi, app).execute([record])
 
     // THEN
-    expect(ormGateway.updateMany).toBeCalledWith('tableA', [record])
+    expect(ormSpi.updateMany).toBeCalledWith('tableA', [record])
   })
 
   test('should sync multiple updated records', async () => {
@@ -150,8 +150,8 @@ describe('SyncTableRecords', () => {
       UnstyledUI
     )
     const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
-    const ormGateway = new OrmGateway(orm, app)
-    ormGateway.updateMany = jest.fn()
+    const ormSpi = new OrmSpi(orm, app)
+    ormSpi.updateMany = jest.fn()
     const records = RecordMapper.toEntities(
       [
         {
@@ -172,10 +172,10 @@ describe('SyncTableRecords', () => {
     )
 
     // WHEN
-    await new SyncTableRecords(ormGateway, app).execute(records)
+    await new SyncTableRecords(ormSpi, app).execute(records)
 
     // THEN
-    expect(ormGateway.updateMany).toBeCalledWith('tableA', records)
+    expect(ormSpi.updateMany).toBeCalledWith('tableA', records)
   })
 
   test('should sync updated, created and deleted records', async () => {
@@ -197,12 +197,12 @@ describe('SyncTableRecords', () => {
       UnstyledUI
     )
     const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
-    const ormGateway = new OrmGateway(orm, app)
+    const ormSpi = new OrmSpi(orm, app)
     const db: { [key: string]: Record[] } = {}
-    ormGateway.createMany = (table: string, records: Record[]): any => {
+    ormSpi.createMany = (table: string, records: Record[]): any => {
       db[table] = [...(db[table] ?? []), ...records]
     }
-    ormGateway.updateMany = (table: string, records: Record[]): any => {
+    ormSpi.updateMany = (table: string, records: Record[]): any => {
       db[table] = [...(db[table] ?? []), ...records]
     }
     const recordToUpdate = RecordMapper.toEntity(
@@ -248,7 +248,7 @@ describe('SyncTableRecords', () => {
     const records = [recordToUpdate, ...recordsToCreate, ...recordsToDelete]
 
     // WHEN
-    await new SyncTableRecords(ormGateway, app).execute(records)
+    await new SyncTableRecords(ormSpi, app).execute(records)
 
     // THEN
     expect(db.tableA).toHaveLength(6)
@@ -287,7 +287,7 @@ describe('SyncTableRecords', () => {
       },
       UnstyledUI
     )
-    const ormGateway = new OrmGateway(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app)
+    const ormSpi = new OrmSpi(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app)
     const recordsTableA = RecordMapper.toEntities(
       [
         {
@@ -322,7 +322,7 @@ describe('SyncTableRecords', () => {
       ],
       app.getTableByName('tableA')
     )
-    ormGateway.list = jest.fn(async (table: string) => {
+    ormSpi.list = jest.fn(async (table: string) => {
       switch (table) {
         case 'tableA':
           return recordsTableA
@@ -334,7 +334,7 @@ describe('SyncTableRecords', () => {
     })
 
     // WHEN
-    const { tableA, tableB } = await new SyncTableRecords(ormGateway, app).execute(
+    const { tableA, tableB } = await new SyncTableRecords(ormSpi, app).execute(
       [],
       [
         {
@@ -378,7 +378,7 @@ describe('SyncTableRecords', () => {
       },
       UnstyledUI
     )
-    const ormGateway = new OrmGateway(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app)
+    const ormSpi = new OrmSpi(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app)
     const recordsTableA = RecordMapper.toEntities(
       [
         {
@@ -413,7 +413,7 @@ describe('SyncTableRecords', () => {
       ],
       app.getTableByName('tableA')
     )
-    ormGateway.list = jest.fn(async (table: string, filters: Filter[]) => {
+    ormSpi.list = jest.fn(async (table: string, filters: Filter[]) => {
       switch (table) {
         case 'tableA':
           return recordsTableA.filter((record) => filters[0].values.includes(record.id as never))
@@ -425,7 +425,7 @@ describe('SyncTableRecords', () => {
     })
 
     // WHEN
-    const { tableA, tableB } = await new SyncTableRecords(ormGateway, app).execute(
+    const { tableA, tableB } = await new SyncTableRecords(ormSpi, app).execute(
       [],
       [
         {
@@ -485,7 +485,7 @@ describe('SyncTableRecords', () => {
       },
       UnstyledUI
     )
-    const ormGateway = new OrmGateway(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app)
+    const ormSpi = new OrmSpi(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app)
     const record = RecordMapper.toEntity(
       {
         id: '1',
@@ -494,10 +494,10 @@ describe('SyncTableRecords', () => {
       },
       app.getTableByName('tableA')
     )
-    ormGateway.list = jest.fn(async () => [record])
+    ormSpi.list = jest.fn(async () => [record])
 
     // WHEN
-    const { tableA } = await new SyncTableRecords(ormGateway, app).execute(
+    const { tableA } = await new SyncTableRecords(ormSpi, app).execute(
       [],
       [
         {
@@ -508,6 +508,6 @@ describe('SyncTableRecords', () => {
 
     // THEN
     const readRecord = tableA?.[0]
-    expect(readRecord?.getFieldValue('fieldFormula')).toStrictEqual(15)
+    expect(readRecord?.fieldFormula')).toStrictEqual(15)
   })
 })

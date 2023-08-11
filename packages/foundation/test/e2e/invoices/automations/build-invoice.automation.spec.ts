@@ -1,10 +1,9 @@
 import { AppDto } from '@adapter/api/app/dtos/AppDto'
-import { test, expect, helpers } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 import { getDedicatedTmpFolder } from '../../../utils/helpers/tmp'
-import Foundation from '../../../../src/Foundation'
 
 test.describe('An automation that build an invoice document from a template', () => {
-  test('should throw an error if the automation config is invalid', async ({ foundation }) => {
+  test('should throw an error if the automation config is invalid', async () => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -12,12 +11,12 @@ test.describe('An automation that build an invoice document from a template', ()
         {
           name: 'build-invoice',
           trigger: {
-            event: 'recordCreated',
+            event: 'record_created',
             table: 'invoices',
           },
           actions: [
             {
-              type: 'updateTable',
+              type: 'update_record',
               fields: {
                 fieldX: 'test',
               },
@@ -29,12 +28,10 @@ test.describe('An automation that build an invoice document from a template', ()
     }
 
     // WHEN
-    const call = () => foundation.config(config)
+    const call = () => new Foundation().config(config)
 
     // THEN
-    await expect(call()).rejects.toThrow(
-      'table "invalid" in automation "build-invoice" is not defined in tables'
-    )
+    expect(call).toThrow('table "invalid" in action "update_record" is not defined in tables')
   })
 
   test('should run the automation on startup', async () => {
@@ -45,7 +42,7 @@ test.describe('An automation that build an invoice document from a template', ()
         {
           name: 'log-on-startup',
           trigger: {
-            event: 'on_startup',
+            event: 'server_started',
           },
           actions: [
             {
@@ -59,8 +56,9 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
     const folder = getDedicatedTmpFolder()
-    const foundation = new Foundation({ log, folder })
-    await foundation.config(config)
+    const port = 50001
+    const foundation = new Foundation({ adapters: { log }, folder, port })
+    foundation.config(config)
 
     // WHEN
     await foundation.start()
@@ -69,7 +67,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).toContain('App started')
   })
 
-  test('should run the automation when an invoice is created', async ({ request }) => {
+  test('should run the automation when an invoice is created', async ({ request, url }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -77,7 +75,7 @@ test.describe('An automation that build an invoice document from a template', ()
         {
           name: 'build-invoice',
           trigger: {
-            event: 'recordCreated',
+            event: 'record_created',
             table: 'invoices',
           },
           actions: [
@@ -95,12 +93,12 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
     const folder = getDedicatedTmpFolder()
-    const foundation = new Foundation({ log, folder })
-    await foundation.config(config)
-    const { url } = await foundation.start()
+    const port = 50002
+    const foundation = new Foundation({ adapters: { log }, folder, port })
+    await foundation.config(config).start()
 
     // WHEN
-    await request.post(url + '/api/table/invoices', { data: invoice })
+    await request.post(url(port, '/api/table/invoices'), { data: invoice })
 
     // THEN
     expect(logs).toContain('Invoice created')
@@ -114,7 +112,7 @@ test.describe('An automation that build an invoice document from a template', ()
         {
           name: 'build-invoice',
           trigger: {
-            event: 'recordCreated',
+            event: 'record_created',
             table: 'invoices',
           },
           actions: [
@@ -129,9 +127,9 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
     const folder = getDedicatedTmpFolder()
-    const foundation = new Foundation({ log, folder })
-    await foundation.config(config)
-    await foundation.start()
+    const port = 50003
+    const foundation = new Foundation({ adapters: { log }, folder, port })
+    await foundation.config(config).start()
 
     // WHEN
     // We do nothing

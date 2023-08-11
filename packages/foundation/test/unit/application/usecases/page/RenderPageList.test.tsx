@@ -5,7 +5,7 @@ import React from 'react'
 import { describe, test, expect } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
-import { FetcherGateway } from '@adapter/spi/fetcher/FetcherGateway'
+import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { ListMapper } from '@adapter/api/page/mappers/components/ListMapper'
@@ -56,7 +56,7 @@ describe('RenderPageList', () => {
       app.getTableByName('tableA')
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const useSyncRecords = jest.fn(() => ({
       error: undefined,
       tables: {
@@ -64,15 +64,15 @@ describe('RenderPageList', () => {
       },
       isLoading: false,
     }))
-    fetcherGateway.getSyncRecordsHook = () => useSyncRecords
-    const List = await new RenderPageList(fetcherGateway).execute(list)
+    fetcherSpi.getSyncRecordsHook = () => useSyncRecords
+    const List = await new RenderPageList(fetcherSpi).execute(list)
 
     // THEN
     render(<List />)
 
     // WHEN
-    const textField = screen.getByText(String(record.getFieldValue('textField')))
-    const numberField = screen.getByText(String(record.getFieldValue('textField')))
+    const textField = screen.getByText(String(record.textField')))
+    const numberField = screen.getByText(String(record.textField')))
     expect(textField).toBeDefined()
     expect(numberField).toBeDefined()
   })

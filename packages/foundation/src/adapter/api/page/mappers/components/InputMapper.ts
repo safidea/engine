@@ -4,12 +4,12 @@ import { TextInputMapper } from './inputs/TextInputMapper'
 import { TextInput } from '@domain/entities/page/components/inputs/TextInput'
 import { TableInput } from '@domain/entities/page/components/inputs/TableInput'
 import { Input } from '@domain/entities/page/components/Input'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 import { Table } from '@domain/entities/table/Table'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
 
 export class InputMapper {
-  static toEntity(inputDto: InputDto, ui: UI, tableName: string, tables: Table[]): Input {
+  static toEntity(inputDto: InputDto, ui: IUISpi, tableName: string, tables: Table[]): Input {
     const table = tables.find((table) => table.name === tableName)
     if (!table) {
       throw new Error(`table ${tableName} is not defined in tables`)
@@ -39,7 +39,12 @@ export class InputMapper {
     throw new Error(`Invalid input type ${type}`)
   }
 
-  static toEntities(inputDtos: InputDto[], ui: UI, tableName: string, tables: Table[]): Input[] {
+  static toEntities(
+    inputDtos: InputDto[],
+    ui: IUISpi,
+    tableName: string,
+    tables: Table[]
+  ): Input[] {
     return inputDtos.map((inputDto) => this.toEntity(inputDto, ui, tableName, tables))
   }
 

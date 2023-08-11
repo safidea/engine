@@ -8,7 +8,7 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import { RenderPageForm } from '@application/usecases/page/RenderPageForm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { Context } from '@domain/entities/page/Context'
-import { FetcherGateway } from '@adapter/spi/fetcher/FetcherGateway'
+import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { FormMapper } from '@adapter/api/page/mappers/components/FormMapper'
 import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
@@ -43,10 +43,10 @@ describe('RenderPageForm', () => {
       app.tables
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const syncRecords = jest.fn(async () => ({ error: undefined, tables: {} }))
-    fetcherGateway.getSyncRecordsFunction = () => syncRecords
-    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, {} as any)
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, {} as any)
     render(<FormComponent />)
 
     // WHEN
@@ -113,10 +113,10 @@ describe('RenderPageForm', () => {
       app.tables
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const syncRecords = jest.fn(async () => ({ error: undefined, tables: {} }))
-    fetcherGateway.getSyncRecordsFunction = () => syncRecords
-    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, {} as any)
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, {} as any)
     render(<FormComponent />)
 
     // WHEN
@@ -190,7 +190,7 @@ describe('RenderPageForm', () => {
       app.tables
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const syncRecords = jest.fn(async () => ({
       error: undefined,
       tables: {
@@ -219,9 +219,9 @@ describe('RenderPageForm', () => {
         ),
       },
     }))
-    fetcherGateway.getSyncRecordsFunction = () => syncRecords
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
     const context = new Context({ id: '1' })
-    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, context)
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, context)
 
     // WHEN
     render(<FormComponent />)
@@ -304,7 +304,7 @@ describe('RenderPageForm', () => {
       app.tables
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const syncRecords = jest.fn()
     syncRecords.mockImplementationOnce(async () => ({
       error: undefined,
@@ -338,9 +338,9 @@ describe('RenderPageForm', () => {
       error: undefined,
       tables: {},
     }))
-    fetcherGateway.getSyncRecordsFunction = () => syncRecords
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
     const context = new Context({ id: '1' })
-    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, context)
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, context)
     render(<FormComponent />)
 
     // WHEN
@@ -428,7 +428,7 @@ describe('RenderPageForm', () => {
       app.tables
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const syncRecords = jest.fn()
     syncRecords.mockImplementationOnce(async () => ({
       error: undefined,
@@ -459,9 +459,9 @@ describe('RenderPageForm', () => {
         ),
       },
     }))
-    fetcherGateway.getSyncRecordsFunction = () => syncRecords
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
     const context = new Context({ id: '1' })
-    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, context)
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, context)
     render(<FormComponent />)
 
     // WHEN
@@ -475,7 +475,7 @@ describe('RenderPageForm', () => {
     // AND
     const { records } = syncRecords.mock.calls[1][0]
     expect(records[0].state).toEqual('update')
-    expect(records[0].getFieldValue('items')).toEqual(['3'])
+    expect(records[0].items')).toEqual(['3'])
     expect(records[1].state).toEqual('delete')
     expect(records[1].id).toEqual('2')
   })
@@ -538,13 +538,13 @@ describe('RenderPageForm', () => {
       app.tables
     )
     const fetcher = new NativeFetcher('http://localhost')
-    const fetcherGateway = new FetcherGateway(fetcher, app)
+    const fetcherSpi = new FetcherSpi(fetcher, app)
     const syncRecords = jest.fn(async () => ({
       error: undefined,
       tables: {},
     }))
-    fetcherGateway.getSyncRecordsFunction = () => syncRecords
-    const FormComponent = await new RenderPageForm(fetcherGateway, app).execute(form, {} as any)
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, {} as any)
     render(<FormComponent />)
 
     // WHEN
@@ -561,6 +561,6 @@ describe('RenderPageForm', () => {
     expect(records.length).toBe(2)
     expect(records[0].state).toBe('create')
     expect(records[1].state).toBe('create')
-    expect(records[1].getFieldValue('fieldA')).toBe('Text B')
+    expect(records[1].fieldA')).toBe('Text B')
   })
 })

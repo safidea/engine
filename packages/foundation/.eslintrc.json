@@ -1,4 +1,13 @@
 {
   "root": true,
-  "extends": ["foundation"]
+  "extends": ["foundation"],
+  "overrides": [
+    {
+      "files": ["test/**/*.ts"],
+      "rules": {
+        // Allow the usage of `any`
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

@@ -1,10 +1,10 @@
 import { ListDto } from '@adapter/api/page/dtos/components/ListDto'
 import { List } from '@domain/entities/page/components/List'
 import { Table } from '@domain/entities/table/Table'
-import { UI } from '@adapter/spi/ui/UI'
+import { IUISpi } from '@domain/spi/IUISpi'
 
 export class ListMapper {
-  static toEntity(listDto: ListDto, ui: UI, tables: Table[]): List {
+  static toEntity(listDto: ListDto, ui: IUISpi, tables: Table[]): List {
     return new List(
       listDto.table,
       listDto.groupBy,
@@ -25,7 +25,7 @@ export class ListMapper {
     }
   }
 
-  static toEntities(listDtos: ListDto[], ui: UI, tables: Table[]): List[] {
+  static toEntities(listDtos: ListDto[], ui: IUISpi, tables: Table[]): List[] {
     return listDtos.map((listDto) => this.toEntity(listDto, ui, tables))
   }
 

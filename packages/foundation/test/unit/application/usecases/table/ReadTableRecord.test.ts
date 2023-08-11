@@ -48,7 +48,7 @@ describe('ReadTableRecord', () => {
     const record = await new ReadTableRecord(OrmConnection as any, app).execute('tableA', '1')
 
     // THEN
-    expect(record.getFieldValue('fieldFormula')).toBe(10)
+    expect(record.fieldFormula')).toBe(10)
   })
 
   test('should read a record with a formula that multiply with 0', async () => {
@@ -94,7 +94,7 @@ describe('ReadTableRecord', () => {
     const record = await new ReadTableRecord(OrmConnection as any, app).execute('tableA', '1')
 
     // THEN
-    expect(record.getFieldValue('fieldFormula')).toBe(0)
+    expect(record.fieldFormula')).toBe(0)
   })
 
   test('should read a record with a rollup and formula in linked records', async () => {
@@ -170,6 +170,6 @@ describe('ReadTableRecord', () => {
     const record = await new ReadTableRecord(OrmConnection as any, app).execute('tableA', '1')
 
     // THEN
-    expect(record.getFieldValue('fieldFormula')).toBe(7)
+    expect(record.fieldFormula')).toBe(7)
   })
 })

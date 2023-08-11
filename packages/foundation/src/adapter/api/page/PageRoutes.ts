@@ -1,8 +1,8 @@
 import { PageController } from './PageController'
 import { App } from '@domain/entities/app/App'
-import { PageRequest, PageRoute } from '@adapter/spi/server/Server'
+import { PageRequest, PageRoute } from '@adapter/spi/server/IServerAdapter'
 import { PageMiddleware } from './PageMiddleware'
-import { Fetcher } from '@adapter/spi/fetcher/Fetcher'
+import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 
 export class PageRoutes {
   private pageController: PageController
@@ -10,9 +10,9 @@ export class PageRoutes {
 
   constructor(
     private app: App,
-    fetcher: Fetcher
+    fetcherSpi: FetcherSpi
   ) {
-    this.pageController = new PageController(fetcher, app)
+    this.pageController = new PageController(app, fetcherSpi)
     this.pageMiddleware = new PageMiddleware(app)
   }
 
