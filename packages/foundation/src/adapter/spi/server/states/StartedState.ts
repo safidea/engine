@@ -1,5 +1,5 @@
 import { TriggerEvent } from '@domain/entities/automation/triggers/BaseTrigger'
-import { ServerState } from '../ServerState'
+import { ServerState } from './ServerState'
 import { ConfiguredState } from './ConfiguredState'
 
 export class StartedState extends ServerState {

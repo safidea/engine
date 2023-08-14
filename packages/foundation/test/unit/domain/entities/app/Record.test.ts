@@ -22,7 +22,7 @@ describe('Record', () => {
     const call = () => new Record(values, table)
 
     // THEN
-    expect(call).toThrowError('read record must have an id')
+    expect(call).toThrowError('record state read must have an id')
   })
 
   test('should create a record with default values', async () => {
@@ -161,6 +161,7 @@ describe('Record', () => {
     const persistedRecord = new Record(
       {
         id: '1',
+        created_time: new Date().toISOString(),
         name: 'test',
         age: 10,
       },

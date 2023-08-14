@@ -3,7 +3,6 @@ import { v4 as uuidV4 } from 'uuid'
 import { PageDto } from '@adapter/api/page/dtos/PageDto'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
-import { RecordFieldValue } from '@domain/entities/app/Record'
 import { FieldDto } from '@adapter/api/table/dtos/FieldDto'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
 import {
@@ -13,6 +12,7 @@ import {
   PAGE_CREATE_INVOICE,
   PAGE_UPDATE_INVOICE,
 } from '../schemas'
+import { RecordFieldValue } from '@domain/entities/app/Record/IRecord'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`
@@ -103,6 +103,7 @@ export function generateRecordsDto(
       table: tableName,
       fields: {
         id: uuidV4(),
+        created_time: new Date().toISOString(),
       },
     }
     for (const field of tableDto.fields) {

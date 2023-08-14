@@ -25,7 +25,8 @@ export class SyncTableRecords {
       const recordsToUpdate: TableToHandle[] = []
       const recordsToSoftDelete: TableToHandle[] = []
       for (const record of records) {
-        switch (record.state) {
+        const state = record.getCurrentState()
+        switch (state) {
           case 'create':
             const recordsToCreateTable = recordsToCreate.find((r) => r.table === record.tableName)
             if (recordsToCreateTable) {
@@ -62,7 +63,7 @@ export class SyncTableRecords {
             }
             break
           default:
-            throw new Error(`Record state "${record.state}" not supported`)
+            throw new Error(`Record state "${state}" not supported`)
         }
       }
       for (const { table, records } of recordsToCreate) {

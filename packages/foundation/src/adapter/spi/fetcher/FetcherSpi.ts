@@ -31,13 +31,11 @@ export class FetcherSpi implements IFetcherSpi {
           body: JSON.stringify({ resources: resourcesDto }),
         }
       }, [])
-
       const {
         data: { tables } = { tables: {} },
         error,
         isLoading,
       } = useFetch<{ tables: TablesSyncDto }>('/api/sync/table', options)
-
       return {
         tables: TablesSyncMapper.toEntities(tables, app),
         error,
@@ -55,7 +53,6 @@ export class FetcherSpi implements IFetcherSpi {
     return async ({ records = [], resources = [] }) => {
       const commandsDto = CommandSyncMapper.toDtos(records)
       const resourcesDto = ResourceSyncMapper.toDtos(resources)
-
       const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

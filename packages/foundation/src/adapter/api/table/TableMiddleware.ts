@@ -7,11 +7,12 @@ import { RecordDto, RecordDtoSchema } from '@adapter/api/app/dtos/RecordDto'
 import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
 import { Filter } from '@domain/entities/app/Filter'
 import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
-import { Record, RecordState } from '@domain/entities/app/Record'
+import { Record } from '@domain/entities/app/Record'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { SyncResource } from '@domain/entities/app/Sync'
 import { ResourceSyncMapper } from '../app/mappers/sync/ResourceSyncMapper'
 import { SyncDtoSchema } from '../app/dtos/SyncDto'
+import { RecordStateType } from '@domain/entities/app/Record/IRecord'
 
 const ajv = new Ajv({ allowUnionTypes: true })
 const validateRecordDto = ajv.compile(RecordDtoSchema)
@@ -91,7 +92,7 @@ export class TableMiddleware {
   public async validateRecordsBody(
     table: string,
     body: unknown[],
-    state: RecordState
+    state: RecordStateType
   ): Promise<Record[]> {
     const records = []
     for (const record of body) {
@@ -107,7 +108,7 @@ export class TableMiddleware {
   public async validateRecordValues(
     table: string,
     record: RecordDto,
-    state: RecordState
+    state: RecordStateType
   ): Promise<Record> {
     try {
       return RecordMapper.toEntity(record, this.app.getTableByName(table), state)

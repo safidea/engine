@@ -2,11 +2,11 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
-import { RecordDto, RecordFieldValue } from '@adapter/api/app/dtos/RecordDto'
+import { RecordDto, RecordFieldValueDto } from '@adapter/api/app/dtos/RecordDto'
 import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
 
 interface TableRecord {
-  [key: string]: RecordFieldValue
+  [key: string]: RecordFieldValueDto
 }
 interface Database {
   [key: string]: TableRecord[]

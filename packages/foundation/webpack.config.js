@@ -3,7 +3,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   optimization: {
     minimizer: [new TerserPlugin({})],
   },

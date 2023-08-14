@@ -50,6 +50,7 @@ describe('RenderPageList', () => {
     const record = RecordMapper.toEntity(
       {
         id: '1',
+        created_time: new Date().toISOString(),
         textField: 'text',
         numberField: 10,
       },

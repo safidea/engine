@@ -105,14 +105,17 @@ describe('List Component', () => {
       [
         {
           id: '1',
+          created_time: new Date().toISOString(),
           fieldA: 'a',
         },
         {
           id: '2',
+          created_time: new Date().toISOString(),
           fieldA: 'b',
         },
         {
           id: '3',
+          created_time: new Date().toISOString(),
           fieldA: 'c',
         },
       ],
@@ -152,14 +155,17 @@ describe('List Component', () => {
       [
         {
           id: '1',
+          created_time: new Date().toISOString(),
           fieldA: new Date('2020-01-01').toISOString(),
         },
         {
           id: '2',
+          created_time: new Date().toISOString(),
           fieldA: new Date('2021-01-01').toISOString(),
         },
         {
           id: '3',
+          created_time: new Date().toISOString(),
           fieldA: new Date('2022-01-01').toISOString(),
         },
       ],
@@ -204,7 +210,16 @@ describe('List Component', () => {
     ]).renderUI()
 
     // WHEN
-    render(<ListComponent records={[RecordMapper.toEntity({ id: '1', fieldA: 'test' }, table)]} />)
+    render(
+      <ListComponent
+        records={[
+          RecordMapper.toEntity(
+            { id: '1', created_time: new Date().toISOString(), fieldA: 'test' },
+            table
+          ),
+        ]}
+      />
+    )
 
     // THEN
     const button = screen.getByText('Action')
@@ -243,7 +258,16 @@ describe('List Component', () => {
     ]).renderUI()
 
     // WHEN
-    render(<ListComponent records={[RecordMapper.toEntity({ id: '1', fieldA: 'test' }, table)]} />)
+    render(
+      <ListComponent
+        records={[
+          RecordMapper.toEntity(
+            { id: '1', created_time: new Date().toISOString(), fieldA: 'test' },
+            table
+          ),
+        ]}
+      />
+    )
 
     // AND
     await user.click(screen.getByText(/Redirect/i))

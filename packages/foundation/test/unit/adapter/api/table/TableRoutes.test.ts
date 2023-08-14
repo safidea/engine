@@ -28,6 +28,7 @@ describe('TableRoutes', () => {
       const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
       await orm.create('tableA', {
         id: '1',
+        created_time: new Date().toISOString(),
         fieldA: 'valueA',
       })
 

@@ -1,5 +1,5 @@
 import { IServerSpi } from '../../../domain/spi/IServerSpi'
-import { ServerStateAdapters, ServerState } from './ServerState'
+import { ServerStateAdapters, ServerState } from './states/ServerState'
 import { InstancedState } from './states/InstancedState'
 
 export class ServerSpi implements IServerSpi {

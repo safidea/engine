@@ -292,14 +292,17 @@ describe('SyncTableRecords', () => {
       [
         {
           id: '1',
+          created_time: new Date().toISOString(),
           fieldA: 'test A',
         },
         {
           id: '2',
+          created_time: new Date().toISOString(),
           fieldA: 'test B',
         },
         {
           id: '3',
+          created_time: new Date().toISOString(),
           fieldA: 'test C',
         },
       ],
@@ -309,14 +312,17 @@ describe('SyncTableRecords', () => {
       [
         {
           id: '4',
+          created_time: new Date().toISOString(),
           fieldA: 'test D',
         },
         {
           id: '5',
+          created_time: new Date().toISOString(),
           fieldA: 'test E',
         },
         {
           id: '6',
+          created_time: new Date().toISOString(),
           fieldA: 'test F',
         },
       ],
@@ -383,14 +389,17 @@ describe('SyncTableRecords', () => {
       [
         {
           id: '1',
+          created_time: new Date().toISOString(),
           fieldA: 'test A',
         },
         {
           id: '2',
+          created_time: new Date().toISOString(),
           fieldA: 'test B',
         },
         {
           id: '3',
+          created_time: new Date().toISOString(),
           fieldA: 'test C',
         },
       ],
@@ -400,14 +409,17 @@ describe('SyncTableRecords', () => {
       [
         {
           id: '4',
+          created_time: new Date().toISOString(),
           fieldA: 'test D',
         },
         {
           id: '5',
+          created_time: new Date().toISOString(),
           fieldA: 'test E',
         },
         {
           id: '6',
+          created_time: new Date().toISOString(),
           fieldA: 'test F',
         },
       ],
@@ -489,6 +501,7 @@ describe('SyncTableRecords', () => {
     const record = RecordMapper.toEntity(
       {
         id: '1',
+        created_time: new Date().toISOString(),
         fieldA: 5,
         fieldB: 3,
       },

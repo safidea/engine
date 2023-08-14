@@ -1,9 +1,9 @@
 import { IServerSpi } from '@domain/spi/IServerSpi'
-import { IFetcherAdapter } from '../fetcher/IFetcherAdapter'
-import { ILogAdapter } from '../log/ILogAdapter'
-import { IOrmAdapter } from '../orm/IOrmAdapter'
-import { IUIAdapter } from '../ui/IUIAdapter'
-import { IServerAdapter } from './IServerAdapter'
+import { IFetcherAdapter } from '../../fetcher/IFetcherAdapter'
+import { ILogAdapter } from '../../log/ILogAdapter'
+import { IOrmAdapter } from '../../orm/IOrmAdapter'
+import { IUIAdapter } from '../../ui/IUIAdapter'
+import { IServerAdapter } from '../IServerAdapter'
 
 export interface ServerStateAdapters {
   server: IServerAdapter

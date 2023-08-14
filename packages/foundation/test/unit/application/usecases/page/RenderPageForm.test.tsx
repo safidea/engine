@@ -198,6 +198,7 @@ describe('RenderPageForm', () => {
           [
             {
               id: '1',
+              created_time: new Date().toISOString(),
               fieldA: 'test A',
               items: ['2'],
             },
@@ -208,10 +209,12 @@ describe('RenderPageForm', () => {
           [
             {
               id: '2',
+              created_time: new Date().toISOString(),
               fieldB: 'test B',
             },
             {
               id: '3',
+              created_time: new Date().toISOString(),
               fieldB: 'test C',
             },
           ],
@@ -313,6 +316,7 @@ describe('RenderPageForm', () => {
           [
             {
               id: '1',
+              created_time: new Date().toISOString(),
               fieldA: 'test A',
               items: ['2', '3'],
             },
@@ -323,10 +327,12 @@ describe('RenderPageForm', () => {
           [
             {
               id: '2',
+              created_time: new Date().toISOString(),
               fieldB: 'test B',
             },
             {
               id: '3',
+              created_time: new Date().toISOString(),
               fieldB: 'test C',
             },
           ],
@@ -353,10 +359,10 @@ describe('RenderPageForm', () => {
 
     // THEN
     const { records } = syncRecords.mock.calls[1][0]
-    expect(records[0].state).toEqual('update')
-    expect(records[1].state).toEqual('update')
-    expect(records[2].state).toEqual('read')
-    expect(records[3].state).toEqual('create')
+    expect(records[0].getCurrentState()).toEqual('update')
+    expect(records[1].getCurrentState()).toEqual('update')
+    expect(records[2].getCurrentState()).toEqual('read')
+    expect(records[3].getCurrentState()).toEqual('create')
     const recordsDto = RecordMapper.toDtos(records)
     expect(recordsDto[0].id).toEqual('1')
     expect(recordsDto[0].fieldA).toEqual('test A updated')
@@ -434,13 +440,13 @@ describe('RenderPageForm', () => {
       error: undefined,
       tables: {
         tableA: RecordMapper.toEntities(
-          [{ id: '1', items: ['2', '3'] }],
+          [{ id: '1', created_time: new Date().toISOString(), items: ['2', '3'] }],
           app.getTableByName('tableA')
         ),
         tableB: RecordMapper.toEntities(
           [
-            { id: '2', tableA: '1', fieldA: 'textA' },
-            { id: '3', tableA: '1', fieldA: 'textB' },
+            { id: '2', created_time: new Date().toISOString(), tableA: '1', fieldA: 'textA' },
+            { id: '3', created_time: new Date().toISOString(), tableA: '1', fieldA: 'textB' },
           ],
           app.getTableByName('tableB')
         ),
@@ -450,11 +456,11 @@ describe('RenderPageForm', () => {
       error: undefined,
       tables: {
         tableA: RecordMapper.toEntities(
-          [{ id: '1', items: ['2', '3'] }],
+          [{ id: '1', created_time: new Date().toISOString(), items: ['2', '3'] }],
           app.getTableByName('tableA')
         ),
         tableB: RecordMapper.toEntities(
-          [{ id: '3', tableA: '1', fieldA: 'textB' }],
+          [{ id: '3', created_time: new Date().toISOString(), tableA: '1', fieldA: 'textB' }],
           app.getTableByName('tableB')
         ),
       },
@@ -474,9 +480,9 @@ describe('RenderPageForm', () => {
 
     // AND
     const { records } = syncRecords.mock.calls[1][0]
-    expect(records[0].state).toEqual('update')
+    expect(records[0].getCurrentState()).toEqual('update')
     expect(records[0].getFieldValue('items')).toEqual(['3'])
-    expect(records[1].state).toEqual('delete')
+    expect(records[1].getCurrentState()).toEqual('delete')
     expect(records[1].id).toEqual('2')
   })
 
@@ -559,8 +565,8 @@ describe('RenderPageForm', () => {
     // THEN
     const [{ records }] = syncRecords.mock.calls[0] as any
     expect(records.length).toBe(2)
-    expect(records[0].state).toBe('create')
-    expect(records[1].state).toBe('create')
+    expect(records[0].getCurrentState()).toBe('create')
+    expect(records[1].getCurrentState()).toBe('create')
     expect(records[1].getFieldValue('fieldA')).toBe('Text B')
   })
 })

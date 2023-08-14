@@ -1,9 +1,9 @@
 import { JSONSchemaType } from 'ajv'
 
-export type RecordFieldValue = string | number | boolean | undefined | string[]
+export type RecordFieldValueDto = string | number | boolean | undefined | string[]
 
 export interface RecordDto {
-  [key: string]: RecordFieldValue
+  [key: string]: RecordFieldValueDto
 }
 
 export const RecordDtoSchema: JSONSchemaType<RecordDto> = {

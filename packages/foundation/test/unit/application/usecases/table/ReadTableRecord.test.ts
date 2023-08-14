@@ -32,11 +32,12 @@ describe('ReadTableRecord', () => {
       },
       { ui: UnstyledUI, log: console.log }
     )
-    const OrmConnection = {
+    const OrmSpi = {
       read: () =>
         RecordMapper.toEntity(
           {
             id: '1',
+            created_time: new Date().toISOString(),
             fieldA: 5,
             fieldB: 2,
           },
@@ -45,7 +46,7 @@ describe('ReadTableRecord', () => {
     }
 
     // WHEN
-    const record = await new ReadTableRecord(OrmConnection as any, app).execute('tableA', '1')
+    const record = await new ReadTableRecord(OrmSpi as any, app).execute('tableA', '1')
 
     // THEN
     expect(record.getFieldValue('fieldFormula')).toBe(10)
@@ -83,6 +84,7 @@ describe('ReadTableRecord', () => {
         RecordMapper.toEntity(
           {
             id: '1',
+            created_time: new Date().toISOString(),
             fieldA: 5,
             fieldB: 0,
           },
@@ -142,6 +144,7 @@ describe('ReadTableRecord', () => {
         return RecordMapper.toEntity(
           {
             id: '1',
+            created_time: new Date().toISOString(),
             items: ['2', '3'],
           },
           app.getTableByName(table)
@@ -152,11 +155,13 @@ describe('ReadTableRecord', () => {
           [
             {
               id: '2',
+              created_time: new Date().toISOString(),
               fieldA: 5,
               fieldB: '1',
             },
             {
               id: '3',
+              created_time: new Date().toISOString(),
               fieldA: 2,
               fieldB: '1',
             },

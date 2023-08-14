@@ -56,9 +56,9 @@ export class TableRoutes {
   async sync(request: RequestDto): Promise<ResponseDto> {
     try {
       const { records, resources } = await this.tableMiddleware.validateSyncBody(request.body)
-      const tablesDto = await this.tableController.sync(records, resources)
-      const tables = TablesSyncMapper.toDtos(tablesDto)
-      return { json: { tables } }
+      const tables = await this.tableController.sync(records, resources)
+      const tablesDto = TablesSyncMapper.toDtos(tables)
+      return { json: { tables: tablesDto } }
     } catch (error) {
       return this.catchError(error)
     }

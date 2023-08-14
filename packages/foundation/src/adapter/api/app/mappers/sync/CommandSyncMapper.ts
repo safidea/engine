@@ -15,9 +15,10 @@ export class CommandSyncMapper {
   }
 
   static toDto(record: Record): CommandSyncDto | undefined {
-    if (record.state === 'read') return undefined
+    const state = record.getCurrentState()
+    if (state === 'read') return undefined
     return {
-      type: record.state,
+      type: state,
       table: record.tableName,
       record: RecordMapper.toDto(record),
     }

@@ -1,5 +1,5 @@
 import { StartedState } from './StartedState'
-import { ServerStateAdapters, ServerState } from '../ServerState'
+import { ServerStateAdapters, ServerState } from './ServerState'
 import { AppMiddleware } from '@adapter/api/app/AppMiddleware'
 import { TableRoutes } from '@adapter/api/table/TableRoutes'
 import { PageRoutes } from '@adapter/api/page/PageRoutes'

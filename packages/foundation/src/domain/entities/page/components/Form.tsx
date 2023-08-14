@@ -1,9 +1,10 @@
 import React from 'react'
 import { BaseComponent } from './BaseComponent'
 import { Input } from './Input'
-import { Record, RecordFieldValue } from '@domain/entities/app/Record'
+import { Record } from '@domain/entities/app/Record'
 import { TableInput } from './inputs/TableInput'
 import { FormUI } from '../../../spi/ui/FormUI'
+import { RecordFieldValue } from '@domain/entities/app/Record/IRecord'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void

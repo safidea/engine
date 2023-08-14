@@ -2,10 +2,11 @@ import React, { useRef, useState } from 'react'
 import { Form } from '@domain/entities/page/components/Form'
 import { Context } from '@domain/entities/page/Context'
 import { IFetcherSpi } from '@domain/spi/IFetcherSpi'
-import { Record, RecordFieldValue } from '@domain/entities/app/Record'
+import { Record } from '@domain/entities/app/Record'
 import { App } from '@domain/entities/app/App'
 import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
 import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
+import { RecordFieldValue } from '@domain/entities/app/Record/IRecord'
 
 export class RenderPageForm {
   constructor(

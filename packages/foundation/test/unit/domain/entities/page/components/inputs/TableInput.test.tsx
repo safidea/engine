@@ -87,13 +87,13 @@ describe('TableInput Component', () => {
     const addRecord = jest.fn()
     const removeRecord = jest.fn()
     const currentRecord = RecordMapper.toEntity(
-      { id: '1', items: ['2', '3'] },
+      { id: '1', created_time: new Date().toISOString(), items: ['2', '3'] },
       app.getTableByName('tableA')
     )
     const records = RecordMapper.toEntities(
       [
-        { id: '2', tableA: '1', fieldA: 'textA' },
-        { id: '3', tableA: '1', fieldA: 'textB' },
+        { id: '2', created_time: new Date().toISOString(), tableA: '1', fieldA: 'textA' },
+        { id: '3', created_time: new Date().toISOString(), tableA: '1', fieldA: 'textB' },
       ],
       app.getTableByName('tableB')
     )
