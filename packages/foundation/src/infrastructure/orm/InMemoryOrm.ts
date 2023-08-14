@@ -18,6 +18,7 @@ export class InMemoryOrm implements IOrmAdapter {
 
   constructor(folder: string) {
     this.url = join(folder, 'db.json')
+    if (fs.existsSync(this.url)) return
     fs.ensureFileSync(this.url)
     fs.writeJSONSync(this.url, {})
   }
