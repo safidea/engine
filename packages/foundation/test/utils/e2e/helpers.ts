@@ -107,11 +107,7 @@ export function generateRecordsDto(
     }
     for (const field of tableDto.fields) {
       const defaultValue = defaultValues[field.name]
-      if (
-        field.name in defaultValues ||
-        !field.optional ||
-        (field.optional && Math.random() > 0.5)
-      ) {
+      if (field.name in defaultValues || !field.optional) {
         if (
           field.type === 'formula' ||
           field.type === 'rollup' ||

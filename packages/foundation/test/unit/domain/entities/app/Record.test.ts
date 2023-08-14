@@ -131,11 +131,6 @@ describe('Record', () => {
 
   test('should throw an error if update permission is not respected', async () => {
     // GIVEN
-    const values = {
-      id: '1',
-      name: 'test',
-      age: 10,
-    }
     const table = TableMapper.toEntity({
       name: 'tableA',
       fields: [
@@ -155,9 +150,25 @@ describe('Record', () => {
         },
       ],
     })
+    const updatedRecord = new Record(
+      {
+        id: '1',
+        name: 'test updated',
+      },
+      table,
+      'update'
+    )
+    const persistedRecord = new Record(
+      {
+        id: '1',
+        name: 'test',
+        age: 10,
+      },
+      table
+    )
 
     // WHEN
-    const call = () => new Record(values, table, 'update')
+    const call = () => updatedRecord.validateFieldsPermissions(persistedRecord.fields)
 
     // THEN
     expect(call).toThrowError('field "name" cannot be updated')

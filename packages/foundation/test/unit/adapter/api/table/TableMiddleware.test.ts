@@ -26,13 +26,9 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
-          'tableA',
-          {
-            fieldA: 'valueA',
-          },
-          'create'
-        )
+        new TableMiddleware(app, {} as any).validateRecordBody('tableA', {
+          fieldA: 'valueA',
+        })
 
       // THEN
       await expect(call()).resolves.not.toThrow()
@@ -60,8 +56,7 @@ describe('TableMiddleware', () => {
       )
 
       // WHEN
-      const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody('tableA', {}, 'create')
+      const call = () => new TableMiddleware(app, {} as any).validateRecordValues('tableA', {}, 'create')
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" is required')
@@ -88,7 +83,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
+        new TableMiddleware(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: 'test',
@@ -120,7 +115,7 @@ describe('TableMiddleware', () => {
       )
 
       // WHEN
-      const record = await new TableMiddleware(app, {} as any).validateRecordBody(
+      const record = await new TableMiddleware(app, {} as any).validateRecordValues(
         'tableA',
         {
           fieldA: 123,
@@ -153,7 +148,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
+        new TableMiddleware(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: 'text',
@@ -187,7 +182,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
+        new TableMiddleware(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: 'text',
@@ -230,7 +225,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
+        new TableMiddleware(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: ['1'],
@@ -263,7 +258,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody(
+        new TableMiddleware(app, {} as any).validateRecordValues(
           'tableA',
           {
             id: '1',

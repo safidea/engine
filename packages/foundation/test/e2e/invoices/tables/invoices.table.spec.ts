@@ -124,7 +124,13 @@ test.describe('An api that allow CRUD operations on invoices', () => {
       .start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices')
+    } = await helpers.generateRecords(orm, 'invoices', [
+      {
+        finalised_time: undefined,
+        number: undefined,
+        status: 'draft',
+      },
+    ])
 
     // WHEN
     const update = {
@@ -144,11 +150,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(finalisedRecord.status).toEqual(update.status)
   })
 
-  test.skip('should not be able to update a finalised invoice', async ({
-    request,
-    orm,
-    folder,
-  }) => {
+  test('should not be able to update a finalised invoice', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50506
     await new Foundation({ port, folder, adapters: { orm } })
@@ -168,7 +170,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     ])
 
     // WHEN
-    // TODO: implement this validation
     const update = {
       customer: 'Customer B',
     }

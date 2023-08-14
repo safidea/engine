@@ -76,19 +76,15 @@ export class TableMiddleware {
     throw new ApiError(`sync body is not valid`, 400)
   }
 
-  public async validateRecordExist(request: RequestDto): Promise<string> {
+  public async validateRecordExist(request: RequestDto): Promise<Record> {
     const { table, id } = request.params ?? {}
     const record = await this.ormSpi.read(table, id)
     if (!record) throw new ApiError(`record "${id}" does not exist in table "${table}"`, 404)
-    return id
+    return record
   }
 
-  public async validateRecordBody(
-    table: string,
-    body: unknown,
-    state: RecordState
-  ): Promise<Record> {
-    if (validateRecordDto(body)) return this.validateRecordValues(table, body, state)
+  public async validateRecordBody(table: string, body: unknown): Promise<RecordDto> {
+    if (validateRecordDto(body)) return body
     throw new ApiError(`record body is not valid`, 400)
   }
 
@@ -100,7 +96,7 @@ export class TableMiddleware {
     const records = []
     for (const record of body) {
       if (validateRecordDto(record)) {
-        records.push(this.validateRecordBody(table, record, state))
+        records.push(this.validateRecordValues(table, record, state))
       } else {
         throw new ApiError(`record in the body array is not valid`, 400)
       }
@@ -115,6 +111,18 @@ export class TableMiddleware {
   ): Promise<Record> {
     try {
       return RecordMapper.toEntity(record, this.app.getTableByName(table), state)
+    } catch (error) {
+      if (error instanceof Error) throw new ApiError(error.message, 400)
+      throw error
+    }
+  }
+
+  public async validateUpdatePermissions(
+    persistedRecord: Record,
+    updatedRecord: Record
+  ): Promise<void> {
+    try {
+      updatedRecord.validateFieldsPermissions(persistedRecord.fields)
     } catch (error) {
       if (error instanceof Error) throw new ApiError(error.message, 400)
       throw error

@@ -168,7 +168,6 @@ export class Record {
       }
       return values
     }, {})
-    this.validateFieldsPermissions(fields, validatedValues)
     return validatedValues
   }
 
@@ -228,13 +227,14 @@ export class Record {
     return value
   }
 
-  validateFieldsPermissions(fields: Field[], validatedValues: RecordFieldsValues): void {
+  validateFieldsPermissions(persistedValues: RecordFieldsValues): void {
+    const { fields } = this._table
     const context = fields.reduce((acc: RecordFieldsValues, field) => {
-      acc[field.name] = validatedValues[field.name] ?? undefined
+      acc[field.name] = persistedValues[field.name] ?? undefined
       return acc
     }, {})
     for (const field of fields) {
-      const value = context[field.name]
+      const value = this.getFieldValue(field.name)
       if (value && this._state === 'update' && field.permissions.update) {
         if (typeof field.permissions.update === 'object') {
           const { formula } = field.permissions.update

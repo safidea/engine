@@ -68,8 +68,8 @@ export class TableRoutes {
     try {
       const table = await this.tableMiddleware.validateTableExist(request)
       if (request.params?.id) {
-        const id = await this.tableMiddleware.validateRecordExist(request)
-        const record = await this.tableController.read(table, id)
+        const existingRecord = await this.tableMiddleware.validateRecordExist(request)
+        const record = await this.tableController.read(table, existingRecord.id)
         return { json: { record: RecordMapper.toDto(record) } }
       }
       const filters = await this.tableMiddleware.extractAndValidateQuery(request)
@@ -88,7 +88,12 @@ export class TableRoutes {
         const ids = await this.tableController.createMany(table, record)
         return { json: { ids } }
       }
-      const record = await this.tableMiddleware.validateRecordBody(table, request.body, 'create')
+      const createdRecordDto = await this.tableMiddleware.validateRecordBody(table, request.body)
+      const record = await this.tableMiddleware.validateRecordValues(
+        table,
+        createdRecordDto,
+        'create'
+      )
       const id = await this.tableController.create(table, record)
       return { json: { id } }
     } catch (error) {
@@ -102,11 +107,16 @@ export class TableRoutes {
       if (Array.isArray(request.body)) {
         throw new ApiError('Method not implemented', 405)
       }
-      const id = await this.tableMiddleware.validateRecordExist(request)
-      const recordDto = { ...(request.body ?? {}), id }
-      const record = await this.tableMiddleware.validateRecordBody(table, recordDto, 'update')
-      await this.tableController.update(table, id, record)
-      return { json: { id } }
+      const persistedRecord = await this.tableMiddleware.validateRecordExist(request)
+      const updatedRecordDto = await this.tableMiddleware.validateRecordBody(table, request.body)
+      const updatedRecord = await this.tableMiddleware.validateRecordValues(
+        table,
+        { id: persistedRecord.id, ...updatedRecordDto },
+        'update'
+      )
+      await this.tableMiddleware.validateUpdatePermissions(persistedRecord, updatedRecord)
+      await this.tableController.update(table, updatedRecord.id, updatedRecord)
+      return { json: { id: updatedRecord.id } }
     } catch (error) {
       return this.catchError(error)
     }
@@ -115,9 +125,9 @@ export class TableRoutes {
   async delete(request: RequestDto): Promise<ResponseDto> {
     try {
       const table = await this.tableMiddleware.validateTableExist(request)
-      const id = await this.tableMiddleware.validateRecordExist(request)
-      await this.tableController.delete(table, id)
-      return { json: { id } }
+      const record = await this.tableMiddleware.validateRecordExist(request)
+      await this.tableController.delete(table, record.id)
+      return { json: { id: record.id } }
     } catch (error) {
       return this.catchError(error)
     }
