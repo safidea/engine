@@ -26,9 +26,10 @@ test.describe('An automation that build an invoice document from a template', ()
         },
       ],
     }
+    const folder = getDedicatedTmpFolder()
 
     // WHEN
-    const call = () => new Foundation().config(config)
+    const call = () => new Foundation({ folder }).config(config)
 
     // THEN
     expect(call).toThrow('table "invalid" in action "update_record" is not defined in tables')

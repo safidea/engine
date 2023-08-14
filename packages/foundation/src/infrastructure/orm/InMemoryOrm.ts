@@ -18,7 +18,6 @@ export class InMemoryOrm implements IOrmAdapter {
 
   constructor(folder: string) {
     this.url = join(folder, 'db.json')
-    if (fs.existsSync(this.url)) return
     fs.ensureFileSync(this.url)
     fs.writeJSONSync(this.url, {})
   }
@@ -38,11 +37,11 @@ export class InMemoryOrm implements IOrmAdapter {
   }
 
   public async getDB(): Promise<Database> {
-    return fs.readJSON(this.url)
+    return fs.readJSON(this.url, { throws: false }) || {}
   }
 
   public async setDB(db: Database): Promise<void> {
-    await fs.outputJson(this.url, db, { spaces: 2 })
+    await fs.writeJson(this.url, db, { spaces: 2 })
   }
 
   async create(tableName: string, recordDto: RecordDto): Promise<string> {
