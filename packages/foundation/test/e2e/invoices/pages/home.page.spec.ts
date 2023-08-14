@@ -1,10 +1,7 @@
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('A home page of an invoice app', () => {
-  test('should go to the /about page when click on the "about" link', async ({
-    page,
-    folder,
-  }) => {
+  test('should go to the /about page when click on the "about" link', async ({ page, folder }) => {
     // GIVEN
     const port = 50200
     await new Foundation({ port, folder })
