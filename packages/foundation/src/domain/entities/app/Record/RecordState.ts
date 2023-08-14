@@ -101,7 +101,9 @@ export abstract class RecordState implements IRecord {
   }
 
   setCalculatedFieldValue(name: string, value: RecordFieldValue): void {
-    throw new Error('Invalid Operation: Cannot perform task setCalculatedFieldValue in current state')
+    throw new Error(
+      'Invalid Operation: Cannot perform task setCalculatedFieldValue in current state'
+    )
   }
 
   softDelete(): DeleteState {
@@ -164,6 +166,8 @@ export abstract class RecordState implements IRecord {
   }
 
   validateFieldsPermissions(persistedValues: RecordFieldsValues): void {
-    throw new Error('Invalid Operation: Cannot perform task validateFieldsPermissions in current state')
+    throw new Error(
+      'Invalid Operation: Cannot perform task validateFieldsPermissions in current state'
+    )
   }
 }

@@ -1,6 +1,6 @@
-import { IServerSpi } from '../../../domain/spi/IServerSpi'
-import { ServerStateAdapters, ServerState } from './states/ServerState'
-import { InstancedState } from './states/InstancedState'
+import { IServerSpi } from '../../../../domain/spi/IServerSpi'
+import { ServerStateAdapters, ServerState } from './ServerState'
+import { InstancedState } from './InstancedState'
 
 export class ServerSpi implements IServerSpi {
   private state: ServerState

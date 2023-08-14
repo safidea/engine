@@ -6,7 +6,7 @@ import { RecordMapper } from '../../api/app/mappers/RecordMapper'
 import { FilterMapper } from '../../api/app/mappers/FilterMapper'
 import { App } from '@domain/entities/app/App'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
-import { StartedState } from '../server/states/StartedState'
+import { StartedState } from '../server/ServerSpi/StartedState'
 
 export class OrmSpi implements IOrmSpi {
   constructor(
