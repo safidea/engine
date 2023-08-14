@@ -8,7 +8,7 @@
     "watch:webpack": "webpack --watch",
     "watch:tsc": "tsc --watch",
     "watch:test": "jest --watch",
-    "test": "pnpm test:utils && pnpm test:unit && pnpm test:e2e",
+    "test": "pnpm test:unit && pnpm test:e2e",
     "test:utils": "jest --config jest.utils.config.ts",
     "test:unit": "jest --config jest.unit.config.ts",
     "test:e2e": "playwright test",

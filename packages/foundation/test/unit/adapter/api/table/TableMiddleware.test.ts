@@ -56,7 +56,8 @@ describe('TableMiddleware', () => {
       )
 
       // WHEN
-      const call = () => new TableMiddleware(app, {} as any).validateRecordValues('tableA', {}, 'create')
+      const call = () =>
+        new TableMiddleware(app, {} as any).validateRecordValues('tableA', {}, 'create')
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" is required')
