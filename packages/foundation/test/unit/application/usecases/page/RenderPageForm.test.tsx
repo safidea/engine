@@ -30,7 +30,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const form = FormMapper.toEntity(
       {
@@ -87,7 +87,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const form = FormMapper.toEntity(
       {
@@ -160,7 +160,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const form = FormMapper.toEntity(
       {
@@ -273,7 +273,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const form = FormMapper.toEntity(
       {
@@ -401,7 +401,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const form = FormMapper.toEntity(
       {
@@ -475,7 +475,7 @@ describe('RenderPageForm', () => {
     // AND
     const { records } = syncRecords.mock.calls[1][0]
     expect(records[0].state).toEqual('update')
-    expect(records[0].items')).toEqual(['3'])
+    expect(records[0].getFieldValue('items')).toEqual(['3'])
     expect(records[1].state).toEqual('delete')
     expect(records[1].id).toEqual('2')
   })
@@ -512,7 +512,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const form = FormMapper.toEntity(
       {
@@ -561,6 +561,6 @@ describe('RenderPageForm', () => {
     expect(records.length).toBe(2)
     expect(records[0].state).toBe('create')
     expect(records[1].state).toBe('create')
-    expect(records[1].fieldA')).toBe('Text B')
+    expect(records[1].getFieldValue('fieldA')).toBe('Text B')
   })
 })

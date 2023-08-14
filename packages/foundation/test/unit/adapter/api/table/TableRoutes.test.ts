@@ -3,6 +3,7 @@ import { TableRoutes } from '@adapter/api/table/TableRoutes'
 import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect, helpers } from '../../../../utils/unit/fixtures'
+import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 
 describe('TableRoutes', () => {
   describe('patch', () => {
@@ -22,7 +23,7 @@ describe('TableRoutes', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
       const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
       await orm.create('tableA', {
@@ -31,7 +32,8 @@ describe('TableRoutes', () => {
       })
 
       // WHEN
-      const response = await new TableRoutes(app, orm).patch({
+      const ormSpi = new OrmSpi(orm, app, {} as any)
+      const response = await new TableRoutes(app, ormSpi).patch({
         method: 'PATCH',
         path: '/api/table/tableA/1',
         body: {

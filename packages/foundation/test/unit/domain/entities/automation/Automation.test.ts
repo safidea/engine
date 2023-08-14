@@ -1,13 +1,10 @@
 import { describe, test, expect } from '@jest/globals'
-import { Action, Automation } from '@domain/entities/automation/Automation'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
+import { AutomationMapper } from '@adapter/api/automation/mappers/AutomationMapper'
 
 describe('Automation', () => {
-  // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
-  test('config validation fail if automation references an invalid field', async () => {
+  test('should return true if trigger event is called', async () => {
     // GIVEN
-    const name = 'A'
-    const actions: Action[] = [{ type: 'updateTable', fields: { fieldX: 'test' }, table: 'tableA' }]
     const tables = TableMapper.toEntities([
       {
         name: 'tableA',
@@ -19,18 +16,25 @@ describe('Automation', () => {
         ],
       },
     ])
+    const automation = AutomationMapper.toEntity(
+      {
+        name: 'updateRecord',
+        trigger: { event: 'record_created', table: 'tableA' },
+        actions: [{ type: 'update_record', fields: { fieldA: 'test' }, table: 'tableA' }],
+      },
+      tables,
+      {} as any
+    )
 
     // WHEN
-    const call = () => new Automation(name, {} as any, actions, tables)
+    const shouldTrigger = automation.shouldTrigger('record_created')
 
     // THEN
-    expect(call).toThrow('field "fieldX" in automation "A" is not defined in table "tableA"')
+    expect(shouldTrigger).toBe(true)
   })
 
-  test('config validation fail if automation references an invalid table', async () => {
+  test('should return false if trigger event is not called', async () => {
     // GIVEN
-    const name = 'A'
-    const actions: Action[] = [{ type: 'updateTable', fields: {}, table: 'tableX' }]
     const tables = TableMapper.toEntities([
       {
         name: 'tableA',
@@ -42,36 +46,20 @@ describe('Automation', () => {
         ],
       },
     ])
-
-    // WHEN
-    const call = () => new Automation(name, {} as any, actions, tables)
-
-    // THEN
-    expect(call).toThrow('table "tableX" in automation "A" is not defined in tables')
-  })
-
-  test('config validation fail if automation references an invalid field and a valid field', async () => {
-    // GIVEN
-    const name = 'A'
-    const actions: Action[] = [
-      { type: 'updateTable', fields: { fieldA: 'Essentiel', fieldY: 'test' }, table: 'tableA' },
-    ]
-    const tables = TableMapper.toEntities([
+    const automation = AutomationMapper.toEntity(
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
+        name: 'updateRecord',
+        trigger: { event: 'record_created', table: 'tableA' },
+        actions: [{ type: 'update_record', fields: { fieldA: 'test' }, table: 'tableA' }],
       },
-    ])
+      tables,
+      {} as any
+    )
 
     // WHEN
-    const call = () => new Automation(name, {} as any, actions, tables)
+    const shouldTrigger = automation.shouldTrigger('record_updated')
 
     // THEN
-    expect(call).toThrow('field "fieldY" in automation "A" is not defined in table "tableA"')
+    expect(shouldTrigger).toBe(false)
   })
 })

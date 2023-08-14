@@ -1,7 +1,7 @@
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('A page that list invoices', () => {
-  test('should display a title', async ({ page, url, folder }) => {
+  test('should display a title', async ({ page, folder }) => {
     // GIVEN
     const port = 50301
     await new Foundation({ folder, port })
@@ -13,19 +13,14 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/"
-    await page.goto(url(port, '/list'))
+    await page.goto(helpers.getUrl(port, '/list'))
 
     // THEN
     // Check that I'm on the / page
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({
-    page,
-    url,
-    orm,
-    folder,
-  }) => {
+  test('should display a list of invoices grouped by status', async ({ page, orm, folder }) => {
     // GIVEN
     // We provide 8 example invoices
     const port = 50302
@@ -66,7 +61,7 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
-    await page.goto(url(port, '/list'))
+    await page.goto(helpers.getUrl(port, '/list'))
     await page.getByRole('cell', { name: String(firstInvoice.customer) }).waitFor()
 
     // THEN
@@ -92,7 +87,6 @@ test.describe('A page that list invoices', () => {
 
   test('should display a list of invoices sorted by dates in status groups', async ({
     page,
-    url,
     folder,
     orm,
   }) => {
@@ -111,28 +105,33 @@ test.describe('A page that list invoices', () => {
       {
         finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
+        number: 1,
       },
       {
         finalised_time: new Date(2021, 4, 25).toISOString(),
         status: 'paid',
+        number: 2,
       },
       {
         finalised_time: new Date(2021, 5, 4).toISOString(),
         status: 'sent',
+        number: 3,
       },
       {
         finalised_time: new Date(2021, 4, 6).toISOString(),
         status: 'finalised',
+        number: 4,
       },
       {
         finalised_time: new Date(2021, 4, 20).toISOString(),
         status: 'sent',
+        number: 5,
       },
     ])
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
-    await page.goto(url(port, '/list'))
+    await page.goto(helpers.getUrl(port, '/list'))
     await page.getByRole('cell', { name: String(firstInvoice.customer) }).waitFor()
 
     // THEN
@@ -141,18 +140,17 @@ test.describe('A page that list invoices', () => {
     const rows = await page.getByRole('row').all()
     const ids = await Promise.all(rows.map((row) => row.getAttribute('id')))
     expect(ids.filter((i) => !!i)).toEqual([
-      invoices[3].id,
-      invoices[0].id,
-      invoices[2].id,
-      invoices[4].id,
-      invoices[1].id,
+      invoices.find((i) => i.number === 4)?.id,
+      invoices.find((i) => i.number === 1)?.id,
+      invoices.find((i) => i.number === 3)?.id,
+      invoices.find((i) => i.number === 5)?.id,
+      invoices.find((i) => i.number === 2)?.id,
     ])
   })
 
   test('should go to the /create page when clicking on the "Créer une facture" button', async ({
     page,
     folder,
-    url,
   }) => {
     // GIVEN
     const port = 50304
@@ -165,24 +163,19 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/"
-    await page.goto(url(port, '/list'))
+    await page.goto(helpers.getUrl(port, '/list'))
 
     // AND
     // I click on the "Créer une facture" button
     await page.click('text="Créer une facture"')
-    await page.waitForURL('/create')
+    await page.waitForURL(helpers.getUrl(port, '/create'))
 
     // THEN
     // Check that I'm on the /create page
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should display an invoice with calculated vat and total', async ({
-    page,
-    url,
-    orm,
-    folder,
-  }) => {
+  test('should display an invoice with calculated vat and total', async ({ page, orm, folder }) => {
     // GIVEN
     const port = 50305
     await new Foundation({ port, folder, adapters: { orm } })
@@ -212,7 +205,7 @@ test.describe('A page that list invoices', () => {
     ])
 
     // WHEN
-    await page.goto(url(port, '/list'))
+    await page.goto(helpers.getUrl(port, '/list'))
     await expect(page.getByRole('cell', { name: String(invoice.customer) })).toBeVisible()
 
     // THEN

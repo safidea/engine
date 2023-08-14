@@ -21,11 +21,7 @@ export class ExpressServer implements IServerAdapter {
   private app?: App
   private server?: Server
 
-  constructor(
-    private readonly uiAdapterName: string,
-    private readonly fetcherAdapterName: string,
-    private port: number
-  ) {}
+  constructor(private port: number) {}
 
   initConfig(app: App) {
     this.express = express()
@@ -95,8 +91,11 @@ export class ExpressServer implements IServerAdapter {
 
   async configurePages(routes: PageRoute[]) {
     if (!this.express) throw new Error('Express not initialized')
-    this.express.get('/bundle.js', async (req, res) => {
-      const bundle = await fs.readFile(path.resolve(__dirname, '../../../bundle.js'), 'utf8')
+    this.express.get('/express.bundle.js', async (req, res) => {
+      const bundle = await fs.readFile(
+        path.resolve(__dirname, '../../../../express.bundle.js'),
+        'utf8'
+      )
       return res.send(bundle)
     })
     for (const route of routes) {
@@ -121,8 +120,6 @@ export class ExpressServer implements IServerAdapter {
             <body>
               <div id="root">${pageHtml}</div>
               <script src="/express.bundle.js"></script>
-              <script src="/${this.uiAdapterName}.bundle.js"></script>
-              <script src="/${this.fetcherAdapterName}.bundle.js"></script>
             </body>
           </html>
         `

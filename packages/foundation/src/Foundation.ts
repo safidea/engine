@@ -36,7 +36,7 @@ export default class Foundation {
     const orm = adapters.orm ?? new InMemoryOrm(folder)
     const ui = adapters.ui ?? UnstyledUI
     const fetcher = adapters.fetcher ?? new NativeFetcher(url)
-    const server = adapters.server ?? new ExpressServer(ui.name, fetcher.constructor.name, port)
+    const server = adapters.server ?? new ExpressServer(port)
     const log = adapters.log ?? NativeLog
     this.serverSpi = new ServerSpi({ server, orm, ui, fetcher, log })
   }

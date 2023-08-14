@@ -1,4 +1,4 @@
-import { clearTmpFolders } from './helpers/tmp'
+import { clearTmpFolders } from './helpers'
 
 async function globalTeardown() {
   clearTmpFolders()

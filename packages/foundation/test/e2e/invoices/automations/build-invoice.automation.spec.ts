@@ -1,6 +1,6 @@
 import { AppDto } from '@adapter/api/app/dtos/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
-import { getDedicatedTmpFolder } from '../../../utils/helpers/tmp'
+import { getDedicatedTmpFolder } from '../../../utils/helpers'
 
 test.describe('An automation that build an invoice document from a template', () => {
   test('should throw an error if the automation config is invalid', async () => {
@@ -56,7 +56,7 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
     const folder = getDedicatedTmpFolder()
-    const port = 50001
+    const port = 50004
     const foundation = new Foundation({ adapters: { log }, folder, port })
     foundation.config(config)
 
@@ -67,7 +67,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).toContain('App started')
   })
 
-  test('should run the automation when an invoice is created', async ({ request, url }) => {
+  test('should run the automation when an invoice is created', async ({ request }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -98,7 +98,7 @@ test.describe('An automation that build an invoice document from a template', ()
     await foundation.config(config).start()
 
     // WHEN
-    await request.post(url(port, '/api/table/invoices'), { data: invoice })
+    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
 
     // THEN
     expect(logs).toContain('Invoice created')

@@ -1,5 +1,5 @@
 import { describe, test, expect, afterAll } from '@jest/globals'
-import * as helpers from '../helpers/tmp'
+import * as helpers from '../helpers'
 
 afterAll(() => {
   helpers.clearTmpFolders()

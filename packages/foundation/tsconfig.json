@@ -17,5 +17,5 @@
     "test/**/*.ts",
     "test/**/*.tsx",
     "playwright.config.ts"
-  ]
+, "jest.utils.config.ts"  ]
 }

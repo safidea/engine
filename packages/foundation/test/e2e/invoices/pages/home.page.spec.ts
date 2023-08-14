@@ -1,9 +1,8 @@
-import { test, expect, Foundation } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('A home page of an invoice app', () => {
   test('should go to the /about page when click on the "about" link', async ({
     page,
-    url,
     folder,
   }) => {
     // GIVEN
@@ -30,7 +29,7 @@ test.describe('A home page of an invoice app', () => {
         ],
       })
       .start()
-    await page.goto(url(port, '/'))
+    await page.goto(helpers.getUrl(port, '/'))
 
     // WHEN
     await page.click('a[href="/about"]')

@@ -1,11 +1,59 @@
 import { fakerFR as faker } from '@faker-js/faker'
+import { v4 as uuidV4 } from 'uuid'
+import { PageDto } from '@adapter/api/page/dtos/PageDto'
+import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
 import { RecordFieldValue } from '@domain/entities/app/Record'
-import { getTablesDto } from './schema'
-import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { FieldDto } from '@adapter/api/table/dtos/FieldDto'
-import { v4 as uuidV4 } from 'uuid'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
+import {
+  TABLE_INVOICES,
+  TABLE_INVOICES_ITEMS,
+  PAGE_LIST_INVOICES,
+  PAGE_CREATE_INVOICE,
+  PAGE_UPDATE_INVOICE,
+} from '../schemas'
+
+export function getUrl(port: number, path: string): string {
+  return `http://localhost:${port}${path}`
+}
+
+export function getTablesDto(...args: string[]): TableDto[] {
+  const tables: TableDto[] = []
+  for (const tableName of args) {
+    switch (tableName) {
+      case 'invoices':
+        tables.push(TABLE_INVOICES, TABLE_INVOICES_ITEMS)
+        break
+      case 'invoices_items':
+        tables.push(TABLE_INVOICES_ITEMS)
+        break
+      default:
+        throw new Error(`Table ${tableName} not found in schemas`)
+    }
+  }
+  return tables
+}
+
+export function getPagesDto(...args: string[]): PageDto[] {
+  const pages: PageDto[] = []
+  for (const pageName of args) {
+    switch (pageName) {
+      case 'invoices_list':
+        pages.push(PAGE_LIST_INVOICES)
+        break
+      case 'invoices_create':
+        pages.push(PAGE_CREATE_INVOICE)
+        break
+      case 'invoices_update':
+        pages.push(PAGE_UPDATE_INVOICE)
+        break
+      default:
+        throw new Error(`Page ${pageName} not found in schemas`)
+    }
+  }
+  return pages
+}
 
 export function getTableByName(tableName: string): TableDto {
   const tablesDto = getTablesDto(tableName)
@@ -59,8 +107,17 @@ export function generateRecordsDto(
     }
     for (const field of tableDto.fields) {
       const defaultValue = defaultValues[field.name]
-      if (defaultValue || !field.optional || (field.optional && Math.random() > 0.5)) {
-        if (field.type === 'formula' || field.type === 'rollup') continue
+      if (
+        field.name in defaultValues ||
+        !field.optional ||
+        (field.optional && Math.random() > 0.5)
+      ) {
+        if (
+          field.type === 'formula' ||
+          field.type === 'rollup' ||
+          (field.name in defaultValues && defaultValue === undefined)
+        )
+          continue
         record.fields[field.name] = generateRandomValueByField(field, records, record, defaultValue)
       }
     }

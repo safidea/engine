@@ -27,7 +27,7 @@ describe('RenderPageList', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
     const list = ListMapper.toEntity(
       {
@@ -71,8 +71,8 @@ describe('RenderPageList', () => {
     render(<List />)
 
     // WHEN
-    const textField = screen.getByText(String(record.textField')))
-    const numberField = screen.getByText(String(record.textField')))
+    const textField = screen.getByText(String(record.getFieldValue('textField')))
+    const numberField = screen.getByText(String(record.getFieldValue('textField')))
     expect(textField).toBeDefined()
     expect(numberField).toBeDefined()
   })

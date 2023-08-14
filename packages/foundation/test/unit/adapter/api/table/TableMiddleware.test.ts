@@ -21,7 +21,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -56,7 +56,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -83,7 +83,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -116,7 +116,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -129,7 +129,7 @@ describe('TableMiddleware', () => {
       )
 
       // THEN
-      expect(record.fieldA')).toBe('123')
+      expect(record.getFieldValue('fieldA')).toBe('123')
     })
 
     test('should throw an error if a field is not an datetime and should be', async () => {
@@ -148,7 +148,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -182,7 +182,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -225,7 +225,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN
@@ -258,7 +258,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        UnstyledUI
+        { ui: UnstyledUI, log: console.log }
       )
 
       // WHEN

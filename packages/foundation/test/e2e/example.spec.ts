@@ -1,7 +1,7 @@
-import { test, expect, Foundation } from '../utils/e2e/fixtures'
+import { test, expect, helpers, Foundation } from '../utils/e2e/fixtures'
 
 test.describe('Specs examples', () => {
-  test('A page can display a text', async ({ page, url, orm, folder }) => {
+  test('A page can display a text', async ({ page, orm, folder }) => {
     // GIVEN
     const port = 50601
     await new Foundation({ port, folder, adapters: { orm } })
@@ -21,13 +21,13 @@ test.describe('Specs examples', () => {
       .start()
 
     // WHEN
-    await page.goto(url(port, '/'))
+    await page.goto(helpers.getUrl(port, '/'))
 
     // THEN
     await expect(page.getByText('Hello World!')).toBeVisible()
   })
 
-  test('A table can store a record', async ({ request, url, orm, folder }) => {
+  test('A table can store a record', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50602
     await new Foundation({ port, folder, adapters: { orm } })
@@ -47,7 +47,7 @@ test.describe('Specs examples', () => {
       .start()
 
     // WHEN
-    const res = await request.post(url(port, '/api/table/invoices'), {
+    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), {
       data: {
         customer: 'Essentiel',
       },

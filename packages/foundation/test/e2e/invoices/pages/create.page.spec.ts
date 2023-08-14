@@ -1,7 +1,7 @@
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('A page that create an invoice', () => {
-  test('should display a title', async ({ page, url, folder, orm }) => {
+  test('should display a title', async ({ page, folder, orm }) => {
     // GIVEN
     const port = 50100
     await new Foundation({ port, folder, adapters: { orm } })
@@ -12,13 +12,13 @@ test.describe('A page that create an invoice', () => {
       .start()
 
     // WHEN
-    await page.goto(url(port, '/create'))
+    await page.goto(helpers.getUrl(port, '/create'))
 
     // THEN
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should fill a form and create an invoice', async ({ page, url, orm, folder }) => {
+  test('should fill a form and create an invoice', async ({ page, orm, folder }) => {
     // GIVEN
     // An invoicing app with a create page and an invoice
     const port = 50101
@@ -35,7 +35,7 @@ test.describe('A page that create an invoice', () => {
 
     // WHEN
     // I go to the create page "/create"
-    await page.goto(url(port, '/create'))
+    await page.goto(helpers.getUrl(port, '/create'))
 
     // AND
     // I fill the form
@@ -90,7 +90,6 @@ test.describe('A page that create an invoice', () => {
 
   test('should display an error message when some required fields are not provided', async ({
     page,
-    url,
     folder,
   }) => {
     // GIVEN
@@ -106,7 +105,7 @@ test.describe('A page that create an invoice', () => {
     } = helpers.generateRecordsDto('invoices')
 
     // WHEN
-    await page.goto(url(port, '/create'))
+    await page.goto(helpers.getUrl(port, '/create'))
 
     // AND
     await page.locator('input[name="customer"]').type(String(invoice.customer))

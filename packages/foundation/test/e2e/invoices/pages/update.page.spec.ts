@@ -1,7 +1,7 @@
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('A page that update an invoice', () => {
-  test('should display the invoice data', async ({ page, url, orm, folder }) => {
+  test('should display the invoice data', async ({ page, orm, folder }) => {
     // GIVEN
     // An invoice is listed on the home page
     const port = 50401
@@ -20,12 +20,12 @@ test.describe('A page that update an invoice', () => {
     ])
 
     // Go to the homepage
-    await page.goto(url(port, '/list')) // replace with the URL of your app's home page
+    await page.goto(helpers.getUrl(port, '/list')) // replace with the URL of your app's home page
 
     // WHEN
     // The user clicks on an invoice
     await page.click('button:has-text("Éditer")') // Assuming the edit button has text "Éditer"
-    await page.waitForURL(`/update/${id}`)
+    await page.waitForURL(helpers.getUrl(port, `/update/${id}`))
 
     // THEN
     // The invoice data should be displayed
@@ -40,7 +40,7 @@ test.describe('A page that update an invoice', () => {
     expect(activityFieldValue).toBe(invoiceItem.activity)
   })
 
-  test.skip('should update an invoice in realtime', async ({ page, url, folder, orm }) => {
+  test('should update an invoice in realtime', async ({ page, folder, orm }) => {
     // GIVEN
     // An invoice is loaded in the update page
     const port = 50402
@@ -52,19 +52,19 @@ test.describe('A page that update an invoice', () => {
       .start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices')
+    } = await helpers.generateRecords(orm, 'invoices', [{ number: undefined }])
 
     // You'll have to navigate to the page you want to test
-    await page.goto(url(port, `/update/${id}`))
+    await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
     // We update the invoice data and wait for autosave
     const [invoice] = await orm.list('invoices')
-    const customer = invoice.customer
-    const update = 'updated '
+    const updatedCutomer = invoice.customer + ' updated'
 
     // Type the updatedText into the input with name "customer"
-    await page.locator('input[name="customer"]').type(update, { delay: 100 })
+    await page.locator('input[name="customer"]').clear()
+    await page.locator('input[name="customer"]').type(updatedCutomer, { delay: 100 })
 
     // Wait for the "Saving..." text to disappear
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })
@@ -73,6 +73,6 @@ test.describe('A page that update an invoice', () => {
     // THEN
     // The invoice data should be updated in database
     const [updatedInvoice] = await orm.list('invoices')
-    expect(updatedInvoice.customer).toContain(update + customer)
+    expect(updatedInvoice.customer).toContain(updatedCutomer)
   })
 })

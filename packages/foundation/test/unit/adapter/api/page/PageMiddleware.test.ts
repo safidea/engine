@@ -20,7 +20,7 @@ describe('PageMiddleware', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
 
     // WHEN
@@ -46,7 +46,7 @@ describe('PageMiddleware', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
 
     // WHEN
@@ -72,7 +72,7 @@ describe('PageMiddleware', () => {
           },
         ],
       },
-      UnstyledUI
+      { ui: UnstyledUI, log: console.log }
     )
 
     // WHEN

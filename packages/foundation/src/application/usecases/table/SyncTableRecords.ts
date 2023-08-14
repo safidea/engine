@@ -65,17 +65,15 @@ export class SyncTableRecords {
             throw new Error(`Record state "${record.state}" not supported`)
         }
       }
-      const promises = []
       for (const { table, records } of recordsToCreate) {
-        promises.push(this.ormSpi.createMany(table, records))
+        await this.ormSpi.createMany(table, records)
       }
       for (const { table, records } of recordsToUpdate) {
-        promises.push(this.ormSpi.updateMany(table, records))
+        await this.ormSpi.updateMany(table, records)
       }
       for (const { table, records } of recordsToSoftDelete) {
-        promises.push(this.ormSpi.updateMany(table, records))
+        await this.ormSpi.updateMany(table, records)
       }
-      await Promise.all(promises)
     }
 
     const tables: SyncTables = {}
