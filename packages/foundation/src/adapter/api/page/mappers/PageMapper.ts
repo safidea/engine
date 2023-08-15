@@ -5,7 +5,7 @@ import { Table } from '@domain/entities/table/Table'
 import { PageDto } from '../dtos/PageDto'
 
 export interface PageMapperSpis {
-  ui: IUISpi
+  ui?: IUISpi
 }
 
 export class PageMapper {

@@ -5,14 +5,16 @@ import { Server } from 'http'
 import ReactDOMServer from 'react-dom/server'
 import path from 'path'
 import fs from 'fs-extra'
-import { AppDto } from '@adapter/api/app/AppDto'
 import { App } from '@domain/entities/app/App'
-import { AppMapper } from '@adapter/api/app/AppMapper'
 import { RequestDto, RequestQueryDto } from '@adapter/spi/server/dtos/RequestDto'
+import { PageMapper } from '@adapter/api/page/mappers/PageMapper'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
+import { TableDto } from '@adapter/api/table/dtos/TableDto'
+import { PageDto } from '@adapter/api/page/dtos/PageDto'
 
 export interface FoundationData {
-  app: AppDto
-  path: string
+  page: PageDto
+  tables: TableDto[]
   params: { [key: string]: string }
 }
 
@@ -103,10 +105,11 @@ export class ExpressServer implements IServerAdapter {
         const Page = await route.handler({ path: req.url.split('?')[0], params: req.params })
         const pageHtml = ReactDOMServer.renderToString(<Page />)
         if (!this.app) throw new Error('App not initialized')
+        const page = this.app.getPageByPath(route.path)
         const data: FoundationData = {
-          app: AppMapper.toDto(this.app),
-          path: route.path,
+          page: PageMapper.toDto(page),
           params: req.params,
+          tables: TableMapper.toDtos(this.app.tables),
         }
         const html = `
           <!DOCTYPE html>

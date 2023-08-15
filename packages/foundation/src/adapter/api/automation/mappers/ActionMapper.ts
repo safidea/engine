@@ -12,9 +12,9 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export interface ActionMapperSpis {
-  log: ILogSpi
-  storage: IStorageSpi
-  converter: IConverterSpi
+  log?: ILogSpi
+  storage?: IStorageSpi
+  converter?: IConverterSpi
 }
 
 export class ActionMapper {
@@ -25,9 +25,12 @@ export class ActionMapper {
       return UpdateRecordActionMapper.toEntity(actionDto, tables)
     }
     if (type === 'log') {
+      if (!log) throw new Error('LogSpi is required')
       return LogActionMapper.toEntity(actionDto, log)
     }
     if (type === 'create_file') {
+      if (!storage) throw new Error('StorageSpi is required')
+      if (!converter) throw new Error('ConverterSpi is required')
       return CreateFileActionMapper.toEntity(actionDto, storage, converter)
     }
     throw new Error(`Invalid action type ${type}`)

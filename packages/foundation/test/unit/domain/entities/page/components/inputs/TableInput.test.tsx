@@ -70,7 +70,7 @@ describe('TableInput Component', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const TableInputUI = new TableInput(
       'items',

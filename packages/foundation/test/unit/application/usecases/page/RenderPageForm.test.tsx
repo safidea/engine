@@ -30,7 +30,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const form = FormMapper.toEntity(
       {
@@ -87,7 +87,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const form = FormMapper.toEntity(
       {
@@ -160,7 +160,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const form = FormMapper.toEntity(
       {
@@ -276,7 +276,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const form = FormMapper.toEntity(
       {
@@ -407,7 +407,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const form = FormMapper.toEntity(
       {
@@ -518,7 +518,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const form = FormMapper.toEntity(
       {

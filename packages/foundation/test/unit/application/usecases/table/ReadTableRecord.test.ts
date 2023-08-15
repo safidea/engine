@@ -30,7 +30,7 @@ describe('ReadTableRecord', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const OrmSpi = {
       read: () =>
@@ -77,7 +77,7 @@ describe('ReadTableRecord', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const OrmConnection = {
       read: () =>
@@ -137,7 +137,7 @@ describe('ReadTableRecord', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
+      { ui: UnstyledUI }
     )
     const OrmConnection = {
       read: (table: string) => {

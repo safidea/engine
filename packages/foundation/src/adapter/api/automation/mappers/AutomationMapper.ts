@@ -8,9 +8,9 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export interface AutomationMapperSpis {
-  log: ILogSpi
-  storage: IStorageSpi
-  converter: IConverterSpi
+  log?: ILogSpi
+  storage?: IStorageSpi
+  converter?: IConverterSpi
 }
 
 export class AutomationMapper {

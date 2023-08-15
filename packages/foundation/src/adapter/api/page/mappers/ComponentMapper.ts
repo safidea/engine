@@ -16,7 +16,7 @@ import { LinkMapper } from './components/LinkMapper'
 import { ComponentDto } from '../dtos/ComponentDto'
 
 export interface ComponentMapperSpis {
-  ui: IUISpi
+  ui?: IUISpi
 }
 
 export class ComponentMapper {
@@ -26,6 +26,7 @@ export class ComponentMapper {
     spis: ComponentMapperSpis
   ): Component {
     const { ui } = spis
+    if (!ui) throw new Error('UISpi is required')
     const { type } = componentDto
     if (type === 'link') {
       return LinkMapper.toEntity(componentDto, ui)

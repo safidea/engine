@@ -9,10 +9,10 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export interface AppMapperSpis {
-  ui: IUISpi
-  log: ILogSpi
-  storage: IStorageSpi
-  converter: IConverterSpi
+  ui?: IUISpi
+  log?: ILogSpi
+  storage?: IStorageSpi
+  converter?: IConverterSpi
 }
 
 export class AppMapper {

@@ -42,7 +42,7 @@ export class JsonOrm implements IOrmAdapter {
   }
 
   public async setDB(db: Database): Promise<void> {
-    await fs.writeJson(this.url, db, { spaces: 2 })
+    await fs.outputJSON(this.url, db, { spaces: 2 })
   }
 
   async create(tableName: string, recordDto: RecordDto): Promise<string> {
