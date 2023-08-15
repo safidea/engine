@@ -1,5 +1,5 @@
 import { CreateFileAction } from '@domain/entities/automation/actions/CreateFileAction'
-import { CreateFileActionDto } from '../../dtos/actions/CreateFileAction'
+import { CreateFileActionDto } from '../../dtos/actions/CreateFileActionDto'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 
 export class CreateFileActionMapper {

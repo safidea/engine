@@ -13,6 +13,7 @@ import { ILogAdapter } from '@adapter/spi/log/ILogAdapter'
 import { ServerSpi } from '@adapter/spi/server/ServerSpi'
 import { IStorageAdapter } from '@adapter/spi/storage/IStorageAdapter'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
+import { Converter } from '@infrastructure/converter/Converter'
 
 export interface FoundationOptions {
   adapters?: {
@@ -43,7 +44,7 @@ export default class Foundation {
     const server = adapters.server ?? new ExpressServer(port)
     const log = adapters.log ?? NativeLog
     const storage = adapters.storage ?? new FileStorage(folder)
-    const converter = adapters.converter ?? {}
+    const converter = adapters.converter ?? new Converter(folder)
     this.serverSpi = new ServerSpi({ server, orm, ui, fetcher, log, storage, converter })
   }
 

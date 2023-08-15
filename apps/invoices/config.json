@@ -401,5 +401,24 @@
         }
       ]
     }
+  ],
+  "automations": [
+    {
+      "name": "invoice-created",
+      "trigger": {
+        "event": "record_created",
+        "table": "invoices"
+      },
+      "actions": [
+        {
+          "type": "create_file",
+          "filename": "invoice.pdf",
+          "input": "html",
+          "output": "pdf",
+          "template": "<h1>Invoice</h1>",
+          "bucket": "invoices"
+        }
+      ]
+    }
   ]
 }

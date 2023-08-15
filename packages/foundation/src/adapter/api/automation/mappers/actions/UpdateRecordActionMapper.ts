@@ -1,5 +1,5 @@
 import { UpdateRecordAction } from '@domain/entities/automation/actions/UpdateRecordAction'
-import { UpdateRecordActionDto } from '../../dtos/actions/UpdateRecordAction'
+import { UpdateRecordActionDto } from '../../dtos/actions/UpdateRecordActionDto'
 import { Table } from '@domain/entities/table/Table'
 
 export class UpdateRecordActionMapper {
