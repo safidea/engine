@@ -13,6 +13,7 @@ export interface ServerStateAdapters {
   ui: IUIAdapter
   log: ILogAdapter
   storage: IStorageAdapter
+  converter: any
 }
 
 export abstract class ServerState implements IServerSpi {

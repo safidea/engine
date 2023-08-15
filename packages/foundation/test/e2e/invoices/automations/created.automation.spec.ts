@@ -1,3 +1,4 @@
+import pdf from 'pdf-parse'
 import { AppDto } from '@adapter/api/app/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
@@ -180,10 +181,11 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).not.toContain('Invoice created')
   })
 
-  test('should create a document when an invoice is created from API request', async ({
+  test('should create a PDF document when an invoice is created from API request', async ({
     request,
     orm,
     storage,
+    converter,
   }) => {
     // GIVEN
     const config: AppDto = {
@@ -191,7 +193,7 @@ test.describe('An automation that build an invoice document from a template', ()
       automations: helpers.getAutomationsDto('created_invoice'),
     }
     const port = 50006
-    const foundation = new Foundation({ adapters: { orm, storage }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -204,13 +206,15 @@ test.describe('An automation that build an invoice document from a template', ()
     const [file] = await storage.list('invoices')
     expect(file).toBeDefined()
     expect(file.filename).toEqual('invoice.pdf')
-    expect(file.data).toEqual('<h1>Invoice</h1>')
+    const data = await pdf(file.data as any)
+    expect(data.text).toContain('Invoice')
   })
 
-  test('should create a document when an invoice is created from page form', async ({
+  test('should create a PDF document when an invoice is created from page form', async ({
     page,
     orm,
     storage,
+    converter,
   }) => {
     // GIVEN
     const config: AppDto = {
@@ -219,7 +223,7 @@ test.describe('An automation that build an invoice document from a template', ()
       automations: helpers.getAutomationsDto('created_invoice'),
     }
     const port = 50007
-    const foundation = new Foundation({ adapters: { orm, storage }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -260,6 +264,7 @@ test.describe('An automation that build an invoice document from a template', ()
     const [file] = await storage.list('invoices')
     expect(file).toBeDefined()
     expect(file.filename).toEqual('invoice.pdf')
-    expect(file.data).toEqual('<h1>Invoice</h1>')
+    const data = await pdf(file.data as any)
+    expect(data.text).toContain('Invoice')
   })
 })

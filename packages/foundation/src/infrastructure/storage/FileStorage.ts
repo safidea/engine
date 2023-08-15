@@ -16,10 +16,6 @@ export class FileStorage implements IStorageAdapter {
     return fs.existsSync(join(this.url, bucket))
   }
 
-  private readAllFiles(bucket: string): string[] {
-    return fs.readdirSync(join(this.url, bucket))
-  }
-
   async write(bucket: string, file: FileDto): Promise<string> {
     const filePath = join(this.url, bucket, file.filename)
     await fs.outputFile(filePath, file.data)
@@ -33,7 +29,7 @@ export class FileStorage implements IStorageAdapter {
   async read(bucket: string, filename: string): Promise<FileDto | undefined> {
     const filePath = join(this.url, bucket, filename)
     if (!fs.existsSync(filePath)) return
-    const data = await fs.readFile(filePath, 'utf8')
+    const data = await fs.readFile(filePath)
     return { filename, data }
   }
 

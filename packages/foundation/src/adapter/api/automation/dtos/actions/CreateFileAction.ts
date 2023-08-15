@@ -10,6 +10,7 @@ export interface CreateFileActionDto {
   input: CreateFileActionInput
   output: CreateFileActionOutput
   template: string
+  bucket: string
 }
 
 export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
@@ -20,6 +21,7 @@ export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
     input: { type: 'string', enum: ['html'] },
     output: { type: 'string', enum: ['pdf'] },
     template: { type: 'string' },
+    bucket: { type: 'string' },
   },
-  required: ['type', 'filename', 'input', 'output', 'template'],
+  required: ['type', 'filename', 'input', 'output', 'template', 'bucket'],
 }

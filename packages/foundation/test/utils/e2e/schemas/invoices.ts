@@ -435,6 +435,7 @@ export const AUTOMATION_CREATED_INVOICE: AutomationDto = {
       input: 'html',
       output: 'pdf',
       template: '<h1>Invoice</h1>',
+      bucket: 'invoices',
     },
   ],
 }

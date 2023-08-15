@@ -13,6 +13,7 @@ export interface AppMiddlewareSpis {
   ui: IUISpi
   log: ILogSpi
   storage: IStorageSpi
+  converter: any
 }
 
 export class AppMiddleware {

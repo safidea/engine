@@ -22,6 +22,7 @@ export interface FoundationOptions {
     fetcher?: IFetcherAdapter
     log?: ILogAdapter
     storage?: IStorageAdapter
+    converter?: any
   }
   folder?: string
   port?: number
@@ -42,7 +43,8 @@ export default class Foundation {
     const server = adapters.server ?? new ExpressServer(port)
     const log = adapters.log ?? NativeLog
     const storage = adapters.storage ?? new FileStorage(folder)
-    this.serverSpi = new ServerSpi({ server, orm, ui, fetcher, log, storage })
+    const converter = adapters.converter ?? {}
+    this.serverSpi = new ServerSpi({ server, orm, ui, fetcher, log, storage, converter })
   }
 
   config(config: unknown): ServerSpi {

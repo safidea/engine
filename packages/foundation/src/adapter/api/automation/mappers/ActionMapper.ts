@@ -13,11 +13,12 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 export interface ActionMapperSpis {
   log: ILogSpi
   storage: IStorageSpi
+  converter: any
 }
 
 export class ActionMapper {
   static toEntity(actionDto: ActionDto, tables: Table[], spis: ActionMapperSpis): Action {
-    const { log, storage } = spis
+    const { log, storage, converter } = spis
     const { type } = actionDto
     if (type === 'update_record') {
       return UpdateRecordActionMapper.toEntity(actionDto, tables)
@@ -26,7 +27,7 @@ export class ActionMapper {
       return LogActionMapper.toEntity(actionDto, log)
     }
     if (type === 'create_file') {
-      return CreateFileActionMapper.toEntity(actionDto, storage)
+      return CreateFileActionMapper.toEntity(actionDto, storage, converter)
     }
     throw new Error(`Invalid action type ${type}`)
   }

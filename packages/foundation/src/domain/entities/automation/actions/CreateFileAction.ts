@@ -6,14 +6,22 @@ export type CreateFileActionInput = 'html'
 export type CreateFileActionOutput = 'pdf'
 
 export class CreateFileAction extends BaseAction {
+  private _filename: string
+
   constructor(
-    private _filename: string,
+    filename: string,
     private _input: CreateFileActionInput,
     private _output: CreateFileActionOutput,
     private _template: string,
-    private storage: IStorageSpi
+    private _bucket: string,
+    private storage: IStorageSpi,
+    private converter: any
   ) {
     super('create_file')
+    this._filename = filename.endsWith(`.${_output}`) ? filename : `${filename}.${_output}`
+    if (_input === 'html') {
+      this._template = `<html><body>${_template}</body></html>`
+    }
   }
 
   get filename(): string {
@@ -32,7 +40,13 @@ export class CreateFileAction extends BaseAction {
     return this._template
   }
 
+  get bucket(): string {
+    return this._bucket
+  }
+
   async execute() {
-    await this.storage.write('invoices', new File(this._filename, this._template))
+    const pdfData = await this.converter.htmlToPdf(this._template, this._filename)
+    const file = new File(this._filename, pdfData)
+    await this.storage.write(this.bucket, file)
   }
 }
