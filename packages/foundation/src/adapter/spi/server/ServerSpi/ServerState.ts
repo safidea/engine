@@ -11,6 +11,7 @@ export interface ServerStateAdapters {
   fetcher: IFetcherAdapter
   ui: IUIAdapter
   log: ILogAdapter
+  storage: any
 }
 
 export abstract class ServerState implements IServerSpi {

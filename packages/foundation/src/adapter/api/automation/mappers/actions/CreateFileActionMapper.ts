@@ -2,12 +2,13 @@ import { CreateFileAction } from '@domain/entities/automation/actions/CreateFile
 import { CreateFileActionDto } from '../../dtos/actions/CreateFileAction'
 
 export class CreateFileActionMapper {
-  static toEntity(createFileActionDto: CreateFileActionDto) {
+  static toEntity(createFileActionDto: CreateFileActionDto, storage: any) {
     return new CreateFileAction(
       createFileActionDto.filename,
       createFileActionDto.input,
       createFileActionDto.output,
-      createFileActionDto.template
+      createFileActionDto.template,
+      storage
     )
   }
 
@@ -21,8 +22,8 @@ export class CreateFileActionMapper {
     }
   }
 
-  static toEntities(createFileActionDtos: CreateFileActionDto[]): CreateFileAction[] {
-    return createFileActionDtos.map((createFileActionDto) => this.toEntity(createFileActionDto))
+  static toEntities(createFileActionDtos: CreateFileActionDto[], storage: any): CreateFileAction[] {
+    return createFileActionDtos.map((createFileActionDto) => this.toEntity(createFileActionDto, storage))
   }
 
   static toDtos(createFileActions: CreateFileAction[]): CreateFileActionDto[] {

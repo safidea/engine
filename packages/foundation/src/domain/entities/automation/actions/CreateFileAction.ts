@@ -8,7 +8,8 @@ export class CreateFileAction extends BaseAction {
     private _filename: string,
     private _input: CreateFileActionInput,
     private _output: CreateFileActionOutput,
-    private _template: string
+    private _template: string,
+    private storage: any
   ) {
     super('create_file')
   }
@@ -30,6 +31,6 @@ export class CreateFileAction extends BaseAction {
   }
 
   execute() {
-    console.log('create a file')
+    this.storage.create('invoices', { filename: this._filename, data: this._template })
   }
 }

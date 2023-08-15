@@ -12,7 +12,7 @@ export class ConfiguredState extends ServerState {
 
   constructor(config: unknown, adapters: ServerStateAdapters) {
     super(adapters)
-    const spis = { ui: adapters.ui, log: adapters.log }
+    const spis = { ui: adapters.ui, log: adapters.log, storage: adapters.storage }
     this.app = new AppMiddleware(config, spis).validateConfig()
   }
 

@@ -7,6 +7,7 @@ import { ActionMapper } from './ActionMapper'
 
 export interface AutomationMapperSpis {
   log: ILogSpi
+  storage: any
 }
 
 export class AutomationMapper {

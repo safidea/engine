@@ -174,7 +174,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).not.toContain('Invoice created')
   })
 
-  test.skip('should create a document when an invoice is created', async ({ request, orm }) => {
+  test.only('should create a document when an invoice is created', async ({ request, orm }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -198,8 +198,12 @@ test.describe('An automation that build an invoice document from a template', ()
       ],
     }
     const port = 50006
-    const storage = { list: async (list: string) => [] }
-    const foundation = new Foundation({ adapters: { orm }, port })
+    const files: any = { invoices: [] }
+    const storage = {
+      list: async (list: string) => files[list],
+      create: async (list: string, file: any) => files[list].push(file),
+    }
+    const foundation = new Foundation({ adapters: { orm, storage }, port })
     await foundation.config(config).start()
     const {
       invoices: [invoice],

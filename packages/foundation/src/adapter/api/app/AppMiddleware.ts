@@ -11,6 +11,7 @@ const validateAppDto = ajv.compile(AppDtoSchema)
 export interface AppMiddlewareSpis {
   ui: IUISpi
   log: ILogSpi
+  storage: any
 }
 
 export class AppMiddleware {

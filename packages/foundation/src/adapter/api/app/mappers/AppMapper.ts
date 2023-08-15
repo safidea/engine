@@ -9,14 +9,15 @@ import { IUISpi } from '@domain/spi/IUISpi'
 export interface AppMapperSpis {
   ui: IUISpi
   log: ILogSpi
+  storage: any
 }
 
 export class AppMapper {
   static toEntity(appDto: AppDto, spis: AppMapperSpis): App {
-    const { ui, log } = spis
+    const { ui, log, storage } = spis
     const tables = TableMapper.toEntities(appDto.tables ?? [])
     const pages = PageMapper.toEntities(appDto.pages ?? [], tables ?? [], { ui })
-    const automations = AutomationMapper.toEntities(appDto.automations ?? [], tables ?? [], { log })
+    const automations = AutomationMapper.toEntities(appDto.automations ?? [], tables ?? [], { log, storage })
     return new App(appDto.name, appDto.version, pages, tables, automations)
   }
 
