@@ -103,7 +103,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).toContain('Invoice created')
   })
 
-  test.only('should run the automation when an invoice is updated', async ({ request, orm }) => {
+  test('should run the automation when an invoice is updated', async ({ request, orm }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -128,7 +128,7 @@ test.describe('An automation that build an invoice document from a template', ()
     } = await helpers.generateRecords(orm, 'invoices', 1)
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
-    const port = 50004
+    const port = 50005
     const foundation = new Foundation({ adapters: { log, orm }, port })
     await foundation.config(config).start()
 
