@@ -7,9 +7,9 @@ import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { IServerAdapter } from '@adapter/spi/server/IServerAdapter'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
 import { IFetcherAdapter } from '@adapter/spi/fetcher/IFetcherAdapter'
-import { IUIAdapter } from '@adapter/spi/ui/IUIAdapter'
+import { IUISpi } from '@domain/spi/IUISpi'
 import { NativeLog } from '@infrastructure/log/NativeLog'
-import { ILogAdapter } from '@adapter/spi/log/ILogAdapter'
+import { ILogSpi } from '@domain/spi/ILogSpi'
 import { ServerSpi } from '@adapter/spi/server/ServerSpi'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import { Converter } from '@infrastructure/converter/Converter'
@@ -20,9 +20,9 @@ export interface FoundationOptions {
   adapters?: {
     server?: IServerAdapter
     orm?: IOrmAdapter
-    ui?: IUIAdapter
+    ui?: IUISpi
     fetcher?: IFetcherAdapter
-    log?: ILogAdapter
+    log?: ILogSpi
     storage?: IStorageSpi
     converter?: IConverterSpi
   }

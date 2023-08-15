@@ -1,14 +1,14 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 import { PuppeteerHtmlToPdfConverter } from './HtmlToPdfConverter/PuppeteerHtmlToPdfConverter'
-import { IConverterAdapter } from '@adapter/spi/converter/IConverterAdapter'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
 import { IHtmlToPdfConverter } from './HtmlToPdfConverter/IHtmlToPdfConverter'
 
 export interface ConverterOptions {
   htmlToPdfConverter?: IHtmlToPdfConverter
 }
 
-export class Converter implements IConverterAdapter {
+export class Converter implements IConverterSpi {
   private htmlToPdfConverter: IHtmlToPdfConverter
 
   constructor(folder: string, converterOptions: ConverterOptions = {}) {

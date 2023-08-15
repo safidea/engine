@@ -5,6 +5,7 @@ import { AppDtoSchema } from './AppDto'
 import { ILogSpi } from '@domain/spi/ILogSpi'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 const ajv = new Ajv({ allowUnionTypes: true })
 const validateAppDto = ajv.compile(AppDtoSchema)
@@ -13,7 +14,7 @@ export interface AppMiddlewareSpis {
   ui: IUISpi
   log: ILogSpi
   storage: IStorageSpi
-  converter: any
+  converter: IConverterSpi
 }
 
 export class AppMiddleware {

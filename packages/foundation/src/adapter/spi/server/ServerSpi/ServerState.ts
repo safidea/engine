@@ -1,8 +1,8 @@
 import { IServerSpi } from '@domain/spi/IServerSpi'
 import { IFetcherAdapter } from '../../fetcher/IFetcherAdapter'
-import { ILogAdapter } from '../../log/ILogAdapter'
+import { ILogSpi } from '@domain/spi/ILogSpi'
 import { IOrmAdapter } from '../../orm/IOrmAdapter'
-import { IUIAdapter } from '../../ui/IUIAdapter'
+import { IUISpi } from '@domain/spi/IUISpi'
 import { IServerAdapter } from '../IServerAdapter'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
@@ -11,8 +11,8 @@ export interface ServerStateAdapters {
   server: IServerAdapter
   orm: IOrmAdapter
   fetcher: IFetcherAdapter
-  ui: IUIAdapter
-  log: ILogAdapter
+  ui: IUISpi
+  log: ILogSpi
   storage: IStorageSpi
   converter: IConverterSpi
 }

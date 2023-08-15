@@ -1,5 +1,5 @@
-import { ILogAdapter } from '@adapter/spi/log/ILogAdapter'
+import { ILogSpi } from '@domain/spi/ILogSpi'
 
-export const NativeLog: ILogAdapter = (message: string) => {
+export const NativeLog: ILogSpi = (message: string) => {
   console.log(message)
 }
