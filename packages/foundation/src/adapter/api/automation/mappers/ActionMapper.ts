@@ -6,6 +6,8 @@ import { UpdateRecordAction } from '@domain/entities/automation/actions/UpdateRe
 import { LogAction } from '@domain/entities/automation/actions/LogAction'
 import { ILogSpi } from '@domain/spi/ILogSpi'
 import { Table } from '@domain/entities/table/Table'
+import { CreateFileActionMapper } from './actions/CreateFileActionMapper'
+import { CreateFileAction } from '@domain/entities/automation/actions/CreateFileAction'
 
 export interface ActionMapperSpis {
   log: ILogSpi
@@ -21,6 +23,9 @@ export class ActionMapper {
     if (type === 'log') {
       return LogActionMapper.toEntity(actionDto, log)
     }
+    if (type === 'create_file') {
+      return CreateFileActionMapper.toEntity(actionDto)
+    }
     throw new Error(`Invalid action type ${type}`)
   }
 
@@ -30,6 +35,9 @@ export class ActionMapper {
     }
     if (action instanceof LogAction) {
       return LogActionMapper.toDto(action)
+    }
+    if (action instanceof CreateFileAction) {
+      return CreateFileActionMapper.toDto(action)
     }
     throw new Error(`Invalid action instance ${action}`)
   }

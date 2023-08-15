@@ -1,9 +1,8 @@
 import { AppDto } from '@adapter/api/app/dtos/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
-import { getDedicatedTmpFolder } from '../../../utils/helpers'
 
 test.describe('An automation that build an invoice document from a template', () => {
-  test('should throw an error if the automation config is invalid', async () => {
+  test('should throw an error if the automation config is invalid', async ({ orm }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -26,10 +25,9 @@ test.describe('An automation that build an invoice document from a template', ()
         },
       ],
     }
-    const folder = getDedicatedTmpFolder()
 
     // WHEN
-    const call = () => new Foundation({ folder }).config(config)
+    const call = () => new Foundation({ adapters: { orm } }).config(config)
 
     // THEN
     expect(call).toThrow('table "invalid" in action "update_record" is not defined in tables')
@@ -143,7 +141,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).toContain('Invoice updated')
   })
 
-  test('should not run the action if the trigger did not happen', async () => {
+  test('should not run the action if the trigger did not happen', async ({ orm }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -165,9 +163,8 @@ test.describe('An automation that build an invoice document from a template', ()
     }
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
-    const folder = getDedicatedTmpFolder()
     const port = 50003
-    const foundation = new Foundation({ adapters: { log }, folder, port })
+    const foundation = new Foundation({ adapters: { log, orm }, port })
     await foundation.config(config).start()
 
     // WHEN
@@ -175,5 +172,45 @@ test.describe('An automation that build an invoice document from a template', ()
 
     // THEN
     expect(logs).not.toContain('Invoice created')
+  })
+
+  test.skip('should create a document when an invoice is created', async ({ request, orm }) => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTablesDto('invoices'),
+      automations: [
+        {
+          name: 'invoice-created',
+          trigger: {
+            event: 'record_created',
+            table: 'invoices',
+          },
+          actions: [
+            {
+              type: 'create_file',
+              filename: 'invoice.pdf',
+              input: 'html',
+              output: 'pdf',
+              template: '<h1>Invoice</h1>',
+            },
+          ],
+        },
+      ],
+    }
+    const port = 50006
+    const storage = { list: async (list: string) => [] }
+    const foundation = new Foundation({ adapters: { orm }, port })
+    await foundation.config(config).start()
+    const {
+      invoices: [invoice],
+    } = helpers.generateRecordsDto('invoices', 1)
+
+    // WHEN
+    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+
+    // THEN
+    const [file] = await storage.list('invoices')
+    expect(file).toBeDefined()
+    expect(file.filename).toEqual('invoice.pdf')
   })
 })
