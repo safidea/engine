@@ -6,6 +6,8 @@ import { RecordCreatedTriggerMapper } from './triggers/RecordCreatedTriggerMappe
 import { ServerStartedTriggerMapper } from './triggers/ServerStartedTriggerMapper'
 import { ServerStoppedTriggerMapper } from './triggers/ServerStoppedTriggerMapper'
 import { ServerStoppedTrigger } from '@domain/entities/automation/triggers/ServerStoppedTrigger'
+import { RecordUpdatedTriggerMapper } from './triggers/RecordUpdatedTriggerMapper'
+import { RecordUpdatedTrigger } from '@domain/entities/automation/triggers/RecordUpdatedTrigger'
 
 export class TriggerMapper {
   static toEntity(triggerDto: TriggerDto): Trigger {
@@ -19,6 +21,9 @@ export class TriggerMapper {
     if (event === 'record_created') {
       return RecordCreatedTriggerMapper.toEntity(triggerDto)
     }
+    if (event === 'record_updated') {
+      return RecordUpdatedTriggerMapper.toEntity(triggerDto)
+    }
     throw new Error(`Invalid trigger event ${event}`)
   }
 
@@ -31,6 +36,9 @@ export class TriggerMapper {
     }
     if (trigger instanceof RecordCreatedTrigger) {
       return RecordCreatedTriggerMapper.toDto(trigger)
+    }
+    if (trigger instanceof RecordUpdatedTrigger) {
+      return RecordUpdatedTriggerMapper.toDto(trigger)
     }
     throw new Error(`Invalid trigger instance ${trigger}`)
   }

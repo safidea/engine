@@ -1,4 +1,4 @@
-export type TriggerEvent = 'record_created' | 'server_started' | 'server_stopped'
+export type TriggerEvent = 'record_created' | 'record_updated' | 'server_started' | 'server_stopped'
 
 export class BaseTrigger {
   constructor(private _event: TriggerEvent) {}

@@ -35,7 +35,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(call).toThrow('table "invalid" in action "update_record" is not defined in tables')
   })
 
-  test('should run the automation on startup', async () => {
+  test('should run the automation on startup', async ({ orm }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -56,9 +56,8 @@ test.describe('An automation that build an invoice document from a template', ()
     }
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
-    const folder = getDedicatedTmpFolder()
     const port = 50004
-    const foundation = new Foundation({ adapters: { log }, folder, port })
+    const foundation = new Foundation({ adapters: { log, orm }, port })
     foundation.config(config)
 
     // WHEN
@@ -68,7 +67,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).toContain('App started')
   })
 
-  test('should run the automation when an invoice is created', async ({ request }) => {
+  test('should run the automation when an invoice is created', async ({ request, orm }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -93,9 +92,8 @@ test.describe('An automation that build an invoice document from a template', ()
     } = helpers.generateRecordsDto('invoices', 1)
     const logs: string[] = []
     const log = (message: string) => logs.push(message)
-    const folder = getDedicatedTmpFolder()
     const port = 50002
-    const foundation = new Foundation({ adapters: { log }, folder, port })
+    const foundation = new Foundation({ adapters: { log, orm }, port })
     await foundation.config(config).start()
 
     // WHEN
@@ -103,6 +101,46 @@ test.describe('An automation that build an invoice document from a template', ()
 
     // THEN
     expect(logs).toContain('Invoice created')
+  })
+
+  test.only('should run the automation when an invoice is updated', async ({ request, orm }) => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTablesDto('invoices'),
+      automations: [
+        {
+          name: 'build-invoice',
+          trigger: {
+            event: 'record_updated',
+            table: 'invoices',
+          },
+          actions: [
+            {
+              type: 'log',
+              message: 'Invoice updated',
+            },
+          ],
+        },
+      ],
+    }
+    const {
+      invoices: [invoice],
+    } = await helpers.generateRecords(orm, 'invoices', 1)
+    const logs: string[] = []
+    const log = (message: string) => logs.push(message)
+    const port = 50004
+    const foundation = new Foundation({ adapters: { log, orm }, port })
+    await foundation.config(config).start()
+
+    // WHEN
+    await request.patch(helpers.getUrl(port, `/api/table/invoices/${invoice.id}`), {
+      data: {
+        customer: invoice.customer + ' updated',
+      },
+    })
+
+    // THEN
+    expect(logs).toContain('Invoice updated')
   })
 
   test('should not run the action if the trigger did not happen', async () => {

@@ -36,7 +36,8 @@ export class OrmSpi implements IOrmSpi {
 
   async update(table: string, record: Record, id: string) {
     const recordDto = RecordMapper.toDto(record)
-    return this.ormAdapter.softUpdateById(table, recordDto, id)
+    await this.ormAdapter.softUpdateById(table, recordDto, id)
+    this.instance.emit('record_updated')
   }
 
   async updateMany(table: string, records: Record[]) {
