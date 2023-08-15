@@ -23,7 +23,7 @@ describe('TableRoutes', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any  }
+        { ui: UnstyledUI, log: console.log, storage: {} as any }
       )
       const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
       await orm.create('tableA', {

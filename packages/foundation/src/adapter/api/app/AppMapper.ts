@@ -5,11 +5,12 @@ import { TableMapper } from '../table/mappers/TableMapper'
 import { PageMapper } from '../page/mappers/PageMapper'
 import { ILogSpi } from '@domain/spi/ILogSpi'
 import { IUISpi } from '@domain/spi/IUISpi'
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
 
 export interface AppMapperSpis {
   ui: IUISpi
   log: ILogSpi
-  storage: any
+  storage: IStorageSpi
 }
 
 export class AppMapper {

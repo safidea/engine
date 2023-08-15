@@ -23,7 +23,10 @@ export class CreateFileActionMapper {
     }
   }
 
-  static toEntities(createFileActionDtos: CreateFileActionDto[], storage: IStorageSpi): CreateFileAction[] {
+  static toEntities(
+    createFileActionDtos: CreateFileActionDto[],
+    storage: IStorageSpi
+  ): CreateFileAction[] {
     return createFileActionDtos.map((createFileActionDto) =>
       this.toEntity(createFileActionDto, storage)
     )

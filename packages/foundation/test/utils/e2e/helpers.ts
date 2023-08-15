@@ -11,8 +11,10 @@ import {
   PAGE_LIST_INVOICES,
   PAGE_CREATE_INVOICE,
   PAGE_UPDATE_INVOICE,
-} from '../schemas'
+  AUTOMATION_CREATED_INVOICE,
+} from './schemas/invoices'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
+import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`
@@ -53,6 +55,20 @@ export function getPagesDto(...args: string[]): PageDto[] {
     }
   }
   return pages
+}
+
+export function getAutomationsDto(...args: string[]): AutomationDto[] {
+  const automations: AutomationDto[] = []
+  for (const automationName of args) {
+    switch (automationName) {
+      case 'created_invoice':
+        automations.push(AUTOMATION_CREATED_INVOICE)
+        break
+      default:
+        throw new Error(`Automation ${automationName} not found in schemas`)
+    }
+  }
+  return automations
 }
 
 export function getTableByName(tableName: string): TableDto {

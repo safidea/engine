@@ -1,3 +1,4 @@
+import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
 import { PageDto } from '@adapter/api/page/dtos/PageDto'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 
@@ -417,6 +418,23 @@ export const PAGE_UPDATE_INVOICE: PageDto = {
           },
         },
       ],
+    },
+  ],
+}
+
+export const AUTOMATION_CREATED_INVOICE: AutomationDto = {
+  name: 'invoice-created',
+  trigger: {
+    event: 'record_created',
+    table: 'invoices',
+  },
+  actions: [
+    {
+      type: 'create_file',
+      filename: 'invoice.pdf',
+      input: 'html',
+      output: 'pdf',
+      template: '<h1>Invoice</h1>',
     },
   ],
 }
