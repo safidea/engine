@@ -5,11 +5,12 @@ import { ILogSpi } from '@domain/spi/ILogSpi'
 import { TriggerMapper } from './TriggerMapper'
 import { ActionMapper } from './ActionMapper'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export interface AutomationMapperSpis {
   log: ILogSpi
   storage: IStorageSpi
-  converter: any
+  converter: IConverterSpi
 }
 
 export class AutomationMapper {

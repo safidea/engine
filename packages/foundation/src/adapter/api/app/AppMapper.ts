@@ -6,12 +6,13 @@ import { PageMapper } from '../page/mappers/PageMapper'
 import { ILogSpi } from '@domain/spi/ILogSpi'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export interface AppMapperSpis {
   ui: IUISpi
   log: ILogSpi
   storage: IStorageSpi
-  converter: any
+  converter: IConverterSpi
 }
 
 export class AppMapper {

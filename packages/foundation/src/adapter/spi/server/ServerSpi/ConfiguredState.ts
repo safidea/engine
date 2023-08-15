@@ -6,18 +6,16 @@ import { PageRoutes } from '@adapter/api/page/PageRoutes'
 import { App } from '@domain/entities/app/App'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
-import { StorageSpi } from '@adapter/spi/storage/StorageSpi'
 
 export class ConfiguredState extends ServerState {
   public app: App
 
   constructor(config: unknown, adapters: ServerStateAdapters) {
     super(adapters)
-    const storageSpi = new StorageSpi(adapters.storage)
     const spis = {
       ui: adapters.ui,
       log: adapters.log,
-      storage: storageSpi,
+      storage: adapters.storage,
       converter: adapters.converter,
     }
     this.app = new AppMiddleware(config, spis).validateConfig()

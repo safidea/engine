@@ -3,6 +3,7 @@ import { helpers } from '../../../utils/unit/fixtures'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import { join } from 'path'
 import fs from 'fs-extra'
+import { File } from '@domain/entities/storage/File'
 
 describe('FileStorage', () => {
   test('should create a file', async () => {
@@ -14,10 +15,7 @@ describe('FileStorage', () => {
     const fileStorage = new FileStorage(folder)
 
     // WHEN
-    await fileStorage.write(bucket, {
-      filename,
-      data,
-    })
+    await fileStorage.write(bucket, new File(filename, Buffer.from(data)))
 
     // THEN
     const file = await fs.readFile(join(folder, 'storage', bucket, filename), 'utf8')

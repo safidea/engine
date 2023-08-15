@@ -1,9 +1,9 @@
-import { IStorageAdapter } from '@adapter/spi/storage/IStorageAdapter'
 import { join } from 'path'
 import fs from 'fs-extra'
-import { FileDto } from '@adapter/spi/storage/dtos/FileDto'
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
+import { File } from '@domain/entities/storage/File'
 
-export class FileStorage implements IStorageAdapter {
+export class FileStorage implements IStorageSpi {
   private url: string
 
   constructor(folder: string) {
@@ -12,28 +12,24 @@ export class FileStorage implements IStorageAdapter {
     fs.ensureDirSync(this.url)
   }
 
-  public bucketExists(bucket: string): boolean {
-    return fs.existsSync(join(this.url, bucket))
-  }
-
-  async write(bucket: string, file: FileDto): Promise<string> {
+  async write(bucket: string, file: File): Promise<string> {
     const filePath = join(this.url, bucket, file.filename)
     await fs.outputFile(filePath, file.data)
     return filePath
   }
 
-  async writeMany(bucket: string, files: FileDto[]): Promise<string[]> {
+  async writeMany(bucket: string, files: File[]): Promise<string[]> {
     return Promise.all(files.map((file) => this.write(bucket, file)))
   }
 
-  async read(bucket: string, filename: string): Promise<FileDto | undefined> {
+  async read(bucket: string, filename: string): Promise<File | undefined> {
     const filePath = join(this.url, bucket, filename)
     if (!fs.existsSync(filePath)) return
     const data = await fs.readFile(filePath)
-    return { filename, data }
+    return new File(filename, data)
   }
 
-  async list(bucket: string, filenames?: string[]): Promise<FileDto[]> {
+  async list(bucket: string, filenames?: string[]): Promise<File[]> {
     const fileDtos = []
     if (!filenames) filenames = await fs.readdir(join(this.url, bucket))
     for (const filename of filenames) {

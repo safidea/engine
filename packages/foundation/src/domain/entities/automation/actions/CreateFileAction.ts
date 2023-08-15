@@ -1,6 +1,7 @@
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { BaseAction } from './BaseAction'
 import { File } from '@domain/entities/storage/File'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export type CreateFileActionInput = 'html'
 export type CreateFileActionOutput = 'pdf'
@@ -15,7 +16,7 @@ export class CreateFileAction extends BaseAction {
     private _template: string,
     private _bucket: string,
     private storage: IStorageSpi,
-    private converter: any
+    private converter: IConverterSpi
   ) {
     super('create_file')
     this._filename = filename.endsWith(`.${_output}`) ? filename : `${filename}.${_output}`
@@ -45,7 +46,7 @@ export class CreateFileAction extends BaseAction {
   }
 
   async execute() {
-    const pdfData = await this.converter.htmlToPdf(this._template, this._filename)
+    const pdfData = await this.converter.htmlToPdf(this._template)
     const file = new File(this._filename, pdfData)
     await this.storage.write(this.bucket, file)
   }

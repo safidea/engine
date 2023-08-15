@@ -9,11 +9,12 @@ import { Table } from '@domain/entities/table/Table'
 import { CreateFileActionMapper } from './actions/CreateFileActionMapper'
 import { CreateFileAction } from '@domain/entities/automation/actions/CreateFileAction'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export interface ActionMapperSpis {
   log: ILogSpi
   storage: IStorageSpi
-  converter: any
+  converter: IConverterSpi
 }
 
 export class ActionMapper {

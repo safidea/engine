@@ -27,7 +27,7 @@ describe('RenderPageList', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const list = ListMapper.toEntity(
       {

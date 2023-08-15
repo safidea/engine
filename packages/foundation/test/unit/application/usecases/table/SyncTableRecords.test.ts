@@ -26,7 +26,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
@@ -63,7 +63,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
@@ -110,7 +110,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
@@ -147,7 +147,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
@@ -194,7 +194,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
@@ -285,7 +285,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const ormSpi = new OrmSpi(new JsonOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
     const recordsTableA = RecordMapper.toEntities(
@@ -382,7 +382,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const ormSpi = new OrmSpi(new JsonOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
     const recordsTableA = RecordMapper.toEntities(
@@ -495,7 +495,7 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log, storage: {} as any }
+      { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
     )
     const ormSpi = new OrmSpi(new JsonOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
     const record = RecordMapper.toEntity(

@@ -16,7 +16,12 @@ declare global {
 
 ;(async () => {
   const { app: appDto, path, params } = window.__FOUNDATION_DATA__
-  const app = AppMapper.toEntity(appDto, { ui: UnstyledUI, log: console.log, storage: {} as any })
+  const app = AppMapper.toEntity(appDto, {
+    ui: UnstyledUI,
+    log: console.log,
+    storage: {} as any,
+    converter: {} as any,
+  })
   const page = app.getPageByPath(path)
   const fetcherAdapter = new NativeFetcher(window.location.origin)
   const fetcherSpi = new FetcherSpi(fetcherAdapter, app)

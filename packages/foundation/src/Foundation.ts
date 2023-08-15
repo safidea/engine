@@ -11,9 +11,10 @@ import { IUIAdapter } from '@adapter/spi/ui/IUIAdapter'
 import { NativeLog } from '@infrastructure/log/NativeLog'
 import { ILogAdapter } from '@adapter/spi/log/ILogAdapter'
 import { ServerSpi } from '@adapter/spi/server/ServerSpi'
-import { IStorageAdapter } from '@adapter/spi/storage/IStorageAdapter'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import { Converter } from '@infrastructure/converter/Converter'
+import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
 
 export interface FoundationOptions {
   adapters?: {
@@ -22,8 +23,8 @@ export interface FoundationOptions {
     ui?: IUIAdapter
     fetcher?: IFetcherAdapter
     log?: ILogAdapter
-    storage?: IStorageAdapter
-    converter?: any
+    storage?: IStorageSpi
+    converter?: IConverterSpi
   }
   folder?: string
   port?: number

@@ -21,7 +21,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -52,7 +52,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -79,7 +79,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -112,7 +112,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -144,7 +144,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -178,7 +178,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -221,7 +221,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
@@ -254,7 +254,7 @@ describe('TableMiddleware', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log, storage: {} as any }
+        { ui: UnstyledUI, log: console.log, storage: {} as any, converter: {} as any }
       )
 
       // WHEN
