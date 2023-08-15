@@ -1,8 +1,9 @@
 import { CreateFileAction } from '@domain/entities/automation/actions/CreateFileAction'
 import { CreateFileActionDto } from '../../dtos/actions/CreateFileAction'
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
 
 export class CreateFileActionMapper {
-  static toEntity(createFileActionDto: CreateFileActionDto, storage: any) {
+  static toEntity(createFileActionDto: CreateFileActionDto, storage: IStorageSpi) {
     return new CreateFileAction(
       createFileActionDto.filename,
       createFileActionDto.input,
@@ -22,8 +23,10 @@ export class CreateFileActionMapper {
     }
   }
 
-  static toEntities(createFileActionDtos: CreateFileActionDto[], storage: any): CreateFileAction[] {
-    return createFileActionDtos.map((createFileActionDto) => this.toEntity(createFileActionDto, storage))
+  static toEntities(createFileActionDtos: CreateFileActionDto[], storage: IStorageSpi): CreateFileAction[] {
+    return createFileActionDtos.map((createFileActionDto) =>
+      this.toEntity(createFileActionDto, storage)
+    )
   }
 
   static toDtos(createFileActions: CreateFileAction[]): CreateFileActionDto[] {

@@ -1,5 +1,5 @@
-import { RecordDto } from '@adapter/api/app/dtos/RecordDto'
-import { TablesSyncDto } from '@adapter/api/app/dtos/sync/TablesSyncDto'
+import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
+import { TablesSyncDto } from '@adapter/spi/fetcher/dtos/TablesSyncDto'
 
 export interface ResponseDto {
   status?: number

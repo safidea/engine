@@ -1,5 +1,5 @@
-import { Filter } from '@domain/entities/app/Filter'
-import { Record } from '@domain/entities/app/Record'
+import { Filter } from '@domain/entities/orm/Filter'
+import { Record } from '@domain/entities/orm/Record'
 
 export interface IOrmSpi {
   tableExists(table: string): Promise<boolean>

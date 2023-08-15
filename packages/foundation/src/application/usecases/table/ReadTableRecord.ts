@@ -4,8 +4,8 @@ import { Formula } from '@domain/entities/table/fields/Formula'
 import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
 import { App } from '@domain/entities/app/App'
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
-import { Record } from '@domain/entities/app/Record'
-import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
+import { Record } from '@domain/entities/orm/Record'
+import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
 import { Script } from '@domain/entities/app/Script'
 
 export class ReadTableRecord {

@@ -1,4 +1,6 @@
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { BaseAction } from './BaseAction'
+import { File } from '@domain/entities/storage/File'
 
 export type CreateFileActionInput = 'html'
 export type CreateFileActionOutput = 'pdf'
@@ -9,7 +11,7 @@ export class CreateFileAction extends BaseAction {
     private _input: CreateFileActionInput,
     private _output: CreateFileActionOutput,
     private _template: string,
-    private storage: any
+    private storage: IStorageSpi
   ) {
     super('create_file')
   }
@@ -30,7 +32,7 @@ export class CreateFileAction extends BaseAction {
     return this._template
   }
 
-  execute() {
-    this.storage.create('invoices', { filename: this._filename, data: this._template })
+  async execute() {
+    await this.storage.write('invoices', new File(this._filename, this._template))
   }
 }

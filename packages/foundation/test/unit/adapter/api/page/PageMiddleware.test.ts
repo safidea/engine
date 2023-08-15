@@ -1,5 +1,5 @@
 import { PageMiddleware } from '@adapter/api/page/PageMiddleware'
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
 
@@ -20,7 +20,7 @@ describe('PageMiddleware', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
 
     // WHEN
@@ -46,7 +46,7 @@ describe('PageMiddleware', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
 
     // WHEN
@@ -72,7 +72,7 @@ describe('PageMiddleware', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
 
     // WHEN

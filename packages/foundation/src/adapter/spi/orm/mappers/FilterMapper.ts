@@ -1,6 +1,6 @@
-import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
-import { Filter } from '@domain/entities/app/Filter'
-import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
+import { FilterDto } from '@adapter/spi/orm/dtos/FilterDto'
+import { Filter } from '@domain/entities/orm/Filter'
+import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
 
 export class FilterMapper {
   static toEntity(filterDto: FilterDto): Filter {

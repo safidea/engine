@@ -7,18 +7,18 @@ export class StartedState extends ServerState {
     super(configuredState.adapters)
   }
 
-  emit(event: TriggerEvent): void {
+  async emit(event: TriggerEvent): Promise<void> {
     const { automations } = this.configuredState.app
     for (const automation of automations) {
       if (automation.shouldTrigger(event)) {
-        automation.executeActions()
+        await automation.executeActions()
       }
     }
   }
 
   async stop(): Promise<ServerState> {
     await this.adapters.server.stop()
-    this.emit('server_stopped')
+    await this.emit('server_stopped')
     return this.configuredState
   }
 }

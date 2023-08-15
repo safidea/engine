@@ -1,6 +1,6 @@
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
 import { App } from '@domain/entities/app/App'
-import { Record } from '@domain/entities/app/Record'
+import { Record } from '@domain/entities/orm/Record'
 
 export class SoftDeleteTableRecord {
   constructor(

@@ -1,8 +1,8 @@
 import { ReadTableRecord } from './ReadTableRecord'
 import { App } from '@domain/entities/app/App'
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
-import { Record } from '@domain/entities/app/Record'
-import { Filter } from '@domain/entities/app/Filter'
+import { Record } from '@domain/entities/orm/Record'
+import { Filter } from '@domain/entities/orm/Filter'
 
 export class ListTableRecords {
   private readTableRecord: ReadTableRecord

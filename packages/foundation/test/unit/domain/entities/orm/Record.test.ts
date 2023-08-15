@@ -1,4 +1,4 @@
-import { Record } from '@domain/entities/app/Record'
+import { Record } from '@domain/entities/orm/Record'
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 

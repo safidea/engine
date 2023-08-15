@@ -1,12 +1,12 @@
 import { IFetcherSpi } from '@domain/spi/IFetcherSpi'
 import { IFetcherAdapter } from './IFetcherAdapter'
-import { Record } from '@domain/entities/app/Record'
+import { Record } from '@domain/entities/orm/Record'
 import { App } from '@domain/entities/app/App'
-import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
-import { CommandSyncMapper } from '@adapter/api/app/mappers/sync/CommandSyncMapper'
-import { ResourceSyncMapper } from '@adapter/api/app/mappers/sync/ResourceSyncMapper'
-import { TablesSyncMapper } from '@adapter/api/app/mappers/sync/TablesSyncMapper'
-import { TablesSyncDto } from '@adapter/api/app/dtos/sync/TablesSyncDto'
+import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
+import { CommandSyncMapper } from '@adapter/spi/fetcher/mappers/CommandSyncMapper'
+import { ResourceSyncMapper } from '@adapter/spi/fetcher/mappers/ResourceSyncMapper'
+import { TablesSyncMapper } from '@adapter/spi/fetcher/mappers/TablesSyncMapper'
+import { TablesSyncDto } from '@adapter/spi/fetcher/dtos/TablesSyncDto'
 import { useMemo } from 'react'
 
 export class FetcherSpi implements IFetcherSpi {

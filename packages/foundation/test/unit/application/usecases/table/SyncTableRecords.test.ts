@@ -1,13 +1,13 @@
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
-import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { SyncTableRecords } from '@application/usecases/table/SyncTableRecords'
-import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { helpers, describe, test, expect } from '../../../../utils/unit/fixtures'
-import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
-import { Filter } from '@domain/entities/app/Filter'
-import { Record } from '@domain/entities/app/Record'
+import { FilterMapper } from '@adapter/spi/orm/mappers/FilterMapper'
+import { Filter } from '@domain/entities/orm/Filter'
+import { Record } from '@domain/entities/orm/Record'
 
 describe('SyncTableRecords', () => {
   test('should sync a created record', async () => {
@@ -26,9 +26,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
+    const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
     ormSpi.createMany = jest.fn()
     const record = RecordMapper.toEntity(
@@ -63,9 +63,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
+    const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
     ormSpi.createMany = jest.fn()
     const records = RecordMapper.toEntities(
@@ -110,9 +110,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
+    const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
     ormSpi.updateMany = jest.fn()
     const record = RecordMapper.toEntity(
@@ -147,9 +147,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
+    const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
     ormSpi.updateMany = jest.fn()
     const records = RecordMapper.toEntities(
@@ -194,9 +194,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
+    const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
     const ormSpi = new OrmSpi(orm, app, {} as any)
     const db: { [key: string]: Record[] } = {}
     ormSpi.createMany = (table: string, records: Record[]): any => {
@@ -285,9 +285,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const ormSpi = new OrmSpi(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
+    const ormSpi = new OrmSpi(new JsonOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
     const recordsTableA = RecordMapper.toEntities(
       [
         {
@@ -382,9 +382,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const ormSpi = new OrmSpi(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
+    const ormSpi = new OrmSpi(new JsonOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
     const recordsTableA = RecordMapper.toEntities(
       [
         {
@@ -495,9 +495,9 @@ describe('SyncTableRecords', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
-    const ormSpi = new OrmSpi(new InMemoryOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
+    const ormSpi = new OrmSpi(new JsonOrm(helpers.getDedicatedTmpFolder()), app, {} as any)
     const record = RecordMapper.toEntity(
       {
         id: '1',

@@ -1,6 +1,6 @@
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 import { TableRoutes } from '@adapter/api/table/TableRoutes'
-import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect, helpers } from '../../../../utils/unit/fixtures'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
@@ -23,9 +23,9 @@ describe('TableRoutes', () => {
             },
           ],
         },
-        { ui: UnstyledUI, log: console.log }
+        { ui: UnstyledUI, log: console.log, storage: {} as any  }
       )
-      const orm = new InMemoryOrm(helpers.getDedicatedTmpFolder())
+      const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
       await orm.create('tableA', {
         id: '1',
         created_time: new Date().toISOString(),

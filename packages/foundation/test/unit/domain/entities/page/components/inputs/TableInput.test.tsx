@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
-import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { TableInput } from '@domain/entities/page/components/inputs/TableInput'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
@@ -70,7 +70,7 @@ describe('TableInput Component', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any }
     )
     const TableInputUI = new TableInput(
       'items',

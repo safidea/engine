@@ -2,14 +2,16 @@ import debug from 'debug'
 import { test as base, expect } from '@playwright/test'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
-import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import Foundation from '../../../src/Foundation'
+import { FileStorage } from '@infrastructure/storage/FileStorage'
 
 const log = debug('foundation:specs')
 
 interface Fixtures {
   folder: string
-  orm: InMemoryOrm
+  orm: JsonOrm
+  storage: FileStorage
 }
 
 const test = base.extend<Fixtures>({
@@ -18,8 +20,12 @@ const test = base.extend<Fixtures>({
     await use(folder)
   },
   orm: async ({ folder }, use) => {
-    const orm = new InMemoryOrm(folder)
+    const orm = new JsonOrm(folder)
     await use(orm)
+  },
+  storage: async ({ folder }, use) => {
+    const storage = new FileStorage(folder)
+    await use(storage)
   },
 })
 

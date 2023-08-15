@@ -1,6 +1,6 @@
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
-import { Record } from '@domain/entities/app/Record'
-import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
+import { Record } from '@domain/entities/orm/Record'
+import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@domain/entities/app/App'
 

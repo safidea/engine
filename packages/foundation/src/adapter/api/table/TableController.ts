@@ -3,10 +3,10 @@ import { ListTableRecords } from '@application/usecases/table/ListTableRecords'
 import { App } from '@domain/entities/app/App'
 import { SoftDeleteTableRecord } from '@application/usecases/table/SoftDeleteTableRecord'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
-import { Record } from '@domain/entities/app/Record'
-import { Filter } from '@domain/entities/app/Filter'
+import { Record } from '@domain/entities/orm/Record'
+import { Filter } from '@domain/entities/orm/Filter'
 import { SyncTableRecords } from '@application/usecases/table/SyncTableRecords'
-import { SyncResource } from '@domain/entities/app/Sync'
+import { SyncResource } from '@domain/entities/orm/Sync'
 
 export class TableController {
   private readTableRecord: ReadTableRecord

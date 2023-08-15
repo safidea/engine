@@ -1,6 +1,6 @@
-import { SyncResource } from '@domain/entities/app/Sync'
-import { ResourceSyncDto } from '../../dtos/sync/ResourceSyncDto'
-import { FilterMapper } from '../FilterMapper'
+import { SyncResource } from '@domain/entities/orm/Sync'
+import { ResourceSyncDto } from '@adapter/spi/fetcher/dtos/ResourceSyncDto'
+import { FilterMapper } from '@adapter/spi/orm/mappers/FilterMapper'
 
 export class ResourceSyncMapper {
   static toEntity(ResourceSyncDto: ResourceSyncDto): SyncResource {

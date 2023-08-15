@@ -1,5 +1,5 @@
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
-import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
@@ -30,7 +30,7 @@ describe('ReadTableRecord', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any }
     )
     const OrmSpi = {
       read: () =>
@@ -77,7 +77,7 @@ describe('ReadTableRecord', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any }
     )
     const OrmConnection = {
       read: () =>
@@ -137,7 +137,7 @@ describe('ReadTableRecord', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any }
     )
     const OrmConnection = {
       read: (table: string) => {

@@ -1,7 +1,7 @@
 import { JSONSchemaType } from 'ajv'
-import { AutomationDto, AutomationDtoSchema } from '../../automation/dtos/AutomationDto'
-import { PageDto, PageDtoSchema } from '../../page/dtos/PageDto'
-import { TableDto, TableDtoSchema } from '../../table/dtos/TableDto'
+import { AutomationDto, AutomationDtoSchema } from '../automation/dtos/AutomationDto'
+import { PageDto, PageDtoSchema } from '../page/dtos/PageDto'
+import { TableDto, TableDtoSchema } from '../table/dtos/TableDto'
 
 export interface AppDto {
   name?: string

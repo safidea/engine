@@ -1,5 +1,5 @@
-import { Record } from '@domain/entities/app/Record'
-import { SyncResource, SyncTables } from '@domain/entities/app/Sync'
+import { Record } from '@domain/entities/orm/Record'
+import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 
 export interface IFetcherSpi {
   getSyncRecordsHook: (resources: SyncResource[]) => () => {

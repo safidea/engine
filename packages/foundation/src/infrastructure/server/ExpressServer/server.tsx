@@ -5,9 +5,9 @@ import { Server } from 'http'
 import ReactDOMServer from 'react-dom/server'
 import path from 'path'
 import fs from 'fs-extra'
-import { AppDto } from '@adapter/api/app/dtos/AppDto'
+import { AppDto } from '@adapter/api/app/AppDto'
 import { App } from '@domain/entities/app/App'
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 import { RequestDto, RequestQueryDto } from '@adapter/spi/server/dtos/RequestDto'
 
 export interface FoundationData {

@@ -10,12 +10,12 @@ import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { Context } from '@domain/entities/page/Context'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { FormMapper } from '@adapter/api/page/mappers/components/FormMapper'
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
-import { Record } from '@domain/entities/app/Record'
-import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
-import { FilterMapper } from '@adapter/api/app/mappers/FilterMapper'
-import { IsAnyOf } from '@domain/entities/app/filters/IsAnyOf'
+import { Record } from '@domain/entities/orm/Record'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
+import { FilterMapper } from '@adapter/spi/orm/mappers/FilterMapper'
+import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
 
 describe('RenderPageForm', () => {
   test('should clear the form after submit', async () => {
@@ -30,7 +30,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
     const form = FormMapper.toEntity(
       {
@@ -87,7 +87,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
     const form = FormMapper.toEntity(
       {
@@ -160,7 +160,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
     const form = FormMapper.toEntity(
       {
@@ -276,7 +276,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
     const form = FormMapper.toEntity(
       {
@@ -407,7 +407,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
     const form = FormMapper.toEntity(
       {
@@ -518,7 +518,7 @@ describe('RenderPageForm', () => {
           },
         ],
       },
-      { ui: UnstyledUI, log: console.log }
+      { ui: UnstyledUI, log: console.log, storage: {} as any  }
     )
     const form = FormMapper.toEntity(
       {

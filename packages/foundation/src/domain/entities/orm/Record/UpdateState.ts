@@ -2,7 +2,7 @@ import { Table } from '@domain/entities/table/Table'
 import { RecordFieldsValues, RecordData, RecordFieldValue } from './IRecord'
 import { RecordState } from './RecordState'
 import { DeleteState } from './DeleteState'
-import { Script } from '../Script'
+import { Script } from '@domain/entities/app/Script'
 import { Field } from '@domain/entities/table/Field'
 
 export class UpdateState extends RecordState {

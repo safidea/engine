@@ -1,5 +1,5 @@
 import { JSONSchemaType } from 'ajv'
-import { RecordDto, RecordDtoSchema } from '../RecordDto'
+import { RecordDto, RecordDtoSchema } from '@adapter/spi/orm/dtos/RecordDto'
 
 export interface CommandSyncDto {
   type: 'create' | 'update' | 'delete'

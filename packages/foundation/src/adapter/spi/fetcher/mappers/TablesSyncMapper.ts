@@ -1,7 +1,7 @@
-import { SyncTables } from '@domain/entities/app/Sync'
-import { TablesSyncDto } from '../../dtos/sync/TablesSyncDto'
+import { SyncTables } from '@domain/entities/orm/Sync'
+import { TablesSyncDto } from '@adapter/spi/fetcher/dtos/TablesSyncDto'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { App } from '@domain/entities/app/App'
-import { RecordMapper } from '../RecordMapper'
 
 export class TablesSyncMapper {
   static toEntities(TablesSyncDto: TablesSyncDto, app: App): SyncTables {

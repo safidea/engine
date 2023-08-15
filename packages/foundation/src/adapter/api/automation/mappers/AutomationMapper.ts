@@ -4,10 +4,11 @@ import { Table } from '@domain/entities/table/Table'
 import { ILogSpi } from '@domain/spi/ILogSpi'
 import { TriggerMapper } from './TriggerMapper'
 import { ActionMapper } from './ActionMapper'
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
 
 export interface AutomationMapperSpis {
   log: ILogSpi
-  storage: any
+  storage: IStorageSpi
 }
 
 export class AutomationMapper {

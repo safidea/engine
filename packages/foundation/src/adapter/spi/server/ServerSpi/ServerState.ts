@@ -4,6 +4,7 @@ import { ILogAdapter } from '../../log/ILogAdapter'
 import { IOrmAdapter } from '../../orm/IOrmAdapter'
 import { IUIAdapter } from '../../ui/IUIAdapter'
 import { IServerAdapter } from '../IServerAdapter'
+import { IStorageAdapter } from '@adapter/spi/storage/IStorageAdapter'
 
 export interface ServerStateAdapters {
   server: IServerAdapter
@@ -11,7 +12,7 @@ export interface ServerStateAdapters {
   fetcher: IFetcherAdapter
   ui: IUIAdapter
   log: ILogAdapter
-  storage: any
+  storage: IStorageAdapter
 }
 
 export abstract class ServerState implements IServerSpi {

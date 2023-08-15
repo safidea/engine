@@ -1,7 +1,7 @@
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapter/api/page/PageController'
-import { AppMapper } from '@adapter/api/app/mappers/AppMapper'
+import { AppMapper } from '@adapter/api/app/AppMapper'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
@@ -16,7 +16,7 @@ declare global {
 
 ;(async () => {
   const { app: appDto, path, params } = window.__FOUNDATION_DATA__
-  const app = AppMapper.toEntity(appDto, { ui: UnstyledUI, log: console.log })
+  const app = AppMapper.toEntity(appDto, { ui: UnstyledUI, log: console.log, storage: {} as any })
   const page = app.getPageByPath(path)
   const fetcherAdapter = new NativeFetcher(window.location.origin)
   const fetcherSpi = new FetcherSpi(fetcherAdapter, app)

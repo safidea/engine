@@ -1,4 +1,4 @@
-import { AppDto } from '@adapter/api/app/dtos/AppDto'
+import { AppDto } from '@adapter/api/app/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('An automation that build an invoice document from a template', () => {
@@ -174,7 +174,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).not.toContain('Invoice created')
   })
 
-  test.only('should create a document when an invoice is created', async ({ request, orm }) => {
+  test('should create a document when an invoice is created', async ({ request, orm, storage }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
@@ -198,11 +198,6 @@ test.describe('An automation that build an invoice document from a template', ()
       ],
     }
     const port = 50006
-    const files: any = { invoices: [] }
-    const storage = {
-      list: async (list: string) => files[list],
-      create: async (list: string, file: any) => files[list].push(file),
-    }
     const foundation = new Foundation({ adapters: { orm, storage }, port })
     await foundation.config(config).start()
     const {

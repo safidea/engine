@@ -2,8 +2,8 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
-import { RecordDto, RecordFieldValueDto } from '@adapter/api/app/dtos/RecordDto'
-import { FilterDto } from '@adapter/api/app/dtos/FilterDto'
+import { RecordDto, RecordFieldValueDto } from '@adapter/spi/orm/dtos/RecordDto'
+import { FilterDto } from '@adapter/spi/orm/dtos/FilterDto'
 
 interface TableRecord {
   [key: string]: RecordFieldValueDto
@@ -12,7 +12,7 @@ interface Database {
   [key: string]: TableRecord[]
 }
 
-export class InMemoryOrm implements IOrmAdapter {
+export class JsonOrm implements IOrmAdapter {
   private url: string
   private tables: TableDto[] = []
 

@@ -5,9 +5,9 @@ import { App } from '@domain/entities/app/App'
 import { ApiRoute } from '@adapter/spi/server/IServerAdapter'
 import { ApiError } from '@domain/entities/app/errors/ApiError'
 import { ResponseDto } from '@adapter/spi/server/dtos/ResponseDto'
-import { RecordMapper } from '@adapter/api/app/mappers/RecordMapper'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
-import { TablesSyncMapper } from '../app/mappers/sync/TablesSyncMapper'
+import { TablesSyncMapper } from '../../spi/fetcher/mappers/TablesSyncMapper'
 
 export class TableRoutes {
   private readonly tableController: TableController

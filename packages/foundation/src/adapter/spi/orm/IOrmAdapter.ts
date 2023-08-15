@@ -1,6 +1,6 @@
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
-import { RecordDto } from '../../api/app/dtos/RecordDto'
-import { FilterDto } from '../../api/app/dtos/FilterDto'
+import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
+import { FilterDto } from './dtos/FilterDto'
 
 export interface IOrmAdapter {
   configure(tables: TableDto[]): void

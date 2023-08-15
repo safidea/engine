@@ -1,9 +1,9 @@
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
 import { IOrmAdapter } from './IOrmAdapter'
-import { Record } from '@domain/entities/app/Record'
-import { Filter } from '@domain/entities/app/Filter'
-import { RecordMapper } from '../../api/app/mappers/RecordMapper'
-import { FilterMapper } from '../../api/app/mappers/FilterMapper'
+import { Record } from '@domain/entities/orm/Record'
+import { Filter } from '@domain/entities/orm/Filter'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
+import { FilterMapper } from './mappers/FilterMapper'
 import { App } from '@domain/entities/app/App'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { StartedState } from '../server/ServerSpi/StartedState'
@@ -25,7 +25,7 @@ export class OrmSpi implements IOrmSpi {
   async create(table: string, record: Record) {
     const recordDto = RecordMapper.toDto(record)
     const id = await this.ormAdapter.create(table, recordDto)
-    this.instance.emit('record_created')
+    await this.instance.emit('record_created')
     return id
   }
 
@@ -37,7 +37,7 @@ export class OrmSpi implements IOrmSpi {
   async update(table: string, record: Record, id: string) {
     const recordDto = RecordMapper.toDto(record)
     await this.ormAdapter.softUpdateById(table, recordDto, id)
-    this.instance.emit('record_updated')
+    await this.instance.emit('record_updated')
   }
 
   async updateMany(table: string, records: Record[]) {

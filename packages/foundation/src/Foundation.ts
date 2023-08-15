@@ -2,7 +2,7 @@ import 'module-alias/register'
 import { join } from 'path'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { ExpressServer } from '@infrastructure/server/ExpressServer/server'
-import { InMemoryOrm } from '@infrastructure/orm/InMemoryOrm'
+import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { IServerAdapter } from '@adapter/spi/server/IServerAdapter'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
@@ -11,6 +11,8 @@ import { IUIAdapter } from '@adapter/spi/ui/IUIAdapter'
 import { NativeLog } from '@infrastructure/log/NativeLog'
 import { ILogAdapter } from '@adapter/spi/log/ILogAdapter'
 import { ServerSpi } from '@adapter/spi/server/ServerSpi'
+import { IStorageAdapter } from '@adapter/spi/storage/IStorageAdapter'
+import { FileStorage } from '@infrastructure/storage/FileStorage'
 
 export interface FoundationOptions {
   adapters?: {
@@ -19,7 +21,7 @@ export interface FoundationOptions {
     ui?: IUIAdapter
     fetcher?: IFetcherAdapter
     log?: ILogAdapter
-    storage?: any
+    storage?: IStorageAdapter
   }
   folder?: string
   port?: number
@@ -34,12 +36,12 @@ export default class Foundation {
     const port = options.port ?? 3000
     const url = options.url ?? 'http://localhost:' + port
     const folder = options.folder ?? join(process.cwd(), 'app')
-    const orm = adapters.orm ?? new InMemoryOrm(folder)
+    const orm = adapters.orm ?? new JsonOrm(folder)
     const ui = adapters.ui ?? UnstyledUI
     const fetcher = adapters.fetcher ?? new NativeFetcher(url)
     const server = adapters.server ?? new ExpressServer(port)
     const log = adapters.log ?? NativeLog
-    const storage = adapters.storage ?? {}
+    const storage = adapters.storage ?? new FileStorage(folder)
     this.serverSpi = new ServerSpi({ server, orm, ui, fetcher, log, storage })
   }
 

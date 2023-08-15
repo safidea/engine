@@ -1,7 +1,7 @@
-import { Record } from '@domain/entities/app/Record'
-import { RecordDto } from '../dtos/RecordDto'
+import { Record } from '@domain/entities/orm/Record'
+import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
 import { Table } from '@domain/entities/table/Table'
-import { RecordStateType } from '@domain/entities/app/Record/IRecord'
+import { RecordStateType } from '@domain/entities/orm/Record/IRecord'
 
 export class RecordMapper {
   static toEntity(recordDto: RecordDto, table: Table, state?: RecordStateType): Record {

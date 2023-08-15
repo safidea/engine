@@ -8,10 +8,11 @@ import { ILogSpi } from '@domain/spi/ILogSpi'
 import { Table } from '@domain/entities/table/Table'
 import { CreateFileActionMapper } from './actions/CreateFileActionMapper'
 import { CreateFileAction } from '@domain/entities/automation/actions/CreateFileAction'
+import { IStorageSpi } from '@domain/spi/IStorageSpi'
 
 export interface ActionMapperSpis {
   log: ILogSpi
-  storage: any
+  storage: IStorageSpi
 }
 
 export class ActionMapper {

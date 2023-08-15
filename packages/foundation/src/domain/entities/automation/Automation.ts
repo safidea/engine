@@ -24,9 +24,9 @@ export class Automation {
     return this._trigger.event === event
   }
 
-  executeActions() {
+  async executeActions() {
     for (const action of this._actions) {
-      action.execute()
+      await action.execute()
     }
   }
 }

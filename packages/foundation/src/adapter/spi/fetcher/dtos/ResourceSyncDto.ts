@@ -1,5 +1,5 @@
 import { JSONSchemaType } from 'ajv'
-import { FilterDto, FilterDtoSchema } from '../FilterDto'
+import { FilterDto, FilterDtoSchema } from '@adapter/spi/orm/dtos/FilterDto'
 
 export interface ResourceSyncDto {
   table: string

@@ -1,6 +1,6 @@
 import { JSONSchemaType } from 'ajv'
-import { CommandSyncDto, CommandSyncDtoSchema } from './sync/CommandSyncDto'
-import { ResourceSyncDto, ResourceSyncDtoSchema } from './sync/ResourceSyncDto'
+import { CommandSyncDto, CommandSyncDtoSchema } from './CommandSyncDto'
+import { ResourceSyncDto, ResourceSyncDtoSchema } from './ResourceSyncDto'
 
 export interface SyncDto {
   commands?: CommandSyncDto[]

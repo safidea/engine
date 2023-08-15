@@ -1,7 +1,7 @@
-import { SyncCommand } from '@domain/entities/app/Sync'
-import { CommandSyncDto } from '../../dtos/sync/CommandSyncDto'
-import { RecordMapper } from '../RecordMapper'
-import { Record } from '@domain/entities/app/Record'
+import { SyncCommand } from '@domain/entities/orm/Sync'
+import { CommandSyncDto } from '@adapter/spi/fetcher/dtos/CommandSyncDto'
+import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
+import { Record } from '@domain/entities/orm/Record'
 import { App } from '@domain/entities/app/App'
 
 export class CommandSyncMapper {
