@@ -5,15 +5,17 @@ import { IConverterSpi } from '@domain/spi/IConverterSpi'
 
 export type CreateFileActionInput = 'html'
 export type CreateFileActionOutput = 'pdf'
+export type CreateFileActionTemplate = string | { privatePath: string }
 
 export class CreateFileAction extends BaseAction {
   private _filename: string
+  private _template: string
 
   constructor(
     filename: string,
     private _input: CreateFileActionInput,
     private _output: CreateFileActionOutput,
-    private _template: string,
+    template: CreateFileActionTemplate,
     private _bucket: string,
     private storage: IStorageSpi,
     private converter: IConverterSpi
@@ -21,7 +23,13 @@ export class CreateFileAction extends BaseAction {
     super('create_file')
     this._filename = filename.endsWith(`.${_output}`) ? filename : `${filename}.${_output}`
     if (_input === 'html') {
-      this._template = `<html><body>${_template}</body></html>`
+      if (typeof template === 'object' && 'privatePath' in template) {
+        this._template = storage.readStaticPrivateFile(template.privatePath)
+      } else {
+        this._template = template
+      }
+    } else {
+      throw new Error(`Input "${_input}" not supported`)
     }
   }
 

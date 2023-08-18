@@ -422,7 +422,7 @@ export const PAGE_UPDATE_INVOICE: PageDto = {
   ],
 }
 
-export const AUTOMATION_CREATED_INVOICE: AutomationDto = {
+export const AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE: AutomationDto = {
   name: 'invoice-created',
   trigger: {
     event: 'record_created',
@@ -435,6 +435,26 @@ export const AUTOMATION_CREATED_INVOICE: AutomationDto = {
       input: 'html',
       output: 'pdf',
       template: '<h1>Invoice</h1>',
+      bucket: 'invoices',
+    },
+  ],
+}
+
+export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto = {
+  name: 'invoice-created',
+  trigger: {
+    event: 'record_created',
+    table: 'invoices',
+  },
+  actions: [
+    {
+      type: 'create_file',
+      filename: 'invoice.pdf',
+      input: 'html',
+      output: 'pdf',
+      template: {
+        privatePath: '/templates/invoice.html',
+      },
       bucket: 'invoices',
     },
   ],

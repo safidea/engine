@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h2>Invoice</h2>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Item 1</td>
+                <td>Sample description for Item 1</td>
+                <td>2</td>
+                <td>$10</td>
+                <td>$20</td>
+            </tr>
+            <tr>
+                <td>Item 2</td>
+                <td>Sample description for Item 2</td>
+                <td>1</td>
+                <td>$15</td>
+                <td>$15</td>
+            </tr>
+            <tr>
+                <td>Item 3</td>
+                <td>Sample description for Item 3</td>
+                <td>3</td>
+                <td>$7</td>
+                <td>$21</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
+                <td><strong>$56</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html>

@@ -4,16 +4,22 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { File } from '@domain/entities/storage/File'
 
 export class FileStorage implements IStorageSpi {
-  private url: string
+  private storageUrl: string
+  private staticPrivateUrl: string
 
   constructor(folder: string) {
-    this.url = join(folder, 'storage')
-    if (fs.existsSync(this.url)) return
-    fs.ensureDirSync(this.url)
+    this.storageUrl = join(folder, 'storage')
+    this.staticPrivateUrl = join(folder, 'private')
+    if (!fs.existsSync(this.storageUrl)) {
+      fs.ensureDirSync(this.storageUrl)
+    }
+    if (!fs.existsSync(this.staticPrivateUrl)) {
+      fs.ensureDirSync(this.staticPrivateUrl)
+    }
   }
 
   async write(bucket: string, file: File): Promise<string> {
-    const filePath = join(this.url, bucket, file.filename)
+    const filePath = join(this.storageUrl, bucket, file.filename)
     await fs.outputFile(filePath, file.data)
     return filePath
   }
@@ -23,7 +29,7 @@ export class FileStorage implements IStorageSpi {
   }
 
   async read(bucket: string, filename: string): Promise<File | undefined> {
-    const filePath = join(this.url, bucket, filename)
+    const filePath = join(this.storageUrl, bucket, filename)
     if (!fs.existsSync(filePath)) return
     const data = await fs.readFile(filePath)
     return new File(filename, data)
@@ -31,11 +37,15 @@ export class FileStorage implements IStorageSpi {
 
   async list(bucket: string, filenames?: string[]): Promise<File[]> {
     const fileDtos = []
-    if (!filenames) filenames = await fs.readdir(join(this.url, bucket))
+    if (!filenames) filenames = await fs.readdir(join(this.storageUrl, bucket))
     for (const filename of filenames) {
       const fileDto = await this.read(bucket, filename)
       if (fileDto) fileDtos.push(fileDto)
     }
     return fileDtos
+  }
+
+  readStaticPrivateFile(privatePath: string): string {
+    return fs.readFileSync(join(this.staticPrivateUrl, privatePath), 'utf-8')
   }
 }

@@ -415,7 +415,9 @@
           "filename": "invoice.pdf",
           "input": "html",
           "output": "pdf",
-          "template": "<h1>Invoice</h1>",
+          "template": {
+            "privatePath": "templates/invoice.html"
+          },
           "bucket": "invoices"
         }
       ]

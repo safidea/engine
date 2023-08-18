@@ -1,4 +1,6 @@
+import pdf from 'pdf-parse'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import { AppDto } from '@adapter/api/app/AppDto'
 
 test.describe('A page that create an invoice', () => {
   test('should display a title', async ({ page, folder, orm }) => {
@@ -117,5 +119,63 @@ test.describe('A page that create an invoice', () => {
     // THEN
     const errorExist = await page.$('text=field "address" is required')
     expect(errorExist).toBeTruthy()
+  })
+
+  test('should create a PDF document when an invoice is created from a form', async ({
+    page,
+    orm,
+    storage,
+    converter,
+  }) => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTablesDto('invoices'),
+      pages: helpers.getPagesDto('invoices_create'),
+      automations: helpers.getAutomationsDto('created_invoice_with_html_template'),
+    }
+    const port = 50007
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    await foundation.config(config).start()
+    const {
+      invoices: [invoice],
+      invoices_items: items,
+    } = helpers.generateRecordsDto('invoices')
+
+    // WHEN
+    // I go to the create page "/create"
+    await page.goto(helpers.getUrl(port, '/create'))
+
+    // AND
+    // I fill the form
+    await page.locator('input[name="customer"]').type(String(invoice.customer))
+    await page.locator('input[name="address"]').type(String(invoice.address))
+    await page.locator('input[name="zip_code"]').type(String(invoice.zip_code))
+    await page.locator('input[name="city"]').type(String(invoice.city))
+    await page.locator('input[name="country"]').type(String(invoice.country))
+    for (let i = 0; i < items.length; i++) {
+      await page.click('text=Nouvelle ligne')
+
+      const activitySelector = `input[placeholder="Activité"][value=""]`
+      const unitySelector = `input[placeholder="Unité"][value=""]`
+      const quantitySelector = `input[placeholder="Quantité"][value=""]`
+      const unitPriceSelector = `input[placeholder="Prix unitaire"][value=""]`
+
+      await page.locator(activitySelector).type(String(items[i].activity))
+      await page.locator(unitySelector).type(String(items[i].unity))
+      await page.locator(quantitySelector).type(String(items[i].quantity))
+      await page.locator(unitPriceSelector).type(String(items[i].unit_price))
+    }
+
+    // AND
+    // I click on the submit button
+    await page.locator('button[type="submit"]').click()
+    await page.getByText('Enregistrement en cours...').waitFor({ state: 'detached' })
+
+    // THEN
+    const [file] = await storage.list('invoices')
+    expect(file).toBeDefined()
+    expect(file.filename).toEqual('invoice.pdf')
+    const data = await pdf(file.data)
+    expect(data.text).toContain('Invoice')
   })
 })

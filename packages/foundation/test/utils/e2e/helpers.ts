@@ -1,5 +1,6 @@
 import { fakerFR as faker } from '@faker-js/faker'
 import { v4 as uuidV4 } from 'uuid'
+import fs from 'fs-extra'
 import { PageDto } from '@adapter/api/page/dtos/PageDto'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
@@ -11,7 +12,8 @@ import {
   PAGE_LIST_INVOICES,
   PAGE_CREATE_INVOICE,
   PAGE_UPDATE_INVOICE,
-  AUTOMATION_CREATED_INVOICE,
+  AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE,
+  AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
 } from './schemas/invoices'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
 import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
@@ -61,14 +63,24 @@ export function getAutomationsDto(...args: string[]): AutomationDto[] {
   const automations: AutomationDto[] = []
   for (const automationName of args) {
     switch (automationName) {
-      case 'created_invoice':
-        automations.push(AUTOMATION_CREATED_INVOICE)
+      case 'created_invoice_with_html_template':
+        automations.push(AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE)
+        break
+      case 'created_invoice_with_html_file_template':
+        automations.push(AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE)
         break
       default:
         throw new Error(`Automation ${automationName} not found in schemas`)
     }
   }
   return automations
+}
+
+export function copyPrivateTemplate(templateName: string, folder: string): void {
+  const templatePath = `${__dirname}/templates/${templateName}`
+  const destinationPath = `${folder}/private/templates/${templateName}`
+  fs.ensureDirSync(`${folder}/private/templates`)
+  fs.copyFileSync(templatePath, destinationPath)
 }
 
 export function getTableByName(tableName: string): TableDto {
