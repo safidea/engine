@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Invoice {{ preview_number }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,51 +32,65 @@
             text-align: center;
             margin-bottom: 20px;
         }
+
+        .customer-info {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <h2>Invoice</h2>
+        <h2>Invoice {{ preview_number }}</h2>
+        {{#unless number}}<p>Preview</p>{{/unless}}
+        {{#if finalised_time}}
+            <p>Date: {{datetime_format finalised_time "DD/MM/YY"}}</p>
+        {{else}}
+            <p>Date: {{now "DD/MM/YY"}}</p>
+        {{/if}}
+    </div>
+
+    <div class="customer-info">
+        <strong>Customer:</strong> {{ customer }}<br>
+        <strong>Address:</strong> {{ address }}, {{ zip_code }} {{ city }}<br>
+        <strong>Country:</strong> {{ country }}<br>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Item Name</th>
+                <th>Activity</th>
                 <th>Description</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Unit Price</th>
+                <th>VAT</th>
                 <th>Total</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Item 1</td>
-                <td>Sample description for Item 1</td>
-                <td>2</td>
-                <td>$10</td>
-                <td>$20</td>
-            </tr>
-            <tr>
-                <td>Item 2</td>
-                <td>Sample description for Item 2</td>
-                <td>1</td>
-                <td>$15</td>
-                <td>$15</td>
-            </tr>
-            <tr>
-                <td>Item 3</td>
-                <td>Sample description for Item 3</td>
-                <td>3</td>
-                <td>$7</td>
-                <td>$21</td>
-            </tr>
+            {{#each items}}
+                <tr>
+                    <td>{{ this.activity }}</td>
+                    <td>{{ this.description }}</td>
+                    <td>{{ this.quantity }}</td>
+                    <td>{{ this.unit_price }}</td>
+                    <td>{{ this.vat }}</td>
+                    <td>{{ this.total_amount }}</td>
+                </tr>
+            {{/each}}
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
-                <td><strong>$56</strong></td>
+                <td colspan="5" style="text-align: right;"><strong>Net Total:</strong></td>
+                <td><strong>{{ total_net_amount }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right;"><strong>VAT:</strong></td>
+                <td><strong>{{ total_vat }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right;"><strong>Total:</strong></td>
+                <td><strong>{{ total_amount }}</strong></td>
             </tr>
         </tfoot>
     </table>

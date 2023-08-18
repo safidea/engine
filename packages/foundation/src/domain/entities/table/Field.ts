@@ -1,3 +1,4 @@
+import { Autonumber } from './fields/Autonumber'
 import { Currency } from './fields/Currency'
 import { Datetime } from './fields/Datetime'
 import { Formula } from './fields/Formula'
@@ -20,3 +21,4 @@ export type Field =
   | SingleLinkedRecord
   | Datetime
   | SingleSelect
+  | Autonumber

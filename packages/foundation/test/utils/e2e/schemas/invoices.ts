@@ -12,6 +12,15 @@ export const TABLE_INVOICES: TableDto = {
   name: 'invoices',
   fields: [
     {
+      name: 'autonumber',
+      type: 'autonumber',
+    },
+    /*{
+      name: 'preview_number',
+      type: 'formula',
+      formula: 'P + (autonumber + 1000)',
+    },*/
+    {
       name: 'customer',
       type: 'single_line_text',
       permissions: invoiceFieldPermission,

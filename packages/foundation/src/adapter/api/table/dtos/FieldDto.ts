@@ -12,6 +12,7 @@ import { RollupDto, RollupDtoSchema } from './fields/RollupDto'
 import { SingleLineTextDto, SingleLineTextDtoSchema } from './fields/SingleLineTextDto'
 import { SingleLinkedRecordDto, SingleLinkedRecordDtoSchema } from './fields/SingleLinkedRecordDto'
 import { SingleSelectDto, SingleSelectDtoSchema } from './fields/SingleSelectDto'
+import { AutonumberDto, AutonumberDtoSchema } from './fields/AutonumberDto'
 
 export type FieldDto =
   | SingleLineTextDto
@@ -24,6 +25,7 @@ export type FieldDto =
   | RollupDto
   | DatetimeDto
   | SingleSelectDto
+  | AutonumberDto
 
 export const FieldDtoSchema: JSONSchemaType<FieldDto> = {
   oneOf: [
@@ -37,5 +39,6 @@ export const FieldDtoSchema: JSONSchemaType<FieldDto> = {
     RollupDtoSchema,
     DatetimeDtoSchema,
     SingleSelectDtoSchema,
+    AutonumberDtoSchema,
   ],
 }

@@ -10,6 +10,7 @@ import { SingleLineText } from '@domain/entities/table/fields/SingleLineText'
 import { SingleLinkedRecord } from '@domain/entities/table/fields/SingleLinkedRecord'
 import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
 import { FieldDto } from '../dtos/FieldDto'
+import { Autonumber } from '@domain/entities/table/fields/Autonumber'
 
 export class FieldMapper {
   static toEntity(fieldDto: FieldDto): Field {
@@ -71,6 +72,9 @@ export class FieldMapper {
     }
     if (type === 'single_select') {
       return new SingleSelect(fieldDto.name, fieldDto.options, fieldDto.optional, fieldDto.default)
+    }
+    if (type === 'autonumber') {
+      return new Autonumber(fieldDto.name)
     }
     throw new Error(`Invalid field type ${type}`)
   }
@@ -163,6 +167,12 @@ export class FieldMapper {
         options: field.options,
         optional: field.optional,
         default: field.default,
+      }
+    }
+    if (field instanceof Autonumber) {
+      return {
+        type: 'autonumber',
+        name: field.name,
       }
     }
     throw new Error(`Invalid field instance ${field}`)

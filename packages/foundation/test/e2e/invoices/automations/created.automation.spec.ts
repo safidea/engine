@@ -241,4 +241,48 @@ test.describe('An automation that build an invoice document from a template', ()
     const data = await pdf(file.data)
     expect(data.text).toContain('Invoice')
   })
+
+  test.skip('should create a draft invoice from html template on API request with dynamics tokens', async ({
+    request,
+    folder,
+    orm,
+    storage,
+    converter,
+  }) => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTablesDto('invoices'),
+      automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
+    }
+    helpers.copyPrivateTemplate('invoice.html', folder)
+    const port = 50008
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    await foundation.config(config).start()
+    const {
+      invoices: [invoice],
+      invoices_items: items,
+    } = helpers.generateRecordsDto('invoices')
+
+    // WHEN
+    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+
+    // THEN
+    const [file] = await storage.list('invoices')
+    expect(file).toBeDefined()
+    expect(file.filename).toEqual('invoice-P1001.pdf')
+    const data = await pdf(file.data)
+    expect(data.text).toContain('Invoice P1001')
+    expect(data.text).toContain('Preview')
+    expect(data.text).toContain(invoice.customer)
+    expect(data.text).toContain(invoice.address)
+    expect(data.text).toContain(invoice.zip_code)
+    expect(data.text).toContain(invoice.city)
+    expect(data.text).toContain(invoice.country)
+    for (const item of items) {
+      expect(data.text).toContain(item.activity)
+      expect(data.text).toContain(item.quantity)
+      expect(data.text).toContain(item.unit_price)
+      expect(data.text).toContain(item.vat)
+    }
+  })
 })
