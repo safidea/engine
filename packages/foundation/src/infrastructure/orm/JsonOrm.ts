@@ -23,7 +23,7 @@ export class JsonOrm implements IOrmAdapter {
     fs.writeJSONSync(this.url, {})
   }
 
-  public configure(tables: TableDto[]): void {
+  public async configure(tables: TableDto[]): Promise<void> {
     this.tables = tables
   }
 
@@ -48,15 +48,32 @@ export class JsonOrm implements IOrmAdapter {
   async create(tableName: string, recordDto: RecordDto): Promise<string> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
+    const autonumberField = this.getTable(tableName).fields.find(
+      (field) => field.type === 'autonumber'
+    )
+    if (autonumberField) {
+      const autonumber = db[tableName].length + 1
+      recordDto = { ...recordDto, [autonumberField.name]: autonumber }
+    }
     db[tableName].push(recordDto)
     await this.setDB(db)
     return String(recordDto.id)
   }
 
-  async createMany(table: string, recordsDto: RecordDto[]): Promise<string[]> {
+  async createMany(tableName: string, recordsDto: RecordDto[]): Promise<string[]> {
     const db = await this.getDB()
-    if (!db[table]) db[table] = []
-    db[table].push(...recordsDto)
+    if (!db[tableName]) db[tableName] = []
+    const autonumberField = this.getTable(tableName).fields.find(
+      (field) => field.type === 'autonumber'
+    )
+    if (autonumberField) {
+      const autonumber = db[tableName].length + 1
+      recordsDto = recordsDto.map((recordDto) => ({
+        ...recordDto,
+        [autonumberField.name]: autonumber,
+      }))
+    }
+    db[tableName].push(...recordsDto)
     await this.setDB(db)
     return recordsDto.map((recordDto) => String(recordDto.id))
   }

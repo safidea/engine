@@ -3,7 +3,7 @@ import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
 import { FilterDto } from './dtos/FilterDto'
 
 export interface IOrmAdapter {
-  configure(tables: TableDto[]): void
+  configure(tables: TableDto[]): Promise<void>
   tableExists(tableName: string): boolean
   create(table: string, record: RecordDto): Promise<string>
   createMany(table: string, record: RecordDto[]): Promise<string[]>

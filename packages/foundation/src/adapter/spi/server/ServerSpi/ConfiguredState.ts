@@ -31,6 +31,7 @@ export class ConfiguredState extends ServerState {
     server.initConfig(this.app)
     if (this.app.tables.length > 0) {
       const ormSpi = new OrmSpi(orm, this.app, instance)
+      await ormSpi.configure()
       const tableRoutes = new TableRoutes(this.app, ormSpi)
       server.configureTables(tableRoutes.routes)
     }

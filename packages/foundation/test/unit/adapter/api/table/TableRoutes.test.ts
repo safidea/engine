@@ -4,6 +4,7 @@ import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect, helpers } from '../../../../utils/unit/fixtures'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
+import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 
 describe('TableRoutes', () => {
   describe('patch', () => {
@@ -26,6 +27,7 @@ describe('TableRoutes', () => {
         { ui: UnstyledUI }
       )
       const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
+      orm.configure(TableMapper.toDtos(app.tables))
       await orm.create('tableA', {
         id: '1',
         created_time: new Date().toISOString(),

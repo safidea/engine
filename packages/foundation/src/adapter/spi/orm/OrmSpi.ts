@@ -13,9 +13,11 @@ export class OrmSpi implements IOrmSpi {
     private ormAdapter: IOrmAdapter,
     private app: App,
     private instance: StartedState
-  ) {
-    const tablesDto = TableMapper.toDtos(app.tables)
-    this.ormAdapter.configure(tablesDto)
+  ) {}
+
+  async configure(): Promise<void> {
+    const tablesDto = TableMapper.toDtos(this.app.tables)
+    await this.ormAdapter.configure(tablesDto)
   }
 
   async tableExists(table: string) {

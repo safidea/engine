@@ -110,6 +110,7 @@ export async function generateRecords(
   countOrRecordsDto: number | ExtendRecordDto[] = 1
 ): Promise<RecordsDtoByTables> {
   const tables = generateRecordsDto(tableName, countOrRecordsDto)
+  await ormAdapter.configure(getTablesDto(tableName))
   for (const table in tables) {
     await ormAdapter.createMany(table, tables[table])
   }

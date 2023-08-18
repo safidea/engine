@@ -18,7 +18,7 @@ export const TABLE_INVOICES: TableDto = {
     /*{
       name: 'preview_number',
       type: 'formula',
-      formula: 'P + (autonumber + 1000)',
+      formula: '"P" + (autonumber + 1000)',
     },*/
     {
       name: 'customer',

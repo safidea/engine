@@ -1,7 +1,9 @@
 import { Filter } from '@domain/entities/orm/Filter'
 import { Record } from '@domain/entities/orm/Record'
+import { Table } from '@domain/entities/table/Table'
 
 export interface IOrmSpi {
+  configure(tables: Table[]): Promise<void>
   tableExists(table: string): Promise<boolean>
   create(table: string, record: Record): Promise<string>
   createMany(table: string, record: Record[]): Promise<string[]>
