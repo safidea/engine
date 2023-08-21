@@ -3,7 +3,7 @@ import Handlebars from 'handlebars'
 import { DateTime } from 'luxon'
 
 Handlebars.registerHelper('now', function (format = 'yyyy-MM-dd HH:mm:ss') {
-  const now = DateTime.now()
+  const now = DateTime.now().setLocale('fr')
   return now.toFormat(format)
 })
 

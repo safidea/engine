@@ -44,9 +44,9 @@
         <h2>Invoice {{ preview_number }}</h2>
         {{#unless number}}<p>Preview</p>{{/unless}}
         {{#if finalised_time}}
-            <p>Date: {{datetime_format finalised_time "DD/MM/YY"}}</p>
+            <p>Date: {{datetime_format finalised_time "dd/MM/yy"}}</p>
         {{else}}
-            <p>Date: {{now "DD/MM/YY"}}</p>
+            <p>Date: {{now "dd/MM/yy"}}</p>
         {{/if}}
     </div>
 
@@ -79,15 +79,15 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" style="text-align: right;"><strong>Net Total:</strong></td>
+                <td colspan="4" style="text-align: right;"><strong>Net Total:</strong></td>
                 <td><strong>{{currency total_net_amount }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right;"><strong>VAT:</strong></td>
+                <td colspan="4" style="text-align: right;"><strong>VAT:</strong></td>
                 <td><strong>{{currency total_vat }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right;"><strong>Total:</strong></td>
+                <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
                 <td><strong>{{currency total_amount }}</strong></td>
             </tr>
         </tfoot>
