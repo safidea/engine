@@ -1,18 +1,18 @@
 import { TriggerEvent } from '@domain/entities/automation/triggers/BaseTrigger'
 import { ServerState } from './ServerState'
 import { ConfiguredState } from './ConfiguredState'
-import { ContextDataAction } from '@domain/entities/automation/actions/BaseAction'
+import { AutomationContext } from '@domain/entities/automation/Automation'
 
 export class StartedState extends ServerState {
   constructor(private configuredState: ConfiguredState) {
     super(configuredState.adapters)
   }
 
-  async emit(event: TriggerEvent, data: ContextDataAction = {}): Promise<void> {
+  async emit(event: TriggerEvent, context: AutomationContext = {}): Promise<void> {
     const { automations } = this.configuredState.app
     for (const automation of automations) {
-      if (automation.shouldTrigger(event)) {
-        await automation.executeActions({ [event]: data })
+      if (automation.shouldTrigger(event, context)) {
+        await automation.executeActions({ [event]: context })
       }
     }
   }

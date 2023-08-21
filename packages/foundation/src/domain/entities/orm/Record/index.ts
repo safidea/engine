@@ -94,4 +94,8 @@ export class Record implements IRecord {
   validateFieldsPermissions(persistedValues: RecordFieldsValues): void {
     return this.state.validateFieldsPermissions(persistedValues)
   }
+
+  toDto(): RecordData {
+    return this.state.toDto()
+  }
 }

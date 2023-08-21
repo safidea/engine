@@ -4,7 +4,7 @@ import { BaseAction } from './BaseAction'
 export class LogAction extends BaseAction {
   constructor(
     private _message: string,
-    private log: ILoggerSpi
+    private logger: ILoggerSpi
   ) {
     super('log')
   }
@@ -14,6 +14,6 @@ export class LogAction extends BaseAction {
   }
 
   execute() {
-    this.log(this._message)
+    this.logger(this._message)
   }
 }

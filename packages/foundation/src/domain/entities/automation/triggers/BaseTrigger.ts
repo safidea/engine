@@ -6,4 +6,8 @@ export class BaseTrigger {
   get event(): TriggerEvent {
     return this._event
   }
+
+  shouldTriggerEvent(event: string): boolean {
+    return this._event === event
+  }
 }

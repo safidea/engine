@@ -182,6 +182,7 @@ export function generateRandomValueByField(
       return faker.company.name()
     if (name.includes('domain')) return faker.internet.domainName()
     if (name.includes('title')) return faker.person.jobTitle()
+    if (name.includes('activity')) return faker.commerce.product()
     if (name.includes('description')) return faker.lorem.paragraph()
     if (name.includes('url')) return faker.internet.url()
     if (name.includes('image')) return faker.image.url()
@@ -193,11 +194,11 @@ export function generateRandomValueByField(
     if (name.includes('number')) return String(faker.number.int(1000))
     return faker.word.words()
   } else if (['number'].includes(type)) {
-    if (name.includes('quantity')) return faker.number.int(50)
+    if (name.includes('quantity')) return faker.number.int(10)
     return faker.number.int(1000)
   } else if (['currency'].includes(type)) {
-    if (name.includes('price')) return faker.number.float({ max: 1000, precision: 0.01 })
-    return faker.number.float({ precision: 0.01 })
+    if (name.includes('price')) return faker.number.float({ max: 10, precision: 0.01 })
+    return faker.number.float({ max: 10, precision: 0.01 })
   } else if (type === 'multiple_linked_records') {
     const linkedRecordsdefaultValues: RecordDto[] = []
     const linkedRecords: string[] = []

@@ -19,7 +19,8 @@ export class CreateFileActionMapper {
       createFileActionDto.bucket,
       storage,
       converter,
-      templating
+      templating,
+      createFileActionDto.data
     )
   }
 
@@ -31,6 +32,7 @@ export class CreateFileActionMapper {
       output: createFileAction.output,
       template: createFileAction.template,
       bucket: createFileAction.bucket,
+      data: createFileAction.data,
     }
   }
 

@@ -60,7 +60,6 @@
         <thead>
             <tr>
                 <th>Activity</th>
-                <th>Description</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>VAT</th>
@@ -71,26 +70,25 @@
             {{#each items}}
                 <tr>
                     <td>{{ this.activity }}</td>
-                    <td>{{ this.description }}</td>
                     <td>{{ this.quantity }}</td>
-                    <td>{{ this.unit_price }}</td>
+                    <td>{{currency this.unit_price }}</td>
                     <td>{{ this.vat }}</td>
-                    <td>{{ this.total_amount }}</td>
+                    <td>{{currency this.total_amount }}</td>
                 </tr>
             {{/each}}
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="5" style="text-align: right;"><strong>Net Total:</strong></td>
-                <td><strong>{{ total_net_amount }}</strong></td>
+                <td><strong>{{currency total_net_amount }}</strong></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right;"><strong>VAT:</strong></td>
-                <td><strong>{{ total_vat }}</strong></td>
+                <td><strong>{{currency total_vat }}</strong></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right;"><strong>Total:</strong></td>
-                <td><strong>{{ total_amount }}</strong></td>
+                <td><strong>{{currency total_amount }}</strong></td>
             </tr>
         </tfoot>
     </table>

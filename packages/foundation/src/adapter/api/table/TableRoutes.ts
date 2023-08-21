@@ -8,14 +8,15 @@ import { ResponseDto } from '@adapter/spi/server/dtos/ResponseDto'
 import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { TablesSyncMapper } from '../../spi/fetcher/mappers/TablesSyncMapper'
+import { StartedState } from '@adapter/spi/server/ServerSpi/StartedState'
 
 export class TableRoutes {
   private readonly tableController: TableController
   private readonly tableMiddleware: TableMiddleware
 
-  constructor(app: App, ormSpi: OrmSpi) {
+  constructor(app: App, ormSpi: OrmSpi, instance: StartedState) {
     this.tableMiddleware = new TableMiddleware(app, ormSpi)
-    this.tableController = new TableController(app, ormSpi)
+    this.tableController = new TableController(app, ormSpi, instance)
   }
 
   get routes(): ApiRoute[] {

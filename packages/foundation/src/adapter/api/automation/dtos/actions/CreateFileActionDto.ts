@@ -1,4 +1,5 @@
 import {
+  CreateFileActionData,
   CreateFileActionInput,
   CreateFileActionOutput,
   CreateFileActionTemplate,
@@ -12,6 +13,7 @@ export interface CreateFileActionDto {
   output: CreateFileActionOutput
   template: CreateFileActionTemplate
   bucket: string
+  data?: CreateFileActionData
 }
 
 export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
@@ -28,18 +30,19 @@ export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
           type: 'object',
           properties: {
             privatePath: { type: 'string' },
-            data: {
-              type: 'object',
-              additionalProperties: { type: 'string' },
-              required: [],
-            },
           },
-          required: ['privatePath', 'data'],
+          required: ['privatePath'],
           additionalProperties: false,
         },
       ],
     },
     bucket: { type: 'string' },
+    data: {
+      type: 'object',
+      additionalProperties: { type: 'string' },
+      required: [],
+      nullable: true,
+    },
   },
   required: ['type', 'filename', 'input', 'output', 'template', 'bucket'],
 }

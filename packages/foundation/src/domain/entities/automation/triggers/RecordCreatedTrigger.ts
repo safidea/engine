@@ -1,3 +1,4 @@
+import { AutomationContext } from '../Automation'
 import { BaseTrigger } from './BaseTrigger'
 
 export class RecordCreatedTrigger extends BaseTrigger {
@@ -7,5 +8,9 @@ export class RecordCreatedTrigger extends BaseTrigger {
 
   get table(): string {
     return this._table
+  }
+
+  shouldTrigger(event: string, context: AutomationContext): boolean {
+    return super.shouldTriggerEvent(event) && context.table === this._table
   }
 }

@@ -1,6 +1,10 @@
 import { Trigger } from './Trigger'
 import { Action } from './Action'
-import { ContextAction } from './actions/BaseAction'
+import { RecordData } from '@domain/entities/orm/Record/IRecord'
+
+export interface AutomationContext {
+  [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
+}
 
 export class Automation {
   constructor(
@@ -21,11 +25,11 @@ export class Automation {
     return this._trigger
   }
 
-  shouldTrigger(event: string): boolean {
-    return this._trigger.event === event
+  shouldTrigger(event: string, context: AutomationContext): boolean {
+    return this._trigger.shouldTrigger(event, context)
   }
 
-  async executeActions(context: ContextAction) {
+  async executeActions(context: AutomationContext) {
     for (const action of this._actions) {
       const result = await action.execute(context)
       context = { ...context, ...result }

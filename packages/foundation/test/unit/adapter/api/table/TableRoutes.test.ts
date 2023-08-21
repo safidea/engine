@@ -35,8 +35,9 @@ describe('TableRoutes', () => {
       })
 
       // WHEN
-      const ormSpi = new OrmSpi(orm, app, { emit: () => {} } as any)
-      const response = await new TableRoutes(app, ormSpi).patch({
+      const instance = { emit: () => {} } as any
+      const ormSpi = new OrmSpi(orm, app, instance)
+      const response = await new TableRoutes(app, ormSpi, instance).patch({
         method: 'PATCH',
         path: '/api/table/tableA/1',
         body: {

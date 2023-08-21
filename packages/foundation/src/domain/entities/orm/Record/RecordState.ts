@@ -13,6 +13,7 @@ import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
 import { Currency } from '@domain/entities/table/fields/Currency'
 import { DeleteState } from './DeleteState'
 import { UpdateState } from './UpdateState'
+import { Record } from './index'
 
 export abstract class RecordState implements IRecord {
   constructor(
@@ -169,5 +170,9 @@ export abstract class RecordState implements IRecord {
     throw new Error(
       'Invalid Operation: Cannot perform task validateFieldsPermissions in current state'
     )
+  }
+
+  toDto(): RecordFieldsValues {
+    throw new Error('Invalid Operation: Cannot perform task toDto in current state')
   }
 }

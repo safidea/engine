@@ -68,4 +68,14 @@ export class ReadState extends RecordState {
     const field = this.getCalculatedFieldFromName(fieldName)
     this._fieldsValues[field.name] = value
   }
+
+  toDto(): RecordData {
+    return {
+      id: this.id,
+      ...this.fields,
+      created_time: this.created_time,
+      last_modified_time: this.last_modified_time,
+      deleted_time: this.deleted_time,
+    }
+  }
 }

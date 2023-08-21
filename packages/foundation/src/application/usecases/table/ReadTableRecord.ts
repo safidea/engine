@@ -36,10 +36,10 @@ export class ReadTableRecord {
     const fields = this.app.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
     if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
-    const listTableGateway = new ListTableRecords(this.ormSpi, this.app)
+    const listTableRecords = new ListTableRecords(this.ormSpi, this.app)
     const values = record.getFieldValue(field.name)
     if (!Array.isArray(values)) throw new Error('Values are not an array')
-    const linkedRecords = await listTableGateway.execute(field.table, [new IsAnyOf('id', values)])
+    const linkedRecords = await listTableRecords.execute(field.table, [new IsAnyOf('id', values)])
     const context = {
       values: linkedRecords.map((record) => String(record.getFieldValue(fieldRollup.linkedField))),
     }
@@ -52,11 +52,5 @@ export class ReadTableRecord {
     const context = record.fields
     const result = new Script(formula, context).run()
     record.setCalculatedFieldValue(fieldFormula.name, result)
-  }
-
-  getFunctions(): { [key: string]: string } {
-    return {
-      sum: String((array: (number | string)[]) => array.reduce((a, b) => Number(a) + Number(b), 0)),
-    }
   }
 }

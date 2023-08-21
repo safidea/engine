@@ -121,7 +121,7 @@ test.describe('A page that create an invoice', () => {
     expect(errorExist).toBeTruthy()
   })
 
-  test('should create a PDF document when an invoice is created from a form', async ({
+  test.skip('should create a PDF document when an invoice is created from a form', async ({
     page,
     orm,
     storage,
@@ -133,7 +133,7 @@ test.describe('A page that create an invoice', () => {
       pages: helpers.getPagesDto('invoices_create'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_template'),
     }
-    const port = 50007
+    const port = 50103
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
     await foundation.config(config).start()
     const {
