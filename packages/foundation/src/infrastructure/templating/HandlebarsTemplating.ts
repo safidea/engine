@@ -7,8 +7,8 @@ Handlebars.registerHelper('now', function (format = 'yyyy-MM-dd HH:mm:ss') {
   return now.toFormat(format)
 })
 
-Handlebars.registerHelper('currency', function (value) {
-  return Math.round(value * 100) / 100 + '€'
+Handlebars.registerHelper('currency', function (value: number | string) {
+  return Math.round(Number(value) * 100) / 100 + '€'
 })
 
 export class HandlebarsTemplating implements ITemplatingSpi {

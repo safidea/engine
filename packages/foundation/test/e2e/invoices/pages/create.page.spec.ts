@@ -121,8 +121,9 @@ test.describe('A page that create an invoice', () => {
     expect(errorExist).toBeTruthy()
   })
 
-  test('should create a PDF document when an invoice is created from a form', async ({
+  test('should create a PDF document when an invoice is created from a form and a template', async ({
     page,
+    folder,
     orm,
     storage,
     converter,
@@ -131,8 +132,9 @@ test.describe('A page that create an invoice', () => {
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices'),
       pages: helpers.getPagesDto('invoices_create'),
-      automations: helpers.getAutomationsDto('created_invoice_with_html_template'),
+      automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
+    helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50103
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
     await foundation.config(config).start()
@@ -174,8 +176,13 @@ test.describe('A page that create an invoice', () => {
     // THEN
     const [file] = await storage.list('invoices')
     expect(file).toBeDefined()
-    expect(file.filename).toEqual('invoice.pdf')
+    expect(file.filename).toEqual('invoice-P1001.pdf')
     const data = await pdf(file.data)
-    expect(data.text).toContain('Invoice')
+    expect(data.text).toContain('Invoice P1001')
+    expect(data.text).toContain('Preview')
+    expect(data.text).toContain(invoice.customer)
+    for (const item of items) {
+      expect(data.text).toContain(item.activity)
+    }
   })
 })
