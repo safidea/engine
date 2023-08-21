@@ -3,6 +3,8 @@ import { Record } from '@domain/entities/orm/Record'
 import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@domain/entities/app/App'
+import { StartedState } from '@adapter/spi/server/ServerSpi/StartedState'
+import { CreateAutomationContextFromRecordId } from '../automation/CreateAutomationContextFromRecordId'
 
 export interface TableToHandle {
   table: string
@@ -11,19 +13,21 @@ export interface TableToHandle {
 
 export class SyncTableRecords {
   private listTableRecord: ListTableRecords
+  private createAutomationContextFromRecordId: CreateAutomationContextFromRecordId
 
   constructor(
     private ormSpi: IOrmSpi,
-    app: App
+    app: App,
+    private instance: StartedState
   ) {
     this.listTableRecord = new ListTableRecords(ormSpi, app)
+    this.createAutomationContextFromRecordId = new CreateAutomationContextFromRecordId(ormSpi, app)
   }
 
   async execute(records: Record[] = [], resources: SyncResource[] = []): Promise<SyncTables> {
     if (records.length > 0) {
       const recordsToCreate: TableToHandle[] = []
       const recordsToUpdate: TableToHandle[] = []
-      const recordsToSoftDelete: TableToHandle[] = []
       for (const record of records) {
         const state = record.getCurrentState()
         switch (state) {
@@ -39,24 +43,12 @@ export class SyncTableRecords {
             }
             break
           case 'update':
+          case 'delete':
             const recordsToUpdateTable = recordsToUpdate.find((r) => r.table === record.tableName)
             if (recordsToUpdateTable) {
               recordsToUpdateTable.records.push(record)
             } else {
               recordsToUpdate.push({
-                table: record.tableName,
-                records: [record],
-              })
-            }
-            break
-          case 'delete':
-            const recordsToDeleteTable = recordsToSoftDelete.find(
-              (r) => r.table === record.tableName
-            )
-            if (recordsToDeleteTable) {
-              recordsToDeleteTable.records.push(record)
-            } else {
-              recordsToSoftDelete.push({
                 table: record.tableName,
                 records: [record],
               })
@@ -72,8 +64,17 @@ export class SyncTableRecords {
       for (const { table, records } of recordsToUpdate) {
         await this.ormSpi.updateMany(table, records)
       }
-      for (const { table, records } of recordsToSoftDelete) {
-        await this.ormSpi.updateMany(table, records)
+      for (const { table, records } of recordsToCreate) {
+        for (const record of records) {
+          const context = await this.createAutomationContextFromRecordId.execute(table, record.id)
+          await this.instance.emit('record_created', context)
+        }
+      }
+      for (const { table, records } of recordsToUpdate) {
+        for (const record of records) {
+          const context = await this.createAutomationContextFromRecordId.execute(table, record.id)
+          await this.instance.emit('record_updated', context)
+        }
       }
     }
 

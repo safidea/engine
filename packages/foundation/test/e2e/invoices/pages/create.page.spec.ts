@@ -121,7 +121,7 @@ test.describe('A page that create an invoice', () => {
     expect(errorExist).toBeTruthy()
   })
 
-  test.skip('should create a PDF document when an invoice is created from a form', async ({
+  test('should create a PDF document when an invoice is created from a form', async ({
     page,
     orm,
     storage,

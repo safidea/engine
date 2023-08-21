@@ -39,9 +39,22 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'create'
     )
+    ormSpi.read = jest.fn(async () =>
+      RecordMapper.toEntity(
+        {
+          id: '1',
+          fieldA: 'test',
+          created_time: new Date().toISOString(),
+        },
+        app.getTableByName('tableA')
+      )
+    )
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    await new SyncTableRecords(ormSpi, app).execute([record])
+    await new SyncTableRecords(ormSpi, app, instance).execute([record])
 
     // THEN
     expect(ormSpi.createMany).toBeCalledWith('tableA', [record])
@@ -86,9 +99,34 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'create'
     )
+    ormSpi.read = jest.fn(async (table, id) =>
+      RecordMapper.toEntities(
+        [
+          {
+            id: '1',
+            fieldA: 'test A',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '2',
+            fieldA: 'test B',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '3',
+            fieldA: 'test C',
+            created_time: new Date().toISOString(),
+          },
+        ],
+        app.getTableByName('tableA')
+      ).find((record) => record.id === id)
+    )
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    await new SyncTableRecords(ormSpi, app).execute(records)
+    await new SyncTableRecords(ormSpi, app, instance).execute(records)
 
     // THEN
     expect(ormSpi.createMany).toBeCalledWith('tableA', records)
@@ -123,9 +161,22 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'update'
     )
+    ormSpi.read = jest.fn(async () =>
+      RecordMapper.toEntity(
+        {
+          id: '1',
+          fieldA: 'test',
+          created_time: new Date().toISOString(),
+        },
+        app.getTableByName('tableA')
+      )
+    )
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    await new SyncTableRecords(ormSpi, app).execute([record])
+    await new SyncTableRecords(ormSpi, app, instance).execute([record])
 
     // THEN
     expect(ormSpi.updateMany).toBeCalledWith('tableA', [record])
@@ -170,9 +221,34 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'update'
     )
+    ormSpi.read = jest.fn(async (table, id) =>
+      RecordMapper.toEntities(
+        [
+          {
+            id: '1',
+            fieldA: 'test A',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '2',
+            fieldA: 'test B',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '3',
+            fieldA: 'test C',
+            created_time: new Date().toISOString(),
+          },
+        ],
+        app.getTableByName('tableA')
+      ).find((record) => record.id === id)
+    )
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    await new SyncTableRecords(ormSpi, app).execute(records)
+    await new SyncTableRecords(ormSpi, app, instance).execute(records)
 
     // THEN
     expect(ormSpi.updateMany).toBeCalledWith('tableA', records)
@@ -246,9 +322,52 @@ describe('SyncTableRecords', () => {
       'delete'
     )
     const records = [recordToUpdate, ...recordsToCreate, ...recordsToDelete]
+    ormSpi.read = jest.fn(async (table, id) =>
+      RecordMapper.toEntities(
+        [
+          {
+            id: '1',
+            fieldA: 'test',
+            created_time: new Date().toISOString(),
+            modified_time: new Date().toISOString(),
+          },
+          {
+            id: '2',
+            fieldA: 'test A',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '3',
+            fieldA: 'test B',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '4',
+            fieldA: 'test C',
+            created_time: new Date().toISOString(),
+          },
+          {
+            id: '5',
+            fieldA: 'test D',
+            created_time: new Date().toISOString(),
+            deleted_time: new Date().toISOString(),
+          },
+          {
+            id: '6',
+            fieldA: 'test E',
+            created_time: new Date().toISOString(),
+            deleted_time: new Date().toISOString(),
+          },
+        ],
+        app.getTableByName('tableA')
+      ).find((record) => record.id === id)
+    )
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    await new SyncTableRecords(ormSpi, app).execute(records)
+    await new SyncTableRecords(ormSpi, app, instance).execute(records)
 
     // THEN
     expect(db.tableA).toHaveLength(6)
@@ -338,9 +457,12 @@ describe('SyncTableRecords', () => {
           return []
       }
     })
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    const { tableA, tableB } = await new SyncTableRecords(ormSpi, app).execute(
+    const { tableA, tableB } = await new SyncTableRecords(ormSpi, app, instance).execute(
       [],
       [
         {
@@ -435,9 +557,12 @@ describe('SyncTableRecords', () => {
           return []
       }
     })
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    const { tableA, tableB } = await new SyncTableRecords(ormSpi, app).execute(
+    const { tableA, tableB } = await new SyncTableRecords(ormSpi, app, instance).execute(
       [],
       [
         {
@@ -508,9 +633,12 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA')
     )
     ormSpi.list = jest.fn(async () => [record])
+    const instance = {
+      emit: jest.fn(),
+    } as any
 
     // WHEN
-    const { tableA } = await new SyncTableRecords(ormSpi, app).execute(
+    const { tableA } = await new SyncTableRecords(ormSpi, app, instance).execute(
       [],
       [
         {
@@ -522,5 +650,57 @@ describe('SyncTableRecords', () => {
     // THEN
     const readRecord = tableA?.[0]
     expect(readRecord?.getFieldValue('fieldFormula')).toStrictEqual(15)
+  })
+
+  test('should emit events after resources sync', async () => {
+    // GIVEN
+    const app = AppMapper.toEntity(
+      {
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              {
+                name: 'fieldA',
+                type: 'single_line_text',
+              },
+            ],
+          },
+        ],
+      },
+      { ui: UnstyledUI }
+    )
+    const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
+    const ormSpi = new OrmSpi(orm, app, {} as any)
+    ormSpi.createMany = jest.fn()
+    const record = RecordMapper.toEntity(
+      {
+        id: '1',
+        fieldA: 'test',
+      },
+      app.getTableByName('tableA'),
+      'create'
+    )
+    const createdRecord = RecordMapper.toEntity(
+      {
+        id: '1',
+        fieldA: 'test',
+        created_time: new Date().toISOString(),
+      },
+      app.getTableByName('tableA')
+    )
+    ormSpi.read = jest.fn(async () => createdRecord)
+    const instance = {
+      emit: jest.fn(),
+    } as any
+
+    // WHEN
+    await new SyncTableRecords(ormSpi, app, instance).execute([record])
+
+    // THEN
+    expect(instance.emit).toBeCalledWith('record_created', {
+      table: 'tableA',
+      data: createdRecord.toDto(),
+    })
   })
 })

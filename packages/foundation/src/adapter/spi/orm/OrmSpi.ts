@@ -31,9 +31,7 @@ export class OrmSpi implements IOrmSpi {
 
   async createMany(table: string, records: Record[]) {
     const recordsDto = RecordMapper.toDtos(records)
-    const ids = await this.ormAdapter.createMany(table, recordsDto)
-    for (const recordDto of recordsDto) await this.instance.emit('record_created', recordDto)
-    return ids
+    return this.ormAdapter.createMany(table, recordsDto)
   }
 
   async update(table: string, record: Record, id: string) {
@@ -44,7 +42,6 @@ export class OrmSpi implements IOrmSpi {
   async updateMany(table: string, records: Record[]) {
     const recordsDto = RecordMapper.toDtos(records)
     await this.ormAdapter.softUpdateMany(table, recordsDto)
-    for (const recordDto of recordsDto) await this.instance.emit('record_updated', recordDto)
   }
 
   async list(table: string, filters: Filter[]) {

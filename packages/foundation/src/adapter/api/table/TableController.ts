@@ -28,7 +28,7 @@ export class TableController {
     this.readTableRecord = new ReadTableRecord(ormSpi, app)
     this.listTableRecords = new ListTableRecords(ormSpi, app)
     this.softDeleteTableRecord = new SoftDeleteTableRecord(ormSpi, app)
-    this.getSyncRecordsFunction = new SyncTableRecords(ormSpi, app)
+    this.getSyncRecordsFunction = new SyncTableRecords(ormSpi, app, instance)
     this.updateTableRecord = new UpdateTableRecord(ormSpi, app, instance)
   }
 
