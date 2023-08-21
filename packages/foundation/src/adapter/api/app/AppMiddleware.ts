@@ -2,19 +2,21 @@ import Ajv from 'ajv'
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { App } from '@domain/entities/app/App'
 import { AppDtoSchema } from './AppDto'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 const ajv = new Ajv({ allowUnionTypes: true })
 const validateAppDto = ajv.compile(AppDtoSchema)
 
 export interface AppMiddlewareSpis {
   ui: IUISpi
-  log: ILogSpi
+  logger: ILoggerSpi
   storage: IStorageSpi
   converter: IConverterSpi
+  templating: ITemplatingSpi
 }
 
 export class AppMiddleware {

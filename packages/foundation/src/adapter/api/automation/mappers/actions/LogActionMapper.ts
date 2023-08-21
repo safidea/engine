@@ -1,9 +1,9 @@
 import { LogAction } from '@domain/entities/automation/actions/LogAction'
 import { LogActionDto } from '../../dtos/actions/LogActionDto'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 
 export class LogActionMapper {
-  static toEntity(logActionDto: LogActionDto, log: ILogSpi) {
+  static toEntity(logActionDto: LogActionDto, log: ILoggerSpi) {
     return new LogAction(logActionDto.message, log)
   }
 
@@ -14,7 +14,7 @@ export class LogActionMapper {
     }
   }
 
-  static toEntities(logActionDtos: LogActionDto[], log: ILogSpi): LogAction[] {
+  static toEntities(logActionDtos: LogActionDto[], log: ILoggerSpi): LogAction[] {
     return logActionDtos.map((logActionDto) => this.toEntity(logActionDto, log))
   }
 

@@ -2,12 +2,14 @@ import { CreateFileAction } from '@domain/entities/automation/actions/CreateFile
 import { CreateFileActionDto } from '../../dtos/actions/CreateFileActionDto'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export class CreateFileActionMapper {
   static toEntity(
     createFileActionDto: CreateFileActionDto,
     storage: IStorageSpi,
-    converter: IConverterSpi
+    converter: IConverterSpi,
+    templating: ITemplatingSpi
   ) {
     return new CreateFileAction(
       createFileActionDto.filename,
@@ -16,7 +18,8 @@ export class CreateFileActionMapper {
       createFileActionDto.template,
       createFileActionDto.bucket,
       storage,
-      converter
+      converter,
+      templating
     )
   }
 
@@ -34,10 +37,11 @@ export class CreateFileActionMapper {
   static toEntities(
     createFileActionDtos: CreateFileActionDto[],
     storage: IStorageSpi,
-    converter: IConverterSpi
+    converter: IConverterSpi,
+    templating: ITemplatingSpi
   ): CreateFileAction[] {
     return createFileActionDtos.map((createFileActionDto) =>
-      this.toEntity(createFileActionDto, storage, converter)
+      this.toEntity(createFileActionDto, storage, converter, templating)
     )
   }
 

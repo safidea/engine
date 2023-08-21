@@ -4,34 +4,37 @@ import { UpdateRecordActionMapper } from './actions/UpdateRecordActionMapper'
 import { LogActionMapper } from './actions/LogActionMapper'
 import { UpdateRecordAction } from '@domain/entities/automation/actions/UpdateRecordAction'
 import { LogAction } from '@domain/entities/automation/actions/LogAction'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 import { Table } from '@domain/entities/table/Table'
 import { CreateFileActionMapper } from './actions/CreateFileActionMapper'
 import { CreateFileAction } from '@domain/entities/automation/actions/CreateFileAction'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export interface ActionMapperSpis {
-  log?: ILogSpi
+  logger?: ILoggerSpi
   storage?: IStorageSpi
   converter?: IConverterSpi
+  templating?: ITemplatingSpi
 }
 
 export class ActionMapper {
   static toEntity(actionDto: ActionDto, tables: Table[], spis: ActionMapperSpis): Action {
-    const { log, storage, converter } = spis
+    const { logger, storage, converter, templating } = spis
     const { type } = actionDto
     if (type === 'update_record') {
       return UpdateRecordActionMapper.toEntity(actionDto, tables)
     }
     if (type === 'log') {
-      if (!log) throw new Error('LogSpi is required')
-      return LogActionMapper.toEntity(actionDto, log)
+      if (!logger) throw new Error('LoggerSpi is required')
+      return LogActionMapper.toEntity(actionDto, logger)
     }
     if (type === 'create_file') {
       if (!storage) throw new Error('StorageSpi is required')
       if (!converter) throw new Error('ConverterSpi is required')
-      return CreateFileActionMapper.toEntity(actionDto, storage, converter)
+      if (!templating) throw new Error('TemplatingSpi is required')
+      return CreateFileActionMapper.toEntity(actionDto, storage, converter, templating)
     }
     throw new Error(`Invalid action type ${type}`)
   }

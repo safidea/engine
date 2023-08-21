@@ -15,11 +15,11 @@ export const TABLE_INVOICES: TableDto = {
       name: 'autonumber',
       type: 'autonumber',
     },
-    /*{
+    {
       name: 'preview_number',
       type: 'formula',
       formula: '"P" + (autonumber + 1000)',
-    },*/
+    },
     {
       name: 'customer',
       type: 'single_line_text',
@@ -458,11 +458,24 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
   actions: [
     {
       type: 'create_file',
-      filename: 'invoice.pdf',
+      filename: 'invoice-{{record_created.preview_number}}.pdf',
       input: 'html',
       output: 'pdf',
       template: {
         privatePath: '/templates/invoice.html',
+        data: {
+          preview_number: 'record_created.preview_number',
+          customer: 'record_created.customer',
+          address: 'record_created.address',
+          zip_code: 'record_created.zip_code',
+          city: 'record_created.city',
+          country: 'record_created.country',
+          'items.$.quantity': 'record_created.items.$.quantity',
+          'items.$.activity': 'record_created.items.$.activity',
+          'items.$.unit_price': 'record_created.items.$.unit_price',
+          'items.$.vat': 'record_created.items.$.vat',
+          'items.$.total_amount': 'record_created.items.$.total_net_amount',
+        },
       },
       bucket: 'invoices',
     },

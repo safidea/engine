@@ -3,27 +3,30 @@ import { App } from '@domain/entities/app/App'
 import { AutomationMapper } from '../automation/mappers/AutomationMapper'
 import { TableMapper } from '../table/mappers/TableMapper'
 import { PageMapper } from '../page/mappers/PageMapper'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export interface AppMapperSpis {
   ui?: IUISpi
-  log?: ILogSpi
+  logger?: ILoggerSpi
   storage?: IStorageSpi
   converter?: IConverterSpi
+  templating?: ITemplatingSpi
 }
 
 export class AppMapper {
   static toEntity(appDto: AppDto, spis: AppMapperSpis): App {
-    const { ui, log, storage, converter } = spis
+    const { ui, logger, storage, converter, templating } = spis
     const tables = TableMapper.toEntities(appDto.tables ?? [])
     const pages = PageMapper.toEntities(appDto.pages ?? [], tables ?? [], { ui })
     const automations = AutomationMapper.toEntities(appDto.automations ?? [], tables ?? [], {
-      log,
+      logger,
       storage,
       converter,
+      templating,
     })
     return new App(appDto.name, appDto.version, pages, tables, automations)
   }

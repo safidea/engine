@@ -1,16 +1,18 @@
 import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
 import { Automation } from '@domain/entities/automation/Automation'
 import { Table } from '@domain/entities/table/Table'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 import { TriggerMapper } from './TriggerMapper'
 import { ActionMapper } from './ActionMapper'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export interface AutomationMapperSpis {
-  log?: ILogSpi
+  logger?: ILoggerSpi
   storage?: IStorageSpi
   converter?: IConverterSpi
+  templating?: ITemplatingSpi
 }
 
 export class AutomationMapper {

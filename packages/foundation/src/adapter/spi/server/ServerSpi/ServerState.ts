@@ -1,20 +1,22 @@
 import { IServerSpi } from '@domain/spi/IServerSpi'
 import { IFetcherAdapter } from '../../fetcher/IFetcherAdapter'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 import { IOrmAdapter } from '../../orm/IOrmAdapter'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { IServerAdapter } from '../IServerAdapter'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export interface ServerStateAdapters {
   server: IServerAdapter
   orm: IOrmAdapter
   fetcher: IFetcherAdapter
   ui: IUISpi
-  log: ILogSpi
+  logger: ILoggerSpi
   storage: IStorageSpi
   converter: IConverterSpi
+  templating: ITemplatingSpi
 }
 
 export abstract class ServerState implements IServerSpi {

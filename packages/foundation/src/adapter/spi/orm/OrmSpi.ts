@@ -27,7 +27,7 @@ export class OrmSpi implements IOrmSpi {
   async create(table: string, record: Record) {
     const recordDto = RecordMapper.toDto(record)
     const id = await this.ormAdapter.create(table, recordDto)
-    await this.instance.emit('record_created')
+    await this.instance.emit('record_created', recordDto)
     return id
   }
 
@@ -35,21 +35,21 @@ export class OrmSpi implements IOrmSpi {
     const recordsDto = RecordMapper.toDtos(records)
     const ids = await this.ormAdapter.createMany(table, recordsDto)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const record of records) await this.instance.emit('record_created')
+    for (const recordDto of recordsDto) await this.instance.emit('record_created', recordDto)
     return ids
   }
 
   async update(table: string, record: Record, id: string) {
     const recordDto = RecordMapper.toDto(record)
     await this.ormAdapter.softUpdateById(table, recordDto, id)
-    await this.instance.emit('record_updated')
+    await this.instance.emit('record_updated', recordDto)
   }
 
   async updateMany(table: string, records: Record[]) {
     const recordsDto = RecordMapper.toDtos(records)
     await this.ormAdapter.softUpdateMany(table, recordsDto)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const record of records) await this.instance.emit('record_updated')
+    for (const recordDto of recordsDto) await this.instance.emit('record_updated', recordDto)
   }
 
   async list(table: string, filters: Filter[]) {

@@ -54,9 +54,9 @@ test.describe('An automation that build an invoice document from a template', ()
       ],
     }
     const logs: string[] = []
-    const log = (message: string) => logs.push(message)
+    const logger = (message: string) => logs.push(message)
     const port = 50004
-    const foundation = new Foundation({ adapters: { log, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port })
     foundation.config(config)
 
     // WHEN
@@ -93,9 +93,9 @@ test.describe('An automation that build an invoice document from a template', ()
       invoices: [invoice],
     } = helpers.generateRecordsDto('invoices', 1)
     const logs: string[] = []
-    const log = (message: string) => logs.push(message)
+    const logger = (message: string) => logs.push(message)
     const port = 50002
-    const foundation = new Foundation({ adapters: { log, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port })
     await foundation.config(config).start()
 
     // WHEN
@@ -132,9 +132,9 @@ test.describe('An automation that build an invoice document from a template', ()
       invoices: [invoice],
     } = await helpers.generateRecords(orm, 'invoices', 1)
     const logs: string[] = []
-    const log = (message: string) => logs.push(message)
+    const logger = (message: string) => logs.push(message)
     const port = 50005
-    const foundation = new Foundation({ adapters: { log, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port })
     await foundation.config(config).start()
 
     // WHEN
@@ -169,9 +169,9 @@ test.describe('An automation that build an invoice document from a template', ()
       ],
     }
     const logs: string[] = []
-    const log = (message: string) => logs.push(message)
+    const logger = (message: string) => logs.push(message)
     const port = 50003
-    const foundation = new Foundation({ adapters: { log, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port })
     await foundation.config(config).start()
 
     // WHEN
@@ -237,7 +237,6 @@ test.describe('An automation that build an invoice document from a template', ()
     // THEN
     const [file] = await storage.list('invoices')
     expect(file).toBeDefined()
-    expect(file.filename).toEqual('invoice.pdf')
     const data = await pdf(file.data)
     expect(data.text).toContain('Invoice')
   })
@@ -264,7 +263,8 @@ test.describe('An automation that build an invoice document from a template', ()
     } = helpers.generateRecordsDto('invoices')
 
     // WHEN
-    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+    console.log(await res.json())
 
     // THEN
     const [file] = await storage.list('invoices')

@@ -14,9 +14,10 @@ export class ConfiguredState extends ServerState {
     super(adapters)
     const spis = {
       ui: adapters.ui,
-      log: adapters.log,
+      logger: adapters.logger,
       storage: adapters.storage,
       converter: adapters.converter,
+      templating: adapters.templating,
     }
     this.app = new AppMiddleware(config, spis).validateConfig()
   }

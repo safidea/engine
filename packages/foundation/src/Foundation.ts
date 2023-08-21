@@ -8,13 +8,15 @@ import { IServerAdapter } from '@adapter/spi/server/IServerAdapter'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
 import { IFetcherAdapter } from '@adapter/spi/fetcher/IFetcherAdapter'
 import { IUISpi } from '@domain/spi/IUISpi'
-import { NativeLog } from '@infrastructure/log/NativeLog'
-import { ILogSpi } from '@domain/spi/ILogSpi'
+import { NativeLogger } from '@infrastructure/logger/NativeLogger'
+import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 import { ServerSpi } from '@adapter/spi/server/ServerSpi'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import { Converter } from '@infrastructure/converter/Converter'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
+import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
+import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export interface FoundationOptions {
   adapters?: {
@@ -22,9 +24,10 @@ export interface FoundationOptions {
     orm?: IOrmAdapter
     ui?: IUISpi
     fetcher?: IFetcherAdapter
-    log?: ILogSpi
+    logger?: ILoggerSpi
     storage?: IStorageSpi
     converter?: IConverterSpi
+    templating?: ITemplatingSpi
   }
   folder?: string
   port?: number
@@ -43,10 +46,20 @@ export default class Foundation {
     const ui = adapters.ui ?? UnstyledUI
     const fetcher = adapters.fetcher ?? new NativeFetcher(url)
     const server = adapters.server ?? new ExpressServer(port)
-    const log = adapters.log ?? NativeLog
+    const logger = adapters.logger ?? NativeLogger
     const storage = adapters.storage ?? new FileStorage(folder)
     const converter = adapters.converter ?? new Converter(folder)
-    this.serverSpi = new ServerSpi({ server, orm, ui, fetcher, log, storage, converter })
+    const templating = adapters.templating ?? new HandlebarsTemplating()
+    this.serverSpi = new ServerSpi({
+      server,
+      orm,
+      ui,
+      fetcher,
+      logger,
+      storage,
+      converter,
+      templating,
+    })
   }
 
   config(config: unknown): ServerSpi {

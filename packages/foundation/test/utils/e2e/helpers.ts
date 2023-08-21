@@ -141,6 +141,7 @@ export function generateRecordsDto(
         if (
           field.type === 'formula' ||
           field.type === 'rollup' ||
+          field.type === 'autonumber' ||
           (field.name in defaultValues && defaultValue === undefined)
         )
           continue
@@ -260,8 +261,6 @@ export function generateRandomValueByField(
     return faker.date.past().toISOString()
   } else if ('single_select' === type) {
     return field.default ?? faker.helpers.arrayElement(field.options)
-  } else if ('autonumber' === type) {
-    return faker.number.int(10)
   }
   throw new Error(`Unknown type ${type} in faker generator`)
 }

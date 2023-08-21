@@ -28,8 +28,14 @@ export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
           type: 'object',
           properties: {
             privatePath: { type: 'string' },
+            data: {
+              type: 'object',
+              additionalProperties: { type: 'string' },
+              required: [],
+            },
           },
-          required: ['privatePath'],
+          required: ['privatePath', 'data'],
+          additionalProperties: false,
         },
       ],
     },

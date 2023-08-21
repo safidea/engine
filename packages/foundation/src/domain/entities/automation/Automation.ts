@@ -1,5 +1,6 @@
 import { Trigger } from './Trigger'
 import { Action } from './Action'
+import { ContextAction } from './actions/BaseAction'
 
 export class Automation {
   constructor(
@@ -24,9 +25,10 @@ export class Automation {
     return this._trigger.event === event
   }
 
-  async executeActions() {
+  async executeActions(context: ContextAction) {
     for (const action of this._actions) {
-      await action.execute()
+      const result = await action.execute(context)
+      context = { ...context, ...result }
     }
   }
 }
