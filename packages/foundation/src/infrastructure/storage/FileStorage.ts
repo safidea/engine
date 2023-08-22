@@ -39,7 +39,7 @@ export class FileStorage implements IStorageSpi {
     const filePath = join(this.storageUrl, bucket, filename)
     if (!fs.existsSync(filePath)) return
     const data = await fs.readFile(filePath)
-    return new File(filename, data)
+    return new File(filename, data, filePath)
   }
 
   async list(bucket: string, filenames?: string[]): Promise<File[]> {

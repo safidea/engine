@@ -6,6 +6,7 @@ import { PageRoutes } from '@adapter/api/page/PageRoutes'
 import { App } from '@domain/entities/app/App'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
+import { StorageRoutes } from '@adapter/api/storage/StorageRoutes'
 
 export class ConfiguredState extends ServerState {
   public app: App
@@ -28,8 +29,10 @@ export class ConfiguredState extends ServerState {
 
   async start(): Promise<ServerState> {
     const instance = new StartedState(this)
-    const { orm, fetcher, server } = this.adapters
+    const { orm, fetcher, server, storage } = this.adapters
     server.initConfig(this.app)
+    const storageRoutes = new StorageRoutes(storage)
+    server.configureStorage(storageRoutes.routes)
     if (this.app.tables.length > 0) {
       const ormSpi = new OrmSpi(orm, this.app, instance)
       await ormSpi.configure()

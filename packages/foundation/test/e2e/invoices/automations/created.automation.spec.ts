@@ -320,4 +320,36 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(record).toBeDefined()
     expect(record.url).toEqual(`http://localhost:${port}/api/storage/invoices/invoice-P1001.pdf`)
   })
+
+  test('should open the invoice pdf from storage', async ({ request, folder, orm, converter }) => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTablesDto('invoices'),
+      automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
+    }
+    helpers.copyPrivateTemplate('invoice.html', folder)
+    const port = 50011
+    const storage = new FileStorage(folder, 'http://localhost:' + port)
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    await foundation.config(config).start()
+    const {
+      invoices: [invoice],
+      invoices_items: items,
+    } = helpers.generateRecordsDto('invoices')
+
+    // WHEN
+    for (const item of items) {
+      await request.post(helpers.getUrl(port, '/api/table/invoices_items'), { data: item })
+    }
+    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+
+    // AND
+    const response = await request.get(
+      `http://localhost:${port}/api/storage/invoices/invoice-P1001.pdf`
+    )
+
+    // THEN
+    const contentType = response?.headers()['content-type']
+    expect(contentType).toBe('application/pdf')
+  })
 })

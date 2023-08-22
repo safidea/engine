@@ -131,6 +131,35 @@ export class ExpressServer implements IServerAdapter {
     }
   }
 
+  async configureStorage(routes: ApiRoute[]) {
+    if (!this.express) throw new Error('Express not initialized')
+    for (const route of routes) {
+      switch (route.method) {
+        case 'GET':
+          this.express.get(route.path, async (req, res) => {
+            const options: RequestDto = {
+              method: req.method,
+              path: req.url.split('?')[0],
+              params: req.params,
+            }
+            const { status = 200, file, headers = {}, json = {} } = await route.handler(options)
+            res.status(status)
+            if (status === 200 && file) {
+              Object.keys(headers).forEach((key) => {
+                res.setHeader(key, headers[key])
+              })
+              res.sendFile(file, { headers })
+            } else {
+              res.json(json)
+            }
+          })
+          break
+        default:
+          break
+      }
+    }
+  }
+
   async start(): Promise<void> {
     await new Promise((resolve, rejects) => {
       if (!this.express) throw new Error('Express not initialized')

@@ -3,7 +3,7 @@ import { TablesSyncDto } from '@adapter/spi/fetcher/dtos/TablesSyncDto'
 
 export interface ResponseDto {
   status?: number
-  json: {
+  json?: {
     record?: RecordDto
     records?: RecordDto[]
     id?: string
@@ -11,4 +11,6 @@ export interface ResponseDto {
     error?: string
     tables?: TablesSyncDto
   }
+  file?: string
+  headers?: { [key: string]: string }
 }

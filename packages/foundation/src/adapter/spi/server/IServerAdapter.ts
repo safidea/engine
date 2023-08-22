@@ -24,6 +24,7 @@ export interface IServerAdapter {
   initConfig(app: App): void
   configureTables(routes: ApiRoute[]): Promise<void>
   configurePages(pages: PageRoute[]): Promise<void>
+  configureStorage(routes: ApiRoute[]): Promise<void>
   start(): Promise<void>
   stop(): Promise<void>
 }
