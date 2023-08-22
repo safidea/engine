@@ -1,15 +1,15 @@
 import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
-export interface DatetimeDto extends BaseFieldDto {
-  type: 'datetime'
+export interface AutonumberFieldDto extends BaseFieldDto {
+  type: 'autonumber'
 }
 
-export const DatetimeDtoSchema: JSONSchemaType<DatetimeDto> = {
+export const AutonumberDtoSchema: JSONSchemaType<AutonumberFieldDto> = {
   type: 'object',
   properties: {
     ...BaseFieldDtoSchema.properties,
-    type: { type: 'string', enum: ['datetime'] },
+    type: { type: 'string', enum: ['autonumber'] },
   },
   required: [...BaseFieldDtoSchema.required, 'type'],
   additionalProperties: false,

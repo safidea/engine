@@ -1,6 +1,7 @@
 import { JSONSchemaType } from 'ajv'
+import { BaseActionDto, BaseActionDtoSchema } from './BaseActionDto'
 
-export interface LogActionDto {
+export interface LogActionDto extends BaseActionDto {
   type: 'log'
   message: string
 }
@@ -8,8 +9,9 @@ export interface LogActionDto {
 export const LogActionDtoSchema: JSONSchemaType<LogActionDto> = {
   type: 'object',
   properties: {
+    ...BaseActionDtoSchema.properties,
     type: { type: 'string', enum: ['log'] },
     message: { type: 'string' },
   },
-  required: ['type', 'message'],
+  required: [...BaseActionDtoSchema.required, 'type', 'message'],
 }

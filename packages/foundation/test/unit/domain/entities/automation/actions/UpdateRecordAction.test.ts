@@ -21,7 +21,15 @@ describe('UpdateRecordAction', () => {
     // WHEN
     const call = () =>
       ActionMapper.toEntities(
-        [{ type: 'update_record', fields: { fieldX: 'test' }, table: 'tableA' }],
+        [
+          {
+            type: 'update_record',
+            fields: { fieldX: 'test' },
+            table: 'tableA',
+            name: 'update_record',
+            recordId: '1',
+          },
+        ],
         tables,
         {} as any
       )
@@ -49,7 +57,15 @@ describe('UpdateRecordAction', () => {
     // WHEN
     const call = () =>
       ActionMapper.toEntities(
-        [{ type: 'update_record', fields: {}, table: 'tableX' }],
+        [
+          {
+            type: 'update_record',
+            fields: {},
+            table: 'tableX',
+            name: 'update_record',
+            recordId: '1',
+          },
+        ],
         tables,
         {} as any
       )
@@ -80,6 +96,8 @@ describe('UpdateRecordAction', () => {
             type: 'update_record',
             fields: { fieldA: 'Essentiel', fieldY: 'test' },
             table: 'tableA',
+            name: 'update_record',
+            recordId: '1',
           },
         ],
         tables,

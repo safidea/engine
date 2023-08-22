@@ -4,11 +4,12 @@ import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
 
 export class LogActionMapper {
   static toEntity(logActionDto: LogActionDto, log: ILoggerSpi) {
-    return new LogAction(logActionDto.message, log)
+    return new LogAction(logActionDto.name, logActionDto.message, log)
   }
 
   static toDto(logAction: LogAction): LogActionDto {
     return {
+      name: logAction.name,
       type: 'log',
       message: logAction.message,
     }

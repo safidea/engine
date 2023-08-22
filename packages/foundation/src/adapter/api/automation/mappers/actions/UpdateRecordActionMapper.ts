@@ -4,14 +4,22 @@ import { Table } from '@domain/entities/table/Table'
 
 export class UpdateRecordActionMapper {
   static toEntity(updateRecordActionDto: UpdateRecordActionDto, tables: Table[]) {
-    return new UpdateRecordAction(updateRecordActionDto.table, updateRecordActionDto.fields, tables)
+    return new UpdateRecordAction(
+      updateRecordActionDto.name,
+      updateRecordActionDto.table,
+      updateRecordActionDto.recordId,
+      updateRecordActionDto.fields,
+      tables
+    )
   }
 
   static toDto(updateRecordAction: UpdateRecordAction): UpdateRecordActionDto {
     return {
+      name: updateRecordAction.name,
       type: 'update_record',
       table: updateRecordAction.table,
       fields: updateRecordAction.fields,
+      recordId: updateRecordAction.recordId,
     }
   }
 

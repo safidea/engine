@@ -16,11 +16,13 @@ test.describe('An automation that build an invoice document from a template', ()
           },
           actions: [
             {
+              name: 'update-record',
               type: 'update_record',
               fields: {
                 fieldX: 'test',
               },
               table: 'invalid',
+              recordId: '1',
             },
           ],
         },
@@ -46,6 +48,7 @@ test.describe('An automation that build an invoice document from a template', ()
           },
           actions: [
             {
+              name: 'log',
               type: 'log',
               message: 'App started',
             },
@@ -82,6 +85,7 @@ test.describe('An automation that build an invoice document from a template', ()
           },
           actions: [
             {
+              name: 'log',
               type: 'log',
               message: 'Invoice created',
             },
@@ -121,6 +125,7 @@ test.describe('An automation that build an invoice document from a template', ()
           },
           actions: [
             {
+              name: 'log',
               type: 'log',
               message: 'Invoice updated',
             },
@@ -161,6 +166,7 @@ test.describe('An automation that build an invoice document from a template', ()
           },
           actions: [
             {
+              name: 'log',
               type: 'log',
               message: 'Invoice created',
             },
@@ -279,5 +285,38 @@ test.describe('An automation that build an invoice document from a template', ()
     for (const item of items) {
       expect(data.text).toContain(item.activity)
     }
+  })
+
+  test.skip('should save the invoice url created in the record', async ({
+    request,
+    folder,
+    orm,
+    storage,
+    converter,
+  }) => {
+    // GIVEN
+    const config: AppDto = {
+      tables: helpers.getTablesDto('invoices'),
+      automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
+    }
+    helpers.copyPrivateTemplate('invoice.html', folder)
+    const port = 50010
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    await foundation.config(config).start()
+    const {
+      invoices: [invoice],
+      invoices_items: items,
+    } = helpers.generateRecordsDto('invoices')
+
+    // WHEN
+    for (const item of items) {
+      await request.post(helpers.getUrl(port, '/api/table/invoices_items'), { data: item })
+    }
+    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+
+    // THEN
+    const [record] = await orm.list('invoices')
+    expect(record).toBeDefined()
+    expect(record.url).toEqual('http://localhost:50010/api/storage/invoices/invoice-P1001.pdf')
   })
 })

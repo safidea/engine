@@ -2,18 +2,17 @@
 import { Table } from '@domain/entities/table/Table'
 import { IRecord, RecordFieldValue, RecordFieldsValues, RecordStateType } from './IRecord'
 import { Field } from '@domain/entities/table/Field'
-import { Formula } from '@domain/entities/table/fields/Formula'
-import { Rollup } from '@domain/entities/table/fields/Rollup'
-import { LongText } from '@domain/entities/table/fields/LongText'
-import { Datetime } from '@domain/entities/table/fields/Datetime'
-import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
+import { FormulaField } from '@domain/entities/table/fields/FormulaField'
+import { RollupField } from '@domain/entities/table/fields/RollupField'
+import { LongTextField } from '@domain/entities/table/fields/LongTextField'
+import { DatetimeField } from '@domain/entities/table/fields/DatetimeField'
+import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/MultipleLinkedRecordsField'
 import { NumberField } from '@domain/entities/table/fields/NumberField'
-import { SingleLineText } from '@domain/entities/table/fields/SingleLineText'
-import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
-import { Currency } from '@domain/entities/table/fields/Currency'
+import { SingleLineTextField } from '@domain/entities/table/fields/SingleLineTextField'
+import { SingleSelectField } from '@domain/entities/table/fields/SingleSelectField'
+import { CurrencyField } from '@domain/entities/table/fields/CurrencyField'
 import { DeleteState } from './DeleteState'
 import { UpdateState } from './UpdateState'
-import { Record } from './index'
 
 export abstract class RecordState implements IRecord {
   constructor(
@@ -59,7 +58,7 @@ export abstract class RecordState implements IRecord {
 
   protected getNonCalculatedFieldFromName(fieldName: string): Field {
     const field = this.getFieldFromName(fieldName)
-    if (field instanceof Formula || field instanceof Rollup) {
+    if (field instanceof FormulaField || field instanceof RollupField) {
       throw new Error(`field "${fieldName}" is a calculated field`)
     }
     return field
@@ -67,7 +66,7 @@ export abstract class RecordState implements IRecord {
 
   protected getCalculatedFieldFromName(fieldName: string): Field {
     const field = this.getFieldFromName(fieldName)
-    if (!(field instanceof Formula || field instanceof Rollup)) {
+    if (!(field instanceof FormulaField || field instanceof RollupField)) {
       throw new Error(`field "${fieldName}" is not a calculated field`)
     }
     return field
@@ -77,7 +76,7 @@ export abstract class RecordState implements IRecord {
     return this._table.fields.filter(
       (field) =>
         !['id', 'created_time', 'last_modified_time', 'deleted_time'].includes(field.name) &&
-        !(field instanceof Formula || field instanceof Rollup)
+        !(field instanceof FormulaField || field instanceof RollupField)
     )
   }
 
@@ -127,7 +126,10 @@ export abstract class RecordState implements IRecord {
   }
 
   protected validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
-    if ((field instanceof NumberField || field instanceof Currency) && typeof value !== 'number') {
+    if (
+      (field instanceof NumberField || field instanceof CurrencyField) &&
+      typeof value !== 'number'
+    ) {
       value = Number(value)
       if (isNaN(value)) {
         throw new Error(`field "${field.name}" must be a number`)
@@ -135,15 +137,15 @@ export abstract class RecordState implements IRecord {
     }
 
     if (
-      (field instanceof SingleLineText ||
-        field instanceof LongText ||
-        field instanceof SingleSelect) &&
+      (field instanceof SingleLineTextField ||
+        field instanceof LongTextField ||
+        field instanceof SingleSelectField) &&
       typeof value !== 'string'
     ) {
       value = String(value)
     }
 
-    if (field instanceof Datetime) {
+    if (field instanceof DatetimeField) {
       const date = new Date(String(value))
       if (isNaN(date.getTime())) {
         throw new Error(`field "${field.name}" must be a valid date`)
@@ -151,7 +153,7 @@ export abstract class RecordState implements IRecord {
       value = date.toISOString()
     }
 
-    if (field instanceof MultipleLinkedRecords) {
+    if (field instanceof MultipleLinkedRecordsField) {
       if (Array.isArray(value)) {
         for (const v of value) {
           if (typeof v !== 'string') {

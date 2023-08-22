@@ -1,12 +1,12 @@
 import { BaseField, FieldPermissions } from './BaseField'
 
-export class SingleLineText extends BaseField {
+export class UrlField extends BaseField {
   constructor(
     name: string,
     optional?: boolean,
     defaultValue?: string,
     permissions?: FieldPermissions
   ) {
-    super(name, 'single_line_text', optional, 'text', defaultValue, permissions)
+    super(name, 'url', optional, 'text', defaultValue, permissions)
   }
 }

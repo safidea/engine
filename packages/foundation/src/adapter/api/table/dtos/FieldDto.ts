@@ -1,44 +1,50 @@
 import { JSONSchemaType } from 'ajv'
-import { CurrencyDto, CurrencyDtoSchema } from './fields/CurrencyDto'
-import { DatetimeDto, DatetimeDtoSchema } from './fields/DatetimeDto'
-import { FormulaDto, FormulaDtoSchema } from './fields/FormulaDto'
-import { LongTextDto, LongTextDtoSchema } from './fields/LongTextDto'
+import { CurrencyFieldDto, CurrencyFieldDtoSchema } from './fields/CurrencyFieldDto'
+import { DatetimeFieldDto, DatetimeDtoSchema } from './fields/DatetimeFieldDto'
+import { FormulaFieldDto, FormulaFieldDtoSchema } from './fields/FormulaFieldDto'
+import { LongTextFieldDto, LongTextDtoSchema } from './fields/LongTextFieldDto'
 import {
-  MultipleLinkedRecordDto,
+  MultipleLinkedRecordFieldDto,
   MultipleLinkedRecordDtoSchema,
-} from './fields/MultipleLinkedRecordDto'
-import { NumberDto, NumberDtoSchema } from './fields/NumberDto'
-import { RollupDto, RollupDtoSchema } from './fields/RollupDto'
-import { SingleLineTextDto, SingleLineTextDtoSchema } from './fields/SingleLineTextDto'
-import { SingleLinkedRecordDto, SingleLinkedRecordDtoSchema } from './fields/SingleLinkedRecordDto'
-import { SingleSelectDto, SingleSelectDtoSchema } from './fields/SingleSelectDto'
-import { AutonumberDto, AutonumberDtoSchema } from './fields/AutonumberDto'
+} from './fields/MultipleLinkedRecordFieldDto'
+import { NumberFieldDto, NumberDtoSchema } from './fields/NumberFieldDto'
+import { RollupFieldDto, RollupDtoSchema } from './fields/RollupFieldDto'
+import { SingleLineTextFieldDto, SingleLineTextDtoSchema } from './fields/SingleLineTextFieldDto'
+import {
+  SingleLinkedRecordFieldDto,
+  SingleLinkedRecordDtoSchema,
+} from './fields/SingleLinkedRecordFieldDto'
+import { SingleSelectFieldDto, SingleSelectDtoSchema } from './fields/SingleSelectFieldDto'
+import { AutonumberFieldDto, AutonumberDtoSchema } from './fields/AutonumberFieldDto'
+import { UrlFieldDto, UrlDtoSchema } from './fields/UrlFieldDto'
 
 export type FieldDto =
-  | SingleLineTextDto
-  | LongTextDto
-  | CurrencyDto
-  | NumberDto
-  | FormulaDto
-  | SingleLinkedRecordDto
-  | MultipleLinkedRecordDto
-  | RollupDto
-  | DatetimeDto
-  | SingleSelectDto
-  | AutonumberDto
+  | SingleLineTextFieldDto
+  | LongTextFieldDto
+  | CurrencyFieldDto
+  | NumberFieldDto
+  | FormulaFieldDto
+  | SingleLinkedRecordFieldDto
+  | MultipleLinkedRecordFieldDto
+  | RollupFieldDto
+  | DatetimeFieldDto
+  | SingleSelectFieldDto
+  | AutonumberFieldDto
+  | UrlFieldDto
 
 export const FieldDtoSchema: JSONSchemaType<FieldDto> = {
   oneOf: [
     SingleLineTextDtoSchema,
     LongTextDtoSchema,
-    CurrencyDtoSchema,
+    CurrencyFieldDtoSchema,
     NumberDtoSchema,
-    FormulaDtoSchema,
+    FormulaFieldDtoSchema,
     SingleLinkedRecordDtoSchema,
     MultipleLinkedRecordDtoSchema,
     RollupDtoSchema,
     DatetimeDtoSchema,
     SingleSelectDtoSchema,
     AutonumberDtoSchema,
+    UrlDtoSchema,
   ],
 }

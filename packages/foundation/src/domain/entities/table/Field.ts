@@ -1,24 +1,26 @@
-import { Autonumber } from './fields/Autonumber'
-import { Currency } from './fields/Currency'
-import { Datetime } from './fields/Datetime'
-import { Formula } from './fields/Formula'
-import { LongText } from './fields/LongText'
-import { MultipleLinkedRecords } from './fields/MultipleLinkedRecords'
+import { AutonumberField } from './fields/AutonumberField'
+import { CurrencyField } from './fields/CurrencyField'
+import { DatetimeField } from './fields/DatetimeField'
+import { FormulaField } from './fields/FormulaField'
+import { LongTextField } from './fields/LongTextField'
+import { MultipleLinkedRecordsField } from './fields/MultipleLinkedRecordsField'
 import { NumberField } from './fields/NumberField'
-import { Rollup } from './fields/Rollup'
-import { SingleLineText } from './fields/SingleLineText'
-import { SingleLinkedRecord } from './fields/SingleLinkedRecord'
-import { SingleSelect } from './fields/SingleSelect'
+import { RollupField } from './fields/RollupField'
+import { SingleLineTextField } from './fields/SingleLineTextField'
+import { SingleLinkedRecordField } from './fields/SingleLinkedRecordField'
+import { SingleSelectField } from './fields/SingleSelectField'
+import { UrlField } from './fields/UrlField'
 
 export type Field =
-  | Currency
-  | Formula
-  | LongText
-  | MultipleLinkedRecords
+  | CurrencyField
+  | FormulaField
+  | LongTextField
+  | MultipleLinkedRecordsField
   | NumberField
-  | Rollup
-  | SingleLineText
-  | SingleLinkedRecord
-  | Datetime
-  | SingleSelect
-  | Autonumber
+  | RollupField
+  | SingleLineTextField
+  | SingleLinkedRecordField
+  | DatetimeField
+  | SingleSelectField
+  | AutonumberField
+  | UrlField

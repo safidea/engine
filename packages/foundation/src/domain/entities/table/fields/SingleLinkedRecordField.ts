@@ -1,12 +1,12 @@
 import { BaseField } from './BaseField'
 
-export class MultipleLinkedRecords extends BaseField {
+export class SingleLinkedRecordField extends BaseField {
   constructor(
     name: string,
     private readonly _table: string,
     optional?: boolean
   ) {
-    super(name, 'multiple_linked_records', optional, 'recordsIds')
+    super(name, 'single_linked_record', optional, 'recordId')
   }
 
   get table(): string {

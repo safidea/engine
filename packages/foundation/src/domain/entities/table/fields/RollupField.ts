@@ -1,6 +1,6 @@
 import { BaseField, Format } from './BaseField'
 
-export class Rollup extends BaseField {
+export class RollupField extends BaseField {
   constructor(
     name: string,
     private readonly _linkedRecords: string,

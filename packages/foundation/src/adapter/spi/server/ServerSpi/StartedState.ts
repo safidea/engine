@@ -10,9 +10,10 @@ export class StartedState extends ServerState {
 
   async emit(event: TriggerEvent, context: AutomationContext = {}): Promise<void> {
     const { automations } = this.configuredState.app
+    const { data, ...params } = context
     for (const automation of automations) {
-      if (automation.shouldTrigger(event, context)) {
-        await automation.executeActions({ [event]: context })
+      if (automation.shouldTrigger(event, params)) {
+        await automation.executeActions({ trigger: data })
       }
     }
   }

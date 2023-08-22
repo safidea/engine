@@ -11,7 +11,7 @@ export interface ListUI {
   textCell: React.FC<ListUITextCellProps>
   buttonCell: React.FC<ListUIButtonCellProps>
   linkCell: React.FC<ListUILinkCellProps>
-  currencyCell: React.FC<ListUICurrencyCellProps>
+  currencyCell: React.FC<ListUICurrencyFieldCellProps>
 }
 
 export interface ListUIHeaderColumnProps {
@@ -31,7 +31,7 @@ export interface ListUITextCellProps {
   value: string
 }
 
-export interface ListUICurrencyCellProps {
+export interface ListUICurrencyFieldCellProps {
   value: number
   currency: '€'
 }

@@ -12,6 +12,7 @@ export class CreateFileActionMapper {
     templating: ITemplatingSpi
   ) {
     return new CreateFileAction(
+      createFileActionDto.name,
       createFileActionDto.filename,
       createFileActionDto.input,
       createFileActionDto.output,
@@ -26,6 +27,7 @@ export class CreateFileActionMapper {
 
   static toDto(createFileAction: CreateFileAction): CreateFileActionDto {
     return {
+      name: createFileAction.name,
       type: 'create_file',
       filename: createFileAction.filename,
       input: createFileAction.input,

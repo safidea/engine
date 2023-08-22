@@ -1,15 +1,15 @@
 import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
-export interface NumberDto extends BaseFieldDto {
-  type: 'number'
+export interface SingleLineTextFieldDto extends BaseFieldDto {
+  type: 'single_line_text'
 }
 
-export const NumberDtoSchema: JSONSchemaType<NumberDto> = {
+export const SingleLineTextDtoSchema: JSONSchemaType<SingleLineTextFieldDto> = {
   type: 'object',
   properties: {
     ...BaseFieldDtoSchema.properties,
-    type: { type: 'string', enum: ['number'] },
+    type: { type: 'string', enum: ['single_line_text'] },
   },
   required: [...BaseFieldDtoSchema.required, 'type'],
   additionalProperties: false,

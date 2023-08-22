@@ -1,7 +1,7 @@
 import { ListTableRecords } from './ListTableRecords'
-import { Rollup } from '@domain/entities/table/fields/Rollup'
-import { Formula } from '@domain/entities/table/fields/Formula'
-import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
+import { RollupField } from '@domain/entities/table/fields/RollupField'
+import { FormulaField } from '@domain/entities/table/fields/FormulaField'
+import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/MultipleLinkedRecordsField'
 import { App } from '@domain/entities/app/App'
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
 import { Record } from '@domain/entities/orm/Record'
@@ -24,18 +24,18 @@ export class ReadTableRecord {
     const fields = this.app.getTableFields(table)
     if (fields.length > 0) {
       for (const field of fields)
-        if (field instanceof Rollup) await this.runFieldRollupFormula(record, field, table)
+        if (field instanceof RollupField) await this.runFieldRollupFormula(record, field, table)
       for (const field of fields)
-        if (field instanceof Formula) await this.runFieldFormula(record, field)
+        if (field instanceof FormulaField) await this.runFieldFormula(record, field)
     }
     return record
   }
 
-  async runFieldRollupFormula(record: Record, fieldRollup: Rollup, table: string) {
+  async runFieldRollupFormula(record: Record, fieldRollup: RollupField, table: string) {
     const { formula } = fieldRollup
     const fields = this.app.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
-    if (!field || !(field instanceof MultipleLinkedRecords)) throw new Error('Field not found')
+    if (!field || !(field instanceof MultipleLinkedRecordsField)) throw new Error('Field not found')
     const listTableRecords = new ListTableRecords(this.ormSpi, this.app)
     const values = record.getFieldValue(field.name)
     if (!Array.isArray(values)) throw new Error('Values are not an array')
@@ -47,7 +47,7 @@ export class ReadTableRecord {
     record.setCalculatedFieldValue(fieldRollup.name, result)
   }
 
-  async runFieldFormula(record: Record, fieldFormula: Formula) {
+  async runFieldFormula(record: Record, fieldFormula: FormulaField) {
     const { formula } = fieldFormula
     const context = record.fields
     const result = new Script(formula, context).run()

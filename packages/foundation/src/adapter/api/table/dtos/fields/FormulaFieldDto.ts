@@ -1,12 +1,12 @@
 import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
-export interface FormulaDto extends BaseFieldDto {
+export interface FormulaFieldDto extends BaseFieldDto {
   type: 'formula'
   formula: string
 }
 
-export const FormulaDtoSchema: JSONSchemaType<FormulaDto> = {
+export const FormulaFieldDtoSchema: JSONSchemaType<FormulaFieldDto> = {
   type: 'object',
   properties: {
     ...BaseFieldDtoSchema.properties,

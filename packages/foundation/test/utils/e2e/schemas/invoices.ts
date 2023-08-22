@@ -93,6 +93,12 @@ export const TABLE_INVOICES: TableDto = {
       optional: true,
       permissions: invoiceFieldPermission,
     },
+    {
+      name: 'url',
+      type: 'url',
+      optional: true,
+      permissions: invoiceFieldPermission,
+    },
   ],
 }
 
@@ -439,6 +445,7 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE: AutomationDto = {
   },
   actions: [
     {
+      name: 'create-invoice',
       type: 'create_file',
       filename: 'invoice.pdf',
       input: 'html',
@@ -457,8 +464,9 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
   },
   actions: [
     {
+      name: 'create-invoice',
       type: 'create_file',
-      filename: 'invoice-{{record_created.data.preview_number}}.pdf',
+      filename: 'invoice-{{trigger.preview_number}}.pdf',
       input: 'html',
       output: 'pdf',
       template: {
@@ -466,20 +474,29 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
       },
       bucket: 'invoices',
       data: {
-        preview_number: '{{record_created.data.preview_number}}',
-        customer: '{{record_created.data.customer}}',
-        address: '{{record_created.data.address}}',
-        zip_code: '{{record_created.data.zip_code}}',
-        city: '{{record_created.data.city}}',
-        country: '{{record_created.data.country}}',
-        'items.$.activity': '{{record_created.data.items.$.activity}}',
-        'items.$.quantity': '{{record_created.data.items.$.quantity}}',
-        'items.$.unit_price': '{{record_created.data.items.$.unit_price}}',
-        'items.$.vat': '{{record_created.data.items.$.vat}}',
-        'items.$.total_amount': '{{record_created.data.items.$.total_amount}}',
-        total_net_amount: '{{record_created.data.total_net_amount}}',
-        total_vat: '{{record_created.data.total_vat}}',
-        total_amount: '{{record_created.data.total_amount}}',
+        preview_number: '{{trigger.preview_number}}',
+        customer: '{{trigger.customer}}',
+        address: '{{trigger.address}}',
+        zip_code: '{{trigger.zip_code}}',
+        city: '{{trigger.city}}',
+        country: '{{trigger.country}}',
+        'items.$.activity': '{{trigger.items.$.activity}}',
+        'items.$.quantity': '{{trigger.items.$.quantity}}',
+        'items.$.unit_price': '{{trigger.items.$.unit_price}}',
+        'items.$.vat': '{{trigger.items.$.vat}}',
+        'items.$.total_amount': '{{trigger.items.$.total_amount}}',
+        total_net_amount: '{{trigger.total_net_amount}}',
+        total_vat: '{{trigger.total_vat}}',
+        total_amount: '{{trigger.total_amount}}',
+      },
+    },
+    {
+      name: 'update-invoice-with-url',
+      type: 'update_record',
+      table: 'invoices',
+      recordId: '{{trigger.id}}',
+      fields: {
+        url: '{{create_invoice.url}}',
       },
     },
   ],

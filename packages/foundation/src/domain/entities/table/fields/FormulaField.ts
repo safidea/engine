@@ -1,6 +1,6 @@
 import { BaseField, Format } from './BaseField'
 
-export class Formula extends BaseField {
+export class FormulaField extends BaseField {
   constructor(
     name: string,
     private readonly _formula: string,

@@ -4,11 +4,13 @@ import { Table } from '@domain/entities/table/Table'
 
 export class UpdateRecordAction extends BaseAction {
   constructor(
+    name: string,
     private _table: string,
+    private _recordId: string,
     private _fields: Record<string, string>,
     tables: Table[]
   ) {
-    super('update_record')
+    super(name, 'update_record')
     const table = tables.find((table) => table.name === _table)
     if (!table) {
       throw new Error(`table "${_table}" in action "update_record" is not defined in tables`)
@@ -29,6 +31,10 @@ export class UpdateRecordAction extends BaseAction {
 
   get fields(): Record<string, string> {
     return this._fields
+  }
+
+  get recordId(): string {
+    return this._recordId
   }
 
   execute() {

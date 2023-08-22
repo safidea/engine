@@ -1,12 +1,12 @@
 import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
-export interface SingleSelectDto extends BaseFieldDto {
+export interface SingleSelectFieldDto extends BaseFieldDto {
   type: 'single_select'
   options: string[]
 }
 
-export const SingleSelectDtoSchema: JSONSchemaType<SingleSelectDto> = {
+export const SingleSelectDtoSchema: JSONSchemaType<SingleSelectFieldDto> = {
   type: 'object',
   properties: {
     ...BaseFieldDtoSchema.properties,

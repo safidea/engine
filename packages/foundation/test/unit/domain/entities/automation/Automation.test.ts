@@ -20,7 +20,15 @@ describe('Automation', () => {
       {
         name: 'updateRecord',
         trigger: { event: 'record_created', table: 'tableA' },
-        actions: [{ type: 'update_record', fields: { fieldA: 'test' }, table: 'tableA' }],
+        actions: [
+          {
+            name: 'update-record',
+            type: 'update_record',
+            fields: { fieldA: 'test' },
+            table: 'tableA',
+            recordId: '1',
+          },
+        ],
       },
       tables,
       {} as any
@@ -50,7 +58,15 @@ describe('Automation', () => {
       {
         name: 'updateRecord',
         trigger: { event: 'record_created', table: 'tableA' },
-        actions: [{ type: 'update_record', fields: { fieldA: 'test' }, table: 'tableA' }],
+        actions: [
+          {
+            name: 'update-record',
+            type: 'update_record',
+            fields: { fieldA: 'test' },
+            table: 'tableA',
+            recordId: '1',
+          },
+        ],
       },
       tables,
       {} as any

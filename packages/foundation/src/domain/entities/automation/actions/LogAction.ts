@@ -3,10 +3,11 @@ import { BaseAction } from './BaseAction'
 
 export class LogAction extends BaseAction {
   constructor(
+    name: string,
     private _message: string,
     private logger: ILoggerSpi
   ) {
-    super('log')
+    super(name, 'log')
   }
 
   get message(): string {

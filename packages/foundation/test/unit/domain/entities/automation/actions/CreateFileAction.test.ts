@@ -44,6 +44,7 @@ describe('CreateFileAction', () => {
     const templating = new HandlebarsTemplating()
     const action = ActionMapper.toEntity(
       {
+        name: 'create_file',
         type: 'create_file',
         filename: 'test.pdf',
         input: 'html',

@@ -1,15 +1,15 @@
 import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
-export interface AutonumberDto extends BaseFieldDto {
-  type: 'autonumber'
+export interface CurrencyFieldDto extends BaseFieldDto {
+  type: 'currency'
 }
 
-export const AutonumberDtoSchema: JSONSchemaType<AutonumberDto> = {
+export const CurrencyFieldDtoSchema: JSONSchemaType<CurrencyFieldDto> = {
   type: 'object',
   properties: {
     ...BaseFieldDtoSchema.properties,
-    type: { type: 'string', enum: ['autonumber'] },
+    type: { type: 'string', enum: ['currency'] },
   },
   required: [...BaseFieldDtoSchema.required, 'type'],
   additionalProperties: false,

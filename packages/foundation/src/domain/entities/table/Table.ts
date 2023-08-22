@@ -1,8 +1,8 @@
 import { Field } from './Field'
-import { Datetime } from './fields/Datetime'
-import { MultipleLinkedRecords } from './fields/MultipleLinkedRecords'
-import { SingleLineText } from './fields/SingleLineText'
-import { SingleLinkedRecord } from './fields/SingleLinkedRecord'
+import { DatetimeField } from './fields/DatetimeField'
+import { MultipleLinkedRecordsField } from './fields/MultipleLinkedRecordsField'
+import { SingleLineTextField } from './fields/SingleLineTextField'
+import { SingleLinkedRecordField } from './fields/SingleLinkedRecordField'
 
 export class Table {
   constructor(
@@ -10,16 +10,16 @@ export class Table {
     private readonly _fields: Field[]
   ) {
     if (!this._fields.find((field) => field.name === 'id')) {
-      this._fields.push(new SingleLineText('id', true))
+      this._fields.push(new SingleLineTextField('id', true))
     }
     if (!this._fields.find((field) => field.name === 'created_time')) {
-      this._fields.push(new Datetime('created_time', true))
+      this._fields.push(new DatetimeField('created_time', true))
     }
     if (!this._fields.find((field) => field.name === 'last_modified_time')) {
-      this._fields.push(new Datetime('last_modified_time', true))
+      this._fields.push(new DatetimeField('last_modified_time', true))
     }
     if (!this._fields.find((field) => field.name === 'deleted_time')) {
-      this._fields.push(new Datetime('deleted_time', true))
+      this._fields.push(new DatetimeField('deleted_time', true))
     }
   }
 
@@ -38,7 +38,7 @@ export class Table {
   getLinkedFieldByLinkedTableName(linkedTableName: string): Field {
     const field = this._fields.find(
       (field) =>
-        (field instanceof MultipleLinkedRecords || field instanceof SingleLinkedRecord) &&
+        (field instanceof MultipleLinkedRecordsField || field instanceof SingleLinkedRecordField) &&
         field.table === linkedTableName
     )
     if (!field) {

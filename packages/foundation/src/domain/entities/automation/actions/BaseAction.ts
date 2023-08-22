@@ -1,7 +1,14 @@
 export type ActionType = 'log' | 'update_record' | 'create_file'
 
 export class BaseAction {
-  constructor(private _type: ActionType) {}
+  constructor(
+    private _name: string,
+    private _type: ActionType
+  ) {}
+
+  get name(): string {
+    return this._name
+  }
 
   get type(): ActionType {
     return this._type

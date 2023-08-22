@@ -1,22 +1,23 @@
 import { Field } from '@domain/entities/table/Field'
-import { Currency } from '@domain/entities/table/fields/Currency'
-import { Datetime } from '@domain/entities/table/fields/Datetime'
-import { Formula } from '@domain/entities/table/fields/Formula'
-import { LongText } from '@domain/entities/table/fields/LongText'
-import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
+import { CurrencyField } from '@domain/entities/table/fields/CurrencyField'
+import { DatetimeField } from '@domain/entities/table/fields/DatetimeField'
+import { FormulaField } from '@domain/entities/table/fields/FormulaField'
+import { LongTextField } from '@domain/entities/table/fields/LongTextField'
+import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/MultipleLinkedRecordsField'
 import { NumberField } from '@domain/entities/table/fields/NumberField'
-import { Rollup } from '@domain/entities/table/fields/Rollup'
-import { SingleLineText } from '@domain/entities/table/fields/SingleLineText'
-import { SingleLinkedRecord } from '@domain/entities/table/fields/SingleLinkedRecord'
-import { SingleSelect } from '@domain/entities/table/fields/SingleSelect'
+import { RollupField } from '@domain/entities/table/fields/RollupField'
+import { SingleLineTextField } from '@domain/entities/table/fields/SingleLineTextField'
+import { SingleLinkedRecordField } from '@domain/entities/table/fields/SingleLinkedRecordField'
+import { SingleSelectField } from '@domain/entities/table/fields/SingleSelectField'
 import { FieldDto } from '../dtos/FieldDto'
-import { Autonumber } from '@domain/entities/table/fields/Autonumber'
+import { AutonumberField } from '@domain/entities/table/fields/AutonumberField'
+import { UrlField } from '@domain/entities/table/fields/UrlField'
 
 export class FieldMapper {
   static toEntity(fieldDto: FieldDto): Field {
     const { type } = fieldDto
     if (type === 'single_line_text') {
-      return new SingleLineText(
+      return new SingleLineTextField(
         fieldDto.name,
         fieldDto.optional,
         fieldDto.default ? String(fieldDto.default) : undefined,
@@ -24,7 +25,7 @@ export class FieldMapper {
       )
     }
     if (type === 'long_text') {
-      return new LongText(
+      return new LongTextField(
         fieldDto.name,
         fieldDto.optional,
         fieldDto.default ? String(fieldDto.default) : undefined
@@ -38,23 +39,23 @@ export class FieldMapper {
       )
     }
     if (type === 'currency') {
-      return new Currency(
+      return new CurrencyField(
         fieldDto.name,
         fieldDto.optional,
         fieldDto.default ? Number(fieldDto.default) : undefined
       )
     }
     if (type === 'single_linked_record') {
-      return new SingleLinkedRecord(fieldDto.name, fieldDto.table, fieldDto.optional)
+      return new SingleLinkedRecordField(fieldDto.name, fieldDto.table, fieldDto.optional)
     }
     if (type === 'multiple_linked_records') {
-      return new MultipleLinkedRecords(fieldDto.name, fieldDto.table, fieldDto.optional)
+      return new MultipleLinkedRecordsField(fieldDto.name, fieldDto.table, fieldDto.optional)
     }
     if (type === 'formula') {
-      return new Formula(fieldDto.name, fieldDto.formula, fieldDto.format, fieldDto.optional)
+      return new FormulaField(fieldDto.name, fieldDto.formula, fieldDto.format, fieldDto.optional)
     }
     if (type === 'rollup') {
-      return new Rollup(
+      return new RollupField(
         fieldDto.name,
         fieldDto.linkedRecords,
         fieldDto.linkedField,
@@ -64,23 +65,35 @@ export class FieldMapper {
       )
     }
     if (type === 'datetime') {
-      return new Datetime(
+      return new DatetimeField(
         fieldDto.name,
         fieldDto.optional,
         fieldDto.default ? String(fieldDto.default) : undefined
       )
     }
     if (type === 'single_select') {
-      return new SingleSelect(fieldDto.name, fieldDto.options, fieldDto.optional, fieldDto.default)
+      return new SingleSelectField(
+        fieldDto.name,
+        fieldDto.options,
+        fieldDto.optional,
+        fieldDto.default
+      )
     }
     if (type === 'autonumber') {
-      return new Autonumber(fieldDto.name)
+      return new AutonumberField(fieldDto.name)
+    }
+    if (type === 'url') {
+      return new UrlField(
+        fieldDto.name,
+        fieldDto.optional,
+        fieldDto.default ? String(fieldDto.default) : undefined
+      )
     }
     throw new Error(`Invalid field type ${type}`)
   }
 
   static toDto(field: Field): FieldDto {
-    if (field instanceof SingleLineText) {
+    if (field instanceof SingleLineTextField) {
       return {
         type: 'single_line_text',
         name: field.name,
@@ -88,7 +101,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof LongText) {
+    if (field instanceof LongTextField) {
       return {
         type: 'long_text',
         name: field.name,
@@ -104,7 +117,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof Currency) {
+    if (field instanceof CurrencyField) {
       return {
         type: 'currency',
         name: field.name,
@@ -112,7 +125,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof SingleLinkedRecord) {
+    if (field instanceof SingleLinkedRecordField) {
       return {
         type: 'single_linked_record',
         name: field.name,
@@ -121,7 +134,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof MultipleLinkedRecords) {
+    if (field instanceof MultipleLinkedRecordsField) {
       return {
         type: 'multiple_linked_records',
         name: field.name,
@@ -130,7 +143,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof Formula) {
+    if (field instanceof FormulaField) {
       return {
         type: 'formula',
         name: field.name,
@@ -140,7 +153,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof Rollup) {
+    if (field instanceof RollupField) {
       return {
         type: 'rollup',
         name: field.name,
@@ -152,7 +165,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof Datetime) {
+    if (field instanceof DatetimeField) {
       return {
         type: 'datetime',
         name: field.name,
@@ -160,7 +173,7 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof SingleSelect) {
+    if (field instanceof SingleSelectField) {
       return {
         type: 'single_select',
         name: field.name,
@@ -169,10 +182,18 @@ export class FieldMapper {
         default: field.default,
       }
     }
-    if (field instanceof Autonumber) {
+    if (field instanceof AutonumberField) {
       return {
         type: 'autonumber',
         name: field.name,
+      }
+    }
+    if (field instanceof UrlField) {
+      return {
+        type: 'url',
+        name: field.name,
+        optional: field.optional,
+        default: field.default,
       }
     }
     throw new Error(`Invalid field instance ${field}`)

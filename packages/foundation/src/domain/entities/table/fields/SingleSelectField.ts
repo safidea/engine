@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField'
 
-export class SingleSelect extends BaseField {
+export class SingleSelectField extends BaseField {
   constructor(
     name: string,
     private readonly _options: string[],

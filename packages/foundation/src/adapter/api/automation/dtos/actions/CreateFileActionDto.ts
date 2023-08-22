@@ -5,8 +5,9 @@ import {
   CreateFileActionTemplate,
 } from '@domain/entities/automation/actions/CreateFileAction'
 import { JSONSchemaType } from 'ajv'
+import { BaseActionDto, BaseActionDtoSchema } from './BaseActionDto'
 
-export interface CreateFileActionDto {
+export interface CreateFileActionDto extends BaseActionDto {
   type: 'create_file'
   filename: string
   input: CreateFileActionInput
@@ -19,6 +20,7 @@ export interface CreateFileActionDto {
 export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
   type: 'object',
   properties: {
+    ...BaseActionDtoSchema.properties,
     type: { type: 'string', enum: ['create_file'] },
     filename: { type: 'string' },
     input: { type: 'string', enum: ['html'] },
@@ -44,5 +46,13 @@ export const CreateFileActionDtoSchema: JSONSchemaType<CreateFileActionDto> = {
       nullable: true,
     },
   },
-  required: ['type', 'filename', 'input', 'output', 'template', 'bucket'],
+  required: [
+    ...BaseActionDtoSchema.required,
+    'type',
+    'filename',
+    'input',
+    'output',
+    'template',
+    'bucket',
+  ],
 }

@@ -22,6 +22,7 @@ export class CreateFileAction extends BaseAction {
   private _dataCompiled: CreateFileActionDataCompiled
 
   constructor(
+    name: string,
     filename: string,
     private _input: CreateFileActionInput,
     private _output: CreateFileActionOutput,
@@ -32,7 +33,7 @@ export class CreateFileAction extends BaseAction {
     templating: ITemplatingSpi,
     private _data: CreateFileActionData = {}
   ) {
-    super('create_file')
+    super(name, 'create_file')
     this._filename = filename.endsWith(`.${_output}`) ? filename : `${filename}.${_output}`
     this._filenameCompiled = templating.compile(this._filename)
     if (_input === 'html') {

@@ -1,14 +1,14 @@
 import { JSONSchemaType } from 'ajv'
 import { BaseFieldDto, BaseFieldDtoSchema } from './BaseFieldDto'
 
-export interface RollupDto extends BaseFieldDto {
+export interface RollupFieldDto extends BaseFieldDto {
   type: 'rollup'
   linkedRecords: string
   linkedField: string
   formula: string
 }
 
-export const RollupDtoSchema: JSONSchemaType<RollupDto> = {
+export const RollupDtoSchema: JSONSchemaType<RollupFieldDto> = {
   type: 'object',
   properties: {
     ...BaseFieldDtoSchema.properties,

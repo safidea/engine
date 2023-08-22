@@ -6,7 +6,7 @@ import { TableInput } from '@domain/entities/page/components/inputs/TableInput'
 import { Input } from '@domain/entities/page/components/Input'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { Table } from '@domain/entities/table/Table'
-import { MultipleLinkedRecords } from '@domain/entities/table/fields/MultipleLinkedRecords'
+import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/MultipleLinkedRecordsField'
 
 export class InputMapper {
   static toEntity(inputDto: InputDto, ui: IUISpi, tableName: string, tables: Table[]): Input {
@@ -18,7 +18,7 @@ export class InputMapper {
     if (!field) {
       throw new Error(`field ${inputDto.field} is not defined in table ${table}`)
     }
-    if (field instanceof MultipleLinkedRecords && 'columns' in inputDto) {
+    if (field instanceof MultipleLinkedRecordsField && 'columns' in inputDto) {
       const linkedTable = tables.find((table) => table.name === field.table)
       if (!linkedTable) {
         throw new Error(`linked table ${field.table} is not defined in tables`)
