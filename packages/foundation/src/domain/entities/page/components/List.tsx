@@ -89,6 +89,13 @@ export class List extends BaseComponent {
     }
     if (this._columns.length > 0) {
       for (const column of this._columns) {
+        if (column.type === 'button') {
+          if (!column.buttonLabel) {
+            throw new Error(
+              `buttonLabel is not defined in button type column ${column.label} in table ${this._table}`
+            )
+          }
+        }
         if (column.field) {
           const field = this._fields.find((field) => field.name === column.field)
           if (!field) {
@@ -172,10 +179,11 @@ export class List extends BaseComponent {
                         throw new Error(`action type ${column.action.type} is not defined`)
                     }
                   }
-                  if (!column.buttonLabel)
-                    throw new Error('buttonLabel is not defined in button column')
                   return (
-                    <UI.buttonCell label={column.buttonLabel} onClick={() => triggerAction()} />
+                    <UI.buttonCell
+                      label={String(column.buttonLabel)}
+                      onClick={() => triggerAction()}
+                    />
                   )
                 case 'currency':
                   value = Math.round(Number(value ?? 0) * 100) / 100

@@ -27,6 +27,34 @@ describe('List Component', () => {
     expect(call).toThrow('tableA is not defined in tables')
   })
 
+  test("config validation fail if column type button doesn't have a buttonLabel", async () => {
+    // GIVEN
+    const tableName = 'tableA'
+    const tables = TableMapper.toEntities([
+      {
+        name: 'tableA',
+        fields: [
+          {
+            name: 'fieldA',
+            type: 'single_line_text',
+          },
+        ],
+      },
+    ])
+    const columns: Column[] = [
+      {
+        label: 'Action',
+        type: 'button',
+      },
+    ]
+
+    // WHEN
+    const call = () => new List(tableName, [], [], columns, {} as any, tables)
+
+    // THEN
+    expect(call).toThrow('buttonLabel is not defined in button type column')
+  })
+
   test('config validation fail if groupBy reference an invalid field', async () => {
     // GIVEN
     const tableName = 'tableA'
