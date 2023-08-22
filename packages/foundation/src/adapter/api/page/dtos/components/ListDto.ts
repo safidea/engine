@@ -23,6 +23,7 @@ export interface ListDto {
       type: string
       path?: string
     }
+    buttonLabel?: string
   }[]
 }
 
@@ -88,6 +89,7 @@ export const ListDtoSchema: JSONSchemaType<ListDto> = {
             additionalProperties: false,
             nullable: true,
           },
+          buttonLabel: { type: 'string', nullable: true },
         },
         required: ['label'],
         additionalProperties: false,

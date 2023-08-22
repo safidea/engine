@@ -49,7 +49,9 @@ export interface Column {
   action?: {
     type: string
     path?: string
+    url?: string
   }
+  buttonLabel?: string
 }
 
 export interface ListProps {
@@ -87,15 +89,26 @@ export class List extends BaseComponent {
     }
     if (this._columns.length > 0) {
       for (const column of this._columns) {
-        if (!column.type) {
+        if (column.field) {
           const field = this._fields.find((field) => field.name === column.field)
           if (!field) {
             throw new Error(
               `field "${column.field}" in columns is not defined in table ${this._table}`
             )
-          } else {
-            column.type = field.format ?? 'text'
           }
+          if (!column.type) {
+            column.type = field.format ?? 'text'
+          } else if (column.type === 'button') {
+            if (field.type === 'url') {
+              column.action = {
+                type: 'open_url',
+              }
+            }
+          }
+        } else if (!column.type) {
+          throw new Error(
+            `field or type is not defined in column ${column.label} in table ${this._table}`
+          )
         }
       }
     }
@@ -145,19 +158,25 @@ export class List extends BaseComponent {
               switch (column.type) {
                 case 'button':
                   function triggerAction() {
-                    if (!column.action) throw new Error('action is not defined')
+                    if (!column.action) throw new Error('action is not defined in button column')
                     switch (column.action.type) {
                       case 'redirect':
-                        if (!column.action.path)
-                          throw new Error('path is not defined inredirect  action')
-                        const path = column.action.path.replace(':id', record.id)
-                        window.location.href = path
+                        const path = column.action.path
+                        if (!path) throw new Error('path is not defined in redirect action')
+                        window.location.href = path.replace(':id', record.id)
+                        break
+                      case 'open_url':
+                        window.open(column.action.url ?? String(value), '_blank')
                         break
                       default:
                         throw new Error(`action type ${column.action.type} is not defined`)
                     }
                   }
-                  return <UI.buttonCell label={column.label} onClick={() => triggerAction()} />
+                  if (!column.buttonLabel)
+                    throw new Error('buttonLabel is not defined in button column')
+                  return (
+                    <UI.buttonCell label={column.buttonLabel} onClick={() => triggerAction()} />
+                  )
                 case 'currency':
                   value = Math.round(Number(value ?? 0) * 100) / 100
                   return <UI.currencyCell value={value} currency={'€'} />
@@ -182,7 +201,6 @@ export class List extends BaseComponent {
         <UI.container>
           <UI.header>
             {columns.map((column: Column, index: number) => {
-              if (column.type === 'button') return undefined
               return <UI.headerColumn label={column.label} key={index} />
             })}
           </UI.header>

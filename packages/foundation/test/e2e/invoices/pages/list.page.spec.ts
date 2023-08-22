@@ -213,4 +213,31 @@ test.describe('A page that list invoices', () => {
     await expect(page.getByRole('cell', { name: /^13€$/i })).toBeVisible()
     await expect(page.getByRole('cell', { name: /^78€$/i })).toBeVisible()
   })
+
+  test('should display a button that open an invoice url', async ({ page, orm, folder }) => {
+    // GIVEN
+    const port = 50306
+    await new Foundation({ port, folder, adapters: { orm } })
+      .config({
+        tables: helpers.getTablesDto('invoices'),
+        pages: helpers.getPagesDto('invoices_list'),
+      })
+      .start()
+    const url = `https://example.com/`
+    await helpers.generateRecords(orm, 'invoices', [
+      {
+        url,
+      },
+    ])
+
+    // WHEN
+    await page.goto(helpers.getUrl(port, '/list'))
+    const [newWindow] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.getByRole('cell', { name: 'Ouvrir' }).click(),
+    ])
+
+    // THEN
+    expect(await newWindow.title()).toBe('Example Domain')
+  })
 })

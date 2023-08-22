@@ -194,6 +194,11 @@ describe('List Component', () => {
       {
         label: 'Action',
         type: 'button',
+        buttonLabel: 'Open',
+        action: {
+          type: 'open_url',
+          url: 'https://example.com',
+        },
       },
     ]
     const table = TableMapper.toEntity({
@@ -236,8 +241,9 @@ describe('List Component', () => {
         label: 'Field A',
       },
       {
-        label: 'Redirect',
+        label: 'Action',
         type: 'button',
+        buttonLabel: 'Redirect',
         action: {
           type: 'redirect',
           path: '/tableA/:id',

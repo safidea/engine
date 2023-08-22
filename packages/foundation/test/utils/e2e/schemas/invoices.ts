@@ -225,12 +225,15 @@ export const PAGE_LIST_INVOICES: PageDto = {
               label: 'Date de finalisation',
             },
             {
-              field: 'created_time',
-              label: 'Date de création',
+              field: 'url',
+              label: 'PDF',
+              type: 'button',
+              buttonLabel: 'Ouvrir',
             },
             {
-              label: 'Éditer',
+              label: 'Édition',
               type: 'button',
+              buttonLabel: 'Éditer',
               action: {
                 type: 'redirect',
                 path: '/update/:id',

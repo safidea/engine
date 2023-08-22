@@ -63,24 +63,27 @@ describe('CreateFileAction', () => {
     )
 
     // WHEN
-    action.execute({
-      record_created: {
-        table: 'tableA',
-        data: {
-          name: 'Record A',
-          items: [
-            {
-              name: 'Record B',
-              number: 1,
-            },
-            {
-              name: 'Record C',
-              number: 2,
-            },
-          ],
+    action.execute(
+      {
+        record_created: {
+          table: 'tableA',
+          data: {
+            name: 'Record A',
+            items: [
+              {
+                name: 'Record B',
+                number: 1,
+              },
+              {
+                name: 'Record C',
+                number: 2,
+              },
+            ],
+          },
         },
       },
-    }, {} as any)
+      {} as any
+    )
 
     // THEN
     expect(converter.htmlToPdf).toHaveBeenCalledWith(
