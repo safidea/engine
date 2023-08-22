@@ -6,6 +6,15 @@
       "name": "invoices",
       "fields": [
         {
+          "name": "autonumber",
+          "type": "autonumber"
+        },
+        {
+          "name": "preview_number",
+          "type": "formula",
+          "formula": "'P' + (autonumber + 1000)"
+        },
+        {
           "name": "customer",
           "type": "single_line_text"
         },
@@ -63,6 +72,11 @@
         {
           "name": "finalised_time",
           "type": "datetime",
+          "optional": true
+        },
+        {
+          "name": "url",
+          "type": "url",
           "optional": true
         },
         {
@@ -192,12 +206,15 @@
                   "label": "Date de finalisation"
                 },
                 {
-                  "field": "created_time",
-                  "label": "Date de création"
+                  "field": "url",
+                  "label": "PDF",
+                  "type": "button",
+                  "buttonLabel": "Ouvrir"
                 },
                 {
-                  "label": "Éditer",
+                  "label": "Édition",
                   "type": "button",
+                  "buttonLabel": "Éditer",
                   "action": {
                     "type": "redirect",
                     "path": "/update/:id"
@@ -411,14 +428,40 @@
       },
       "actions": [
         {
+          "name": "create_invoice_pdf",
           "type": "create_file",
-          "filename": "invoice.pdf",
+          "filename": "invoice-{{trigger.preview_number}}.pdf",
           "input": "html",
           "output": "pdf",
           "template": {
-            "privatePath": "templates/invoice.html"
+            "privatePath": "/templates/invoice.html"
           },
-          "bucket": "invoices"
+          "bucket": "invoices",
+          "data": {
+            "preview_number": "{{trigger.preview_number}}",
+            "customer": "{{trigger.customer}}",
+            "address": "{{trigger.address}}",
+            "zip_code": "{{trigger.zip_code}}",
+            "city": "{{trigger.city}}",
+            "country": "{{trigger.country}}",
+            "items.$.activity": "{{trigger.items.$.activity}}",
+            "items.$.quantity": "{{trigger.items.$.quantity}}",
+            "items.$.unit_price": "{{trigger.items.$.unit_price}}",
+            "items.$.vat": "{{trigger.items.$.vat}}",
+            "items.$.total_amount": "{{trigger.items.$.total_amount}}",
+            "total_net_amount": "{{trigger.total_net_amount}}",
+            "total_vat": "{{trigger.total_vat}}",
+            "total_amount": "{{trigger.total_amount}}"
+          }
+        },
+        {
+          "name": "update_invoice_with_url",
+          "type": "update_record",
+          "table": "invoices",
+          "recordId": "{{trigger.id}}",
+          "fields": {
+            "url": "{{create_invoice_pdf.url}}"
+          }
         }
       ]
     }

@@ -19,8 +19,8 @@
       - [x] enregistrement de la date de finalisation
       - [x] enregistrement du numéro de facture
       - [x] la facture devient non éditable
-      - [ ] génération de PDF
-      - [ ] stockage du PDF
+      - [x] génération de PDF
+      - [x] stockage du PDF
 - [ ] Émission de la facture vers le client
   - [ ] La date d'émission de la facture est sauvegardée dans le système
     - [ ] V1 : Bouton manuel d'horodatage
