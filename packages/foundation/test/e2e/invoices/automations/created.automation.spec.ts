@@ -1,6 +1,7 @@
 import pdf from 'pdf-parse'
 import { AppDto } from '@adapter/api/app/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import { FileStorage } from '@infrastructure/storage/FileStorage'
 
 test.describe('An automation that build an invoice document from a template', () => {
   test('should throw an error if the automation config is invalid', async ({ orm }) => {
@@ -287,11 +288,10 @@ test.describe('An automation that build an invoice document from a template', ()
     }
   })
 
-  test.skip('should save the invoice url created in the record', async ({
+  test('should save the invoice url created in the record', async ({
     request,
     folder,
     orm,
-    storage,
     converter,
   }) => {
     // GIVEN
@@ -301,6 +301,7 @@ test.describe('An automation that build an invoice document from a template', ()
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50010
+    const storage = new FileStorage(folder, 'http://localhost:' + port)
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
     await foundation.config(config).start()
     const {
@@ -317,6 +318,6 @@ test.describe('An automation that build an invoice document from a template', ()
     // THEN
     const [record] = await orm.list('invoices')
     expect(record).toBeDefined()
-    expect(record.url).toEqual('http://localhost:50010/api/storage/invoices/invoice-P1001.pdf')
+    expect(record.url).toEqual(`http://localhost:${port}/api/storage/invoices/invoice-P1001.pdf`)
   })
 })

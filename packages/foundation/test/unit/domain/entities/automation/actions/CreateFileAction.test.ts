@@ -80,7 +80,7 @@ describe('CreateFileAction', () => {
           ],
         },
       },
-    })
+    }, {} as any)
 
     // THEN
     expect(converter.htmlToPdf).toHaveBeenCalledWith(

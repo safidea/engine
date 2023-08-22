@@ -1,6 +1,7 @@
 import { Trigger } from './Trigger'
 import { Action } from './Action'
 import { RecordData } from '@domain/entities/orm/Record/IRecord'
+import { UpdateTableRecord } from '@application/usecases/table/UpdateTableRecord'
 
 export interface AutomationContext {
   [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
@@ -29,9 +30,9 @@ export class Automation {
     return this._trigger.shouldTrigger(event, context)
   }
 
-  async executeActions(context: AutomationContext) {
+  async executeActions(context: AutomationContext, updateTableRecord: UpdateTableRecord) {
     for (const action of this._actions) {
-      const result = await action.execute(context)
+      const result = await action.execute(context, updateTableRecord)
       context = { ...context, ...result }
     }
   }

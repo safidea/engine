@@ -11,7 +11,7 @@ export class UpdateTableRecord {
 
   constructor(
     private ormSpi: IOrmSpi,
-    private app: App,
+    app: App,
     private instance: StartedState
   ) {
     this.readTableRecord = new ReadTableRecord(ormSpi, app)

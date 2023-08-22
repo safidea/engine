@@ -464,7 +464,7 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
   },
   actions: [
     {
-      name: 'create-invoice',
+      name: 'create_invoice',
       type: 'create_file',
       filename: 'invoice-{{trigger.preview_number}}.pdf',
       input: 'html',
@@ -491,7 +491,7 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
       },
     },
     {
-      name: 'update-invoice-with-url',
+      name: 'update_invoice_with_url',
       type: 'update_record',
       table: 'invoices',
       recordId: '{{trigger.id}}',

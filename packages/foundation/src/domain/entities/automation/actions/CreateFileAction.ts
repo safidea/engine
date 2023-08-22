@@ -79,7 +79,7 @@ export class CreateFileAction extends BaseAction {
     return this._data
   }
 
-  async execute(context: AutomationContext): Promise<{ create_file: AutomationContext }> {
+  async execute(context: AutomationContext): Promise<{ [key: string]: AutomationContext }> {
     const filename = this._filenameCompiled.render(context)
     const data = Object.entries(this._dataCompiled).reduce(
       (acc: CreateFileActionDataRendered, [key, value]) => {
@@ -119,6 +119,6 @@ export class CreateFileAction extends BaseAction {
     const pdfData = await this.converter.htmlToPdf(template)
     const file = new File(filename, pdfData)
     const url = await this.storage.write(this.bucket, file)
-    return { create_file: { filename, url } }
+    return { [this.name]: { filename, url } }
   }
 }

@@ -1,6 +1,8 @@
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { ActionMapper } from '@adapter/api/automation/mappers/ActionMapper'
+import { Record } from '@domain/entities/orm/Record'
+import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
 
 describe('UpdateRecordAction', () => {
   // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
@@ -31,7 +33,9 @@ describe('UpdateRecordAction', () => {
           },
         ],
         tables,
-        {} as any
+        {
+          templating: new HandlebarsTemplating(),
+        }
       )
 
     // THEN
@@ -67,7 +71,9 @@ describe('UpdateRecordAction', () => {
           },
         ],
         tables,
-        {} as any
+        {
+          templating: new HandlebarsTemplating(),
+        }
       )
 
     // THEN
@@ -101,12 +107,51 @@ describe('UpdateRecordAction', () => {
           },
         ],
         tables,
-        {} as any
+        {
+          templating: new HandlebarsTemplating(),
+        }
       )
 
     // THEN
     expect(call).toThrow(
       'field "fieldY" in action "update_record" is not defined in table "tableA"'
     )
+  })
+
+  test('should update a record when execute action', async () => {
+    // GIVEN
+    const tables = TableMapper.toEntities([
+      {
+        name: 'tableA',
+        fields: [
+          {
+            name: 'fieldA',
+            type: 'single_line_text',
+          },
+        ],
+      },
+    ])
+    const updateTableRecord = {
+      execute: jest.fn(),
+    } as any
+    const action = ActionMapper.toEntity(
+      {
+        type: 'update_record',
+        fields: { fieldA: '{{trigger.text}}' },
+        table: 'tableA',
+        name: 'update_record',
+        recordId: '1',
+      },
+      tables,
+      {
+        templating: new HandlebarsTemplating(),
+      }
+    )
+
+    // WHEN
+    await action.execute({ trigger: { text: 'test' } }, updateTableRecord)
+
+    // THEN
+    expect(updateTableRecord.execute).toHaveBeenCalledWith('tableA', expect.any(Record), '1')
   })
 })

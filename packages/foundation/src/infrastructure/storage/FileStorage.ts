@@ -7,7 +7,10 @@ export class FileStorage implements IStorageSpi {
   private storageUrl: string
   private staticPrivateUrl: string
 
-  constructor(folder: string) {
+  constructor(
+    folder: string,
+    private url: string
+  ) {
     this.storageUrl = join(folder, 'storage')
     this.staticPrivateUrl = join(folder, 'private')
     if (!fs.existsSync(this.storageUrl)) {
@@ -18,10 +21,14 @@ export class FileStorage implements IStorageSpi {
     }
   }
 
+  getPublicUrl(filePath: string): string {
+    return `${this.url}/api/storage/${filePath}`
+  }
+
   async write(bucket: string, file: File): Promise<string> {
-    const filePath = join(this.storageUrl, bucket, file.filename)
-    await fs.outputFile(filePath, file.data)
-    return filePath
+    const filePath = join(bucket, file.filename)
+    await fs.outputFile(join(this.storageUrl, filePath), file.data)
+    return this.getPublicUrl(filePath)
   }
 
   async writeMany(bucket: string, files: File[]): Promise<string[]> {

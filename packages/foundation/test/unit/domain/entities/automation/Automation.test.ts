@@ -1,6 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { AutomationMapper } from '@adapter/api/automation/mappers/AutomationMapper'
+import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
 
 describe('Automation', () => {
   test('should return true if trigger event is called', async () => {
@@ -31,7 +32,9 @@ describe('Automation', () => {
         ],
       },
       tables,
-      {} as any
+      {
+        templating: new HandlebarsTemplating(),
+      }
     )
 
     // WHEN
@@ -69,7 +72,9 @@ describe('Automation', () => {
         ],
       },
       tables,
-      {} as any
+      {
+        templating: new HandlebarsTemplating(),
+      }
     )
 
     // WHEN

@@ -47,7 +47,7 @@ export default class Foundation {
     const fetcher = adapters.fetcher ?? new NativeFetcher(url)
     const server = adapters.server ?? new ExpressServer(port)
     const logger = adapters.logger ?? NativeLogger
-    const storage = adapters.storage ?? new FileStorage(folder)
+    const storage = adapters.storage ?? new FileStorage(folder, url)
     const converter = adapters.converter ?? new Converter(folder)
     const templating = adapters.templating ?? new HandlebarsTemplating()
     this.serverSpi = new ServerSpi({

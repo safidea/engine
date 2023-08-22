@@ -26,7 +26,7 @@ const test = base.extend<Fixtures>({
     await use(orm)
   },
   storage: async ({ folder }, use) => {
-    const storage = new FileStorage(folder)
+    const storage = new FileStorage(folder, 'http://localhost:3000')
     await use(storage)
   },
   converter: async ({ folder }, use) => {

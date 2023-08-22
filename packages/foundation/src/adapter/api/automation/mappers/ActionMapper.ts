@@ -24,7 +24,8 @@ export class ActionMapper {
     const { logger, storage, converter, templating } = spis
     const { type } = actionDto
     if (type === 'update_record') {
-      return UpdateRecordActionMapper.toEntity(actionDto, tables)
+      if (!templating) throw new Error('TemplatingSpi is required')
+      return UpdateRecordActionMapper.toEntity(actionDto, tables, templating)
     }
     if (type === 'log') {
       if (!logger) throw new Error('LoggerSpi is required')

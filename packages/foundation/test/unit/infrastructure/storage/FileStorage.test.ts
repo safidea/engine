@@ -12,7 +12,7 @@ describe('FileStorage', () => {
     const filename = 'fileA.txt'
     const data = 'dataA'
     const folder = helpers.getDedicatedTmpFolder()
-    const fileStorage = new FileStorage(folder)
+    const fileStorage = new FileStorage(folder, 'http://localhost:3000')
 
     // WHEN
     await fileStorage.write(bucket, new File(filename, Buffer.from(data)))
@@ -28,7 +28,7 @@ describe('FileStorage', () => {
     const filename = 'file.txt'
     const data = 'data'
     const folder = helpers.getDedicatedTmpFolder()
-    const fileStorage = new FileStorage(folder)
+    const fileStorage = new FileStorage(folder, 'http://localhost:3000')
     await Promise.all([
       fs.outputFile(join(folder, 'storage', bucket, 'A' + filename), 'A' + data),
       fs.outputFile(join(folder, 'storage', bucket, 'B' + filename), 'B' + data),
