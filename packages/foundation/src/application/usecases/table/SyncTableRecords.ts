@@ -66,13 +66,13 @@ export class SyncTableRecords {
       }
       for (const { table, records } of recordsToCreate) {
         for (const record of records) {
-          const context = await this.createAutomationContextFromRecordId.execute(table, record.id)
+          const context = await this.createAutomationContextFromRecordId.execute(table, record)
           await this.instance.emit('record_created', context)
         }
       }
       for (const { table, records } of recordsToUpdate) {
         for (const record of records) {
-          const context = await this.createAutomationContextFromRecordId.execute(table, record.id)
+          const context = await this.createAutomationContextFromRecordId.execute(table, record)
           await this.instance.emit('record_updated', context)
         }
       }

@@ -467,7 +467,7 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
   },
   actions: [
     {
-      name: 'create_invoice',
+      name: 'create_invoice_pdf',
       type: 'create_file',
       filename: 'invoice-{{trigger.preview_number}}.pdf',
       input: 'html',
@@ -499,7 +499,54 @@ export const AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
       table: 'invoices',
       recordId: '{{trigger.id}}',
       fields: {
-        url: '{{create_invoice.url}}',
+        url: '{{create_invoice_pdf.url}}',
+      },
+    },
+  ],
+}
+
+export const AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto = {
+  name: 'invoice-updated',
+  trigger: {
+    event: 'record_updated',
+    table: 'invoices',
+    fields: ['customer', 'address', 'zip_code', 'city', 'country', 'items'],
+  },
+  actions: [
+    {
+      name: 'create_invoice_pdf',
+      type: 'create_file',
+      filename: 'invoice-{{trigger.preview_number}}.pdf',
+      input: 'html',
+      output: 'pdf',
+      template: {
+        privatePath: '/templates/invoice.html',
+      },
+      bucket: 'invoices',
+      data: {
+        preview_number: '{{trigger.preview_number}}',
+        customer: '{{trigger.customer}}',
+        address: '{{trigger.address}}',
+        zip_code: '{{trigger.zip_code}}',
+        city: '{{trigger.city}}',
+        country: '{{trigger.country}}',
+        'items.$.activity': '{{trigger.items.$.activity}}',
+        'items.$.quantity': '{{trigger.items.$.quantity}}',
+        'items.$.unit_price': '{{trigger.items.$.unit_price}}',
+        'items.$.vat': '{{trigger.items.$.vat}}',
+        'items.$.total_amount': '{{trigger.items.$.total_amount}}',
+        total_net_amount: '{{trigger.total_net_amount}}',
+        total_vat: '{{trigger.total_vat}}',
+        total_amount: '{{trigger.total_amount}}',
+      },
+    },
+    {
+      name: 'update_invoice_with_url',
+      type: 'update_record',
+      table: 'invoices',
+      recordId: '{{trigger.id}}',
+      fields: {
+        url: '{{create_invoice_pdf.url}}',
       },
     },
   ],

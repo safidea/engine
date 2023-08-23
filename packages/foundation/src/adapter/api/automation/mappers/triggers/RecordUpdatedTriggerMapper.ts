@@ -3,13 +3,14 @@ import { RecordUpdatedTriggerDto } from '../../dtos/triggers/RecordUpdatedTrigge
 
 export class RecordUpdatedTriggerMapper {
   static toEntity(recordUpdatedTriggerDto: RecordUpdatedTriggerDto): RecordUpdatedTrigger {
-    return new RecordUpdatedTrigger(recordUpdatedTriggerDto.table)
+    return new RecordUpdatedTrigger(recordUpdatedTriggerDto.table, recordUpdatedTriggerDto.fields)
   }
 
   static toDto(recordUpdatedTrigger: RecordUpdatedTrigger): RecordUpdatedTriggerDto {
     return {
       event: 'record_updated',
       table: recordUpdatedTrigger.table,
+      fields: recordUpdatedTrigger.fields,
     }
   }
 
