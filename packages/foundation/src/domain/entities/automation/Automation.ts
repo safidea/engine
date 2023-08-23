@@ -2,9 +2,18 @@ import { Trigger } from './Trigger'
 import { Action } from './Action'
 import { RecordData } from '@domain/entities/orm/Record/IRecord'
 import { UpdateTableRecord } from '@application/usecases/table/UpdateTableRecord'
+import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
+import { CreateAutomationContextFromRecord } from '@application/usecases/automation/CreateAutomationContextFromRecord'
 
 export interface AutomationContext {
   [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
+}
+
+// TODO: remove application usecases from domain
+export interface AutomationUseCases {
+  updateTableRecord: UpdateTableRecord
+  readTableRecord: ReadTableRecord
+  createAutomationContextFromRecord: CreateAutomationContextFromRecord
 }
 
 export class Automation {
@@ -30,9 +39,9 @@ export class Automation {
     return this._trigger.shouldTrigger(event, context)
   }
 
-  async executeActions(context: AutomationContext, updateTableRecord: UpdateTableRecord) {
+  async executeActions(context: AutomationContext, usecases: AutomationUseCases) {
     for (const action of this._actions) {
-      const result = await action.execute(context, updateTableRecord)
+      const result = await action.execute(context, usecases)
       context = { ...context, ...result }
     }
   }

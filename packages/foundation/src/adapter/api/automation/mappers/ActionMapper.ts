@@ -11,6 +11,8 @@ import { CreateFileAction } from '@domain/entities/automation/actions/CreateFile
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
 import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
+import { FindRecordActionMapper } from './actions/FindRecordActionMapper'
+import { FindRecordAction } from '@domain/entities/automation/actions/FindRecordAction'
 
 export interface ActionMapperSpis {
   logger?: ILoggerSpi
@@ -37,6 +39,10 @@ export class ActionMapper {
       if (!templating) throw new Error('TemplatingSpi is required')
       return CreateFileActionMapper.toEntity(actionDto, storage, converter, templating)
     }
+    if (type === 'find_record') {
+      if (!templating) throw new Error('TemplatingSpi is required')
+      return FindRecordActionMapper.toEntity(actionDto, tables, templating)
+    }
     throw new Error(`Invalid action type ${type}`)
   }
 
@@ -49,6 +55,9 @@ export class ActionMapper {
     }
     if (action instanceof CreateFileAction) {
       return CreateFileActionMapper.toDto(action)
+    }
+    if (action instanceof FindRecordAction) {
+      return FindRecordActionMapper.toDto(action)
     }
     throw new Error(`Invalid action instance ${action}`)
   }

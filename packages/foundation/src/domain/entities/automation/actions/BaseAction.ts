@@ -1,4 +1,4 @@
-export type ActionType = 'log' | 'update_record' | 'create_file'
+export type ActionType = 'log' | 'update_record' | 'create_file' | 'find_record'
 
 export class BaseAction {
   constructor(

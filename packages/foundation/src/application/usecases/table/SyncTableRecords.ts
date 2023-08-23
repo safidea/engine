@@ -4,7 +4,7 @@ import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@domain/entities/app/App'
 import { StartedState } from '@adapter/spi/server/ServerSpi/StartedState'
-import { CreateAutomationContextFromRecordId } from '../automation/CreateAutomationContextFromRecordId'
+import { CreateAutomationContextFromRecord } from '../automation/CreateAutomationContextFromRecord'
 
 export interface TableToHandle {
   table: string
@@ -13,7 +13,7 @@ export interface TableToHandle {
 
 export class SyncTableRecords {
   private listTableRecord: ListTableRecords
-  private createAutomationContextFromRecordId: CreateAutomationContextFromRecordId
+  private createAutomationContextFromRecord: CreateAutomationContextFromRecord
 
   constructor(
     private ormSpi: IOrmSpi,
@@ -21,7 +21,7 @@ export class SyncTableRecords {
     private instance: StartedState
   ) {
     this.listTableRecord = new ListTableRecords(ormSpi, app)
-    this.createAutomationContextFromRecordId = new CreateAutomationContextFromRecordId(ormSpi, app)
+    this.createAutomationContextFromRecord = new CreateAutomationContextFromRecord(ormSpi, app)
   }
 
   async execute(records: Record[] = [], resources: SyncResource[] = []): Promise<SyncTables> {
@@ -66,13 +66,13 @@ export class SyncTableRecords {
       }
       for (const { table, records } of recordsToCreate) {
         for (const record of records) {
-          const context = await this.createAutomationContextFromRecordId.execute(table, record)
+          const context = await this.createAutomationContextFromRecord.execute(table, record)
           await this.instance.emit('record_created', context)
         }
       }
       for (const { table, records } of recordsToUpdate) {
         for (const record of records) {
-          const context = await this.createAutomationContextFromRecordId.execute(table, record)
+          const context = await this.createAutomationContextFromRecord.execute(table, record)
           await this.instance.emit('record_updated', context)
         }
       }

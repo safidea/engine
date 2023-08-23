@@ -551,3 +551,56 @@ export const AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto =
     },
   ],
 }
+
+export const AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE: AutomationDto = {
+  name: 'item-updated',
+  trigger: {
+    event: 'record_updated',
+    table: 'invoices_items',
+    fields: ['activity', 'quantity', 'unit_price', 'vat'],
+  },
+  actions: [
+    {
+      name: 'find_invoice',
+      type: 'find_record',
+      table: 'invoices',
+      recordId: '{{trigger.invoice}}',
+    },
+    {
+      name: 'create_invoice_pdf',
+      type: 'create_file',
+      filename: 'invoice-{{trigger.preview_number}}.pdf',
+      input: 'html',
+      output: 'pdf',
+      template: {
+        privatePath: '/templates/invoice.html',
+      },
+      bucket: 'invoices',
+      data: {
+        preview_number: '{{find_invoice.preview_number}}',
+        customer: '{{find_invoice.customer}}',
+        address: '{{find_invoice.address}}',
+        zip_code: '{{find_invoice.zip_code}}',
+        city: '{{find_invoice.city}}',
+        country: '{{find_invoice.country}}',
+        'items.$.activity': '{{find_invoice.items.$.activity}}',
+        'items.$.quantity': '{{find_invoice.items.$.quantity}}',
+        'items.$.unit_price': '{{find_invoice.items.$.unit_price}}',
+        'items.$.vat': '{{find_invoice.items.$.vat}}',
+        'items.$.total_amount': '{{find_invoice.items.$.total_amount}}',
+        total_net_amount: '{{find_invoice.total_net_amount}}',
+        total_vat: '{{find_invoice.total_vat}}',
+        total_amount: '{{find_invoice.total_amount}}',
+      },
+    },
+    {
+      name: 'update_invoice_with_url',
+      type: 'update_record',
+      table: 'invoices',
+      recordId: '{{find_invoice.id}}',
+      fields: {
+        url: '{{create_invoice_pdf.url}}',
+      },
+    },
+  ],
+}

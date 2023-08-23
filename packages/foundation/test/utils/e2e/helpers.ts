@@ -15,6 +15,7 @@ import {
   AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE,
   AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
   AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
+  AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE,
 } from './schemas/invoices'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
 import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
@@ -72,6 +73,9 @@ export function getAutomationsDto(...args: string[]): AutomationDto[] {
         break
       case 'updated_invoice_with_html_file_template':
         automations.push(AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE)
+        break
+      case 'updated_invoice_item_with_html_file_template':
+        automations.push(AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE)
         break
       default:
         throw new Error(`Automation ${automationName} not found in schemas`)

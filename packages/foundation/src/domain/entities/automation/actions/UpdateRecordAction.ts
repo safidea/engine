@@ -1,9 +1,8 @@
 import { Field } from '@domain/entities/table/Field'
 import { BaseAction } from './BaseAction'
 import { Table } from '@domain/entities/table/Table'
-import { UpdateTableRecord } from '@application/usecases/table/UpdateTableRecord'
 import { Record } from '@domain/entities/orm/Record'
-import { AutomationContext } from '../Automation'
+import { AutomationContext, AutomationUseCases } from '../Automation'
 import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
 export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplatingSpi | string }
@@ -57,8 +56,11 @@ export class UpdateRecordAction extends BaseAction {
     return this._recordId
   }
 
-  async execute(context: AutomationContext, updateTableRecord: UpdateTableRecord) {
-    const data = Object.entries(this.fieldsCompiled).reduce(
+  async execute(
+    context: AutomationContext,
+    { updateTableRecord, createAutomationContextFromRecord }: AutomationUseCases
+  ) {
+    const fieldsValues = Object.entries(this.fieldsCompiled).reduce(
       (acc: { [key: string]: string }, [key, value]) => {
         acc[key] = typeof value === 'string' ? value : value.render(context)
         return acc
@@ -66,7 +68,9 @@ export class UpdateRecordAction extends BaseAction {
       {}
     )
     const id = this.recordIdCompiled.render(context)
-    const record = new Record({ id, ...data }, this.table, 'update')
+    const record = new Record({ id, ...fieldsValues }, this.table, 'update')
     await updateTableRecord.execute(this.tableName, record, id)
+    const { data } = await createAutomationContextFromRecord.execute(this.tableName, record)
+    return { [this.name]: data }
   }
 }

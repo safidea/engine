@@ -134,6 +134,9 @@ describe('UpdateRecordAction', () => {
     const updateTableRecord = {
       execute: jest.fn(),
     } as any
+    const createAutomationContextFromRecord = {
+      execute: jest.fn(async () => ({ data: { fieldA: 'test' } })),
+    } as any
     const action = ActionMapper.toEntity(
       {
         type: 'update_record',
@@ -149,7 +152,10 @@ describe('UpdateRecordAction', () => {
     )
 
     // WHEN
-    await action.execute({ trigger: { text: 'test' } }, updateTableRecord)
+    await action.execute({ trigger: { text: 'test' } }, {
+      updateTableRecord,
+      createAutomationContextFromRecord,
+    } as any)
 
     // THEN
     expect(updateTableRecord.execute).toHaveBeenCalledWith('tableA', expect.any(Record), '1')

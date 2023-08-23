@@ -7,7 +7,7 @@ import { AutomationContext } from '@domain/entities/automation/Automation'
 import { ReadTableRecord } from '../table/ReadTableRecord'
 import { Record } from '@domain/entities/orm/Record'
 
-export class CreateAutomationContextFromRecordId {
+export class CreateAutomationContextFromRecord {
   private readTableRecord: ReadTableRecord
 
   constructor(
