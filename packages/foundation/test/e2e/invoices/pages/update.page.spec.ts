@@ -7,7 +7,7 @@ test.describe('A page that update an invoice', () => {
     const port = 50401
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list', 'invoices_update'),
       })
       .start()
@@ -46,7 +46,7 @@ test.describe('A page that update an invoice', () => {
     const port = 50402
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_update'),
       })
       .start()

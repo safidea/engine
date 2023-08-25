@@ -7,7 +7,7 @@ test.describe('An automation that build an invoice document from a template', ()
   test('should throw an error if the automation config is invalid', async ({ orm }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: [
         {
           name: 'build-invoice',
@@ -40,7 +40,7 @@ test.describe('An automation that build an invoice document from a template', ()
   test('should run the automation on startup', async ({ orm }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: [
         {
           name: 'log-on-startup',
@@ -76,7 +76,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: [
         {
           name: 'build-invoice',
@@ -116,7 +116,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: [
         {
           name: 'build-invoice',
@@ -157,7 +157,7 @@ test.describe('An automation that build an invoice document from a template', ()
   test('should not run the action if the trigger did not happen', async ({ orm }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: [
         {
           name: 'build-invoice',
@@ -196,7 +196,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_template'),
     }
 
@@ -227,7 +227,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
@@ -257,7 +257,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
@@ -288,7 +288,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
@@ -327,7 +327,7 @@ test.describe('An automation that build an invoice document from a template', ()
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
@@ -355,7 +355,7 @@ test.describe('An automation that build an invoice document from a template', ()
   test('should open the invoice pdf from storage', async ({ request, folder, orm, converter }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)

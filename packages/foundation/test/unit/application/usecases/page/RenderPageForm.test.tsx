@@ -569,4 +569,94 @@ describe('RenderPageForm', () => {
     expect(records[1].getCurrentState()).toBe('create')
     expect(records[1].getFieldValue('fieldA')).toBe('Text B')
   })
+
+  test('should be able to select linked record and submit the form', async () => {
+    // GIVEN
+    const user = userEvent.setup()
+    const app = AppMapper.toEntity(
+      {
+        tables: [
+          {
+            name: 'tableA',
+            fields: [
+              {
+                name: 'item',
+                type: 'single_linked_record',
+                table: 'tableB',
+              },
+            ],
+          },
+          {
+            name: 'tableB',
+            fields: [
+              {
+                name: 'fieldA',
+                type: 'single_line_text',
+              },
+            ],
+          },
+        ],
+      },
+      { ui: UnstyledUI }
+    )
+    const form = FormMapper.toEntity(
+      {
+        type: 'form',
+        table: 'tableA',
+        inputs: [
+          {
+            field: 'item',
+            label: 'Item',
+            placeholder: 'Select item',
+            linkedLabelField: 'fieldA',
+          },
+        ],
+        submit: { label: 'Save', loadingLabel: 'Saving...' },
+      },
+      UnstyledUI,
+      app.tables
+    )
+    const fetcher = new NativeFetcher('http://localhost')
+    const fetcherSpi = new FetcherSpi(fetcher, app)
+    const syncRecordsHook = jest.fn(() => ({
+      error: undefined,
+      tables: {
+        tableB: RecordMapper.toEntities(
+          [
+            {
+              id: '1',
+              created_time: new Date().toISOString(),
+              fieldA: 'Text A',
+            },
+            {
+              id: '2',
+              created_time: new Date().toISOString(),
+              fieldA: 'Text B',
+            },
+          ],
+          app.getTableByName('tableB')
+        ),
+      },
+      isLoading: false,
+    }))
+    const syncRecords = jest.fn(async () => ({
+      error: undefined,
+      tables: {},
+    }))
+    fetcherSpi.getSyncRecordsFunction = () => syncRecords
+    fetcherSpi.getSyncRecordsHook = () => syncRecordsHook
+    const FormComponent = await new RenderPageForm(fetcherSpi, app).execute(form, {} as any)
+    render(<FormComponent />)
+
+    // WHEN
+    await user.selectOptions(screen.getByLabelText(/Item/i), 'Text B')
+    await user.click(screen.getByText(/Save/i))
+    await screen.findByText('Save')
+
+    // THEN
+    const [{ records }] = syncRecords.mock.calls[0] as any
+    expect(records.length).toBe(1)
+    expect(records[0].getCurrentState()).toBe('create')
+    expect(records[0].getFieldValue('item')).toBe('2')
+  })
 })

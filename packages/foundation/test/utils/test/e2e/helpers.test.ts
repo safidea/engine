@@ -22,7 +22,7 @@ describe('E2e Helpers', () => {
       const orm = new JsonOrm(folder)
 
       // WHEN
-      const { invoices } = await generateRecords(orm, 'invoices', [
+      const { invoices, entities } = await generateRecords(orm, 'invoices', [
         {
           number: 1,
         },
@@ -38,6 +38,7 @@ describe('E2e Helpers', () => {
       expect(invoices[0].number).toEqual(1)
       expect(invoices[1].number).toEqual(2)
       expect(invoices[2].number).toEqual(3)
+      expect(entities[0].invoices).toHaveLength(1)
     })
   })
 })

@@ -16,7 +16,7 @@ export class ReadTableRecord {
 
   async execute(table: string, id: string): Promise<Record> {
     const record = await this.ormSpi.read(table, id)
-    if (!record) throw new Error(`Record ${id} not found`)
+    if (!record) throw new Error(`Record "${id}" not found in table "${table}"`)
     return this.runRecordFormulas(record, table)
   }
 
@@ -35,7 +35,8 @@ export class ReadTableRecord {
     const { formula } = fieldRollup
     const fields = this.app.getTableFields(table)
     const field = fields.find((f) => f.name === fieldRollup.linkedRecords)
-    if (!field || !(field instanceof MultipleLinkedRecordsField)) throw new Error('Field not found')
+    if (!field || !(field instanceof MultipleLinkedRecordsField))
+      throw new Error(`Field "${fieldRollup.linkedRecords}" not found in runFieldRollupFormula`)
     const listTableRecords = new ListTableRecords(this.ormSpi, this.app)
     const values = record.getFieldValue(field.name)
     if (!Array.isArray(values)) throw new Error('Values are not an array')

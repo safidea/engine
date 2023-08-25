@@ -7,6 +7,9 @@ import { App } from '@domain/entities/app/App'
 import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
 import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
+import { SingleSelectRecordInput } from '@domain/entities/page/components/inputs/SingleSelectRecordInput'
+import { RenderPageSingleSelectRecordInput } from './RenderPageSingleSelectRecordInput'
+import { BaseInputProps } from '@domain/entities/page/components/inputs/BaseInput'
 
 export class RenderPageForm {
   constructor(
@@ -19,7 +22,19 @@ export class RenderPageForm {
     const { tableName, inputs, recordIdToUpdate } = form
     const app = this.app
     const table = app.getTableByName(tableName)
-    const InputComponents = inputs.map((input) => input.renderUI())
+    const InputComponents: ((props: BaseInputProps) => JSX.Element)[] = []
+    for (const input of inputs) {
+      if (input instanceof SingleSelectRecordInput) {
+        const renderPageSingleSelectRecordInput = new RenderPageSingleSelectRecordInput(
+          this.fetcherSpi
+        )
+        const component = await renderPageSingleSelectRecordInput.execute(input)
+        InputComponents.push(component)
+      } else {
+        InputComponents.push(input.renderUI())
+      }
+    }
+
     const syncRecords = this.fetcherSpi.getSyncRecordsFunction()
     let defaultRecords: Record[]
     let defaultRecordId: string

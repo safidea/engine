@@ -12,7 +12,7 @@ test.describe('An automation that update an invoice document from a template', (
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('updated_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
@@ -51,7 +51,7 @@ test.describe('An automation that update an invoice document from a template', (
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       automations: helpers.getAutomationsDto('updated_invoice_item_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)

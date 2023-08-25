@@ -35,6 +35,26 @@ export class Table {
     return this._fields.some((field) => field.name === columnName)
   }
 
+  getSingleLinkedRecordFieldByName(fieldName: string): SingleLinkedRecordField {
+    const field = this._fields.find((field) => field.name === fieldName)
+    if (!field || !(field instanceof SingleLinkedRecordField)) {
+      throw new Error(
+        `Table "${this._name}" has no single_linked_record field named "${fieldName}"`
+      )
+    }
+    return field
+  }
+
+  getMultipleLinkedRecordsFieldByName(fieldName: string): MultipleLinkedRecordsField {
+    const field = this._fields.find((field) => field.name === fieldName)
+    if (!field || !(field instanceof MultipleLinkedRecordsField)) {
+      throw new Error(
+        `Table "${this._name}" has no multiple_linked_records field named "${fieldName}"`
+      )
+    }
+    return field
+  }
+
   getLinkedFieldByLinkedTableName(linkedTableName: string): Field {
     const field = this._fields.find(
       (field) =>
@@ -42,7 +62,7 @@ export class Table {
         field.table === linkedTableName
     )
     if (!field) {
-      throw new Error(`Table ${this._name} has no linked field for table ${linkedTableName}`)
+      throw new Error(`Table "${this._name}" has no linked field for table "${linkedTableName}"`)
     }
     return field
   }

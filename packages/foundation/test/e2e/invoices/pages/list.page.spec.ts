@@ -6,7 +6,7 @@ test.describe('A page that list invoices', () => {
     const port = 50301
     await new Foundation({ folder, port })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list'),
       })
       .start()
@@ -26,7 +26,7 @@ test.describe('A page that list invoices', () => {
     const port = 50302
     await new Foundation({ folder, port, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list'),
       })
       .start()
@@ -95,7 +95,7 @@ test.describe('A page that list invoices', () => {
     const port = 50303
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list'),
       })
       .start()
@@ -156,7 +156,7 @@ test.describe('A page that list invoices', () => {
     const port = 50304
     await new Foundation({ port, folder })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list', 'invoices_create'),
       })
       .start()
@@ -180,7 +180,7 @@ test.describe('A page that list invoices', () => {
     const port = 50305
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list'),
       })
       .start()
@@ -219,7 +219,7 @@ test.describe('A page that list invoices', () => {
     const port = 50306
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_list'),
       })
       .start()

@@ -7,7 +7,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const port = 50501
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const { invoices } = helpers.generateRecordsDto('invoices', 2)
@@ -30,7 +30,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const port = 50502
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const { invoices } = await helpers.generateRecords(orm, 'invoices', 3)
@@ -62,7 +62,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const port = 50503
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const {
@@ -96,7 +96,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const port = 50504
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const {
@@ -119,7 +119,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const port = 50505
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const {
@@ -155,7 +155,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const port = 50506
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const {
@@ -199,7 +199,7 @@ test.describe('An api that render error messages', () => {
     const port = 50507
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
 
@@ -223,7 +223,7 @@ test.describe('An api that render error messages', () => {
     const port = 50508
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
 
@@ -243,7 +243,7 @@ test.describe('An api that render error messages', () => {
     const port = 50509
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
 
@@ -266,7 +266,7 @@ test.describe('An api that render error messages', () => {
     const port = 50510
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const {
@@ -295,7 +295,7 @@ test.describe('An api that render error messages', () => {
     const port = 50511
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       })
       .start()
     const {

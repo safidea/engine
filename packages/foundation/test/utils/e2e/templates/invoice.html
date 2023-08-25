@@ -41,7 +41,7 @@
 
 <body>
     <div class="header">
-        <h2>Invoice {{ preview_number }}</h2>
+        <h2>Invoice {{#if number}}{{ number }}{{else}}{{ preview_number }}{{/if}}</h2>
         {{#unless number}}<p>Preview</p>{{/unless}}
         {{#if finalised_time}}
             <p>Date: {{datetime_format finalised_time "dd/MM/yy"}}</p>

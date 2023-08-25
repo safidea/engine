@@ -1,6 +1,7 @@
 import { Filter } from '@domain/entities/orm/Filter'
-import { AutomationContext } from '../Automation'
+import { AutomationContext, AutomationUseCases } from '../Automation'
 import { BaseTrigger } from './BaseTrigger'
+import { IsFilter } from '@domain/entities/orm/filters/IsFilter'
 
 export class RecordUpdatedTrigger extends BaseTrigger {
   constructor(
@@ -23,18 +24,28 @@ export class RecordUpdatedTrigger extends BaseTrigger {
     return this._filters
   }
 
-  shouldTrigger(event: string, context: AutomationContext): boolean {
-    const isSameTable = context.table === this._table
-    const isSameEvent = event === this.event
-    let isSameFields = true
+  async shouldTrigger(
+    event: string,
+    context: AutomationContext,
+    { readTableRecord }: AutomationUseCases
+  ): Promise<boolean> {
+    if (!super.shouldTriggerEvent(event)) return false
+    if (context.table !== this._table) return false
     if (this._fields.length > 0 && Array.isArray(context.updatedFields)) {
-      isSameFields = false
       for (const field of context.updatedFields ?? []) {
-        if (this._fields.includes(String(field))) {
-          isSameFields = true
+        if (!this._fields.includes(String(field))) {
+          return false
         }
       }
     }
-    return isSameTable && isSameEvent && isSameFields
+    if ('id' in context && this._filters.length > 0) {
+      const record = await readTableRecord.execute(this._table, String(context.id))
+      for (const filter of this._filters) {
+        if (filter instanceof IsFilter && filter.value !== record.getFieldValue(filter.field)) {
+          return false
+        }
+      }
+    }
+    return true
   }
 }

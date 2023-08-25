@@ -29,7 +29,7 @@ export class AppMiddleware {
     if (validateAppDto(this.config)) {
       return AppMapper.toEntity(this.config, this.spis)
     }
-    if (validateAppDto.errors) throw new Error(JSON.stringify(validateAppDto.errors[0], null, 2))
+    if (validateAppDto.errors) throw new Error(JSON.stringify(validateAppDto.errors, null, 2))
     throw new Error('should throw a validation error')
   }
 }

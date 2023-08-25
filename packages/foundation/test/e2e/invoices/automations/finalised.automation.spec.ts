@@ -3,17 +3,19 @@ import { AppDto } from '@adapter/api/app/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 
 test.describe('An automation that finalise an invoice document from a template', () => {
-  test.skip('should create a PDF document when an invoice is finalised from API request', async ({
+  test('should create a PDF document when an invoice is finalised from API request', async ({
     request,
+    folder,
     orm,
     storage,
     converter,
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
-      automations: helpers.getAutomationsDto('created_invoice_with_html_template'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
+      automations: helpers.getAutomationsDto('finalised_invoice_with_html_file_template'),
     }
+    helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50801
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
     await foundation.config(config).start()
@@ -39,5 +41,6 @@ test.describe('An automation that finalise an invoice document from a template',
     expect(file.filename).toEqual('invoice-1001.pdf')
     const data = await pdf(file.data)
     expect(data.text).toContain('Invoice 1001')
+    expect(data.text).not.toContain('Preview')
   })
 })

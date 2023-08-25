@@ -8,7 +8,7 @@ test.describe('A page that create an invoice', () => {
     const port = 50100
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_create'),
       })
       .start()
@@ -26,14 +26,16 @@ test.describe('A page that create an invoice', () => {
     const port = 50101
     await new Foundation({ port, folder, adapters: { orm } })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_create'),
       })
       .start()
     const {
       invoices: [invoice],
       invoices_items: items,
+      entities: [entity],
     } = helpers.generateRecordsDto('invoices')
+    await orm.create('entities', entity)
 
     // WHEN
     // I go to the create page "/create"
@@ -41,6 +43,7 @@ test.describe('A page that create an invoice', () => {
 
     // AND
     // I fill the form
+    await page.locator('select[name="entity"]').selectOption({ label: String(entity.name) })
     await page.locator('input[name="customer"]').type(String(invoice.customer))
     await page.locator('input[name="address"]').type(String(invoice.address))
     await page.locator('input[name="zip_code"]').type(String(invoice.zip_code))
@@ -70,6 +73,7 @@ test.describe('A page that create an invoice', () => {
     const [invoiceRecord] = await orm.list('invoices')
     expect(invoiceRecord).toBeDefined()
     expect(invoiceRecord.id).toBeDefined()
+    expect(invoiceRecord.entity).toEqual(entity.id)
     expect(invoiceRecord.customer).toEqual(invoice.customer)
     expect(invoiceRecord.address).toEqual(invoice.address)
     expect(invoiceRecord.zip_code).toEqual(invoice.zip_code)
@@ -98,7 +102,7 @@ test.describe('A page that create an invoice', () => {
     const port = 50102
     await new Foundation({ port, folder })
       .config({
-        tables: helpers.getTablesDto('invoices'),
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
         pages: helpers.getPagesDto('invoices_create'),
       })
       .start()
@@ -130,7 +134,7 @@ test.describe('A page that create an invoice', () => {
   }) => {
     // GIVEN
     const config: AppDto = {
-      tables: helpers.getTablesDto('invoices'),
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
       pages: helpers.getPagesDto('invoices_create'),
       automations: helpers.getAutomationsDto('created_invoice_with_html_file_template'),
     }
@@ -141,7 +145,9 @@ test.describe('A page that create an invoice', () => {
     const {
       invoices: [invoice],
       invoices_items: items,
+      entities: [entity],
     } = helpers.generateRecordsDto('invoices')
+    await orm.create('entities', entity)
 
     // WHEN
     // I go to the create page "/create"
@@ -149,6 +155,7 @@ test.describe('A page that create an invoice', () => {
 
     // AND
     // I fill the form
+    await page.locator('select[name="entity"]').selectOption({ label: String(entity.name) })
     await page.locator('input[name="customer"]').type(String(invoice.customer))
     await page.locator('input[name="address"]').type(String(invoice.address))
     await page.locator('input[name="zip_code"]').type(String(invoice.zip_code))

@@ -99,6 +99,11 @@ export const TABLE_INVOICES: TableDto = {
       optional: true,
       permissions: invoiceFieldPermission,
     },
+    {
+      name: 'entity',
+      type: 'single_linked_record',
+      table: 'entities',
+    },
   ],
 }
 
@@ -129,6 +134,26 @@ export const TABLE_INVOICES_ITEMS: TableDto = {
       type: 'formula',
       formula: 'total_net_amount + total_vat',
       format: 'currency',
+    },
+  ],
+}
+
+export const TABLE_ENTITIES: TableDto = {
+  name: 'entities',
+  fields: [
+    {
+      name: 'name',
+      type: 'single_line_text',
+    },
+    {
+      name: 'invoices',
+      type: 'multiple_linked_records',
+      table: 'invoices',
+    },
+    {
+      name: 'number_index',
+      type: 'number',
+      default: '1000',
     },
   ],
 }
@@ -284,6 +309,11 @@ export const PAGE_CREATE_INVOICE: PageDto = {
           type: 'form',
           table: 'invoices',
           inputs: [
+            {
+              field: 'entity',
+              label: 'Entité',
+              linkedLabelField: 'name',
+            },
             {
               field: 'customer',
               label: 'Client',
@@ -635,9 +665,34 @@ export const AUTOMATION_FINALISED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto
   },
   actions: [
     {
+      name: 'find_entity',
+      type: 'find_record',
+      table: 'entities',
+      recordId: '{{trigger.entity}}',
+    },
+    {
+      name: 'update_number_index_entity',
+      type: 'update_record',
+      table: 'entities',
+      recordId: '{{find_entity.id}}',
+      fields: {
+        number_index: '{{add find_entity.number_index 1}}',
+      },
+    },
+    {
+      name: 'update_invoice_with_number_and_finalised_time',
+      type: 'update_record',
+      table: 'invoices',
+      recordId: '{{trigger.id}}',
+      fields: {
+        number: '{{update_number_index_entity.number_index}}',
+        finalised_time: '{{now "iso"}}',
+      },
+    },
+    {
       name: 'create_invoice_pdf',
       type: 'create_file',
-      filename: 'invoice-{{trigger.preview_number}}.pdf',
+      filename: 'invoice-{{update_invoice_with_number_and_finalised_time.number}}.pdf',
       input: 'html',
       output: 'pdf',
       template: {
@@ -645,7 +700,8 @@ export const AUTOMATION_FINALISED_INVOICE_WITH_HTML_FILE_TEMPLATE: AutomationDto
       },
       bucket: 'invoices',
       data: {
-        preview_number: '{{trigger.preview_number}}',
+        number: '{{update_invoice_with_number_and_finalised_time.number}}',
+        finalised_time: '{{update_invoice_with_number_and_finalised_time.finalised_time}}',
         customer: '{{trigger.customer}}',
         address: '{{trigger.address}}',
         zip_code: '{{trigger.zip_code}}',

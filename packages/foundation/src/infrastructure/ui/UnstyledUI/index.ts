@@ -7,6 +7,7 @@ import ListUI from './ListUI'
 import FormUI from './FormUI'
 import TableInputUI from './TableInputUI'
 import TextInputUI from './TextInputUI'
+import SingleSelectRecordInputUI from './SingleSelectRecordInputUI'
 
 export const UnstyledUI: IUISpi = {
   name: 'UnstyledUI',
@@ -18,4 +19,5 @@ export const UnstyledUI: IUISpi = {
   FormUI,
   TextInputUI,
   TableInputUI,
+  SingleSelectRecordInputUI,
 }

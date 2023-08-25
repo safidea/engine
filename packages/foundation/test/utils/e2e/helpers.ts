@@ -16,6 +16,8 @@ import {
   AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
   AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
   AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE,
+  AUTOMATION_FINALISED_INVOICE_WITH_HTML_FILE_TEMPLATE,
+  TABLE_ENTITIES,
 } from './schemas/invoices'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
 import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
@@ -29,13 +31,16 @@ export function getTablesDto(...args: string[]): TableDto[] {
   for (const tableName of args) {
     switch (tableName) {
       case 'invoices':
-        tables.push(TABLE_INVOICES, TABLE_INVOICES_ITEMS)
+        tables.push(TABLE_INVOICES)
         break
       case 'invoices_items':
         tables.push(TABLE_INVOICES_ITEMS)
         break
+      case 'entities':
+        tables.push(TABLE_ENTITIES)
+        break
       default:
-        throw new Error(`Table ${tableName} not found in schemas`)
+        throw new Error(`Table "${tableName}" not found in schemas`)
     }
   }
   return tables
@@ -76,6 +81,9 @@ export function getAutomationsDto(...args: string[]): AutomationDto[] {
         break
       case 'updated_invoice_item_with_html_file_template':
         automations.push(AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE)
+        break
+      case 'finalised_invoice_with_html_file_template':
+        automations.push(AUTOMATION_FINALISED_INVOICE_WITH_HTML_FILE_TEMPLATE)
         break
       default:
         throw new Error(`Automation ${automationName} not found in schemas`)
@@ -118,7 +126,7 @@ export async function generateRecords(
   countOrRecordsDto: number | ExtendRecordDto[] = 1
 ): Promise<RecordsDtoByTables> {
   const tables = generateRecordsDto(tableName, countOrRecordsDto)
-  await ormAdapter.configure(getTablesDto(tableName))
+  await ormAdapter.configure(getTablesDto(...Object.keys(tables)))
   for (const table in tables) {
     await ormAdapter.createMany(table, tables[table])
   }
@@ -172,9 +180,11 @@ export function generateRandomValueByField(
   currentRecord: RecordDtoTable,
   defaultValue: ExtendRecordFieldValue
 ): RecordFieldValue {
-  const { type, name } = field
+  const { type, name, default: nativeDefaultValue } = field
   if (defaultValue && typeof defaultValue !== 'object') {
     return defaultValue
+  } else if (nativeDefaultValue) {
+    return nativeDefaultValue
   } else if (['single_line_text', 'long_text'].includes(type)) {
     if (name.includes('email')) return faker.internet.email()
     if (name.includes('phone')) return faker.phone.number()
@@ -186,7 +196,12 @@ export function generateRandomValueByField(
     if (name.includes('firstName')) return faker.person.firstName()
     if (name.includes('lastName')) return faker.person.lastName()
     if (name.includes('fullname')) return faker.person.fullName()
-    if (name.includes('company') || name.includes('organization') || name.includes('customer'))
+    if (
+      name.includes('company') ||
+      name.includes('organization') ||
+      name.includes('customer') ||
+      name.includes('name')
+    )
       return faker.company.name()
     if (name.includes('domain')) return faker.internet.domainName()
     if (name.includes('title')) return faker.person.jobTitle()
@@ -259,11 +274,17 @@ export function generateRandomValueByField(
     const linkedField = linkedTable.fields.find((f) => f.type === 'multiple_linked_records')
     if (!linkedField)
       throw new Error(`multiple_linked_records field not found for table ${field.table}`)
+    const recordDto: RecordDto = { ...linkedRecordDefaultValues }
+    if (linkedField.type === 'multiple_linked_records') {
+      recordDto[linkedField.name] = [String(currentRecord.fields.id)]
+    } else if (linkedField.type === 'single_linked_record') {
+      recordDto[linkedField.name] = currentRecord.fields.id
+    } else {
+      throw new Error(`Unknown type ${linkedField.type} in faker generator`)
+    }
     const {
       [field.table]: [record],
-    } = generateRecordsDto(field.table, [
-      { [linkedField.name]: currentRecord.fields.id, ...linkedRecordDefaultValues },
-    ])
+    } = generateRecordsDto(field.table, [recordDto])
     records.push({ table: field.table, fields: record })
     return record.id
   } else if (['datetime'].includes(type)) {

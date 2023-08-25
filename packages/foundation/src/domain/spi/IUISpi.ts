@@ -6,6 +6,7 @@ import { ParagraphUI } from '@domain/spi/ui/ParagraphUI'
 import { TitleUI } from '@domain/spi/ui/TitleUI'
 import { TableInputUI } from '@domain/spi/ui/inputs/TableInputUI'
 import { TextInputUI } from '@domain/spi/ui/inputs/TextInputUI'
+import { SingleSelectRecordInputUI } from './ui/inputs/SingleSelectRecordInputUI'
 
 export interface IUISpi {
   name: string
@@ -17,4 +18,5 @@ export interface IUISpi {
   FormUI: FormUI
   TextInputUI: TextInputUI
   TableInputUI: TableInputUI
+  SingleSelectRecordInputUI: SingleSelectRecordInputUI
 }
