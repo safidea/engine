@@ -70,7 +70,7 @@ export class UpdateRecordAction extends BaseAction {
     const id = this.recordIdCompiled.render(context)
     const record = new Record({ id, ...fieldsValues }, this.table, 'update')
     await updateTableRecord.execute(this.tableName, record, id)
-    const { data } = await createAutomationContextFromRecord.execute(this.tableName, record)
+    const { data } = await createAutomationContextFromRecord.execute(this.tableName, record.id)
     return { [this.name]: data }
   }
 }

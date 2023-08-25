@@ -4,7 +4,9 @@ import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@domain/entities/app/App'
 import { StartedState } from '@adapter/spi/server/ServerSpi/StartedState'
-import { CreateAutomationContextFromRecord } from '../automation/CreateAutomationContextFromRecord'
+import { CreateAutomationContextFromRecordId } from '../automation/CreateAutomationContextFromRecordId'
+import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
+import { UpdateTableRecord } from './UpdateTableRecord'
 
 export interface TableToHandle {
   table: string
@@ -13,7 +15,8 @@ export interface TableToHandle {
 
 export class SyncTableRecords {
   private listTableRecord: ListTableRecords
-  private createAutomationContextFromRecord: CreateAutomationContextFromRecord
+  private createAutomationContextFromRecord: CreateAutomationContextFromRecordId
+  private updateTableRecord: UpdateTableRecord
 
   constructor(
     private ormSpi: IOrmSpi,
@@ -21,7 +24,8 @@ export class SyncTableRecords {
     private instance: StartedState
   ) {
     this.listTableRecord = new ListTableRecords(ormSpi, app)
-    this.createAutomationContextFromRecord = new CreateAutomationContextFromRecord(ormSpi, app)
+    this.createAutomationContextFromRecord = new CreateAutomationContextFromRecordId(ormSpi, app)
+    this.updateTableRecord = new UpdateTableRecord(ormSpi, app, instance)
   }
 
   async execute(records: Record[] = [], resources: SyncResource[] = []): Promise<SyncTables> {
@@ -61,19 +65,32 @@ export class SyncTableRecords {
       for (const { table, records } of recordsToCreate) {
         await this.ormSpi.createMany(table, records)
       }
+      const persistedTablesRecords: TableToHandle[] = []
       for (const { table, records } of recordsToUpdate) {
+        const persistedRecords = await this.listTableRecord.execute(table, [
+          new IsAnyOfFilter(
+            'id',
+            records.map((r) => r.id)
+          ),
+        ])
+        persistedTablesRecords.push({ table, records: persistedRecords })
         await this.ormSpi.updateMany(table, records)
       }
       for (const { table, records } of recordsToCreate) {
         for (const record of records) {
-          const context = await this.createAutomationContextFromRecord.execute(table, record)
+          const context = await this.createAutomationContextFromRecord.execute(table, record.id)
           await this.instance.emit('record_created', context)
         }
       }
       for (const { table, records } of recordsToUpdate) {
         for (const record of records) {
-          const context = await this.createAutomationContextFromRecord.execute(table, record)
-          await this.instance.emit('record_updated', context)
+          if (record.getCurrentState() === 'update') {
+            const persistedRecords = persistedTablesRecords.find((r) => r.table === table)?.records
+            const persistedRecord = persistedRecords?.find((r) => r.id === record.id)
+            if (!persistedRecord)
+              throw new Error(`Persisted record not found for id "${record.id}"`)
+            await this.updateTableRecord.emitEvent(table, record, persistedRecord)
+          }
         }
       }
     }

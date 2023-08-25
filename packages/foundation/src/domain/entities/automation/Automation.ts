@@ -3,7 +3,7 @@ import { Action } from './Action'
 import { RecordData } from '@domain/entities/orm/Record/IRecord'
 import { UpdateTableRecord } from '@application/usecases/table/UpdateTableRecord'
 import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
-import { CreateAutomationContextFromRecord } from '@application/usecases/automation/CreateAutomationContextFromRecord'
+import { CreateAutomationContextFromRecordId } from '@application/usecases/automation/CreateAutomationContextFromRecordId'
 
 export interface AutomationContext {
   [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
@@ -13,7 +13,7 @@ export interface AutomationContext {
 export interface AutomationUseCases {
   updateTableRecord: UpdateTableRecord
   readTableRecord: ReadTableRecord
-  createAutomationContextFromRecord: CreateAutomationContextFromRecord
+  createAutomationContextFromRecord: CreateAutomationContextFromRecordId
 }
 
 export class Automation {

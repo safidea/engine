@@ -10,6 +10,9 @@ import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/Multip
 import { SingleLinkedRecordField } from '@domain/entities/table/fields/SingleLinkedRecordField'
 import { SingleSelectRecordInputMapper } from './inputs/SingleSelectRecordInputMapper'
 import { SingleSelectRecordInput } from '@domain/entities/page/components/inputs/SingleSelectRecordInput'
+import { SingleSelectField } from '@domain/entities/table/fields/SingleSelectField'
+import { SingleSelectInputMapper } from './inputs/SingleSelectInputMapper'
+import { SingleSelectInput } from '@domain/entities/page/components/inputs/SingleSelectInput'
 
 export class InputMapper {
   static toEntity(inputDto: InputDto, ui: IUISpi, tableName: string, tables: Table[]): Input {
@@ -31,6 +34,10 @@ export class InputMapper {
     if (field instanceof SingleLinkedRecordField) {
       return SingleSelectRecordInputMapper.toEntity(inputDto, ui, field.table)
     }
+    if (field instanceof SingleSelectField) {
+      if (!('options' in inputDto)) throw new Error('options is required in SingleSelectInput')
+      return SingleSelectInputMapper.toEntity(inputDto, ui)
+    }
     return TextInputMapper.toEntity(inputDto, ui)
   }
 
@@ -44,6 +51,9 @@ export class InputMapper {
     }
     if (input instanceof SingleSelectRecordInput) {
       return SingleSelectRecordInputMapper.toDto(input)
+    }
+    if (input instanceof SingleSelectInput) {
+      return SingleSelectInputMapper.toDto(input)
     }
     throw new Error(`Invalid input type ${type}`)
   }

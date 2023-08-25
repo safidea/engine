@@ -459,6 +459,28 @@ export const PAGE_UPDATE_INVOICE: PageDto = {
               ],
               addLabel: 'Nouvelle ligne',
             },
+            {
+              field: 'status',
+              label: 'Statut',
+              options: [
+                {
+                  value: 'draft',
+                  label: 'Brouillon',
+                },
+                {
+                  value: 'finalised',
+                  label: 'Finalisée',
+                },
+                {
+                  value: 'sent',
+                  label: 'Envoyée',
+                },
+                {
+                  value: 'paid',
+                  label: 'Payée',
+                },
+              ],
+            },
           ],
           submit: {
             autosave: true,

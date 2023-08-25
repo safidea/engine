@@ -23,7 +23,11 @@ describe('RecordUpdatedTrigger', () => {
     } as any
 
     // WHEN
-    const result = await trigger.shouldTrigger('record_updated', { table: 'invoices', id: '1' }, usecases)
+    const result = await trigger.shouldTrigger(
+      'record_updated',
+      { table: 'invoices', id: '1' },
+      usecases
+    )
 
     // THEN
     expect(result).toBe(false)

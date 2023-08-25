@@ -5,9 +5,8 @@ import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
 import { ListTableRecords } from '../table/ListTableRecords'
 import { AutomationContext } from '@domain/entities/automation/Automation'
 import { ReadTableRecord } from '../table/ReadTableRecord'
-import { Record } from '@domain/entities/orm/Record'
 
-export class CreateAutomationContextFromRecord {
+export class CreateAutomationContextFromRecordId {
   private readTableRecord: ReadTableRecord
 
   constructor(
@@ -17,12 +16,9 @@ export class CreateAutomationContextFromRecord {
     this.readTableRecord = new ReadTableRecord(ormSpi, app)
   }
 
-  async execute(table: string, initRecord: Record): Promise<AutomationContext> {
+  async execute(table: string, id: string): Promise<AutomationContext> {
     const context: AutomationContext = { table }
-    if (initRecord.getCurrentState() === 'update') {
-      context.updatedFields = Object.keys(initRecord.fields)
-    }
-    const record = await this.readTableRecord.execute(table, initRecord.id)
+    const record = await this.readTableRecord.execute(table, id)
     context.data = { ...record.toDto() }
     for (const field of this.app.getTableFields(table)) {
       if (field instanceof MultipleLinkedRecordsField) {

@@ -161,15 +161,16 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'update'
     )
+    const recordDto = {
+      id: '1',
+      fieldA: 'test',
+      created_time: new Date().toISOString(),
+    }
     ormSpi.read = jest.fn(async () =>
-      RecordMapper.toEntity(
-        {
-          id: '1',
-          fieldA: 'test',
-          created_time: new Date().toISOString(),
-        },
-        app.getTableByName('tableA')
-      )
+      RecordMapper.toEntity(recordDto, app.getTableByName('tableA'))
+    )
+    ormSpi.list = jest.fn(async () =>
+      RecordMapper.toEntities([recordDto], app.getTableByName('tableA'))
     )
     const instance = {
       emit: jest.fn(),
@@ -221,27 +222,30 @@ describe('SyncTableRecords', () => {
       app.getTableByName('tableA'),
       'update'
     )
+    const recordsDto = [
+      {
+        id: '1',
+        fieldA: 'test A',
+        created_time: new Date().toISOString(),
+      },
+      {
+        id: '2',
+        fieldA: 'test B',
+        created_time: new Date().toISOString(),
+      },
+      {
+        id: '3',
+        fieldA: 'test C',
+        created_time: new Date().toISOString(),
+      },
+    ]
     ormSpi.read = jest.fn(async (table, id) =>
-      RecordMapper.toEntities(
-        [
-          {
-            id: '1',
-            fieldA: 'test A',
-            created_time: new Date().toISOString(),
-          },
-          {
-            id: '2',
-            fieldA: 'test B',
-            created_time: new Date().toISOString(),
-          },
-          {
-            id: '3',
-            fieldA: 'test C',
-            created_time: new Date().toISOString(),
-          },
-        ],
-        app.getTableByName('tableA')
-      ).find((record) => record.id === id)
+      RecordMapper.toEntities(recordsDto, app.getTableByName('tableA')).find(
+        (record) => record.id === id
+      )
+    )
+    ormSpi.list = jest.fn(async () =>
+      RecordMapper.toEntities(recordsDto, app.getTableByName('tableA'))
     )
     const instance = {
       emit: jest.fn(),
@@ -322,45 +326,48 @@ describe('SyncTableRecords', () => {
       'delete'
     )
     const records = [recordToUpdate, ...recordsToCreate, ...recordsToDelete]
+    const recordsDto = [
+      {
+        id: '1',
+        fieldA: 'test',
+        created_time: new Date().toISOString(),
+        modified_time: new Date().toISOString(),
+      },
+      {
+        id: '2',
+        fieldA: 'test A',
+        created_time: new Date().toISOString(),
+      },
+      {
+        id: '3',
+        fieldA: 'test B',
+        created_time: new Date().toISOString(),
+      },
+      {
+        id: '4',
+        fieldA: 'test C',
+        created_time: new Date().toISOString(),
+      },
+      {
+        id: '5',
+        fieldA: 'test D',
+        created_time: new Date().toISOString(),
+        deleted_time: new Date().toISOString(),
+      },
+      {
+        id: '6',
+        fieldA: 'test E',
+        created_time: new Date().toISOString(),
+        deleted_time: new Date().toISOString(),
+      },
+    ]
     ormSpi.read = jest.fn(async (table, id) =>
-      RecordMapper.toEntities(
-        [
-          {
-            id: '1',
-            fieldA: 'test',
-            created_time: new Date().toISOString(),
-            modified_time: new Date().toISOString(),
-          },
-          {
-            id: '2',
-            fieldA: 'test A',
-            created_time: new Date().toISOString(),
-          },
-          {
-            id: '3',
-            fieldA: 'test B',
-            created_time: new Date().toISOString(),
-          },
-          {
-            id: '4',
-            fieldA: 'test C',
-            created_time: new Date().toISOString(),
-          },
-          {
-            id: '5',
-            fieldA: 'test D',
-            created_time: new Date().toISOString(),
-            deleted_time: new Date().toISOString(),
-          },
-          {
-            id: '6',
-            fieldA: 'test E',
-            created_time: new Date().toISOString(),
-            deleted_time: new Date().toISOString(),
-          },
-        ],
-        app.getTableByName('tableA')
-      ).find((record) => record.id === id)
+      RecordMapper.toEntities(recordsDto, app.getTableByName('tableA')).find(
+        (record) => record.id === id
+      )
+    )
+    ormSpi.list = jest.fn(async () =>
+      RecordMapper.toEntities(recordsDto, app.getTableByName('tableA'))
     )
     const instance = {
       emit: jest.fn(),

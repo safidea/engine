@@ -7,6 +7,7 @@ import { TitleUI } from '@domain/spi/ui/TitleUI'
 import { TableInputUI } from '@domain/spi/ui/inputs/TableInputUI'
 import { TextInputUI } from '@domain/spi/ui/inputs/TextInputUI'
 import { SingleSelectRecordInputUI } from './ui/inputs/SingleSelectRecordInputUI'
+import { SingleSelectInputUI } from './ui/inputs/SingleSelectInputUI'
 
 export interface IUISpi {
   name: string
@@ -19,4 +20,5 @@ export interface IUISpi {
   TextInputUI: TextInputUI
   TableInputUI: TableInputUI
   SingleSelectRecordInputUI: SingleSelectRecordInputUI
+  SingleSelectInputUI: SingleSelectInputUI
 }

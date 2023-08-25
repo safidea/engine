@@ -75,4 +75,86 @@ test.describe('A page that update an invoice', () => {
     const [updatedInvoice] = await orm.list('invoices')
     expect(updatedInvoice.customer).toContain(updatedCutomer)
   })
+
+  test('should set invoice as finalised', async ({
+    page,
+    folder,
+    orm,
+    storage,
+    converter,
+  }) => {
+    // GIVEN
+    const port = 50403
+    const config = {
+      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
+      pages: helpers.getPagesDto('invoices_update'),
+      automations: helpers.getAutomationsDto('finalised_invoice_with_html_file_template'),
+    }
+    helpers.copyPrivateTemplate('invoice.html', folder)
+    const foundation = new Foundation({ port, adapters: { orm, storage, converter } })
+    await foundation.config(config).start()
+    const {
+      invoices: [{ id }],
+    } = await helpers.generateRecords(orm, 'invoices')
+    await page.goto(helpers.getUrl(port, `/update/${id}`))
+
+    // WHEN
+    await page.locator('select[name="status"]').selectOption({ label: 'Finalisée' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
+
+    // THEN
+    const [updatedInvoice] = await orm.list('invoices')
+    expect(updatedInvoice.status).toBe('finalised')
+    expect(updatedInvoice.number).toBeDefined()
+    expect(updatedInvoice.finalised_time).toBeDefined()
+  })
+
+  test('should set invoice as sent', async ({ page, orm, folder }) => {
+    // GIVEN
+    const port = 50404
+    await new Foundation({ port, folder, adapters: { orm } })
+      .config({
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
+        pages: helpers.getPagesDto('invoices_update'),
+      })
+      .start()
+    const {
+      invoices: [{ id }],
+    } = await helpers.generateRecords(orm, 'invoices')
+    await page.goto(helpers.getUrl(port, `/update/${id}`))
+
+    // WHEN
+    await page.locator('select[name="status"]').selectOption({ label: 'Envoyée' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
+
+    // THEN
+    const [updatedInvoice] = await orm.list('invoices')
+    expect(updatedInvoice.status).toBe('sent')
+  })
+
+  test('should set invoice as paid', async ({ page, orm, folder }) => {
+    // GIVEN
+    const port = 50405
+    await new Foundation({ port, folder, adapters: { orm } })
+      .config({
+        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
+        pages: helpers.getPagesDto('invoices_update'),
+      })
+      .start()
+    const {
+      invoices: [{ id }],
+    } = await helpers.generateRecords(orm, 'invoices')
+    await page.goto(helpers.getUrl(port, `/update/${id}`))
+
+    // WHEN
+    await page.locator('select[name="status"]').selectOption({ label: 'Payée' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'attached' })
+    await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
+
+    // THEN
+    const [updatedInvoice] = await orm.list('invoices')
+    expect(updatedInvoice.status).toBe('paid')
+  })
 })

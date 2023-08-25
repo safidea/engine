@@ -15,10 +15,7 @@ export class RenderPageComponent {
     private app: App
   ) {}
 
-  async execute(
-    component: Component,
-    context: Context
-  ): Promise<() => JSX.Element> {
+  async execute(component: Component, context: Context): Promise<() => JSX.Element> {
     if (component instanceof Navigation) {
       const renderPageNavigation = new RenderPageNavigation(this.fetcherSpi, this.app)
       return renderPageNavigation.execute(component, context)

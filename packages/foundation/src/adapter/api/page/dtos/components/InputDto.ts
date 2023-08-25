@@ -5,9 +5,19 @@ import {
   SingleSelectRecordInputDto,
   SingleSelectRecordInputDtoSchema,
 } from './inputs/SingleSelectRecordInputDto'
+import { SingleSelectInputDto, SingleSelectInputDtoSchema } from './inputs/SingleSelectInputDto'
 
-export type InputDto = TextInputDto | TableInputDto | SingleSelectRecordInputDto
+export type InputDto =
+  | TextInputDto
+  | TableInputDto
+  | SingleSelectRecordInputDto
+  | SingleSelectInputDto
 
 export const InputDtoSchema: JSONSchemaType<InputDto> = {
-  anyOf: [TextDtoSchema, TableDtoSchema, SingleSelectRecordInputDtoSchema],
+  anyOf: [
+    TextDtoSchema,
+    TableDtoSchema,
+    SingleSelectRecordInputDtoSchema,
+    SingleSelectInputDtoSchema,
+  ],
 }

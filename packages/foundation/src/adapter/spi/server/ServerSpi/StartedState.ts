@@ -5,7 +5,7 @@ import { AutomationContext } from '@domain/entities/automation/Automation'
 import { UpdateTableRecord } from '@application/usecases/table/UpdateTableRecord'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
-import { CreateAutomationContextFromRecord } from '@application/usecases/automation/CreateAutomationContextFromRecord'
+import { CreateAutomationContextFromRecordId } from '@application/usecases/automation/CreateAutomationContextFromRecordId'
 
 export class StartedState extends ServerState {
   constructor(private configuredState: ConfiguredState) {
@@ -19,7 +19,7 @@ export class StartedState extends ServerState {
     const ormSpi = new OrmSpi(this.configuredState.adapters.orm, this.configuredState.app, this)
     const updateTableRecord = new UpdateTableRecord(ormSpi, this.configuredState.app, this)
     const readTableRecord = new ReadTableRecord(ormSpi, this.configuredState.app)
-    const createAutomationContextFromRecord = new CreateAutomationContextFromRecord(
+    const createAutomationContextFromRecord = new CreateAutomationContextFromRecordId(
       ormSpi,
       this.configuredState.app
     )

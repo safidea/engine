@@ -35,7 +35,7 @@ export class FindRecordAction extends BaseAction {
   ) {
     const id = this.recordIdCompiled.render(context)
     const record = await readTableRecord.execute(this.tableName, id)
-    const { data } = await createAutomationContextFromRecord.execute(this.tableName, record)
+    const { data } = await createAutomationContextFromRecord.execute(this.tableName, record.id)
     return { [this.name]: data }
   }
 }
