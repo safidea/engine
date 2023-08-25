@@ -421,7 +421,7 @@
   ],
   "automations": [
     {
-      "name": "invoice-created",
+      "name": "draft-invoice-created",
       "trigger": {
         "event": "record_created",
         "table": "invoices"
@@ -448,7 +448,7 @@
             "items.$.quantity": "{{trigger.items.$.quantity}}",
             "items.$.unit_price": "{{trigger.items.$.unit_price}}",
             "items.$.vat": "{{trigger.items.$.vat}}",
-            "items.$.total_amount": "{{trigger.items.$.total_amount}}",
+            "items.$.total_net_amount": "{{trigger.items.$.total_net_amount}}",
             "total_net_amount": "{{trigger.total_net_amount}}",
             "total_vat": "{{trigger.total_vat}}",
             "total_amount": "{{trigger.total_amount}}"
@@ -459,6 +459,104 @@
           "type": "update_record",
           "table": "invoices",
           "recordId": "{{trigger.id}}",
+          "fields": {
+            "url": "{{create_invoice_pdf.url}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "draft-invoice-updated",
+      "trigger": {
+        "event": "record_updated",
+        "table": "invoices",
+        "fields": ["customer", "address", "zip_code", "city", "country", "items"]
+      },
+      "actions": [
+        {
+          "name": "create_invoice_pdf",
+          "type": "create_file",
+          "filename": "invoice-{{trigger.preview_number}}.pdf",
+          "input": "html",
+          "output": "pdf",
+          "template": {
+            "privatePath": "/templates/invoice.html"
+          },
+          "bucket": "invoices",
+          "data": {
+            "preview_number": "{{trigger.preview_number}}",
+            "customer": "{{trigger.customer}}",
+            "address": "{{trigger.address}}",
+            "zip_code": "{{trigger.zip_code}}",
+            "city": "{{trigger.city}}",
+            "country": "{{trigger.country}}",
+            "items.$.activity": "{{trigger.items.$.activity}}",
+            "items.$.quantity": "{{trigger.items.$.quantity}}",
+            "items.$.unit_price": "{{trigger.items.$.unit_price}}",
+            "items.$.vat": "{{trigger.items.$.vat}}",
+            "items.$.total_net_amount": "{{trigger.items.$.total_net_amount}}",
+            "total_net_amount": "{{trigger.total_net_amount}}",
+            "total_vat": "{{trigger.total_vat}}",
+            "total_amount": "{{trigger.total_amount}}"
+          }
+        },
+        {
+          "name": "update_invoice_with_url",
+          "type": "update_record",
+          "table": "invoices",
+          "recordId": "{{trigger.id}}",
+          "fields": {
+            "url": "{{create_invoice_pdf.url}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "item-updated",
+      "trigger": {
+        "event": "record_updated",
+        "table": "invoices_items",
+        "fields": ["activity", "quantity", "unit_price", "vat"]
+      },
+      "actions": [
+        {
+          "name": "find_invoice",
+          "type": "find_record",
+          "table": "invoices",
+          "recordId": "{{trigger.invoice}}"
+        },
+        {
+          "name": "create_invoice_pdf",
+          "type": "create_file",
+          "filename": "invoice-{{find_invoice.preview_number}}.pdf",
+          "input": "html",
+          "output": "pdf",
+          "template": {
+            "privatePath": "/templates/invoice.html"
+          },
+          "bucket": "invoices",
+          "data": {
+            "preview_number": "{{find_invoice.preview_number}}",
+            "customer": "{{find_invoice.customer}}",
+            "address": "{{find_invoice.address}}",
+            "zip_code": "{{find_invoice.zip_code}}",
+            "city": "{{find_invoice.city}}",
+            "country": "{{find_invoice.country}}",
+            "items.$.activity": "{{find_invoice.items.$.activity}}",
+            "items.$.quantity": "{{find_invoice.items.$.quantity}}",
+            "items.$.unit_price": "{{find_invoice.items.$.unit_price}}",
+            "items.$.vat": "{{find_invoice.items.$.vat}}",
+            "items.$.total_net_amount": "{{find_invoice.items.$.total_net_amount}}",
+            "total_net_amount": "{{find_invoice.total_net_amount}}",
+            "total_vat": "{{find_invoice.total_vat}}",
+            "total_amount": "{{find_invoice.total_amount}}"
+          }
+        },
+        {
+          "name": "update_invoice_with_url",
+          "type": "update_record",
+          "table": "invoices",
+          "recordId": "{{find_invoice.id}}",
           "fields": {
             "url": "{{create_invoice_pdf.url}}"
           }
