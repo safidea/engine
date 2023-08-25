@@ -35,8 +35,12 @@ export class Automation {
     return this._trigger
   }
 
-  shouldTrigger(event: string, context: AutomationContext): boolean {
-    return this._trigger.shouldTrigger(event, context)
+  async shouldTrigger(
+    event: string,
+    context: AutomationContext,
+    usecases: AutomationUseCases
+  ): Promise<boolean> {
+    return this._trigger.shouldTrigger(event, context, usecases)
   }
 
   async executeActions(context: AutomationContext, usecases: AutomationUseCases) {

@@ -4,7 +4,7 @@ import { Context } from '@domain/entities/page/Context'
 import { IFetcherSpi } from '@domain/spi/IFetcherSpi'
 import { Record } from '@domain/entities/orm/Record'
 import { App } from '@domain/entities/app/App'
-import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
+import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
 import { SyncResource, SyncTables } from '@domain/entities/orm/Sync'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
 
@@ -28,7 +28,7 @@ export class RenderPageForm {
       const resources: SyncResource[] = [
         {
           table: tableName,
-          filters: [new IsAnyOf('id', [defaultRecordId])],
+          filters: [new IsAnyOfFilter('id', [defaultRecordId])],
         },
       ]
       const tablesInputs = form.getTablesInputs()

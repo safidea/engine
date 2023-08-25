@@ -1,8 +1,10 @@
+import { FilterDto, FilterDtoSchema } from '@adapter/spi/orm/dtos/FilterDto'
 import { JSONSchemaType } from 'ajv'
 
 export interface RecordCreatedTriggerDto {
   event: 'record_created'
   table: string
+  filters?: FilterDto[]
 }
 
 export const RecordCreatedTriggerDtoSchema: JSONSchemaType<RecordCreatedTriggerDto> = {
@@ -10,6 +12,11 @@ export const RecordCreatedTriggerDtoSchema: JSONSchemaType<RecordCreatedTriggerD
   properties: {
     event: { type: 'string', enum: ['record_created'] },
     table: { type: 'string' },
+    filters: {
+      type: 'array',
+      items: FilterDtoSchema,
+      nullable: true,
+    },
   },
   required: ['event', 'table'],
   additionalProperties: false,

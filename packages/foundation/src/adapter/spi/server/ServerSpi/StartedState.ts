@@ -15,6 +15,7 @@ export class StartedState extends ServerState {
   async emit(event: TriggerEvent, context: AutomationContext = {}): Promise<void> {
     const { automations } = this.configuredState.app
     const { data, ...params } = context
+    if (typeof data === 'object' && 'id' in data) params.id = data.id
     const ormSpi = new OrmSpi(this.configuredState.adapters.orm, this.configuredState.app, this)
     const updateTableRecord = new UpdateTableRecord(ormSpi, this.configuredState.app, this)
     const readTableRecord = new ReadTableRecord(ormSpi, this.configuredState.app)
@@ -22,12 +23,10 @@ export class StartedState extends ServerState {
       ormSpi,
       this.configuredState.app
     )
+    const usecases = { updateTableRecord, readTableRecord, createAutomationContextFromRecord }
     for (const automation of automations) {
-      if (automation.shouldTrigger(event, params)) {
-        await automation.executeActions(
-          { trigger: data },
-          { updateTableRecord, readTableRecord, createAutomationContextFromRecord }
-        )
+      if (await automation.shouldTrigger(event, params, usecases)) {
+        await automation.executeActions({ trigger: data }, usecases)
       }
     }
   }

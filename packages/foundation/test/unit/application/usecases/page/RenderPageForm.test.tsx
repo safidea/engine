@@ -15,7 +15,7 @@ import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { Record } from '@domain/entities/orm/Record'
 import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { FilterMapper } from '@adapter/spi/orm/mappers/FilterMapper'
-import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
+import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
 
 describe('RenderPageForm', () => {
   test('should clear the form after submit', async () => {
@@ -62,7 +62,7 @@ describe('RenderPageForm', () => {
       resources: [
         {
           table: 'tableA',
-          filters: expect.arrayContaining([expect.any(IsAnyOf)]),
+          filters: expect.arrayContaining([expect.any(IsAnyOfFilter)]),
         },
       ],
     })
@@ -132,7 +132,7 @@ describe('RenderPageForm', () => {
       records: expect.arrayContaining([expect.any(Record), expect.any(Record)]),
       resources: [
         {
-          filters: expect.arrayContaining([expect.any(IsAnyOf)]),
+          filters: expect.arrayContaining([expect.any(IsAnyOfFilter)]),
           table: 'tableA',
         },
         {

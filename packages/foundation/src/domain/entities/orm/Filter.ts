@@ -1,3 +1,4 @@
-import { IsAnyOf } from './filters/IsAnyOf'
+import { IsAnyOfFilter } from './filters/IsAnyOfFilter'
+import { IsFilter } from './filters/IsFilter'
 
-export type Filter = IsAnyOf
+export type Filter = IsAnyOfFilter | IsFilter

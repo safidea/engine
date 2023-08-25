@@ -5,7 +5,7 @@ import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/Multip
 import { App } from '@domain/entities/app/App'
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
 import { Record } from '@domain/entities/orm/Record'
-import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
+import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
 import { Script } from '@domain/entities/app/Script'
 
 export class ReadTableRecord {
@@ -39,7 +39,9 @@ export class ReadTableRecord {
     const listTableRecords = new ListTableRecords(this.ormSpi, this.app)
     const values = record.getFieldValue(field.name)
     if (!Array.isArray(values)) throw new Error('Values are not an array')
-    const linkedRecords = await listTableRecords.execute(field.table, [new IsAnyOf('id', values)])
+    const linkedRecords = await listTableRecords.execute(field.table, [
+      new IsAnyOfFilter('id', values),
+    ])
     const context = {
       values: linkedRecords.map((record) => String(record.getFieldValue(fieldRollup.linkedField))),
     }

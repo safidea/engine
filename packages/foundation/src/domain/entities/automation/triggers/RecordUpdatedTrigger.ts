@@ -1,10 +1,12 @@
+import { Filter } from '@domain/entities/orm/Filter'
 import { AutomationContext } from '../Automation'
 import { BaseTrigger } from './BaseTrigger'
 
 export class RecordUpdatedTrigger extends BaseTrigger {
   constructor(
     private _table: string,
-    private _fields: string[] = []
+    private _fields: string[] = [],
+    private _filters: Filter[] = []
   ) {
     super('record_updated')
   }
@@ -15,6 +17,10 @@ export class RecordUpdatedTrigger extends BaseTrigger {
 
   get fields(): string[] {
     return this._fields
+  }
+
+  get filters(): Filter[] {
+    return this._filters
   }
 
   shouldTrigger(event: string, context: AutomationContext): boolean {

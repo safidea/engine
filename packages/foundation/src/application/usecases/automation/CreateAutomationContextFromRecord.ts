@@ -1,7 +1,7 @@
 import { MultipleLinkedRecordsField } from '@domain/entities/table/fields/MultipleLinkedRecordsField'
 import { App } from '@domain/entities/app/App'
 import { IOrmSpi } from '@domain/spi/IOrmSpi'
-import { IsAnyOf } from '@domain/entities/orm/filters/IsAnyOf'
+import { IsAnyOfFilter } from '@domain/entities/orm/filters/IsAnyOfFilter'
 import { ListTableRecords } from '../table/ListTableRecords'
 import { AutomationContext } from '@domain/entities/automation/Automation'
 import { ReadTableRecord } from '../table/ReadTableRecord'
@@ -28,7 +28,9 @@ export class CreateAutomationContextFromRecord {
       if (field instanceof MultipleLinkedRecordsField) {
         const listTableRecords = new ListTableRecords(this.ormSpi, this.app)
         const ids = record.getMultipleLinkedRecordsValue(field.name)
-        const linkedRecords = await listTableRecords.execute(field.table, [new IsAnyOf('id', ids)])
+        const linkedRecords = await listTableRecords.execute(field.table, [
+          new IsAnyOfFilter('id', ids),
+        ])
         context.data[field.name] = linkedRecords.map((record) => record.toDto())
       }
     }

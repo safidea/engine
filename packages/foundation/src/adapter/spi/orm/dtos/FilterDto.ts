@@ -2,24 +2,17 @@ import { JSONSchemaType } from 'ajv'
 
 export interface FilterDto {
   field: string
-  operator: 'is_any_of'
-  value: string | number | boolean | string[] | number[] | boolean[]
+  operator: 'is_any_of' | 'is'
+  value: string | string[]
 }
 
 export const FilterDtoSchema: JSONSchemaType<FilterDto> = {
   type: 'object',
   properties: {
     field: { type: 'string' },
-    operator: { type: 'string', enum: ['is_any_of'] },
+    operator: { type: 'string', enum: ['is_any_of', 'is'] },
     value: {
-      oneOf: [
-        { type: 'string' },
-        { type: 'number' },
-        { type: 'boolean' },
-        { type: 'array', items: { type: 'string' } },
-        { type: 'array', items: { type: 'number' } },
-        { type: 'array', items: { type: 'boolean' } },
-      ],
+      oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
   },
   required: ['field', 'operator', 'value'],

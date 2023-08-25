@@ -1,15 +1,19 @@
 import { RecordCreatedTrigger } from '@domain/entities/automation/triggers/RecordCreatedTrigger'
 import { RecordCreatedTriggerDto } from '../../dtos/triggers/RecordCreatedTriggerDto'
+import { FilterMapper } from '@adapter/spi/orm/mappers/FilterMapper'
 
 export class RecordCreatedTriggerMapper {
   static toEntity(recordCreatedTriggerDto: RecordCreatedTriggerDto): RecordCreatedTrigger {
-    return new RecordCreatedTrigger(recordCreatedTriggerDto.table)
+    const filters = FilterMapper.toEntities(recordCreatedTriggerDto.filters ?? [])
+    return new RecordCreatedTrigger(recordCreatedTriggerDto.table, filters)
   }
 
   static toDto(recordCreatedTrigger: RecordCreatedTrigger): RecordCreatedTriggerDto {
+    const filters = FilterMapper.toDtos(recordCreatedTrigger.filters)
     return {
       event: 'record_created',
       table: recordCreatedTrigger.table,
+      filters,
     }
   }
 

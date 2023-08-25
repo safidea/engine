@@ -38,7 +38,11 @@ describe('Automation', () => {
     )
 
     // WHEN
-    const shouldTrigger = automation.shouldTrigger('record_created', { table: 'tableA' })
+    const shouldTrigger = await automation.shouldTrigger(
+      'record_created',
+      { table: 'tableA' },
+      {} as any
+    )
 
     // THEN
     expect(shouldTrigger).toBe(true)
@@ -78,7 +82,11 @@ describe('Automation', () => {
     )
 
     // WHEN
-    const shouldTrigger = automation.shouldTrigger('record_updated', { table: 'tableA' })
+    const shouldTrigger = await automation.shouldTrigger(
+      'record_updated',
+      { table: 'tableA' },
+      {} as any
+    )
 
     // THEN
     expect(shouldTrigger).toBe(false)

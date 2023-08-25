@@ -550,9 +550,13 @@ describe('SyncTableRecords', () => {
     ormSpi.list = jest.fn(async (table: string, filters: Filter[]) => {
       switch (table) {
         case 'tableA':
-          return recordsTableA.filter((record) => filters[0].values.includes(record.id as never))
+          return recordsTableA.filter(
+            (record) => 'values' in filters[0] && filters[0].values.includes(record.id as never)
+          )
         case 'tableB':
-          return recordsTableB.filter((record) => filters[0].values.includes(record.id as never))
+          return recordsTableB.filter(
+            (record) => 'values' in filters[0] && filters[0].values.includes(record.id as never)
+          )
         default:
           return []
       }
