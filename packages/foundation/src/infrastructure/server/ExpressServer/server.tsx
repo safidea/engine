@@ -23,13 +23,17 @@ export class ExpressServer implements IServerAdapter {
   private app?: App
   private server?: Server
 
-  constructor(private port: number) {}
+  constructor(private _port: number) {}
 
   initConfig(app: App) {
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
     this.app = app
+  }
+
+  get port(): number {
+    return this._port
   }
 
   async configureTables(routes: ApiRoute[]) {

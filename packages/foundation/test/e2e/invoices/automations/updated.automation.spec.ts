@@ -1,7 +1,7 @@
 import pdf from 'pdf-parse'
-import { AppDto } from '@adapter/api/app/AppDto'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
+import INVOICES_APP from '@apps/invoices/app'
 
 test.describe('An automation that update an invoice document from a template', () => {
   test('should save the invoice document url updated in the record', async ({
@@ -11,18 +11,14 @@ test.describe('An automation that update an invoice document from a template', (
     converter,
   }) => {
     // GIVEN
-    const config: AppDto = {
-      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      automations: helpers.getAutomationsDto('updated_invoice_with_html_file_template'),
-    }
-    helpers.copyPrivateTemplate('invoice.html', folder)
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50701
     const storage = new FileStorage(folder, 'http://localhost:' + port)
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(config).start()
+    await foundation.config(INVOICES_APP).start()
     const {
       invoices: [invoice],
-    } = await helpers.generateRecords(orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         customer: 'Company A',
       },
@@ -50,18 +46,14 @@ test.describe('An automation that update an invoice document from a template', (
     converter,
   }) => {
     // GIVEN
-    const config: AppDto = {
-      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      automations: helpers.getAutomationsDto('updated_invoice_item_with_html_file_template'),
-    }
-    helpers.copyPrivateTemplate('invoice.html', folder)
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50702
     const storage = new FileStorage(folder, 'http://localhost:' + port)
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(config).start()
+    await foundation.config(INVOICES_APP).start()
     const {
       invoices_items: [invoice_item],
-    } = await helpers.generateRecords(orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         items: [
           {

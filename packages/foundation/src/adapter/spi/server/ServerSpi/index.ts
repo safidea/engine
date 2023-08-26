@@ -9,6 +9,10 @@ export class ServerSpi implements IServerSpi {
     this.state = new InstancedState(adapters)
   }
 
+  get port(): number {
+    return this.state.port
+  }
+
   public config(config: unknown): ServerSpi {
     this.state = this.state.config(config)
     return this

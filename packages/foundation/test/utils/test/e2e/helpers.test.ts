@@ -2,6 +2,7 @@ import { describe, test, expect } from '@jest/globals'
 import { getUrl, generateRecords } from '../../e2e/helpers'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { getDedicatedTmpFolder } from '../../helpers'
+import INVOICES_APP from '@apps/invoices/app'
 
 describe('E2e Helpers', () => {
   test('getUrl', async () => {
@@ -22,7 +23,7 @@ describe('E2e Helpers', () => {
       const orm = new JsonOrm(folder)
 
       // WHEN
-      const { invoices, entities } = await generateRecords(orm, 'invoices', [
+      const { invoices, entities } = await generateRecords(INVOICES_APP, orm, 'invoices', [
         {
           number: 1,
         },

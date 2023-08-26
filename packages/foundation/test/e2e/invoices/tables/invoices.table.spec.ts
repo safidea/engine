@@ -1,16 +1,14 @@
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
+import INVOICES_APP from '@apps/invoices/app'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50501
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
-    const { invoices } = helpers.generateRecordsDto('invoices', 2)
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
+    const { invoices } = helpers.generateRecordsDto(INVOICES_APP, 'invoices', 2)
 
     // WHEN
     await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoices })
@@ -28,12 +26,9 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
     const port = 50502
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
-    const { invoices } = await helpers.generateRecords(orm, 'invoices', 3)
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
+    const { invoices } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', 3)
     const ids = invoices.map((i: RecordDto) => i.id)
     const filteredIds = ids.slice(0, 2)
 
@@ -60,14 +55,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // GIVEN
     // We provide an invoice
     const port = 50503
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         customer: 'Customer A',
       },
@@ -94,14 +86,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // GIVEN
     // We provide an invoice
     const port = 50504
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices')
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
@@ -117,14 +106,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
   test('should finalised an invoice', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50505
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         finalised_time: undefined,
         number: undefined,
@@ -153,14 +139,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
   test('should not be able to update a finalised invoice', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50506
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         customer: 'Customer A',
         status: 'finalised',
@@ -197,11 +180,8 @@ test.describe('An api that render error messages', () => {
     // GIVEN
     // We provide an app with tables
     const port = 50507
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
 
     // WHEN
     // I make a GET request on an unknown table
@@ -221,11 +201,8 @@ test.describe('An api that render error messages', () => {
     // GIVEN
     // We provide an app with tables
     const port = 50508
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
 
     // WHEN
     // I make a GET request on an unknown row
@@ -241,11 +218,8 @@ test.describe('An api that render error messages', () => {
     // GIVEN
     // We provide an app with tables
     const port = 50509
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
 
     // WHEN
     // I make a POST request with an invalid row
@@ -264,14 +238,11 @@ test.describe('An api that render error messages', () => {
     // GIVEN
     // We provide an app with tables
     const port = 50510
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [invoice],
-    } = helpers.generateRecordsDto('invoices')
+    } = helpers.generateRecordsDto(INVOICES_APP, 'invoices')
     invoice.invalid = 'invalid'
 
     // WHEN
@@ -293,14 +264,11 @@ test.describe('An api that render error messages', () => {
     // GIVEN
     // We provide an app with tables
     const port = 50511
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices_items: [item],
-    } = helpers.generateRecordsDto('invoices', [
+    } = helpers.generateRecordsDto(INVOICES_APP, 'invoices', [
       {
         items: [
           {

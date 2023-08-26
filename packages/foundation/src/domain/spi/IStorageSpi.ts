@@ -5,5 +5,5 @@ export interface IStorageSpi {
   writeMany(bucket: string, files: File[]): Promise<string[]>
   read(bucket: string, filename: string): Promise<File | undefined>
   list(bucket: string, filenames?: string[]): Promise<File[]>
-  readStaticPrivateFile(privatePath: string): string
+  readStaticFile(path: string): string
 }

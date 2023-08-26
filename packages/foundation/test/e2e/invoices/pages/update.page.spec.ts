@@ -1,26 +1,23 @@
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import INVOICES_APP from '@apps/invoices/app'
 
 test.describe('A page that update an invoice', () => {
   test('should display the invoice data', async ({ page, orm, folder }) => {
     // GIVEN
     // An invoice is listed on the home page
     const port = 50401
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-        pages: helpers.getPagesDto('invoices_list', 'invoices_update'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         status: 'draft',
       },
     ])
 
     // Go to the homepage
-    await page.goto(helpers.getUrl(port, '/list')) // replace with the URL of your app's home page
+    await page.goto(helpers.getUrl(port, '/')) // replace with the URL of your app's home page
 
     // WHEN
     // The user clicks on an invoice
@@ -44,15 +41,11 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     // An invoice is loaded in the update page
     const port = 50402
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-        pages: helpers.getPagesDto('invoices_update'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices', [{ number: undefined }])
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [{ number: undefined }])
 
     // You'll have to navigate to the page you want to test
     await page.goto(helpers.getUrl(port, `/update/${id}`))
@@ -76,26 +69,15 @@ test.describe('A page that update an invoice', () => {
     expect(updatedInvoice.customer).toContain(updatedCutomer)
   })
 
-  test('should set invoice as finalised', async ({
-    page,
-    folder,
-    orm,
-    storage,
-    converter,
-  }) => {
+  test('should set invoice as finalised', async ({ page, folder, orm, storage, converter }) => {
     // GIVEN
     const port = 50403
-    const config = {
-      tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-      pages: helpers.getPagesDto('invoices_update'),
-      automations: helpers.getAutomationsDto('finalised_invoice_with_html_file_template'),
-    }
-    helpers.copyPrivateTemplate('invoice.html', folder)
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const foundation = new Foundation({ port, adapters: { orm, storage, converter }, folder })
-    await foundation.config(config).start()
+    await foundation.config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -113,15 +95,11 @@ test.describe('A page that update an invoice', () => {
   test('should set invoice as sent', async ({ page, orm, folder }) => {
     // GIVEN
     const port = 50404
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-        pages: helpers.getPagesDto('invoices_update'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -137,15 +115,11 @@ test.describe('A page that update an invoice', () => {
   test('should set invoice as paid', async ({ page, orm, folder }) => {
     // GIVEN
     const port = 50405
-    await new Foundation({ port, folder, adapters: { orm } })
-      .config({
-        tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
-        pages: helpers.getPagesDto('invoices_update'),
-      })
-      .start()
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN

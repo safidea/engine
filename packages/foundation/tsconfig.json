@@ -3,15 +3,19 @@
   "compilerOptions": {
     "outDir": "dist",
     "jsx": "react-jsx",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@application/*": ["application/*"],
-      "@domain/*": ["domain/*"],
-      "@infrastructure/*": ["infrastructure/*"],
-      "@adapter/*": ["adapter/*"]
+      "@application/*": ["src/application/*"],
+      "@domain/*": ["src/domain/*"],
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@adapter/*": ["src/adapter/*"],
+      "@apps/*": ["apps/*"]
     }
   },
   "include": [
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "apps/**/*.html",
     "src/**/*.ts",
     "src/**/*.tsx",
     "test/**/*.ts",

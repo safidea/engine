@@ -22,6 +22,10 @@ export interface ServerStateAdapters {
 export abstract class ServerState implements IServerSpi {
   constructor(public adapters: ServerStateAdapters) {}
 
+  get port(): number {
+    return this.adapters.server.port
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   config(config: unknown): ServerState {
     throw new Error('Invalid Operation: Cannot perform task in current state')

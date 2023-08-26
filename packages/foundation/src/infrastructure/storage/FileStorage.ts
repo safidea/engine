@@ -5,19 +5,14 @@ import { File } from '@domain/entities/storage/File'
 
 export class FileStorage implements IStorageSpi {
   private storageUrl: string
-  private staticPrivateUrl: string
 
   constructor(
-    folder: string,
+    private folder: string,
     private url: string
   ) {
     this.storageUrl = join(folder, 'storage')
-    this.staticPrivateUrl = join(folder, 'private')
     if (!fs.existsSync(this.storageUrl)) {
       fs.ensureDirSync(this.storageUrl)
-    }
-    if (!fs.existsSync(this.staticPrivateUrl)) {
-      fs.ensureDirSync(this.staticPrivateUrl)
     }
   }
 
@@ -54,7 +49,7 @@ export class FileStorage implements IStorageSpi {
     return fileDtos
   }
 
-  readStaticPrivateFile(privatePath: string): string {
-    return fs.readFileSync(join(this.staticPrivateUrl, privatePath), 'utf-8')
+  readStaticFile(path: string): string {
+    return fs.readFileSync(join(this.folder, path), 'utf-8')
   }
 }

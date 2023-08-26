@@ -7,7 +7,7 @@ import { AutomationContext } from '../Automation'
 
 export type CreateFileActionInput = 'html'
 export type CreateFileActionOutput = 'pdf'
-export type CreateFileActionTemplate = string | { privatePath: string }
+export type CreateFileActionTemplate = string | { path: string }
 export type CreateFileActionData = { [key: string]: string }
 export type CreateFileActionDataCompiled = { [key: string]: ITemplatingSpi | string }
 export type CreateFileActionDataRendered = {
@@ -37,8 +37,8 @@ export class CreateFileAction extends BaseAction {
     this._filename = filename.endsWith(`.${_output}`) ? filename : `${filename}.${_output}`
     this._filenameCompiled = templating.compile(this._filename)
     if (_input === 'html') {
-      if (typeof template === 'object' && 'privatePath' in template) {
-        this._template = storage.readStaticPrivateFile(template.privatePath)
+      if (typeof template === 'object' && 'path' in template) {
+        this._template = storage.readStaticFile(template.path)
       } else {
         this._template = template
       }

@@ -1,106 +1,27 @@
 import { fakerFR as faker } from '@faker-js/faker'
 import { v4 as uuidV4 } from 'uuid'
 import fs from 'fs-extra'
-import { PageDto } from '@adapter/api/page/dtos/PageDto'
+import { join } from 'path'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
 import { FieldDto } from '@adapter/api/table/dtos/FieldDto'
 import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
-import {
-  TABLE_INVOICES,
-  TABLE_INVOICES_ITEMS,
-  PAGE_LIST_INVOICES,
-  PAGE_CREATE_INVOICE,
-  PAGE_UPDATE_INVOICE,
-  AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE,
-  AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
-  AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE,
-  AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE,
-  AUTOMATION_FINALISED_INVOICE_WITH_HTML_FILE_TEMPLATE,
-  TABLE_ENTITIES,
-} from './schemas/invoices'
 import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
-import { AutomationDto } from '@adapter/api/automation/dtos/AutomationDto'
+import { AppDto } from '@adapter/api/app/AppDto'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`
 }
 
-export function getTablesDto(...args: string[]): TableDto[] {
-  const tables: TableDto[] = []
-  for (const tableName of args) {
-    switch (tableName) {
-      case 'invoices':
-        tables.push(TABLE_INVOICES)
-        break
-      case 'invoices_items':
-        tables.push(TABLE_INVOICES_ITEMS)
-        break
-      case 'entities':
-        tables.push(TABLE_ENTITIES)
-        break
-      default:
-        throw new Error(`Table "${tableName}" not found in schemas`)
-    }
-  }
-  return tables
+export function copyAppFile(appName: string, filePath: string, testDolder: string): void {
+  const sourcePath = join(process.cwd(), 'apps', appName, filePath)
+  const destinationPath = join(testDolder, filePath)
+  fs.ensureFileSync(destinationPath)
+  fs.copyFileSync(sourcePath, destinationPath)
 }
 
-export function getPagesDto(...args: string[]): PageDto[] {
-  const pages: PageDto[] = []
-  for (const pageName of args) {
-    switch (pageName) {
-      case 'invoices_list':
-        pages.push(PAGE_LIST_INVOICES)
-        break
-      case 'invoices_create':
-        pages.push(PAGE_CREATE_INVOICE)
-        break
-      case 'invoices_update':
-        pages.push(PAGE_UPDATE_INVOICE)
-        break
-      default:
-        throw new Error(`Page ${pageName} not found in schemas`)
-    }
-  }
-  return pages
-}
-
-export function getAutomationsDto(...args: string[]): AutomationDto[] {
-  const automations: AutomationDto[] = []
-  for (const automationName of args) {
-    switch (automationName) {
-      case 'created_invoice_with_html_template':
-        automations.push(AUTOMATION_CREATED_INVOICE_WITH_HTML_TEMPLATE)
-        break
-      case 'created_invoice_with_html_file_template':
-        automations.push(AUTOMATION_CREATED_INVOICE_WITH_HTML_FILE_TEMPLATE)
-        break
-      case 'updated_invoice_with_html_file_template':
-        automations.push(AUTOMATION_UPDATED_INVOICE_WITH_HTML_FILE_TEMPLATE)
-        break
-      case 'updated_invoice_item_with_html_file_template':
-        automations.push(AUTOMATION_UPDATED_INVOICE_ITEM_WITH_HTML_FILE_TEMPLATE)
-        break
-      case 'finalised_invoice_with_html_file_template':
-        automations.push(AUTOMATION_FINALISED_INVOICE_WITH_HTML_FILE_TEMPLATE)
-        break
-      default:
-        throw new Error(`Automation ${automationName} not found in schemas`)
-    }
-  }
-  return automations
-}
-
-export function copyPrivateTemplate(templateName: string, folder: string): void {
-  const templatePath = `${__dirname}/templates/${templateName}`
-  const destinationPath = `${folder}/private/templates/${templateName}`
-  fs.ensureDirSync(`${folder}/private/templates`)
-  fs.copyFileSync(templatePath, destinationPath)
-}
-
-export function getTableByName(tableName: string): TableDto {
-  const tablesDto = getTablesDto(tableName)
+export function getTableByName(appDto: AppDto, tableName: string): TableDto {
+  const tablesDto = appDto.tables ?? []
   const tableDto = tablesDto.find((tableDto) => tableDto.name === tableName)
   if (!tableDto) throw new Error(`Table ${tableName} not found`)
   return tableDto
@@ -121,12 +42,13 @@ export interface ExtendRecordDto {
 }
 
 export async function generateRecords(
+  appDto: AppDto,
   ormAdapter: IOrmAdapter,
   tableName: string,
   countOrRecordsDto: number | ExtendRecordDto[] = 1
 ): Promise<RecordsDtoByTables> {
-  const tables = generateRecordsDto(tableName, countOrRecordsDto)
-  await ormAdapter.configure(getTablesDto(...Object.keys(tables)))
+  const tables = generateRecordsDto(appDto, tableName, countOrRecordsDto)
+  await ormAdapter.configure(appDto.tables ?? [])
   for (const table in tables) {
     await ormAdapter.createMany(table, tables[table])
   }
@@ -134,10 +56,11 @@ export async function generateRecords(
 }
 
 export function generateRecordsDto(
+  appDto: AppDto,
   tableName: string,
   countOrRecordsDto: number | ExtendRecordDto[] = 1
 ): RecordsDtoByTables {
-  const tableDto = getTableByName(tableName)
+  const tableDto = getTableByName(appDto, tableName)
   const records: RecordDtoTable[] = []
   const length =
     typeof countOrRecordsDto === 'number' ? countOrRecordsDto : countOrRecordsDto.length
@@ -161,7 +84,13 @@ export function generateRecordsDto(
           (field.name in defaultValues && defaultValue === undefined)
         )
           continue
-        record.fields[field.name] = generateRandomValueByField(field, records, record, defaultValue)
+        record.fields[field.name] = generateRandomValueByField(
+          appDto,
+          field,
+          records,
+          record,
+          defaultValue
+        )
       }
     }
     records.push(record)
@@ -175,6 +104,7 @@ export function generateRecordsDto(
 }
 
 export function generateRandomValueByField(
+  appDto: AppDto,
   field: FieldDto,
   records: RecordDtoTable[],
   currentRecord: RecordDtoTable,
@@ -241,11 +171,12 @@ export function generateRandomValueByField(
       }
     }
     if (linkedRecords.length > 0) return linkedRecords
-    const linkedTable = getTableByName(field.table)
+    const linkedTable = getTableByName(appDto, field.table)
     const linkedField = linkedTable.fields.find((f) => f.type === 'single_linked_record')
     if (!linkedField)
       throw new Error(`single_linked_record field not found for table ${field.table}`)
     const { [field.table]: newRecords } = generateRecordsDto(
+      appDto,
       field.table,
       Array.from({
         length: linkedRecordsdefaultValues.length > 0 ? linkedRecordsdefaultValues.length : 3,
@@ -270,7 +201,7 @@ export function generateRandomValueByField(
     } else if (defaultValue && typeof defaultValue === 'string') {
       return defaultValue
     }
-    const linkedTable = getTableByName(field.table)
+    const linkedTable = getTableByName(appDto, field.table)
     const linkedField = linkedTable.fields.find((f) => f.type === 'multiple_linked_records')
     if (!linkedField)
       throw new Error(`multiple_linked_records field not found for table ${field.table}`)
@@ -284,7 +215,7 @@ export function generateRandomValueByField(
     }
     const {
       [field.table]: [record],
-    } = generateRecordsDto(field.table, [recordDto])
+    } = generateRecordsDto(appDto, field.table, [recordDto])
     records.push({ table: field.table, fields: record })
     return record.id
   } else if (['datetime'].includes(type)) {

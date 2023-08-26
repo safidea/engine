@@ -21,6 +21,7 @@ export interface PageRequest {
 }
 
 export interface IServerAdapter {
+  port: number
   initConfig(app: App): void
   configureTables(routes: ApiRoute[]): Promise<void>
   configurePages(pages: PageRoute[]): Promise<void>
