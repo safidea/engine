@@ -18,7 +18,7 @@ test.describe('An automation that update an invoice document from a template', (
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50701
     const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -57,7 +57,7 @@ test.describe('An automation that update an invoice document from a template', (
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50702
     const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices_items: [invoice_item],

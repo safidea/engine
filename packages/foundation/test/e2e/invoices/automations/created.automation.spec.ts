@@ -4,7 +4,7 @@ import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 
 test.describe('An automation that build an invoice document from a template', () => {
-  test('should throw an error if the automation config is invalid', async ({ orm }) => {
+  test('should throw an error if the automation config is invalid', async ({ orm, folder }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
@@ -31,13 +31,13 @@ test.describe('An automation that build an invoice document from a template', ()
     }
 
     // WHEN
-    const call = () => new Foundation({ adapters: { orm } }).config(config)
+    const call = () => new Foundation({ adapters: { orm }, folder }).config(config)
 
     // THEN
     expect(call).toThrow('table "invalid" in action "update_record" is not defined in tables')
   })
 
-  test('should run the automation on startup', async ({ orm }) => {
+  test('should run the automation on startup', async ({ orm, folder }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
@@ -60,7 +60,7 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const logger = (message: string) => logs.push(message)
     const port = 50004
-    const foundation = new Foundation({ adapters: { logger, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port, folder })
     foundation.config(config)
 
     // WHEN
@@ -73,6 +73,7 @@ test.describe('An automation that build an invoice document from a template', ()
   test('should run the automation when an invoice is created from API request', async ({
     request,
     orm,
+    folder,
   }) => {
     // GIVEN
     const config: AppDto = {
@@ -100,7 +101,7 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const logger = (message: string) => logs.push(message)
     const port = 50002
-    const foundation = new Foundation({ adapters: { logger, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port, folder })
     await foundation.config(config).start()
 
     // WHEN
@@ -113,6 +114,7 @@ test.describe('An automation that build an invoice document from a template', ()
   test('should run the automation when an invoice is updated from API request', async ({
     request,
     orm,
+    folder,
   }) => {
     // GIVEN
     const config: AppDto = {
@@ -140,7 +142,7 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const logger = (message: string) => logs.push(message)
     const port = 50005
-    const foundation = new Foundation({ adapters: { logger, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port, folder })
     await foundation.config(config).start()
 
     // WHEN
@@ -154,7 +156,7 @@ test.describe('An automation that build an invoice document from a template', ()
     expect(logs).toContain('Invoice updated')
   })
 
-  test('should not run the action if the trigger did not happen', async ({ orm }) => {
+  test('should not run the action if the trigger did not happen', async ({ orm, folder }) => {
     // GIVEN
     const config: AppDto = {
       tables: helpers.getTablesDto('invoices', 'invoices_items', 'entities'),
@@ -178,7 +180,7 @@ test.describe('An automation that build an invoice document from a template', ()
     const logs: string[] = []
     const logger = (message: string) => logs.push(message)
     const port = 50003
-    const foundation = new Foundation({ adapters: { logger, orm }, port })
+    const foundation = new Foundation({ adapters: { logger, orm }, port, folder })
     await foundation.config(config).start()
 
     // WHEN
@@ -190,6 +192,7 @@ test.describe('An automation that build an invoice document from a template', ()
 
   test('should create a PDF document when an invoice is created from API request', async ({
     request,
+    folder,
     orm,
     storage,
     converter,
@@ -201,7 +204,7 @@ test.describe('An automation that build an invoice document from a template', ()
     }
 
     const port = 50006
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -232,7 +235,7 @@ test.describe('An automation that build an invoice document from a template', ()
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50008
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -293,7 +296,7 @@ test.describe('An automation that build an invoice document from a template', ()
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50009
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -333,7 +336,7 @@ test.describe('An automation that build an invoice document from a template', ()
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50010
     const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],
@@ -361,7 +364,7 @@ test.describe('An automation that build an invoice document from a template', ()
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50011
     const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],

@@ -140,7 +140,7 @@ test.describe('A page that create an invoice', () => {
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50103
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],

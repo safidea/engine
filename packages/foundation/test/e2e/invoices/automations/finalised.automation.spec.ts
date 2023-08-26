@@ -17,7 +17,7 @@ test.describe('An automation that finalise an invoice document from a template',
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
     const port = 50801
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
+    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
     await foundation.config(config).start()
     const {
       invoices: [invoice],

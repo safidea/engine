@@ -91,7 +91,7 @@ test.describe('A page that update an invoice', () => {
       automations: helpers.getAutomationsDto('finalised_invoice_with_html_file_template'),
     }
     helpers.copyPrivateTemplate('invoice.html', folder)
-    const foundation = new Foundation({ port, adapters: { orm, storage, converter } })
+    const foundation = new Foundation({ port, adapters: { orm, storage, converter }, folder })
     await foundation.config(config).start()
     const {
       invoices: [{ id }],
