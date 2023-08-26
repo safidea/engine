@@ -15,15 +15,15 @@
     - [x] Prestation de service à l'heure : nombre d'heure
     - [x] Refacturation optionnelle : libellé + prix
     - [x] => Montant total avec TVA est calculé automatiquement en fonction de : TVA, nombre d'heure, prix unitaire
-    - [ ] Finaliser la facture :
+    - [x] Finaliser la facture :
       - [x] enregistrement de la date de finalisation
       - [x] enregistrement du numéro de facture
       - [x] la facture devient non éditable
       - [x] génération de PDF
       - [x] stockage du PDF
-- [ ] Émission de la facture vers le client
-  - [ ] La date d'émission de la facture est sauvegardée dans le système
-    - [ ] V1 : Bouton manuel d'horodatage
+- [x] Émission de la facture vers le client
+  - [x] La date d'émission de la facture est sauvegardée dans le système
+    - [x] V1 : Bouton manuel d'horodatage
     - [ ] V2 : Envoie et horodatage automatique
 - [ ] Savoir à quelle date la facture a été réglée
   - [ ] Saisir la date de paiement
