@@ -35,7 +35,7 @@ describe('TableRoutes', () => {
       })
 
       // WHEN
-      const instance = { emit: () => {} } as any
+      const instance = { emit: () => ({}) } as any
       const ormSpi = new OrmSpi(orm, app, instance)
       const response = await new TableRoutes(app, ormSpi, instance).patch({
         method: 'PATCH',

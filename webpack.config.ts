@@ -1,8 +1,8 @@
-const { resolve } = require('path')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+import { resolve } from 'path'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
-module.exports = {
+const config = {
   mode: 'development',
   optimization: {
     minimizer: [new TerserPlugin({})],
@@ -33,3 +33,5 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin({})],
   },
 }
+
+export default config
