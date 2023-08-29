@@ -200,7 +200,7 @@ test.describe('A page that list invoices', () => {
     const port = 50306
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_APP).start()
-    const url = `https://example.com/`
+    const url = `http://localhost:${port}/create`
     await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
       {
         url,
@@ -215,6 +215,6 @@ test.describe('A page that list invoices', () => {
     ])
 
     // THEN
-    expect(await newWindow.title()).toBe('Example Domain')
+    expect(await newWindow.title()).toBe('Factures')
   })
 })
