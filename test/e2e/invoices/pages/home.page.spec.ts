@@ -1,7 +1,24 @@
+import { TailwindUI } from '@infrastructure/ui'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 import INVOICES_APP from '@apps/invoices/app'
 
 test.describe('A page that list invoices', () => {
+  test('should load Tailwind CSS', async ({ page, folder }) => {
+    // GIVEN
+    const port = 50300
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    await new Foundation({ folder, port, adapters: { ui: TailwindUI } })
+      .config(INVOICES_APP)
+      .start()
+
+    // WHEN
+    // I go to the home page "/"
+    await page.goto(helpers.getUrl(port, '/'))
+
+    // THEN
+    expect(await page.getAttribute('h1', 'class')).toContain('text-xl')
+  })
+
   test('should display a title', async ({ page, folder }) => {
     // GIVEN
     const port = 50301

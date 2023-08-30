@@ -16,6 +16,9 @@ export interface FoundationData {
   page: PageDto
   tables: TableDto[]
   params: { [key: string]: string }
+  adapters: {
+    uiName: string
+  }
 }
 
 export class ExpressServer implements IServerAdapter {
@@ -23,12 +26,16 @@ export class ExpressServer implements IServerAdapter {
   private app?: App
   private server?: Server
 
-  constructor(private _port: number) {}
+  constructor(
+    private _port: number,
+    private _uiName: string
+  ) {}
 
   initConfig(app: App) {
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
+    this.express.use(express.static('dist/public'))
     this.app = app
   }
 
@@ -101,10 +108,6 @@ export class ExpressServer implements IServerAdapter {
       const bundle = await fs.readFile(path.resolve(__dirname, '../../../../bundle.js'), 'utf8')
       return res.send(bundle)
     })
-    this.express.get('/output.css', async (req, res) => {
-      const bundle = await fs.readFile(path.resolve(__dirname, '../../../../output.css'), 'utf8')
-      return res.send(bundle)
-    })
     for (const route of routes) {
       this.express.get(route.path, async (req, res) => {
         const Page = await route.handler({ path: req.url.split('?')[0], params: req.params })
@@ -115,6 +118,7 @@ export class ExpressServer implements IServerAdapter {
           page: PageMapper.toDto(page),
           params: req.params,
           tables: TableMapper.toDtos(this.app.tables),
+          adapters: { uiName: this._uiName },
         }
         const html = `
           <!DOCTYPE html>

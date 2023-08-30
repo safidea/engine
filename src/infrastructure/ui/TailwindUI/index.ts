@@ -10,7 +10,7 @@ import TextInputTailwindUI from './TextInputTailwindUI'
 import SingleSelectRecordInputTailwindUI from './SingleSelectRecordInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
 
-export const TailwindUI: IUISpi = {
+const TailwindUI: IUISpi = {
   name: 'TailwindUI',
   LinkUI: LinkTailwindUI,
   ParagraphUI: ParagraphTailwindUI,
@@ -23,3 +23,5 @@ export const TailwindUI: IUISpi = {
   SingleSelectRecordInputUI: SingleSelectRecordInputTailwindUI,
   SingleSelectInputUI: SingleSelectInputTailwindUI,
 }
+
+export default TailwindUI

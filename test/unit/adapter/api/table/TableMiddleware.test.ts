@@ -1,6 +1,6 @@
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { TableMiddleware } from '@adapter/api/table/TableMiddleware'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
 
 describe('TableMiddleware', () => {

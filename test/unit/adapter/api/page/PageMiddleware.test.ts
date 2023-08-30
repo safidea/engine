@@ -1,6 +1,6 @@
 import { PageMiddleware } from '@adapter/api/page/PageMiddleware'
 import { AppMapper } from '@adapter/api/app/AppMapper'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
 
 describe('PageMiddleware', () => {

@@ -1,5 +1,5 @@
 import Foundation from '../../src/Foundation'
-import { TailwindUI } from '../../src/infrastructure/ui/TailwindUI'
+import TailwindUI from '../../src/infrastructure/ui/TailwindUI'
 import APP from './app'
 
 const folder = __dirname.replace('dist/apps', 'apps')

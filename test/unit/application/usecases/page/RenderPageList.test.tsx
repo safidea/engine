@@ -4,7 +4,7 @@
 import React from 'react'
 import { describe, test, expect } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'

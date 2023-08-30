@@ -3,8 +3,8 @@ import { hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapter/api/page/PageController'
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
+import * as UI from '@infrastructure/ui'
 
 import type { FoundationData } from '@infrastructure/server/ExpressServer/server'
 
@@ -14,9 +14,18 @@ declare global {
   }
 }
 
+function getUI(uiName: string) {
+  switch (uiName) {
+    case 'TailwindUI':
+      return UI.TailwindUI
+    default:
+      return UI.UnstyledUI
+  }
+}
+
 ;(async () => {
-  const { page: pageDto, tables, params } = window.__FOUNDATION_DATA__
-  const app = AppMapper.toEntity({ pages: [pageDto], tables }, { ui: UnstyledUI })
+  const { page: pageDto, tables, params, adapters } = window.__FOUNDATION_DATA__
+  const app = AppMapper.toEntity({ pages: [pageDto], tables }, { ui: getUI(adapters.uiName) })
   const page = app.getPageByPath(pageDto.path)
   const fetcherAdapter = new NativeFetcher(window.location.origin)
   const fetcherSpi = new FetcherSpi(fetcherAdapter, app)

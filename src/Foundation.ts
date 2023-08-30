@@ -1,6 +1,6 @@
 import 'module-alias/register'
 import { join } from 'path'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { ExpressServer } from '@infrastructure/server/ExpressServer/server'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
@@ -45,7 +45,7 @@ export default class Foundation {
     const orm = adapters.orm ?? new JsonOrm(folder)
     const ui = adapters.ui ?? UnstyledUI
     const fetcher = adapters.fetcher ?? new NativeFetcher(url)
-    const server = adapters.server ?? new ExpressServer(port)
+    const server = adapters.server ?? new ExpressServer(port, ui.name)
     const logger = adapters.logger ?? NativeLogger
     const storage = adapters.storage ?? new FileStorage(folder, url)
     const converter = adapters.converter ?? new Converter(folder)

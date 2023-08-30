@@ -10,7 +10,7 @@ import TextInputUnstyledUI from './TextInputUnstyledUI'
 import SingleSelectRecordInputUnstyledUI from './SingleSelectRecordInputUnstyledUI'
 import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 
-export const UnstyledUI: IUISpi = {
+const UnstyledUI: IUISpi = {
   name: 'UnstyledUI',
   LinkUI: LinkUnstyledUI,
   ParagraphUI: ParagraphUnstyledUI,
@@ -23,3 +23,5 @@ export const UnstyledUI: IUISpi = {
   SingleSelectRecordInputUI: SingleSelectRecordInputUnstyledUI,
   SingleSelectInputUI: SingleSelectInputUnstyledUI,
 }
+
+export default UnstyledUI

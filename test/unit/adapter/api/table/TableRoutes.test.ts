@@ -1,7 +1,7 @@
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { TableRoutes } from '@adapter/api/table/TableRoutes'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect, helpers } from '../../../../utils/unit/fixtures'
 import { OrmSpi } from '@adapter/spi/orm/OrmSpi'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'

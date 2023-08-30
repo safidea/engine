@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Column, GroupBy, List, SortBy } from '@domain/entities/page/components/List'
 import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 
 Object.defineProperty(window, 'location', {

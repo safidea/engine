@@ -1,7 +1,7 @@
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { RecordMapper } from '@adapter/spi/orm/mappers/RecordMapper'
 import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
-import { UnstyledUI } from '@infrastructure/ui/UnstyledUI'
+import UnstyledUI from '@infrastructure/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
 
 describe('ReadTableRecord', () => {

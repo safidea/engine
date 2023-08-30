@@ -9,7 +9,7 @@
     "watch:webpack": "webpack --watch",
     "watch:tsc": "tsc --watch",
     "watch:test": "jest --watch",
-    "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/output.css --watch",
+    "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:utils": "jest --config jest.utils.config.ts",
     "test:unit": "jest --config jest.unit.config.ts",
