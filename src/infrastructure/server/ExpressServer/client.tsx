@@ -11,6 +11,7 @@ import type { FoundationData } from '@infrastructure/server/ExpressServer/server
 declare global {
   interface Window {
     __FOUNDATION_DATA__: FoundationData
+    appRoot: any
   }
 }
 
@@ -23,6 +24,10 @@ function getUI(uiName: string) {
   }
 }
 
+if (module.hot) {
+  module.hot.accept()
+}
+
 ;(async () => {
   const { page: pageDto, tables, params, adapters } = window.__FOUNDATION_DATA__
   const app = AppMapper.toEntity({ pages: [pageDto], tables }, { ui: getUI(adapters.uiName) })
@@ -31,7 +36,12 @@ function getUI(uiName: string) {
   const fetcherSpi = new FetcherSpi(fetcherAdapter, app)
   const pageController = new PageController(app, fetcherSpi)
   const Page = await pageController.render(page, params)
-  const container = document.getElementById('root')
-  if (!container) throw new Error('Root element not found')
-  hydrateRoot(container, <Page />)
+  if (!window.appRoot) {
+    const container = document.getElementById('root')
+    if (!container) throw new Error('Root element not found')
+    window.appRoot = hydrateRoot(container, <Page />)
+  } else {
+    console.log(window.appRoot)
+    window.appRoot.render(<Page />)
+  }
 })()

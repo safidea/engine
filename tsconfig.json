@@ -41,5 +41,6 @@
     "playwright.config.ts",
     "jest.unit.config.ts",
     "jest.utils.config.ts"
-  ]
+  ],
+  "plugins": [{ "name": "react-refresh-typescript" }]
 }

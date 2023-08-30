@@ -6,7 +6,7 @@ const TitleTailwindUI: IUISpi['TitleUI'] = {
   sm: ({ children }) => <p className="text-sm">{children}</p>,
   md: ({ children }) => <p className="text-base">{children}</p>,
   lg: ({ children }) => <h2 className="text-lg">{children}</h2>,
-  xl: ({ children }) => <h1 className="text-xl">{children}</h1>,
+  xl: ({ children }) => <h1 className="text-xl ">{children}</h1>,
 }
 
 export default TitleTailwindUI
