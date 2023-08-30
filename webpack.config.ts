@@ -7,12 +7,10 @@ const config = {
   optimization: {
     minimizer: [new TerserPlugin({})],
   },
-  entry: {
-    express: './src/infrastructure/server/ExpressServer/client/index.tsx',
-  },
+  entry: 'src/infrastructure/server/ExpressServer/client/index.tsx',
   output: {
     path: resolve(process.cwd(), 'dist'),
-    filename: '[name].bundle.js',
+    filename: 'bundle.js',
   },
   module: {
     rules: [

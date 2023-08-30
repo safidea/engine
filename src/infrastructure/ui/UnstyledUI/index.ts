@@ -1,25 +1,25 @@
 import { IUISpi } from '@domain/spi/IUISpi'
-import LinkUI from './LinkUI'
-import ParagraphUI from './ParagraphUI'
-import TitleUI from './TitleUI'
-import NavigationUI from './NavigationUI'
-import ListUI from './ListUI'
-import FormUI from './FormUI'
-import TableInputUI from './TableInputUI'
-import TextInputUI from './TextInputUI'
-import SingleSelectRecordInputUI from './SingleSelectRecordInputUI'
-import SingleSelectInputUI from './SingleSelectInputUI'
+import LinkUnstyledUI from './LinkUnstyledUI'
+import ParagraphUnstyledUI from './ParagraphUnstyledUI'
+import TitleUnstyledUI from './TitleUnstyledUI'
+import NavigationUnstyledUI from './NavigationUnstyledUI'
+import ListUnstyledUI from './ListUnstyledUI'
+import FormUnstyledUI from './FormUnstyledUI'
+import TableInputUnstyledUI from './TableInputUnstyledUI'
+import TextInputUnstyledUI from './TextInputUnstyledUI'
+import SingleSelectRecordInputUnstyledUI from './SingleSelectRecordInputUnstyledUI'
+import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 
 export const UnstyledUI: IUISpi = {
   name: 'UnstyledUI',
-  LinkUI,
-  ParagraphUI,
-  TitleUI,
-  NavigationUI,
-  ListUI,
-  FormUI,
-  TextInputUI,
-  TableInputUI,
-  SingleSelectRecordInputUI,
-  SingleSelectInputUI,
+  LinkUI: LinkUnstyledUI,
+  ParagraphUI: ParagraphUnstyledUI,
+  TitleUI: TitleUnstyledUI,
+  NavigationUI: NavigationUnstyledUI,
+  ListUI: ListUnstyledUI,
+  FormUI: FormUnstyledUI,
+  TextInputUI: TextInputUnstyledUI,
+  TableInputUI: TableInputUnstyledUI,
+  SingleSelectRecordInputUI: SingleSelectRecordInputUnstyledUI,
+  SingleSelectInputUI: SingleSelectInputUnstyledUI,
 }

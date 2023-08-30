@@ -1,7 +1,7 @@
 import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
-const NavigationUI: IUISpi['NavigationUI'] = {
+const NavigationUnstyledUI: IUISpi['NavigationUI'] = {
   container: ({ children }) => {
     return <div>{children}</div>
   },
@@ -19,4 +19,4 @@ const NavigationUI: IUISpi['NavigationUI'] = {
   },
 }
 
-export default NavigationUI
+export default NavigationUnstyledUI

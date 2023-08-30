@@ -1,10 +1,10 @@
 import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
-const LinkUI: IUISpi['LinkUI'] = {
+const LinUnstyledkUI: IUISpi['LinkUI'] = {
   link: ({ children, href }) => {
     return <a href={href}>{children}</a>
   },
 }
 
-export default LinkUI
+export default LinUnstyledkUI

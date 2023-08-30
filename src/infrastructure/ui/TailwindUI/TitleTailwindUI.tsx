@@ -1,7 +1,7 @@
 import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
-const TitleUI: IUISpi['TitleUI'] = {
+const TitleTailwindUI: IUISpi['TitleUI'] = {
   xs: ({ children }) => <h5>{children}</h5>,
   sm: ({ children }) => <h4>{children}</h4>,
   md: ({ children }) => <h3>{children}</h3>,
@@ -9,4 +9,4 @@ const TitleUI: IUISpi['TitleUI'] = {
   xl: ({ children }) => <h1>{children}</h1>,
 }
 
-export default TitleUI
+export default TitleTailwindUI

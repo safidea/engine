@@ -1,7 +1,7 @@
 import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
-const FormUI: IUISpi['FormUI'] = {
+const FormTailwindUI: IUISpi['FormUI'] = {
   form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,
   inputs: ({ children }) => <>{children}</>,
   input: ({ children }) => <>{children}</>,
@@ -11,4 +11,4 @@ const FormUI: IUISpi['FormUI'] = {
   loading: ({ label }) => <p>{label}</p>,
 }
 
-export default FormUI
+export default FormTailwindUI

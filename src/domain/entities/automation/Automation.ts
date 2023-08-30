@@ -9,7 +9,7 @@ export interface AutomationContext {
   [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
 }
 
-// TODO: remove application usecases from domain
+// TODO: remove application usecases from domain and replace by interfaces
 export interface AutomationUseCases {
   updateTableRecord: UpdateTableRecord
   readTableRecord: ReadTableRecord

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
-const TableInputUI: IUISpi['TableInputUI'] = {
+const TableInputTailwindUI: IUISpi['TableInputUI'] = {
   container: ({ children }) => {
     return <>{children}</>
   },
@@ -49,4 +49,4 @@ const TableInputUI: IUISpi['TableInputUI'] = {
   },
 }
 
-export default TableInputUI
+export default TableInputTailwindUI

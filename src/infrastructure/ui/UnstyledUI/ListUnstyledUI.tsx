@@ -1,7 +1,7 @@
 import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
-const ListUI: IUISpi['ListUI'] = {
+const ListUnstyledUI: IUISpi['ListUI'] = {
   container: ({ children }) => {
     return <table>{children}</table>
   },
@@ -50,4 +50,4 @@ const ListUI: IUISpi['ListUI'] = {
   },
 }
 
-export default ListUI
+export default ListUnstyledUI
