@@ -17,8 +17,8 @@
     "test:unit": "jest --config jest.unit.config.ts",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
-    "dev:invoices": "NODE_ENV=development webpack serve & NODE_ENV=development nodemon dist/apps/invoices/startup.js",
-    "start:invoices": "pnpm build && NODE_ENV=production node dist/apps/invoices/startup.js",
+    "dev:invoices": "NODE_ENV=development webpack serve & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
+    "start:invoices": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
     "precommit": "pnpm format && pnpm lint && pnpm test",
     "prepare": "husky install"
   },

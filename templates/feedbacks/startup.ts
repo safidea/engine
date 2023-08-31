@@ -1,11 +1,11 @@
 import Foundation from '../../src/Foundation'
 import TailwindUI from '../../src/infrastructure/ui/TailwindUI'
-import SERVICES_APP from './app'
+import SERVICES_TEMPLATE from './app'
 
-const folder = __dirname.replace('dist/apps', 'apps')
+const folder = __dirname.replace('dist/templates', 'templates')
 
 new Foundation({ folder, adapters: { ui: TailwindUI } })
-  .config(SERVICES_APP)
+  .config(SERVICES_TEMPLATE)
   .start()
   .then((server) => {
     console.log(

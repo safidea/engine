@@ -27,13 +27,13 @@
       "@domain/*": ["src/domain/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
       "@adapter/*": ["src/adapter/*"],
-      "@apps/*": ["apps/*"]
+      "@templates/*": ["templates/*"]
     }
   },
   "include": [
-    "apps/**/*.ts",
-    "apps/**/*.tsx",
-    "apps/**/*.html",
+    "templates/**/*.ts",
+    "templates/**/*.tsx",
+    "templates/**/*.html",
     "src/**/*.ts",
     "src/**/*.tsx",
     "test/**/*.ts",

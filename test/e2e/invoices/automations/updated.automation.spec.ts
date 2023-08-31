@@ -1,7 +1,7 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
-import INVOICES_APP from '@apps/invoices/app'
+import INVOICES_TEMPLATE from '@templates/invoices/app'
 
 test.describe('An automation that update an invoice document from a template', () => {
   test('should save the invoice document url updated in the record', async ({
@@ -15,10 +15,10 @@ test.describe('An automation that update an invoice document from a template', (
     const port = 50701
     const storage = new FileStorage(folder, 'http://localhost:' + port)
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_APP).start()
+    await foundation.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
-    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
       {
         customer: 'Company A',
       },
@@ -50,10 +50,10 @@ test.describe('An automation that update an invoice document from a template', (
     const port = 50702
     const storage = new FileStorage(folder, 'http://localhost:' + port)
     const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_APP).start()
+    await foundation.config(INVOICES_TEMPLATE).start()
     const {
       invoices_items: [invoice_item],
-    } = await helpers.generateRecords(INVOICES_APP, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
       {
         items: [
           {
