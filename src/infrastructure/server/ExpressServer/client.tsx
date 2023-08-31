@@ -1,5 +1,5 @@
 import React from 'react'
-import { hydrateRoot } from 'react-dom/client'
+import { Root, hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapter/api/page/PageController'
 import { AppMapper } from '@adapter/api/app/AppMapper'
 import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
@@ -11,7 +11,12 @@ import type { FoundationData } from '@infrastructure/server/ExpressServer/server
 declare global {
   interface Window {
     __FOUNDATION_DATA__: FoundationData
-    appRoot: any
+    rootPage: Root
+  }
+  interface NodeModule {
+    hot: {
+      accept: () => void
+    }
   }
 }
 
@@ -24,24 +29,26 @@ function getUI(uiName: string) {
   }
 }
 
-if (module.hot) {
-  module.hot.accept()
-}
-
 ;(async () => {
-  const { page: pageDto, tables, params, adapters } = window.__FOUNDATION_DATA__
+  const { page: pageDto, tables, params, adapters, development } = window.__FOUNDATION_DATA__
   const app = AppMapper.toEntity({ pages: [pageDto], tables }, { ui: getUI(adapters.uiName) })
   const page = app.getPageByPath(pageDto.path)
   const fetcherAdapter = new NativeFetcher(window.location.origin)
   const fetcherSpi = new FetcherSpi(fetcherAdapter, app)
   const pageController = new PageController(app, fetcherSpi)
   const Page = await pageController.render(page, params)
-  if (!window.appRoot) {
-    const container = document.getElementById('root')
-    if (!container) throw new Error('Root element not found')
-    window.appRoot = hydrateRoot(container, <Page />)
+  const container = document.getElementById('root')
+  if (!container) throw new Error('Root element not found')
+  if (!development) {
+    hydrateRoot(container, <Page />)
   } else {
-    console.log(window.appRoot)
-    window.appRoot.render(<Page />)
+    if (module.hot) {
+      module.hot.accept()
+    }
+    if (!window.rootPage) {
+      window.rootPage = hydrateRoot(container, <Page />)
+    } else {
+      window.rootPage.render(<Page />)
+    }
   }
 })()

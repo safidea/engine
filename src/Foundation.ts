@@ -32,6 +32,7 @@ export interface FoundationOptions {
   folder?: string
   port?: number
   url?: string
+  development?: boolean
 }
 
 export default class Foundation {
@@ -39,13 +40,15 @@ export default class Foundation {
 
   constructor(options: FoundationOptions = {}) {
     const { adapters = {} } = options
+    if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production'
     const port = options.port ?? 3000
     const url = options.url ?? 'http://localhost:' + port
     const folder = options.folder ?? join(process.cwd(), 'app')
     const orm = adapters.orm ?? new JsonOrm(folder)
     const ui = adapters.ui ?? UnstyledUI
+    const development = options.development ?? process.env.NODE_ENV !== 'production'
     const fetcher = adapters.fetcher ?? new NativeFetcher(url)
-    const server = adapters.server ?? new ExpressServer(port, ui.name)
+    const server = adapters.server ?? new ExpressServer(port, ui.name, development)
     const logger = adapters.logger ?? NativeLogger
     const storage = adapters.storage ?? new FileStorage(folder, url)
     const converter = adapters.converter ?? new Converter(folder)

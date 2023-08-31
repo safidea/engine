@@ -16,6 +16,7 @@ export interface FoundationData {
   page: PageDto
   tables: TableDto[]
   params: { [key: string]: string }
+  development: boolean
   adapters: {
     uiName: string
   }
@@ -28,7 +29,8 @@ export class ExpressServer implements IServerAdapter {
 
   constructor(
     private _port: number,
-    private _uiName: string
+    private _uiName: string,
+    private _development: boolean
   ) {}
 
   initConfig(app: App) {
@@ -119,6 +121,7 @@ export class ExpressServer implements IServerAdapter {
           params: req.params,
           tables: TableMapper.toDtos(this.app.tables),
           adapters: { uiName: this._uiName },
+          development: this._development,
         }
         const html = `
           <!DOCTYPE html>

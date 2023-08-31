@@ -6,19 +6,7 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server'
 import type { Configuration } from 'webpack'
 
-const isDevelopment = true //process.env.NODE_ENV !== 'production'
-
-const devServer: DevServerConfiguration = {
-  static: './dist/public',
-  port: 8080,
-  proxy: {
-    '/': 'http://localhost:3000',
-  },
-  open: true,
-  compress: true,
-  historyApiFallback: true,
-  hot: true,
-}
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 const config: Configuration = {
   mode: isDevelopment ? 'development' : 'production',
@@ -27,6 +15,7 @@ const config: Configuration = {
     path: resolve(process.cwd(), 'dist/public'),
     filename: 'bundle.js',
   },
+  devtool: isDevelopment ? 'inline-source-map' : 'source-map',
   module: {
     rules: [
       {
@@ -45,14 +34,29 @@ const config: Configuration = {
     extensions: ['.tsx', '.ts', '.js'],
     plugins: [new TsconfigPathsPlugin({})],
   },
-  plugins: [isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
+  plugins: [],
   optimization: {
     minimizer: [new TerserPlugin({})],
   },
 }
 
 if (isDevelopment) {
+  const devServer: DevServerConfiguration = {
+    static: './dist/public',
+    port: 8080,
+    proxy: {
+      '/': {
+        target: 'http://localhost:3000',
+      },
+    },
+    open: true,
+    compress: true,
+    historyApiFallback: true,
+    hot: true,
+  }
+
   config.devServer = devServer
+  config.plugins?.push(new ReactRefreshWebpackPlugin())
 }
 
 export default config
