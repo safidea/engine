@@ -5,6 +5,7 @@ import { App } from '@domain/entities/app/App'
 import { CreateAutomationContextFromRecordId } from '../automation/CreateAutomationContextFromRecordId'
 import { ReadTableRecord } from './ReadTableRecord'
 
+// TODO: Déplacer les usecases des actions dans leur domaine et les appeler depuis le domaine
 export class UpdateTableRecord {
   private createAutomationContextFromRecord: CreateAutomationContextFromRecordId
   private readTableRecord: ReadTableRecord

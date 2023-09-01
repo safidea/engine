@@ -2,8 +2,10 @@ import { Table } from '@domain/entities/table/Table'
 import { RecordState } from './RecordState'
 import { RecordData } from './IRecord'
 
+// TODO: remove extends RecordState
 export class DeleteState extends RecordState {
   private _deleted_time: string
+  //private rootRecord: StateRecord
 
   constructor(recordData: RecordData, table: Table) {
     const { id } = recordData

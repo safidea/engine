@@ -8,9 +8,14 @@ import { ReadTableRecord } from '@application/usecases/table/ReadTableRecord'
 import { CreateAutomationContextFromRecordId } from '@application/usecases/automation/CreateAutomationContextFromRecordId'
 
 export class StartedState extends ServerState {
+  // TODO: mettre le constructeur en privé
   constructor(private configuredState: ConfiguredState) {
     super(configuredState.adapters)
   }
+
+  // TODO: créer une instance à partir d'une méthode static asynchrone
+
+  // static async start() {}
 
   async emit(event: TriggerEvent, context: AutomationContext = {}): Promise<void> {
     const { automations } = this.configuredState.app

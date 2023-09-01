@@ -12,6 +12,9 @@ import { CreateState } from './CreateState'
 import { UpdateState } from './UpdateState'
 import { DeleteState } from './DeleteState'
 
+// TODO: La classe doit implémenter les méthodes de tous les états
+// type IRecord = IUpdateRecord & IDeleteRecord,
+
 export class Record implements IRecord {
   private state: RecordState
 
@@ -75,7 +78,9 @@ export class Record implements IRecord {
     return this.state.getMultipleLinkedRecordsValue(fieldName)
   }
 
+  
   setFieldValue(fieldName: string, value: RecordFieldValue): void {
+    if (this.getCurrentState() === 'delete') throw new Error('forbidden')
     if (this.getCurrentState() === 'create') {
       this.state.setFieldValue(fieldName, value)
     } else {

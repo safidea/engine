@@ -42,6 +42,7 @@ export class UpdateRecordAction extends BaseAction {
       {}
     )
     this.recordIdCompiled = templating.compile(this._recordId)
+    // TODO: vérifier si les références de contexte d'actions précédentes sont bien résolues
   }
 
   get tableName(): string {

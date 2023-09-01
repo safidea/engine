@@ -9,6 +9,8 @@ export interface AutomationContext {
   [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
 }
 
+// TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
+
 // TODO: remove application usecases from domain and replace by interfaces
 export interface AutomationUseCases {
   updateTableRecord: UpdateTableRecord

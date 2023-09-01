@@ -6,6 +6,8 @@ import { ListTableRecords } from '../table/ListTableRecords'
 import { AutomationContext } from '@domain/entities/automation/Automation'
 import { ReadTableRecord } from '../table/ReadTableRecord'
 
+// TODO: Déplacer ce usecase dans l'entité BaseAction
+
 export class CreateAutomationContextFromRecordId {
   private readTableRecord: ReadTableRecord
 
