@@ -1,6 +1,6 @@
 {
-  "name": "foundation",
-  "main": "./dist/src/Foundation.js",
+  "name": "engine",
+  "main": "./dist/src/Engine.js",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",

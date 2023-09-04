@@ -32,7 +32,6 @@ class UpdatedRecord {
 const updateRecord = new UpdateRecord()
 updateRecord.softDelete() // => returns instance of DeletedRecord
 
-
 // OU ALORS
 
 // Tester une implémentation des assertions function en typescript pour lui dire de renvoyer un warning quand la fonction renvoie une erreur :
@@ -40,15 +39,15 @@ updateRecord.softDelete() // => returns instance of DeletedRecord
 
 function assert(condition: any, msg?: string): asserts condition {
   if (!condition) {
-    throw new AssertionError(msg);
+    throw new AssertionError(msg)
   }
 }
 function isString(val: any): val is string {
-  return typeof val === "string";
+  return typeof val === 'string'
 }
 function yell(str: any) {
   if (isString(str)) {
-    return str.toUppercase();
+    return str.toUppercase()
   }
-  throw "Oops!";
+  throw 'Oops!'
 }

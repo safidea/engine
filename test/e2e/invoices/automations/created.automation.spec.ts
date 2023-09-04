@@ -1,5 +1,5 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import INVOICES_TEMPLATE from '@templates/invoices/app'
 
@@ -14,8 +14,8 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50008
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
     } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
@@ -40,8 +40,8 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50012
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
     } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices', [
@@ -67,8 +67,8 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50009
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
       invoices_items: items,
@@ -103,8 +103,8 @@ test.describe('An automation that build an invoice document from a template', ()
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50010
     const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
       invoices_items: items,
@@ -127,8 +127,8 @@ test.describe('An automation that build an invoice document from a template', ()
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50011
     const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
       invoices_items: items,

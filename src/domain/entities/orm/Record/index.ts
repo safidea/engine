@@ -78,7 +78,6 @@ export class Record implements IRecord {
     return this.state.getMultipleLinkedRecordsValue(fieldName)
   }
 
-  
   setFieldValue(fieldName: string, value: RecordFieldValue): void {
     if (this.getCurrentState() === 'delete') throw new Error('forbidden')
     if (this.getCurrentState() === 'create') {

@@ -18,7 +18,7 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
 import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 
-export interface FoundationOptions {
+export interface EngineOptions {
   adapters?: {
     server?: IServerAdapter
     orm?: IOrmAdapter
@@ -35,10 +35,10 @@ export interface FoundationOptions {
   development?: boolean
 }
 
-export default class Foundation {
+export default class Engine {
   private serverSpi: ServerSpi
 
-  constructor(options: FoundationOptions = {}) {
+  constructor(options: EngineOptions = {}) {
     const { adapters = {} } = options
     if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production'
     const port = options.port ?? 3000

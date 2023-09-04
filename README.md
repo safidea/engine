@@ -1,4 +1,4 @@
-# Foundation
+# Engine
 
 ## Objectif Fin Juin > Fonctionnalité de facturation
 
@@ -30,9 +30,7 @@
 - [ ] Faire un export pour le comptable des factures de l'année pour la date de finalisation de la facture
   - [ ] Mettre à disposition un tableau qui permet d'accéder à chacune des factures (mêmes informations précédentes à afficher)
 
-
 TODO: Utiliser cette librarie pour tester avec Docker : https://github.com/testcontainers/testcontainers-node
-
 
 ## NEXT STEPS :
 
@@ -45,19 +43,22 @@ TODO: Utiliser cette librarie pour tester avec Docker : https://github.com/testc
 - Être SOC2 Compliant pour bosser avec les grosses boites
 
 TODO:
+
 - [] Tester avec Passport la connection SSO avec Google Business
 
 ### Business
 
 - Plan Community
+
   - Import our NPM package in your Node app and deploy anywhere you want
   - Basic User Management and Authentication
 
 - Plan Business
+
   - Everything from Community
   - Granular Rolebased Access Control
   - Pay per employee
-  - We help you to run foundation in your infrastructure and connect to your User Directory
+  - We help you to run engine in your infrastructure and connect to your User Directory
   - Private Admin Dashboard to monitor application usage
 
 - Contact US
@@ -65,12 +66,13 @@ TODO:
 
 #### Final User
 
-- Vendre un applicatif de Foundation, pas Foundation directement
-- Séparer les templates de Foundation => un repo par template (ex: invoices)
-  -  Ajouter dans le repo de l'outil de facturation des tests e2e spécifique à l'outil de facturation
-  -  L'outil de facturation n'est qu'un applicatif e2e de Foundation que je vends, avec sa propre landing page
+- Vendre un applicatif de Engine, pas Engine directement
+- Séparer les templates de Engine => un repo par template (ex: invoices)
+  - Ajouter dans le repo de l'outil de facturation des tests e2e spécifique à l'outil de facturation
+  - L'outil de facturation n'est qu'un applicatif e2e de Engine que je vends, avec sa propre landing page
 
 **V1**
+
 - Ce que je vends, c'est le consulting d'installation de l'applicatif de l'application de facturation
 - Études de marché sur une verticale particulière pour payer plus cher mais expliquer pourquoi et les avantages
   - Il utilise quoi comme outil ? Comment ? Combien ça coûte ? Quels sont les avantages et les inconvénients ?

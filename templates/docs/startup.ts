@@ -1,10 +1,10 @@
-import Foundation from '../../src/Foundation'
+import Engine from '../../src/Engine'
 import TailwindUI from '../../src/infrastructure/ui/TailwindUI'
 import DOCS_TEMPLATE from './app'
 
 const folder = __dirname.replace('dist/templates', 'templates')
 
-new Foundation({ folder, adapters: { ui: TailwindUI } })
+new Engine({ folder, adapters: { ui: TailwindUI } })
   .config(DOCS_TEMPLATE)
   .start()
   .then((server) => {

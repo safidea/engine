@@ -6,11 +6,11 @@ import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import * as UI from '@infrastructure/ui'
 
-import type { FoundationData } from '@infrastructure/server/ExpressServer/server'
+import type { EngineData } from '@infrastructure/server/ExpressServer/server'
 
 declare global {
   interface Window {
-    __FOUNDATION_DATA__: FoundationData
+    __FOUNDATION_DATA__: EngineData
     rootPage: Root
   }
   interface NodeModule {

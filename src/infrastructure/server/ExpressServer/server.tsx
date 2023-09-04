@@ -12,7 +12,7 @@ import { TableMapper } from '@adapter/api/table/mappers/TableMapper'
 import { TableDto } from '@adapter/api/table/dtos/TableDto'
 import { PageDto } from '@adapter/api/page/dtos/PageDto'
 
-export interface FoundationData {
+export interface EngineData {
   page: PageDto
   tables: TableDto[]
   params: { [key: string]: string }
@@ -116,7 +116,7 @@ export class ExpressServer implements IServerAdapter {
         const pageHtml = ReactDOMServer.renderToString(<Page />)
         if (!this.app) throw new Error('App not initialized')
         const page = this.app.getPageByPath(route.path)
-        const data: FoundationData = {
+        const data: EngineData = {
           page: PageMapper.toDto(page),
           params: req.params,
           tables: TableMapper.toDtos(this.app.tables),

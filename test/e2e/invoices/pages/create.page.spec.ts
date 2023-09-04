@@ -1,5 +1,5 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '@templates/invoices/app'
 
 test.describe('A page that create an invoice', () => {
@@ -7,7 +7,7 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     const port = 50100
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     await page.goto(helpers.getUrl(port, '/create'))
@@ -21,7 +21,7 @@ test.describe('A page that create an invoice', () => {
     // An invoicing app with a create page and an invoice
     const port = 50101
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
       invoices_items: items,
@@ -93,7 +93,7 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     const port = 50102
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
     } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
@@ -123,8 +123,8 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50103
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
       invoices_items: items,

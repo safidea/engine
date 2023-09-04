@@ -1,13 +1,13 @@
 import dotenv from 'dotenv'
 import { join } from 'path'
-import Foundation from '../../src/Foundation'
+import Engine from '../../src/Engine'
 import TailwindUI from '../../src/infrastructure/ui/TailwindUI'
 import INVOICES_TEMPLATE from './app'
 
 const folder = __dirname.replace('dist/templates', 'templates')
 dotenv.config({ path: join(folder, '.env') })
 
-new Foundation({ folder, adapters: { ui: TailwindUI } })
+new Engine({ folder, adapters: { ui: TailwindUI } })
   .config(INVOICES_TEMPLATE)
   .start()
   .then((server) => {

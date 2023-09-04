@@ -1,5 +1,5 @@
 import { TailwindUI } from '@infrastructure/ui'
-import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '@templates/invoices/app'
 
 test.describe('A page that list invoices', () => {
@@ -7,7 +7,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50300
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ folder, port, adapters: { ui: TailwindUI } })
+    await new Engine({ folder, port, adapters: { ui: TailwindUI } })
       .config(INVOICES_TEMPLATE)
       .start()
 
@@ -23,7 +23,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50301
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ folder, port }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ folder, port }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     // I go to the home page "/"
@@ -39,7 +39,7 @@ test.describe('A page that list invoices', () => {
     // We provide 8 example invoices
     const port = 50302
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ folder, port, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ folder, port, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [firstInvoice],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -104,7 +104,7 @@ test.describe('A page that list invoices', () => {
     // We provide 5 example invoices with finalised dates and status
     const port = 50303
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [firstInvoice],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -161,7 +161,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50304
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     // I go to the home page "/"
@@ -181,7 +181,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50305
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -216,7 +216,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50306
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Foundation({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
     const url = `http://localhost:${port}/create`
     await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
       {

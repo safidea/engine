@@ -1,5 +1,5 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Foundation } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '@templates/invoices/app'
 
 test.describe('An automation that finalise an invoice document from a template', () => {
@@ -13,8 +13,8 @@ test.describe('An automation that finalise an invoice document from a template',
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50801
-    const foundation = new Foundation({ adapters: { orm, storage, converter }, port, folder })
-    await foundation.config(INVOICES_TEMPLATE).start()
+    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')
