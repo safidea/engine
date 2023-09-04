@@ -1,6 +1,11 @@
 {
-  "name": "engine",
+  "name": "@solumann/engine",
   "main": "./dist/src/Engine.js",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solumann/engine.git"
+  },
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
