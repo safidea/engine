@@ -91,10 +91,10 @@ const config: Config = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '^@adapter/(.*)$': '<rootDir>/src/adapter/$1',
-    '^@application/(.*)$': '<rootDir>/src/application/$1',
-    '^@domain/(.*)$': '<rootDir>/src/domain/$1',
-    '^@infrastructure/(.*)$': '<rootDir>/src/infrastructure/$1',
+    '^@adapter/(.*)$': '<rootDir>/../../src/adapter/$1',
+    '^@application/(.*)$': '<rootDir>/../../src/application/$1',
+    '^@domain/(.*)$': '<rootDir>/../../src/domain/$1',
+    '^@infrastructure/(.*)$': '<rootDir>/../../src/infrastructure/$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -160,7 +160,7 @@ const config: Config = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/test/utils/test/**/*.test.ts?(x)'],
+  // testMatch: ['**/test/unit/**/*.test.ts?(x)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [

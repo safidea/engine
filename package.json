@@ -1,6 +1,7 @@
 {
   "name": "@solumy/engine",
-  "main": "./dist/src/Engine.js",
+  "main": "dist/bundle.js",
+  "types": "dist/server.d.ts",
   "version": "0.0.1",
   "repository": {
     "type": "git",
@@ -9,20 +10,20 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
-    "build": "pnpm build:typescript & pnpm build:webpack & pnpm build:tailwind",
-    "build:typescript": "tsc -p src/tsconfig.json",
-    "build:webpack": "webpack",
+    "build": "pnpm build:server && pnpm build:client && pnpm build:tailwind",
+    "build:server": "webpack --config webpack.server.config.ts",
+    "build:client": "webpack --config webpack.client.config.ts",
     "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
     "watch": "pnpm watch:typescript & pnpm watch:tailwind",
-    "watch:typescript": "tsc --watch -p src/tsconfig.json & tsc --watch -p test/tsconfig.json",
+    "watch:typescript": "tsc --watch",
     "watch:test": "jest --watch",
     "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
-    "test:utils": "jest --config jest.utils.config.ts",
-    "test:unit": "jest --config jest.unit.config.ts",
+    "test:utils": "jest --config test/utils/jest.config.ts",
+    "test:unit": "jest --config test/unit/jest.config.ts",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
-    "dev:invoices": "NODE_ENV=development webpack serve & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
+    "dev:invoices": "NODE_ENV=development webpack serve --config webpack.client.ts & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
     "start:invoices": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
     "precommit": "pnpm format && pnpm lint && pnpm test",
     "prepare": "husky install"
@@ -36,7 +37,6 @@
     "fs-extra": "11.1.1",
     "handlebars": "^4.7.8",
     "luxon": "^3.4.2",
-    "module-alias": "^2.2.3",
     "puppeteer": "^21.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -69,6 +69,7 @@
     "@types/react-dom": "18.0.11",
     "@types/uuid": "^9.0.2",
     "@types/webpack": "^5.28.2",
+    "@types/webpack-node-externals": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.57.0",
     "babel-loader": "^9.1.3",
@@ -86,17 +87,13 @@
     "react-refresh": "^0.14.0",
     "tailwindcss": "^3.3.3",
     "terser-webpack-plugin": "^5.3.9",
+    "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^4.9.5",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
-  },
-  "_moduleAliases": {
-    "@application": "dist/src/application",
-    "@domain": "dist/src/domain",
-    "@infrastructure": "dist/src/infrastructure",
-    "@adapter": "dist/src/adapter"
+    "webpack-dev-server": "^4.15.1",
+    "webpack-node-externals": "^3.0.0"
   }
 }

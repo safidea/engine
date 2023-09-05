@@ -1,7 +1,6 @@
-import 'module-alias/register'
 import { join } from 'path'
 import UnstyledUI from '@infrastructure/ui/UnstyledUI'
-import { ExpressServer } from '@infrastructure/server/ExpressServer/server'
+import { ExpressServer } from '@infrastructure/server/ExpressServer'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import { IServerAdapter } from '@adapter/spi/server/IServerAdapter'

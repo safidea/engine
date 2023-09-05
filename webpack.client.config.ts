@@ -10,7 +10,7 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 
 const config: Configuration = {
   mode: isDevelopment ? 'development' : 'production',
-  entry: 'src/infrastructure/server/ExpressServer/client.tsx',
+  entry: './src/client.tsx',
   output: {
     path: resolve(process.cwd(), 'dist/public'),
     filename: 'bundle.js',

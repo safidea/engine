@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "module": "commonjs",
     "target": "ESNext",
     "sourceMap": true,
@@ -28,5 +29,14 @@
       "@adapter/*": ["adapter/*"]
     }
   },
-  "plugins": [{ "name": "react-refresh-typescript" }]
+  "plugins": [{ "name": "react-refresh-typescript" }],
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "jest.config.ts",
+    "playwright.config.ts",
+    "webpack.server.config.ts",
+    "webpack.client.config.ts"
+  ],
+  "exclude": ["node_modules"]
 }

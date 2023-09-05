@@ -6,7 +6,7 @@ import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
 import * as UI from '@infrastructure/ui'
 
-import type { EngineData } from '@infrastructure/server/ExpressServer/server'
+import type { EngineData } from '@infrastructure/server/ExpressServer'
 
 declare global {
   interface Window {
