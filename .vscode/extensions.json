@@ -7,9 +7,6 @@
     // Showing todo comments
     "gruntfuggly.todo-tree",
 
-    // Database
-    "prisma.prisma",
-
     // Editing
     "vscode-icons-team.vscode-icons",
 
