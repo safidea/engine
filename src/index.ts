@@ -1,5 +1,6 @@
 import { join } from 'path'
 import UnstyledUI from '@infrastructure/ui/UnstyledUI'
+import TailwindUI from '@infrastructure/ui/TailwindUI'
 import { ExpressServer } from '@infrastructure/server/ExpressServer'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
@@ -9,14 +10,14 @@ import { IFetcherAdapter } from '@adapter/spi/fetcher/IFetcherAdapter'
 import { IUISpi } from '@domain/spi/IUISpi'
 import { NativeLogger } from '@infrastructure/logger/NativeLogger'
 import { ILoggerSpi } from '@domain/spi/ILoggerSpi'
-import { ServerSpi } from '@adapter/spi/server/ServerSpi'
+import { ServerSpi as Server } from '@adapter/spi/server/ServerSpi'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import { Converter } from '@infrastructure/converter/Converter'
 import { IConverterSpi } from '@domain/spi/IConverterSpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
 import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
-import { AppDto } from '@adapter/api/app/AppDto'
+import { AppDto as App } from '@adapter/api/app/AppDto'
 
 export interface EngineOptions {
   adapters?: {
@@ -35,11 +36,8 @@ export interface EngineOptions {
   development?: boolean
 }
 
-export type Server = ServerSpi
-export type App = AppDto
-
 export default class Engine {
-  private serverSpi: ServerSpi
+  private server: Server
 
   constructor(options: EngineOptions = {}) {
     const { adapters = {} } = options
@@ -56,7 +54,7 @@ export default class Engine {
     const storage = adapters.storage ?? new FileStorage(folder, url)
     const converter = adapters.converter ?? new Converter(folder)
     const templating = adapters.templating ?? new HandlebarsTemplating()
-    this.serverSpi = new ServerSpi({
+    this.server = new Server({
       server,
       orm,
       ui,
@@ -68,15 +66,18 @@ export default class Engine {
     })
   }
 
-  config(config: unknown): ServerSpi {
-    return this.serverSpi.config(config)
+  config(config: unknown): Server {
+    return this.server.config(config)
   }
 
-  async start(): Promise<ServerSpi> {
-    return this.serverSpi.start()
+  async start(): Promise<Server> {
+    return this.server.start()
   }
 
-  async stop(): Promise<ServerSpi> {
-    return this.serverSpi.stop()
+  async stop(): Promise<Server> {
+    return this.server.stop()
   }
 }
+
+export type { App, Server }
+export { TailwindUI }

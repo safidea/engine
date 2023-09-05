@@ -33,6 +33,7 @@
   "include": [
     "src/**/*",
     "test/**/*",
+    "src/client.tsx",
     "jest.config.ts",
     "playwright.config.ts",
     "webpack.server.config.ts",
