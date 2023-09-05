@@ -1,11 +1,11 @@
 {
   "name": "@solumy/engine",
-  "main": "dist/server.js",
-  "types": "dist/server.d.ts",
+  "main": "dist/server/index.js",
+  "types": "dist/server/index.d.ts",
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.7",
+  "version": "0.0.8",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
@@ -16,11 +16,11 @@
     "build": "pnpm build:server & pnpm build:client && pnpm build:tailwind",
     "build:server": "tsc -p src/tsconfig.json && node script/post-tsc.js",
     "build:client": "webpack --config webpack.config.ts",
-    "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
+    "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --minify",
     "watch": "pnpm watch:server & pnpm watch:client & pnpm watch:tailwind",
     "watch:server": "tsc -p src/tsconfig.json --watch ",
     "watch:client": "NODE_ENV=development webpack --config webpack.config.ts --watch",
-    "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --watch",
+    "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --watch",
     "watch:test": "jest --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:utils": "jest --config test/utils/jest.config.ts",

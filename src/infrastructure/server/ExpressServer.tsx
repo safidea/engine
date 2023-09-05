@@ -37,7 +37,7 @@ export class ExpressServer implements IServerAdapter {
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
-    this.express.use(express.static('dist/public'))
+    this.express.use(express.static(path.join(__dirname, '../../../client')))
     this.app = app
   }
 

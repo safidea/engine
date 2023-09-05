@@ -8,10 +8,10 @@ const OUTPUT_DIR = path.resolve(__dirname, '../', 'dist')
 
 // Define your aliases and their absolute paths
 const ALIAS_MAP = {
-  '@domain/': path.resolve(OUTPUT_DIR, 'domain') + '/',
-  '@infrastructure/': path.resolve(OUTPUT_DIR, 'infrastructure') + '/',
-  '@application/': path.resolve(OUTPUT_DIR, 'application') + '/',
-  '@adapter/': path.resolve(OUTPUT_DIR, 'adapter') + '/',
+  '@domain/': path.resolve(OUTPUT_DIR, 'server/domain') + '/',
+  '@infrastructure/': path.resolve(OUTPUT_DIR, 'server/infrastructure') + '/',
+  '@application/': path.resolve(OUTPUT_DIR, 'server/application') + '/',
+  '@adapter/': path.resolve(OUTPUT_DIR, 'server/adapter') + '/',
 }
 
 function replaceAliasesWithRelativePaths(filePath) {

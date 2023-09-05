@@ -12,7 +12,7 @@ const config: Configuration = {
   mode: isDevelopment ? 'development' : 'production',
   entry: './src/client.tsx',
   output: {
-    path: resolve(process.cwd(), 'dist/public'),
+    path: resolve(process.cwd(), 'dist/client'),
     filename: 'bundle.js',
   },
   devtool: isDevelopment ? 'inline-source-map' : 'source-map',
@@ -42,7 +42,7 @@ const config: Configuration = {
 
 if (isDevelopment) {
   const devServer: DevServerConfiguration = {
-    static: './dist/public',
+    static: './dist/client',
     port: 8080,
     proxy: {
       '/': {
