@@ -30,7 +30,8 @@
     "dev:invoices": "NODE_ENV=development webpack serve --config webpack.client.ts & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
     "start:invoices": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
     "precommit": "pnpm format && pnpm lint && pnpm build && pnpm test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ci": "pnpm install && pnpm build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
