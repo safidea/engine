@@ -4,7 +4,7 @@ import Engine from '../../../dist/server'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
-import { FileStorage } from '@infrastructure/storage/FileStorage'
+import { FileStorage } from '@dist/infrastructure/storage/FileStorage'
 import { Converter } from '@infrastructure/converter/Converter'
 
 const log = debug('engine:specs')

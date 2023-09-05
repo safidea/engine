@@ -5,7 +5,7 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.9",
+  "version": "0.0.10",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
@@ -18,7 +18,7 @@
     "build:client": "webpack --config webpack.config.ts",
     "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --minify",
     "watch": "pnpm watch:server & pnpm watch:client & pnpm watch:tailwind",
-    "watch:server": "tsc -p src/tsconfig.json --watch ",
+    "watch:server": "tsc --watch ",
     "watch:client": "NODE_ENV=development webpack --config webpack.config.ts --watch",
     "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --watch",
     "watch:test": "jest --watch",

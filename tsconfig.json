@@ -26,7 +26,8 @@
       "@application/*": ["./src/application/*"],
       "@domain/*": ["./src/domain/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
-      "@adapter/*": ["./src/adapter/*"]
+      "@adapter/*": ["./src/adapter/*"],
+      "@dist/infrastructure/*": ["./dist/server/infrastructure/*"]
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
