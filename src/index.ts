@@ -21,6 +21,9 @@ import { AppDto as App } from '@adapter/api/app/AppDto'
 import { PageDto as Page } from '@adapter/api/page/dtos/PageDto'
 import { TableDto as Table } from '@adapter/api/table/dtos/TableDto'
 import { AutomationDto as Automation } from '@adapter/api/automation/dtos/AutomationDto'
+import { FieldDto as Field } from '@adapter/api/table/dtos/FieldDto'
+import { ComponentDto as Component } from '@adapter/api/page/dtos/ComponentDto'
+import { ActionDto as Action } from '@adapter/api/automation/dtos/ActionDto'
 
 export interface EngineOptions {
   adapters?: {
@@ -82,5 +85,5 @@ export default class Engine {
   }
 }
 
-export type { App, Server, Page, Table, Automation }
+export type { App, Server, Page, Table, Automation, Action, Component, Field }
 export { TailwindUI }
