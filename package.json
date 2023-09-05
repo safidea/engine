@@ -5,7 +5,7 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.10",
+  "version": "0.0.11",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
@@ -27,11 +27,11 @@
     "test:unit": "jest --config test/unit/jest.config.ts",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
-    "dev:invoices": "NODE_ENV=development webpack serve --config webpack.client.ts & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
-    "start:invoices": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
+    "dev": "NODE_ENV=development webpack serve --config webpack.config.ts & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
+    "start": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
     "precommit": "pnpm format && pnpm lint && pnpm build && pnpm test",
     "prepare": "husky install",
-    "ci": "pnpm install && pnpm build"
+    "ci": "pnpm install && pnpm exec playwright install --with-deps && pnpm build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

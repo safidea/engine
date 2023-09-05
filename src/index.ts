@@ -18,6 +18,9 @@ import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
 import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
 import { AppDto as App } from '@adapter/api/app/AppDto'
+import { PageDto as Page } from '@adapter/api/page/dtos/PageDto'
+import { TableDto as Table } from '@adapter/api/table/dtos/TableDto'
+import { AutomationDto as Automation } from '@adapter/api/automation/dtos/AutomationDto'
 
 export interface EngineOptions {
   adapters?: {
@@ -79,5 +82,5 @@ export default class Engine {
   }
 }
 
-export type { App, Server }
+export type { App, Server, Page, Table, Automation }
 export { TailwindUI }
