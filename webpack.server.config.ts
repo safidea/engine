@@ -14,14 +14,25 @@ const config: Configuration = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader', // Use ts-loader for TypeScript
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: 'tsconfig.webpack.json',
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-    plugins: [new TsconfigPathsPlugin({})],
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: 'tsconfig.webpack.json',
+      }),
+    ],
   },
   output: {
     filename: 'bundle.js', // Output file name

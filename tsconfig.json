@@ -4,8 +4,6 @@
     "module": "commonjs",
     "target": "ESNext",
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
@@ -38,5 +36,5 @@
     "webpack.server.config.ts",
     "webpack.client.config.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

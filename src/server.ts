@@ -34,6 +34,8 @@ export interface EngineOptions {
   development?: boolean
 }
 
+export type Server = ServerSpi
+
 export default class Engine {
   private serverSpi: ServerSpi
 
