@@ -1,6 +1,6 @@
 import debug from 'debug'
 import { test as base, expect } from '@playwright/test'
-import Engine from '../../../src/server'
+import Engine from '../../../dist/server'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'

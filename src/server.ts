@@ -16,6 +16,7 @@ import { IConverterSpi } from '@domain/spi/IConverterSpi'
 import { IStorageSpi } from '@domain/spi/IStorageSpi'
 import { HandlebarsTemplating } from '@infrastructure/templating/HandlebarsTemplating'
 import { ITemplatingSpi } from '@domain/spi/ITemplatingSpi'
+import { AppDto } from '@adapter/api/app/AppDto'
 
 export interface EngineOptions {
   adapters?: {
@@ -35,6 +36,7 @@ export interface EngineOptions {
 }
 
 export type Server = ServerSpi
+export type App = AppDto
 
 export default class Engine {
   private serverSpi: ServerSpi
