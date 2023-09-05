@@ -3,7 +3,7 @@ import { test as base, expect } from '@playwright/test'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
-import Engine from '../../../src/Engine'
+import Engine from '../../../src'
 import { FileStorage } from '@infrastructure/storage/FileStorage'
 import { Converter } from '@infrastructure/converter/Converter'
 

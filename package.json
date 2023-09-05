@@ -1,20 +1,20 @@
 {
-  "name": "@solumann/engine",
+  "name": "@solumy/engine",
   "main": "./dist/src/Engine.js",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solumann/engine.git"
+    "url": "git+https://github.com/solumy/engine.git"
   },
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "build": "pnpm build:typescript & pnpm build:webpack & pnpm build:tailwind",
-    "build:typescript": "tsc",
+    "build:typescript": "tsc -p src/tsconfig.json",
     "build:webpack": "webpack",
     "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
-    "watch": "pnpm watch:tsc & pnpm watch:tailwind",
-    "watch:tsc": "tsc --watch",
+    "watch": "pnpm watch:typescript & pnpm watch:tailwind",
+    "watch:typescript": "tsc --watch -p src/tsconfig.json & tsc --watch -p test/tsconfig.json",
     "watch:test": "jest --watch",
     "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --watch",
     "test": "pnpm test:unit && pnpm test:e2e",

@@ -2,7 +2,7 @@ import { describe, test, expect } from '@jest/globals'
 import { getUrl, generateRecords } from '../../e2e/helpers'
 import { JsonOrm } from '@infrastructure/orm/JsonOrm'
 import { getDedicatedTmpFolder } from '../../helpers'
-import INVOICES_TEMPLATE from '@templates/invoices/app'
+import INVOICES_TEMPLATE from '../../../e2e/invoices/app'
 
 describe('E2e Helpers', () => {
   test('getUrl', async () => {

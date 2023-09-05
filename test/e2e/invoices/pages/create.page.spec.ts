@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '@templates/invoices/app'
+import INVOICES_TEMPLATE from '../app'
 
 test.describe('A page that create an invoice', () => {
   test('should display a title', async ({ page, folder, orm }) => {

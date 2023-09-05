@@ -1,6 +1,6 @@
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
-import INVOICES_TEMPLATE from '@templates/invoices/app'
+import INVOICES_TEMPLATE from '../app'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, orm, folder }) => {

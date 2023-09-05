@@ -20,27 +20,13 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "lib": ["es2015", "dom"],
-    "outDir": "dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@application/*": ["src/application/*"],
-      "@domain/*": ["src/domain/*"],
-      "@infrastructure/*": ["src/infrastructure/*"],
-      "@adapter/*": ["src/adapter/*"],
-      "@templates/*": ["templates/*"]
+      "@application/*": ["application/*"],
+      "@domain/*": ["domain/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@adapter/*": ["adapter/*"]
     }
   },
-  "include": [
-    "templates/**/*.ts",
-    "templates/**/*.tsx",
-    "templates/**/*.html",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "test/**/*.ts",
-    "test/**/*.tsx",
-    "playwright.config.ts",
-    "jest.unit.config.ts",
-    "jest.utils.config.ts"
-  ],
   "plugins": [{ "name": "react-refresh-typescript" }]
 }

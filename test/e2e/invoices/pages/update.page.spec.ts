@@ -1,5 +1,5 @@
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '@templates/invoices/app'
+import INVOICES_TEMPLATE from '../app'
 
 test.describe('A page that update an invoice', () => {
   test('should display the invoice data', async ({ page, orm, folder }) => {

@@ -1,6 +1,6 @@
 import { TailwindUI } from '@infrastructure/ui'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '@templates/invoices/app'
+import INVOICES_TEMPLATE from '../app'
 
 test.describe('A page that list invoices', () => {
   test('should load Tailwind CSS', async ({ page, folder }) => {
