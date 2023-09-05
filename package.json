@@ -2,11 +2,14 @@
   "name": "@solumy/engine",
   "main": "dist/bundle.js",
   "types": "dist/server.d.ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
   },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
