@@ -5,6 +5,8 @@
     "target": "ESNext",
     "sourceMap": true,
     "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
@@ -19,12 +21,12 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "lib": ["es2015", "dom"],
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@application/*": ["application/*"],
-      "@domain/*": ["domain/*"],
-      "@infrastructure/*": ["infrastructure/*"],
-      "@adapter/*": ["adapter/*"]
+      "@application/*": ["./src/application/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@adapter/*": ["./src/adapter/*"]
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
@@ -34,7 +36,7 @@
     "jest.config.ts",
     "playwright.config.ts",
     "webpack.server.config.ts",
-    "webpack.client.config.ts"
+    "webpack.config.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

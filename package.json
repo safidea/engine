@@ -1,26 +1,25 @@
 {
   "name": "@solumy/engine",
-  "main": "dist/bundle.js",
+  "main": "dist/server.js",
   "types": "dist/server.d.ts",
-  "version": "0.0.4",
+  "files": [
+    "dist/**/*"
+  ],
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
   },
-  "files": [
-    "dist/",
-    "tsconfig.json"
-  ],
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "build": "pnpm build:server & pnpm build:client && pnpm build:tailwind",
-    "build:server": "webpack --config webpack.server.config.ts",
-    "build:client": "webpack --config webpack.client.config.ts",
+    "build:server": "tsc -p src/tsconfig.json && node script/post-tsc.js",
+    "build:client": "webpack --config webpack.config.ts",
     "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
-    "watch": "pnpm watch:typescript & pnpm watch:tailwind",
-    "watch:server": "webpack --config webpack.server.config.ts --watch",
-    "watch:client": "webpack --config webpack.client.config.ts --watch",
+    "watch": "pnpm watch:server & pnpm watch:client & pnpm watch:tailwind",
+    "watch:server": "tsc -p src/tsconfig.json --watch ",
+    "watch:client": "NODE_ENV=development webpack --config webpack.config.ts --watch",
     "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/public/output.css --watch",
     "watch:test": "jest --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
@@ -30,7 +29,7 @@
     "test:ui": "playwright test --ui",
     "dev:invoices": "NODE_ENV=development webpack serve --config webpack.client.ts & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
     "start:invoices": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
-    "precommit": "pnpm format && pnpm lint && pnpm test",
+    "precommit": "pnpm format && pnpm lint && pnpm build && pnpm test",
     "prepare": "husky install"
   },
   "dependencies": {
