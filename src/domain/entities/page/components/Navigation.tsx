@@ -11,6 +11,33 @@ export interface NavigationProps {
   Components: React.FC[]
 }
 
+export function NavigationComponent({
+  UI,
+  TitleComponent,
+  LinksComponent,
+  Components,
+}: NavigationProps & { UI: NavigationUI }) {
+  return (
+    <UI.container>
+      <UI.sidebar>
+        <TitleComponent />
+        <UI.links>
+          {LinksComponent.map((LinkComponent, index) => (
+            <UI.link key={index}>
+              <LinkComponent />
+            </UI.link>
+          ))}
+        </UI.links>
+      </UI.sidebar>
+      <UI.content>
+        {Components.map((Component, index) => (
+          <Component key={index} />
+        ))}
+      </UI.content>
+    </UI.container>
+  )
+}
+
 export class Navigation extends BaseComponent {
   constructor(
     private readonly _title: Title,
@@ -34,27 +61,13 @@ export class Navigation extends BaseComponent {
   }
 
   renderUI() {
-    const UI = this._ui
-    return function NavigationUI({ TitleComponent, LinksComponent, Components }: NavigationProps) {
-      return (
-        <UI.container>
-          <UI.sidebar>
-            <TitleComponent />
-            <UI.links>
-              {LinksComponent.map((LinkComponent, index) => (
-                <UI.link key={index}>
-                  <LinkComponent />
-                </UI.link>
-              ))}
-            </UI.links>
-          </UI.sidebar>
-          <UI.content>
-            {Components.map((Component, index) => (
-              <Component key={index} />
-            ))}
-          </UI.content>
-        </UI.container>
-      )
-    }
+    return ({ TitleComponent, LinksComponent, Components }: NavigationProps) => (
+      <NavigationComponent
+        UI={this._ui}
+        TitleComponent={TitleComponent}
+        LinksComponent={LinksComponent}
+        Components={Components}
+      />
+    )
   }
 }

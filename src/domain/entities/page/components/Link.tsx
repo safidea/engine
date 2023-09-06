@@ -2,6 +2,16 @@ import React from 'react'
 import { BaseComponent } from './BaseComponent'
 import { LinkUI } from '../../../spi/ui/LinkUI'
 
+export interface LinkProps {
+  path: string
+  label: string
+  UI: LinkUI
+}
+
+export function LinkComponent({ path, label, UI }: LinkProps) {
+  return <UI.link href={path}>{label}</UI.link>
+}
+
 export class Link extends BaseComponent {
   constructor(
     private readonly _path: string = '#',
@@ -20,11 +30,6 @@ export class Link extends BaseComponent {
   }
 
   renderUI() {
-    const UI = this._ui
-    const path = this._path
-    const label = this._label
-    return function LinkUI() {
-      return <UI.link href={path}>{label}</UI.link>
-    }
+    return () => <LinkComponent path={this._path} label={this._label} UI={this._ui} />
   }
 }

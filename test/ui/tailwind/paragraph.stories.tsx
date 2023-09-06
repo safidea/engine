@@ -9,7 +9,7 @@ const meta: Meta<typeof ParagraphComponent> = {
     <ParagraphComponent text={text} size={size} UI={ParagraphTailwindUI} />
   ),
   args: {
-    text: 'Title',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.',
   },
   argTypes: {
     text: {

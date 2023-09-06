@@ -7,7 +7,7 @@ const meta: Meta<typeof TitleComponent> = {
   title: 'Tailwind/Title',
   component: ({ text, size }) => <TitleComponent text={text} size={size} UI={TitleTailwindUI} />,
   args: {
-    text: 'Title',
+    text: 'This is a title',
     size: 'md',
   },
   argTypes: {
