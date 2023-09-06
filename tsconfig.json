@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
     "noEmit": true,
+    "declaration": false,
     "module": "commonjs",
     "target": "ESNext",
-    "sourceMap": true,
     "esModuleInterop": true,
-    "declaration": true,
-    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
     "isolatedModules": true,
     "moduleResolution": "node",
     "noUnusedLocals": false,

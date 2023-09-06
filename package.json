@@ -5,7 +5,7 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.14",
+  "version": "0.0.16",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
@@ -14,12 +14,12 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "build": "pnpm build:server & pnpm build:client && pnpm build:tailwind",
-    "build:server": "tsc -p src/tsconfig.json && node script/post-tsc.js",
-    "build:client": "webpack --config webpack.config.ts",
+    "build:server": "tsc -p src/tsconfig.server.json && node script/post-tsc.js",
+    "build:client": "webpack",
     "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --minify",
     "watch": "pnpm watch:server & pnpm watch:tailwind",
-    "watch:server": "tsc --watch ",
-    "watch:client": "NODE_ENV=development webpack --config webpack.config.ts --watch",
+    "watch:server": "tsc --watch",
+    "watch:client": "NODE_ENV=development webpack --watch",
     "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --watch",
     "watch:test": "jest --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
