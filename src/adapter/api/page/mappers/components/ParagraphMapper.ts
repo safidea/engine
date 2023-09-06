@@ -4,13 +4,14 @@ import { IUISpi } from '@domain/spi/IUISpi'
 
 export class ParagraphMapper {
   static toEntity(paragraphDto: ParagraphDto, ui: IUISpi): Paragraph {
-    return new Paragraph(paragraphDto.text, ui.ParagraphUI)
+    return new Paragraph(paragraphDto.text, ui.ParagraphUI, paragraphDto.size)
   }
 
   static toDto(paragraph: Paragraph): ParagraphDto {
     return {
       type: 'paragraph',
       text: paragraph.text,
+      size: paragraph.size,
     }
   }
 

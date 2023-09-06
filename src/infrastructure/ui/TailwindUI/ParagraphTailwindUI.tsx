@@ -2,8 +2,14 @@ import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
 const ParagraphTailwindUI: IUISpi['ParagraphUI'] = {
-  paragraph: ({ children }) => {
-    return <p>{children}</p>
+  small: ({ children }) => {
+    return <p className="text-sm leading-6 text-gray-600">{children}</p>
+  },
+  medium: ({ children }) => {
+    return <p className="text-base leading-7 text-gray-600">{children}</p>
+  },
+  large: ({ children }) => {
+    return <p className="text-lg leading-8 text-gray-600">{children}</p>
   },
 }
 

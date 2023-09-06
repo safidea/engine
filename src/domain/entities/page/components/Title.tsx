@@ -3,9 +3,13 @@ import { BaseComponent } from './BaseComponent'
 import { TitleUI } from '../../../spi/ui/TitleUI'
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type TitleUIProps = { size: Size; text: string; UI: TitleUI }
+export interface TitleProps {
+  size: Size
+  text: string
+  UI: TitleUI
+}
 
-export function TitleComponent({ size, text, UI }: TitleUIProps) {
+export function TitleComponent({ size, text, UI }: TitleProps) {
   switch (size) {
     case 'xs':
       return <UI.xs>{text}</UI.xs>

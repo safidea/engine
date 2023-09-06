@@ -2,7 +2,13 @@ import React from 'react'
 import { IUISpi } from '@domain/spi/IUISpi'
 
 const ParagraphUnstyledUI: IUISpi['ParagraphUI'] = {
-  paragraph: ({ children }) => {
+  small: ({ children }) => {
+    return <p>{children}</p>
+  },
+  medium: ({ children }) => {
+    return <p>{children}</p>
+  },
+  large: ({ children }) => {
     return <p>{children}</p>
   },
 }

@@ -1,5 +1,7 @@
 import { BaseUIProps } from './BaseUI'
 
 export interface ParagraphUI {
-  paragraph: React.FC<BaseUIProps>
+  small: React.FC<BaseUIProps>
+  medium: React.FC<BaseUIProps>
+  large: React.FC<BaseUIProps>
 }
