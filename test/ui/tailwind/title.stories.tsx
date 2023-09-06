@@ -1,31 +1,55 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import TitleTailwindUI from '@infrastructure/ui/TailwindUI/TitleTailwindUI'
+import { TitleComponent } from '@domain/entities/page/components/Title'
 
-const meta: Meta<typeof TitleTailwindUI.xs> = {
-  component: TitleTailwindUI.xs,
+const meta: Meta<typeof TitleComponent> = {
+  title: 'Tailwind/Title',
+  component: ({ text, size }) => <TitleComponent text={text} size={size} UI={TitleTailwindUI} />,
+  args: {
+    text: 'Title',
+    size: 'md',
+  },
+  argTypes: {
+    text: {
+      control: { type: 'text' },
+    },
+    size: {
+      control: false,
+    },
+  },
 }
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const XS: Story = {
-  render: () => <TitleTailwindUI.xs>XS Title</TitleTailwindUI.xs>,
+export const ExtraSmall: Story = {
+  args: {
+    size: 'xs',
+  },
 }
 
-export const SM: Story = {
-  render: () => <TitleTailwindUI.sm>SM Title</TitleTailwindUI.sm>,
+export const Small: Story = {
+  args: {
+    size: 'sm',
+  },
 }
 
-export const MD: Story = {
-  render: () => <TitleTailwindUI.md>MD Title</TitleTailwindUI.md>,
+export const Medium: Story = {
+  args: {
+    size: 'md',
+  },
 }
 
-export const LG: Story = {
-  render: () => <TitleTailwindUI.lg>LG Title</TitleTailwindUI.lg>,
+export const Large: Story = {
+  args: {
+    size: 'lg',
+  },
 }
 
-export const XL: Story = {
-  render: () => <TitleTailwindUI.xl>XL Title</TitleTailwindUI.xl>,
+export const ExtraLarge: Story = {
+  args: {
+    size: 'xl',
+  },
 }

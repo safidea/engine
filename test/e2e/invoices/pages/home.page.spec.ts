@@ -16,7 +16,7 @@ test.describe('A page that list invoices', () => {
     await page.goto(helpers.getUrl(port, '/'))
 
     // THEN
-    expect(await page.getAttribute('h1', 'class')).toContain('text-xl')
+    expect(await page.getAttribute('h1', 'class')).toContain('text-4xl')
   })
 
   test('should display a title', async ({ page, folder }) => {

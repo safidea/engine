@@ -5,7 +5,7 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.12",
+  "version": "0.0.13",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
@@ -17,7 +17,7 @@
     "build:server": "tsc -p src/tsconfig.json && node script/post-tsc.js",
     "build:client": "webpack --config webpack.config.ts",
     "build:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --minify",
-    "watch": "pnpm watch:server & pnpm watch:client & pnpm watch:tailwind",
+    "watch": "pnpm watch:server & pnpm watch:tailwind",
     "watch:server": "tsc --watch ",
     "watch:client": "NODE_ENV=development webpack --config webpack.config.ts --watch",
     "watch:tailwind": "tailwindcss -i ./src/infrastructure/ui/TailwindUI/input.css -o ./dist/client/output.css --watch",
@@ -32,7 +32,10 @@
     "start": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
     "precommit": "pnpm format && pnpm lint && pnpm build && pnpm test",
     "prepare": "husky install",
-    "ci": "pnpm install && pnpm exec playwright install --with-deps && pnpm build"
+    "ci": "pnpm install && pnpm exec playwright install --with-deps && pnpm build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -85,6 +88,7 @@
     "@types/webpack-node-externals": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.57.0",
+    "chromatic": "^7.0.0",
     "debug": "4.3.4",
     "dotenv": "^16.3.1",
     "eslint": "^8.48.0",
@@ -109,5 +113,11 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-node-externals": "^3.0.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/solumy/engine/issues"
+  },
+  "readme": "ERROR: No README data found!",
+  "homepage": "https://github.com/solumy/engine#readme",
+  "_id": "@solumy/engine@0.0.12"
 }
