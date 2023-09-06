@@ -7,7 +7,7 @@ test.describe('A page that update an invoice', () => {
     // An invoice is listed on the home page
     const port = 50401
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -42,7 +42,7 @@ test.describe('A page that update an invoice', () => {
     // An invoice is loaded in the update page
     const port = 50402
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [{ number: undefined }])
@@ -73,7 +73,7 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     const port = 50403
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const engine = new Engine({ port, adapters: { orm, storage, converter }, folder })
+    const engine = new Engine({ port, orm, storage, converter, folder })
     await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
@@ -96,7 +96,7 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     const port = 50404
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')
@@ -116,7 +116,7 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     const port = 50405
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')

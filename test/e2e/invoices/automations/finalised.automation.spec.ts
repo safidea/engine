@@ -13,7 +13,7 @@ test.describe('An automation that finalise an invoice document from a template',
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50801
-    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    const engine = new Engine({ orm, storage, converter, port, folder })
     await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],

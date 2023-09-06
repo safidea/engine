@@ -17,9 +17,7 @@ export interface EngineData {
   tables: TableDto[]
   params: { [key: string]: string }
   development: boolean
-  adapters: {
-    uiName: string
-  }
+  uiName: string
 }
 
 export class ExpressServer implements IServerAdapter {
@@ -37,7 +35,7 @@ export class ExpressServer implements IServerAdapter {
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
-    this.express.use(express.static(path.join(__dirname, '../../../client')))
+    this.express.use(express.static(path.join(__dirname, '../../../dist/client')))
     this.app = app
   }
 
@@ -120,7 +118,7 @@ export class ExpressServer implements IServerAdapter {
           page: PageMapper.toDto(page),
           params: req.params,
           tables: TableMapper.toDtos(this.app.tables),
-          adapters: { uiName: this._uiName },
+          uiName: this._uiName,
           development: this._development,
         }
         const html = `

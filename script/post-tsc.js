@@ -12,6 +12,7 @@ const ALIAS_MAP = {
   '@infrastructure/': path.resolve(OUTPUT_DIR, 'server/infrastructure') + '/',
   '@application/': path.resolve(OUTPUT_DIR, 'server/application') + '/',
   '@adapter/': path.resolve(OUTPUT_DIR, 'server/adapter') + '/',
+  '../../../dist/client': path.resolve(OUTPUT_DIR, 'client') + '/',
 }
 
 function replaceAliasesWithRelativePaths(filePath) {

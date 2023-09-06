@@ -30,8 +30,8 @@ function getUI(uiName: string) {
 }
 
 ;(async () => {
-  const { page: pageDto, tables, params, adapters, development } = window.__FOUNDATION_DATA__
-  const app = AppMapper.toEntity({ pages: [pageDto], tables }, { ui: getUI(adapters.uiName) })
+  const { page: pageDto, tables, params, uiName, development } = window.__FOUNDATION_DATA__
+  const app = AppMapper.toEntity({ pages: [pageDto], tables }, { ui: getUI(uiName) })
   const page = app.getPageByPath(pageDto.path)
   const fetcherAdapter = new NativeFetcher(window.location.origin)
   const fetcherSpi = new FetcherSpi(fetcherAdapter, app)

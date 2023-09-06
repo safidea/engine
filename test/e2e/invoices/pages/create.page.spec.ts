@@ -7,7 +7,7 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     const port = 50100
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     await page.goto(helpers.getUrl(port, '/create'))
@@ -21,7 +21,7 @@ test.describe('A page that create an invoice', () => {
     // An invoicing app with a create page and an invoice
     const port = 50101
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
       invoices_items: items,
@@ -123,7 +123,7 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50103
-    const engine = new Engine({ adapters: { orm, storage, converter }, port, folder })
+    const engine = new Engine({ orm, storage, converter, port, folder })
     await engine.config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],

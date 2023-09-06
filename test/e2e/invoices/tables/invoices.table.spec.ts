@@ -7,7 +7,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // GIVEN
     const port = 50501
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const { invoices } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices', 2)
 
     // WHEN
@@ -27,7 +27,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // We provide 3 invoices and we get only 2 ids
     const port = 50502
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const { invoices } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', 3)
     const ids = invoices.map((i: RecordDto) => i.id)
     const filteredIds = ids.slice(0, 2)
@@ -56,7 +56,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // We provide an invoice
     const port = 50503
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -87,7 +87,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // We provide an invoice
     const port = 50504
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')
@@ -107,7 +107,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // GIVEN
     const port = 50505
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -140,7 +140,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // GIVEN
     const port = 50506
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
@@ -181,7 +181,7 @@ test.describe('An api that render error messages', () => {
     // We provide an app with tables
     const port = 50507
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     // I make a GET request on an unknown table
@@ -202,7 +202,7 @@ test.describe('An api that render error messages', () => {
     // We provide an app with tables
     const port = 50508
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     // I make a GET request on an unknown row
@@ -219,7 +219,7 @@ test.describe('An api that render error messages', () => {
     // We provide an app with tables
     const port = 50509
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
 
     // WHEN
     // I make a POST request with an invalid row
@@ -239,7 +239,7 @@ test.describe('An api that render error messages', () => {
     // We provide an app with tables
     const port = 50510
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices: [invoice],
     } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
@@ -265,7 +265,7 @@ test.describe('An api that render error messages', () => {
     // We provide an app with tables
     const port = 50511
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, adapters: { orm } }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
     const {
       invoices_items: [item],
     } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices', [

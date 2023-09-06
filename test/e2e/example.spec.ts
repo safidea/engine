@@ -4,7 +4,7 @@ test.describe('Specs examples', () => {
   test('A page can display a text', async ({ page, orm, folder }) => {
     // GIVEN
     const port = 50601
-    await new Engine({ port, folder, adapters: { orm } })
+    await new Engine({ port, folder, orm })
       .config({
         pages: [
           {
@@ -30,7 +30,7 @@ test.describe('Specs examples', () => {
   test('A table can store a record', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50602
-    await new Engine({ port, folder, adapters: { orm } })
+    await new Engine({ port, folder, orm })
       .config({
         tables: [
           {
