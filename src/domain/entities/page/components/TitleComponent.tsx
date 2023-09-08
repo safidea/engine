@@ -2,35 +2,35 @@ import React from 'react'
 import { BaseComponent } from './BaseComponent'
 import { TitleUI } from '../../../spi/ui/TitleUI'
 
-type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type Size = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
 export interface TitleProps {
   size: Size
   text: string
   UI: TitleUI
 }
 
-export function TitleComponent({ size, text, UI }: TitleProps) {
+export function Title({ size, text, UI }: TitleProps) {
   switch (size) {
-    case 'xs':
+    case 'extra-small':
       return <UI.xs>{text}</UI.xs>
-    case 'sm':
+    case 'small':
       return <UI.sm>{text}</UI.sm>
-    case 'md':
+    case 'medium':
       return <UI.md>{text}</UI.md>
-    case 'lg':
+    case 'large':
       return <UI.lg>{text}</UI.lg>
-    case 'xl':
+    case 'extra-large':
       return <UI.xl>{text}</UI.xl>
     default:
       return <UI.md>{text}</UI.md>
   }
 }
 
-export class Title extends BaseComponent {
+export class TitleComponent extends BaseComponent {
   constructor(
     private readonly _text: string,
     private readonly _ui: TitleUI,
-    private readonly _size: Size = 'md'
+    private readonly _size: Size = 'medium'
   ) {
     super('title')
   }
@@ -44,6 +44,6 @@ export class Title extends BaseComponent {
   }
 
   renderUI() {
-    return () => <TitleComponent UI={this._ui} text={this.text} size={this.size} />
+    return () => <Title UI={this._ui} text={this.text} size={this.size} />
   }
 }

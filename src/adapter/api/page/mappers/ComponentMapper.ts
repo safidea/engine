@@ -6,7 +6,7 @@ import { ParagraphMapper } from './components/ParagraphMapper'
 import { TitleMapper } from './components/TitleMapper'
 import { Link } from '@domain/entities/page/components/Link'
 import { Paragraph } from '@domain/entities/page/components/Paragraph'
-import { Title } from '@domain/entities/page/components/Title'
+import { TitleComponent } from '@domain/entities/page/components/TitleComponent'
 import { Navigation } from '@domain/entities/page/components/Navigation'
 import { List } from '@domain/entities/page/components/List'
 import { Table } from '@domain/entities/table/Table'
@@ -14,6 +14,8 @@ import { Form } from '@domain/entities/page/components/Form'
 import { FormMapper } from './components/FormMapper'
 import { LinkMapper } from './components/LinkMapper'
 import { ComponentDto } from '../dtos/ComponentDto'
+import { ContainerComponentMapper } from './components/ContainerComponentMapper'
+import { ContainerComponent } from '@domain/entities/page/components/ContainerComponent'
 
 export interface ComponentMapperSpis {
   ui?: IUISpi
@@ -46,6 +48,9 @@ export class ComponentMapper {
     if (type === 'form') {
       return FormMapper.toEntity(componentDto, ui, tables)
     }
+    if (type === 'container') {
+      return ContainerComponentMapper.toEntity(componentDto, tables, spis)
+    }
     throw new Error(`Invalid component type ${type}`)
   }
 
@@ -56,7 +61,7 @@ export class ComponentMapper {
     if (component instanceof Paragraph) {
       return ParagraphMapper.toDto(component)
     }
-    if (component instanceof Title) {
+    if (component instanceof TitleComponent) {
       return TitleMapper.toDto(component)
     }
     if (component instanceof Navigation) {
@@ -67,6 +72,9 @@ export class ComponentMapper {
     }
     if (component instanceof Form) {
       return FormMapper.toDto(component)
+    }
+    if (component instanceof ContainerComponent) {
+      return ContainerComponentMapper.toDto(component)
     }
     throw new Error(`Invalid component instance ${component}`)
   }

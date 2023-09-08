@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseComponent } from './BaseComponent'
 import { Link } from './Link'
-import { Title } from './Title'
+import { TitleComponent } from './TitleComponent'
 import { Component } from '../Component'
 import { NavigationUI } from '../../../spi/ui/NavigationUI'
 
@@ -40,7 +40,7 @@ export function NavigationComponent({
 
 export class Navigation extends BaseComponent {
   constructor(
-    private readonly _title: Title,
+    private readonly _title: TitleComponent,
     private readonly _links: Link[],
     private readonly _components: Component[],
     private readonly _ui: NavigationUI
@@ -48,7 +48,7 @@ export class Navigation extends BaseComponent {
     super('navigation')
   }
 
-  get title(): Title {
+  get title(): TitleComponent {
     return this._title
   }
 

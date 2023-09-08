@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import TitleTailwindUI from '@infrastructure/ui/TailwindUI/TitleTailwindUI'
-import { TitleComponent } from '@domain/entities/page/components/Title'
+import { Title } from '@domain/entities/page/components/TitleComponent'
 
-const meta: Meta<typeof TitleComponent> = {
+const meta: Meta<typeof Title> = {
   title: 'Tailwind/Title',
-  component: ({ text, size }) => <TitleComponent text={text} size={size} UI={TitleTailwindUI} />,
+  component: ({ text, size }) => <Title text={text} size={size} UI={TitleTailwindUI} />,
   args: {
     text: 'This is a title',
-    size: 'md',
+    size: 'medium',
   },
   argTypes: {
     text: {
@@ -26,30 +26,30 @@ type Story = StoryObj<typeof meta>
 
 export const ExtraSmall: Story = {
   args: {
-    size: 'xs',
+    size: 'extra-small',
   },
 }
 
 export const Small: Story = {
   args: {
-    size: 'sm',
+    size: 'small',
   },
 }
 
 export const Medium: Story = {
   args: {
-    size: 'md',
+    size: 'medium',
   },
 }
 
 export const Large: Story = {
   args: {
-    size: 'lg',
+    size: 'large',
   },
 }
 
 export const ExtraLarge: Story = {
   args: {
-    size: 'xl',
+    size: 'extra-large',
   },
 }

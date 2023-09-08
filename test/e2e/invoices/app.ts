@@ -165,7 +165,7 @@ const APP: AppDto = {
           type: 'navigation',
           title: {
             type: 'title',
-            size: 'md',
+            size: 'medium',
             text: 'Factures',
           },
           links: [
@@ -183,7 +183,7 @@ const APP: AppDto = {
           components: [
             {
               type: 'title',
-              size: 'xl',
+              size: 'extra-large',
               text: 'Toutes les factures',
             },
             {
@@ -282,7 +282,7 @@ const APP: AppDto = {
           type: 'navigation',
           title: {
             type: 'title',
-            size: 'md',
+            size: 'medium',
             text: 'Factures',
           },
           links: [
@@ -300,7 +300,7 @@ const APP: AppDto = {
           components: [
             {
               type: 'title',
-              size: 'xl',
+              size: 'extra-large',
               text: 'Créer une facture',
             },
             {
@@ -383,7 +383,7 @@ const APP: AppDto = {
           type: 'navigation',
           title: {
             type: 'title',
-            size: 'md',
+            size: 'medium',
             text: 'Factures',
           },
           links: [
@@ -402,7 +402,7 @@ const APP: AppDto = {
             {
               type: 'title',
               text: "Mise à jour d'une facture",
-              size: 'xl',
+              size: 'extra-large',
             },
             {
               type: 'form',

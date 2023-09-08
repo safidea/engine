@@ -1,13 +1,13 @@
-import { TitleDto } from '@adapter/api/page/dtos/components/TitleDto'
-import { Title } from '@domain/entities/page/components/Title'
+import { TitleComponentDto } from '@adapter/api/page/dtos/components/TitleComponentDto'
+import { TitleComponent } from '@domain/entities/page/components/TitleComponent'
 import { IUISpi } from '@domain/spi/IUISpi'
 
 export class TitleMapper {
-  static toEntity(titleDto: TitleDto, ui: IUISpi): Title {
-    return new Title(titleDto.text, ui.TitleUI, titleDto.size)
+  static toEntity(titleDto: TitleComponentDto, ui: IUISpi): TitleComponent {
+    return new TitleComponent(titleDto.text, ui.TitleUI, titleDto.size)
   }
 
-  static toDto(title: Title): TitleDto {
+  static toDto(title: TitleComponent): TitleComponentDto {
     return {
       type: 'title',
       text: title.text,
@@ -15,11 +15,11 @@ export class TitleMapper {
     }
   }
 
-  static toEntities(titleDtos: TitleDto[], ui: IUISpi): Title[] {
+  static toEntities(titleDtos: TitleComponentDto[], ui: IUISpi): TitleComponent[] {
     return titleDtos.map((titleDto) => this.toEntity(titleDto, ui))
   }
 
-  static toDtos(titles: Title[]): TitleDto[] {
+  static toDtos(titles: TitleComponent[]): TitleComponentDto[] {
     return titles.map((title) => this.toDto(title))
   }
 }

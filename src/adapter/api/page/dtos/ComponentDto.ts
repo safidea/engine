@@ -4,9 +4,20 @@ import { LinkDto, LinkDtoSchema } from './components/LinkDto'
 import { ListDto, ListDtoSchema } from './components/ListDto'
 import { NavigationDto, NavigationDtoSchema } from './components/NavigationDto'
 import { ParagraphDto, ParagraphDtoSchema } from './components/ParagraphDto'
-import { TitleDto, TitleDtoSchema } from './components/TitleDto'
+import { TitleComponentDto, TitleComponentDtoSchema } from './components/TitleComponentDto'
+import {
+  ContainerComponentDto,
+  ContainerComponentDtoSchema,
+} from './components/ContainerComponentDto'
 
-export type ComponentDto = LinkDto | ParagraphDto | NavigationDto | TitleDto | ListDto | FormDto
+export type ComponentDto =
+  | LinkDto
+  | ParagraphDto
+  | NavigationDto
+  | TitleComponentDto
+  | ListDto
+  | FormDto
+  | ContainerComponentDto
 
 export const ComponentDtoSchema: JSONSchemaType<ComponentDto> = {
   $id: 'https://example.com/component.json',
@@ -14,8 +25,9 @@ export const ComponentDtoSchema: JSONSchemaType<ComponentDto> = {
     LinkDtoSchema,
     ParagraphDtoSchema,
     NavigationDtoSchema,
-    TitleDtoSchema,
+    TitleComponentDtoSchema,
     ListDtoSchema,
     FormDtoSchema,
+    ContainerComponentDtoSchema,
   ],
 }

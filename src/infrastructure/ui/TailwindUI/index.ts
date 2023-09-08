@@ -9,6 +9,7 @@ import TableInputTailwindUI from './TableInputTailwindUI'
 import TextInputTailwindUI from './TextInputTailwindUI'
 import SingleSelectRecordInputTailwindUI from './SingleSelectRecordInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
+import ContainerTailwindUI from './ContainerTailwindUI'
 
 const TailwindUI: IUISpi = {
   name: 'TailwindUI',
@@ -22,6 +23,7 @@ const TailwindUI: IUISpi = {
   TableInputUI: TableInputTailwindUI,
   SingleSelectRecordInputUI: SingleSelectRecordInputTailwindUI,
   SingleSelectInputUI: SingleSelectInputTailwindUI,
+  ContainerUI: ContainerTailwindUI,
 }
 
 export default TailwindUI

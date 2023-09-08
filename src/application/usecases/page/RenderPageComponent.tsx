@@ -1,3 +1,4 @@
+import React from 'react'
 import { Component } from '@domain/entities/page/Component'
 import { List } from '@domain/entities/page/components/List'
 import { Navigation } from '@domain/entities/page/components/Navigation'
@@ -8,6 +9,7 @@ import { Form } from '@domain/entities/page/components/Form'
 import { Context } from '@domain/entities/page/Context'
 import { IFetcherSpi } from '@domain/spi/IFetcherSpi'
 import { App } from '@domain/entities/app/App'
+import { ContainerComponent } from '@domain/entities/page/components/ContainerComponent'
 
 export class RenderPageComponent {
   constructor(
@@ -27,6 +29,12 @@ export class RenderPageComponent {
     if (component instanceof Form) {
       const renderPageForm = new RenderPageForm(this.fetcherSpi, this.app)
       return renderPageForm.execute(component, context)
+    }
+    if (component instanceof ContainerComponent) {
+      const children = await Promise.all(
+        component.components.map(async (component) => this.execute(component, context))
+      )
+      return component.renderUI(children.map((Child, index) => <Child key={index} />))
     }
     return component.renderUI()
   }
