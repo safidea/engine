@@ -1,7 +1,7 @@
 import { test, expect, helpers, Engine } from '../utils/e2e/fixtures'
 
 test.describe('Specs examples', () => {
-  test('A page can display a text', async ({ page, orm, folder }) => {
+  test('should display a text', async ({ page, orm, folder }) => {
     // GIVEN
     const port = 50601
     await new Engine({ port, folder, orm })
@@ -27,7 +27,7 @@ test.describe('Specs examples', () => {
     await expect(page.getByText('Hello World!')).toBeVisible()
   })
 
-  test('A table can store a record', async ({ request, orm, folder }) => {
+  test('should store a record', async ({ request, orm, folder }) => {
     // GIVEN
     const port = 50602
     await new Engine({ port, folder, orm })
