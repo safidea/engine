@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import { FileStorage } from '@infrastructure/storage/FileStorage'
+import { FileStorage } from '@drivers/storage/FileStorage'
 import INVOICES_TEMPLATE from '../app'
 
 test.describe('An automation that update an invoice document from a template', () => {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import ParagraphTailwindUI from '@infrastructure/ui/TailwindUI/ParagraphTailwindUI'
-import { ParagraphComponent } from '@domain/entities/page/components/Paragraph'
+import ParagraphTailwindUI from '@drivers/ui/TailwindUI/ParagraphTailwindUI'
+import { ParagraphComponent } from '@entities/app/page/components/Paragraph'
 
 const meta: Meta<typeof ParagraphComponent> = {
   title: 'Tailwind/Paragraph',

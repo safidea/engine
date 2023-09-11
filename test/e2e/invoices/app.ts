@@ -1,4 +1,4 @@
-import { AppDto } from '@adapter/api/app/AppDto'
+import { AppDto } from '@adapters/api/app/AppDto'
 
 const INVOICE_FIELD_PERMISSIONS = {
   update: {

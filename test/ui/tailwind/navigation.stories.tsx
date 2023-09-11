@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import LinkTailwindUI from '@infrastructure/ui/TailwindUI/LinkTailwindUI'
-import TitleTailwindUI from '@infrastructure/ui/TailwindUI/TitleTailwindUI'
-import NavigationTailwindUI from '@infrastructure/ui/TailwindUI/NavigationTailwindUI'
-import { NavigationComponent } from '@domain/entities/page/components/Navigation'
-import { Title } from '@domain/entities/page/components/TitleComponent'
-import { LinkComponent } from '@domain/entities/page/components/Link'
+import LinkTailwindUI from '@drivers/ui/TailwindUI/LinkTailwindUI'
+import TitleTailwindUI from '@drivers/ui/TailwindUI/TitleTailwindUI'
+import NavigationTailwindUI from '@drivers/ui/TailwindUI/NavigationTailwindUI'
+import { NavigationComponent } from '@entities/app/page/components/Navigation'
+import { Title } from '@entities/app/page/components/TitleComponent'
+import { LinkComponent } from '@entities/app/page/components/Link'
 
 const SmallTitle = () => <Title text="title" size="small" UI={TitleTailwindUI} />
 const BigTitle = () => <Title text="title" size="large" UI={TitleTailwindUI} />

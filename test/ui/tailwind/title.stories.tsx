@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import TitleTailwindUI from '@infrastructure/ui/TailwindUI/TitleTailwindUI'
-import { Title } from '@domain/entities/page/components/TitleComponent'
+import TitleTailwindUI from '@drivers/ui/TailwindUI/TitleTailwindUI'
+import { Title } from '@entities/app/page/components/TitleComponent'
 
 const meta: Meta<typeof Title> = {
   title: 'Tailwind/Title',

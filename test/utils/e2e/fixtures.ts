@@ -3,9 +3,9 @@ import { test as base, expect } from '@playwright/test'
 import Engine from '../../../src'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
-import { JsonOrm } from '@infrastructure/orm/JsonOrm'
-import { FileStorage } from '@infrastructure/storage/FileStorage'
-import { Converter } from '@infrastructure/converter/Converter'
+import { JsonOrm } from '@drivers/orm/JsonOrm'
+import { FileStorage } from '@drivers/storage/FileStorage'
+import { Converter } from '@drivers/converter/Converter'
 
 const log = debug('engine:specs')
 

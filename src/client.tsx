@@ -1,12 +1,12 @@
 import React from 'react'
 import { Root, hydrateRoot } from 'react-dom/client'
-import { PageController } from '@adapter/api/page/PageController'
-import { AppMapper } from '@adapter/api/app/AppMapper'
-import { FetcherSpi } from '@adapter/spi/fetcher/FetcherSpi'
-import { NativeFetcher } from '@infrastructure/fetcher/NativeFetcher'
-import * as UI from '@infrastructure/ui'
+import { PageController } from '@adapters/api/page/PageController'
+import { AppMapper } from '@adapters/api/app/AppMapper'
+import { FetcherSpi } from '@adapters/spi/fetcher/FetcherSpi'
+import { NativeFetcher } from '@drivers/fetcher/NativeFetcher'
+import * as UI from '@drivers/ui'
 
-import type { EngineData } from '@infrastructure/server/ExpressServer'
+import type { EngineData } from '@drivers/server/ExpressServer'
 
 declare global {
   interface Window {

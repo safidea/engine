@@ -2,12 +2,12 @@ import { fakerFR as faker } from '@faker-js/faker'
 import { v4 as uuidV4 } from 'uuid'
 import fs from 'fs-extra'
 import { join } from 'path'
-import { TableDto } from '@adapter/api/table/dtos/TableDto'
-import { RecordDto } from '@adapter/spi/orm/dtos/RecordDto'
-import { FieldDto } from '@adapter/api/table/dtos/FieldDto'
-import { IOrmAdapter } from '@adapter/spi/orm/IOrmAdapter'
-import { RecordFieldValue } from '@domain/entities/orm/Record/IRecord'
-import { AppDto } from '@adapter/api/app/AppDto'
+import { TableDto } from '@adapters/api/table/dtos/TableDto'
+import { RecordDto } from '@adapters/spi/orm/dtos/RecordDto'
+import { FieldDto } from '@adapters/api/table/dtos/FieldDto'
+import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
+import { RecordFieldValue } from '@entities/orm/Record/IRecord'
+import { AppDto } from '@adapters/api/app/AppDto'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`

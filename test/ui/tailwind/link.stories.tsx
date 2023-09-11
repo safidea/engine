@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import LinkTailwindUI from '@infrastructure/ui/TailwindUI/LinkTailwindUI'
-import { LinkComponent } from '@domain/entities/page/components/Link'
+import LinkTailwindUI from '@drivers/ui/TailwindUI/LinkTailwindUI'
+import { LinkComponent } from '@entities/app/page/components/Link'
 
 const meta: Meta<typeof LinkComponent> = {
   title: 'Tailwind/Link',
