@@ -1,53 +1,39 @@
-import { Trigger } from './Trigger'
-import { Action } from './Action'
-import { RecordData } from '@entities/orm/Record/IRecord'
-import { UpdateTableRecord } from '@usecases/table/UpdateTableRecord'
-import { ReadTableRecord } from '@usecases/table/ReadTableRecord'
-import { CreateAutomationContextFromRecordId } from '@usecases/automation/CreateAutomationContextFromRecordId'
+import { Trigger, newTrigger } from './Trigger'
+import { RecordData } from '@entities/drivers/database/Record/IRecord'
+import { Tables } from '../Tables'
+import { AppDrivers } from '../App'
+import { Action, newAction } from './Action'
+import { AutomationOptions } from './AutomationOptions'
+
+// TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
 
 export interface AutomationContext {
   [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
 }
 
-// TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
-
-// TODO: remove application usecases from domain and replace by interfaces
-export interface AutomationUseCases {
-  updateTableRecord: UpdateTableRecord
-  readTableRecord: ReadTableRecord
-  createAutomationContextFromRecord: CreateAutomationContextFromRecordId
+export interface AutomationConfig {
+  tables: Tables
 }
 
 export class Automation {
-  constructor(
-    private readonly _name: string,
-    private readonly _trigger: Trigger,
-    private readonly _actions: Action[]
-  ) {}
+  name: string
+  private trigger: Trigger
+  private actions: Action[]
 
-  get name(): string {
-    return this._name
+  constructor(options: AutomationOptions, drivers: AppDrivers, config: AutomationConfig) {
+    const { name, trigger: triggerOptions, actions: actionsOptions } = options
+    this.name = name
+    this.trigger = newTrigger(triggerOptions, drivers, config)
+    this.actions = actionsOptions.map((actionOptions) => newAction(actionOptions, drivers, config))
   }
 
-  get actions(): Action[] {
-    return this._actions
+  async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {
+    return this.trigger.shouldTrigger(event, context)
   }
 
-  get trigger(): Trigger {
-    return this._trigger
-  }
-
-  async shouldTrigger(
-    event: string,
-    context: AutomationContext,
-    usecases: AutomationUseCases
-  ): Promise<boolean> {
-    return this._trigger.shouldTrigger(event, context, usecases)
-  }
-
-  async executeActions(context: AutomationContext, usecases: AutomationUseCases) {
-    for (const action of this._actions) {
-      const result = await action.execute(context, usecases)
+  async executeActions(context: AutomationContext) {
+    for (const action of this.actions) {
+      const result = await action.execute(context)
       context = { ...context, ...result }
     }
   }

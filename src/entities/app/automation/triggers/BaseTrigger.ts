@@ -1,13 +1,40 @@
-export type TriggerEvent = 'record_created' | 'record_updated' | 'server_started' | 'server_stopped'
+import { AppDrivers } from '@entities/app/App'
+import { AutomationConfig } from '../Automation'
+import { BaseTriggerOptions } from './BaseTriggerOptions'
+import { Table } from '@entities/app/table/Table'
+import { TriggerError } from '../TriggerError'
+import { FilterOptions } from '@entities/drivers/database/FilterOptions'
+import { Filter, newFilter } from '@entities/drivers/database/Filter'
 
 export class BaseTrigger {
-  constructor(private _event: TriggerEvent) {}
+  readonly event: string
 
-  get event(): TriggerEvent {
-    return this._event
+  constructor(
+    options: BaseTriggerOptions,
+    readonly drivers: AppDrivers,
+    readonly config: AutomationConfig
+  ) {
+    const { event } = options
+    this.event = event
+  }
+
+  throwError(message: string): never {
+    throw new TriggerError(this.event, message)
+  }
+
+  getTableByName(tableName: string): Table {
+    const table = this.config.tables.getByName(tableName)
+    if (!table) this.throwError(`table ${tableName} not found`)
+    return table
+  }
+
+  getFiltersFromOptions(filtersOptions: FilterOptions[]): Filter[] {
+    return filtersOptions.map((filterOptions: FilterOptions) =>
+      newFilter(filterOptions, this.drivers, this.config)
+    )
   }
 
   shouldTriggerEvent(event: string): boolean {
-    return this._event === event
+    return this.event === event
   }
 }

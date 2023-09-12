@@ -1,6 +1,6 @@
 import { App } from '@entities/app/App'
-import { IOrmSpi } from '@entities/spi/IOrmSpi'
-import { Record } from '@entities/orm/Record'
+import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
+import { Record } from '@entities/drivers/database/Record'
 
 export class SoftDeleteManyTableRecords {
   constructor(

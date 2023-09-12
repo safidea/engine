@@ -1,4 +1,4 @@
-import { Record } from '@entities/orm/Record'
+import { Record } from '@entities/drivers/database/Record'
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 

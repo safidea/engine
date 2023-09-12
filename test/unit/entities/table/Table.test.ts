@@ -1,4 +1,4 @@
-import { FieldMapper } from '@adapters/api/table/mappers/FieldMapper'
+import { FieldMapper } from '@entities/app/table/FieldMapper'
 import { Table } from '@entities/app/table/Table'
 import { describe, test, expect } from '@jest/globals'
 

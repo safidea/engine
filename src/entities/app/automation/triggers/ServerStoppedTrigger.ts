@@ -1,8 +1,12 @@
+import { AppDrivers } from '@entities/app/App'
+import { AutomationConfig } from '../Automation'
 import { BaseTrigger } from './BaseTrigger'
+import { ServerStoppedTriggerOptions } from './ServerStoppedTriggerOptions'
 
 export class ServerStoppedTrigger extends BaseTrigger {
-  constructor() {
-    super('server_stopped')
+  constructor(options: ServerStoppedTriggerOptions, drivers: AppDrivers, config: AutomationConfig) {
+    const { event } = options
+    super({ event }, drivers, config)
   }
 
   shouldTrigger(event: string): boolean {

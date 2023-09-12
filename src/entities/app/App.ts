@@ -3,34 +3,25 @@ import { Page } from './page/Page'
 import { Field } from './table/Field'
 import { Table } from './table/Table'
 
+export interface AppOptions {
+  readonly name: string
+  readonly version: string
+  readonly pages: PageOptions[]
+  readonly tables: TableOptions[]
+  readonly automations: AutomationOptions[]
+}
+
+export interface AppDrivers {
+  readonly templater: ITemplatingSpi
+  readonly converter: IConverterSpi
+  readonly storage: IStorageSpi
+  readonly database: IDatabaseSpi
+  readonly fetcher: IFetcherSpi
+  readonly logger: ILoggerSpi
+}
+
 export class App {
-  constructor(
-    private readonly _name: string = 'My app',
-    private readonly _version: string = '0.0.1',
-    private readonly _pages: Page[] = [],
-    private readonly _tables: Table[] = [],
-    private readonly _automations: Automation[] = []
-  ) {}
-
-  get name(): string {
-    return this._name
-  }
-
-  get version(): string {
-    return this._version
-  }
-
-  get pages(): Page[] {
-    return this._pages
-  }
-
-  get tables(): Table[] {
-    return this._tables
-  }
-
-  get automations(): Automation[] {
-    return this._automations
-  }
+  constructor(options: AppOptions, drivers: AppDrivers) {}
 
   getTableFields(tableName: string): Field[] {
     const table = this.getTableByName(tableName)
@@ -38,7 +29,7 @@ export class App {
   }
 
   getTableByName(tableName: string): Table {
-    const tables = this._tables
+    const tables = this.tables
     if (!tables) throw new Error('Tables not found in app')
     const table = tables.find((t) => t.name === tableName)
     if (!table) throw new Error(`Table ${tableName} not found`)
@@ -46,7 +37,7 @@ export class App {
   }
 
   getPageByPath(path: string): Page {
-    const pages = this._pages
+    const pages = this.pages
     if (!pages) throw new Error('Pages not found in app')
     const page = pages.find((p) => this.matchPath(p.path, path))
     if (!page) throw new Error(`Page ${path} not found`)

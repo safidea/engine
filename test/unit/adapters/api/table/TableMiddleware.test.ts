@@ -1,5 +1,5 @@
 import { AppMapper } from '@adapters/api/app/AppMapper'
-import { TableMiddleware } from '@adapters/api/table/TableMiddleware'
+import { TableMiddleware } from '@adapters/validators/TableMiddleware'
 import UnstyledUI from '@drivers/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
 

@@ -1,7 +1,7 @@
 import { join } from 'path'
 import fs from 'fs-extra'
-import { IStorageSpi } from '@entities/spi/IStorageSpi'
-import { File } from '@entities/storage/File'
+import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
+import { File } from '@entities/drivers/storage/File'
 
 export class FileStorage implements IStorageSpi {
   private storageUrl: string

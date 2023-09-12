@@ -6,8 +6,8 @@ import { JsonOrm } from '@drivers/orm/JsonOrm'
 import UnstyledUI from '@drivers/ui/UnstyledUI'
 import { helpers, describe, test, expect } from '../../../utils/unit/fixtures'
 import { FilterMapper } from '@adapters/spi/orm/mappers/FilterMapper'
-import { Filter } from '@entities/orm/Filter'
-import { Record } from '@entities/orm/Record'
+import { Filter } from '@entities/drivers/database/Filter'
+import { Record } from '@entities/drivers/database/Record'
 
 describe('SyncTableRecords', () => {
   test('should sync a created record', async () => {

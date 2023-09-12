@@ -1,46 +1,37 @@
-import { Filter } from '@entities/orm/Filter'
-import { AutomationContext, AutomationUseCases } from '../Automation'
+import { Filter } from '@entities/drivers/database/Filter'
+import { AutomationConfig, AutomationContext } from '../Automation'
 import { BaseTrigger } from './BaseTrigger'
-import { IsFilter } from '@entities/orm/filters/IsFilter'
+import { IsFilter } from '@entities/drivers/database/filters/IsFilter'
+import { RecordUpdatedTriggerOptions } from './RecordUpdatedTriggerOptions'
+import { AppDrivers } from '@entities/app/App'
+import { Table } from 'src'
 
 export class RecordUpdatedTrigger extends BaseTrigger {
-  constructor(
-    private _table: string,
-    private _fields: string[] = [],
-    private _filters: Filter[] = []
-  ) {
-    super('record_updated')
+  private table: Table
+  private filters: Filter[]
+  private fields: string[] = []
+
+  constructor(options: RecordUpdatedTriggerOptions, drivers: AppDrivers, config: AutomationConfig) {
+    const { event, table: tableName, fields = [], filters = [] } = options
+    super({ event }, drivers, config)
+    this.table = this.getTableByName(tableName)
+    this.filters = this.getFiltersFromOptions(filters)
+    this.fields = fields
   }
 
-  get table(): string {
-    return this._table
-  }
-
-  get fields(): string[] {
-    return this._fields
-  }
-
-  get filters(): Filter[] {
-    return this._filters
-  }
-
-  async shouldTrigger(
-    event: string,
-    context: AutomationContext,
-    { readTableRecord }: AutomationUseCases
-  ): Promise<boolean> {
+  async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {
     if (!super.shouldTriggerEvent(event)) return false
-    if (context.table !== this._table) return false
-    if (this._fields.length > 0 && Array.isArray(context.updatedFields)) {
+    if (context.table !== this.table.name) return false
+    if (this.fields.length > 0 && Array.isArray(context.updatedFields)) {
       for (const field of context.updatedFields ?? []) {
-        if (!this._fields.includes(String(field))) {
+        if (!this.fields.includes(String(field))) {
           return false
         }
       }
     }
-    if ('id' in context && this._filters.length > 0) {
-      const record = await readTableRecord.execute(this._table, String(context.id))
-      for (const filter of this._filters) {
+    if ('id' in context && this.filters.length > 0) {
+      const record = await this.drivers.database.read(this.table, String(context.id))
+      for (const filter of this.filters) {
         if (filter instanceof IsFilter && filter.value !== record.getFieldValue(filter.field)) {
           return false
         }

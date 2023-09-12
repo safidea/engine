@@ -6,8 +6,8 @@ import { TableDto } from '@adapters/api/table/dtos/TableDto'
 import { RecordDto } from '@adapters/spi/orm/dtos/RecordDto'
 import { FieldDto } from '@adapters/api/table/dtos/FieldDto'
 import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
-import { RecordFieldValue } from '@entities/orm/Record/IRecord'
-import { AppDto } from '@adapters/api/app/AppDto'
+import { RecordFieldValue } from '@entities/drivers/database/Record/IRecord'
+import { AppDto } from '@entities/app/AppDto'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`

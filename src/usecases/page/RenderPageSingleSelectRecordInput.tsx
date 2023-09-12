@@ -1,5 +1,5 @@
 import React from 'react'
-import { IFetcherSpi } from '@entities/spi/IFetcherSpi'
+import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { SingleSelectRecordInput } from '@entities/app/page/components/inputs/SingleSelectRecordInput'
 import { BaseInputProps } from '@entities/app/page/components/inputs/BaseInput'
 

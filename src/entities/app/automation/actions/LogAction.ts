@@ -1,20 +1,18 @@
-import { ILoggerSpi } from '@entities/spi/ILoggerSpi'
 import { BaseAction } from './BaseAction'
+import { LogActionOptions } from './LogActionOptions'
+import { AppDrivers } from '@entities/app/App'
+import { AutomationConfig } from '../Automation'
 
 export class LogAction extends BaseAction {
-  constructor(
-    name: string,
-    private _message: string,
-    private logger: ILoggerSpi
-  ) {
-    super(name, 'log')
-  }
+  message: string
 
-  get message(): string {
-    return this._message
+  constructor(options: LogActionOptions, drivers: AppDrivers, config: AutomationConfig) {
+    const { name, type, message } = options
+    super({ name, type }, drivers, config)
+    this.message = message
   }
 
   execute() {
-    this.logger(this._message)
+    this.drivers.logger(this.message)
   }
 }

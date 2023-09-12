@@ -1,4 +1,4 @@
-import { IUISpi } from '@entities/spi/IUISpi'
+import { IUISpi } from '@entities/app/page/IUISpi'
 import LinkUnstyledUI from './LinkUnstyledUI'
 import ParagraphUnstyledUI from './ParagraphUnstyledUI'
 import TitleUnstyledUI from './TitleUnstyledUI'

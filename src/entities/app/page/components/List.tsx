@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { BaseComponent } from './BaseComponent'
-import { Record } from '@entities/orm/Record'
+import { Record } from '@entities/drivers/database/Record'
 import { Field } from '@entities/app/table/Field'
 import { Table } from '@entities/app/table/Table'
 import { ListUI } from '../../../spi/ui/ListUI'

@@ -1,5 +1,5 @@
 import { AppMapper } from '@adapters/api/app/AppMapper'
-import { TableRoutes } from '@adapters/api/table/TableRoutes'
+import { TableRoutes } from '@adapters/controllers/TableRoutes'
 import { JsonOrm } from '@drivers/orm/JsonOrm'
 import UnstyledUI from '@drivers/ui/UnstyledUI'
 import { describe, test, expect, helpers } from '../../../../utils/unit/fixtures'

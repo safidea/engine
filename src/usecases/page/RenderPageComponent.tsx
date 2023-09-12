@@ -7,7 +7,7 @@ import { RenderPageNavigation } from './RenderPageNavigation'
 import { RenderPageForm } from './RenderPageForm'
 import { Form } from '@entities/app/page/components/Form'
 import { Context } from '@entities/app/page/Context'
-import { IFetcherSpi } from '@entities/spi/IFetcherSpi'
+import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { App } from '@entities/app/App'
 import { ContainerComponent } from '@entities/app/page/components/ContainerComponent'
 

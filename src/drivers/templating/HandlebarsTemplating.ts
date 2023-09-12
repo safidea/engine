@@ -1,4 +1,4 @@
-import { ITemplatingSpi } from '@entities/spi/ITemplatingSpi'
+import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import Handlebars from 'handlebars'
 import { DateTime } from 'luxon'
 

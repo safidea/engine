@@ -1,4 +1,4 @@
-import { PageMiddleware } from '@adapters/api/page/PageMiddleware'
+import { PageMiddleware } from '@adapters/validators/PageMiddleware'
 import { AppMapper } from '@adapters/api/app/AppMapper'
 import UnstyledUI from '@drivers/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'

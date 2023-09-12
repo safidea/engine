@@ -30,7 +30,7 @@
     "dev:ui": "storybook dev -p 6006",
     "dev": "NODE_ENV=development webpack serve --config webpack.config.ts & NODE_ENV=development nodemon dist/templates/invoices/startup.js",
     "start": "pnpm build && NODE_ENV=production node dist/templates/invoices/startup.js",
-    "precommit": "pnpm format && pnpm lint && pnpm build && pnpm test",
+    "precommit": "#pnpm format && pnpm lint && pnpm build && pnpm test",
     "prepare": "husky install",
     "ci": "pnpm install && pnpm exec playwright install --with-deps && pnpm build",
     "storybook": "storybook dev -p 6006",

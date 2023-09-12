@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/spi/IUISpi'
+import { IUISpi } from '@entities/app/page/IUISpi'
 
 const ContainerTailwindUI: IUISpi['ContainerUI'] = {
   // TODO: styled the component for Tailwind

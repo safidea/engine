@@ -1,6 +1,6 @@
 import React from 'react'
 import { List } from '@entities/app/page/components/List'
-import { IFetcherSpi } from '@entities/spi/IFetcherSpi'
+import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 
 export class RenderPageList {
   constructor(private fetcherSpi: IFetcherSpi) {}

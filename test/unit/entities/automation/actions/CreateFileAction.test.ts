@@ -1,6 +1,6 @@
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
-import { ActionMapper } from '@adapters/api/automation/mappers/ActionMapper'
+import { ActionMapper } from '@entities/app/automation/ActionMapper'
 import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
 
 describe('CreateFileAction', () => {

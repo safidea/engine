@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/spi/IUISpi'
+import { IUISpi } from '@entities/app/page/IUISpi'
 
 const SingleSelectRecordInputUnstyledUI: IUISpi['SingleSelectRecordInputUI'] = {
   label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,

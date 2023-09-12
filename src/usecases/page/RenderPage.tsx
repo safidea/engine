@@ -2,7 +2,7 @@ import React from 'react'
 import { Page } from '@entities/app/page/Page'
 import { RenderPageComponent } from './RenderPageComponent'
 import { Context } from '@entities/app/page/Context'
-import { IFetcherSpi } from '@entities/spi/IFetcherSpi'
+import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { App } from '@entities/app/App'
 
 export class RenderPage {

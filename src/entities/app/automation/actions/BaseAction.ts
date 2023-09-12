@@ -1,17 +1,38 @@
-export type ActionType = 'log' | 'update_record' | 'create_file' | 'find_record'
+import { AppDrivers } from '@entities/app/App'
+import { BaseActionOptions } from './BaseActionOptions'
+import { AutomationConfig, AutomationContext } from '../Automation'
+import { MultipleLinkedRecordsField } from '@entities/app/table/fields/MultipleLinkedRecordsField'
+import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
+import { ActionError } from '../ActionError'
+import { Table } from '@entities/app/table/Table'
 
 export class BaseAction {
-  constructor(
-    private _name: string,
-    private _type: ActionType
-  ) {}
+  readonly name: string
+  readonly type: string
 
-  get name(): string {
-    return this._name
+  constructor(
+    options: BaseActionOptions,
+    protected readonly drivers: AppDrivers,
+    protected readonly config: AutomationConfig
+  ) {
+    const { name, type } = options
+    this.name = name
+    this.type = type
   }
 
-  get type(): ActionType {
-    return this._type
+  throwError(message: string): never {
+    throw new ActionError(this.name, this.type, message)
+  }
+
+  getTableByName(tableName: string): Table {
+    const table = this.config.tables.getByName(tableName)
+    if (!table) this.throwError(`table ${tableName} not found`)
+    return table
+  }
+
+  tableFieldShouldExist(table: Table, fieldName: string): void {
+    if (!table.fields.some((f) => f.name === fieldName))
+      this.throwError(`field ${fieldName} not found in table ${table.name}`)
   }
 
   getValueFromPath(obj: unknown, path: string): unknown {
@@ -26,5 +47,21 @@ export class BaseAction {
       }
     }
     return obj
+  }
+
+  async createContextFromRecord(table: Table, id: string): Promise<AutomationContext> {
+    const context: AutomationContext = { table: table.name }
+    const record = await this.drivers.database.read(table, id)
+    context.data = { ...record.toDto() }
+    for (const field of table.fields) {
+      if (field instanceof MultipleLinkedRecordsField) {
+        const ids = record.getMultipleLinkedRecordsValue(field.name)
+        const linkedRecords = await this.drivers.database.list(field.table, [
+          new IsAnyOfFilter('id', ids),
+        ])
+        context.data[field.name] = linkedRecords.map((record) => record.toDto())
+      }
+    }
+    return context
   }
 }

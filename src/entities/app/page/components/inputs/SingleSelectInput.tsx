@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseInput, BaseInputProps } from './BaseInput'
-import { SingleSelectInputUI } from '../../../../spi/ui/inputs/SingleSelectInputUI'
+import { SingleSelectInputUI } from '../SingleSelectInputUI'
 
 export interface SingleSelectInputOption {
   label: string

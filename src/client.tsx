@@ -1,6 +1,6 @@
 import React from 'react'
 import { Root, hydrateRoot } from 'react-dom/client'
-import { PageController } from '@adapters/api/page/PageController'
+import { PageController } from '@adapters/controllers/PageController'
 import { AppMapper } from '@adapters/api/app/AppMapper'
 import { FetcherSpi } from '@adapters/spi/fetcher/FetcherSpi'
 import { NativeFetcher } from '@drivers/fetcher/NativeFetcher'

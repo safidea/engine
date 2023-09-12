@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigation } from '@entities/app/page/components/Navigation'
 import { RenderPageComponent } from './RenderPageComponent'
 import { Context } from '@entities/app/page/Context'
-import { IFetcherSpi } from '@entities/spi/IFetcherSpi'
+import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { App } from '@entities/app/App'
 
 export class RenderPageNavigation {

@@ -3,9 +3,9 @@ import { RollupField } from '@entities/app/table/fields/RollupField'
 import { FormulaField } from '@entities/app/table/fields/FormulaField'
 import { MultipleLinkedRecordsField } from '@entities/app/table/fields/MultipleLinkedRecordsField'
 import { App } from '@entities/app/App'
-import { IOrmSpi } from '@entities/spi/IOrmSpi'
-import { Record } from '@entities/orm/Record'
-import { IsAnyOfFilter } from '@entities/orm/filters/IsAnyOfFilter'
+import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
+import { Record } from '@entities/drivers/database/Record'
+import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
 import { Script } from '@entities/app/Script'
 
 export class ReadTableRecord {

@@ -1,7 +1,7 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 import { PuppeteerHtmlToPdfConverter } from './HtmlToPdfConverter/PuppeteerHtmlToPdfConverter'
-import { IConverterSpi } from '@entities/spi/IConverterSpi'
+import { IConverterSpi } from '@entities/drivers/converter/IConverterSpi'
 import { IHtmlToPdfConverter } from './HtmlToPdfConverter/IHtmlToPdfConverter'
 
 export interface ConverterOptions {

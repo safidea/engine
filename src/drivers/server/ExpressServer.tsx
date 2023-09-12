@@ -4,13 +4,13 @@ import { Server } from 'http'
 import ReactDOMServer from 'react-dom/server'
 import path from 'path'
 import fs from 'fs-extra'
-import { IServerAdapter, ApiRoute, PageRoute } from '@adapters/spi/server/IServerAdapter'
+import { IServerAdapter, ApiRoute, PageRoute } from '@entities/drivers/server/IServerAdapter'
 import { App } from '@entities/app/App'
-import { RequestDto, RequestQueryDto } from '@adapters/spi/server/dtos/RequestDto'
+import { RequestDto, RequestQueryDto } from '@entities/drivers/server/RequestDto'
 import { PageMapper } from '@adapters/api/page/mappers/PageMapper'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 import { TableDto } from '@adapters/api/table/dtos/TableDto'
-import { PageDto } from '@adapters/api/page/dtos/PageDto'
+import { PageDto } from '@entities/app/page/PageDto'
 
 export interface EngineData {
   page: PageDto
