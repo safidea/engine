@@ -1,8 +1,8 @@
 import { Field } from './Field'
-import { DatetimeField } from './fields/DatetimeField'
-import { MultipleLinkedRecordsField } from './fields/MultipleLinkedRecordsField'
-import { SingleLineTextField } from './fields/SingleLineTextField'
-import { SingleLinkedRecordField } from './fields/SingleLinkedRecordField'
+import { DatetimeField } from './field/datetime/DatetimeField'
+import { MultipleLinkedRecordsField } from './field/MultipleLinkedRecordsField'
+import { SingleLineTextField } from './field/singleLineText/SingleLineTextField'
+import { SingleLinkedRecordField } from './field/singleLinkedRecord/SingleLinkedRecordField'
 
 export class Table {
   constructor(

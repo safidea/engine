@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form } from '@entities/app/page/components/Form'
+import { Form } from '@entities/app/page/component/form/FormComponent'
 import { Context } from '@entities/app/page/Context'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { Record } from '@entities/drivers/database/Record'
@@ -7,9 +7,9 @@ import { App } from '@entities/app/App'
 import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
 import { SyncResource, SyncTables } from '@entities/drivers/database/Sync'
 import { RecordFieldValue } from '@entities/drivers/database/Record/IRecord'
-import { SingleSelectRecordInput } from '@entities/app/page/components/inputs/SingleSelectRecordInput'
+import { SingleSelectRecordInput } from '@entities/app/page/component/input/SingleSelectRecordInput'
 import { RenderPageSingleSelectRecordInput } from './RenderPageSingleSelectRecordInput'
-import { BaseInputProps } from '@entities/app/page/components/inputs/BaseInput'
+import { BaseInputProps } from '@entities/app/page/component/form/input/base/BaseInputComponent'
 
 export class RenderPageForm {
   constructor(

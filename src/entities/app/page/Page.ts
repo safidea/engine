@@ -1,9 +1,14 @@
-import { Component } from './Component'
+import { Tables } from '../Tables'
+import { Component } from './component/Component'
 
 export interface PageContext {
   path: {
     params: { [key: string]: string }
   }
+}
+
+export interface PageConfig {
+  tables: Tables
 }
 
 export class Page {

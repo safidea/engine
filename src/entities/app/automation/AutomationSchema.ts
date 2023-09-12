@@ -1,7 +1,7 @@
 import { JSONSchemaType } from 'ajv'
 import { AutomationOptions } from './AutomationOptions'
-import { ActionSchema } from './ActionSchema'
-import { TriggerSchema } from './TriggerSchema'
+import { ActionSchema } from './action/ActionSchema'
+import { TriggerSchema } from './trigger/TriggerSchema'
 
 export const AutomationSchema: JSONSchemaType<AutomationOptions> = {
   type: 'object',

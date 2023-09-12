@@ -1,8 +1,8 @@
-import { Trigger, newTrigger } from './Trigger'
+import { Trigger, newTrigger } from './trigger/Trigger'
 import { RecordData } from '@entities/drivers/database/Record/IRecord'
 import { Tables } from '../Tables'
 import { AppDrivers } from '../App'
-import { Action, newAction } from './Action'
+import { Action, newAction } from './action/Action'
 import { AutomationOptions } from './AutomationOptions'
 
 // TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
@@ -13,6 +13,7 @@ export interface AutomationContext {
 
 export interface AutomationConfig {
   tables: Tables
+  automationName: string
 }
 
 export class Automation {

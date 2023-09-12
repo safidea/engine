@@ -7,7 +7,7 @@ import { TitleUI } from '@entities/spi/ui/TitleUI'
 import { TableInputUI } from '@entities/spi/ui/inputs/TableInputUI'
 import { TextInputUI } from '@entities/spi/ui/inputs/TextInputUI'
 import { SingleSelectRecordInputUI } from './ui/inputs/SingleSelectRecordInputUI'
-import { SingleSelectInputUI } from './components/SingleSelectInputUI'
+import { SingleSelectInputUI } from './component/SingleSelectInputUI'
 import { ContainerUI } from './ui/ContainerUI'
 
 export interface IUISpi {

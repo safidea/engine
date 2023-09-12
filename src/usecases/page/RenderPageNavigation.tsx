@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigation } from '@entities/app/page/components/Navigation'
+import { Navigation } from '@entities/app/page/component/common/navigation/Navigation'
 import { RenderPageComponent } from './RenderPageComponent'
 import { Context } from '@entities/app/page/Context'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'

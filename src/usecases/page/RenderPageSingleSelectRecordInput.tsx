@@ -1,7 +1,7 @@
 import React from 'react'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
-import { SingleSelectRecordInput } from '@entities/app/page/components/inputs/SingleSelectRecordInput'
-import { BaseInputProps } from '@entities/app/page/components/inputs/BaseInput'
+import { SingleSelectRecordInput } from '@entities/app/page/component/input/SingleSelectRecordInput'
+import { BaseInputProps } from '@entities/app/page/component/form/input/base/BaseInputComponent'
 
 export class RenderPageSingleSelectRecordInput {
   constructor(private fetcherSpi: IFetcherSpi) {}

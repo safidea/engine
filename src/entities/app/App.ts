@@ -18,6 +18,7 @@ export interface AppDrivers {
   readonly database: IDatabaseSpi
   readonly fetcher: IFetcherSpi
   readonly logger: ILoggerSpi
+  readonly ui: IUiSpi
 }
 
 export class App {

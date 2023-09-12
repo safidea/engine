@@ -1,4 +1,4 @@
-import { TriggerEvent } from '@entities/app/automation/triggers/BaseTrigger'
+import { TriggerEvent } from '@entities/app/automation/trigger/base/BaseTrigger'
 import { ServerState } from './ServerState'
 import { ConfiguredState } from './ConfiguredState'
 import { AutomationContext } from '@entities/app/automation/Automation'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { List } from '@entities/app/page/components/List'
+import { List } from '@entities/app/page/component/List'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 
 export class RenderPageList {

@@ -1,5 +1,5 @@
-import { ActionOptions } from './ActionOptions'
-import { TriggerOptions } from './TriggerOptions'
+import { ActionOptions } from './action/ActionOptions'
+import { TriggerOptions } from './trigger/TriggerOptions'
 
 export interface AutomationOptions {
   name: string

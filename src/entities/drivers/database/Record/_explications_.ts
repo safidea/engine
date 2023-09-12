@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { Table } from '@entities/app/table/Table'
 import { Record } from './index'
-import { SingleLineTextField } from '@entities/app/table/fields/SingleLineTextField'
+import { SingleLineTextField } from '@entities/app/table/field/singleLineText/SingleLineTextField'
 
 const record = new Record({ name: 'test' }, new Table('table', [new SingleLineTextField('name')]))
 

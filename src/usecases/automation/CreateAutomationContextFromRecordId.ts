@@ -1,4 +1,4 @@
-import { MultipleLinkedRecordsField } from '@entities/app/table/fields/MultipleLinkedRecordsField'
+import { MultipleLinkedRecordsField } from '@entities/app/table/field/MultipleLinkedRecordsField'
 import { App } from '@entities/app/App'
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
 import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'

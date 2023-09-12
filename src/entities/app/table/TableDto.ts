@@ -1,5 +1,5 @@
 import { JSONSchemaType } from 'ajv'
-import { FieldDto, FieldDtoSchema } from './FieldDto'
+import { FieldDto, FieldDtoSchema } from './field/FieldDto'
 
 export interface TableDto {
   name: string

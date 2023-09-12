@@ -1,15 +1,15 @@
 import React from 'react'
-import { Component } from '@entities/app/page/Component'
-import { List } from '@entities/app/page/components/List'
-import { Navigation } from '@entities/app/page/components/Navigation'
+import { Component } from '@entities/app/page/component/Component'
+import { List } from '@entities/app/page/component/List'
+import { Navigation } from '@entities/app/page/component/common/navigation/Navigation'
 import { RenderPageList } from './RenderPageList'
 import { RenderPageNavigation } from './RenderPageNavigation'
 import { RenderPageForm } from './RenderPageForm'
-import { Form } from '@entities/app/page/components/Form'
+import { Form } from '@entities/app/page/component/form/FormComponent'
 import { Context } from '@entities/app/page/Context'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { App } from '@entities/app/App'
-import { ContainerComponent } from '@entities/app/page/components/ContainerComponent'
+import { ContainerComponent } from '@entities/app/page/component/common/container/ContainerComponent'
 
 export class RenderPageComponent {
   constructor(
