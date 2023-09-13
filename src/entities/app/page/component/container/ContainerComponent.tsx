@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseComponent } from '../../base/BaseComponent'
+import { BaseComponent } from '../base/BaseComponent'
 import { ContainerComponentOptions } from './ContainerComponentOptions'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '@entities/app/page/Page'

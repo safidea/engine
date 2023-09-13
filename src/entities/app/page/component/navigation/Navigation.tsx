@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseComponent } from './BaseComponent'
-import { Link } from '../link/Link'
+import { Link } from '../link/LinkComponent'
 import { TitleComponent } from '../title/TitleComponent'
 import { Component } from '../../Component'
 import { NavigationUI } from '../../../spi/ui/NavigationUI'

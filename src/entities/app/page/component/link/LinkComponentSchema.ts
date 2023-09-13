@@ -1,12 +1,7 @@
 import { JSONSchemaType } from 'ajv'
+import { LinkComponentOptions } from './LinkComponentOptions'
 
-export interface LinkDto {
-  type: 'link'
-  path: string
-  label: string
-}
-
-export const LinkDtoSchema: JSONSchemaType<LinkDto> = {
+export const LinkComponentSchema: JSONSchemaType<LinkComponentOptions> = {
   type: 'object',
   properties: {
     type: { type: 'string', enum: ['link'] },

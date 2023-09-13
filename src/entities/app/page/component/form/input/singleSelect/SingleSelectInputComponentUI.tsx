@@ -1,3 +1,4 @@
+import React from 'react'
 import { IUISpi } from '../../../../IUISpi'
 
 export interface SingleSelectInputProps {

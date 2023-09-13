@@ -1,33 +1,7 @@
 import { JSONSchemaType } from 'ajv'
+import { ListComponentOptions } from './ListComponentOptions'
 
-export interface ListDto {
-  type: 'list'
-  table: string
-  groupBy?: {
-    field: string
-    order: 'asc' | 'desc' | 'first_to_last' | 'last_to_first'
-  }[]
-  sortBy?: {
-    field: string
-    order: 'asc' | 'desc' | 'first_to_last' | 'last_to_first'
-  }[]
-  columns: {
-    label: string
-    field?: string
-    options?: {
-      name: string
-      label: string
-    }[]
-    type?: string
-    action?: {
-      type: string
-      path?: string
-    }
-    buttonLabel?: string
-  }[]
-}
-
-export const ListDtoSchema: JSONSchemaType<ListDto> = {
+export const ListComponentSchema: JSONSchemaType<ListComponentOptions> = {
   type: 'object',
   properties: {
     type: { type: 'string', enum: ['list'] },
@@ -84,6 +58,7 @@ export const ListDtoSchema: JSONSchemaType<ListDto> = {
             properties: {
               type: { type: 'string' },
               path: { type: 'string', nullable: true },
+              url: { type: 'string', nullable: true },
             },
             required: ['type'],
             additionalProperties: false,

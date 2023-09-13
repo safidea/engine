@@ -1,5 +1,6 @@
+import React from 'react'
 import { IUISpi } from '@entities/app/page/IUISpi'
-import { BaseUIProps } from '../../base/BaseUI'
+import { BaseUIProps } from '../base/BaseUI'
 
 export interface ContainerProps {
   ui: IUISpi

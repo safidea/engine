@@ -1,3 +1,4 @@
+import React from 'react'
 import { IUISpi } from '@entities/app/page/IUISpi'
 
 export interface TextInputComponentUIProps {

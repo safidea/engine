@@ -1,4 +1,4 @@
-import { ComponentOptions } from '../../ComponentOptions'
+import { ComponentOptions } from '../ComponentOptions'
 
 export interface ContainerComponentOptions {
   type: 'container'
