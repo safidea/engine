@@ -31,7 +31,7 @@ export class TableInputComponent extends BaseInputComponent {
     this.columns = columns
   }
 
-  render() {
+  async render() {
     return ({
       updateRecord,
       addRecord,

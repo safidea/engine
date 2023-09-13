@@ -14,7 +14,7 @@ export class TextInputComponent extends BaseInputComponent {
     this.placeholder = placeholder
   }
 
-  render() {
+  async render() {
     return ({ updateRecord, currentRecord }: BaseInputComponentProps) => {
       const value = currentRecord.getFieldValue(this.field) ?? ''
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLInputElement>) => {

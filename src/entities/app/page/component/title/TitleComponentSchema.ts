@@ -1,13 +1,7 @@
 import { JSONSchemaType } from 'ajv'
-import { Size } from '@entities/app/page/component/common/title/TitleComponent'
+import { TitleComponentOptions } from './TitleComponentOptions'
 
-export interface TitleComponentDto {
-  type: 'title'
-  text: string
-  size?: Size
-}
-
-export const TitleComponentDtoSchema: JSONSchemaType<TitleComponentDto> = {
+export const TitleComponentSchema: JSONSchemaType<TitleComponentOptions> = {
   type: 'object',
   properties: {
     type: { type: 'string', enum: ['title'] },

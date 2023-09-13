@@ -5,10 +5,10 @@ export interface ContextValues {
 }
 
 export class Context {
-  private _values: ContextValues
+  private readonly values: ContextValues
 
   constructor(readonly params: { [key: string]: string }) {
-    this._values = {
+    this.values = {
       path: {
         params,
       },
@@ -21,7 +21,7 @@ export class Context {
       case 'path':
         switch (parts[1]) {
           case 'params':
-            return this._values.path.params[parts[2]]
+            return this.values.path.params[parts[2]]
         }
       default:
         throw new Error(`Invalid path: ${path}`)

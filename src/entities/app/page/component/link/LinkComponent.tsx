@@ -16,7 +16,7 @@ export class LinkComponent extends BaseComponent {
     this.label = label
   }
 
-  render() {
+  async render() {
     return () => <LinkComponentUI path={this.path} label={this.label} ui={this.drivers.ui} />
   }
 }

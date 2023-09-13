@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/app/page/IUISpi'
+import { IUISpi } from '@entities/drivers/ui/IUISpi'
 
 const TableInputUnstyledUI: IUISpi['TableInputUI'] = {
   container: ({ children }) => {

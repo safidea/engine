@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { BaseUIProps } from '../base/BaseUI'
-import { IUISpi } from '../../IUISpi'
+import { IUISpi } from '../../../../drivers/ui/IUISpi'
 import { Record } from '@entities/drivers/database/Record'
 import { Column } from './ListComponentOptions'
 

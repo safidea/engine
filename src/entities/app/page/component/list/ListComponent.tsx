@@ -85,7 +85,7 @@ export class ListComponent extends BaseComponent {
     this.columns = columns ?? []
   }
 
-  render() {
+  async render() {
     const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table.name }])
     return () => {
       const { tables } = useSyncRecords()
@@ -108,7 +108,7 @@ export class ListComponent extends BaseComponent {
     }
   }
 
-  sortRecords(records: Record[]): Record[] {
+  private sortRecords(records: Record[]): Record[] {
     return records.sort((a: Record, b: Record) => {
       for (let i = 0; i < this.sortBy.length; i++) {
         const field = this.sortBy[i].field
@@ -132,7 +132,7 @@ export class ListComponent extends BaseComponent {
     })
   }
 
-  groupRecords(records: Record[]): GroupType[] {
+  private groupRecords(records: Record[]): GroupType[] {
     const groups: GroupType[] = []
     for (let i = 0; i < this.groupBy.length; i++) {
       const fieldName = this.groupBy[i].field
@@ -155,7 +155,7 @@ export class ListComponent extends BaseComponent {
     return groups
   }
 
-  getCellByFormat(column: Column, record: Record) {
+  private getCellByFormat(column: Column, record: Record) {
     const { ButtonCell, CurrencyCell, TextCell } = this.drivers.ui.ListUI
     let value = column.field ? record.fields[column.field] : ''
     if (column.options) {

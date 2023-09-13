@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/app/page/IUISpi'
+import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { BaseUIProps } from '../../../base/BaseUI'
 import { Record } from '@entities/drivers/database/Record'
 

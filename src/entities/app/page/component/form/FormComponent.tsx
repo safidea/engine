@@ -12,6 +12,7 @@ import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
 import { Context } from '../../Context'
+import { ComponentError } from '../ComponentError'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -39,41 +40,19 @@ export class FormComponent extends BaseComponent {
     let defaultRecords: Record[]
     let defaultRecordId: string
 
-    const getFormResources = (): SyncResource[] => {
-      const resources: SyncResource[] = [
-        {
-          table: this.table.name,
-          filters: [new IsAnyOfFilter('id', [defaultRecordId])],
-        },
-      ]
-      const tablesInputs = this.inputs.filter((input) => input instanceof TableInputComponent)
-      for (const tableInput of tablesInputs) {
-        resources.push({
-          table: tableInput.table.name,
-        })
-      }
-      return resources
-    }
-
-    const getRecordsFromTables = (tables: SyncTables): Record[] => {
-      const records: Record[] = []
-      for (const record of Object.values(tables).flat()) {
-        if (record) records.push(record)
-      }
-      return records
-    }
-
     if (this.recordIdToUpdate) {
       defaultRecordId = context.getValue(this.recordIdToUpdate)
-      const resources: SyncResource[] = getFormResources()
+      const resources: SyncResource[] = this.getFormResources(defaultRecordId)
       const { tables, error } = await syncRecords({ resources })
       if (error) throw new Error('Sync records error: ' + error)
-      defaultRecords = getRecordsFromTables(tables)
+      defaultRecords = this.getRecordsFromTables(tables)
     } else {
       const record = new Record({}, this.table, 'create', false)
       defaultRecords = [record]
       defaultRecordId = record.id
     }
+
+    const InputsComponents = await Promise.all(this.inputs.map((input) => input.render()))
 
     return () => {
       const [isSaving, setIsSaving] = useState(false)
@@ -82,15 +61,9 @@ export class FormComponent extends BaseComponent {
       const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
       const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-      const getRecordFromId = (id: string) => {
-        const record = records.find((record) => record.id === id)
-        if (!record) throw new Error(`record with id ${id} not found`)
-        return { record, index: records.indexOf(record) }
-      }
-
       const saveRecords = async () => {
         if (isSaving === false) setIsSaving(true)
-        const resources = getFormResources()
+        const resources = this.getFormResources(recordId)
         const { error, tables } = await syncRecords({ records, resources })
         if (error) {
           setErrorMessage(error)
@@ -100,7 +73,7 @@ export class FormComponent extends BaseComponent {
             setRecordId(newRecord.id)
             setRecords([newRecord])
           } else {
-            const newRecords = getRecordsFromTables(tables)
+            const newRecords = this.getRecordsFromTables(tables)
             setRecords(newRecords)
           }
           if (errorMessage) setErrorMessage(undefined)
@@ -119,7 +92,7 @@ export class FormComponent extends BaseComponent {
       }
 
       const updateRecord = (id: string, field: string, value: RecordFieldValue) => {
-        const { index } = getRecordFromId(id)
+        const { index } = this.getRecordFromId(id, records)
         records[index].setFieldValue(field, value)
         setRecords([...records])
         autosave()
@@ -136,7 +109,7 @@ export class FormComponent extends BaseComponent {
           'create',
           false
         )
-        const { record, index } = getRecordFromId(recordId)
+        const { record, index } = this.getRecordFromId(recordId, records)
         const field = this.table.getLinkedFieldByLinkedTableName(linkedTableName)
         const recordsIds = record.getMultipleLinkedRecordsValue(field.name)
         records[index].setFieldValue(field.name, [...recordsIds, newRecord.id])
@@ -146,13 +119,16 @@ export class FormComponent extends BaseComponent {
       }
 
       const removeRecord = (field: string, id: string) => {
-        const { index } = getRecordFromId(id)
+        const { index } = this.getRecordFromId(id, records)
         if (this.submit.autosave === true) {
           records[index].softDelete()
         } else {
           records.splice(index, 1)
         }
-        const { record: currentRecord, index: currentIndex } = getRecordFromId(recordId)
+        const { record: currentRecord, index: currentIndex } = this.getRecordFromId(
+          recordId,
+          records
+        )
         const recordsIds = currentRecord.getMultipleLinkedRecordsValue(field)
         records[currentIndex].setFieldValue(
           field,
@@ -163,12 +139,14 @@ export class FormComponent extends BaseComponent {
       }
 
       const currentRecord = records.find((record) => record.id === recordId)
-      if (!currentRecord) throw new Error(`Record with id ${recordId} not found`)
+      if (!currentRecord)
+        throw new ComponentError(this.type, `Record with id ${recordId} not found`)
 
       const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         await saveRecords()
       }
+
       return (
         <FormComponentUI
           onSubmit={handleSubmit}
@@ -176,7 +154,7 @@ export class FormComponent extends BaseComponent {
           updateRecord={updateRecord}
           addRecord={addRecord}
           removeRecord={removeRecord}
-          InputsComponents={this.inputs.map((input) => input.render())}
+          InputsComponents={InputsComponents}
           isSaving={isSaving}
           errorMessage={errorMessage}
           records={records}
@@ -186,5 +164,35 @@ export class FormComponent extends BaseComponent {
         />
       )
     }
+  }
+
+  private getFormResources(defaultRecordId: string): SyncResource[] {
+    const resources: SyncResource[] = [
+      {
+        table: this.table.name,
+        filters: [new IsAnyOfFilter('id', [defaultRecordId])],
+      },
+    ]
+    const tablesInputs = this.inputs.filter((input) => input instanceof TableInputComponent)
+    for (const tableInput of tablesInputs) {
+      resources.push({
+        table: tableInput.table.name,
+      })
+    }
+    return resources
+  }
+
+  private getRecordsFromTables(tables: SyncTables): Record[] {
+    const records: Record[] = []
+    for (const record of Object.values(tables).flat()) {
+      if (record) records.push(record)
+    }
+    return records
+  }
+
+  private getRecordFromId(id: string, records: Record[]) {
+    const record = records.find((record) => record.id === id)
+    if (!record) throw new ComponentError(this.type, `record with id ${id} not found`)
+    return { record, index: records.indexOf(record) }
   }
 }

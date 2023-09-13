@@ -1,5 +1,7 @@
+import { Tables } from './Tables'
 import { Automation } from './automation/Automation'
-import { Page } from './page/Page'
+import { AutomationOptions } from './automation/AutomationOptions'
+import { Page, Pages } from './page/Page'
 import { Field } from './table/Field'
 import { Table } from './table/Table'
 
@@ -22,7 +24,16 @@ export interface AppDrivers {
 }
 
 export class App {
-  constructor(options: AppOptions, drivers: AppDrivers) {}
+  readonly tables: Tables
+  readonly automations: Automations
+  readonly pages: Pages
+
+  constructor(options: AppOptions, drivers: AppDrivers) {
+    const { tables, automations, pages } = options
+    this.tables = new Tables(tables)
+    this.automations = new Automations(automations, drivers)
+    this.pages = new Pages(pages, drivers, { tables: this.tables })
+  }
 
   getTableFields(tableName: string): Field[] {
     const table = this.getTableByName(tableName)

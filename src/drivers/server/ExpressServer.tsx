@@ -10,7 +10,7 @@ import { RequestDto, RequestQueryDto } from '@entities/drivers/server/RequestDto
 import { PageMapper } from '@adapters/api/page/mappers/PageMapper'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 import { TableDto } from '@adapters/api/table/dtos/TableDto'
-import { PageDto } from '@entities/app/page/PageDto'
+import { PageDto } from '@entities/app/page/PageSchema'
 
 export interface EngineData {
   page: PageDto

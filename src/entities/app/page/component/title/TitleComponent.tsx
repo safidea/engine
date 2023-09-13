@@ -1,49 +1,22 @@
 import React from 'react'
-import { BaseComponent } from './BaseComponent'
-import { TitleUI } from '../../../spi/ui/TitleUI'
-
-export type Size = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
-export interface TitleProps {
-  size: Size
-  text: string
-  UI: TitleUI
-}
-
-export function Title({ size, text, UI }: TitleProps) {
-  switch (size) {
-    case 'extra-small':
-      return <UI.xs>{text}</UI.xs>
-    case 'small':
-      return <UI.sm>{text}</UI.sm>
-    case 'medium':
-      return <UI.md>{text}</UI.md>
-    case 'large':
-      return <UI.lg>{text}</UI.lg>
-    case 'extra-large':
-      return <UI.xl>{text}</UI.xl>
-    default:
-      return <UI.md>{text}</UI.md>
-  }
-}
+import { BaseComponent } from '../base/BaseComponent'
+import { Size, TitleComponentOptions } from './TitleComponentOptions'
+import { AppDrivers } from '@entities/app/App'
+import { PageConfig } from '../../Page'
+import { TitleComponentUI } from './TitleComponentUI'
 
 export class TitleComponent extends BaseComponent {
-  constructor(
-    private readonly _text: string,
-    private readonly _ui: TitleUI,
-    private readonly _size: Size = 'medium'
-  ) {
-    super('title')
+  readonly text: string
+  readonly size?: Size
+
+  constructor(options: TitleComponentOptions, drivers: AppDrivers, config: PageConfig) {
+    const { type, text, size } = options
+    super({ type }, drivers, config)
+    this.text = text
+    this.size = size
   }
 
-  get text(): string {
-    return this._text
-  }
-
-  get size(): Size {
-    return this._size
-  }
-
-  renderUI() {
-    return () => <Title UI={this._ui} text={this.text} size={this.size} />
+  async render() {
+    return () => <TitleComponentUI ui={this.drivers.ui} text={this.text} size={this.size} />
   }
 }

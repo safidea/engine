@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '../../../../IUISpi'
+import { IUISpi } from '../../../../../../drivers/ui/IUISpi'
 
 export interface SingleSelectInputProps {
   label?: string

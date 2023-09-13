@@ -1,20 +1,15 @@
 import { JSONSchemaType } from 'ajv'
-import { ComponentDto, ComponentDtoSchema } from './ComponentDto'
+import { PageOptions } from './PageOptions'
+import { ComponentSchema } from './component/ComponentSchema'
 
-export interface PageDto {
-  path: string
-  components: ComponentDto[]
-  title?: string
-}
-
-export const PageDtoSchema: JSONSchemaType<PageDto> = {
+export const PageSchema: JSONSchemaType<PageOptions> = {
   type: 'object',
   properties: {
     path: { type: 'string' },
     title: { type: 'string', nullable: true },
     components: {
       type: 'array',
-      items: ComponentDtoSchema,
+      items: ComponentSchema,
     },
   },
   required: ['path', 'components'],

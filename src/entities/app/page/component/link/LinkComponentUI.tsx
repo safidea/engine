@@ -1,4 +1,5 @@
-import { IUISpi } from '../../IUISpi'
+import React from 'react'
+import { IUISpi } from '../../../../drivers/ui/IUISpi'
 import { BaseUIProps } from '../base/BaseUI'
 
 export interface LinkProps {

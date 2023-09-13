@@ -16,7 +16,7 @@ export class SingleSelectInputComponent extends BaseInputComponent {
     this.options = selectOptions
   }
 
-  render() {
+  async render() {
     return ({ updateRecord, currentRecord }: BaseInputComponentProps) => {
       const value = currentRecord.getFieldValue(this.field) ?? ''
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLSelectElement>) => {
