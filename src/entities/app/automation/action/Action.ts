@@ -1,5 +1,4 @@
 import { AppDrivers } from '../../App'
-import { ActionError } from './ActionError'
 import { ActionOptions } from './ActionOptions'
 import { AutomationConfig } from '../Automation'
 import { CreateFileAction } from './storage/createFile/CreateFileAction'
@@ -14,18 +13,14 @@ export function newAction(
   drivers: AppDrivers,
   config: AutomationConfig
 ): Action {
-  const { type, name } = options
-  if (type === 'create_file') {
-    return new CreateFileAction(options, drivers, config)
+  switch (options.type) {
+    case 'create_file':
+      return new CreateFileAction(options, drivers, config)
+    case 'find_record':
+      return new FindRecordAction(options, drivers, config)
+    case 'log':
+      return new LogAction(options, drivers, config)
+    case 'update_record':
+      return new UpdateRecordAction(options, drivers, config)
   }
-  if (type === 'find_record') {
-    return new FindRecordAction(options, drivers, config)
-  }
-  if (type === 'log') {
-    return new LogAction(options, drivers, config)
-  }
-  if (type === 'update_record') {
-    return new UpdateRecordAction(options, drivers, config)
-  }
-  throw new ActionError(name, type, 'Invalid action type', config.automationName)
 }

@@ -5,7 +5,6 @@ import { RecordUpdatedTrigger } from './database/recordUpdated/RecordUpdatedTrig
 import { TriggerOptions } from './TriggerOptions'
 import { AppDrivers } from '../../App'
 import { AutomationConfig } from '../Automation'
-import { TriggerError } from './TriggerError'
 
 export type Trigger =
   | RecordCreatedTrigger
@@ -14,22 +13,18 @@ export type Trigger =
   | ServerStoppedTrigger
 
 export function newTrigger(
-  triggerOptions: TriggerOptions,
+  options: TriggerOptions,
   drivers: AppDrivers,
   config: AutomationConfig
 ): Trigger {
-  const { event } = triggerOptions
-  if (event === 'record_created') {
-    return new RecordCreatedTrigger(triggerOptions, drivers, config)
+  switch (options.event) {
+    case 'record_created':
+      return new RecordCreatedTrigger(options, drivers, config)
+    case 'record_updated':
+      return new RecordUpdatedTrigger(options, drivers, config)
+    case 'server_started':
+      return new ServerStartedTrigger(options, drivers, config)
+    case 'server_stopped':
+      return new ServerStoppedTrigger(options, drivers, config)
   }
-  if (event === 'record_updated') {
-    return new RecordUpdatedTrigger(triggerOptions, drivers, config)
-  }
-  if (event === 'server_started') {
-    return new ServerStartedTrigger(triggerOptions, drivers, config)
-  }
-  if (event === 'server_stopped') {
-    return new ServerStoppedTrigger(triggerOptions, drivers, config)
-  }
-  throw new TriggerError(event, 'Invalid trigger event', config.automationName)
 }

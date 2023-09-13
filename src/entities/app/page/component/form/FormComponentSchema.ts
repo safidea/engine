@@ -1,30 +1,15 @@
 import { JSONSchemaType } from 'ajv'
-import { InputDto, InputDtoSchema } from './InputDto'
+import { FormComponentOptions } from './FormComponentOptions'
+import { InputComponentSchema } from './input/InputComponentSchema'
 
-export interface FormDto {
-  type: 'form'
-  table: string
-  inputs: InputDto[]
-  recordIdToUpdate?: string
-  submit: {
-    label?: string
-    autosave?: boolean
-    loadingLabel: string
-    actionsOnSuccess?: {
-      type: string
-      path: string
-    }[]
-  }
-}
-
-export const FormDtoSchema: JSONSchemaType<FormDto> = {
+export const FormComponentSchema: JSONSchemaType<FormComponentOptions> = {
   type: 'object',
   properties: {
     type: { type: 'string', enum: ['form'] },
     table: { type: 'string' },
     inputs: {
       type: 'array',
-      items: InputDtoSchema,
+      items: InputComponentSchema,
     },
     recordIdToUpdate: { type: 'string', nullable: true },
     submit: {

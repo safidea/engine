@@ -1,110 +1,189 @@
-import React from 'react'
-import { BaseComponent } from './BaseComponent'
-import { Input } from './input/Input'
-import { Record } from '@entities/drivers/database/Record'
-import { TableInput } from './input/table/TableInputComponent'
-import { FormUI } from '../../../spi/ui/FormUI'
-import { RecordFieldValue } from '@entities/drivers/database/Record/IRecord'
+import React, { useRef, useState } from 'react'
 import { PageConfig } from '../../Page'
-
-export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
-export type AddRecord = (tableName: string) => void
-export type RemoveRecord = (field: string, id: string) => void
+import { FormComponentOptions } from './FormComponentOptions'
+import { AppDrivers } from '@entities/app/App'
+import { BaseComponent } from '../base/BaseComponent'
+import { FormComponentUI } from './FormComponentUI'
+import { Table } from '@entities/app/table/Table'
+import { Record } from '@entities/drivers/database/Record'
+import { RecordFieldValue } from '@entities/drivers/database/Record/IRecord'
+import { SyncResource, SyncTables } from '@entities/drivers/database/Sync'
+import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
+import { InputComponent, newInput } from './input/InputComponent'
+import { TableInputComponent } from './input/table/TableInputComponent'
+import { Context } from '../../Context'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
 }
 
 export class FormComponent extends BaseComponent {
-  constructor(
-    private readonly _tableName: string,
-    private readonly _inputs: Input[],
-    private readonly _submit: {
-      label?: string
-      autosave?: boolean
-      loadingLabel: string
-      actionsOnSuccess?: {
-        type: string
-        path: string
-      }[]
-    },
-    private readonly _ui: FormUI,
-    private readonly _recordIdToUpdate?: string
-  ) {
-    super('title')
+  readonly inputs: InputComponent[]
+  readonly submit: FormComponentOptions['submit']
+  readonly recordIdToUpdate?: string
+  readonly table: Table
+
+  constructor(options: FormComponentOptions, drivers: AppDrivers, config: PageConfig) {
+    const { type, submit, recordIdToUpdate, table: tableName, inputs } = options
+    super({ type }, drivers, config)
+    this.submit = submit
+    this.recordIdToUpdate = recordIdToUpdate
+    this.table = this.getTableByName(tableName)
+    this.inputs = inputs.map((input) =>
+      newInput(input, drivers, { ...config, formTableName: tableName })
+    )
   }
 
-  get tableName() {
-    return this._tableName
-  }
+  async render(context: Context) {
+    const syncRecords = this.drivers.fetcher.getSyncRecordsFunction()
+    let defaultRecords: Record[]
+    let defaultRecordId: string
 
-  get inputs() {
-    return this._inputs
-  }
-
-  get submit() {
-    return this._submit
-  }
-
-  get ui() {
-    return this._ui
-  }
-
-  get recordIdToUpdate() {
-    return this._recordIdToUpdate
-  }
-
-  getTablesInputs(): TableInput[] {
-    const tablesInputs: TableInput[] = []
-    for (const input of this.inputs) {
-      if (input instanceof TableInput) {
-        tablesInputs.push(input)
+    const getFormResources = (): SyncResource[] => {
+      const resources: SyncResource[] = [
+        {
+          table: this.table.name,
+          filters: [new IsAnyOfFilter('id', [defaultRecordId])],
+        },
+      ]
+      const tablesInputs = this.inputs.filter((input) => input instanceof TableInputComponent)
+      for (const tableInput of tablesInputs) {
+        resources.push({
+          table: tableInput.table.name,
+        })
       }
+      return resources
     }
-    return tablesInputs
-  }
 
-  renderUI() {
-    const UI = this._ui
-    const submit = this._submit
-    return function FormUI({
-      saveRecords,
-      updateRecord,
-      addRecord,
-      removeRecord,
-      InputComponents,
-      isSaving,
-      errorMessage,
-      records,
-      currentRecord,
-    }: FormProps) {
+    const getRecordsFromTables = (tables: SyncTables): Record[] => {
+      const records: Record[] = []
+      for (const record of Object.values(tables).flat()) {
+        if (record) records.push(record)
+      }
+      return records
+    }
+
+    if (this.recordIdToUpdate) {
+      defaultRecordId = context.getValue(this.recordIdToUpdate)
+      const resources: SyncResource[] = getFormResources()
+      const { tables, error } = await syncRecords({ resources })
+      if (error) throw new Error('Sync records error: ' + error)
+      defaultRecords = getRecordsFromTables(tables)
+    } else {
+      const record = new Record({}, this.table, 'create', false)
+      defaultRecords = [record]
+      defaultRecordId = record.id
+    }
+
+    return () => {
+      const [isSaving, setIsSaving] = useState(false)
+      const [recordId, setRecordId] = useState<string>(defaultRecordId)
+      const [records, setRecords] = useState<Record[]>(defaultRecords)
+      const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined)
+      const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+      const getRecordFromId = (id: string) => {
+        const record = records.find((record) => record.id === id)
+        if (!record) throw new Error(`record with id ${id} not found`)
+        return { record, index: records.indexOf(record) }
+      }
+
+      const saveRecords = async () => {
+        if (isSaving === false) setIsSaving(true)
+        const resources = getFormResources()
+        const { error, tables } = await syncRecords({ records, resources })
+        if (error) {
+          setErrorMessage(error)
+        } else {
+          if (!this.submit.autosave) {
+            const newRecord = new Record({}, this.table, 'create', false)
+            setRecordId(newRecord.id)
+            setRecords([newRecord])
+          } else {
+            const newRecords = getRecordsFromTables(tables)
+            setRecords(newRecords)
+          }
+          if (errorMessage) setErrorMessage(undefined)
+        }
+        setIsSaving(false)
+      }
+
+      const autosave = () => {
+        if (this.submit.autosave === true) {
+          setIsSaving(true)
+          if (timeoutRef.current) clearTimeout(timeoutRef.current)
+          timeoutRef.current = setTimeout(() => {
+            saveRecords()
+          }, 1000)
+        }
+      }
+
+      const updateRecord = (id: string, field: string, value: RecordFieldValue) => {
+        const { index } = getRecordFromId(id)
+        records[index].setFieldValue(field, value)
+        setRecords([...records])
+        autosave()
+      }
+
+      const addRecord = (linkedTableName: string) => {
+        const linkedTable = this.getTableByName(linkedTableName)
+        const linkedField = linkedTable.getLinkedFieldByLinkedTableName(this.table.name)
+        const newRecord = new Record(
+          {
+            [linkedField.name]: recordId,
+          },
+          linkedTable,
+          'create',
+          false
+        )
+        const { record, index } = getRecordFromId(recordId)
+        const field = this.table.getLinkedFieldByLinkedTableName(linkedTableName)
+        const recordsIds = record.getMultipleLinkedRecordsValue(field.name)
+        records[index].setFieldValue(field.name, [...recordsIds, newRecord.id])
+        records.push(newRecord)
+        setRecords([...records])
+        autosave()
+      }
+
+      const removeRecord = (field: string, id: string) => {
+        const { index } = getRecordFromId(id)
+        if (this.submit.autosave === true) {
+          records[index].softDelete()
+        } else {
+          records.splice(index, 1)
+        }
+        const { record: currentRecord, index: currentIndex } = getRecordFromId(recordId)
+        const recordsIds = currentRecord.getMultipleLinkedRecordsValue(field)
+        records[currentIndex].setFieldValue(
+          field,
+          recordsIds.filter((recordId) => recordId !== id)
+        )
+        setRecords([...records])
+        autosave()
+      }
+
+      const currentRecord = records.find((record) => record.id === recordId)
+      if (!currentRecord) throw new Error(`Record with id ${recordId} not found`)
+
       const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         await saveRecords()
       }
       return (
-        <UI.form onSubmit={handleSubmit}>
-          <UI.inputs>
-            {InputComponents.map((InputComponent, index) => (
-              <UI.input key={index}>
-                <InputComponent
-                  updateRecord={updateRecord}
-                  addRecord={addRecord}
-                  removeRecord={removeRecord}
-                  currentRecord={currentRecord}
-                  records={records}
-                />
-              </UI.input>
-            ))}
-          </UI.inputs>
-          {submit.label && (
-            <UI.submit label={isSaving === false ? submit.label : submit.loadingLabel} />
-          )}
-          {submit.autosave === true && isSaving === true ? (
-            <UI.loading label={submit.loadingLabel} />
-          ) : undefined}
-          {errorMessage && <UI.errorMessage message={errorMessage} />}
-        </UI.form>
+        <FormComponentUI
+          onSubmit={handleSubmit}
+          saveRecords={saveRecords}
+          updateRecord={updateRecord}
+          addRecord={addRecord}
+          removeRecord={removeRecord}
+          InputsComponents={this.inputs.map((input) => input.render())}
+          isSaving={isSaving}
+          errorMessage={errorMessage}
+          records={records}
+          currentRecord={currentRecord}
+          submit={this.submit}
+          ui={this.drivers.ui}
+        />
       )
     }
   }

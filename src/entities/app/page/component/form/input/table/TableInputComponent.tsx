@@ -12,7 +12,7 @@ export type Column = {
   placeholder?: string
 }
 
-export class TableInput extends BaseInputComponent {
+export class TableInputComponent extends BaseInputComponent {
   readonly addLabel?: string
   readonly columns: Column[]
 

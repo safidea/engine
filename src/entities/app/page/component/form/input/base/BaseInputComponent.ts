@@ -1,9 +1,10 @@
-import { AddRecord, UpdateRecord, RemoveRecord, FormConfig } from '../../FormComponent'
+import { FormConfig } from '../../FormComponent'
 import { Record } from '@entities/drivers/database/Record'
 import { BaseInputComponentOptions } from './BaseInputComponentOptions'
 import { AppDrivers } from '@entities/app/App'
 import { BaseComponent } from '../../../base/BaseComponent'
 import { Table } from '@entities/app/table/Table'
+import { AddRecord, RemoveRecord, UpdateRecord } from '../../FormComponentUI'
 
 export interface BaseInputComponentProps {
   updateRecord: UpdateRecord

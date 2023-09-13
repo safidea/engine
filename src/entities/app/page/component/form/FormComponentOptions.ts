@@ -1,7 +1,9 @@
+import { InputComponentOptions } from './input/InputComponentOptions'
+
 export interface FormComponentOptions {
   type: 'form'
   table: string
-  inputs: InputOptions[]
+  inputs: InputComponentOptions[]
   recordIdToUpdate?: string
   submit: {
     label?: string
