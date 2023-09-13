@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { BaseUIProps } from '../base/BaseUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
 import { Record } from '@entities/drivers/database/Record'
 import { Column } from './ListComponentOptions'
@@ -87,13 +87,13 @@ export function ListComponentUI({
 }
 
 export interface ListUI {
-  Container: React.FC<BaseUIProps>
-  Header: React.FC<BaseUIProps>
+  Container: React.FC<BaseComponentUIProps>
+  Header: React.FC<BaseComponentUIProps>
   HeaderColumn: React.FC<ListUIHeaderColumnProps>
   Group: React.FC<ListUIGroupProps>
-  Rows: React.FC<BaseUIProps>
+  Rows: React.FC<BaseComponentUIProps>
   Row: React.FC<ListUIRowProps>
-  Cell: React.FC<BaseUIProps>
+  Cell: React.FC<BaseComponentUIProps>
   TextCell: React.FC<ListUITextCellProps>
   ButtonCell: React.FC<ListUIButtonCellProps>
   LinkCell: React.FC<ListUILinkCellProps>
@@ -109,7 +109,7 @@ export interface ListUIGroupProps {
   colSpan: number
 }
 
-export interface ListUIRowProps extends BaseUIProps {
+export interface ListUIRowProps extends BaseComponentUIProps {
   id: string
 }
 

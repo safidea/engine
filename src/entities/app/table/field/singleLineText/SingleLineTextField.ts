@@ -1,12 +1,9 @@
-import { BaseField, FieldPermissions } from '../base/BaseField'
+import { AppDrivers } from '@entities/app/App'
+import { BaseField } from '../base/BaseField'
+import { SingleLineTextFieldOptions } from './SingleLineTextFieldOptions'
 
 export class SingleLineTextField extends BaseField {
-  constructor(
-    name: string,
-    optional?: boolean,
-    defaultValue?: string,
-    permissions?: FieldPermissions
-  ) {
-    super(name, 'single_line_text', optional, 'text', defaultValue, permissions)
+  constructor(options: SingleLineTextFieldOptions, drivers: AppDrivers) {
+    super(options, drivers)
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
-import { BaseUIProps } from '../../../base/BaseUI'
+import { BaseComponentUIProps } from '../../../base/BaseComponentUI'
 import { Record } from '@entities/drivers/database/Record'
 
 export type Column = {
@@ -109,15 +109,15 @@ export interface TableInputUIRemoveProps {
 }
 
 export interface TableInputUI {
-  Container: React.FC<BaseUIProps>
-  Menu: React.FC<BaseUIProps>
+  Container: React.FC<BaseComponentUIProps>
+  Menu: React.FC<BaseComponentUIProps>
   Label: React.FC<TableInputUILabelProps>
   AddButton: React.FC<TableInputUIAddButtonProps>
-  Table: React.FC<BaseUIProps>
-  Header: React.FC<BaseUIProps>
+  Table: React.FC<BaseComponentUIProps>
+  Header: React.FC<BaseComponentUIProps>
   HeaderColumn: React.FC<TableInputUIHeaderColumnProps>
-  Rows: React.FC<BaseUIProps>
-  Row: React.FC<BaseUIProps>
+  Rows: React.FC<BaseComponentUIProps>
+  Row: React.FC<BaseComponentUIProps>
   Cell: React.FC<TableInputUICellProps>
   Remove: React.FC<TableInputUIRemoveProps>
 }

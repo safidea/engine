@@ -6,7 +6,7 @@ import { App } from '@entities/app/App'
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
 import { Record } from '@entities/drivers/database/Record'
 import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
-import { Script } from '@entities/app/Script'
+import { Script } from '@entities/drivers/scripter/Script'
 
 export class ReadTableRecord {
   constructor(

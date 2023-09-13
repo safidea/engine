@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import { AppMapper } from '@adapters/api/app/AppMapper'
 import { App } from '@entities/app/App'
-import { AppDtoSchema } from '../../entities/app/AppDto'
+import { AppDtoSchema } from '../../entities/app/AppSchema'
 import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'

@@ -1,4 +1,4 @@
-import { Script } from '@entities/app/Script'
+import { Script } from '@entities/drivers/scripter/Script'
 import { describe, test, expect } from '@jest/globals'
 
 describe('Script', () => {

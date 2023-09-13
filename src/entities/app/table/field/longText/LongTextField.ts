@@ -1,7 +1,9 @@
+import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
+import { LongTextFieldOptions } from './LongTextFieldOptions'
 
 export class LongTextField extends BaseField {
-  constructor(name: string, optional?: boolean, defaultValue?: string) {
-    super(name, 'long_text', optional, 'text', defaultValue)
+  constructor(options: LongTextFieldOptions, drivers: AppDrivers) {
+    super(options, drivers)
   }
 }

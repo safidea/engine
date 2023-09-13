@@ -1,16 +1,13 @@
+import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
+import { SingleSelectFieldOptions } from './SingleSelectFieldOptions'
 
 export class SingleSelectField extends BaseField {
-  constructor(
-    name: string,
-    private readonly _options: string[],
-    optional?: boolean,
-    defaultValue?: string | number | boolean
-  ) {
-    super(name, 'single_select', optional, 'text', defaultValue)
-  }
+  readonly options: string[]
 
-  get options(): string[] {
-    return this._options
+  constructor(options: SingleSelectFieldOptions, drivers: AppDrivers) {
+    const { options: fieldOptions, ...rest } = options
+    super(rest, drivers)
+    this.options = fieldOptions
   }
 }

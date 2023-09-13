@@ -2,7 +2,7 @@ import { Table } from '@entities/app/table/Table'
 import { RecordFieldsValues, RecordData, RecordFieldValue } from './IRecord'
 import { RecordState } from './RecordState'
 import { DeleteState } from './DeleteState'
-import { Script } from '@entities/app/Script'
+import { Script } from '@entities/drivers/scripter/Script'
 import { Field } from '@entities/app/table/Field'
 
 export class UpdateState extends RecordState {

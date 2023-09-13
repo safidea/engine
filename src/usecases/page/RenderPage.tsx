@@ -1,7 +1,7 @@
 import React from 'react'
 import { Page } from '@entities/app/page/Page'
 import { RenderPageComponent } from './RenderPageComponent'
-import { Context } from '@entities/app/page/Context'
+import { Context } from '@entities/app/page/PageContext'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { App } from '@entities/app/App'
 

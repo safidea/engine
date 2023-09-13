@@ -1,6 +1,6 @@
 import React from 'react'
 import { RecordFieldValue } from '@entities/drivers/database/Record/IRecord'
-import { BaseUIProps } from '../base/BaseUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/drivers/database/Record'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
 
@@ -69,7 +69,7 @@ export function FormComponentUI({
   )
 }
 
-export interface FormUIFormProps extends BaseUIProps {
+export interface FormUIFormProps extends BaseComponentUIProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
@@ -87,7 +87,7 @@ export interface FormUIErrorMessageProps {
 
 export interface FormUI {
   Form: React.FC<FormUIFormProps>
-  Inputs: React.FC<BaseUIProps>
+  Inputs: React.FC<BaseComponentUIProps>
   Submit: React.FC<FormUISubmitProps>
   ErrorMessage: React.FC<FormUIErrorMessageProps>
   Loading: React.FC<FormUILoadingProps>

@@ -1,7 +1,9 @@
+import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
+import { DatetimeFieldOptions } from './DatetimeFieldOptions'
 
 export class DatetimeField extends BaseField {
-  constructor(name: string, optional?: boolean, defaultDate?: string) {
-    super(name, 'datetime', optional, 'datetime', defaultDate)
+  constructor(options: DatetimeFieldOptions, drivers: AppDrivers) {
+    super(options, drivers)
   }
 }

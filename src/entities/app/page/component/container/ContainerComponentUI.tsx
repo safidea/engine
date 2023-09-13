@@ -1,6 +1,6 @@
 import React from 'react'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
-import { BaseUIProps } from '../base/BaseUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 
 export interface ContainerProps {
   ui: IUISpi
@@ -19,5 +19,5 @@ export function ContainerComponentUI({ ui, Components }: ContainerProps) {
 }
 
 export interface ContainerUI {
-  Container: React.FC<BaseUIProps>
+  Container: React.FC<BaseComponentUIProps>
 }

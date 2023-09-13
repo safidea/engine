@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseUIProps } from '../base/BaseUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
 import { Size } from './TitleComponentOptions'
 
@@ -28,9 +28,9 @@ export function TitleComponentUI({ size, text, ui }: TitleProps) {
 }
 
 export interface TitleUI {
-  ExtraSmall: React.FC<BaseUIProps>
-  Small: React.FC<BaseUIProps>
-  Medium: React.FC<BaseUIProps>
-  Large: React.FC<BaseUIProps>
-  ExtraLarge: React.FC<BaseUIProps>
+  ExtraSmall: React.FC<BaseComponentUIProps>
+  Small: React.FC<BaseComponentUIProps>
+  Medium: React.FC<BaseComponentUIProps>
+  Large: React.FC<BaseComponentUIProps>
+  ExtraLarge: React.FC<BaseComponentUIProps>
 }

@@ -1,15 +1,13 @@
-import { BaseField } from './base/BaseField'
+import { AppDrivers } from '@entities/app/App'
+import { BaseField } from '../base/BaseField'
+import { MultipleLinkedRecordsFieldOptions } from './MultipleLinkedRecordsFieldOptions'
 
 export class MultipleLinkedRecordsField extends BaseField {
-  constructor(
-    name: string,
-    private readonly _table: string,
-    optional?: boolean
-  ) {
-    super(name, 'multiple_linked_records', optional, 'recordsIds')
-  }
+  readonly table: string
 
-  get table(): string {
-    return this._table
+  constructor(options: MultipleLinkedRecordsFieldOptions, drivers: AppDrivers) {
+    const { table, ...rest } = options
+    super(rest, drivers)
+    this.table = table
   }
 }

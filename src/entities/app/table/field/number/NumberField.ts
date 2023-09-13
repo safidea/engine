@@ -1,7 +1,9 @@
-import { BaseField } from './base/BaseField'
+import { AppDrivers } from '@entities/app/App'
+import { NumberFieldOptions } from './NumberFieldOptions'
+import { BaseField } from '../base/BaseField'
 
 export class NumberField extends BaseField {
-  constructor(name: string, optional?: boolean, defaultValue?: number) {
-    super(name, 'number', optional, 'number', defaultValue)
+  constructor(options: NumberFieldOptions, drivers: AppDrivers) {
+    super(options, drivers)
   }
 }

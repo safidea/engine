@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseUIProps } from '../base/BaseUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
 
 export interface NavigationProps {
@@ -31,8 +31,8 @@ export function NavigationComponentUI({ ui, Title, Links, Components }: Navigati
 }
 
 export interface NavigationUI {
-  Container: React.FC<BaseUIProps>
-  Sidebar: React.FC<BaseUIProps>
-  LinksContainer: React.FC<BaseUIProps>
-  Content: React.FC<BaseUIProps>
+  Container: React.FC<BaseComponentUIProps>
+  Sidebar: React.FC<BaseComponentUIProps>
+  LinksContainer: React.FC<BaseComponentUIProps>
+  Content: React.FC<BaseComponentUIProps>
 }

@@ -1,4 +1,4 @@
-import { AppDto } from '@entities/app/AppDto'
+import { AppDto } from '@entities/app/AppSchema'
 import { App } from '@entities/app/App'
 import { AutomationMapper } from '../automation/mappers/AutomationMapper'
 import { TableMapper } from '../table/mappers/TableMapper'

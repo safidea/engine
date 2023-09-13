@@ -1,15 +1,13 @@
+import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
+import { SingleLinkedRecordFieldOptions } from './SingleLinkedRecordFieldOptions'
 
 export class SingleLinkedRecordField extends BaseField {
-  constructor(
-    name: string,
-    private readonly _table: string,
-    optional?: boolean
-  ) {
-    super(name, 'single_linked_record', optional, 'recordId')
-  }
+  readonly table: string
 
-  get table(): string {
-    return this._table
+  constructor(options: SingleLinkedRecordFieldOptions, drivers: AppDrivers) {
+    const { table, ...rest } = options
+    super(rest, drivers)
+    this.table = table
   }
 }

@@ -1,25 +1,32 @@
-import { Field } from './field/Field'
-import { DatetimeField } from './field/datetime/DatetimeField'
+import { AppDrivers } from '../App'
+import { TableOptions } from './TableOptions'
+import { Field, newField } from './field/Field'
 import { MultipleLinkedRecordsField } from './field/multipleLinkedRecords/MultipleLinkedRecordsField'
-import { SingleLineTextField } from './field/singleLineText/SingleLineTextField'
 import { SingleLinkedRecordField } from './field/singleLinkedRecord/SingleLinkedRecordField'
 
 export class Table {
-  constructor(
-    readonly name: string,
-    readonly fields: Field[]
-  ) {
+  readonly name: string
+  readonly fields: Field[]
+
+  constructor(options: TableOptions, drivers: AppDrivers) {
+    const { name, fields } = options
+    this.name = name
+    this.fields = fields.map((field) => newField(field, drivers))
     if (!fields.find((field) => field.name === 'id')) {
-      fields.push(new SingleLineTextField('id', true))
+      this.fields.push(newField({ type: 'single_line_text', name: 'id' }, drivers))
     }
     if (!fields.find((field) => field.name === 'created_time')) {
-      fields.push(new DatetimeField('created_time', true))
+      this.fields.push(newField({ type: 'datetime', name: 'created_time' }, drivers))
     }
     if (!fields.find((field) => field.name === 'last_modified_time')) {
-      fields.push(new DatetimeField('last_modified_time', true))
+      this.fields.push(
+        newField({ type: 'datetime', name: 'last_modified_time', optional: true }, drivers)
+      )
     }
     if (!fields.find((field) => field.name === 'deleted_time')) {
-      fields.push(new DatetimeField('deleted_time', true))
+      this.fields.push(
+        newField({ type: 'datetime', name: 'deleted_time', optional: true }, drivers)
+      )
     }
   }
 

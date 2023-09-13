@@ -1,6 +1,6 @@
 import React from 'react'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
-import { BaseUIProps } from '../base/BaseUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Size } from './ParagraphComponentOptions'
 
 export interface ParagraphProps {
@@ -24,7 +24,7 @@ export function ParagraphComponentUI({ text, size, ui }: ParagraphProps) {
 }
 
 export interface ParagraphUI {
-  Small: React.FC<BaseUIProps>
-  Medium: React.FC<BaseUIProps>
-  Large: React.FC<BaseUIProps>
+  Small: React.FC<BaseComponentUIProps>
+  Medium: React.FC<BaseComponentUIProps>
+  Large: React.FC<BaseComponentUIProps>
 }

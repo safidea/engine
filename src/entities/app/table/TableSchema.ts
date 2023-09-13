@@ -1,18 +1,14 @@
 import { JSONSchemaType } from 'ajv'
-import { FieldDto, FieldDtoSchema } from './field/FieldDto'
+import { TableOptions } from './TableOptions'
+import { FieldSchema } from './field/FieldSchema'
 
-export interface TableDto {
-  name: string
-  fields: FieldDto[]
-}
-
-export const TableDtoSchema: JSONSchemaType<TableDto> = {
+export const TableSchema: JSONSchemaType<TableOptions> = {
   type: 'object',
   properties: {
     name: { type: 'string' },
     fields: {
       type: 'array',
-      items: FieldDtoSchema,
+      items: FieldSchema,
     },
   },
   required: ['name', 'fields'],

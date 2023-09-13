@@ -1,16 +1,13 @@
-import { BaseField, Format } from '../base/BaseField'
+import { AppDrivers } from '@entities/app/App'
+import { BaseField } from '../base/BaseField'
+import { FormulaFieldOptions } from './FormulaFieldOptions'
 
 export class FormulaField extends BaseField {
-  constructor(
-    name: string,
-    private readonly _formula: string,
-    format?: Format,
-    optional?: boolean
-  ) {
-    super(name, 'formula', optional, format)
-  }
+  readonly formula: string
 
-  get formula(): string {
-    return this._formula
+  constructor(options: FormulaFieldOptions, drivers: AppDrivers) {
+    const { formula, ...rest } = options
+    super(rest, drivers)
+    this.formula = formula
   }
 }

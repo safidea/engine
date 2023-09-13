@@ -7,7 +7,7 @@ import { PageConfig } from '../../Page'
 import { NavigationComponentUI } from './NavigationComponentUI'
 import { LinkComponent } from '../link/LinkComponent'
 import { Component, newComponent } from '../Component'
-import { Context } from '../../Context'
+import { PageContext } from '../../PageContext'
 
 export class NavigationComponent extends BaseComponent {
   readonly title: TitleComponent
@@ -22,7 +22,7 @@ export class NavigationComponent extends BaseComponent {
     this.components = components.map((component) => newComponent(component, drivers, config))
   }
 
-  async render(context: Context) {
+  async render(context: PageContext) {
     const Title = await this.title.render()
     const Links = await Promise.all(this.links.map((link) => link.render()))
     const Components = await Promise.all(

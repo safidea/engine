@@ -1,26 +1,17 @@
-import { BaseField, Format } from './base/BaseField'
+import { AppDrivers } from '@entities/app/App'
+import { BaseField } from '../base/BaseField'
+import { RollupFieldOptions } from './RollupFieldOptions'
 
 export class RollupField extends BaseField {
-  constructor(
-    name: string,
-    private readonly _linkedRecords: string,
-    private readonly _linkedField: string,
-    private readonly _formula: string,
-    format?: Format,
-    optional?: boolean
-  ) {
-    super(name, 'rollup', optional, format)
-  }
+  readonly linkedRecords: string
+  readonly linkedField: string
+  readonly formula: string
 
-  get linkedRecords(): string {
-    return this._linkedRecords
-  }
-
-  get linkedField(): string {
-    return this._linkedField
-  }
-
-  get formula(): string {
-    return this._formula
+  constructor(options: RollupFieldOptions, drivers: AppDrivers) {
+    const { linkedRecords, linkedField, formula, ...rest } = options
+    super(rest, drivers)
+    this.linkedRecords = linkedRecords
+    this.linkedField = linkedField
+    this.formula = formula
   }
 }

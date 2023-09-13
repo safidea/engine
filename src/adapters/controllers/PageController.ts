@@ -1,6 +1,6 @@
 import { RenderPage } from '@usecases/page/RenderPage'
 import { App } from '@entities/app/App'
-import { Context } from '@entities/app/page/Context'
+import { Context } from '@entities/app/page/PageContext'
 import { Page } from '@entities/app/page/Page'
 import { FetcherSpi } from '@adapters/spi/fetcher/FetcherSpi'
 

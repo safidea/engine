@@ -5,7 +5,7 @@ import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '@entities/app/page/Page'
 import { ContainerComponentUI } from './ContainerComponentUI'
 import { Component, newComponent } from '../Component'
-import { Context } from '../../Context'
+import { PageContext } from '../../PageContext'
 
 export class ContainerComponent extends BaseComponent {
   readonly components: Component[]
@@ -16,7 +16,7 @@ export class ContainerComponent extends BaseComponent {
     this.components = components.map((component) => newComponent(component, drivers, config))
   }
 
-  async render(context: Context) {
+  async render(context: PageContext) {
     const Components = await Promise.all(
       this.components.map((component) => component.render(context))
     )

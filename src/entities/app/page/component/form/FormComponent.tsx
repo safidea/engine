@@ -11,7 +11,7 @@ import { SyncResource, SyncTables } from '@entities/drivers/database/Sync'
 import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
-import { Context } from '../../Context'
+import { PageContext } from '../../PageContext'
 import { ComponentError } from '../ComponentError'
 
 export interface FormConfig extends PageConfig {
@@ -35,7 +35,7 @@ export class FormComponent extends BaseComponent {
     )
   }
 
-  async render(context: Context) {
+  async render(context: PageContext) {
     const syncRecords = this.drivers.fetcher.getSyncRecordsFunction()
     let defaultRecords: Record[]
     let defaultRecordId: string

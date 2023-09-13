@@ -4,7 +4,7 @@ export interface ContextValues {
   }
 }
 
-export class Context {
+export class PageContext {
   private readonly values: ContextValues
 
   constructor(readonly params: { [key: string]: string }) {

@@ -1,19 +1,10 @@
-import { Format } from '@entities/app/table/field/base/BaseField'
 import { JSONSchemaType } from 'ajv'
+import { BaseFieldOptions } from './BaseFieldOptions'
 
-export interface BaseFieldDto {
-  name: string
-  optional?: boolean
-  format?: Format
-  default?: string | number | boolean
-  permissions?: {
-    update?: boolean | { formula: string }
-  }
-}
-
-export const BaseFieldDtoSchema: JSONSchemaType<BaseFieldDto> = {
+export const BaseFieldSchema: JSONSchemaType<BaseFieldOptions> = {
   type: 'object',
   properties: {
+    type: { type: 'string' },
     name: { type: 'string' },
     optional: { type: 'boolean', nullable: true },
     format: { type: 'string', nullable: true },

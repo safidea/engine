@@ -1,7 +1,7 @@
 import { Trigger, newTrigger } from './trigger/Trigger'
 import { RecordData } from '@entities/drivers/database/Record/IRecord'
-import { Tables } from '../Tables'
-import { AppDrivers } from '../App'
+import { TableList } from '../table/TableList'
+import { AppConfig, AppDrivers } from '../App'
 import { Action, newAction } from './action/Action'
 import { AutomationOptions } from './AutomationOptions'
 
@@ -12,7 +12,7 @@ export interface AutomationContext {
 }
 
 export interface AutomationConfig {
-  tables: Tables
+  tables: TableList
   automationName: string
 }
 
@@ -21,11 +21,14 @@ export class Automation {
   private trigger: Trigger
   private actions: Action[]
 
-  constructor(options: AutomationOptions, drivers: AppDrivers, config: AutomationConfig) {
+  constructor(options: AutomationOptions, drivers: AppDrivers, config: AppConfig) {
     const { name, trigger: triggerOptions, actions: actionsOptions } = options
     this.name = name
-    this.trigger = newTrigger(triggerOptions, drivers, config)
-    this.actions = actionsOptions.map((actionOptions) => newAction(actionOptions, drivers, config))
+    const automationConfig = { ...config, automationName: name }
+    this.trigger = newTrigger(triggerOptions, drivers, automationConfig)
+    this.actions = actionsOptions.map((actionOptions) =>
+      newAction(actionOptions, drivers, automationConfig)
+    )
   }
 
   async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {

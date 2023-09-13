@@ -7,7 +7,7 @@ import { RecordDto } from '@adapters/spi/orm/dtos/RecordDto'
 import { FieldDto } from '@adapters/api/table/dtos/FieldDto'
 import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
 import { RecordFieldValue } from '@entities/drivers/database/Record/IRecord'
-import { AppDto } from '@entities/app/AppDto'
+import { AppDto } from '@entities/app/AppSchema'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`

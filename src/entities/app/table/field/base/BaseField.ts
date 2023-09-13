@@ -1,11 +1,5 @@
-export type Format =
-  | 'text'
-  | 'number'
-  | 'currency'
-  | 'datetime'
-  | 'boolean'
-  | 'recordId'
-  | 'recordsIds'
+import { AppDrivers } from '@entities/app/App'
+import { BaseFieldOptions, Format } from './BaseFieldOptions'
 
 export interface FieldPermissions {
   update?:
@@ -16,38 +10,23 @@ export interface FieldPermissions {
 }
 
 export class BaseField {
+  readonly type: string
+  readonly name: string
+  readonly optional: boolean
+  readonly format: Format
+  readonly default?: string | number | boolean
+  readonly permissions?: FieldPermissions
+
   constructor(
-    private readonly _name: string,
-    private readonly _type: string,
-    private readonly _optional: boolean = false,
-    private readonly _format: Format = 'text',
-    private readonly _default: string | number | boolean | undefined = undefined,
-    private readonly _permissions: FieldPermissions = {
-      update: true,
-    }
-  ) {}
-
-  get name(): string {
-    return this._name
-  }
-
-  get type(): string {
-    return this._type
-  }
-
-  get optional(): boolean {
-    return this._optional
-  }
-
-  get format(): Format {
-    return this._format
-  }
-
-  get default(): string | number | boolean | undefined {
-    return this._default
-  }
-
-  get permissions(): FieldPermissions {
-    return this._permissions
+    options: BaseFieldOptions,
+    readonly drivers: AppDrivers
+  ) {
+    const { type, name, optional, format, default: defaultValue, permissions } = options
+    this.type = type
+    this.name = name
+    this.optional = optional || false
+    this.format = format || 'text'
+    this.default = defaultValue
+    this.permissions = permissions
   }
 }

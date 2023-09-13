@@ -1,12 +1,9 @@
-import { BaseField, FieldPermissions } from '../base/BaseField'
+import { AppDrivers } from '@entities/app/App'
+import { BaseField } from '../base/BaseField'
+import { UrlFieldOptions } from './UrlFieldOptions'
 
 export class UrlField extends BaseField {
-  constructor(
-    name: string,
-    optional?: boolean,
-    defaultValue?: string,
-    permissions?: FieldPermissions
-  ) {
-    super(name, 'url', optional, 'text', defaultValue, permissions)
+  constructor(options: UrlFieldOptions, drivers: AppDrivers) {
+    super(options, drivers)
   }
 }
