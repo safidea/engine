@@ -4,7 +4,6 @@ import { Record } from '@entities/drivers/database/Record'
 import { Column, GroupBy, ListComponentOptions, SortBy } from './ListComponentOptions'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../../Page'
-import { ComponentError } from '../ComponentError'
 import { Table } from '@entities/app/table/Table'
 import { GroupType, ListComponentUI } from './ListComponentUI'
 
@@ -30,8 +29,7 @@ export class ListComponent extends BaseComponent {
     if (groupBy) {
       for (const group of groupBy) {
         if (!this.table.fields.find((field) => field.name === group.field))
-          throw new ComponentError(
-            type,
+          this.throwError(
             `field ${group.field} in groupBy is not defined in table ${this.table.name}`
           )
       }
@@ -39,8 +37,7 @@ export class ListComponent extends BaseComponent {
     if (sortBy) {
       for (const sort of sortBy) {
         if (!this.table.fields.find((field) => field.name === sort.field))
-          throw new ComponentError(
-            type,
+          this.throwError(
             `field ${sort.field} in sortBy is not defined in table ${this.table.name}`
           )
       }
@@ -49,8 +46,7 @@ export class ListComponent extends BaseComponent {
       for (const column of columns) {
         if (column.type === 'button') {
           if (!column.buttonLabel) {
-            throw new ComponentError(
-              type,
+            this.throwError(
               `buttonLabel is not defined in button type column ${column.label} in table ${this.table.name}`
             )
           }
@@ -58,8 +54,7 @@ export class ListComponent extends BaseComponent {
         if (column.field) {
           const field = this.table.fields.find((field) => field.name === column.field)
           if (!field) {
-            throw new ComponentError(
-              type,
+            this.throwError(
               `field "${column.field}" in columns is not defined in table ${this.table.name}`
             )
           }
@@ -73,8 +68,7 @@ export class ListComponent extends BaseComponent {
             }
           }
         } else if (!column.type) {
-          throw new ComponentError(
-            type,
+          this.throwError(
             `field or type is not defined in column ${column.label} in table ${this.table.name}`
           )
         }

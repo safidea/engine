@@ -2,13 +2,11 @@ import { join } from 'path'
 import fs from 'fs-extra'
 import puppeteer from 'puppeteer'
 import { v4 as uuidv4 } from 'uuid'
-import { IHtmlToPdfConverter } from './IHtmlToPdfConverter'
+import { HtmlToPdfConverterDriver } from '@entities/drivers/converter/ConverterDriver'
 
-export class PuppeteerHtmlToPdfConverter implements IHtmlToPdfConverter {
-  constructor(private tmpFolder: string) {}
-
-  async convert(html: string) {
-    const filePath = join(this.tmpFolder, uuidv4())
+export class PuppeteerHtmlToPdfConverter implements HtmlToPdfConverterDriver {
+  async convert(html: string, tmpFolder: string) {
+    const filePath = join(tmpFolder, uuidv4())
     const browser = await puppeteer.launch({ headless: 'new' })
     const page = await browser.newPage()
     await page.setContent(html)

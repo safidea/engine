@@ -1,12 +1,13 @@
 import { TableList } from './table/TableList'
 import { PageList } from './page/PageList'
 import { AutomationList } from './automation/AutomationList'
-import { IConverterSpi } from '@entities/drivers/converter/IConverterSpi'
+import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import { AppOptions } from './AppOptions'
+import { Converter } from '@entities/drivers/converter/Converter'
 
 export interface AppConfig {
   readonly tables: TableList
@@ -14,7 +15,7 @@ export interface AppConfig {
 
 export interface AppDrivers {
   readonly templater: ITemplatingSpi
-  readonly converter: IConverterSpi
+  readonly converter: Converter
   readonly storage: IStorageSpi
   readonly database: IDatabaseSpi
   readonly fetcher: IFetcherSpi

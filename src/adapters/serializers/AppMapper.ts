@@ -6,7 +6,7 @@ import { PageMapper } from '../page/mappers/PageMapper'
 import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
-import { IConverterSpi } from '@entities/drivers/converter/IConverterSpi'
+import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 
 export interface AppMapperSpis {

@@ -5,7 +5,7 @@ import { IOrmAdapter } from '../../../adapters/spi/orm/IOrmAdapter'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { IServerAdapter } from './IServerAdapter'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
-import { IConverterSpi } from '@entities/drivers/converter/IConverterSpi'
+import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 
 export interface ServerStateAdapters {

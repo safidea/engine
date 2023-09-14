@@ -5,7 +5,7 @@ import { AppDtoSchema } from '../../entities/app/AppSchema'
 import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
-import { IConverterSpi } from '@entities/drivers/converter/IConverterSpi'
+import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 
 const ajv = new Ajv({ allowUnionTypes: true })
