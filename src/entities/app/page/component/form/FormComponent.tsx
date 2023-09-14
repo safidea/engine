@@ -14,6 +14,8 @@ import { ComponentError } from '../ComponentError'
 import { newFilter } from '@entities/drivers/database/filter/Filter'
 import { RecordToCreate } from '@entities/drivers/database/record/state/RecordToCreate'
 import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
+import { RecordToUpdate } from '@entities/drivers/database/record/state/RecordToUpdate'
+import { PersistedRecord } from '@entities/drivers/database/record/state/PersistedRecord'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -94,7 +96,7 @@ export class FormComponent extends BaseComponent {
 
       const updateRecord = (id: string, field: string, value: RecordFieldValue) => {
         const { index } = this.getRecordFromId(id, records)
-        records[index].setFieldValue(field, value)
+        records[index] = this.updateRecord(records[index], field, value)
         setRecords([...records])
         autosave()
       }
@@ -111,7 +113,7 @@ export class FormComponent extends BaseComponent {
         const { record, index } = this.getRecordFromId(recordId, records)
         const field = this.table.getLinkedFieldByLinkedTableName(linkedTableName)
         const recordsIds = record.getMultipleLinkedRecordsValue(field.name)
-        records[index].setFieldValue(field.name, [...recordsIds, newRecord.id])
+        records[index] = this.updateRecord(record, field.name, [...recordsIds, newRecord.id])
         records.push(newRecord)
         setRecords([...records])
         autosave()
@@ -119,8 +121,10 @@ export class FormComponent extends BaseComponent {
 
       const removeRecord = (field: string, id: string) => {
         const { index } = this.getRecordFromId(id, records)
+        const record = records[index]
         if (this.submit.autosave === true) {
-          records[index].softDelete()
+          if (record instanceof PersistedRecord || record instanceof RecordToUpdate)
+            records[index] = record.softDelete()
         } else {
           records.splice(index, 1)
         }
@@ -129,7 +133,8 @@ export class FormComponent extends BaseComponent {
           records
         )
         const recordsIds = currentRecord.getMultipleLinkedRecordsValue(field)
-        records[currentIndex].setFieldValue(
+        records[currentIndex] = this.updateRecord(
+          records[currentIndex],
           field,
           recordsIds.filter((recordId) => recordId !== id)
         )
@@ -193,5 +198,16 @@ export class FormComponent extends BaseComponent {
     const record = records.find((record) => record.id === id)
     if (!record) throw new ComponentError(this.type, `record with id ${id} not found`)
     return { record, index: records.indexOf(record) }
+  }
+
+  private updateRecord(record: Record, field: string, value: RecordFieldValue) {
+    if (record instanceof RecordToCreate) {
+      record.setFieldValue(field, value)
+    } else if (record instanceof RecordToUpdate) {
+      record.updateFieldValue(field, value)
+    } else if (record instanceof PersistedRecord) {
+      record = record.updateFieldValue(field, value)
+    }
+    return record
   }
 }

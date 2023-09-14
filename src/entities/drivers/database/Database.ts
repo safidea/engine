@@ -41,13 +41,13 @@ export class Database {
   }
 
   async update(table: Table, record: RecordToUpdate): Promise<void> {
-    const recordData = record.data()
+    const recordData = record.updatedData()
     await this.driver.softUpdate(table.name, recordData)
     if (this.emit) await this.emit('record_updated', { table: table.name, record: recordData })
   }
 
   async updateMany(table: Table, records: RecordToUpdate[]): Promise<void> {
-    const recordsData = records.map((r) => r.data())
+    const recordsData = records.map((r) => r.updatedData())
     await this.driver.softUpdateMany(table.name, recordsData)
     if (this.emit)
       for (const recordData of recordsData)

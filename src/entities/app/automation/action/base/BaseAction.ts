@@ -51,15 +51,19 @@ export class BaseAction {
 
   async createContextFromRecord(table: Table, id: string): Promise<AutomationContext> {
     const context: AutomationContext = { table: table.name }
-    const record = await this.drivers.database.read(table.name, id)
-    context.data = { ...record.toDto() }
+    const record = await this.drivers.database.read(table, id)
+    if (!record) {
+      this.throwError(`record ${id} not found in table ${table.name}`)
+    }
+    context.data = record.data()
     for (const field of table.fields) {
       if (field instanceof MultipleLinkedRecordsField) {
         const ids = record.getMultipleLinkedRecordsValue(field.name)
-        const linkedRecords = await this.drivers.database.list(field.table, [
+        const linkedTable = this.getTableByName(field.table)
+        const linkedRecords = await this.drivers.database.list(linkedTable, [
           newFilter({ field: 'id', operator: 'is_any_of', value: ids }),
         ])
-        context.data[field.name] = linkedRecords.map((record) => record.toDto())
+        context.data[field.name] = linkedRecords.map((record) => record.data())
       }
     }
     return context

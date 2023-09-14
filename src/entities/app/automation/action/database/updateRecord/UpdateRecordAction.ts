@@ -1,10 +1,10 @@
 import { BaseAction } from '../../base/BaseAction'
 import { Table } from '@entities/app/table/Table'
-import { Record } from '@entities/drivers/database/record/Record'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import { UpdateRecordActionOptions } from './UpdateRecordActionOptions'
 import { AppDrivers } from '@entities/app/App'
+import { RecordToUpdate } from '@entities/drivers/database/record/state/RecordToUpdate'
 
 export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplatingSpi | string }
 
@@ -40,9 +40,13 @@ export class UpdateRecordAction extends BaseAction {
       {}
     )
     const id = this.recordIdCompiled.render(context)
-    const record = new Record({ id, ...fieldsValues }, this.table, 'update')
-    await this.drivers.database.update(this.table.name, record, id)
-    const { data } = await this.createContextFromRecord(this.table, record.id)
+    const persistedRecord = await this.drivers.database.read(this.table, id)
+    if (!persistedRecord) {
+      this.throwError(`record ${id} not found in table ${this.table.name}`)
+    }
+    const recordToUpdate = new RecordToUpdate(persistedRecord.data(), this.table, fieldsValues)
+    await this.drivers.database.update(this.table, recordToUpdate)
+    const { data } = await this.createContextFromRecord(this.table, recordToUpdate.id)
     return { [this.name]: data }
   }
 }

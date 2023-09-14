@@ -3,7 +3,12 @@ import { BaseRecord } from './BaseRecord'
 import { RecordToDelete } from './RecordToDelete'
 import { Script } from '@entities/drivers/scripter/Script'
 import { Field } from '@entities/app/table/field/Field'
-import { RecordData, RecordFieldValue, RecordFields, RecordUpdatedData } from '../RecordData'
+import { RecordData, RecordFieldValue, RecordFields } from '../RecordData'
+
+export interface RecordUpdatedData extends RecordFields {
+  id: string
+  last_modified_time: string
+}
 
 export class RecordToUpdate extends BaseRecord {
   last_modified_time: string

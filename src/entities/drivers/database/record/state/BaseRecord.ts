@@ -44,6 +44,14 @@ export class BaseRecord {
     }
   }
 
+  getMultipleLinkedRecordsValue(fieldName: string): string[] {
+    const value = this.getFieldValue(fieldName) ?? []
+    if (!Array.isArray(value)) {
+      throw new Error(`field "${fieldName}" is not a multiple linked records field`)
+    }
+    return value
+  }
+
   protected getFieldFromName(fieldName: string): Field {
     const field = this.table.fields.find((field) => field.name === fieldName)
     if (!field) {

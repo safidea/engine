@@ -10,7 +10,9 @@ export class RecordToCreate extends BaseRecord {
     table: Table,
     private shouldValidate: boolean = false
   ) {
-    super({ ...fields, id: uuidv4(), created_time: new Date().toISOString() }, table)
+    const id = uuidv4()
+    const created_time = new Date().toISOString()
+    super({ ...fields, id, created_time }, table)
   }
 
   setFieldValue(fieldName: string, value: RecordFieldValue): void {

@@ -31,6 +31,7 @@ export class RecordUpdatedTrigger extends BaseTrigger {
     }
     if ('id' in context && this.filters.length > 0) {
       const record = await this.drivers.database.read(this.table, String(context.id))
+      if (!record) return false
       for (const filter of this.filters) {
         if (filter instanceof IsFilter && filter.value !== record.getFieldValue(filter.field)) {
           return false

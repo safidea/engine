@@ -18,7 +18,10 @@ export class FindRecordAction extends BaseAction {
 
   async execute(context: AutomationContext) {
     const id = this.recordIdCompiled.render(context)
-    const record = await this.drivers.database.read(this.table.name, id)
+    const record = await this.drivers.database.read(this.table, id)
+    if (!record) {
+      this.throwError(`record ${id} not found in table ${this.table.name}`)
+    }
     const { data } = await this.createContextFromRecord(this.table, record.id)
     return { [this.name]: data }
   }
