@@ -1,12 +1,12 @@
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { IOrmAdapter } from './IOrmAdapter'
-import { Record } from '@entities/drivers/database/Record'
-import { Filter } from '@entities/drivers/database/Filter'
+import { IOrmAdapter } from './DatabaseDriver'
+import { Record } from '@entities/drivers/database/record'
+import { Filter } from '@entities/drivers/database/filter/Filter'
 import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
 import { FilterMapper } from './mappers/FilterMapper'
 import { App } from '@entities/app/App'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
-import { StartedState } from '../../../entities/drivers/server/StartedState'
+import { StartedState } from '../server/StartedState'
 
 export class OrmSpi implements IOrmSpi {
   constructor(

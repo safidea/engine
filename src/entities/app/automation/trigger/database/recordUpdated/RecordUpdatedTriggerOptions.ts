@@ -1,4 +1,4 @@
-import { FilterOptions } from "@entities/drivers/database/FilterOptions"
+import { FilterOptions } from '@entities/drivers/database/filter/FilterOptions'
 
 export interface RecordUpdatedTriggerOptions {
   event: 'record_updated'

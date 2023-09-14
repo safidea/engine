@@ -1,11 +1,11 @@
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { Record } from '@entities/drivers/database/Record'
-import { SyncResource, SyncTables } from '@entities/drivers/database/Sync'
+import { Record } from '@entities/drivers/database/record'
+import { SyncResource, SyncTables } from '@entities/drivers/database/sync/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@entities/app/App'
 import { StartedState } from '@entities/drivers/server/StartedState'
 import { CreateAutomationContextFromRecordId } from '../automation/CreateAutomationContextFromRecordId'
-import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
+import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
 import { UpdateTableRecord } from './UpdateTableRecord'
 
 export interface TableToHandle {

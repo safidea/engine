@@ -1,4 +1,4 @@
-import { SyncResource } from '@entities/drivers/database/Sync'
+import { SyncResource } from '@entities/drivers/database/sync/Sync'
 import { ResourceSyncDto } from '@adapters/spi/fetcher/dtos/ResourceSyncDto'
 import { FilterMapper } from '@adapters/spi/orm/mappers/FilterMapper'
 

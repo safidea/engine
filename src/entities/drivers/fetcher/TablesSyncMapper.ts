@@ -1,4 +1,4 @@
-import { SyncTables } from '@entities/drivers/database/Sync'
+import { SyncTables } from '@entities/drivers/database/sync/Sync'
 import { TablesSyncDto } from '@adapters/spi/fetcher/dtos/TablesSyncDto'
 import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
 import { App } from '@entities/app/App'

@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 import { ActionMapper } from '@entities/app/automation/ActionMapper'
-import { Record } from '@entities/drivers/database/Record'
+import { Record } from '@entities/drivers/database/record'
 import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
 
 describe('UpdateRecordAction', () => {

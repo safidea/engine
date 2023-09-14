@@ -1,18 +1,18 @@
 import Ajv from 'ajv'
-import { FilterDto } from '@entities/drivers/database/FilterOptions'
+import { FilterDto } from '@entities/drivers/database/filter/FilterOptions'
 import { App } from '@entities/app/App'
 import { ApiError } from '@entities/errors/ApiError'
 import { RequestDto } from '@entities/drivers/server/RequestDto'
 import { RecordDto, RecordDtoSchema } from '@adapters/spi/orm/dtos/RecordDto'
 import { FilterMapper } from '@adapters/spi/orm/mappers/FilterMapper'
-import { Filter } from '@entities/drivers/database/Filter'
+import { Filter } from '@entities/drivers/database/filter/Filter'
 import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
-import { Record } from '@entities/drivers/database/Record'
+import { Record } from '@entities/drivers/database/record'
 import { OrmSpi } from '@adapters/spi/orm/OrmSpi'
-import { SyncResource } from '@entities/drivers/database/Sync'
+import { SyncResource } from '@entities/drivers/database/sync/Sync'
 import { ResourceSyncMapper } from '@adapters/spi/fetcher/mappers/ResourceSyncMapper'
 import { SyncDtoSchema } from '@adapters/spi/fetcher/dtos/SyncDto'
-import { RecordStateType } from '@entities/drivers/database/Record/IRecord'
+import { RecordStateType } from '@entities/drivers/database/record/IRecord'
 
 const ajv = new Ajv({ allowUnionTypes: true })
 const validateRecordDto = ajv.compile(RecordDtoSchema)

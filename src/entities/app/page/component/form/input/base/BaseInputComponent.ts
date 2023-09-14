@@ -1,5 +1,5 @@
 import { FormConfig } from '../../FormComponent'
-import { Record } from '@entities/drivers/database/Record'
+import { Record } from '@entities/drivers/database/record'
 import { BaseInputComponentOptions } from './BaseInputComponentOptions'
 import { AppDrivers } from '@entities/app/App'
 import { BaseComponent } from '../../../base/BaseComponent'

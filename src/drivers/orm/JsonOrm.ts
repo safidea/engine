@@ -3,7 +3,7 @@ import { join } from 'path'
 import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
 import { TableDto } from '@adapters/api/table/dtos/TableDto'
 import { RecordDto, RecordFieldValueDto } from '@adapters/spi/orm/dtos/RecordDto'
-import { FilterDto } from '@entities/drivers/database/FilterOptions'
+import { FilterDto } from '@entities/drivers/database/filter/FilterOptions'
 
 interface TableRecord {
   [key: string]: RecordFieldValueDto

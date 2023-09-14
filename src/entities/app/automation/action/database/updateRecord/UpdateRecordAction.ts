@@ -1,6 +1,6 @@
 import { BaseAction } from '../../base/BaseAction'
 import { Table } from '@entities/app/table/Table'
-import { Record } from '@entities/drivers/database/Record'
+import { Record } from '@entities/drivers/database/record'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import { UpdateRecordActionOptions } from './UpdateRecordActionOptions'

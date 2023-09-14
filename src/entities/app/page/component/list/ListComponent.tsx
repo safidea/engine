@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
-import { Record } from '@entities/drivers/database/Record'
+import { Record } from '@entities/drivers/database/record'
 import { Column, GroupBy, ListComponentOptions, SortBy } from './ListComponentOptions'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../../Page'

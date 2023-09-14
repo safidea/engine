@@ -3,8 +3,8 @@ import { AutomationConfig } from '../../Automation'
 import { BaseTriggerOptions } from './BaseTriggerOptions'
 import { Table } from '@entities/app/table/Table'
 import { TriggerError } from '../TriggerError'
-import { FilterOptions } from '@entities/drivers/database/FilterOptions'
-import { Filter, newFilter } from '@entities/drivers/database/Filter'
+import { FilterOptions } from '@entities/drivers/database/filter/FilterOptions'
+import { Filter, newFilter } from '@entities/drivers/database/filter/Filter'
 
 export class BaseTrigger {
   readonly event: string

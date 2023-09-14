@@ -2,7 +2,7 @@ import { AppDrivers } from '@entities/app/App'
 import { BaseActionOptions } from './BaseActionOptions'
 import { AutomationConfig, AutomationContext } from '../../Automation'
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/MultipleLinkedRecordsField'
-import { IsAnyOfFilter } from '@entities/drivers/database/filters/IsAnyOfFilter'
+import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
 import { ActionError } from '../ActionError'
 import { Table } from '@entities/app/table/Table'
 

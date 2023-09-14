@@ -1,7 +1,7 @@
-import { Record } from '@entities/drivers/database/Record'
+import { Record } from '@entities/drivers/database/record'
 import { RecordDto } from '@adapters/spi/orm/dtos/RecordDto'
 import { Table } from '@entities/app/table/Table'
-import { RecordStateType } from '@entities/drivers/database/Record/IRecord'
+import { RecordStateType } from '@entities/drivers/database/record/IRecord'
 
 export class RecordMapper {
   static toEntity(recordDto: RecordDto, table: Table, state?: RecordStateType): Record {

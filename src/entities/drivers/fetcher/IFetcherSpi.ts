@@ -1,5 +1,5 @@
-import { Record } from '@entities/drivers/database/Record'
-import { SyncResource, SyncTables } from '@entities/drivers/database/Sync'
+import { Record } from '@entities/drivers/database/record'
+import { SyncResource, SyncTables } from '@entities/drivers/database/sync/Sync'
 
 export interface IFetcherSpi {
   getSyncRecordsHook: (resources: SyncResource[]) => () => {

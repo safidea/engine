@@ -1,6 +1,6 @@
 import { JSONSchemaType } from 'ajv'
 import { RecordUpdatedTriggerOptions } from './RecordUpdatedTriggerOptions'
-import { FilterSchema } from '@entities/drivers/database/FilterSchema'
+import { FilterSchema } from '@entities/drivers/database/filter/FilterSchema'
 
 export const RecordUpdatedTriggerSchema: JSONSchemaType<RecordUpdatedTriggerOptions> = {
   type: 'object',

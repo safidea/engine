@@ -1,9 +1,9 @@
-import { TableDto } from '@adapters/api/table/dtos/TableDto'
-import { RecordDto } from '@adapters/spi/orm/dtos/RecordDto'
-import { FilterDto } from './FilterOptions'
+import { TableOptions } from '@adapters/api/table/dtos/TableDto'
+import { RecordOptions } from '@adapters/spi/orm/dtos/RecordDto'
+import { FilterOptions } from './filter/FilterOptions'
 
-export interface IOrmAdapter {
-  configure(tables: TableDto[]): Promise<void>
+export interface DatabaseDriver {
+  configure(tables: TableOptions[]): Promise<void>
   tableExists(tableName: string): boolean
   create(table: string, record: RecordDto): Promise<string>
   createMany(table: string, record: RecordDto[]): Promise<string[]>

@@ -1,5 +1,5 @@
 import { JSONSchemaType } from 'ajv'
-import { FilterDto, FilterDtoSchema } from '@entities/drivers/database/FilterOptions'
+import { FilterDto, FilterDtoSchema } from '@entities/drivers/database/filter/FilterOptions'
 
 export interface ResourceSyncDto {
   table: string

@@ -1,5 +1,5 @@
 import { Trigger, newTrigger } from './trigger/Trigger'
-import { RecordData } from '@entities/drivers/database/Record/IRecord'
+import { RecordData } from '@entities/drivers/database/record/IRecord'
 import { TableList } from '../table/TableList'
 import { AppConfig, AppDrivers } from '../App'
 import { Action, newAction } from './action/Action'
