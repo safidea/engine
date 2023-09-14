@@ -1,7 +1,7 @@
 import { SyncCommand } from '@entities/drivers/database/sync/Sync'
 import { CommandSyncDto } from '@entities/drivers/fetcher/CommandSyncDto'
 import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 import { App } from '@entities/app/App'
 
 export class CommandSyncMapper {

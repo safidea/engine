@@ -4,7 +4,7 @@ import { FormulaField } from '@entities/app/table/field/formula/FormulaField'
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/MultipleLinkedRecordsField'
 import { App } from '@entities/app/App'
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
 import { Script } from '@entities/drivers/scripter/Script'
 

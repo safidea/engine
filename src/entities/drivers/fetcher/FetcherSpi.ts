@@ -1,6 +1,6 @@
 import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { IFetcherAdapter } from './IFetcherAdapter'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 import { App } from '@entities/app/App'
 import { SyncResource, SyncTables } from '@entities/drivers/database/sync/Sync'
 import { CommandSyncMapper } from '@adapters/spi/fetcher/mappers/CommandSyncMapper'

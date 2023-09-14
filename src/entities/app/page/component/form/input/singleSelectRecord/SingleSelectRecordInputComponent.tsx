@@ -4,7 +4,7 @@ import { SingleSelectRecordInputComponentOptions } from './SingleSelectRecordInp
 import { AppDrivers } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 import { SingleSelectInputComponentUI } from '../singleSelect/SingleSelectInputComponentUI'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 import { FormConfig } from '../../FormComponent'
 
 export class SingleSelectRecordInputComponent extends BaseInputComponent {

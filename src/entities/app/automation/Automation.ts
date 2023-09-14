@@ -1,14 +1,14 @@
 import { Trigger, newTrigger } from './trigger/Trigger'
-import { RecordData } from '@entities/drivers/database/record/IRecord'
 import { TableList } from '../table/TableList'
 import { AppConfig, AppDrivers } from '../App'
 import { Action, newAction } from './action/Action'
 import { AutomationOptions } from './AutomationOptions'
+import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
 
 // TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
 
 export interface AutomationContext {
-  [key: string]: string | number | boolean | undefined | string[] | RecordData[] | AutomationContext
+  [key: string]: RecordFieldValue | AutomationContext | AutomationContext[]
 }
 
 export interface AutomationConfig {

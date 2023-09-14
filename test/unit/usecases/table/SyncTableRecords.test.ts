@@ -7,7 +7,7 @@ import UnstyledUI from '@drivers/ui/UnstyledUI'
 import { helpers, describe, test, expect } from '../../../utils/unit/fixtures'
 import { FilterMapper } from '@adapters/spi/orm/mappers/FilterMapper'
 import { Filter } from '@entities/drivers/database/filter/Filter'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 
 describe('SyncTableRecords', () => {
   test('should sync a created record', async () => {

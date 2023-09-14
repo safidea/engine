@@ -1,12 +1,7 @@
 import { JSONSchemaType } from 'ajv'
+import { RecordData } from './RecordData'
 
-export type RecordFieldValueDto = string | number | boolean | undefined | string[]
-
-export interface RecordDto {
-  [key: string]: RecordFieldValueDto
-}
-
-export const RecordDtoSchema: JSONSchemaType<RecordDto> = {
+export const RecordSchema: JSONSchemaType<RecordData> = {
   type: 'object',
   additionalProperties: true,
   properties: {

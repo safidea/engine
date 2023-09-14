@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 import { Column } from './ListComponentOptions'
 
 export interface ListRowComponentUIProps {

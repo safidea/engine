@@ -1,5 +1,5 @@
 import { Filter } from '../filter/Filter'
-import { Record } from '../record'
+import { Record } from '../record/Record'
 
 export interface SyncCommand {
   type: 'create' | 'update' | 'delete'

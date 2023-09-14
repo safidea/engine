@@ -1,7 +1,7 @@
 import React from 'react'
 import { RecordFieldValue } from '@entities/drivers/database/record/IRecord'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { Record } from '@entities/drivers/database/record'
+import { Record } from '@entities/drivers/database/record/Record'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void

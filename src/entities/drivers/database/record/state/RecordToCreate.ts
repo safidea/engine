@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid'
-import { RecordState } from './RecordState'
+import { BaseRecord } from './BaseRecord'
 import { Table } from '@entities/app/table/Table'
-import { RecordFieldsValues, RecordData, RecordFieldValue } from './IRecord'
-import { Field } from '@entities/app/table/Field'
+import { Field } from '@entities/app/table/field/Field'
+import { RecordFields, RecordData, RecordFieldValue } from '../RecordData'
 
-export class CreateState extends RecordState {
-  private readonly _created_time?: string
-  private readonly _fieldsValues: RecordFieldsValues
+export class RecordToCreate extends BaseRecord {
+  readonly created_time?: string
+  readonly fields: RecordFields
 
   constructor(
     recordData: RecordData,
@@ -15,30 +15,17 @@ export class CreateState extends RecordState {
   ) {
     const { id = uuidv4(), created_time = new Date().toISOString(), ...fieldsValues } = recordData
     super(id, table)
-    this._created_time = created_time
-    this._fieldsValues =
-      validation === true ? this.validateFieldsValues(fieldsValues) : fieldsValues
-  }
-
-  get created_time(): string | undefined {
-    return this._created_time
-  }
-
-  get fields(): RecordFieldsValues {
-    return this._fieldsValues
-  }
-
-  getCurrentState(): 'create' {
-    return 'create'
+    this.created_time = created_time
+    this.fields = validation === true ? this.validateFieldsValues(fieldsValues) : fieldsValues
   }
 
   getFieldValue(fieldName: string): RecordFieldValue {
-    return this._fieldsValues[fieldName]
+    return this.fields[fieldName]
   }
 
   setFieldValue(fieldName: string, value: RecordFieldValue): void {
     const field = this.getNonCalculatedFieldFromName(fieldName)
-    this._fieldsValues[fieldName] =
+    this.fields[fieldName] =
       this.validation === true ? this.validateFieldValue(field, value) : value
   }
 
@@ -53,5 +40,13 @@ export class CreateState extends RecordState {
       return undefined
     }
     return super.validateFieldValue(field, value)
+  }
+
+  data(): RecordData {
+    return {
+      id: this.id,
+      ...this.fields,
+      created_time: this.created_time,
+    }
   }
 }
