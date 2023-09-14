@@ -9,13 +9,40 @@ import { CurrencyField } from '@entities/app/table/field/currency/CurrencyField'
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/multipleLinkedRecords/MultipleLinkedRecordsField'
 import { NumberField } from '@entities/app/table/field/number/NumberField'
 import { RollupField } from '@entities/app/table/field/rollup/RollupField'
-import { RecordFields, RecordFieldValue } from '../RecordData'
+import { RecordData, RecordFields, RecordFieldValue } from '../RecordData'
 
 export class BaseRecord {
+  readonly id: string
+  readonly created_time: string
+  readonly last_modified_time?: string
+  readonly deleted_time?: string
+  readonly fields: RecordFields
+
   constructor(
-    readonly id: string,
+    data: RecordData,
     protected readonly table: Table
-  ) {}
+  ) {
+    const { id, created_time, deleted_time, last_modified_time, ...fields } = data
+    this.id = id
+    this.created_time = created_time
+    this.last_modified_time = last_modified_time
+    this.deleted_time = deleted_time
+    this.fields = this.validateFieldsValues(fields)
+  }
+
+  getFieldValue(fieldName: string): RecordFieldValue {
+    return this.fields[fieldName]
+  }
+
+  data(): RecordData {
+    return {
+      id: this.id,
+      ...this.fields,
+      created_time: this.created_time,
+      last_modified_time: this.last_modified_time,
+      deleted_time: this.deleted_time,
+    }
+  }
 
   protected getFieldFromName(fieldName: string): Field {
     const field = this.table.fields.find((field) => field.name === fieldName)

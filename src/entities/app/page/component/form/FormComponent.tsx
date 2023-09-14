@@ -12,6 +12,8 @@ import { TableInputComponent } from './input/table/TableInputComponent'
 import { PageContext } from '../../PageContext'
 import { ComponentError } from '../ComponentError'
 import { newFilter } from '@entities/drivers/database/filter/Filter'
+import { RecordToCreate } from '@entities/drivers/database/record/state/RecordToCreate'
+import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -46,7 +48,7 @@ export class FormComponent extends BaseComponent {
       if (error) throw new Error('Sync records error: ' + error)
       defaultRecords = this.getRecordsFromTables(tables)
     } else {
-      const record = new Record({}, this.table, 'create', false)
+      const record = new RecordToCreate({}, this.table)
       defaultRecords = [record]
       defaultRecordId = record.id
     }
@@ -68,7 +70,7 @@ export class FormComponent extends BaseComponent {
           setErrorMessage(error)
         } else {
           if (!this.submit.autosave) {
-            const newRecord = new Record({}, this.table, 'create', false)
+            const newRecord = new RecordToCreate({}, this.table)
             setRecordId(newRecord.id)
             setRecords([newRecord])
           } else {
@@ -100,13 +102,11 @@ export class FormComponent extends BaseComponent {
       const addRecord = (linkedTableName: string) => {
         const linkedTable = this.getTableByName(linkedTableName)
         const linkedField = linkedTable.getLinkedFieldByLinkedTableName(this.table.name)
-        const newRecord = new Record(
+        const newRecord = new RecordToCreate(
           {
             [linkedField.name]: recordId,
           },
-          linkedTable,
-          'create',
-          false
+          linkedTable
         )
         const { record, index } = this.getRecordFromId(recordId, records)
         const field = this.table.getLinkedFieldByLinkedTableName(linkedTableName)

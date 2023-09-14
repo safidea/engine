@@ -107,8 +107,8 @@ export class ListComponent extends BaseComponent {
       for (let i = 0; i < this.sortBy.length; i++) {
         const field = this.sortBy[i].field
         const order = this.sortBy[i].order
-        let aField = a.fields[field]
-        let bField = b.fields[field]
+        let aField = a.getFieldValue(field)
+        let bField = b.getFieldValue(field)
         const fieldType = this.table.fields.find((c) => c.name === field)?.type
         if (fieldType === 'DateTime' && aField && bField) {
           aField = Date.parse(String(aField))
@@ -137,7 +137,7 @@ export class ListComponent extends BaseComponent {
       if (order === 'last_to_first') options.reverse()
       for (let j = 0; j < options.length; j++) {
         const option = options[j]
-        let groupedRecords = records.filter((record) => record.fields[fieldName] === option.name)
+        let groupedRecords = records.filter((record) => record.getFieldValue(fieldName) === option.name)
         if (this.sortBy && this.sortBy.length > 0) groupedRecords = this.sortRecords(records)
         groups.push({
           name: option.name,

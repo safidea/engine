@@ -3,39 +3,39 @@ import { BaseRecord } from './BaseRecord'
 import { RecordToDelete } from './RecordToDelete'
 import { Script } from '@entities/drivers/scripter/Script'
 import { Field } from '@entities/app/table/field/Field'
-import { RecordData, RecordFieldValue, RecordFields } from '../RecordData'
+import { RecordData, RecordFieldValue, RecordFields, RecordUpdatedData } from '../RecordData'
 
 export class RecordToUpdate extends BaseRecord {
-  last_modified_time?: string
-  readonly fields: RecordFields
+  last_modified_time: string
 
-  constructor(recordData: RecordData, table: Table) {
-    const { id, last_modified_time = new Date().toISOString(), ...fieldsValues } = recordData
-    if (!id) {
-      throw new Error('record to update must have an id')
-    }
-    super(id, table)
+  constructor(
+    data: RecordData,
+    table: Table,
+    readonly updatedFields: RecordFields
+  ) {
+    const last_modified_time = new Date().toISOString()
+    super({ ...data, ...updatedFields, last_modified_time }, table)
     this.last_modified_time = last_modified_time
-    this.fields = this.validateFieldsValues(fieldsValues)
   }
 
-  getCurrentState(): 'update' {
-    return 'update'
+  updatedData(): RecordUpdatedData {
+    return {
+      id: this.id,
+      ...this.updatedFields,
+      last_modified_time: this.last_modified_time,
+    }
   }
 
-  getFieldValue(fieldName: string): RecordFieldValue {
-    return this.fields[fieldName]
-  }
-
-  updateFieldValue(fieldName: string, value: RecordFieldValue): RecordToUpdate {
+  updateFieldValue(fieldName: string, value: RecordFieldValue) {
     const field = this.getNonCalculatedFieldFromName(fieldName)
-    this.fields[fieldName] = this.validateFieldValue(field, value)
+    this.validateFieldValue(field, value)
+    this.fields[fieldName] = value
+    this.updatedFields[fieldName] = value
     this.last_modified_time = new Date().toISOString()
-    return this
   }
 
   softDelete(): RecordToDelete {
-    return new RecordToDelete({ id: this.id }, this.table)
+    return new RecordToDelete(this.data(), this.table)
   }
 
   validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
@@ -62,14 +62,6 @@ export class RecordToUpdate extends BaseRecord {
           }
         }
       }
-    }
-  }
-
-  data(): RecordData {
-    return {
-      id: this.id,
-      ...this.fields,
-      last_modified_time: this.last_modified_time,
     }
   }
 }
