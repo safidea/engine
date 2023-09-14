@@ -29,9 +29,7 @@ export class BaseTrigger {
   }
 
   getFiltersFromOptions(filtersOptions: FilterOptions[]): Filter[] {
-    return filtersOptions.map((filterOptions: FilterOptions) =>
-      newFilter(filterOptions, this.drivers, this.config)
-    )
+    return filtersOptions.map((filterOptions: FilterOptions) => newFilter(filterOptions))
   }
 
   shouldTriggerEvent(event: string): boolean {

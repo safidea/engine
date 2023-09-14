@@ -4,7 +4,7 @@ import { TableOptions } from './TableOptions'
 
 export class TableList {
   private readonly tables: Table[]
-  
+
   constructor(tables: TableOptions[], drivers: AppDrivers) {
     this.tables = tables.map((table) => new Table(table, drivers))
   }

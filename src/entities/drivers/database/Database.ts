@@ -1,57 +1,63 @@
-import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { IOrmAdapter } from './DatabaseDriver'
 import { Record } from '@entities/drivers/database/record'
 import { Filter } from '@entities/drivers/database/filter/Filter'
-import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
-import { FilterMapper } from './mappers/FilterMapper'
-import { App } from '@entities/app/App'
-import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
-import { StartedState } from '../server/StartedState'
+import { TableOptions } from '@entities/app/table/TableOptions'
+import { Emit } from '@entities/app/automation/AutomationList'
+import { DatabaseDriver } from './DatabaseDriver'
 
-export class OrmSpi implements IOrmSpi {
-  constructor(
-    private ormAdapter: IOrmAdapter,
-    private app: App,
-    private instance: StartedState
-  ) {}
+export class Database {
+  private emit?: Emit
 
-  async configure(): Promise<void> {
-    const tablesDto = TableMapper.toDtos(this.app.tables)
-    await this.ormAdapter.configure(tablesDto)
+  constructor(private readonly driver: DatabaseDriver) {}
+
+  async configure(tables: TableOptions[]): Promise<void> {
+    await this.driver.configure(tables)
+  }
+
+  async listen(emit: Emit) {
+    this.emit = emit
   }
 
   async tableExists(table: string) {
-    return this.ormAdapter.tableExists(table)
+    return this.driver.tableExists(table)
   }
 
   async create(table: string, record: Record) {
     const recordDto = RecordMapper.toDto(record)
-    return this.ormAdapter.create(table, recordDto)
+    const createdRecord = await this.driver.create(table, recordDto)
+    if (this.emit) await this.emit('record_created', { table, record: createdRecord })
+    return createdRecord
   }
 
   async createMany(table: string, records: Record[]) {
     const recordsDto = RecordMapper.toDtos(records)
-    return this.ormAdapter.createMany(table, recordsDto)
+    const createdRecords = await this.driver.createMany(table, recordsDto)
+    if (this.emit)
+      for (const createdRecord of createdRecords)
+        await this.emit('record_created', { table, record: createdRecord })
+    return createdRecords
   }
 
   async update(table: string, record: Record, id: string) {
     const recordDto = RecordMapper.toDto(record)
-    await this.ormAdapter.softUpdateById(table, recordDto, id)
+    await this.driver.softUpdateById(table, recordDto, id)
+    if (this.emit) await this.emit('record_updated', { table, record: recordDto })
   }
 
   async updateMany(table: string, records: Record[]) {
     const recordsDto = RecordMapper.toDtos(records)
-    await this.ormAdapter.softUpdateMany(table, recordsDto)
+    await this.driver.softUpdateMany(table, recordsDto)
+    if (this.emit)
+      for (const record of recordsDto) await this.emit('record_updated', { table, record })
   }
 
   async list(table: string, filters: Filter[]) {
     const filtersDto = FilterMapper.toDtos(filters)
-    const recordsDto = await this.ormAdapter.list(table, filtersDto)
+    const recordsDto = await this.driver.list(table, filtersDto)
     return RecordMapper.toEntities(recordsDto, this.app.getTableByName(table))
   }
 
   async read(table: string, id: string) {
-    const recordDto = await this.ormAdapter.readById(table, id)
+    const recordDto = await this.driver.readById(table, id)
     if (!recordDto) return undefined
     return RecordMapper.toEntity(recordDto, this.app.getTableByName(table))
   }

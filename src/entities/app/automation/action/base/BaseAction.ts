@@ -1,10 +1,10 @@
 import { AppDrivers } from '@entities/app/App'
 import { BaseActionOptions } from './BaseActionOptions'
 import { AutomationConfig, AutomationContext } from '../../Automation'
-import { MultipleLinkedRecordsField } from '@entities/app/table/field/MultipleLinkedRecordsField'
-import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
 import { ActionError } from '../ActionError'
 import { Table } from '@entities/app/table/Table'
+import { newFilter } from '@entities/drivers/database/filter/Filter'
+import { MultipleLinkedRecordsField } from '@entities/app/table/field/multipleLinkedRecords/MultipleLinkedRecordsField'
 
 export class BaseAction {
   readonly name: string
@@ -51,13 +51,13 @@ export class BaseAction {
 
   async createContextFromRecord(table: Table, id: string): Promise<AutomationContext> {
     const context: AutomationContext = { table: table.name }
-    const record = await this.drivers.database.read(table, id)
+    const record = await this.drivers.database.read(table.name, id)
     context.data = { ...record.toDto() }
     for (const field of table.fields) {
       if (field instanceof MultipleLinkedRecordsField) {
         const ids = record.getMultipleLinkedRecordsValue(field.name)
         const linkedRecords = await this.drivers.database.list(field.table, [
-          new IsAnyOfFilter('id', ids),
+          newFilter({ field: 'id', operator: 'is_any_of', value: ids }),
         ])
         context.data[field.name] = linkedRecords.map((record) => record.toDto())
       }

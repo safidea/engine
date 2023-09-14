@@ -8,11 +8,11 @@ import { Table } from '@entities/app/table/Table'
 import { Record } from '@entities/drivers/database/record'
 import { RecordFieldValue } from '@entities/drivers/database/record/IRecord'
 import { SyncResource, SyncTables } from '@entities/drivers/database/sync/Sync'
-import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
 import { PageContext } from '../../PageContext'
 import { ComponentError } from '../ComponentError'
+import { newFilter } from '@entities/drivers/database/filter/Filter'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -170,7 +170,7 @@ export class FormComponent extends BaseComponent {
     const resources: SyncResource[] = [
       {
         table: this.table.name,
-        filters: [new IsAnyOfFilter('id', [defaultRecordId])],
+        filters: [newFilter({ field: 'id', operator: 'is_any_of', value: [defaultRecordId] })],
       },
     ]
     const tablesInputs = this.inputs.filter((input) => input instanceof TableInputComponent)
