@@ -3,10 +3,10 @@ import { AppMapper } from '@adapters/api/app/AppMapper'
 import { App } from '@entities/app/App'
 import { AppDtoSchema } from '../../entities/app/AppSchema'
 import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUIService'
 import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
 import { IConverterSpi } from '@adapters/services/converter/IConverterDrivers'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplaterService'
 
 const ajv = new Ajv({ allowUnionTypes: true })
 const validateAppDto = ajv.compile(AppDtoSchema)

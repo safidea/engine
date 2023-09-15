@@ -8,7 +8,7 @@ export interface IFetcherService {
     isLoading: boolean
   }
   getSyncRecordsFunction: () => (options: {
-    records: Record[]
-    resources: FetcherSyncResource[]
+    records?: Record[]
+    resources?: FetcherSyncResource[]
   }) => Promise<{ error?: string; tables: FetcherSyncTablesRecords }>
 }

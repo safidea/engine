@@ -1,11 +1,11 @@
 import { BaseAction } from '../../base/BaseAction'
 import { File } from '@entities/services/storage/file/File'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { AppServices } from '@entities/app/App'
 import { CreateFileActionParams } from './CreateFileActionParams'
 
-type DataCompiled = { [key: string]: ITemplatingSpi | string }
+type DataCompiled = { [key: string]: ITemplaterService | string }
 type DataRendered = {
   [key: string]: string | DataRendered | DataRendered[]
 }
@@ -13,9 +13,9 @@ type DataRendered = {
 export class CreateFileAction extends BaseAction {
   private bucket: string
   private filename: string
-  private filenameCompiled: ITemplatingSpi
+  private filenameCompiled: ITemplaterService
   private template: string
-  private templateCompiled: ITemplatingSpi
+  private templateCompiled: ITemplaterService
   private dataCompiled: DataCompiled
 
   constructor(params: CreateFileActionParams, services: AppServices, config: AutomationConfig) {
@@ -75,9 +75,9 @@ export class CreateFileAction extends BaseAction {
       return acc
     }, {})
     const template = this.templateCompiled.render(data)
-    const pdfData = await this.services.converter.htmlToPdf(template)
-    const file = new File(filename, pdfData)
-    const url = await this.services.storage.write(this.bucket, file)
+    const pdfData = await this.services.converter.htmlToPdf(template, this.config.tmpFolder)
+    const file = new File(pdfData, { filename })
+    const url = await this.services.storage.upload(this.bucket, file)
     return { [this.name]: { filename, url } }
   }
 }

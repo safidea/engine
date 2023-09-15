@@ -1,26 +1,28 @@
 import { TableList } from './table/TableList'
 import { PageList } from './page/PageList'
 import { AutomationList } from './automation/AutomationList'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { AppParams } from './AppParams'
 import { IDatabaseService } from '@entities/services/database/IDatabaseService'
 import { IConverterService } from '@entities/services/converter/IConverterService'
 import { IFetcherService } from '@entities/services/fetcher/IFetcherService'
 import { ILoggerService } from '@entities/services/logger/ILoggerService'
 import { IStorageService } from '@entities/services/storage/IStorageService'
+import { IUIService } from '@entities/services/ui/IUIService'
 
 export interface AppConfig {
   readonly tables: TableList
+  readonly tmpFolder: string
 }
 
 export interface AppServices {
-  readonly templater: ITemplatingSpi
+  readonly templater: ITemplaterService
   readonly converter: IConverterService
   readonly storage: IStorageService
   readonly database: IDatabaseService
   readonly fetcher: IFetcherService
   readonly logger: ILoggerService
-  readonly ui: IUiSpi
+  readonly ui: IUIService
 }
 
 export class App {
@@ -34,12 +36,20 @@ export class App {
     readonly params: AppParams,
     readonly services: AppServices
   ) {
-    const { name = 'My app', version = '0.0.1', tables = [], automations = [], pages = [] } = params
+    const {
+      name = 'My app',
+      version = '0.0.1',
+      tables = [],
+      automations = [],
+      pages = [],
+      tmpFolder = 'tmp',
+    } = params
     this.name = name
     this.version = version
     this.tables = new TableList(tables, services)
-    this.pages = new PageList(pages, services, { tables: this.tables })
-    this.automations = new AutomationList(automations, services, { tables: this.tables })
+    const config = { tables: this.tables, tmpFolder }
+    this.pages = new PageList(pages, services, config)
+    this.automations = new AutomationList(automations, services, config)
   }
 
   async configure(): Promise<void> {

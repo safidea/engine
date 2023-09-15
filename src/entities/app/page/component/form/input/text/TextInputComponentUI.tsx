@@ -1,12 +1,12 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUIService } from '@entities/services/ui/IUIService'
 
 export interface TextInputComponentUIProps {
   label?: string
   field: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   value: string
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function TextInputComponentUI({
@@ -16,7 +16,7 @@ export function TextInputComponentUI({
   value,
   ui,
 }: TextInputComponentUIProps) {
-  const { Label, Input } = ui.TextInputUI
+  const { Label, Input } = ui.getTextInput()
   return (
     <>
       {label && <Label label={label} htmlFor={field} />}

@@ -1,16 +1,16 @@
 import React from 'react'
-import { IUISpi } from '../../../../services/ui/IUISpi'
+import { IUIService } from '../../../../services/ui/IUIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { ParagraphSize } from './ParagraphComponentParams'
 
 export interface ParagraphProps {
   text: string
   size?: ParagraphSize
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function ParagraphComponentUI({ text, size, ui }: ParagraphProps) {
-  const { Small, Medium, Large } = ui.ParagraphUI
+  const { Small, Medium, Large } = ui.getParagraph()
   switch (size) {
     case 'small':
       return <Small>{text}</Small>

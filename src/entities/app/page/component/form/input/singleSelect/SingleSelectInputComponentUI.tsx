@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '../../../../../../services/ui/IUISpi'
+import { IUIService } from '../../../../../../services/ui/IUIService'
 
 export interface SingleSelectInputProps {
   label?: string
@@ -7,7 +7,7 @@ export interface SingleSelectInputProps {
   options: { value: string; label: string }[]
   value: string
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function SingleSelectInputComponentUI({
@@ -18,7 +18,7 @@ export function SingleSelectInputComponentUI({
   onChange,
   ui,
 }: SingleSelectInputProps) {
-  const { Label, Select, Option } = ui.SingleSelectInputUI
+  const { Label, Select, Option } = ui.getSingleSelectIntput()
   return (
     <>
       {label && <Label label={label} htmlFor={field} />}

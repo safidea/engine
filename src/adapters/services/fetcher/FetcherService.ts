@@ -42,8 +42,8 @@ export class FetcherService implements IFetcherService {
   }
 
   getSyncRecordsFunction(): (options: {
-    records: Record[]
-    resources: FetcherSyncResource[]
+    records?: Record[]
+    resources?: FetcherSyncResource[]
   }) => Promise<{ error?: string; tables: FetcherSyncTablesRecords }> {
     const fetch = this.driver.getFetch()
     return async ({ records = [], resources = [] }) => {

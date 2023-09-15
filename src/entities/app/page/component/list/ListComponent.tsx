@@ -152,7 +152,7 @@ export class ListComponent extends BaseComponent {
   }
 
   private getCellByFormat(column: Column, record: Record) {
-    const { ButtonCell, CurrencyCell, TextCell } = this.services.ui.ListUI
+    const { ButtonCell, CurrencyCell, TextCell } = this.services.ui.getList()
     let value = column.field ? record.fields[column.field] : ''
     if (column.options) {
       value = column.options.find((option) => option.name === value)?.label ?? value

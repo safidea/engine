@@ -13,6 +13,6 @@ export class LogAction extends BaseAction {
   }
 
   execute() {
-    this.services.logger(this.message)
+    this.services.logger.log(this.message)
   }
 }

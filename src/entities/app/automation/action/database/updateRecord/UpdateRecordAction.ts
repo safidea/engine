@@ -1,17 +1,17 @@
 import { BaseAction } from '../../base/BaseAction'
 import { Table } from '@entities/app/table/Table'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { UpdateRecordActionParams } from './UpdateRecordActionParams'
 import { AppServices } from '@entities/app/App'
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 
-export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplatingSpi | string }
+export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplaterService | string }
 
 export class UpdateRecordAction extends BaseAction {
   private table: Table
   private fieldsCompiled: UpdateRecordActionFieldsCompiled
-  private recordIdCompiled: ITemplatingSpi
+  private recordIdCompiled: ITemplaterService
 
   constructor(params: UpdateRecordActionParams, services: AppServices, config: AutomationConfig) {
     const { name, type, table: tableName, fields, recordId } = params

@@ -1,4 +1,4 @@
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUIService'
 import LinkTailwindUI from './LinkTailwindUI'
 import ParagraphTailwindUI from './ParagraphTailwindUI'
 import TitleTailwindUI from './TitleTailwindUI'

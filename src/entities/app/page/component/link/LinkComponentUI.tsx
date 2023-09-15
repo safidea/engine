@@ -1,15 +1,15 @@
 import React from 'react'
-import { IUISpi } from '../../../../services/ui/IUISpi'
+import { IUIService } from '../../../../services/ui/IUIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 
 export interface LinkProps {
   path: string
   label: string
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function LinkComponentUI({ path, label, ui }: LinkProps) {
-  const { Link } = ui.LinkUI
+  const { Link } = ui.getLink()
   return <Link href={path}>{label}</Link>
 }
 

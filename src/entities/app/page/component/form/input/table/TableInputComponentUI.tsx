@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUIService } from '@entities/services/ui/IUIService'
 import { BaseComponentUIProps } from '../../../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
 
@@ -17,7 +17,7 @@ export interface TableInputComponentUIProps {
   onRemoveRecord: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void
   columns: Column[]
   rows: Record[]
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function TableInputComponentUI({
@@ -42,7 +42,7 @@ export function TableInputComponentUI({
     Row,
     Cell,
     Remove,
-  } = ui.TableInputUI
+  } = ui.getTableInput()
   return (
     <Container>
       {(label || addLabel) && (

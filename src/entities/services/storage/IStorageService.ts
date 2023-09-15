@@ -8,4 +8,5 @@ export interface IStorageService {
   uploadMany(bucket: string, files: File[]): Promise<string[]>
   read(bucket: string, filename: string): Promise<FileParams | undefined>
   list(bucket: string, filenames?: string[]): Promise<FileParams[]>
+  readStaticFile(path: string): string
 }

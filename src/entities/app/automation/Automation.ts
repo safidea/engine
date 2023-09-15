@@ -14,6 +14,7 @@ export interface AutomationContext {
 export interface AutomationConfig {
   tables: TableList
   automationName: string
+  tmpFolder: string
 }
 
 export class Automation {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUIService'
 
 const NavigationTailwindUI: IUISpi['NavigationUI'] = {
   container: ({ children }) => {

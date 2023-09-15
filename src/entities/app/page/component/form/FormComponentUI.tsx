@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
-import { IUISpi } from '../../../../services/ui/IUISpi'
+import { IUIService } from '../../../../services/ui/IUIService'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
@@ -29,7 +29,7 @@ export interface FormComponentUIProps {
   errorMessage?: string
   records: Record[]
   currentRecord: Record
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function FormComponentUI({
@@ -45,7 +45,7 @@ export function FormComponentUI({
   errorMessage,
   ui,
 }: FormComponentUIProps) {
-  const { Form, Inputs, Submit, ErrorMessage, Loading } = ui.FormUI
+  const { Form, Inputs, Submit, ErrorMessage, Loading } = ui.getForm()
   return (
     <Form onSubmit={onSubmit}>
       <Inputs>

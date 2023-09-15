@@ -1,14 +1,14 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUIService } from '@entities/services/ui/IUIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 
 export interface ContainerProps {
-  ui: IUISpi
+  ui: IUIService
   Components: React.FC[]
 }
 
 export function ContainerComponentUI({ ui, Components }: ContainerProps) {
-  const { Container } = ui.ContainerUI
+  const { Container } = ui.getContainer()
   return (
     <Container>
       {Components.map((Component) => (

@@ -1,16 +1,16 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { IUISpi } from '../../../../services/ui/IUISpi'
+import { IUIService } from '../../../../services/ui/IUIService'
 import { TitleSize } from './TitleComponentParams'
 
 export interface TitleProps {
   size?: TitleSize
   text: string
-  ui: IUISpi
+  ui: IUIService
 }
 
 export function TitleComponentUI({ size, text, ui }: TitleProps) {
-  const { ExtraSmall, Small, Medium, Large, ExtraLarge } = ui.TitleUI
+  const { ExtraSmall, Small, Medium, Large, ExtraLarge } = ui.getTitle()
   switch (size) {
     case 'extra-small':
       return <ExtraSmall>{text}</ExtraSmall>

@@ -9,6 +9,7 @@ export const AppParams = t.partial({
   pages: t.array(PageParams),
   tables: t.array(TableParams),
   automations: t.array(AutomationParams),
+  tmpFolder: t.string,
 })
 
 export type AppParams = t.TypeOf<typeof AppParams>

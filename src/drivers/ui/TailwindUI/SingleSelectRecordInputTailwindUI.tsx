@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUIService'
 
 const SingleSelectRecordInputTailwindUI: IUISpi['SingleSelectRecordInputUI'] = {
   label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,

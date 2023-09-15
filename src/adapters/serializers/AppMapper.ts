@@ -4,10 +4,10 @@ import { AutomationMapper } from '../automation/mappers/AutomationMapper'
 import { TableMapper } from '../table/mappers/TableMapper'
 import { PageMapper } from '../page/mappers/PageMapper'
 import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
-import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUIService'
 import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
 import { IConverterSpi } from '@adapters/services/converter/IConverterDrivers'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplaterService'
 
 export interface AppMapperSpis {
   ui?: IUISpi

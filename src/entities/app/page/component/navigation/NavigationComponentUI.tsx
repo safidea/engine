@@ -1,16 +1,16 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { IUISpi } from '../../../../services/ui/IUISpi'
+import { IUIService } from '../../../../services/ui/IUIService'
 
 export interface NavigationProps {
-  ui: IUISpi
+  ui: IUIService
   Title: React.FC
   Links: React.FC[]
   Components: React.FC[]
 }
 
 export function NavigationComponentUI({ ui, Title, Links, Components }: NavigationProps) {
-  const { Container, Sidebar, LinksContainer, Content } = ui.NavigationUI
+  const { Container, Sidebar, LinksContainer, Content } = ui.getNavigation()
   return (
     <Container>
       <Sidebar>

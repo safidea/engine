@@ -1,13 +1,13 @@
 import { BaseAction } from '../../base/BaseAction'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { FindRecordActionParams } from './FindRecordActionParams'
 import { AppServices } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 
 export class FindRecordAction extends BaseAction {
   private table: Table
-  private recordIdCompiled: ITemplatingSpi
+  private recordIdCompiled: ITemplaterService
 
   constructor(params: FindRecordActionParams, services: AppServices, config: AutomationConfig) {
     const { name, type, table: tableName, recordId } = params

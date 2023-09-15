@@ -1,4 +1,4 @@
-import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplaterService'
 import Handlebars from 'handlebars'
 import { DateTime } from 'luxon'
 
