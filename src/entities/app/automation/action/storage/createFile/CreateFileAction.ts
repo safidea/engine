@@ -1,5 +1,5 @@
 import { BaseAction } from '../../base/BaseAction'
-import { File } from '@entities/drivers/storage/File'
+import { File } from '@entities/drivers/storage/file/File'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { AppDrivers } from '@entities/app/App'

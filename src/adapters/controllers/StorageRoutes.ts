@@ -3,7 +3,7 @@ import { ApiRoute } from '@entities/drivers/server/IServerAdapter'
 import { ApiError } from '@entities/errors/ApiError'
 import { ResponseDto } from '@adapters/spi/server/dtos/ResponseDto'
 import { StorageMiddleware } from '../validators/StorageMiddleware'
-import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
+import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
 
 export class StorageRoutes {
   private readonly storageMiddleware: StorageMiddleware

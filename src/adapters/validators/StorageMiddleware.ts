@@ -1,7 +1,7 @@
 import { RequestDto } from '@entities/drivers/server/RequestDto'
 import { ApiError } from '@entities/errors/ApiError'
-import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
-import { File } from '@entities/drivers/storage/File'
+import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
+import { File } from '@entities/drivers/storage/file/File'
 
 export class StorageMiddleware {
   constructor(private storage: IStorageSpi) {}

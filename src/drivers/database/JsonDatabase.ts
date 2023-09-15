@@ -1,9 +1,9 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
-import { TableDto } from '@adapters/api/table/dtos/TableDto'
+
 import { RecordDto, RecordFieldValueDto } from '@adapters/spi/orm/dtos/RecordDto'
 import { FilterDto } from '@entities/drivers/database/filter/FilterParams'
+import { DatabaseDriver } from '@entities/drivers/database/DatabaseDriver'
 
 interface TableRecord {
   [key: string]: RecordFieldValueDto
@@ -12,7 +12,7 @@ interface Database {
   [key: string]: TableRecord[]
 }
 
-export class JsonOrm implements IOrmAdapter {
+export class JsonDatabase implements DatabaseDriver {
   private url: string
   private tables: TableDto[] = []
 

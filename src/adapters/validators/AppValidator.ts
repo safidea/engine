@@ -4,7 +4,7 @@ import { App } from '@entities/app/App'
 import { AppDtoSchema } from '../../entities/app/AppSchema'
 import { ILoggerSpi } from '@entities/drivers/logger/LoggerDriver'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
-import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
+import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
 import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 

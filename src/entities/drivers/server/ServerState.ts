@@ -4,7 +4,7 @@ import { ILoggerSpi } from '@entities/drivers/logger/LoggerDriver'
 import { IOrmAdapter } from '../../../adapters/spi/orm/IOrmAdapter'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { IServerAdapter } from './IServerAdapter'
-import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
+import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
 import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 

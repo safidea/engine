@@ -1,4 +1,4 @@
-import { JsonOrm } from '@drivers/orm/JsonOrm'
+import { JsonOrm } from '@drivers/database/JsonDatabase'
 import { describe, test, expect } from '@jest/globals'
 import { helpers } from '../../../utils/unit/fixtures'
 import { TableDto } from '@adapters/api/table/dtos/TableDto'
