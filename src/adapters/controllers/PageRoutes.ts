@@ -1,6 +1,6 @@
 import { PageController } from './PageController'
 import { App } from '@entities/app/App'
-import { PageRequest, PageRoute } from '@entities/services/server/IServerAdapter'
+import { PageRequest, PageRoute } from '@entities/services/server_OLD/IServerAdapter'
 import { PageMiddleware } from '../validators/PageMiddleware'
 import { FetcherSpi } from '@adapters/spi/fetcher/FetcherSpi'
 

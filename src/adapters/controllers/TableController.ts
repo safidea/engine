@@ -8,7 +8,7 @@ import { Filter } from '@entities/services/database/filter/Filter'
 import { SyncTableRecords } from '@usecases/table/SyncTableRecords'
 import { SyncResource } from '@entities/services/fetcher/FetcherSync'
 import { CreateTableRecord } from '@usecases/table/CreateTableRecord'
-import { StartedState } from '@entities/services/server/StartedState'
+import { StartedState } from '@entities/services/server_OLD/StartedState'
 import { UpdateTableRecord } from '@usecases/table/UpdateTableRecord'
 
 export class TableController {

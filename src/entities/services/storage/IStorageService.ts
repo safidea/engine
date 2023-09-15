@@ -3,7 +3,7 @@ import { FileParams } from './file/FileParams'
 import { File } from './file/File'
 
 export interface IStorageService {
-  listen(emit: Emit): void
+  listen(emit: Emit): Promise<void>
   upload(bucket: string, file: File): Promise<string>
   uploadMany(bucket: string, files: File[]): Promise<string[]>
   read(bucket: string, filename: string): Promise<FileParams | undefined>

@@ -1,4 +1,4 @@
-import { RequestDto } from '@entities/services/server/RequestDto'
+import { RequestDto } from '@entities/services/server_OLD/RequestDto'
 import { ApiError } from '@entities/errors/ApiError'
 import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
 import { File } from '@entities/services/storage/file/File'

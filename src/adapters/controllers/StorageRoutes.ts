@@ -1,5 +1,5 @@
-import { RequestDto } from '@entities/services/server/RequestDto'
-import { ApiRoute } from '@entities/services/server/IServerAdapter'
+import { RequestDto } from '@entities/services/server_OLD/RequestDto'
+import { ApiRoute } from '@entities/services/server_OLD/IServerAdapter'
 import { ApiError } from '@entities/errors/ApiError'
 import { ResponseDto } from '@adapters/spi/server/dtos/ResponseDto'
 import { StorageMiddleware } from '../validators/StorageMiddleware'

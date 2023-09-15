@@ -51,6 +51,7 @@ export class App {
     }
     if (automations) {
       await this.services.database.listen(this.automations.emit)
+      await this.services.storage.listen(this.automations.emit)
     }
   }
 }
