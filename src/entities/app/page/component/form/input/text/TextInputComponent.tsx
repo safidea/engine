@@ -1,16 +1,16 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { TextInputComponentParams } from './TextInputComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { FormConfig } from '../../FormComponent'
 import { TextInputComponentUI } from './TextInputComponentUI'
 
 export class TextInputComponent extends BaseInputComponent {
   readonly placeholder?: string
 
-  constructor(params: TextInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+  constructor(params: TextInputComponentParams, services: AppServices, config: FormConfig) {
     const { type, field, label, placeholder } = params
-    super({ type, field, label }, drivers, config)
+    super({ type, field, label }, services, config)
     this.placeholder = placeholder
   }
 
@@ -27,7 +27,7 @@ export class TextInputComponent extends BaseInputComponent {
           field={this.field}
           onChange={handleUpdateRecord}
           value={String(value)}
-          ui={this.drivers.ui}
+          ui={this.services.ui}
         />
       )
     }

@@ -2,13 +2,13 @@ import { PageContext } from './PageContext'
 import { Page } from './Page'
 import { AppError } from '../AppError'
 import { PageParams } from './PageParams'
-import { AppDrivers, AppConfig } from '../App'
+import { AppServices, AppConfig } from '../App'
 
 export class PageList {
   private readonly pages: Page[]
 
-  constructor(pages: PageParams[], drivers: AppDrivers, config: AppConfig) {
-    this.pages = pages.map((page) => new Page(page, drivers, config))
+  constructor(pages: PageParams[], services: AppServices, config: AppConfig) {
+    this.pages = pages.map((page) => new Page(page, services, config))
   }
 
   async render(path: string, context: PageContext): Promise<React.FC> {

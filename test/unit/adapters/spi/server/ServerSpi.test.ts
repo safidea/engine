@@ -1,4 +1,4 @@
-import { ServerSpi } from '@entities/drivers/server'
+import { ServerSpi } from '@entities/services/server'
 import { describe, test, expect } from '@jest/globals'
 
 describe('ServerSpi', () => {

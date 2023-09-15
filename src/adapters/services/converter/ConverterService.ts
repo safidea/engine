@@ -1,13 +1,14 @@
 import { join } from 'path'
 import fs from 'fs-extra'
-import { ConverterDrivers } from './ConverterDriver'
+import { IConverterDrivers } from './IConverterDrivers'
+import { IConverterService } from '@entities/services/converter/IConverterService'
 
-export class Converter {
+export class ConverterService implements IConverterService {
   private readonly tmpFolder: string
 
   constructor(
     folder: string,
-    readonly drivers: ConverterDrivers
+    readonly drivers: IConverterDrivers
   ) {
     this.tmpFolder = join(folder, 'tmp')
     fs.ensureDirSync(this.tmpFolder)

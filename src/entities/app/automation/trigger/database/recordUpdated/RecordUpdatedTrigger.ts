@@ -1,9 +1,9 @@
-import { Filter } from '@entities/drivers/database/filter/Filter'
+import { Filter } from '@entities/services/database/filter/Filter'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { BaseTrigger } from '../../base/BaseTrigger'
-import { IsFilter } from '@entities/drivers/database/filter/is/IsFilter'
+import { IsFilter } from '@entities/services/database/filter/is/IsFilter'
 import { RecordUpdatedTriggerParams } from './RecordUpdatedTriggerParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { Table } from 'src'
 
 export class RecordUpdatedTrigger extends BaseTrigger {
@@ -11,9 +11,9 @@ export class RecordUpdatedTrigger extends BaseTrigger {
   private filters: Filter[]
   private fields: string[] = []
 
-  constructor(params: RecordUpdatedTriggerParams, drivers: AppDrivers, config: AutomationConfig) {
+  constructor(params: RecordUpdatedTriggerParams, services: AppServices, config: AutomationConfig) {
     const { event, table: tableName, fields = [], filters = [] } = params
-    super({ event }, drivers, config)
+    super({ event }, services, config)
     this.table = this.getTableByName(tableName)
     this.filters = this.getFiltersFromParams(filters)
     this.fields = fields
@@ -30,7 +30,7 @@ export class RecordUpdatedTrigger extends BaseTrigger {
       }
     }
     if ('id' in context && this.filters.length > 0) {
-      const record = await this.drivers.database.read(this.table, String(context.id))
+      const record = await this.services.database.read(this.table, String(context.id))
       if (!record) return false
       for (const filter of this.filters) {
         if (filter instanceof IsFilter && filter.value !== record.getFieldValue(filter.field)) {

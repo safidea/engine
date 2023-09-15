@@ -1,16 +1,17 @@
-import { Filter } from '@entities/drivers/database/filter/Filter'
+import { Filter } from '@entities/services/database/filter/Filter'
 import { TableParams } from '@entities/app/table/TableParams'
 import { Emit } from '@entities/app/automation/AutomationList'
-import { DatabaseDriver } from './DatabaseDriver'
-import { RecordToCreate } from './record/state/toCreate/RecordToCreate'
-import { RecordToUpdate } from './record/state/toUpdate/RecordToUpdate'
-import { PersistedRecord } from './record/state/persisted/PersistedRecord'
+import { IDatabaseDriver } from './IDatabaseDriver'
+import { RecordToCreate } from '../../../entities/services/database/record/state/toCreate/RecordToCreate'
+import { RecordToUpdate } from '../../../entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { PersistedRecord } from '../../../entities/services/database/record/state/persisted/PersistedRecord'
 import { Table } from '@entities/app/table/Table'
+import { IDatabaseService } from '@entities/services/database/IDatabaseService'
 
-export class Database {
+export class DatabaseService implements IDatabaseService {
   private emit?: Emit
 
-  constructor(private readonly driver: DatabaseDriver) {}
+  constructor(private readonly driver: IDatabaseDriver) {}
 
   async configure(tables: TableParams[]): Promise<void> {
     await this.driver.configure(tables)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { SingleSelectInputComponentParams } from './SingleSelectInputComponentParams'
 import { SingleSelectInputComponentUI } from './SingleSelectInputComponentUI'
 import { FormConfig } from '../../FormComponent'
@@ -9,9 +9,9 @@ export class SingleSelectInputComponent extends BaseInputComponent {
   readonly placeholder?: string
   readonly options: SingleSelectInputComponentParams['options'] = []
 
-  constructor(params: SingleSelectInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+  constructor(params: SingleSelectInputComponentParams, services: AppServices, config: FormConfig) {
     const { type, field, label, placeholder, options: selectParams } = params
-    super({ type, field, label }, drivers, config)
+    super({ type, field, label }, services, config)
     this.placeholder = placeholder
     this.options = selectParams
   }
@@ -30,7 +30,7 @@ export class SingleSelectInputComponent extends BaseInputComponent {
           value={String(value)}
           options={this.options}
           onChange={handleUpdateRecord}
-          ui={this.drivers.ui}
+          ui={this.services.ui}
         />
       )
     }

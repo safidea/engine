@@ -1,7 +1,7 @@
-import { FetcherDriver } from './FetcherDriver'
-import { Record } from '@entities/drivers/database/record/Record'
+import { IFetcherDriver } from './IFetcherDriver'
+import { Record } from '@entities/services/database/record/Record'
 import { useMemo } from 'react'
-import { PersistedRecord } from '../database/record/state/persisted/PersistedRecord'
+import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
 import {
   FetcherSync,
   FetcherSyncCommand,
@@ -9,16 +9,13 @@ import {
   FetcherSyncResourceParams,
   FetcherSyncTablesRecords,
   FetcherSyncTablesRecordsData,
-} from './FetcherSync'
+} from '@entities/services/fetcher/FetcherSync'
+import { IFetcherService } from '@entities/services/fetcher/IFetcherService'
 
-export class Fetcher {
-  constructor(private readonly driver: FetcherDriver) {}
+export class FetcherService implements IFetcherService {
+  constructor(private readonly driver: IFetcherDriver) {}
 
-  getSyncRecordsHook(resources: FetcherSyncResource[]): () => {
-    tables: FetcherSyncTablesRecords
-    error?: string
-    isLoading: boolean
-  } {
+  getSyncRecordsHook(resources: FetcherSyncResource[]) {
     const useFetch = this.driver.getUseFetch()
     const sync: FetcherSync = {
       resources: this.mapResourcesToParams(resources),
@@ -45,8 +42,8 @@ export class Fetcher {
   }
 
   getSyncRecordsFunction(): (options: {
-    records?: Record[]
-    resources?: FetcherSyncResource[]
+    records: Record[]
+    resources: FetcherSyncResource[]
   }) => Promise<{ error?: string; tables: FetcherSyncTablesRecords }> {
     const fetch = this.driver.getFetch()
     return async ({ records = [], resources = [] }) => {
@@ -70,7 +67,7 @@ export class Fetcher {
     }
   }
 
-  mapDataToRecords(
+  private mapDataToRecords(
     tablesRecordsData: FetcherSyncTablesRecordsData,
     resources: FetcherSyncResource[]
   ): FetcherSyncTablesRecords {
@@ -85,7 +82,7 @@ export class Fetcher {
     )
   }
 
-  mapResourcesToParams(resources: FetcherSyncResource[]): FetcherSyncResourceParams[] {
+  private mapResourcesToParams(resources: FetcherSyncResource[]): FetcherSyncResourceParams[] {
     return resources.map((resource) => {
       const { table, filters } = resource
       return {
@@ -95,7 +92,7 @@ export class Fetcher {
     })
   }
 
-  mapRecordsToCommands = (records: Record[]): FetcherSyncCommand[] => {
+  private mapRecordsToCommands = (records: Record[]): FetcherSyncCommand[] => {
     const commands = []
     for (const record of records) {
       if (record.state !== 'persisted') {

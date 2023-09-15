@@ -3,7 +3,7 @@ import { RecordCreatedTrigger } from './database/recordCreated/RecordCreatedTrig
 import { ServerStoppedTrigger } from './server/serverStopped/ServerStoppedTrigger'
 import { RecordUpdatedTrigger } from './database/recordUpdated/RecordUpdatedTrigger'
 import { TriggerParams } from './TriggerParams'
-import { AppDrivers } from '../../App'
+import { AppServices } from '../../App'
 import { AutomationConfig } from '../Automation'
 
 export type Trigger =
@@ -14,17 +14,17 @@ export type Trigger =
 
 export function newTrigger(
   params: TriggerParams,
-  drivers: AppDrivers,
+  services: AppServices,
   config: AutomationConfig
 ): Trigger {
   switch (params.event) {
     case 'record_created':
-      return new RecordCreatedTrigger(params, drivers, config)
+      return new RecordCreatedTrigger(params, services, config)
     case 'record_updated':
-      return new RecordUpdatedTrigger(params, drivers, config)
+      return new RecordUpdatedTrigger(params, services, config)
     case 'server_started':
-      return new ServerStartedTrigger(params, drivers, config)
+      return new ServerStartedTrigger(params, services, config)
     case 'server_stopped':
-      return new ServerStoppedTrigger(params, drivers, config)
+      return new ServerStoppedTrigger(params, services, config)
   }
 }

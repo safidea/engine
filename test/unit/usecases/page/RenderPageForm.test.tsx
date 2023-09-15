@@ -12,10 +12,10 @@ import { FetcherSpi } from '@adapters/spi/fetcher/FetcherSpi'
 import { FormMapper } from '@adapters/api/page/mappers/components/FormMapper'
 import { AppMapper } from '@adapters/api/app/AppMapper'
 import { NativeFetcher } from '@drivers/fetcher/NativeFetcher'
-import { Record } from '@entities/drivers/database/record/Record'
+import { Record } from '@entities/services/database/record/Record'
 import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
 import { FilterMapper } from '@adapters/spi/orm/mappers/FilterMapper'
-import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
+import { IsAnyOfFilter } from '@entities/services/database/filter/isAnyOf/IsAnyOfFilter'
 
 describe('RenderPageForm', () => {
   test('should clear the form after submit', async () => {

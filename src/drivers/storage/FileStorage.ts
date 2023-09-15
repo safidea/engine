@@ -1,7 +1,7 @@
 import { join } from 'path'
 import fs from 'fs-extra'
-import { StorageDriver } from '@entities/drivers/storage/StorageDriver'
-import { File } from '@entities/drivers/storage/file/File'
+import { StorageDriver } from '@adapters/services/storage/IStorageDriver'
+import { File } from '@entities/services/storage/file/File'
 
 export class FileStorage implements StorageDriver {
   private storageUrl: string

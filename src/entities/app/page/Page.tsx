@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppDrivers, AppConfig } from '../App'
+import { AppServices, AppConfig } from '../App'
 import { TableList } from '../table/TableList'
 import { PageContext } from './PageContext'
 import { PageParams } from './PageParams'
@@ -14,11 +14,11 @@ export class Page {
   readonly title?: string
   readonly components: Component[]
 
-  constructor(params: PageParams, drivers: AppDrivers, config: AppConfig) {
+  constructor(params: PageParams, services: AppServices, config: AppConfig) {
     this.path = params.path
     this.title = params.title
     this.components = params.components.map((componentParams) =>
-      newComponent(componentParams, drivers, config)
+      newComponent(componentParams, services, config)
     )
   }
 

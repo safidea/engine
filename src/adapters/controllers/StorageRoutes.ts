@@ -1,9 +1,9 @@
-import { RequestDto } from '@entities/drivers/server/RequestDto'
-import { ApiRoute } from '@entities/drivers/server/IServerAdapter'
+import { RequestDto } from '@entities/services/server/RequestDto'
+import { ApiRoute } from '@entities/services/server/IServerAdapter'
 import { ApiError } from '@entities/errors/ApiError'
 import { ResponseDto } from '@adapters/spi/server/dtos/ResponseDto'
 import { StorageMiddleware } from '../validators/StorageMiddleware'
-import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
+import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
 
 export class StorageRoutes {
   private readonly storageMiddleware: StorageMiddleware

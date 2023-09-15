@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { TableInputComponentParams } from './TableInputComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { FormConfig } from '../../FormComponent'
 import { ComponentError } from '../../../ComponentError'
 import { TableInputComponentUI } from './TableInputComponentUI'
@@ -16,9 +16,9 @@ export class TableInputComponent extends BaseInputComponent {
   readonly addLabel?: string
   readonly columns: Column[]
 
-  constructor(params: TableInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+  constructor(params: TableInputComponentParams, services: AppServices, config: FormConfig) {
     const { type, field, label, addLabel, columns } = params
-    super({ type, field, label }, drivers, config)
+    super({ type, field, label }, services, config)
     for (const column of columns) {
       if (!this.table.hasColumn(column.field)) {
         throw new ComponentError(
@@ -69,7 +69,7 @@ export class TableInputComponent extends BaseInputComponent {
           onRemoveRecord={handleRemoveRecord}
           rows={rows}
           columns={this.columns}
-          ui={this.drivers.ui}
+          ui={this.services.ui}
         />
       )
     }

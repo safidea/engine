@@ -1,10 +1,10 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { SingleSelectRecordInputComponentParams } from './SingleSelectRecordInputComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 import { SingleSelectInputComponentUI } from '../singleSelect/SingleSelectInputComponentUI'
-import { Record } from '@entities/drivers/database/record/Record'
+import { Record } from '@entities/services/database/record/Record'
 import { FormConfig } from '../../FormComponent'
 
 export class SingleSelectRecordInputComponent extends BaseInputComponent {
@@ -14,18 +14,18 @@ export class SingleSelectRecordInputComponent extends BaseInputComponent {
 
   constructor(
     params: SingleSelectRecordInputComponentParams,
-    drivers: AppDrivers,
+    services: AppServices,
     config: FormConfig
   ) {
     const { type, field, label, placeholder, table: tableName, fieldForOptionLabel } = params
-    super({ type, field, label }, drivers, config)
+    super({ type, field, label }, services, config)
     this.table = this.getTableByName(tableName)
     this.placeholder = placeholder
     this.fieldForOptionLabel = fieldForOptionLabel ?? 'id'
   }
 
   async render() {
-    const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table }])
+    const useSyncRecords = this.services.fetcher.getSyncRecordsHook([{ table: this.table }])
     return ({ updateRecord, currentRecord }: BaseInputComponentProps) => {
       const { tables } = useSyncRecords()
       const value = currentRecord.getFieldValue(this.field) ?? ''
@@ -45,7 +45,7 @@ export class SingleSelectRecordInputComponent extends BaseInputComponent {
           value={String(value)}
           options={options}
           onChange={handleUpdateRecord}
-          ui={this.drivers.ui}
+          ui={this.services.ui}
         />
       )
     }

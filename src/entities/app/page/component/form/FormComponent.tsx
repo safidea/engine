@@ -1,24 +1,24 @@
 import React, { useRef, useState } from 'react'
 import { PageConfig } from '../../Page'
 import { FormComponentParams } from './FormComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { BaseComponent } from '../base/BaseComponent'
 import { FormComponentUI } from './FormComponentUI'
 import { Table } from '@entities/app/table/Table'
-import { Record } from '@entities/drivers/database/record/Record'
+import { Record } from '@entities/services/database/record/Record'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
 import { PageContext } from '../../PageContext'
 import { ComponentError } from '../ComponentError'
-import { newFilter } from '@entities/drivers/database/filter/Filter'
-import { RecordToCreate } from '@entities/drivers/database/record/state/toCreate/RecordToCreate'
-import { RecordToUpdate } from '@entities/drivers/database/record/state/toUpdate/RecordToUpdate'
-import { PersistedRecord } from '@entities/drivers/database/record/state/persisted/PersistedRecord'
-import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
+import { newFilter } from '@entities/services/database/filter/Filter'
+import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
+import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
+import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 import {
   FetcherSyncResource,
   FetcherSyncTablesRecords,
-} from '@entities/drivers/fetcher/FetcherSync'
+} from '@entities/services/fetcher/FetcherSync'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -30,19 +30,19 @@ export class FormComponent extends BaseComponent {
   readonly recordIdToUpdate?: string
   readonly table: Table
 
-  constructor(params: FormComponentParams, drivers: AppDrivers, config: PageConfig) {
+  constructor(params: FormComponentParams, services: AppServices, config: PageConfig) {
     const { type, submit, recordIdToUpdate, table: tableName, inputs } = params
-    super({ type }, drivers, config)
+    super({ type }, services, config)
     this.submit = submit
     this.recordIdToUpdate = recordIdToUpdate
     this.table = this.getTableByName(tableName)
     this.inputs = inputs.map((input) =>
-      newInput(input, drivers, { ...config, formTableName: tableName })
+      newInput(input, services, { ...config, formTableName: tableName })
     )
   }
 
   async render(context: PageContext) {
-    const syncRecords = this.drivers.fetcher.getSyncRecordsFunction()
+    const syncRecords = this.services.fetcher.getSyncRecordsFunction()
     let defaultRecords: Record[]
     let defaultRecordId: string
 
@@ -167,7 +167,7 @@ export class FormComponent extends BaseComponent {
           records={records}
           currentRecord={currentRecord}
           submit={this.submit}
-          ui={this.drivers.ui}
+          ui={this.services.ui}
         />
       )
     }

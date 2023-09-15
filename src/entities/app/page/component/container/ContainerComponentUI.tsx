@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/drivers/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUISpi'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 
 export interface ContainerProps {

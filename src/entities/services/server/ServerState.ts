@@ -1,12 +1,12 @@
-import { IServerSpi } from '@entities/drivers/server/IServerSpi'
+import { IServerSpi } from '@entities/services/server/IServerSpi'
 import { IFetcherAdapter } from '../../../adapters/spi/fetcher/IFetcherAdapter'
-import { ILoggerSpi } from '@entities/drivers/logger/LoggerDriver'
+import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
 import { IOrmAdapter } from '../../../adapters/spi/orm/IOrmAdapter'
-import { IUISpi } from '@entities/drivers/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUISpi'
 import { IServerAdapter } from './IServerAdapter'
-import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
-import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
-import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
+import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
+import { IConverterSpi } from '@adapters/services/converter/IConverterDrivers'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
 
 export interface ServerStateAdapters {
   server: IServerAdapter

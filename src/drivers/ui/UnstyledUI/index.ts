@@ -1,4 +1,4 @@
-import { IUISpi } from '@entities/drivers/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUISpi'
 import LinkUnstyledUI from './LinkUnstyledUI'
 import ParagraphUnstyledUI from './ParagraphUnstyledUI'
 import TitleUnstyledUI from './TitleUnstyledUI'

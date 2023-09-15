@@ -3,11 +3,11 @@ import { App } from '@entities/app/App'
 import { AutomationMapper } from '../automation/mappers/AutomationMapper'
 import { TableMapper } from '../table/mappers/TableMapper'
 import { PageMapper } from '../page/mappers/PageMapper'
-import { ILoggerSpi } from '@entities/drivers/logger/LoggerDriver'
-import { IUISpi } from '@entities/drivers/ui/IUISpi'
-import { IStorageSpi } from '@entities/drivers/storage/StorageDriver'
-import { IConverterSpi } from '@entities/drivers/converter/ConverterDriver'
-import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
+import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
+import { IUISpi } from '@entities/services/ui/IUISpi'
+import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
+import { IConverterSpi } from '@adapters/services/converter/IConverterDrivers'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
 
 export interface AppMapperSpis {
   ui?: IUISpi

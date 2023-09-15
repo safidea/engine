@@ -1,8 +1,8 @@
 import { ReadTableRecord } from './ReadTableRecord'
 import { App } from '@entities/app/App'
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { Record } from '@entities/drivers/database/record/Record'
-import { Filter } from '@entities/drivers/database/filter/Filter'
+import { Record } from '@entities/services/database/record/Record'
+import { Filter } from '@entities/services/database/filter/Filter'
 
 export class ListTableRecords {
   private readTableRecord: ReadTableRecord

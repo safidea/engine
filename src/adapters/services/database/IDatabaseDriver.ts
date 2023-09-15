@@ -1,9 +1,9 @@
-import { FilterParams } from './filter/FilterParams'
+import { FilterParams } from '../../../entities/services/database/filter/FilterParams'
 import { TableParams } from '@entities/app/table/TableParams'
-import { RecordData } from './record/RecordData'
-import { RecordToUpdateData } from './record/state/toUpdate/RecordToUpdateData'
+import { RecordData } from '../../../entities/services/database/record/RecordData'
+import { RecordToUpdateData } from '../../../entities/services/database/record/state/toUpdate/RecordToUpdateData'
 
-export interface DatabaseDriver {
+export interface IDatabaseDriver {
   configure(tables: TableParams[]): Promise<void>
   tableExists(tableName: string): boolean
   create(table: string, record: RecordData): Promise<string>

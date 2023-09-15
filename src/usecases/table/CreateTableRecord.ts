@@ -1,6 +1,6 @@
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { Record } from '@entities/drivers/database/record/Record'
-import { StartedState } from '@entities/drivers/server/StartedState'
+import { Record } from '@entities/services/database/record/Record'
+import { StartedState } from '@entities/services/server/StartedState'
 import { CreateAutomationContextFromRecordId } from '../automation/CreateAutomationContextFromRecordId'
 import { App } from '@entities/app/App'
 

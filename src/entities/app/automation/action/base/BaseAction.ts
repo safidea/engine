@@ -1,9 +1,9 @@
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { BaseActionParams } from './BaseActionParams'
 import { AutomationConfig, AutomationContext } from '../../Automation'
 import { ActionError } from '../ActionError'
 import { Table } from '@entities/app/table/Table'
-import { newFilter } from '@entities/drivers/database/filter/Filter'
+import { newFilter } from '@entities/services/database/filter/Filter'
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/multipleLinkedRecords/MultipleLinkedRecordsField'
 
 export class BaseAction {
@@ -12,7 +12,7 @@ export class BaseAction {
 
   constructor(
     params: BaseActionParams,
-    protected readonly drivers: AppDrivers,
+    protected readonly services: AppServices,
     protected readonly config: AutomationConfig
   ) {
     const { name, type } = params
@@ -51,7 +51,7 @@ export class BaseAction {
 
   async createContextFromRecord(table: Table, id: string): Promise<AutomationContext> {
     const context: AutomationContext = { table: table.name }
-    const record = await this.drivers.database.read(table, id)
+    const record = await this.services.database.read(table, id)
     if (!record) {
       this.throwError(`record ${id} not found in table ${table.name}`)
     }
@@ -60,7 +60,7 @@ export class BaseAction {
       if (field instanceof MultipleLinkedRecordsField) {
         const ids = record.getMultipleLinkedRecordsValue(field.name)
         const linkedTable = this.getTableByName(field.table)
-        const linkedRecords = await this.drivers.database.list(linkedTable, [
+        const linkedRecords = await this.services.database.list(linkedTable, [
           newFilter({ field: 'id', operator: 'is_any_of', value: ids }),
         ])
         context.data[field.name] = linkedRecords.map((record) => record.data())

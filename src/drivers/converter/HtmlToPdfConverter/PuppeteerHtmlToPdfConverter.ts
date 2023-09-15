@@ -2,7 +2,7 @@ import { join } from 'path'
 import fs from 'fs-extra'
 import puppeteer from 'puppeteer'
 import { v4 as uuidv4 } from 'uuid'
-import { HtmlToPdfConverterDriver } from '@entities/drivers/converter/ConverterDriver'
+import { HtmlToPdfConverterDriver } from '@adapters/services/converter/IConverterDrivers'
 
 export class PuppeteerHtmlToPdfConverter implements HtmlToPdfConverterDriver {
   async convert(html: string, tmpFolder: string) {

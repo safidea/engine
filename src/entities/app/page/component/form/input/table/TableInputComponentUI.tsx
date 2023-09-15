@@ -1,7 +1,7 @@
 import React from 'react'
-import { IUISpi } from '@entities/drivers/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUISpi'
 import { BaseComponentUIProps } from '../../../base/BaseComponentUI'
-import { Record } from '@entities/drivers/database/record/Record'
+import { Record } from '@entities/services/database/record/Record'
 
 export type Column = {
   label: string

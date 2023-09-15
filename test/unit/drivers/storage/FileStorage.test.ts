@@ -3,7 +3,7 @@ import { helpers } from '../../../utils/unit/fixtures'
 import { FileStorage } from '@drivers/storage/FileStorage'
 import { join } from 'path'
 import fs from 'fs-extra'
-import { File } from '@entities/drivers/storage/file/File'
+import { File } from '@entities/services/storage/file/File'
 
 describe('FileStorage', () => {
   test('should create a file', async () => {

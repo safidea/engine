@@ -1,4 +1,4 @@
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { FieldParams } from './FieldParams'
 import { AutonumberField } from './autonumber/AutonumberField'
 import { CurrencyField } from './currency/CurrencyField'
@@ -27,31 +27,31 @@ export type Field =
   | AutonumberField
   | UrlField
 
-export function newField(params: FieldParams, drivers: AppDrivers): Field {
+export function newField(params: FieldParams, services: AppServices): Field {
   switch (params.type) {
     case 'currency':
-      return new CurrencyField(params, drivers)
+      return new CurrencyField(params, services)
     case 'formula':
-      return new FormulaField(params, drivers)
+      return new FormulaField(params, services)
     case 'long_text':
-      return new LongTextField(params, drivers)
+      return new LongTextField(params, services)
     case 'multiple_linked_records':
-      return new MultipleLinkedRecordsField(params, drivers)
+      return new MultipleLinkedRecordsField(params, services)
     case 'number':
-      return new NumberField(params, drivers)
+      return new NumberField(params, services)
     case 'rollup':
-      return new RollupField(params, drivers)
+      return new RollupField(params, services)
     case 'single_line_text':
-      return new SingleLineTextField(params, drivers)
+      return new SingleLineTextField(params, services)
     case 'single_linked_record':
-      return new SingleLinkedRecordField(params, drivers)
+      return new SingleLinkedRecordField(params, services)
     case 'datetime':
-      return new DatetimeField(params, drivers)
+      return new DatetimeField(params, services)
     case 'single_select':
-      return new SingleSelectField(params, drivers)
+      return new SingleSelectField(params, services)
     case 'autonumber':
-      return new AutonumberField(params, drivers)
+      return new AutonumberField(params, services)
     case 'url':
-      return new UrlField(params, drivers)
+      return new UrlField(params, services)
   }
 }

@@ -2,8 +2,8 @@ import fs from 'fs-extra'
 import { join } from 'path'
 
 import { RecordDto, RecordFieldValueDto } from '@adapters/spi/orm/dtos/RecordDto'
-import { FilterDto } from '@entities/drivers/database/filter/FilterParams'
-import { DatabaseDriver } from '@entities/drivers/database/DatabaseDriver'
+import { FilterDto } from '@entities/services/database/filter/FilterParams'
+import { DatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
 
 interface TableRecord {
   [key: string]: RecordFieldValueDto

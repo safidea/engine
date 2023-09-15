@@ -1,24 +1,25 @@
 import { Emit } from '@entities/app/automation/AutomationList'
-import { StorageDriver } from './StorageDriver'
-import { File } from './file/File'
+import { IStorageDriver } from './IStorageDriver'
+import { File } from '@entities/services/storage/file/File'
+import { IStorageService } from '@entities/services/storage/IStorageService'
 
-export class Storage {
+export class StorageService implements IStorageService {
   private emit?: Emit
 
-  constructor(readonly driver: StorageDriver) {}
+  constructor(readonly driver: IStorageDriver) {}
 
   async listen(emit: Emit) {
     this.emit = emit
   }
 
-  async write(bucket: string, file: File): Promise<string> {
-    const path = this.driver.write(bucket, file.buffer, file.params())
+  async upload(bucket: string, file: File): Promise<string> {
+    const path = this.driver.upload(bucket, file.buffer, file.params())
     //if (this.emit) await this.emit('file_created', { bucket, path })
     return path
   }
 
-  async writeMany(bucket: string, files: File[]): Promise<string[]> {
-    const paths = await this.driver.writeMany(
+  async uploadMany(bucket: string, files: File[]): Promise<string[]> {
+    const paths = await this.driver.uploadMany(
       bucket,
       files.map((file) => ({ data: file.buffer, params: file.params() }))
     )

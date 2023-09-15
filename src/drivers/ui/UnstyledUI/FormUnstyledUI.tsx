@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUISpi } from '@entities/drivers/ui/IUISpi'
+import { IUISpi } from '@entities/services/ui/IUISpi'
 
 const FormUnstyledUI: IUISpi['FormUI'] = {
   form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,

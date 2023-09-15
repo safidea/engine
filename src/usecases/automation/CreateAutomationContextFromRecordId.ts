@@ -1,7 +1,7 @@
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/MultipleLinkedRecordsField'
 import { App } from '@entities/app/App'
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
-import { IsAnyOfFilter } from '@entities/drivers/database/filter/isAnyOf/IsAnyOfFilter'
+import { IsAnyOfFilter } from '@entities/services/database/filter/isAnyOf/IsAnyOfFilter'
 import { ListTableRecords } from '../table/ListTableRecords'
 import { AutomationContext } from '@entities/app/automation/Automation'
 import { ReadTableRecord } from '../table/ReadTableRecord'

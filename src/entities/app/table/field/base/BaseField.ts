@@ -1,4 +1,4 @@
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { BaseFieldParams, BaseFieldFormat } from './BaseFieldParams'
 
 export interface FieldPermissions {
@@ -19,7 +19,7 @@ export class BaseField {
 
   constructor(
     params: BaseFieldParams,
-    readonly drivers: AppDrivers
+    readonly services: AppServices
   ) {
     const { type, name, optional, format, default: defaultValue, permissions } = params
     this.type = type

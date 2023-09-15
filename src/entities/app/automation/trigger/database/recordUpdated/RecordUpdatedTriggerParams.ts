@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { FilterParams } from '@entities/drivers/database/filter/FilterParams'
+import { FilterParams } from '@entities/services/database/filter/FilterParams'
 
 export const RecordUpdatedTriggerParams = t.type({
   event: t.literal('record_updated'),

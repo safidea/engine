@@ -1,4 +1,4 @@
-import { AppDrivers } from '../App'
+import { AppServices } from '../App'
 import { TableParams } from './TableParams'
 import { Field, newField } from './field/Field'
 import { MultipleLinkedRecordsField } from './field/multipleLinkedRecords/MultipleLinkedRecordsField'
@@ -8,24 +8,24 @@ export class Table {
   readonly name: string
   readonly fields: Field[]
 
-  constructor(params: TableParams, drivers: AppDrivers) {
+  constructor(params: TableParams, services: AppServices) {
     const { name, fields } = params
     this.name = name
-    this.fields = fields.map((field) => newField(field, drivers))
+    this.fields = fields.map((field) => newField(field, services))
     if (!fields.find((field) => field.name === 'id')) {
-      this.fields.push(newField({ type: 'single_line_text', name: 'id' }, drivers))
+      this.fields.push(newField({ type: 'single_line_text', name: 'id' }, services))
     }
     if (!fields.find((field) => field.name === 'created_time')) {
-      this.fields.push(newField({ type: 'datetime', name: 'created_time' }, drivers))
+      this.fields.push(newField({ type: 'datetime', name: 'created_time' }, services))
     }
     if (!fields.find((field) => field.name === 'last_modified_time')) {
       this.fields.push(
-        newField({ type: 'datetime', name: 'last_modified_time', optional: true }, drivers)
+        newField({ type: 'datetime', name: 'last_modified_time', optional: true }, services)
       )
     }
     if (!fields.find((field) => field.name === 'deleted_time')) {
       this.fields.push(
-        newField({ type: 'datetime', name: 'deleted_time', optional: true }, drivers)
+        newField({ type: 'datetime', name: 'deleted_time', optional: true }, services)
       )
     }
   }

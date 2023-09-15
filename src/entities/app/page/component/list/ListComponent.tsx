@@ -1,8 +1,8 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
-import { Record } from '@entities/drivers/database/record/Record'
+import { Record } from '@entities/services/database/record/Record'
 import { Column, GroupBy, ListComponentParams, SortBy } from './ListComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { Table } from '@entities/app/table/Table'
 import { GroupType, ListComponentUI } from './ListComponentUI'
@@ -22,9 +22,9 @@ export class ListComponent extends BaseComponent {
   private readonly sortBy: SortBy[]
   private readonly columns: Column[]
 
-  constructor(params: ListComponentParams, drivers: AppDrivers, config: PageConfig) {
+  constructor(params: ListComponentParams, services: AppServices, config: PageConfig) {
     const { type, table: tableName, groupBy, sortBy, columns } = params
-    super({ type }, drivers, config)
+    super({ type }, services, config)
     this.table = this.getTableByName(tableName)
     if (groupBy) {
       for (const group of groupBy) {
@@ -80,7 +80,7 @@ export class ListComponent extends BaseComponent {
   }
 
   async render() {
-    const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table }])
+    const useSyncRecords = this.services.fetcher.getSyncRecordsHook([{ table: this.table }])
     return () => {
       const { tables } = useSyncRecords()
       let records: Record[] = tables[this.table.name] ?? []
@@ -95,7 +95,7 @@ export class ListComponent extends BaseComponent {
           records={records}
           columns={this.columns}
           groups={groups}
-          ui={this.drivers.ui}
+          ui={this.services.ui}
           getCellByFormat={this.getCellByFormat}
         />
       )
@@ -152,7 +152,7 @@ export class ListComponent extends BaseComponent {
   }
 
   private getCellByFormat(column: Column, record: Record) {
-    const { ButtonCell, CurrencyCell, TextCell } = this.drivers.ui.ListUI
+    const { ButtonCell, CurrencyCell, TextCell } = this.services.ui.ListUI
     let value = column.field ? record.fields[column.field] : ''
     if (column.options) {
       value = column.options.find((option) => option.name === value)?.label ?? value

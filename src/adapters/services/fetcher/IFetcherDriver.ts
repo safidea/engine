@@ -4,7 +4,7 @@ export interface FetchState<T> {
   isLoading: boolean
 }
 
-export interface FetcherDriver {
+export interface IFetcherDriver {
   url: string
   name: string
   setUrl: (url: string) => void

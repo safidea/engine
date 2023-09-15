@@ -1,10 +1,10 @@
 import { BaseAction } from '../../base/BaseAction'
 import { Table } from '@entities/app/table/Table'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
-import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
 import { UpdateRecordActionParams } from './UpdateRecordActionParams'
-import { AppDrivers } from '@entities/app/App'
-import { RecordToUpdate } from '@entities/drivers/database/record/state/toUpdate/RecordToUpdate'
+import { AppServices } from '@entities/app/App'
+import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 
 export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplatingSpi | string }
 
@@ -13,21 +13,21 @@ export class UpdateRecordAction extends BaseAction {
   private fieldsCompiled: UpdateRecordActionFieldsCompiled
   private recordIdCompiled: ITemplatingSpi
 
-  constructor(params: UpdateRecordActionParams, drivers: AppDrivers, config: AutomationConfig) {
+  constructor(params: UpdateRecordActionParams, services: AppServices, config: AutomationConfig) {
     const { name, type, table: tableName, fields, recordId } = params
-    super({ name, type }, drivers, config)
+    super({ name, type }, services, config)
     this.table = this.getTableByName(tableName)
     for (const fieldName of Object.keys(fields)) {
       this.tableFieldShouldExist(this.table, fieldName)
     }
     this.fieldsCompiled = Object.entries(fields).reduce(
       (acc: UpdateRecordActionFieldsCompiled, [key, value]) => {
-        acc[key] = !key.includes('$') ? drivers.templater.compile(value) : value
+        acc[key] = !key.includes('$') ? services.templater.compile(value) : value
         return acc
       },
       {}
     )
-    this.recordIdCompiled = drivers.templater.compile(recordId)
+    this.recordIdCompiled = services.templater.compile(recordId)
     // TODO: vérifier si les références de contexte d'actions précédentes sont bien résolues
   }
 
@@ -40,12 +40,12 @@ export class UpdateRecordAction extends BaseAction {
       {}
     )
     const id = this.recordIdCompiled.render(context)
-    const persistedRecord = await this.drivers.database.read(this.table, id)
+    const persistedRecord = await this.services.database.read(this.table, id)
     if (!persistedRecord) {
       this.throwError(`record ${id} not found in table ${this.table.name}`)
     }
     const recordToUpdate = new RecordToUpdate(persistedRecord.data(), this.table, fieldsValues)
-    await this.drivers.database.update(this.table, recordToUpdate)
+    await this.services.database.update(this.table, recordToUpdate)
     const { data } = await this.createContextFromRecord(this.table, recordToUpdate.id)
     return { [this.name]: data }
   }

@@ -1,5 +1,5 @@
 import { ComponentParams } from './ComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../Page'
 import { ContainerComponent } from './container/ContainerComponent'
 import { FormComponent } from './form/FormComponent'
@@ -20,23 +20,23 @@ export type Component =
 
 export function newComponent(
   params: ComponentParams,
-  drivers: AppDrivers,
+  services: AppServices,
   config: PageConfig
 ): Component {
   switch (params.type) {
     case 'link':
-      return new LinkComponent(params, drivers, config)
+      return new LinkComponent(params, services, config)
     case 'paragraph':
-      return new ParagraphComponent(params, drivers, config)
+      return new ParagraphComponent(params, services, config)
     case 'title':
-      return new TitleComponent(params, drivers, config)
+      return new TitleComponent(params, services, config)
     case 'navigation':
-      return new NavigationComponent(params, drivers, config)
+      return new NavigationComponent(params, services, config)
     case 'list':
-      return new ListComponent(params, drivers, config)
+      return new ListComponent(params, services, config)
     case 'form':
-      return new FormComponent(params, drivers, config)
+      return new FormComponent(params, services, config)
     case 'container':
-      return new ContainerComponent(params, drivers, config)
+      return new ContainerComponent(params, services, config)
   }
 }

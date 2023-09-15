@@ -1,7 +1,7 @@
 import { Table } from '@entities/app/table/Table'
 import { BaseRecord } from '../base/BaseRecord'
 import { RecordToDelete } from '../toDelete/RecordToDelete'
-import { Scripter } from '@entities/scripter/Scripter'
+import { Scripter } from '@entities/services/scripter/Scripter'
 import { Field } from '@entities/app/table/field/Field'
 import { BaseRecordData, BaseRecordFieldValue, BaseRecordFields } from '../base/BaseRecordData'
 import { RecordToUpdateData } from './RecordToUpdateData'

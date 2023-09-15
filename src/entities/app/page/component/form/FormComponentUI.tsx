@@ -1,8 +1,8 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { Record } from '@entities/drivers/database/record/Record'
-import { IUISpi } from '../../../../drivers/ui/IUISpi'
-import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
+import { Record } from '@entities/services/database/record/Record'
+import { IUISpi } from '../../../../services/ui/IUISpi'
+import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void

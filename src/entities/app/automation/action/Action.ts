@@ -1,4 +1,4 @@
-import { AppDrivers } from '../../App'
+import { AppServices } from '../../App'
 import { ActionParams } from './ActionParams'
 import { AutomationConfig } from '../Automation'
 import { CreateFileAction } from './storage/createFile/CreateFileAction'
@@ -10,17 +10,17 @@ export type Action = CreateFileAction | FindRecordAction | LogAction | UpdateRec
 
 export function newAction(
   params: ActionParams,
-  drivers: AppDrivers,
+  services: AppServices,
   config: AutomationConfig
 ): Action {
   switch (params.type) {
     case 'create_file':
-      return new CreateFileAction(params, drivers, config)
+      return new CreateFileAction(params, services, config)
     case 'find_record':
-      return new FindRecordAction(params, drivers, config)
+      return new FindRecordAction(params, services, config)
     case 'log':
-      return new LogAction(params, drivers, config)
+      return new LogAction(params, services, config)
     case 'update_record':
-      return new UpdateRecordAction(params, drivers, config)
+      return new UpdateRecordAction(params, services, config)
   }
 }

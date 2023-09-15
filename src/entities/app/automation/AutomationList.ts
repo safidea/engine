@@ -1,4 +1,4 @@
-import { AppDrivers, AppConfig } from '../App'
+import { AppServices, AppConfig } from '../App'
 import { Automation, AutomationContext } from './Automation'
 import { AutomationParams } from './AutomationParams'
 import { TriggerParams } from './trigger/TriggerParams'
@@ -8,8 +8,8 @@ export type Emit = (event: TriggerParams['event'], context?: AutomationContext) 
 export class AutomationList {
   private readonly automations: Automation[]
 
-  constructor(automations: AutomationParams[], drivers: AppDrivers, config: AppConfig) {
-    this.automations = automations.map((automation) => new Automation(automation, drivers, config))
+  constructor(automations: AutomationParams[], services: AppServices, config: AppConfig) {
+    this.automations = automations.map((automation) => new Automation(automation, services, config))
   }
 
   getByName(automationName: string): Automation | undefined {

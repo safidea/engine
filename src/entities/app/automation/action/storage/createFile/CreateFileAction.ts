@@ -1,8 +1,8 @@
 import { BaseAction } from '../../base/BaseAction'
-import { File } from '@entities/drivers/storage/file/File'
-import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
+import { File } from '@entities/services/storage/file/File'
+import { ITemplatingSpi } from '@entities/services/templater/ITemplatingSpi'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { CreateFileActionParams } from './CreateFileActionParams'
 
 type DataCompiled = { [key: string]: ITemplatingSpi | string }
@@ -18,10 +18,10 @@ export class CreateFileAction extends BaseAction {
   private templateCompiled: ITemplatingSpi
   private dataCompiled: DataCompiled
 
-  constructor(params: CreateFileActionParams, drivers: AppDrivers, config: AutomationConfig) {
+  constructor(params: CreateFileActionParams, services: AppServices, config: AutomationConfig) {
     const { name, type, filename, input, output, template, bucket, data } = params
-    const { storage, templater } = drivers
-    super({ name, type }, drivers, config)
+    const { storage, templater } = services
+    super({ name, type }, services, config)
     this.bucket = bucket
     this.filename = filename.endsWith(`.${output}`) ? filename : `${filename}.${output}`
     this.filenameCompiled = templater.compile(this.filename)
@@ -75,9 +75,9 @@ export class CreateFileAction extends BaseAction {
       return acc
     }, {})
     const template = this.templateCompiled.render(data)
-    const pdfData = await this.drivers.converter.htmlToPdf(template)
+    const pdfData = await this.services.converter.htmlToPdf(template)
     const file = new File(filename, pdfData)
-    const url = await this.drivers.storage.write(this.bucket, file)
+    const url = await this.services.storage.write(this.bucket, file)
     return { [this.name]: { filename, url } }
   }
 }

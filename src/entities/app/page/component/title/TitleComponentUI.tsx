@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { IUISpi } from '../../../../drivers/ui/IUISpi'
+import { IUISpi } from '../../../../services/ui/IUISpi'
 import { TitleSize } from './TitleComponentParams'
 
 export interface TitleProps {

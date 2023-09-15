@@ -1,4 +1,4 @@
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { BaseComponentParams } from './BaseComponentParams'
 import { ComponentError } from '../ComponentError'
@@ -9,7 +9,7 @@ export class BaseComponent {
 
   constructor(
     params: BaseComponentParams,
-    readonly drivers: AppDrivers,
+    readonly services: AppServices,
     readonly config: PageConfig
   ) {
     this.type = params.type

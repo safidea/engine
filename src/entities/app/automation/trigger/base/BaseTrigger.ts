@@ -1,17 +1,17 @@
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { AutomationConfig } from '../../Automation'
 import { BaseTriggerParams } from './BaseTriggerParams'
 import { Table } from '@entities/app/table/Table'
 import { TriggerError } from '../TriggerError'
-import { FilterParams } from '@entities/drivers/database/filter/FilterParams'
-import { Filter, newFilter } from '@entities/drivers/database/filter/Filter'
+import { FilterParams } from '@entities/services/database/filter/FilterParams'
+import { Filter, newFilter } from '@entities/services/database/filter/Filter'
 
 export class BaseTrigger {
   readonly event: string
 
   constructor(
     options: BaseTriggerParams,
-    readonly drivers: AppDrivers,
+    readonly services: AppServices,
     readonly config: AutomationConfig
   ) {
     const { event } = options

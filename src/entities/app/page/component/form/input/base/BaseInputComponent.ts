@@ -1,7 +1,7 @@
 import { FormConfig } from '../../FormComponent'
-import { Record } from '@entities/drivers/database/record/Record'
+import { Record } from '@entities/services/database/record/Record'
 import { BaseInputComponentParams } from './BaseInputComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { BaseComponent } from '../../../base/BaseComponent'
 import { Table } from '@entities/app/table/Table'
 import { AddRecord, RemoveRecord, UpdateRecord } from '../../FormComponentUI'
@@ -19,9 +19,9 @@ export class BaseInputComponent extends BaseComponent {
   readonly field: string
   readonly label?: string
 
-  constructor(params: BaseInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+  constructor(params: BaseInputComponentParams, services: AppServices, config: FormConfig) {
     const { type, field, label } = params
-    super({ type }, drivers, config)
+    super({ type }, services, config)
     this.field = field
     this.label = label
     this.table = this.getTableByName(config.formTableName)

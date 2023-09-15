@@ -2,7 +2,7 @@ import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
 import { TitleComponent } from '../title/TitleComponent'
 import { NavigationComponentParams } from './NavigationComponentParams'
-import { AppDrivers } from '@entities/app/App'
+import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { NavigationComponentUI } from './NavigationComponentUI'
 import { LinkComponent } from '../link/LinkComponent'
@@ -14,12 +14,12 @@ export class NavigationComponent extends BaseComponent {
   readonly links: LinkComponent[]
   readonly components: Component[]
 
-  constructor(params: NavigationComponentParams, drivers: AppDrivers, config: PageConfig) {
+  constructor(params: NavigationComponentParams, services: AppServices, config: PageConfig) {
     const { type, title, links, components } = params
-    super({ type }, drivers, config)
-    this.title = new TitleComponent(title, drivers, config)
-    this.links = links.map((link) => new LinkComponent(link, drivers, config))
-    this.components = components.map((component) => newComponent(component, drivers, config))
+    super({ type }, services, config)
+    this.title = new TitleComponent(title, services, config)
+    this.links = links.map((link) => new LinkComponent(link, services, config))
+    this.components = components.map((component) => newComponent(component, services, config))
   }
 
   async render(context: PageContext) {
@@ -30,7 +30,7 @@ export class NavigationComponent extends BaseComponent {
     )
     return () => (
       <NavigationComponentUI
-        ui={this.drivers.ui}
+        ui={this.services.ui}
         Title={Title}
         Links={Links}
         Components={Components}
