@@ -1,5 +1,5 @@
 import { Filter } from '@entities/drivers/database/filter/Filter'
-import { TableOptions } from '@entities/app/table/TableParams'
+import { TableParams } from '@entities/app/table/TableParams'
 import { Emit } from '@entities/app/automation/AutomationList'
 import { DatabaseDriver } from './DatabaseDriver'
 import { RecordToCreate } from './record/state/toCreate/RecordToCreate'
@@ -12,7 +12,7 @@ export class Database {
 
   constructor(private readonly driver: DatabaseDriver) {}
 
-  async configure(tables: TableOptions[]): Promise<void> {
+  async configure(tables: TableParams[]): Promise<void> {
     await this.driver.configure(tables)
   }
 
@@ -55,8 +55,8 @@ export class Database {
   }
 
   async list(table: Table, filters: Filter[]): Promise<PersistedRecord[]> {
-    const filtersOptions = filters.map((f) => f.options)
-    const recordsData = await this.driver.list(table.name, filtersOptions)
+    const filtersParams = filters.map((f) => f.params)
+    const recordsData = await this.driver.list(table.name, filtersParams)
     return recordsData.map((recordData) => new PersistedRecord(recordData, table))
   }
 

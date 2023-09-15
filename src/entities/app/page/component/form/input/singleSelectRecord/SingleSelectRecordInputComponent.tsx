@@ -25,7 +25,7 @@ export class SingleSelectRecordInputComponent extends BaseInputComponent {
   }
 
   async render() {
-    const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table.name }])
+    const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table }])
     return ({ updateRecord, currentRecord }: BaseInputComponentProps) => {
       const { tables } = useSyncRecords()
       const value = currentRecord.getFieldValue(this.field) ?? ''

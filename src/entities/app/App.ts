@@ -43,7 +43,7 @@ export class App {
   }
 
   async configure(): Promise<void> {
-    const { tables, automations } = this.options
+    const { tables, automations } = this.params
     if (tables) {
       await this.drivers.database.configure(tables)
     }

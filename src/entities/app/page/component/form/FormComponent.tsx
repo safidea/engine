@@ -6,7 +6,6 @@ import { BaseComponent } from '../base/BaseComponent'
 import { FormComponentUI } from './FormComponentUI'
 import { Table } from '@entities/app/table/Table'
 import { Record } from '@entities/drivers/database/record/Record'
-import { SyncResource, SyncTables } from '@entities/drivers/fetcher/sync/Sync'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
 import { PageContext } from '../../PageContext'
@@ -16,6 +15,10 @@ import { RecordToCreate } from '@entities/drivers/database/record/state/toCreate
 import { RecordToUpdate } from '@entities/drivers/database/record/state/toUpdate/RecordToUpdate'
 import { PersistedRecord } from '@entities/drivers/database/record/state/persisted/PersistedRecord'
 import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
+import {
+  FetcherSyncResource,
+  FetcherSyncTablesRecords,
+} from '@entities/drivers/fetcher/FetcherSync'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -45,7 +48,7 @@ export class FormComponent extends BaseComponent {
 
     if (this.recordIdToUpdate) {
       defaultRecordId = context.getValue(this.recordIdToUpdate)
-      const resources: SyncResource[] = this.getFormResources(defaultRecordId)
+      const resources: FetcherSyncResource[] = this.getFormResources(defaultRecordId)
       const { tables, error } = await syncRecords({ resources })
       if (error) throw new Error('Sync records error: ' + error)
       defaultRecords = this.getRecordsFromTables(tables)
@@ -170,23 +173,23 @@ export class FormComponent extends BaseComponent {
     }
   }
 
-  private getFormResources(defaultRecordId: string): SyncResource[] {
-    const resources: SyncResource[] = [
+  private getFormResources(defaultRecordId: string): FetcherSyncResource[] {
+    const resources: FetcherSyncResource[] = [
       {
-        table: this.table.name,
+        table: this.table,
         filters: [newFilter({ field: 'id', operator: 'is_any_of', value: [defaultRecordId] })],
       },
     ]
     const tablesInputs = this.inputs.filter((input) => input instanceof TableInputComponent)
     for (const tableInput of tablesInputs) {
       resources.push({
-        table: tableInput.table.name,
+        table: tableInput.table,
       })
     }
     return resources
   }
 
-  private getRecordsFromTables(tables: SyncTables): Record[] {
+  private getRecordsFromTables(tables: FetcherSyncTablesRecords): Record[] {
     const records: Record[] = []
     for (const record of Object.values(tables).flat()) {
       if (record) records.push(record)

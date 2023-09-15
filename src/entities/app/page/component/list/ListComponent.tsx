@@ -80,10 +80,10 @@ export class ListComponent extends BaseComponent {
   }
 
   async render() {
-    const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table.name }])
+    const useSyncRecords = this.drivers.fetcher.getSyncRecordsHook([{ table: this.table }])
     return () => {
       const { tables } = useSyncRecords()
-      let records = tables[this.table.name] ?? []
+      let records: Record[] = tables[this.table.name] ?? []
       let groups: GroupType[] = []
       if (this.groupBy.length > 0) {
         groups = this.groupRecords(records)
