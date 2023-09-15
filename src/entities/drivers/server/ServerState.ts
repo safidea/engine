@@ -1,6 +1,6 @@
 import { IServerSpi } from '@entities/drivers/server/IServerSpi'
 import { IFetcherAdapter } from '../../../adapters/spi/fetcher/IFetcherAdapter'
-import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
+import { ILoggerSpi } from '@entities/drivers/logger/LoggerDriver'
 import { IOrmAdapter } from '../../../adapters/spi/orm/IOrmAdapter'
 import { IUISpi } from '@entities/drivers/ui/IUISpi'
 import { IServerAdapter } from './IServerAdapter'

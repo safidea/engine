@@ -10,6 +10,7 @@ import {
   FetcherSyncTablesRecords,
   FetcherSyncTablesRecordsData,
 } from './FetcherSync'
+
 export class Fetcher {
   constructor(private readonly driver: FetcherDriver) {}
 

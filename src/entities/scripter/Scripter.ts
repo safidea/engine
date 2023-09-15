@@ -2,10 +2,10 @@ export interface ScriptContext {
   [key: string]: string | number | boolean | undefined | (number | string | boolean | undefined)[]
 }
 
-export class Script {
+export class Scripter {
   constructor(
-    public readonly script: string,
-    public readonly context: ScriptContext = {}
+    readonly script: string,
+    readonly context: ScriptContext = {}
   ) {}
 
   run(): string | number | boolean | undefined {

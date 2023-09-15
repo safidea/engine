@@ -1,7 +1,7 @@
 import { Table } from '@entities/app/table/Table'
 import { BaseRecord } from '../base/BaseRecord'
 import { RecordToDelete } from '../toDelete/RecordToDelete'
-import { Script } from '@entities/drivers/scripter/Script'
+import { Scripter } from '@entities/scripter/Scripter'
 import { Field } from '@entities/app/table/field/Field'
 import { BaseRecordData, BaseRecordFieldValue, BaseRecordFields } from '../base/BaseRecordData'
 import { RecordToUpdateData } from './RecordToUpdateData'
@@ -57,7 +57,7 @@ export class RecordToUpdate extends BaseRecord {
       if (value && field.permissions?.update) {
         if (typeof field.permissions?.update === 'object') {
           const { formula } = field.permissions.update
-          const allowed = new Script(formula, context).run()
+          const allowed = new Scripter(formula, context).run()
           if (!allowed) {
             throw new Error(`field "${field.name}" cannot be updated`)
           }

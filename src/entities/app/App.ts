@@ -1,7 +1,7 @@
 import { TableList } from './table/TableList'
 import { PageList } from './page/PageList'
 import { AutomationList } from './automation/AutomationList'
-import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
+import { Logger } from '@entities/drivers/logger/Logger'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import { AppParams } from './AppParams'
@@ -19,7 +19,7 @@ export interface AppDrivers {
   readonly storage: IStorageSpi
   readonly database: Database
   readonly fetcher: Fetcher
-  readonly logger: ILoggerSpi
+  readonly logger: Logger
   readonly ui: IUiSpi
 }
 
