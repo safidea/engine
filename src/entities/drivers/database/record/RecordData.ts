@@ -1,12 +1,5 @@
-export type RecordFieldValue = string | number | boolean | undefined | string[]
+import { BaseRecordData, BaseRecordFieldValue, BaseRecordFields } from './state/base/BaseRecordData'
 
-export interface RecordFields {
-  [key: string]: RecordFieldValue
-}
-
-export interface RecordData extends RecordFields {
-  id: string
-  created_time: string
-  last_modified_time?: string
-  deleted_time?: string
-}
+export type RecordFieldValue = BaseRecordFieldValue
+export type RecordFields = BaseRecordFields
+export type RecordData = BaseRecordData

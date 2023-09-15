@@ -1,9 +1,9 @@
 import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
-import { UrlFieldOptions } from './UrlFieldOptions'
+import { UrlFieldParams } from './UrlFieldParams'
 
 export class UrlField extends BaseField {
-  constructor(options: UrlFieldOptions, drivers: AppDrivers) {
-    super(options, drivers)
+  constructor(params: UrlFieldParams, drivers: AppDrivers) {
+    super(params, drivers)
   }
 }

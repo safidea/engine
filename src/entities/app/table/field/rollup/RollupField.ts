@@ -1,14 +1,14 @@
 import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
-import { RollupFieldOptions } from './RollupFieldOptions'
+import { RollupFieldParams } from './RollupFieldParams'
 
 export class RollupField extends BaseField {
   readonly linkedRecords: string
   readonly linkedField: string
   readonly formula: string
 
-  constructor(options: RollupFieldOptions, drivers: AppDrivers) {
-    const { linkedRecords, linkedField, formula, ...rest } = options
+  constructor(params: RollupFieldParams, drivers: AppDrivers) {
+    const { linkedRecords, linkedField, formula, ...rest } = params
     super(rest, drivers)
     this.linkedRecords = linkedRecords
     this.linkedField = linkedField

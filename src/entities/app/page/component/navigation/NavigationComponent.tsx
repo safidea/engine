@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
 import { TitleComponent } from '../title/TitleComponent'
-import { NavigationComponentOptions } from './NavigationComponentOptions'
+import { NavigationComponentParams } from './NavigationComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { NavigationComponentUI } from './NavigationComponentUI'
@@ -14,8 +14,8 @@ export class NavigationComponent extends BaseComponent {
   readonly links: LinkComponent[]
   readonly components: Component[]
 
-  constructor(options: NavigationComponentOptions, drivers: AppDrivers, config: PageConfig) {
-    const { type, title, links, components } = options
+  constructor(params: NavigationComponentParams, drivers: AppDrivers, config: PageConfig) {
+    const { type, title, links, components } = params
     super({ type }, drivers, config)
     this.title = new TitleComponent(title, drivers, config)
     this.links = links.map((link) => new LinkComponent(link, drivers, config))

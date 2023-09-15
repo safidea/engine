@@ -1,5 +1,5 @@
 import { AppDrivers } from '../App'
-import { TableOptions } from './TableOptions'
+import { TableParams } from './TableParams'
 import { Field, newField } from './field/Field'
 import { MultipleLinkedRecordsField } from './field/multipleLinkedRecords/MultipleLinkedRecordsField'
 import { SingleLinkedRecordField } from './field/singleLinkedRecord/SingleLinkedRecordField'
@@ -8,8 +8,8 @@ export class Table {
   readonly name: string
   readonly fields: Field[]
 
-  constructor(options: TableOptions, drivers: AppDrivers) {
-    const { name, fields } = options
+  constructor(params: TableParams, drivers: AppDrivers) {
+    const { name, fields } = params
     this.name = name
     this.fields = fields.map((field) => newField(field, drivers))
     if (!fields.find((field) => field.name === 'id')) {

@@ -1,10 +1,10 @@
 import { Filter } from '@entities/drivers/database/filter/Filter'
-import { TableOptions } from '@entities/app/table/TableOptions'
+import { TableOptions } from '@entities/app/table/TableParams'
 import { Emit } from '@entities/app/automation/AutomationList'
 import { DatabaseDriver } from './DatabaseDriver'
-import { RecordToCreate } from './record/state/RecordToCreate'
-import { RecordToUpdate } from './record/state/RecordToUpdate'
-import { PersistedRecord } from './record/state/PersistedRecord'
+import { RecordToCreate } from './record/state/toCreate/RecordToCreate'
+import { RecordToUpdate } from './record/state/toUpdate/RecordToUpdate'
+import { PersistedRecord } from './record/state/persisted/PersistedRecord'
 import { Table } from '@entities/app/table/Table'
 
 export class Database {
@@ -41,13 +41,13 @@ export class Database {
   }
 
   async update(table: Table, record: RecordToUpdate): Promise<void> {
-    const recordData = record.updatedData()
+    const recordData = record.toUpdateData()
     await this.driver.softUpdate(table.name, recordData)
     if (this.emit) await this.emit('record_updated', { table: table.name, record: recordData })
   }
 
   async updateMany(table: Table, records: RecordToUpdate[]): Promise<void> {
-    const recordsData = records.map((r) => r.updatedData())
+    const recordsData = records.map((r) => r.toUpdateData())
     await this.driver.softUpdateMany(table.name, recordsData)
     if (this.emit)
       for (const recordData of recordsData)

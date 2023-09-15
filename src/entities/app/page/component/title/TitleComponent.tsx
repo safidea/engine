@@ -1,16 +1,16 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
-import { Size, TitleComponentOptions } from './TitleComponentOptions'
+import { TitleSize, TitleComponentParams } from './TitleComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { TitleComponentUI } from './TitleComponentUI'
 
 export class TitleComponent extends BaseComponent {
   readonly text: string
-  readonly size?: Size
+  readonly size?: TitleSize
 
-  constructor(options: TitleComponentOptions, drivers: AppDrivers, config: PageConfig) {
-    const { type, text, size } = options
+  constructor(params: TitleComponentParams, drivers: AppDrivers, config: PageConfig) {
+    const { type, text, size } = params
     super({ type }, drivers, config)
     this.text = text
     this.size = size

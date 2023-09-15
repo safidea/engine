@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
-import { SingleSelectRecordInputComponentOptions } from './SingleSelectRecordInputComponentOptions'
+import { SingleSelectRecordInputComponentParams } from './SingleSelectRecordInputComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 import { SingleSelectInputComponentUI } from '../singleSelect/SingleSelectInputComponentUI'
@@ -13,11 +13,11 @@ export class SingleSelectRecordInputComponent extends BaseInputComponent {
   readonly placeholder?: string
 
   constructor(
-    options: SingleSelectRecordInputComponentOptions,
+    params: SingleSelectRecordInputComponentParams,
     drivers: AppDrivers,
     config: FormConfig
   ) {
-    const { type, field, label, placeholder, table: tableName, fieldForOptionLabel } = options
+    const { type, field, label, placeholder, table: tableName, fieldForOptionLabel } = params
     super({ type, field, label }, drivers, config)
     this.table = this.getTableByName(tableName)
     this.placeholder = placeholder

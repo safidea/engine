@@ -1,11 +1,11 @@
 import { AppDrivers } from '@entities/app/App'
 import { BaseTrigger } from '../../base/BaseTrigger'
-import { ServerStartedTriggerOptions } from './ServerStartedTriggerOptions'
+import { ServerStartedTriggerParams } from './ServerStartedTriggerParams'
 import { AutomationConfig } from '../../../Automation'
 
 export class ServerStartedTrigger extends BaseTrigger {
-  constructor(options: ServerStartedTriggerOptions, drivers: AppDrivers, config: AutomationConfig) {
-    const { event } = options
+  constructor(params: ServerStartedTriggerParams, drivers: AppDrivers, config: AutomationConfig) {
+    const { event } = params
     super({ event }, drivers, config)
   }
 

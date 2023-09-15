@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
-import { TableInputComponentOptions } from './TableInputComponentOptions'
+import { TableInputComponentParams } from './TableInputComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { FormConfig } from '../../FormComponent'
 import { ComponentError } from '../../../ComponentError'
@@ -16,8 +16,8 @@ export class TableInputComponent extends BaseInputComponent {
   readonly addLabel?: string
   readonly columns: Column[]
 
-  constructor(options: TableInputComponentOptions, drivers: AppDrivers, config: FormConfig) {
-    const { type, field, label, addLabel, columns } = options
+  constructor(params: TableInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+    const { type, field, label, addLabel, columns } = params
     super({ type, field, label }, drivers, config)
     for (const column of columns) {
       if (!this.table.hasColumn(column.field)) {

@@ -1,13 +1,13 @@
 import { TableList } from './table/TableList'
 import { PageList } from './page/PageList'
 import { AutomationList } from './automation/AutomationList'
-import { IFetcherSpi } from '@entities/drivers/fetcher/IFetcherSpi'
 import { ILoggerSpi } from '@entities/drivers/logger/ILoggerSpi'
 import { IStorageSpi } from '@entities/drivers/storage/IStorageSpi'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
-import { AppOptions } from './AppOptions'
+import { AppParams } from './AppParams'
 import { Converter } from '@entities/drivers/converter/Converter'
 import { Database } from '@entities/drivers/database/Database'
+import { Fetcher } from '@entities/drivers/fetcher/Fetcher'
 
 export interface AppConfig {
   readonly tables: TableList
@@ -18,7 +18,7 @@ export interface AppDrivers {
   readonly converter: Converter
   readonly storage: IStorageSpi
   readonly database: Database
-  readonly fetcher: IFetcherSpi
+  readonly fetcher: Fetcher
   readonly logger: ILoggerSpi
   readonly ui: IUiSpi
 }
@@ -31,16 +31,10 @@ export class App {
   readonly pages: PageList
 
   constructor(
-    readonly options: AppOptions,
+    readonly params: AppParams,
     readonly drivers: AppDrivers
   ) {
-    const {
-      name = 'My app',
-      version = '0.0.1',
-      tables = [],
-      automations = [],
-      pages = [],
-    } = options
+    const { name = 'My app', version = '0.0.1', tables = [], automations = [], pages = [] } = params
     this.name = name
     this.version = version
     this.tables = new TableList(tables, drivers)

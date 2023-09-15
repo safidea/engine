@@ -1,11 +1,11 @@
-import { BaseFilterOptions } from './BaseFilterOptions'
+import { BaseFilterParams } from './BaseFilterParams'
 
 export class BaseFilter {
   readonly field: string
   readonly operator: string
 
-  constructor(options: BaseFilterOptions) {
-    const { field, operator } = options
+  constructor(params: BaseFilterParams) {
+    const { field, operator } = params
     this.field = field
     this.operator = operator
   }

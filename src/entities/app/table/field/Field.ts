@@ -1,5 +1,5 @@
 import { AppDrivers } from '@entities/app/App'
-import { FieldOptions } from './FieldOptions'
+import { FieldParams } from './FieldParams'
 import { AutonumberField } from './autonumber/AutonumberField'
 import { CurrencyField } from './currency/CurrencyField'
 import { DatetimeField } from './datetime/DatetimeField'
@@ -27,31 +27,31 @@ export type Field =
   | AutonumberField
   | UrlField
 
-export function newField(options: FieldOptions, drivers: AppDrivers): Field {
-  switch (options.type) {
+export function newField(params: FieldParams, drivers: AppDrivers): Field {
+  switch (params.type) {
     case 'currency':
-      return new CurrencyField(options, drivers)
+      return new CurrencyField(params, drivers)
     case 'formula':
-      return new FormulaField(options, drivers)
+      return new FormulaField(params, drivers)
     case 'long_text':
-      return new LongTextField(options, drivers)
+      return new LongTextField(params, drivers)
     case 'multiple_linked_records':
-      return new MultipleLinkedRecordsField(options, drivers)
+      return new MultipleLinkedRecordsField(params, drivers)
     case 'number':
-      return new NumberField(options, drivers)
+      return new NumberField(params, drivers)
     case 'rollup':
-      return new RollupField(options, drivers)
+      return new RollupField(params, drivers)
     case 'single_line_text':
-      return new SingleLineTextField(options, drivers)
+      return new SingleLineTextField(params, drivers)
     case 'single_linked_record':
-      return new SingleLinkedRecordField(options, drivers)
+      return new SingleLinkedRecordField(params, drivers)
     case 'datetime':
-      return new DatetimeField(options, drivers)
+      return new DatetimeField(params, drivers)
     case 'single_select':
-      return new SingleSelectField(options, drivers)
+      return new SingleSelectField(params, drivers)
     case 'autonumber':
-      return new AutonumberField(options, drivers)
+      return new AutonumberField(params, drivers)
     case 'url':
-      return new UrlField(options, drivers)
+      return new UrlField(params, drivers)
   }
 }

@@ -1,5 +1,5 @@
 import { AppDrivers } from '@entities/app/App'
-import { BaseActionOptions } from './BaseActionOptions'
+import { BaseActionParams } from './BaseActionParams'
 import { AutomationConfig, AutomationContext } from '../../Automation'
 import { ActionError } from '../ActionError'
 import { Table } from '@entities/app/table/Table'
@@ -11,11 +11,11 @@ export class BaseAction {
   readonly type: string
 
   constructor(
-    options: BaseActionOptions,
+    params: BaseActionParams,
     protected readonly drivers: AppDrivers,
     protected readonly config: AutomationConfig
   ) {
-    const { name, type } = options
+    const { name, type } = params
     this.name = name
     this.type = type
   }

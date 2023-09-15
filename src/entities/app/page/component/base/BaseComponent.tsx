@@ -1,6 +1,6 @@
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../../Page'
-import { BaseComponentOptions } from './BaseComponentOptions'
+import { BaseComponentParams } from './BaseComponentParams'
 import { ComponentError } from '../ComponentError'
 import { Table } from '@entities/app/table/Table'
 
@@ -8,11 +8,11 @@ export class BaseComponent {
   readonly type: string
 
   constructor(
-    options: BaseComponentOptions,
+    params: BaseComponentParams,
     readonly drivers: AppDrivers,
     readonly config: PageConfig
   ) {
-    this.type = options.type
+    this.type = params.type
   }
 
   throwError(message: string): never {

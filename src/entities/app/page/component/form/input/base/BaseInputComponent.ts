@@ -1,6 +1,6 @@
 import { FormConfig } from '../../FormComponent'
 import { Record } from '@entities/drivers/database/record/Record'
-import { BaseInputComponentOptions } from './BaseInputComponentOptions'
+import { BaseInputComponentParams } from './BaseInputComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { BaseComponent } from '../../../base/BaseComponent'
 import { Table } from '@entities/app/table/Table'
@@ -19,8 +19,8 @@ export class BaseInputComponent extends BaseComponent {
   readonly field: string
   readonly label?: string
 
-  constructor(options: BaseInputComponentOptions, drivers: AppDrivers, config: FormConfig) {
-    const { type, field, label } = options
+  constructor(params: BaseInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+    const { type, field, label } = params
     super({ type }, drivers, config)
     this.field = field
     this.label = label

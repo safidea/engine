@@ -1,0 +1,22 @@
+import { Filter } from '../../database/filter/Filter'
+import { Record } from '../../database/record/Record'
+
+export interface SyncCommand {
+  type: 'create' | 'update' | 'delete'
+  table: string
+  record: Record
+}
+
+export interface SyncResource {
+  table: string
+  filters?: Filter[]
+}
+
+export interface SyncTables {
+  [key: string]: Record[] | undefined
+}
+
+export interface Sync {
+  commands?: SyncCommand[]
+  resources?: SyncResource[]
+}

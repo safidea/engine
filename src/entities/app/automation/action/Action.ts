@@ -1,5 +1,5 @@
 import { AppDrivers } from '../../App'
-import { ActionOptions } from './ActionOptions'
+import { ActionParams } from './ActionParams'
 import { AutomationConfig } from '../Automation'
 import { CreateFileAction } from './storage/createFile/CreateFileAction'
 import { FindRecordAction } from './database/findRecord/FindRecordAction'
@@ -9,18 +9,18 @@ import { UpdateRecordAction } from './database/updateRecord/UpdateRecordAction'
 export type Action = CreateFileAction | FindRecordAction | LogAction | UpdateRecordAction
 
 export function newAction(
-  options: ActionOptions,
+  params: ActionParams,
   drivers: AppDrivers,
   config: AutomationConfig
 ): Action {
-  switch (options.type) {
+  switch (params.type) {
     case 'create_file':
-      return new CreateFileAction(options, drivers, config)
+      return new CreateFileAction(params, drivers, config)
     case 'find_record':
-      return new FindRecordAction(options, drivers, config)
+      return new FindRecordAction(params, drivers, config)
     case 'log':
-      return new LogAction(options, drivers, config)
+      return new LogAction(params, drivers, config)
     case 'update_record':
-      return new UpdateRecordAction(options, drivers, config)
+      return new UpdateRecordAction(params, drivers, config)
   }
 }

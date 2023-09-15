@@ -2,9 +2,9 @@ import { BaseAction } from '../../base/BaseAction'
 import { Table } from '@entities/app/table/Table'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
-import { UpdateRecordActionOptions } from './UpdateRecordActionOptions'
+import { UpdateRecordActionParams } from './UpdateRecordActionParams'
 import { AppDrivers } from '@entities/app/App'
-import { RecordToUpdate } from '@entities/drivers/database/record/state/RecordToUpdate'
+import { RecordToUpdate } from '@entities/drivers/database/record/state/toUpdate/RecordToUpdate'
 
 export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplatingSpi | string }
 
@@ -13,8 +13,8 @@ export class UpdateRecordAction extends BaseAction {
   private fieldsCompiled: UpdateRecordActionFieldsCompiled
   private recordIdCompiled: ITemplatingSpi
 
-  constructor(options: UpdateRecordActionOptions, drivers: AppDrivers, config: AutomationConfig) {
-    const { name, type, table: tableName, fields, recordId } = options
+  constructor(params: UpdateRecordActionParams, drivers: AppDrivers, config: AutomationConfig) {
+    const { name, type, table: tableName, fields, recordId } = params
     super({ name, type }, drivers, config)
     this.table = this.getTableByName(tableName)
     for (const fieldName of Object.keys(fields)) {

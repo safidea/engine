@@ -1,13 +1,13 @@
 import { PageContext } from './PageContext'
 import { Page } from './Page'
 import { AppError } from '../AppError'
-import { PageOptions } from './PageOptions'
+import { PageParams } from './PageParams'
 import { AppDrivers, AppConfig } from '../App'
 
 export class PageList {
   private readonly pages: Page[]
 
-  constructor(pages: PageOptions[], drivers: AppDrivers, config: AppConfig) {
+  constructor(pages: PageParams[], drivers: AppDrivers, config: AppConfig) {
     this.pages = pages.map((page) => new Page(page, drivers, config))
   }
 

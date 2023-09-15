@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
 import { Record } from '@entities/drivers/database/record/Record'
-import { Column, GroupBy, ListComponentOptions, SortBy } from './ListComponentOptions'
+import { Column, GroupBy, ListComponentParams, SortBy } from './ListComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { Table } from '@entities/app/table/Table'
@@ -22,8 +22,8 @@ export class ListComponent extends BaseComponent {
   private readonly sortBy: SortBy[]
   private readonly columns: Column[]
 
-  constructor(options: ListComponentOptions, drivers: AppDrivers, config: PageConfig) {
-    const { type, table: tableName, groupBy, sortBy, columns } = options
+  constructor(params: ListComponentParams, drivers: AppDrivers, config: PageConfig) {
+    const { type, table: tableName, groupBy, sortBy, columns } = params
     super({ type }, drivers, config)
     this.table = this.getTableByName(tableName)
     if (groupBy) {
@@ -137,7 +137,9 @@ export class ListComponent extends BaseComponent {
       if (order === 'last_to_first') options.reverse()
       for (let j = 0; j < options.length; j++) {
         const option = options[j]
-        let groupedRecords = records.filter((record) => record.getFieldValue(fieldName) === option.name)
+        let groupedRecords = records.filter(
+          (record) => record.getFieldValue(fieldName) === option.name
+        )
         if (this.sortBy && this.sortBy.length > 0) groupedRecords = this.sortRecords(records)
         groups.push({
           name: option.name,

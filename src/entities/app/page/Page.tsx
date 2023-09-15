@@ -2,7 +2,7 @@ import React from 'react'
 import { AppDrivers, AppConfig } from '../App'
 import { TableList } from '../table/TableList'
 import { PageContext } from './PageContext'
-import { PageOptions } from './PageOptions'
+import { PageParams } from './PageParams'
 import { Component, newComponent } from './component/Component'
 
 export interface PageConfig {
@@ -14,11 +14,11 @@ export class Page {
   readonly title?: string
   readonly components: Component[]
 
-  constructor(options: PageOptions, drivers: AppDrivers, config: AppConfig) {
-    this.path = options.path
-    this.title = options.title
-    this.components = options.components.map((componentOptions) =>
-      newComponent(componentOptions, drivers, config)
+  constructor(params: PageParams, drivers: AppDrivers, config: AppConfig) {
+    this.path = params.path
+    this.title = params.title
+    this.components = params.components.map((componentParams) =>
+      newComponent(componentParams, drivers, config)
     )
   }
 

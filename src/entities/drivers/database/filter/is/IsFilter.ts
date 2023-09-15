@@ -1,11 +1,11 @@
 import { BaseFilter } from '../base/BaseFilter'
-import { IsFilterOptions } from './IsFilterOptions'
+import { IsFilterParams } from './IsFilterParams'
 
 export class IsFilter extends BaseFilter {
   readonly value: string
 
-  constructor(readonly options: IsFilterOptions) {
-    const { field, operator, value } = options
+  constructor(readonly params: IsFilterParams) {
+    const { field, operator, value } = params
     super({ field, operator })
     this.value = value
   }

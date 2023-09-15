@@ -3,18 +3,18 @@ import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { BaseTrigger } from '../../base/BaseTrigger'
 import { IsFilter } from '@entities/drivers/database/filter/is/IsFilter'
 import { AppDrivers } from '@entities/app/App'
-import { RecordCreatedTriggerOptions } from './RecordCreatedTriggerOptions'
+import { RecordCreatedTriggerParams } from './RecordCreatedTriggerParams'
 import { Table } from '@entities/app/table/Table'
 
 export class RecordCreatedTrigger extends BaseTrigger {
   private table: Table
   private filters: Filter[]
 
-  constructor(options: RecordCreatedTriggerOptions, drivers: AppDrivers, config: AutomationConfig) {
-    const { event, table: tableName, filters = [] } = options
+  constructor(params: RecordCreatedTriggerParams, drivers: AppDrivers, config: AutomationConfig) {
+    const { event, table: tableName, filters = [] } = params
     super({ event }, drivers, config)
     this.table = this.getTableByName(tableName)
-    this.filters = this.getFiltersFromOptions(filters)
+    this.filters = this.getFiltersFromParams(filters)
   }
 
   async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {

@@ -3,7 +3,7 @@ import { File } from '@entities/drivers/storage/File'
 import { ITemplatingSpi } from '@entities/drivers/templater/ITemplatingSpi'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { AppDrivers } from '@entities/app/App'
-import { CreateFileActionOptions } from './CreateFileActionOptions'
+import { CreateFileActionParams } from './CreateFileActionParams'
 
 type DataCompiled = { [key: string]: ITemplatingSpi | string }
 type DataRendered = {
@@ -18,8 +18,8 @@ export class CreateFileAction extends BaseAction {
   private templateCompiled: ITemplatingSpi
   private dataCompiled: DataCompiled
 
-  constructor(options: CreateFileActionOptions, drivers: AppDrivers, config: AutomationConfig) {
-    const { name, type, filename, input, output, template, bucket, data } = options
+  constructor(params: CreateFileActionParams, drivers: AppDrivers, config: AutomationConfig) {
+    const { name, type, filename, input, output, template, bucket, data } = params
     const { storage, templater } = drivers
     super({ name, type }, drivers, config)
     this.bucket = bucket

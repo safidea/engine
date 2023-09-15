@@ -1,14 +1,14 @@
-import { FilterOptions } from './FilterOptions'
+import { FilterParams } from './FilterParams'
 import { IsAnyOfFilter } from './isAnyOf/IsAnyOfFilter'
 import { IsFilter } from './is/IsFilter'
 
 export type Filter = IsAnyOfFilter | IsFilter
 
-export function newFilter(options: FilterOptions): Filter {
-  switch (options.operator) {
+export function newFilter(params: FilterParams): Filter {
+  switch (params.operator) {
     case 'is_any_of':
-      return new IsAnyOfFilter(options)
+      return new IsAnyOfFilter(params)
     case 'is':
-      return new IsFilter(options)
+      return new IsFilter(params)
   }
 }

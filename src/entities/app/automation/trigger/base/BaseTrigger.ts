@@ -1,16 +1,16 @@
 import { AppDrivers } from '@entities/app/App'
 import { AutomationConfig } from '../../Automation'
-import { BaseTriggerOptions } from './BaseTriggerOptions'
+import { BaseTriggerParams } from './BaseTriggerParams'
 import { Table } from '@entities/app/table/Table'
 import { TriggerError } from '../TriggerError'
-import { FilterOptions } from '@entities/drivers/database/filter/FilterOptions'
+import { FilterParams } from '@entities/drivers/database/filter/FilterParams'
 import { Filter, newFilter } from '@entities/drivers/database/filter/Filter'
 
 export class BaseTrigger {
   readonly event: string
 
   constructor(
-    options: BaseTriggerOptions,
+    options: BaseTriggerParams,
     readonly drivers: AppDrivers,
     readonly config: AutomationConfig
   ) {
@@ -28,8 +28,8 @@ export class BaseTrigger {
     return table
   }
 
-  getFiltersFromOptions(filtersOptions: FilterOptions[]): Filter[] {
-    return filtersOptions.map((filterOptions: FilterOptions) => newFilter(filterOptions))
+  getFiltersFromParams(filtersParams: FilterParams[]): Filter[] {
+    return filtersParams.map((filterParams: FilterParams) => newFilter(filterParams))
   }
 
   shouldTriggerEvent(event: string): boolean {

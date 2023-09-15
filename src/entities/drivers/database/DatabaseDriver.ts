@@ -1,7 +1,7 @@
-import { FilterOptions } from './filter/FilterOptions'
-import { TableOptions } from '@entities/app/table/TableOptions'
-import { RecordData } from './record/RecordData'
-import { RecordUpdatedData } from './record/state/RecordToUpdate'
+import { FilterOptions } from './filter/FilterParams'
+import { TableOptions } from '@entities/app/table/TableParams'
+import { RecordData } from './record/state/base/BaseRecordData'
+import { RecordUpdatedData } from './record/state/toUpdate/RecordToUpdate'
 
 export interface DatabaseDriver {
   configure(tables: TableOptions[]): Promise<void>

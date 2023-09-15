@@ -1,9 +1,9 @@
 import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
-import { SingleLineTextFieldOptions } from './SingleLineTextFieldOptions'
+import { SingleLineTextFieldParams } from './SingleLineTextFieldParams'
 
 export class SingleLineTextField extends BaseField {
-  constructor(options: SingleLineTextFieldOptions, drivers: AppDrivers) {
-    super(options, drivers)
+  constructor(params: SingleLineTextFieldParams, drivers: AppDrivers) {
+    super(params, drivers)
   }
 }

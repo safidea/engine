@@ -2,7 +2,7 @@ import { Filter } from '@entities/drivers/database/filter/Filter'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { BaseTrigger } from '../../base/BaseTrigger'
 import { IsFilter } from '@entities/drivers/database/filter/is/IsFilter'
-import { RecordUpdatedTriggerOptions } from './RecordUpdatedTriggerOptions'
+import { RecordUpdatedTriggerParams } from './RecordUpdatedTriggerParams'
 import { AppDrivers } from '@entities/app/App'
 import { Table } from 'src'
 
@@ -11,11 +11,11 @@ export class RecordUpdatedTrigger extends BaseTrigger {
   private filters: Filter[]
   private fields: string[] = []
 
-  constructor(options: RecordUpdatedTriggerOptions, drivers: AppDrivers, config: AutomationConfig) {
-    const { event, table: tableName, fields = [], filters = [] } = options
+  constructor(params: RecordUpdatedTriggerParams, drivers: AppDrivers, config: AutomationConfig) {
+    const { event, table: tableName, fields = [], filters = [] } = params
     super({ event }, drivers, config)
     this.table = this.getTableByName(tableName)
-    this.filters = this.getFiltersFromOptions(filters)
+    this.filters = this.getFiltersFromParams(filters)
     this.fields = fields
   }
 

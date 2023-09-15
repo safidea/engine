@@ -1,5 +1,5 @@
 import { AppDrivers } from '@entities/app/App'
-import { BaseFieldOptions, Format } from './BaseFieldOptions'
+import { BaseFieldParams, BaseFieldFormat } from './BaseFieldParams'
 
 export interface FieldPermissions {
   update?:
@@ -13,15 +13,15 @@ export class BaseField {
   readonly type: string
   readonly name: string
   readonly optional: boolean
-  readonly format: Format
+  readonly format: BaseFieldFormat
   readonly default?: string | number | boolean
   readonly permissions?: FieldPermissions
 
   constructor(
-    options: BaseFieldOptions,
+    params: BaseFieldParams,
     readonly drivers: AppDrivers
   ) {
-    const { type, name, optional, format, default: defaultValue, permissions } = options
+    const { type, name, optional, format, default: defaultValue, permissions } = params
     this.type = type
     this.name = name
     this.optional = optional || false

@@ -1,14 +1,14 @@
 import { AppDrivers, AppConfig } from '../App'
 import { Automation, AutomationContext } from './Automation'
-import { AutomationOptions } from './AutomationOptions'
-import { TriggerOptions } from './trigger/TriggerOptions'
+import { AutomationParams } from './AutomationParams'
+import { TriggerParams } from './trigger/TriggerParams'
 
-export type Emit = (event: TriggerOptions['event'], context?: AutomationContext) => Promise<void>
+export type Emit = (event: TriggerParams['event'], context?: AutomationContext) => Promise<void>
 
 export class AutomationList {
   private readonly automations: Automation[]
 
-  constructor(automations: AutomationOptions[], drivers: AppDrivers, config: AppConfig) {
+  constructor(automations: AutomationParams[], drivers: AppDrivers, config: AppConfig) {
     this.automations = automations.map((automation) => new Automation(automation, drivers, config))
   }
 
@@ -20,7 +20,7 @@ export class AutomationList {
     return this.automations
   }
 
-  async emit(event: TriggerOptions['event'], context: AutomationContext = {}): Promise<void> {
+  async emit(event: TriggerParams['event'], context: AutomationContext = {}): Promise<void> {
     const { data, ...params } = context
     if (typeof data === 'object' && 'id' in data) params.id = data.id
     for (const automation of this.automations) {

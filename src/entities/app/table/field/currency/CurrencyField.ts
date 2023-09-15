@@ -1,9 +1,9 @@
 import { AppDrivers } from '@entities/app/App'
 import { BaseField } from '../base/BaseField'
-import { CurrencyFieldOptions } from './CurrencyFieldOptions'
+import { CurrencyFieldParams } from './CurrencyFieldParams'
 
 export class CurrencyField extends BaseField {
-  constructor(options: CurrencyFieldOptions, drivers: AppDrivers) {
-    super(options, drivers)
+  constructor(params: CurrencyFieldParams, drivers: AppDrivers) {
+    super(params, drivers)
   }
 }

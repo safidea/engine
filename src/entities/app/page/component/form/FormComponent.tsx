@@ -1,21 +1,21 @@
 import React, { useRef, useState } from 'react'
 import { PageConfig } from '../../Page'
-import { FormComponentOptions } from './FormComponentOptions'
+import { FormComponentParams } from './FormComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { BaseComponent } from '../base/BaseComponent'
 import { FormComponentUI } from './FormComponentUI'
 import { Table } from '@entities/app/table/Table'
 import { Record } from '@entities/drivers/database/record/Record'
-import { SyncResource, SyncTables } from '@entities/drivers/database/sync/Sync'
+import { SyncResource, SyncTables } from '@entities/drivers/fetcher/sync/Sync'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
 import { PageContext } from '../../PageContext'
 import { ComponentError } from '../ComponentError'
 import { newFilter } from '@entities/drivers/database/filter/Filter'
-import { RecordToCreate } from '@entities/drivers/database/record/state/RecordToCreate'
+import { RecordToCreate } from '@entities/drivers/database/record/state/toCreate/RecordToCreate'
+import { RecordToUpdate } from '@entities/drivers/database/record/state/toUpdate/RecordToUpdate'
+import { PersistedRecord } from '@entities/drivers/database/record/state/persisted/PersistedRecord'
 import { RecordFieldValue } from '@entities/drivers/database/record/RecordData'
-import { RecordToUpdate } from '@entities/drivers/database/record/state/RecordToUpdate'
-import { PersistedRecord } from '@entities/drivers/database/record/state/PersistedRecord'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -23,12 +23,12 @@ export interface FormConfig extends PageConfig {
 
 export class FormComponent extends BaseComponent {
   readonly inputs: InputComponent[]
-  readonly submit: FormComponentOptions['submit']
+  readonly submit: FormComponentParams['submit']
   readonly recordIdToUpdate?: string
   readonly table: Table
 
-  constructor(options: FormComponentOptions, drivers: AppDrivers, config: PageConfig) {
-    const { type, submit, recordIdToUpdate, table: tableName, inputs } = options
+  constructor(params: FormComponentParams, drivers: AppDrivers, config: PageConfig) {
+    const { type, submit, recordIdToUpdate, table: tableName, inputs } = params
     super({ type }, drivers, config)
     this.submit = submit
     this.recordIdToUpdate = recordIdToUpdate

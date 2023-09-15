@@ -1,19 +1,19 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { AppDrivers } from '@entities/app/App'
-import { SingleSelectInputComponentOptions } from './SingleSelectInputComponentOptions'
+import { SingleSelectInputComponentParams } from './SingleSelectInputComponentParams'
 import { SingleSelectInputComponentUI } from './SingleSelectInputComponentUI'
 import { FormConfig } from '../../FormComponent'
 
 export class SingleSelectInputComponent extends BaseInputComponent {
   readonly placeholder?: string
-  readonly options: SingleSelectInputComponentOptions['options'] = []
+  readonly options: SingleSelectInputComponentParams['options'] = []
 
-  constructor(options: SingleSelectInputComponentOptions, drivers: AppDrivers, config: FormConfig) {
-    const { type, field, label, placeholder, options: selectOptions } = options
+  constructor(params: SingleSelectInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+    const { type, field, label, placeholder, options: selectParams } = params
     super({ type, field, label }, drivers, config)
     this.placeholder = placeholder
-    this.options = selectOptions
+    this.options = selectParams
   }
 
   async render() {

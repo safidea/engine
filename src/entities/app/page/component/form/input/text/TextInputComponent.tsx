@@ -1,6 +1,6 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
-import { TextInputComponentOptions } from './TextInputComponentOptions'
+import { TextInputComponentParams } from './TextInputComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { FormConfig } from '../../FormComponent'
 import { TextInputComponentUI } from './TextInputComponentUI'
@@ -8,8 +8,8 @@ import { TextInputComponentUI } from './TextInputComponentUI'
 export class TextInputComponent extends BaseInputComponent {
   readonly placeholder?: string
 
-  constructor(options: TextInputComponentOptions, drivers: AppDrivers, config: FormConfig) {
-    const { type, field, label, placeholder } = options
+  constructor(params: TextInputComponentParams, drivers: AppDrivers, config: FormConfig) {
+    const { type, field, label, placeholder } = params
     super({ type, field, label }, drivers, config)
     this.placeholder = placeholder
   }

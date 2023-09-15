@@ -1,11 +1,11 @@
 import { AppDrivers } from '../App'
 import { Table } from './Table'
-import { TableOptions } from './TableOptions'
+import { TableParams } from './TableParams'
 
 export class TableList {
   private readonly tables: Table[]
 
-  constructor(tables: TableOptions[], drivers: AppDrivers) {
+  constructor(tables: TableParams[], drivers: AppDrivers) {
     this.tables = tables.map((table) => new Table(table, drivers))
   }
 

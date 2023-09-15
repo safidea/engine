@@ -1,6 +1,6 @@
 import { IOrmSpi } from '@entities/drivers/database/IOrmSpi'
 import { Record } from '@entities/drivers/database/record/Record'
-import { SyncResource, SyncTables } from '@entities/drivers/database/sync/Sync'
+import { SyncResource, SyncTables } from '@entities/drivers/fetcher/sync/Sync'
 import { ListTableRecords } from './ListTableRecords'
 import { App } from '@entities/app/App'
 import { StartedState } from '@entities/drivers/server/StartedState'

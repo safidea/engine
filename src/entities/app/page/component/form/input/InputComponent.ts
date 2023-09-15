@@ -1,5 +1,5 @@
 import { AppDrivers } from '@entities/app/App'
-import { InputComponentOptions } from './InputComponentOptions'
+import { InputComponentParams } from './InputComponentParams'
 import { SingleSelectInputComponent } from './singleSelect/SingleSelectInputComponent'
 import { SingleSelectRecordInputComponent } from './singleSelectRecord/SingleSelectRecordInputComponent'
 import { TableInputComponent } from './table/TableInputComponent'
@@ -13,18 +13,18 @@ export type InputComponent =
   | SingleSelectInputComponent
 
 export function newInput(
-  options: InputComponentOptions,
+  params: InputComponentParams,
   drivers: AppDrivers,
   config: FormConfig
 ): InputComponent {
-  switch (options.type) {
+  switch (params.type) {
     case 'table':
-      return new TableInputComponent(options, drivers, config)
+      return new TableInputComponent(params, drivers, config)
     case 'text':
-      return new TextInputComponent(options, drivers, config)
+      return new TextInputComponent(params, drivers, config)
     case 'single_select_record':
-      return new SingleSelectRecordInputComponent(options, drivers, config)
+      return new SingleSelectRecordInputComponent(params, drivers, config)
     case 'single_select':
-      return new SingleSelectInputComponent(options, drivers, config)
+      return new SingleSelectInputComponent(params, drivers, config)
   }
 }

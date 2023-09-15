@@ -1,4 +1,4 @@
-import { ComponentOptions } from './ComponentOptions'
+import { ComponentParams } from './ComponentParams'
 import { AppDrivers } from '@entities/app/App'
 import { PageConfig } from '../Page'
 import { ContainerComponent } from './container/ContainerComponent'
@@ -19,24 +19,24 @@ export type Component =
   | ContainerComponent
 
 export function newComponent(
-  options: ComponentOptions,
+  params: ComponentParams,
   drivers: AppDrivers,
   config: PageConfig
 ): Component {
-  switch (options.type) {
+  switch (params.type) {
     case 'link':
-      return new LinkComponent(options, drivers, config)
+      return new LinkComponent(params, drivers, config)
     case 'paragraph':
-      return new ParagraphComponent(options, drivers, config)
+      return new ParagraphComponent(params, drivers, config)
     case 'title':
-      return new TitleComponent(options, drivers, config)
+      return new TitleComponent(params, drivers, config)
     case 'navigation':
-      return new NavigationComponent(options, drivers, config)
+      return new NavigationComponent(params, drivers, config)
     case 'list':
-      return new ListComponent(options, drivers, config)
+      return new ListComponent(params, drivers, config)
     case 'form':
-      return new FormComponent(options, drivers, config)
+      return new FormComponent(params, drivers, config)
     case 'container':
-      return new ContainerComponent(options, drivers, config)
+      return new ContainerComponent(params, drivers, config)
   }
 }

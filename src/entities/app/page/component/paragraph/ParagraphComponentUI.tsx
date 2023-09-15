@@ -1,11 +1,11 @@
 import React from 'react'
 import { IUISpi } from '../../../../drivers/ui/IUISpi'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { Size } from './ParagraphComponentOptions'
+import { ParagraphSize } from './ParagraphComponentParams'
 
 export interface ParagraphProps {
   text: string
-  size?: Size
+  size?: ParagraphSize
   ui: IUISpi
 }
 
