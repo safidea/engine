@@ -75,7 +75,7 @@ export class CreateFileAction extends BaseAction {
       return acc
     }, {})
     const template = this.templateCompiled.render(data)
-    const pdfData = await this.services.converter.htmlToPdf(template, this.config.tmpFolder)
+    const pdfData = await this.services.converter.htmlToPdf(template)
     const file = new File(pdfData, { filename })
     const url = await this.services.storage.upload(this.bucket, file)
     return { [this.name]: { filename, url } }

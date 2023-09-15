@@ -34,4 +34,8 @@ export class StorageService implements IStorageService {
   async list(bucket: string, filenames?: string[]): Promise<File[]> {
     return this.driver.list(bucket, filenames)
   }
+
+  readStaticFile(path: string): string {
+    return this.driver.readStaticFile(path)
+  }
 }

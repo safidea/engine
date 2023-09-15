@@ -12,7 +12,6 @@ import { IUIService } from '@entities/services/ui/IUIService'
 
 export interface AppConfig {
   readonly tables: TableList
-  readonly tmpFolder: string
 }
 
 export interface AppServices {
@@ -36,18 +35,11 @@ export class App {
     readonly params: AppParams,
     readonly services: AppServices
   ) {
-    const {
-      name = 'My app',
-      version = '0.0.1',
-      tables = [],
-      automations = [],
-      pages = [],
-      tmpFolder = 'tmp',
-    } = params
+    const { name = 'My app', version = '0.0.1', tables = [], automations = [], pages = [] } = params
     this.name = name
     this.version = version
     this.tables = new TableList(tables, services)
-    const config = { tables: this.tables, tmpFolder }
+    const config = { tables: this.tables }
     this.pages = new PageList(pages, services, config)
     this.automations = new AutomationList(automations, services, config)
   }

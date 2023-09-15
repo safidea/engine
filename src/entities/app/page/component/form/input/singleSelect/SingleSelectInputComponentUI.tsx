@@ -18,7 +18,7 @@ export function SingleSelectInputComponentUI({
   onChange,
   ui,
 }: SingleSelectInputProps) {
-  const { Label, Select, Option } = ui.getSingleSelectIntput()
+  const { Label, Select, Option } = ui.getSingleSelectInput()
   return (
     <>
       {label && <Label label={label} htmlFor={field} />}

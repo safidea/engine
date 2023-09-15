@@ -9,16 +9,16 @@ import { NavigationUI } from '@entities/app/page/component/navigation/Navigation
 import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 
-export interface IUIService {
+export interface IUIDriver {
   name: string
-  getTitle: () => TitleUI
-  getParagraph: () => ParagraphUI
-  getNavigation: () => NavigationUI
-  getList: () => ListUI
-  getLink: () => LinkUI
-  getForm: () => FormUI
-  getContainer: () => ContainerUI
-  getTextInput: () => TextInputUI
-  getTableInput: () => TableInputUI
-  getSingleSelectInput: () => SingleSelectInputUI
+  LinkUI: LinkUI
+  ParagraphUI: ParagraphUI
+  TitleUI: TitleUI
+  NavigationUI: NavigationUI
+  ListUI: ListUI
+  FormUI: FormUI
+  TextInputUI: TextInputUI
+  TableInputUI: TableInputUI
+  SingleSelectInputUI: SingleSelectInputUI
+  ContainerUI: ContainerUI
 }
