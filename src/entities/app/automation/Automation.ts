@@ -4,6 +4,7 @@ import { AppConfig, AppServices } from '../App'
 import { Action, newAction } from './action/Action'
 import { AutomationParams } from './AutomationParams'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
+import { TriggerEvent } from './trigger/TriggerEvent'
 
 // TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
 
@@ -31,8 +32,8 @@ export class Automation {
     )
   }
 
-  async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {
-    return this.trigger.shouldTrigger(event, context)
+  async shouldTrigger(triggerEvent: TriggerEvent): Promise<boolean> {
+    return this.trigger.shouldTrigger(triggerEvent)
   }
 
   async executeActions(context: AutomationContext) {

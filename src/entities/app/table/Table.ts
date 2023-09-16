@@ -8,7 +8,10 @@ export class Table {
   readonly name: string
   readonly fields: Field[]
 
-  constructor(params: TableParams, services: AppServices) {
+  constructor(
+    readonly params: TableParams,
+    services: AppServices
+  ) {
     const { name, fields } = params
     this.name = name
     this.fields = fields.map((field) => newField(field, services))

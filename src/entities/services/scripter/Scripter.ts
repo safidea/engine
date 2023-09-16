@@ -1,11 +1,13 @@
-export interface ScriptContext {
-  [key: string]: string | number | boolean | undefined | (number | string | boolean | undefined)[]
+import { BaseRecordFieldValue } from '../database/record/state/base/BaseRecordData'
+
+export interface ScripterContext {
+  [key: string]: BaseRecordFieldValue | BaseRecordFieldValue[]
 }
 
 export class Scripter {
   constructor(
     readonly script: string,
-    readonly context: ScriptContext = {}
+    readonly context: ScripterContext = {}
   ) {}
 
   run(): string | number | boolean | undefined {

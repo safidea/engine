@@ -5,9 +5,10 @@ import { Table } from '@entities/app/table/Table'
 import { TriggerError } from '../TriggerError'
 import { FilterParams } from '@entities/services/database/filter/FilterParams'
 import { Filter, newFilter } from '@entities/services/database/filter/Filter'
+import { TriggerParams } from '../TriggerParams'
 
 export class BaseTrigger {
-  readonly event: string
+  readonly event: TriggerParams['event']
 
   constructor(
     options: BaseTriggerParams,
@@ -30,9 +31,5 @@ export class BaseTrigger {
 
   getFiltersFromParams(filtersParams: FilterParams[]): Filter[] {
     return filtersParams.map((filterParams: FilterParams) => newFilter(filterParams))
-  }
-
-  shouldTriggerEvent(event: string): boolean {
-    return this.event === event
   }
 }

@@ -1,62 +1,39 @@
-import { ReadTableRecord } from '@usecases/table/ReadTableRecord'
-import { ListTableRecords } from '@usecases/table/ListTableRecords'
-import { App } from '@entities/app/App'
-import { SoftDeleteTableRecord } from '@usecases/table/SoftDeleteTableRecord'
-import { OrmSpi } from '@adapters/spi/orm/OrmSpi'
 import { Record } from '@entities/services/database/record/Record'
 import { Filter } from '@entities/services/database/filter/Filter'
-import { SyncTableRecords } from '@usecases/table/SyncTableRecords'
-import { SyncResource } from '@entities/services/fetcher/FetcherSync'
-import { CreateTableRecord } from '@usecases/table/CreateTableRecord'
-import { StartedState } from '@entities/services/server_OLD/StartedState'
-import { UpdateTableRecord } from '@usecases/table/UpdateTableRecord'
+import { DatabaseService } from '@adapters/services/database/DatabaseService'
+import { Table } from '@entities/app/table/Table'
+import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
+import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
+import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 
 export class TableController {
-  private readTableRecord: ReadTableRecord
-  private listTableRecords: ListTableRecords
-  private softDeleteTableRecord: SoftDeleteTableRecord
-  private getSyncRecordsFunction: SyncTableRecords
-  private createTableRecord: CreateTableRecord
-  private updateTableRecord: UpdateTableRecord
-
-  constructor(
-    app: App,
-    private ormSpi: OrmSpi,
-    instance: StartedState
-  ) {
-    this.createTableRecord = new CreateTableRecord(ormSpi, app, instance)
-    this.readTableRecord = new ReadTableRecord(ormSpi, app)
-    this.listTableRecords = new ListTableRecords(ormSpi, app)
-    this.softDeleteTableRecord = new SoftDeleteTableRecord(ormSpi, app)
-    this.getSyncRecordsFunction = new SyncTableRecords(ormSpi, app, instance)
-    this.updateTableRecord = new UpdateTableRecord(ormSpi, app, instance)
-  }
+  constructor(private database: DatabaseService) {}
 
   async sync(records: Record[], resources: SyncResource[]) {
     return this.getSyncRecordsFunction.execute(records, resources)
   }
 
-  async create(table: string, record: Record) {
-    return this.createTableRecord.execute(table, record)
+  async create(table: Table, record: RecordToCreate) {
+    return this.database.create(table, record)
   }
 
-  async createMany(table: string, records: Record[]) {
-    return this.ormSpi.createMany(table, records)
+  async createMany(table: Table, records: RecordToCreate[]) {
+    return this.database.createMany(table, records)
   }
 
-  async read(table: string, id: string) {
-    return this.readTableRecord.execute(table, id)
+  async read(table: Table, id: string) {
+    return this.database.read(table, id)
   }
 
-  async list(table: string, filters: Filter[]) {
-    return this.listTableRecords.execute(table, filters)
+  async list(table: Table, filters: Filter[]) {
+    return this.database.list(table, filters)
   }
 
-  async update(table: string, id: string, record: Record) {
-    return this.updateTableRecord.execute(table, record, id)
+  async update(table: Table, record: RecordToUpdate) {
+    return this.database.softUpdate(table, record)
   }
 
-  async delete(table: string, id: string) {
-    return this.softDeleteTableRecord.execute(table, id)
+  async delete(table: Table, record: RecordToDelete) {
+    return this.database.softDelete(table, record)
   }
 }

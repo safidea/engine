@@ -26,7 +26,7 @@ export class RecordToUpdate extends BaseRecord {
       last_modified_time: this.last_modified_time,
     }
   }
-
+  
   updateFieldValue(fieldName: string, value: BaseRecordFieldValue) {
     const field = this.getNonCalculatedFieldFromName(fieldName)
     this.validateFieldValue(field, value)

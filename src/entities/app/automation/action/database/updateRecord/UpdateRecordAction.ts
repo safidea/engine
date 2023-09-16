@@ -45,7 +45,7 @@ export class UpdateRecordAction extends BaseAction {
       this.throwError(`record ${id} not found in table ${this.table.name}`)
     }
     const recordToUpdate = new RecordToUpdate(persistedRecord.data(), this.table, fieldsValues)
-    await this.services.database.update(this.table, recordToUpdate)
+    await this.services.database.softUpdate(this.table, recordToUpdate)
     const { data } = await this.createContextFromRecord(this.table, recordToUpdate.id)
     return { [this.name]: data }
   }

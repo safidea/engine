@@ -1,10 +1,11 @@
 import { Filter } from '@entities/services/database/filter/Filter'
-import { AutomationConfig, AutomationContext } from '../../../Automation'
+import { AutomationConfig } from '../../../Automation'
 import { BaseTrigger } from '../../base/BaseTrigger'
 import { IsFilter } from '@entities/services/database/filter/is/IsFilter'
 import { AppServices } from '@entities/app/App'
 import { RecordCreatedTriggerParams } from './RecordCreatedTriggerParams'
 import { Table } from '@entities/app/table/Table'
+import { TriggerEvent } from '../../TriggerEvent'
 
 export class RecordCreatedTrigger extends BaseTrigger {
   private table: Table
@@ -17,8 +18,8 @@ export class RecordCreatedTrigger extends BaseTrigger {
     this.filters = this.getFiltersFromParams(filters)
   }
 
-  async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {
-    if (!super.shouldTriggerEvent(event)) return false
+  async shouldTrigger({ event, context }: TriggerEvent): Promise<boolean> {
+    if (event !== 'record_created') return false
     if (context.table !== this.table.name) return false
     if ('id' in context && this.filters.length > 0) {
       const record = await this.services.database.read(this.table, String(context.id))

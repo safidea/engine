@@ -1,9 +1,9 @@
 import { AppServices, AppConfig } from '../App'
-import { Automation, AutomationContext } from './Automation'
+import { Automation } from './Automation'
 import { AutomationParams } from './AutomationParams'
-import { TriggerParams } from './trigger/TriggerParams'
+import { TriggerEvent } from './trigger/TriggerEvent'
 
-export type Emit = (event: TriggerParams['event'], context?: AutomationContext) => Promise<void>
+export type Emit = (event: TriggerEvent) => Promise<void>
 
 export class AutomationList {
   private readonly automations: Automation[]
@@ -20,12 +20,10 @@ export class AutomationList {
     return this.automations
   }
 
-  async emit(event: TriggerParams['event'], context: AutomationContext = {}): Promise<void> {
-    const { data, ...params } = context
-    if (typeof data === 'object' && 'id' in data) params.id = data.id
+  async emit(triggerEvent: TriggerEvent): Promise<void> {
     for (const automation of this.automations) {
-      if (await automation.shouldTrigger(event, params)) {
-        await automation.executeActions({ trigger: data })
+      if (await automation.shouldTrigger(triggerEvent)) {
+        await automation.executeActions({ trigger: triggerEvent.context })
       }
     }
   }

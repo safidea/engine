@@ -47,7 +47,7 @@ export class App {
   async configure(): Promise<void> {
     const { tables, automations } = this.params
     if (tables) {
-      await this.services.database.configure(tables)
+      await this.services.database.configure(this.tables)
     }
     if (automations) {
       await this.services.database.listen(this.automations.emit)

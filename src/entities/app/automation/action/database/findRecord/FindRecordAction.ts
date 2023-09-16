@@ -25,4 +25,5 @@ export class FindRecordAction extends BaseAction {
     const { data } = await this.createContextFromRecord(this.table, record.id)
     return { [this.name]: data }
   }
+  
 }

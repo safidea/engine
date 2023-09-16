@@ -1,10 +1,11 @@
 import { Filter } from '@entities/services/database/filter/Filter'
-import { AutomationConfig, AutomationContext } from '../../../Automation'
+import { AutomationConfig } from '../../../Automation'
 import { BaseTrigger } from '../../base/BaseTrigger'
 import { IsFilter } from '@entities/services/database/filter/is/IsFilter'
 import { RecordUpdatedTriggerParams } from './RecordUpdatedTriggerParams'
 import { AppServices } from '@entities/app/App'
 import { Table } from 'src'
+import { TriggerEvent } from '../../TriggerEvent'
 
 export class RecordUpdatedTrigger extends BaseTrigger {
   private table: Table
@@ -19,8 +20,8 @@ export class RecordUpdatedTrigger extends BaseTrigger {
     this.fields = fields
   }
 
-  async shouldTrigger(event: string, context: AutomationContext): Promise<boolean> {
-    if (!super.shouldTriggerEvent(event)) return false
+  async shouldTrigger({ event, context }: TriggerEvent): Promise<boolean> {
+    if (event !== 'record_updated') return false
     if (context.table !== this.table.name) return false
     if (this.fields.length > 0 && Array.isArray(context.updatedFields)) {
       for (const field of context.updatedFields ?? []) {

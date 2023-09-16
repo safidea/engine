@@ -55,7 +55,7 @@ function getUI(ui?: IUISpi | string): IUISpi {
 export default class Engine {
   private server: Server
 
-  constructor(options: EngineOptions = {}) {
+  constructor(config: unknown, options: EngineOptions = {}) {
     if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production'
     const port = options.port ?? 3000
     const url = options.url ?? 'http://localhost:' + port
@@ -79,10 +79,6 @@ export default class Engine {
       converter,
       templating,
     })
-  }
-
-  config(config: unknown): Server {
-    return this.server.config(config)
   }
 
   async start(): Promise<Server> {

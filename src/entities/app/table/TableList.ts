@@ -16,4 +16,8 @@ export class TableList {
   getAll(): Table[] {
     return this.tables
   }
+
+  getAllParams(): TableParams[] {
+    return this.tables.map((table: Table) => table.params)
+  }
 }

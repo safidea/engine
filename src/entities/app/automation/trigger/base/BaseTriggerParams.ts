@@ -1,3 +1,5 @@
+import { TriggerParams } from "../TriggerParams";
+
 export interface BaseTriggerParams {
-  readonly event: string
+  readonly event: TriggerParams['event']
 }
