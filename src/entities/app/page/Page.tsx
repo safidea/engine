@@ -14,7 +14,7 @@ export class Page {
   readonly title?: string
   readonly components: Component[]
 
-  constructor(params: PageParams, services: AppServices, config: AppConfig) {
+  constructor(readonly params: PageParams, services: AppServices, config: AppConfig) {
     this.path = params.path
     this.title = params.title
     this.components = params.components.map((componentParams) =>

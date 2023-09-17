@@ -9,7 +9,7 @@ export class AppValidator {
   configuration(config: unknown): App {
     const decoded = AppParams.decode(config)
     if (isLeft(decoded)) {
-      throw Error(`Could not validate data: ${PathReporter.report(decoded).join('\n')}`)
+      throw Error(`Could not validate config: ${PathReporter.report(decoded).join('\n')}`)
     }
     const appParams: AppParams = decoded.right
     return new App(appParams, this.services)

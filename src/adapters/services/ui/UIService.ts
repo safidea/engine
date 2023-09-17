@@ -4,7 +4,7 @@ import { IUIDriver } from './IUIDriver'
 export class UIService implements IUIService {
   constructor(readonly driver: IUIDriver) {}
 
-  get name() {
+  get driverName() {
     return this.driver.name
   }
 
@@ -47,6 +47,4 @@ export class UIService implements IUIService {
   getContainer() {
     return this.driver.ContainerUI
   }
-
-
 }

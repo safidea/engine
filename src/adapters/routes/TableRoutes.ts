@@ -1,22 +1,14 @@
-import { RequestDto } from '@entities/services/server_OLD/RequestDto'
-import { TableController } from './TableController'
-import { TableMiddleware } from '../validators/TableMiddleware'
 import { App } from '@entities/app/App'
-import { ApiRoute } from '@entities/services/server_OLD/IServerAdapter'
-import { ApiError } from '@entities/errors/ApiError'
-import { ResponseDto } from '@adapters/spi/server/dtos/ResponseDto'
-import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
-import { OrmSpi } from '@adapters/spi/orm/OrmSpi'
-import { TablesSyncMapper } from '../spi/fetcher/mappers/TablesSyncMapper'
-import { StartedState } from '@entities/services/server_OLD/StartedState'
+import { TableController } from '../controllers/TableController'
+import { TableValidator } from '../validators/TableValidator'
 
 export class TableRoutes {
   private readonly tableController: TableController
-  private readonly tableMiddleware: TableMiddleware
+  private readonly tableValidator: TableValidator
 
-  constructor(app: App, ormSpi: OrmSpi, instance: StartedState) {
-    this.tableMiddleware = new TableMiddleware(app, ormSpi)
-    this.tableController = new TableController(app, ormSpi, instance)
+  constructor(app: App) {
+    this.tableValidator = new TableValidator(app)
+    this.tableController = new TableController(app)
   }
 
   get routes(): ApiRoute[] {

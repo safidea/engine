@@ -27,4 +27,8 @@ export class AutomationList {
       }
     }
   }
+
+  exist(): boolean {
+    return this.automations.length > 0
+  }
 }

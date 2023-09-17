@@ -7,7 +7,7 @@ export interface ContextValues {
 export class PageContext {
   private readonly values: ContextValues
 
-  constructor(readonly params: { [key: string]: string }) {
+  constructor(readonly params: { [key: string]: string } = {}) {
     this.values = {
       path: {
         params,

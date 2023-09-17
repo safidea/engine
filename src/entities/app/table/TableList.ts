@@ -20,4 +20,8 @@ export class TableList {
   getAllParams(): TableParams[] {
     return this.tables.map((table: Table) => table.params)
   }
+
+  exist(): boolean {
+    return this.tables.length > 0
+  }
 }

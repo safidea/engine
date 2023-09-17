@@ -10,7 +10,7 @@ import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphCom
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 
 export interface IUIService {
-  name: string
+  driverName: string
   getTitle: () => TitleUI
   getParagraph: () => ParagraphUI
   getNavigation: () => NavigationUI

@@ -1,39 +1,22 @@
-import Ajv from 'ajv'
-import { FilterDto } from '@entities/services/database/filter/FilterParams'
+import { ServerRequest } from '@adapters/services/server/IServerDriver'
 import { App } from '@entities/app/App'
 import { ApiError } from '@entities/errors/ApiError'
-import { RequestDto } from '@entities/services/server_OLD/RequestDto'
-import { RecordDto, RecordDtoSchema } from '@adapters/spi/orm/dtos/RecordDto'
-import { FilterMapper } from '@adapters/spi/orm/mappers/FilterMapper'
-import { Filter } from '@entities/services/database/filter/Filter'
-import { RecordMapper } from '@adapters/spi/orm/mappers/RecordMapper'
-import { Record } from '@entities/services/database/record/Record'
-import { OrmSpi } from '@adapters/spi/orm/OrmSpi'
-import { SyncResource } from '@entities/services/fetcher/FetcherSync'
-import { ResourceSyncMapper } from '@adapters/spi/fetcher/mappers/ResourceSyncMapper'
-import { SyncDtoSchema } from '@adapters/spi/fetcher/dtos/SyncDto'
-import { RecordStateType } from '@entities/drivers/database/record/IRecord'
+import { Filter, newFilter } from '@entities/services/database/filter/Filter'
+import { FilterParams } from '@entities/services/database/filter/FilterParams'
 
-const ajv = new Ajv({ allowUnionTypes: true })
-const validateRecordDto = ajv.compile(RecordDtoSchema)
-const validateSyncDto = ajv.compile(SyncDtoSchema)
+export class TableValidator {
+  constructor(private app: App) {}
 
-export class TableMiddleware {
-  constructor(
-    private app: App,
-    private ormSpi: OrmSpi
-  ) {}
-
-  public async validateTableExist(request: RequestDto): Promise<string> {
+  public async validateTableExist(request: ServerRequest): Promise<string> {
     const { table } = request.params ?? {}
-    const exist = await this.ormSpi.tableExists(table)
+    const exist = await this.app.services.database.tableExists(table)
     if (!exist) throw new ApiError(`table "${table}" does not exist`, 404)
     return table
   }
 
-  public async extractAndValidateQuery(request: RequestDto): Promise<Filter[]> {
+  public async extractAndValidateQuery(request: ServerRequest): Promise<Filter[]> {
     const { query } = request
-    const filters: FilterDto[] = []
+    const filters: FilterParams[] = []
     if (query) {
       for (const key in query) {
         const matchFilter = key.match(/filter_(field|operator|value)_(\d+)$/)
@@ -57,7 +40,7 @@ export class TableMiddleware {
         }
       }
     }
-    return FilterMapper.toEntities(filters)
+    return filters.map((filter) => newFilter(filter))
   }
 
   public async validateSyncBody(

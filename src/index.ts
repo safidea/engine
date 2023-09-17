@@ -37,6 +37,8 @@ export interface EngineOptions {
   domain?: string
 }
 
+export type { App, Page, Table, Automation, Action, Component, Field }
+
 export default class Engine {
   private server: ServerService
   private services: AppServices
@@ -65,5 +67,3 @@ export default class Engine {
     await this.server.stop()
   }
 }
-
-export type { App, Page, Table, Automation, Action, Component, Field }
