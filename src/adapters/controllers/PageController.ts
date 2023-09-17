@@ -1,18 +1,10 @@
-import { RenderPage } from '@usecases/page/RenderPage'
 import { App } from '@entities/app/App'
-import { Context } from '@entities/app/page/PageContext'
-import { Page } from '@entities/app/page/Page'
-import { FetcherSpi } from '@adapters/spi/fetcher/FetcherSpi'
-
+import { PageContext } from '@entities/app/page/PageContext'
 export class PageController {
-  private renderPage: RenderPage
+  constructor(private readonly app: App) {}
 
-  constructor(app: App, fetcherSpi: FetcherSpi) {
-    this.renderPage = new RenderPage(fetcherSpi, app)
-  }
-
-  async render(page: Page, params: { [key: string]: string }) {
-    const context = new Context(params)
-    return this.renderPage.execute(page, context)
+  async render(path: string, params: { [key: string]: string }) {
+    const pageContext = new PageContext(params)
+    return this.app.pages.render(path, pageContext)
   }
 }

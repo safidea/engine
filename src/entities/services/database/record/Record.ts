@@ -4,3 +4,5 @@ import { RecordToDelete } from './state/toDelete/RecordToDelete'
 import { RecordToUpdate } from './state/toUpdate/RecordToUpdate'
 
 export type Record = PersistedRecord | RecordToCreate | RecordToUpdate | RecordToDelete
+
+export type RecordToPersite = RecordToCreate | RecordToUpdate | RecordToDelete
