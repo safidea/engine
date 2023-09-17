@@ -1,4 +1,3 @@
-import { IUISpi } from '@entities/services/ui/IUIService'
 import LinkTailwindUI from './LinkTailwindUI'
 import ParagraphTailwindUI from './ParagraphTailwindUI'
 import TitleTailwindUI from './TitleTailwindUI'
@@ -7,11 +6,11 @@ import ListTailwindUI from './ListTailwindUI'
 import FormTailwindUI from './FormTailwindUI'
 import TableInputTailwindUI from './TableInputTailwindUI'
 import TextInputTailwindUI from './TextInputTailwindUI'
-import SingleSelectRecordInputTailwindUI from './SingleSelectRecordInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
 import ContainerTailwindUI from './ContainerTailwindUI'
+import { IUIDriver } from '@adapters/services/ui/IUIDriver'
 
-const TailwindUI: IUISpi = {
+const TailwindUI: IUIDriver = {
   name: 'TailwindUI',
   LinkUI: LinkTailwindUI,
   ParagraphUI: ParagraphTailwindUI,
@@ -21,7 +20,6 @@ const TailwindUI: IUISpi = {
   FormUI: FormTailwindUI,
   TextInputUI: TextInputTailwindUI,
   TableInputUI: TableInputTailwindUI,
-  SingleSelectRecordInputUI: SingleSelectRecordInputTailwindUI,
   SingleSelectInputUI: SingleSelectInputTailwindUI,
   ContainerUI: ContainerTailwindUI,
 }

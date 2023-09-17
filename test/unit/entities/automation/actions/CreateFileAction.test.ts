@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 import { ActionMapper } from '@entities/app/automation/ActionMapper'
-import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
+import { HandlebarsTemplating } from '@drivers/templater/HandlebarsTemplater'
 
 describe('CreateFileAction', () => {
   test('should render a file with a list of object', async () => {

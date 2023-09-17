@@ -1,30 +1,22 @@
-import { IFetcherAdapter, FetchState } from '@adapters/spi/fetcher/IFetcherAdapter'
+import { FetchState, IFetcherDriver } from '@adapters/services/fetcher/IFetcherDriver'
 import { useState, useEffect } from 'react'
+import { FetcherDriverOptions } from '.'
 
-export class NativeFetcher implements IFetcherAdapter {
-  private readonly _name = 'native'
+export class NativeFetcher implements IFetcherDriver {
+  public readonly name = 'native'
+  public readonly domain: string
 
-  constructor(private _url?: string) {}
-
-  setUrl(url: string) {
-    this._url = url
-  }
-
-  get url(): string {
-    return this._url || ''
-  }
-
-  get name(): string {
-    return this._name
+  constructor(options: FetcherDriverOptions) {
+    this.domain = options.domain
   }
 
   getFetch(): (path: string, options?: RequestInit) => Promise<Response> {
-    const url = this._url
-    return (path, options) => fetch(url + path, options)
+    const domain = this.domain
+    return (path, options) => fetch(domain + path, options)
   }
 
   getUseFetch(): <T>(path: string, options?: RequestInit) => FetchState<T> {
-    const url = this._url
+    const domain = this.domain
     return function useFetch<T>(path: string, options?: RequestInit) {
       const [state, setState] = useState<FetchState<T>>({
         data: undefined,
@@ -33,7 +25,7 @@ export class NativeFetcher implements IFetcherAdapter {
       })
 
       useEffect(() => {
-        fetch(url + path, options)
+        fetch(domain + path, options)
           .then((response) => {
             if (response.ok) {
               return response.json() as Promise<T>

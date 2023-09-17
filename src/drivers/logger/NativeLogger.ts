@@ -1,5 +1,7 @@
-import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
+import { ILoggerService } from '@entities/services/logger/ILoggerService'
 
-export const NativeLogger: ILoggerSpi = (message: string) => {
-  console.log(message)
+export class NativeLogger implements ILoggerService {
+  async log(message: string) {
+    console.log(message)
+  }
 }

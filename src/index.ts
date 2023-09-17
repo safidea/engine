@@ -1,93 +1,69 @@
-import { join } from 'path'
-import UnstyledUI from '@drivers/ui/UnstyledUI'
-import TailwindUI from '@drivers/ui/TailwindUI'
-import { ExpressServer } from '@drivers/server/ExpressServer'
-import { JsonOrm } from '@drivers/database/JsonDatabase'
-import { NativeFetcher } from '@drivers/fetcher/NativeFetcher'
-import { IServerAdapter } from '@entities/services/server_OLD/IServerAdapter'
-import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
-import { IFetcherAdapter } from '@adapters/spi/fetcher/IFetcherAdapter'
-import { IUISpi } from '@entities/services/ui/IUIService'
-import { NativeLogger } from '@drivers/logger/NativeLogger'
-import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
-import { ServerSpi as Server } from '@entities/services/server_OLD'
-import { FileStorage } from '@drivers/storage/FileStorage'
-import { Converter } from '@drivers/converter/Converter'
-import { IConverterSpi } from '@adapters/services/converter/IConverterDrivers'
-import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
-import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplaterService'
-import { AppDto as App } from '@entities/app/AppSchema'
-import { PageDto as Page } from '@entities/app/page/PageSchema'
-import { TableDto as Table } from '@adapters/api/table/dtos/TableDto'
-import { AutomationDto as Automation } from '@entities/app/automation/AutomationSchema'
-import { FieldDto as Field } from '@adapters/api/table/dtos/FieldDto'
-import { ComponentDto as Component } from '@adapters/api/page/dtos/ComponentDto'
-import { ActionDto as Action } from '@adapters/api/automation/dtos/ActionDto'
+import { ServerDrivers, getServerDriver } from '@drivers/server'
+import { App, AppServices } from '@entities/app/App'
+import { Automation } from '@entities/app/automation/Automation'
+import { Action } from '@entities/app/automation/action/Action'
+import { Table } from '@entities/app/table/Table'
+import { Field } from '@entities/app/table/field/Field'
+import { Page } from '@entities/app/page/Page'
+import { Component } from '@entities/app/page/component/Component'
+import { ServerService } from '@adapters/services/server/ServerService'
+import { AppValidator } from '@adapters/validators/AppValidator'
+import { ConverterService } from '@adapters/services/converter/ConverterService'
+import { DatabaseService } from '@adapters/services/database/DatabaseService'
+import { FetcherService } from '@adapters/services/fetcher/FetcherService'
+import { LoggerService } from '@adapters/services/logger/LoggerService'
+import { StorageService } from '@adapters/services/storage/StorageService'
+import { TemplaterService } from '@adapters/services/templater/TemplaterService'
+import { UIService } from '@adapters/services/ui/UIService'
+import { UIDrivers, getUIDriver } from '@drivers/ui'
+import { TemplaterDrivers, getTemplaterDriver } from '@drivers/templater'
+import { ConverterDrivers, getConverterDrivers } from '@drivers/converter'
+import { StorageDrivers, getStorageDriver } from '@drivers/storage'
+import { DatabaseDrivers, getDatabaseDriver } from '@drivers/database'
+import { FetcherDrivers, getFetcherDriver } from '@drivers/fetcher'
+import { LoggerDrivers, getLoggerDriver } from '@drivers/logger'
 
 export interface EngineOptions {
-  server?: IServerAdapter
-  orm?: IOrmAdapter
-  ui?: IUISpi | string
-  fetcher?: IFetcherAdapter
-  logger?: ILoggerSpi
-  storage?: IStorageSpi
-  converter?: IConverterSpi
-  templating?: ITemplatingSpi
+  server?: ServerDrivers
+  templater?: TemplaterDrivers
+  converter?: ConverterDrivers
+  storage?: StorageDrivers
+  database?: DatabaseDrivers
+  fetcher?: FetcherDrivers
+  logger?: LoggerDrivers
+  ui?: UIDrivers
   folder?: string
   port?: number
-  url?: string
-  development?: boolean
-}
-
-function getUI(ui?: IUISpi | string): IUISpi {
-  if (typeof ui === 'string') {
-    switch (ui) {
-      case 'tailwind':
-        return TailwindUI
-      default:
-        return UnstyledUI
-    }
-  }
-  return ui ?? UnstyledUI
+  domain?: string
 }
 
 export default class Engine {
-  private server: Server
+  private server: ServerService
+  private services: AppServices
 
-  constructor(config: unknown, options: EngineOptions = {}) {
-    if (!process.env.NODE_ENV) process.env.NODE_ENV = 'production'
-    const port = options.port ?? 3000
-    const url = options.url ?? 'http://localhost:' + port
-    const folder = options.folder ?? join(process.cwd(), 'app')
-    const orm = options.orm ?? new JsonOrm(folder)
-    const ui = getUI(options.ui)
-    const development = options.development ?? process.env.NODE_ENV !== 'production'
-    const fetcher = options.fetcher ?? new NativeFetcher(url)
-    const server = options.server ?? new ExpressServer(port, ui.name, development)
-    const logger = options.logger ?? NativeLogger
-    const storage = options.storage ?? new FileStorage(folder, url)
-    const converter = options.converter ?? new Converter(folder)
-    const templating = options.templating ?? new HandlebarsTemplating()
-    this.server = new Server({
-      server,
-      orm,
-      ui,
-      fetcher,
-      logger,
-      storage,
-      converter,
-      templating,
-    })
+  constructor(options: EngineOptions = {}) {
+    const folder = options.folder || process.cwd()
+    const domain = options.domain || `http://localhost:${options.port}`
+    this.server = new ServerService(getServerDriver(options.server, { port: options.port }))
+    this.services = {
+      templater: new TemplaterService(getTemplaterDriver(options.templater)),
+      converter: new ConverterService(getConverterDrivers(options.converter), folder),
+      storage: new StorageService(getStorageDriver(options.storage, { folder, domain })),
+      database: new DatabaseService(getDatabaseDriver(options.database, { folder })),
+      fetcher: new FetcherService(getFetcherDriver(options.fetcher, { domain })),
+      logger: new LoggerService(getLoggerDriver(options.logger)),
+      ui: new UIService(getUIDriver(options.ui)),
+    }
   }
 
-  async start(): Promise<Server> {
-    return this.server.start()
+  async start(config: unknown) {
+    const app = new AppValidator(this.services).configuration(config)
+    await this.server.start(app)
   }
 
-  async stop(): Promise<Server> {
-    return this.server.stop()
+  async stop() {
+    await this.server.stop()
   }
 }
 
-export type { App, Server, Page, Table, Automation, Action, Component, Field }
+export type { App, Page, Table, Automation, Action, Component, Field }

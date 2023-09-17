@@ -2,7 +2,7 @@ import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 import { ActionMapper } from '@entities/app/automation/ActionMapper'
 import { Record } from '@entities/services/database/record/Record'
-import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
+import { HandlebarsTemplating } from '@drivers/templater/HandlebarsTemplater'
 
 describe('UpdateRecordAction', () => {
   // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application

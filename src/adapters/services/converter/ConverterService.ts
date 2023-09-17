@@ -7,8 +7,8 @@ export class ConverterService implements IConverterService {
   private readonly tmpFolder: string
 
   constructor(
-    folder: string,
-    readonly drivers: IConverterDrivers
+    readonly drivers: IConverterDrivers,
+    folder: string
   ) {
     this.tmpFolder = join(folder, 'tmp')
     fs.ensureDirSync(this.tmpFolder)

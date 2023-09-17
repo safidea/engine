@@ -1,9 +1,9 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { ContainerUI } from '@entities/app/page/component/container/ContainerComponentUI'
 
-const ContainerTailwindUI: IUISpi['ContainerUI'] = {
+const ContainerTailwindUI: ContainerUI = {
   // TODO: styled the component for Tailwind
-  container: ({ children }) => <div>{children}</div>,
+  Container: ({ children }) => <div>{children}</div>,
 }
 
 export default ContainerTailwindUI

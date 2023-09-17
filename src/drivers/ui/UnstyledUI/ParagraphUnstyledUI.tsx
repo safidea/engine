@@ -1,14 +1,14 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 
-const ParagraphUnstyledUI: IUISpi['ParagraphUI'] = {
-  small: ({ children }) => {
+const ParagraphUnstyledUI: ParagraphUI = {
+  Small: ({ children }) => {
     return <p>{children}</p>
   },
-  medium: ({ children }) => {
+  Medium: ({ children }) => {
     return <p>{children}</p>
   },
-  large: ({ children }) => {
+  Large: ({ children }) => {
     return <p>{children}</p>
   },
 }

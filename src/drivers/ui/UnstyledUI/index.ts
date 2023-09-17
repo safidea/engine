@@ -1,4 +1,3 @@
-import { IUISpi } from '@entities/services/ui/IUIService'
 import LinkUnstyledUI from './LinkUnstyledUI'
 import ParagraphUnstyledUI from './ParagraphUnstyledUI'
 import TitleUnstyledUI from './TitleUnstyledUI'
@@ -7,11 +6,11 @@ import ListUnstyledUI from './ListUnstyledUI'
 import FormUnstyledUI from './FormUnstyledUI'
 import TableInputUnstyledUI from './TableInputUnstyledUI'
 import TextInputUnstyledUI from './TextInputUnstyledUI'
-import SingleSelectRecordInputUnstyledUI from './SingleSelectRecordInputUnstyledUI'
 import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 import ContainerUnstyledUI from './ContainerUnstyledUI'
+import { IUIDriver } from '@adapters/services/ui/IUIDriver'
 
-const UnstyledUI: IUISpi = {
+const UnstyledUI: IUIDriver = {
   name: 'UnstyledUI',
   LinkUI: LinkUnstyledUI,
   ParagraphUI: ParagraphUnstyledUI,
@@ -21,7 +20,6 @@ const UnstyledUI: IUISpi = {
   FormUI: FormUnstyledUI,
   TextInputUI: TextInputUnstyledUI,
   TableInputUI: TableInputUnstyledUI,
-  SingleSelectRecordInputUI: SingleSelectRecordInputUnstyledUI,
   SingleSelectInputUI: SingleSelectInputUnstyledUI,
   ContainerUI: ContainerUnstyledUI,
 }

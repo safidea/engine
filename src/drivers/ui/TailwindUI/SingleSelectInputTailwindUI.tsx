@@ -1,14 +1,14 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { SingleSelectInputUI } from '@entities/app/page/component/form/input/singleSelect/SingleSelectInputComponentUI'
 
-const SingleSelectInputTailwindUI: IUISpi['SingleSelectInputUI'] = {
-  label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,
-  select: ({ name, onChange, id, value, children }) => (
+const SingleSelectInputTailwindUI: SingleSelectInputUI = {
+  Label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,
+  Select: ({ name, onChange, id, value, children }) => (
     <select name={name} onChange={onChange} id={id} value={value}>
       {children}
     </select>
   ),
-  option: ({ value, label }) => <option value={value}>{label}</option>,
+  Option: ({ value, label }) => <option value={value}>{label}</option>,
 }
 
 export default SingleSelectInputTailwindUI

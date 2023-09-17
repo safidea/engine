@@ -1,6 +1,6 @@
 import { describe, test, expect } from '@jest/globals'
 import { helpers } from '../../../utils/unit/fixtures'
-import { FileStorage } from '@drivers/storage/FileStorage'
+import { FileStorage } from '@drivers/storage/LocalStorage'
 import { join } from 'path'
 import fs from 'fs-extra'
 import { File } from '@entities/services/storage/file/File'

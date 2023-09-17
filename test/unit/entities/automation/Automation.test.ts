@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
 import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
 import { AutomationMapper } from '@adapters/api/automation/mappers/AutomationMapper'
-import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
+import { HandlebarsTemplating } from '@drivers/templater/HandlebarsTemplater'
 
 describe('Automation', () => {
   test('should return true if trigger event is called', async () => {

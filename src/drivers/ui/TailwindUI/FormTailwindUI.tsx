@@ -1,14 +1,13 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { FormUI } from '@entities/app/page/component/form/FormComponentUI'
 
-const FormTailwindUI: IUISpi['FormUI'] = {
-  form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,
-  inputs: ({ children }) => <>{children}</>,
-  input: ({ children }) => <>{children}</>,
+const FormTailwindUI: FormUI = {
+  Form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,
+  Inputs: ({ children }) => <>{children}</>,
   // TODO: replace <button type="submit"> with a button entity instance
-  submit: ({ label }) => <button type="submit">{label}</button>,
-  errorMessage: ({ message }) => <p>{message}</p>,
-  loading: ({ label }) => <p>{label}</p>,
+  Submit: ({ label }) => <button type="submit">{label}</button>,
+  ErrorMessage: ({ message }) => <p>{message}</p>,
+  Loading: ({ label }) => <p>{label}</p>,
 }
 
 export default FormTailwindUI

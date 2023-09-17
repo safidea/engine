@@ -1,46 +1,46 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { ListUI } from '@entities/app/page/component/list/ListComponentUI'
 
-const ListTailwindUI: IUISpi['ListUI'] = {
-  container: ({ children }) => {
+const ListTailwindUI: ListUI = {
+  Container: ({ children }) => {
     return <table>{children}</table>
   },
-  header: ({ children }) => {
+  Header: ({ children }) => {
     return (
       <thead>
         <tr>{children}</tr>
       </thead>
     )
   },
-  headerColumn: ({ label }) => {
+  HeaderColumn: ({ label }) => {
     return <th>{label}</th>
   },
-  group: ({ label, colSpan }) => {
+  Group: ({ label, colSpan }) => {
     return (
       <tr>
         <th colSpan={colSpan}>{label}</th>
       </tr>
     )
   },
-  rows: ({ children }) => {
+  Rows: ({ children }) => {
     return <tbody>{children}</tbody>
   },
-  row: ({ children, id }) => {
+  Row: ({ children, id }) => {
     return <tr id={id}>{children}</tr>
   },
-  cell: ({ children }) => {
+  Cell: ({ children }) => {
     return <td>{children}</td>
   },
-  textCell: ({ value }) => {
+  TextCell: ({ value }) => {
     return <>{value}</>
   },
-  buttonCell: ({ label, onClick }) => {
+  ButtonCell: ({ label, onClick }) => {
     return <button onClick={onClick}>{label}</button>
   },
-  linkCell: ({ label }) => {
+  LinkCell: ({ label }) => {
     return <a href="#">{label}</a>
   },
-  currencyCell: ({ value, currency }) => {
+  CurrencyCell: ({ value, currency }) => {
     return (
       <>
         {value}

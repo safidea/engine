@@ -1,11 +1,11 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { NavigationUI } from '@entities/app/page/component/navigation/NavigationComponentUI'
 
-const NavigationTailwindUI: IUISpi['NavigationUI'] = {
-  container: ({ children }) => {
+const NavigationTailwindUI: NavigationUI = {
+  Container: ({ children }) => {
     return <div className="h-full bg-white">{children}</div>
   },
-  sidebar: ({ children }) => {
+  Sidebar: ({ children }) => {
     return (
       <div className="fixed inset-y-0 z-50 flex w-72 flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 py-4">
@@ -14,7 +14,7 @@ const NavigationTailwindUI: IUISpi['NavigationUI'] = {
       </div>
     )
   },
-  links: ({ children }) => {
+  LinksContainer: ({ children }) => {
     return (
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -23,10 +23,10 @@ const NavigationTailwindUI: IUISpi['NavigationUI'] = {
       </nav>
     )
   },
-  link: ({ children }) => {
+  LinkItem: ({ children }) => {
     return <li>{children}</li>
   },
-  content: ({ children }) => {
+  Content: ({ children }) => {
     return (
       <div className="lg:pl-72">
         <main className="py-10">

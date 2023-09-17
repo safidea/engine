@@ -1,9 +1,9 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { TextInputUI } from '@entities/app/page/component/form/input/text/TextInputComponentUI'
 
-const TextInputUnstyledUI: IUISpi['TextInputUI'] = {
-  label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,
-  input: ({ name, onChange, id, value }) => (
+const TextInputUnstyledUI: TextInputUI = {
+  Label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,
+  Input: ({ name, onChange, id, value }) => (
     <input type="text" name={name} onChange={onChange} id={id} value={value} />
   ),
 }

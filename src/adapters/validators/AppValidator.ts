@@ -1,35 +1,17 @@
-import Ajv from 'ajv'
-import { AppMapper } from '@adapters/api/app/AppMapper'
-import { App } from '@entities/app/App'
-import { AppDtoSchema } from '../../entities/app/AppSchema'
-import { ILoggerSpi } from '@adapters/services/logger/ILoggerDriver'
-import { IUISpi } from '@entities/services/ui/IUIService'
-import { IStorageSpi } from '@adapters/services/storage/IStorageDriver'
-import { IConverterSpi } from '@adapters/services/converter/IConverterDrivers'
-import { ITemplatingSpi } from '@entities/services/templater/ITemplaterService'
+import { App, AppServices } from '@entities/app/App'
+import { AppParams } from '@entities/app/AppParams'
+import { PathReporter } from 'io-ts/PathReporter'
+import { isLeft } from 'fp-ts/Either'
 
-const ajv = new Ajv({ allowUnionTypes: true })
-const validateAppDto = ajv.compile(AppDtoSchema)
+export class AppValidator {
+  constructor(private services: AppServices) {}
 
-export interface AppMiddlewareSpis {
-  ui: IUISpi
-  logger: ILoggerSpi
-  storage: IStorageSpi
-  converter: IConverterSpi
-  templating: ITemplatingSpi
-}
-
-export class AppMiddleware {
-  constructor(
-    private config: unknown,
-    private spis: AppMiddlewareSpis
-  ) {}
-
-  validateConfig(): App {
-    if (validateAppDto(this.config)) {
-      return AppMapper.toEntity(this.config, this.spis)
+  configuration(config: unknown): App {
+    const decoded = AppParams.decode(config)
+    if (isLeft(decoded)) {
+      throw Error(`Could not validate data: ${PathReporter.report(decoded).join('\n')}`)
     }
-    if (validateAppDto.errors) throw new Error(JSON.stringify(validateAppDto.errors, null, 2))
-    throw new Error('should throw a validation error')
+    const appParams: AppParams = decoded.right
+    return new App(appParams, this.services)
   }
 }

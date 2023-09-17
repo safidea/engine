@@ -1,6 +1,6 @@
-import { ITemplatingSpi } from '@entities/services/templater/ITemplaterService'
 import Handlebars from 'handlebars'
 import { DateTime } from 'luxon'
+import { ITemplateDriver } from '@adapters/services/templater/ITemplaterDriver'
 
 Handlebars.registerHelper('now', function (format = 'iso') {
   const now = DateTime.now().setLocale('fr')
@@ -24,12 +24,12 @@ Handlebars.registerHelper('add', function (...args) {
   return args.reduce((a: number, b: number | string) => Number(a) + Number(b), 0)
 })
 
-export class HandlebarsTemplating implements ITemplatingSpi {
+export class HandlebarsTemplater implements ITemplateDriver {
   constructor(private compiler?: HandlebarsTemplateDelegate) {}
 
-  compile(template: string): HandlebarsTemplating {
+  compile(template: string): HandlebarsTemplater {
     const compiler = Handlebars.compile(template)
-    return new HandlebarsTemplating(compiler)
+    return new HandlebarsTemplater(compiler)
   }
 
   render(data: unknown): string {

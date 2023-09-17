@@ -4,7 +4,7 @@ import Engine from '../../../src'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
 import { JsonOrm } from '@drivers/database/JsonDatabase'
-import { FileStorage } from '@drivers/storage/FileStorage'
+import { FileStorage } from '@drivers/storage/LocalStorage'
 import { Converter } from '@drivers/converter/Converter'
 
 const log = debug('engine:specs')

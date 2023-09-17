@@ -1,20 +1,20 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { NavigationUI } from '@entities/app/page/component/navigation/NavigationComponentUI'
 
-const NavigationUnstyledUI: IUISpi['NavigationUI'] = {
-  container: ({ children }) => {
+const NavigationUnstyledUI: NavigationUI = {
+  Container: ({ children }) => {
     return <div>{children}</div>
   },
-  sidebar: ({ children }) => {
+  Sidebar: ({ children }) => {
     return <nav>{children}</nav>
   },
-  links: ({ children }) => {
+  LinksContainer: ({ children }) => {
     return <ul>{children}</ul>
   },
-  link: ({ children }) => {
+  LinkItem: ({ children }) => {
     return <li>{children}</li>
   },
-  content: ({ children }) => {
+  Content: ({ children }) => {
     return <div>{children}</div>
   },
 }

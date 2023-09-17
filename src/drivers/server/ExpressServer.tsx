@@ -1,179 +1,71 @@
-import React from 'react'
-import express, { Express } from 'express'
 import { Server } from 'http'
-import ReactDOMServer from 'react-dom/server'
 import path from 'path'
-import fs from 'fs-extra'
-import { IServerAdapter, ApiRoute, PageRoute } from '@entities/services/server_OLD/IServerAdapter'
-import { App } from '@entities/app/App'
-import { RequestDto, RequestQueryDto } from '@entities/services/server_OLD/RequestDto'
-import { PageMapper } from '@adapters/api/page/mappers/PageMapper'
-import { TableMapper } from '@adapters/api/table/mappers/TableMapper'
-import { TableDto } from '@adapters/api/table/dtos/TableDto'
-import { PageDto } from '@entities/app/page/PageSchema'
+import express, { Express } from 'express'
+import { ServerDriverOptions } from './index'
+import {
+  IServerDriver,
+  ServerHandler,
+  ServerRequest,
+  ServerRequestQuery,
+} from '@adapters/services/server/IServerDriver'
 
-export interface EngineData {
-  page: PageDto
-  tables: TableDto[]
-  params: { [key: string]: string }
-  development: boolean
-  uiName: string
-}
-
-export class ExpressServer implements IServerAdapter {
-  private express?: Express
-  private app?: App
+export class ExpressServer implements IServerDriver {
+  private express: Express
   private server?: Server
+  public port: number
 
-  constructor(
-    private _port: number,
-    private _uiName: string,
-    private _development: boolean
-  ) {}
-
-  initConfig(app: App) {
+  constructor(options: ServerDriverOptions) {
+    this.port = options.port ?? 3000
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
     this.express.use(express.static(path.join(__dirname, '../../../dist/client')))
-    this.app = app
   }
 
-  get port(): number {
-    return this._port
+  get(path: string, handler: ServerHandler) {
+    this.express.get(path, (req, res) => this.handleRequest(req, res, handler))
   }
 
-  async configureTables(routes: ApiRoute[]) {
-    if (!this.express) throw new Error('Express not initialized')
-    for (const route of routes) {
-      switch (route.method) {
-        case 'GET':
-          this.express.get(route.path, async (req, res) => {
-            const options: RequestDto = {
-              method: req.method,
-              path: req.url.split('?')[0],
-              params: req.params,
-            }
-            if (req.query) {
-              options.query = Object.keys(req.query).reduce((acc: RequestQueryDto, key: string) => {
-                acc[key] = String(req.query[key])
-                return acc
-              }, {})
-            }
-            const { status = 200, json } = await route.handler(options)
-            res.status(status).json(json)
-          })
-          break
-        case 'POST':
-          this.express.post(route.path, async (req, res) => {
-            const { status = 200, json } = await route.handler({
-              method: req.method,
-              path: req.url,
-              params: req.params,
-              body: req.body,
-            })
-            res.status(status).json(json)
-          })
-          break
-        case 'PATCH':
-          this.express.patch(route.path, async (req, res) => {
-            const { status = 200, json } = await route.handler({
-              method: req.method,
-              path: req.url,
-              params: req.params,
-              body: req.body,
-            })
-            res.status(status).json(json)
-          })
-          break
-        case 'DELETE':
-          this.express.delete(route.path, async (req, res) => {
-            const { status = 200, json } = await route.handler({
-              method: req.method,
-              path: req.url,
-              params: req.params,
-            })
-            res.status(status).json(json)
-          })
-          break
-        default:
-          break
-      }
+  post(path: string, handler: ServerHandler) {
+    this.express.post(path, (req, res) => this.handleRequest(req, res, handler))
+  }
+
+  patch(path: string, handler: ServerHandler) {
+    this.express.patch(path, (req, res) => this.handleRequest(req, res, handler))
+  }
+
+  delete(path: string, handler: ServerHandler) {
+    this.express.delete(path, (req, res) => this.handleRequest(req, res, handler))
+  }
+
+  private handleRequest = async (
+    req: express.Request,
+    res: express.Response,
+    handler: ServerHandler
+  ) => {
+    const options: ServerRequest = {
+      method: req.method,
+      path: req.url.split('?')[0],
+      params: req.params,
     }
-  }
-
-  async configurePages(routes: PageRoute[]) {
-    if (!this.express) throw new Error('Express not initialized')
-    this.express.get('/bundle.js', async (req, res) => {
-      const bundle = await fs.readFile(path.resolve(__dirname, '../../../../bundle.js'), 'utf8')
-      return res.send(bundle)
-    })
-    for (const route of routes) {
-      this.express.get(route.path, async (req, res) => {
-        const Page = await route.handler({ path: req.url.split('?')[0], params: req.params })
-        const pageHtml = ReactDOMServer.renderToString(<Page />)
-        if (!this.app) throw new Error('App not initialized')
-        const page = this.app.getPageByPath(route.path)
-        const data: EngineData = {
-          page: PageMapper.toDto(page),
-          params: req.params,
-          tables: TableMapper.toDtos(this.app.tables),
-          uiName: this._uiName,
-          development: this._development,
-        }
-        const html = `
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <title>${route.title}</title>
-              <script>
-                window.__FOUNDATION_DATA__ = ${JSON.stringify(data)}
-              </script>
-              <link href="/output.css" rel="stylesheet">
-            </head>
-            <body>
-              <div id="root">${pageHtml}</div>
-              <script src="/bundle.js"></script>
-            </body>
-          </html>
-        `
-        res.send(html)
-      })
+    if (req.body) options.body = req.body
+    if (req.query) {
+      options.query = Object.keys(req.query).reduce((acc: ServerRequestQuery, key: string) => {
+        acc[key] = String(req.query[key])
+        return acc
+      }, {})
     }
-  }
-
-  async configureStorage(routes: ApiRoute[]) {
-    if (!this.express) throw new Error('Express not initialized')
-    for (const route of routes) {
-      switch (route.method) {
-        case 'GET':
-          this.express.get(route.path, async (req, res) => {
-            const options: RequestDto = {
-              method: req.method,
-              path: req.url.split('?')[0],
-              params: req.params,
-            }
-            const { status = 200, file, headers = {}, json = {} } = await route.handler(options)
-            res.status(status)
-            if (status === 200 && file) {
-              Object.keys(headers).forEach((key) => {
-                res.setHeader(key, headers[key])
-              })
-              res.sendFile(file, { headers })
-            } else {
-              res.json(json)
-            }
-          })
-          break
-        default:
-          break
-      }
+    const { status = 200, json, html } = await handler(options)
+    res.status(status)
+    if (html) {
+      res.send(html)
+    } else {
+      res.json(json)
     }
   }
 
   async start(): Promise<void> {
     await new Promise((resolve, rejects) => {
-      if (!this.express) throw new Error('Express not initialized')
       this.server = this.express.listen(this.port, () => {
         resolve(true)
       })
@@ -185,8 +77,9 @@ export class ExpressServer implements IServerAdapter {
 
   async stop(): Promise<void> {
     await new Promise((resolve) => {
-      if (!this.server) throw new Error('Server not initialized')
+      if (!this.server) throw new Error('Server not started')
       this.server.close(() => {
+        this.server = undefined
         resolve(true)
       })
     })

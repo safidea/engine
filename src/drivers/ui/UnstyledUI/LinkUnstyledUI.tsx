@@ -1,8 +1,8 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { LinkUI } from '@entities/app/page/component/link/LinkComponentUI'
 
-const LinUnstyledkUI: IUISpi['LinkUI'] = {
-  link: ({ children, href }) => {
+const LinUnstyledkUI: LinkUI = {
+  Link: ({ children, href }) => {
     return <a href={href}>{children}</a>
   },
 }

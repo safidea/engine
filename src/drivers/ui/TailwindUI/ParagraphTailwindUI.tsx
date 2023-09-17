@@ -1,14 +1,14 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 
-const ParagraphTailwindUI: IUISpi['ParagraphUI'] = {
-  small: ({ children }) => {
+const ParagraphTailwindUI: ParagraphUI = {
+  Small: ({ children }) => {
     return <p className="text-sm leading-6 text-gray-600">{children}</p>
   },
-  medium: ({ children }) => {
+  Medium: ({ children }) => {
     return <p className="text-base leading-7 text-gray-600">{children}</p>
   },
-  large: ({ children }) => {
+  Large: ({ children }) => {
     return <p className="text-lg leading-8 text-gray-600">{children}</p>
   },
 }

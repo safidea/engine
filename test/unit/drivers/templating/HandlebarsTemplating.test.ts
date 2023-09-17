@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-import { HandlebarsTemplating } from '@drivers/templating/HandlebarsTemplating'
+import { HandlebarsTemplating } from '@drivers/templater/HandlebarsTemplater'
 
 describe('HandlebarsTemplating', () => {
   describe('add helper', () => {

@@ -1,29 +1,30 @@
 import fs from 'fs-extra'
 import { join } from 'path'
+import { IDatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
+import { DatabaseOptions } from './index'
+import { TableParams } from '@entities/app/table/TableParams'
+import { RecordData } from '@entities/services/database/record/RecordData'
+import { FilterParams } from '@entities/services/database/filter/FilterParams'
+import { RecordToDeleteData } from '@entities/services/database/record/state/toDelete/RecordToDeleteData'
+import { RecordToUpdateData } from '@entities/services/database/record/state/toUpdate/RecordToUpdateData'
 
-import { RecordDto, RecordFieldValueDto } from '@adapters/spi/orm/dtos/RecordDto'
-import { FilterDto } from '@entities/services/database/filter/FilterParams'
-import { DatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
-
-interface TableRecord {
-  [key: string]: RecordFieldValueDto
-}
 interface Database {
-  [key: string]: TableRecord[]
+  [key: string]: RecordData[]
 }
 
-export class JsonDatabase implements DatabaseDriver {
+export class JsonDatabase implements IDatabaseDriver {
   private url: string
-  private tables: TableDto[] = []
+  private tables: TableParams[] = []
 
-  constructor(folder: string) {
+  constructor(options: DatabaseOptions) {
+    const folder = options.folder ?? process.cwd()
     this.url = join(folder, 'db.json')
     if (fs.existsSync(this.url)) return
     fs.ensureFileSync(this.url)
     fs.writeJSONSync(this.url, {})
   }
 
-  public async configure(tables: TableDto[]): Promise<void> {
+  public async configure(tables: TableParams[]): Promise<void> {
     this.tables = tables
   }
 
@@ -31,7 +32,7 @@ export class JsonDatabase implements DatabaseDriver {
     return this.tables.some((table) => table.name === tableName)
   }
 
-  private getTable(tableName: string): TableDto {
+  private getTable(tableName: string): TableParams {
     const table = this.tables.find((table) => table.name === tableName)
     if (!table) throw new Error(`Table ${tableName} not found`)
     return table
@@ -45,7 +46,7 @@ export class JsonDatabase implements DatabaseDriver {
     await fs.outputJSON(this.url, db, { spaces: 2 })
   }
 
-  async create(tableName: string, recordDto: RecordDto): Promise<string> {
+  async create(tableName: string, record: RecordData): Promise<string> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
     const autonumberField = this.getTable(tableName).fields.find(
@@ -53,14 +54,14 @@ export class JsonDatabase implements DatabaseDriver {
     )
     if (autonumberField) {
       const autonumber = db[tableName].length + 1
-      recordDto = { ...recordDto, [autonumberField.name]: autonumber }
+      record = { ...record, [autonumberField.name]: autonumber }
     }
-    db[tableName].push(recordDto)
+    db[tableName].push(record)
     await this.setDB(db)
-    return String(recordDto.id)
+    return String(record.id)
   }
 
-  async createMany(tableName: string, recordsDto: RecordDto[]): Promise<string[]> {
+  async createMany(tableName: string, records: RecordData[]): Promise<string[]> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
     const autonumberField = this.getTable(tableName).fields.find(
@@ -68,44 +69,47 @@ export class JsonDatabase implements DatabaseDriver {
     )
     if (autonumberField) {
       const autonumber = db[tableName].length + 1
-      recordsDto = recordsDto.map((recordDto) => ({
-        ...recordDto,
+      records = records.map((record) => ({
+        ...record,
         [autonumberField.name]: autonumber,
       }))
     }
-    db[tableName].push(...recordsDto)
+    db[tableName].push(...records)
     await this.setDB(db)
-    return recordsDto.map((recordDto) => String(recordDto.id))
+    return records.map((record) => String(record.id))
   }
 
-  async softUpdateById(table: string, recordDto: RecordDto, id: string): Promise<void> {
+  async update(table: string, record: RecordToUpdateData | RecordToDeleteData): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    const index = db[table].findIndex((row) => row.id === id)
-    if (index === -1) throw new Error(`Record ${id} not found`)
-    db[table][index] = { ...db[table][index], ...recordDto }
+    const index = db[table].findIndex((row) => row.id === record.id)
+    if (index === -1) throw new Error(`Record ${record.id} not found`)
+    db[table][index] = { ...db[table][index], ...record }
     await this.setDB(db)
   }
 
-  async softUpdateMany(table: string, recordsDto: RecordDto[]): Promise<void> {
+  async updateMany(
+    table: string,
+    records: (RecordToUpdateData | RecordToDeleteData)[]
+  ): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    for (const recordDto of recordsDto) {
-      const index = db[table].findIndex((row) => row.id === recordDto.id)
-      if (index === -1) throw new Error(`Record ${recordDto.id} not found`)
-      db[table][index] = { ...db[table][index], ...recordDto }
+    for (const record of records) {
+      const index = db[table].findIndex((row) => row.id === record.id)
+      if (index === -1) throw new Error(`Record ${record.id} not found`)
+      db[table][index] = { ...db[table][index], ...record }
     }
     await this.setDB(db)
   }
 
-  async list(table: string, filters: FilterDto[] = []): Promise<RecordDto[]> {
+  async list(table: string, filters: FilterParams[] = []): Promise<RecordData[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
-    const recordsDto = db[table]
-    if (filters.length === 0) return recordsDto
-    return recordsDto.filter((recordDto) => {
+    const records = db[table]
+    if (filters.length === 0) return records
+    return records.filter((record) => {
       for (const filter of filters) {
-        const value = recordDto[filter.field]
+        const value = record[filter.field]
         const field = this.getTable(table).fields.find((field) => field.name === filter.field)
         if (filter.operator === 'is_any_of') {
           if (!Array.isArray(filter.value)) throw new Error('Value must be an array')
@@ -119,16 +123,7 @@ export class JsonDatabase implements DatabaseDriver {
     })
   }
 
-  async deleteById(table: string, id: string): Promise<void> {
-    const db = await this.getDB()
-    if (!db[table]) db[table] = []
-    const index = db[table].findIndex((recordDto) => recordDto.id === id)
-    if (index === -1) throw new Error(`Record not found for id ${id} in table ${table}`)
-    db[table].splice(index, 1)
-    await this.setDB(db)
-  }
-
-  async readById(table: string, id: string): Promise<RecordDto | undefined> {
+  async read(table: string, id: string): Promise<RecordData | undefined> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const recordDto = db[table].find((row) => row.id === id)

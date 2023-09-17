@@ -1,8 +1,8 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { LinkUI } from '@entities/app/page/component/link/LinkComponentUI'
 
-const LinkTailwindUI: IUISpi['LinkUI'] = {
-  link: ({ children, href }) => {
+const LinkTailwindUI: LinkUI = {
+  Link: ({ children, href }) => {
     return <a href={href}>{children}</a>
   },
 }

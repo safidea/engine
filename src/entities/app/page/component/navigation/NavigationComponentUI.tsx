@@ -10,14 +10,16 @@ export interface NavigationProps {
 }
 
 export function NavigationComponentUI({ ui, Title, Links, Components }: NavigationProps) {
-  const { Container, Sidebar, LinksContainer, Content } = ui.getNavigation()
+  const { Container, Sidebar, LinksContainer, LinkItem, Content } = ui.getNavigation()
   return (
     <Container>
       <Sidebar>
         <Title />
         <LinksContainer>
           {Links.map((Link, index) => (
-            <Link key={index} />
+            <LinkItem>
+              <Link key={index} />
+            </LinkItem>
           ))}
         </LinksContainer>
       </Sidebar>
@@ -34,5 +36,6 @@ export interface NavigationUI {
   Container: React.FC<BaseComponentUIProps>
   Sidebar: React.FC<BaseComponentUIProps>
   LinksContainer: React.FC<BaseComponentUIProps>
+  LinkItem: React.FC<BaseComponentUIProps>
   Content: React.FC<BaseComponentUIProps>
 }

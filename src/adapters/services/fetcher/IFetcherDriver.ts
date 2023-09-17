@@ -5,9 +5,8 @@ export interface FetchState<T> {
 }
 
 export interface IFetcherDriver {
-  url: string
+  domain: string
   name: string
-  setUrl: (url: string) => void
   getFetch: () => (url: string, options?: RequestInit) => Promise<Response>
   getUseFetch: () => <T>(url: string, options?: RequestInit) => FetchState<T>
 }

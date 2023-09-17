@@ -1,8 +1,8 @@
 import React from 'react'
-import { IUISpi } from '@entities/services/ui/IUIService'
+import { ContainerUI } from '@entities/app/page/component/container/ContainerComponentUI'
 
-const ContainerUnstyledUI: IUISpi['ContainerUI'] = {
-  container: ({ children }) => <div>{children}</div>,
+const ContainerUnstyledUI: ContainerUI = {
+  Container: ({ children }) => <div>{children}</div>,
 }
 
 export default ContainerUnstyledUI

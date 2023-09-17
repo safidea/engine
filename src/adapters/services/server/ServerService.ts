@@ -7,4 +7,8 @@ export class ServerService {
   async start(app: App): Promise<void> {
     return this.driver.start()
   }
+
+  async stop(): Promise<void> {
+    return this.driver.stop()
+  }
 }
