@@ -91,10 +91,9 @@ const config: Config = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '^@adapters/(.*)$': '<rootDir>/../../src/adapters/$1',
-    '^@usecases/(.*)$': '<rootDir>/../../src/usecases/$1',
-    '^@entities/(.*)$': '<rootDir>/../../src/entities/$1',
-    '^@drivers/(.*)$': '<rootDir>/../../src/drivers/$1',
+    '^@adapters/(.*)$': '<rootDir>/src/adapters/$1',
+    '^@entities/(.*)$': '<rootDir>/src/entities/$1',
+    '^@drivers/(.*)$': '<rootDir>/src/drivers/$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

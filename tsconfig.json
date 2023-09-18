@@ -20,7 +20,6 @@
     "lib": ["es2015", "dom"],
     "baseUrl": ".",
     "paths": {
-      "@usecases/*": ["./src/usecases/*"],
       "@entities/*": ["./src/entities/*"],
       "@drivers/*": ["./src/drivers/*"],
       "@adapters/*": ["./src/adapters/*"],

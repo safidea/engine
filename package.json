@@ -24,7 +24,7 @@
     "watch:test": "jest --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:utils": "jest --config test/utils/jest.config.ts",
-    "test:unit": "jest --config test/unit/jest.config.ts",
+    "test:unit": "jest",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
     "dev:ui": "storybook dev -p 6006",
