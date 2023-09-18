@@ -2,12 +2,9 @@ import { Server } from 'http'
 import path from 'path'
 import express, { Express } from 'express'
 import { ServerDriverOptions } from './index'
-import {
-  IServerDriver,
-  ServerHandler,
-  ServerRequest,
-  ServerRequestQuery,
-} from '@adapters/services/server/IServerDriver'
+import { IServerDriver } from '@adapters/services/server/IServerDriver'
+import { ServerRequest, ServerRequestQuery } from '@adapters/services/server/ServerRequest'
+import { ServerHandler } from '@adapters/services/server/ServerHandler'
 
 export class ExpressServer implements IServerDriver {
   private express: Express
@@ -43,19 +40,19 @@ export class ExpressServer implements IServerDriver {
     res: express.Response,
     handler: ServerHandler
   ) => {
-    const options: ServerRequest = {
+    const request: ServerRequest = {
       method: req.method,
       path: req.url.split('?')[0],
       params: req.params,
     }
-    if (req.body) options.body = req.body
+    if (req.body) request.body = req.body
     if (req.query) {
-      options.query = Object.keys(req.query).reduce((acc: ServerRequestQuery, key: string) => {
+      request.query = Object.keys(req.query).reduce((acc: ServerRequestQuery, key: string) => {
         acc[key] = String(req.query[key])
         return acc
       }, {})
     }
-    const { status = 200, json, html } = await handler(options)
+    const { status = 200, json, html } = await handler(request)
     res.status(status)
     if (html) {
       res.send(html)

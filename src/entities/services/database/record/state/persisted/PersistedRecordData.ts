@@ -1,3 +1,8 @@
-import { BaseRecordData, BaseRecordFieldValue } from "../base/BaseRecordData";
+import { BaseRecordData, BaseRecordFieldValue } from '../base/BaseRecordData'
 
-export type PersistedRecordDataWithLinkedRecordsData = { [key: string]: BaseRecordData[] | BaseRecordFieldValue }
+export const PersistedRecordData = BaseRecordData
+export type PersistedRecordData = BaseRecordData
+
+export type PersistedRecordDataWithLinkedRecordsData = {
+  [key: string]: BaseRecordData[] | BaseRecordFieldValue
+}

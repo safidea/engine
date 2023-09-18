@@ -9,7 +9,7 @@ import {
   FetcherSyncResourceParams,
   FetcherSyncTablesRecords,
   FetcherSyncTablesRecordsData,
-} from '@entities/services/fetcher/FetcherSync'
+} from '@entities/services/fetcher/sync/Sync'
 import { IFetcherService } from '@entities/services/fetcher/IFetcherService'
 
 export class FetcherService implements IFetcherService {

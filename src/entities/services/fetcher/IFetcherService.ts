@@ -1,14 +1,14 @@
-import { FetcherSyncResource, FetcherSyncTablesRecords } from './FetcherSync'
-import { Record } from '../database/record/Record'
+import { SyncResource, SyncTablesRecords } from './sync/Sync'
+import { RecordToPersite } from '../database/record/Record'
 
 export interface IFetcherService {
-  getSyncRecordsHook: (resources: FetcherSyncResource[]) => () => {
-    tables: FetcherSyncTablesRecords
+  getSyncRecordsHook: (resources: SyncResource[]) => () => {
+    tables: SyncTablesRecords
     error?: string
     isLoading: boolean
   }
   getSyncRecordsFunction: () => (options: {
-    records?: Record[]
-    resources?: FetcherSyncResource[]
-  }) => Promise<{ error?: string; tables: FetcherSyncTablesRecords }>
+    records?: RecordToPersite[]
+    resources?: SyncResource[]
+  }) => Promise<{ error?: string; tables: SyncTablesRecords }>
 }

@@ -1,22 +1,21 @@
-import { ServerRequest } from '@adapters/services/server/IServerDriver'
+import { PathReporter } from 'io-ts/PathReporter'
+import { isLeft } from 'fp-ts/Either'
+import { ServerRequest } from '@adapters/services/server/ServerRequest'
 import { App } from '@entities/app/App'
+import { Table } from '@entities/app/table/Table'
 import { ApiError } from '@entities/errors/ApiError'
-import { Filter, newFilter } from '@entities/services/database/filter/Filter'
-import { FilterParams } from '@entities/services/database/filter/FilterParams'
+import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
+import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { RecordToCreateDto, RecordToUpdateDto } from '@adapters/dtos/RecordDto'
+import { SyncDto } from '@adapters/dtos/SyncDto'
+import { FilterDto } from '@adapters/dtos/FilterDto'
 
 export class TableValidator {
   constructor(private app: App) {}
 
-  public async validateTableExist(request: ServerRequest): Promise<string> {
-    const { table } = request.params ?? {}
-    const exist = await this.app.services.database.tableExists(table)
-    if (!exist) throw new ApiError(`table "${table}" does not exist`, 404)
-    return table
-  }
-
-  public async extractAndValidateQuery(request: ServerRequest): Promise<Filter[]> {
+  public async extractAndValidateFilters(request: ServerRequest): Promise<FilterDto[]> {
     const { query } = request
-    const filters: FilterParams[] = []
+    const filters: FilterDto[] = []
     if (query) {
       for (const key in query) {
         const matchFilter = key.match(/filter_(field|operator|value)_(\d+)$/)
@@ -40,70 +39,54 @@ export class TableValidator {
         }
       }
     }
-    return filters.map((filter) => newFilter(filter))
+    return filters
   }
 
-  public async validateSyncBody(
-    body: unknown
-  ): Promise<{ records: Record[]; resources: SyncResource[] }> {
-    if (validateSyncDto(body)) {
-      const { commands: commandsDto = [], resources: resourcesDto = [] } = body
-      const records = await Promise.all(
-        commandsDto.map((commandDto) => {
-          const { type, table, record: recordDto } = commandDto
-          return this.validateRecordValues(table, recordDto, type)
-        })
-      )
-      const resources = ResourceSyncMapper.toEntities(resourcesDto)
-      return { records, resources }
+  public async validateSyncBody(body: unknown): Promise<SyncDto> {
+    const decoded = SyncDto.decode(body)
+    if (isLeft(decoded)) {
+      throw Error(`Could not validate sync body: ${PathReporter.report(decoded).join('\n')}`)
     }
-    throw new ApiError(`sync body is not valid`, 400)
+    const sync: SyncDto = decoded.right
+    return sync
   }
 
-  public async validateRecordExist(request: RequestDto): Promise<Record> {
-    const { table, id } = request.params ?? {}
-    const record = await this.ormSpi.read(table, id)
+  public async validateRecordExist(request: ServerRequest, table: Table): Promise<PersistedRecord> {
+    const { id } = request.params ?? {}
+    const record = await this.app.services.database.read(table, id)
     if (!record) throw new ApiError(`record "${id}" does not exist in table "${table}"`, 404)
     return record
   }
 
-  public async validateRecordBody(table: string, body: unknown): Promise<RecordDto> {
-    if (validateRecordDto(body)) return body
-    throw new ApiError(`record body is not valid`, 400)
+  public async validateRecordToCreateBody(body: unknown): Promise<RecordToCreateDto> {
+    const decoded = RecordToCreateDto.decode(body)
+    if (isLeft(decoded)) {
+      throw Error(`Could not validate record body: ${PathReporter.report(decoded).join('\n')}`)
+    }
+    const recordDto: RecordToCreateDto = decoded.right
+    return recordDto
   }
 
-  public async validateRecordsBody(
-    table: string,
-    body: unknown[],
-    state: RecordStateType
-  ): Promise<Record[]> {
+  public async validateRecordToUpdateBody(body: unknown): Promise<RecordToUpdateDto> {
+    const decoded = RecordToUpdateDto.decode(body)
+    if (isLeft(decoded)) {
+      throw Error(`Could not validate record body: ${PathReporter.report(decoded).join('\n')}`)
+    }
+    const recordDto: RecordToUpdateDto = decoded.right
+    return recordDto
+  }
+
+  public async validateRecordsToCreateBody(body: unknown[]): Promise<RecordToCreateDto[]> {
     const records = []
     for (const record of body) {
-      if (validateRecordDto(record)) {
-        records.push(this.validateRecordValues(table, record, state))
-      } else {
-        throw new ApiError(`record in the body array is not valid`, 400)
-      }
+      records.push(this.validateRecordToCreateBody(record))
     }
     return Promise.all(records)
   }
 
-  public async validateRecordValues(
-    table: string,
-    record: RecordDto,
-    state: RecordStateType
-  ): Promise<Record> {
-    try {
-      return RecordMapper.toEntity(record, this.app.getTableByName(table), state)
-    } catch (error) {
-      if (error instanceof Error) throw new ApiError(error.message, 400)
-      throw error
-    }
-  }
-
   public async validateUpdatePermissions(
-    persistedRecord: Record,
-    updatedRecord: Record
+    persistedRecord: PersistedRecord,
+    updatedRecord: RecordToUpdate
   ): Promise<void> {
     try {
       updatedRecord.validateFieldsPermissions(persistedRecord.fields)

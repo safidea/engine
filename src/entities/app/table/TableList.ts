@@ -21,6 +21,10 @@ export class TableList {
     return this.tables.map((table: Table) => table.params)
   }
 
+  getNames(): string[] {
+    return this.tables.map((table: Table) => table.name)
+  }
+
   exist(): boolean {
     return this.tables.length > 0
   }

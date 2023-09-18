@@ -1,20 +1,4 @@
-export interface ServerRequestQuery {
-  [key: string]: string
-}
-
-export interface ServerRequest {
-  method: string
-  path: string
-  body?: unknown
-  params?: {
-    [key: string]: string
-  }
-  query?: ServerRequestQuery
-}
-
-export type ServerHandler = (
-  options: ServerRequest
-) => Promise<{ status?: number; json?: unknown; html?: string }>
+import { ServerHandler } from './ServerHandler'
 
 export interface IServerDriver {
   get: (path: string, handler: ServerHandler) => void

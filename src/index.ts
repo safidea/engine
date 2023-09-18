@@ -22,6 +22,7 @@ import { StorageDrivers, getStorageDriver } from '@drivers/storage'
 import { DatabaseDrivers, getDatabaseDriver } from '@drivers/database'
 import { FetcherDrivers, getFetcherDriver } from '@drivers/fetcher'
 import { LoggerDrivers, getLoggerDriver } from '@drivers/logger'
+import { AppMapper } from '@adapters/mappers/AppMapper'
 
 export interface EngineOptions {
   server?: ServerDrivers
@@ -59,7 +60,8 @@ export default class Engine {
   }
 
   async start(config: unknown) {
-    const app = new AppValidator(this.services).configuration(config)
+    const appConfig = new AppValidator(this.services).validateConfig(config)
+    const app = AppMapper.toApp(appConfig, this.services)
     await this.server.start(app)
   }
 

@@ -1,22 +1,27 @@
 import { App } from '@entities/app/App'
 import { IServerDriver } from './IServerDriver'
-import { PageRoutes } from '@adapters/routes/PageRoutes'
-import { TableRoutes } from '@adapters/routes/TableRoutes'
+import { PageMiddleware } from '@adapters/middlewares/PageMiddleware'
+import { TableMiddleware } from '@adapters/middlewares/TableMiddleware'
 
 export class ServerService {
   constructor(readonly driver: IServerDriver) {}
 
   async start(app: App): Promise<void> {
     if (app.pages.exist()) {
-      const pageRoutes = new PageRoutes(app)
+      const pageMiddleware = new PageMiddleware(app)
       for (const path of app.pages.getPaths()) {
-        this.driver.get(path, pageRoutes.get)
+        this.driver.get(path, pageMiddleware.get())
       }
     }
     if (app.tables.exist()) {
-      const tableRoutes = new TableRoutes(app)
-      for (const path of app.tables.getPaths()) {
-        this.driver.get(path, tableRoutes.get)
+      const tableMiddleware = new TableMiddleware(app)
+      for (const table of app.tables.getAll()) {
+        this.driver.post(`/api/sync/table`, tableMiddleware.sync())
+        this.driver.get(`/api/table/${table.name}/:id`, tableMiddleware.getById(table))
+        this.driver.patch(`/api/table/${table.name}/:id`, tableMiddleware.patchById(table))
+        this.driver.delete(`/api/table/${table.name}/:id`, tableMiddleware.deleteById(table))
+        this.driver.get(`/api/table/${table.name}`, tableMiddleware.get(table))
+        this.driver.post(`/api/table/${table.name}`, tableMiddleware.post(table))
       }
     }
     await app.configure()

@@ -15,10 +15,7 @@ import { RecordToCreate } from '@entities/services/database/record/state/toCreat
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
-import {
-  FetcherSyncResource,
-  FetcherSyncTablesRecords,
-} from '@entities/services/fetcher/FetcherSync'
+import { FetcherSyncResource, FetcherSyncTablesRecords } from '@entities/services/fetcher/sync/Sync'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
