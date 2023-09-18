@@ -28,4 +28,8 @@ export class RecordMapper {
   static toManyDtos(records: PersistedRecord[]): PersistedRecordDto[] {
     return records.map((record) => this.toDto(record))
   }
+
+  static toManyPersisted(records: PersistedRecordDto[], table: Table): PersistedRecord[] {
+    return records.map((record) => new PersistedRecord(record, table))
+  }
 }

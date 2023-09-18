@@ -4,7 +4,7 @@ import { Table } from '@entities/app/table/Table'
 import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
 import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
-import { SyncRecordsByTable, SyncResource } from '@entities/services/fetcher/sync/Sync'
+import { Sync, SyncRecordsByTable } from '@entities/services/fetcher/sync/Sync'
 import { App } from '@entities/app/App'
 import { IDatabaseService } from '@entities/services/database/IDatabaseService'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
@@ -36,8 +36,8 @@ export class TableController {
     return this.database.softDelete(table, record)
   }
 
-  async sync(records: RecordToPersite[], resources: SyncResource[]): Promise<SyncRecordsByTable> {
-    if (records.length > 0) {
+  async sync({ records, resources }: Sync): Promise<SyncRecordsByTable> {
+    if (records) {
       const recordsToCreate: { table: Table; records: RecordToCreate[] }[] = []
       const recordsToUpdate: { table: Table; records: RecordToUpdate[] }[] = []
       const recordsToDelete: { table: Table; records: RecordToDelete[] }[] = []
@@ -76,15 +76,13 @@ export class TableController {
     }
 
     const tables: SyncRecordsByTable = {}
-
-    if (resources.length > 0) {
-      const promises = []
-      for (const { table, filters } of resources) {
-        promises.push(this.database.list(table, filters ?? []))
-      }
-      await Promise.all(promises)
+    const promises = []
+    for (const { table, filters } of resources) {
+      promises.push(
+        this.database.list(table, filters ?? []).then((records) => (tables[table.name] = records))
+      )
     }
-
+    await Promise.all(promises)
     return tables
   }
 }

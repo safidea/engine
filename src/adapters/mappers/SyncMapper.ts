@@ -1,4 +1,4 @@
-import { SyncDto, SyncRecordsByTableDto } from '@adapters/dtos/SyncDto'
+import { SyncCommandDto, SyncDto, SyncRecordsByTableDto } from '@adapters/dtos/SyncDto'
 import { RecordToPersite } from '@entities/services/database/record/Record'
 import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
 import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
@@ -38,7 +38,47 @@ export class SyncMapper {
     return { records, resources }
   }
 
-  static toRecordsByTable(recordsByTables: SyncRecordsByTable): SyncRecordsByTableDto {
+  static toSyncDto(sync: Sync): SyncDto {
+    const { records = [], resources = [] } = sync
+    const commands: SyncCommandDto[] = []
+    for (const record of records) {
+      if (record instanceof RecordToCreate) {
+        commands.push({ action: 'toCreate', table: record.table.name, record: record.data() })
+      } else if (record instanceof RecordToUpdate) {
+        commands.push({
+          action: 'toUpdate',
+          table: record.table.name,
+          record: record.toUpdateData(),
+        })
+      } else if (record instanceof RecordToDelete) {
+        commands.push({
+          action: 'toDelete',
+          table: record.table.name,
+          record: record.toDeleteData(),
+        })
+      }
+    }
+    const resourcesDtos = resources.map(({ table, filters = [] }) => {
+      return { table: table.name, filters: FilterMapper.toManyDtos(filters) }
+    })
+    return { commands, resources: resourcesDtos }
+  }
+
+  static toRecordsByTable(
+    recordsByTablesDto: SyncRecordsByTableDto,
+    resources: SyncResource[]
+  ): SyncRecordsByTable {
+    const recordsByTables: SyncRecordsByTable = {}
+    for (const tableName in recordsByTablesDto) {
+      const table = resources.find((r) => r.table.name === tableName)?.table
+      if (!table) throw new Error(`Table ${tableName} not found`)
+      const recordsDto = recordsByTablesDto[tableName]
+      recordsByTables[tableName] = RecordMapper.toManyPersisted(recordsDto, table)
+    }
+    return recordsByTables
+  }
+
+  static toRecordsByTableDto(recordsByTables: SyncRecordsByTable): SyncRecordsByTableDto {
     const recordsByTablesDto: SyncRecordsByTableDto = {}
     for (const tableName in recordsByTables) {
       const records = recordsByTables[tableName]

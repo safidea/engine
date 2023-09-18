@@ -10,7 +10,7 @@ export interface SyncResource {
 
 export interface Sync {
   resources: SyncResource[]
-  records: RecordToPersite[]
+  records?: RecordToPersite[]
 }
 
 export interface SyncRecordsByTable {

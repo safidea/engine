@@ -1,15 +1,15 @@
-import { RecordData } from '@entities/services/database/record/RecordData'
-import { FetcherSyncTablesRecordsData } from '@entities/services/fetcher/sync/Sync'
+import { PersistedRecordDto } from '@adapters/dtos/RecordDto'
+import { SyncRecordsByTableDto } from '@adapters/dtos/SyncDto'
 
 export interface ServerResponse {
   status?: number
   json?: {
-    record?: RecordData
-    records?: RecordData[]
+    record?: PersistedRecordDto
+    records?: PersistedRecordDto[]
     id?: string
     ids?: string[]
     error?: string
-    tables?: FetcherSyncTablesRecordsData
+    tables?: SyncRecordsByTableDto
   }
   html?: string
   file?: string

@@ -22,9 +22,9 @@ export class TableMiddleware {
     return async (request: ServerRequest): Promise<ServerResponse> => {
       try {
         const syncDto = await this.tableValidator.validateSyncBody(request.body)
-        const { records, resources } = await SyncMapper.toSync(syncDto, this.app)
-        const recordsByTables = await this.tableController.sync(records, resources)
-        const recordsByTablesDtos = SyncMapper.toRecordsByTable(recordsByTables)
+        const sync = await SyncMapper.toSync(syncDto, this.app)
+        const recordsByTables = await this.tableController.sync(sync)
+        const recordsByTablesDtos = SyncMapper.toRecordsByTableDto(recordsByTables)
         return { json: { tables: recordsByTablesDtos } }
       } catch (error) {
         return this.catchError(error)
