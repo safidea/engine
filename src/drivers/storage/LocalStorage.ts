@@ -1,9 +1,8 @@
 import { join } from 'path'
 import fs from 'fs-extra'
 import { IStorageDriver } from '@adapters/services/storage/IStorageDriver'
-import { File } from '@entities/services/storage/file/File'
 import { StorageDriverOptions } from './index'
-import { FileParams } from '@entities/services/storage/file/FileParams'
+import { FileDto } from '@adapters/dtos/FileDto'
 
 export class LocalStorage implements IStorageDriver {
   private folder: string
@@ -23,36 +22,33 @@ export class LocalStorage implements IStorageDriver {
     return `${this.domain}/api/storage/${filePath}`
   }
 
-  async upload(bucket: string, buffer: Buffer, params: FileParams): Promise<string> {
-    const filePath = join(bucket, params.filename)
+  async upload(bucket: string, buffer: Buffer, file: FileDto): Promise<string> {
+    const filePath = join(bucket, file.filename)
     await fs.outputFile(join(this.storageUrl, filePath), buffer)
     return this.getPublicUrl(filePath)
   }
 
-  async uploadMany(
-    bucket: string,
-    files: { data: Buffer; params: FileParams }[]
-  ): Promise<string[]> {
-    return Promise.all(files.map(({ data, params }) => this.upload(bucket, data, params)))
+  async uploadMany(bucket: string, buffers: Buffer[], files: FileDto[]): Promise<string[]> {
+    return Promise.all(files.map((file, index) => this.upload(bucket, buffers[index], file)))
   }
 
-  async read(bucket: string, filename: string): Promise<File | undefined> {
+  async read(bucket: string, filename: string): Promise<Buffer | undefined> {
     const path = join(this.storageUrl, bucket, filename)
     if (!fs.existsSync(path)) return
     const data = await fs.readFile(path)
-    return new File(data, { filename, path })
+    return data
   }
 
-  async list(bucket: string, filenames?: string[]): Promise<File[]> {
-    const fileDtos = []
+  async list(bucket: string, filenames?: string[]): Promise<Buffer[]> {
+    const buffers = []
     const path = join(this.storageUrl, bucket)
     if (!fs.existsSync(path)) throw new Error(`Bucket "${bucket}" does not exist`)
     if (!filenames) filenames = await fs.readdir(path)
     for (const filename of filenames) {
-      const fileDto = await this.read(bucket, filename)
-      if (fileDto) fileDtos.push(fileDto)
+      const buffer = await this.read(bucket, filename)
+      if (buffer) buffers.push(buffer)
     }
-    return fileDtos
+    return buffers
   }
 
   readStaticFile(path: string): string {

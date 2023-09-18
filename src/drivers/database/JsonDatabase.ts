@@ -3,13 +3,11 @@ import { join } from 'path'
 import { IDatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
 import { DatabaseOptions } from './index'
 import { TableParams } from '@entities/app/table/TableParams'
-import { RecordData } from '@entities/services/database/record/RecordData'
-import { FilterParams } from '@entities/services/database/filter/FilterParams'
-import { RecordToDeleteData } from '@entities/services/database/record/state/toDelete/RecordToDeleteData'
-import { RecordToUpdateData } from '@entities/services/database/record/state/toUpdate/RecordToUpdateData'
+import { PersistedRecordDto, RecordToDeleteDto, RecordToUpdateDto } from '@adapters/dtos/RecordDto'
+import { FilterDto } from '@adapters/dtos/FilterDto'
 
 interface Database {
-  [key: string]: RecordData[]
+  [key: string]: PersistedRecordDto[]
 }
 
 export class JsonDatabase implements IDatabaseDriver {
@@ -46,7 +44,7 @@ export class JsonDatabase implements IDatabaseDriver {
     await fs.outputJSON(this.url, db, { spaces: 2 })
   }
 
-  async create(tableName: string, record: RecordData): Promise<string> {
+  async create(tableName: string, record: PersistedRecordDto): Promise<string> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
     const autonumberField = this.getTable(tableName).fields.find(
@@ -61,7 +59,7 @@ export class JsonDatabase implements IDatabaseDriver {
     return String(record.id)
   }
 
-  async createMany(tableName: string, records: RecordData[]): Promise<string[]> {
+  async createMany(tableName: string, records: PersistedRecordDto[]): Promise<string[]> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
     const autonumberField = this.getTable(tableName).fields.find(
@@ -79,7 +77,7 @@ export class JsonDatabase implements IDatabaseDriver {
     return records.map((record) => String(record.id))
   }
 
-  async update(table: string, record: RecordToUpdateData | RecordToDeleteData): Promise<void> {
+  async update(table: string, record: RecordToUpdateDto | RecordToDeleteDto): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const index = db[table].findIndex((row) => row.id === record.id)
@@ -90,7 +88,7 @@ export class JsonDatabase implements IDatabaseDriver {
 
   async updateMany(
     table: string,
-    records: (RecordToUpdateData | RecordToDeleteData)[]
+    records: (RecordToUpdateDto | RecordToDeleteDto)[]
   ): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
@@ -102,7 +100,7 @@ export class JsonDatabase implements IDatabaseDriver {
     await this.setDB(db)
   }
 
-  async list(table: string, filters: FilterParams[] = []): Promise<RecordData[]> {
+  async list(table: string, filters: FilterDto[] = []): Promise<PersistedRecordDto[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const records = db[table]
@@ -123,7 +121,7 @@ export class JsonDatabase implements IDatabaseDriver {
     })
   }
 
-  async read(table: string, id: string): Promise<RecordData | undefined> {
+  async read(table: string, id: string): Promise<PersistedRecordDto | undefined> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const recordDto = db[table].find((row) => row.id === id)

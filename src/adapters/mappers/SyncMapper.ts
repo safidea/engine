@@ -82,7 +82,7 @@ export class SyncMapper {
     const recordsByTablesDto: SyncRecordsByTableDto = {}
     for (const tableName in recordsByTables) {
       const records = recordsByTables[tableName]
-      recordsByTablesDto[tableName] = RecordMapper.toManyDtos(records)
+      recordsByTablesDto[tableName] = RecordMapper.toManyPersistedDtos(records)
     }
     return recordsByTablesDto
   }

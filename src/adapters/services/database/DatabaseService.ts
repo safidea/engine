@@ -13,6 +13,8 @@ import { MultipleLinkedRecordsField } from '@entities/app/table/field/multipleLi
 import { Scripter } from '@entities/services/scripter/Scripter'
 import { TableList } from '@entities/app/table/TableList'
 import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
+import { RecordMapper } from '@adapters/mappers/RecordMapper'
+import { FilterMapper } from '@adapters/mappers/FilterMapper'
 
 export class DatabaseService implements IDatabaseService {
   private emit?: Emit
@@ -34,10 +36,10 @@ export class DatabaseService implements IDatabaseService {
   }
 
   async create(table: Table, record: RecordToCreate): Promise<string> {
-    const recordData = record.data()
-    const id = await this.driver.create(table.name, recordData)
+    const recordDto = RecordMapper.toCreateDto(record)
+    const id = await this.driver.create(table.name, recordDto)
     if (this.emit) {
-      const persistedRecord = await this.buildPersistedRecord(recordData, table)
+      const persistedRecord = await this.buildPersistedRecord(recordDto, table)
       await this.emit({
         event: 'record_created',
         context: { table: table.name, record: persistedRecord.dataWithLinkedRecordsData() },
@@ -47,8 +49,8 @@ export class DatabaseService implements IDatabaseService {
   }
 
   async createMany(table: Table, records: RecordToCreate[]): Promise<string[]> {
-    const recordsData = records.map((r) => r.data())
-    const ids = await this.driver.createMany(table.name, recordsData)
+    const recordsDtos = RecordMapper.toManyCreatesDtos(records)
+    const ids = await this.driver.createMany(table.name, recordsDtos)
     if (this.emit)
       for (const record of records) {
         const persistedRecord = await this.buildPersistedRecord(record.data(), table)
@@ -61,8 +63,8 @@ export class DatabaseService implements IDatabaseService {
   }
 
   async softUpdate(table: Table, record: RecordToUpdate): Promise<void> {
-    const recordData = record.toUpdateData()
-    await this.driver.update(table.name, recordData)
+    const recordDto = RecordMapper.toUpdateDto(record)
+    await this.driver.update(table.name, recordDto)
     if (this.emit) {
       const persistedRecord = await this.buildPersistedRecord(record.data(), table)
       await this.emit({
@@ -77,8 +79,8 @@ export class DatabaseService implements IDatabaseService {
   }
 
   async softUpdateMany(table: Table, records: RecordToUpdate[]): Promise<void> {
-    const recordsData = records.map((r) => r.toUpdateData())
-    await this.driver.updateMany(table.name, recordsData)
+    const recordsDtos = RecordMapper.toManyUpdatesDtos(records)
+    await this.driver.updateMany(table.name, recordsDtos)
     if (this.emit)
       for (const record of records) {
         const persistedRecord = await this.buildPersistedRecord(record.data(), table)
@@ -94,33 +96,31 @@ export class DatabaseService implements IDatabaseService {
   }
 
   async softDelete(table: Table, record: RecordToDelete): Promise<void> {
-    const recordData = record.toDeleteData()
-    await this.driver.update(table.name, recordData)
+    const recordDto = RecordMapper.toDeleteDto(record)
+    await this.driver.update(table.name, recordDto)
     //if (this.emit) await this.emit('record_deleted', { table: table.name, record: recordData })
   }
 
   async softDeleteMany(table: Table, records: RecordToDelete[]): Promise<void> {
-    const recordsData = records.map((r) => r.toDeleteData())
-    await this.driver.updateMany(table.name, recordsData)
+    const recordsDtos = RecordMapper.toManyDeletesDtos(records)
+    await this.driver.updateMany(table.name, recordsDtos)
     //if (this.emit) for (const id of ids) await this.emit('record_deleted', { table: table.name, id })
   }
 
   async list(table: Table, filters: Filter[]): Promise<PersistedRecord[]> {
-    const filtersParams = filters.map((f) => f.params)
-    const recordsData = await this.driver.list(table.name, filtersParams)
-    return Promise.all(
-      recordsData.map((recordData) => this.buildPersistedRecord(recordData, table))
-    )
+    const filtersDtos = FilterMapper.toManyDtos(filters)
+    const recordsDtos = await this.driver.list(table.name, filtersDtos)
+    return Promise.all(recordsDtos.map((recordDto) => this.buildPersistedRecord(recordDto, table)))
   }
 
   async read(table: Table, id: string): Promise<PersistedRecord | undefined> {
-    const recordData = await this.driver.read(table.name, id)
-    if (!recordData) return undefined
-    return this.buildPersistedRecord(recordData, table)
+    const recordDto = await this.driver.read(table.name, id)
+    if (!recordDto) return undefined
+    return this.buildPersistedRecord(recordDto, table)
   }
 
   private async buildPersistedRecord(recordData: RecordData, table: Table) {
-    const record = new PersistedRecord(recordData, table)
+    const record = RecordMapper.toPersisted(recordData, table)
     await this.runRecordFormulas(record, table)
     await this.replaceLinkedRecordsIdsByData(record, table)
     return record

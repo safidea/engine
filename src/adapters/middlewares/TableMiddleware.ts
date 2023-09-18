@@ -38,7 +38,7 @@ export class TableMiddleware {
         const filtersDto = await this.tableValidator.extractAndValidateFilters(request)
         const filters = FilterMapper.toManyFilters(filtersDto)
         const records = await this.tableController.list(table, filters)
-        const recordsDtos = RecordMapper.toManyDtos(records)
+        const recordsDtos = RecordMapper.toManyPersistedDtos(records)
         return { json: { records: recordsDtos } }
       } catch (error) {
         return this.catchError(error)
@@ -50,7 +50,7 @@ export class TableMiddleware {
     return async (request: ServerRequest): Promise<ServerResponse> => {
       try {
         const record = await this.tableValidator.validateRecordExist(request, table)
-        const recordDto = RecordMapper.toDto(record)
+        const recordDto = RecordMapper.toPersistedDto(record)
         return { json: { record: recordDto } }
       } catch (error) {
         return this.catchError(error)

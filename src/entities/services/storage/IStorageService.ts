@@ -1,12 +1,12 @@
 import { Emit } from '@entities/app/automation/AutomationList'
-import { FileParams } from './file/FileParams'
 import { File } from './file/File'
+import { Bucket } from '@entities/app/bucket/Bucket'
 
 export interface IStorageService {
   listen(emit: Emit): Promise<void>
-  upload(bucket: string, file: File): Promise<string>
-  uploadMany(bucket: string, files: File[]): Promise<string[]>
-  read(bucket: string, filename: string): Promise<FileParams | undefined>
-  list(bucket: string, filenames?: string[]): Promise<FileParams[]>
+  upload(bucket: Bucket, file: File): Promise<string>
+  uploadMany(bucket: Bucket, files: File[]): Promise<string[]>
+  read(bucket: Bucket, filename: string): Promise<File | undefined>
+  list(bucket: Bucket, filenames?: string[]): Promise<File[]>
   readStaticFile(path: string): string
 }

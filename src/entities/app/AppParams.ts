@@ -2,6 +2,7 @@ import * as t from 'io-ts'
 import { AutomationParams } from './automation/AutomationParams'
 import { PageParams } from './page/PageParams'
 import { TableParams } from './table/TableParams'
+import { BucketParams } from './bucket/BucketParams'
 
 export const AppParams = t.partial({
   name: t.string,
@@ -9,7 +10,7 @@ export const AppParams = t.partial({
   pages: t.array(PageParams),
   tables: t.array(TableParams),
   automations: t.array(AutomationParams),
-  tmpFolder: t.string,
+  buckets: t.array(BucketParams),
 })
 
 export type AppParams = t.TypeOf<typeof AppParams>

@@ -1,16 +1,46 @@
-import { PersistedRecordDto, RecordToCreateDto, RecordToUpdateDto } from '@adapters/dtos/RecordDto'
+import {
+  PersistedRecordDto,
+  RecordToCreateDto,
+  RecordToDeleteDto,
+  RecordToUpdateDto,
+} from '@adapters/dtos/RecordDto'
 import { Table } from '@entities/app/table/Table'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
 import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
+import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 
 export class RecordMapper {
+  static toPersisted(record: PersistedRecordDto, table: Table): PersistedRecord {
+    return new PersistedRecord(record, table)
+  }
+
+  static toManyPersisted(records: PersistedRecordDto[], table: Table): PersistedRecord[] {
+    return records.map((record) => this.toPersisted(record, table))
+  }
+  
+  static toPersistedDto(record: PersistedRecord): PersistedRecordDto {
+    return record.data()
+  }
+
+  static toManyPersistedDtos(records: PersistedRecord[]): PersistedRecordDto[] {
+    return records.map((record) => this.toPersistedDto(record))
+  }
+
   static toCreate(dto: RecordToCreateDto, table: Table): RecordToCreate {
     return new RecordToCreate(dto, table)
   }
 
   static toManyCreates(dtos: RecordToCreateDto[], table: Table): RecordToCreate[] {
     return dtos.map((dto) => this.toCreate(dto, table))
+  }
+
+  static toCreateDto(record: RecordToCreate): PersistedRecordDto {
+    return record.data()
+  }
+
+  static toManyCreatesDtos(records: RecordToCreate[]): PersistedRecordDto[] {
+    return records.map((record) => this.toCreateDto(record))
   }
 
   static toUpdate(
@@ -21,15 +51,19 @@ export class RecordMapper {
     return new RecordToUpdate(persistedRecord.data(), table, dto)
   }
 
-  static toDto(record: PersistedRecord): PersistedRecordDto {
-    return record.data()
+  static toUpdateDto(record: RecordToUpdate): RecordToUpdateDto {
+    return record.toUpdateData()
   }
 
-  static toManyDtos(records: PersistedRecord[]): PersistedRecordDto[] {
-    return records.map((record) => this.toDto(record))
+  static toManyUpdatesDtos(records: RecordToUpdate[]): RecordToUpdateDto[] {
+    return records.map((record) => this.toUpdateDto(record))
   }
 
-  static toManyPersisted(records: PersistedRecordDto[], table: Table): PersistedRecord[] {
-    return records.map((record) => new PersistedRecord(record, table))
+  static toDeleteDto(record: RecordToDelete): RecordToDeleteDto {
+    return record.toDeleteData()
+  }
+
+  static toManyDeletesDtos(records: RecordToDelete[]): RecordToDeleteDto[] {
+    return records.map((record) => this.toDeleteDto(record))
   }
 }
