@@ -4,7 +4,7 @@ import type { StorybookConfig } from '@storybook/react-webpack5'
 import path from 'path'
 
 const config: StorybookConfig = {
-  stories: ['../test/ui/**/*.stories.tsx'],
+  stories: ['../src/drivers/ui/**/*.stories.tsx'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
