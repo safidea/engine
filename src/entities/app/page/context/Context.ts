@@ -3,6 +3,10 @@ import { ContextParams } from './ContextParams'
 export class Context {
   constructor(readonly context: ContextParams) {}
 
+  get path() {
+    return this.context.path
+  }
+
   getValue(path: string) {
     const parts = path.replace(/{{|}}/g, '').split('.')
     switch (parts[0]) {

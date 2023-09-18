@@ -1,6 +1,6 @@
 import { App } from '@entities/app/App'
 import { Page } from '@entities/app/page/Page'
-import { PageContext } from '@entities/app/page/context/Context'
+import { Context } from '@entities/app/page/context/Context'
 import { PageParams } from '@entities/app/page/PageParams'
 import { TableParams } from '@entities/app/table/TableParams'
 import ReactDOMServer from 'react-dom/server'
@@ -15,10 +15,10 @@ export interface EngineData {
 export class PageController {
   constructor(private readonly app: App) {}
 
-  async renderHtml(page: Page, context: PageContext): Promise<string> {
+  async renderHtml(page: Page, context: Context): Promise<string> {
     const data: EngineData = {
       page: page.params,
-      params: context.params,
+      params: context.path.params,
       tables: this.app.tables.getAllParams(),
       uiDriver: this.app.pages.uiDriver,
     }
