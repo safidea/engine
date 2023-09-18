@@ -1,6 +1,6 @@
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
-import { PageController } from '@adapters/controllers/PageController'
+import { PageController } from '@adapters/controllers/page/PageController'
 import { ServerData } from '@adapters/services/server/ServerData'
 import { AppMapper } from '@adapters/mappers/AppMapper'
 import { UIService } from '@adapters/services/ui/UIService'

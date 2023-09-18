@@ -1,4 +1,4 @@
-import { JsonDatabase } from './JsonDatabase'
+import { JsonDatabase } from './json/JsonDatabase'
 
 export type DatabaseDrivers = 'json'
 export type DatabaseOptions = {

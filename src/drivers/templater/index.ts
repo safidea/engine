@@ -1,4 +1,4 @@
-import { HandlebarsTemplater } from './HandlebarsTemplater'
+import { HandlebarsTemplater } from './handlebars/HandlebarsTemplater'
 
 export type TemplaterDrivers = 'handlebars'
 

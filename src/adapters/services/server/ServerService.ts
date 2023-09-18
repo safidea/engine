@@ -1,8 +1,8 @@
 import { App } from '@entities/app/App'
 import { IServerDriver } from './IServerDriver'
-import { PageMiddleware } from '@adapters/middlewares/PageMiddleware'
-import { TableMiddleware } from '@adapters/middlewares/TableMiddleware'
-import { BucketMiddleware } from '@adapters/middlewares/BucketMiddleware'
+import { PageMiddleware } from '@adapters/middlewares/page/PageMiddleware'
+import { TableMiddleware } from '@adapters/middlewares/table/TableMiddleware'
+import { BucketMiddleware } from '@adapters/middlewares/bucket/BucketMiddleware'
 
 export class ServerService {
   constructor(readonly driver: IServerDriver) {}

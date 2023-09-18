@@ -1,6 +1,6 @@
 import { describe, test, expect } from '@jest/globals'
 import { getUrl, generateRecords } from '../../e2e/helpers'
-import { JsonOrm } from '@drivers/database/JsonDatabase'
+import { JsonOrm } from '@drivers/database/json/JsonDatabase'
 import { getDedicatedTmpFolder } from '../../helpers'
 import INVOICES_TEMPLATE from '../../../e2e/invoices/app'
 

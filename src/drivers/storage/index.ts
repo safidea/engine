@@ -1,4 +1,4 @@
-import { LocalStorage } from './LocalStorage'
+import { LocalStorage } from './local/LocalStorage'
 
 export type StorageDrivers = 'local'
 export type StorageDriverOptions = {
