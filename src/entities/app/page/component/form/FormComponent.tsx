@@ -5,7 +5,7 @@ import { AppServices } from '@entities/app/App'
 import { BaseComponent } from '../base/BaseComponent'
 import { FormComponentUI } from './FormComponentUI'
 import { Table } from '@entities/app/table/Table'
-import { Record } from '@entities/services/database/record/Record'
+import { Record, RecordToPersite } from '@entities/services/database/record/Record'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
 import { PageContext } from '../../PageContext'
@@ -15,6 +15,8 @@ import { RecordToCreate } from '@entities/services/database/record/state/toCreat
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
+import { SyncRecordsByTable, SyncResource } from '@entities/services/fetcher/sync/Sync'
+import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -44,7 +46,7 @@ export class FormComponent extends BaseComponent {
 
     if (this.recordIdToUpdate) {
       defaultRecordId = context.getValue(this.recordIdToUpdate)
-      const resources: FetcherSyncResource[] = this.getFormResources(defaultRecordId)
+      const resources: SyncResource[] = this.getFormResources(defaultRecordId)
       const { tables, error } = await syncRecords({ resources })
       if (error) throw new Error('Sync records error: ' + error)
       defaultRecords = this.getRecordsFromTables(tables)
@@ -66,7 +68,8 @@ export class FormComponent extends BaseComponent {
       const saveRecords = async () => {
         if (isSaving === false) setIsSaving(true)
         const resources = this.getFormResources(recordId)
-        const { error, tables } = await syncRecords({ records, resources })
+        const recordToPersist = this.getRecordsToPersist(records)
+        const { error, tables } = await syncRecords({ records: recordToPersist, resources })
         if (error) {
           setErrorMessage(error)
         } else {
@@ -169,8 +172,8 @@ export class FormComponent extends BaseComponent {
     }
   }
 
-  private getFormResources(defaultRecordId: string): FetcherSyncResource[] {
-    const resources: FetcherSyncResource[] = [
+  private getFormResources(defaultRecordId: string): SyncResource[] {
+    const resources: SyncResource[] = [
       {
         table: this.table,
         filters: [newFilter({ field: 'id', operator: 'is_any_of', value: [defaultRecordId] })],
@@ -185,7 +188,21 @@ export class FormComponent extends BaseComponent {
     return resources
   }
 
-  private getRecordsFromTables(tables: FetcherSyncTablesRecords): Record[] {
+  private getRecordsToPersist(records: Record[]): RecordToPersite[] {
+    const recordsToPersist: RecordToPersite[] = []
+    for (const record of records) {
+      if (
+        record instanceof RecordToCreate ||
+        record instanceof RecordToUpdate ||
+        record instanceof RecordToDelete
+      ) {
+        recordsToPersist.push(record)
+      }
+    }
+    return recordsToPersist
+  }
+
+  private getRecordsFromTables(tables: SyncRecordsByTable): Record[] {
     const records: Record[] = []
     for (const record of Object.values(tables).flat()) {
       if (record) records.push(record)

@@ -13,6 +13,7 @@ import { BucketList } from './bucket/BucketList'
 
 export interface AppConfig {
   readonly tables: TableList
+  readonly buckets: BucketList
 }
 
 export interface AppServices {
@@ -48,10 +49,10 @@ export class App {
     this.name = name
     this.version = version
     this.tables = new TableList(tables, services)
-    const config = { tables: this.tables }
+    this.buckets = new BucketList(buckets, services)
+    const config = { tables: this.tables, buckets: this.buckets }
     this.pages = new PageList(pages, services, config)
     this.automations = new AutomationList(automations, services, config)
-    this.buckets = new BucketList(buckets, services)
   }
 
   async configure(): Promise<void> {

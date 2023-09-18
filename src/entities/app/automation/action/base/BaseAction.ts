@@ -5,6 +5,7 @@ import { ActionError } from '../ActionError'
 import { Table } from '@entities/app/table/Table'
 import { newFilter } from '@entities/services/database/filter/Filter'
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/multipleLinkedRecords/MultipleLinkedRecordsField'
+import { Bucket } from '@entities/app/bucket/Bucket'
 
 export class BaseAction {
   readonly name: string
@@ -28,6 +29,12 @@ export class BaseAction {
     const table = this.config.tables.getByName(tableName)
     if (!table) this.throwError(`table ${tableName} not found`)
     return table
+  }
+
+  getBucketByName(bucketName: string): Bucket {
+    const bucket = this.config.buckets.getByName(bucketName)
+    if (!bucket) this.throwError(`bucket ${bucketName} not found`)
+    return bucket
   }
 
   tableFieldShouldExist(table: Table, fieldName: string): void {

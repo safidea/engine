@@ -4,6 +4,7 @@ import { ITemplaterService } from '@entities/services/templater/ITemplaterServic
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { AppServices } from '@entities/app/App'
 import { CreateFileActionParams } from './CreateFileActionParams'
+import { Bucket } from '@entities/app/bucket/Bucket'
 
 type DataCompiled = { [key: string]: ITemplaterService | string }
 type DataRendered = {
@@ -11,7 +12,7 @@ type DataRendered = {
 }
 
 export class CreateFileAction extends BaseAction {
-  private bucket: string
+  private bucket: Bucket
   private filename: string
   private filenameCompiled: ITemplaterService
   private template: string
@@ -22,7 +23,7 @@ export class CreateFileAction extends BaseAction {
     const { name, type, filename, input, output, template, bucket, data } = params
     const { storage, templater } = services
     super({ name, type }, services, config)
-    this.bucket = bucket
+    this.bucket = this.getBucketByName(bucket)
     this.filename = filename.endsWith(`.${output}`) ? filename : `${filename}.${output}`
     this.filenameCompiled = templater.compile(this.filename)
     if (input === 'html') {

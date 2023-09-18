@@ -5,6 +5,7 @@ import { Action, newAction } from './action/Action'
 import { AutomationParams } from './AutomationParams'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { TriggerEvent } from './trigger/TriggerEvent'
+import { BucketList } from '../bucket/BucketList'
 
 // TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
 
@@ -14,6 +15,7 @@ export interface AutomationContext {
 
 export interface AutomationConfig {
   tables: TableList
+  buckets: BucketList
   automationName: string
 }
 
