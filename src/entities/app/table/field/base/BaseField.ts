@@ -1,4 +1,5 @@
-import { AppServices } from '@entities/app/App'
+import { TableServices } from '@entities/app/table/TableServices'
+
 import { BaseFieldParams, BaseFieldFormat } from './BaseFieldParams'
 
 export interface FieldPermissions {
@@ -19,7 +20,7 @@ export class BaseField {
 
   constructor(
     params: BaseFieldParams,
-    readonly services: AppServices
+    readonly services: TableServices
   ) {
     const { type, name, optional, format, default: defaultValue, permissions } = params
     this.type = type

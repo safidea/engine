@@ -11,7 +11,7 @@ import ContainerUnstyledUI from './ContainerUnstyledUI'
 import { IUIDriver } from '@adapters/services/ui/IUIDriver'
 
 const UnstyledUI: IUIDriver = {
-  name: 'UnstyledUI',
+  name: 'unstyled',
   LinkUI: LinkUnstyledUI,
   ParagraphUI: ParagraphUnstyledUI,
   TitleUI: TitleUnstyledUI,

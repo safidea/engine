@@ -3,16 +3,16 @@ import { AutomationConfig } from '../../../Automation'
 import { BaseTrigger } from '../../base/BaseTrigger'
 import { IsFilter } from '@entities/services/database/filter/is/IsFilter'
 import { RecordUpdatedTriggerParams } from './RecordUpdatedTriggerParams'
-import { AppServices } from '@entities/app/App'
 import { Table } from 'src'
 import { TriggerEvent } from '../../TriggerEvent'
+import { AutomationServices } from '@entities/app/automation/AutomationServices'
 
 export class RecordUpdatedTrigger extends BaseTrigger {
   private table: Table
   private filters: Filter[]
   private fields: string[] = []
 
-  constructor(params: RecordUpdatedTriggerParams, services: AppServices, config: AutomationConfig) {
+  constructor(params: RecordUpdatedTriggerParams, services: AutomationServices, config: AutomationConfig) {
     const { event, table: tableName, fields = [], filters = [] } = params
     super({ event }, services, config)
     this.table = this.getTableByName(tableName)

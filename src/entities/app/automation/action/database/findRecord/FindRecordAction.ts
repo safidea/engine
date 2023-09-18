@@ -2,14 +2,18 @@ import { BaseAction } from '../../base/BaseAction'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { FindRecordActionParams } from './FindRecordActionParams'
-import { AppServices } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
+import { AutomationServices } from '@entities/app/automation/AutomationServices'
 
 export class FindRecordAction extends BaseAction {
   private table: Table
   private recordIdCompiled: ITemplaterService
 
-  constructor(params: FindRecordActionParams, services: AppServices, config: AutomationConfig) {
+  constructor(
+    params: FindRecordActionParams,
+    services: AutomationServices,
+    config: AutomationConfig
+  ) {
     const { name, type, table: tableName, recordId } = params
     super({ name, type }, services, config)
     this.table = this.getTableByName(tableName)
@@ -25,5 +29,4 @@ export class FindRecordAction extends BaseAction {
     const { data } = await this.createContextFromRecord(this.table, record.id)
     return { [this.name]: data }
   }
-  
 }

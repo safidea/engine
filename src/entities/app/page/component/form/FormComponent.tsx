@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { PageConfig } from '../../Page'
 import { FormComponentParams } from './FormComponentParams'
-import { AppServices } from '@entities/app/App'
 import { BaseComponent } from '../base/BaseComponent'
 import { FormComponentUI } from './FormComponentUI'
 import { Table } from '@entities/app/table/Table'
@@ -17,6 +16,7 @@ import { PersistedRecord } from '@entities/services/database/record/state/persis
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { SyncRecordsByTable, SyncResource } from '@entities/services/fetcher/sync/Sync'
 import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
+import { PageServices } from '../../PageServices'
 
 export interface FormConfig extends PageConfig {
   formTableName: string
@@ -28,7 +28,7 @@ export class FormComponent extends BaseComponent {
   readonly recordIdToUpdate?: string
   readonly table: Table
 
-  constructor(params: FormComponentParams, services: AppServices, config: PageConfig) {
+  constructor(params: FormComponentParams, services: PageServices, config: PageConfig) {
     const { type, submit, recordIdToUpdate, table: tableName, inputs } = params
     super({ type }, services, config)
     this.submit = submit

@@ -17,13 +17,13 @@ export interface AppConfig {
 }
 
 export interface AppServices {
-  readonly templater: ITemplaterService
-  readonly converter: IConverterService
-  readonly storage: IStorageService
-  readonly database: IDatabaseService
-  readonly fetcher: IFetcherService
-  readonly logger: ILoggerService
-  readonly ui: IUIService
+  readonly ui?: IUIService
+  readonly fetcher?: IFetcherService
+  readonly templater?: ITemplaterService
+  readonly converter?: IConverterService
+  readonly storage?: IStorageService
+  readonly database?: IDatabaseService
+  readonly logger?: ILoggerService
 }
 
 export class App {
@@ -56,13 +56,12 @@ export class App {
   }
 
   async configure(): Promise<void> {
-    const { tables, automations } = this.params
-    if (tables) {
-      await this.services.database.configure(this.tables)
+    if (this.tables.exist()) {
+      await this.tables.services.database.configure(this.tables)
     }
-    if (automations) {
-      await this.services.database.listen(this.automations.emit)
-      await this.services.storage.listen(this.automations.emit)
+    if (this.automations.exist()) {
+      await this.automations.services.database.listen(this.automations.emit)
+      await this.automations.services.storage.listen(this.automations.emit)
     }
   }
 }

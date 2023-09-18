@@ -3,14 +3,18 @@ import { Page } from './Page'
 import { AppError } from '../AppError'
 import { PageParams } from './PageParams'
 import { AppServices, AppConfig } from '../App'
+import { PageServices } from './PageServices'
 
 export class PageList {
-  public readonly uiDriver: string
   private readonly pages: Page[]
+  readonly services: PageServices
 
   constructor(pages: PageParams[], services: AppServices, config: AppConfig) {
-    this.pages = pages.map((page) => new Page(page, services, config))
-    this.uiDriver = services.ui.driverName
+    const { ui, fetcher } = services
+    if (!ui) throw new AppError('UI service is required')
+    if (!fetcher) throw new AppError('Fetcher service is required')
+    this.services = { ui, fetcher }
+    this.pages = pages.map((page) => new Page(page, this.services, config))
   }
 
   async renderByPath(path: string, context: Context): Promise<React.FC> {

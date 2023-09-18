@@ -9,7 +9,7 @@ export class BucketValidator {
 
   public async validateFileExist(request: ServerRequest, bucket: Bucket): Promise<File> {
     const { filename } = request.params ?? {}
-    const file = await this.app.services.storage.read(bucket, filename)
+    const file = await this.app.buckets.services.storage.read(bucket, filename)
     if (!file) throw new ApiError(`file "${filename}" does not exist in bucket ${bucket}`, 404)
     return file
   }

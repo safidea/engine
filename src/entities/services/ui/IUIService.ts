@@ -8,9 +8,10 @@ import { ListUI } from '@entities/app/page/component/list/ListComponentUI'
 import { NavigationUI } from '@entities/app/page/component/navigation/NavigationComponentUI'
 import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
+import { UIDrivers } from './UIDrivers'
 
 export interface IUIService {
-  driverName: string
+  driverName: UIDrivers
   getTitle: () => TitleUI
   getParagraph: () => ParagraphUI
   getNavigation: () => NavigationUI

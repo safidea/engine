@@ -1,10 +1,10 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { TableInputComponentParams } from './TableInputComponentParams'
-import { AppServices } from '@entities/app/App'
 import { FormConfig } from '../../FormComponent'
 import { ComponentError } from '../../../ComponentError'
 import { TableInputComponentUI } from './TableInputComponentUI'
+import { PageServices } from '@entities/app/page/PageServices'
 
 export type Column = {
   label: string
@@ -16,7 +16,7 @@ export class TableInputComponent extends BaseInputComponent {
   readonly addLabel?: string
   readonly columns: Column[]
 
-  constructor(params: TableInputComponentParams, services: AppServices, config: FormConfig) {
+  constructor(params: TableInputComponentParams, services: PageServices, config: FormConfig) {
     const { type, field, label, addLabel, columns } = params
     super({ type, field, label }, services, config)
     for (const column of columns) {

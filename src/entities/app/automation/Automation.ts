@@ -1,11 +1,12 @@
 import { Trigger, newTrigger } from './trigger/Trigger'
 import { TableList } from '../table/TableList'
-import { AppConfig, AppServices } from '../App'
+import { AppConfig } from '../App'
 import { Action, newAction } from './action/Action'
 import { AutomationParams } from './AutomationParams'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { TriggerEvent } from './trigger/TriggerEvent'
 import { BucketList } from '../bucket/BucketList'
+import { AutomationServices } from './AutomationServices'
 
 // TODO: mettre à jour ESLINT pour rajouter une règle disant que nous n'avons pas le droit autre chose que le domaine
 
@@ -24,7 +25,7 @@ export class Automation {
   private trigger: Trigger
   private actions: Action[]
 
-  constructor(params: AutomationParams, services: AppServices, config: AppConfig) {
+  constructor(params: AutomationParams, services: AutomationServices, config: AppConfig) {
     const { name, trigger: triggerParams, actions: actionsParams } = params
     this.name = name
     const automationConfig = { ...config, automationName: name }

@@ -53,7 +53,7 @@ export class TableValidator {
 
   public async validateRecordExist(request: ServerRequest, table: Table): Promise<PersistedRecord> {
     const { id } = request.params ?? {}
-    const record = await this.app.services.database.read(table, id)
+    const record = await this.app.tables.services.database.read(table, id)
     if (!record) throw new ApiError(`record "${id}" does not exist in table "${table}"`, 404)
     return record
   }

@@ -1,15 +1,15 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
 import { ParagraphComponentParams, ParagraphSize } from './ParagraphComponentParams'
-import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { ParagraphComponentUI } from './ParagraphComponentUI'
+import { PageServices } from '../../PageServices'
 
 export class ParagraphComponent extends BaseComponent {
   readonly text: string
   readonly size?: ParagraphSize
 
-  constructor(params: ParagraphComponentParams, services: AppServices, config: PageConfig) {
+  constructor(params: ParagraphComponentParams, services: PageServices, config: PageConfig) {
     const { type, text, size } = params
     super({ type }, services, config)
     this.text = text

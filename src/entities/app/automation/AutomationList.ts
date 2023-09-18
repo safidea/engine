@@ -1,15 +1,26 @@
 import { AppServices, AppConfig } from '../App'
 import { Automation } from './Automation'
 import { AutomationParams } from './AutomationParams'
+import { AutomationServices } from './AutomationServices'
 import { TriggerEvent } from './trigger/TriggerEvent'
 
 export type Emit = (event: TriggerEvent) => Promise<void>
 
 export class AutomationList {
   private readonly automations: Automation[]
+  readonly services: AutomationServices
 
   constructor(automations: AutomationParams[], services: AppServices, config: AppConfig) {
-    this.automations = automations.map((automation) => new Automation(automation, services, config))
+    const { database, storage, templater, converter, logger } = services
+    if (!database) throw new Error('Database service is required')
+    if (!storage) throw new Error('Storage service is required')
+    if (!templater) throw new Error('Templater service is required')
+    if (!converter) throw new Error('Converter service is required')
+    if (!logger) throw new Error('Logger service is required')
+    this.services = { database, storage, templater, converter, logger }
+    this.automations = automations.map(
+      (automation) => new Automation(automation, this.services, config)
+    )
   }
 
   getByName(automationName: string): Automation | undefined {

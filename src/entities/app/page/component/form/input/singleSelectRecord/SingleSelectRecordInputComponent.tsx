@@ -1,11 +1,11 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { SingleSelectRecordInputComponentParams } from './SingleSelectRecordInputComponentParams'
-import { AppServices } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 import { SingleSelectInputComponentUI } from '../singleSelect/SingleSelectInputComponentUI'
 import { Record } from '@entities/services/database/record/Record'
 import { FormConfig } from '../../FormComponent'
+import { PageServices } from '@entities/app/page/PageServices'
 
 export class SingleSelectRecordInputComponent extends BaseInputComponent {
   readonly table: Table
@@ -14,7 +14,7 @@ export class SingleSelectRecordInputComponent extends BaseInputComponent {
 
   constructor(
     params: SingleSelectRecordInputComponentParams,
-    services: AppServices,
+    services: PageServices,
     config: FormConfig
   ) {
     const { type, field, label, placeholder, table: tableName, fieldForOptionLabel } = params

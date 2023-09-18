@@ -1,14 +1,14 @@
 import React from 'react'
 import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { TextInputComponentParams } from './TextInputComponentParams'
-import { AppServices } from '@entities/app/App'
 import { FormConfig } from '../../FormComponent'
 import { TextInputComponentUI } from './TextInputComponentUI'
+import { PageServices } from '@entities/app/page/PageServices'
 
 export class TextInputComponent extends BaseInputComponent {
   readonly placeholder?: string
 
-  constructor(params: TextInputComponentParams, services: AppServices, config: FormConfig) {
+  constructor(params: TextInputComponentParams, services: PageServices, config: FormConfig) {
     const { type, field, label, placeholder } = params
     super({ type, field, label }, services, config)
     this.placeholder = placeholder

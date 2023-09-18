@@ -1,16 +1,16 @@
-import { AppServices } from '../../App'
 import { ActionParams } from './ActionParams'
 import { AutomationConfig } from '../Automation'
 import { CreateFileAction } from './storage/createFile/CreateFileAction'
 import { FindRecordAction } from './database/findRecord/FindRecordAction'
 import { LogAction } from './log/LogAction'
 import { UpdateRecordAction } from './database/updateRecord/UpdateRecordAction'
+import { AutomationServices } from '../AutomationServices'
 
 export type Action = CreateFileAction | FindRecordAction | LogAction | UpdateRecordAction
 
 export function newAction(
   params: ActionParams,
-  services: AppServices,
+  services: AutomationServices,
   config: AutomationConfig
 ): Action {
   switch (params.type) {

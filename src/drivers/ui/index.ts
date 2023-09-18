@@ -1,8 +1,7 @@
 import UnstyledUI from './UnstyledUI'
 import TailwindUI from './TailwindUI'
 import { IUIDriver } from '@adapters/services/ui/IUIDriver'
-
-export type UIDrivers = 'unstyled' | 'tailwind'
+import { UIDrivers } from '@entities/services/ui/UIDrivers'
 
 export function getUIDriver(ui: UIDrivers = 'unstyled'): IUIDriver {
   switch (ui) {

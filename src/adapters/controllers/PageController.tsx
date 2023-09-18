@@ -1,26 +1,18 @@
 import { App } from '@entities/app/App'
 import { Page } from '@entities/app/page/Page'
 import { Context } from '@entities/app/page/context/Context'
-import { PageParams } from '@entities/app/page/PageParams'
-import { TableParams } from '@entities/app/table/TableParams'
 import ReactDOMServer from 'react-dom/server'
-
-export interface EngineData {
-  page: PageParams
-  tables: TableParams[]
-  params: { [key: string]: string }
-  uiDriver: string
-}
+import { ServerData } from '@adapters/services/server/ServerData'
 
 export class PageController {
   constructor(private readonly app: App) {}
 
   async renderHtml(page: Page, context: Context): Promise<string> {
-    const data: EngineData = {
+    const data: ServerData = {
       page: page.params,
       params: context.path.params,
       tables: this.app.tables.getAllParams(),
-      uiDriver: this.app.pages.uiDriver,
+      uiDriver: this.app.pages.services.ui.driverName,
     }
     const Page = await page.render(context)
     const html = ReactDOMServer.renderToString(<Page />)
@@ -30,7 +22,7 @@ export class PageController {
         <head>
           <title>${page.title}</title>
           <script>
-            window.__FOUNDATION_DATA__ = ${JSON.stringify(data)}
+            window.__ENGINE_DATA__ = ${JSON.stringify(data)}
           </script>
           <link href="/output.css" rel="stylesheet">
         </head>

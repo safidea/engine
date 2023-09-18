@@ -1,5 +1,4 @@
 import { ComponentParams } from './ComponentParams'
-import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../Page'
 import { ContainerComponent } from './container/ContainerComponent'
 import { FormComponent } from './form/FormComponent'
@@ -8,6 +7,7 @@ import { ListComponent } from './list/ListComponent'
 import { TitleComponent } from './title/TitleComponent'
 import { NavigationComponent } from './navigation/NavigationComponent'
 import { ParagraphComponent } from './paragraph/ParagraphComponent'
+import { PageServices } from '../PageServices'
 
 export type Component =
   | LinkComponent
@@ -20,7 +20,7 @@ export type Component =
 
 export function newComponent(
   params: ComponentParams,
-  services: AppServices,
+  services: PageServices,
   config: PageConfig
 ): Component {
   switch (params.type) {

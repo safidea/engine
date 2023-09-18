@@ -1,4 +1,5 @@
-import { AppServices } from '@entities/app/App'
+import { TableServices } from '@entities/app/table/TableServices'
+
 import { FieldParams } from './FieldParams'
 import { AutonumberField } from './autonumber/AutonumberField'
 import { CurrencyField } from './currency/CurrencyField'
@@ -27,7 +28,7 @@ export type Field =
   | AutonumberField
   | UrlField
 
-export function newField(params: FieldParams, services: AppServices): Field {
+export function newField(params: FieldParams, services: TableServices): Field {
   switch (params.type) {
     case 'currency':
       return new CurrencyField(params, services)

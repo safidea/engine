@@ -1,10 +1,10 @@
-import { AppServices } from '@entities/app/App'
 import { InputComponentParams } from './InputComponentParams'
 import { SingleSelectInputComponent } from './singleSelect/SingleSelectInputComponent'
 import { SingleSelectRecordInputComponent } from './singleSelectRecord/SingleSelectRecordInputComponent'
 import { TableInputComponent } from './table/TableInputComponent'
 import { TextInputComponent } from './text/TextInputComponent'
 import { FormConfig } from '../FormComponent'
+import { PageServices } from '@entities/app/page/PageServices'
 
 export type InputComponent =
   | TableInputComponent
@@ -14,7 +14,7 @@ export type InputComponent =
 
 export function newInput(
   params: InputComponentParams,
-  services: AppServices,
+  services: PageServices,
   config: FormConfig
 ): InputComponent {
   switch (params.type) {

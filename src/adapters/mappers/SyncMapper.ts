@@ -94,7 +94,7 @@ export class SyncMapper {
   }
 
   private static async getRecordById(id: string, table: string, app: App) {
-    const record = await app.services.database.read(this.getTableByName(table, app), id)
+    const record = await app.tables.services.database.read(this.getTableByName(table, app), id)
     if (!record) throw new Error(`Record ${id} not found in table ${table}`)
     return record
   }

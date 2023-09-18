@@ -1,9 +1,10 @@
 import React from 'react'
-import { AppServices, AppConfig } from '../App'
+import { AppConfig } from '../App'
 import { TableList } from '../table/TableList'
 import { Context } from './context/Context'
 import { PageParams } from './PageParams'
 import { Component, newComponent } from './component/Component'
+import { PageServices } from './PageServices'
 
 export interface PageConfig {
   tables: TableList
@@ -16,7 +17,7 @@ export class Page {
 
   constructor(
     readonly params: PageParams,
-    services: AppServices,
+    services: PageServices,
     config: AppConfig
   ) {
     this.path = params.path

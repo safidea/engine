@@ -1,5 +1,5 @@
-import { AppServices } from '../App'
 import { TableParams } from './TableParams'
+import { TableServices } from './TableServices'
 import { Field, newField } from './field/Field'
 import { MultipleLinkedRecordsField } from './field/multipleLinkedRecords/MultipleLinkedRecordsField'
 import { SingleLinkedRecordField } from './field/singleLinkedRecord/SingleLinkedRecordField'
@@ -10,7 +10,7 @@ export class Table {
 
   constructor(
     readonly params: TableParams,
-    services: AppServices
+    services: TableServices
   ) {
     const { name, fields } = params
     this.name = name

@@ -11,7 +11,7 @@ import ContainerTailwindUI from './ContainerTailwindUI'
 import { IUIDriver } from '@adapters/services/ui/IUIDriver'
 
 const TailwindUI: IUIDriver = {
-  name: 'TailwindUI',
+  name: 'tailwind',
   LinkUI: LinkTailwindUI,
   ParagraphUI: ParagraphTailwindUI,
   TitleUI: TitleTailwindUI,

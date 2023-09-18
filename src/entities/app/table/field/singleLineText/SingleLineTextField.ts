@@ -1,9 +1,10 @@
-import { AppServices } from '@entities/app/App'
+import { TableServices } from '@entities/app/table/TableServices'
+
 import { BaseField } from '../base/BaseField'
 import { SingleLineTextFieldParams } from './SingleLineTextFieldParams'
 
 export class SingleLineTextField extends BaseField {
-  constructor(params: SingleLineTextFieldParams, services: AppServices) {
+  constructor(params: SingleLineTextFieldParams, services: TableServices) {
     super(params, services)
   }
 }

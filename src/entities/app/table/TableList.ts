@@ -1,12 +1,17 @@
 import { AppServices } from '../App'
 import { Table } from './Table'
 import { TableParams } from './TableParams'
+import { TableServices } from './TableServices'
 
 export class TableList {
   private readonly tables: Table[]
+  readonly services: TableServices
 
   constructor(tables: TableParams[], services: AppServices) {
-    this.tables = tables.map((table) => new Table(table, services))
+    const { database } = services
+    if (!database) throw new Error('Database service is required')
+    this.services = { database }
+    this.tables = tables.map((table) => new Table(table, this.services))
   }
 
   getByName(tableName: string): Table | undefined {

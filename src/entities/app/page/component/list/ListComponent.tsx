@@ -2,10 +2,10 @@ import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
 import { Record } from '@entities/services/database/record/Record'
 import { Column, GroupBy, ListComponentParams, SortBy } from './ListComponentParams'
-import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { Table } from '@entities/app/table/Table'
 import { GroupType, ListComponentUI } from './ListComponentUI'
+import { PageServices } from '../../PageServices'
 
 export interface ColumnOption {
   name: string
@@ -22,7 +22,7 @@ export class ListComponent extends BaseComponent {
   private readonly sortBy: SortBy[]
   private readonly columns: Column[]
 
-  constructor(params: ListComponentParams, services: AppServices, config: PageConfig) {
+  constructor(params: ListComponentParams, services: PageServices, config: PageConfig) {
     const { type, table: tableName, groupBy, sortBy, columns } = params
     super({ type }, services, config)
     this.table = this.getTableByName(tableName)

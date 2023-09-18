@@ -2,19 +2,19 @@ import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
 import { TitleComponent } from '../title/TitleComponent'
 import { NavigationComponentParams } from './NavigationComponentParams'
-import { AppServices } from '@entities/app/App'
 import { PageConfig } from '../../Page'
 import { NavigationComponentUI } from './NavigationComponentUI'
 import { LinkComponent } from '../link/LinkComponent'
 import { Component, newComponent } from '../Component'
 import { Context } from '../../context/Context'
+import { PageServices } from '../../PageServices'
 
 export class NavigationComponent extends BaseComponent {
   readonly title: TitleComponent
   readonly links: LinkComponent[]
   readonly components: Component[]
 
-  constructor(params: NavigationComponentParams, services: AppServices, config: PageConfig) {
+  constructor(params: NavigationComponentParams, services: PageServices, config: PageConfig) {
     const { type, title, links, components } = params
     super({ type }, services, config)
     this.title = new TitleComponent(title, services, config)

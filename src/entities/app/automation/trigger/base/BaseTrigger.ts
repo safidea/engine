@@ -1,4 +1,3 @@
-import { AppServices } from '@entities/app/App'
 import { AutomationConfig } from '../../Automation'
 import { BaseTriggerParams } from './BaseTriggerParams'
 import { Table } from '@entities/app/table/Table'
@@ -6,13 +5,14 @@ import { TriggerError } from '../TriggerError'
 import { FilterParams } from '@entities/services/database/filter/FilterParams'
 import { Filter, newFilter } from '@entities/services/database/filter/Filter'
 import { TriggerParams } from '../TriggerParams'
+import { AutomationServices } from '../../AutomationServices'
 
 export class BaseTrigger {
   readonly event: TriggerParams['event']
 
   constructor(
     options: BaseTriggerParams,
-    readonly services: AppServices,
+    readonly services: AutomationServices,
     readonly config: AutomationConfig
   ) {
     const { event } = options

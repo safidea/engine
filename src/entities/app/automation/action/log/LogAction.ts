@@ -1,12 +1,12 @@
 import { BaseAction } from '../base/BaseAction'
 import { LogActionParams } from './LogActionParams'
-import { AppServices } from '@entities/app/App'
 import { AutomationConfig } from '../../Automation'
+import { AutomationServices } from '../../AutomationServices'
 
 export class LogAction extends BaseAction {
   message: string
 
-  constructor(params: LogActionParams, services: AppServices, config: AutomationConfig) {
+  constructor(params: LogActionParams, services: AutomationServices, config: AutomationConfig) {
     const { name, type, message } = params
     super({ name, type }, services, config)
     this.message = message

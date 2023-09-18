@@ -1,4 +1,3 @@
-import { AppServices } from '@entities/app/App'
 import { BaseActionParams } from './BaseActionParams'
 import { AutomationConfig, AutomationContext } from '../../Automation'
 import { ActionError } from '../ActionError'
@@ -6,6 +5,7 @@ import { Table } from '@entities/app/table/Table'
 import { newFilter } from '@entities/services/database/filter/Filter'
 import { MultipleLinkedRecordsField } from '@entities/app/table/field/multipleLinkedRecords/MultipleLinkedRecordsField'
 import { Bucket } from '@entities/app/bucket/Bucket'
+import { AutomationServices } from '../../AutomationServices'
 
 export class BaseAction {
   readonly name: string
@@ -13,7 +13,7 @@ export class BaseAction {
 
   constructor(
     params: BaseActionParams,
-    protected readonly services: AppServices,
+    protected readonly services: AutomationServices,
     protected readonly config: AutomationConfig
   ) {
     const { name, type } = params

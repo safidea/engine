@@ -15,7 +15,7 @@ import { LoggerService } from '@adapters/services/logger/LoggerService'
 import { StorageService } from '@adapters/services/storage/StorageService'
 import { TemplaterService } from '@adapters/services/templater/TemplaterService'
 import { UIService } from '@adapters/services/ui/UIService'
-import { UIDrivers, getUIDriver } from '@drivers/ui'
+import { getUIDriver } from '@drivers/ui'
 import { TemplaterDrivers, getTemplaterDriver } from '@drivers/templater'
 import { ConverterDrivers, getConverterDrivers } from '@drivers/converter'
 import { StorageDrivers, getStorageDriver } from '@drivers/storage'
@@ -23,6 +23,7 @@ import { DatabaseDrivers, getDatabaseDriver } from '@drivers/database'
 import { FetcherDrivers, getFetcherDriver } from '@drivers/fetcher'
 import { LoggerDrivers, getLoggerDriver } from '@drivers/logger'
 import { AppMapper } from '@adapters/mappers/AppMapper'
+import { UIDrivers } from '@entities/services/ui/UIDrivers'
 
 export interface EngineOptions {
   server?: ServerDrivers

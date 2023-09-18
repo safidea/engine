@@ -3,8 +3,8 @@ import { Table } from '@entities/app/table/Table'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { UpdateRecordActionParams } from './UpdateRecordActionParams'
-import { AppServices } from '@entities/app/App'
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { AutomationServices } from '@entities/app/automation/AutomationServices'
 
 export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplaterService | string }
 
@@ -13,7 +13,7 @@ export class UpdateRecordAction extends BaseAction {
   private fieldsCompiled: UpdateRecordActionFieldsCompiled
   private recordIdCompiled: ITemplaterService
 
-  constructor(params: UpdateRecordActionParams, services: AppServices, config: AutomationConfig) {
+  constructor(params: UpdateRecordActionParams, services: AutomationServices, config: AutomationConfig) {
     const { name, type, table: tableName, fields, recordId } = params
     super({ name, type }, services, config)
     this.table = this.getTableByName(tableName)
