@@ -1,6 +1,6 @@
 import { App } from '@entities/app/App'
 import { Page } from '@entities/app/page/Page'
-import { PageContext } from '@entities/app/page/PageContext'
+import { PageContext } from '@entities/app/page/context/Context'
 import { PageParams } from '@entities/app/page/PageParams'
 import { TableParams } from '@entities/app/table/TableParams'
 import ReactDOMServer from 'react-dom/server'

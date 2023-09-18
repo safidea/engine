@@ -8,7 +8,7 @@ import { Table } from '@entities/app/table/Table'
 import { Record, RecordToPersite } from '@entities/services/database/record/Record'
 import { InputComponent, newInput } from './input/InputComponent'
 import { TableInputComponent } from './input/table/TableInputComponent'
-import { PageContext } from '../../PageContext'
+import { Context } from '../../context/Context'
 import { ComponentError } from '../ComponentError'
 import { newFilter } from '@entities/services/database/filter/Filter'
 import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
@@ -39,7 +39,7 @@ export class FormComponent extends BaseComponent {
     )
   }
 
-  async render(context: PageContext) {
+  async render(context: Context) {
     const syncRecords = this.services.fetcher.getSyncRecordsFunction()
     let defaultRecords: Record[]
     let defaultRecordId: string

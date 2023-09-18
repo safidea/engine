@@ -10,8 +10,8 @@ export class ServerService {
   async start(app: App): Promise<void> {
     if (app.pages.exist()) {
       const pageMiddleware = new PageMiddleware(app)
-      for (const path of app.pages.getPaths()) {
-        this.driver.get(path, pageMiddleware.get())
+      for (const page of app.pages.getAll()) {
+        this.driver.get(page.path, pageMiddleware.get(page))
       }
     }
     if (app.tables.exist()) {

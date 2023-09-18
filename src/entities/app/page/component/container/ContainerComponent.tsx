@@ -5,7 +5,7 @@ import { AppServices } from '@entities/app/App'
 import { PageConfig } from '@entities/app/page/Page'
 import { ContainerComponentUI } from './ContainerComponentUI'
 import { Component, newComponent } from '../Component'
-import { PageContext } from '../../PageContext'
+import { Context } from '../../context/Context'
 
 export class ContainerComponent extends BaseComponent {
   readonly components: Component[]
@@ -16,7 +16,7 @@ export class ContainerComponent extends BaseComponent {
     this.components = components.map((component) => newComponent(component, services, config))
   }
 
-  async render(context: PageContext) {
+  async render(context: Context) {
     const Components = await Promise.all(
       this.components.map((component) => component.render(context))
     )

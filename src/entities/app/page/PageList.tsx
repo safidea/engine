@@ -1,4 +1,4 @@
-import { PageContext } from './PageContext'
+import { Context } from './context/Context'
 import { Page } from './Page'
 import { AppError } from '../AppError'
 import { PageParams } from './PageParams'
@@ -13,7 +13,7 @@ export class PageList {
     this.uiDriver = services.ui.driverName
   }
 
-  async renderByPath(path: string, context: PageContext): Promise<React.FC> {
+  async renderByPath(path: string, context: Context): Promise<React.FC> {
     const page = this.getByPath(path)
     if (!page) throw new AppError('Page not found: ' + path)
     const PageComponent = await page.render(context)
@@ -26,10 +26,6 @@ export class PageList {
 
   getAll(): Page[] {
     return this.pages
-  }
-
-  getPaths(): string[] {
-    return this.pages.map((page) => page.path)
   }
 
   exist(): boolean {

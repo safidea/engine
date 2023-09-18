@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppServices, AppConfig } from '../App'
 import { TableList } from '../table/TableList'
-import { PageContext } from './PageContext'
+import { Context } from './context/Context'
 import { PageParams } from './PageParams'
 import { Component, newComponent } from './component/Component'
 
@@ -14,7 +14,11 @@ export class Page {
   readonly title?: string
   readonly components: Component[]
 
-  constructor(readonly params: PageParams, services: AppServices, config: AppConfig) {
+  constructor(
+    readonly params: PageParams,
+    services: AppServices,
+    config: AppConfig
+  ) {
     this.path = params.path
     this.title = params.title
     this.components = params.components.map((componentParams) =>
@@ -22,7 +26,7 @@ export class Page {
     )
   }
 
-  async render(context: PageContext) {
+  async render(context: Context) {
     const Components = await Promise.all(
       this.components.map((component) => component.render(context))
     )
