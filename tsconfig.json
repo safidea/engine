@@ -28,8 +28,8 @@
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
   "include": [
-    "src/**/*",
-    "test/**/*",
+    "src/**/*.ts",
+    "test/**/*.ts",
     "src/client.tsx",
     "jest.config.ts",
     "playwright.config.ts",
