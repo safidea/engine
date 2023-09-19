@@ -27,19 +27,19 @@ export class BaseAction {
 
   getTableByName(tableName: string): Table {
     const table = this.config.tables.getByName(tableName)
-    if (!table) this.throwError(`table ${tableName} not found`)
+    if (!table) this.throwError(`table "${tableName}" is not defined in tables`)
     return table
   }
 
   getBucketByName(bucketName: string): Bucket {
     const bucket = this.config.buckets.getByName(bucketName)
-    if (!bucket) this.throwError(`bucket ${bucketName} not found`)
+    if (!bucket) this.throwError(`bucket "${bucketName}" is not defined in buckets`)
     return bucket
   }
 
   tableFieldShouldExist(table: Table, fieldName: string): void {
     if (!table.fields.some((f) => f.name === fieldName))
-      this.throwError(`field ${fieldName} not found in table ${table.name}`)
+      this.throwError(`field "${fieldName}" is not defined in table "${table.name}"`)
   }
 
   getValueFromPath(obj: unknown, path: string): unknown {

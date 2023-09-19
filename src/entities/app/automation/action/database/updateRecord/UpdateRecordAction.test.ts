@@ -1,137 +1,155 @@
+import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { UpdateRecordAction } from './UpdateRecordAction'
+import { TableList } from '@entities/app/table/TableList'
+import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
+import { Table } from '@entities/app/table/Table'
+
 describe('UpdateRecordAction', () => {
-  // As app developer, I want to be warned at build time if my automation has invalid database references (e.g. non existing table or column), in order to allow me to correct it before deploying the application
   test('config validation fail if update_record action references an invalid field', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const tables = new TableList(
+      [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
-      },
-    ])
+        database: {} as any,
+      } as any
+    )
 
     // WHEN
     const call = () =>
-      ActionMapper.toEntities(
-        [
-          {
-            type: 'update_record',
-            fields: { fieldX: 'test' },
-            table: 'tableA',
-            name: 'update_record',
-            recordId: '1',
-          },
-        ],
-        tables,
+      new UpdateRecordAction(
         {
-          templating: new HandlebarsTemplating(),
-        }
+          type: 'update_record',
+          fields: { fieldX: 'test' },
+          table: 'tableA',
+          name: 'update_record',
+          recordId: '1',
+        },
+        {} as any,
+        { tables } as any
       )
 
     // THEN
-    expect(call).toThrow(
-      'field "fieldX" in action "update_record" is not defined in table "tableA"'
-    )
+    expect(call).toThrow('field "fieldX" is not defined in table "tableA"')
   })
 
   test('config validation fail if update_record action references an invalid table', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const tables = new TableList(
+      [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
-      },
-    ])
+        database: {} as any,
+      } as any
+    )
 
     // WHEN
     const call = () =>
-      ActionMapper.toEntities(
-        [
-          {
-            type: 'update_record',
-            fields: {},
-            table: 'tableX',
-            name: 'update_record',
-            recordId: '1',
-          },
-        ],
-        tables,
+      new UpdateRecordAction(
         {
-          templating: new HandlebarsTemplating(),
-        }
+          type: 'update_record',
+          fields: {},
+          table: 'tableX',
+          name: 'update_record',
+          recordId: '1',
+        },
+        {} as any,
+        { tables } as any
       )
 
     // THEN
-    expect(call).toThrow('table "tableX" in action "update_record" is not defined in tables')
+    expect(call).toThrow('table "tableX" is not defined in tables')
   })
 
   test('config validation fail if update_record action references an invalid field and a valid field', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const tables = new TableList(
+      [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
-      },
-    ])
+        database: {} as any,
+      } as any
+    )
 
     // WHEN
     const call = () =>
-      ActionMapper.toEntities(
-        [
-          {
-            type: 'update_record',
-            fields: { fieldA: 'Essentiel', fieldY: 'test' },
-            table: 'tableA',
-            name: 'update_record',
-            recordId: '1',
-          },
-        ],
-        tables,
+      new UpdateRecordAction(
         {
-          templating: new HandlebarsTemplating(),
-        }
+          type: 'update_record',
+          fields: { fieldA: 'Essentiel', fieldY: 'test' },
+          table: 'tableA',
+          name: 'update_record',
+          recordId: '1',
+        },
+        {} as any,
+        { tables } as any
       )
 
     // THEN
-    expect(call).toThrow(
-      'field "fieldY" in action "update_record" is not defined in table "tableA"'
-    )
+    expect(call).toThrow('field "fieldY" is not defined in table "tableA"')
   })
 
   test('should update a record when execute action', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const database = {
+      read: jest.fn(
+        async (table: Table) =>
+          new PersistedRecord(
+            { id: '1', fieldA: 'Essentiel', created_time: new Date().toISOString() },
+            table
+          )
+      ),
+      softUpdate: jest.fn(),
+    } as any
+    const templater = {
+      compile: jest.fn((value) => ({
+        render: jest.fn(() => value),
+      })),
+    } as any
+    const tables = new TableList(
+      [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
-      },
-    ])
-    const updateTableRecord = {
-      execute: jest.fn(),
-    } as any
-    const createAutomationContextFromRecord = {
-      execute: jest.fn(async () => ({ data: { fieldA: 'test' } })),
-    } as any
-    const action = ActionMapper.toEntity(
+        database,
+      } as any
+    )
+    const action = new UpdateRecordAction(
       {
         type: 'update_record',
         fields: { fieldA: '{{trigger.text}}' },
@@ -139,19 +157,17 @@ describe('UpdateRecordAction', () => {
         name: 'update_record',
         recordId: '1',
       },
-      tables,
       {
-        templating: new HandlebarsTemplating(),
-      }
+        database,
+        templater,
+      } as any,
+      { tables } as any
     )
 
     // WHEN
-    await action.execute({ trigger: { text: 'test' } }, {
-      updateTableRecord,
-      createAutomationContextFromRecord,
-    } as any)
+    await action.execute({ trigger: { text: 'test' } })
 
     // THEN
-    expect(updateTableRecord.execute).toHaveBeenCalledWith('tableA', expect.any(Record), '1')
+    expect(database.softUpdate).toHaveBeenCalledWith(expect.any(Table), expect.any(RecordToUpdate))
   })
 })
