@@ -3,7 +3,7 @@ import { BaseInputComponentParams } from '../base/BaseInputComponentParams'
 
 export const TextInputComponentParams = t.intersection([
   BaseInputComponentParams,
-  t.type({
+  t.partial({
     type: t.literal('text'),
     placeholder: t.string,
   }),

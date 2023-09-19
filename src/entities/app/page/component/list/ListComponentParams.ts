@@ -24,32 +24,40 @@ export const SortBy = t.type({
 
 export type SortBy = t.TypeOf<typeof SortBy>
 
-export const Column = t.type({
-  label: t.string,
-  field: t.string,
-  options: t.array(
-    t.type({
-      name: t.string,
-      label: t.string,
-    })
-  ),
-  type: t.string,
-  action: t.partial({
-    type: t.string,
-    path: t.string,
-    url: t.string,
+export const Column = t.intersection([
+  t.type({
+    label: t.string,
   }),
-  buttonLabel: t.string,
-})
+  t.partial({
+    field: t.string,
+    options: t.array(
+      t.type({
+        name: t.string,
+        label: t.string,
+      })
+    ),
+    type: t.string,
+    action: t.partial({
+      type: t.string,
+      path: t.string,
+      url: t.string,
+    }),
+    buttonLabel: t.string,
+  }),
+])
 
 export type Column = t.TypeOf<typeof Column>
 
-export const ListComponentParams = t.type({
-  type: t.literal('list'),
-  table: t.string,
-  groupBy: t.array(GroupBy),
-  sortBy: t.array(SortBy),
-  columns: t.array(Column),
-})
+export const ListComponentParams = t.intersection([
+  t.type({
+    type: t.literal('list'),
+    table: t.string,
+    columns: t.array(Column),
+  }),
+  t.partial({
+    groupBy: t.array(GroupBy),
+    sortBy: t.array(SortBy),
+  }),
+])
 
 export type ListComponentParams = t.TypeOf<typeof ListComponentParams>

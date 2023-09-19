@@ -23,7 +23,6 @@
     "watch:tailwind": "tailwindcss -i ./src/drivers/ui/TailwindUI/input.css -o ./dist/client/output.css --watch",
     "watch:test": "jest --watch",
     "test": "pnpm test:unit && pnpm test:e2e",
-    "test:utils": "jest --config test/utils/jest.config.ts",
     "test:unit": "jest",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",

@@ -6,17 +6,21 @@ export const FormComponentParams = t.intersection([
     type: t.literal('form'),
     table: t.string,
     inputs: t.array(InputComponentParams),
-    submit: t.type({
-      label: t.string,
-      autosave: t.boolean,
-      loadingLabel: t.string,
-      actionsOnSuccess: t.array(
-        t.type({
-          type: t.string,
-          path: t.string,
-        })
-      ),
-    }),
+    submit: t.intersection([
+      t.type({
+        loadingLabel: t.string,
+      }),
+      t.partial({
+        label: t.string,
+        autosave: t.boolean,
+        actionsOnSuccess: t.array(
+          t.type({
+            type: t.string,
+            path: t.string,
+          })
+        ),
+      }),
+    ]),
   }),
   t.partial({
     recordIdToUpdate: t.string,

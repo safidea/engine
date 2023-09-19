@@ -1,24 +1,19 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import { FileStorage } from '@drivers/storage/local/LocalStorage'
 import INVOICES_TEMPLATE from '../app'
 
 test.describe('An automation that update an invoice document from a template', () => {
   test('should save the invoice document url updated in the record', async ({
     request,
     folder,
-    orm,
-    converter,
   }) => {
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50701
-    const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const engine = new Engine({ orm, storage, converter, port, folder })
-    await engine.config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
     const {
       invoices: [invoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         customer: 'Company A',
       },
@@ -32,28 +27,24 @@ test.describe('An automation that update an invoice document from a template', (
     })
 
     // THEN
-    const [record] = await orm.list('invoices')
+    const [record] = await app.drivers.database.list('invoices')
     expect(record.customer).toEqual('Company B')
-    const [file] = await storage.list('invoices')
-    const data = await pdf(file.data)
+    const [file] = await app.drivers.storage.list('invoices')
+    const data = await pdf(file)
     expect(data.text).toContain('Company B')
   })
 
   test('should update the invoice document from an updated item', async ({
     request,
     folder,
-    orm,
-    converter,
   }) => {
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50702
-    const storage = new FileStorage(folder, 'http://localhost:' + port)
-    const engine = new Engine({ orm, storage, converter, port, folder })
-    await engine.config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
     const {
       invoices_items: [invoice_item],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         items: [
           {
@@ -71,10 +62,10 @@ test.describe('An automation that update an invoice document from a template', (
     })
 
     // THEN
-    const [record] = await orm.list('invoices_items')
+    const [record] = await app.drivers.database.list('invoices_items')
     expect(record.unit_price).toEqual(253)
-    const [file] = await storage.list('invoices')
-    const data = await pdf(file.data)
+    const [file] = await app.drivers.storage.list('invoices')
+    const data = await pdf(file)
     expect(data.text).toContain('253€')
   })
 })

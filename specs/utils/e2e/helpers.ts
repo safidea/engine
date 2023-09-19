@@ -2,55 +2,55 @@ import { fakerFR as faker } from '@faker-js/faker'
 import { v4 as uuidV4 } from 'uuid'
 import fs from 'fs-extra'
 import { join } from 'path'
-import { TableDto } from '@adapters/api/table/dtos/TableDto'
-import { RecordDto } from '@adapters/spi/orm/dtos/RecordDto'
-import { FieldDto } from '@adapters/api/table/dtos/FieldDto'
-import { IOrmAdapter } from '@adapters/spi/orm/IOrmAdapter'
-import { RecordFieldValue } from '@entities/drivers/database/record/IRecord'
-import { AppDto } from '@entities/app/AppSchema'
+import { AppDto } from '@adapters/dtos/AppDto'
+import { TableParams } from '@entities/app/table/TableParams'
+import { IDatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
+import { RecordData, RecordFieldValue } from '@entities/services/database/record/RecordData'
+import { FieldParams } from '@entities/app/table/field/FieldParams'
+import { RecordToCreateDto } from '@adapters/dtos/RecordDto'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`
 }
 
 export function copyAppFile(appName: string, filePath: string, testDolder: string): void {
-  const sourcePath = join(process.cwd(), 'test/e2e', appName, filePath)
+  const sourcePath = join(process.cwd(), 'specs/e2e', appName, filePath)
   const destinationPath = join(testDolder, filePath)
   fs.ensureFileSync(destinationPath)
   fs.copyFileSync(sourcePath, destinationPath)
 }
 
-export function getTableByName(appDto: AppDto, tableName: string): TableDto {
+export function getTableByName(appDto: AppDto, tableName: string): TableParams {
   const tablesDto = appDto.tables ?? []
   const tableDto = tablesDto.find((tableDto) => tableDto.name === tableName)
   if (!tableDto) throw new Error(`Table ${tableName} not found`)
   return tableDto
 }
 
-export interface RecordDtoTable {
+export interface RecordDataTable {
   table: string
-  fields: RecordDto
+  fields: RecordToCreateDto
 }
 export interface RecordsDtoByTables {
-  [key: string]: RecordDto[]
+  [key: string]: RecordToCreateDto[]
 }
 
-export type ExtendRecordFieldValue = RecordFieldValue | RecordDto | RecordDto[]
+export type ExtendRecordFieldValue = RecordFieldValue | RecordToCreateDto | RecordToCreateDto[]
 
-export interface ExtendRecordDto {
+export interface ExtendRecordData {
   [key: string]: ExtendRecordFieldValue
 }
 
 export async function generateRecords(
   appDto: AppDto,
-  ormAdapter: IOrmAdapter,
+  database: IDatabaseDriver,
   tableName: string,
-  countOrRecordsDto: number | ExtendRecordDto[] = 1
+  countOrRecordsDto: number | ExtendRecordData[] = 1
 ): Promise<RecordsDtoByTables> {
   const tables = generateRecordsDto(appDto, tableName, countOrRecordsDto)
-  await ormAdapter.configure(appDto.tables ?? [])
+  await database.configure(appDto.tables ?? [])
   for (const table in tables) {
-    await ormAdapter.createMany(table, tables[table])
+    await database.createMany(table, tables[table])
   }
   return tables
 }
@@ -58,16 +58,16 @@ export async function generateRecords(
 export function generateRecordsDto(
   appDto: AppDto,
   tableName: string,
-  countOrRecordsDto: number | ExtendRecordDto[] = 1
+  countOrRecordsDto: number | ExtendRecordData[] = 1
 ): RecordsDtoByTables {
   const tableDto = getTableByName(appDto, tableName)
-  const records: RecordDtoTable[] = []
+  const records: RecordDataTable[] = []
   const length =
     typeof countOrRecordsDto === 'number' ? countOrRecordsDto : countOrRecordsDto.length
   for (let i = 0; i < length; i++) {
-    const defaultValues: ExtendRecordDto =
+    const defaultValues: ExtendRecordData =
       typeof countOrRecordsDto !== 'number' ? countOrRecordsDto[i] : {}
-    const record: RecordDtoTable = {
+    const record: RecordDataTable = {
       table: tableName,
       fields: {
         id: uuidV4(),
@@ -105,9 +105,9 @@ export function generateRecordsDto(
 
 export function generateRandomValueByField(
   appDto: AppDto,
-  field: FieldDto,
-  records: RecordDtoTable[],
-  currentRecord: RecordDtoTable,
+  field: FieldParams,
+  records: RecordDataTable[],
+  currentRecord: RecordDataTable,
   defaultValue: ExtendRecordFieldValue
 ): RecordFieldValue {
   const { type, name, default: nativeDefaultValue } = field
@@ -153,7 +153,7 @@ export function generateRandomValueByField(
     if (name.includes('price')) return faker.number.float({ max: 10, precision: 0.01 })
     return faker.number.float({ max: 10, precision: 0.01 })
   } else if (type === 'multiple_linked_records') {
-    const linkedRecordsdefaultValues: RecordDto[] = []
+    const linkedRecordsdefaultValues: RecordToCreateDto[] = []
     const linkedRecords: string[] = []
     if (defaultValue) {
       if (Array.isArray(defaultValue)) {
@@ -166,7 +166,7 @@ export function generateRandomValueByField(
         }
       } else {
         throw new Error(
-          `multiple_linked_records field ${field.name} must have an array of RecordDto as default value`
+          `multiple_linked_records field ${field.name} must have an array of RecordData as default value`
         )
       }
     }
@@ -189,7 +189,7 @@ export function generateRandomValueByField(
     records.push(...newTableRecords)
     return newTableRecords.map((record) => String(record.fields.id))
   } else if (type === 'single_linked_record') {
-    let linkedRecordDefaultValues: RecordDto = {}
+    let linkedRecordDefaultValues = {}
     if (
       defaultValue &&
       typeof defaultValue !== 'string' &&
@@ -205,7 +205,7 @@ export function generateRandomValueByField(
     const linkedField = linkedTable.fields.find((f) => f.type === 'multiple_linked_records')
     if (!linkedField)
       throw new Error(`multiple_linked_records field not found for table ${field.table}`)
-    const recordDto: RecordDto = { ...linkedRecordDefaultValues }
+    const recordDto = { ...linkedRecordDefaultValues } as RecordData
     if (linkedField.type === 'multiple_linked_records') {
       recordDto[linkedField.name] = [String(currentRecord.fields.id)]
     } else if (linkedField.type === 'single_linked_record') {

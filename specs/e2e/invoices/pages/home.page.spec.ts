@@ -6,7 +6,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50300
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port, ui: 'tailwind' }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ folder, port, ui: 'tailwind' }).start(INVOICES_TEMPLATE)
 
     // WHEN
     // I go to the home page "/"
@@ -20,7 +20,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50301
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ folder, port }).start(INVOICES_TEMPLATE)
 
     // WHEN
     // I go to the home page "/"
@@ -31,15 +31,15 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({ page, orm, folder }) => {
+  test('should display a list of invoices grouped by status', async ({ page, folder }) => {
     // GIVEN
     // We provide 8 example invoices
     const port = 50302
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ folder, port }).start(INVOICES_TEMPLATE)
     const {
       invoices: [firstInvoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         status: 'draft',
       },
@@ -73,7 +73,7 @@ test.describe('A page that list invoices', () => {
 
     // THEN
     // Check that invoices are displayed in a group by status
-    const invoices = await orm.list('invoices')
+    const invoices = await app.drivers.database.list('invoices')
 
     // Check the number of draft rows
     const draftRows = await page.getByRole('cell', { name: /^Brouillon$/ }).all()
@@ -95,16 +95,16 @@ test.describe('A page that list invoices', () => {
   test('should display a list of invoices sorted by dates in status groups', async ({
     page,
     folder,
-    orm,
   }) => {
     // GIVEN
     // We provide 5 example invoices with finalised dates and status
     const port = 50303
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const {
       invoices: [firstInvoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
@@ -139,7 +139,7 @@ test.describe('A page that list invoices', () => {
 
     // THEN
     // Check that factures are sorted by finalised_date
-    const invoices = await orm.list('invoices')
+    const invoices = await app.drivers.database.list('invoices')
     const rows = await page.getByRole('row').all()
     const ids = await Promise.all(rows.map((row) => row.getAttribute('id')))
     expect(ids.filter((i) => !!i)).toEqual([
@@ -158,7 +158,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50304
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).config(INVOICES_TEMPLATE).start()
+    await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
 
     // WHEN
     // I go to the home page "/"
@@ -174,14 +174,15 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should display an invoice with calculated vat and total', async ({ page, orm, folder }) => {
+  test('should display an invoice with calculated vat and total', async ({ page, folder }) => {
     // GIVEN
     const port = 50305
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const {
       invoices: [invoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         status: 'draft',
         items: [
@@ -209,13 +210,14 @@ test.describe('A page that list invoices', () => {
     await expect(page.getByRole('cell', { name: /^78€$/i })).toBeVisible()
   })
 
-  test('should display a button that open an invoice url', async ({ page, orm, folder }) => {
+  test('should display a button that open an invoice url', async ({ page, folder }) => {
     // GIVEN
     const port = 50306
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const url = `http://localhost:${port}/create`
-    await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         url,
       },

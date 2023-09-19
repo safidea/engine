@@ -1,4 +1,4 @@
-import { AppDto } from '@entities/app/AppSchema'
+import { AppDto } from "@adapters/dtos/AppDto"
 
 const INVOICE_FIELD_PERMISSIONS = {
   update: {
@@ -310,7 +310,7 @@ const APP: AppDto = {
                 {
                   field: 'entity',
                   label: 'Entité',
-                  linkedLabelField: 'name',
+                  fieldForOptionLabel: 'name',
                 },
                 {
                   field: 'customer',

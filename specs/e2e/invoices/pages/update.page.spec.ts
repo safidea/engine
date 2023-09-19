@@ -2,15 +2,16 @@ import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '../app'
 
 test.describe('A page that update an invoice', () => {
-  test('should display the invoice data', async ({ page, orm, folder }) => {
+  test('should display the invoice data', async ({ page, folder }) => {
     // GIVEN
     // An invoice is listed on the home page
     const port = 50401
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
       {
         status: 'draft',
       },
@@ -27,32 +28,35 @@ test.describe('A page that update an invoice', () => {
     // THEN
     // The invoice data should be displayed
     const companyFieldValue = await page.locator('input[name="customer"]').inputValue()
-    const [invoice] = await orm.list('invoices')
+    const [invoice] = await app.drivers.database.list('invoices')
     expect(companyFieldValue).toBe(invoice.customer)
     const activityFieldValue = await page
       .locator('input[placeholder="Activité"]')
       .first()
       .inputValue()
-    const [invoiceItem] = await orm.list('invoices_items')
+    const [invoiceItem] = await app.drivers.database.list('invoices_items')
     expect(activityFieldValue).toBe(invoiceItem.activity)
   })
 
-  test('should update an invoice in realtime', async ({ page, folder, orm }) => {
+  test('should update an invoice in realtime', async ({ page, folder }) => {
     // GIVEN
     // An invoice is loaded in the update page
     const port = 50402
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices', [{ number: undefined }])
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+      { number: undefined },
+    ])
 
     // You'll have to navigate to the page you want to test
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
     // We update the invoice data and wait for autosave
-    const [invoice] = await orm.list('invoices')
+    const [invoice] = await app.drivers.database.list('invoices')
     const updatedCutomer = invoice.customer + ' updated'
 
     // Type the updatedText into the input with name "customer"
@@ -65,19 +69,18 @@ test.describe('A page that update an invoice', () => {
 
     // THEN
     // The invoice data should be updated in database
-    const [updatedInvoice] = await orm.list('invoices')
+    const [updatedInvoice] = await app.drivers.database.list('invoices')
     expect(updatedInvoice.customer).toContain(updatedCutomer)
   })
 
-  test('should set invoice as finalised', async ({ page, folder, orm, storage, converter }) => {
+  test('should set invoice as finalised', async ({ page, folder }) => {
     // GIVEN
     const port = 50403
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const engine = new Engine({ port, orm, storage, converter, folder })
-    await engine.config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -86,20 +89,21 @@ test.describe('A page that update an invoice', () => {
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
-    const [updatedInvoice] = await orm.list('invoices')
+    const [updatedInvoice] = await app.drivers.database.list('invoices')
     expect(updatedInvoice.status).toBe('finalised')
     expect(updatedInvoice.number).toBeDefined()
     expect(updatedInvoice.finalised_time).toBeDefined()
   })
 
-  test('should set invoice as sent', async ({ page, orm, folder }) => {
+  test('should set invoice as sent', async ({ page, folder }) => {
     // GIVEN
     const port = 50404
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -108,18 +112,19 @@ test.describe('A page that update an invoice', () => {
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
-    const [updatedInvoice] = await orm.list('invoices')
+    const [updatedInvoice] = await app.drivers.database.list('invoices')
     expect(updatedInvoice.status).toBe('sent')
   })
 
-  test('should set invoice as paid', async ({ page, orm, folder }) => {
+  test('should set invoice as paid', async ({ page, folder }) => {
     // GIVEN
     const port = 50405
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder, orm }).config(INVOICES_TEMPLATE).start()
+    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, orm, 'invoices')
+    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -128,7 +133,7 @@ test.describe('A page that update an invoice', () => {
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
-    const [updatedInvoice] = await orm.list('invoices')
+    const [updatedInvoice] = await app.drivers.database.list('invoices')
     expect(updatedInvoice.status).toBe('paid')
   })
 })

@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { describe, test, expect } from '@jest/globals'
-import { getDedicatedTmpFolder, clearTmpFolders } from '../helpers'
+import { getDedicatedTmpFolder, clearTmpFolders } from './helpers'
 
 jest.mock('fs-extra', () => ({
   ensureDirSync: jest.fn(),
