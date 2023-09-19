@@ -7,10 +7,10 @@ import { PageServices } from '../../PageServices'
 
 export class ParagraphComponent extends BaseComponent {
   readonly text: string
-  readonly size?: ParagraphSize
+  readonly size: ParagraphSize
 
   constructor(params: ParagraphComponentParams, services: PageServices, config: PageConfig) {
-    const { type, text, size } = params
+    const { type, text, size = 'medium' } = params
     super({ type }, services, config)
     this.text = text
     this.size = size

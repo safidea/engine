@@ -23,14 +23,13 @@
       "@entities/*": ["./src/entities/*"],
       "@drivers/*": ["./src/drivers/*"],
       "@adapters/*": ["./src/adapters/*"],
-      "@test/*": ["./test/*"]
+      "@specs/*": ["./specs/*"]
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
   "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "src/client.tsx",
+    "src/**/*",
+    "specs/**/*",
     "jest.config.ts",
     "playwright.config.ts",
     "webpack.server.config.ts",

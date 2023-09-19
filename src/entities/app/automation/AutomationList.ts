@@ -1,4 +1,5 @@
-import { AppServices, AppConfig } from '../App'
+import { AppConfig } from '../AppConfig'
+import { AppServices } from '../AppServices'
 import { Automation } from './Automation'
 import { AutomationParams } from './AutomationParams'
 import { AutomationServices } from './AutomationServices'

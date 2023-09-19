@@ -14,6 +14,6 @@ export interface IDatabaseDriver {
   createMany(table: string, records: RecordToCreateDto[]): Promise<string[]>
   update(table: string, record: RecordToUpdateDto | RecordToDeleteDto): Promise<void>
   updateMany(table: string, records: RecordToUpdateDto[] | RecordToDeleteDto[]): Promise<void>
-  list(table: string, filters: FilterParams[]): Promise<PersistedRecordDto[]>
+  list(table: string, filters?: FilterParams[]): Promise<PersistedRecordDto[]>
   read(table: string, id: string): Promise<PersistedRecordDto | undefined>
 }

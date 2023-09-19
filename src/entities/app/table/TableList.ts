@@ -1,4 +1,4 @@
-import { AppServices } from '../App'
+import { AppServices } from '../AppServices'
 import { Table } from './Table'
 import { TableParams } from './TableParams'
 import { TableServices } from './TableServices'

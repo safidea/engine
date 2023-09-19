@@ -11,7 +11,7 @@ import { join } from 'path'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './test/e2e',
+  testDir: './specs/e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -31,7 +31,7 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   timeout: 10 * 1000,
-  globalTeardown: join(__dirname, './test/utils/teardown'),
+  globalTeardown: join(__dirname, './specs/utils/teardown'),
 
   /* Configure projects for major browsers */
   projects: [

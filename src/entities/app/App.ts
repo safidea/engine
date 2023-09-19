@@ -1,30 +1,9 @@
 import { TableList } from './table/TableList'
 import { PageList } from './page/PageList'
 import { AutomationList } from './automation/AutomationList'
-import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { AppParams } from './AppParams'
-import { IDatabaseService } from '@entities/services/database/IDatabaseService'
-import { IConverterService } from '@entities/services/converter/IConverterService'
-import { IFetcherService } from '@entities/services/fetcher/IFetcherService'
-import { ILoggerService } from '@entities/services/logger/ILoggerService'
-import { IStorageService } from '@entities/services/storage/IStorageService'
-import { IUIService } from '@entities/services/ui/IUIService'
 import { BucketList } from './bucket/BucketList'
-
-export interface AppConfig {
-  readonly tables: TableList
-  readonly buckets: BucketList
-}
-
-export interface AppServices {
-  readonly ui?: IUIService
-  readonly fetcher?: IFetcherService
-  readonly templater?: ITemplaterService
-  readonly converter?: IConverterService
-  readonly storage?: IStorageService
-  readonly database?: IDatabaseService
-  readonly logger?: ILoggerService
-}
+import { AppServices } from './AppServices'
 
 export class App {
   readonly name: string

@@ -1,4 +1,4 @@
-import { PathReporter } from 'io-ts/PathReporter'
+import reporter from 'io-ts-reporters'
 import { isLeft } from 'fp-ts/Either'
 import { ServerRequest } from '@adapters/services/server/ServerRequest'
 import { App } from '@entities/app/App'
@@ -45,7 +45,7 @@ export class TableValidator {
   public async validateSyncBody(body: unknown): Promise<SyncDto> {
     const decoded = SyncDto.decode(body)
     if (isLeft(decoded)) {
-      throw Error(`Could not validate sync body: ${PathReporter.report(decoded).join('\n')}`)
+      throw Error(`Could not validate sync body:\n${reporter.report(decoded).join('\n')}`)
     }
     const sync: SyncDto = decoded.right
     return sync
@@ -61,7 +61,7 @@ export class TableValidator {
   public async validateRecordToCreateBody(body: unknown): Promise<RecordToCreateDto> {
     const decoded = RecordToCreateDto.decode(body)
     if (isLeft(decoded)) {
-      throw Error(`Could not validate record body: ${PathReporter.report(decoded).join('\n')}`)
+      throw Error(`Could not validate record body:\n${reporter.report(decoded).join('\n')}`)
     }
     const recordDto: RecordToCreateDto = decoded.right
     return recordDto
@@ -70,7 +70,7 @@ export class TableValidator {
   public async validateRecordToUpdateBody(body: unknown): Promise<RecordToUpdateDto> {
     const decoded = RecordToUpdateDto.decode(body)
     if (isLeft(decoded)) {
-      throw Error(`Could not validate record body: ${PathReporter.report(decoded).join('\n')}`)
+      throw Error(`Could not validate record body:\n${reporter.report(decoded).join('\n')}`)
     }
     const recordDto: RecordToUpdateDto = decoded.right
     return recordDto

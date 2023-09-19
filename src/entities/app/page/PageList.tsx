@@ -2,8 +2,9 @@ import { Context } from './context/Context'
 import { Page } from './Page'
 import { AppError } from '../AppError'
 import { PageParams } from './PageParams'
-import { AppServices, AppConfig } from '../App'
 import { PageServices } from './PageServices'
+import { AppConfig } from '../AppConfig'
+import { AppServices } from '../AppServices'
 
 export class PageList {
   private readonly pages: Page[]

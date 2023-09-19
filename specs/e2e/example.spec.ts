@@ -1,24 +1,24 @@
+import { AppDto } from '@adapters/dtos/AppDto'
 import { test, expect, helpers, Engine } from '../utils/e2e/fixtures'
 
 test.describe('Specs examples', () => {
-  test('should display a text', async ({ page, orm, folder }) => {
+  test('should display a text', async ({ page, folder }) => {
     // GIVEN
     const port = 50601
-    await new Engine({ port, folder, orm })
-      .config({
-        pages: [
-          {
-            path: '/',
-            components: [
-              {
-                type: 'paragraph',
-                text: 'Hello World!',
-              },
-            ],
-          },
-        ],
-      })
-      .start()
+    const config: AppDto = {
+      pages: [
+        {
+          path: '/',
+          components: [
+            {
+              type: 'paragraph',
+              text: 'Hello World!',
+            },
+          ],
+        },
+      ],
+    }
+    await new Engine({ port, folder }).start(config)
 
     // WHEN
     await page.goto(helpers.getUrl(port, '/'))
@@ -27,24 +27,23 @@ test.describe('Specs examples', () => {
     await expect(page.getByText('Hello World!')).toBeVisible()
   })
 
-  test('should store a record', async ({ request, orm, folder }) => {
+  test('should store a record', async ({ request, folder }) => {
     // GIVEN
     const port = 50602
-    await new Engine({ port, folder, orm })
-      .config({
-        tables: [
-          {
-            name: 'invoices',
-            fields: [
-              {
-                name: 'customer',
-                type: 'single_line_text',
-              },
-            ],
-          },
-        ],
-      })
-      .start()
+    const config: AppDto = {
+      tables: [
+        {
+          name: 'invoices',
+          fields: [
+            {
+              name: 'customer',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
+    }
+    const app = await new Engine({ port, folder }).start(config)
 
     // WHEN
     const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), {
@@ -55,7 +54,7 @@ test.describe('Specs examples', () => {
 
     // THEN
     expect(res.status()).toEqual(200)
-    const [record] = await orm.list('invoices')
+    const [record] = await app.drivers.database.list('invoices')
     expect(record.id).toBeDefined()
     expect(record.customer).toBe('Essentiel')
   })

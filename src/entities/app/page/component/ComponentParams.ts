@@ -7,14 +7,23 @@ import { NavigationComponentParams } from './navigation/NavigationComponentParam
 import { ParagraphComponentParams } from './paragraph/ParagraphComponentParams'
 import { TitleComponentParams } from './title/TitleComponentParams'
 
-export const ComponentParams = t.union([
-  LinkComponentParams,
-  ParagraphComponentParams,
-  NavigationComponentParams,
-  TitleComponentParams,
-  ListComponentParams,
-  FormComponentParams,
-  ContainerComponentParams,
-])
+export type ComponentParams =
+  | LinkComponentParams
+  | ParagraphComponentParams
+  | NavigationComponentParams
+  | TitleComponentParams
+  | ListComponentParams
+  | FormComponentParams
+  | ContainerComponentParams
 
-export type ComponentParams = t.TypeOf<typeof ComponentParams>
+export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentParams', () =>
+  t.union([
+    LinkComponentParams,
+    ParagraphComponentParams,
+    NavigationComponentParams,
+    TitleComponentParams,
+    ListComponentParams,
+    FormComponentParams,
+    ContainerComponentParams,
+  ])
+)

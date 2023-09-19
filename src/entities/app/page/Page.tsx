@@ -1,10 +1,10 @@
 import React from 'react'
-import { AppConfig } from '../App'
 import { TableList } from '../table/TableList'
 import { Context } from './context/Context'
 import { PageParams } from './PageParams'
 import { Component, newComponent } from './component/Component'
 import { PageServices } from './PageServices'
+import { AppConfig } from '../AppConfig'
 
 export interface PageConfig {
   tables: TableList

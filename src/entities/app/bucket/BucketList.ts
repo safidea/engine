@@ -1,4 +1,4 @@
-import { AppServices } from '../App'
+import { AppServices } from '../AppServices'
 import { Bucket } from './Bucket'
 import { BucketParams } from './BucketParams'
 import { BucketServices } from './BucketServices'
