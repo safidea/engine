@@ -9,6 +9,7 @@ test.describe('Specs examples', () => {
       pages: [
         {
           path: '/',
+          title: 'Home',
           components: [
             {
               type: 'paragraph',

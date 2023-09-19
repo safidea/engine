@@ -1,3 +1,4 @@
+import React from 'react'
 import { App } from '@entities/app/App'
 import { Page } from '@entities/app/page/Page'
 import { Context } from '@entities/app/page/context/Context'

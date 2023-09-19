@@ -1,11 +1,10 @@
 import { describe, test, expect } from '@jest/globals'
 import { AppValidator } from './AppValidator'
-import { AppDto } from '@adapters/dtos/AppDto'
 
 describe('TableValidator', () => {
   test('should validate the config', async () => {
     // GIVEN
-    const config: AppDto = {
+    const config = {
       pages: [
         {
           path: '/',
