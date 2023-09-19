@@ -1,20 +1,32 @@
 import { describe, test, expect } from '@jest/globals'
+import { TableList } from '../table/TableList'
+import { Automation } from './Automation'
 
 describe('Automation', () => {
   test('should return true if trigger event is called', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const tables = new TableList(
+      [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
-      },
-    ])
-    const automation = AutomationMapper.toEntity(
+        database: {} as any,
+      } as any
+    )
+    const templater = {
+      compile: jest.fn((value) => ({
+        render: jest.fn(() => value),
+      })),
+    } as any
+    const automation = new Automation(
       {
         name: 'updateRecord',
         trigger: { event: 'record_created', table: 'tableA' },
@@ -28,18 +40,15 @@ describe('Automation', () => {
           },
         ],
       },
-      tables,
-      {
-        templating: new HandlebarsTemplating(),
-      }
+      { templater } as any,
+      { tables } as any
     )
 
     // WHEN
-    const shouldTrigger = await automation.shouldTrigger(
-      'record_created',
-      { table: 'tableA' },
-      {} as any
-    )
+    const shouldTrigger = await automation.shouldTrigger({
+      event: 'record_created',
+      context: { table: 'tableA', record: { id: '1' } },
+    })
 
     // THEN
     expect(shouldTrigger).toBe(true)
@@ -47,18 +56,28 @@ describe('Automation', () => {
 
   test('should return false if trigger event is not called', async () => {
     // GIVEN
-    const tables = TableMapper.toEntities([
+    const tables = new TableList(
+      [
+        {
+          name: 'tableA',
+          fields: [
+            {
+              name: 'fieldA',
+              type: 'single_line_text',
+            },
+          ],
+        },
+      ],
       {
-        name: 'tableA',
-        fields: [
-          {
-            name: 'fieldA',
-            type: 'single_line_text',
-          },
-        ],
-      },
-    ])
-    const automation = AutomationMapper.toEntity(
+        database: {} as any,
+      } as any
+    )
+    const templater = {
+      compile: jest.fn((value) => ({
+        render: jest.fn(() => value),
+      })),
+    } as any
+    const automation = new Automation(
       {
         name: 'updateRecord',
         trigger: { event: 'record_created', table: 'tableA' },
@@ -72,18 +91,21 @@ describe('Automation', () => {
           },
         ],
       },
-      tables,
       {
-        templating: new HandlebarsTemplating(),
-      }
+        templater,
+      } as any,
+      { tables } as any
     )
 
     // WHEN
-    const shouldTrigger = await automation.shouldTrigger(
-      'record_updated',
-      { table: 'tableA' },
-      {} as any
-    )
+    const shouldTrigger = await automation.shouldTrigger({
+      event: 'record_updated',
+      context: {
+        table: 'tableA',
+        record: { id: '1', name: 'test' },
+        updatedFields: { name: 'test' },
+      },
+    })
 
     // THEN
     expect(shouldTrigger).toBe(false)

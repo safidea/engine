@@ -25,7 +25,7 @@ export class BaseTrigger {
 
   getTableByName(tableName: string): Table {
     const table = this.config.tables.getByName(tableName)
-    if (!table) this.throwError(`table ${tableName} not found`)
+    if (!table) this.throwError(`table "${tableName}" is not defined in tables`)
     return table
   }
 

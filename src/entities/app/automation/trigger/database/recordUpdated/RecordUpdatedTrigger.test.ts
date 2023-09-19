@@ -1,21 +1,51 @@
-import { RecordUpdatedTriggerMapper } from '@adapters/api/automation/mappers/triggers/RecordUpdatedTriggerMapper'
 import { describe, test, expect } from '@jest/globals'
+import { RecordUpdatedTrigger } from './RecordUpdatedTrigger'
+import { TableList } from '@entities/app/table/TableList'
 
 describe('RecordUpdatedTrigger', () => {
   test("should return false if tables doesn't match", async () => {
     // GIVEN
-    const trigger = RecordUpdatedTriggerMapper.toEntity({
-      event: 'record_updated',
-      table: 'invoices_items',
-      fields: ['name'],
-      filters: [
+    const tables = new TableList(
+      [
         {
-          field: 'name',
-          operator: 'is',
-          value: 'test',
+          name: 'invoices',
+          fields: [
+            {
+              name: 'name',
+              type: 'single_line_text',
+            },
+          ],
+        },
+        {
+          name: 'invoices_items',
+          fields: [
+            {
+              name: 'name',
+              type: 'single_line_text',
+            },
+          ],
         },
       ],
-    })
+      {
+        database: {} as any,
+      } as any
+    )
+    const trigger = new RecordUpdatedTrigger(
+      {
+        event: 'record_updated',
+        table: 'invoices_items',
+        fields: ['name'],
+        filters: [
+          {
+            field: 'name',
+            operator: 'is',
+            value: 'test',
+          },
+        ],
+      },
+      {} as any,
+      { tables } as any
+    )
     const usecases = {
       readTableRecord: {
         execute: jest.fn(),
@@ -23,11 +53,16 @@ describe('RecordUpdatedTrigger', () => {
     } as any
 
     // WHEN
-    const result = await trigger.shouldTrigger(
-      'record_updated',
-      { table: 'invoices', id: '1' },
-      usecases
-    )
+    const result = await trigger.shouldTrigger({
+      event: 'record_updated',
+      context: {
+        table: 'invoices',
+        record: { id: '1', name: 'test updated' },
+        updatedFields: {
+          name: 'test updated',
+        },
+      },
+    })
 
     // THEN
     expect(result).toBe(false)
