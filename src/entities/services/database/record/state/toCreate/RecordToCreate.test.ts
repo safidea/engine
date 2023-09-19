@@ -220,4 +220,26 @@ describe('RecordToCreate', () => {
     // THEN
     expect(call).not.toThrow()
   })
+
+  test('should not throw an error if a autonumber field is missing', async () => {
+    // GIVEN
+    const table = new Table(
+      {
+        name: 'tableA',
+        fields: [
+          {
+            name: 'fieldA',
+            type: 'autonumber',
+          },
+        ],
+      },
+      {} as any
+    )
+
+    // WHEN
+    const call = () => new RecordToCreate({}, table)
+
+    // THEN
+    expect(call).not.toThrow()
+  })
 })
