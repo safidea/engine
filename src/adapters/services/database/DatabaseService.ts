@@ -72,7 +72,7 @@ export class DatabaseService implements IDatabaseService {
         context: {
           table: table.name,
           record: persistedRecord.dataWithLinkedRecordsData(),
-          updatedFields: record.updatedFields,
+          updatedFields: record.getUpdatedFieldsNames(),
         },
       })
     }
@@ -89,7 +89,7 @@ export class DatabaseService implements IDatabaseService {
           context: {
             table: table.name,
             record: persistedRecord.dataWithLinkedRecordsData(),
-            updatedFields: record.updatedFields,
+            updatedFields: record.getUpdatedFieldsNames(),
           },
         })
       }

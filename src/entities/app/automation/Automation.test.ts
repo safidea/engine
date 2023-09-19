@@ -103,7 +103,7 @@ describe('Automation', () => {
       context: {
         table: 'tableA',
         record: { id: '1', name: 'test' },
-        updatedFields: { name: 'test' },
+        updatedFields: ['name'],
       },
     })
 

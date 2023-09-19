@@ -2,7 +2,7 @@ import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '../app'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test.only('should create a list of invoices', async ({ request, folder }) => {
+  test('should create a list of invoices', async ({ request, folder }) => {
     // GIVEN
     const port = 50501
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
@@ -12,7 +12,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // WHEN
     const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoices })
-    console.log(await res.json())
 
     // THEN
     expect(res.status()).toEqual(200)

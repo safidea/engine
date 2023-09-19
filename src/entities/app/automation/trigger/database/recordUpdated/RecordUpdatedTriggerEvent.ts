@@ -1,4 +1,3 @@
-import { BaseRecordFields } from '@entities/services/database/record/state/base/BaseRecordData'
 import { PersistedRecordDataWithLinkedRecordsData } from '@entities/services/database/record/state/persisted/PersistedRecordData'
 
 export interface RecordUpdatedTriggerEvent {
@@ -6,6 +5,6 @@ export interface RecordUpdatedTriggerEvent {
   context: {
     table: string
     record: PersistedRecordDataWithLinkedRecordsData
-    updatedFields: BaseRecordFields
+    updatedFields: string[]
   }
 }

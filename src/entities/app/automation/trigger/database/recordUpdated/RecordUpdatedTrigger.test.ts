@@ -58,9 +58,7 @@ describe('RecordUpdatedTrigger', () => {
       context: {
         table: 'invoices',
         record: { id: '1', name: 'test updated' },
-        updatedFields: {
-          name: 'test updated',
-        },
+        updatedFields: ['name'],
       },
     })
 

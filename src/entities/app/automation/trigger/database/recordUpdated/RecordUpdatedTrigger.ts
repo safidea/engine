@@ -27,8 +27,8 @@ export class RecordUpdatedTrigger extends BaseTrigger {
   async shouldTrigger({ event, context }: TriggerEvent): Promise<boolean> {
     if (event !== 'record_updated') return false
     if (context.table !== this.table.name) return false
-    if (this.fields.length > 0 && Array.isArray(context.updatedFields)) {
-      for (const field of context.updatedFields ?? []) {
+    if (this.fields.length > 0) {
+      for (const field of context.updatedFields) {
         if (!this.fields.includes(String(field))) {
           return false
         }

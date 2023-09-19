@@ -36,6 +36,10 @@ export class RecordToUpdate extends BaseRecord {
     this.last_modified_time = new Date().toISOString()
   }
 
+  getUpdatedFieldsNames(): string[] {
+    return Object.keys(this.updatedFields)
+  }
+
   softDelete(): RecordToDelete {
     return new RecordToDelete(this.data(), this.table)
   }
