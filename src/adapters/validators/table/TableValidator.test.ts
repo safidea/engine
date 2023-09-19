@@ -1,32 +1,18 @@
-import { AppMapper } from '@adapters/api/app/AppMapper'
-import { TableMiddleware } from '@adapters/validators/table/TableValidator'
+import { AppMapper } from '@adapters/mappers/AppMapper'
 import UnstyledUI from '@drivers/ui/UnstyledUI'
 import { describe, test, expect } from '@jest/globals'
+import { TableValidator } from './TableValidator'
+import { App } from '@entities/app/App'
 
-describe('TableMiddleware', () => {
+describe('TableValidator', () => {
   describe('validateRecordBody', () => {
-    test('should validate the request body', async () => {
+    test.only('should validate the request body', async () => {
       // GIVEN
-      const app = AppMapper.toEntity(
-        {
-          tables: [
-            {
-              name: 'tableA',
-              fields: [
-                {
-                  name: 'fieldA',
-                  type: 'single_line_text',
-                },
-              ],
-            },
-          ],
-        },
-        { ui: UnstyledUI }
-      )
+      const tableValidator = new TableValidator({} as App)
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordBody('tableA', {
+        tableValidator.validateRecordToCreateBody({
           fieldA: 'valueA',
         })
 
@@ -57,7 +43,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordValues('tableA', {}, 'create')
+        new TableValidator(app, {} as any).validateRecordValues('tableA', {}, 'create')
 
       // THEN
       await expect(call()).rejects.toThrowError('field "fieldA" is required')
@@ -84,7 +70,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordValues(
+        new TableValidator(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: 'test',
@@ -116,7 +102,7 @@ describe('TableMiddleware', () => {
       )
 
       // WHEN
-      const record = await new TableMiddleware(app, {} as any).validateRecordValues(
+      const record = await new TableValidator(app, {} as any).validateRecordValues(
         'tableA',
         {
           fieldA: 123,
@@ -149,7 +135,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordValues(
+        new TableValidator(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: 'text',
@@ -183,7 +169,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordValues(
+        new TableValidator(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: 'text',
@@ -226,7 +212,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordValues(
+        new TableValidator(app, {} as any).validateRecordValues(
           'tableA',
           {
             fieldA: ['1'],
@@ -259,7 +245,7 @@ describe('TableMiddleware', () => {
 
       // WHEN
       const call = () =>
-        new TableMiddleware(app, {} as any).validateRecordValues(
+        new TableValidator(app, {} as any).validateRecordValues(
           'tableA',
           {
             id: '1',

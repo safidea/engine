@@ -12,6 +12,7 @@ describe('LocalStorage', () => {
     const data = 'dataA'
     const folder = helpers.getDedicatedTmpFolder()
     const storage = new LocalStorage({ folder, domain: 'http://localhost:3000' })
+    await storage.configure([{ name: bucket }])
 
     // WHEN
     await storage.upload(bucket, Buffer.from(data), { filename })
@@ -28,6 +29,7 @@ describe('LocalStorage', () => {
     const data = 'data'
     const folder = helpers.getDedicatedTmpFolder()
     const storage = new LocalStorage({ folder, domain: 'http://localhost:3000' })
+    await storage.configure([{ name: bucket }])
     await Promise.all([
       fs.outputFile(join(folder, 'storage', bucket, 'A' + filename), 'A' + data),
       fs.outputFile(join(folder, 'storage', bucket, 'B' + filename), 'B' + data),
@@ -44,5 +46,19 @@ describe('LocalStorage', () => {
     expect(files[0].data.toString()).toEqual('A' + data)
     expect(files[1].data.toString()).toEqual('B' + data)
     expect(files[2].data.toString()).toEqual('C' + data)
+  })
+
+  test('should read an empty bucket', async () => {
+    // GIVEN
+    const bucket = 'bucketA'
+    const folder = helpers.getDedicatedTmpFolder()
+    const storage = new LocalStorage({ folder, domain: 'http://localhost:3000' })
+    await storage.configure([{ name: bucket }])
+
+    // WHEN
+    const files = await storage.list(bucket)
+
+    // THEN
+    expect(files).toEqual([])
   })
 })

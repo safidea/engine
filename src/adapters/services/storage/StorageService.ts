@@ -4,11 +4,17 @@ import { File } from '@entities/services/storage/file/File'
 import { IStorageService } from '@entities/services/storage/IStorageService'
 import { Bucket } from '@entities/app/bucket/Bucket'
 import { FileMapper } from '@adapters/mappers/FileMapper'
+import { BucketList } from '@entities/app/bucket/BucketList'
 
 export class StorageService implements IStorageService {
   private emit?: Emit
+  private buckets: BucketList | undefined
 
   constructor(readonly driver: IStorageDriver) {}
+
+  async configure(buckets: BucketList): Promise<void> {
+    await this.driver.configure(buckets.getAllParams())
+  }
 
   async listen(emit: Emit) {
     this.emit = emit

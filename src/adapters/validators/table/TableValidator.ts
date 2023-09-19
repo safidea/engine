@@ -89,7 +89,7 @@ export class TableValidator {
     updatedRecord: RecordToUpdate
   ): Promise<void> {
     try {
-      updatedRecord.validateFieldsPermissions(persistedRecord.fields)
+      updatedRecord.validateFieldsPermissions(persistedRecord)
     } catch (error) {
       if (error instanceof Error) throw new ApiError(error.message, 400)
       throw error

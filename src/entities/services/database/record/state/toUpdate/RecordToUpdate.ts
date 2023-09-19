@@ -5,6 +5,7 @@ import { Scripter } from '@entities/services/scripter/Scripter'
 import { Field } from '@entities/app/table/field/Field'
 import { BaseRecordData, BaseRecordFieldValue, BaseRecordFields } from '../base/BaseRecordData'
 import { RecordToUpdateData } from './RecordToUpdateData'
+import { PersistedRecord } from '../persisted/PersistedRecord'
 
 export class RecordToUpdate extends BaseRecord {
   last_modified_time: string
@@ -26,7 +27,7 @@ export class RecordToUpdate extends BaseRecord {
       last_modified_time: this.last_modified_time,
     }
   }
-  
+
   updateFieldValue(fieldName: string, value: BaseRecordFieldValue) {
     const field = this.getNonCalculatedFieldFromName(fieldName)
     this.validateFieldValue(field, value)
@@ -46,10 +47,10 @@ export class RecordToUpdate extends BaseRecord {
     return super.validateFieldValue(field, value)
   }
 
-  validateFieldsPermissions(persistedValues: BaseRecordFields): void {
+  validateFieldsPermissions(persistedRecord: PersistedRecord): void {
     const { fields } = this.table
     const context = fields.reduce((acc: BaseRecordFields, field) => {
-      acc[field.name] = persistedValues[field.name] ?? undefined
+      acc[field.name] = persistedRecord.getFieldValue(field.name) ?? undefined
       return acc
     }, {})
     for (const field of fields) {

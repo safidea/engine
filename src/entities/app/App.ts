@@ -38,8 +38,13 @@ export class App {
     if (this.tables.exist()) {
       await this.tables.services.database.configure(this.tables)
     }
-    if (this.automations.exist()) {
+    if (this.buckets.exist()) {
+      await this.buckets.services.storage.configure(this.buckets)
+    }
+    if (this.automations.exist() && this.tables.exist()) {
       await this.automations.services.database.listen(this.automations.emit)
+    }
+    if (this.automations.exist() && this.buckets.exist()) {
       await this.automations.services.storage.listen(this.automations.emit)
     }
   }

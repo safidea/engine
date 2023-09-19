@@ -2,7 +2,7 @@ import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '../app'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test('should create a list of invoices', async ({ request, folder }) => {
+  test.only('should create a list of invoices', async ({ request, folder }) => {
     // GIVEN
     const port = 50501
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
@@ -11,7 +11,8 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const { invoices } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices', 2)
 
     // WHEN
-    await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoices })
+    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoices })
+    console.log(await res.json())
 
     // THEN
     const records = await app.drivers.database.list('invoices')

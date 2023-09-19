@@ -50,7 +50,7 @@ test.describe('An automation that build an invoice document from a template', ()
     )
   })
 
-  test.only('should create a draft invoice from html template on API request with dynamics tokens', async ({
+  test('should create a draft invoice from html template on API request with dynamics tokens', async ({
     request,
     folder,
   }) => {
