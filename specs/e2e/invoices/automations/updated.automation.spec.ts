@@ -30,7 +30,7 @@ test.describe('An automation that update an invoice document from a template', (
     const [record] = await app.drivers.database.list('invoices')
     expect(record.customer).toEqual('Company B')
     const [file] = await app.drivers.storage.list('invoices')
-    const data = await pdf(file)
+    const data = await pdf(file.data)
     expect(data.text).toContain('Company B')
   })
 
@@ -65,7 +65,7 @@ test.describe('An automation that update an invoice document from a template', (
     const [record] = await app.drivers.database.list('invoices_items')
     expect(record.unit_price).toEqual(253)
     const [file] = await app.drivers.storage.list('invoices')
-    const data = await pdf(file)
+    const data = await pdf(file.data)
     expect(data.text).toContain('253€')
   })
 })

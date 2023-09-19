@@ -163,8 +163,8 @@ test.describe('A page that create an invoice', () => {
     // THEN
     const [file] = await app.drivers.storage.list('invoices')
     expect(file).toBeDefined()
-    //expect(file.filename).toEqual('invoice-P1001.pdf')
-    const data = await pdf(file)
+    expect(file.filename).toEqual('invoice-P1001.pdf')
+    const data = await pdf(file.data)
     expect(data.text).toContain('Invoice P1001')
     expect(data.text).toContain('Preview')
     expect(data.text).toContain(invoice.customer)

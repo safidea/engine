@@ -30,16 +30,16 @@ export class StorageService implements IStorageService {
   }
 
   async read(bucket: Bucket, filename: string): Promise<File | undefined> {
-    const buffer = await this.driver.read(bucket.name, filename)
-    if (!buffer) return
-    return FileMapper.toFile({ filename }, buffer)
+    const file = await this.driver.read(bucket.name, filename)
+    if (!file) return
+    return FileMapper.toFile({ filename }, file.data)
   }
 
   async list(bucket: Bucket, filenames: string[]): Promise<File[]> {
-    const buffers = await this.driver.list(bucket.name, filenames)
+    const file = await this.driver.list(bucket.name, filenames)
     return FileMapper.toManyFiles(
-      filenames.map((filename) => ({ filename })),
-      buffers
+      file.map((file) => ({ filename: file.filename })),
+      file.map((file) => file.data)
     )
   }
 

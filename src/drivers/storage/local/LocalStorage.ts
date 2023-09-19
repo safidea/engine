@@ -1,8 +1,13 @@
 import { join } from 'path'
 import fs from 'fs-extra'
-import { IStorageDriver } from '@adapters/services/storage/IStorageDriver'
+import { IStorageDriver, StorageDriverFile } from '@adapters/services/storage/IStorageDriver'
 import { StorageDriverOptions } from '../index'
 import { FileDto } from '@adapters/dtos/FileDto'
+
+export interface LocalStorageFile {
+  filename: string
+  data: Buffer
+}
 
 export class LocalStorage implements IStorageDriver {
   private folder: string
@@ -32,23 +37,23 @@ export class LocalStorage implements IStorageDriver {
     return Promise.all(files.map((file, index) => this.upload(bucket, buffers[index], file)))
   }
 
-  async read(bucket: string, filename: string): Promise<Buffer | undefined> {
+  async read(bucket: string, filename: string): Promise<StorageDriverFile | undefined> {
     const path = join(this.storageUrl, bucket, filename)
     if (!fs.existsSync(path)) return
     const data = await fs.readFile(path)
-    return data
+    return { data, filename }
   }
 
-  async list(bucket: string, filenames?: string[]): Promise<Buffer[]> {
-    const buffers = []
+  async list(bucket: string, filenames?: string[]): Promise<StorageDriverFile[]> {
+    const files = []
     const path = join(this.storageUrl, bucket)
     if (!fs.existsSync(path)) throw new Error(`Bucket "${bucket}" does not exist`)
     if (!filenames) filenames = await fs.readdir(path)
     for (const filename of filenames) {
-      const buffer = await this.read(bucket, filename)
-      if (buffer) buffers.push(buffer)
+      const file = await this.read(bucket, filename)
+      if (file) files.push(file)
     }
-    return buffers
+    return files
   }
 
   readStaticFile(path: string): string {

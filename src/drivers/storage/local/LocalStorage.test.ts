@@ -1,21 +1,20 @@
 import { describe, test, expect } from '@jest/globals'
-import { helpers } from '../../../../test/utils/unit/fixtures'
-import { FileStorage } from '@drivers/storage/local/LocalStorage'
+import { helpers } from '@specs/utils/unit/fixtures'
 import { join } from 'path'
 import fs from 'fs-extra'
-import { File } from '@entities/services/storage/file/File'
+import { LocalStorage } from './LocalStorage'
 
-describe('FileStorage', () => {
+describe('LocalStorage', () => {
   test('should create a file', async () => {
     // GIVEN
     const bucket = 'bucketA'
     const filename = 'fileA.txt'
     const data = 'dataA'
     const folder = helpers.getDedicatedTmpFolder()
-    const fileStorage = new FileStorage(folder, 'http://localhost:3000')
+    const storage = new LocalStorage({ folder, domain: 'http://localhost:3000' })
 
     // WHEN
-    await fileStorage.write(bucket, new File(filename, Buffer.from(data)))
+    await storage.upload(bucket, Buffer.from(data), { filename })
 
     // THEN
     const file = await fs.readFile(join(folder, 'storage', bucket, filename), 'utf8')
@@ -28,7 +27,7 @@ describe('FileStorage', () => {
     const filename = 'file.txt'
     const data = 'data'
     const folder = helpers.getDedicatedTmpFolder()
-    const fileStorage = new FileStorage(folder, 'http://localhost:3000')
+    const storage = new LocalStorage({ folder, domain: 'http://localhost:3000' })
     await Promise.all([
       fs.outputFile(join(folder, 'storage', bucket, 'A' + filename), 'A' + data),
       fs.outputFile(join(folder, 'storage', bucket, 'B' + filename), 'B' + data),
@@ -36,7 +35,7 @@ describe('FileStorage', () => {
     ])
 
     // WHEN
-    const files = await fileStorage.list(bucket)
+    const files = await storage.list(bucket)
 
     // THEN
     expect(files[0].filename).toEqual('A' + filename)

@@ -1,4 +1,4 @@
-import { AppDto } from "@adapters/dtos/AppDto"
+import { AppDto } from '@adapters/dtos/AppDto'
 
 const INVOICE_FIELD_PERMISSIONS = {
   update: {
@@ -725,6 +725,11 @@ const APP: AppDto = {
           },
         },
       ],
+    },
+  ],
+  buckets: [
+    {
+      name: 'invoices',
     },
   ],
 }

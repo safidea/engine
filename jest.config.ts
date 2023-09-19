@@ -94,6 +94,7 @@ const config: Config = {
     '^@adapters/(.*)$': '<rootDir>/src/adapters/$1',
     '^@entities/(.*)$': '<rootDir>/src/entities/$1',
     '^@drivers/(.*)$': '<rootDir>/src/drivers/$1',
+    '^@specs/(.*)$': '<rootDir>/specs/$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
