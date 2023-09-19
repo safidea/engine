@@ -10,8 +10,8 @@ import {
 export interface IDatabaseDriver {
   configure(tables: TableParams[]): Promise<void>
   tableExists(tableName: string): boolean
-  create(table: string, record: RecordToCreateDto): Promise<string>
-  createMany(table: string, records: RecordToCreateDto[]): Promise<string[]>
+  create(table: string, record: RecordToCreateDto): Promise<PersistedRecordDto>
+  createMany(table: string, records: RecordToCreateDto[]): Promise<PersistedRecordDto[]>
   update(table: string, record: RecordToUpdateDto | RecordToDeleteDto): Promise<void>
   updateMany(table: string, records: RecordToUpdateDto[] | RecordToDeleteDto[]): Promise<void>
   list(table: string, filters?: FilterParams[]): Promise<PersistedRecordDto[]>

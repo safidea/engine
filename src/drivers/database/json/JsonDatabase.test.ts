@@ -1,16 +1,17 @@
-import { JsonOrm } from '@drivers/database/json/JsonDatabase'
 import { describe, test, expect } from '@jest/globals'
-import { helpers } from '../../../../test/utils/unit/fixtures'
-import { TableDto } from '@adapters/api/table/dtos/TableDto'
+import { JsonDatabase } from './JsonDatabase'
+import { helpers } from '@specs/utils/unit/fixtures'
+import { TableParams } from '@entities/app/table/TableParams'
 
-describe('JsonOrm', () => {
+describe('JsonDatabase', () => {
   test('should update a record by id', async () => {
     // GIVEN
-    const jsonOrm = new JsonOrm(helpers.getDedicatedTmpFolder())
-    await jsonOrm.setDB({
+    const database = new JsonDatabase({ folder: helpers.getDedicatedTmpFolder() })
+    await database.setDB({
       tableA: [
         {
           id: '1',
+          created_time: '2021-01-01T00:00:00.000Z',
           name: 'test A',
         },
       ],
@@ -20,19 +21,20 @@ describe('JsonOrm', () => {
     const update = {
       id: '1',
       name: 'test B',
+      last_modified_time: '2021-01-01T00:00:00.000Z',
     }
-    await jsonOrm.softUpdateById('tableA', update, '1')
+    await database.update('tableA', update)
 
     // THEN
-    const db = await jsonOrm.getDB()
+    const db = await database.getDB()
     const updatedRecord = db.tableA.find((record: any) => record.id === '1')
     expect(updatedRecord?.name).toEqual('test B')
   })
 
   test('should return an autonumber value for an autonumber field', async () => {
     // GIVEN
-    const jsonOrm = new JsonOrm(helpers.getDedicatedTmpFolder())
-    const tables: TableDto[] = [
+    const database = new JsonDatabase({ folder: helpers.getDedicatedTmpFolder() })
+    const tables: TableParams[] = [
       {
         name: 'tableA',
         fields: [
@@ -43,15 +45,16 @@ describe('JsonOrm', () => {
         ],
       },
     ]
-    jsonOrm.configure(tables)
+    database.configure(tables)
 
     // WHEN
-    await jsonOrm.create('tableA', {
+    await database.create('tableA', {
       id: '1',
+      created_time: '2021-01-01T00:00:00.000Z',
     })
 
     // THEN
-    const db = await jsonOrm.getDB()
+    const db = await database.getDB()
     const record = db.tableA.find((record: any) => record.id === '1')
     expect(record?.autonumber).toEqual(1)
   })

@@ -37,29 +37,29 @@ export class DatabaseService implements IDatabaseService {
 
   async create(table: Table, record: RecordToCreate): Promise<string> {
     const recordDto = RecordMapper.toCreateDto(record)
-    const id = await this.driver.create(table.name, recordDto)
+    const persistedRecordDto = await this.driver.create(table.name, recordDto)
     if (this.emit) {
-      const persistedRecord = await this.buildPersistedRecord(recordDto, table)
+      const persistedRecord = await this.buildPersistedRecord(persistedRecordDto, table)
       await this.emit({
         event: 'record_created',
         context: { table: table.name, record: persistedRecord.dataWithLinkedRecordsData() },
       })
     }
-    return id
+    return persistedRecordDto.id
   }
 
   async createMany(table: Table, records: RecordToCreate[]): Promise<string[]> {
     const recordsDtos = RecordMapper.toManyCreatesDtos(records)
-    const ids = await this.driver.createMany(table.name, recordsDtos)
+    const persistedRecordsDtos = await this.driver.createMany(table.name, recordsDtos)
     if (this.emit)
-      for (const record of records) {
-        const persistedRecord = await this.buildPersistedRecord(record.data(), table)
+      for (const persistedRecordDto of persistedRecordsDtos) {
+        const persistedRecord = await this.buildPersistedRecord(persistedRecordDto, table)
         await this.emit({
           event: 'record_created',
           context: { table: table.name, record: persistedRecord.dataWithLinkedRecordsData() },
         })
       }
-    return ids
+    return persistedRecordsDtos.map((record) => record.id)
   }
 
   async softUpdate(table: Table, record: RecordToUpdate): Promise<void> {

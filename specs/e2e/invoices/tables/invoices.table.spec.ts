@@ -15,6 +15,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     console.log(await res.json())
 
     // THEN
+    expect(res.status()).toEqual(200)
     const records = await app.drivers.database.list('invoices')
     expect(records.length).toEqual(2)
     for (let i = 0; i < records.length; i++) {
@@ -52,6 +53,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // THEN
     // I have read 2 invoices
+    expect(res.status()).toEqual(200)
     const { records } = await res.json()
     expect(records.length).toEqual(2)
     expect(records[0].id).toEqual(ids[0])
@@ -78,12 +80,13 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const update = {
       customer: 'Customer B',
     }
-    await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
       data: update,
     })
 
     // THEN
     // The updated invocie should have a new name
+    expect(res.status()).toEqual(200)
     const [updatedRecord] = await app.drivers.database.list('invoices')
     expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.customer).toEqual(update.customer)
@@ -103,10 +106,11 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
-    await request.delete(helpers.getUrl(port, `/api/table/invoices/${id}`))
+    const res = await request.delete(helpers.getUrl(port, `/api/table/invoices/${id}`))
 
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
+    expect(res.status()).toEqual(200)
     const [deletedRecord] = await app.drivers.database.list('invoices')
     expect(deletedRecord.id).toEqual(id)
     expect(deletedRecord.deleted_time).toBeDefined()
@@ -134,11 +138,12 @@ test.describe('An api that allow CRUD operations on invoices', () => {
       number: 1,
       status: 'finalised',
     }
-    await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
       data: update,
     })
 
     // THEN
+    expect(res.status()).toEqual(200)
     const [finalisedRecord] = await app.drivers.database.list('invoices')
     expect(finalisedRecord.id).toEqual(id)
     expect(finalisedRecord.finalised_time).toEqual(update.finalised_time)

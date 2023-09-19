@@ -44,7 +44,7 @@ export class JsonDatabase implements IDatabaseDriver {
     await fs.outputJSON(this.url, db, { spaces: 2 })
   }
 
-  async create(tableName: string, record: PersistedRecordDto): Promise<string> {
+  async create(tableName: string, record: PersistedRecordDto): Promise<PersistedRecordDto> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
     const autonumberField = this.getTable(tableName).fields.find(
@@ -56,10 +56,13 @@ export class JsonDatabase implements IDatabaseDriver {
     }
     db[tableName].push(record)
     await this.setDB(db)
-    return String(record.id)
+    return record
   }
 
-  async createMany(tableName: string, records: PersistedRecordDto[]): Promise<string[]> {
+  async createMany(
+    tableName: string,
+    records: PersistedRecordDto[]
+  ): Promise<PersistedRecordDto[]> {
     const db = await this.getDB()
     if (!db[tableName]) db[tableName] = []
     const autonumberField = this.getTable(tableName).fields.find(
@@ -74,10 +77,13 @@ export class JsonDatabase implements IDatabaseDriver {
     }
     db[tableName].push(...records)
     await this.setDB(db)
-    return records.map((record) => String(record.id))
+    return records
   }
 
-  async update(table: string, record: RecordToUpdateDto | RecordToDeleteDto): Promise<void> {
+  async update(
+    table: string,
+    record: RecordToUpdateDto | RecordToDeleteDto
+  ): Promise<void> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const index = db[table].findIndex((row) => row.id === record.id)

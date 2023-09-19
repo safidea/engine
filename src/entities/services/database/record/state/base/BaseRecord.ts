@@ -11,6 +11,7 @@ import { NumberField } from '@entities/app/table/field/number/NumberField'
 import { RollupField } from '@entities/app/table/field/rollup/RollupField'
 import { RecordFields, RecordFieldValue } from '../../RecordData'
 import { BaseRecordFields, BaseRecordData, BaseRecordFieldValue } from './BaseRecordData'
+import { AutonumberField } from '@entities/app/table/field/autonumber/AutonumberField'
 
 export class BaseRecord {
   readonly id: string
@@ -102,6 +103,13 @@ export class BaseRecord {
   }
 
   protected validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
+    if (value === undefined) {
+      if (!field.optional && !(field instanceof AutonumberField)) {
+        throw new Error(`field "${field.name}" is required`)
+      }
+      return undefined
+    }
+
     if (
       (field instanceof NumberField || field instanceof CurrencyField) &&
       typeof value !== 'number'

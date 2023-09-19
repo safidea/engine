@@ -3,7 +3,6 @@ import { BaseRecord } from '../base/BaseRecord'
 import { Table } from '@entities/app/table/Table'
 import { Field } from '@entities/app/table/field/Field'
 import { BaseRecordFields, BaseRecordFieldValue } from '../base/BaseRecordData'
-import { AutonumberField } from '@entities/app/table/field/autonumber/AutonumberField'
 
 export class RecordToCreate extends BaseRecord {
   constructor(
@@ -23,14 +22,8 @@ export class RecordToCreate extends BaseRecord {
   }
 
   validateFieldValue(field: Field, value: BaseRecordFieldValue): BaseRecordFieldValue {
-    if (value === undefined) {
-      if (field.default !== undefined) {
-        return field.default
-      }
-      if (!field.optional && !(field instanceof AutonumberField)) {
-        throw new Error(`field "${field.name}" is required`)
-      }
-      return undefined
+    if (value === undefined && field.default !== undefined) {
+      return field.default
     }
     return super.validateFieldValue(field, value)
   }
