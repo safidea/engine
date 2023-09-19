@@ -24,7 +24,7 @@ export class FindRecordAction extends BaseAction {
     const id = this.recordIdCompiled.render(context)
     const record = await this.services.database.read(this.table, id)
     if (!record) {
-      this.throwError(`record ${id} not found in table ${this.table.name}`)
+      this.throwError(`record "${id}" not found in table "${this.table.name}"`)
     }
     const { data } = await this.createContextFromRecord(this.table, record.id)
     return { [this.name]: data }

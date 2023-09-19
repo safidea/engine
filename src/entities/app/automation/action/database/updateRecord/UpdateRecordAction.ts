@@ -42,7 +42,7 @@ export class UpdateRecordAction extends BaseAction {
     const id = this.recordIdCompiled.render(context)
     const persistedRecord = await this.services.database.read(this.table, id)
     if (!persistedRecord) {
-      this.throwError(`record ${id} not found in table ${this.table.name}`)
+      this.throwError(`record "${id}" not found in table "${this.table.name}"`)
     }
     const recordToUpdate = new RecordToUpdate(persistedRecord.data(), this.table, fieldsValues)
     await this.services.database.softUpdate(this.table, recordToUpdate)

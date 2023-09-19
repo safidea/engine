@@ -22,7 +22,12 @@ export class BaseAction {
   }
 
   throwError(message: string): never {
-    throw new ActionError(this.name, this.type, message, this.config.automationName)
+    throw new ActionError(
+      this.name,
+      this.type,
+      this.type + ': ' + message,
+      this.config.automationName
+    )
   }
 
   getTableByName(tableName: string): Table {

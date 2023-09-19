@@ -4,6 +4,7 @@ import { AutomationList } from './automation/AutomationList'
 import { AppParams } from './AppParams'
 import { BucketList } from './bucket/BucketList'
 import { AppServices } from './AppServices'
+import { TriggerEvent } from './automation/trigger/TriggerEvent'
 
 export class App {
   readonly name: string
@@ -42,10 +43,14 @@ export class App {
       await this.buckets.services.storage.configure(this.buckets)
     }
     if (this.automations.exist() && this.tables.exist()) {
-      await this.automations.services.database.listen(this.automations.emit)
+      await this.automations.services.database.listen((event: TriggerEvent) =>
+        this.automations.emit(event)
+      )
     }
     if (this.automations.exist() && this.buckets.exist()) {
-      await this.automations.services.storage.listen(this.automations.emit)
+      await this.automations.services.storage.listen((event: TriggerEvent) =>
+        this.automations.emit(event)
+      )
     }
   }
 }
