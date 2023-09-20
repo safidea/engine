@@ -2,25 +2,33 @@ import { Context } from './context/Context'
 import { Page } from './Page'
 import { AppError } from '../AppError'
 import { PageParams } from './PageParams'
-import { PageServices } from './PageServices'
 import { AppConfig } from '../AppConfig'
 import { AppMappers } from '../AppMappers'
 import { UIService } from '@entities/services/ui/UIService'
 import { FetcherService } from '@entities/services/fetcher/FetcherService'
+import { PageServices } from './PageServices'
 
 export class PageList {
-  private readonly pages: Page[]
-  readonly services: PageServices
+  private readonly pages: Page[] = []
+  private readonly services?: PageServices
 
   constructor(pages: PageParams[], mappers: AppMappers, config: AppConfig) {
-    const { ui, fetcher } = mappers
-    if (!ui) throw new AppError('UI is required')
-    if (!fetcher) throw new AppError('Fetcher is required')
-    this.services = {
-      ui: new UIService(ui),
-      fetcher: new FetcherService(fetcher),
+    if (pages.length > 0) {
+      const { ui, fetcher } = mappers
+      if (!ui) throw new AppError('UI is required')
+      if (!fetcher) throw new AppError('Fetcher is required')
+      const services = {
+        ui: new UIService(ui),
+        fetcher: new FetcherService(fetcher),
+      }
+      this.pages = pages.map((page) => new Page(page, services, config))
+      this.services = services
     }
-    this.pages = pages.map((page) => new Page(page, this.services, config))
+  }
+
+  get ui(): UIService {
+    if (!this.services) throw new AppError('Services not found')
+    return this.services.ui
   }
 
   async renderByPath(path: string, context: Context): Promise<React.FC> {

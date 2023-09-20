@@ -1,16 +1,15 @@
-import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 import { TableMiddleware } from './TableMiddleware'
-import { App } from '@entities/app/App'
+import { AppMapper } from '@adapters/mappers/app/AppMapper'
 
 describe('TableMiddleware', () => {
   describe('patchById', () => {
     test('should patch a request body', async () => {
       // Arrange
       const database = {
-        read: jest.fn().mockResolvedValue({ id: '1' }),
-        softUpdate: jest.fn(),
+        read: jest.fn().mockResolvedValue({ id: '1', name: 'name' }),
+        update: jest.fn(),
       }
-      const app = new App(
+      const app = AppMapper.toServerApp(
         {
           tables: [
             {
@@ -35,22 +34,19 @@ describe('TableMiddleware', () => {
         } as any
       )
       const table = app.tables.getByName('table') as any
-      const request = { body: { id: '1', name: 'name' } }
+      const request = { body: { name: 'name' }, params: { id: '1' } }
       const tableMiddleware = new TableMiddleware(app)
 
       // Act
       await tableMiddleware.patchById(table)(request as any)
 
       // Assert
-      expect(database.read).toHaveBeenCalledWith(table, 1)
-      expect(database.softUpdate).toHaveBeenCalledWith(
-        table,
-        new RecordToUpdate(
-          { id: '1', name: 'name', created_time: new Date().toISOString() },
-          table,
-          { name: 'name' }
-        )
-      )
+      expect(database.read).toHaveBeenCalledWith(table.name, '1')
+      expect(database.update).toHaveBeenCalledWith(table.name, {
+        name: 'name',
+        id: '1',
+        last_modified_time: expect.any(String),
+      })
     })
   })
 })

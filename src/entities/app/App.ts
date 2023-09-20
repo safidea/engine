@@ -37,20 +37,18 @@ export class App {
 
   async configure(): Promise<void> {
     if (this.tables.exist()) {
-      await this.tables.services.database.configure(this.tables)
+      await this.tables.database.configure(this.tables)
+      if (this.automations.exist()) {
+        await this.automations.database.listen((event: TriggerEvent) =>
+          this.automations.emit(event)
+        )
+      }
     }
     if (this.buckets.exist()) {
-      await this.buckets.services.storage.configure(this.buckets)
-    }
-    if (this.automations.exist() && this.tables.exist()) {
-      await this.automations.services.database.listen((event: TriggerEvent) =>
-        this.automations.emit(event)
-      )
-    }
-    if (this.automations.exist() && this.buckets.exist()) {
-      await this.automations.services.storage.listen((event: TriggerEvent) =>
-        this.automations.emit(event)
-      )
+      await this.buckets.storage.configure(this.buckets)
+      if (this.automations.exist()) {
+        await this.automations.storage.listen((event: TriggerEvent) => this.automations.emit(event))
+      }
     }
   }
 }

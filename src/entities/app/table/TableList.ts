@@ -5,14 +5,22 @@ import { TableParams } from './TableParams'
 import { TableServices } from './TableServices'
 
 export class TableList {
-  private readonly tables: Table[]
-  readonly services: TableServices
+  private readonly tables: Table[] = []
+  private readonly services?: TableServices
 
   constructor(tables: TableParams[], mappers: AppMappers) {
-    const { database } = mappers
-    if (!database) throw new Error('Database is required')
-    this.services = { database: new DatabaseService(database) }
-    this.tables = tables.map((table) => new Table(table, this.services))
+    if (tables.length > 0) {
+      const { database } = mappers
+      if (!database) throw new Error('Database is required')
+      const services = { database: new DatabaseService(database) }
+      this.tables = tables.map((table) => new Table(table, services))
+      this.services = services
+    }
+  }
+
+  get database(): DatabaseService {
+    if (!this.services) throw new Error('Database is required')
+    return this.services.database
   }
 
   getByName(tableName: string): Table | undefined {

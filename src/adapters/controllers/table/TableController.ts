@@ -12,7 +12,7 @@ export class TableController {
   private readonly database: DatabaseService
 
   constructor(app: App) {
-    this.database = app.tables.services.database
+    this.database = app.tables.database
   }
 
   async create(table: Table, record: RecordToCreate): Promise<string> {

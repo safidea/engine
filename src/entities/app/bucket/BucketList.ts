@@ -5,16 +5,24 @@ import { BucketParams } from './BucketParams'
 import { BucketServices } from './BucketServices'
 
 export class BucketList {
-  private readonly buckets: Bucket[]
-  readonly services: BucketServices
+  private readonly buckets: Bucket[] = []
+  private readonly services?: BucketServices
 
   constructor(buckets: BucketParams[], mappers: AppMappers) {
-    const { storage } = mappers
-    if (!storage) throw new Error('Storage is required')
-    this.services = {
-      storage: new StorageService(storage),
+    if (buckets.length > 0) {
+      const { storage } = mappers
+      if (!storage) throw new Error('Storage is required')
+      const services = {
+        storage: new StorageService(storage),
+      }
+      this.buckets = buckets.map((bucket) => new Bucket(bucket, services))
+      this.services = services
     }
-    this.buckets = buckets.map((bucket) => new Bucket(bucket, this.services))
+  }
+
+  get storage(): StorageService {
+    if (!this.services) throw new Error('Storage is required')
+    return this.services.storage
   }
 
   getByName(bucketName: string): Bucket | undefined {

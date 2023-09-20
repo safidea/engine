@@ -26,9 +26,7 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
         'single_select_record_input component should be placed inside a form'
       )
     }
-    const formTable = this.getTableByName(config.formTableName)
-    const singleLinkedField = formTable.getSingleLinkedRecordFieldByName(params.field)
-    this.table = this.getTableByName(singleLinkedField.table)
+    this.table = this.getTableByName(config.formTableName)
     this.fieldForOptionLabel = fieldForOptionLabel ?? 'id'
   }
 

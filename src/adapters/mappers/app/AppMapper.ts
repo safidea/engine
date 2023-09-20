@@ -28,6 +28,7 @@ export class AppMapper {
     const mappers = {
       fetcher: new FetcherMapper(drivers.fetcher),
       ui: new UIMapper(drivers.ui),
+      database: {} as DatabaseMapper, // TODO: remove this line
     }
     return new App(dto, mappers)
   }

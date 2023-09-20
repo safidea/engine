@@ -21,12 +21,14 @@ export class TableInputComponent extends BaseComponent {
     if (!config.formTableName) {
       throw new ComponentError(type, 'table_input component should be placed inside a form')
     }
-    this.table = this.getTableByName(config.formTableName)
+    const formTable = this.getTableByName(config.formTableName)
+    const multipleLinkedRecordsField = formTable.getMultipleLinkedRecordsFieldByName(params.field)
+    this.table = this.getTableByName(multipleLinkedRecordsField.table)
     for (const column of columns) {
       if (!this.table.hasColumn(column.field)) {
         throw new ComponentError(
           type,
-          `field ${column.field} in table input columns is not defined in table ${this.table.name}`
+          `field "${column.field}" in table_input columns is not defined in table "${this.table.name}"`
         )
       }
     }

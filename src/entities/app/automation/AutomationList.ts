@@ -13,26 +13,39 @@ import { LoggerService } from '@entities/services/logger/LoggerService'
 export type Emit = (event: TriggerEvent) => Promise<void>
 
 export class AutomationList {
-  private readonly automations: Automation[]
-  readonly services: AutomationServices
+  private readonly automations: Automation[] = []
+  private readonly services?: AutomationServices
 
   constructor(automations: AutomationParams[], mappers: AppMappers, config: AppConfig) {
-    const { database, storage, templater, converter, logger } = mappers
-    if (!database) throw new Error('Database is required')
-    if (!storage) throw new Error('Storage is required')
-    if (!templater) throw new Error('Templater is required')
-    if (!converter) throw new Error('Converter is required')
-    if (!logger) throw new Error('Logger is required')
-    this.services = {
-      database: new DatabaseService(database),
-      storage: new StorageService(storage),
-      templater: new TemplaterService(templater),
-      converter: new ConverterService(converter),
-      logger: new LoggerService(logger),
+    if (automations.length > 0) {
+      const { database, storage, templater, converter, logger } = mappers
+      if (!database) throw new Error('Database is required')
+      if (!storage) throw new Error('Storage is required')
+      if (!templater) throw new Error('Templater is required')
+      if (!converter) throw new Error('Converter is required')
+      if (!logger) throw new Error('Logger is required')
+      const services = {
+        database: new DatabaseService(database),
+        storage: new StorageService(storage),
+        templater: new TemplaterService(templater),
+        converter: new ConverterService(converter),
+        logger: new LoggerService(logger),
+      }
+      this.automations = automations.map(
+        (automation) => new Automation(automation, services, config)
+      )
+      this.services = services
     }
-    this.automations = automations.map(
-      (automation) => new Automation(automation, this.services, config)
-    )
+  }
+
+  get database(): DatabaseService {
+    if (!this.services) throw new Error('Database is required')
+    return this.services.database
+  }
+
+  get storage(): StorageService {
+    if (!this.services) throw new Error('Storage is required')
+    return this.services.storage
   }
 
   getByName(automationName: string): Automation | undefined {

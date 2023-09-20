@@ -13,7 +13,7 @@ export class PageController {
       page: page.params,
       params: context.path.params,
       tables: this.app.tables.getAllParams(),
-      uiDriver: this.app.pages.services.ui.driverName,
+      uiDriver: this.app.pages.ui.driverName,
     }
     const Page = await page.render(context)
     const html = ReactDOMServer.renderToString(<Page />)

@@ -6,6 +6,7 @@ import { getUIDriver } from '@drivers/ui'
 import { getFetcherDriver } from '@drivers/fetcher'
 import { Context } from '@entities/app/page/context/Context'
 import { IServerData } from '@adapters/controllers/server/IServerData'
+import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
 
 declare global {
   interface Window {
@@ -22,6 +23,7 @@ declare global {
     {
       ui: getUIDriver(uiDriver),
       fetcher: getFetcherDriver('native', { domain: window.location.origin }),
+      database: {} as IDatabaseDriver,
     }
   )
   const page = app.pages.getByPath(pageParams.path)
