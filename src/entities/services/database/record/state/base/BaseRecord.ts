@@ -30,7 +30,7 @@ export class BaseRecord {
     this.created_time = created_time
     this.last_modified_time = last_modified_time
     this.deleted_time = deleted_time
-    this.fields = this.validateFieldsValues(fields)
+    this.fields = skipValidation === true ? fields : this.validateFieldsValues(fields)
   }
 
   getFieldValue(fieldName: string): BaseRecordFieldValue {
@@ -103,10 +103,6 @@ export class BaseRecord {
   }
 
   protected validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
-    if (this.skipValidation === true) {
-      return value
-    }
-
     if (value === undefined) {
       if (!field.optional && !(field instanceof AutonumberField)) {
         throw new Error(`field "${field.name}" is required`)

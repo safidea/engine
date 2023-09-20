@@ -1,3 +1,4 @@
+import fs from 'fs-extra'
 import { getServerDriver } from '@drivers/server'
 import { AppValidator } from '@adapters/validators/app/AppValidator'
 import { AppMapper } from '@adapters/mappers/app/AppMapper'
@@ -23,6 +24,8 @@ export default class Engine {
     this.domain = options.domain || `http://localhost:${options.port}`
     this.server = new ServerController(getServerDriver(options.server, { port: options.port }))
     const tmpFolder = `${this.folder}/tmp`
+    fs.ensureDirSync(this.folder)
+    fs.ensureDirSync(tmpFolder)
     this.drivers = {
       templater: getTemplaterDriver(options.templater),
       converter: getConverterDrivers(options.converter, { tmpFolder }),

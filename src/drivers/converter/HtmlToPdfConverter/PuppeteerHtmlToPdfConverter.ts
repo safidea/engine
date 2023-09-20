@@ -7,8 +7,8 @@ import { HtmlToPdfConverterDriver } from '@adapters/mappers/converter/IConverter
 export class PuppeteerHtmlToPdfConverter implements HtmlToPdfConverterDriver {
   constructor(readonly tmpFolder: string) {}
 
-  async convert(html: string) {
-    const filePath = join(this.tmpFolder, uuidv4())
+  async convert(html: string): Promise<Buffer> {
+    const filePath = join(this.tmpFolder, uuidv4() + '.pdf')
     const browser = await puppeteer.launch({ headless: 'new' })
     const page = await browser.newPage()
     await page.setContent(html)

@@ -13,10 +13,12 @@ import { RecordToUpdate } from '@entities/services/database/record/state/toUpdat
 
 export class RecordMapper {
   static toPersisted(record: PersistedRecordDto, table: Table): PersistedRecord {
+    console.log('record', JSON.stringify(record))
     return new PersistedRecord(record, table)
   }
 
   static toManyPersisted(records: PersistedRecordDto[], table: Table): PersistedRecord[] {
+    console.log('records', JSON.stringify(records))
     return records.map((record) => this.toPersisted(record, table))
   }
 

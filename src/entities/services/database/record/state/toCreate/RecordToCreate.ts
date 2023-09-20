@@ -17,6 +17,9 @@ export class RecordToCreate extends BaseRecord {
   }
 
   validateFieldValue(field: Field, value: BaseRecordFieldValue): BaseRecordFieldValue {
+    if (this.skipValidation === true) {
+      return value
+    }
     if (value === undefined && field.default !== undefined) {
       return field.default
     }

@@ -39,15 +39,19 @@ export class App {
     if (this.tables.exist()) {
       await this.tables.database.configure(this.tables)
       if (this.automations.exist()) {
+        await this.automations.database.configure(this.tables)
         await this.automations.database.listen((event: TriggerEvent) =>
           this.automations.emit(event)
         )
+        await this.tables.database.listen((event: TriggerEvent) => this.automations.emit(event))
       }
     }
     if (this.buckets.exist()) {
       await this.buckets.storage.configure(this.buckets)
       if (this.automations.exist()) {
+        await this.automations.storage.configure(this.buckets)
         await this.automations.storage.listen((event: TriggerEvent) => this.automations.emit(event))
+        await this.buckets.storage.listen((event: TriggerEvent) => this.automations.emit(event))
       }
     }
   }

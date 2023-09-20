@@ -225,10 +225,8 @@ export class DatabaseService {
 
     const tables: SyncRecordsByTable = {}
     const promises = []
-    for (const { table, filters } of resources) {
-      promises.push(
-        this.list(table, filters ?? []).then((records) => (tables[table.name] = records))
-      )
+    for (const { table, filters = [] } of resources) {
+      promises.push(this.list(table, filters).then((records) => (tables[table.name] = records)))
     }
     await Promise.all(promises)
     return tables
