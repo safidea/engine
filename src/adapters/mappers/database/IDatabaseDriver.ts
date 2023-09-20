@@ -13,7 +13,10 @@ export interface IDatabaseDriver {
   create(table: string, record: RecordToCreateDto): Promise<PersistedRecordDto>
   createMany(table: string, records: RecordToCreateDto[]): Promise<PersistedRecordDto[]>
   update(table: string, record: RecordToUpdateDto | RecordToDeleteDto): Promise<PersistedRecordDto>
-  updateMany(table: string, records: RecordToUpdateDto[] | RecordToDeleteDto[]): Promise<PersistedRecordDto[]>
+  updateMany(
+    table: string,
+    records: RecordToUpdateDto[] | RecordToDeleteDto[]
+  ): Promise<PersistedRecordDto[]>
   list(table: string, filters?: FilterParams[]): Promise<PersistedRecordDto[]>
   read(table: string, id: string): Promise<PersistedRecordDto | undefined>
 }

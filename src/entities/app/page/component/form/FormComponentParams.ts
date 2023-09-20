@@ -1,30 +1,48 @@
 import * as t from 'io-ts'
-import { InputComponentParams } from './input/InputComponentParams'
+import { ComponentParams } from '../ComponentParams'
 
-export const FormComponentParams = t.intersection([
-  t.type({
-    type: t.literal('form'),
-    table: t.string,
-    inputs: t.array(InputComponentParams),
-    submit: t.intersection([
+export interface FormComponentParams {
+  type: 'form'
+  table: string
+  components: ComponentParams[]
+  submit: {
+    label?: string
+    loadingLabel: string
+    autosave?: boolean
+    actionsOnSuccess?: {
+      type: string
+      path: string
+    }[]
+  }
+  recordIdToUpdate?: string
+}
+
+export const FormComponentParams: t.Type<FormComponentParams> = t.recursion(
+  'FormComponentParams',
+  () =>
+    t.intersection([
       t.type({
-        loadingLabel: t.string,
+        type: t.literal('form'),
+        table: t.string,
+        components: t.array(ComponentParams),
+        submit: t.intersection([
+          t.type({
+            loadingLabel: t.string,
+          }),
+          t.partial({
+            label: t.string,
+            autosave: t.boolean,
+            actionsOnSuccess: t.array(
+              t.type({
+                type: t.string,
+                path: t.string,
+              })
+            ),
+          }),
+        ]),
       }),
       t.partial({
-        label: t.string,
-        autosave: t.boolean,
-        actionsOnSuccess: t.array(
-          t.type({
-            type: t.string,
-            path: t.string,
-          })
-        ),
+        recordIdToUpdate: t.string,
       }),
-    ]),
-  }),
-  t.partial({
-    recordIdToUpdate: t.string,
-  }),
-])
-
-export type FormComponentParams = t.TypeOf<typeof FormComponentParams>
+    ])
+)

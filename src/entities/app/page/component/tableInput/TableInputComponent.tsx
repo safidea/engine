@@ -1,24 +1,27 @@
 import React from 'react'
-import { BaseInputComponent, BaseInputComponentProps } from '../base/BaseInputComponent'
 import { TableInputComponentParams } from './TableInputComponentParams'
-import { FormConfig } from '../../FormComponent'
-import { ComponentError } from '../../../ComponentError'
+import { ComponentError } from '../ComponentError'
 import { TableInputComponentUI } from './TableInputComponentUI'
 import { PageServices } from '@entities/app/page/PageServices'
+import { BaseComponent } from '../base/BaseComponent'
+import { PageConfig } from '../../Page'
+import { Table } from '@entities/app/table/Table'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export type Column = {
-  label: string
-  field: string
-  placeholder?: string
-}
+export class TableInputComponent extends BaseComponent {
+  readonly table: Table
 
-export class TableInputComponent extends BaseInputComponent {
-  readonly addLabel?: string
-  readonly columns: Column[]
-
-  constructor(params: TableInputComponentParams, services: PageServices, config: FormConfig) {
-    const { type, field, label, addLabel, columns } = params
-    super({ type, field, label }, services, config)
+  constructor(
+    readonly params: TableInputComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    const { type, columns } = params
+    super({ type }, services, config)
+    if (!config.formTableName) {
+      throw new ComponentError(type, 'table_input component should be placed inside a form')
+    }
+    this.table = this.getTableByName(config.formTableName)
     for (const column of columns) {
       if (!this.table.hasColumn(column.field)) {
         throw new ComponentError(
@@ -27,8 +30,6 @@ export class TableInputComponent extends BaseInputComponent {
         )
       }
     }
-    this.addLabel = addLabel
-    this.columns = columns
   }
 
   async render() {
@@ -38,18 +39,18 @@ export class TableInputComponent extends BaseInputComponent {
       removeRecord,
       records,
       currentRecord,
-    }: BaseInputComponentProps) => {
-      const recordsIds = currentRecord.getMultipleLinkedRecordsValue(this.field)
-      const rows = records.filter((record) => recordsIds.includes(record.id))
+    }: BaseComponentProps) => {
+      const recordsIds = currentRecord?.getMultipleLinkedRecordsValue(this.params.field) ?? []
+      const rows = records?.filter((record) => recordsIds.includes(record.id)) ?? []
 
       const handleAddRecord = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        addRecord(this.table.name)
+        if (addRecord) addRecord(this.table.name)
       }
 
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
         e.preventDefault()
-        updateRecord(id, e.target.name, e.target.value)
+        if (updateRecord) updateRecord(id, e.target.name, e.target.value)
       }
 
       const handleRemoveRecord = (
@@ -57,18 +58,18 @@ export class TableInputComponent extends BaseInputComponent {
         id: string
       ) => {
         e.preventDefault()
-        removeRecord(this.field, id)
+        if (removeRecord) removeRecord(this.params.field, id)
       }
 
       return (
         <TableInputComponentUI
-          label={this.label}
-          addLabel={this.addLabel}
+          label={this.params.label}
+          addLabel={this.params.addLabel}
           onAddRecord={handleAddRecord}
           onChangeRecord={handleUpdateRecord}
           onRemoveRecord={handleRemoveRecord}
           rows={rows}
-          columns={this.columns}
+          columns={this.params.columns}
           ui={this.services.ui}
         />
       )

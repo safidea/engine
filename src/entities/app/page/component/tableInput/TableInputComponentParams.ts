@@ -1,10 +1,9 @@
 import * as t from 'io-ts'
-import { BaseInputComponentParams } from '../base/BaseInputComponentParams'
 
 export const TableInputComponentParams = t.intersection([
-  BaseInputComponentParams,
   t.type({
-    type: t.literal('table'),
+    type: t.literal('table_input'),
+    field: t.string,
     columns: t.array(
       t.intersection([
         t.type({
@@ -15,6 +14,10 @@ export const TableInputComponentParams = t.intersection([
       ])
     ),
     addLabel: t.string,
+  }),
+  t.partial({
+    label: t.string,
+    placeholder: t.string,
   }),
 ])
 

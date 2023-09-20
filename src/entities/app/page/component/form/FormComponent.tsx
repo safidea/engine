@@ -5,8 +5,7 @@ import { BaseComponent } from '../base/BaseComponent'
 import { FormComponentUI } from './FormComponentUI'
 import { Table } from '@entities/app/table/Table'
 import { Record, RecordToPersite } from '@entities/services/database/record/Record'
-import { InputComponent, newInput } from './input/InputComponent'
-import { TableInputComponent } from './input/table/TableInputComponent'
+import { TableInputComponent } from '../tableInput/TableInputComponent'
 import { Context } from '../../context/Context'
 import { ComponentError } from '../ComponentError'
 import { newFilter } from '@entities/services/database/filter/Filter'
@@ -17,25 +16,22 @@ import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { SyncRecordsByTable, SyncResource } from '@entities/services/fetcher/sync/Sync'
 import { RecordToDelete } from '@entities/services/database/record/state/toDelete/RecordToDelete'
 import { PageServices } from '../../PageServices'
-
-export interface FormConfig extends PageConfig {
-  formTableName: string
-}
+import { Component, newComponent } from '../Component'
 
 export class FormComponent extends BaseComponent {
-  readonly inputs: InputComponent[]
+  readonly components: Component[]
   readonly submit: FormComponentParams['submit']
   readonly recordIdToUpdate?: string
   readonly table: Table
 
   constructor(params: FormComponentParams, services: PageServices, config: PageConfig) {
-    const { type, submit, recordIdToUpdate, table: tableName, inputs } = params
+    const { type, submit, recordIdToUpdate, table: tableName, components } = params
     super({ type }, services, config)
     this.submit = submit
     this.recordIdToUpdate = recordIdToUpdate
     this.table = this.getTableByName(tableName)
-    this.inputs = inputs.map((input) =>
-      newInput(input, services, { ...config, formTableName: tableName })
+    this.components = components.map((component) =>
+      newComponent(component, services, { ...config, formTableName: tableName })
     )
   }
 
@@ -56,7 +52,9 @@ export class FormComponent extends BaseComponent {
       defaultRecordId = record.id
     }
 
-    const InputsComponents = await Promise.all(this.inputs.map((input) => input.render()))
+    const Components = await Promise.all(
+      this.components.map((component) => component.render(context))
+    )
 
     return () => {
       const [isSaving, setIsSaving] = useState(false)
@@ -160,7 +158,7 @@ export class FormComponent extends BaseComponent {
           updateRecord={updateRecord}
           addRecord={addRecord}
           removeRecord={removeRecord}
-          InputsComponents={InputsComponents}
+          Components={Components}
           isSaving={isSaving}
           errorMessage={errorMessage}
           records={records}
@@ -179,7 +177,11 @@ export class FormComponent extends BaseComponent {
         filters: [newFilter({ field: 'id', operator: 'is_any_of', value: [defaultRecordId] })],
       },
     ]
-    const tablesInputs = this.inputs.filter((input) => input instanceof TableInputComponent)
+
+    const tablesInputs: TableInputComponent[] = []
+    for (const component of this.components) {
+      if (component instanceof TableInputComponent) tablesInputs.push(component)
+    }
     for (const tableInput of tablesInputs) {
       resources.push({
         table: tableInput.table,

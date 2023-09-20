@@ -1,5 +1,7 @@
-
-import { HtmlToPdfConverterDriver, IConverterDrivers } from '@adapters/mappers/converter/IConverterDrivers'
+import {
+  HtmlToPdfConverterDriver,
+  IConverterDrivers,
+} from '@adapters/mappers/converter/IConverterDrivers'
 import { PuppeteerHtmlToPdfConverter } from './HtmlToPdfConverter/PuppeteerHtmlToPdfConverter'
 
 export type ConverterDrivers = {

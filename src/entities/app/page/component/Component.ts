@@ -8,6 +8,10 @@ import { TitleComponent } from './title/TitleComponent'
 import { NavigationComponent } from './navigation/NavigationComponent'
 import { ParagraphComponent } from './paragraph/ParagraphComponent'
 import { PageServices } from '../PageServices'
+import { SingleSelectInputComponent } from './singleSelectInput/SingleSelectInputComponent'
+import { SingleSelectRecordInputComponent } from './singleSelectRecordInput/SingleSelectRecordInputComponent'
+import { TableInputComponent } from './tableInput/TableInputComponent'
+import { TextInputComponent } from './textInput/TextInputComponent'
 
 export type Component =
   | LinkComponent
@@ -17,6 +21,10 @@ export type Component =
   | ListComponent
   | FormComponent
   | ContainerComponent
+  | TextInputComponent
+  | TableInputComponent
+  | SingleSelectRecordInputComponent
+  | SingleSelectInputComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -38,5 +46,13 @@ export function newComponent(
       return new FormComponent(params, services, config)
     case 'container':
       return new ContainerComponent(params, services, config)
+    case 'table_input':
+      return new TableInputComponent(params, services, config)
+    case 'text_input':
+      return new TextInputComponent(params, services, config)
+    case 'single_select_record_input':
+      return new SingleSelectRecordInputComponent(params, services, config)
+    case 'single_select_input':
+      return new SingleSelectInputComponent(params, services, config)
   }
 }

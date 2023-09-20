@@ -8,6 +8,7 @@ import { AppConfig } from '../AppConfig'
 
 export interface PageConfig {
   tables: TableList
+  formTableName?: string
 }
 
 export class Page {

@@ -13,7 +13,7 @@ export interface FormComponentUIProps {
   updateRecord: UpdateRecord
   addRecord: AddRecord
   removeRecord: RemoveRecord
-  InputsComponents: React.FC<{
+  Components: React.FC<{
     updateRecord: UpdateRecord
     addRecord: AddRecord
     removeRecord: RemoveRecord
@@ -34,7 +34,7 @@ export interface FormComponentUIProps {
 
 export function FormComponentUI({
   onSubmit,
-  InputsComponents,
+  Components,
   updateRecord,
   addRecord,
   removeRecord,
@@ -45,12 +45,12 @@ export function FormComponentUI({
   errorMessage,
   ui,
 }: FormComponentUIProps) {
-  const { Form, Inputs, Submit, ErrorMessage, Loading } = ui.getForm()
+  const { Form, Submit, ErrorMessage, Loading } = ui.getForm()
   return (
     <Form onSubmit={onSubmit}>
-      <Inputs>
-        {InputsComponents.map((InputComponent, index) => (
-          <InputComponent
+      <>
+        {Components.map((Component, index) => (
+          <Component
             key={index}
             updateRecord={updateRecord}
             addRecord={addRecord}
@@ -59,7 +59,7 @@ export function FormComponentUI({
             records={records}
           />
         ))}
-      </Inputs>
+      </>
       {submit.label && <Submit label={isSaving === false ? submit.label : submit.loadingLabel} />}
       {submit.autosave === true && isSaving === true ? (
         <Loading label={submit.loadingLabel} />
@@ -87,7 +87,6 @@ export interface FormUIErrorMessageProps {
 
 export interface FormUI {
   Form: React.FC<FormUIFormProps>
-  Inputs: React.FC<BaseComponentUIProps>
   Submit: React.FC<FormUISubmitProps>
   ErrorMessage: React.FC<FormUIErrorMessageProps>
   Loading: React.FC<FormUILoadingProps>

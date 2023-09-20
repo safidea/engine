@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseComponentUIProps } from '../../../base/BaseComponentUI'
+import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
 import { UIService } from '@entities/services/ui/UIService'
 

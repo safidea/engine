@@ -1,10 +1,12 @@
-import * as t from 'io-ts';
-import { BaseInputComponentParams } from '../base/BaseInputComponentParams'
+import * as t from 'io-ts'
 
 export const TextInputComponentParams = t.intersection([
-  BaseInputComponentParams,
+  t.type({
+    type: t.literal('text_input'),
+    field: t.string,
+  }),
   t.partial({
-    type: t.literal('text'),
+    label: t.string,
     placeholder: t.string,
   }),
 ])

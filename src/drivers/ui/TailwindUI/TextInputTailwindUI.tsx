@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInputUI } from '@entities/app/page/component/form/input/text/TextInputComponentUI'
+import { TextInputUI } from '@entities/app/page/component/textInput/TextInputComponentUI'
 
 const TextInputTailwindUI: TextInputUI = {
   Label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,

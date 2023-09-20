@@ -306,33 +306,40 @@ const APP: AppDto = {
             {
               type: 'form',
               table: 'invoices',
-              inputs: [
+              components: [
                 {
+                  type: 'single_select_record_input',
                   field: 'entity',
                   label: 'Entité',
                   fieldForOptionLabel: 'name',
                 },
                 {
+                  type: 'text_input',
                   field: 'customer',
                   label: 'Client',
                 },
                 {
+                  type: 'text_input',
                   field: 'address',
                   label: 'Adresse',
                 },
                 {
+                  type: 'text_input',
                   field: 'zip_code',
                   label: 'Code postal',
                 },
                 {
+                  type: 'text_input',
                   field: 'city',
                   label: 'Ville',
                 },
                 {
+                  type: 'text_input',
                   field: 'country',
                   label: 'Pays',
                 },
                 {
+                  type: 'table_input',
                   field: 'items',
                   label: 'Lignes de facture',
                   columns: [
@@ -408,28 +415,35 @@ const APP: AppDto = {
               type: 'form',
               table: 'invoices',
               recordIdToUpdate: '{{path.params.id}}',
-              inputs: [
+              components: [
                 {
+                  type: 'single_select_record_input',
                   field: 'customer',
                   label: 'Client',
+                  fieldForOptionLabel: 'name',
                 },
                 {
+                  type: 'text_input',
                   field: 'address',
                   label: 'Adresse',
                 },
                 {
+                  type: 'text_input',
                   field: 'zip_code',
                   label: 'Code postal',
                 },
                 {
+                  type: 'text_input',
                   field: 'city',
                   label: 'Ville',
                 },
                 {
+                  type: 'text_input',
                   field: 'country',
                   label: 'Pays',
                 },
                 {
+                  type: 'table_input',
                   field: 'items',
                   label: 'Lignes de facture',
                   columns: [
@@ -457,6 +471,7 @@ const APP: AppDto = {
                   addLabel: 'Nouvelle ligne',
                 },
                 {
+                  type: 'single_select_input',
                   field: 'status',
                   label: 'Statut',
                   options: [

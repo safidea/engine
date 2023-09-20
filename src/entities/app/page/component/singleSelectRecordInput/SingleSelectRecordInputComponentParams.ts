@@ -1,13 +1,14 @@
 import * as t from 'io-ts'
-import { BaseInputComponentParams } from '../base/BaseInputComponentParams'
 
 export const SingleSelectRecordInputComponentParams = t.intersection([
-  BaseInputComponentParams,
   t.type({
-    type: t.literal('single_select_record'),
-    placeholder: t.string,
-    table: t.string,
+    type: t.literal('single_select_record_input'),
+    field: t.string,
     fieldForOptionLabel: t.string,
+  }),
+  t.partial({
+    placeholder: t.string,
+    label: t.string,
   }),
 ])
 

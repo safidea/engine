@@ -1,5 +1,5 @@
 import React from 'react'
-import { SingleSelectInputUI } from '@entities/app/page/component/form/input/singleSelect/SingleSelectInputComponentUI'
+import { SingleSelectInputUI } from '@entities/app/page/component/singleSelectInput/SingleSelectInputComponentUI'
 
 const SingleSelectInputUnstyledUI: SingleSelectInputUI = {
   Label: ({ label, htmlFor }) => <label htmlFor={htmlFor}>{label}</label>,

@@ -1,4 +1,4 @@
-import { UIService } from '@entities/services/ui/UIService';
+import { UIService } from '@entities/services/ui/UIService'
 import React from 'react'
 
 export interface SingleSelectInputProps {

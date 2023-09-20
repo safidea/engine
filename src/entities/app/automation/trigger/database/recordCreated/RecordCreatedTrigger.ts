@@ -11,7 +11,11 @@ export class RecordCreatedTrigger extends BaseTrigger {
   private table: Table
   private filters: Filter[]
 
-  constructor(params: RecordCreatedTriggerParams, services: AutomationServices, config: AutomationConfig) {
+  constructor(
+    params: RecordCreatedTriggerParams,
+    services: AutomationServices,
+    config: AutomationConfig
+  ) {
     const { event, table: tableName, filters = [] } = params
     super({ event }, services, config)
     this.table = this.getTableByName(tableName)

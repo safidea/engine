@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableInputUI } from '@entities/app/page/component/form/input/table/TableInputComponentUI'
+import { TableInputUI } from '@entities/app/page/component/tableInput/TableInputComponentUI'
 
 const TableInputUnstyledUI: TableInputUI = {
   Container: ({ children }) => {
