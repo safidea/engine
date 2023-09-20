@@ -8,10 +8,9 @@ const OUTPUT_DIR = path.resolve(__dirname, '../', 'dist')
 
 // Define your aliases and their absolute paths
 const ALIAS_MAP = {
-  '@domain/': path.resolve(OUTPUT_DIR, 'server/domain') + '/',
-  '@drivers/': path.resolve(OUTPUT_DIR, 'server/infrastructure') + '/',
-  '@application/': path.resolve(OUTPUT_DIR, 'server/application') + '/',
-  '@adapter/': path.resolve(OUTPUT_DIR, 'server/adapter') + '/',
+  '@entities/': path.resolve(OUTPUT_DIR, 'server/entities') + '/',
+  '@drivers/': path.resolve(OUTPUT_DIR, 'server/drivers') + '/',
+  '@adapters/': path.resolve(OUTPUT_DIR, 'server/adapters') + '/',
   '../../../dist/client': path.resolve(OUTPUT_DIR, 'client') + '/',
 }
 
