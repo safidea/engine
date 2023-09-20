@@ -1,12 +1,11 @@
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
-import { PageController } from '@adapters/controllers/page/PageController'
 import { AppMapper } from '@adapters/mappers/app/AppMapper'
 import { getUIDriver } from '@drivers/ui'
 import { getFetcherDriver } from '@drivers/fetcher'
-import { Context } from '@entities/app/page/context/Context'
 import { IServerData } from '@adapters/controllers/server/IServerData'
 import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
+import { ContextMapper } from '@adapters/mappers/ContextMapper'
 
 declare global {
   interface Window {
@@ -28,8 +27,7 @@ declare global {
   )
   const page = app.pages.getByPath(pageParams.path)
   if (!page) throw new Error('Page not found: ' + pageParams.path)
-  const pageController = new PageController(app)
-  const Page = await pageController.renderHtml(page, new Context({ path: { params } }))
+  const Page = await page.render(ContextMapper.toContext({ path: { params } }))
   const container = document.getElementById('root')
   if (!container) throw new Error('Root element not found')
   hydrateRoot(container, <Page />)
