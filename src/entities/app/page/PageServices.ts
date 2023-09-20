@@ -1,7 +1,7 @@
-import { IFetcherService } from '@entities/services/fetcher/IFetcherService'
-import { IUIService } from '@entities/services/ui/IUIService'
+import { FetcherService } from '@entities/services/fetcher/FetcherService'
+import { UIService } from '@entities/services/ui/UIService'
 
 export type PageServices = {
-  ui: IUIService
-  fetcher: IFetcherService
+  ui: UIService
+  fetcher: FetcherService
 }

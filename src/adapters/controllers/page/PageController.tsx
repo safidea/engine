@@ -3,13 +3,13 @@ import { App } from '@entities/app/App'
 import { Page } from '@entities/app/page/Page'
 import { Context } from '@entities/app/page/context/Context'
 import ReactDOMServer from 'react-dom/server'
-import { ServerData } from '@adapters/services/server/ServerData'
+import { IServerData } from '../server/IServerData'
 
 export class PageController {
   constructor(private readonly app: App) {}
 
   async renderHtml(page: Page, context: Context): Promise<string> {
-    const data: ServerData = {
+    const data: IServerData = {
       page: page.params,
       params: context.path.params,
       tables: this.app.tables.getAllParams(),

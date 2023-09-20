@@ -1,13 +1,13 @@
-import { IConverterService } from '@entities/services/converter/IConverterService'
-import { IDatabaseService } from '@entities/services/database/IDatabaseService'
-import { ILoggerService } from '@entities/services/logger/ILoggerService'
-import { IStorageService } from '@entities/services/storage/IStorageService'
-import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
+import { ConverterService } from '@entities/services/converter/ConverterService'
+import { DatabaseService } from '@entities/services/database/DatabaseService'
+import { LoggerService } from '@entities/services/logger/LoggerService'
+import { StorageService } from '@entities/services/storage/StorageService'
+import { TemplaterService } from '@entities/services/templater/TemplaterService'
 
 export interface AutomationServices {
-  database: IDatabaseService
-  storage: IStorageService
-  templater: ITemplaterService
-  converter: IConverterService
-  logger: ILoggerService
+  database: DatabaseService
+  storage: StorageService
+  templater: TemplaterService
+  converter: ConverterService
+  logger: LoggerService
 }

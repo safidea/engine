@@ -1,12 +1,14 @@
 import { LinkComponentUI } from '@entities/app/page/component/link/LinkComponentUI'
 import { NavigationComponentUI } from '@entities/app/page/component/navigation/NavigationComponentUI'
 import { TitleComponentUI } from '@entities/app/page/component/title/TitleComponentUI'
-import { UIService } from '@adapters/services/ui/UIService'
 import TailwindUI from '../index'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-const ui = new UIService(TailwindUI)
+import { UIMapper } from '@adapters/mappers/ui/UIMapper'
+import { UIService } from '@entities/services/ui/UIService'
+
+const ui = new UIService(new UIMapper(TailwindUI))
 
 const SmallTitle = () => <TitleComponentUI text="title" size="small" ui={ui} />
 const BigTitle = () => <TitleComponentUI text="title" size="large" ui={ui} />

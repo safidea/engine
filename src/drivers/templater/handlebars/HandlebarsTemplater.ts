@@ -1,6 +1,6 @@
+import { ITemplateDriver } from '@adapters/mappers/templater/ITemplaterDriver'
 import Handlebars from 'handlebars'
 import { DateTime } from 'luxon'
-import { ITemplateDriver } from '@adapters/services/templater/ITemplaterDriver'
 
 Handlebars.registerHelper('now', function (format = 'iso') {
   const now = DateTime.now().setLocale('fr')

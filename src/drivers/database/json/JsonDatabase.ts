@@ -1,10 +1,10 @@
 import fs from 'fs-extra'
 import { join } from 'path'
-import { IDatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
 import { DatabaseOptions } from '../index'
 import { TableParams } from '@entities/app/table/TableParams'
 import { PersistedRecordDto, RecordToDeleteDto, RecordToUpdateDto } from '@adapters/dtos/RecordDto'
 import { FilterDto } from '@adapters/dtos/FilterDto'
+import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
 
 interface Database {
   [key: string]: PersistedRecordDto[]
@@ -83,27 +83,31 @@ export class JsonDatabase implements IDatabaseDriver {
   async update(
     table: string,
     record: RecordToUpdateDto | RecordToDeleteDto
-  ): Promise<void> {
+  ): Promise<PersistedRecordDto> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
     const index = db[table].findIndex((row) => row.id === record.id)
     if (index === -1) throw new Error(`Record ${record.id} not found`)
     db[table][index] = { ...db[table][index], ...record }
     await this.setDB(db)
+    return db[table][index]
   }
 
   async updateMany(
     table: string,
     records: (RecordToUpdateDto | RecordToDeleteDto)[]
-  ): Promise<void> {
+  ): Promise<PersistedRecordDto[]> {
     const db = await this.getDB()
     if (!db[table]) db[table] = []
+    const persistedRecords = []
     for (const record of records) {
       const index = db[table].findIndex((row) => row.id === record.id)
       if (index === -1) throw new Error(`Record ${record.id} not found`)
       db[table][index] = { ...db[table][index], ...record }
+      persistedRecords.push(db[table][index])
     }
     await this.setDB(db)
+    return persistedRecords
   }
 
   async list(table: string, filters: FilterDto[] = []): Promise<PersistedRecordDto[]> {

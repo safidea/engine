@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIService } from '../../../../../../services/ui/IUIService'
+import { IUIService } from '../../../../../../services/ui/IUIMapper'
 
 export interface SingleSelectInputProps {
   label?: string

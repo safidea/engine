@@ -1,12 +1,12 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { IUIService } from '../../../../services/ui/IUIService'
+import { UIService } from '@entities/services/ui/UIService'
 import { TitleSize } from './TitleComponentParams'
 
 export interface TitleProps {
   size?: TitleSize
   text: string
-  ui: IUIService
+  ui: UIService
 }
 
 export function TitleComponentUI({ size, text, ui }: TitleProps) {

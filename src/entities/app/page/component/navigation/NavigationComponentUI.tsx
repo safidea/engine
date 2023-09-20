@@ -1,9 +1,9 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { IUIService } from '../../../../services/ui/IUIService'
+import { UIService } from '@entities/services/ui/UIService'
 
 export interface NavigationProps {
-  ui: IUIService
+  ui: UIService
   Title: React.FC
   Links: React.FC[]
   Components: React.FC[]
@@ -17,8 +17,8 @@ export function NavigationComponentUI({ ui, Title, Links, Components }: Navigati
         <Title />
         <LinksContainer>
           {Links.map((Link, index) => (
-            <LinkItem>
-              <Link key={index} />
+            <LinkItem key={index}>
+              <Link />
             </LinkItem>
           ))}
         </LinksContainer>

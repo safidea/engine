@@ -1,4 +1,5 @@
-import { AppServices } from '../AppServices'
+import { DatabaseService } from '@entities/services/database/DatabaseService'
+import { AppMappers } from '../AppMappers'
 import { Table } from './Table'
 import { TableParams } from './TableParams'
 import { TableServices } from './TableServices'
@@ -7,10 +8,10 @@ export class TableList {
   private readonly tables: Table[]
   readonly services: TableServices
 
-  constructor(tables: TableParams[], services: AppServices) {
-    const { database } = services
-    if (!database) throw new Error('Database service is required')
-    this.services = { database }
+  constructor(tables: TableParams[], mappers: AppMappers) {
+    const { database } = mappers
+    if (!database) throw new Error('Database is required')
+    this.services = { database: new DatabaseService(database) }
     this.tables = tables.map((table) => new Table(table, this.services))
   }
 

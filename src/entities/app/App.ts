@@ -3,7 +3,7 @@ import { PageList } from './page/PageList'
 import { AutomationList } from './automation/AutomationList'
 import { AppParams } from './AppParams'
 import { BucketList } from './bucket/BucketList'
-import { AppServices } from './AppServices'
+import { AppMappers } from './AppMappers'
 import { TriggerEvent } from './automation/trigger/TriggerEvent'
 
 export class App {
@@ -16,7 +16,7 @@ export class App {
 
   constructor(
     readonly params: AppParams,
-    readonly services: AppServices
+    mappers: AppMappers
   ) {
     const {
       name = 'My app',
@@ -28,11 +28,11 @@ export class App {
     } = params
     this.name = name
     this.version = version
-    this.tables = new TableList(tables, services)
-    this.buckets = new BucketList(buckets, services)
+    this.tables = new TableList(tables, mappers)
+    this.buckets = new BucketList(buckets, mappers)
     const config = { tables: this.tables, buckets: this.buckets }
-    this.pages = new PageList(pages, services, config)
-    this.automations = new AutomationList(automations, services, config)
+    this.pages = new PageList(pages, mappers, config)
+    this.automations = new AutomationList(automations, mappers, config)
   }
 
   async configure(): Promise<void> {

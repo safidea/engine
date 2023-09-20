@@ -1,9 +1,9 @@
 import React from 'react'
-import { IUIService } from '@entities/services/ui/IUIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
+import { UIService } from '@entities/services/ui/UIService'
 
 export interface ContainerProps {
-  ui: IUIService
+  ui: UIService
   Components: React.FC[]
 }
 

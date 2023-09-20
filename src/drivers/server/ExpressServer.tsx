@@ -2,9 +2,9 @@ import { Server } from 'http'
 import path from 'path'
 import express, { Express } from 'express'
 import { ServerDriverOptions } from './index'
-import { IServerDriver } from '@adapters/services/server/IServerDriver'
-import { ServerRequest, ServerRequestQuery } from '@adapters/services/server/ServerRequest'
-import { ServerHandler } from '@adapters/services/server/ServerHandler'
+import { IServerDriver } from '@adapters/controllers/server/IServerDriver'
+import { IServerHandler } from '@adapters/controllers/server/IServerHandler'
+import { IServerRequest, IServerRequestQuery } from '@adapters/controllers/server/IServerRequest'
 
 export class ExpressServer implements IServerDriver {
   private express: Express
@@ -19,35 +19,35 @@ export class ExpressServer implements IServerDriver {
     this.express.use(express.static(path.join(__dirname, '../../../dist/client')))
   }
 
-  get(path: string, handler: ServerHandler) {
+  get(path: string, handler: IServerHandler) {
     this.express.get(path, (req, res) => this.handleRequest(req, res, handler))
   }
 
-  post(path: string, handler: ServerHandler) {
+  post(path: string, handler: IServerHandler) {
     this.express.post(path, (req, res) => this.handleRequest(req, res, handler))
   }
 
-  patch(path: string, handler: ServerHandler) {
+  patch(path: string, handler: IServerHandler) {
     this.express.patch(path, (req, res) => this.handleRequest(req, res, handler))
   }
 
-  delete(path: string, handler: ServerHandler) {
+  delete(path: string, handler: IServerHandler) {
     this.express.delete(path, (req, res) => this.handleRequest(req, res, handler))
   }
 
   private handleRequest = async (
     req: express.Request,
     res: express.Response,
-    handler: ServerHandler
+    handler: IServerHandler
   ) => {
-    const request: ServerRequest = {
+    const request: IServerRequest = {
       method: req.method,
       path: req.url.split('?')[0],
       params: req.params,
     }
     if (req.body) request.body = req.body
     if (req.query) {
-      request.query = Object.keys(req.query).reduce((acc: ServerRequestQuery, key: string) => {
+      request.query = Object.keys(req.query).reduce((acc: IServerRequestQuery, key: string) => {
         acc[key] = String(req.query[key])
         return acc
       }, {})

@@ -1,6 +1,6 @@
-import { ILoggerService } from '@entities/services/logger/ILoggerService'
+import { ILoggerDriver } from '@adapters/mappers/logger/ILoggerDriver'
 
-export class NativeLogger implements ILoggerService {
+export class NativeLogger implements ILoggerDriver {
   async log(message: string) {
     console.log(message)
   }

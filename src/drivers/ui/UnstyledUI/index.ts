@@ -8,7 +8,7 @@ import TableInputUnstyledUI from './TableInputUnstyledUI'
 import TextInputUnstyledUI from './TextInputUnstyledUI'
 import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 import ContainerUnstyledUI from './ContainerUnstyledUI'
-import { IUIDriver } from '@adapters/services/ui/IUIDriver'
+import { IUIDriver } from '@adapters/mappers/ui/IUIDriver'
 
 const UnstyledUI: IUIDriver = {
   name: 'unstyled',

@@ -1,4 +1,5 @@
-import { AppServices } from '../AppServices'
+import { StorageService } from '@entities/services/storage/StorageService'
+import { AppMappers } from '../AppMappers'
 import { Bucket } from './Bucket'
 import { BucketParams } from './BucketParams'
 import { BucketServices } from './BucketServices'
@@ -7,10 +8,12 @@ export class BucketList {
   private readonly buckets: Bucket[]
   readonly services: BucketServices
 
-  constructor(buckets: BucketParams[], services: AppServices) {
-    const { storage } = services
-    if (!storage) throw new Error('Storage service is required')
-    this.services = { storage }
+  constructor(buckets: BucketParams[], mappers: AppMappers) {
+    const { storage } = mappers
+    if (!storage) throw new Error('Storage is required')
+    this.services = {
+      storage: new StorageService(storage),
+    }
     this.buckets = buckets.map((bucket) => new Bucket(bucket, this.services))
   }
 

@@ -1,10 +1,12 @@
-import { UIService } from '@adapters/services/ui/UIService'
 import { ParagraphComponentUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import TailwindUI from '../index'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-const ui = new UIService(TailwindUI)
+import { UIMapper } from '@adapters/mappers/ui/UIMapper'
+import { UIService } from '@entities/services/ui/UIService'
+
+const ui = new UIService(new UIMapper(TailwindUI))
 
 const meta: Meta<typeof ParagraphComponentUI> = {
   title: 'Tailwind/Paragraph',

@@ -1,4 +1,4 @@
-import { ILoggerDriver } from '@adapters/services/logger/ILoggerDriver'
+import { ILoggerDriver } from '@adapters/mappers/logger/ILoggerDriver'
 import { NativeLogger } from './NativeLogger'
 
 export type LoggerDrivers = 'native'

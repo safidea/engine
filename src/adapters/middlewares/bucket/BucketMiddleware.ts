@@ -2,8 +2,8 @@ import { ApiError } from '@entities/errors/ApiError'
 import { BucketValidator } from '../../validators/bucket/BucketValidator'
 import { Bucket } from '@entities/app/bucket/Bucket'
 import { App } from '@entities/app/App'
-import { ServerRequest } from '@adapters/services/server/ServerRequest'
-import { ServerResponse } from '@adapters/services/server/ServerResponse'
+import { IServerResponse } from '@adapters/controllers/server/IServerResponse'
+import { IServerRequest } from '@adapters/controllers/server/IServerRequest'
 
 export class BucketMiddleware {
   private readonly bucketValidator: BucketValidator
@@ -13,7 +13,7 @@ export class BucketMiddleware {
   }
 
   get(bucket: Bucket) {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         const file = await this.bucketValidator.validateFileExist(request, bucket)
         return { file: file.path, headers: { 'Content-Type': file.mimetype } }
@@ -23,7 +23,7 @@ export class BucketMiddleware {
     }
   }
 
-  catchError(error: unknown): ServerResponse {
+  catchError(error: unknown): IServerResponse {
     if (error instanceof ApiError) {
       return { status: error.status, json: { error: error.message } }
     } else if (error instanceof Error) {

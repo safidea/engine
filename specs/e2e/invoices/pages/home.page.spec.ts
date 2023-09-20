@@ -31,7 +31,7 @@ test.describe('A page that list invoices', () => {
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({ page, folder }) => {
+  test.only('should display a list of invoices grouped by status', async ({ page, folder }) => {
     // GIVEN
     // We provide 8 example invoices
     const port = 50302

@@ -1,10 +1,11 @@
 import { TitleComponentUI } from '@entities/app/page/component/title/TitleComponentUI'
-import { UIService } from '@adapters/services/ui/UIService'
 import TailwindUI from '../index'
 
 import type { Meta, StoryObj } from '@storybook/react'
+import { UIMapper } from '@adapters/mappers/ui/UIMapper'
+import { UIService } from '@entities/services/ui/UIService'
 
-const ui = new UIService(TailwindUI)
+const ui = new UIService(new UIMapper(TailwindUI))
 
 const meta: Meta<typeof TitleComponentUI> = {
   title: 'Tailwind/Title',

@@ -1,13 +1,13 @@
 import { App } from '@entities/app/App'
 import { TableController } from '../../controllers/table/TableController'
 import { TableValidator } from '../../validators/table/TableValidator'
-import { ServerResponse } from '@adapters/services/server/ServerResponse'
-import { ServerRequest } from '@adapters/services/server/ServerRequest'
 import { Table } from '@entities/app/table/Table'
 import { ApiError } from '@entities/errors/ApiError'
-import { RecordMapper } from '@adapters/mappers/RecordMapper'
-import { FilterMapper } from '@adapters/mappers/FilterMapper'
-import { SyncMapper } from '@adapters/mappers/SyncMapper'
+import { RecordMapper } from '@adapters/mappers/database/record/RecordMapper'
+import { SyncMapper } from '@adapters/mappers/fetcher/sync/SyncMapper'
+import { IServerRequest } from '@adapters/controllers/server/IServerRequest'
+import { IServerResponse } from '@adapters/controllers/server/IServerResponse'
+import { FilterMapper } from '@adapters/mappers/database/filter/FilterMapper'
 
 export class TableMiddleware {
   private readonly tableController: TableController
@@ -19,7 +19,7 @@ export class TableMiddleware {
   }
 
   sync() {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         const syncDto = await this.tableValidator.validateSyncBody(request.body)
         const sync = await SyncMapper.toSync(syncDto, this.app)
@@ -33,7 +33,7 @@ export class TableMiddleware {
   }
 
   get(table: Table) {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         const filtersDto = await this.tableValidator.extractAndValidateFilters(request)
         const filters = FilterMapper.toManyFilters(filtersDto)
@@ -47,7 +47,7 @@ export class TableMiddleware {
   }
 
   getById(table: Table) {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         const record = await this.tableValidator.validateRecordExist(request, table)
         const recordDto = RecordMapper.toPersistedDto(record)
@@ -59,7 +59,7 @@ export class TableMiddleware {
   }
 
   post(table: Table) {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         if (Array.isArray(request.body)) {
           const recordsDtos = await this.tableValidator.validateRecordsBody(request.body)
@@ -78,7 +78,7 @@ export class TableMiddleware {
   }
 
   patchById(table: Table) {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         const persistedRecord = await this.tableValidator.validateRecordExist(request, table)
         const updatedRecordDto = await this.tableValidator.validateRecordBody(request.body)
@@ -93,7 +93,7 @@ export class TableMiddleware {
   }
 
   deleteById(table: Table) {
-    return async (request: ServerRequest): Promise<ServerResponse> => {
+    return async (request: IServerRequest): Promise<IServerResponse> => {
       try {
         const record = await this.tableValidator.validateRecordExist(request, table)
         await this.tableController.delete(table, record.softDelete())
@@ -104,7 +104,7 @@ export class TableMiddleware {
     }
   }
 
-  private catchError(error: unknown): ServerResponse {
+  private catchError(error: unknown): IServerResponse {
     if (error instanceof ApiError) {
       return { status: error.status, json: { error: error.message } }
     } else if (error instanceof Error) {

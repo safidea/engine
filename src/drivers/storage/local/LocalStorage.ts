@@ -1,9 +1,9 @@
 import { join } from 'path'
 import fs from 'fs-extra'
-import { IStorageDriver, StorageDriverFile } from '@adapters/services/storage/IStorageDriver'
 import { StorageDriverOptions } from '../index'
 import { FileDto } from '@adapters/dtos/FileDto'
 import { BucketParams } from '@entities/app/bucket/BucketParams'
+import { IStorageDriver, StorageDriverFile } from '@adapters/mappers/storage/IStorageDriver'
 
 export interface LocalStorageFile {
   filename: string

@@ -8,7 +8,7 @@ import TableInputTailwindUI from './TableInputTailwindUI'
 import TextInputTailwindUI from './TextInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
 import ContainerTailwindUI from './ContainerTailwindUI'
-import { IUIDriver } from '@adapters/services/ui/IUIDriver'
+import { IUIDriver } from '@adapters/mappers/ui/IUIDriver'
 
 const TailwindUI: IUIDriver = {
   name: 'tailwind',

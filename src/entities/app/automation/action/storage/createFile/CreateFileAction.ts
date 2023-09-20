@@ -1,12 +1,12 @@
 import { BaseAction } from '../../base/BaseAction'
 import { File } from '@entities/services/storage/file/File'
-import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
+import { ITemplaterMapper } from '@entities/services/templater/ITemplaterMapper'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
 import { CreateFileActionParams } from './CreateFileActionParams'
 import { Bucket } from '@entities/app/bucket/Bucket'
 import { AutomationServices } from '@entities/app/automation/AutomationServices'
 
-type DataCompiled = { [key: string]: ITemplaterService | string }
+type DataCompiled = { [key: string]: ITemplaterMapper | string }
 type DataRendered = {
   [key: string]: string | DataRendered | DataRendered[]
 }
@@ -14,12 +14,16 @@ type DataRendered = {
 export class CreateFileAction extends BaseAction {
   private bucket: Bucket
   private filename: string
-  private filenameCompiled: ITemplaterService
+  private filenameCompiled: ITemplaterMapper
   private template: string
-  private templateCompiled: ITemplaterService
+  private templateCompiled: ITemplaterMapper
   private dataCompiled: DataCompiled
 
-  constructor(params: CreateFileActionParams, services: AutomationServices, config: AutomationConfig) {
+  constructor(
+    params: CreateFileActionParams,
+    services: AutomationServices,
+    config: AutomationConfig
+  ) {
     const { name, type, filename, input, output, template, bucket, data } = params
     const { storage, templater } = services
     super({ name, type }, services, config)

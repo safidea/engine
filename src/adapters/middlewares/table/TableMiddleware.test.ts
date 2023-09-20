@@ -1,54 +1,56 @@
-describe('TableRoutes', () => {
-  describe('patch', () => {
+import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { TableMiddleware } from './TableMiddleware'
+import { App } from '@entities/app/App'
+
+describe('TableMiddleware', () => {
+  describe('patchById', () => {
     test('should patch a request body', async () => {
-      // GIVEN
-      const app = AppMapper.toEntity(
+      // Arrange
+      const database = {
+        read: jest.fn().mockResolvedValue({ id: '1' }),
+        softUpdate: jest.fn(),
+      }
+      const app = new App(
         {
           tables: [
             {
-              name: 'tableA',
+              name: 'table',
               fields: [
                 {
-                  name: 'fieldA',
+                  name: 'name',
                   type: 'single_line_text',
                 },
               ],
             },
           ],
         },
-        { ui: UnstyledUI }
+        {
+          database,
+          storage: {} as any,
+          ui: {} as any,
+          fetcher: {} as any,
+          templater: {} as any,
+          converter: {} as any,
+          logger: {} as any,
+        } as any
       )
-      const orm = new JsonOrm(helpers.getDedicatedTmpFolder())
-      orm.configure(TableMapper.toDtos(app.tables))
-      await orm.create('tableA', {
-        id: '1',
-        created_time: new Date().toISOString(),
-        fieldA: 'valueA',
-      })
+      const table = app.tables.getByName('table') as any
+      const request = { body: { id: '1', name: 'name' } }
+      const tableMiddleware = new TableMiddleware(app)
 
-      // WHEN
-      const instance = { emit: () => ({}) } as any
-      const ormSpi = new OrmSpi(orm, app, instance)
-      const response = await new TableRoutes(app, ormSpi, instance).patch({
-        method: 'PATCH',
-        path: '/api/table/tableA/1',
-        body: {
-          fieldA: 'valueA updated',
-        },
-        params: {
-          table: 'tableA',
-          id: '1',
-        },
-      })
+      // Act
+      await tableMiddleware.patchById(table)(request as any)
 
-      // THEN
-      const [record] = await orm.list('tableA')
-      expect(response).toEqual({
-        json: {
-          id: '1',
-        },
-      })
-      expect(record.fieldA).toBe('valueA updated')
+      // Assert
+      expect(database.read).toHaveBeenCalledWith(table, 1)
+      expect(database.softUpdate).toHaveBeenCalledWith(
+        table,
+        new RecordToUpdate(
+          { id: '1', name: 'name', created_time: new Date().toISOString() },
+          table,
+          { name: 'name' }
+        )
+      )
     })
   })
 })

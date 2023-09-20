@@ -1,6 +1,5 @@
 import reporter from 'io-ts-reporters'
 import { isLeft } from 'fp-ts/Either'
-import { ServerRequest } from '@adapters/services/server/ServerRequest'
 import { App } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 import { ApiError } from '@entities/errors/ApiError'
@@ -9,11 +8,12 @@ import { RecordToUpdate } from '@entities/services/database/record/state/toUpdat
 import { RecordBodyDto } from '@adapters/dtos/RecordDto'
 import { SyncDto } from '@adapters/dtos/SyncDto'
 import { FilterDto } from '@adapters/dtos/FilterDto'
+import { IServerRequest } from '@adapters/controllers/server/IServerRequest'
 
 export class TableValidator {
   constructor(private app: App) {}
 
-  public async extractAndValidateFilters(request: ServerRequest): Promise<FilterDto[]> {
+  public async extractAndValidateFilters(request: IServerRequest): Promise<FilterDto[]> {
     const { query } = request
     const filters: FilterDto[] = []
     if (query) {
@@ -51,7 +51,10 @@ export class TableValidator {
     return sync
   }
 
-  public async validateRecordExist(request: ServerRequest, table: Table): Promise<PersistedRecord> {
+  public async validateRecordExist(
+    request: IServerRequest,
+    table: Table
+  ): Promise<PersistedRecord> {
     const { id } = request.params ?? {}
     const record = await this.app.tables.services.database.read(table, id)
     if (!record) throw new ApiError(`record "${id}" does not exist in table "${table.name}"`, 404)

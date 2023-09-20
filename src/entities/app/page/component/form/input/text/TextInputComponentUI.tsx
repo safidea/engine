@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUIService } from '@entities/services/ui/IUIService'
+import { IUIService } from '@entities/services/ui/IUIMapper'
 
 export interface TextInputComponentUIProps {
   label?: string

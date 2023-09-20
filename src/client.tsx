@@ -2,13 +2,13 @@ import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { PageController } from '@adapters/controllers/page/PageController'
 import { ServerData } from '@adapters/services/server/ServerData'
-import { AppMapper } from '@adapters/mappers/AppMapper'
-import { UIService } from '@adapters/services/ui/UIService'
+import { AppMapper } from '@adapters/mappers/app/AppMapper'
+import { UIService } from '@adapters/mappers/ui/UIMapper'
 import { getUIDriver } from '@drivers/ui'
 import { FetcherService } from '@adapters/services/fetcher/FetcherService'
 import { getFetcherDriver } from '@drivers/fetcher'
 import { Context } from '@entities/app/page/context/Context'
-import { IDatabaseService } from '@entities/services/database/IDatabaseService'
+import { IDatabaseService } from '@entities/services/database/IDatabaseMapper'
 
 declare global {
   interface Window {

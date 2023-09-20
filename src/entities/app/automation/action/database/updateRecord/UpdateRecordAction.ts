@@ -1,19 +1,23 @@
 import { BaseAction } from '../../base/BaseAction'
 import { Table } from '@entities/app/table/Table'
 import { AutomationConfig, AutomationContext } from '../../../Automation'
-import { ITemplaterService } from '@entities/services/templater/ITemplaterService'
 import { UpdateRecordActionParams } from './UpdateRecordActionParams'
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
 import { AutomationServices } from '@entities/app/automation/AutomationServices'
+import { ITemplaterMapper } from '@entities/services/templater/ITemplaterMapper'
 
-export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplaterService | string }
+export type UpdateRecordActionFieldsCompiled = { [key: string]: ITemplaterMapper | string }
 
 export class UpdateRecordAction extends BaseAction {
   private table: Table
   private fieldsCompiled: UpdateRecordActionFieldsCompiled
-  private recordIdCompiled: ITemplaterService
+  private recordIdCompiled: ITemplaterMapper
 
-  constructor(params: UpdateRecordActionParams, services: AutomationServices, config: AutomationConfig) {
+  constructor(
+    params: UpdateRecordActionParams,
+    services: AutomationServices,
+    config: AutomationConfig
+  ) {
     const { name, type, table: tableName, fields, recordId } = params
     super({ name, type }, services, config)
     this.table = this.getTableByName(tableName)

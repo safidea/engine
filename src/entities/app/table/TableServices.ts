@@ -1,5 +1,5 @@
-import { IDatabaseService } from '@entities/services/database/IDatabaseService'
+import { DatabaseService } from '@entities/services/database/DatabaseService'
 
 export interface TableServices {
-  database: IDatabaseService
+  database: DatabaseService
 }

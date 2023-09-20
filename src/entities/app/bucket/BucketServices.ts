@@ -1,5 +1,5 @@
-import { IStorageService } from '@entities/services/storage/IStorageService'
+import { StorageService } from '@entities/services/storage/StorageService'
 
 export interface BucketServices {
-  storage: IStorageService
+  storage: StorageService
 }

@@ -4,17 +4,22 @@ import { AppError } from '../AppError'
 import { PageParams } from './PageParams'
 import { PageServices } from './PageServices'
 import { AppConfig } from '../AppConfig'
-import { AppServices } from '../AppServices'
+import { AppMappers } from '../AppMappers'
+import { UIService } from '@entities/services/ui/UIService'
+import { FetcherService } from '@entities/services/fetcher/FetcherService'
 
 export class PageList {
   private readonly pages: Page[]
   readonly services: PageServices
 
-  constructor(pages: PageParams[], services: AppServices, config: AppConfig) {
-    const { ui, fetcher } = services
-    if (!ui) throw new AppError('UI service is required')
-    if (!fetcher) throw new AppError('Fetcher service is required')
-    this.services = { ui, fetcher }
+  constructor(pages: PageParams[], mappers: AppMappers, config: AppConfig) {
+    const { ui, fetcher } = mappers
+    if (!ui) throw new AppError('UI is required')
+    if (!fetcher) throw new AppError('Fetcher is required')
+    this.services = {
+      ui: new UIService(ui),
+      fetcher: new FetcherService(fetcher),
+    }
     this.pages = pages.map((page) => new Page(page, this.services, config))
   }
 

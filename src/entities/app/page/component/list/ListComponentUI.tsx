@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { IUIService } from '../../../../services/ui/IUIService'
+import { UIService } from '@entities/services/ui/UIService'
 import { Record } from '@entities/services/database/record/Record'
 import { Column } from './ListComponentParams'
 
 export interface ListRowComponentUIProps {
   record: Record
   columns: Column[]
-  ui: IUIService
+  ui: UIService
   getCellByFormat: (column: Column, record: Record) => JSX.Element
 }
 
@@ -37,7 +37,7 @@ export interface ListComponentUIProps {
   records: Record[]
   columns: Column[]
   groups: GroupType[]
-  ui: IUIService
+  ui: UIService
   getCellByFormat: (column: Column, record: Record) => JSX.Element
 }
 

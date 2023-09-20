@@ -1,6 +1,6 @@
-import { FetchState, IFetcherDriver } from '@adapters/services/fetcher/IFetcherDriver'
 import { useState, useEffect } from 'react'
 import { FetcherDriverOptions } from '.'
+import { FetchState, IFetcherDriver } from '@adapters/mappers/fetcher/IFetcherDriver'
 
 export class NativeFetcher implements IFetcherDriver {
   public readonly name = 'native'
