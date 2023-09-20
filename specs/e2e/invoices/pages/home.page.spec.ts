@@ -1,5 +1,5 @@
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '../app'
+import INVOICES_TEMPLATE from '../schema'
 
 test.describe('A page that list invoices', () => {
   test('should load Tailwind CSS', async ({ page, folder }) => {
@@ -73,7 +73,7 @@ test.describe('A page that list invoices', () => {
 
     // THEN
     // Check that invoices are displayed in a group by status
-    const invoices = await app.drivers?.database.list('invoices')
+    const invoices = await app.drivers.database.list('invoices')
 
     // Check the number of draft rows
     const draftRows = await page.getByRole('cell', { name: /^Brouillon$/ }).all()
@@ -139,7 +139,7 @@ test.describe('A page that list invoices', () => {
 
     // THEN
     // Check that factures are sorted by finalised_date
-    const invoices = await app.drivers?.database.list('invoices')
+    const invoices = await app.drivers.database.list('invoices')
     const rows = await page.getByRole('row').all()
     const ids = await Promise.all(rows.map((row) => row.getAttribute('id')))
     expect(ids.filter((i) => !!i)).toEqual([

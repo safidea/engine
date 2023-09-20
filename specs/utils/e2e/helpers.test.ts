@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
 import { getUrl, generateRecords, copyAppFile } from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
-import INVOICES_TEMPLATE from '../../e2e/invoices/app'
+import INVOICES_TEMPLATE from '../../e2e/invoices/schema'
 import { JsonDatabase } from '@drivers/database/json/JsonDatabase'
 import fs from 'fs-extra'
 import path from 'path'

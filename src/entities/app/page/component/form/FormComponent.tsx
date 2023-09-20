@@ -47,7 +47,7 @@ export class FormComponent extends BaseComponent {
       if (error) throw new Error('Sync records error: ' + error)
       defaultRecords = this.getRecordsFromTables(tables)
     } else {
-      const record = new RecordToCreate({}, this.table)
+      const record = new RecordToCreate({}, this.table, true)
       defaultRecords = [record]
       defaultRecordId = record.id
     }
@@ -72,7 +72,7 @@ export class FormComponent extends BaseComponent {
           setErrorMessage(error)
         } else {
           if (!this.submit.autosave) {
-            const newRecord = new RecordToCreate({}, this.table)
+            const newRecord = new RecordToCreate({}, this.table, true)
             setRecordId(newRecord.id)
             setRecords([newRecord])
           } else {
@@ -108,7 +108,8 @@ export class FormComponent extends BaseComponent {
           {
             [linkedField.name]: recordId,
           },
-          linkedTable
+          linkedTable,
+          true
         )
         const { record, index } = this.getRecordFromId(recordId, records)
         const field = this.table.getLinkedFieldByLinkedTableName(linkedTableName)

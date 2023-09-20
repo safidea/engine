@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '../app'
+import INVOICES_TEMPLATE from '../schema'
 
 test.describe('An automation that update an invoice document from a template', () => {
   test('should save the invoice document url updated in the record', async ({
@@ -27,7 +27,7 @@ test.describe('An automation that update an invoice document from a template', (
     })
 
     // THEN
-    const [record] = await app.drivers?.database.list('invoices')
+    const [record] = await app.drivers.database.list('invoices')
     expect(record.customer).toEqual('Company B')
     const [file] = await app.drivers.storage.list('invoices')
     const data = await pdf(file.data)
@@ -59,7 +59,7 @@ test.describe('An automation that update an invoice document from a template', (
     })
 
     // THEN
-    const [record] = await app.drivers?.database.list('invoices_items')
+    const [record] = await app.drivers.database.list('invoices_items')
     expect(record.unit_price).toEqual(253)
     const [file] = await app.drivers.storage.list('invoices')
     const data = await pdf(file.data)

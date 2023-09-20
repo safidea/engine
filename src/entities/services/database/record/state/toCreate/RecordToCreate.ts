@@ -8,7 +8,7 @@ export class RecordToCreate extends BaseRecord {
   constructor(
     fields: BaseRecordFields,
     table: Table,
-    private shouldValidate: boolean = false
+    readonly skipValidation: boolean = false
   ) {
     const id = uuidv4()
     const created_time = new Date().toISOString()
@@ -17,11 +17,11 @@ export class RecordToCreate extends BaseRecord {
 
   setFieldValue(fieldName: string, value: BaseRecordFieldValue): void {
     const field = this.getNonCalculatedFieldFromName(fieldName)
-    this.fields[fieldName] =
-      this.shouldValidate === true ? this.validateFieldValue(field, value) : value
+    this.fields[fieldName] = this.validateFieldValue(field, value)
   }
 
   validateFieldValue(field: Field, value: BaseRecordFieldValue): BaseRecordFieldValue {
+    if (this.skipValidation === true) return value
     if (value === undefined && field.default !== undefined) {
       return field.default
     }

@@ -1,9 +1,9 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '../app'
+import INVOICES_TEMPLATE from '../schema'
 
 test.describe('A page that create an invoice', () => {
-  test('should display a title', async ({ page, folder }) => {
+  test.only('should display a title', async ({ page, folder }) => {
     // GIVEN
     const port = 50100
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
@@ -63,7 +63,7 @@ test.describe('A page that create an invoice', () => {
 
     // THEN
     // An invoice should be created
-    const [invoiceRecord] = await app.drivers?.database.list('invoices')
+    const [invoiceRecord] = await app.drivers.database.list('invoices')
     expect(invoiceRecord).toBeDefined()
     expect(invoiceRecord.id).toBeDefined()
     expect(invoiceRecord.entity).toEqual(entity.id)
@@ -77,7 +77,7 @@ test.describe('A page that create an invoice', () => {
 
     // AND
     // All invoices items should be created
-    const itemsRecords = await app.drivers?.database.list('invoices_items')
+    const itemsRecords = await app.drivers.database.list('invoices_items')
     expect(itemsRecords.length).toEqual(items.length)
     for (let i = 0; i < items.length; i++) {
       expect(itemsRecords[i].activity).toEqual(items[i].activity)

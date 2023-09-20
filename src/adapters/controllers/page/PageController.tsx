@@ -9,11 +9,12 @@ export class PageController {
   constructor(private readonly app: App) {}
 
   async renderHtml(page: Page, context: Context): Promise<string> {
+    const uiDriver = this.app.pages.ui.driverName
     const data: IServerData = {
       page: page.params,
       params: context.path.params,
       tables: this.app.tables.getAllParams(),
-      uiDriver: this.app.pages.ui.driverName,
+      uiDriver,
     }
     const Page = await page.render(context)
     const html = ReactDOMServer.renderToString(<Page />)
@@ -25,7 +26,7 @@ export class PageController {
           <script>
             window.__ENGINE_DATA__ = ${JSON.stringify(data)}
           </script>
-          <link href="/output.css" rel="stylesheet">
+          ${uiDriver !== 'unstyled' ? '<link href="/output.css" rel="stylesheet">' : ''}
         </head>
         <body>
           <div id="root">${html}</div>

@@ -96,7 +96,7 @@ export class ListComponent extends BaseComponent {
           columns={this.columns}
           groups={groups}
           ui={this.services.ui}
-          getCellByFormat={this.getCellByFormat}
+          getCellByFormat={(column, record) => this.getCellByFormat(column, record)}
         />
       )
     }
@@ -140,7 +140,7 @@ export class ListComponent extends BaseComponent {
         let groupedRecords = records.filter(
           (record) => record.getFieldValue(fieldName) === option.name
         )
-        if (this.sortBy && this.sortBy.length > 0) groupedRecords = this.sortRecords(records)
+        if (this.sortBy && this.sortBy.length > 0) groupedRecords = this.sortRecords(groupedRecords)
         groups.push({
           name: option.name,
           label: option.label,

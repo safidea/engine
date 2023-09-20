@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '../app'
+import INVOICES_TEMPLATE from '../schema'
 
 test.describe('An automation that build an invoice document from a template', () => {
   test('should create an invoice from html template on API request', async ({
@@ -99,7 +99,7 @@ test.describe('An automation that build an invoice document from a template', ()
     await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
 
     // THEN
-    const [record] = await app.drivers?.database.list('invoices')
+    const [record] = await app.drivers.database.list('invoices')
     expect(record).toBeDefined()
     expect(record.url).toEqual(`http://localhost:${port}/api/storage/invoices/invoice-P1001.pdf`)
   })

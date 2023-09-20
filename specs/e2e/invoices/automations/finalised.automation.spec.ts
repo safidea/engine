@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
-import INVOICES_TEMPLATE from '../app'
+import INVOICES_TEMPLATE from '../schema'
 
 test.describe('An automation that finalise an invoice document from a template', () => {
   test('should create a PDF document when an invoice is finalised from API request', async ({
@@ -23,7 +23,7 @@ test.describe('An automation that finalise an invoice document from a template',
     })
 
     // THEN
-    const [record] = await app.drivers?.database.list('invoices')
+    const [record] = await app.drivers.database.list('invoices')
     expect(record).toBeDefined()
     expect(record.status).toEqual('finalised')
     expect(record.finalised_time).toBeDefined()
