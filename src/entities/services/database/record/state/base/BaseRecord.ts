@@ -23,7 +23,7 @@ export class BaseRecord {
   constructor(
     data: BaseRecordData,
     readonly table: Table,
-    readonly state: 'persisted' | 'toCreate' | 'toUpdate' | 'toDelete'
+    readonly skipValidation: boolean = false
   ) {
     const { id, created_time, deleted_time, last_modified_time, ...fields } = data
     this.id = id
@@ -103,6 +103,10 @@ export class BaseRecord {
   }
 
   protected validateFieldValue(field: Field, value: RecordFieldValue): RecordFieldValue {
+    if (this.skipValidation === true) {
+      return value
+    }
+
     if (value === undefined) {
       if (!field.optional && !(field instanceof AutonumberField)) {
         throw new Error(`field "${field.name}" is required`)

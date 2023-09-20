@@ -417,10 +417,9 @@ const APP: AppDto = {
               recordIdToUpdate: '{{path.params.id}}',
               components: [
                 {
-                  type: 'single_select_record_input',
+                  type: 'text_input',
                   field: 'customer',
                   label: 'Client',
-                  fieldForOptionLabel: 'name',
                 },
                 {
                   type: 'text_input',

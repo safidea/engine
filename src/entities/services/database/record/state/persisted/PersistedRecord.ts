@@ -9,7 +9,7 @@ export class PersistedRecord extends BaseRecord {
   multipleLinkedRecordsFieldsData: { [key: string]: BaseRecordData[] } = {}
 
   constructor(data: BaseRecordData, table: Table) {
-    super(data, table, 'persisted')
+    super(data, table)
   }
 
   dataWithLinkedRecordsData(): PersistedRecordDataWithLinkedRecordsData {

@@ -9,7 +9,7 @@ import { Table } from '@entities/app/table/Table'
 import { BaseComponentProps } from '../base/BaseComponentProps'
 
 export class TableInputComponent extends BaseComponent {
-  readonly table: Table
+  readonly multipleLinkedRecordsTable: Table
 
   constructor(
     readonly params: TableInputComponentParams,
@@ -23,12 +23,12 @@ export class TableInputComponent extends BaseComponent {
     }
     const formTable = this.getTableByName(config.formTableName)
     const multipleLinkedRecordsField = formTable.getMultipleLinkedRecordsFieldByName(params.field)
-    this.table = this.getTableByName(multipleLinkedRecordsField.table)
+    this.multipleLinkedRecordsTable = this.getTableByName(multipleLinkedRecordsField.table)
     for (const column of columns) {
-      if (!this.table.hasColumn(column.field)) {
+      if (!this.multipleLinkedRecordsTable.hasColumn(column.field)) {
         throw new ComponentError(
           type,
-          `field "${column.field}" in table_input columns is not defined in table "${this.table.name}"`
+          `field "${column.field}" in table_input columns is not defined in table "${this.multipleLinkedRecordsTable.name}"`
         )
       }
     }
@@ -47,7 +47,7 @@ export class TableInputComponent extends BaseComponent {
 
       const handleAddRecord = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        if (addRecord) addRecord(this.table.name)
+        if (addRecord) addRecord(this.multipleLinkedRecordsTable.name)
       }
 
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {

@@ -16,7 +16,7 @@ export class RecordToUpdate extends BaseRecord {
     readonly updatedFields: BaseRecordFields
   ) {
     const last_modified_time = new Date().toISOString()
-    super({ ...data, ...updatedFields, last_modified_time }, table, 'toUpdate')
+    super({ ...data, ...updatedFields, last_modified_time }, table)
     this.last_modified_time = last_modified_time
   }
 

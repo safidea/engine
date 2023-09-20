@@ -3,7 +3,7 @@ import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '../schema'
 
 test.describe('A page that create an invoice', () => {
-  test.only('should display a title', async ({ page, folder }) => {
+  test('should display a title', async ({ page, folder }) => {
     // GIVEN
     const port = 50100
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
@@ -114,7 +114,7 @@ test.describe('A page that create an invoice', () => {
     expect(errorExist).toBeTruthy()
   })
 
-  test('should create a PDF document when an invoice is created from a form and a template', async ({
+  test.only('should create a PDF document when an invoice is created from a form and a template', async ({
     page,
     folder,
   }) => {

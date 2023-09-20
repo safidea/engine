@@ -8,7 +8,7 @@ export class RecordToDelete extends BaseRecord {
 
   constructor(data: BaseRecordData, table: Table) {
     const deleted_time = new Date().toISOString()
-    super({ ...data, deleted_time }, table, 'toDelete')
+    super({ ...data, deleted_time }, table)
     this.deleted_time = deleted_time
   }
 

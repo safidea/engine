@@ -10,7 +10,7 @@ import { BaseComponentProps } from '../base/BaseComponentProps'
 import { ComponentError } from '../ComponentError'
 
 export class SingleSelectRecordInputComponent extends BaseComponent {
-  readonly table: Table
+  readonly singleLinkedRecordTable: Table
   readonly fieldForOptionLabel: string
 
   constructor(
@@ -26,12 +26,14 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
         'single_select_record_input component should be placed inside a form'
       )
     }
-    this.table = this.getTableByName(config.formTableName)
+    const formTable = this.getTableByName(config.formTableName)
+    const singleLinkedRecordField = formTable.getSingleLinkedRecordFieldByName(params.field)
+    this.singleLinkedRecordTable = this.getTableByName(singleLinkedRecordField.table)
     this.fieldForOptionLabel = fieldForOptionLabel ?? 'id'
   }
 
   async render() {
-    const useSyncRecords = this.services.fetcher.getSyncRecordsHook([{ table: this.table }])
+    const useSyncRecords = this.services.fetcher.getSyncRecordsHook([{ table: this.singleLinkedRecordTable }])
     return ({ updateRecord, currentRecord }: BaseComponentProps) => {
       const { tables } = useSyncRecords()
       const value = currentRecord?.getFieldValue(this.params.field) ?? ''
@@ -40,7 +42,7 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
         if (updateRecord && currentRecord)
           updateRecord(currentRecord.id, e.target.name, e.target.value)
       }
-      const records = tables[this.table.name] ?? []
+      const records = tables[this.singleLinkedRecordTable.name] ?? []
       const options = records.map((record: Record) => ({
         label: String(record.getFieldValue(this.fieldForOptionLabel)),
         value: record.id,

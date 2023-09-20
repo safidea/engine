@@ -185,7 +185,7 @@ export class FormComponent extends BaseComponent {
     }
     for (const tableInput of tablesInputs) {
       resources.push({
-        table: tableInput.table,
+        table: tableInput.multipleLinkedRecordsTable,
       })
     }
     return resources

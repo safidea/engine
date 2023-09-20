@@ -5,14 +5,10 @@ import { Field } from '@entities/app/table/field/Field'
 import { BaseRecordFields, BaseRecordFieldValue } from '../base/BaseRecordData'
 
 export class RecordToCreate extends BaseRecord {
-  constructor(
-    fields: BaseRecordFields,
-    table: Table,
-    readonly skipValidation: boolean = false
-  ) {
+  constructor(fields: BaseRecordFields, table: Table, skipValidation = false) {
     const id = uuidv4()
     const created_time = new Date().toISOString()
-    super({ ...fields, id, created_time }, table, 'toCreate')
+    super({ ...fields, id, created_time }, table, skipValidation)
   }
 
   setFieldValue(fieldName: string, value: BaseRecordFieldValue): void {
@@ -21,7 +17,6 @@ export class RecordToCreate extends BaseRecord {
   }
 
   validateFieldValue(field: Field, value: BaseRecordFieldValue): BaseRecordFieldValue {
-    if (this.skipValidation === true) return value
     if (value === undefined && field.default !== undefined) {
       return field.default
     }
