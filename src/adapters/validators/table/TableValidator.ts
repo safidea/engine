@@ -6,7 +6,7 @@ import { Table } from '@entities/app/table/Table'
 import { ApiError } from '@entities/errors/ApiError'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
 import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
-import { RecordToCreateDto, RecordToUpdateDto } from '@adapters/dtos/RecordDto'
+import { RecordBodyDto } from '@adapters/dtos/RecordDto'
 import { SyncDto } from '@adapters/dtos/SyncDto'
 import { FilterDto } from '@adapters/dtos/FilterDto'
 
@@ -54,32 +54,23 @@ export class TableValidator {
   public async validateRecordExist(request: ServerRequest, table: Table): Promise<PersistedRecord> {
     const { id } = request.params ?? {}
     const record = await this.app.tables.services.database.read(table, id)
-    if (!record) throw new ApiError(`record "${id}" does not exist in table "${table}"`, 404)
+    if (!record) throw new ApiError(`record "${id}" does not exist in table "${table.name}"`, 404)
     return record
   }
 
-  public async validateRecordToCreateBody(body: unknown): Promise<RecordToCreateDto> {
-    const decoded = RecordToCreateDto.decode(body)
+  public async validateRecordBody(body: unknown): Promise<RecordBodyDto> {
+    const decoded = RecordBodyDto.decode(body)
     if (isLeft(decoded)) {
       throw Error(`Could not validate record body:\n${reporter.report(decoded).join('\n')}`)
     }
-    const recordDto: RecordToCreateDto = decoded.right
+    const recordDto: RecordBodyDto = decoded.right
     return recordDto
   }
 
-  public async validateRecordToUpdateBody(body: unknown): Promise<RecordToUpdateDto> {
-    const decoded = RecordToUpdateDto.decode(body)
-    if (isLeft(decoded)) {
-      throw Error(`Could not validate record body:\n${reporter.report(decoded).join('\n')}`)
-    }
-    const recordDto: RecordToUpdateDto = decoded.right
-    return recordDto
-  }
-
-  public async validateRecordsToCreateBody(body: unknown[]): Promise<RecordToCreateDto[]> {
+  public async validateRecordsBody(body: unknown[]): Promise<RecordBodyDto[]> {
     const records = []
     for (const record of body) {
-      records.push(this.validateRecordToCreateBody(record))
+      records.push(this.validateRecordBody(record))
     }
     return Promise.all(records)
   }

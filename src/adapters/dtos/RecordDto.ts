@@ -1,3 +1,4 @@
+import { BaseRecordFields } from '@entities/services/database/record/state/base/BaseRecordData'
 import { PersistedRecordData } from '@entities/services/database/record/state/persisted/PersistedRecordData'
 import { RecordToCreateData } from '@entities/services/database/record/state/toCreate/RecordToCreateData'
 import { RecordToDeleteData } from '@entities/services/database/record/state/toDelete/RecordToDeleteData'
@@ -14,3 +15,6 @@ export const RecordToCreateDto = RecordToCreateData
 
 export type RecordToDeleteDto = RecordToDeleteData
 export const RecordToDeleteDto = RecordToDeleteData
+
+export type RecordBodyDto = BaseRecordFields
+export const RecordBodyDto = BaseRecordFields

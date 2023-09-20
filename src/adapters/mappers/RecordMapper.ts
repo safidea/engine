@@ -1,5 +1,6 @@
 import {
   PersistedRecordDto,
+  RecordBodyDto,
   RecordToCreateDto,
   RecordToDeleteDto,
   RecordToUpdateDto,
@@ -18,7 +19,7 @@ export class RecordMapper {
   static toManyPersisted(records: PersistedRecordDto[], table: Table): PersistedRecord[] {
     return records.map((record) => this.toPersisted(record, table))
   }
-  
+
   static toPersistedDto(record: PersistedRecord): PersistedRecordDto {
     return record.data()
   }
@@ -46,7 +47,7 @@ export class RecordMapper {
   static toUpdate(
     persistedRecord: PersistedRecord,
     table: Table,
-    dto: RecordToUpdateDto
+    dto: RecordBodyDto
   ): RecordToUpdate {
     return new RecordToUpdate(persistedRecord.data(), table, dto)
   }

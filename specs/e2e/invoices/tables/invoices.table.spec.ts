@@ -187,7 +187,10 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 })
 
 test.describe('An api that render error messages', () => {
-  test('should return a 404 error when the table does not exist', async ({ request, folder }) => {
+  test('should return a 404 error when the table does not exist', async ({
+    request,
+    folder,
+  }) => {
     // GIVEN
     // We provide an app with tables
     const port = 50507
@@ -201,7 +204,7 @@ test.describe('An api that render error messages', () => {
     // THEN
     // I should have a 404 error
     expect(res.status()).toEqual(404)
-    expect((await res.json()).error).toEqual('table "unknown" does not exist')
+    expect((await res.text())).toContain('Cannot GET /api/table/unknown')
   })
 
   test('should return a 404 error when the row does not exist', async ({ request, folder }) => {

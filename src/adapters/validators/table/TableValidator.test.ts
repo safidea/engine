@@ -4,13 +4,13 @@ import { App } from '@entities/app/App'
 
 describe('TableValidator', () => {
   describe('validateRecordBody', () => {
-    test.only('should validate the request body', async () => {
+    test('should validate the request body', async () => {
       // GIVEN
       const tableValidator = new TableValidator({} as App)
 
       // WHEN
       const call = () =>
-        tableValidator.validateRecordToCreateBody({
+        tableValidator.validateRecordBody({
           fieldA: 'valueA',
         })
 

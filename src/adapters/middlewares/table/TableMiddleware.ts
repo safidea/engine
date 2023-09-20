@@ -62,12 +62,12 @@ export class TableMiddleware {
     return async (request: ServerRequest): Promise<ServerResponse> => {
       try {
         if (Array.isArray(request.body)) {
-          const recordsDtos = await this.tableValidator.validateRecordsToCreateBody(request.body)
+          const recordsDtos = await this.tableValidator.validateRecordsBody(request.body)
           const records = RecordMapper.toManyCreates(recordsDtos, table)
           const ids = await this.tableController.createMany(table, records)
           return { json: { ids } }
         }
-        const recordDto = await this.tableValidator.validateRecordToCreateBody(request.body)
+        const recordDto = await this.tableValidator.validateRecordBody(request.body)
         const record = RecordMapper.toCreate(recordDto, table)
         const id = await this.tableController.create(table, record)
         return { json: { id } }
@@ -81,7 +81,7 @@ export class TableMiddleware {
     return async (request: ServerRequest): Promise<ServerResponse> => {
       try {
         const persistedRecord = await this.tableValidator.validateRecordExist(request, table)
-        const updatedRecordDto = await this.tableValidator.validateRecordToUpdateBody(request.body)
+        const updatedRecordDto = await this.tableValidator.validateRecordBody(request.body)
         const updatedRecord = RecordMapper.toUpdate(persistedRecord, table, updatedRecordDto)
         await this.tableValidator.validateUpdatePermissions(persistedRecord, updatedRecord)
         await this.tableController.update(table, updatedRecord)
@@ -108,7 +108,7 @@ export class TableMiddleware {
     if (error instanceof ApiError) {
       return { status: error.status, json: { error: error.message } }
     } else if (error instanceof Error) {
-      return { status: 500, json: { error: error.message } }
+      return { status: 400, json: { error: error.message } }
     } else {
       return { status: 500, json: { error: 'Internal server error' } }
     }
