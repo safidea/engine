@@ -2,6 +2,7 @@ import { describe, test, expect } from '@specs/utils/unit/fixtures'
 import { Table } from '@entities/app/table/Table'
 import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
 import { DatabaseService } from './DatabaseService'
+import { PersistedRecord } from './record/state/persisted/PersistedRecord'
 
 describe('DatabaseService', () => {
   test('should emit event "record_created" with calculated formulas', async () => {
@@ -23,8 +24,9 @@ describe('DatabaseService', () => {
     )
     const record = new RecordToCreate({ name: 'John' }, table)
     const databaseService = new DatabaseService({
-      create: () => {
-        return Promise.resolve({ ...record.data(), autonumber: 1 })
+      create: async () => {
+        const recordDto = await Promise.resolve({ ...record.data(), autonumber: 1 })
+        return new PersistedRecord(recordDto, table)
       },
     } as any)
     await databaseService.listen(emit)
@@ -54,7 +56,11 @@ describe('DatabaseService', () => {
     const recordB = new RecordToCreate({ name: 'Jane' }, table)
     const databaseService = new DatabaseService({
       createMany: () => {
-        return Promise.resolve([recordA.data(), recordB.data()])
+        const recordsDtos = Promise.resolve([recordA.data(), recordB.data()])
+        return recordsDtos.then((recordsDtos) => [
+          new PersistedRecord(recordsDtos[0], table),
+          new PersistedRecord(recordsDtos[1], table),
+        ])
       },
     } as any)
     await databaseService.listen(emit)
