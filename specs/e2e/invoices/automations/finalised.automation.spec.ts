@@ -23,7 +23,7 @@ test.describe('An automation that finalise an invoice document from a template',
     })
 
     // THEN
-    const [record] = await app.drivers.database.list('invoices')
+    const [record] = await app.drivers?.database.list('invoices')
     expect(record).toBeDefined()
     expect(record.status).toEqual('finalised')
     expect(record.finalised_time).toBeDefined()

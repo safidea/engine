@@ -6,7 +6,7 @@ import { ILoggerDriver } from '../logger/ILoggerDriver'
 import { IStorageDriver } from '../storage/IStorageDriver'
 import { ITemplateDriver } from '../templater/ITemplaterDriver'
 
-export interface IAppDrivers {
+export interface IAppServerDrivers {
   database: IDatabaseDriver
   storage: IStorageDriver
   templater: ITemplateDriver

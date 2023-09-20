@@ -10,11 +10,11 @@ import { getFetcherDriver } from '@drivers/fetcher'
 import { getLoggerDriver } from '@drivers/logger'
 import { EngineOptions } from './EngineOptions'
 import { ServerController } from '@adapters/controllers/server/ServerController'
-import { IAppDrivers } from '@adapters/mappers/app/IAppDrivers'
+import { IAppServerDrivers } from '@adapters/mappers/app/IAppServerDrivers'
 
 export default class Engine {
   private server: ServerController
-  readonly drivers: IAppDrivers
+  readonly drivers: IAppServerDrivers
   readonly folder: string
   readonly domain: string
 
@@ -36,7 +36,7 @@ export default class Engine {
 
   async start(config: unknown): Promise<Engine> {
     const appConfig = AppValidator.validateConfig(config)
-    const app = AppMapper.toApp(appConfig, this.drivers)
+    const app = AppMapper.toServerApp(appConfig, this.drivers)
     await this.server.start(app)
     return this
   }

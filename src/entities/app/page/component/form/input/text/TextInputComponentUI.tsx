@@ -1,12 +1,12 @@
+import { UIService } from '@entities/services/ui/UIService'
 import React from 'react'
-import { IUIService } from '@entities/services/ui/IUIMapper'
 
 export interface TextInputComponentUIProps {
   label?: string
   field: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   value: string
-  ui: IUIService
+  ui: UIService
 }
 
 export function TextInputComponentUI({

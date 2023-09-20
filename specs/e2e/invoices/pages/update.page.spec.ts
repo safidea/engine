@@ -28,13 +28,13 @@ test.describe('A page that update an invoice', () => {
     // THEN
     // The invoice data should be displayed
     const companyFieldValue = await page.locator('input[name="customer"]').inputValue()
-    const [invoice] = await app.drivers.database.list('invoices')
+    const [invoice] = await app.drivers?.database.list('invoices')
     expect(companyFieldValue).toBe(invoice.customer)
     const activityFieldValue = await page
       .locator('input[placeholder="Activité"]')
       .first()
       .inputValue()
-    const [invoiceItem] = await app.drivers.database.list('invoices_items')
+    const [invoiceItem] = await app.drivers?.database.list('invoices_items')
     expect(activityFieldValue).toBe(invoiceItem.activity)
   })
 
@@ -56,7 +56,7 @@ test.describe('A page that update an invoice', () => {
 
     // WHEN
     // We update the invoice data and wait for autosave
-    const [invoice] = await app.drivers.database.list('invoices')
+    const [invoice] = await app.drivers?.database.list('invoices')
     const updatedCutomer = invoice.customer + ' updated'
 
     // Type the updatedText into the input with name "customer"
@@ -69,7 +69,7 @@ test.describe('A page that update an invoice', () => {
 
     // THEN
     // The invoice data should be updated in database
-    const [updatedInvoice] = await app.drivers.database.list('invoices')
+    const [updatedInvoice] = await app.drivers?.database.list('invoices')
     expect(updatedInvoice.customer).toContain(updatedCutomer)
   })
 
@@ -89,7 +89,7 @@ test.describe('A page that update an invoice', () => {
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
-    const [updatedInvoice] = await app.drivers.database.list('invoices')
+    const [updatedInvoice] = await app.drivers?.database.list('invoices')
     expect(updatedInvoice.status).toBe('finalised')
     expect(updatedInvoice.number).toBeDefined()
     expect(updatedInvoice.finalised_time).toBeDefined()
@@ -112,7 +112,7 @@ test.describe('A page that update an invoice', () => {
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
-    const [updatedInvoice] = await app.drivers.database.list('invoices')
+    const [updatedInvoice] = await app.drivers?.database.list('invoices')
     expect(updatedInvoice.status).toBe('sent')
   })
 
@@ -133,7 +133,7 @@ test.describe('A page that update an invoice', () => {
     await page.getByText('Mise à jour en cours...').waitFor({ state: 'detached' })
 
     // THEN
-    const [updatedInvoice] = await app.drivers.database.list('invoices')
+    const [updatedInvoice] = await app.drivers?.database.list('invoices')
     expect(updatedInvoice.status).toBe('paid')
   })
 })

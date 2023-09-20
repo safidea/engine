@@ -1,7 +1,7 @@
 import React from 'react'
-import { IUIService } from '@entities/services/ui/IUIMapper'
 import { BaseComponentUIProps } from '../../../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
+import { UIService } from '@entities/services/ui/UIService'
 
 export type Column = {
   label: string
@@ -17,7 +17,7 @@ export interface TableInputComponentUIProps {
   onRemoveRecord: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void
   columns: Column[]
   rows: Record[]
-  ui: IUIService
+  ui: UIService
 }
 
 export function TableInputComponentUI({

@@ -27,17 +27,14 @@ test.describe('An automation that update an invoice document from a template', (
     })
 
     // THEN
-    const [record] = await app.drivers.database.list('invoices')
+    const [record] = await app.drivers?.database.list('invoices')
     expect(record.customer).toEqual('Company B')
     const [file] = await app.drivers.storage.list('invoices')
     const data = await pdf(file.data)
     expect(data.text).toContain('Company B')
   })
 
-  test('should update the invoice document from an updated item', async ({
-    request,
-    folder,
-  }) => {
+  test('should update the invoice document from an updated item', async ({ request, folder }) => {
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50702
@@ -62,7 +59,7 @@ test.describe('An automation that update an invoice document from a template', (
     })
 
     // THEN
-    const [record] = await app.drivers.database.list('invoices_items')
+    const [record] = await app.drivers?.database.list('invoices_items')
     expect(record.unit_price).toEqual(253)
     const [file] = await app.drivers.storage.list('invoices')
     const data = await pdf(file.data)

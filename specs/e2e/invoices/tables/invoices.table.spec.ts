@@ -15,7 +15,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // THEN
     expect(res.status()).toEqual(200)
-    const records = await app.drivers.database.list('invoices')
+    const records = await app.drivers?.database.list('invoices')
     expect(records.length).toEqual(2)
     for (let i = 0; i < records.length; i++) {
       expect(records[i].id).toBeDefined()
@@ -86,7 +86,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // The updated invocie should have a new name
     expect(res.status()).toEqual(200)
-    const [updatedRecord] = await app.drivers.database.list('invoices')
+    const [updatedRecord] = await app.drivers?.database.list('invoices')
     expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.customer).toEqual(update.customer)
     expect(updatedRecord.last_modified_time).toBeDefined()
@@ -110,7 +110,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
     expect(res.status()).toEqual(200)
-    const [deletedRecord] = await app.drivers.database.list('invoices')
+    const [deletedRecord] = await app.drivers?.database.list('invoices')
     expect(deletedRecord.id).toEqual(id)
     expect(deletedRecord.deleted_time).toBeDefined()
   })
@@ -143,7 +143,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // THEN
     expect(res.status()).toEqual(200)
-    const [finalisedRecord] = await app.drivers.database.list('invoices')
+    const [finalisedRecord] = await app.drivers?.database.list('invoices')
     expect(finalisedRecord.id).toEqual(id)
     expect(finalisedRecord.finalised_time).toEqual(update.finalised_time)
     expect(finalisedRecord.number).toEqual(update.number)
@@ -179,7 +179,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(res.status()).toEqual(400)
     const { error } = await res.json()
     expect(error).toEqual('field "customer" cannot be updated')
-    const [updatedRecord] = await app.drivers.database.list('invoices')
+    const [updatedRecord] = await app.drivers?.database.list('invoices')
     expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.customer).toEqual('Customer A')
     expect(updatedRecord.number).toEqual(1)
@@ -187,10 +187,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 })
 
 test.describe('An api that render error messages', () => {
-  test('should return a 404 error when the table does not exist', async ({
-    request,
-    folder,
-  }) => {
+  test('should return a 404 error when the table does not exist', async ({ request, folder }) => {
     // GIVEN
     // We provide an app with tables
     const port = 50507
@@ -204,7 +201,7 @@ test.describe('An api that render error messages', () => {
     // THEN
     // I should have a 404 error
     expect(res.status()).toEqual(404)
-    expect((await res.text())).toContain('Cannot GET /api/table/unknown')
+    expect(await res.text()).toContain('Cannot GET /api/table/unknown')
   })
 
   test('should return a 404 error when the row does not exist', async ({ request, folder }) => {

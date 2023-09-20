@@ -1,5 +1,5 @@
+import { UIService } from '@entities/services/ui/UIService';
 import React from 'react'
-import { IUIService } from '../../../../../../services/ui/IUIMapper'
 
 export interface SingleSelectInputProps {
   label?: string
@@ -7,7 +7,7 @@ export interface SingleSelectInputProps {
   options: { value: string; label: string }[]
   value: string
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  ui: IUIService
+  ui: UIService
 }
 
 export function SingleSelectInputComponentUI({

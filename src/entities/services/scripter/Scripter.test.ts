@@ -1,13 +1,13 @@
-import { Script } from '@entities/services/scripter/Scripter'
+import { Scripter } from '@entities/services/scripter/Scripter'
 import { describe, test, expect } from '@jest/globals'
 
-describe('Script', () => {
+describe('Scripter', () => {
   test('should return a formula', async () => {
     // GIVEN
     const formula = '1 + 1'
 
     // WHEN
-    const result = new Script(formula).run()
+    const result = new Scripter(formula).run()
 
     // THEN
     expect(result).toEqual(2)
@@ -21,7 +21,7 @@ describe('Script', () => {
     }
 
     // WHEN
-    const result = new Script(formula, context).run()
+    const result = new Scripter(formula, context).run()
 
     // THEN
     expect(result).toEqual(3)
@@ -35,7 +35,7 @@ describe('Script', () => {
     }
 
     // WHEN
-    const call = () => new Script(formula, context).run()
+    const call = () => new Scripter(formula, context).run()
 
     // THEN
     expect(call).toThrowError('b is not defined')

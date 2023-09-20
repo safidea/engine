@@ -4,10 +4,10 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { AppDto } from '@adapters/dtos/AppDto'
 import { TableParams } from '@entities/app/table/TableParams'
-import { IDatabaseDriver } from '@adapters/services/database/IDatabaseDriver'
 import { RecordData, RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { FieldParams } from '@entities/app/table/field/FieldParams'
 import { RecordToCreateDto } from '@adapters/dtos/RecordDto'
+import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`

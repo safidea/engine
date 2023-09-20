@@ -6,11 +6,13 @@ export const TableInputComponentParams = t.intersection([
   t.type({
     type: t.literal('table'),
     columns: t.array(
-      t.type({
-        label: t.string,
-        field: t.string,
-        placeholder: t.string,
-      })
+      t.intersection([
+        t.type({
+          label: t.string,
+          field: t.string,
+        }),
+        t.partial({ placeholder: t.string }),
+      ])
     ),
     addLabel: t.string,
   }),
