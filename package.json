@@ -5,11 +5,20 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.18",
+  "version": "0.0.19",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/solumy"
+  },
+  "bugs": {
+    "url": "https://github.com/solumy/engine/issues"
+  },
+  "readme": "ERROR: No README data found!",
+  "homepage": "https://github.com/solumy/engine#readme",
+  "_id": "@solumy/engine@0.0.19",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -115,11 +124,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-node-externals": "^3.0.0"
-  },
-  "bugs": {
-    "url": "https://github.com/solumy/engine/issues"
-  },
-  "readme": "ERROR: No README data found!",
-  "homepage": "https://github.com/solumy/engine#readme",
-  "_id": "@solumy/engine@0.0.12"
+  }
 }
