@@ -45,9 +45,7 @@ test.describe('An automation that build an invoice document from a template', ()
     await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
 
     // THEN
-    await expect(app.drivers.storage.list('invoices')).rejects.toThrow(
-      'Bucket "invoices" does not exist'
-    )
+    await expect(app.drivers.storage.list('invoices')).resolves.toEqual([])
   })
 
   test('should create a draft invoice from html template on API request with dynamics tokens', async ({

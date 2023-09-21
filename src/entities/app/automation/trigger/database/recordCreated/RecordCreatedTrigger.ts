@@ -25,8 +25,8 @@ export class RecordCreatedTrigger extends BaseTrigger {
   async shouldTrigger({ event, context }: TriggerEvent): Promise<boolean> {
     if (event !== 'record_created') return false
     if (context.table !== this.table.name) return false
-    if ('id' in context && this.filters.length > 0) {
-      const record = await this.services.database.read(this.table, String(context.id))
+    if ('id' in context.record && this.filters.length > 0) {
+      const record = await this.services.database.read(this.table, String(context.record.id))
       if (!record) return false
       for (const filter of this.filters) {
         if (filter instanceof IsFilter && filter.value !== record.getFieldValue(filter.field)) {
