@@ -6,8 +6,10 @@ import { BaseRecordFields, BaseRecordFieldValue } from '../base/BaseRecordData'
 
 export class RecordToCreate extends BaseRecord {
   constructor(fields: BaseRecordFields, table: Table, skipValidation = false) {
-    const id = uuidv4()
-    const created_time = new Date().toISOString()
+    const id = fields.id ? String(fields.id) : uuidv4()
+    const created_time = fields.created_time
+      ? String(fields.created_time)
+      : new Date().toISOString()
     super({ ...fields, id, created_time }, table, skipValidation)
   }
 

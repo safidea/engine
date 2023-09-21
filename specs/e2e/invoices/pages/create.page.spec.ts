@@ -114,7 +114,7 @@ test.describe('A page that create an invoice', () => {
     expect(errorExist).toBeTruthy()
   })
 
-  test.only('should create a PDF document when an invoice is created from a form and a template', async ({
+  test('should create a PDF document when an invoice is created from a form and a template', async ({
     page,
     folder,
   }) => {

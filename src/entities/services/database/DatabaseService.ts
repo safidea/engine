@@ -35,42 +35,21 @@ export class DatabaseService {
 
   async create(table: Table, record: RecordToCreate): Promise<string> {
     const persistedRecord = await this.mapper.create(table, record)
-    if (this.emit) {
-      await this.enrichPersistedRecord(persistedRecord, table)
-      await this.emit({
-        event: 'record_created',
-        context: { table: table.name, record: persistedRecord.dataWithLinkedRecordsData() },
-      })
-    }
+    if (this.emit) await this.emitRecordCreatedEvent(persistedRecord, table)
     return persistedRecord.id
   }
 
   async createMany(table: Table, records: RecordToCreate[]): Promise<string[]> {
     const persistedRecords = await this.mapper.createMany(table, records)
     if (this.emit)
-      for (const persistedRecord of persistedRecords) {
-        await this.enrichPersistedRecord(persistedRecord, table)
-        await this.emit({
-          event: 'record_created',
-          context: { table: table.name, record: persistedRecord.dataWithLinkedRecordsData() },
-        })
-      }
+      for (const persistedRecord of persistedRecords)
+        await this.emitRecordCreatedEvent(persistedRecord, table)
     return persistedRecords.map((record) => record.id)
   }
 
   async softUpdate(table: Table, record: RecordToUpdate): Promise<void> {
     const persistedRecord = await this.mapper.softUpdate(table, record)
-    if (this.emit) {
-      await this.enrichPersistedRecord(persistedRecord, table)
-      await this.emit({
-        event: 'record_updated',
-        context: {
-          table: table.name,
-          record: persistedRecord.dataWithLinkedRecordsData(),
-          updatedFields: record.getUpdatedFieldsNames(),
-        },
-      })
-    }
+    await this.emitRecordUpdatedEvent(record, persistedRecord, table)
   }
 
   async softUpdateMany(table: Table, records: RecordToUpdate[]): Promise<void> {
@@ -79,15 +58,7 @@ export class DatabaseService {
       for (const record of records) {
         const persistedRecord = persistedRecords.find((r) => r.id === record.id)
         if (!persistedRecord) throw new Error(`Record "${record.id}" has not been persisted`)
-        await this.enrichPersistedRecord(persistedRecord, table)
-        await this.emit({
-          event: 'record_updated',
-          context: {
-            table: table.name,
-            record: persistedRecord.dataWithLinkedRecordsData(),
-            updatedFields: record.getUpdatedFieldsNames(),
-          },
-        })
+        await this.emitRecordUpdatedEvent(record, persistedRecord, table)
       }
   }
 
@@ -110,6 +81,32 @@ export class DatabaseService {
     const persistedRecord = await this.mapper.read(table, id)
     if (!persistedRecord) return undefined
     return this.enrichPersistedRecord(persistedRecord, table)
+  }
+
+  async emitRecordCreatedEvent(record: PersistedRecord, table: Table) {
+    if (!this.emit) return
+    await this.enrichPersistedRecord(record, table)
+    await this.emit({
+      event: 'record_created',
+      context: { table: table.name, record: record.dataWithLinkedRecordsData() },
+    })
+  }
+
+  async emitRecordUpdatedEvent(
+    recordToUpdate: RecordToUpdate,
+    persistedRecord: PersistedRecord,
+    table: Table
+  ) {
+    if (!this.emit) return
+    await this.enrichPersistedRecord(persistedRecord, table)
+    await this.emit({
+      event: 'record_updated',
+      context: {
+        table: table.name,
+        record: persistedRecord.dataWithLinkedRecordsData(),
+        updatedFields: recordToUpdate.getUpdatedFieldsNames(),
+      },
+    })
   }
 
   private async enrichPersistedRecord(record: PersistedRecord, table: Table) {
@@ -212,14 +209,28 @@ export class DatabaseService {
           addRecord(record, recordsToDelete)
         }
       }
+      const persistedCreatedRecords = []
       for (const { table, records } of recordsToCreate) {
-        await this.createMany(table, records)
+        persistedCreatedRecords.push(...(await this.mapper.createMany(table, records)))
       }
+      const persistedUpdatedRecords = []
       for (const { table, records } of recordsToUpdate) {
-        await this.softUpdateMany(table, records)
+        persistedUpdatedRecords.push(...(await this.mapper.softUpdateMany(table, records)))
       }
       for (const { table, records } of recordsToDelete) {
-        await this.softDeleteMany(table, records)
+        await this.mapper.softDeleteMany(table, records)
+      }
+      if (this.emit) {
+        for (const record of persistedCreatedRecords) {
+          await this.emitRecordCreatedEvent(record, record.table)
+        }
+        for (const record of persistedUpdatedRecords) {
+          const recordToUpdate = recordsToUpdate
+            .find((r) => r.table.name === record.table.name)
+            ?.records.find((r) => r.id === record.id)
+          if (!recordToUpdate) throw new Error(`Record "${record.id}" has not been updated`)
+          await this.emitRecordUpdatedEvent(recordToUpdate, record, record.table)
+        }
       }
     }
 
