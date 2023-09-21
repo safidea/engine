@@ -33,9 +33,9 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
   }
 
   async render() {
-    const useSyncRecords = this.services.fetcher.getSyncRecordsHook([{ table: this.singleLinkedRecordTable }])
+    const syncRecords = this.services.fetcher.getSyncRecordsFunction()
+    const { tables } = await syncRecords({ resources: [{ table: this.singleLinkedRecordTable }] })
     return ({ updateRecord, currentRecord }: BaseComponentProps) => {
-      const { tables } = useSyncRecords()
       const value = currentRecord?.getFieldValue(this.params.field) ?? ''
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault()

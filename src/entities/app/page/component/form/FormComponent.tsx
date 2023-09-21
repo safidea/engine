@@ -186,6 +186,14 @@ export class FormComponent extends BaseComponent {
     for (const tableInput of tablesInputs) {
       resources.push({
         table: tableInput.multipleLinkedRecordsTable,
+        // TODO: add filter to get only records linked to the current record
+        /*filters: [
+          newFilter({
+            field: 'id',
+            operator: 'is_any_of',
+            value: [defaultRecordId],
+          }),
+        ],*/
       })
     }
     return resources
