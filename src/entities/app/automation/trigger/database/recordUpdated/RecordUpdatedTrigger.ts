@@ -28,11 +28,11 @@ export class RecordUpdatedTrigger extends BaseTrigger {
     if (event !== 'record_updated') return false
     if (context.table !== this.table.name) return false
     if (this.fields.length > 0) {
+      let fieldMatch = false
       for (const field of context.updatedFields) {
-        if (!this.fields.includes(String(field))) {
-          return false
-        }
+        if (this.fields.includes(field)) fieldMatch = true
       }
+      if (!fieldMatch) return false
     }
     if ('id' in context.record && this.filters.length > 0) {
       const record = await this.services.database.read(this.table, String(context.record.id))
@@ -43,6 +43,7 @@ export class RecordUpdatedTrigger extends BaseTrigger {
         }
       }
     }
+
     return true
   }
 }

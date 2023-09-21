@@ -1,4 +1,4 @@
-import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '@specs/utils/e2e/fixtures'
 import INVOICES_TEMPLATE from '../schema'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
@@ -133,8 +133,6 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 
     // WHEN
     const update = {
-      finalised_time: new Date().toISOString(),
-      number: 1,
       status: 'finalised',
     }
     const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
@@ -145,8 +143,8 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(res.status()).toEqual(200)
     const [finalisedRecord] = await app.drivers.database.list('invoices')
     expect(finalisedRecord.id).toEqual(id)
-    expect(finalisedRecord.finalised_time).toEqual(update.finalised_time)
-    expect(finalisedRecord.number).toEqual(update.number)
+    expect(finalisedRecord.finalised_time).toBeDefined()
+    expect(finalisedRecord.number).toBeDefined()
     expect(finalisedRecord.status).toEqual(update.status)
   })
 

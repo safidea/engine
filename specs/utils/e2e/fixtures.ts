@@ -1,8 +1,8 @@
 import debug from 'debug'
 import { test as base, expect } from '@playwright/test'
-import Engine from '../../../src/engine/Engine'
 import * as helpers from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
+import Engine from '../../../src/'
 
 const log = debug('engine:specs')
 
