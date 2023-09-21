@@ -52,8 +52,9 @@ export class ExpressServer implements IServerDriver {
         return acc
       }, {})
     }
-    const { status = 200, json, html } = await handler(request)
+    const { status = 200, json, html, headers } = await handler(request)
     res.status(status)
+    if (headers) res.set(headers)
     if (html) {
       res.send(html)
     } else {
