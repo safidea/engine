@@ -5,7 +5,7 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.19",
+  "version": "0.0.20",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
@@ -18,7 +18,7 @@
   },
   "readme": "ERROR: No README data found!",
   "homepage": "https://github.com/solumy/engine#readme",
-  "_id": "@solumy/engine@0.0.19",
+  "_id": "@solumy/engine@0.0.20",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",

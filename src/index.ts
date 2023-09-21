@@ -41,11 +41,13 @@ export default class Engine {
   readonly drivers: IAppServerDrivers
   readonly folder: string
   readonly domain: string
+  readonly port: number
 
   constructor(options: EngineOptions = {}) {
     this.folder = options.folder || process.cwd()
-    this.domain = options.domain || `http://localhost:${options.port}`
-    this.server = new ServerController(getServerDriver(options.server, { port: options.port }))
+    this.port = options.port || 3000
+    this.domain = options.domain || `http://localhost:${this.port}`
+    this.server = new ServerController(getServerDriver(options.server, { port: this.port }))
     const tmpFolder = `${this.folder}/tmp`
     fs.ensureDirSync(this.folder)
     fs.ensureDirSync(tmpFolder)
