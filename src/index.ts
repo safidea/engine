@@ -5,6 +5,7 @@ import { ActionParams as Action } from '@entities/app/automation/action/ActionPa
 import { TableParams as Table } from '@entities/app/table/TableParams'
 import { FieldParams as Field } from '@entities/app/table/field/FieldParams'
 import { PageParams as Page } from '@entities/app/page/PageParams'
+import { BucketParams as Bucket } from '@entities/app/bucket/BucketParams'
 import { ComponentParams as Component } from '@entities/app/page/component/ComponentParams'
 import { ServerDrivers, getServerDriver } from '@drivers/server'
 import { AppValidator } from '@adapters/validators/app/AppValidator'
@@ -20,7 +21,7 @@ import { ServerController } from '@adapters/controllers/server/ServerController'
 import { IAppServerDrivers } from '@adapters/mappers/app/IAppServerDrivers'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
 
-export type { App, Page, Table, Automation, Action, Component, Field }
+export type { App, Page, Table, Automation, Action, Component, Field, Bucket }
 
 export interface EngineOptions {
   server?: ServerDrivers
