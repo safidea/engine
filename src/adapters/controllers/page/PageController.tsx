@@ -9,16 +9,17 @@ export class PageController {
   constructor(private readonly app: App) {}
 
   async renderHtml(page: Page, context: Context): Promise<string> {
-    const uiDriver = this.app.pages.ui.driverName
-    const data: IServerData = {
-      page: page.params,
-      params: context.path.params,
-      tables: this.app.tables.getAllParams(),
-      uiDriver,
-    }
-    const Page = await page.render(context)
-    const html = ReactDOMServer.renderToString(<Page />)
-    return `
+    try {
+      const uiDriver = this.app.pages.ui.driverName
+      const data: IServerData = {
+        page: page.params,
+        params: context.path.params,
+        tables: this.app.tables.getAllParams(),
+        uiDriver,
+      }
+      const Page = await page.render(context)
+      const html = ReactDOMServer.renderToString(<Page />)
+      return `
       <!DOCTYPE html>
       <html>
         <head>
@@ -34,5 +35,9 @@ export class PageController {
         </body>
       </html>
     `
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
   }
 }

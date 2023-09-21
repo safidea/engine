@@ -17,7 +17,7 @@ describe('PageController', () => {
             components: [
               {
                 type: 'paragraph',
-                text: 'Hello World',
+                text: 'Hello World!',
               },
             ],
           },
@@ -36,6 +36,6 @@ describe('PageController', () => {
     )
 
     // THEN
-    expect(html).toContain('<p>Hello World</p>')
+    expect(html).toContain('<p>Hello World!</p>')
   })
 })

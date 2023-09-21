@@ -12,7 +12,7 @@ import { UIMapper } from '@adapters/mappers/ui/UIMapper'
 import { getUIDriver } from '@drivers/ui'
 
 describe('Page', () => {
-  test('should render html', async () => {
+  test('should render react component', async () => {
     // GIVEN
     const PageRender = await new Page(
       {
