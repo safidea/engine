@@ -9,7 +9,6 @@ export class PersistedRecord extends BaseRecord {
   multipleLinkedRecordsFieldsData: { [key: string]: BaseRecordData[] } = {}
 
   constructor(data: BaseRecordData, table: Table) {
-    console.log('data', JSON.stringify(data))
     super(data, table, true)
   }
 

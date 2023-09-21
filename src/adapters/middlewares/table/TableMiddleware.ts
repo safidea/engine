@@ -105,7 +105,6 @@ export class TableMiddleware {
   }
 
   private catchError(error: unknown): IServerResponse {
-    console.error(error)
     if (error instanceof ApiError) {
       return { status: error.status, json: { error: error.message } }
     } else if (error instanceof Error) {
