@@ -39,7 +39,6 @@
     "dev:ui": "storybook dev -p 6006",
     "precommit": "bun run format && bun run lint && bun run build && bun run test",
     "prepare": "husky install",
-    "ci": "bun run install && bun run exec playwright install --with-deps && bun run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966"
