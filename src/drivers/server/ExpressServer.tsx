@@ -16,7 +16,7 @@ export class ExpressServer implements IServerDriver {
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
-    this.express.use(express.static(path.join(__dirname, '../../../dist/client')))
+    this.express.use(express.static(path.join(__dirname, '../../../dist/public')))
   }
 
   get(path: string, handler: IServerHandler) {
