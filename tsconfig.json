@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "noEmit": true,
     "lib": ["esnext", "dom"],
     "module": "NodeNext",
     "target": "esnext",
@@ -25,7 +24,7 @@
       "@entities/*": ["./src/entities/*"],
       "@drivers/*": ["./src/drivers/*"],
       "@adapters/*": ["./src/adapters/*"],
-      "@test/*": ["test/*"]
+      "@test/*": ["./test/*"]
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
@@ -36,7 +35,8 @@
     "jest.config.ts",
     "playwright.config.ts",
     "webpack.server.config.ts",
-    "webpack.config.ts"
+    "webpack.config.ts",
+    "script/tsconfig.json"
   ],
   "exclude": ["node_modules", "dist"]
 }
