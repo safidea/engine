@@ -25,5 +25,6 @@ jobs:
     - run: bun install
     - run: bun run build --if-present
     - run: bunx playwright install
+    - run: bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer
     - run: bun run test
     
