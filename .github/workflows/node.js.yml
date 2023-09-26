@@ -22,6 +22,7 @@ jobs:
     - uses: oven-sh/setup-bun@v1
       with:
         bun-version: latest
+    - run: bun install
     - run: bun run build --if-present
     - run: bunx playwright install
     - run: bun run test
