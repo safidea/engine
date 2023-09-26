@@ -29,6 +29,6 @@
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
-  "include": ["src/**/*", "specs/**/*", "test/**/*", "playwright.config.ts"],
+  "include": ["src/**/*", "specs/**/*", "test/**/*", "playwright.config.ts", ".storybook/**/*"],
   "exclude": ["node_modules", "dist"]
 }

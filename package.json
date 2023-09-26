@@ -1,5 +1,6 @@
 {
   "name": "@solumy/engine",
+  "description": "Build internal tools with one config.",
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
   "files": [
@@ -18,7 +19,6 @@
   },
   "readme": "https://github.com/solumy/engine#readme",
   "homepage": "https://github.com/solumy/engine#readme",
-  "_id": "@solumy/engine@0.0.20",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -36,7 +36,6 @@
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
     "test:utils": "cd test && bun test",
-    "dev:ui": "storybook dev -p 6006",
     "precommit": "bun run format && bun run lint && bun run build && bun run test",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
@@ -103,6 +102,7 @@
     "prettier": "latest",
     "react-refresh": "^0.14.0",
     "storybook": "^7.4.3",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^4.9.5"
   }
 }
