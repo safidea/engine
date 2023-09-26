@@ -1,5 +1,9 @@
-import reporter from 'io-ts-reporters'
+// TODO: remove ts-ignore when fp-ts/Either will not break "bun run tsc" command
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { isLeft } from 'fp-ts/Either'
+import reporter from 'io-ts-reporters'
 import { App } from '@entities/app/App'
 import { Table } from '@entities/app/table/Table'
 import { ApiError } from '@entities/errors/ApiError'
@@ -47,6 +51,8 @@ export class TableValidator {
     if (isLeft(decoded)) {
       throw Error(`Could not validate sync body:\n${reporter.report(decoded).join('\n')}`)
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const sync: SyncDto = decoded.right
     return sync
   }
@@ -66,6 +72,8 @@ export class TableValidator {
     if (isLeft(decoded)) {
       throw Error(`Could not validate record body:\n${reporter.report(decoded).join('\n')}`)
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const recordDto: RecordBodyDto = decoded.right
     return recordDto
   }
