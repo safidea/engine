@@ -1,5 +1,5 @@
 import { describe } from '@jest/globals'
-import { helpers } from '@specs/utils/unit/fixtures'
+import { helpers } from '@test/unit/fixtures'
 import { PuppeteerHtmlToPdfConverter } from './PuppeteerHtmlToPdfConverter'
 
 describe('PuppeteerHtmlToPdfConverter', () => {

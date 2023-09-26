@@ -22,9 +22,9 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
-    "build": "pnpm build:server & pnpm build:client && pnpm build:tailwind",
+    "build": "pnpm build:server & pnpm build:client",
     "build:server": "tsc -p src/tsconfig.server.json && node script/post-tsc.js",
-    "build:client": "webpack",
+    "build:client": "webpack && pnpm build:tailwind",
     "build:tailwind": "tailwindcss -i ./src/drivers/ui/TailwindUI/input.css -o ./dist/client/output.css --minify",
     "watch": "pnpm watch:server & pnpm watch:client & pnpm watch:tailwind",
     "watch:server": "tsc --watch",

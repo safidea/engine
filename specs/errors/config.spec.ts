@@ -1,4 +1,4 @@
-import { test, expect, Engine } from '@specs/utils/e2e/fixtures'
+import { test, expect, Engine } from '@test/e2e/fixtures'
 
 test.describe('Config Errors', () => {
   test('should return an error when a required field is missing', async ({ folder }) => {

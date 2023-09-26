@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-import { helpers } from '@specs/utils/unit/fixtures'
+import { helpers } from '@test/unit/fixtures'
 import { join } from 'path'
 import fs from 'fs-extra'
 import { LocalStorage } from './LocalStorage'

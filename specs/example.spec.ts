@@ -1,5 +1,5 @@
 import { AppDto } from '@adapters/dtos/AppDto'
-import { test, expect, helpers, Engine } from '../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '../test/e2e/fixtures'
 
 test.describe('Specs examples', () => {
   test('should display a text', async ({ page, folder }) => {

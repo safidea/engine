@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@specs/utils/unit/fixtures'
+import { describe, test, expect } from '@test/unit/fixtures'
 import { Table } from '@entities/app/table/Table'
 import { RecordToCreate } from '@entities/services/database/record/state/toCreate/RecordToCreate'
 import { DatabaseService } from './DatabaseService'

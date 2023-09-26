@@ -1,6 +1,6 @@
 import { describe, test, expect } from '@jest/globals'
 import { JsonDatabase } from './JsonDatabase'
-import { helpers } from '@specs/utils/unit/fixtures'
+import { helpers } from '@test/unit/fixtures'
 import { TableParams } from '@entities/app/table/TableParams'
 
 describe('JsonDatabase', () => {

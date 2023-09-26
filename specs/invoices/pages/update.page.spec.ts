@@ -1,4 +1,4 @@
-import { test, expect, helpers, Engine } from '../../../utils/e2e/fixtures'
+import { test, expect, helpers, Engine } from '../../../test/e2e/fixtures'
 import INVOICES_TEMPLATE from '../schema'
 
 test.describe('A page that update an invoice', () => {
