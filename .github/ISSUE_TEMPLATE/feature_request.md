@@ -1,19 +1,26 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+about: Suggest an idea for Solumy Engine
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Goal
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+Today, ... <!-- describe the situation/usage BEFORE the existence of the feature -->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+It would be better to have ... <!-- describe the value provided by the feature -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+In order to achieve that, we could ... <!-- (optional) provide solutions, ideas and/or an action plan -->
+
+<!-- Screenshots and images are appreciated, to illustrate the current situation and your feature -->
+
+## How to
+
+<!-- This section explains how to contribute successfully to Solumy Engine's repo -->
+
+In order to solve this issue, you are invited to fork this GitHub repository, makes changes to it, and then create a Pull Request so we can merge your changes back to this repository.
+
+First, you may want to read about:
+
+- How to propose a valuable contribution to this repo: [`CONTRIBUTING.md`](https://github.com/solumy/engine/blob/main/CONTRIBUTING.md)
+
+I will be happy to assist you at any stage, if you want to try to solve this issue! If you have any question, just leave a comment below. Beginners are also welcome! 🤗
