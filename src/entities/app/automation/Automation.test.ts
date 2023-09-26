@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect, mock } from 'bun:test'
 import { TableList } from '../table/TableList'
 import { Automation } from './Automation'
 
@@ -22,8 +22,8 @@ describe('Automation', () => {
       } as any
     )
     const templater = {
-      compile: jest.fn((value) => ({
-        render: jest.fn(() => value),
+      compile: mock((value) => ({
+        render: mock(() => value),
       })),
     } as any
     const automation = new Automation(
@@ -73,8 +73,8 @@ describe('Automation', () => {
       } as any
     )
     const templater = {
-      compile: jest.fn((value) => ({
-        render: jest.fn(() => value),
+      compile: mock((value) => ({
+        render: mock(() => value),
       })),
     } as any
     const automation = new Automation(

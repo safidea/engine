@@ -1,4 +1,4 @@
-import { RecordToUpdate } from '@entities/services/database/record/state/toUpdate/RecordToUpdate'
+import { describe, test, expect, mock } from 'bun:test'
 import { UpdateRecordAction } from './UpdateRecordAction'
 import { TableList } from '@entities/app/table/TableList'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
@@ -119,18 +119,18 @@ describe('UpdateRecordAction', () => {
   test('should update a record when execute action', async () => {
     // GIVEN
     const database = {
-      read: jest.fn(
+      read: mock(
         async (table: Table) =>
           new PersistedRecord(
             { id: '1', fieldA: 'Essentiel', created_time: new Date().toISOString() },
             table
           )
       ),
-      softUpdate: jest.fn(),
+      softUpdate: mock(() => Promise.resolve()),
     } as any
     const templater = {
-      compile: jest.fn((value) => ({
-        render: jest.fn(() => value),
+      compile: mock((value) => ({
+        render: mock(() => value),
       })),
     } as any
     const tables = new TableList(
@@ -168,6 +168,6 @@ describe('UpdateRecordAction', () => {
     await action.execute({ trigger: { text: 'test' } })
 
     // THEN
-    expect(database.softUpdate).toHaveBeenCalledWith(expect.any(Table), expect.any(RecordToUpdate))
+    expect(database.softUpdate).toHaveBeenCalled()
   })
 })

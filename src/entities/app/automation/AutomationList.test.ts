@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect, mock } from 'bun:test'
 import { TableList } from '../table/TableList'
 import { AutomationList } from './AutomationList'
 import { PersistedRecord } from '@entities/services/database/record/state/persisted/PersistedRecord'
@@ -8,8 +8,8 @@ describe('AutomationList', () => {
   test('should trigger matching automation when emit an event', async () => {
     // GIVEN
     const database = {
-      softUpdate: jest.fn(),
-      read: jest.fn(
+      softUpdate: mock(() => Promise.resolve()),
+      read: mock(
         (table: Table) =>
           new PersistedRecord(
             {
@@ -22,8 +22,8 @@ describe('AutomationList', () => {
       ),
     } as any
     const templater = {
-      compile: jest.fn((value) => ({
-        render: jest.fn(() => value),
+      compile: mock((value) => ({
+        render: mock(() => value),
       })),
     } as any
     const tables = new TableList(

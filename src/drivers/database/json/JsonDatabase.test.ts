@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { JsonDatabase } from './JsonDatabase'
 import { helpers } from '@test/unit/fixtures'
 import { TableParams } from '@entities/app/table/TableParams'

@@ -1,5 +1,5 @@
 import { TableList } from '@entities/app/table/TableList'
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect, mock } from 'bun:test'
 import { CreateFileAction } from './CreateFileAction'
 import { BucketList } from '@entities/app/bucket/BucketList'
 
@@ -42,14 +42,14 @@ describe('CreateFileAction', () => {
     )
     const buckets = new BucketList([{ name: 'bucketA' }], { storage: {} as any })
     const converter = {
-      htmlToPdf: jest.fn().mockReturnValue('pdf'),
+      htmlToPdf: mock(() => 'pdf'),
     }
     const storage = {
-      upload: jest.fn().mockReturnValue('url'),
+      upload: mock(() => 'url'),
     }
     const templater = {
-      compile: jest.fn((value) => ({
-        render: jest.fn(() => value),
+      compile: mock((value) => ({
+        render: mock(() => value),
       })),
     } as any
     const action = new CreateFileAction(
@@ -93,7 +93,9 @@ describe('CreateFileAction', () => {
     })
 
     // THEN
-    expect(converter.htmlToPdf).toHaveBeenCalledWith(
+    expect(converter.htmlToPdf).toHaveBeenCalled()
+    const htmlToPdfMock: any = converter.htmlToPdf.mock.calls[0]
+    expect(htmlToPdfMock[0]).toEqual(
       '<html><body><p>{{name}}</p><ul>{{#each items}}<li>{{ this.name }} - {{ this.number }}</li>{{/each}}</ul></body></html>'
     )
   })

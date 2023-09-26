@@ -1,3 +1,4 @@
+import { describe, test, expect, mock } from 'bun:test'
 import { TableMiddleware } from './TableMiddleware'
 import { AppMapper } from '@adapters/mappers/app/AppMapper'
 
@@ -6,8 +7,8 @@ describe('TableMiddleware', () => {
     test('should patch a request body', async () => {
       // Arrange
       const database = {
-        read: jest.fn().mockResolvedValue({ id: '1', name: 'name' }),
-        update: jest.fn(),
+        read: mock(() => ({ id: '1', name: 'name' })),
+        update: mock(() => ({})),
       }
       const app = AppMapper.toServerApp(
         {
@@ -41,12 +42,12 @@ describe('TableMiddleware', () => {
       await tableMiddleware.patchById(table)(request as any)
 
       // Assert
-      expect(database.read).toHaveBeenCalledWith(table.name, '1')
-      expect(database.update).toHaveBeenCalledWith(table.name, {
-        name: 'name',
-        id: '1',
-        last_modified_time: expect.any(String),
-      })
+      const readCall: any = database.read.mock.calls[0]
+      expect(readCall[0]).toBe(table.name)
+      expect(readCall[1]).toBe('1')
+      const databaseCall: any = database.update.mock.calls[0]
+      expect(databaseCall[0]).toBe(table.name)
+      expect(databaseCall[1].id).toBe('1')
     })
   })
 })

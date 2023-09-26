@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { RecordToCreate } from './RecordToCreate'
 import { Table } from '@entities/app/table/Table'
 
@@ -85,7 +85,7 @@ describe('RecordToCreate', () => {
     const call = () => new RecordToCreate(values, table)
 
     // THEN
-    expect(call).toThrowError('field "name" is required')
+    expect(call).toThrow('field "name" is required')
   })
 
   test('should throw an error if a field is missing', async () => {
@@ -107,7 +107,7 @@ describe('RecordToCreate', () => {
     const call = () => new RecordToCreate({}, table)
 
     // THEN
-    expect(call).toThrowError('field "fieldA" is required')
+    expect(call).toThrow('field "fieldA" is required')
   })
 
   test('should throw an error if a field is not an number and should be', async () => {
@@ -129,7 +129,7 @@ describe('RecordToCreate', () => {
     const call = () => new RecordToCreate({ fieldA: 'test' }, table)
 
     // THEN
-    expect(call).toThrowError('field "fieldA" must be a number')
+    expect(call).toThrow('field "fieldA" must be a number')
   })
 
   test('should convert a non string value to a string if field is a text type', async () => {
@@ -173,7 +173,7 @@ describe('RecordToCreate', () => {
     const call = () => new RecordToCreate({ fieldA: 'text' }, table)
 
     // THEN
-    expect(call).toThrowError('field "fieldA" must be a valid date')
+    expect(call).toThrow('field "fieldA" must be a valid date')
   })
 
   test('should throw an error if a multiple linked field is not valid', async () => {
@@ -196,7 +196,7 @@ describe('RecordToCreate', () => {
     const call = () => new RecordToCreate({ fieldA: 'text' }, table)
 
     // THEN
-    expect(call).toThrowError('field "fieldA" must be an array')
+    expect(call).toThrow('field "fieldA" must be an array')
   })
 
   test('should not throw an error if a number field is 0', async () => {

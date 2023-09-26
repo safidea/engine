@@ -1,6 +1,6 @@
 import { AppMapper } from '@adapters/mappers/app/AppMapper'
 import { PageController } from './PageController'
-import { describe, expect, test } from '@jest/globals'
+import { describe, expect, test } from 'bun:test'
 import { getUIDriver } from '@drivers/ui'
 import { Page } from '@entities/app/page/Page'
 import { Context } from '@entities/app/page/context/Context'

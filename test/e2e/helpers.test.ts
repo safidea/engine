@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { getUrl, generateRecords, copyAppFile } from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
 import INVOICES_TEMPLATE from '../../specs/invoices/schema'

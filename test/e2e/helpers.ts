@@ -14,7 +14,7 @@ export function getUrl(port: number, path: string): string {
 }
 
 export function copyAppFile(appName: string, filePath: string, testDolder: string): void {
-  const sourcePath = join(process.cwd(), 'specs', appName, filePath)
+  const sourcePath = join(process.cwd().replace('/test', ''), 'specs', appName, filePath)
   const destinationPath = join(testDolder, filePath)
   fs.ensureFileSync(destinationPath)
   fs.copyFileSync(sourcePath, destinationPath)

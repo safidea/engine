@@ -1,10 +1,6 @@
-/**
- * @jest-environment jsdom
- */
-
 import React from 'react'
+import { describe, test, expect } from 'bun:test'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
 import { Page } from './Page'
 import { Context } from './context/Context'
 import { UIService } from '@entities/services/ui/UIService'
@@ -35,6 +31,7 @@ describe('Page', () => {
     render(<PageRender />)
 
     // THEN
-    expect(screen.getByText('Hello World')).toBeInTheDocument()
+    const element = screen.getByText('Hello World')
+    expect(element).toBeDefined()
   })
 })

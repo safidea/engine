@@ -12,6 +12,7 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
+    "strictFunctionTypes": false,
     "resolveJsonModule": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -28,15 +29,6 @@
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
-  "include": [
-    "src/**/*",
-    "specs/**/*",
-    "test/**/*",
-    "jest.config.ts",
-    "playwright.config.ts",
-    "webpack.server.config.ts",
-    "webpack.config.ts",
-    "script/tsconfig.json"
-  ],
+  "include": ["src/**/*", "specs/**/*", "test/**/*", "playwright.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,5 +1,5 @@
 import { Table } from '@entities/app/table/Table'
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { PersistedRecord } from './PersistedRecord'
 
 describe('PersistedRecord', () => {

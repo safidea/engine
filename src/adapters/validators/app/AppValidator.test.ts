@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { AppValidator } from './AppValidator'
 
 describe('TableValidator', () => {
@@ -23,7 +23,7 @@ describe('TableValidator', () => {
     const call = () => AppValidator.validateConfig(config)
 
     // THEN
-    expect(call).not.toThrowError()
+    expect(call).not.toThrow()
   })
 
   test('should throw an error if component does not exist', async () => {

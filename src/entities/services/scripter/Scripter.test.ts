@@ -1,5 +1,5 @@
 import { Scripter } from '@entities/services/scripter/Scripter'
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 
 describe('Scripter', () => {
   test('should return a formula', async () => {
@@ -38,6 +38,6 @@ describe('Scripter', () => {
     const call = () => new Scripter(formula, context).run()
 
     // THEN
-    expect(call).toThrowError('b is not defined')
+    expect(call).toThrow("Can't find variable: b")
   })
 })

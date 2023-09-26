@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { helpers } from '@test/unit/fixtures'
 import { join } from 'path'
 import fs from 'fs-extra'

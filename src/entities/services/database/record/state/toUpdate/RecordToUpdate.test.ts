@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from 'bun:test'
 import { Table } from '@entities/app/table/Table'
 import { RecordToUpdate } from './RecordToUpdate'
 import { PersistedRecord } from '../persisted/PersistedRecord'
@@ -86,6 +86,6 @@ describe('RecordToCreate', () => {
     const call = () => updatedRecord.validateFieldsPermissions(persistedRecord)
 
     // THEN
-    expect(call).toThrowError('field "name" cannot be updated')
+    expect(call).toThrow('field "name" cannot be updated')
   })
 })

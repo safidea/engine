@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect, mock } from 'bun:test'
 import { RecordUpdatedTrigger } from './RecordUpdatedTrigger'
 import { TableList } from '@entities/app/table/TableList'
 
@@ -48,7 +48,7 @@ describe('RecordUpdatedTrigger', () => {
     )
     const usecases = {
       readTableRecord: {
-        execute: jest.fn(),
+        execute: mock(() => Promise.resolve({ id: '1', name: 'test' })),
       },
     } as any
 
