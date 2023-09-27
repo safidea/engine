@@ -3,7 +3,6 @@
   "description": "Build internal tools with one config.",
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
-  "private": true,
   "author": "Thomas JEANNEAU",
   "license": "Business Source License 1.1",
   "scripts": {
@@ -37,9 +36,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/solumy"
   },
   "bugs": {
     "url": "https://github.com/solumy/engine/issues"
