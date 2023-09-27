@@ -59,16 +59,25 @@ bun run index.js
 
 ## Configuration
 
-## Tool Examples
+A configuration is a JSON representation of the application. It contains the pages, the tables, the automations, the roles, etc...
+
+We will build a details documentation of the configuration in the future, but for now, you can see the [examples](https://github.com/solumy/engine/blob/main/examples) to see how to configure the engine.
+
+## Tools Examples
 
 - [Invoices](https://github.com/solumy/engine/blob/main/examples/invoices) : manage your invoices and create pdf documents with personnalised design
 
-You can run any example by cloning the repository and running the following command:
+You can run and play with any example by cloning the repository and running the following command:
 
 ```
 bun run example:<example-name>
 ```
 
-- Énumérer les concepts de la technologie (lien vers la config à terme) + lien vers un exemple d'implémentation du concept + vers des tests
-- On est ouvert aux contributions, liser notre contributing + code of conduct
-- Premier fichier vu sur npm
+## Contributing
+
+Solumy Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
+
+You can read our [contributing guide here](https://github.com/solumy/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/solumy/engine/blob/main/docs/CODE_OF_CONDUCT.md).
+
+## License
+Solumy Engine is [BSL 1.1 licensed](https://github.com/solumy/engine/blob/main/LICENSE).
