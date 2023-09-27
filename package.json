@@ -1,6 +1,7 @@
 {
   "name": "@solumy/engine",
   "description": "Build internal tools with one config.",
+  "version": "0.0.20",
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
   "author": "Thomas JEANNEAU",
@@ -32,10 +33,12 @@
   "files": [
     "dist/**/*"
   ],
-  "version": "0.0.20",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solumy/engine.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "bugs": {
     "url": "https://github.com/solumy/engine/issues"
