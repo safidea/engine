@@ -80,4 +80,5 @@ Solumy Engine is built and maintained by a small team – we'd love your help to
 You can read our [contributing guide here](https://github.com/solumy/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/solumy/engine/blob/main/docs/CODE_OF_CONDUCT.md).
 
 ## License
+
 Solumy Engine is [BSL 1.1 licensed](https://github.com/solumy/engine/blob/main/LICENSE).

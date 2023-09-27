@@ -1,0 +1,9 @@
+{
+  "branch": "main",
+  "branches": ["main"],
+  "publish": "@semantic-release/github",
+  "verifyConditions": ["@semantic-release/github"],
+  "success": [],
+  "fail": [],
+  "npmPublish": false
+}

@@ -3,22 +3,9 @@
   "description": "Build internal tools with one config.",
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
-  "version": "0.0.20",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/solumy/engine.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/solumy"
-  },
-  "bugs": {
-    "url": "https://github.com/solumy/engine/issues"
-  },
-  "readme": "https://github.com/solumy/engine#readme",
-  "homepage": "https://github.com/solumy/engine#readme",
+  "private": true,
+  "author": "Thomas JEANNEAU",
+  "license": "Business Source License 1.1",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -43,6 +30,21 @@
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966"
   },
+  "files": [
+    "dist/**/*"
+  ],
+  "version": "0.0.20",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solumy/engine.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/solumy"
+  },
+  "bugs": {
+    "url": "https://github.com/solumy/engine/issues"
+  },
+  "homepage": "https://github.com/solumy/engine#readme",
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
@@ -102,8 +104,14 @@
     "pdf-parse": "^1.1.1",
     "prettier": "latest",
     "react-refresh": "^0.14.0",
+    "semantic-release": "^22.0.5",
     "storybook": "^7.4.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^4.9.5"
+  },
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
   }
 }
