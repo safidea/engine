@@ -5,5 +5,5 @@
   "verifyConditions": ["@semantic-release/github"],
   "success": [],
   "fail": [],
-  "npmPublish": false
+  "npmPublish": true
 }

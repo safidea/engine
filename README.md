@@ -1,4 +1,4 @@
-# Solumy Engine - Internal Tool Generator
+# Solumy Engine - Internal Tool Framework
 
 Solumy Engine is a framework to create internal tools, fast and easy. With a simple configuration file, you can create a full stack application with a React frontend and a Node.js backend.
 
