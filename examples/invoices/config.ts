@@ -1,12 +1,13 @@
-import { AppDto } from '@adapters/dtos/AppDto'
+import type { Config } from '../../src/server'
 
-const INVOICE_FIELD_PERMISSIONS = {
+const permissions = {
   update: {
     formula: 'number === undefined',
   },
 }
 
-const APP: AppDto = {
+const config: Config = {
+  name: 'Invoices',
   tables: [
     {
       name: 'invoices',
@@ -23,33 +24,33 @@ const APP: AppDto = {
         {
           name: 'customer',
           type: 'single_line_text',
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'address',
           type: 'single_line_text',
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'zip_code',
           type: 'single_line_text',
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'city',
           type: 'single_line_text',
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'country',
           type: 'single_line_text',
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'items',
           type: 'multiple_linked_records',
           table: 'invoices_items',
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'total_net_amount',
@@ -85,19 +86,19 @@ const APP: AppDto = {
           name: 'finalised_time',
           type: 'datetime',
           optional: true,
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'number',
           type: 'number',
           optional: true,
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'url',
           type: 'url',
           optional: true,
-          permissions: INVOICE_FIELD_PERMISSIONS,
+          permissions,
         },
         {
           name: 'entity',
@@ -748,4 +749,4 @@ const APP: AppDto = {
   ],
 }
 
-export default APP
+export default config

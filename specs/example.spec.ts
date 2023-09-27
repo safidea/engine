@@ -1,11 +1,11 @@
-import { AppDto } from '@adapters/dtos/AppDto'
+import { ConfigDto } from '@adapters/dtos/ConfigDto'
 import { test, expect, helpers, Engine } from '../test/e2e/fixtures'
 
 test.describe('Specs examples', () => {
   test('should display a text', async ({ page, folder }) => {
     // GIVEN
     const port = 50601
-    const config: AppDto = {
+    const config: ConfigDto = {
       pages: [
         {
           path: '/',
@@ -31,7 +31,7 @@ test.describe('Specs examples', () => {
   test('should store a record', async ({ request, folder }) => {
     // GIVEN
     const port = 50602
-    const config: AppDto = {
+    const config: ConfigDto = {
       tables: [
         {
           name: 'invoices',

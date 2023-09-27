@@ -1,5 +1,5 @@
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '../schema'
+import INVOICES_TEMPLATE from '@examples/invoices/config'
 
 test.describe('A page that list invoices', () => {
   test('should load Tailwind CSS', async ({ page, folder }) => {

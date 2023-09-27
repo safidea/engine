@@ -2,7 +2,7 @@ import { fakerFR as faker } from '@faker-js/faker'
 import { v4 as uuidV4 } from 'uuid'
 import fs from 'fs-extra'
 import { join } from 'path'
-import { AppDto } from '@adapters/dtos/AppDto'
+import { ConfigDto } from '@adapters/dtos/ConfigDto'
 import { TableParams } from '@entities/app/table/TableParams'
 import { RecordData, RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { FieldParams } from '@entities/app/table/field/FieldParams'
@@ -14,14 +14,14 @@ export function getUrl(port: number, path: string): string {
 }
 
 export function copyAppFile(appName: string, filePath: string, testDolder: string): void {
-  const sourcePath = join(process.cwd().replace('/test', ''), 'specs', appName, filePath)
+  const sourcePath = join(process.cwd().replace('/test', ''), 'examples', appName, filePath)
   const destinationPath = join(testDolder, filePath)
   fs.ensureFileSync(destinationPath)
   fs.copyFileSync(sourcePath, destinationPath)
 }
 
-export function getTableByName(appDto: AppDto, tableName: string): TableParams {
-  const tablesDto = appDto.tables ?? []
+export function getTableByName(configDto: ConfigDto, tableName: string): TableParams {
+  const tablesDto = configDto.tables ?? []
   const tableDto = tablesDto.find((tableDto) => tableDto.name === tableName)
   if (!tableDto) throw new Error(`Table ${tableName} not found`)
   return tableDto
@@ -42,13 +42,13 @@ export interface ExtendRecordData {
 }
 
 export async function generateRecords(
-  appDto: AppDto,
+  configDto: ConfigDto,
   database: IDatabaseDriver,
   tableName: string,
   countOrRecordsDto: number | ExtendRecordData[] = 1
 ): Promise<RecordsDtoByTables> {
-  const tables = generateRecordsDto(appDto, tableName, countOrRecordsDto)
-  await database.configure(appDto.tables ?? [])
+  const tables = generateRecordsDto(configDto, tableName, countOrRecordsDto)
+  await database.configure(configDto.tables ?? [])
   for (const table in tables) {
     await database.createMany(table, tables[table])
   }
@@ -56,11 +56,11 @@ export async function generateRecords(
 }
 
 export function generateRecordsDto(
-  appDto: AppDto,
+  configDto: ConfigDto,
   tableName: string,
   countOrRecordsDto: number | ExtendRecordData[] = 1
 ): RecordsDtoByTables {
-  const tableDto = getTableByName(appDto, tableName)
+  const tableDto = getTableByName(configDto, tableName)
   const records: RecordDataTable[] = []
   const length =
     typeof countOrRecordsDto === 'number' ? countOrRecordsDto : countOrRecordsDto.length
@@ -85,7 +85,7 @@ export function generateRecordsDto(
         )
           continue
         record.fields[field.name] = generateRandomValueByField(
-          appDto,
+          configDto,
           field,
           records,
           record,
@@ -104,7 +104,7 @@ export function generateRecordsDto(
 }
 
 export function generateRandomValueByField(
-  appDto: AppDto,
+  configDto: ConfigDto,
   field: FieldParams,
   records: RecordDataTable[],
   currentRecord: RecordDataTable,
@@ -171,12 +171,12 @@ export function generateRandomValueByField(
       }
     }
     if (linkedRecords.length > 0) return linkedRecords
-    const linkedTable = getTableByName(appDto, field.table)
+    const linkedTable = getTableByName(configDto, field.table)
     const linkedField = linkedTable.fields.find((f) => f.type === 'single_linked_record')
     if (!linkedField)
       throw new Error(`single_linked_record field not found for table ${field.table}`)
     const { [field.table]: newRecords } = generateRecordsDto(
-      appDto,
+      configDto,
       field.table,
       Array.from({
         length: linkedRecordsdefaultValues.length > 0 ? linkedRecordsdefaultValues.length : 3,
@@ -201,7 +201,7 @@ export function generateRandomValueByField(
     } else if (defaultValue && typeof defaultValue === 'string') {
       return defaultValue
     }
-    const linkedTable = getTableByName(appDto, field.table)
+    const linkedTable = getTableByName(configDto, field.table)
     const linkedField = linkedTable.fields.find((f) => f.type === 'multiple_linked_records')
     if (!linkedField)
       throw new Error(`multiple_linked_records field not found for table ${field.table}`)
@@ -215,7 +215,7 @@ export function generateRandomValueByField(
     }
     const {
       [field.table]: [record],
-    } = generateRecordsDto(appDto, field.table, [recordDto])
+    } = generateRecordsDto(configDto, field.table, [recordDto])
     records.push({ table: field.table, fields: record })
     return record.id
   } else if (['datetime'].includes(type)) {

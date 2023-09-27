@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { AppParams as App } from '@entities/app/AppParams'
+import { ConfigDto as Config } from '@adapters/dtos/ConfigDto'
 import { AutomationParams as Automation } from '@entities/app/automation/AutomationParams'
 import { ActionParams as Action } from '@entities/app/automation/action/ActionParams'
 import { TableParams as Table } from '@entities/app/table/TableParams'
@@ -21,7 +21,7 @@ import { ServerController } from '@adapters/controllers/server/ServerController'
 import { IAppServerDrivers } from '@adapters/mappers/app/IAppServerDrivers'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
 
-export type { App, Page, Table, Automation, Action, Component, Field, Bucket }
+export type { Config, Page, Table, Automation, Action, Component, Field, Bucket }
 
 export interface EngineOptions {
   server?: ServerDrivers
@@ -67,6 +67,11 @@ export default class Engine {
     const appConfig = AppValidator.validateConfig(config)
     const app = AppMapper.toServerApp(appConfig, this.drivers)
     await this.server.start(app)
+    if (process.env.NODE_ENV === 'production') {
+      const name = appConfig.name ? appConfig.name + ' app' : 'App'
+      const message = `✨\n✨ ${name} listening on ${this.domain}\n✨`
+      console.log(message)
+    }
     return this
   }
 

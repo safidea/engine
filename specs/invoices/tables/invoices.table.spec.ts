@@ -1,5 +1,5 @@
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '../schema'
+import INVOICES_TEMPLATE from '@examples/invoices/config'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
   test('should create a list of invoices', async ({ request, folder }) => {

@@ -1,6 +1,6 @@
 # Architecture
 
-Solumy Engine is sharing the same codebase for the client and the server written in Typescript and React. 
+Solumy Engine is sharing the same codebase for the client and the server written in Typescript and React.
 
 ## Project Structure
 
@@ -41,5 +41,3 @@ src
 │   │   ├── templater       - Templater service
 │   │   ├── ui              - UI service
 ```
-
-

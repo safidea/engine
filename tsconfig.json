@@ -25,10 +25,18 @@
       "@entities/*": ["./src/entities/*"],
       "@drivers/*": ["./src/drivers/*"],
       "@adapters/*": ["./src/adapters/*"],
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@examples/*": ["./examples/*"]
     }
   },
   "plugins": [{ "name": "react-refresh-typescript" }],
-  "include": ["src/**/*", "specs/**/*", "test/**/*", "playwright.config.ts", ".storybook/**/*"],
+  "include": [
+    "src/**/*",
+    "specs/**/*",
+    "test/**/*",
+    "examples/**/*",
+    "playwright.config.ts",
+    ".storybook/**/*"
+  ],
   "exclude": ["node_modules", "dist"]
 }

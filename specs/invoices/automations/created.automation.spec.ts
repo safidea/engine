@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Engine } from '../../../test/e2e/fixtures'
-import INVOICES_TEMPLATE from '../schema'
+import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import INVOICES_TEMPLATE from '@examples/invoices/config'
 
 test.describe('An automation that build an invoice document from a template', () => {
   test('should create an invoice from html template on API request', async ({

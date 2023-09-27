@@ -1,4 +1,4 @@
-import { AppDto } from '@adapters/dtos/AppDto'
+import { ConfigDto } from '@adapters/dtos/ConfigDto'
 import { App } from '@entities/app/App'
 import { DatabaseMapper } from '../database/DatabaseMapper'
 import { ConverterMapper } from '../converter/ConverterMapper'
@@ -11,7 +11,7 @@ import { IAppServerDrivers } from './IAppServerDrivers'
 import { IAppClientDrivers } from './IAppClientDrivers'
 
 export class AppMapper {
-  static toServerApp(dto: AppDto, drivers: IAppServerDrivers) {
+  static toServerApp(dto: ConfigDto, drivers: IAppServerDrivers) {
     const mappers = {
       templater: new TemplaterMapper(drivers.templater),
       converter: new ConverterMapper(drivers.converter),
@@ -24,7 +24,7 @@ export class AppMapper {
     return new App(dto, mappers)
   }
 
-  static toClientApp(dto: AppDto, drivers: IAppClientDrivers) {
+  static toClientApp(dto: ConfigDto, drivers: IAppClientDrivers) {
     const mappers = {
       fetcher: new FetcherMapper(drivers.fetcher),
       ui: new UIMapper(drivers.ui),

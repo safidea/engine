@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Engine } from '../../../test/e2e/fixtures'
-import INVOICES_TEMPLATE from '../schema'
+import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import INVOICES_TEMPLATE from '@examples/invoices/config'
 
 test.describe('An automation that update an invoice document from a template', () => {
   test('should save the invoice document url updated in the record', async ({
