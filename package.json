@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
   "author": "Thomas JEANNEAU",
-  "license": "Business Source License 1.1",
+  "license": "BSL 1.1",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
