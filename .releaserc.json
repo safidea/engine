@@ -1,8 +1,15 @@
 {
   "branch": "main",
   "branches": ["main"],
-  "publish": "@semantic-release/github",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    "@semantic-release/github"
+  ],
   "verifyConditions": ["@semantic-release/github"],
+  "publish": "@semantic-release/github",
   "success": [],
   "fail": [],
   "npmPublish": true

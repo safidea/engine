@@ -1,7 +1,7 @@
 {
   "name": "@solumy/engine",
   "description": "Build internal tools with one config.",
-  "version": "0.0.21",
+  "version": "0.0.0-development",
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
   "author": "Thomas JEANNEAU",
@@ -28,14 +28,15 @@
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966"
+    "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966",
+    "semantic-release": "semantic-release"
   },
   "files": [
     "dist/**/*"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solumy/engine.git"
+    "url": "https://github.com/solumy/engine.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -68,6 +69,11 @@
     "@faker-js/faker": "^8.1.0",
     "@happy-dom/global-registrator": "^12.2.0",
     "@playwright/test": "1.33.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^11.0.0",
+    "@semantic-release/github": "^9.2.0",
+    "@semantic-release/npm": "^11.0.0",
+    "@semantic-release/release-notes-generator": "^12.0.0",
     "@storybook/addon-essentials": "^7.4.3",
     "@storybook/addon-interactions": "^7.4.3",
     "@storybook/addon-links": "^7.4.3",
@@ -95,6 +101,8 @@
     "@typescript-eslint/parser": "5.57.0",
     "bun-types": "^1.0.3",
     "chromatic": "^7.2.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "debug": "4.3.4",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^8.10.0",
@@ -112,5 +120,10 @@
     "doc": "docs",
     "example": "examples",
     "test": "test"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

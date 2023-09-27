@@ -28,4 +28,9 @@ jobs:
     - run: bunx playwright install
     - run: bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer
     - run: bun run test
+    - name: Release
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: bunx semantic-release
     
