@@ -12,7 +12,7 @@ const ui = new UIService(new UIMapper(TailwindUI))
 
 const SmallTitle = () => <TitleComponentUI text="title" size="small" ui={ui} />
 const BigTitle = () => <TitleComponentUI text="title" size="large" ui={ui} />
-const Link = () => <LinkComponentUI path="/new-page" label="New page" ui={ui} />
+const Link = () => <LinkComponentUI path="/new-page" text="New page" ui={ui} />
 
 const meta: Meta<typeof NavigationComponentUI> = {
   title: 'Tailwind/Navigation',

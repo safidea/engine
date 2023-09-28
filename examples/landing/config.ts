@@ -7,10 +7,10 @@ const config: Config = {
       path: '/',
       title: 'Landing',
       components: [
-        /*{
+        {
           type: 'container',
           components: [
-            {
+            /*{
               type: 'column',
               components: [
                 {
@@ -55,10 +55,10 @@ const config: Config = {
                   alt: 'Requests',
                 },
               ],
-            },
+            },*/
           ],
         },
-        {
+        /*{
           type: 'marketing/logos',
           title: 'What our customers are saying',
           logos: [

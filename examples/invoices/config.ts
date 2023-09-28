@@ -172,12 +172,12 @@ const config: Config = {
           links: [
             {
               type: 'link',
-              label: 'Toutes les factures',
+              text: 'Toutes les factures',
               path: '/',
             },
             {
               type: 'link',
-              label: 'Créer une facture',
+              text: 'Créer une facture',
               path: '/create',
             },
           ],
@@ -289,12 +289,12 @@ const config: Config = {
           links: [
             {
               type: 'link',
-              label: 'Toutes les factures',
+              text: 'Toutes les factures',
               path: '/',
             },
             {
               type: 'link',
-              label: 'Créer une facture',
+              text: 'Créer une facture',
               path: '/create',
             },
           ],
@@ -397,12 +397,12 @@ const config: Config = {
           links: [
             {
               type: 'link',
-              label: 'Toutes les factures',
+              text: 'Toutes les factures',
               path: '/',
             },
             {
               type: 'link',
-              label: 'Créer une facture',
+              text: 'Créer une facture',
               path: '/create',
             },
           ],

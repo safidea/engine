@@ -10,16 +10,16 @@ const ui = new UIService(new UIMapper(TailwindUI))
 
 const meta: Meta<typeof LinkComponentUI> = {
   title: 'Tailwind/Link',
-  component: ({ path, label }) => <LinkComponentUI path={path} label={label} ui={ui} />,
+  component: ({ path, text }) => <LinkComponentUI path={path} text={text} ui={ui} />,
   args: {
     path: '/new-page',
-    label: 'Open a page',
+    text: 'Open a page',
   },
   argTypes: {
     path: {
       control: { type: 'text' },
     },
-    label: {
+    text: {
       control: { type: 'text' },
     },
   },
