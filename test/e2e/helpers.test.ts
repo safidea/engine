@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'bun:test'
 import { getUrl, generateRecords, copyAppFile } from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
-import INVOICES_TEMPLATE from '../../examples/invoices/config'
+import INVOICES_CONFIG from '../../examples/invoices/config'
 import { JsonDatabase } from '@drivers/database/json/JsonDatabase'
 import fs from 'fs-extra'
 import path from 'path'
@@ -36,22 +36,17 @@ describe('E2e Helpers', () => {
       const database = new JsonDatabase({ folder })
 
       // WHEN
-      const { invoices, entities } = await generateRecords(
-        INVOICES_TEMPLATE,
-        database,
-        'invoices',
-        [
-          {
-            number: 1,
-          },
-          {
-            number: 2,
-          },
-          {
-            number: 3,
-          },
-        ]
-      )
+      const { invoices, entities } = await generateRecords(INVOICES_CONFIG, database, 'invoices', [
+        {
+          number: 1,
+        },
+        {
+          number: 2,
+        },
+        {
+          number: 3,
+        },
+      ])
 
       // THEN
       expect(invoices[0].number).toEqual(1)

@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '@examples/invoices/config'
+import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('An automation that build an invoice document from a template', () => {
   test('should create an invoice from html template on API request', async ({
@@ -10,10 +10,10 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50008
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
     await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
@@ -32,10 +32,10 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50012
-    const app = await new Engine({ folder, port }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ folder, port }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices', [
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices', [
       {
         status: 'finalised',
       },
@@ -55,11 +55,11 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50009
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
       invoices_items: items,
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
     for (const item of items) {
@@ -84,11 +84,11 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50010
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
       invoices_items: items,
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
     for (const item of items) {
@@ -106,11 +106,11 @@ test.describe('An automation that build an invoice document from a template', ()
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50011
-    await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
       invoices_items: items,
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
     for (const item of items) {

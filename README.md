@@ -65,6 +65,7 @@ We will build a details documentation of the configuration in the future, but fo
 
 ## Tools Examples
 
+- [Landing](https://github.com/solumy/engine/blob/main/examples/landing) : write a landing page to sell your product or service
 - [Invoices](https://github.com/solumy/engine/blob/main/examples/invoices) : manage your invoices and create pdf documents with personnalised design
 
 You can run and play with any example by cloning the repository and running the following command:

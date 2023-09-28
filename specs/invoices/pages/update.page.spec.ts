@@ -1,5 +1,5 @@
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '@examples/invoices/config'
+import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('A page that update an invoice', () => {
   test('should display the invoice data', async ({ page, folder }) => {
@@ -7,11 +7,11 @@ test.describe('A page that update an invoice', () => {
     // An invoice is listed on the home page
     const port = 50401
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         status: 'draft',
       },
@@ -43,11 +43,11 @@ test.describe('A page that update an invoice', () => {
     // An invoice is loaded in the update page
     const port = 50402
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       { number: undefined },
     ])
 
@@ -77,10 +77,10 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     const port = 50403
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices')
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -99,11 +99,11 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     const port = 50404
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices')
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN
@@ -120,11 +120,11 @@ test.describe('A page that update an invoice', () => {
     // GIVEN
     const port = 50405
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [{ id }],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices')
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices')
     await page.goto(helpers.getUrl(port, `/update/${id}`))
 
     // WHEN

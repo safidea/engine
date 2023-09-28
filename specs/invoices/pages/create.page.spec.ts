@@ -1,13 +1,13 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '@examples/invoices/config'
+import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('A page that create an invoice', () => {
   test('should display a title', async ({ page, folder }) => {
     // GIVEN
     const port = 50100
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     // WHEN
     await page.goto(helpers.getUrl(port, '/create'))
@@ -21,13 +21,13 @@ test.describe('A page that create an invoice', () => {
     // An invoicing app with a create page and an invoice
     const port = 50101
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [invoice],
       invoices_items: items,
       entities: [entity],
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
     await app.drivers.database.create('entities', entity)
 
     // WHEN
@@ -94,10 +94,10 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     const port = 50102
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
     await page.goto(helpers.getUrl(port, '/create'))
@@ -121,12 +121,12 @@ test.describe('A page that create an invoice', () => {
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50103
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
       invoices_items: items,
       entities: [entity],
-    } = helpers.generateRecordsDto(INVOICES_TEMPLATE, 'invoices')
+    } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
     await app.drivers.database.create('entities', entity)
 
     // WHEN

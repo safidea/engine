@@ -24,6 +24,7 @@
     "test:ui": "playwright test --ui",
     "test:utils": "cd test && bun test",
     "example:invoices": "NODE_ENV=production bun run examples/invoices/startup.ts",
+    "example:landing": "NODE_ENV=production bun run examples/landing/startup.ts",
     "precommit": "bun run format && bun run lint && bun run build && bun run test",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",

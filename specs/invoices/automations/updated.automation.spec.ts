@@ -1,6 +1,6 @@
 import pdf from 'pdf-parse'
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '@examples/invoices/config'
+import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('An automation that update an invoice document from a template', () => {
   test('should save the invoice document url updated in the record', async ({
@@ -10,10 +10,10 @@ test.describe('An automation that update an invoice document from a template', (
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50701
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices: [invoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         customer: 'Company A',
       },
@@ -38,10 +38,10 @@ test.describe('An automation that update an invoice document from a template', (
     // GIVEN
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
     const port = 50702
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
     const {
       invoices_items: [invoice_item],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         items: [
           {

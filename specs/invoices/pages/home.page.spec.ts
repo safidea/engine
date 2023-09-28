@@ -1,12 +1,12 @@
 import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
-import INVOICES_TEMPLATE from '@examples/invoices/config'
+import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('A page that list invoices', () => {
   test('should load Tailwind CSS', async ({ page, folder }) => {
     // GIVEN
     const port = 50300
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port, ui: 'tailwind' }).start(INVOICES_TEMPLATE)
+    await new Engine({ folder, port, ui: 'tailwind' }).start(INVOICES_CONFIG)
 
     // WHEN
     // I go to the home page "/"
@@ -20,7 +20,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50301
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port }).start(INVOICES_TEMPLATE)
+    await new Engine({ folder, port }).start(INVOICES_CONFIG)
 
     // WHEN
     // I go to the home page "/"
@@ -36,10 +36,10 @@ test.describe('A page that list invoices', () => {
     // We provide 8 example invoices
     const port = 50302
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ folder, port }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ folder, port }).start(INVOICES_CONFIG)
     const {
       invoices: [firstInvoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         status: 'draft',
       },
@@ -100,11 +100,11 @@ test.describe('A page that list invoices', () => {
     // We provide 5 example invoices with finalised dates and status
     const port = 50303
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [firstInvoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         finalised_time: new Date(2021, 3, 15).toISOString(),
         status: 'finalised',
@@ -158,7 +158,7 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50304
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     // WHEN
     // I go to the home page "/"
@@ -178,11 +178,11 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50305
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const {
       invoices: [invoice],
-    } = await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         status: 'draft',
         items: [
@@ -214,10 +214,10 @@ test.describe('A page that list invoices', () => {
     // GIVEN
     const port = 50306
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_TEMPLATE)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
 
     const url = `http://localhost:${port}/create`
-    await helpers.generateRecords(INVOICES_TEMPLATE, app.drivers.database, 'invoices', [
+    await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         url,
       },
