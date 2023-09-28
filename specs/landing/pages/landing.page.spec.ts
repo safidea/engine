@@ -32,7 +32,6 @@ test.describe('Landing page', () => {
     await expect(page.locator(`text=New Request`)).toBeVisible()
     await expect(page.locator(`text=View Requests`)).toBeVisible()
     await expect(page.locator(`img[alt="Requests"]`)).toBeVisible()
-    await expect(page.locator(`img[alt="Hero"]`)).toBeVisible()
   })
 
   test.skip('has logos', async ({ page, folder }) => {

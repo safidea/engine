@@ -9,9 +9,9 @@ import TableInputUnstyledUI from './TableInputUnstyledUI'
 import TextInputUnstyledUI from './TextInputUnstyledUI'
 import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 import ContainerUnstyledUI from './container/ContainerUnstyledUI'
-import ColumnUnstyledUI from './column/ColumnUnstyledUI'
+import ColumnsUnstyledUI from './columns/ColumnsUnstyledUI'
 import ImageUnstyledUI from './image/ImageUnstyledUI'
-import RowUnstyledUI from './row/RowUnstyledUI'
+import RowUnstyledUI from './rows/RowsUnstyledUI'
 
 const UnstyledUI: IUIDriver = {
   name: 'unstyled',
@@ -25,9 +25,9 @@ const UnstyledUI: IUIDriver = {
   TableInputUI: TableInputUnstyledUI,
   SingleSelectInputUI: SingleSelectInputUnstyledUI,
   ContainerUI: ContainerUnstyledUI,
-  ColumnUI: ColumnUnstyledUI,
+  ColumnsUI: ColumnsUnstyledUI,
   ImageUI: ImageUnstyledUI,
-  RowUI: RowUnstyledUI,
+  RowsUI: RowUnstyledUI,
 }
 
 export default UnstyledUI

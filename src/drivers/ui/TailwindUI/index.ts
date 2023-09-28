@@ -9,9 +9,9 @@ import TableInputTailwindUI from './TableInputTailwindUI'
 import TextInputTailwindUI from './TextInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
 import ContainerTailwindUI from './container/ContainerTailwindUI'
-import ColumnTailwindUI from './column/ColumnTailwindUI'
+import ColumnsTailwindUI from './columns/ColumnsTailwindUI'
 import ImageTailwindUI from './image/ImageTailwindUI'
-import RowTailwindUI from './row/RowTailwindUI'
+import RowTailwindUI from './rows/RowsTailwindUI'
 
 const TailwindUI: IUIDriver = {
   name: 'tailwind',
@@ -25,9 +25,9 @@ const TailwindUI: IUIDriver = {
   TableInputUI: TableInputTailwindUI,
   SingleSelectInputUI: SingleSelectInputTailwindUI,
   ContainerUI: ContainerTailwindUI,
-  ColumnUI: ColumnTailwindUI,
+  ColumnsUI: ColumnsTailwindUI,
   ImageUI: ImageTailwindUI,
-  RowUI: RowTailwindUI,
+  RowsUI: RowTailwindUI,
 }
 
 export default TailwindUI

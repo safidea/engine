@@ -12,9 +12,9 @@ import { SingleSelectInputComponent } from './singleSelectInput/SingleSelectInpu
 import { SingleSelectRecordInputComponent } from './singleSelectRecordInput/SingleSelectRecordInputComponent'
 import { TableInputComponent } from './tableInput/TableInputComponent'
 import { TextInputComponent } from './textInput/TextInputComponent'
-import { ColumnComponent } from './column/ColumnComponent'
+import { ColumnsComponent } from './columns/ColumnsComponent'
 import { ImageComponent } from './image/ImageComponent'
-import { RowComponent } from './row/RowComponent'
+import { RowsComponent } from './rows/RowsComponent'
 
 export type Component =
   | LinkComponent
@@ -28,9 +28,9 @@ export type Component =
   | TableInputComponent
   | SingleSelectRecordInputComponent
   | SingleSelectInputComponent
-  | ColumnComponent
+  | ColumnsComponent
   | ImageComponent
-  | RowComponent
+  | RowsComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -60,11 +60,11 @@ export function newComponent(
       return new SingleSelectRecordInputComponent(params, services, config)
     case 'single_select_input':
       return new SingleSelectInputComponent(params, services, config)
-    case 'column':
-      return new ColumnComponent(params, services, config)
+    case 'columns':
+      return new ColumnsComponent(params, services, config)
     case 'image':
       return new ImageComponent(params, services, config)
-    case 'row':
-      return new RowComponent(params, services, config)
+    case 'rows':
+      return new RowsComponent(params, services, config)
   }
 }

@@ -12,10 +12,10 @@ const TitleTailwindUI: TitleUI = {
     <h3 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{children}</h3>
   ),
   Large: ({ children }) => (
-    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{children}</h2>
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-1">{children}</h2>
   ),
   ExtraLarge: ({ children }) => (
-    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">{children}</h1>
+    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mb-2">{children}</h1>
   ),
 }
 

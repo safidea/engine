@@ -2,22 +2,22 @@ import React from 'react'
 import { UIService } from '@entities/services/ui/UIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 
-export interface ColumnProps {
+export interface ColumnsProps {
   ui: UIService
   Components: React.FC[]
 }
 
-export function ColumnComponentUI({ Components, ui }: ColumnProps) {
-  const { Column } = ui.getColumn()
+export function ColumnsComponentUI({ Components, ui }: ColumnsProps) {
+  const { Columns } = ui.getColumns()
   return (
-    <Column>
+    <Columns>
       {Components.map((Component, index) => (
         <Component key={index} />
       ))}
-    </Column>
+    </Columns>
   )
 }
 
-export interface ColumnUI {
-  Column: React.FC<BaseComponentUIProps>
+export interface ColumnsUI {
+  Columns: React.FC<BaseComponentUIProps>
 }

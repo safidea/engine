@@ -47,15 +47,15 @@ export class UIService {
     return this.mapper.getContainer()
   }
 
-  getColumn() {
-    return this.mapper.getColumn()
+  getColumns() {
+    return this.mapper.getColumns()
   }
 
   getImage() {
     return this.mapper.getImage()
   }
 
-  getRow() {
-    return this.mapper.getRow()
+  getRows() {
+    return this.mapper.getRows()
   }
 }

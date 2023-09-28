@@ -10,9 +10,9 @@ import { SingleSelectInputComponentParams } from './singleSelectInput/SingleSele
 import { SingleSelectRecordInputComponentParams } from './singleSelectRecordInput/SingleSelectRecordInputComponentParams'
 import { TableInputComponentParams } from './tableInput/TableInputComponentParams'
 import { TextInputComponentParams } from './textInput/TextInputComponentParams'
-import { ColumnComponentParams } from './column/ColumnComponentParams'
+import { ColumnsComponentParams } from './columns/ColumnsComponentParams'
 import { ImageComponentParams } from './image/ImageComponentParams'
-import { RowComponentParams } from './row/RowComponentParams'
+import { RowsComponentParams } from './rows/RowsComponentParams'
 
 export type ComponentParams =
   | LinkComponentParams
@@ -26,9 +26,9 @@ export type ComponentParams =
   | TableInputComponentParams
   | SingleSelectRecordInputComponentParams
   | SingleSelectInputComponentParams
-  | ColumnComponentParams
+  | ColumnsComponentParams
   | ImageComponentParams
-  | RowComponentParams
+  | RowsComponentParams
 
 export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentParams', () =>
   t.union([
@@ -43,8 +43,8 @@ export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentPa
     TableInputComponentParams,
     SingleSelectRecordInputComponentParams,
     SingleSelectInputComponentParams,
-    ColumnComponentParams,
+    ColumnsComponentParams,
     ImageComponentParams,
-    RowComponentParams,
+    RowsComponentParams,
   ])
 )

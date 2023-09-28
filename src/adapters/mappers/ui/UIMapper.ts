@@ -48,15 +48,15 @@ export class UIMapper implements IUIMapper {
     return this.driver.ContainerUI
   }
 
-  getColumn() {
-    return this.driver.ColumnUI
+  getColumns() {
+    return this.driver.ColumnsUI
   }
 
   getImage() {
     return this.driver.ImageUI
   }
 
-  getRow() {
-    return this.driver.RowUI
+  getRows() {
+    return this.driver.RowsUI
   }
 }

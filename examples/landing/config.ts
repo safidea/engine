@@ -11,48 +11,44 @@ const config: Config = {
           type: 'container',
           components: [
             {
-              type: 'column',
+              type: 'columns',
               components: [
                 {
-                  type: 'image',
-                  url: 'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-                  text: 'Requests',
-                },
-                {
-                  type: 'title',
-                  text: 'Requests',
-                  size: 'large',
-                },
-                {
-                  type: 'paragraph',
-                  text: 'Solumy Requests is a platform for managing requests. It allows you to create, view, and manage requests.',
-                  size: 'large',
-                },
-                {
-                  type: 'row',
+                  type: 'rows',
                   components: [
                     {
-                      type: 'link',
-                      text: 'New Request',
-                      path: '/registration',
-                      display: 'primary-button',
+                      type: 'title',
+                      text: 'Requests',
+                      size: 'extra-large',
                     },
                     {
-                      type: 'link',
-                      text: 'View Requests',
-                      path: '#features',
+                      type: 'paragraph',
+                      text: 'Solumy Requests is a platform for managing requests. It allows you to create, view, and manage requests.',
+                      size: 'large',
+                    },
+                    {
+                      type: 'columns',
+                      components: [
+                        {
+                          type: 'link',
+                          text: 'New Request',
+                          path: '/registration',
+                          display: 'primary-button',
+                        },
+                        {
+                          type: 'link',
+                          text: 'View Requests',
+                          path: '#features',
+                        },
+                      ],
                     },
                   ],
                 },
-              ],
-            },
-            {
-              type: 'column',
-              components: [
                 {
                   type: 'image',
                   url: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
-                  text: 'Hero',
+                  text: 'Requests',
+                  width: 1400,
                 },
               ],
             },

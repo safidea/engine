@@ -9,9 +9,9 @@ import { NavigationUI } from '@entities/app/page/component/navigation/Navigation
 import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
-import { ColumnUI } from '@entities/app/page/component/column/ColumnComponentUI'
+import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
 import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
-import { RowUI } from '@entities/app/page/component/row/RowComponentUI'
+import { RowsUI } from '@entities/app/page/component/rows/RowsComponentUI'
 
 export interface IUIDriver {
   name: UIDrivers
@@ -25,7 +25,7 @@ export interface IUIDriver {
   TableInputUI: TableInputUI
   SingleSelectInputUI: SingleSelectInputUI
   ContainerUI: ContainerUI
-  ColumnUI: ColumnUI
+  ColumnsUI: ColumnsUI
   ImageUI: ImageUI
-  RowUI: RowUI
+  RowsUI: RowsUI
 }

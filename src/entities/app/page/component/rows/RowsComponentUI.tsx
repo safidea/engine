@@ -2,22 +2,22 @@ import React from 'react'
 import { UIService } from '@entities/services/ui/UIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 
-export interface RowProps {
+export interface RowsProps {
   ui: UIService
   Components: React.FC[]
 }
 
-export function RowComponentUI({ Components, ui }: RowProps) {
-  const { Row } = ui.getRow()
+export function RowsComponentUI({ Components, ui }: RowsProps) {
+  const { Rows } = ui.getRows()
   return (
-    <Row>
+    <Rows>
       {Components.map((Component, index) => (
         <Component key={index} />
       ))}
-    </Row>
+    </Rows>
   )
 }
 
-export interface RowUI {
-  Row: React.FC<BaseComponentUIProps>
+export interface RowsUI {
+  Rows: React.FC<BaseComponentUIProps>
 }

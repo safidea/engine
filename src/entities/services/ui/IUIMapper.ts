@@ -9,9 +9,9 @@ import { ListUI } from '@entities/app/page/component/list/ListComponentUI'
 import { NavigationUI } from '@entities/app/page/component/navigation/NavigationComponentUI'
 import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
-import { ColumnUI } from '@entities/app/page/component/column/ColumnComponentUI'
+import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
 import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
-import { RowUI } from '@entities/app/page/component/row/RowComponentUI'
+import { RowsUI } from '@entities/app/page/component/rows/RowsComponentUI'
 
 export interface IUIMapper {
   driverName: UIDrivers
@@ -25,7 +25,7 @@ export interface IUIMapper {
   getTextInput: () => TextInputUI
   getTableInput: () => TableInputUI
   getSingleSelectInput: () => SingleSelectInputUI
-  getColumn: () => ColumnUI
+  getColumns: () => ColumnsUI
   getImage: () => ImageUI
-  getRow: () => RowUI
+  getRows: () => RowsUI
 }
