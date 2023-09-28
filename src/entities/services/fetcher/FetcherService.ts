@@ -5,6 +5,10 @@ import { SyncRecordsByTable, SyncResource } from '@entities/services/fetcher/syn
 export class FetcherService {
   constructor(private readonly mapper: IFetcherMapper) {}
 
+  get driverName() {
+    return this.mapper.driverName
+  }
+
   getSyncRecordsHook(resources: SyncResource[]) {
     return this.mapper.getSyncRecordsHook(resources)
   }

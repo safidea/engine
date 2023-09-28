@@ -4,6 +4,7 @@ import { describe, expect, test } from 'bun:test'
 import { getUIDriver } from '@drivers/ui'
 import { Page } from '@entities/app/page/Page'
 import { Context } from '@entities/app/page/context/Context'
+import { getFetcherDriver } from '@drivers/fetcher'
 
 describe('PageController', () => {
   test('should render html', async () => {
@@ -25,6 +26,7 @@ describe('PageController', () => {
       },
       {
         ui: getUIDriver('unstyled'),
+        fetcher: getFetcherDriver('native', { domain: 'http://localhost' }),
       } as any
     )
     const page = app.pages.getByPath('/') as Page

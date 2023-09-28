@@ -31,6 +31,11 @@ export class PageList {
     return this.services.ui
   }
 
+  get fetcher(): FetcherService {
+    if (!this.services) throw new AppError('Services not found')
+    return this.services.fetcher
+  }
+
   async renderByPath(path: string, context: Context): Promise<React.FC> {
     const page = this.getByPath(path)
     if (!page) throw new AppError('Page not found: ' + path)

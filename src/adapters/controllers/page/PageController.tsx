@@ -11,11 +11,18 @@ export class PageController {
   async renderHtml(page: Page, context: Context): Promise<string> {
     try {
       const uiDriver = this.app.pages.ui.driverName
+      const fetcherDriver = this.app.pages.fetcher.driverName
       const data: IServerData = {
-        page: page.params,
+        config: {
+          pages: [page.params],
+          tables: this.app.tables.getAllParams(),
+        },
         params: context.path.params,
-        tables: this.app.tables.getAllParams(),
-        uiDriver,
+        drivers: {
+          ui: uiDriver,
+          fetcher: fetcherDriver,
+        },
+        path: page.path,
       }
       const Page = await page.render(context)
       const html = ReactDOMServer.renderToString(<Page />)

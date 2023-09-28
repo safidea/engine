@@ -8,8 +8,6 @@ import { PageParams as Page } from '@entities/app/page/PageParams'
 import { BucketParams as Bucket } from '@entities/app/bucket/BucketParams'
 import { ComponentParams as Component } from '@entities/app/page/component/ComponentParams'
 import { ServerDrivers, getServerDriver } from '@drivers/server'
-import { AppValidator } from '@adapters/validators/app/AppValidator'
-import { AppMapper } from '@adapters/mappers/app/AppMapper'
 import { getUIDriver } from '@drivers/ui'
 import { TemplaterDrivers, getTemplaterDriver } from '@drivers/templater'
 import { ConverterDrivers, getConverterDrivers } from '@drivers/converter'
@@ -17,9 +15,9 @@ import { StorageDrivers, getStorageDriver } from '@drivers/storage'
 import { DatabaseDrivers, getDatabaseDriver } from '@drivers/database'
 import { FetcherDrivers, getFetcherDriver } from '@drivers/fetcher'
 import { LoggerDrivers, getLoggerDriver } from '@drivers/logger'
-import { ServerController } from '@adapters/controllers/server/ServerController'
-import { IAppServerDrivers } from '@adapters/mappers/app/IAppServerDrivers'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
+import { ServerMiddleware } from '@adapters/middlewares/server/ServerMiddleware'
+import { IAppDrivers } from '@adapters/mappers/app/IAppDrivers'
 
 export type { Config, Page, Table, Automation, Action, Component, Field, Bucket }
 
@@ -38,8 +36,8 @@ export interface EngineOptions {
 }
 
 export default class Engine {
-  private server: ServerController
-  readonly drivers: IAppServerDrivers
+  private serverMiddleware: ServerMiddleware
+  readonly drivers: IAppDrivers
   readonly folder: string
   readonly domain: string
   readonly port: number
@@ -48,11 +46,11 @@ export default class Engine {
     this.folder = options.folder || process.cwd()
     this.port = options.port || 3000
     this.domain = options.domain || `http://localhost:${this.port}`
-    this.server = new ServerController(getServerDriver(options.server, { port: this.port }))
     const tmpFolder = `${this.folder}/tmp`
     fs.ensureDirSync(this.folder)
     fs.ensureDirSync(tmpFolder)
     this.drivers = {
+      server: getServerDriver(options.server, { port: this.port }),
       templater: getTemplaterDriver(options.templater),
       converter: getConverterDrivers(options.converter, { tmpFolder }),
       storage: getStorageDriver(options.storage, { folder: this.folder, domain: this.domain }),
@@ -61,22 +59,19 @@ export default class Engine {
       logger: getLoggerDriver(options.logger),
       ui: getUIDriver(options.ui),
     }
+    this.serverMiddleware = new ServerMiddleware(this.drivers, {
+      folder: this.folder,
+      domain: this.domain,
+    })
   }
 
   async start(config: unknown): Promise<Engine> {
-    const appConfig = AppValidator.validateConfig(config)
-    const app = AppMapper.toServerApp(appConfig, this.drivers)
-    await this.server.start(app)
-    if (process.env.NODE_ENV === 'production') {
-      const name = appConfig.name ? appConfig.name + ' app' : 'App'
-      const message = `✨\n✨ ${name} listening on ${this.domain}\n✨`
-      console.log(message)
-    }
+    await this.serverMiddleware.start(config)
     return this
   }
 
   async stop(): Promise<Engine> {
-    await this.server.stop()
+    await this.serverMiddleware.stop()
     return this
   }
 }

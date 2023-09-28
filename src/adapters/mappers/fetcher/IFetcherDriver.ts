@@ -1,3 +1,5 @@
+import { FetcherDrivers } from '@entities/services/fetcher/FetcherDrivers'
+
 export interface FetchState<T> {
   data: T | undefined
   error: string | undefined
@@ -6,7 +8,7 @@ export interface FetchState<T> {
 
 export interface IFetcherDriver {
   domain: string
-  name: string
+  name: FetcherDrivers
   getFetch: () => (url: string, options?: RequestInit) => Promise<Response>
   getUseFetch: () => <T>(url: string, options?: RequestInit) => FetchState<T>
 }

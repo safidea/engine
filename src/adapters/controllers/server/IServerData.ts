@@ -1,10 +1,13 @@
-import { PageParams } from '@entities/app/page/PageParams'
-import { TableParams } from '@entities/app/table/TableParams'
+import { ConfigDto } from '@adapters/dtos/ConfigDto'
+import { FetcherDrivers } from '@entities/services/fetcher/FetcherDrivers'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
 
 export interface IServerData {
-  page: PageParams
-  tables: TableParams[]
+  config: ConfigDto
   params: { [key: string]: string }
-  uiDriver: UIDrivers
+  drivers: {
+    ui: UIDrivers
+    fetcher: FetcherDrivers
+  }
+  path: string
 }

@@ -1,10 +1,10 @@
 import type { Configuration } from 'webpack'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import type { StorybookConfig } from '@storybook/react-webpack5'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import path from 'path'
 
 const config: StorybookConfig = {
-  stories: ['../src/drivers/ui/**/*.stories.tsx'],
+  stories: ['../src/drivers/ui/**/*.stories.tsx', '../specs/**/*.stories.tsx'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

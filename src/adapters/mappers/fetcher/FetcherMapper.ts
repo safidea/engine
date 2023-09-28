@@ -9,6 +9,10 @@ import { SyncRecordsByTableDto } from '@adapters/dtos/SyncDto'
 export class FetcherMapper implements IFetcherMapper {
   constructor(private readonly driver: IFetcherDriver) {}
 
+  get driverName() {
+    return this.driver.name
+  }
+
   getSyncRecordsHook(resources: SyncResource[]) {
     const useFetch = this.driver.getUseFetch()
     const syncDto = SyncMapper.toSyncDto({ resources })
