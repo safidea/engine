@@ -11,8 +11,8 @@ export function ContainerComponentUI({ ui, Components }: ContainerProps) {
   const { Container } = ui.getContainer()
   return (
     <Container>
-      {Components.map((Component) => (
-        <Component />
+      {Components.map((Component, index) => (
+        <Component key={index} />
       ))}
     </Container>
   )

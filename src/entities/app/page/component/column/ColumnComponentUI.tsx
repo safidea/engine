@@ -11,8 +11,8 @@ export function ColumnComponentUI({ Components, ui }: ColumnProps) {
   const { Column } = ui.getColumn()
   return (
     <Column>
-      {Components.map((Component) => (
-        <Component />
+      {Components.map((Component, index) => (
+        <Component key={index} />
       ))}
     </Column>
   )

@@ -28,7 +28,7 @@ const config: Config = {
                   text: 'Solumy is a platform for managing requests. It allows you to create, view, and manage requests.',
                   size: 'large',
                 },
-                {
+                /*{
                   type: 'row',
                   components: [
                     {
