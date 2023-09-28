@@ -14,6 +14,7 @@ import { TableInputComponent } from './tableInput/TableInputComponent'
 import { TextInputComponent } from './textInput/TextInputComponent'
 import { ColumnComponent } from './column/ColumnComponent'
 import { ImageComponent } from './image/ImageComponent'
+import { RowComponent } from './row/RowComponent'
 
 export type Component =
   | LinkComponent
@@ -29,6 +30,7 @@ export type Component =
   | SingleSelectInputComponent
   | ColumnComponent
   | ImageComponent
+  | RowComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -62,5 +64,7 @@ export function newComponent(
       return new ColumnComponent(params, services, config)
     case 'image':
       return new ImageComponent(params, services, config)
+    case 'row':
+      return new RowComponent(params, services, config)
   }
 }

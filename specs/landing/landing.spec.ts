@@ -15,22 +15,24 @@ test.describe('Landing page', () => {
     await expect(page).toHaveTitle(title)
   })
 
-  test.skip('has hero', async ({ page }) => {
+  test('has hero', async ({ page }) => {
     // GIVEN
     const port = 50901
     await new Engine({ port }).start(LANDING_CONFIG)
-    const hero = LANDING_CONFIG.pages?.[0].components[0] as any
 
     // WHEN
     await page.goto(helpers.getUrl(port, '/'))
 
     // THEN
-    await expect(page.locator(`text=${hero.title}`)).toBeVisible()
-    await expect(page.locator(`text=${hero.subtitle}`)).toBeVisible()
-    await expect(page.locator(`text=${hero.primaryButton.label}`)).toBeVisible()
-    await expect(page.locator(`text=${hero.secondaryButton.label}`)).toBeVisible()
-    await expect(page.locator(`img[alt="${hero.logo.alt}"]`)).toBeVisible()
-    await expect(page.locator(`img[alt="${hero.image.alt}"]`)).toBeVisible()
+    await expect(
+      page.locator(
+        `text=Solumy Requests is a platform for managing requests. It allows you to create, view, and manage requests.`
+      )
+    ).toBeVisible()
+    await expect(page.locator(`text=New Request`)).toBeVisible()
+    await expect(page.locator(`text=View Requests`)).toBeVisible()
+    await expect(page.locator(`img[alt="Requests"]`)).toBeVisible()
+    await expect(page.locator(`img[alt="Hero"]`)).toBeVisible()
   })
 
   test.skip('has logos', async ({ page }) => {

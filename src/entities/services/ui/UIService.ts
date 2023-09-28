@@ -54,4 +54,8 @@ export class UIService {
   getImage() {
     return this.mapper.getImage()
   }
+
+  getRow() {
+    return this.mapper.getRow()
+  }
 }

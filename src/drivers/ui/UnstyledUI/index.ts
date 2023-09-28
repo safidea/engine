@@ -11,6 +11,7 @@ import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 import ContainerUnstyledUI from './container/ContainerUnstyledUI'
 import ColumnUnstyledUI from './column/ColumnUnstyledUI'
 import ImageUnstyledUI from './image/ImageUnstyledUI'
+import RowUnstyledUI from './row/RowUnstyledUI'
 
 const UnstyledUI: IUIDriver = {
   name: 'unstyled',
@@ -26,6 +27,7 @@ const UnstyledUI: IUIDriver = {
   ContainerUI: ContainerUnstyledUI,
   ColumnUI: ColumnUnstyledUI,
   ImageUI: ImageUnstyledUI,
+  RowUI: RowUnstyledUI,
 }
 
 export default UnstyledUI

@@ -25,10 +25,10 @@ const config: Config = {
                 },
                 {
                   type: 'paragraph',
-                  text: 'Solumy is a platform for managing requests. It allows you to create, view, and manage requests.',
+                  text: 'Solumy Requests is a platform for managing requests. It allows you to create, view, and manage requests.',
                   size: 'large',
                 },
-                /*{
+                {
                   type: 'row',
                   components: [
                     {
@@ -43,7 +43,7 @@ const config: Config = {
                       path: '#features',
                     },
                   ],
-                },*/
+                },
               ],
             },
             {
@@ -52,7 +52,7 @@ const config: Config = {
                 {
                   type: 'image',
                   url: 'https://solumy.com/img/screenshot.png',
-                  text: 'Requests',
+                  text: 'Hero',
                 },
               ],
             },

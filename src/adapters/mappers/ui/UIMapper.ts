@@ -55,4 +55,8 @@ export class UIMapper implements IUIMapper {
   getImage() {
     return this.driver.ImageUI
   }
+
+  getRow() {
+    return this.driver.RowUI
+  }
 }

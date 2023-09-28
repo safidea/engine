@@ -11,6 +11,7 @@ import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphCom
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 import { ColumnUI } from '@entities/app/page/component/column/ColumnComponentUI'
 import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
+import { RowUI } from '@entities/app/page/component/row/RowComponentUI'
 
 export interface IUIMapper {
   driverName: UIDrivers
@@ -26,4 +27,5 @@ export interface IUIMapper {
   getSingleSelectInput: () => SingleSelectInputUI
   getColumn: () => ColumnUI
   getImage: () => ImageUI
+  getRow: () => RowUI
 }

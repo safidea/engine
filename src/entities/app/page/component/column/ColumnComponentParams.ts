@@ -7,7 +7,7 @@ export interface ColumnComponentParams {
 }
 
 export const ColumnComponentParams: t.Type<ColumnComponentParams> = t.recursion(
-  'ContainerComponentParams',
+  'ColumnComponentParams',
   () =>
     t.type({
       type: t.literal('column'),
