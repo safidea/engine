@@ -15,7 +15,7 @@ const config: Config = {
               components: [
                 {
                   type: 'image',
-                  url: 'https://solumy.com/img/screenshot.png',
+                  url: 'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
                   text: 'Requests',
                 },
                 {
@@ -51,7 +51,7 @@ const config: Config = {
               components: [
                 {
                   type: 'image',
-                  url: 'https://solumy.com/img/screenshot.png',
+                  url: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
                   text: 'Hero',
                 },
               ],

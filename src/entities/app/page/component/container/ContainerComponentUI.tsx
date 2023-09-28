@@ -10,7 +10,7 @@ export interface ContainerProps {
 export function ContainerComponentUI({ ui, Components }: ContainerProps) {
   const { Container } = ui.getContainer()
   return (
-    <Container>
+    <Container columns={Components.length}>
       {Components.map((Component, index) => (
         <Component key={index} />
       ))}
@@ -18,6 +18,10 @@ export function ContainerComponentUI({ ui, Components }: ContainerProps) {
   )
 }
 
+export interface ContainerUIProps extends BaseComponentUIProps {
+  columns: number
+}
+
 export interface ContainerUI {
-  Container: React.FC<BaseComponentUIProps>
+  Container: React.FC<ContainerUIProps>
 }

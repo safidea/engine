@@ -2,8 +2,9 @@ import React from 'react'
 import { ContainerUI } from '@entities/app/page/component/container/ContainerComponentUI'
 
 const ContainerTailwindUI: ContainerUI = {
-  // TODO: styled the component for Tailwind
-  Container: ({ children }) => <div>{children}</div>,
+  Container: ({ children, columns }) => (
+    <div className={`container mx-auto columns-${columns}`}>{children}</div>
+  ),
 }
 
 export default ContainerTailwindUI
