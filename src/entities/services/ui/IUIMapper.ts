@@ -1,3 +1,4 @@
+import { UIDrivers } from './UIDrivers'
 import { ContainerUI } from '@entities/app/page/component/container/ContainerComponentUI'
 import { FormUI } from '@entities/app/page/component/form/FormComponentUI'
 import { SingleSelectInputUI } from '@entities/app/page/component/singleSelectInput/SingleSelectInputComponentUI'
@@ -8,7 +9,7 @@ import { ListUI } from '@entities/app/page/component/list/ListComponentUI'
 import { NavigationUI } from '@entities/app/page/component/navigation/NavigationComponentUI'
 import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
-import { UIDrivers } from './UIDrivers'
+import { ColumnUI } from '@entities/app/page/component/column/ColumnComponentUI'
 
 export interface IUIMapper {
   driverName: UIDrivers
@@ -22,4 +23,5 @@ export interface IUIMapper {
   getTextInput: () => TextInputUI
   getTableInput: () => TableInputUI
   getSingleSelectInput: () => SingleSelectInputUI
+  getColumn: () => ColumnUI
 }

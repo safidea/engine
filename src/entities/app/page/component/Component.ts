@@ -12,6 +12,7 @@ import { SingleSelectInputComponent } from './singleSelectInput/SingleSelectInpu
 import { SingleSelectRecordInputComponent } from './singleSelectRecordInput/SingleSelectRecordInputComponent'
 import { TableInputComponent } from './tableInput/TableInputComponent'
 import { TextInputComponent } from './textInput/TextInputComponent'
+import { ColumnComponent } from './column/ColumnComponent'
 
 export type Component =
   | LinkComponent
@@ -25,6 +26,7 @@ export type Component =
   | TableInputComponent
   | SingleSelectRecordInputComponent
   | SingleSelectInputComponent
+  | ColumnComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -54,5 +56,7 @@ export function newComponent(
       return new SingleSelectRecordInputComponent(params, services, config)
     case 'single_select_input':
       return new SingleSelectInputComponent(params, services, config)
+    case 'column':
+      return new ColumnComponent(params, services, config)
   }
 }

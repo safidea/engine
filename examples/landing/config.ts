@@ -10,10 +10,10 @@ const config: Config = {
         {
           type: 'container',
           components: [
-            /*{
+            {
               type: 'column',
               components: [
-                {
+                /*{
                   type: 'image',
                   url: 'https://solumy.com/img/screenshot.png',
                   alt: 'Requests',
@@ -43,19 +43,19 @@ const config: Config = {
                       path: '#features',
                     },
                   ],
-                },
+                },*/
               ],
             },
             {
               type: 'column',
               components: [
-                {
+                /*{
                   type: 'image',
                   url: 'https://solumy.com/img/screenshot.png',
                   alt: 'Requests',
-                },
+                },*/
               ],
-            },*/
+            },
           ],
         },
         /*{

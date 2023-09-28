@@ -46,4 +46,8 @@ export class UIService {
   getContainer() {
     return this.mapper.getContainer()
   }
+
+  getColumn() {
+    return this.mapper.getColumn()
+  }
 }

@@ -1,3 +1,4 @@
+import { IUIDriver } from '@adapters/mappers/ui/IUIDriver'
 import LinkTailwindUI from './link/LinkTailwindUI'
 import ParagraphTailwindUI from './paragraph/ParagraphTailwindUI'
 import TitleTailwindUI from './title/TitleTailwindUI'
@@ -7,8 +8,8 @@ import FormTailwindUI from './FormTailwindUI'
 import TableInputTailwindUI from './TableInputTailwindUI'
 import TextInputTailwindUI from './TextInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
-import ContainerTailwindUI from './ContainerTailwindUI'
-import { IUIDriver } from '@adapters/mappers/ui/IUIDriver'
+import ContainerTailwindUI from './container/ContainerTailwindUI'
+import ColumnTailwindUI from './column/ColumnTailwindUI'
 
 const TailwindUI: IUIDriver = {
   name: 'tailwind',
@@ -22,6 +23,7 @@ const TailwindUI: IUIDriver = {
   TableInputUI: TableInputTailwindUI,
   SingleSelectInputUI: SingleSelectInputTailwindUI,
   ContainerUI: ContainerTailwindUI,
+  ColumnUI: ColumnTailwindUI,
 }
 
 export default TailwindUI

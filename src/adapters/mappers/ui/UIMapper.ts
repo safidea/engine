@@ -47,4 +47,8 @@ export class UIMapper implements IUIMapper {
   getContainer() {
     return this.driver.ContainerUI
   }
+
+  getColumn() {
+    return this.driver.ColumnUI
+  }
 }

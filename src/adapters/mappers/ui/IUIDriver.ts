@@ -9,6 +9,7 @@ import { NavigationUI } from '@entities/app/page/component/navigation/Navigation
 import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphComponentUI'
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
+import { ColumnUI } from '@entities/app/page/component/column/ColumnComponentUI'
 
 export interface IUIDriver {
   name: UIDrivers
@@ -22,4 +23,5 @@ export interface IUIDriver {
   TableInputUI: TableInputUI
   SingleSelectInputUI: SingleSelectInputUI
   ContainerUI: ContainerUI
+  ColumnUI: ColumnUI
 }
