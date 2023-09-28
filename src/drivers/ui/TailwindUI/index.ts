@@ -10,6 +10,7 @@ import TextInputTailwindUI from './TextInputTailwindUI'
 import SingleSelectInputTailwindUI from './SingleSelectInputTailwindUI'
 import ContainerTailwindUI from './container/ContainerTailwindUI'
 import ColumnTailwindUI from './column/ColumnTailwindUI'
+import ImageTailwindUI from './image/ImageTailwindUI'
 
 const TailwindUI: IUIDriver = {
   name: 'tailwind',
@@ -24,6 +25,7 @@ const TailwindUI: IUIDriver = {
   SingleSelectInputUI: SingleSelectInputTailwindUI,
   ContainerUI: ContainerTailwindUI,
   ColumnUI: ColumnTailwindUI,
+  ImageUI: ImageTailwindUI,
 }
 
 export default TailwindUI

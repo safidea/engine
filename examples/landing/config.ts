@@ -13,10 +13,10 @@ const config: Config = {
             {
               type: 'column',
               components: [
-                /*{
+                {
                   type: 'image',
                   url: 'https://solumy.com/img/screenshot.png',
-                  alt: 'Requests',
+                  text: 'Requests',
                 },
                 {
                   type: 'title',
@@ -49,11 +49,11 @@ const config: Config = {
             {
               type: 'column',
               components: [
-                /*{
+                {
                   type: 'image',
                   url: 'https://solumy.com/img/screenshot.png',
-                  alt: 'Requests',
-                },*/
+                  text: 'Requests',
+                },
               ],
             },
           ],

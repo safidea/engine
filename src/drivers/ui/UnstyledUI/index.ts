@@ -1,5 +1,5 @@
 import { IUIDriver } from '@adapters/mappers/ui/IUIDriver'
-import LinkUnstyledUI from './LinkUnstyledUI'
+import LinkUnstyledUI from './link/LinkUnstyledUI'
 import ParagraphUnstyledUI from './ParagraphUnstyledUI'
 import TitleUnstyledUI from './TitleUnstyledUI'
 import NavigationUnstyledUI from './NavigationUnstyledUI'
@@ -10,6 +10,7 @@ import TextInputUnstyledUI from './TextInputUnstyledUI'
 import SingleSelectInputUnstyledUI from './SingleSelectInputUnstyledUI'
 import ContainerUnstyledUI from './container/ContainerUnstyledUI'
 import ColumnUnstyledUI from './column/ColumnUnstyledUI'
+import ImageUnstyledUI from './image/ImageUnstyledUI'
 
 const UnstyledUI: IUIDriver = {
   name: 'unstyled',
@@ -24,6 +25,7 @@ const UnstyledUI: IUIDriver = {
   SingleSelectInputUI: SingleSelectInputUnstyledUI,
   ContainerUI: ContainerUnstyledUI,
   ColumnUI: ColumnUnstyledUI,
+  ImageUI: ImageUnstyledUI,
 }
 
 export default UnstyledUI

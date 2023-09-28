@@ -13,6 +13,7 @@ import { SingleSelectRecordInputComponent } from './singleSelectRecordInput/Sing
 import { TableInputComponent } from './tableInput/TableInputComponent'
 import { TextInputComponent } from './textInput/TextInputComponent'
 import { ColumnComponent } from './column/ColumnComponent'
+import { ImageComponent } from './image/ImageComponent'
 
 export type Component =
   | LinkComponent
@@ -27,6 +28,7 @@ export type Component =
   | SingleSelectRecordInputComponent
   | SingleSelectInputComponent
   | ColumnComponent
+  | ImageComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -58,5 +60,7 @@ export function newComponent(
       return new SingleSelectInputComponent(params, services, config)
     case 'column':
       return new ColumnComponent(params, services, config)
+    case 'image':
+      return new ImageComponent(params, services, config)
   }
 }

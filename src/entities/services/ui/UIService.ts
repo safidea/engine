@@ -50,4 +50,8 @@ export class UIService {
   getColumn() {
     return this.mapper.getColumn()
   }
+
+  getImage() {
+    return this.mapper.getImage()
+  }
 }

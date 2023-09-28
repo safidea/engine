@@ -11,6 +11,7 @@ import { SingleSelectRecordInputComponentParams } from './singleSelectRecordInpu
 import { TableInputComponentParams } from './tableInput/TableInputComponentParams'
 import { TextInputComponentParams } from './textInput/TextInputComponentParams'
 import { ColumnComponentParams } from './column/ColumnComponentParams'
+import { ImageComponentParams } from './image/ImageComponentParams'
 
 export type ComponentParams =
   | LinkComponentParams
@@ -25,6 +26,7 @@ export type ComponentParams =
   | SingleSelectRecordInputComponentParams
   | SingleSelectInputComponentParams
   | ColumnComponentParams
+  | ImageComponentParams
 
 export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentParams', () =>
   t.union([
@@ -40,5 +42,6 @@ export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentPa
     SingleSelectRecordInputComponentParams,
     SingleSelectInputComponentParams,
     ColumnComponentParams,
+    ImageComponentParams,
   ])
 )

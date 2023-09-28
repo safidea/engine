@@ -10,6 +10,7 @@ import { ParagraphUI } from '@entities/app/page/component/paragraph/ParagraphCom
 import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
 import { ColumnUI } from '@entities/app/page/component/column/ColumnComponentUI'
+import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
 
 export interface IUIDriver {
   name: UIDrivers
@@ -24,4 +25,5 @@ export interface IUIDriver {
   SingleSelectInputUI: SingleSelectInputUI
   ContainerUI: ContainerUI
   ColumnUI: ColumnUI
+  ImageUI: ImageUI
 }
