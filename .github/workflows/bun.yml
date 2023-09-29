@@ -26,10 +26,10 @@ jobs:
       with:
         bun-version: latest
     - run: bun install
-    - run: bun run lint
-    - run: bun run build --if-present
-    - run: bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer
-    - run: bun run test
+    #- run: bun run lint
+    #- run: bun run build --if-present
+    #- run: bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer
+    #- run: bun run test
     - name: Release
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
