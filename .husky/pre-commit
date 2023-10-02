@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm run precommit
+# If not in CI environment, run precommit
+if [ -z "$CI" ]; then
+  bun run precommit
+fi
