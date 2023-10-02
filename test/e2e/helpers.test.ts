@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import path from 'path'
 
 describe('E2e Helpers', () => {
-  test('getUrl', async () => {
+  test('should get app url', async () => {
     // GIVEN
     const port = 3000
 
@@ -18,7 +18,7 @@ describe('E2e Helpers', () => {
     expect(url).toEqual('http://localhost:3000/home')
   })
 
-  test('copyAppFile', async () => {
+  test('should copy a file in app folder', async () => {
     // GIVEN
     const folder = getDedicatedTmpFolder()
 
@@ -29,30 +29,28 @@ describe('E2e Helpers', () => {
     expect(fs.existsSync(path.join(folder, 'templates/invoice.html'))).toBeTruthy()
   })
 
-  describe('generateRecords', () => {
-    test('should generate invoices records with number', async () => {
-      // GIVEN
-      const folder = getDedicatedTmpFolder()
-      const database = new JsonDatabase({ folder })
+  test('should generate invoices records with number', async () => {
+    // GIVEN
+    const folder = getDedicatedTmpFolder()
+    const database = new JsonDatabase({ folder })
 
-      // WHEN
-      const { invoices, entities } = await generateRecords(INVOICES_CONFIG, database, 'invoices', [
-        {
-          number: 1,
-        },
-        {
-          number: 2,
-        },
-        {
-          number: 3,
-        },
-      ])
+    // WHEN
+    const { invoices, entities } = await generateRecords(INVOICES_CONFIG, database, 'invoices', [
+      {
+        number: 1,
+      },
+      {
+        number: 2,
+      },
+      {
+        number: 3,
+      },
+    ])
 
-      // THEN
-      expect(invoices[0].number).toEqual(1)
-      expect(invoices[1].number).toEqual(2)
-      expect(invoices[2].number).toEqual(3)
-      expect(entities[0].invoices).toHaveLength(1)
-    })
+    // THEN
+    expect(invoices[0].number).toEqual(1)
+    expect(invoices[1].number).toEqual(2)
+    expect(invoices[2].number).toEqual(3)
+    expect(entities[0].invoices).toHaveLength(1)
   })
 })
