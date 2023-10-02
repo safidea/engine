@@ -35,7 +35,7 @@ describe('TableMiddleware', () => {
         } as any
       )
       const table = app.tables.getByName('table') as any
-      const request = { body: { name: 'name' }, params: { id: '1' } }
+      const request = { body: { name: 'name' }, params: { id: '1' }, headers: {} }
       const tableMiddleware = new TableMiddleware(app)
 
       // Act

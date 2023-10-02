@@ -2,7 +2,7 @@ import type { Config } from '../../src/server'
 
 const permissions = {
   update: {
-    formula: 'number === undefined',
+    formula: 'role === "admin" || number === undefined',
   },
 }
 

@@ -44,6 +44,10 @@ export class ExpressServer implements IServerDriver {
       method: req.method,
       path: req.url.split('?')[0],
       params: req.params,
+      headers: Object.keys(req.headers).reduce((acc: { [key: string]: string }, key: string) => {
+        acc[key] = String(req.headers[key])
+        return acc
+      }, {}),
     }
     if (req.body) request.body = req.body
     if (req.query) {

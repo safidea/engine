@@ -10,4 +10,7 @@ export interface IServerRequest {
     [key: string]: string
   }
   query?: IServerRequestQuery
+  headers: {
+    [key: string]: string
+  }
 }

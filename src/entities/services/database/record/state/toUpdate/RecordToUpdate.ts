@@ -51,7 +51,7 @@ export class RecordToUpdate extends BaseRecord {
     return super.validateFieldValue(field, value)
   }
 
-  validateFieldsPermissions(persistedRecord: PersistedRecord): void {
+  validateFieldsPermissions(persistedRecord: PersistedRecord, role = 'member'): void {
     const { fields } = this.table
     const context = fields.reduce((acc: BaseRecordFields, field) => {
       acc[field.name] = persistedRecord.getFieldValue(field.name) ?? undefined
@@ -62,6 +62,7 @@ export class RecordToUpdate extends BaseRecord {
       if (value && field.permissions?.update) {
         if (typeof field.permissions?.update === 'object') {
           const { formula } = field.permissions.update
+          context.role = role
           const allowed = new Scripter(formula, context).run()
           if (!allowed) {
             throw new Error(`field "${field.name}" cannot be updated`)

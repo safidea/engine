@@ -88,10 +88,11 @@ export class TableValidator {
 
   public async validateUpdatePermissions(
     persistedRecord: PersistedRecord,
-    updatedRecord: RecordToUpdate
+    updatedRecord: RecordToUpdate,
+    role = 'member'
   ): Promise<void> {
     try {
-      updatedRecord.validateFieldsPermissions(persistedRecord)
+      updatedRecord.validateFieldsPermissions(persistedRecord, role)
     } catch (error) {
       if (error instanceof Error) throw new ApiError(error.message, 400)
       throw error

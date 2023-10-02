@@ -148,7 +148,10 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(finalisedRecord.status).toEqual(update.status)
   })
 
-  test('should not be able to update a finalised invoice', async ({ request, folder }) => {
+  test('an employee should not be able to update a finalised invoice', async ({
+    request,
+    folder,
+  }) => {
     // GIVEN
     const port = 50506
     helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
@@ -178,9 +181,42 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const { error } = await res.json()
     expect(error).toEqual('field "customer" cannot be updated')
     const [updatedRecord] = await app.drivers.database.list('invoices')
-    expect(updatedRecord.id).toEqual(id)
     expect(updatedRecord.customer).toEqual('Customer A')
-    expect(updatedRecord.number).toEqual(1)
+  })
+
+  test('an administrator should be able to update a finalised invoice', async ({
+    request,
+    folder,
+  }) => {
+    // GIVEN
+    const port = 50512
+    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
+    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
+
+    const {
+      invoices: [{ id }],
+    } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
+      {
+        customer: 'Customer A',
+        status: 'finalised',
+        finalised_time: new Date().toISOString(),
+        number: 1,
+      },
+    ])
+
+    // WHEN
+    const update = {
+      customer: 'Customer B',
+    }
+    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+      data: update,
+      headers: { role: 'admin' },
+    })
+
+    // THEN
+    expect(res.status()).toEqual(200)
+    const [updatedRecord] = await app.drivers.database.list('invoices')
+    expect(updatedRecord.customer).toEqual('Customer B')
   })
 })
 
