@@ -8,6 +8,23 @@ import { RecordData, RecordFieldValue } from '@entities/services/database/record
 import { FieldParams } from '@entities/app/table/field/FieldParams'
 import { RecordToCreateDto } from '@adapters/dtos/RecordDto'
 import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
+import Engine from '../../src/server'
+import { getDedicatedTmpFolder } from '@test/helpers'
+
+interface StartAppOptions {
+  port?: number
+  folder?: string
+}
+
+export async function startApp(config: ConfigDto, options: StartAppOptions = {}) {
+  try {
+    const port = await import('get-port').then((getPort) => getPort.default({ port: options.port }))
+    const { folder = getDedicatedTmpFolder() } = options
+    return new Engine({ port, folder }).start(config)
+  } catch (err) {
+    return startApp(config, options)
+  }
+}
 
 export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`

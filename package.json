@@ -109,6 +109,7 @@
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-storybook": "^0.6.14",
     "husky": "8.0.3",
+    "get-port": "^7.0.0",
     "pdf-parse": "^1.1.1",
     "prettier": "latest",
     "react-refresh": "^0.14.0",

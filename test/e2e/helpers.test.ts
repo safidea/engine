@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'bun:test'
-import { getUrl, generateRecords, copyAppFile } from './helpers'
+import { getUrl, generateRecords, copyAppFile, startApp } from './helpers'
 import { getDedicatedTmpFolder } from '../helpers'
 import INVOICES_CONFIG from '../../examples/invoices/config'
 import { JsonDatabase } from '@drivers/database/json/JsonDatabase'
@@ -52,5 +52,24 @@ describe('E2e Helpers', () => {
     expect(invoices[1].number).toEqual(2)
     expect(invoices[2].number).toEqual(3)
     expect(entities[0].invoices).toHaveLength(1)
+  })
+
+  test('should start an app with valid port', async () => {
+    // WHEN
+    const app = await startApp({})
+
+    // THEN
+    expect(app).toBeDefined()
+  })
+
+  test('should start an with invalid port', async () => {
+    // GIVEN
+    await startApp({}, { port: 3000 })
+
+    // WHEN
+    const app = await startApp({}, { port: 3000 })
+
+    // THEN
+    expect(app).toBeDefined()
   })
 })
