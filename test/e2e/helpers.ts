@@ -17,12 +17,12 @@ export async function getPort(defaultPort = 0, retry = 0): Promise<number> {
   try {
     const port: number = await new Promise((resolve, reject) => {
       const srv = net.createServer()
-      srv.on('error', function () {
-        reject()
+      srv.on('error', function (err) {
+        reject(err)
       })
       srv.listen(defaultPort, function () {
         const address = srv.address()
-        if (!address || typeof address === 'string') return reject()
+        if (!address || typeof address === 'string') return reject(address)
         srv.close()
         resolve(address.port)
       })
