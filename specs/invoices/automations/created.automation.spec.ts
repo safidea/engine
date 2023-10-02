@@ -86,7 +86,9 @@ test.describe('An automation that build an invoice document from a template', ()
     // THEN
     const [record] = await app.drivers.database.list('invoices')
     expect(record).toBeDefined()
-    expect(record.url).toEqual(`http://localhost:${app.port}/api/storage/invoices/invoice-P1001.pdf`)
+    expect(record.url).toEqual(
+      `http://localhost:${app.port}/api/storage/invoices/invoice-P1001.pdf`
+    )
   })
 
   test('should open the invoice pdf from storage', async ({ request }) => {

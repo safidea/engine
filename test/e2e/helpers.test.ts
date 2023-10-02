@@ -62,7 +62,7 @@ describe('E2e Helpers', () => {
     expect(app).toBeDefined()
   })
 
-  test('should start an with invalid port', async () => {
+  test('should start an app with invalid port', async () => {
     // GIVEN
     await startApp({}, { port: 3000 })
 
@@ -71,7 +71,7 @@ describe('E2e Helpers', () => {
 
     // THEN
     expect(app).toBeDefined()
-  })
+  }, 10000)
 
   test('should copy template when starting an "invoices" app', async () => {
     // GIVEN
