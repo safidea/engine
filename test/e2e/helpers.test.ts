@@ -71,7 +71,7 @@ describe('E2e Helpers', () => {
 
     // THEN
     expect(app).toBeDefined()
-  }, 10000)
+  })
 
   test('should copy template when starting an "invoices" app', async () => {
     // GIVEN
