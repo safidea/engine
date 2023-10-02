@@ -1,7 +1,7 @@
 import type { Config } from '../../src/server'
 
 const config: Config = {
-  name: 'Landing',
+  name: 'landing',
   pages: [
     {
       path: '/',

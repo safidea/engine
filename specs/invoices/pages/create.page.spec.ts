@@ -1,28 +1,23 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import { test, expect, helpers } from '@test/e2e/fixtures'
 import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('A page that create an invoice', () => {
-  test('should display a title', async ({ page, folder }) => {
+  test('should display a title', async ({ page }) => {
     // GIVEN
-    const port = 50100
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/create'))
+    await page.goto(helpers.getUrl(app.port, '/create'))
 
     // THEN
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should fill a form and create an invoice', async ({ page, folder }) => {
+  test('should fill a form and create an invoice', async ({ page }) => {
     // GIVEN
     // An invoicing app with a create page and an invoice
-    const port = 50101
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [invoice],
       invoices_items: items,
@@ -32,7 +27,7 @@ test.describe('A page that create an invoice', () => {
 
     // WHEN
     // I go to the create page "/create"
-    await page.goto(helpers.getUrl(port, '/create'))
+    await page.goto(helpers.getUrl(app.port, '/create'))
 
     // AND
     // I fill the form
@@ -89,18 +84,15 @@ test.describe('A page that create an invoice', () => {
 
   test('should display an error message when some required fields are not provided', async ({
     page,
-    folder,
   }) => {
     // GIVEN
-    const port = 50102
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [invoice],
     } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/create'))
+    await page.goto(helpers.getUrl(app.port, '/create'))
 
     // AND
     await page.locator('input[name="customer"]').type(String(invoice.customer))
@@ -116,12 +108,9 @@ test.describe('A page that create an invoice', () => {
 
   test('should create a PDF document when an invoice is created from a form and a template', async ({
     page,
-    folder,
   }) => {
     // GIVEN
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const port = 50103
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [invoice],
       invoices_items: items,
@@ -131,7 +120,7 @@ test.describe('A page that create an invoice', () => {
 
     // WHEN
     // I go to the create page "/create"
-    await page.goto(helpers.getUrl(port, '/create'))
+    await page.goto(helpers.getUrl(app.port, '/create'))
 
     // AND
     // I fill the form

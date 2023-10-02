@@ -7,7 +7,7 @@ const permissions = {
 }
 
 const config: Config = {
-  name: 'Invoices',
+  name: 'invoices',
   tables: [
     {
       name: 'invoices',

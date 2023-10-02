@@ -72,4 +72,15 @@ describe('E2e Helpers', () => {
     // THEN
     expect(app).toBeDefined()
   })
+
+  test('should copy template when starting an "invoices" app', async () => {
+    // GIVEN
+
+    // WHEN
+    const app = await startApp({ name: 'invoices' })
+
+    // THEN
+    const file = fs.existsSync(path.join(app.folder, 'templates/invoice.html'))
+    expect(file).toBeTruthy()
+  })
 })

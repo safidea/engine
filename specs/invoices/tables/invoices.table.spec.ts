@@ -1,17 +1,16 @@
-import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import { test, expect, helpers } from '@test/e2e/fixtures'
 import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('An api that allow CRUD operations on invoices', () => {
-  test('should create a list of invoices', async ({ request, folder }) => {
+  test('should create a list of invoices', async ({ request }) => {
     // GIVEN
-    const port = 50501
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const { invoices } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices', 2)
 
     // WHEN
-    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoices })
+    const res = await request.post(helpers.getUrl(app.port, '/api/table/invoices'), {
+      data: invoices,
+    })
 
     // THEN
     expect(res.status()).toEqual(200)
@@ -23,13 +22,10 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     }
   })
 
-  test('should read a list of invoices from a list of ids', async ({ request, folder }) => {
+  test('should read a list of invoices from a list of ids', async ({ request }) => {
     // GIVEN
     // We provide 3 invoices and we get only 2 ids
-    const port = 50502
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const { invoices } = await helpers.generateRecords(
       INVOICES_CONFIG,
       app.drivers.database,
@@ -43,7 +39,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     // I make a GET request on table invoices
     const res = await request.get(
       helpers.getUrl(
-        port,
+        app.port,
         `/api/table/invoices?filter_field_0=id&filter_operator_0=is_any_of&filter_value_0=${filteredIds.join(
           ','
         )}`
@@ -59,13 +55,10 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(records[1].id).toEqual(ids[1])
   })
 
-  test('should update an invoice', async ({ request, folder }) => {
+  test('should update an invoice', async ({ request }) => {
     // GIVEN
     // We provide an invoice
-    const port = 50503
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -79,7 +72,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const update = {
       customer: 'Customer B',
     }
-    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+    const res = await request.patch(helpers.getUrl(app.port, `/api/table/invoices/${id}`), {
       data: update,
     })
 
@@ -92,20 +85,17 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(updatedRecord.last_modified_time).toBeDefined()
   })
 
-  test('should soft delete an invoice', async ({ request, folder }) => {
+  test('should soft delete an invoice', async ({ request }) => {
     // GIVEN
     // We provide an invoice
-    const port = 50504
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices')
 
     // WHEN
     // I make a DELETE request to soft delete this invoice
-    const res = await request.delete(helpers.getUrl(port, `/api/table/invoices/${id}`))
+    const res = await request.delete(helpers.getUrl(app.port, `/api/table/invoices/${id}`))
 
     // THEN
     // I should have a deleted_at value on my soft deleted invoice
@@ -115,12 +105,9 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(deletedRecord.deleted_time).toBeDefined()
   })
 
-  test('should finalised an invoice', async ({ request, folder }) => {
+  test('should finalised an invoice', async ({ request }) => {
     // GIVEN
-    const port = 50505
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -135,7 +122,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const update = {
       status: 'finalised',
     }
-    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+    const res = await request.patch(helpers.getUrl(app.port, `/api/table/invoices/${id}`), {
       data: update,
     })
 
@@ -148,15 +135,9 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(finalisedRecord.status).toEqual(update.status)
   })
 
-  test('an employee should not be able to update a finalised invoice', async ({
-    request,
-    folder,
-  }) => {
+  test('an employee should not be able to update a finalised invoice', async ({ request }) => {
     // GIVEN
-    const port = 50506
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -172,7 +153,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const update = {
       customer: 'Customer B',
     }
-    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+    const res = await request.patch(helpers.getUrl(app.port, `/api/table/invoices/${id}`), {
       data: update,
     })
 
@@ -184,15 +165,9 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     expect(updatedRecord.customer).toEqual('Customer A')
   })
 
-  test('an administrator should be able to update a finalised invoice', async ({
-    request,
-    folder,
-  }) => {
+  test('an administrator should be able to update a finalised invoice', async ({ request }) => {
     // GIVEN
-    const port = 50512
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [{ id }],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -208,7 +183,7 @@ test.describe('An api that allow CRUD operations on invoices', () => {
     const update = {
       customer: 'Customer B',
     }
-    const res = await request.patch(helpers.getUrl(port, `/api/table/invoices/${id}`), {
+    const res = await request.patch(helpers.getUrl(app.port, `/api/table/invoices/${id}`), {
       data: update,
       headers: { role: 'admin' },
     })
@@ -221,16 +196,14 @@ test.describe('An api that allow CRUD operations on invoices', () => {
 })
 
 test.describe('An api that render error messages', () => {
-  test('should return a 404 error when the table does not exist', async ({ request, folder }) => {
+  test('should return a 404 error when the table does not exist', async ({ request }) => {
     // GIVEN
     // We provide an app with tables
-    const port = 50507
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     // WHEN
     // I make a GET request on an unknown table
-    const res = await request.get(helpers.getUrl(port, '/api/table/unknown'))
+    const res = await request.get(helpers.getUrl(app.port, '/api/table/unknown'))
 
     // THEN
     // I should have a 404 error
@@ -238,16 +211,14 @@ test.describe('An api that render error messages', () => {
     expect(await res.text()).toContain('Cannot GET /api/table/unknown')
   })
 
-  test('should return a 404 error when the row does not exist', async ({ request, folder }) => {
+  test('should return a 404 error when the row does not exist', async ({ request }) => {
     // GIVEN
     // We provide an app with tables
-    const port = 50508
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     // WHEN
     // I make a GET request on an unknown row
-    const res = await request.get(helpers.getUrl(port, '/api/table/invoices/unknown'))
+    const res = await request.get(helpers.getUrl(app.port, '/api/table/invoices/unknown'))
 
     // THEN
     // I should have a 404 error
@@ -255,16 +226,14 @@ test.describe('An api that render error messages', () => {
     expect((await res.json()).error).toEqual('record "unknown" does not exist in table "invoices"')
   })
 
-  test('should return a 400 error when fields are required', async ({ request, folder }) => {
+  test('should return a 400 error when fields are required', async ({ request }) => {
     // GIVEN
     // We provide an app with tables
-    const port = 50509
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     // WHEN
     // I make a POST request with an invalid row
-    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), {
+    const res = await request.post(helpers.getUrl(app.port, '/api/table/invoices'), {
       data: { customer: 'Essentiel' },
     })
 
@@ -275,13 +244,10 @@ test.describe('An api that render error messages', () => {
     expect(error).toContain('field "address" is required')
   })
 
-  test('should return a 400 error when a field is not valid', async ({ request, folder }) => {
+  test('should return a 400 error when a field is not valid', async ({ request }) => {
     // GIVEN
     // We provide an app with tables
-    const port = 50510
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [invoice],
     } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
@@ -289,7 +255,9 @@ test.describe('An api that render error messages', () => {
 
     // WHEN
     // I make a POST request with an invalid row
-    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), { data: invoice })
+    const res = await request.post(helpers.getUrl(app.port, '/api/table/invoices'), {
+      data: invoice,
+    })
 
     // THEN
     // I should have a 400 error
@@ -300,13 +268,10 @@ test.describe('An api that render error messages', () => {
 
   test('should return a 400 error when a record of a multiple linked field is not valid', async ({
     request,
-    folder,
   }) => {
     // GIVEN
     // We provide an app with tables
-    const port = 50511
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     const {
       invoices_items: [item],
@@ -322,7 +287,7 @@ test.describe('An api that render error messages', () => {
 
     // WHEN
     // I make a POST request with an invalid row
-    const res = await request.post(helpers.getUrl(port, '/api/table/invoices_items'), {
+    const res = await request.post(helpers.getUrl(app.port, '/api/table/invoices_items'), {
       data: item,
     })
 

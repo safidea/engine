@@ -1,42 +1,36 @@
-import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import { test, expect, helpers } from '@test/e2e/fixtures'
 import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('A page that list invoices', () => {
-  test('should load Tailwind CSS', async ({ page, folder }) => {
+  test('should load Tailwind CSS', async ({ page }) => {
     // GIVEN
-    const port = 50300
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port, ui: 'tailwind' }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG, { ui: 'tailwind' })
 
     // WHEN
     // I go to the home page "/"
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     expect(await page.getAttribute('h1', 'class')).toContain('text-4xl')
   })
 
-  test('should display a title', async ({ page, folder }) => {
+  test('should display a title', async ({ page }) => {
     // GIVEN
-    const port = 50301
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ folder, port }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     // WHEN
     // I go to the home page "/"
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     // Check that I'm on the / page
     expect(await page.textContent('h1')).toContain('Toutes les factures')
   })
 
-  test('should display a list of invoices grouped by status', async ({ page, folder }) => {
+  test('should display a list of invoices grouped by status', async ({ page }) => {
     // GIVEN
     // We provide 8 example invoices
-    const port = 50302
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ folder, port }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [firstInvoice],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -68,7 +62,7 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
     await page.getByRole('cell', { name: String(firstInvoice.customer) }).waitFor()
 
     // THEN
@@ -92,16 +86,10 @@ test.describe('A page that list invoices', () => {
     expect(paidRows.length).toBe(invoices.filter((i) => i.status === 'paid').length + 1)
   })
 
-  test('should display a list of invoices sorted by dates in status groups', async ({
-    page,
-    folder,
-  }) => {
+  test('should display a list of invoices sorted by dates in status groups', async ({ page }) => {
     // GIVEN
     // We provide 5 example invoices with finalised dates and status
-    const port = 50303
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [firstInvoice],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -134,7 +122,7 @@ test.describe('A page that list invoices', () => {
 
     // WHEN
     // I go to the home page "/" and invoices are loaded
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
     await page.getByRole('cell', { name: String(firstInvoice.customer) }).waitFor()
 
     // THEN
@@ -153,33 +141,27 @@ test.describe('A page that list invoices', () => {
 
   test('should go to the /create page when clicking on the "Créer une facture" button', async ({
     page,
-    folder,
   }) => {
     // GIVEN
-    const port = 50304
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
 
     // WHEN
     // I go to the home page "/"
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // AND
     // I click on the "Créer une facture" button
     await page.click('text="Créer une facture"')
-    await page.waitForURL(helpers.getUrl(port, '/create'))
+    await page.waitForURL(helpers.getUrl(app.port, '/create'))
 
     // THEN
     // Check that I'm on the /create page
     expect(await page.textContent('h1')).toContain('Créer une facture')
   })
 
-  test('should display an invoice with calculated vat and total', async ({ page, folder }) => {
+  test('should display an invoice with calculated vat and total', async ({ page }) => {
     // GIVEN
-    const port = 50305
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [invoice],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
@@ -201,7 +183,7 @@ test.describe('A page that list invoices', () => {
     ])
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
     await expect(page.getByRole('cell', { name: String(invoice.customer) })).toBeVisible()
 
     // THEN
@@ -210,13 +192,10 @@ test.describe('A page that list invoices', () => {
     await expect(page.getByRole('cell', { name: /^78€$/i })).toBeVisible()
   })
 
-  test('should display a button that open an invoice url', async ({ page, folder }) => {
+  test('should display a button that open an invoice url', async ({ page }) => {
     // GIVEN
-    const port = 50306
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
-
-    const url = `http://localhost:${port}/create`
+    const app = await helpers.startApp(INVOICES_CONFIG)
+    const url = `http://localhost:${app.port}/create`
     await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices', [
       {
         url,
@@ -224,7 +203,7 @@ test.describe('A page that list invoices', () => {
     ])
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
     const [newWindow] = await Promise.all([
       page.waitForEvent('popup'),
       page.getByRole('cell', { name: 'Ouvrir' }).click(),

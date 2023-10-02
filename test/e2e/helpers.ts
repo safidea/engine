@@ -8,21 +8,45 @@ import { RecordData, RecordFieldValue } from '@entities/services/database/record
 import { FieldParams } from '@entities/app/table/field/FieldParams'
 import { RecordToCreateDto } from '@adapters/dtos/RecordDto'
 import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
-import Engine from '../../src/server'
 import { getDedicatedTmpFolder } from '@test/helpers'
+import Engine, { EngineOptions } from '../../src/server'
+import net from 'net'
 
-interface StartAppOptions {
-  port?: number
-  folder?: string
+export async function getPort(defaultPort = 0, retry = 0): Promise<number> {
+  if (retry > 10) throw new Error('Unable to find a free port in 10 retries')
+  try {
+    const port: number = await new Promise((resolve, reject) => {
+      const srv = net.createServer()
+      srv.on('error', function () {
+        reject()
+      })
+      srv.listen(defaultPort, function () {
+        const address = srv.address()
+        if (!address || typeof address === 'string') return reject()
+        srv.close()
+        resolve(address.port)
+      })
+    })
+    return port
+  } catch (err) {
+    return getPort(++retry)
+  }
 }
 
-export async function startApp(config: ConfigDto, options: StartAppOptions = {}) {
+export async function startApp(config: ConfigDto, options: EngineOptions = {}, retry = 0) {
+  if (retry > 10) throw new Error('Unable to start app in 10 retries')
   try {
-    const port = await import('get-port').then((getPort) => getPort.default({ port: options.port }))
-    const { folder = getDedicatedTmpFolder() } = options
-    return new Engine({ port, folder }).start(config)
+    const { port: defaultPort, folder: defaultFolder, ...res } = options
+    const port = await getPort(defaultPort)
+    const folder = defaultFolder ?? getDedicatedTmpFolder()
+    if (config.name === 'invoices') {
+      copyAppFile('invoices', 'templates/invoice.html', folder)
+    }
+    const app = await new Engine({ port, folder, ...res }).start(config)
+    return app
   } catch (err) {
-    return startApp(config, options)
+    if ((err as Error).message.includes('EADDRINUSE')) return startApp(config, options, ++retry)
+    throw err
   }
 }
 

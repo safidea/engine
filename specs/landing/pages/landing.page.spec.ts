@@ -1,27 +1,25 @@
-import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import { test, expect, helpers } from '@test/e2e/fixtures'
 import LANDING_CONFIG from '@examples/landing/config'
 
 test.describe('Landing page', () => {
-  test('has title', async ({ page, folder }) => {
+  test('has title', async ({ page }) => {
     // GIVEN
-    const port = 50900
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const title = LANDING_CONFIG.pages?.[0].title as string
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page).toHaveTitle(title)
   })
 
-  test('has hero', async ({ page, folder }) => {
+  test('has hero', async ({ page }) => {
     // GIVEN
-    const port = 50901
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(
@@ -34,14 +32,13 @@ test.describe('Landing page', () => {
     await expect(page.locator(`img[alt="Requests"]`)).toBeVisible()
   })
 
-  test.skip('has logos', async ({ page, folder }) => {
+  test.skip('has logos', async ({ page }) => {
     // GIVEN
-    const port = 50902
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const logos = LANDING_CONFIG.pages?.[0].components[1] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${logos.title}`)).toBeVisible()
@@ -50,14 +47,13 @@ test.describe('Landing page', () => {
     }
   })
 
-  test.skip('has first features set', async ({ page, folder }) => {
+  test.skip('has first features set', async ({ page }) => {
     // GIVEN
-    const port = 50903
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const features = LANDING_CONFIG.pages?.[0].components[2] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${features.title}`)).toBeVisible()
@@ -68,14 +64,13 @@ test.describe('Landing page', () => {
     }
   })
 
-  test.skip('has second features set', async ({ page, folder }) => {
+  test.skip('has second features set', async ({ page }) => {
     // GIVEN
-    const port = 50904
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const features = LANDING_CONFIG.pages?.[0].components[3] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${features.title}`)).toBeVisible()
@@ -86,14 +81,13 @@ test.describe('Landing page', () => {
     }
   })
 
-  test.skip('has third features set', async ({ page, folder }) => {
+  test.skip('has third features set', async ({ page }) => {
     // GIVEN
-    const port = 50905
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const features = LANDING_CONFIG.pages?.[0].components[4] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${features.title}`)).toBeVisible()
@@ -104,14 +98,13 @@ test.describe('Landing page', () => {
     }
   })
 
-  test.skip('has testimonials', async ({ page, folder }) => {
+  test.skip('has testimonials', async ({ page }) => {
     // GIVEN
-    const port = 50906
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const testimonials = LANDING_CONFIG.pages?.[0].components[5] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${testimonials.title}`)).toBeVisible()
@@ -124,14 +117,13 @@ test.describe('Landing page', () => {
     }
   })
 
-  test.skip('has faq', async ({ page, folder }) => {
+  test.skip('has faq', async ({ page }) => {
     // GIVEN
-    const port = 50907
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const faq = LANDING_CONFIG.pages?.[0].components[6] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${faq.title}`)).toBeVisible()
@@ -141,14 +133,13 @@ test.describe('Landing page', () => {
     }
   })
 
-  test.skip('has cta', async ({ page, folder }) => {
+  test.skip('has cta', async ({ page }) => {
     // GIVEN
-    const port = 50908
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const cta = LANDING_CONFIG.pages?.[0].components[7] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.locator(`text=${cta.title}`)).toBeVisible()
@@ -158,14 +149,13 @@ test.describe('Landing page', () => {
     await expect(page.locator(`text=${cta.image.alt}`)).toBeVisible()
   })
 
-  test.skip('has footer', async ({ page, folder }) => {
+  test.skip('has footer', async ({ page }) => {
     // GIVEN
-    const port = 50909
-    await new Engine({ port, folder }).start(LANDING_CONFIG)
+    const app = await helpers.startApp(LANDING_CONFIG)
     const footer = LANDING_CONFIG.pages?.[0].components[8] as any
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     for (const link of footer.navigation) {

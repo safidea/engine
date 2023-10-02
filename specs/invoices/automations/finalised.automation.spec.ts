@@ -1,22 +1,19 @@
 import pdf from 'pdf-parse'
-import { test, expect, helpers, Engine } from '@test/e2e/fixtures'
+import { test, expect, helpers } from '@test/e2e/fixtures'
 import INVOICES_CONFIG from '@examples/invoices/config'
 
 test.describe('An automation that finalise an invoice document from a template', () => {
   test('should create a PDF document when an invoice is finalised from API request', async ({
     request,
-    folder,
   }) => {
     // GIVEN
-    helpers.copyAppFile('invoices', 'templates/invoice.html', folder)
-    const port = 50801
-    const app = await new Engine({ port, folder }).start(INVOICES_CONFIG)
+    const app = await helpers.startApp(INVOICES_CONFIG)
     const {
       invoices: [invoice],
     } = await helpers.generateRecords(INVOICES_CONFIG, app.drivers.database, 'invoices')
 
     // WHEN
-    await request.patch(helpers.getUrl(port, `/api/table/invoices/${invoice.id}`), {
+    await request.patch(helpers.getUrl(app.port, `/api/table/invoices/${invoice.id}`), {
       data: {
         status: 'finalised',
       },

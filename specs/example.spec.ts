@@ -1,10 +1,9 @@
 import { ConfigDto } from '@adapters/dtos/ConfigDto'
-import { test, expect, helpers, Engine } from '../test/e2e/fixtures'
+import { test, expect, helpers } from '../test/e2e/fixtures'
 
 test.describe('Specs examples', () => {
-  test('should display a text', async ({ page, folder }) => {
+  test('should display a text', async ({ page }) => {
     // GIVEN
-    const port = 50601
     const config: ConfigDto = {
       pages: [
         {
@@ -19,18 +18,17 @@ test.describe('Specs examples', () => {
         },
       ],
     }
-    await new Engine({ port, folder }).start(config)
+    const app = await helpers.startApp(config)
 
     // WHEN
-    await page.goto(helpers.getUrl(port, '/'))
+    await page.goto(helpers.getUrl(app.port, '/'))
 
     // THEN
     await expect(page.getByText('Hello World!')).toBeVisible()
   })
 
-  test('should store a record', async ({ request, folder }) => {
+  test('should store a record', async ({ request }) => {
     // GIVEN
-    const port = 50602
     const config: ConfigDto = {
       tables: [
         {
@@ -44,10 +42,10 @@ test.describe('Specs examples', () => {
         },
       ],
     }
-    const app = await new Engine({ port, folder }).start(config)
+    const app = await helpers.startApp(config)
 
     // WHEN
-    const res = await request.post(helpers.getUrl(port, '/api/table/invoices'), {
+    const res = await request.post(helpers.getUrl(app.port, '/api/table/invoices'), {
       data: {
         customer: 'Essentiel',
       },
