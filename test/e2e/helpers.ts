@@ -30,7 +30,7 @@ export async function getPort(defaultPort = 0, retry = 0): Promise<number> {
     return port
   } catch (err) {
     console.log('getPort err', err)
-    return getPort(++retry)
+    return getPort(0, ++retry)
   }
 }
 
