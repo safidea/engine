@@ -83,7 +83,11 @@ export class TableMiddleware {
         const persistedRecord = await this.tableValidator.validateRecordExist(request, table)
         const updatedRecordDto = await this.tableValidator.validateRecordBody(request.body)
         const updatedRecord = RecordMapper.toUpdate(persistedRecord, table, updatedRecordDto)
-        await this.tableValidator.validateUpdatePermissions(persistedRecord, updatedRecord, request.headers.role)
+        await this.tableValidator.validateUpdatePermissions(
+          persistedRecord,
+          updatedRecord,
+          request.headers.role
+        )
         await this.tableController.update(table, updatedRecord)
         return { json: { id: updatedRecord.id } }
       } catch (error) {
