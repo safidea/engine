@@ -29,6 +29,7 @@ export async function getPort(defaultPort = 0, retry = 0): Promise<number> {
     })
     return port
   } catch (err) {
+    console.log('getPort err', err)
     return getPort(++retry)
   }
 }
@@ -45,6 +46,7 @@ export async function startApp(config: ConfigDto, options: EngineOptions = {}, r
     const app = await new Engine({ port, folder, ...res }).start(config)
     return app
   } catch (err) {
+    console.log('startApp err', err)
     if ((err as Error).message.includes('EADDRINUSE')) return startApp(config, options, ++retry)
     throw err
   }
