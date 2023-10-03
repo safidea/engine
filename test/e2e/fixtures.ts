@@ -1,6 +1,7 @@
 import debug from 'debug'
 import { test, expect } from '@playwright/test'
 import * as helpers from './helpers'
+import * as drivers from './drivers'
 
 const log = debug('engine:specs')
 
@@ -16,4 +17,4 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-export { test, expect, helpers }
+export { test, expect, helpers, drivers }

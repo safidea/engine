@@ -15,7 +15,7 @@ export class ImageComponent extends BaseComponent {
     super({ type }, services, config)
     this.url = url
     this.text = text
-    this.width = width ?? 100
+    this.width = width ?? 50
   }
 
   async render() {
