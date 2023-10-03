@@ -21,7 +21,6 @@ export class ParagraphComponent extends BaseComponent {
         text={this.params.text}
         size={this.params.size || 'medium'}
         testId={this.params.testId}
-
       />
     )
   }

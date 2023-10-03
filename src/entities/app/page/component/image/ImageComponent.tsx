@@ -22,7 +22,6 @@ export class ImageComponent extends BaseComponent {
         width={this.params.width || 50}
         ui={this.services.ui}
         testId={this.params.testId}
-
       />
     )
   }

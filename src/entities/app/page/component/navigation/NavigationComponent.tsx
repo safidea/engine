@@ -39,7 +39,6 @@ export class NavigationComponent extends BaseComponent {
         Links={Links}
         Components={Components}
         testId={this.params.testId}
-
       />
     )
   }
