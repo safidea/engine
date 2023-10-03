@@ -27,7 +27,7 @@ bun add @solumy/engine
 Then, create a startup file, for example `index.js`:
 
 ```js
-const { Engine } = require('@solumy/engine')
+const Engine = require('@solumy/engine')
 
 new Engine().start({
   pages: [
