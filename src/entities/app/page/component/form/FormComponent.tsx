@@ -24,9 +24,13 @@ export class FormComponent extends BaseComponent {
   readonly recordIdToUpdate?: string
   readonly table: Table
 
-  constructor(params: FormComponentParams, services: PageServices, config: PageConfig) {
-    const { type, submit, recordIdToUpdate, table: tableName, components } = params
-    super({ type }, services, config)
+  constructor(
+    readonly params: FormComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    const { submit, recordIdToUpdate, table: tableName, components } = params
+    super(params, services, config)
     this.submit = submit
     this.recordIdToUpdate = recordIdToUpdate
     this.table = this.getTableByName(tableName)
@@ -166,6 +170,7 @@ export class FormComponent extends BaseComponent {
           currentRecord={currentRecord}
           submit={this.submit}
           ui={this.services.ui}
+          testId={this.params.testId}
         />
       )
     }

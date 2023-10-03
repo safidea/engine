@@ -1,13 +1,12 @@
-import { UIService } from '@entities/services/ui/UIService'
 import React from 'react'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface SingleSelectInputProps {
+export interface SingleSelectInputProps extends BaseComponentProps {
   label?: string
   field: string
   options: { value: string; label: string }[]
   value: string
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  ui: UIService
 }
 
 export function SingleSelectInputComponentUI({

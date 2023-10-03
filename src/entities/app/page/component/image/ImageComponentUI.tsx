@@ -1,11 +1,10 @@
 import React from 'react'
-import { UIService } from '@entities/services/ui/UIService'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface ImageProps {
+export interface ImageProps extends BaseComponentProps {
   url: string
   text: string
   width: number
-  ui: UIService
 }
 
 export function ImageComponentUI({ url, text, ui, width }: ImageProps) {

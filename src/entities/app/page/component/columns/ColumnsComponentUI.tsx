@@ -1,8 +1,9 @@
 import React from 'react'
 import { UIService } from '@entities/services/ui/UIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface ColumnsProps {
+export interface ColumnsProps extends BaseComponentProps {
   ui: UIService
   Components: React.FC[]
 }

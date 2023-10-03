@@ -1,12 +1,11 @@
-import { UIService } from '@entities/services/ui/UIService'
 import React from 'react'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface TextInputComponentUIProps {
+export interface TextInputComponentProps extends BaseComponentProps {
   label?: string
   field: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   value: string
-  ui: UIService
 }
 
 export function TextInputComponentUI({
@@ -15,7 +14,7 @@ export function TextInputComponentUI({
   onChange,
   value,
   ui,
-}: TextInputComponentUIProps) {
+}: TextInputComponentProps) {
   const { Label, Input } = ui.getTextInput()
   return (
     <>

@@ -6,17 +6,22 @@ import { LinkComponentUI } from './LinkComponentUI'
 import { PageServices } from '../../PageServices'
 
 export class LinkComponent extends BaseComponent {
-  readonly path: string
-  readonly text: string
-
-  constructor(params: LinkComponentParams, services: PageServices, config: PageConfig) {
-    const { type, path, text } = params
-    super({ type }, services, config)
-    this.path = path
-    this.text = text
+  constructor(
+    readonly params: LinkComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    super(params, services, config)
   }
 
   async render() {
-    return () => <LinkComponentUI path={this.path} text={this.text} ui={this.services.ui} />
+    return () => (
+      <LinkComponentUI
+        path={this.params.path}
+        text={this.params.text}
+        ui={this.services.ui}
+        testId={this.params.testId}
+      />
+    )
   }
 }

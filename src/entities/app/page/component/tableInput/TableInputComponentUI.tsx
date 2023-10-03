@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
-import { UIService } from '@entities/services/ui/UIService'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
 export type Column = {
   label: string
@@ -9,7 +9,7 @@ export type Column = {
   placeholder?: string
 }
 
-export interface TableInputComponentUIProps {
+export interface TableInputComponentProps extends BaseComponentProps {
   label?: string
   addLabel?: string
   onAddRecord: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -17,7 +17,6 @@ export interface TableInputComponentUIProps {
   onRemoveRecord: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void
   columns: Column[]
   rows: Record[]
-  ui: UIService
 }
 
 export function TableInputComponentUI({
@@ -29,7 +28,7 @@ export function TableInputComponentUI({
   columns,
   rows,
   ui,
-}: TableInputComponentUIProps) {
+}: TableInputComponentProps) {
   const {
     Container,
     Menu,

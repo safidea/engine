@@ -1,29 +1,28 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { UIService } from '@entities/services/ui/UIService'
 import { TitleSize } from './TitleComponentParams'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface TitleProps {
-  size?: TitleSize
+export interface TitleProps extends BaseComponentProps {
+  size: TitleSize
   text: string
-  ui: UIService
 }
 
-export function TitleComponentUI({ size, text, ui }: TitleProps) {
+export function TitleComponentUI({ size, text, ui, testId }: TitleProps) {
   const { ExtraSmall, Small, Medium, Large, ExtraLarge } = ui.getTitle()
   switch (size) {
     case 'extra-small':
-      return <ExtraSmall>{text}</ExtraSmall>
+      return <ExtraSmall testId={testId}>{text}</ExtraSmall>
     case 'small':
-      return <Small>{text}</Small>
+      return <Small testId={testId}>{text}</Small>
     case 'medium':
-      return <Medium>{text}</Medium>
+      return <Medium testId={testId}>{text}</Medium>
     case 'large':
-      return <Large>{text}</Large>
+      return <Large testId={testId}>{text}</Large>
     case 'extra-large':
-      return <ExtraLarge>{text}</ExtraLarge>
+      return <ExtraLarge testId={testId}>{text}</ExtraLarge>
     default:
-      return <Medium>{text}</Medium>
+      return <Medium testId={testId}>{text}</Medium>
   }
 }
 

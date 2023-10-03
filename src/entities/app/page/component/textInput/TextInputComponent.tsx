@@ -4,7 +4,7 @@ import { TextInputComponentUI } from './TextInputComponentUI'
 import { PageServices } from '@entities/app/page/PageServices'
 import { PageConfig } from '../../Page'
 import { BaseComponent } from '../base/BaseComponent'
-import { BaseComponentProps } from '../base/BaseComponentProps'
+import { FormInputComponentProps } from '../form/FormComponentUI'
 
 export class TextInputComponent extends BaseComponent {
   constructor(
@@ -12,12 +12,11 @@ export class TextInputComponent extends BaseComponent {
     services: PageServices,
     config: PageConfig
   ) {
-    const { type } = params
-    super({ type }, services, config)
+    super(params, services, config)
   }
 
   async render() {
-    return ({ updateRecord, currentRecord }: BaseComponentProps) => {
+    return ({ updateRecord, currentRecord }: FormInputComponentProps) => {
       const value = currentRecord?.getFieldValue(this.params.field) ?? ''
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
@@ -31,6 +30,7 @@ export class TextInputComponent extends BaseComponent {
           onChange={handleUpdateRecord}
           value={String(value)}
           ui={this.services.ui}
+          testId={this.params.testId}
         />
       )
     }

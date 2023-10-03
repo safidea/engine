@@ -1,11 +1,10 @@
 import React from 'react'
-import { UIService } from '@entities/services/ui/UIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface LinkProps {
+export interface LinkProps extends BaseComponentProps {
   path: string
   text: string
-  ui: UIService
 }
 
 export function LinkComponentUI({ path, text, ui }: LinkProps) {

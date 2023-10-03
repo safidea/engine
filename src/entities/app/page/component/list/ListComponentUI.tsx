@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { UIService } from '@entities/services/ui/UIService'
 import { Record } from '@entities/services/database/record/Record'
 import { Column } from './ListComponentParams'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface ListRowComponentUIProps {
+export interface ListRowComponentProps extends BaseComponentProps {
   record: Record
   columns: Column[]
-  ui: UIService
   getCellByFormat: (column: Column, record: Record) => JSX.Element
 }
 
@@ -16,7 +15,7 @@ export function ListRowComponentUI({
   ui,
   columns,
   getCellByFormat,
-}: ListRowComponentUIProps) {
+}: ListRowComponentProps) {
   const { Row, Cell } = ui.getList()
   return (
     <Row id={record.id}>
@@ -33,11 +32,10 @@ export interface GroupType {
   records: Record[]
 }
 
-export interface ListComponentUIProps {
+export interface ListComponentProps extends BaseComponentProps {
   records: Record[]
   columns: Column[]
   groups: GroupType[]
-  ui: UIService
   getCellByFormat: (column: Column, record: Record) => JSX.Element
 }
 
@@ -47,7 +45,7 @@ export function ListComponentUI({
   groups,
   ui,
   getCellByFormat,
-}: ListComponentUIProps) {
+}: ListComponentProps) {
   const { Container, Header, Rows, Group, HeaderColumn } = ui.getList()
   return (
     <Container>

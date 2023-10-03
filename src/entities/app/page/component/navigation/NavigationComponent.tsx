@@ -14,9 +14,13 @@ export class NavigationComponent extends BaseComponent {
   readonly links: LinkComponent[]
   readonly components: Component[]
 
-  constructor(params: NavigationComponentParams, services: PageServices, config: PageConfig) {
-    const { type, title, links, components } = params
-    super({ type }, services, config)
+  constructor(
+    readonly params: NavigationComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    const { title, links, components } = params
+    super(params, services, config)
     this.title = new TitleComponent(title, services, config)
     this.links = links.map((link) => new LinkComponent(link, services, config))
     this.components = components.map((component) => newComponent(component, services, config))
@@ -34,6 +38,8 @@ export class NavigationComponent extends BaseComponent {
         Title={Title}
         Links={Links}
         Components={Components}
+        testId={this.params.testId}
+
       />
     )
   }

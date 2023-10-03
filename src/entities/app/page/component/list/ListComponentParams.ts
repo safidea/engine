@@ -1,4 +1,5 @@
 import * as t from 'io-ts'
+import { BaseComponentParams } from '../base/BaseComponentParams'
 
 export const GroupBy = t.type({
   field: t.string,
@@ -49,6 +50,7 @@ export const Column = t.intersection([
 export type Column = t.TypeOf<typeof Column>
 
 export const ListComponentParams = t.intersection([
+  BaseComponentParams,
   t.type({
     type: t.literal('list'),
     table: t.string,

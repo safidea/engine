@@ -4,7 +4,7 @@ import { SingleSelectInputComponentUI } from './SingleSelectInputComponentUI'
 import { PageServices } from '@entities/app/page/PageServices'
 import { BaseComponent } from '../base/BaseComponent'
 import { PageConfig } from '../../Page'
-import { BaseComponentProps } from '../base/BaseComponentProps'
+import { FormInputComponentProps } from '../form/FormComponentUI'
 
 export class SingleSelectInputComponent extends BaseComponent {
   constructor(
@@ -12,12 +12,11 @@ export class SingleSelectInputComponent extends BaseComponent {
     services: PageServices,
     config: PageConfig
   ) {
-    const { type } = params
-    super({ type }, services, config)
+    super(params, services, config)
   }
 
   async render() {
-    return ({ updateRecord, currentRecord }: BaseComponentProps) => {
+    return ({ updateRecord, currentRecord }: FormInputComponentProps) => {
       const value = currentRecord?.getFieldValue(this.params.field) ?? ''
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault()
@@ -32,6 +31,7 @@ export class SingleSelectInputComponent extends BaseComponent {
           options={this.params.options}
           onChange={handleUpdateRecord}
           ui={this.services.ui}
+          testId={this.params.testId}
         />
       )
     }

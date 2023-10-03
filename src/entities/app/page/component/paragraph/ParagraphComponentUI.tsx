@@ -1,12 +1,11 @@
 import React from 'react'
-import { UIService } from '@entities/services/ui/UIService'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { ParagraphSize } from './ParagraphComponentParams'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface ParagraphProps {
+export interface ParagraphProps extends BaseComponentProps {
   text: string
-  size?: ParagraphSize
-  ui: UIService
+  size: ParagraphSize
 }
 
 export function ParagraphComponentUI({ text, size, ui }: ParagraphProps) {

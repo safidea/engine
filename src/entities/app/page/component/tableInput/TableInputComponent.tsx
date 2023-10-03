@@ -6,7 +6,7 @@ import { PageServices } from '@entities/app/page/PageServices'
 import { BaseComponent } from '../base/BaseComponent'
 import { PageConfig } from '../../Page'
 import { Table } from '@entities/app/table/Table'
-import { BaseComponentProps } from '../base/BaseComponentProps'
+import { FormInputComponentProps } from '../form/FormComponentUI'
 
 export class TableInputComponent extends BaseComponent {
   readonly multipleLinkedRecordsTable: Table
@@ -17,7 +17,7 @@ export class TableInputComponent extends BaseComponent {
     config: PageConfig
   ) {
     const { type, columns } = params
-    super({ type }, services, config)
+    super(params, services, config)
     if (!config.formTableName) {
       throw new ComponentError(type, 'table_input component should be placed inside a form')
     }
@@ -41,7 +41,7 @@ export class TableInputComponent extends BaseComponent {
       removeRecord,
       records,
       currentRecord,
-    }: BaseComponentProps) => {
+    }: FormInputComponentProps) => {
       const recordsIds = currentRecord?.getMultipleLinkedRecordsValue(this.params.field) ?? []
       const rows = records?.filter((record) => recordsIds.includes(record.id)) ?? []
 
@@ -73,6 +73,7 @@ export class TableInputComponent extends BaseComponent {
           rows={rows}
           columns={this.params.columns}
           ui={this.services.ui}
+          testId={this.params.testId}
         />
       )
     }

@@ -1,9 +1,8 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
-import { UIService } from '@entities/services/ui/UIService'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
-export interface NavigationProps {
-  ui: UIService
+export interface NavigationProps extends BaseComponentProps {
   Title: React.FC
   Links: React.FC[]
   Components: React.FC[]

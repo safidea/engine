@@ -1,7 +1,8 @@
 import * as t from 'io-ts'
 import { ComponentParams } from '../ComponentParams'
+import { BaseComponentParams } from '../base/BaseComponentParams'
 
-export interface FormComponentParams {
+export interface FormComponentParams extends BaseComponentParams {
   type: 'form'
   table: string
   components: ComponentParams[]
@@ -21,6 +22,7 @@ export const FormComponentParams: t.Type<FormComponentParams> = t.recursion(
   'FormComponentParams',
   () =>
     t.intersection([
+      BaseComponentParams,
       t.type({
         type: t.literal('form'),
         table: t.string,

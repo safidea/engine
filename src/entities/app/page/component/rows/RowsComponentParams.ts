@@ -1,7 +1,8 @@
 import * as t from 'io-ts'
 import { ComponentParams } from '../ComponentParams'
+import { BaseComponentParams } from '../base/BaseComponentParams'
 
-export interface RowsComponentParams {
+export interface RowsComponentParams extends BaseComponentParams {
   type: 'rows'
   components: ComponentParams[]
 }
@@ -9,8 +10,11 @@ export interface RowsComponentParams {
 export const RowsComponentParams: t.Type<RowsComponentParams> = t.recursion(
   'RowsComponentParams',
   () =>
-    t.type({
-      type: t.literal('rows'),
-      components: t.array(ComponentParams),
-    })
+    t.intersection([
+      BaseComponentParams,
+      t.type({
+        type: t.literal('rows'),
+        components: t.array(ComponentParams),
+      }),
+    ])
 )

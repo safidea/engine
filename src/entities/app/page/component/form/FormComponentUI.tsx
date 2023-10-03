@@ -1,25 +1,27 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
-import { UIService } from '@entities/services/ui/UIService'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
+import { BaseComponentProps } from '../base/BaseComponentProps'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void
 export type RemoveRecord = (field: string, id: string) => void
-export interface FormComponentUIProps {
+
+export interface FormInputComponentProps {
+  updateRecord?: UpdateRecord
+  addRecord?: AddRecord
+  removeRecord?: RemoveRecord
+  currentRecord?: Record
+  records?: Record[]
+}
+export interface FormComponentProps extends BaseComponentProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
   saveRecords: () => Promise<void>
   updateRecord: UpdateRecord
   addRecord: AddRecord
   removeRecord: RemoveRecord
-  Components: React.FC<{
-    updateRecord: UpdateRecord
-    addRecord: AddRecord
-    removeRecord: RemoveRecord
-    records: Record[]
-    currentRecord: Record
-  }>[]
+  Components: React.FC<FormInputComponentProps>[]
   submit: {
     label?: string
     loadingLabel: string
@@ -29,7 +31,6 @@ export interface FormComponentUIProps {
   errorMessage?: string
   records: Record[]
   currentRecord: Record
-  ui: UIService
 }
 
 export function FormComponentUI({
@@ -44,10 +45,11 @@ export function FormComponentUI({
   isSaving,
   errorMessage,
   ui,
-}: FormComponentUIProps) {
+  testId,
+}: FormComponentProps) {
   const { Form, Submit, ErrorMessage, Loading } = ui.getForm()
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} testId={testId}>
       <>
         {Components.map((Component, index) => (
           <Component

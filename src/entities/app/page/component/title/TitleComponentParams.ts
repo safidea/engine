@@ -1,4 +1,5 @@
 import * as t from 'io-ts'
+import { BaseComponentParams } from '../base/BaseComponentParams'
 
 export const TitleSize = t.union([
   t.literal('extra-small'),
@@ -11,6 +12,7 @@ export const TitleSize = t.union([
 export type TitleSize = t.TypeOf<typeof TitleSize>
 
 export const TitleComponentParams = t.intersection([
+  BaseComponentParams,
   t.type({
     type: t.literal('title'),
     text: t.string,

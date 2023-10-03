@@ -1,22 +1,27 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
-import { TitleSize, TitleComponentParams } from './TitleComponentParams'
+import { TitleComponentParams } from './TitleComponentParams'
 import { PageConfig } from '../../Page'
 import { TitleComponentUI } from './TitleComponentUI'
 import { PageServices } from '../../PageServices'
 
 export class TitleComponent extends BaseComponent {
-  readonly text: string
-  readonly size?: TitleSize
-
-  constructor(params: TitleComponentParams, services: PageServices, config: PageConfig) {
-    const { type, text, size } = params
-    super({ type }, services, config)
-    this.text = text
-    this.size = size || 'medium'
+  constructor(
+    readonly params: TitleComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    super(params, services, config)
   }
 
   async render() {
-    return () => <TitleComponentUI ui={this.services.ui} text={this.text} size={this.size} />
+    return () => (
+      <TitleComponentUI
+        ui={this.services.ui}
+        text={this.params.text}
+        size={this.params.size || 'medium'}
+        testId={this.params.testId}
+      />
+    )
   }
 }

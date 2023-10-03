@@ -22,9 +22,13 @@ export class ListComponent extends BaseComponent {
   private readonly sortBy: SortBy[]
   private readonly columns: Column[]
 
-  constructor(params: ListComponentParams, services: PageServices, config: PageConfig) {
-    const { type, table: tableName, groupBy, sortBy, columns } = params
-    super({ type }, services, config)
+  constructor(
+    readonly params: ListComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    const { table: tableName, groupBy, sortBy, columns } = params
+    super(params, services, config)
     this.table = this.getTableByName(tableName)
     if (groupBy) {
       for (const group of groupBy) {
@@ -97,6 +101,8 @@ export class ListComponent extends BaseComponent {
           groups={groups}
           ui={this.services.ui}
           getCellByFormat={(column, record) => this.getCellByFormat(column, record)}
+          testId={this.params.testId}
+
         />
       )
     }

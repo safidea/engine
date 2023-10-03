@@ -6,21 +6,24 @@ import { ImageComponentUI } from './ImageComponentUI'
 import { PageServices } from '../../PageServices'
 
 export class ImageComponent extends BaseComponent {
-  readonly url: string
-  readonly text: string
-  readonly width: number
-
-  constructor(params: ImageComponentParams, services: PageServices, config: PageConfig) {
-    const { type, url, text, width } = params
-    super({ type }, services, config)
-    this.url = url
-    this.text = text
-    this.width = width ?? 50
+  constructor(
+    readonly params: ImageComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    super(params, services, config)
   }
 
   async render() {
     return () => (
-      <ImageComponentUI url={this.url} text={this.text} width={this.width} ui={this.services.ui} />
+      <ImageComponentUI
+        url={this.params.url}
+        text={this.params.text}
+        width={this.params.width || 50}
+        ui={this.services.ui}
+        testId={this.params.testId}
+
+      />
     )
   }
 }

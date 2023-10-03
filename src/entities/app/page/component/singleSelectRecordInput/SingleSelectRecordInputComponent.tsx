@@ -6,8 +6,8 @@ import { Record } from '@entities/services/database/record/Record'
 import { PageServices } from '@entities/app/page/PageServices'
 import { BaseComponent } from '../base/BaseComponent'
 import { PageConfig } from '../../Page'
-import { BaseComponentProps } from '../base/BaseComponentProps'
 import { ComponentError } from '../ComponentError'
+import { FormInputComponentProps } from '../form/FormComponentUI'
 
 export class SingleSelectRecordInputComponent extends BaseComponent {
   readonly singleLinkedRecordTable: Table
@@ -19,7 +19,7 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
     config: PageConfig
   ) {
     const { type, fieldForOptionLabel } = params
-    super({ type }, services, config)
+    super(params, services, config)
     if (!config.formTableName) {
       throw new ComponentError(
         type,
@@ -35,7 +35,7 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
   async render() {
     const syncRecords = this.services.fetcher.getSyncRecordsFunction()
     const { tables } = await syncRecords({ resources: [{ table: this.singleLinkedRecordTable }] })
-    return ({ updateRecord, currentRecord }: BaseComponentProps) => {
+    return ({ updateRecord, currentRecord }: FormInputComponentProps) => {
       const value = currentRecord?.getFieldValue(this.params.field) ?? ''
       const handleUpdateRecord = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault()
@@ -55,6 +55,7 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
           options={options}
           onChange={handleUpdateRecord}
           ui={this.services.ui}
+          testId={this.params.testId}
         />
       )
     }

@@ -1,10 +1,5 @@
-import { UpdateRecord, AddRecord, RemoveRecord } from '../form/FormComponentUI'
-import { Record } from '@entities/services/database/record/Record'
-
+import { UIService } from '@entities/services/ui/UIService'
 export interface BaseComponentProps {
-  updateRecord?: UpdateRecord
-  addRecord?: AddRecord
-  removeRecord?: RemoveRecord
-  currentRecord?: Record
-  records?: Record[]
+  ui: UIService
+  testId?: string
 }

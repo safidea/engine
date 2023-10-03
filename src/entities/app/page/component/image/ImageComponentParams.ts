@@ -1,6 +1,8 @@
 import * as t from 'io-ts'
+import { BaseComponentParams } from '../base/BaseComponentParams'
 
 export const ImageComponentParams = t.intersection([
+  BaseComponentParams,
   t.type({
     type: t.literal('image'),
     url: t.string,

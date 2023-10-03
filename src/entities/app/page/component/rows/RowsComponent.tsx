@@ -10,16 +10,23 @@ import { Context } from '../../context/Context'
 export class RowsComponent extends BaseComponent {
   readonly components: Component[]
 
-  constructor(params: RowsComponentParams, services: PageServices, config: PageConfig) {
-    const { type, components } = params
-    super({ type }, services, config)
-    this.components = components.map((component) => newComponent(component, services, config))
+  constructor(
+    readonly params: RowsComponentParams,
+    services: PageServices,
+    config: PageConfig
+  ) {
+    super(params, services, config)
+    this.components = params.components.map((component) =>
+      newComponent(component, services, config)
+    )
   }
 
   async render(context: Context) {
     const Components = await Promise.all(
       this.components.map((component) => component.render(context))
     )
-    return () => <RowsComponentUI ui={this.services.ui} Components={Components} />
+    return () => (
+      <RowsComponentUI ui={this.services.ui} Components={Components} testId={this.params.testId} />
+    )
   }
 }
