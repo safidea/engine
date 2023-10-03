@@ -1,7 +1,7 @@
 import { IUIDriver } from '@adapters/mappers/ui/IUIDriver'
 import LinkUnstyledUI from './link/LinkUnstyledUI'
 import ParagraphUnstyledUI from './ParagraphUnstyledUI'
-import TitleUnstyledUI from './TitleUnstyledUI'
+import TitleUnstyledUI from './title/TitleUnstyledUI'
 import NavigationUnstyledUI from './NavigationUnstyledUI'
 import ListUnstyledUI from './ListUnstyledUI'
 import FormUnstyledUI from './FormUnstyledUI'

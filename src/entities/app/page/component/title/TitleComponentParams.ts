@@ -10,10 +10,14 @@ export const TitleSize = t.union([
 
 export type TitleSize = t.TypeOf<typeof TitleSize>
 
-export const TitleComponentParams = t.type({
-  type: t.literal('title'),
-  text: t.string,
-  size: TitleSize,
-})
+export const TitleComponentParams = t.intersection([
+  t.type({
+    type: t.literal('title'),
+    text: t.string,
+  }),
+  t.partial({
+    size: TitleSize,
+  }),
+])
 
 export type TitleComponentParams = t.TypeOf<typeof TitleComponentParams>

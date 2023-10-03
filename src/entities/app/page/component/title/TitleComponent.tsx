@@ -13,7 +13,7 @@ export class TitleComponent extends BaseComponent {
     const { type, text, size } = params
     super({ type }, services, config)
     this.text = text
-    this.size = size
+    this.size = size || 'medium'
   }
 
   async render() {
