@@ -1,0 +1,24 @@
+import { RowsComponentUI } from '@entities/app/page/component/rows/RowsComponentUI'
+import TailwindUI from '../index'
+
+import type { Meta, StoryObj } from '@storybook/react'
+import { UIMapper } from '@adapters/mappers/ui/UIMapper'
+import { UIService } from '@entities/services/ui/UIService'
+import { TitleComponentUI } from '@entities/app/page/component/title/TitleComponentUI'
+
+const ui = new UIService(new UIMapper(TailwindUI))
+
+const FirstTitle = () => <TitleComponentUI text="First title" size="medium" ui={ui} />
+const SecondTitle = () => <TitleComponentUI text="Second title" size="medium" ui={ui} />
+const ThirdTitle = () => <TitleComponentUI text="Third title" size="medium" ui={ui} />
+
+const meta: Meta<typeof RowsComponentUI> = {
+  title: 'Tailwind/Rows',
+  component: () => <RowsComponentUI ui={ui} Components={[FirstTitle, SecondTitle, ThirdTitle]} />,
+}
+
+export default meta
+
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {}
