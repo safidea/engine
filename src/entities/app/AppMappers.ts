@@ -1,6 +1,7 @@
 import { IConverterMapper } from '@entities/services/converter/IConverterMapper'
 import { IDatabaseMapper } from '@entities/services/database/IDatabaseMapper'
 import { IFetcherMapper } from '@entities/services/fetcher/IFetcherMapper'
+import { IIconMapper } from '@entities/services/icon/IIconMapper'
 import { ILoggerMapper } from '@entities/services/logger/ILoggerMapper'
 import { IStorageMapper } from '@entities/services/storage/IStorageMapper'
 import { ITemplaterMapper } from '@entities/services/templater/ITemplaterMapper'
@@ -14,4 +15,5 @@ export interface AppMappers {
   readonly storage?: IStorageMapper
   readonly database?: IDatabaseMapper
   readonly logger?: ILoggerMapper
+  readonly icon?: IIconMapper
 }

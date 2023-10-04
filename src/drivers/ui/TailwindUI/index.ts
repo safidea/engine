@@ -13,23 +13,28 @@ import ColumnsTailwindUI from './columns/ColumnsTailwindUI'
 import ImageTailwindUI from './image/ImageTailwindUI'
 import RowTailwindUI from './rows/RowsTailwindUI'
 import ButtonTailwindUI from './button/ButtonTailwindUI'
+import IconTailwindUI from './icon/IconTailwindUI'
+import { IIconDriver } from '@adapters/mappers/driver/IIconDriver'
 
-const TailwindUI: IUIDriver = {
-  name: 'tailwind',
-  LinkUI: LinkTailwindUI,
-  ParagraphUI: ParagraphTailwindUI,
-  TitleUI: TitleTailwindUI,
-  NavigationUI: NavigationTailwindUI,
-  ListUI: ListTailwindUI,
-  FormUI: FormTailwindUI,
-  TextInputUI: TextInputTailwindUI,
-  TableInputUI: TableInputTailwindUI,
-  SingleSelectInputUI: SingleSelectInputTailwindUI,
-  ContainerUI: ContainerTailwindUI,
-  ColumnsUI: ColumnsTailwindUI,
-  ImageUI: ImageTailwindUI,
-  RowsUI: RowTailwindUI,
-  ButtonUI: ButtonTailwindUI,
+export class TailwindUI implements IUIDriver {
+  readonly name = 'tailwind'
+  readonly LinkUI = LinkTailwindUI
+  readonly ParagraphUI = ParagraphTailwindUI
+  readonly TitleUI = TitleTailwindUI
+  readonly NavigationUI = NavigationTailwindUI
+  readonly ListUI = ListTailwindUI
+  readonly FormUI = FormTailwindUI
+  readonly TextInputUI = TextInputTailwindUI
+  readonly TableInputUI = TableInputTailwindUI
+  readonly SingleSelectInputUI = SingleSelectInputTailwindUI
+  readonly ContainerUI = ContainerTailwindUI
+  readonly ColumnsUI = ColumnsTailwindUI
+  readonly ImageUI = ImageTailwindUI
+  readonly RowsUI = RowTailwindUI
+  readonly ButtonUI = ButtonTailwindUI
+  readonly IconUI
+
+  constructor(readonly icon: IIconDriver) {
+    this.IconUI = IconTailwindUI(icon)
+  }
 }
-
-export default TailwindUI

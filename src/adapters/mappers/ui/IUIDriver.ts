@@ -13,6 +13,7 @@ import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponent
 import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
 import { RowsUI } from '@entities/app/page/component/rows/RowsComponentUI'
 import { ButtonUI } from '@entities/app/page/component/button/ButtonComponentUI'
+import { IconUI } from '@entities/app/page/component/icon/IconComponentUI'
 
 export interface IUIDriver {
   name: UIDrivers
@@ -30,4 +31,5 @@ export interface IUIDriver {
   ImageUI: ImageUI
   RowsUI: RowsUI
   ButtonUI: ButtonUI
+  IconUI: IconUI
 }

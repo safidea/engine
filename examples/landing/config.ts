@@ -42,6 +42,10 @@ const config: Config = {
                         },
                       ],
                     },
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
                   ],
                 },
                 {

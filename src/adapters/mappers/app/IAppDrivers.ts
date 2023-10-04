@@ -6,6 +6,7 @@ import { ILoggerDriver } from '../logger/ILoggerDriver'
 import { IStorageDriver } from '../storage/IStorageDriver'
 import { ITemplateDriver } from '../templater/ITemplaterDriver'
 import { IServerDriver } from '@adapters/controllers/server/IServerDriver'
+import { IIconDriver } from '../driver/IIconDriver'
 
 export interface IAppDrivers {
   server: IServerDriver
@@ -16,4 +17,5 @@ export interface IAppDrivers {
   fetcher: IFetcherDriver
   logger: ILoggerDriver
   ui: IUIDriver
+  icon: IIconDriver
 }

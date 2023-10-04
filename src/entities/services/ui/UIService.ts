@@ -58,7 +58,12 @@ export class UIService {
   getRows() {
     return this.mapper.getRows()
   }
+
   getButton() {
     return this.mapper.getButton()
+  }
+
+  getIcon() {
+    return this.mapper.getIcon()
   }
 }

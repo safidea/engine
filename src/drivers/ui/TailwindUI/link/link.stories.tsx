@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { LinkComponentUI } from '@entities/app/page/component/link/LinkComponentUI'
-import TailwindUI from '../index'
+import { TailwindUI } from '../index'
 
 import { UIMapper } from '@adapters/mappers/ui/UIMapper'
 import { UIService } from '@entities/services/ui/UIService'
+import { HeroiconsIcon } from '@drivers/icon/HeroiconsIcon'
 
-const ui = new UIService(new UIMapper(TailwindUI))
+const ui = new UIService(new UIMapper(new TailwindUI(new HeroiconsIcon())))
 
 const meta: Meta<typeof LinkComponentUI> = {
   title: 'Tailwind/Link',

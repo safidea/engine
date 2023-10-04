@@ -9,6 +9,7 @@ import { TemplaterMapper } from '../templater/TemplaterMapper'
 import { UIMapper } from '../ui/UIMapper'
 import { IAppServerDrivers } from './IAppServerDrivers'
 import { IAppClientDrivers } from './IAppClientDrivers'
+import { IconMapper } from '../driver/IconMapper'
 
 export class AppMapper {
   static toServerApp(dto: ConfigDto, drivers: IAppServerDrivers) {
@@ -20,6 +21,7 @@ export class AppMapper {
       fetcher: new FetcherMapper(drivers.fetcher),
       logger: new LoggerMapper(drivers.logger),
       ui: new UIMapper(drivers.ui),
+      icon: new IconMapper(drivers.icon),
     }
     return new App(dto, mappers)
   }
@@ -28,6 +30,7 @@ export class AppMapper {
     const mappers = {
       fetcher: new FetcherMapper(drivers.fetcher),
       ui: new UIMapper(drivers.ui),
+      icon: new IconMapper(drivers.icon),
       database: {} as DatabaseMapper, // TODO: remove this line
     }
     return new App(dto, mappers)

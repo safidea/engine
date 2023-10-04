@@ -12,6 +12,7 @@ export class PageController {
     try {
       const uiDriver = this.app.pages.ui.driverName
       const fetcherDriver = this.app.pages.fetcher.driverName
+      const iconDriver = this.app.pages.icon.driverName
       const data: IServerData = {
         config: {
           pages: [page.params],
@@ -21,6 +22,7 @@ export class PageController {
         drivers: {
           ui: uiDriver,
           fetcher: fetcherDriver,
+          icon: iconDriver,
         },
         path: page.path,
       }

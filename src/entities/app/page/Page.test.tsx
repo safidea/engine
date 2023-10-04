@@ -6,6 +6,7 @@ import { Context } from './context/Context'
 import { UIService } from '@entities/services/ui/UIService'
 import { UIMapper } from '@adapters/mappers/ui/UIMapper'
 import { getUIDriver } from '@drivers/ui'
+import { getIconDriver } from '@drivers/icon'
 
 describe('Page', () => {
   test('should render react component', async () => {
@@ -22,7 +23,7 @@ describe('Page', () => {
         ],
       },
       {
-        ui: new UIService(new UIMapper(getUIDriver('unstyled'))),
+        ui: new UIService(new UIMapper(getUIDriver('unstyled', getIconDriver()))),
       } as any,
       {} as any
     ).render(new Context({ path: { params: {} } }))

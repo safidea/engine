@@ -18,6 +18,8 @@ import { LoggerDrivers, getLoggerDriver } from '@drivers/logger'
 import { UIDrivers } from '@entities/services/ui/UIDrivers'
 import { ServerMiddleware } from '@adapters/middlewares/server/ServerMiddleware'
 import { IAppDrivers } from '@adapters/mappers/app/IAppDrivers'
+import { IconDrivers } from '@entities/services/icon/IconDrivers'
+import { getIconDriver } from '@drivers/icon'
 
 export type { Config, Page, Table, Automation, Action, Component, Field, Bucket }
 
@@ -30,6 +32,7 @@ export interface EngineOptions {
   fetcher?: FetcherDrivers
   logger?: LoggerDrivers
   ui?: UIDrivers
+  icon?: IconDrivers
   folder?: string
   port?: number
   domain?: string
@@ -49,6 +52,7 @@ export default class Engine {
     const tmpFolder = `${this.folder}/tmp`
     fs.ensureDirSync(this.folder)
     fs.ensureDirSync(tmpFolder)
+    const icon = getIconDriver(options.icon)
     this.drivers = {
       server: getServerDriver(options.server, { port: this.port, folder: this.folder }),
       templater: getTemplaterDriver(options.templater),
@@ -57,7 +61,8 @@ export default class Engine {
       database: getDatabaseDriver(options.database, { folder: this.folder }),
       fetcher: getFetcherDriver(options.fetcher, { domain: this.domain }),
       logger: getLoggerDriver(options.logger),
-      ui: getUIDriver(options.ui),
+      ui: getUIDriver(options.ui, icon),
+      icon,
     }
     this.serverMiddleware = new ServerMiddleware(this.drivers, {
       folder: this.folder,

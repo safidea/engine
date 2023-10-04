@@ -13,23 +13,28 @@ import ColumnsUnstyledUI from './columns/ColumnsUnstyledUI'
 import ImageUnstyledUI from './image/ImageUnstyledUI'
 import RowUnstyledUI from './rows/RowsUnstyledUI'
 import ButtonUnstyledUI from './button/ButtonUnstyledUI'
+import IconUnstyledUI from './icon/IconUnstyledUI'
+import { IIconDriver } from '@adapters/mappers/driver/IIconDriver'
 
-const UnstyledUI: IUIDriver = {
-  name: 'unstyled',
-  LinkUI: LinkUnstyledUI,
-  ParagraphUI: ParagraphUnstyledUI,
-  TitleUI: TitleUnstyledUI,
-  NavigationUI: NavigationUnstyledUI,
-  ListUI: ListUnstyledUI,
-  FormUI: FormUnstyledUI,
-  TextInputUI: TextInputUnstyledUI,
-  TableInputUI: TableInputUnstyledUI,
-  SingleSelectInputUI: SingleSelectInputUnstyledUI,
-  ContainerUI: ContainerUnstyledUI,
-  ColumnsUI: ColumnsUnstyledUI,
-  ImageUI: ImageUnstyledUI,
-  RowsUI: RowUnstyledUI,
-  ButtonUI: ButtonUnstyledUI,
+export class UnstyledUI implements IUIDriver {
+  readonly name = 'unstyled'
+  readonly LinkUI = LinkUnstyledUI
+  readonly ParagraphUI = ParagraphUnstyledUI
+  readonly TitleUI = TitleUnstyledUI
+  readonly NavigationUI = NavigationUnstyledUI
+  readonly ListUI = ListUnstyledUI
+  readonly FormUI = FormUnstyledUI
+  readonly TextInputUI = TextInputUnstyledUI
+  readonly TableInputUI = TableInputUnstyledUI
+  readonly SingleSelectInputUI = SingleSelectInputUnstyledUI
+  readonly ContainerUI = ContainerUnstyledUI
+  readonly ColumnsUI = ColumnsUnstyledUI
+  readonly ImageUI = ImageUnstyledUI
+  readonly RowsUI = RowUnstyledUI
+  readonly ButtonUI = ButtonUnstyledUI
+  readonly IconUI
+
+  constructor(readonly icon: IIconDriver) {
+    this.IconUI = IconUnstyledUI(icon)
+  }
 }
-
-export default UnstyledUI

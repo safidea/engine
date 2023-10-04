@@ -63,4 +63,8 @@ export class UIMapper implements IUIMapper {
   getButton() {
     return this.driver.ButtonUI
   }
+
+  getIcon() {
+    return this.driver.IconUI
+  }
 }

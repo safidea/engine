@@ -5,10 +5,12 @@ import { getUIDriver } from '@drivers/ui'
 import { Page } from '@entities/app/page/Page'
 import { Context } from '@entities/app/page/context/Context'
 import { getFetcherDriver } from '@drivers/fetcher'
+import { getIconDriver } from '@drivers/icon'
 
 describe('PageController', () => {
   test('should render html', async () => {
     // GIVEN
+    const icon = getIconDriver()
     const app = AppMapper.toServerApp(
       {
         pages: [
@@ -25,8 +27,9 @@ describe('PageController', () => {
         ],
       },
       {
-        ui: getUIDriver('unstyled'),
+        ui: getUIDriver('unstyled', icon),
         fetcher: getFetcherDriver('native', { domain: 'http://localhost' }),
+        icon,
       } as any
     )
     const page = app.pages.getByPath('/') as Page

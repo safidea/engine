@@ -16,6 +16,7 @@ import { ColumnsComponent } from './columns/ColumnsComponent'
 import { ImageComponent } from './image/ImageComponent'
 import { RowsComponent } from './rows/RowsComponent'
 import { ButtonComponent } from './button/ButtonComponent'
+import { IconComponent } from './icon/IconComponent'
 
 export type Component =
   | LinkComponent
@@ -33,6 +34,7 @@ export type Component =
   | ImageComponent
   | RowsComponent
   | ButtonComponent
+  | IconComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -70,5 +72,7 @@ export function newComponent(
       return new RowsComponent(params, services, config)
     case 'button':
       return new ButtonComponent(params, services, config)
+    case 'icon':
+      return new IconComponent(params, services, config)
   }
 }

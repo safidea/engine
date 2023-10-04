@@ -5,10 +5,12 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { ClientMiddleware } from '@adapters/middlewares/client/ClientMiddleware'
 import { getFetcherDriver } from '@drivers/fetcher'
 import { getUIDriver } from '@drivers/ui'
+import { getIconDriver } from '@drivers/icon'
 
-const ui = getUIDriver('tailwind')
+const icon = getIconDriver()
+const ui = getUIDriver('tailwind', icon)
 const fetcher = getFetcherDriver('native', { domain: window.location.origin })
-const clientMiddleware = new ClientMiddleware({ ui, fetcher }, {})
+const clientMiddleware = new ClientMiddleware({ ui, fetcher, icon }, {})
 const app = clientMiddleware.getAppFromConfig(LANDING_CONFIG)
 const PageComponent = lazy(async () => {
   const context = new Context({ path: { params: {} } })

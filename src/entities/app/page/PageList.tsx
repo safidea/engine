@@ -7,6 +7,7 @@ import { AppMappers } from '../AppMappers'
 import { UIService } from '@entities/services/ui/UIService'
 import { FetcherService } from '@entities/services/fetcher/FetcherService'
 import { PageServices } from './PageServices'
+import { IconService } from '@entities/services/icon/IconService'
 
 export class PageList {
   private readonly pages: Page[] = []
@@ -14,12 +15,14 @@ export class PageList {
 
   constructor(pages: PageParams[], mappers: AppMappers, config: AppConfig) {
     if (pages.length > 0) {
-      const { ui, fetcher } = mappers
+      const { ui, fetcher, icon } = mappers
       if (!ui) throw new AppError('UI is required')
       if (!fetcher) throw new AppError('Fetcher is required')
+      if (!icon) throw new AppError('Icon is required')
       const services = {
         ui: new UIService(ui),
         fetcher: new FetcherService(fetcher),
+        icon: new IconService(icon),
       }
       this.pages = pages.map((page) => new Page(page, services, config))
       this.services = services
@@ -34,6 +37,11 @@ export class PageList {
   get fetcher(): FetcherService {
     if (!this.services) throw new AppError('Services not found')
     return this.services.fetcher
+  }
+
+  get icon(): IconService {
+    if (!this.services) throw new AppError('Services not found')
+    return this.services.icon
   }
 
   async renderByPath(path: string, context: Context): Promise<React.FC> {

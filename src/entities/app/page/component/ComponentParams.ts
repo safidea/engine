@@ -14,6 +14,7 @@ import { ColumnsComponentParams } from './columns/ColumnsComponentParams'
 import { ImageComponentParams } from './image/ImageComponentParams'
 import { RowsComponentParams } from './rows/RowsComponentParams'
 import { ButtonComponentParams } from './button/ButtonComponentParams'
+import { IconComponentParams } from './icon/IconComponentParams'
 
 export type ComponentParams =
   | LinkComponentParams
@@ -31,6 +32,7 @@ export type ComponentParams =
   | ImageComponentParams
   | RowsComponentParams
   | ButtonComponentParams
+  | IconComponentParams
 
 export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentParams', () =>
   t.union([
@@ -49,5 +51,6 @@ export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentPa
     ImageComponentParams,
     RowsComponentParams,
     ButtonComponentParams,
+    IconComponentParams,
   ])
 )

@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { ButtonComponentUI } from '@entities/app/page/component/button/ButtonComponentUI'
-import TailwindUI from '../index'
+import { TailwindUI } from '../index'
 
 import { UIMapper } from '@adapters/mappers/ui/UIMapper'
 import { UIService } from '@entities/services/ui/UIService'
+import { HeroiconsIcon } from '@drivers/icon/HeroiconsIcon'
 
-const ui = new UIService(new UIMapper(TailwindUI))
+const ui = new UIService(new UIMapper(new TailwindUI(new HeroiconsIcon())))
 
 const meta: Meta<typeof ButtonComponentUI> = {
   title: 'Tailwind/Button',
