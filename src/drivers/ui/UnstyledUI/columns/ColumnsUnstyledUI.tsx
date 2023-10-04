@@ -3,6 +3,7 @@ import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponent
 
 const ColumnsUnstyledUI: ColumnsUI = {
   Columns: ({ children }) => <div>{children}</div>,
+  Column: ({ children }) => <div>{children}</div>,
 }
 
 export default ColumnsUnstyledUI

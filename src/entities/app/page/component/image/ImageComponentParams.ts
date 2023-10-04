@@ -5,7 +5,7 @@ export const ImageComponentParams = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('image'),
-    url: t.string,
+    path: t.string,
     text: t.string,
   }),
   t.partial({

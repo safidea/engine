@@ -2,14 +2,14 @@ import React from 'react'
 import { BaseComponentProps } from '../base/BaseComponentProps'
 
 export interface ImageProps extends BaseComponentProps {
-  url: string
+  path: string
   text: string
   width: number
 }
 
-export function ImageComponentUI({ url, text, ui, width }: ImageProps) {
+export function ImageComponentUI({ path, text, ui, width }: ImageProps) {
   const { Image } = ui.getImage()
-  return <Image src={url} alt={text} width={width} />
+  return <Image src={path} alt={text} width={width} />
 }
 
 export interface ImageUIProps {

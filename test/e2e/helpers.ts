@@ -40,7 +40,7 @@ export async function startApp(config: ConfigDto, options: EngineOptions = {}, r
     const port = await getPort(defaultPort)
     const folder = defaultFolder ?? getDedicatedTmpFolder()
     if (config.name === 'invoices') {
-      copyAppFile('invoices', 'templates/invoice.html', folder)
+      copyAppFile('examples/invoices', 'templates/invoice.html', folder)
     }
     const app = await new Engine({ port, folder, ...res }).start(config)
     return app
@@ -54,9 +54,9 @@ export function getUrl(port: number, path: string): string {
   return `http://localhost:${port}${path}`
 }
 
-export function copyAppFile(appName: string, filePath: string, testDolder: string): void {
-  const sourcePath = join(process.cwd().replace('/test', ''), 'examples', appName, filePath)
-  const destinationPath = join(testDolder, filePath)
+export function copyAppFile(sourceFolder: string, filePath: string, testFolder: string): void {
+  const sourcePath = join(process.cwd().replace('/test', ''), sourceFolder, filePath)
+  const destinationPath = join(testFolder, filePath)
   fs.ensureFileSync(destinationPath)
   fs.copyFileSync(sourcePath, destinationPath)
 }

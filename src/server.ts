@@ -50,7 +50,7 @@ export default class Engine {
     fs.ensureDirSync(this.folder)
     fs.ensureDirSync(tmpFolder)
     this.drivers = {
-      server: getServerDriver(options.server, { port: this.port }),
+      server: getServerDriver(options.server, { port: this.port, folder: this.folder }),
       templater: getTemplaterDriver(options.templater),
       converter: getConverterDrivers(options.converter, { tmpFolder }),
       storage: getStorageDriver(options.storage, { folder: this.folder, domain: this.domain }),

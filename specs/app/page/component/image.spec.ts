@@ -1,4 +1,5 @@
 import { test, expect, helpers, drivers } from '@test/e2e/fixtures'
+import { join } from 'path'
 
 test.describe('Image component', () => {
   for (const ui of drivers.ui) {
@@ -14,7 +15,7 @@ test.describe('Image component', () => {
                 components: [
                   {
                     type: 'image',
-                    url: 'https://picsum.photos/200',
+                    path: 'https://picsum.photos/400',
                     text: 'Image',
                   },
                 ],
@@ -32,6 +33,39 @@ test.describe('Image component', () => {
         // THEN
         const imageWidth = await page.getByRole('img').getAttribute('width')
         expect(imageWidth).toEqual('50')
+      })
+
+      test('should display an image from the app/public directory', async ({ page, request }) => {
+        // GIVEN
+        const app = await helpers.startApp(
+          {
+            pages: [
+              {
+                path: '/',
+                title: 'Home',
+                components: [
+                  {
+                    type: 'image',
+                    path: '/image.png',
+                    text: 'Image',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            ui: ui.value as any,
+          }
+        )
+        helpers.copyAppFile('test/e2e', 'public/image.png', app.folder)
+
+        // WHEN
+        await page.goto(helpers.getUrl(app.port, '/'))
+
+        // THEN
+        const url = (await page.getByRole('img').getAttribute('src')) ?? ''
+        const res = await request.get(helpers.getUrl(app.port, url))
+        expect(res.status()).toEqual(200)
       })
     })
   }

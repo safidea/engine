@@ -46,7 +46,7 @@ const config: Config = {
                 },
                 {
                   type: 'image',
-                  url: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
+                  path: '/image.png',
                   text: 'Requests',
                   width: 1400,
                 },

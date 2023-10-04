@@ -17,7 +17,7 @@ export class ImageComponent extends BaseComponent {
   async render() {
     return () => (
       <ImageComponentUI
-        url={this.params.url}
+        path={this.params.path}
         text={this.params.text}
         width={this.params.width || 50}
         ui={this.services.ui}

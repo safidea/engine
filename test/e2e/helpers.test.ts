@@ -23,7 +23,7 @@ describe('E2e Helpers', () => {
     const folder = getDedicatedTmpFolder()
 
     // WHEN
-    copyAppFile('invoices', 'templates/invoice.html', folder)
+    copyAppFile('examples/invoices', 'templates/invoice.html', folder)
 
     // THEN
     expect(fs.existsSync(path.join(folder, 'templates/invoice.html'))).toBeTruthy()

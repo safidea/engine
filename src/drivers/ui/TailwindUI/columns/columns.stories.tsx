@@ -14,7 +14,9 @@ const ThirdTitle = () => <TitleComponentUI text="Third title" size="medium" ui={
 
 const meta: Meta<typeof ColumnsComponentUI> = {
   title: 'Tailwind/Columns',
-  component: () => <ColumnsComponentUI ui={ui} Components={[FirstTitle, SecondTitle, ThirdTitle]} />,
+  component: () => (
+    <ColumnsComponentUI ui={ui} Components={[FirstTitle, SecondTitle, ThirdTitle]} />
+  ),
 }
 
 export default meta

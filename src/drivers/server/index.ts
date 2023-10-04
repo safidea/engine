@@ -2,7 +2,8 @@ import { ExpressServer } from './ExpressServer'
 
 export type ServerDrivers = 'express'
 export type ServerDriverOptions = {
-  port?: number
+  port: number
+  folder: string
 }
 
 export function getServerDriver(driver: ServerDrivers = 'express', options: ServerDriverOptions) {

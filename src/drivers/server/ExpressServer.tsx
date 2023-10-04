@@ -1,5 +1,6 @@
 import { Server } from 'http'
 import path from 'path'
+import fs from 'fs-extra'
 import express, { Express } from 'express'
 import { ServerDriverOptions } from './index'
 import { IServerDriver } from '@adapters/controllers/server/IServerDriver'
@@ -12,11 +13,14 @@ export class ExpressServer implements IServerDriver {
   public port: number
 
   constructor(options: ServerDriverOptions) {
-    this.port = options.port ?? 3000
+    this.port = options.port
+    const publicFolder = path.join(options.folder, 'public')
+    fs.ensureDirSync(publicFolder)
     this.express = express()
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
     this.express.use(express.static(path.join(__dirname, '../../../dist/public')))
+    this.express.use(express.static(publicFolder))
   }
 
   get(path: string, handler: IServerHandler) {
