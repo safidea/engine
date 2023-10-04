@@ -12,6 +12,7 @@ import { UIDrivers } from '@entities/services/ui/UIDrivers'
 import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
 import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
 import { RowsUI } from '@entities/app/page/component/rows/RowsComponentUI'
+import { ButtonUI } from '@entities/app/page/component/button/ButtonComponentUI'
 
 export interface IUIDriver {
   name: UIDrivers
@@ -28,4 +29,5 @@ export interface IUIDriver {
   ColumnsUI: ColumnsUI
   ImageUI: ImageUI
   RowsUI: RowsUI
+  ButtonUI: ButtonUI
 }

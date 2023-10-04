@@ -1,13 +1,13 @@
 import React from 'react'
 import { BaseComponent } from '../base/BaseComponent'
-import { LinkComponentParams } from './LinkComponentParams'
+import { ButtonComponentParams } from './ButtonComponentParams'
 import { PageConfig } from '../../Page'
-import { LinkComponentUI } from './LinkComponentUI'
+import { ButtonComponentUI } from './ButtonComponentUI'
 import { PageServices } from '../../PageServices'
 
-export class LinkComponent extends BaseComponent {
+export class ButtonComponent extends BaseComponent {
   constructor(
-    readonly params: LinkComponentParams,
+    readonly params: ButtonComponentParams,
     services: PageServices,
     config: PageConfig
   ) {
@@ -16,9 +16,7 @@ export class LinkComponent extends BaseComponent {
 
   async render() {
     return () => (
-      <LinkComponentUI
-        display={this.params.display}
-        path={this.params.path}
+      <ButtonComponentUI
         text={this.params.text}
         ui={this.services.ui}
         testId={this.params.testId}

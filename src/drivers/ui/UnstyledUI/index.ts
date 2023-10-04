@@ -12,6 +12,7 @@ import ContainerUnstyledUI from './container/ContainerUnstyledUI'
 import ColumnsUnstyledUI from './columns/ColumnsUnstyledUI'
 import ImageUnstyledUI from './image/ImageUnstyledUI'
 import RowUnstyledUI from './rows/RowsUnstyledUI'
+import ButtonUnstyledUI from './button/ButtonUnstyledUI'
 
 const UnstyledUI: IUIDriver = {
   name: 'unstyled',
@@ -28,6 +29,7 @@ const UnstyledUI: IUIDriver = {
   ColumnsUI: ColumnsUnstyledUI,
   ImageUI: ImageUnstyledUI,
   RowsUI: RowUnstyledUI,
+  ButtonUI: ButtonUnstyledUI,
 }
 
 export default UnstyledUI

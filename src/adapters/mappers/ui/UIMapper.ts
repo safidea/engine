@@ -59,4 +59,8 @@ export class UIMapper implements IUIMapper {
   getRows() {
     return this.driver.RowsUI
   }
+
+  getButton() {
+    return this.driver.ButtonUI
+  }
 }

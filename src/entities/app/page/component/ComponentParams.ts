@@ -13,6 +13,7 @@ import { TextInputComponentParams } from './textInput/TextInputComponentParams'
 import { ColumnsComponentParams } from './columns/ColumnsComponentParams'
 import { ImageComponentParams } from './image/ImageComponentParams'
 import { RowsComponentParams } from './rows/RowsComponentParams'
+import { ButtonComponentParams } from './button/ButtonComponentParams'
 
 export type ComponentParams =
   | LinkComponentParams
@@ -29,6 +30,7 @@ export type ComponentParams =
   | ColumnsComponentParams
   | ImageComponentParams
   | RowsComponentParams
+  | ButtonComponentParams
 
 export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentParams', () =>
   t.union([
@@ -46,5 +48,6 @@ export const ComponentParams: t.Type<ComponentParams> = t.recursion('ComponentPa
     ColumnsComponentParams,
     ImageComponentParams,
     RowsComponentParams,
+    ButtonComponentParams,
   ])
 )

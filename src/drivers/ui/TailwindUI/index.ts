@@ -12,6 +12,7 @@ import ContainerTailwindUI from './container/ContainerTailwindUI'
 import ColumnsTailwindUI from './columns/ColumnsTailwindUI'
 import ImageTailwindUI from './image/ImageTailwindUI'
 import RowTailwindUI from './rows/RowsTailwindUI'
+import ButtonTailwindUI from './button/ButtonTailwindUI'
 
 const TailwindUI: IUIDriver = {
   name: 'tailwind',
@@ -28,6 +29,7 @@ const TailwindUI: IUIDriver = {
   ColumnsUI: ColumnsTailwindUI,
   ImageUI: ImageTailwindUI,
   RowsUI: RowTailwindUI,
+  ButtonUI: ButtonTailwindUI,
 }
 
 export default TailwindUI

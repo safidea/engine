@@ -12,6 +12,7 @@ import { TitleUI } from '@entities/app/page/component/title/TitleComponentUI'
 import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
 import { ImageUI } from '@entities/app/page/component/image/ImageComponentUI'
 import { RowsUI } from '@entities/app/page/component/rows/RowsComponentUI'
+import { ButtonUI } from '@entities/app/page/component/button/ButtonComponentUI'
 
 export interface IUIMapper {
   driverName: UIDrivers
@@ -28,4 +29,5 @@ export interface IUIMapper {
   getColumns: () => ColumnsUI
   getImage: () => ImageUI
   getRows: () => RowsUI
+  getButton: () => ButtonUI
 }

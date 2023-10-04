@@ -1,5 +1,4 @@
 import { test, expect, helpers, drivers } from '@test/e2e/fixtures'
-import { join } from 'path'
 
 test.describe('Image component', () => {
   for (const ui of drivers.ui) {

@@ -10,9 +10,11 @@ const ui = new UIService(new UIMapper(TailwindUI))
 
 const meta: Meta<typeof LinkComponentUI> = {
   title: 'Tailwind/Link',
-  component: ({ path, text }) => <LinkComponentUI path={path} text={text} ui={ui} />,
+  component: ({ path, text, display }) => (
+    <LinkComponentUI path={path} text={text} ui={ui} display={display} />
+  ),
   args: {
-    path: '/new-page',
+    path: '#',
     text: 'Open a page',
   },
   argTypes: {
@@ -22,6 +24,9 @@ const meta: Meta<typeof LinkComponentUI> = {
     text: {
       control: { type: 'text' },
     },
+    display: {
+      control: false,
+    },
   },
 }
 
@@ -30,3 +35,15 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+
+export const PrimaryButton: Story = {
+  args: {
+    display: 'primary-button',
+  },
+}
+
+export const SecondaryButton: Story = {
+  args: {
+    display: 'secondary-button',
+  },
+}
