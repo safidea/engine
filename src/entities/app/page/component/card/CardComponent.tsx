@@ -26,11 +26,7 @@ export class CardComponent extends BaseComponent {
       this.components.map((component) => component.render(context))
     )
     return () => (
-      <CardComponentUI
-        ui={this.services.ui}
-        Components={Components}
-        testId={this.params.testId}
-      />
+      <CardComponentUI ui={this.services.ui} Components={Components} testId={this.params.testId} />
     )
   }
 }
