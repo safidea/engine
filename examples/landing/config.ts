@@ -12,6 +12,13 @@ const config: Config = {
           components: [
             {
               type: 'columns',
+              style: {
+                columns: {
+                  background: {
+                    color: 'gray-100',
+                  },
+                },
+              },
               components: [
                 {
                   type: 'rows',

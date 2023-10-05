@@ -1,8 +1,15 @@
 import React from 'react'
 import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
+import { IUIDriverStyle } from '..'
 
-const ColumnsTailwindUI: ColumnsUI = {
-  Columns: ({ children }) => <div className="flex flex-row space-x-4">{children}</div>,
+interface Props {
+  applyStyle: (style: IUIDriverStyle, className: string) => string
+}
+
+const ColumnsTailwindUI = ({ applyStyle }: Props): ColumnsUI => ({
+  Columns: ({ children, style = {} }) => (
+    <div className={applyStyle(style, 'flex flex-row space-x-4')}>{children}</div>
+  ),
   Column: ({ children, number }) => {
     let basis
     switch (number) {
@@ -48,6 +55,6 @@ const ColumnsTailwindUI: ColumnsUI = {
     }
     return <div className={basis}>{children}</div>
   },
-}
+})
 
 export default ColumnsTailwindUI

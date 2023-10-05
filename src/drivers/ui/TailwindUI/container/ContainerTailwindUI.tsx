@@ -15,7 +15,7 @@ const ContainerTailwindUI: ContainerUI = {
         {children}
       </section>
     )
-  }
+  },
 }
 
 export default ContainerTailwindUI
