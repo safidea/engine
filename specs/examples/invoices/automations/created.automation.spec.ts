@@ -11,10 +11,9 @@ test.describe('An automation that build an invoice document from a template', ()
     } = helpers.generateRecordsDto(INVOICES_CONFIG, 'invoices')
 
     // WHEN
-    const res = await request.post(helpers.getUrl(app.port, '/api/table/invoices'), {
+    await request.post(helpers.getUrl(app.port, '/api/table/invoices'), {
       data: invoice,
     })
-    console.log(await res.json())
 
     // THEN
     const [file] = await app.drivers.storage.list('invoices')
