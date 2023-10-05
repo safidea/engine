@@ -13,6 +13,9 @@ export const ParagraphComponentParams = t.intersection([
   }),
   t.partial({
     size: ParagraphSize,
+    icon: t.type({
+      name: t.string,
+    }),
   }),
 ])
 

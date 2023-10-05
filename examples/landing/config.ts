@@ -119,12 +119,11 @@ const config: Config = {
                       type: 'columns',
                       components: [
                         {
-                          type: 'icon',
-                          name: 'home',
-                        },
-                        {
                           type: 'paragraph',
                           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                          icon: {
+                            name: 'home',
+                          },
                         },
                       ],
                     },
@@ -132,12 +131,11 @@ const config: Config = {
                       type: 'columns',
                       components: [
                         {
-                          type: 'icon',
-                          name: 'home',
-                        },
-                        {
                           type: 'paragraph',
                           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                          icon: {
+                            name: 'home',
+                          },
                         },
                       ],
                     },
@@ -145,12 +143,11 @@ const config: Config = {
                       type: 'columns',
                       components: [
                         {
-                          type: 'icon',
-                          name: 'home',
-                        },
-                        {
                           type: 'paragraph',
                           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                          icon: {
+                            name: 'home',
+                          },
                         },
                       ],
                     },

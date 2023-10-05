@@ -6,10 +6,43 @@ import { BaseComponentProps } from '../base/BaseComponentProps'
 export interface ParagraphProps extends BaseComponentProps {
   text: string
   size: ParagraphSize
+  Icon?: () => JSX.Element
 }
 
-export function ParagraphComponentUI({ text, size, ui }: ParagraphProps) {
+export function ParagraphComponentUI({ text, size, ui, Icon }: ParagraphProps) {
   const { Small, Medium, Large } = ui.getParagraph()
+  if (Icon) {
+    switch (size) {
+      case 'small':
+        return (
+          <Small>
+            <Icon />
+            {text}
+          </Small>
+        )
+      case 'medium':
+        return (
+          <Medium>
+            <Icon />
+            {text}
+          </Medium>
+        )
+      case 'large':
+        return (
+          <Large>
+            <Icon />
+            {text}
+          </Large>
+        )
+      default:
+        return (
+          <Medium>
+            <Icon />
+            {text}
+          </Medium>
+        )
+    }
+  }
   switch (size) {
     case 'small':
       return <Small>{text}</Small>
