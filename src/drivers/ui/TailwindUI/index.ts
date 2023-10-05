@@ -14,6 +14,7 @@ import ImageTailwindUI from './image/ImageTailwindUI'
 import RowTailwindUI from './rows/RowsTailwindUI'
 import ButtonTailwindUI from './button/ButtonTailwindUI'
 import IconTailwindUI from './icon/IconTailwindUI'
+import CardTailwindUI from './card/CardTailwindUI'
 import { IIconDriver } from '@adapters/mappers/driver/IIconDriver'
 
 export class TailwindUI implements IUIDriver {
@@ -32,6 +33,7 @@ export class TailwindUI implements IUIDriver {
   readonly ImageUI = ImageTailwindUI
   readonly RowsUI = RowTailwindUI
   readonly ButtonUI = ButtonTailwindUI
+  readonly CardUI = CardTailwindUI
   readonly IconUI
 
   constructor(readonly icon: IIconDriver) {

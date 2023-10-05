@@ -15,6 +15,7 @@ import RowUnstyledUI from './rows/RowsUnstyledUI'
 import ButtonUnstyledUI from './button/ButtonUnstyledUI'
 import IconUnstyledUI from './icon/IconUnstyledUI'
 import { IIconDriver } from '@adapters/mappers/driver/IIconDriver'
+import CardUnstyledUI from './card/CardTailwindUI'
 
 export class UnstyledUI implements IUIDriver {
   readonly name = 'unstyled'
@@ -32,6 +33,7 @@ export class UnstyledUI implements IUIDriver {
   readonly ImageUI = ImageUnstyledUI
   readonly RowsUI = RowUnstyledUI
   readonly ButtonUI = ButtonUnstyledUI
+  readonly CardUI = CardUnstyledUI
   readonly IconUI
 
   constructor(readonly icon: IIconDriver) {

@@ -2,18 +2,18 @@ import * as t from 'io-ts'
 import { ComponentParams } from '../ComponentParams'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 
-export interface ContainerComponentParams extends BaseComponentParams {
-  type: 'container'
+export interface CardComponentParams extends BaseComponentParams {
+  type: 'card'
   components: ComponentParams[]
 }
 
-export const ContainerComponentParams: t.Type<ContainerComponentParams> = t.recursion(
-  'ContainerComponentParams',
+export const CardComponentParams: t.Type<CardComponentParams> = t.recursion(
+  'CardComponentParams',
   () =>
     t.intersection([
       BaseComponentParams,
       t.type({
-        type: t.literal('container'),
+        type: t.literal('card'),
         components: t.array(ComponentParams),
       }),
     ])

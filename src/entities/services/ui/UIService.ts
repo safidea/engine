@@ -66,4 +66,8 @@ export class UIService {
   getIcon() {
     return this.mapper.getIcon()
   }
+
+  getCard() {
+    return this.mapper.getCard()
+  }
 }
