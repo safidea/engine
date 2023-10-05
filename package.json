@@ -26,7 +26,7 @@
     "example:invoices": "NODE_ENV=production bun run examples/invoices/startup.ts",
     "example:landing": "NODE_ENV=production bun run examples/landing/startup.ts",
     "precommit": "bun run format && bun run lint && bun run build && bun run test",
-    "prepare": "husky install && bunx playwright install",
+    "prepare": "husky install && bunx playwright install && bunx @puppeteer/browsers install chrome@stable --path $HOME/.cache/puppeteer",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966",
