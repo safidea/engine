@@ -2,7 +2,7 @@ import React from 'react'
 import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
 
 const ColumnsTailwindUI: ColumnsUI = {
-  Columns: ({ children }) => <div className="flex flex-row">{children}</div>,
+  Columns: ({ children }) => <div className="flex flex-row space-x-4">{children}</div>,
   Column: ({ children, number }) => {
     let basis
     switch (number) {

@@ -7,11 +7,13 @@ export interface RowsProps extends BaseComponentProps {
 }
 
 export function RowsComponentUI({ Components, ui }: RowsProps) {
-  const { Rows } = ui.getRows()
+  const { Rows, Row } = ui.getRows()
   return (
     <Rows>
       {Components.map((Component, index) => (
-        <Component key={index} />
+        <Row key={index}>
+          <Component />
+        </Row>
       ))}
     </Rows>
   )
@@ -19,4 +21,5 @@ export function RowsComponentUI({ Components, ui }: RowsProps) {
 
 export interface RowsUI {
   Rows: React.FC<BaseComponentUIProps>
+  Row: React.FC<BaseComponentUIProps>
 }
