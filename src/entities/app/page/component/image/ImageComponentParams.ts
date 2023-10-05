@@ -9,7 +9,7 @@ export const ImageComponentParams = t.intersection([
     text: t.string,
   }),
   t.partial({
-    width: t.number,
+    width: t.string,
   }),
 ])
 

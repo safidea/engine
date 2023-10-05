@@ -66,6 +66,39 @@ test.describe('Image component', () => {
         const res = await request.get(helpers.getUrl(app.port, url))
         expect(res.status()).toEqual(200)
       })
+
+      test('should be displayed with full width', async ({ page }) => {
+        // GIVEN
+        const app = await helpers.startApp(
+          {
+            pages: [
+              {
+                path: '/',
+                title: 'Home',
+                components: [
+                  {
+                    type: 'image',
+                    path: '/image.png',
+                    text: 'Image',
+                    width: '100%',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            ui: ui.value as any,
+          }
+        )
+        helpers.copyAppFile('test/e2e', 'public/image.png', app.folder)
+
+        // WHEN
+        await page.goto(helpers.getUrl(app.port, '/'))
+
+        // THEN
+        const imageWidth = await page.getByRole('img').getAttribute('width')
+        expect(imageWidth).toEqual('100%')
+      })
     })
   }
 })
