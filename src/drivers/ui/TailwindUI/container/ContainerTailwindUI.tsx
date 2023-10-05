@@ -9,6 +9,13 @@ const ContainerTailwindUI: ContainerUI = {
       </div>
     )
   },
+  Section: ({ children, testId }) => {
+    return (
+      <section className="py-8" data-testid={testId}>
+        {children}
+      </section>
+    )
+  }
 }
 
 export default ContainerTailwindUI

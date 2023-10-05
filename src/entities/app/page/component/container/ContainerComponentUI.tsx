@@ -7,11 +7,13 @@ export interface ContainerProps extends BaseComponentProps {
 }
 
 export function ContainerComponentUI({ ui, Components, testId }: ContainerProps) {
-  const { Container } = ui.getContainer()
+  const { Container, Section } = ui.getContainer()
   return (
     <Container testId={testId}>
       {Components.map((Component, index) => (
-        <Component key={index} />
+        <Section key={index}>
+          <Component />
+        </Section>
       ))}
     </Container>
   )
@@ -19,4 +21,5 @@ export function ContainerComponentUI({ ui, Components, testId }: ContainerProps)
 
 export interface ContainerUI {
   Container: React.FC<BaseComponentUIProps>
+  Section: React.FC<BaseComponentUIProps>
 }

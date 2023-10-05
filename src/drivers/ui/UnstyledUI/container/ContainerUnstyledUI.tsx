@@ -3,6 +3,7 @@ import { ContainerUI } from '@entities/app/page/component/container/ContainerCom
 
 const ContainerUnstyledUI: ContainerUI = {
   Container: ({ children, testId }) => <div data-testid={testId}>{children}</div>,
+  Section: ({ children, testId }) => <div data-testid={testId}>{children}</div>,
 }
 
 export default ContainerUnstyledUI
