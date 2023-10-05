@@ -42,368 +42,546 @@ const config: Config = {
                         },
                       ],
                     },
+                  ],
+                },
+                {
+                  type: 'image',
+                  path: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
+                  text: 'Requests',
+                  width: 600,
+                },
+              ],
+            },
+            {
+              type: 'rows',
+              components: [
+                {
+                  type: 'title',
+                  text: 'What our customers are saying',
+                },
+                {
+                  type: 'columns',
+                  components: [
                     {
-                      type: 'icon',
-                      name: 'home',
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg',
+                      text: 'Transitor',
+                      width: 200,
+                    },
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg',
+                      text: 'Reform',
+                      width: 200,
+                    },
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg',
+                      text: 'Tuple',
+                      width: 200,
+                    },
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg',
+                      text: 'Savvycal',
+                      width: 200,
+                    },
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg',
+                      text: 'Statamic',
+                      width: 200,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'columns',
+              components: [
+                {
+                  type: 'rows',
+                  components: [
+                    {
+                      type: 'title',
+                      text: 'Features',
+                      size: 'extra-small',
+                    },
+                    {
+                      type: 'title',
+                      text: 'Everything you need to manage your requests',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                    {
+                      type: 'columns',
+                      components: [
+                        {
+                          type: 'icon',
+                          name: 'home',
+                        },
+                        {
+                          type: 'paragraph',
+                          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'columns',
+                      components: [
+                        {
+                          type: 'icon',
+                          name: 'home',
+                        },
+                        {
+                          type: 'paragraph',
+                          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'columns',
+                      components: [
+                        {
+                          type: 'icon',
+                          name: 'home',
+                        },
+                        {
+                          type: 'paragraph',
+                          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                        },
+                      ],
                     },
                   ],
                 },
                 {
                   type: 'image',
-                  path: '/image.png',
-                  text: 'Requests',
-                  width: 1400,
+                  path: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
+                  text: 'Statamic',
+                  width: 600,
                 },
               ],
             },
           ],
         },
-        /*{
-          type: 'marketing/logos',
-          title: 'What our customers are saying',
-          logos: [
-            {
-              url: 'https://solumy.com/img/logos/airbnb.svg',
-              alt: 'Airbnb',
-            },
-            {
-              url: 'https://solumy.com/img/logos/coinbase.svg',
-              alt: 'Coinbase',
-            },
-            {
-              url: 'https://solumy.com/img/logos/lyft.svg',
-              alt: 'Lyft',
-            },
-            {
-              url: 'https://solumy.com/img/logos/netflix.svg',
-              alt: 'Netflix',
-            },
-            {
-              url: 'https://solumy.com/img/logos/slack.svg',
-              alt: 'Slack',
-            },
-            {
-              url: 'https://solumy.com/img/logos/spotify.svg',
-              alt: 'Spotify',
-            },
-          ],
-        },
         {
-          type: 'marketing/features',
-          title: 'Features',
-          tagline: 'Everything you need to manage your requests',
-          subtitle: 'Everything you need to manage your requests',
-          image: {
-            url: 'https://solumy.com/img/features.png',
-            alt: 'Features',
-            position: 'left',
-          },
-          features: [
+          type: 'columns',
+          components: [
             {
-              name: 'Feature 1',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-1.svg',
+              type: 'image',
+              path: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
+              text: 'Statamic',
+              width: 600,
             },
             {
-              name: 'Feature 2',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-2.svg',
-            },
-            {
-              name: 'Feature 3',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-3.svg',
-            },
-          ],
-        },
-        {
-          type: 'marketing/features',
-          title: 'Features',
-          tagline: 'Everything you need to manage your requests',
-          subtitle: 'Everything you need to manage your requests',
-          image: {
-            url: 'https://solumy.com/img/features.png',
-            alt: 'Features',
-            position: 'right',
-          },
-          features: [
-            {
-              name: 'Feature 1',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-1.svg',
-            },
-            {
-              name: 'Feature 2',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-2.svg',
-            },
-            {
-              name: 'Feature 3',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-3.svg',
-            },
-          ],
-        },
-        {
-          type: 'marketing/features',
-          title: 'Features',
-          tagline: 'Everything you need to manage your requests',
-          subtitle: 'Everything you need to manage your requests',
-          image: {
-            url: 'https://solumy.com/img/features.png',
-            alt: 'Features',
-            position: 'left',
-          },
-          features: [
-            {
-              name: 'Feature 1',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-1.svg',
-            },
-            {
-              name: 'Feature 2',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-2.svg',
-            },
-            {
-              name: 'Feature 3',
-              description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisi.',
-              icon: 'https://solumy.com/img/icons/feature-3.svg',
-            },
-          ],
-        },
-        {
-          type: 'marketing/testimonials',
-          title: 'What our customers are saying',
-          tagline: 'Everything you need to manage your requests',
-          display: 'grid',
-          testimonials: [
-            {
-              name: 'John Doe',
-              title: 'CEO, Company',
-              image: {
-                url: 'https://solumy.com/img/testimonials/john-doe.jpg',
-                alt: 'John Doe',
-              },
-              quote:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
-            },
-            {
-              name: 'John Doe',
-              title: 'CEO, Company',
-              image: {
-                url: 'https://solumy.com/img/testimonials/john-doe.jpg',
-                alt: 'John Doe',
-              },
-              quote:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
-            },
-            {
-              name: 'John Doe',
-              title: 'CEO, Company',
-              image: {
-                url: 'https://solumy.com/img/testimonials/john-doe.jpg',
-                alt: 'John Doe',
-              },
-              quote:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
-            },
-            {
-              name: 'John Doe',
-              title: 'CEO, Company',
-              image: {
-                url: 'https://solumy.com/img/testimonials/john-doe.jpg',
-                alt: 'John Doe',
-              },
-              quote:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
-            },
-          ],
-        },
-        {
-          type: 'marketing/pricing',
-          title: 'Pricing',
-          tagline: 'Everything you need to manage your requests',
-          subtitle: 'Everything you need to manage your requests',
-          plans: [
-            {
-              name: 'Basic',
-              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              price: {
-                monthly: 3000,
-                yearly: 0,
-              }
-              features: [
+              type: 'rows',
+              components: [
                 {
-                  name: 'Feature 1',
-                  included: true,
+                  type: 'title',
+                  text: 'Features',
+                  size: 'extra-small',
                 },
                 {
-                  name: 'Feature 2',
-                  included: true,
+                  type: 'title',
+                  text: 'Everything you need to manage your requests',
                 },
                 {
-                  name: 'Feature 3',
-                  included: false,
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
                 },
                 {
-                  name: 'Feature 4',
-                  included: false,
+                  type: 'columns',
+                  components: [
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                  ],
+                },
+                {
+                  type: 'columns',
+                  components: [
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                  ],
+                },
+                {
+                  type: 'columns',
+                  components: [
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                  ],
                 },
               ],
-              primaryButton: {
-                label: 'Get Started',
-                link: '/signup',
-              },
             },
+          ],
+        },
+        {
+          type: 'columns',
+          components: [
             {
-              name: 'Basic',
-              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              price: {
-                monthly: 0,
-                yearly: 0,
-              }
-              features: [
+              type: 'rows',
+              components: [
                 {
-                  name: 'Feature 1',
-                  included: true,
+                  type: 'title',
+                  text: 'Features',
+                  size: 'extra-small',
                 },
                 {
-                  name: 'Feature 2',
-                  included: true,
+                  type: 'title',
+                  text: 'Everything you need to manage your requests',
                 },
                 {
-                  name: 'Feature 3',
-                  included: true,
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
                 },
                 {
-                  name: 'Feature 4',
-                  included: false,
+                  type: 'columns',
+                  components: [
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                  ],
+                },
+                {
+                  type: 'columns',
+                  components: [
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                  ],
+                },
+                {
+                  type: 'columns',
+                  components: [
+                    {
+                      type: 'icon',
+                      name: 'home',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                    },
+                  ],
                 },
               ],
-              primaryButton: {
-                label: 'Get Started',
-                link: '/signup',
-              },
             },
-             {
-              name: 'Basic',
-              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              price: {
-                monthly: 0,
-                yearly: 0,
-              }
-              features: [
+            {
+              type: 'image',
+              path: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
+              text: 'Statamic',
+              width: 600,
+            },
+          ],
+        },
+        {
+          type: 'rows',
+          components: [
+            {
+              type: 'title',
+              text: 'What our customers are saying',
+            },
+            {
+              type: 'columns',
+              components: [
                 {
-                  name: 'Feature 1',
-                  included: true,
+                  type: 'card',
+                  components: [
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg',
+                      text: 'Transitor',
+                      width: 200,
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                    },
+                  ],
                 },
                 {
-                  name: 'Feature 2',
-                  included: true,
+                  type: 'card',
+                  components: [
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg',
+                      text: 'Transitor',
+                      width: 200,
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                    },
+                  ],
                 },
                 {
-                  name: 'Feature 3',
-                  included: true,
-                },
-                {
-                  name: 'Feature 4',
-                  included: true,
+                  type: 'card',
+                  components: [
+                    {
+                      type: 'image',
+                      path: 'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg',
+                      text: 'Transitor',
+                      width: 200,
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                    },
+                  ],
                 },
               ],
-              primaryButton: {
-                label: 'Get Started',
-                link: '/signup',
-              },
-            },
-          ],      
-        },
-        {
-          type: 'marketing/faq',
-          title: 'Frequently Asked Questions',
-          questions: [
-            {
-              question: 'Question 1?',
-              answer:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
-            },
-            {
-              question: 'Question 2?',
-              answer:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
-            },
-            {
-              question: 'Question 3?',
-              answer:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
-            },
-            {
-              question: 'Question 4?',
-              answer:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
             },
           ],
         },
         {
-          type: 'marketing/cta',
-          display: 'panel',
-          title: 'Ready to get started?',
-          subtitle: 'Everything you need to manage your requests',
-          primaryButton: {
-            label: 'New Request',
-            link: '/requests/new',
-          },
-          secondaryButton: {
-            label: 'View Requests',
-            link: '/requests',
-          },
-          image: {
-            url: 'https://solumy.com/img/screenshot.png',
-            alt: 'Requests',
-          },
+          type: 'rows',
+          components: [
+            {
+              type: 'title',
+              text: 'Pricing',
+            },
+            {
+              type: 'columns',
+              components: [
+                {
+                  type: 'card',
+                  components: [
+                    {
+                      type: 'title',
+                      text: 'Basic',
+                      size: 'small',
+                    },
+                    {
+                      type: 'title',
+                      text: '300€/month',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'button',
+                      text: 'Sign up',
+                    },
+                  ],
+                },
+                {
+                  type: 'card',
+                  components: [
+                    {
+                      type: 'title',
+                      text: 'Basic',
+                      size: 'small',
+                    },
+                    {
+                      type: 'title',
+                      text: '300€/month',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'button',
+                      text: 'Sign up',
+                    },
+                  ],
+                },
+                {
+                  type: 'card',
+                  components: [
+                    {
+                      type: 'title',
+                      text: 'Basic',
+                      size: 'small',
+                    },
+                    {
+                      type: 'title',
+                      text: '300€/month',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'paragraph',
+                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    },
+                    {
+                      type: 'button',
+                      text: 'Sign up',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
-          type: 'marketing/footer',
-          navigation: [
+          type: 'columns',
+          components: [
             {
-              label: 'Home',
-              link: '/',
+              type: 'rows',
+              components: [
+                {
+                  type: 'title',
+                  text: 'Frequently Asked Questions',
+                },
+                {
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                },
+              ],
             },
             {
-              label: 'About',
-              link: '/about',
-            },
-            {
-              label: 'Contact',
-              link: '/contact',
+              type: 'rows',
+              components: [
+                {
+                  type: 'title',
+                  text: 'Frequently Asked Questions',
+                  size: 'small',
+                },
+                {
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                },
+                {
+                  type: 'title',
+                  text: 'Frequently Asked Questions',
+                  size: 'small',
+                },
+                {
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                },
+                {
+                  type: 'title',
+                  text: 'Frequently Asked Questions',
+                  size: 'small',
+                },
+                {
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                },
+                {
+                  type: 'title',
+                  text: 'Frequently Asked Questions',
+                  size: 'small',
+                },
+                {
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                },
+                {
+                  type: 'title',
+                  text: 'Frequently Asked Questions',
+                  size: 'small',
+                },
+                {
+                  type: 'paragraph',
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae.',
+                },
+              ],
             },
           ],
-          social: [
+        },
+        {
+          type: 'card',
+          components: [
             {
-              icon: 'twitter',
-              link: 'https://twitter.com/solumy',
+              type: 'title',
+              text: 'Ready to get started?',
             },
             {
-              icon: 'gitHub',
-              link: '',
+              type: 'paragraph',
+              text: 'Everything you need to manage your requests',
             },
             {
-              icon: 'linkedIn',
-              link: '',
+              type: 'button',
+              text: 'New Request',
             },
           ],
-          copyright:
-            '© 2021 Solumy. All rights reserved. Solumy is a registered trademark of Solumy, Inc.',
-        },*/
+        },
+        {
+          type: 'columns',
+          components: [
+            {
+              type: 'link',
+              text: 'Home',
+              path: '/',
+            },
+            {
+              type: 'link',
+              text: 'About',
+              path: '/about',
+            },
+            {
+              type: 'link',
+              text: 'Contact',
+              path: '/contact',
+            },
+          ],
+        },
       ],
     },
   ],

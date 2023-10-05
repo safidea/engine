@@ -4,7 +4,7 @@ import { ContainerUI } from '@entities/app/page/component/container/ContainerCom
 const ContainerTailwindUI: ContainerUI = {
   Container: ({ children, testId }) => {
     return (
-      <div className="container mx-auto flex flex-row" data-testid={testId}>
+      <div className="container mx-auto" data-testid={testId}>
         {children}
       </div>
     )

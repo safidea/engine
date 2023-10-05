@@ -1,15 +1,13 @@
 # [0.1.0](https://github.com/solumy/engine/compare/v0.0.10...v0.1.0) (2023-10-05)
 
-
 ### Bug Fixes
 
-* **ci:** add chrome version for puppeteer ([61f95f8](https://github.com/solumy/engine/commit/61f95f8b8f1e840cfcdb58bfba6868696636b060))
-* **ci:** move puppeteer postinstall in package.json ([3b681fc](https://github.com/solumy/engine/commit/3b681fc2ce54433623d40ac8019b46aa56e4ccbd))
-
+- **ci:** add chrome version for puppeteer ([61f95f8](https://github.com/solumy/engine/commit/61f95f8b8f1e840cfcdb58bfba6868696636b060))
+- **ci:** move puppeteer postinstall in package.json ([3b681fc](https://github.com/solumy/engine/commit/3b681fc2ce54433623d40ac8019b46aa56e4ccbd))
 
 ### Features
 
-* **component:** add card, columns, rows and icon component ([c40b98e](https://github.com/solumy/engine/commit/c40b98effd7904f180297fe9b9a12c8d65f22b3f))
+- **component:** add card, columns, rows and icon component ([c40b98e](https://github.com/solumy/engine/commit/c40b98effd7904f180297fe9b9a12c8d65f22b3f))
 
 ## [0.0.10](https://github.com/solumy/engine/compare/v0.0.9...v0.0.10) (2023-10-02)
 
