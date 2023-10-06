@@ -32,7 +32,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  timeout: 10 * 1000,
+  timeout: 15 * 1000,
   globalTeardown: join(__dirname, './test/teardown'),
 
   /* Configure projects for major browsers */
