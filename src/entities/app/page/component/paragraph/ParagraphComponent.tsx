@@ -19,13 +19,14 @@ export class ParagraphComponent extends BaseComponent {
     const props = {
       ui: this.services.ui,
       text: this.params.text,
-      size: this.params.size || 'medium',
+      size: this.params.size,
       testId: this.params.testId,
+      style: this.params.style,
       Icon: undefined,
     }
     if (this.params.icon) {
       const icon = new IconComponent(
-        { type: 'icon', name: this.params.icon.name },
+        { type: 'icon', name: this.params.icon.name, style: this.params.icon.style },
         this.services,
         this.config
       )

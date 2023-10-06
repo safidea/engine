@@ -1,28 +1,43 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface NavigationProps extends BaseComponentProps {
   Title: React.FC
   Links: React.FC[]
   Components: React.FC[]
+  style?: {
+    container?: UIStyle
+    sidebar?: UIStyle
+    title?: UIStyle
+    linksContainer?: UIStyle
+    linkItem?: UIStyle
+    content?: UIStyle
+  }
 }
 
-export function NavigationComponentUI({ ui, Title, Links, Components }: NavigationProps) {
+export function NavigationComponentUI({
+  ui,
+  Title,
+  Links,
+  Components,
+  style = {},
+}: NavigationProps) {
   const { Container, Sidebar, LinksContainer, LinkItem, Content } = ui.getNavigation()
   return (
-    <Container>
-      <Sidebar>
+    <Container style={style.container}>
+      <Sidebar style={style.sidebar}>
         <Title />
-        <LinksContainer>
+        <LinksContainer style={style.linksContainer}>
           {Links.map((Link, index) => (
-            <LinkItem key={index}>
+            <LinkItem key={index} style={style.linkItem}>
               <Link />
             </LinkItem>
           ))}
         </LinksContainer>
       </Sidebar>
-      <Content>
+      <Content style={style.content}>
         {Components.map((Component, index) => (
           <Component key={index} />
         ))}

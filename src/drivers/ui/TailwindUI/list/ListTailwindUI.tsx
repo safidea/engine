@@ -1,35 +1,40 @@
 import React from 'react'
 import { ListUI } from '@entities/app/page/component/list/ListComponentUI'
+import { ApplyStyle } from '..'
 
-const ListTailwindUI: ListUI = {
-  Container: ({ children }) => {
-    return <table>{children}</table>
+const ListTailwindUI = (applyStyle: ApplyStyle): ListUI => ({
+  Container: ({ children, style }) => {
+    return <table className={applyStyle(style)}>{children}</table>
   },
-  Header: ({ children }) => {
+  Header: ({ children, style }) => {
     return (
-      <thead>
+      <thead className={applyStyle(style)}>
         <tr>{children}</tr>
       </thead>
     )
   },
-  HeaderColumn: ({ label }) => {
-    return <th>{label}</th>
+  HeaderColumn: ({ label, style }) => {
+    return <th className={applyStyle(style)}>{label}</th>
   },
-  Group: ({ label, colSpan }) => {
+  Group: ({ label, colSpan, style }) => {
     return (
-      <tr>
+      <tr className={applyStyle(style)}>
         <th colSpan={colSpan}>{label}</th>
       </tr>
     )
   },
-  Rows: ({ children }) => {
-    return <tbody>{children}</tbody>
+  Rows: ({ children, style }) => {
+    return <tbody className={applyStyle(style)}>{children}</tbody>
   },
-  Row: ({ children, id }) => {
-    return <tr id={id}>{children}</tr>
+  Row: ({ children, id, style }) => {
+    return (
+      <tr className={applyStyle(style)} id={id}>
+        {children}
+      </tr>
+    )
   },
-  Cell: ({ children }) => {
-    return <td>{children}</td>
+  Cell: ({ children, style }) => {
+    return <td className={applyStyle(style)}>{children}</td>
   },
   TextCell: ({ value }) => {
     return <>{value}</>
@@ -48,6 +53,6 @@ const ListTailwindUI: ListUI = {
       </>
     )
   },
-}
+})
 
 export default ListTailwindUI

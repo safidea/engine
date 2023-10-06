@@ -1,13 +1,9 @@
 import React from 'react'
 import { ColumnsUI } from '@entities/app/page/component/columns/ColumnsComponentUI'
-import { IUIDriverStyle } from '..'
+import { ApplyStyle } from '..'
 
-interface Props {
-  applyStyle: (style: IUIDriverStyle, className: string) => string
-}
-
-const ColumnsTailwindUI = ({ applyStyle }: Props): ColumnsUI => ({
-  Columns: ({ children, style = {} }) => (
+const ColumnsTailwindUI = (applyStyle: ApplyStyle): ColumnsUI => ({
+  Columns: ({ children, style }) => (
     <div className={applyStyle(style, 'flex flex-row space-x-4')}>{children}</div>
   ),
   Column: ({ children, number }) => {

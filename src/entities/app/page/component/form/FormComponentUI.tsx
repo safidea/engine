@@ -3,6 +3,7 @@ import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
 import { RecordFieldValue } from '@entities/services/database/record/RecordData'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export type UpdateRecord = (id: string, field: string, value: RecordFieldValue) => void
 export type AddRecord = (tableName: string) => void
@@ -31,6 +32,12 @@ export interface FormComponentProps extends BaseComponentProps {
   errorMessage?: string
   records: Record[]
   currentRecord: Record
+  style?: {
+    form?: UIStyle
+    submit?: UIStyle
+    loading?: UIStyle
+    errorMessage?: UIStyle
+  }
 }
 
 export function FormComponentUI({
@@ -46,10 +53,11 @@ export function FormComponentUI({
   errorMessage,
   ui,
   testId,
+  style = {},
 }: FormComponentProps) {
   const { Form, Submit, ErrorMessage, Loading } = ui.getForm()
   return (
-    <Form onSubmit={onSubmit} testId={testId}>
+    <Form onSubmit={onSubmit} testId={testId} style={style.form}>
       <>
         {Components.map((Component, index) => (
           <Component
@@ -62,11 +70,16 @@ export function FormComponentUI({
           />
         ))}
       </>
-      {submit.label && <Submit label={isSaving === false ? submit.label : submit.loadingLabel} />}
+      {submit.label && (
+        <Submit
+          label={isSaving === false ? submit.label : submit.loadingLabel}
+          style={style.submit}
+        />
+      )}
       {submit.autosave === true && isSaving === true ? (
-        <Loading label={submit.loadingLabel} />
+        <Loading label={submit.loadingLabel} style={style.loading} />
       ) : undefined}
-      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} style={style.errorMessage} />}
     </Form>
   )
 }
@@ -77,14 +90,17 @@ export interface FormUIFormProps extends BaseComponentUIProps {
 
 export interface FormUISubmitProps {
   label: string
+  style?: UIStyle
 }
 
 export interface FormUILoadingProps {
   label: string
+  style?: UIStyle
 }
 
 export interface FormUIErrorMessageProps {
   message: string
+  style?: UIStyle
 }
 
 export interface FormUI {

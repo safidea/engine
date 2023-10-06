@@ -102,6 +102,7 @@ export class ListComponent extends BaseComponent {
           ui={this.services.ui}
           getCellByFormat={(column, record) => this.getCellByFormat(column, record)}
           testId={this.params.testId}
+          style={this.params.style}
         />
       )
     }

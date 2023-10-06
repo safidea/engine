@@ -19,8 +19,9 @@ export class TitleComponent extends BaseComponent {
       <TitleComponentUI
         ui={this.services.ui}
         text={this.params.text}
-        size={this.params.size || 'medium'}
+        size={this.params.size}
         testId={this.params.testId}
+        style={this.params.style}
       />
     )
   }

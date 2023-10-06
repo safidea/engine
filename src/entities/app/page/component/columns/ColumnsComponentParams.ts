@@ -1,17 +1,14 @@
 import * as t from 'io-ts'
 import { ComponentParams } from '../ComponentParams'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface ColumnsComponentParams extends BaseComponentParams {
   type: 'columns'
   components: ComponentParams[]
   style?: {
-    columns?: {
-      background?: {
-        color?: 'gray-100'
-      }
-    }
-    column?: string
+    columns?: UIStyle
+    column?: UIStyle
   }
 }
 
@@ -26,12 +23,8 @@ export const ColumnsComponentParams: t.Type<ColumnsComponentParams> = t.recursio
       }),
       t.partial({
         style: t.partial({
-          columns: t.partial({
-            background: t.partial({
-              color: t.literal('gray-100'),
-            }),
-          }),
-          column: t.string,
+          columns: UIStyle,
+          column: UIStyle,
         }),
       }),
     ])

@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const ParagraphSize = t.union([t.literal('small'), t.literal('medium'), t.literal('large')])
 
@@ -13,8 +14,18 @@ export const ParagraphComponentParams = t.intersection([
   }),
   t.partial({
     size: ParagraphSize,
-    icon: t.type({
-      name: t.string,
+    icon: t.intersection([
+      t.type({
+        name: t.string,
+      }),
+      t.partial({
+        style: t.partial({
+          icon: UIStyle,
+        }),
+      }),
+    ]),
+    style: t.partial({
+      paragraph: UIStyle,
     }),
   }),
 ])

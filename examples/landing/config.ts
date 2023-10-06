@@ -14,9 +14,7 @@ const config: Config = {
               type: 'columns',
               style: {
                 columns: {
-                  background: {
-                    color: 'gray-100',
-                  },
+                  items: 'center',
                 },
               },
               components: [

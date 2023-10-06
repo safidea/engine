@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const SingleSelectRecordInputComponentParams = t.intersection([
   BaseComponentParams,
@@ -11,6 +12,11 @@ export const SingleSelectRecordInputComponentParams = t.intersection([
   t.partial({
     placeholder: t.string,
     label: t.string,
+    style: t.partial({
+      option: UIStyle,
+      select: UIStyle,
+      label: UIStyle,
+    }),
   }),
 ])
 

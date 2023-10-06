@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const LinkComponentParams = t.intersection([
   BaseComponentParams,
@@ -10,6 +11,9 @@ export const LinkComponentParams = t.intersection([
   }),
   t.partial({
     display: t.literal('primary-button'),
+    style: t.partial({
+      link: UIStyle,
+    }),
   }),
 ])
 

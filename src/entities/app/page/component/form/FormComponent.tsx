@@ -171,6 +171,7 @@ export class FormComponent extends BaseComponent {
           submit={this.submit}
           ui={this.services.ui}
           testId={this.params.testId}
+          style={this.params.style}
         />
       )
     }

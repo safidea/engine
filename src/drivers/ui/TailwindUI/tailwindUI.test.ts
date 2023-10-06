@@ -1,11 +1,12 @@
 import { describe, test, expect } from 'bun:test'
-import { IUIDriverStyle, TailwindUI } from './index'
+import { TailwindUI } from './index'
 import { getIconDriver } from '@drivers/icon'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 describe('TailwindUI', () => {
-  test('should apply a background style', async () => {
+  test('should apply a background color style', async () => {
     // GIVEN
-    const style: IUIDriverStyle = {
+    const style: UIStyle = {
       background: {
         color: 'gray-100',
       },
@@ -17,5 +18,19 @@ describe('TailwindUI', () => {
 
     // THEN
     expect(className).toEqual('bg-gray-100')
+  })
+
+  test('should apply a items center style', async () => {
+    // GIVEN
+    const style: UIStyle = {
+      items: 'center',
+    }
+    const tailwindUI = new TailwindUI(getIconDriver())
+
+    // WHEN
+    const className = tailwindUI.applyStyle(style)
+
+    // THEN
+    expect(className).toEqual('items-center')
   })
 })

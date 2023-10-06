@@ -1,21 +1,22 @@
 import React from 'react'
 import { ContainerUI } from '@entities/app/page/component/container/ContainerComponentUI'
+import { ApplyStyle } from '..'
 
-const ContainerTailwindUI: ContainerUI = {
-  Container: ({ children, testId }) => {
+const ContainerTailwindUI = (applyStyle: ApplyStyle): ContainerUI => ({
+  Container: ({ children, testId, style }) => {
     return (
-      <div className="container mx-auto" data-testid={testId}>
+      <div className={applyStyle(style, 'container mx-auto')} data-testid={testId}>
         {children}
       </div>
     )
   },
-  Section: ({ children, testId }) => {
+  Section: ({ children, testId, style }) => {
     return (
-      <section className="py-8" data-testid={testId}>
+      <section className={applyStyle(style, 'py-8')} data-testid={testId}>
         {children}
       </section>
     )
   },
-}
+})
 
 export default ContainerTailwindUI

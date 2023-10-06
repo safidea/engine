@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const IconComponentParams = t.intersection([
   BaseComponentParams,
@@ -9,6 +10,9 @@ export const IconComponentParams = t.intersection([
   }),
   t.partial({
     size: t.number,
+    style: t.partial({
+      icon: UIStyle,
+    }),
   }),
 ])
 

@@ -56,6 +56,7 @@ export class SingleSelectRecordInputComponent extends BaseComponent {
           onChange={handleUpdateRecord}
           ui={this.services.ui}
           testId={this.params.testId}
+          style={this.params.style}
         />
       )
     }

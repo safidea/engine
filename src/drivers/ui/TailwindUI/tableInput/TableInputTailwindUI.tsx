@@ -1,52 +1,57 @@
 import React from 'react'
 import { TableInputUI } from '@entities/app/page/component/tableInput/TableInputComponentUI'
+import { ApplyStyle } from '..'
 
-const TableInputTailwindUI: TableInputUI = {
-  Container: ({ children }) => {
-    return <>{children}</>
+const TableInputTailwindUI = (applyStyle: ApplyStyle): TableInputUI => ({
+  Container: ({ children, style }) => {
+    return <div className={applyStyle(style)}>{children}</div>
   },
-  Menu: ({ children }) => {
-    return <>{children}</>
+  Menu: ({ children, style }) => {
+    return <div className={applyStyle(style)}>{children}</div>
   },
-  Label: ({ label }) => {
-    return <>{label}</>
+  Label: ({ label, style }) => {
+    return <div className={applyStyle(style)}>{label}</div>
   },
-  AddButton: ({ label, onClick }) => {
-    return <button onClick={onClick}>{label}</button>
-  },
-  Table: ({ children }) => {
-    return <table>{children}</table>
-  },
-  Header: ({ children }) => {
+  AddButton: ({ label, onClick, style }) => {
     return (
-      <thead>
+      <button className={applyStyle(style)} onClick={onClick}>
+        {label}
+      </button>
+    )
+  },
+  Table: ({ children, style }) => {
+    return <table className={applyStyle(style)}>{children}</table>
+  },
+  Header: ({ children, style }) => {
+    return (
+      <thead className={applyStyle(style)}>
         <tr>{children}</tr>
       </thead>
     )
   },
-  HeaderColumn: ({ label }) => {
-    return <th>{label}</th>
+  HeaderColumn: ({ label, style }) => {
+    return <th className={applyStyle(style)}>{label}</th>
   },
-  Rows: ({ children }) => {
-    return <tbody>{children}</tbody>
+  Rows: ({ children, style }) => {
+    return <tbody className={applyStyle(style)}>{children}</tbody>
   },
-  Row: ({ children }) => {
-    return <tr>{children}</tr>
+  Row: ({ children, style }) => {
+    return <tr className={applyStyle(style)}>{children}</tr>
   },
-  Cell: ({ name, placeholder, value, onChange }) => {
+  Cell: ({ name, placeholder, value, onChange, style }) => {
     return (
-      <td>
+      <td className={applyStyle(style)}>
         <input name={name} placeholder={placeholder} onChange={onChange} value={value} />
       </td>
     )
   },
-  Remove({ onClick }) {
+  Remove({ onClick, style }) {
     return (
-      <td>
+      <td className={applyStyle(style)}>
         <button onClick={onClick}>Remove</button>
       </td>
     )
   },
-}
+})
 
 export default TableInputTailwindUI

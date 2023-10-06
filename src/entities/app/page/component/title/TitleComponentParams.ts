@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const TitleSize = t.union([
   t.literal('extra-small'),
@@ -19,6 +20,9 @@ export const TitleComponentParams = t.intersection([
   }),
   t.partial({
     size: TitleSize,
+    style: t.partial({
+      title: UIStyle,
+    }),
   }),
 ])
 

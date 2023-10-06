@@ -3,11 +3,16 @@ import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
 import { Column } from './ListComponentParams'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface ListRowComponentProps extends BaseComponentProps {
   record: Record
   columns: Column[]
   getCellByFormat: (column: Column, record: Record) => JSX.Element
+  style?: {
+    row?: UIStyle
+    cell?: UIStyle
+  }
 }
 
 export function ListRowComponentUI({
@@ -15,12 +20,17 @@ export function ListRowComponentUI({
   ui,
   columns,
   getCellByFormat,
+  style = {},
 }: ListRowComponentProps) {
   const { Row, Cell } = ui.getList()
   return (
-    <Row id={record.id}>
+    <Row id={record.id} style={style.row}>
       {columns.map((column: Column, index: number) => {
-        return <Cell key={index}>{getCellByFormat(column, record)}</Cell>
+        return (
+          <Cell key={index} style={style.cell}>
+            {getCellByFormat(column, record)}
+          </Cell>
+        )
       })}
     </Row>
   )
@@ -37,6 +47,15 @@ export interface ListComponentProps extends BaseComponentProps {
   columns: Column[]
   groups: GroupType[]
   getCellByFormat: (column: Column, record: Record) => JSX.Element
+  style?: {
+    container?: UIStyle
+    header?: UIStyle
+    headerColumn?: UIStyle
+    rows?: UIStyle
+    group?: UIStyle
+    row?: UIStyle
+    cell?: UIStyle
+  }
 }
 
 export function ListComponentUI({
@@ -45,20 +64,21 @@ export function ListComponentUI({
   groups,
   ui,
   getCellByFormat,
+  style = {},
 }: ListComponentProps) {
   const { Container, Header, Rows, Group, HeaderColumn } = ui.getList()
   return (
-    <Container>
-      <Header>
+    <Container style={style.container}>
+      <Header style={style.header}>
         {columns.map((column: Column, index: number) => {
-          return <HeaderColumn label={column.label} key={index} />
+          return <HeaderColumn label={column.label} key={index} style={style.headerColumn} />
         })}
       </Header>
-      <Rows>
+      <Rows style={style.rows}>
         {groups.length > 0
           ? groups.map((group) => (
               <Fragment key={group.name}>
-                <Group colSpan={columns.length} label={group.label} />
+                <Group colSpan={columns.length} label={group.label} style={style.group} />
                 {group.records.map((record) => (
                   <ListRowComponentUI
                     key={record.id}
@@ -66,6 +86,7 @@ export function ListComponentUI({
                     columns={columns}
                     ui={ui}
                     getCellByFormat={getCellByFormat}
+                    style={style}
                   />
                 ))}
               </Fragment>
@@ -77,6 +98,7 @@ export function ListComponentUI({
                 columns={columns}
                 ui={ui}
                 getCellByFormat={getCellByFormat}
+                style={style}
               />
             ))}
       </Rows>
@@ -100,11 +122,13 @@ export interface ListUI {
 
 export interface ListUIHeaderColumnProps {
   label: string
+  style?: UIStyle
 }
 
 export interface ListUIGroupProps {
   label: string
   colSpan: number
+  style?: UIStyle
 }
 
 export interface ListUIRowProps extends BaseComponentUIProps {
@@ -113,6 +137,7 @@ export interface ListUIRowProps extends BaseComponentUIProps {
 
 export interface ListUITextCellProps {
   value: string
+  style?: UIStyle
 }
 
 export interface ListUICurrencyFieldCellProps {

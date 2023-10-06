@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const GroupBy = t.type({
   field: t.string,
@@ -59,6 +60,15 @@ export const ListComponentParams = t.intersection([
   t.partial({
     groupBy: t.array(GroupBy),
     sortBy: t.array(SortBy),
+    style: t.partial({
+      container: UIStyle,
+      header: UIStyle,
+      headerColumn: UIStyle,
+      row: UIStyle,
+      rows: UIStyle,
+      group: UIStyle,
+      cell: UIStyle,
+    }),
   }),
 ])
 

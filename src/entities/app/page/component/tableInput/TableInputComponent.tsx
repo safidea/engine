@@ -74,6 +74,7 @@ export class TableInputComponent extends BaseComponent {
           columns={this.params.columns}
           ui={this.services.ui}
           testId={this.params.testId}
+          style={this.params.style}
         />
       )
     }

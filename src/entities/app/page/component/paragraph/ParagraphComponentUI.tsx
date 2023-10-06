@@ -2,41 +2,51 @@ import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { ParagraphSize } from './ParagraphComponentParams'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface ParagraphProps extends BaseComponentProps {
   text: string
-  size: ParagraphSize
+  size?: ParagraphSize
   Icon?: () => JSX.Element
+  style?: {
+    paragraph?: UIStyle
+  }
 }
 
-export function ParagraphComponentUI({ text, size, ui, Icon }: ParagraphProps) {
+export function ParagraphComponentUI({
+  text,
+  size = 'medium',
+  ui,
+  Icon,
+  style = {},
+}: ParagraphProps) {
   const { Small, Medium, Large } = ui.getParagraph()
   if (Icon) {
     switch (size) {
       case 'small':
         return (
-          <Small>
+          <Small style={style.paragraph}>
             <Icon />
             {text}
           </Small>
         )
       case 'medium':
         return (
-          <Medium>
+          <Medium style={style.paragraph}>
             <Icon />
             {text}
           </Medium>
         )
       case 'large':
         return (
-          <Large>
+          <Large style={style.paragraph}>
             <Icon />
             {text}
           </Large>
         )
       default:
         return (
-          <Medium>
+          <Medium style={style.paragraph}>
             <Icon />
             {text}
           </Medium>
@@ -45,13 +55,13 @@ export function ParagraphComponentUI({ text, size, ui, Icon }: ParagraphProps) {
   }
   switch (size) {
     case 'small':
-      return <Small>{text}</Small>
+      return <Small style={style.paragraph}>{text}</Small>
     case 'medium':
-      return <Medium>{text}</Medium>
+      return <Medium style={style.paragraph}>{text}</Medium>
     case 'large':
-      return <Large>{text}</Large>
+      return <Large style={style.paragraph}>{text}</Large>
     default:
-      return <Medium>{text}</Medium>
+      return <Medium style={style.paragraph}>{text}</Medium>
   }
 }
 

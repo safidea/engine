@@ -26,7 +26,12 @@ export class RowsComponent extends BaseComponent {
       this.components.map((component) => component.render(context))
     )
     return () => (
-      <RowsComponentUI ui={this.services.ui} Components={Components} testId={this.params.testId} />
+      <RowsComponentUI
+        ui={this.services.ui}
+        Components={Components}
+        testId={this.params.testId}
+        style={this.params.style}
+      />
     )
   }
 }

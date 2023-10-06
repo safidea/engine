@@ -1,6 +1,7 @@
 import * as t from 'io-ts'
 import { ComponentParams } from '../ComponentParams'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface FormComponentParams extends BaseComponentParams {
   type: 'form'
@@ -16,6 +17,12 @@ export interface FormComponentParams extends BaseComponentParams {
     }[]
   }
   recordIdToUpdate?: string
+  style?: {
+    form?: UIStyle
+    submit?: UIStyle
+    loading?: UIStyle
+    errorMessage?: UIStyle
+  }
 }
 
 export const FormComponentParams: t.Type<FormComponentParams> = t.recursion(
@@ -45,6 +52,12 @@ export const FormComponentParams: t.Type<FormComponentParams> = t.recursion(
       }),
       t.partial({
         recordIdToUpdate: t.string,
+        style: t.partial({
+          form: UIStyle,
+          submit: UIStyle,
+          loading: UIStyle,
+          errorMessage: UIStyle,
+        }),
       }),
     ])
 )

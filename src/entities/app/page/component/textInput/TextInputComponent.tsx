@@ -31,6 +31,7 @@ export class TextInputComponent extends BaseComponent {
           value={String(value)}
           ui={this.services.ui}
           testId={this.params.testId}
+          style={this.params.style}
         />
       )
     }

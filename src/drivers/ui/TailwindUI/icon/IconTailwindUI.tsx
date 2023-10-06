@@ -1,9 +1,10 @@
 import React from 'react'
 import { IconUI } from '@entities/app/page/component/icon/IconComponentUI'
 import { IIconDriver } from '@adapters/mappers/driver/IIconDriver'
+import { ApplyStyle } from '..'
 
-const IconTailwindUI = (icon: IIconDriver): IconUI => ({
-  Icon: ({ name, size }) => {
+const IconTailwindUI = (applyStyle: ApplyStyle, icon: IIconDriver): IconUI => ({
+  Icon: ({ name, size, style }) => {
     const Icon = icon.getByName(name)
     let width
     switch (size) {
@@ -47,7 +48,7 @@ const IconTailwindUI = (icon: IIconDriver): IconUI => ({
         width = 'w-5 h-5'
         break
     }
-    return <Icon className={width} size={size} />
+    return <Icon className={applyStyle(style, width)} size={size} />
   },
 })
 

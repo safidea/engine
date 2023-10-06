@@ -30,6 +30,7 @@ export class ContainerComponent extends BaseComponent {
         ui={this.services.ui}
         Components={Components}
         testId={this.params.testId}
+        style={this.params.style}
       />
     )
   }

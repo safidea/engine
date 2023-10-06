@@ -1,10 +1,14 @@
 import * as t from 'io-ts'
 import { ComponentParams } from '../ComponentParams'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface CardComponentParams extends BaseComponentParams {
   type: 'card'
   components: ComponentParams[]
+  style?: {
+    card?: UIStyle
+  }
 }
 
 export const CardComponentParams: t.Type<CardComponentParams> = t.recursion(
@@ -15,6 +19,11 @@ export const CardComponentParams: t.Type<CardComponentParams> = t.recursion(
       t.type({
         type: t.literal('card'),
         components: t.array(ComponentParams),
+      }),
+      t.partial({
+        style: t.partial({
+          card: UIStyle,
+        }),
       }),
     ])
 )

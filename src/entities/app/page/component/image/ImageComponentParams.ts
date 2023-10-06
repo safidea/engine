@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const ImageComponentParams = t.intersection([
   BaseComponentParams,
@@ -10,6 +11,9 @@ export const ImageComponentParams = t.intersection([
   }),
   t.partial({
     width: t.string,
+    style: t.partial({
+      image: UIStyle,
+    }),
   }),
 ])
 

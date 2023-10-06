@@ -2,6 +2,7 @@ import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { Record } from '@entities/services/database/record/Record'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export type Column = {
   label: string
@@ -17,6 +18,19 @@ export interface TableInputComponentProps extends BaseComponentProps {
   onRemoveRecord: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => void
   columns: Column[]
   rows: Record[]
+  style?: {
+    container?: UIStyle
+    menu?: UIStyle
+    label?: UIStyle
+    addLabel?: UIStyle
+    table?: UIStyle
+    header?: UIStyle
+    headerColumn?: UIStyle
+    rows?: UIStyle
+    row?: UIStyle
+    cell?: UIStyle
+    remove?: UIStyle
+  }
 }
 
 export function TableInputComponentUI({
@@ -28,6 +42,7 @@ export function TableInputComponentUI({
   columns,
   rows,
   ui,
+  style = {},
 }: TableInputComponentProps) {
   const {
     Container,
@@ -43,22 +58,22 @@ export function TableInputComponentUI({
     Remove,
   } = ui.getTableInput()
   return (
-    <Container>
+    <Container style={style.container}>
       {(label || addLabel) && (
-        <Menu>
-          {label && <Label label={label} />}
-          {addLabel && <AddButton label={addLabel} onClick={onAddRecord} />}
+        <Menu style={style.menu}>
+          {label && <Label label={label} style={style.label} />}
+          {addLabel && <AddButton label={addLabel} onClick={onAddRecord} style={style.addLabel} />}
         </Menu>
       )}
-      <Table>
-        <Header>
+      <Table style={style.table}>
+        <Header style={style.header}>
           {columns.map((column) => (
-            <HeaderColumn key={column.field} label={column.label} />
+            <HeaderColumn key={column.field} label={column.label} style={style.headerColumn} />
           ))}
         </Header>
-        <Rows>
+        <Rows style={style.rows}>
           {rows.map((row) => (
-            <Row key={row.id}>
+            <Row key={row.id} style={style.row}>
               <>
                 {columns.map((column) => (
                   <Cell
@@ -67,6 +82,7 @@ export function TableInputComponentUI({
                     placeholder={column.placeholder}
                     value={String(row.getFieldValue(column.field) ?? '')}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeRecord(e, row.id)}
+                    style={style.cell}
                   />
                 ))}
               </>
@@ -74,6 +90,7 @@ export function TableInputComponentUI({
                 onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
                   onRemoveRecord(e, row.id)
                 }
+                style={style.remove}
               />
             </Row>
           ))}
@@ -85,15 +102,18 @@ export function TableInputComponentUI({
 
 export interface TableInputUILabelProps {
   label: string
+  style?: UIStyle
 }
 
 export interface TableInputUIAddButtonProps {
   label: string
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  style?: UIStyle
 }
 
 export interface TableInputUIHeaderColumnProps {
   label: string
+  style?: UIStyle
 }
 
 export interface TableInputUICellProps {
@@ -101,10 +121,12 @@ export interface TableInputUICellProps {
   placeholder?: string
   value: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  style?: UIStyle
 }
 
 export interface TableInputUIRemoveProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  style?: UIStyle
 }
 
 export interface TableInputUI {

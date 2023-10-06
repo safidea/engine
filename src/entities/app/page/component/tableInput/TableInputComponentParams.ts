@@ -1,5 +1,6 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export const TableInputComponentParams = t.intersection([
   BaseComponentParams,
@@ -20,6 +21,19 @@ export const TableInputComponentParams = t.intersection([
   t.partial({
     label: t.string,
     placeholder: t.string,
+    style: t.partial({
+      container: UIStyle,
+      menu: UIStyle,
+      label: UIStyle,
+      addLabel: UIStyle,
+      table: UIStyle,
+      header: UIStyle,
+      headerColumn: UIStyle,
+      rows: UIStyle,
+      row: UIStyle,
+      cell: UIStyle,
+      remove: UIStyle,
+    }),
   }),
 ])
 

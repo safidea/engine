@@ -18,9 +18,10 @@ export class IconComponent extends BaseComponent {
     return () => (
       <IconComponentUI
         name={this.params.name}
-        size={this.params.size || 5}
+        size={this.params.size}
         ui={this.services.ui}
         testId={this.params.testId}
+        style={this.params.style}
       />
     )
   }

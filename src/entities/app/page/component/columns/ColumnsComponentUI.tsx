@@ -1,25 +1,22 @@
 import React from 'react'
 import { BaseComponentUIProps } from '../base/BaseComponentUI'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface ColumnsProps extends BaseComponentProps {
   Components: React.FC[]
   style?: {
-    columns?: {
-      background?: {
-        color?: 'gray-100'
-      }
-    }
-    column?: string
+    columns?: UIStyle
+    column?: UIStyle
   }
 }
 
-export function ColumnsComponentUI({ Components, ui, style }: ColumnsProps) {
+export function ColumnsComponentUI({ Components, ui, style = {} }: ColumnsProps) {
   const { Columns, Column } = ui.getColumns()
   return (
-    <Columns style={style?.columns}>
+    <Columns style={style.columns}>
       {Components.map((Component, index) => (
-        <Column key={index} number={Components.length} style={style?.column}>
+        <Column key={index} number={Components.length} style={style.column}>
           <Component />
         </Column>
       ))}
@@ -27,20 +24,11 @@ export function ColumnsComponentUI({ Components, ui, style }: ColumnsProps) {
   )
 }
 
-export interface ColumnsUIProps extends BaseComponentUIProps {
-  style?: {
-    background?: {
-      color?: 'gray-100'
-    }
-  }
-}
-
 export interface ColumnUIProps extends BaseComponentUIProps {
   number: number
-  style?: string
 }
 
 export interface ColumnsUI {
-  Columns: React.FC<ColumnsUIProps>
+  Columns: React.FC<BaseComponentUIProps>
   Column: React.FC<ColumnUIProps>
 }

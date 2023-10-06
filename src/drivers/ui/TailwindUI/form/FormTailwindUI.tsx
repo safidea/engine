@@ -1,12 +1,21 @@
 import React from 'react'
 import { FormUI } from '@entities/app/page/component/form/FormComponentUI'
+import { ApplyStyle } from '..'
 
-const FormTailwindUI: FormUI = {
-  Form: ({ children, onSubmit }) => <form onSubmit={onSubmit}>{children}</form>,
+const FormTailwindUI = (applyStyle: ApplyStyle): FormUI => ({
+  Form: ({ children, onSubmit, style }) => (
+    <form className={applyStyle(style)} onSubmit={onSubmit}>
+      {children}
+    </form>
+  ),
   // TODO: replace <button type="submit"> with a button entity instance
-  Submit: ({ label }) => <button type="submit">{label}</button>,
-  ErrorMessage: ({ message }) => <p>{message}</p>,
-  Loading: ({ label }) => <p>{label}</p>,
-}
+  Submit: ({ label, style }) => (
+    <button className={applyStyle(style)} type="submit">
+      {label}
+    </button>
+  ),
+  ErrorMessage: ({ message, style }) => <p className={applyStyle(style)}>{message}</p>,
+  Loading: ({ label, style }) => <p className={applyStyle(style)}>{label}</p>,
+})
 
 export default FormTailwindUI

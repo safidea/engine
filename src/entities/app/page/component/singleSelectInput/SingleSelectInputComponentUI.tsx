@@ -1,5 +1,6 @@
 import React from 'react'
 import { BaseComponentProps } from '../base/BaseComponentProps'
+import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface SingleSelectInputProps extends BaseComponentProps {
   label?: string
@@ -7,6 +8,11 @@ export interface SingleSelectInputProps extends BaseComponentProps {
   options: { value: string; label: string }[]
   value: string
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  style?: {
+    select?: UIStyle
+    label?: UIStyle
+    option?: UIStyle
+  }
 }
 
 export function SingleSelectInputComponentUI({
@@ -16,14 +22,20 @@ export function SingleSelectInputComponentUI({
   options,
   onChange,
   ui,
+  style = {},
 }: SingleSelectInputProps) {
   const { Label, Select, Option } = ui.getSingleSelectInput()
   return (
     <>
-      {label && <Label label={label} htmlFor={field} />}
-      <Select onChange={onChange} name={field} id={field} value={value}>
+      {label && <Label label={label} htmlFor={field} style={style.label} />}
+      <Select onChange={onChange} name={field} id={field} value={value} style={style.select}>
         {options.map((option) => (
-          <Option key={option.value} value={option.value} label={option.label} />
+          <Option
+            key={option.value}
+            value={option.value}
+            label={option.label}
+            style={style.option}
+          />
         ))}
       </Select>
     </>
@@ -33,11 +45,13 @@ export function SingleSelectInputComponentUI({
 export interface SingleSelectInputUIOptionProps {
   label: string
   value: string
+  style?: UIStyle
 }
 
 export interface SingleSelectInputUILabelProps {
   label: string
   htmlFor: string
+  style?: UIStyle
 }
 
 export interface SingleSelectInputUISelectProps {
@@ -46,6 +60,7 @@ export interface SingleSelectInputUISelectProps {
   id: string
   children: React.ReactNode
   value: string
+  style?: UIStyle
 }
 
 export interface SingleSelectInputUI {

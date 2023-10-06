@@ -22,6 +22,7 @@ export class LinkComponent extends BaseComponent {
         text={this.params.text}
         ui={this.services.ui}
         testId={this.params.testId}
+        style={this.params.style}
       />
     )
   }
