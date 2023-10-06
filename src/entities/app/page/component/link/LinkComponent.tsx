@@ -17,6 +17,7 @@ export class LinkComponent extends BaseComponent {
   async render() {
     return () => (
       <LinkComponentUI
+        size={this.params.size}
         display={this.params.display}
         path={this.params.path}
         text={this.params.text}

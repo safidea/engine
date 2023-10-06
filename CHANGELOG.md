@@ -1,9 +1,8 @@
 ## [0.1.1](https://github.com/solumy/engine/compare/v0.1.0...v0.1.1) (2023-10-05)
 
-
 ### Bug Fixes
 
-* **package:** Upgrade postcss to fix 1 Dependabot alert in package-lock.json ([02957eb](https://github.com/solumy/engine/commit/02957ebbb38b688076dafaca5dee2663519a9cd2))
+- **package:** Upgrade postcss to fix 1 Dependabot alert in package-lock.json ([02957eb](https://github.com/solumy/engine/commit/02957ebbb38b688076dafaca5dee2663519a9cd2))
 
 # [0.1.0](https://github.com/solumy/engine/compare/v0.0.10...v0.1.0) (2023-10-05)
 

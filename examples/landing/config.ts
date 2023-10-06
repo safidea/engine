@@ -23,12 +23,12 @@ const config: Config = {
                   components: [
                     {
                       type: 'title',
-                      text: 'Requests',
+                      text: 'Deploy to the cloud with confidence',
                       size: 'extra-large',
                     },
                     {
                       type: 'paragraph',
-                      text: 'Solumy Requests is a platform for managing requests. It allows you to create, view, and manage requests.',
+                      text: 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.',
                       size: 'large',
                     },
                     {
@@ -36,14 +36,16 @@ const config: Config = {
                       components: [
                         {
                           type: 'link',
-                          text: 'New Request',
-                          path: '/registration',
+                          text: 'Get started',
+                          path: '#',
+                          size: 'extra-large',
                           display: 'primary-button',
                         },
                         {
                           type: 'link',
-                          text: 'View Requests',
-                          path: '#features',
+                          text: 'Learn more',
+                          path: '#',
+                          size: 'extra-large',
                         },
                       ],
                     },

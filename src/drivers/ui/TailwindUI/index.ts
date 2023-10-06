@@ -73,6 +73,88 @@ export class TailwindUI implements IUIDriver {
           break
       }
     }
+    if (style.margin) {
+      switch (style.margin.top) {
+        case 'none':
+          className += ' mt-0'
+          break
+        case 'extra-small':
+          className += ' mt-1'
+          break
+        case 'small':
+          className += ' mt-2'
+          break
+        case 'medium':
+          className += ' mt-4'
+          break
+        case 'large':
+          className += ' mt-8'
+          break
+        case 'extra-large':
+          className += ' mt-16'
+          break
+      }
+      switch (style.margin.bottom) {
+        case 'none':
+          className += ' mb-0'
+          break
+        case 'extra-small':
+          className += ' mb-1'
+          break
+        case 'small':
+          className += ' mb-2'
+          break
+        case 'medium':
+          className += ' mb-4'
+          break
+        case 'large':
+          className += ' mb-8'
+          break
+        case 'extra-large':
+          className += ' mb-16'
+          break
+      }
+      switch (style.margin.left) {
+        case 'none':
+          className += ' ml-0'
+          break
+        case 'extra-small':
+          className += ' ml-1'
+          break
+        case 'small':
+          className += ' ml-2'
+          break
+        case 'medium':
+          className += ' ml-4'
+          break
+        case 'large':
+          className += ' ml-8'
+          break
+        case 'extra-large':
+          className += ' ml-16'
+          break
+      }
+      switch (style.margin.right) {
+        case 'none':
+          className += ' mr-0'
+          break
+        case 'extra-small':
+          className += ' mr-1'
+          break
+        case 'small':
+          className += ' mr-2'
+          break
+        case 'medium':
+          className += ' mr-4'
+          break
+        case 'large':
+          className += ' mr-8'
+          break
+        case 'extra-large':
+          className += ' mr-16'
+          break
+      }
+    }
     return className.trim()
   }
 }
