@@ -46,6 +46,10 @@ const config: Config = {
                           text: 'Learn more',
                           path: '#',
                           size: 'extra-large',
+                          icon: {
+                            name: 'arrow-right',
+                            position: 'right',
+                          },
                         },
                       ],
                     },

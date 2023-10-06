@@ -1,9 +1,10 @@
+import { IconSize } from '@entities/app/page/component/icon/IconComponentParams'
 import { IconDrivers } from '@entities/services/icon/IconDrivers'
 import React from 'react'
 
 export interface IconProps {
   className?: string
-  size: number
+  size: IconSize
 }
 
 export interface IIconDriver {

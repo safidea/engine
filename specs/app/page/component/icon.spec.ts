@@ -30,7 +30,7 @@ test.describe('Icon component', () => {
 
         // THEN
         const iconWidth = await page.locator('svg').getAttribute('data-size')
-        expect(iconWidth).toEqual('5')
+        expect(iconWidth).toEqual('medium')
       })
 
       test('should have a custom width property', async ({ page }) => {
@@ -45,7 +45,7 @@ test.describe('Icon component', () => {
                   {
                     type: 'icon',
                     name: 'home',
-                    size: 10,
+                    size: 'large',
                   },
                 ],
               },
@@ -61,7 +61,7 @@ test.describe('Icon component', () => {
 
         // THEN
         const iconWidth = await page.locator('svg').getAttribute('data-size')
-        expect(iconWidth).toEqual('10')
+        expect(iconWidth).toEqual('large')
       })
     })
   }

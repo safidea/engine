@@ -2,6 +2,16 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
+export const IconSize = t.union([
+  t.literal('extra-small'),
+  t.literal('small'),
+  t.literal('medium'),
+  t.literal('large'),
+  t.literal('extra-large'),
+])
+
+export type IconSize = t.TypeOf<typeof IconSize>
+
 export const IconComponentParams = t.intersection([
   BaseComponentParams,
   t.type({
@@ -9,7 +19,7 @@ export const IconComponentParams = t.intersection([
     name: t.string,
   }),
   t.partial({
-    size: t.number,
+    size: IconSize,
     style: t.partial({
       icon: UIStyle,
     }),

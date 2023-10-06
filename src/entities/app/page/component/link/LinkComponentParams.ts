@@ -1,6 +1,11 @@
 import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
+import { IconSize } from '../icon/IconComponentParams'
+
+export const LinkIconPosition = t.union([t.literal('left'), t.literal('right')])
+
+export type LinkIconPosition = t.TypeOf<typeof LinkIconPosition>
 
 export const LinkSize = t.union([
   t.literal('extra-small'),
@@ -30,6 +35,18 @@ export const LinkComponentParams = t.intersection([
   t.partial({
     size: LinkSize,
     display: LinkDisplay,
+    icon: t.intersection([
+      t.type({
+        name: t.string,
+      }),
+      t.partial({
+        size: IconSize,
+        position: LinkIconPosition,
+        style: t.partial({
+          icon: UIStyle,
+        }),
+      }),
+    ]),
     style: t.partial({
       link: UIStyle,
     }),

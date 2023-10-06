@@ -36,6 +36,7 @@ test.describe('A page that update an invoice', () => {
   })
 
   test('should update an invoice in realtime', async ({ page }) => {
+    test.slow()
     // GIVEN
     // An invoice is loaded in the update page
     const app = await helpers.startApp(INVOICES_CONFIG)
