@@ -71,4 +71,8 @@ export class UIMapper implements IUIMapper {
   getCard() {
     return this.driver.CardUI
   }
+
+  getRow() {
+    return this.driver.RowUI
+  }
 }

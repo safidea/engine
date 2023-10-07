@@ -11,7 +11,8 @@ import SingleSelectInputTailwindUI from './singleSelectInput/SingleSelectInputTa
 import ContainerTailwindUI from './container/ContainerTailwindUI'
 import ColumnsTailwindUI from './columns/ColumnsTailwindUI'
 import ImageTailwindUI from './image/ImageTailwindUI'
-import RowTailwindUI from './rows/RowsTailwindUI'
+import RowsTailwindUI from './rows/RowsTailwindUI'
+import RowTailwindUI from './row/RowTailwindUI'
 import ButtonTailwindUI from './button/ButtonTailwindUI'
 import IconTailwindUI from './icon/IconTailwindUI'
 import CardTailwindUI from './card/CardTailwindUI'
@@ -35,6 +36,7 @@ export class TailwindUI implements IUIDriver {
   readonly ColumnsUI
   readonly ImageUI
   readonly RowsUI
+  readonly RowUI
   readonly ButtonUI
   readonly CardUI
   readonly IconUI
@@ -44,7 +46,8 @@ export class TailwindUI implements IUIDriver {
     this.ColumnsUI = ColumnsTailwindUI(this.applyStyle)
     this.CardUI = CardTailwindUI(this.applyStyle)
     this.ButtonUI = ButtonTailwindUI(this.applyStyle)
-    this.RowsUI = RowTailwindUI(this.applyStyle)
+    this.RowsUI = RowsTailwindUI(this.applyStyle)
+    this.RowUI = RowTailwindUI(this.applyStyle)
     this.ImageUI = ImageTailwindUI(this.applyStyle)
     this.ContainerUI = ContainerTailwindUI(this.applyStyle)
     this.SingleSelectInputUI = SingleSelectInputTailwindUI(this.applyStyle)

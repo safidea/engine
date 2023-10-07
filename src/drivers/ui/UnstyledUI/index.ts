@@ -34,6 +34,7 @@ export class UnstyledUI implements IUIDriver {
   readonly RowsUI = RowUnstyledUI
   readonly ButtonUI = ButtonUnstyledUI
   readonly CardUI = CardUnstyledUI
+  readonly RowUI = RowUnstyledUI
   readonly IconUI
 
   constructor(readonly icon: IIconDriver) {

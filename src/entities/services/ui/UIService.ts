@@ -70,4 +70,8 @@ export class UIService {
   getCard() {
     return this.mapper.getCard()
   }
+
+  getRow() {
+    return this.mapper.getRow()
+  }
 }

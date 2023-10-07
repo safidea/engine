@@ -32,7 +32,7 @@ const config: Config = {
                       size: 'large',
                     },
                     {
-                      type: 'columns',
+                      type: 'row',
                       components: [
                         {
                           type: 'link',

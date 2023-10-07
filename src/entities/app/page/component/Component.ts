@@ -18,6 +18,7 @@ import { RowsComponent } from './rows/RowsComponent'
 import { ButtonComponent } from './button/ButtonComponent'
 import { IconComponent } from './icon/IconComponent'
 import { CardComponent } from './card/CardComponent'
+import { RowComponent } from './row/RowComponent'
 
 export type Component =
   | LinkComponent
@@ -37,6 +38,7 @@ export type Component =
   | ButtonComponent
   | IconComponent
   | CardComponent
+  | RowComponent
 
 export function newComponent(
   params: ComponentParams,
@@ -78,5 +80,7 @@ export function newComponent(
       return new IconComponent(params, services, config)
     case 'card':
       return new CardComponent(params, services, config)
+    case 'row':
+      return new RowComponent(params, services, config)
   }
 }

@@ -15,6 +15,7 @@ import { RowsUI } from '@entities/app/page/component/rows/RowsComponentUI'
 import { ButtonUI } from '@entities/app/page/component/button/ButtonComponentUI'
 import { IconUI } from '@entities/app/page/component/icon/IconComponentUI'
 import { CardUI } from '@entities/app/page/component/card/CardComponentUI'
+import { RowUI } from '@entities/app/page/component/row/RowComponentUI'
 
 export interface IUIDriver {
   name: UIDrivers
@@ -34,4 +35,5 @@ export interface IUIDriver {
   ButtonUI: ButtonUI
   IconUI: IconUI
   CardUI: CardUI
+  RowUI: RowUI
 }
