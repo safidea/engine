@@ -20,6 +20,7 @@ export class ImageComponent extends BaseComponent {
         path={this.params.path}
         text={this.params.text}
         width={this.params.width}
+        height={this.params.height}
         ui={this.services.ui}
         testId={this.params.testId}
         style={this.params.style}

@@ -158,6 +158,63 @@ export class TailwindUI implements IUIDriver {
           break
       }
     }
+    if (style.text) {
+      switch (style.text.align) {
+        case 'left':
+          className += ' text-left'
+          break
+        case 'center':
+          className += ' text-center'
+          break
+        case 'right':
+          className += ' text-right'
+          break
+      }
+    }
+    if (style.rounded) {
+      switch (style.rounded) {
+        case 'none':
+          className += ' rounded-none'
+          break
+        case 'extra-small':
+          className += ' rounded-sm'
+          break
+        case 'small':
+          className += ' rounded'
+          break
+        case 'medium':
+          className += ' rounded-md'
+          break
+        case 'large':
+          className += ' rounded-lg'
+          break
+        case 'extra-large':
+          className += ' rounded-xl'
+          break
+      }
+    }
+    if (style.shadow) {
+      switch (style.shadow) {
+        case 'none':
+          className += ' shadow-none'
+          break
+        case 'extra-small':
+          className += ' shadow-sm'
+          break
+        case 'small':
+          className += ' shadow'
+          break
+        case 'medium':
+          className += ' shadow-md'
+          break
+        case 'large':
+          className += ' shadow-lg'
+          break
+        case 'extra-large':
+          className += ' shadow-xl'
+          break
+      }
+    }
     return className.trim()
   }
 }

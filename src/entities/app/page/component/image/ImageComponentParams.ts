@@ -11,6 +11,7 @@ export const ImageComponentParams = t.intersection([
   }),
   t.partial({
     width: t.string,
+    height: t.string,
     style: t.partial({
       image: UIStyle,
     }),

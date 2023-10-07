@@ -59,7 +59,14 @@ const config: Config = {
                   type: 'image',
                   path: 'https://tailwindui.com/img/component-images/project-app-screenshot.png',
                   text: 'Requests',
-                  width: '100%',
+                  width: '2432',
+                  height: '1442',
+                  style: {
+                    image: {
+                      rounded: 'large',
+                      shadow: 'extra-large',
+                    },
+                  },
                 },
               ],
             },
@@ -69,6 +76,17 @@ const config: Config = {
                 {
                   type: 'title',
                   text: 'What our customers are saying',
+                  size: 'small',
+                  style: {
+                    title: {
+                      text: {
+                        align: 'center',
+                      },
+                      margin: {
+                        bottom: 'large',
+                      },
+                    },
+                  },
                 },
                 {
                   type: 'columns',

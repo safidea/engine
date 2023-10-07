@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 
-const SpacingSize = t.union([
+const Sizes = t.union([
   t.literal('none'),
   t.literal('extra-small'),
   t.literal('small'),
@@ -15,11 +15,16 @@ export const UIStyle = t.partial({
     color: t.literal('gray-100'),
   }),
   margin: t.partial({
-    top: SpacingSize,
-    right: SpacingSize,
-    bottom: SpacingSize,
-    left: SpacingSize,
+    top: Sizes,
+    right: Sizes,
+    bottom: Sizes,
+    left: Sizes,
   }),
+  text: t.partial({
+    align: t.union([t.literal('left'), t.literal('center'), t.literal('right')]),
+  }),
+  rounded: Sizes,
+  shadow: Sizes,
 })
 
 export type UIStyle = t.TypeOf<typeof UIStyle>
