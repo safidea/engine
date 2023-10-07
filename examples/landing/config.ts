@@ -90,6 +90,13 @@ const config: Config = {
                 },
                 {
                   type: 'columns',
+                  style: {
+                    column: {
+                      content: {
+                        justify: 'center',
+                      },
+                    },
+                  },
                   components: [
                     {
                       type: 'image',

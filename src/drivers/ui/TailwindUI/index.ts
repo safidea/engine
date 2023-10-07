@@ -215,6 +215,19 @@ export class TailwindUI implements IUIDriver {
           break
       }
     }
+    if (style.content) {
+      switch (style.content.justify) {
+        case 'left':
+          className += ' justify-start'
+          break
+        case 'center':
+          className += ' justify-center'
+          break
+        case 'right':
+          className += ' justify-end'
+          break
+      }
+    }
     return className.trim()
   }
 }

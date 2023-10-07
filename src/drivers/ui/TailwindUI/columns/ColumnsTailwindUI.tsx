@@ -6,7 +6,7 @@ const ColumnsTailwindUI = (applyStyle: ApplyStyle): ColumnsUI => ({
   Columns: ({ children, style }) => (
     <div className={applyStyle(style, 'flex flex-row space-x-4')}>{children}</div>
   ),
-  Column: ({ children, number }) => {
+  Column: ({ children, number, style }) => {
     let basis
     switch (number) {
       case 1:
@@ -49,7 +49,7 @@ const ColumnsTailwindUI = (applyStyle: ApplyStyle): ColumnsUI => ({
         basis = 'basis-1/1'
         break
     }
-    return <div className={basis}>{children}</div>
+    return <div className={applyStyle(style, basis + ' flex')}>{children}</div>
   },
 })
 

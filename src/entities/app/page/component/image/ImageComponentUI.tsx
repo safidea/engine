@@ -12,7 +12,14 @@ export interface ImageProps extends BaseComponentProps {
   }
 }
 
-export function ImageComponentUI({ path, text, ui, width = '50', height = '100%', style = {} }: ImageProps) {
+export function ImageComponentUI({
+  path,
+  text,
+  ui,
+  width = '50',
+  height = '100%',
+  style = {},
+}: ImageProps) {
   const { Image } = ui.getImage()
   return <Image src={path} alt={text} width={width} height={height} style={style.image} />
 }

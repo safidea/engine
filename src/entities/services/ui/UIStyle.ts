@@ -25,6 +25,9 @@ export const UIStyle = t.partial({
   }),
   rounded: Sizes,
   shadow: Sizes,
+  content: t.partial({
+    justify: t.union([t.literal('left'), t.literal('center'), t.literal('right')]),
+  }),
 })
 
 export type UIStyle = t.TypeOf<typeof UIStyle>
