@@ -20,6 +20,8 @@ export const RowsComponentParams: t.Type<RowsComponentParams> = t.recursion(
       t.type({
         type: t.literal('rows'),
         components: t.array(ComponentParams),
+      }),
+      t.partial({
         style: t.partial({
           rows: UIStyle,
           row: UIStyle,

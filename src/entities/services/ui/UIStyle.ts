@@ -9,8 +9,10 @@ const Sizes = t.union([
   t.literal('extra-large'),
 ])
 
+const HorizontalPositions = t.union([t.literal('left'), t.literal('center'), t.literal('right')])
+
 export const UIStyle = t.partial({
-  items: t.literal('center'),
+  items: HorizontalPositions,
   background: t.partial({
     color: t.literal('gray-100'),
   }),
@@ -21,12 +23,12 @@ export const UIStyle = t.partial({
     left: Sizes,
   }),
   text: t.partial({
-    align: t.union([t.literal('left'), t.literal('center'), t.literal('right')]),
+    align: HorizontalPositions,
   }),
   rounded: Sizes,
   shadow: Sizes,
   content: t.partial({
-    justify: t.union([t.literal('left'), t.literal('center'), t.literal('right')]),
+    justify: HorizontalPositions,
   }),
 })
 
