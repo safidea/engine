@@ -1,3 +1,15 @@
+# [0.2.0](https://github.com/solumy/engine/compare/v0.1.1...v0.2.0) (2023-10-08)
+
+
+### Bug Fixes
+
+* **README:** update example ([0149d03](https://github.com/solumy/engine/commit/0149d03b9268df5f7357052c7d94f2ab961faaf4))
+
+
+### Features
+
+* **server:** can instanciate the engine and use app entity ([eb1d16c](https://github.com/solumy/engine/commit/eb1d16c079fe9f714b24840970bedc3f1645b867))
+
 ## [0.1.1](https://github.com/solumy/engine/compare/v0.1.0...v0.1.1) (2023-10-05)
 
 ### Bug Fixes
