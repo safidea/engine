@@ -29,7 +29,7 @@ Then, create a startup file, for example `index.js`:
 ```js
 const Engine = require('@solumy/engine')
 
-new Engine().start({
+new Engine({
   pages: [
     {
       path: '/',
@@ -42,7 +42,7 @@ new Engine().start({
       ],
     },
   ],
-})
+}).start()
 ```
 
 Finally, run the startup file with bun:
