@@ -18,7 +18,7 @@ describe('Page', () => {
         components: [
           {
             type: 'paragraph',
-            text: 'Hello World',
+            text: 'Hello Page',
           },
         ],
       },
@@ -32,7 +32,7 @@ describe('Page', () => {
     render(<PageRender />)
 
     // THEN
-    const element = screen.getByText('Hello World')
+    const element = screen.getByText('Hello Page')
     expect(element).toBeDefined()
   })
 })

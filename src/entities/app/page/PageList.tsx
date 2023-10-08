@@ -44,10 +44,11 @@ export class PageList {
     return this.services.icon
   }
 
-  async renderByPath(path: string, context: Context): Promise<React.FC> {
+  async renderByPath(path: string, context?: Context): Promise<React.FC> {
     const page = this.getByPath(path)
     if (!page) throw new AppError('Page not found: ' + path)
-    const PageComponent = await page.render(context)
+    const ctx = context || new Context({ path: { params: {} } })
+    const PageComponent = await page.render(ctx)
     return PageComponent
   }
 
