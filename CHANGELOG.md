@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/solumy/engine/compare/v0.2.0...v0.2.1) (2023-10-08)
+
+
+### Bug Fixes
+
+* **pages:** can load a page has a react component from app entity and a path ([a5e270b](https://github.com/solumy/engine/commit/a5e270b697d20b51d15f1d35af1b759e5ed0733b))
+
 # [0.2.0](https://github.com/solumy/engine/compare/v0.1.1...v0.2.0) (2023-10-08)
 
 ### Bug Fixes
