@@ -23,8 +23,7 @@ export class ServerMiddleware {
     return AppMapper.toServerApp(appConfig, this.drivers)
   }
 
-  async start(config: unknown): Promise<ServerMiddleware> {
-    const app = this.getAppFromConfig(config)
+  async start(app: App): Promise<ServerMiddleware> {
     await this.serverController.start(app)
     if (process.env.NODE_ENV === 'production') {
       const name = app.name ? app.name + ' app' : 'App'

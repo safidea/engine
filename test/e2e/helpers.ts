@@ -42,7 +42,7 @@ export async function startApp(config: ConfigDto, options: EngineOptions = {}, r
     if (config.name === 'invoices') {
       copyAppFile('examples/invoices', 'templates/invoice.html', folder)
     }
-    const app = await new Engine({ port, folder, ...res }).start(config)
+    const app = await new Engine(config, { port, folder, ...res }).start()
     return app
   } catch (err) {
     if ((err as Error).message.includes('EADDRINUSE')) return startApp(config, options, ++retry)

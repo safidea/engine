@@ -20,6 +20,7 @@ import { ServerMiddleware } from '@adapters/middlewares/server/ServerMiddleware'
 import { IAppDrivers } from '@adapters/mappers/app/IAppDrivers'
 import { IconDrivers } from '@entities/services/icon/IconDrivers'
 import { getIconDriver } from '@drivers/icon'
+import { App } from '@entities/app/App'
 
 export type { Config, Page, Table, Automation, Action, Component, Field, Bucket }
 
@@ -44,8 +45,9 @@ export default class Engine {
   readonly folder: string
   readonly domain: string
   readonly port: number
+  readonly app: App
 
-  constructor(options: EngineOptions = {}) {
+  constructor(config: unknown, options: EngineOptions = {}) {
     this.folder = options.folder || process.cwd()
     this.port = options.port || 3000
     this.domain = options.domain || `http://localhost:${this.port}`
@@ -68,10 +70,11 @@ export default class Engine {
       folder: this.folder,
       domain: this.domain,
     })
+    this.app = this.serverMiddleware.getAppFromConfig(config)
   }
 
-  async start(config: unknown): Promise<Engine> {
-    await this.serverMiddleware.start(config)
+  async start(): Promise<Engine> {
+    await this.serverMiddleware.start(this.app)
     return this
   }
 

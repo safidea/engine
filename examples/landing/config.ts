@@ -140,16 +140,16 @@ const config: Config = {
                   components: [
                     {
                       type: 'title',
-                      text: 'Features',
+                      text: 'Deploy faster',
                       size: 'extra-small',
                     },
                     {
                       type: 'title',
-                      text: 'Everything you need to manage your requests',
+                      text: 'A better workflow',
                     },
                     {
                       type: 'paragraph',
-                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget nunc ultricies aliquam. Donec euismod, nisl vitae aliquet.',
+                      text: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
                     },
                     {
                       type: 'columns',

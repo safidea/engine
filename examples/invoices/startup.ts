@@ -3,4 +3,4 @@ import config from './config'
 
 const folder = __dirname
 
-new Engine({ folder, ui: 'tailwind' }).start(config)
+new Engine(config, { folder, ui: 'tailwind' }).start()
