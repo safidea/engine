@@ -1,7 +1,7 @@
 {
   "name": "@solumy/engine",
   "description": "Build internal tools with one config.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/server.js",
   "types": "dist/server.d.ts",
   "author": "Thomas JEANNEAU",
