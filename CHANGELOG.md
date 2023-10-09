@@ -1,9 +1,8 @@
 ## [0.2.2](https://github.com/solumy/engine/compare/v0.2.1...v0.2.2) (2023-10-08)
 
-
 ### Bug Fixes
 
-* **build:** replace bun target by node target ([299f1fa](https://github.com/solumy/engine/commit/299f1fa2b68e2ff1a865dbcf3244cbdfbb91e097))
+- **build:** replace bun target by node target ([299f1fa](https://github.com/solumy/engine/commit/299f1fa2b68e2ff1a865dbcf3244cbdfbb91e097))
 
 ## [0.2.1](https://github.com/solumy/engine/compare/v0.2.0...v0.2.1) (2023-10-08)
 
