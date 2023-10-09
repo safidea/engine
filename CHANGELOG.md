@@ -1,3 +1,11 @@
+## [0.2.3](https://github.com/solumy/engine/compare/v0.2.2...v0.2.3) (2023-10-09)
+
+
+### Bug Fixes
+
+* **build:** replace bun server build by typescript build ([ae3ad80](https://github.com/solumy/engine/commit/ae3ad806edfdf30cd631277159f0f7379fab2f3b))
+* **ci:** update chrome version for puppeteer ([4aecfad](https://github.com/solumy/engine/commit/4aecfad57d10d3f32dca06001720896a3aa20ca2))
+
 ## [0.2.2](https://github.com/solumy/engine/compare/v0.2.1...v0.2.2) (2023-10-08)
 
 ### Bug Fixes
