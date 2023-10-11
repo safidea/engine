@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/solumy/engine/compare/v0.2.3...v0.3.0) (2023-10-11)
+
+
+### Features
+
+* **server:** can validate config directly ([5bb05d3](https://github.com/solumy/engine/commit/5bb05d3a03d7f1f1c043ceb6798b337469676a9b))
+
 ## [0.2.3](https://github.com/solumy/engine/compare/v0.2.2...v0.2.3) (2023-10-09)
 
 ### Bug Fixes
