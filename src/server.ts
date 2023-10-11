@@ -21,6 +21,7 @@ import { IAppDrivers } from '@adapters/mappers/app/IAppDrivers'
 import { IconDrivers } from '@entities/services/icon/IconDrivers'
 import { getIconDriver } from '@drivers/icon'
 import { App } from '@entities/app/App'
+import { AppValidator } from '@adapters/validators/app/AppValidator'
 
 export type { Config, Page, Table, Automation, Action, Component, Field, Bucket }
 
@@ -81,5 +82,9 @@ export default class Engine {
   async stop(): Promise<Engine> {
     await this.serverMiddleware.stop()
     return this
+  }
+
+  static validateConfig(config: unknown): Config {
+    return AppValidator.validateConfig(config)
   }
 }
