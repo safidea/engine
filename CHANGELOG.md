@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/solumy/engine/compare/v0.3.0...v0.3.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* **export:** remove Engine default export ([7a74a21](https://github.com/solumy/engine/commit/7a74a210ad57a45629c4244180be1ea17d734b69))
+
 # [0.3.0](https://github.com/solumy/engine/compare/v0.2.3...v0.3.0) (2023-10-11)
 
 ### Features
