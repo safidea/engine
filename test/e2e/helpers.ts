@@ -9,7 +9,7 @@ import { FieldParams } from '@entities/app/table/field/FieldParams'
 import { RecordToCreateDto } from '@adapters/dtos/RecordDto'
 import { IDatabaseDriver } from '@adapters/mappers/database/IDatabaseDriver'
 import { getDedicatedTmpFolder } from '@test/helpers'
-import Engine, { EngineOptions } from '../../src/server'
+import { Engine, EngineOptions } from '../../src/server'
 import net from 'net'
 
 export async function getPort(defaultPort = 0, retry = 0): Promise<number> {

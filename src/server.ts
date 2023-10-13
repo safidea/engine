@@ -40,7 +40,7 @@ export interface EngineOptions {
   domain?: string
 }
 
-export default class Engine {
+export class Engine {
   private serverMiddleware: ServerMiddleware
   readonly drivers: IAppDrivers
   readonly folder: string

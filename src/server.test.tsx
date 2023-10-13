@@ -2,7 +2,7 @@ import { describe, test, expect } from 'bun:test'
 import { render, screen } from '@testing-library/react'
 import { Context } from '@entities/app/page/context/Context'
 import { helpers } from '@test/unit/fixtures'
-import Engine from './server'
+import { Engine } from './server'
 
 describe('Server Engine', () => {
   test('should render a page as a react component', async () => {

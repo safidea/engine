@@ -1,4 +1,4 @@
-import Engine from '../../src/server'
+import { Engine } from '../../src/server'
 import config from './config'
 
 const folder = __dirname
