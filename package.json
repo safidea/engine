@@ -6,13 +6,17 @@
   "types": "dist/server.d.ts",
   "author": "Thomas JEANNEAU",
   "license": "BSL 1.1",
+  "exports": {
+    "./schema.json": "./schema.json"
+  },
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
-    "build": "bun run build:server & bun run build:client",
+    "build": "bun run build:server & bun run build:client & bun run build:schema",
     "build:client": "bun run scripts/build-client.js && bun run build:tailwind",
     "build:server": "tsc --project scripts/tsconfig.json && bun run scripts/build-server.js",
     "build:tailwind": "tailwindcss -i ./src/drivers/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
+    "build:schema": "bunx typescript-json-schema ./tsconfig.json ConfigDto --out schema.json --required",
     "watch": "bun run watch:server & bun run watch:client & bun run watch:tailwind",
     "watch:server": "bun build ./src/server.ts --outdir ./dist --target bun --watch",
     "watch:client": "bun build ./src/client.tsx --outdir ./dist/public --watch",
@@ -119,7 +123,8 @@
     "semantic-release": "^22.0.6",
     "storybook": "^7.4.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "typescript-json-schema": "^0.62.0"
   },
   "directories": {
     "doc": "docs",
