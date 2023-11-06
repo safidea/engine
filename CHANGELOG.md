@@ -1,9 +1,8 @@
 # [0.4.0](https://github.com/solumy/engine/compare/v0.3.1...v0.4.0) (2023-11-06)
 
-
 ### Features
 
-* **schema:** add schema.json in build ([af6a7b8](https://github.com/solumy/engine/commit/af6a7b889f8f85ec9e933b1b25c20a1b041a0327))
+- **schema:** add schema.json in build ([af6a7b8](https://github.com/solumy/engine/commit/af6a7b889f8f85ec9e933b1b25c20a1b041a0327))
 
 ## [0.3.1](https://github.com/solumy/engine/compare/v0.3.0...v0.3.1) (2023-10-13)
 
