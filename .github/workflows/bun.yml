@@ -28,7 +28,7 @@ jobs:
         bun-version: latest
     - run: bun install
     - run: bun run lint
-    - run: bun run build --if-present
+    - run: bun run build
     - run: bun run test
     - name: Release
       env:
