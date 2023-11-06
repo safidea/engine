@@ -1,3 +1,10 @@
+## [0.4.3](https://github.com/solumy/engine/compare/v0.4.2...v0.4.3) (2023-11-06)
+
+
+### Bug Fixes
+
+* **ci:** update release process for auto version license update ([c00c38d](https://github.com/solumy/engine/commit/c00c38db45d2728c407e044ad68a8432ad95bd4a))
+
 ## [0.4.2](https://github.com/solumy/engine/compare/v0.4.1...v0.4.2) (2023-11-06)
 
 
