@@ -4,11 +4,11 @@ import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface ColumnsComponentParams extends BaseComponentParams {
-  type: 'columns'
-  components: ComponentParams[]
-  style?: {
-    columns?: UIStyle
-    column?: UIStyle
+  readonly type: 'columns'
+  readonly components: ComponentParams[]
+  readonly style?: {
+    readonly columns?: UIStyle
+    readonly column?: UIStyle
   }
 }
 

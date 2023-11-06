@@ -4,11 +4,15 @@ import { FindRecordActionParams } from './database/findRecord/FindRecordActionPa
 import { LogActionParams } from './log/LogActionParams'
 import { UpdateRecordActionParams } from './database/updateRecord/UpdateRecordActionParams'
 
-export const ActionParams = t.union([
+export type ActionParams =
+  | CreateFileActionParams
+  | FindRecordActionParams
+  | LogActionParams
+  | UpdateRecordActionParams
+
+export const ActionParams: t.Type<ActionParams> = t.union([
   CreateFileActionParams,
   FindRecordActionParams,
   LogActionParams,
   UpdateRecordActionParams,
 ])
-
-export type ActionParams = t.TypeOf<typeof ActionParams>

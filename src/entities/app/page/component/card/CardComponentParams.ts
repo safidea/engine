@@ -4,10 +4,10 @@ import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface CardComponentParams extends BaseComponentParams {
-  type: 'card'
-  components: ComponentParams[]
-  style?: {
-    card?: UIStyle
+  readonly type: 'card'
+  readonly components: ComponentParams[]
+  readonly style?: {
+    readonly card?: UIStyle
   }
 }
 

@@ -7,52 +7,78 @@ import {
   PersistedRecordDto,
 } from './RecordDto'
 
-export const SyncResourceDto = t.type({
+export type SyncResourceDto = {
+  readonly table: string
+  readonly filters: FilterDto[]
+}
+
+export const SyncResourceDto: t.Type<SyncResourceDto> = t.type({
   table: t.string,
   filters: t.array(FilterDto),
 })
 
-export type SyncResourceDto = t.TypeOf<typeof SyncResourceDto>
+export type SyncCommandToCreateDto = {
+  readonly action: 'toCreate'
+  readonly table: string
+  readonly record: RecordToCreateDto
+}
 
-export const SyncCommandToCreateDto = t.type({
+export const SyncCommandToCreateDto: t.Type<SyncCommandToCreateDto> = t.type({
   action: t.literal('toCreate'),
   table: t.string,
   record: RecordToCreateDto,
 })
 
-export type SyncCommandToCreateDto = t.TypeOf<typeof SyncCommandToCreateDto>
+export type SyncCommandToUpdateDto = {
+  readonly action: 'toUpdate'
+  readonly table: string
+  readonly record: RecordToUpdateDto
+}
 
-export const SyncCommandToUpdateDto = t.type({
+export const SyncCommandToUpdateDto: t.Type<SyncCommandToUpdateDto> = t.type({
   action: t.literal('toUpdate'),
   table: t.string,
   record: RecordToUpdateDto,
 })
 
-export type SyncCommandToUpdateDto = t.TypeOf<typeof SyncCommandToUpdateDto>
+export type SyncCommandToDeleteDto = {
+  readonly action: 'toDelete'
+  readonly table: string
+  readonly record: RecordToDeleteDto
+}
 
-export const SyncCommandToDeleteDto = t.type({
+export const SyncCommandToDeleteDto: t.Type<SyncCommandToDeleteDto> = t.type({
   action: t.literal('toDelete'),
   table: t.string,
   record: RecordToDeleteDto,
 })
 
-export type SyncCommandToDeleteDto = t.TypeOf<typeof SyncCommandToDeleteDto>
+export type SyncCommandDto =
+  | SyncCommandToCreateDto
+  | SyncCommandToUpdateDto
+  | SyncCommandToDeleteDto
 
-export const SyncCommandDto = t.union([
+export const SyncCommandDto: t.Type<SyncCommandDto> = t.union([
   SyncCommandToCreateDto,
   SyncCommandToUpdateDto,
   SyncCommandToDeleteDto,
 ])
 
-export type SyncCommandDto = t.TypeOf<typeof SyncCommandDto>
+export type SyncRecordsByTableDto = {
+  [table: string]: PersistedRecordDto[]
+}
 
-export const SyncRecordsByTableDto = t.record(t.string, t.array(PersistedRecordDto))
+export const SyncRecordsByTableDto: t.Type<SyncRecordsByTableDto> = t.record(
+  t.string,
+  t.array(PersistedRecordDto)
+)
 
-export type SyncRecordsByTableDto = t.TypeOf<typeof SyncRecordsByTableDto>
+export type SyncDto = {
+  readonly commands?: SyncCommandDto[]
+  readonly resources?: SyncResourceDto[]
+}
 
-export const SyncDto = t.partial({
+export const SyncDto: t.Type<SyncDto> = t.partial({
   commands: t.array(SyncCommandDto),
   resources: t.array(SyncResourceDto),
 })
-
-export type SyncDto = t.TypeOf<typeof SyncDto>

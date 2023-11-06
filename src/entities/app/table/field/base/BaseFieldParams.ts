@@ -1,6 +1,15 @@
 import * as t from 'io-ts'
 
-export const BaseFieldFormat = t.union([
+export type BaseFieldFormat =
+  | 'text'
+  | 'number'
+  | 'currency'
+  | 'datetime'
+  | 'boolean'
+  | 'recordId'
+  | 'recordsIds'
+
+export const BaseFieldFormat: t.Type<BaseFieldFormat> = t.union([
   t.literal('text'),
   t.literal('number'),
   t.literal('currency'),
@@ -10,9 +19,18 @@ export const BaseFieldFormat = t.union([
   t.literal('recordsIds'),
 ])
 
-export type BaseFieldFormat = t.TypeOf<typeof BaseFieldFormat>
+export type BaseFieldParams = {
+  readonly type: string
+  readonly name: string
+  readonly optional?: boolean
+  readonly format?: BaseFieldFormat
+  readonly default?: string | number | boolean
+  readonly permissions?: {
+    readonly update?: boolean | { readonly formula: string }
+  }
+}
 
-export const BaseFieldParams = t.intersection([
+export const BaseFieldParams: t.Type<BaseFieldParams> = t.intersection([
   t.type({
     type: t.string,
     name: t.string,
@@ -26,5 +44,3 @@ export const BaseFieldParams = t.intersection([
     }),
   }),
 ])
-
-export type BaseFieldParams = t.TypeOf<typeof BaseFieldParams>

@@ -4,11 +4,11 @@ import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface ContainerComponentParams extends BaseComponentParams {
-  type: 'container'
-  components: ComponentParams[]
-  style?: {
-    container?: UIStyle
-    section?: UIStyle
+  readonly type: 'container'
+  readonly components: ComponentParams[]
+  readonly style?: {
+    readonly container?: UIStyle
+    readonly section?: UIStyle
   }
 }
 

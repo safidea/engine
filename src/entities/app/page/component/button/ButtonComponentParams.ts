@@ -2,11 +2,16 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
-export const ButtonDisplay = t.union([t.literal('primary'), t.literal('secondary')])
+export type ButtonDisplay = 'primary' | 'secondary'
 
-export type ButtonDisplay = t.TypeOf<typeof ButtonDisplay>
+export const ButtonDisplay: t.Type<ButtonDisplay> = t.union([
+  t.literal('primary'),
+  t.literal('secondary'),
+])
 
-export const ButtonSize = t.union([
+export type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
+
+export const ButtonSize: t.Type<ButtonSize> = t.union([
   t.literal('extra-small'),
   t.literal('small'),
   t.literal('medium'),
@@ -14,9 +19,17 @@ export const ButtonSize = t.union([
   t.literal('extra-large'),
 ])
 
-export type ButtonSize = t.TypeOf<typeof ButtonSize>
+export interface ButtonComponentParams extends BaseComponentParams {
+  readonly type: 'button'
+  readonly text: string
+  readonly size?: ButtonSize
+  readonly display?: ButtonDisplay
+  readonly style?: {
+    readonly button?: UIStyle
+  }
+}
 
-export const ButtonComponentParams = t.intersection([
+export const ButtonComponentParams: t.Type<ButtonComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('button'),
@@ -30,5 +43,3 @@ export const ButtonComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type ButtonComponentParams = t.TypeOf<typeof ButtonComponentParams>

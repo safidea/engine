@@ -1,6 +1,8 @@
 import * as t from 'io-ts'
 
-const Sizes = t.union([
+export type Sizes = 'none' | 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
+
+const Sizes: t.Type<Sizes> = t.union([
   t.literal('none'),
   t.literal('extra-small'),
   t.literal('small'),
@@ -9,9 +11,36 @@ const Sizes = t.union([
   t.literal('extra-large'),
 ])
 
-const HorizontalPositions = t.union([t.literal('left'), t.literal('center'), t.literal('right')])
+export type HorizontalPositions = 'left' | 'center' | 'right'
 
-export const UIStyle = t.partial({
+const HorizontalPositions: t.Type<HorizontalPositions> = t.union([
+  t.literal('left'),
+  t.literal('center'),
+  t.literal('right'),
+])
+
+export type UIStyle = {
+  readonly items?: HorizontalPositions
+  readonly background?: {
+    readonly color?: 'gray-100'
+  }
+  readonly margin?: {
+    readonly top?: Sizes
+    readonly right?: Sizes
+    readonly bottom?: Sizes
+    readonly left?: Sizes
+  }
+  readonly text?: {
+    readonly align?: HorizontalPositions
+  }
+  readonly rounded?: Sizes
+  readonly shadow?: Sizes
+  readonly content?: {
+    readonly justify?: HorizontalPositions
+  }
+}
+
+export const UIStyle: t.Type<UIStyle> = t.partial({
   items: HorizontalPositions,
   background: t.partial({
     color: t.literal('gray-100'),
@@ -31,5 +60,3 @@ export const UIStyle = t.partial({
     justify: HorizontalPositions,
   }),
 })
-
-export type UIStyle = t.TypeOf<typeof UIStyle>

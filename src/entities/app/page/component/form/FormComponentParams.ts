@@ -4,24 +4,24 @@ import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
 export interface FormComponentParams extends BaseComponentParams {
-  type: 'form'
-  table: string
-  components: ComponentParams[]
-  submit: {
-    label?: string
-    loadingLabel: string
-    autosave?: boolean
-    actionsOnSuccess?: {
-      type: string
-      path: string
+  readonly type: 'form'
+  readonly table: string
+  readonly components: ComponentParams[]
+  readonly submit: {
+    readonly label?: string
+    readonly loadingLabel: string
+    readonly autosave?: boolean
+    readonly actionsOnSuccess?: {
+      readonly type: string
+      readonly path: string
     }[]
   }
-  recordIdToUpdate?: string
-  style?: {
-    form?: UIStyle
-    submit?: UIStyle
-    loading?: UIStyle
-    errorMessage?: UIStyle
+  readonly recordIdToUpdate?: string
+  readonly style?: {
+    readonly form?: UIStyle
+    readonly submit?: UIStyle
+    readonly loading?: UIStyle
+    readonly errorMessage?: UIStyle
   }
 }
 

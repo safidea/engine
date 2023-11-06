@@ -2,7 +2,9 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
-export const TitleSize = t.union([
+export type TitleSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
+
+export const TitleSize: t.Type<TitleSize> = t.union([
   t.literal('extra-small'),
   t.literal('small'),
   t.literal('medium'),
@@ -10,9 +12,16 @@ export const TitleSize = t.union([
   t.literal('extra-large'),
 ])
 
-export type TitleSize = t.TypeOf<typeof TitleSize>
+export interface TitleComponentParams extends BaseComponentParams {
+  readonly type: 'title'
+  readonly text: string
+  readonly size?: TitleSize
+  readonly style?: {
+    readonly title?: UIStyle
+  }
+}
 
-export const TitleComponentParams = t.intersection([
+export const TitleComponentParams: t.Type<TitleComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('title'),
@@ -25,5 +34,3 @@ export const TitleComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type TitleComponentParams = t.TypeOf<typeof TitleComponentParams>

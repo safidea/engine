@@ -2,7 +2,18 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
-export const TextInputComponentParams = t.intersection([
+export interface TextInputComponentParams extends BaseComponentParams {
+  readonly type: 'text_input'
+  readonly field: string
+  readonly label?: string
+  readonly placeholder?: string
+  readonly style?: {
+    readonly input?: UIStyle
+    readonly label?: UIStyle
+  }
+}
+
+export const TextInputComponentParams: t.Type<TextInputComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('text_input'),
@@ -17,5 +28,3 @@ export const TextInputComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type TextInputComponentParams = t.TypeOf<typeof TextInputComponentParams>

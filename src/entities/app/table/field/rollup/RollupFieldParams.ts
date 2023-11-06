@@ -1,7 +1,14 @@
 import * as t from 'io-ts'
 import { BaseFieldParams } from '../base/BaseFieldParams'
 
-export const RollupFieldParams = t.intersection([
+export interface RollupFieldParams extends BaseFieldParams {
+  readonly type: 'rollup'
+  readonly linkedRecords: string
+  readonly linkedField: string
+  readonly formula: string
+}
+
+export const RollupFieldParams: t.Type<RollupFieldParams> = t.intersection([
   BaseFieldParams,
   t.type({
     type: t.literal('rollup'),
@@ -10,5 +17,3 @@ export const RollupFieldParams = t.intersection([
     formula: t.string,
   }),
 ])
-
-export type RollupFieldParams = t.TypeOf<typeof RollupFieldParams>

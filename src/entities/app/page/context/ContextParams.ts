@@ -1,9 +1,15 @@
 import * as t from 'io-ts'
 
-export const ContextParams = t.type({
+export type ContextParams = {
+  readonly path: {
+    readonly params: {
+      readonly [key: string]: string
+    }
+  }
+}
+
+export const ContextParams: t.Type<ContextParams> = t.type({
   path: t.type({
     params: t.record(t.string, t.string),
   }),
 })
-
-export type ContextParams = t.TypeOf<typeof ContextParams>

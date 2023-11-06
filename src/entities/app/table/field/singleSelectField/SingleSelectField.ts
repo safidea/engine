@@ -4,7 +4,7 @@ import { BaseField } from '../base/BaseField'
 import { SingleSelectFieldParams } from './SingleSelectFieldParams'
 
 export class SingleSelectField extends BaseField {
-  readonly options: string[]
+  readonly options: readonly string[]
 
   constructor(params: SingleSelectFieldParams, services: TableServices) {
     const { options, ...rest } = params

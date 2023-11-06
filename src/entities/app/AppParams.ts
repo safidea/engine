@@ -4,7 +4,16 @@ import { PageParams } from './page/PageParams'
 import { TableParams } from './table/TableParams'
 import { BucketParams } from './bucket/BucketParams'
 
-export const AppParams = t.partial({
+export type AppParams = {
+  readonly name?: string
+  readonly version?: string
+  readonly pages?: PageParams[]
+  readonly tables?: TableParams[]
+  readonly automations?: AutomationParams[]
+  readonly buckets?: BucketParams[]
+}
+
+export const AppParams: t.Type<AppParams> = t.partial({
   name: t.string,
   version: t.string,
   pages: t.array(PageParams),
@@ -12,5 +21,3 @@ export const AppParams = t.partial({
   automations: t.array(AutomationParams),
   buckets: t.array(BucketParams),
 })
-
-export type AppParams = t.TypeOf<typeof AppParams>

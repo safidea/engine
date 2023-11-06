@@ -1,8 +1,11 @@
 import * as t from 'io-ts'
 
-export const RecordToDeleteData = t.type({
+export type RecordToDeleteData = {
+  readonly id: string
+  readonly deleted_time: string
+}
+
+export const RecordToDeleteData: t.Type<RecordToDeleteData> = t.type({
   id: t.string,
   deleted_time: t.string,
 })
-
-export type RecordToDeleteData = t.TypeOf<typeof RecordToDeleteData>

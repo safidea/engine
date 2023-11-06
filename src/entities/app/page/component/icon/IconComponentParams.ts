@@ -2,7 +2,9 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
-export const IconSize = t.union([
+export type IconSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
+
+export const IconSize: t.Type<IconSize> = t.union([
   t.literal('extra-small'),
   t.literal('small'),
   t.literal('medium'),
@@ -10,9 +12,16 @@ export const IconSize = t.union([
   t.literal('extra-large'),
 ])
 
-export type IconSize = t.TypeOf<typeof IconSize>
+export interface IconComponentParams extends BaseComponentParams {
+  readonly type: 'icon'
+  readonly name: string
+  readonly size?: IconSize
+  readonly style?: {
+    readonly icon?: UIStyle
+  }
+}
 
-export const IconComponentParams = t.intersection([
+export const IconComponentParams: t.Type<IconComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('icon'),
@@ -25,5 +34,3 @@ export const IconComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type IconComponentParams = t.TypeOf<typeof IconComponentParams>

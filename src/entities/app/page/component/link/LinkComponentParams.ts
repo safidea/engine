@@ -3,11 +3,16 @@ import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 import { IconSize } from '../icon/IconComponentParams'
 
-export const LinkIconPosition = t.union([t.literal('left'), t.literal('right')])
+export type LinkIconPosition = 'left' | 'right'
 
-export type LinkIconPosition = t.TypeOf<typeof LinkIconPosition>
+export const LinkIconPosition: t.Type<LinkIconPosition> = t.union([
+  t.literal('left'),
+  t.literal('right'),
+])
 
-export const LinkSize = t.union([
+export type LinkSize = 'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'
+
+export const LinkSize: t.Type<LinkSize> = t.union([
   t.literal('extra-small'),
   t.literal('small'),
   t.literal('medium'),
@@ -15,17 +20,34 @@ export const LinkSize = t.union([
   t.literal('extra-large'),
 ])
 
-export type LinkSize = t.TypeOf<typeof LinkSize>
+export type LinkDisplay = 'primary-button' | 'secondary-button' | 'link'
 
-export const LinkDisplay = t.union([
+export const LinkDisplay: t.Type<LinkDisplay> = t.union([
   t.literal('primary-button'),
   t.literal('secondary-button'),
   t.literal('link'),
 ])
 
-export type LinkDisplay = t.TypeOf<typeof LinkDisplay>
+export interface LinkComponentParams extends BaseComponentParams {
+  readonly type: 'link'
+  readonly path: string
+  readonly text: string
+  readonly size?: LinkSize
+  readonly display?: LinkDisplay
+  readonly icon?: {
+    readonly name: string
+    readonly size?: IconSize
+    readonly position?: LinkIconPosition
+    readonly style?: {
+      readonly icon?: UIStyle
+    }
+  }
+  readonly style?: {
+    readonly link?: UIStyle
+  }
+}
 
-export const LinkComponentParams = t.intersection([
+export const LinkComponentParams: t.Type<LinkComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('link'),
@@ -52,5 +74,3 @@ export const LinkComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type LinkComponentParams = t.TypeOf<typeof LinkComponentParams>

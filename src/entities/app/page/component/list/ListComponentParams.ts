@@ -2,7 +2,12 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
-export const GroupBy = t.type({
+export type GroupBy = {
+  field: string
+  order: 'asc' | 'desc' | 'first_to_last' | 'last_to_first'
+}
+
+export const GroupBy: t.Type<GroupBy> = t.type({
   field: t.string,
   order: t.union([
     t.literal('asc'),
@@ -12,9 +17,12 @@ export const GroupBy = t.type({
   ]),
 })
 
-export type GroupBy = t.TypeOf<typeof GroupBy>
+export type SortBy = {
+  field: string
+  order: 'asc' | 'desc' | 'first_to_last' | 'last_to_first'
+}
 
-export const SortBy = t.type({
+export const SortBy: t.Type<SortBy> = t.type({
   field: t.string,
   order: t.union([
     t.literal('asc'),
@@ -24,9 +32,23 @@ export const SortBy = t.type({
   ]),
 })
 
-export type SortBy = t.TypeOf<typeof SortBy>
+export type Column = {
+  label: string
+  field?: string
+  options?: {
+    name: string
+    label: string
+  }[]
+  type?: string
+  action?: {
+    type?: string
+    path?: string
+    url?: string
+  }
+  buttonLabel?: string
+}
 
-export const Column = t.intersection([
+export const Column: t.Type<Column> = t.intersection([
   t.type({
     label: t.string,
   }),
@@ -48,9 +70,26 @@ export const Column = t.intersection([
   }),
 ])
 
-export type Column = t.TypeOf<typeof Column>
+export interface ListComponentParams extends BaseComponentParams {
+  readonly type: 'list'
+  readonly table: string
+  readonly columns: Column[]
+  readonly groupBy?: GroupBy[]
+  readonly sortBy?: SortBy[]
+  readonly style?: {
+    readonly container?: UIStyle
 
-export const ListComponentParams = t.intersection([
+    
+    readonly header?: UIStyle
+    readonly headerColumn?: UIStyle
+    readonly row?: UIStyle
+    readonly rows?: UIStyle
+    readonly group?: UIStyle
+    readonly cell?: UIStyle
+  }
+}
+
+export const ListComponentParams: t.Type<ListComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('list'),
@@ -71,5 +110,3 @@ export const ListComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type ListComponentParams = t.TypeOf<typeof ListComponentParams>

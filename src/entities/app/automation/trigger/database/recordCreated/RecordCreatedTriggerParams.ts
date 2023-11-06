@@ -1,7 +1,13 @@
 import * as t from 'io-ts'
 import { FilterParams } from '@entities/services/database/filter/FilterParams'
 
-export const RecordCreatedTriggerParams = t.intersection([
+export type RecordCreatedTriggerParams = {
+  readonly event: 'record_created'
+  readonly table: string
+  readonly filters?: FilterParams[]
+}
+
+export const RecordCreatedTriggerParams: t.Type<RecordCreatedTriggerParams> = t.intersection([
   t.type({
     event: t.literal('record_created'),
     table: t.string,
@@ -10,5 +16,3 @@ export const RecordCreatedTriggerParams = t.intersection([
     filters: t.array(FilterParams),
   }),
 ])
-
-export type RecordCreatedTriggerParams = t.TypeOf<typeof RecordCreatedTriggerParams>

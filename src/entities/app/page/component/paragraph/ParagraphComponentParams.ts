@@ -2,11 +2,30 @@ import * as t from 'io-ts'
 import { BaseComponentParams } from '../base/BaseComponentParams'
 import { UIStyle } from '@entities/services/ui/UIStyle'
 
-export const ParagraphSize = t.union([t.literal('small'), t.literal('medium'), t.literal('large')])
+export type ParagraphSize = 'small' | 'medium' | 'large'
 
-export type ParagraphSize = t.TypeOf<typeof ParagraphSize>
+export const ParagraphSize: t.Type<ParagraphSize> = t.union([
+  t.literal('small'),
+  t.literal('medium'),
+  t.literal('large'),
+])
 
-export const ParagraphComponentParams = t.intersection([
+export interface ParagraphComponentParams extends BaseComponentParams {
+  readonly type: 'paragraph'
+  readonly text: string
+  readonly size?: ParagraphSize
+  readonly icon?: {
+    readonly name: string
+    readonly style?: {
+      readonly icon?: UIStyle
+    }
+  }
+  readonly style?: {
+    readonly paragraph?: UIStyle
+  }
+}
+
+export const ParagraphComponentParams: t.Type<ParagraphComponentParams> = t.intersection([
   BaseComponentParams,
   t.type({
     type: t.literal('paragraph'),
@@ -29,5 +48,3 @@ export const ParagraphComponentParams = t.intersection([
     }),
   }),
 ])
-
-export type ParagraphComponentParams = t.TypeOf<typeof ParagraphComponentParams>

@@ -1,18 +1,27 @@
 import * as t from 'io-ts'
 
-export const BaseRecordFieldValue = t.union([
+export type BaseRecordFieldValue = string | number | boolean | undefined | string[]
+
+export const BaseRecordFieldValue: t.Type<BaseRecordFieldValue> = t.union([
   t.string,
   t.number,
   t.boolean,
   t.undefined,
   t.array(t.string),
 ])
-export type BaseRecordFieldValue = t.TypeOf<typeof BaseRecordFieldValue>
 
-export const BaseRecordFields = t.record(t.string, BaseRecordFieldValue)
-export type BaseRecordFields = t.TypeOf<typeof BaseRecordFields>
+export type BaseRecordFields = { [key: string]: BaseRecordFieldValue }
 
-export const BaseRecordData = t.intersection([
+export const BaseRecordFields: t.Type<BaseRecordFields> = t.record(t.string, BaseRecordFieldValue)
+
+export interface BaseRecordData extends BaseRecordFields {
+  readonly id: string
+  readonly created_time: string
+  readonly last_modified_time?: string
+  readonly deleted_time?: string
+}
+
+export const BaseRecordData: t.Type<BaseRecordData> = t.intersection([
   BaseRecordFields,
   t.type({
     id: t.string,
@@ -23,4 +32,3 @@ export const BaseRecordData = t.intersection([
     deleted_time: t.string,
   }),
 ])
-export type BaseRecordData = t.TypeOf<typeof BaseRecordData>

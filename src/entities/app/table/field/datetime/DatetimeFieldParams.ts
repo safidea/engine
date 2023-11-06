@@ -1,11 +1,13 @@
 import * as t from 'io-ts'
 import { BaseFieldParams } from '../base/BaseFieldParams'
 
-export const DatetimeFieldParams = t.intersection([
+export interface DatetimeFieldParams extends BaseFieldParams {
+  readonly type: 'datetime'
+}
+
+export const DatetimeFieldParams: t.Type<DatetimeFieldParams> = t.intersection([
   BaseFieldParams,
   t.type({
     type: t.literal('datetime'),
   }),
 ])
-
-export type DatetimeFieldParams = t.TypeOf<typeof DatetimeFieldParams>

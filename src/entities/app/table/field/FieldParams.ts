@@ -12,7 +12,21 @@ import { SingleLinkedRecordFieldParams } from './singleLinkedRecord/SingleLinked
 import { SingleSelectFieldParams } from './singleSelectField/SingleSelectFieldParams'
 import { UrlFieldParams } from './url/UrlFieldParams'
 
-export const FieldParams = t.union([
+export type FieldParams =
+  | AutonumberFieldParams
+  | CurrencyFieldParams
+  | DatetimeFieldParams
+  | FormulaFieldParams
+  | LongTextFieldParams
+  | MultipleLinkedRecordsFieldParams
+  | NumberFieldParams
+  | RollupFieldParams
+  | SingleLineTextFieldParams
+  | SingleLinkedRecordFieldParams
+  | SingleSelectFieldParams
+  | UrlFieldParams
+
+export const FieldParams: t.Type<FieldParams> = t.union([
   SingleLineTextFieldParams,
   LongTextFieldParams,
   CurrencyFieldParams,
@@ -26,5 +40,3 @@ export const FieldParams = t.union([
   AutonumberFieldParams,
   UrlFieldParams,
 ])
-
-export type FieldParams = t.TypeOf<typeof FieldParams>

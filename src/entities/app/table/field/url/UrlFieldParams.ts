@@ -1,11 +1,13 @@
 import * as t from 'io-ts'
 import { BaseFieldParams } from '../base/BaseFieldParams'
 
-export const UrlFieldParams = t.intersection([
+export interface UrlFieldParams extends BaseFieldParams {
+  readonly type: 'url'
+}
+
+export const UrlFieldParams: t.Type<UrlFieldParams> = t.intersection([
   BaseFieldParams,
   t.type({
     type: t.literal('url'),
   }),
 ])
-
-export type UrlFieldParams = t.TypeOf<typeof UrlFieldParams>

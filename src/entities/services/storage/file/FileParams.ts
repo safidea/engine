@@ -1,6 +1,13 @@
 import * as t from 'io-ts'
 
-export const FileParams = t.intersection([
+export type FileParams = {
+  readonly filename: string
+  readonly extension?: string
+  readonly mimetype?: string
+  readonly path?: string
+}
+
+export const FileParams: t.Type<FileParams> = t.intersection([
   t.type({
     filename: t.string,
   }),
@@ -10,5 +17,3 @@ export const FileParams = t.intersection([
     path: t.string,
   }),
 ])
-
-export type FileParams = t.TypeOf<typeof FileParams>

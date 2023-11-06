@@ -26,20 +26,21 @@ export class TableValidator {
         if (matchFilter) {
           const index = Number(matchFilter[2])
           const value = query[key]
-          filters[index] = filters[index] || {}
+          const filter = { ...filters[index] } ?? {}
           if (key.startsWith('filter_field_')) {
-            filters[index].field = value
+            filter.field = value
           } else if (key.startsWith('filter_operator_')) {
             if (value === 'is_any_of') {
-              filters[index].operator = value
+              filter.operator = value
             } else {
               throw new ApiError(`operator "${value}" is not supported`, 400)
             }
           } else if (key.startsWith('filter_value_')) {
-            if (filters[index].operator === 'is_any_of') {
-              filters[index].value = value.split(',')
+            if (filter.operator === 'is_any_of') {
+              filter.value = value.split(',')
             }
           }
+          filters[index] = filter
         }
       }
     }

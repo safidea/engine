@@ -1,12 +1,16 @@
 import * as t from 'io-ts'
 import { BaseFieldParams } from '../base/BaseFieldParams'
 
-export const MultipleLinkedRecordsFieldParams = t.intersection([
-  BaseFieldParams,
-  t.type({
-    type: t.literal('multiple_linked_records'),
-    table: t.string,
-  }),
-])
+export interface MultipleLinkedRecordsFieldParams extends BaseFieldParams {
+  readonly type: 'multiple_linked_records'
+  readonly table: string
+}
 
-export type MultipleLinkedRecordsFieldParams = t.TypeOf<typeof MultipleLinkedRecordsFieldParams>
+export const MultipleLinkedRecordsFieldParams: t.Type<MultipleLinkedRecordsFieldParams> =
+  t.intersection([
+    BaseFieldParams,
+    t.type({
+      type: t.literal('multiple_linked_records'),
+      table: t.string,
+    }),
+  ])
