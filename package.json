@@ -16,7 +16,7 @@
     "build:client": "bun run scripts/build-client.js && bun run build:tailwind",
     "build:server": "tsc --project scripts/tsconfig.json && bun run scripts/build-server.js",
     "build:tailwind": "tailwindcss -i ./src/drivers/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
-    "build:schema": "bunx typescript-json-schema ./tsconfig.json ConfigDto --out schema.json --required && prettier --write \"schema.json\"",
+    "build:schema": "bunx typescript-json-schema ./tsconfig.json ConfigDto --out schema.json --required && prettier --write \"./schema.json\"",
     "watch": "bun run watch:server & bun run watch:client & bun run watch:tailwind",
     "watch:server": "bun build ./src/server.ts --outdir ./dist --target bun --watch",
     "watch:client": "bun build ./src/client.tsx --outdir ./dist/public --watch",
