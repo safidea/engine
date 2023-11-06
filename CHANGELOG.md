@@ -1,3 +1,10 @@
+## [0.4.6](https://github.com/solumy/engine/compare/v0.4.5...v0.4.6) (2023-11-06)
+
+
+### Bug Fixes
+
+* **schema:** build correct JSON schema from types ([0b6cce6](https://github.com/solumy/engine/commit/0b6cce6487a008750c33563775277d09783841a1))
+
 ## [0.4.5](https://github.com/solumy/engine/compare/v0.4.4...v0.4.5) (2023-11-06)
 
 
