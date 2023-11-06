@@ -1,3 +1,10 @@
+## [0.4.4](https://github.com/solumy/engine/compare/v0.4.3...v0.4.4) (2023-11-06)
+
+
+### Bug Fixes
+
+* **schema:** add propOrder to schema.json ([11638ed](https://github.com/solumy/engine/commit/11638ed306656bca3df39be164ee75765d635385))
+
 ## [0.4.3](https://github.com/solumy/engine/compare/v0.4.2...v0.4.3) (2023-11-06)
 
 ### Bug Fixes
