@@ -1,3 +1,14 @@
+## [0.4.1](https://github.com/solumy/engine/compare/v0.4.0...v0.4.1) (2023-11-06)
+
+
+### Bug Fixes
+
+* **ci:** add path to schema.json format command ([65a4694](https://github.com/solumy/engine/commit/65a4694b597896efd358d687f666519e80a98b44))
+* **ci:** add path to schema.json format command ([3d4f954](https://github.com/solumy/engine/commit/3d4f9543528992fc4a1bd3a90d12d4d1faedbdb3))
+* **package:** add format only for schema.json ([59afa6d](https://github.com/solumy/engine/commit/59afa6d8d0c8b7ed968b263d868fa929b66bc341))
+* **package:** run format avec schema.json creation ([6de443a](https://github.com/solumy/engine/commit/6de443a7e557ed8ac4114294e584394aa9450344))
+* **package:** update playwright command with bunx ([63f1d4b](https://github.com/solumy/engine/commit/63f1d4b1f0cbe73e968688ab07cb10ee3356a425))
+
 # [0.4.0](https://github.com/solumy/engine/compare/v0.3.1...v0.4.0) (2023-11-06)
 
 ### Features
