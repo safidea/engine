@@ -1,10 +1,9 @@
 ## [0.4.2](https://github.com/solumy/engine/compare/v0.4.1...v0.4.2) (2023-11-06)
 
-
 ### Bug Fixes
 
-* **ci:** update release process for auto deployement on npm ([07ac636](https://github.com/solumy/engine/commit/07ac6362929750573970e068b97a73fdaeba765e))
-* **ci:** update release process for auto deployement on npm ([9270b14](https://github.com/solumy/engine/commit/9270b14e1d4af425ff15836c5d2547d4e60574ab))
+- **ci:** update release process for auto deployement on npm ([07ac636](https://github.com/solumy/engine/commit/07ac6362929750573970e068b97a73fdaeba765e))
+- **ci:** update release process for auto deployement on npm ([9270b14](https://github.com/solumy/engine/commit/9270b14e1d4af425ff15836c5d2547d4e60574ab))
 
 ## [0.4.1](https://github.com/solumy/engine/compare/v0.4.0...v0.4.1) (2023-11-06)
 
