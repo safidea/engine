@@ -79,7 +79,6 @@ export interface ListComponentParams extends BaseComponentParams {
   readonly style?: {
     readonly container?: UIStyle
 
-    
     readonly header?: UIStyle
     readonly headerColumn?: UIStyle
     readonly row?: UIStyle
