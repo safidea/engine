@@ -7,6 +7,7 @@
   "author": "Thomas JEANNEAU",
   "license": "BSL 1.1",
   "exports": {
+    ".": "./dist/server.js",
     "./schema.json": "./schema.json"
   },
   "scripts": {
@@ -36,7 +37,8 @@
     "semantic-release": "semantic-release"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "schema.json"
   ],
   "repository": {
     "type": "git",
