@@ -1,16 +1,14 @@
 ## [0.4.7](https://github.com/solumy/engine/compare/v0.4.6...v0.4.7) (2023-11-06)
 
-
 ### Bug Fixes
 
-* **schema:** remove titles from JSON schema ([4b6db43](https://github.com/solumy/engine/commit/4b6db435c3b2e9dc9a07ff1c11f7991d798549f5))
+- **schema:** remove titles from JSON schema ([4b6db43](https://github.com/solumy/engine/commit/4b6db435c3b2e9dc9a07ff1c11f7991d798549f5))
 
 ## [0.4.6](https://github.com/solumy/engine/compare/v0.4.5...v0.4.6) (2023-11-06)
 
-
 ### Bug Fixes
 
-* **schema:** build correct JSON schema from types ([0b6cce6](https://github.com/solumy/engine/commit/0b6cce6487a008750c33563775277d09783841a1))
+- **schema:** build correct JSON schema from types ([0b6cce6](https://github.com/solumy/engine/commit/0b6cce6487a008750c33563775277d09783841a1))
 
 ## [0.4.5](https://github.com/solumy/engine/compare/v0.4.4...v0.4.5) (2023-11-06)
 

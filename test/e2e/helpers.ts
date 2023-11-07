@@ -45,7 +45,23 @@ export async function startApp(config: ConfigDto, options: EngineOptions = {}, r
     const app = await new Engine(config, { port, folder, ...res }).start()
     return app
   } catch (err) {
-    if ((err as Error).message.includes('EADDRINUSE')) return startApp(config, options, ++retry)
+    if (JSON.stringify(err).includes('EADDRINUSE')) return startApp(config, options, ++retry)
+    if (
+      err &&
+      typeof err === 'object' &&
+      'message' in err &&
+      typeof err.message === 'string' &&
+      err.message.includes('EADDRINUSE')
+    )
+      return startApp(config, options, ++retry)
+    if (
+      err &&
+      typeof err === 'object' &&
+      'error' in err &&
+      typeof err.error === 'string' &&
+      err.error.includes('EADDRINUSE')
+    )
+      return startApp(config, options, ++retry)
     throw err
   }
 }

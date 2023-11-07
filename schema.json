@@ -19,14 +19,14 @@
               "type": "string"
             },
             "input": {
-              "const": "html",
+              "enum": ["html"],
               "type": "string"
             },
             "name": {
               "type": "string"
             },
             "output": {
-              "const": "pdf",
+              "enum": ["pdf"],
               "type": "string"
             },
             "template": {
@@ -47,7 +47,7 @@
               ]
             },
             "type": {
-              "const": "create_file",
+              "enum": ["create_file"],
               "type": "string"
             }
           },
@@ -76,7 +76,7 @@
               "type": "string"
             },
             "type": {
-              "const": "find_record",
+              "enum": ["find_record"],
               "type": "string"
             }
           },
@@ -93,7 +93,7 @@
               "type": "string"
             },
             "type": {
-              "const": "log",
+              "enum": ["log"],
               "type": "string"
             }
           },
@@ -120,7 +120,7 @@
               "type": "string"
             },
             "type": {
-              "const": "update_record",
+              "enum": ["update_record"],
               "type": "string"
             }
           },
@@ -169,7 +169,7 @@
           "type": "object"
         },
         "type": {
-          "const": "autonumber",
+          "enum": ["autonumber"],
           "type": "string"
         }
       },
@@ -278,7 +278,7 @@
           "type": "string"
         },
         "type": {
-          "const": "button",
+          "enum": ["button"],
           "type": "string"
         }
       },
@@ -382,7 +382,7 @@
           "type": "string"
         },
         "type": {
-          "const": "card",
+          "enum": ["card"],
           "type": "string"
         }
       },
@@ -564,7 +564,7 @@
           "type": "string"
         },
         "type": {
-          "const": "columns",
+          "enum": ["columns"],
           "type": "string"
         }
       },
@@ -804,7 +804,7 @@
           "type": "string"
         },
         "type": {
-          "const": "container",
+          "enum": ["container"],
           "type": "string"
         }
       },
@@ -851,7 +851,7 @@
           "type": "object"
         },
         "type": {
-          "const": "currency",
+          "enum": ["currency"],
           "type": "string"
         }
       },
@@ -898,7 +898,7 @@
           "type": "object"
         },
         "type": {
-          "const": "datetime",
+          "enum": ["datetime"],
           "type": "string"
         }
       },
@@ -1324,7 +1324,7 @@
           "type": "string"
         },
         "type": {
-          "const": "form",
+          "enum": ["form"],
           "type": "string"
         }
       },
@@ -1382,7 +1382,7 @@
           "type": "object"
         },
         "type": {
-          "const": "formula",
+          "enum": ["formula"],
           "type": "string"
         }
       },
@@ -1487,7 +1487,7 @@
           "type": "string"
         },
         "type": {
-          "const": "icon",
+          "enum": ["icon"],
           "type": "string"
         }
       },
@@ -1594,7 +1594,7 @@
           "type": "string"
         },
         "type": {
-          "const": "image",
+          "enum": ["image"],
           "type": "string"
         },
         "width": {
@@ -1611,7 +1611,7 @@
           "type": "string"
         },
         "operator": {
-          "const": "is_any_of",
+          "enum": ["is_any_of"],
           "type": "string"
         },
         "value": {
@@ -1631,7 +1631,7 @@
           "type": "string"
         },
         "operator": {
-          "const": "is",
+          "enum": ["is"],
           "type": "string"
         },
         "value": {
@@ -1876,7 +1876,7 @@
           "type": "string"
         },
         "type": {
-          "const": "link",
+          "enum": ["link"],
           "type": "string"
         }
       },
@@ -2532,7 +2532,7 @@
           "type": "string"
         },
         "type": {
-          "const": "list",
+          "enum": ["list"],
           "type": "string"
         }
       },
@@ -2579,7 +2579,7 @@
           "type": "object"
         },
         "type": {
-          "const": "long_text",
+          "enum": ["long_text"],
           "type": "string"
         }
       },
@@ -2629,7 +2629,7 @@
           "type": "string"
         },
         "type": {
-          "const": "multiple_linked_records",
+          "enum": ["multiple_linked_records"],
           "type": "string"
         }
       },
@@ -3139,7 +3139,7 @@
           "$ref": "#/definitions/TitleComponentParams"
         },
         "type": {
-          "const": "navigation",
+          "enum": ["navigation"],
           "type": "string"
         }
       },
@@ -3186,7 +3186,7 @@
           "type": "object"
         },
         "type": {
-          "const": "number",
+          "enum": ["number"],
           "type": "string"
         }
       },
@@ -3413,7 +3413,7 @@
           "type": "string"
         },
         "type": {
-          "const": "paragraph",
+          "enum": ["paragraph"],
           "type": "string"
         }
       },
@@ -3469,7 +3469,7 @@
           "type": "object"
         },
         "type": {
-          "const": "rollup",
+          "enum": ["rollup"],
           "type": "string"
         }
       },
@@ -3583,7 +3583,7 @@
           "type": "string"
         },
         "type": {
-          "const": "row",
+          "enum": ["row"],
           "type": "string"
         }
       },
@@ -3765,7 +3765,7 @@
           "type": "string"
         },
         "type": {
-          "const": "rows",
+          "enum": ["rows"],
           "type": "string"
         }
       },
@@ -3812,7 +3812,7 @@
           "type": "object"
         },
         "type": {
-          "const": "single_line_text",
+          "enum": ["single_line_text"],
           "type": "string"
         }
       },
@@ -3862,7 +3862,7 @@
           "type": "string"
         },
         "type": {
-          "const": "single_linked_record",
+          "enum": ["single_linked_record"],
           "type": "string"
         }
       },
@@ -3915,7 +3915,7 @@
           "type": "object"
         },
         "type": {
-          "const": "single_select",
+          "enum": ["single_select"],
           "type": "string"
         }
       },
@@ -4194,7 +4194,7 @@
           "type": "string"
         },
         "type": {
-          "const": "single_select_input",
+          "enum": ["single_select_input"],
           "type": "string"
         }
       },
@@ -4460,7 +4460,7 @@
           "type": "string"
         },
         "type": {
-          "const": "single_select_record_input",
+          "enum": ["single_select_record_input"],
           "type": "string"
         }
       },
@@ -5389,7 +5389,7 @@
           "type": "string"
         },
         "type": {
-          "const": "table_input",
+          "enum": ["table_input"],
           "type": "string"
         }
       },
@@ -5583,7 +5583,7 @@
           "type": "string"
         },
         "type": {
-          "const": "text_input",
+          "enum": ["text_input"],
           "type": "string"
         }
       },
@@ -5688,7 +5688,7 @@
           "type": "string"
         },
         "type": {
-          "const": "title",
+          "enum": ["title"],
           "type": "string"
         }
       },
@@ -5701,7 +5701,7 @@
         {
           "properties": {
             "event": {
-              "const": "record_created",
+              "enum": ["record_created"],
               "type": "string"
             },
             "filters": {
@@ -5721,7 +5721,7 @@
         {
           "properties": {
             "event": {
-              "const": "record_updated",
+              "enum": ["record_updated"],
               "type": "string"
             },
             "fields": {
@@ -5785,7 +5785,7 @@
           "type": "object"
         },
         "type": {
-          "const": "url",
+          "enum": ["url"],
           "type": "string"
         }
       },
@@ -5849,7 +5849,7 @@
             "type": "string"
           }
         },
-        "propertyOrder": ["path", "components", "title"],
+        "propertyOrder": ["path", "title", "components"],
         "required": ["components", "path", "title"],
         "type": "object"
       },
