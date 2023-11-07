@@ -1,3 +1,10 @@
+## [0.4.8](https://github.com/solumy/engine/compare/v0.4.7...v0.4.8) (2023-11-07)
+
+
+### Bug Fixes
+
+* **schema:** replace const by enum ([53d89a8](https://github.com/solumy/engine/commit/53d89a8e4df3e3bbbcf6ae0c92774306a71a6341))
+
 ## [0.4.7](https://github.com/solumy/engine/compare/v0.4.6...v0.4.7) (2023-11-06)
 
 ### Bug Fixes
