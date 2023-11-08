@@ -22,7 +22,7 @@ const HorizontalPositions: t.Type<HorizontalPositions> = t.union([
 export type UIStyle = {
   readonly items?: HorizontalPositions
   readonly background?: {
-    readonly color?: 'gray-100'
+    readonly color?: 'gray-100' | 'gray-200'
   }
   readonly margin?: {
     readonly top?: Sizes
@@ -43,7 +43,7 @@ export type UIStyle = {
 export const UIStyle: t.Type<UIStyle> = t.partial({
   items: HorizontalPositions,
   background: t.partial({
-    color: t.literal('gray-100'),
+    color: t.union([t.literal('gray-100'), t.literal('gray-200')]),
   }),
   margin: t.partial({
     top: Sizes,

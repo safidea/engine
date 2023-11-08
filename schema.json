@@ -194,7 +194,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -301,7 +301,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -405,7 +405,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -483,7 +483,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -645,7 +645,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -723,7 +723,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -974,7 +974,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1052,7 +1052,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1130,7 +1130,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1208,7 +1208,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1406,7 +1406,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1510,7 +1510,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1668,7 +1668,7 @@
                     "background": {
                       "properties": {
                         "color": {
-                          "const": "gray-100",
+                          "enum": ["gray-100", "gray-200"],
                           "type": "string"
                         }
                       },
@@ -1792,7 +1792,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -1980,7 +1980,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2058,7 +2058,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2136,7 +2136,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2214,7 +2214,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2292,7 +2292,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2370,7 +2370,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2448,7 +2448,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2658,7 +2658,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2736,7 +2736,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2814,7 +2814,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2892,7 +2892,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -2970,7 +2970,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -3048,7 +3048,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -3208,7 +3208,7 @@
                     "background": {
                       "properties": {
                         "color": {
-                          "const": "gray-100",
+                          "enum": ["gray-100", "gray-200"],
                           "type": "string"
                         }
                       },
@@ -3329,7 +3329,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -3502,7 +3502,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -3606,7 +3606,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -3684,7 +3684,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -3957,7 +3957,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4035,7 +4035,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4113,7 +4113,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4223,7 +4223,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4301,7 +4301,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4379,7 +4379,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4516,7 +4516,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4594,7 +4594,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4672,7 +4672,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4750,7 +4750,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4828,7 +4828,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4906,7 +4906,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -4984,7 +4984,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5062,7 +5062,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5140,7 +5140,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5218,7 +5218,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5296,7 +5296,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5424,7 +5424,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5502,7 +5502,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
@@ -5604,7 +5604,7 @@
                 "background": {
                   "properties": {
                     "color": {
-                      "const": "gray-100",
+                      "enum": ["gray-100", "gray-200"],
                       "type": "string"
                     }
                   },
