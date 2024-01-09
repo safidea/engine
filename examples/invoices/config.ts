@@ -159,6 +159,7 @@ const config: Config = {
   ],
   pages: [
     {
+      name: 'home',
       path: '/',
       title: 'Factures',
       components: [
@@ -276,6 +277,7 @@ const config: Config = {
       ],
     },
     {
+      name: 'create',
       path: '/create',
       title: 'Factures',
       components: [
@@ -384,6 +386,7 @@ const config: Config = {
       ],
     },
     {
+      name: 'update',
       path: '/update/:id',
       title: "Mise à jour d'une facture",
       components: [

@@ -9,6 +9,7 @@ test.describe('Title component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [

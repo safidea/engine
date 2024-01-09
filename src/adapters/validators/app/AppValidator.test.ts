@@ -1,12 +1,14 @@
 import { describe, test, expect } from 'bun:test'
 import { AppValidator } from './AppValidator'
+import { ConfigDto } from '@adapters/dtos/ConfigDto'
 
 describe('TableValidator', () => {
   test('should validate the config', async () => {
     // GIVEN
-    const config = {
+    const config: ConfigDto = {
       pages: [
         {
+          name: 'home',
           path: '/',
           title: 'Home',
           components: [
@@ -31,6 +33,7 @@ describe('TableValidator', () => {
     const config = {
       pages: [
         {
+          name: 'home',
           path: '/',
           title: 'Home',
           components: [
@@ -57,6 +60,7 @@ describe('TableValidator', () => {
     const config = {
       pages: [
         {
+          name: 'home',
           path: '/',
           title: 'Home',
           components: [

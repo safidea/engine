@@ -15,6 +15,7 @@ describe('PageController', () => {
       {
         pages: [
           {
+            name: 'test',
             path: '/',
             title: 'test',
             components: [

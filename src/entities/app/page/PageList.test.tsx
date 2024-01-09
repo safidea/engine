@@ -18,6 +18,7 @@ describe('PageList', () => {
     const pages = new PageList(
       [
         {
+          name: 'test',
           path: '/',
           title: 'test',
           components: [

@@ -9,6 +9,7 @@ test.describe('Image component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [
@@ -40,6 +41,7 @@ test.describe('Image component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [
@@ -73,6 +75,7 @@ test.describe('Image component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [

@@ -5842,6 +5842,9 @@
             },
             "type": "array"
           },
+          "name": {
+            "type": "string"
+          },
           "path": {
             "type": "string"
           },
@@ -5849,8 +5852,8 @@
             "type": "string"
           }
         },
-        "propertyOrder": ["path", "title", "components"],
-        "required": ["components", "path", "title"],
+        "propertyOrder": ["name", "path", "title", "components"],
+        "required": ["components", "name", "path", "title"],
         "type": "object"
       },
       "type": "array"

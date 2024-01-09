@@ -9,6 +9,7 @@ test.describe('Paragraph component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [

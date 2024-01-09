@@ -4,6 +4,7 @@ const config: Config = {
   name: 'landing',
   pages: [
     {
+      name: 'home',
       path: '/',
       title: 'Landing',
       components: [

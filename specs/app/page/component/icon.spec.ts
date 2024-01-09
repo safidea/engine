@@ -9,6 +9,7 @@ test.describe('Icon component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [
@@ -39,6 +40,7 @@ test.describe('Icon component', () => {
           {
             pages: [
               {
+                name: 'home',
                 path: '/',
                 title: 'Home',
                 components: [

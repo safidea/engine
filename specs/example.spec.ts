@@ -7,6 +7,7 @@ test.describe('Specs examples', () => {
     const config: ConfigDto = {
       pages: [
         {
+          name: 'home',
           path: '/',
           title: 'Home',
           components: [

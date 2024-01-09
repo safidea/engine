@@ -13,6 +13,7 @@ describe('Page', () => {
     // GIVEN
     const PageRender = await new Page(
       {
+        name: 'test',
         path: '/',
         title: 'test',
         components: [

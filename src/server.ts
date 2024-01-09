@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { ConfigDto as Config } from '@adapters/dtos/ConfigDto'
+import { ConfigDto as Config, ConfigIoTs } from '@adapters/dtos/ConfigDto'
 import { AutomationParams as Automation } from '@entities/app/automation/AutomationParams'
 import { ActionParams as Action } from '@entities/app/automation/action/ActionParams'
 import { TableParams as Table } from '@entities/app/table/TableParams'
@@ -24,6 +24,7 @@ import { App } from '@entities/app/App'
 import { AppValidator } from '@adapters/validators/app/AppValidator'
 
 export type { Config, Page, Table, Automation, Action, Component, Field, Bucket }
+export { ConfigIoTs }
 
 export interface EngineOptions {
   server?: ServerDrivers
