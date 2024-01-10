@@ -8,10 +8,10 @@
   "license": "BSL 1.1",
   "exports": {
     ".": "./dist/server.js",
-    "./schemas/app.schema.json": "./schemas/app.schema.json",
-    "./schemas/page.schema.json": "./schemas/page.schema.json",
-    "./schemas/automation.schema.json": "./schemas/automation.schema.json",
-    "./schemas/table.schema.json": "./schemas/table.schema.json"
+    "./app.schema.json": "./schemas/app.schema.json",
+    "./page.schema.json": "./schemas/page.schema.json",
+    "./automation.schema.json": "./schemas/automation.schema.json",
+    "./table.schema.json": "./schemas/table.schema.json"
   },
   "scripts": {
     "lint": "eslint .",
