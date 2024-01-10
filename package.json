@@ -8,16 +8,20 @@
   "license": "BSL 1.1",
   "exports": {
     ".": "./dist/server.js",
-    "./schema.json": "./schema.json"
+    "./schemas": "./schemas"
   },
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
-    "build": "bun run build:server & bun run build:client & bun run build:schema",
+    "build": "bun run build:server && bun run build:client && bun run build:schema",
     "build:client": "bun run scripts/build-client.js && bun run build:tailwind",
     "build:server": "tsc --project scripts/tsconfig.json && bun run scripts/build-server.js",
     "build:tailwind": "tailwindcss -i ./src/drivers/ui/TailwindUI/input.css -o ./dist/public/output.css --minify",
-    "build:schema": "bunx typescript-json-schema ./tsconfig.json ConfigDto --out ./schema.json --required --propOrder --constAsEnum && prettier --write \"**/schema.json\"",
+    "build:schema": "bun run build:schema:app && bun run build:schema:page && bun run build:schema:automation && bun run build:schema:table",
+    "build:schema:app": "bunx typescript-json-schema ./tsconfig.json AppParams --out ./schemas/app.json --required --propOrder --constAsEnum && prettier --write \"**/schemas/app.json\"",
+    "build:schema:page": "bunx typescript-json-schema ./tsconfig.json PageParams --out ./schemas/page.json --required --propOrder --constAsEnum && prettier --write \"**/schemas/page.json\"",
+    "build:schema:automation": "bunx typescript-json-schema ./tsconfig.json AutomationParams --out ./schemas/automation.json --required --propOrder --constAsEnum && prettier --write \"**/schemas/automation.json\"",
+    "build:schema:table": "bunx typescript-json-schema ./tsconfig.json TableParams --out ./schemas/table.json --required --propOrder --constAsEnum && prettier --write \"**/schemas/table.json\"",
     "watch": "bun run watch:server & bun run watch:client & bun run watch:tailwind",
     "watch:server": "bun build ./src/server.ts --outdir ./dist --target bun --watch",
     "watch:client": "bun build ./src/client.tsx --outdir ./dist/public --watch",
