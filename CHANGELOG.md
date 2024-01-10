@@ -1,3 +1,11 @@
+## [0.4.12](https://github.com/solumy/engine/compare/v0.4.11...v0.4.12) (2024-01-10)
+
+
+### Bug Fixes
+
+* **schemas:** rename schema files ([ef4b3a2](https://github.com/solumy/engine/commit/ef4b3a26e1378419f8ee89711ead3efbcc928e46))
+* **schemas:** save schema files ([b3ef203](https://github.com/solumy/engine/commit/b3ef20359ce01859a67c89b9f80ed09d0d272168))
+
 ## [0.4.11](https://github.com/solumy/engine/compare/v0.4.10...v0.4.11) (2024-01-10)
 
 ### Bug Fixes
