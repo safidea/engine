@@ -1,9 +1,8 @@
 ## [0.4.11](https://github.com/solumy/engine/compare/v0.4.10...v0.4.11) (2024-01-10)
 
-
 ### Bug Fixes
 
-* **schemas:** add page, automation and table json schema ([215db79](https://github.com/solumy/engine/commit/215db79986e02a95afc206574e9db057b878b3da))
+- **schemas:** add page, automation and table json schema ([215db79](https://github.com/solumy/engine/commit/215db79986e02a95afc206574e9db057b878b3da))
 
 ## [0.4.10](https://github.com/solumy/engine/compare/v0.4.9...v0.4.10) (2024-01-09)
 
