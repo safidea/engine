@@ -8,7 +8,7 @@
   "license": "BSL 1.1",
   "exports": {
     ".": "./dist/server.js",
-    "./schemas": "./schemas"
+    "./schemas/": "./schemas/"
   },
   "scripts": {
     "lint": "eslint .",
