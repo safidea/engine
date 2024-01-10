@@ -9,10 +9,14 @@
   "exports": {
     ".": "./dist/server.js",
     "./app.schema.json": "./schemas/app.schema.json",
-    "./page.schema.json": "./schemas/page.schema.json",
+    "./table.schema.json": "./schemas/table.schema.json",
     "./automation.schema.json": "./schemas/automation.schema.json",
-    "./table.schema.json": "./schemas/table.schema.json"
+    "./page.schema.json": "./schemas/page.schema.json"
   },
+  "files": [
+    "dist/**/*",
+    "schemas/**/*"
+  ],
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -44,10 +48,6 @@
     "chromatic": "npx chromatic --project-token=chpt_eae7002a5fff966",
     "semantic-release": "semantic-release"
   },
-  "files": [
-    "dist/**/*",
-    "schema.json"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/solumy/engine.git"
