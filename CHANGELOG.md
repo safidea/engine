@@ -1,3 +1,10 @@
+## [0.4.13](https://github.com/solumy/engine/compare/v0.4.12...v0.4.13) (2024-01-10)
+
+
+### Bug Fixes
+
+* **schemas:** add folder export ([519d627](https://github.com/solumy/engine/commit/519d627af799c7c1d959536a3f7ea5643151ccee))
+
 ## [0.4.12](https://github.com/solumy/engine/compare/v0.4.11...v0.4.12) (2024-01-10)
 
 ### Bug Fixes
