@@ -1,9 +1,8 @@
 ## [0.4.10](https://github.com/solumy/engine/compare/v0.4.9...v0.4.10) (2024-01-09)
 
-
 ### Bug Fixes
 
-* **schema:** add name to page schema ([01fd35c](https://github.com/solumy/engine/commit/01fd35c840c08d136e72634f8226bf40d8984738))
+- **schema:** add name to page schema ([01fd35c](https://github.com/solumy/engine/commit/01fd35c840c08d136e72634f8226bf40d8984738))
 
 ## [0.4.9](https://github.com/solumy/engine/compare/v0.4.8...v0.4.9) (2023-11-08)
 
