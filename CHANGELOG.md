@@ -1,3 +1,10 @@
+## [0.4.16](https://github.com/solumy/engine/compare/v0.4.15...v0.4.16) (2024-01-10)
+
+
+### Bug Fixes
+
+* **schemas:** fix schemas export ([a0229fd](https://github.com/solumy/engine/commit/a0229fde15a812ff4085150807f5a90be9e00eb8))
+
 ## [0.4.15](https://github.com/solumy/engine/compare/v0.4.14...v0.4.15) (2024-01-10)
 
 
