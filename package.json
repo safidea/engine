@@ -126,6 +126,7 @@
     "eslint-plugin-storybook": "^0.6.14",
     "get-port": "^7.0.0",
     "husky": "8.0.3",
+    "json-schema-static-docs": "^0.25.0",
     "pdf-parse": "^1.1.1",
     "postcss": "^8.4.31",
     "prettier": "latest",
