@@ -1,1 +1,159 @@
 name: Request
+
+# Drivers:
+#   database: postgres | sqlite
+#   email: mailgun | sqlite
+
+pages:
+  - name: home
+    path: /
+    seo:
+      title: Request
+      description: Request
+    body:
+      - component: hero
+        props:
+          logo:
+            src: /public/logo.svg
+            alt: Logo
+          title: Your tech team on demand
+          description: Tech subscriptions for everyone. Pause or cancel anytime.
+          primaryButton:
+            label: Get Started
+            path: "/get-started"
+  - name: get-started
+    path: /get-started
+    seo:
+      title: Request | Get Started
+      description: Request | Get Started
+    body:
+      - component: form
+        form:
+          name: get-started
+          action: create-row
+          table: leads
+          redirect: /thank-you
+        children:
+          - component: input
+            input:
+              field: name
+            props:
+              label: Name
+          - component: input
+            input:
+              field: email
+            props:
+              label: Email
+          - component: input
+            input:
+              field: phone
+            props:
+              label: Phone
+          - component: input
+            input:
+              field: company
+            props:
+              label: Company
+          - component: button
+            button:
+              type: submit
+            props:
+              label: Submit
+              primary: true
+  - name: thank-you
+    path: /thank-you
+    seo:
+      title: Request | Thank You
+      description: Request | Thank You
+    components:
+      - type: hero
+        props:
+          logo:
+            src: /public/logo.svg
+            alt: Logo
+          title: Thank you for your request
+          description: We will get back to you shortly.
+          primaryButton:
+            label: Home
+            path: "/"
+
+automations:
+  - name: new-contact
+    trigger:
+      type: form
+      name: get-started
+    actions:
+      - type: send-email
+        name: send-confirmation
+        input:
+          to: $trigger.email
+          from: "test@test.com"
+          subject: "Thank you for your request"
+          body: "We will get back to you shortly."
+
+tables:
+  - name: leads
+    fields:
+      - name: name
+        type: text
+      - name: email
+        type: email
+      - name: phone
+        type: tel
+      - name: company
+        type: text
+      - name: status
+        type: text
+
+components:
+  - name: hero
+    template: /hero.handlebars
+    props:
+      - name: logo
+        type: object
+        props:
+          - name: src
+            type: text
+          - name: alt
+            type: text
+      - name: title
+        type: text
+      - name: description
+        type: text
+      - name: primaryButton
+        type: object
+        props:
+          - name: label
+            type: text
+          - name: path
+            type: text
+  - name: form
+    template: /form.handlebars
+    props:
+  - name: input
+    template: /input.handlebars
+    props:
+      - name: field
+        type: text
+  - name: submit-button
+    template: /submit-button.handlebars
+    props:
+      - name: label
+        type: text
+      - name: primary
+        type: boolean
+      - name: path
+        type: text
+
+actions:
+  - name: send-email
+    function: /send-email.js
+    input:
+      - name: to
+        type: text
+      - name: subject
+        type: text
+      - name: body
+        type: text
+      - name: from
+        type: text
