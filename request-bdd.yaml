@@ -1,0 +1,161 @@
+name: Request
+features:
+  - roles:
+      - anonym
+    redirect: /login
+    can:
+      - name: display the landing page
+        when:
+          - open: /
+        then:
+          - title: Request
+          - component: hero
+            title: Request
+            description: Request
+            primary-button:
+              label: Get Started
+              path: "/get-started"
+            navigation:
+              logo:
+                src: "/images/logo.svg"
+                alt: "Logo"
+              action:
+                label: Login
+                path: "/login"
+      - name: open the /get-started page from the home page
+        when:
+          - open: /
+          - click: Get Started
+        then:
+          - url: /get-started
+      - name: display the /get-started page
+        when:
+          - open: /get-started
+        then:
+          - title: Request | Get Started
+          - component: form
+            title: Get Started
+            description: Fill out the form below to get started.
+            children:
+              - component: text-input
+                name: name
+                label: Name
+                placeholder: Enter your name
+              - component: email-input
+                name: email
+                label: Email
+                placeholder: Enter your email
+              - component: text-input
+                name: phone
+                label: Phone
+                placeholder: Enter your phone
+              - component: text-input
+                name: company
+                label: Company
+                placeholder: Enter your company
+              - component: primary-button
+                type: submit
+                label: Submit
+      - name: submit the /get-started form
+        when:
+          - open: /get-started
+          - fill: name
+            value: John Doe
+          - fill: email
+            value: john.doe@test.com
+          - fill: phone
+            value: 1234567890
+          - fill: company
+            value: Test Company
+          - click: Submit
+        then:
+          - url: /thank-you
+          - database:
+              table: leads
+              rows:
+                - name: John Doe
+                  email: john.doe@test.com
+                  phone: 1234567890
+                  company: Test Company
+          - mailer:
+              - email: john.doe@test.com
+                mailbox:
+                  - subject: Thank you for your request
+                    body: We will get back to you shortly.
+      - name: display the /thank-you page
+        when:
+          - open: /thank-you
+        then:
+          - title: Request | Thank You
+          - component: hero
+            logo:
+              src: "/images/logo.svg"
+              alt: "Logo"
+            title: Thank you for your request
+            description: We will get back to you shortly.
+            primary-button:
+              label: Home
+              path: "/"
+      - name: open the /thank-you page from the /get-started page
+        when:
+          - open: /get-started
+          - click: Submit
+        then:
+          - url: /thank-you
+      - name: open the /login page from the home page
+        when:
+          - open: /login
+          - click: Login
+        then:
+          - url: /login
+      - name: display the /login page
+        when:
+          - open: /login
+        then:
+          - title: Request | Login
+          - component: form
+            title: Login
+            children:
+              - component: text-input
+                name: email
+                label: Email
+                placeholder: Enter your email
+              - component: primary-button
+                type: submit
+                label: Submit
+      - name: submit the /login form for an existing user
+        given:
+          - database:
+              table: users
+              rows:
+                - email: test@test.com
+        when:
+          - open: /login
+          - fill: email
+            value: test@test.com
+          - click: Submit
+        then:
+          - url: /dashboard
+      - name: submit the /login form for an inexisting user
+        when:
+          - open: /login
+          - fill: email
+            value: test@test.com
+          - click: Submit
+        then:
+          - component: text-input
+            name: email
+            error: "Email is not registered."
+
+  # TODO: complete the customer / consultant features
+  - roles:
+      - customer
+      - consultant
+    redirect: /dashboard
+    can:
+      - name: display requests
+        when:
+          - open: /dashboard
+        then:
+          - component: list
+# TODO: Write components library

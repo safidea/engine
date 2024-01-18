@@ -127,14 +127,17 @@ components:
             type: text
           - name: path
             type: text
+
   - name: form
     template: /form.handlebars
     props:
+    tests:
   - name: input
     template: /input.handlebars
     props:
       - name: field
         type: text
+    tests:
   - name: submit-button
     template: /submit-button.handlebars
     props:
@@ -144,6 +147,7 @@ components:
         type: boolean
       - name: path
         type: text
+    tests:
 
 actions:
   - name: send-email
@@ -157,3 +161,5 @@ actions:
         type: text
       - name: from
         type: text
+    tests: 
+
