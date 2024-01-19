@@ -1,27 +1,36 @@
 name: Request
 features:
   - roles:
-      - anonym
-    redirect: /login
+      - anynom
     can:
       - name: display the landing page
-        when:
-          - open: /
-        then:
-          - title: Request
-          - component: hero
-            title: Request
-            description: Request
-            primary-button:
-              label: Get Started
-              path: "/get-started"
-            navigation:
-              logo:
-                src: "/images/logo.svg"
-                alt: "Logo"
-              action:
-                label: Login
-                path: "/login"
+        specs:
+          - name: display the landing page
+            when:
+              - open: /
+            then:
+              - title: Request
+              - h1: Request
+              - p: Request
+              - a: 
+                  label: Get Started
+                  href: "/get-started"
+        pages:
+          - name: Home
+            path: /
+            seo:
+              title: Request
+              description: Request
+            body:
+              - component: hero
+                logo:
+                  src: /public/logo.svg
+                  alt: Logo
+                title: Your tech team on demand
+                description: Tech subscriptions for everyone. Pause or cancel anytime.
+                primary-button:
+                  label: Get Started
+                  path: "/get-started"
       - name: open the /get-started page from the home page
         when:
           - open: /
@@ -146,16 +155,3 @@ features:
           - component: text-input
             name: email
             error: "Email is not registered."
-
-  # TODO: complete the customer / consultant features
-  - roles:
-      - customer
-      - consultant
-    redirect: /dashboard
-    can:
-      - name: display requests
-        when:
-          - open: /dashboard
-        then:
-          - component: list
-# TODO: Write components library
