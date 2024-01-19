@@ -3,7 +3,7 @@ import { RunningEngine } from './RunningEngine'
 export class StoppedEngine {
   errors: string[] = []
 
-  constructor(private config: object) {
+  constructor(private config: unknown) {
     this.errors = []
   }
 

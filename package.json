@@ -1,6 +1,7 @@
 {
   "name": "engine",
-  "module": "index.ts",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -8,9 +9,11 @@
     "build": "bun run scripts/build/index.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.41.0",
     "@types/bun": "latest",
     "@types/debug": "^4.1.12",
     "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "debug": "^4.3.4",

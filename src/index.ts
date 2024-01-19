@@ -1,3 +1,5 @@
-import { StoppedEngine } from '@domain/engine/StoppedEngine'
+import { StoppedEngine as Engine } from '@domain/engine/StoppedEngine'
 
-export default StoppedEngine
+export type { Engine } from '@domain/engine/IEngine'
+
+export default Engine

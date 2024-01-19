@@ -5,7 +5,7 @@
 - [x] Write all the Request config in yaml, in the simplest format, with the minimum of features
   - [x] Landing page (Webflow alternative)
   - [x] Contact form (Typeform alternative)
-- [ ] Write the json schema of the engine from typescript interfaces
+- [x] Write the json schema of the engine from typescript interfaces
 - [ ] Write the config validator from the json schema
 - [ ] Write a tests runner for this config (as a standalone tool / package)
 - [ ] Develop the new engine by TDD
