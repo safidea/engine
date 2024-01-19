@@ -2,8 +2,22 @@
   "name": "engine",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "build": "bun run scripts/build/index.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/debug": "^4.1.12",
+    "@types/fs-extra": "^11.0.4",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "debug": "^4.3.4",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "fs-extra": "^11.2.0",
+    "prettier": "^3.2.4"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

@@ -1,0 +1,20 @@
+{
+  "name": "request",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "cd ../../ && bun run build",
+    "build": "bun build index.ts --outdir dist --target node --external js-yaml",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/js-yaml": "^4.0.9"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
