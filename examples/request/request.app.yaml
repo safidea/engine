@@ -1,0 +1,62 @@
+name: Request
+roles:
+  - name: anyone
+features:
+  - story:
+      as: anyone
+      iWant: to see the landing page
+      soThat: i can learn more about the product
+    specs:
+      - name: should display the landing page
+        when:
+          - open: /
+        then:
+          - title: t.pages.home.seo.title
+          - h1: t.pages.home.body.landing-hero.title
+          - p: t.pages.home.body.landing-hero.description
+          - a:
+              text: t.pages.home.body.landing-hero.primary-button.label
+              href: t.pages.home.body.landing-hero.primary-button.path
+    pages:
+      - name: home
+        path: /
+        seo:
+          title: t.pages.home.seo.title
+          description: t.pages.home.seo.description
+        body:
+          - component: hero
+            name: landing-hero
+            title: t.pages.home.body.landing-hero.title
+            description: t.pages.home.body.landing-hero.description
+            primary-button:
+              text: t.pages.home.body.landing-hero.primary-button.label
+              path: t.pages.home.body.landing-hero.primary-button.path
+translations:
+  en:
+    pages:
+      home:
+        seo:
+          title: Request
+          description: Request
+        body:
+          landing-hero:
+            title: Your tech team on demand
+            description: Tech subscriptions for everyone. Pause or cancel anytime.
+            primary-button:
+              text: Get Started
+              path: '/get-started'
+components:
+  - name: hero
+    template: /hero.handlebars
+    props:
+      - name: title
+        type: string
+      - name: description
+        type: string
+      - name: primary-button
+        type: object
+        props:
+          - name: text
+            type: string
+          - name: path
+            type: string

@@ -1,5 +1,3 @@
-export default class Engine {
-  constructor() {
-    console.log('Engine constructor')
-  }
-}
+import { StoppedEngine } from '@domain/engine/StoppedEngine'
+
+export default StoppedEngine

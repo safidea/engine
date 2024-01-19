@@ -5,16 +5,18 @@
   "scripts": {
     "prebuild": "cd ../../ && bun run build",
     "build": "bun build index.ts --outdir dist --target node --external js-yaml",
-    "start": "node dist/index.js"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/js-yaml": "^4.0.9"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+    "start": "node dist/index.js",
+    "dev": "nodemon"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/js-yaml": "^4.0.9",
+    "nodemon": "^3.0.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }

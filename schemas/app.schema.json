@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "IFeature": {
+            "properties": {
+                "story": {
+                    "properties": {
+                        "as": {
+                            "type": "string"
+                        },
+                        "iWant": {
+                            "type": "string"
+                        },
+                        "soThat": {
+                            "type": "string"
+                        }
+                    },
+                    "propertyOrder": [
+                        "as",
+                        "iWant",
+                        "soThat"
+                    ],
+                    "required": [
+                        "as",
+                        "iWant",
+                        "soThat"
+                    ],
+                    "type": "object"
+                }
+            },
+            "propertyOrder": [
+                "story"
+            ],
+            "required": [
+                "story"
+            ],
+            "type": "object"
+        },
+        "IRole": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "name"
+            ],
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "features": {
+            "items": {
+                "$ref": "#/definitions/IFeature"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "roles": {
+            "items": {
+                "$ref": "#/definitions/IRole"
+            },
+            "type": "array"
+        }
+    },
+    "propertyOrder": [
+        "name",
+        "roles",
+        "features"
+    ],
+    "required": [
+        "features",
+        "name",
+        "roles"
+    ],
+    "type": "object"
+}
+

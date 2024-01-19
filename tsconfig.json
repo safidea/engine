@@ -18,6 +18,11 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["src/domain/*"],
+    },
   },
   "exclude": ["node_modules", "dist", "examples", ".old"],
 }
