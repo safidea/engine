@@ -1,17 +1,13 @@
-import { exec, log } from '../utils'
+import { deleteFilesRecursively, exec, log } from '../utils'
 import path from 'path'
 import fs from 'fs-extra'
+
+log('✓ Start building types')
 
 const __dirname = new URL('.', import.meta.url).pathname
 const OUTPUT_DIR = path.resolve(process.cwd(), 'dist')
 const ALIAS_MAP = {
   '@domain/': path.resolve(OUTPUT_DIR, 'domain') + '/',
-}
-
-export async function buildTypes() {
-  await exec(`tsc --project ${path.join(__dirname, 'tsconfig.json')}`)
-  processDirectory(OUTPUT_DIR)
-  log(`✓ Built types`)
 }
 
 function replaceAliasesWithRelativePaths(filePath: string) {
@@ -43,3 +39,9 @@ function processDirectory(directory: string) {
     }
   })
 }
+
+await deleteFilesRecursively('dist', '.d.ts')
+await exec(`tsc --project ${path.join(__dirname, 'tsconfig.json')}`)
+processDirectory(OUTPUT_DIR)
+
+log(`✓ Built types`)

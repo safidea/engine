@@ -1,7 +1,11 @@
 import debug from 'debug'
-import { execSync } from 'child_process'
+import { exec as execSync } from 'child_process'
+import { promisify } from 'util'
+import fs from 'fs-extra'
+import path from 'path'
 
 export const log = debug('engine:build')
+export const exec = promisify(execSync)
 
 export function onErrors(name: string, messages: string[]) {
   log(`✖️ Build ${name} failed`)
@@ -19,21 +23,21 @@ export function onBunErrors(name: string, logs: (BuildMessage | ResolveMessage)[
   )
 }
 
-export async function exec(command: string) {
-  await new Promise((resolve, reject) => {
-    try {
-      execSync(command)
-      resolve(true)
-    } catch (error) {
-      console.error(command)
-      reject(error)
-    }
-  })
-}
-
 export function capitalize(str: string) {
   if (str && typeof str === 'string') {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
   return str
+}
+
+export async function deleteFilesRecursively(directoryPath: string, extname: string) {
+  const entries = await fs.readdir(directoryPath, { withFileTypes: true })
+  for (const entry of entries) {
+    const entryPath = path.join(directoryPath, entry.name)
+    if (entry.isDirectory()) {
+      await deleteFilesRecursively(entryPath, extname)
+    } else if (entry.isFile() && path.extname(entry.name) === extname) {
+      await fs.unlink(entryPath)
+    }
+  }
 }

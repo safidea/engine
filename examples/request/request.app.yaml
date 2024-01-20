@@ -11,7 +11,8 @@ translations:
       - &HomePageHeroPrimaryButtonLabel Get Started
       - &HomePageHeroPrimaryButtonPath '/get-started'
 features:
-  - story:
+  - name: landing-page
+    story:
       as: anyone
       iWant: to see the landing page
       soThat: i can learn more about the product
@@ -21,11 +22,9 @@ features:
           - open: /
         then:
           - title: *HomePageTitle
-          - h1: *HomePageHeroTitle
-          - p: *HomePageHeroDescription
-          - a:
-              text: *HomePageHeroPrimaryButtonLabel
-              href: *HomePageHeroPrimaryButtonPath
+          - text: *HomePageHeroTitle
+          - text: *HomePageHeroDescription
+          - text: *HomePageHeroPrimaryButtonLabel
     pages:
       - name: home
         path: /

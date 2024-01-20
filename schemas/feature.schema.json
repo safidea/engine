@@ -1,0 +1,207 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "IPage": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IPageComponent"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "seo": {
+                    "$ref": "#/definitions/IPageSeo"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path",
+                "seo"
+            ],
+            "type": "object"
+        },
+        "IPageComponent": {
+            "additionalProperties": {
+                "anyOf": [
+                    {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "items": {
+                            "$ref": "#/definitions/IPageComponent"
+                        },
+                        "type": "array"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
+            },
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/IPageComponent"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPageSeo": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "title"
+            ],
+            "type": "object"
+        },
+        "ISpec": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/ISpecResult"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/ISpecOpenAction"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "ISpecOpenAction": {
+            "additionalProperties": false,
+            "properties": {
+                "open": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "open"
+            ],
+            "type": "object"
+        },
+        "ISpecResult": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ISpecTitleResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecTextResult"
+                }
+            ]
+        },
+        "ISpecTextResult": {
+            "additionalProperties": false,
+            "properties": {
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "ISpecTitleResult": {
+            "additionalProperties": false,
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "pages": {
+            "items": {
+                "$ref": "#/definitions/IPage"
+            },
+            "type": "array"
+        },
+        "specs": {
+            "items": {
+                "$ref": "#/definitions/ISpec"
+            },
+            "type": "array"
+        },
+        "story": {
+            "additionalProperties": false,
+            "properties": {
+                "as": {
+                    "type": "string"
+                },
+                "iWant": {
+                    "type": "string"
+                },
+                "soThat": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "as",
+                "iWant",
+                "soThat"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "name",
+        "pages",
+        "specs",
+        "story"
+    ],
+    "type": "object"
+}
+

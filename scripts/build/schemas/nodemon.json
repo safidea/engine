@@ -1,0 +1,13 @@
+{
+  "watch": [
+    "src/domain/entities/app/IApp.ts",
+    "src/domain/entities/role/IRole.ts",
+    "src/domain/entities/page/IPage.ts",
+    "src/domain/entities/spec/ISpec.ts",
+    "src/domain/entities/feature/IFeature.ts",
+    "src/domain/entities/component/IComponent.ts"
+  ],
+  "ext": "ts,tsx",
+  "ignore": ["dist/", "node_modules/"],
+  "exec": "DEBUG=* bun run build:schemas"
+}

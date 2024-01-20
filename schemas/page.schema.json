@@ -1,0 +1,88 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "IPageComponent": {
+            "additionalProperties": {
+                "anyOf": [
+                    {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "items": {
+                            "$ref": "#/definitions/IPageComponent"
+                        },
+                        "type": "array"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
+            },
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/IPageComponent"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPageSeo": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "body": {
+            "items": {
+                "$ref": "#/definitions/IPageComponent"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "path": {
+            "type": "string"
+        },
+        "seo": {
+            "$ref": "#/definitions/IPageSeo"
+        }
+    },
+    "required": [
+        "body",
+        "name",
+        "path",
+        "seo"
+    ],
+    "type": "object"
+}
+
