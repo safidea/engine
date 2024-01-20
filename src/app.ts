@@ -1,9 +1,9 @@
 import { AppEntity } from '@domain/entities/app/AppEntity'
 import { drivers } from '@drivers/index'
-import type { AppError } from '@domain/entities/app/AppError'
+import type { ConfigError } from '@domain/entities/ConfigError'
 
 export class App {
-  errors: AppError[] = []
+  errors: ConfigError[] = []
   entity: AppEntity | undefined
 
   constructor(public config: unknown) {
@@ -13,6 +13,9 @@ export class App {
       this.errors = errors
     } else {
       this.entity = new AppEntity(json)
+      if (this.entity.errors.length) {
+        this.errors = this.entity.errors
+      }
     }
   }
 }
