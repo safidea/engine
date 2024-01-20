@@ -1,7 +1,18 @@
-export { RoleNameRequiredError } from './errors/RoleNameRequiredError'
-export { UnknownRolePropertyError } from './errors/UnknownRolePropertyError'
+export type RoleErrorCode = 'NAME_REQUIRED' | 'UNKNOWN_PROPERTY'
 
-import type { RoleNameRequiredError } from './errors/RoleNameRequiredError'
-import type { UnknownRolePropertyError } from './errors/UnknownRolePropertyError'
+export interface RoleErrorData {
+  property: string
+}
 
-export type RoleError = RoleNameRequiredError | UnknownRolePropertyError
+export class RoleError extends Error {
+  public code: string
+
+  constructor(
+    message: RoleErrorCode,
+    public data?: RoleErrorData
+  ) {
+    super(message)
+    this.name = 'ROLE_ERROR'
+    this.code = this.name + '_' + message
+  }
+}

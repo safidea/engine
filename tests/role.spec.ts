@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { Role, RoleNameRequiredError, UnknownRolePropertyError } from '@solumy/engine/role'
+import { Role, RoleError } from '@solumy/engine/role'
 
 test.describe('Role class', () => {
   test('empty config should return 1 errors', async () => {
@@ -21,9 +21,9 @@ test.describe('Role class', () => {
     const app = new Role(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'ROLE_NAME_REQUIRED')
+    const error = app.errors.find((e) => e.code === 'ROLE_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(RoleNameRequiredError)
+    expect(error).toBeInstanceOf(RoleError)
   })
 
   test('unknown property should not be allowed', async () => {
@@ -36,9 +36,9 @@ test.describe('Role class', () => {
     const app = new Role(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'UNKNOWN_ROLE_PROPERTY')
+    const error = app.errors.find((e) => e.code === 'ROLE_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(UnknownRolePropertyError)
-    expect((error as UnknownRolePropertyError).property).toBe('unknown')
+    expect(error).toBeInstanceOf(RoleError)
+    expect((error as RoleError).data?.property).toBe('unknown')
   })
 })

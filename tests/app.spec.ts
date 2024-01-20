@@ -1,13 +1,5 @@
 import { test, expect } from '@playwright/test'
-import {
-  App,
-  AppNameRequiredError,
-  AppRolesRequiredError,
-  AppFeaturesRequiredError,
-  UnknownAppPropertyError,
-  AppComponentsRequiredError,
-  AppTranslationsRequiredError,
-} from '@solumy/engine/app'
+import { App, AppError } from '@solumy/engine/app'
 
 test.describe('App class', () => {
   test('empty config should return 5 errors', async () => {
@@ -29,9 +21,24 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'APP_NAME_REQUIRED')
+    const error = app.errors.find((e: AppError) => e.code === 'APP_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppNameRequiredError)
+    expect(error).toBeInstanceOf(AppError)
+  })
+
+  test('name should be a string', async () => {
+    // GIVEN
+    const config = {
+      name: 1,
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_NAME_STRING_TYPE_REQUIRED')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(AppError)
   })
 
   test('roles should be required', async () => {
@@ -42,9 +49,24 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'APP_ROLES_REQUIRED')
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_ROLES_REQUIRED')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppRolesRequiredError)
+    expect(error).toBeInstanceOf(AppError)
+  })
+
+  test('roles should be an array', async () => {
+    // GIVEN
+    const config = {
+      roles: 1,
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_ROLES_ARRAY_TYPE_REQUIRED')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(AppError)
   })
 
   test('features should be required', async () => {
@@ -55,9 +77,9 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'APP_FEATURES_REQUIRED')
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_FEATURES_REQUIRED')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppFeaturesRequiredError)
+    expect(error).toBeInstanceOf(AppError)
   })
 
   test('components should be required', async () => {
@@ -68,9 +90,9 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'APP_COMPONENTS_REQUIRED')
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_COMPONENTS_REQUIRED')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppComponentsRequiredError)
+    expect(error).toBeInstanceOf(AppError)
   })
 
   test('translations should be required', async () => {
@@ -81,9 +103,9 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'APP_TRANSLATIONS_REQUIRED')
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_REQUIRED')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppTranslationsRequiredError)
+    expect(error).toBeInstanceOf(AppError)
   })
 
   test('unknown property should not be allowed', async () => {
@@ -96,9 +118,9 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'UNKNOWN_APP_PROPERTY')
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(UnknownAppPropertyError)
-    expect((error as UnknownAppPropertyError).property).toBe('unknown')
+    expect(error).toBeInstanceOf(AppError)
+    expect((error as AppError).data?.property).toBe('unknown')
   })
 })

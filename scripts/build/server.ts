@@ -1,4 +1,4 @@
-import { log, onBunErrors, fixBunNodeBuild } from './utils'
+import { log, onBunErrors } from './utils'
 
 export async function buildServer({ externals }: { externals: string[] }) {
   const entrypoints = ['src/app.ts', 'src/role.ts']
@@ -10,6 +10,5 @@ export async function buildServer({ externals }: { externals: string[] }) {
     external: externals,
   })
   if (!success) onBunErrors('server', logs)
-  await fixBunNodeBuild(entrypoints)
   log('✓ Built server')
 }

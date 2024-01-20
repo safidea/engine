@@ -4,16 +4,9 @@ import { join } from 'path'
 import type { JSONSchemaType, ValidateFunction } from 'ajv'
 import type { IJsonValidator } from '@domain/drivers/jsonValidator/IJsonValidator'
 import type { IApp } from '@domain/entities/app/IApp'
-import {
-  AppNameRequiredError,
-  AppRolesRequiredError,
-  AppFeaturesRequiredError,
-  UnknownAppPropertyError,
-  AppComponentsRequiredError,
-  AppTranslationsRequiredError,
-} from '@domain/entities/app/AppError'
+import { AppError } from '@domain/entities/app/AppError'
 import type { IRole } from '@domain/entities/role/IRole'
-import { RoleNameRequiredError, UnknownRolePropertyError } from '@domain/entities/role/RoleError'
+import { RoleError } from '@domain/entities/role/RoleError'
 
 const schemaPath = join(process.cwd(), 'schemas/')
 
@@ -34,15 +27,19 @@ class JsonValidator implements IJsonValidator {
       return { json }
     } else if (this.validateApp.errors) {
       const errors = this.validateApp.errors.map((error) => {
-        const { keyword, params } = error
+        const { instancePath, keyword, params } = error
         if (keyword === 'required') {
-          if (params.missingProperty === 'name') return new AppNameRequiredError()
-          if (params.missingProperty === 'roles') return new AppRolesRequiredError()
-          if (params.missingProperty === 'features') return new AppFeaturesRequiredError()
-          if (params.missingProperty === 'components') return new AppComponentsRequiredError()
-          if (params.missingProperty === 'translations') return new AppTranslationsRequiredError()
+          if (params.missingProperty === 'name') return new AppError('NAME_REQUIRED')
+          if (params.missingProperty === 'roles') return new AppError('ROLES_REQUIRED')
+          if (params.missingProperty === 'features') return new AppError('FEATURES_REQUIRED')
+          if (params.missingProperty === 'components') return new AppError('COMPONENTS_REQUIRED')
+          if (params.missingProperty === 'translations')
+            return new AppError('TRANSLATIONS_REQUIRED')
         } else if (keyword === 'additionalProperties') {
-          return new UnknownAppPropertyError(params.additionalProperty)
+          return new AppError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
+        } else if (keyword === 'type') {
+          if (instancePath === '/name') return new AppError('NAME_STRING_TYPE_REQUIRED')
+          if (instancePath === '/roles') return new AppError('ROLES_ARRAY_TYPE_REQUIRED')
         }
         throw new Error('Unknown AJV error: ' + JSON.stringify(error, null, 2))
       })
@@ -59,9 +56,9 @@ class JsonValidator implements IJsonValidator {
       const errors = this.validateRole.errors.map((error) => {
         const { keyword, params } = error
         if (keyword === 'required') {
-          if (params.missingProperty === 'name') return new RoleNameRequiredError()
+          if (params.missingProperty === 'name') return new RoleError('NAME_REQUIRED')
         } else if (keyword === 'additionalProperties') {
-          return new UnknownRolePropertyError(params.additionalProperty)
+          return new RoleError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
         }
         throw new Error('Unknown AJV error: ' + JSON.stringify(error, null, 2))
       })

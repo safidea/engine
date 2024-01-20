@@ -1,6 +1,6 @@
 import { RoleEntity } from '@domain/entities/role/RoleEntity'
 import { drivers } from '@drivers/index'
-import type { RoleError } from '@domain/entities/role/RoleError'
+import { RoleError } from '@domain/entities/role/RoleError'
 
 export class Role {
   errors: RoleError[] = []
@@ -18,4 +18,4 @@ export class Role {
 }
 
 export type { IRole } from '@domain/entities/role/IRole'
-export * from '@domain/entities/role/RoleError'
+export { RoleError }

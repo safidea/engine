@@ -1,21 +1,26 @@
-export { AppNameRequiredError } from './errors/AppNameRequiredError'
-export { AppFeaturesRequiredError } from './errors/AppFeaturesRequiredError'
-export { AppRolesRequiredError } from './errors/AppRolesRequiredError'
-export { UnknownAppPropertyError } from './errors/UnknownAppPropertyError'
-export { AppComponentsRequiredError } from './errors/AppComponentsRequiredError'
-export { AppTranslationsRequiredError } from './errors/AppTranslationsRequiredError'
+export type AppErrorCode =
+  | 'NAME_REQUIRED'
+  | 'FEATURES_REQUIRED'
+  | 'ROLES_REQUIRED'
+  | 'UNKNOWN_PROPERTY'
+  | 'COMPONENTS_REQUIRED'
+  | 'TRANSLATIONS_REQUIRED'
+  | 'NAME_STRING_TYPE_REQUIRED'
+  | 'ROLES_ARRAY_TYPE_REQUIRED'
 
-import type { AppFeaturesRequiredError } from './errors/AppFeaturesRequiredError'
-import type { AppNameRequiredError } from './errors/AppNameRequiredError'
-import type { AppRolesRequiredError } from './errors/AppRolesRequiredError'
-import type { UnknownAppPropertyError } from './errors/UnknownAppPropertyError'
-import type { AppComponentsRequiredError } from './errors/AppComponentsRequiredError'
-import type { AppTranslationsRequiredError } from './errors/AppTranslationsRequiredError'
+export interface AppErrorData {
+  property: string
+}
 
-export type AppError =
-  | AppNameRequiredError
-  | AppFeaturesRequiredError
-  | AppRolesRequiredError
-  | UnknownAppPropertyError
-  | AppComponentsRequiredError
-  | AppTranslationsRequiredError
+export class AppError extends Error {
+  public code: string
+
+  constructor(
+    public message: AppErrorCode,
+    public data?: AppErrorData
+  ) {
+    super(message)
+    this.name = 'APP_ERROR'
+    this.code = this.name + '_' + message
+  }
+}

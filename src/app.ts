@@ -18,4 +18,4 @@ export class App {
 }
 
 export type { IApp } from '@domain/entities/app/IApp'
-export * from '@domain/entities/app/AppError'
+export { AppError } from '@domain/entities/app/AppError'
