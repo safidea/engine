@@ -6,7 +6,9 @@
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "build": "bun run scripts/build/index.ts"
+    "build": "bun run scripts/build/index.ts",
+    "pretest": "bun run build",
+    "test": "bunx playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",
@@ -25,5 +27,8 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0"
   }
 }

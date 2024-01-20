@@ -8,6 +8,7 @@ const externals: string[] = []
 await fs.ensureDir('dist')
 await fs.emptyDir('dist')
 
-await Promise.all([buildServer({ externals }), buildSchemas(), buildTypes()])
+await Promise.all([buildServer({ externals }), buildSchemas()])
+await buildTypes()
 
 process.exit(0)

@@ -20,11 +20,12 @@ export function onBunErrors(name: string, logs: (BuildMessage | ResolveMessage)[
 }
 
 export async function exec(command: string) {
-  new Promise((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     try {
       execSync(command)
       resolve(true)
     } catch (error) {
+      console.error(command)
       reject(error)
     }
   })

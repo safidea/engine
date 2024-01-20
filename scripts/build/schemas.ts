@@ -7,7 +7,7 @@ export async function buildSchemas() {
   await fs.emptyDir('schemas')
   for (const schema of schemas) {
     await exec(
-      `bunx typescript-json-schema ./tsconfig.json I${capitalize(schema)} --out ./schemas/${schema}.schema.json --required --propOrder --constAsEnum`
+      `bunx typescript-json-schema ./tsconfig.json I${capitalize(schema)} --out ./schemas/${schema}.schema.json --required`
     )
     log(`✓ Built ${schema} schema`)
   }

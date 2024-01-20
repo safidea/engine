@@ -15,11 +15,6 @@
                             "type": "string"
                         }
                     },
-                    "propertyOrder": [
-                        "as",
-                        "iWant",
-                        "soThat"
-                    ],
                     "required": [
                         "as",
                         "iWant",
@@ -28,9 +23,6 @@
                     "type": "object"
                 }
             },
-            "propertyOrder": [
-                "story"
-            ],
             "required": [
                 "story"
             ],
@@ -42,9 +34,6 @@
                     "type": "string"
                 }
             },
-            "propertyOrder": [
-                "name"
-            ],
             "required": [
                 "name"
             ],
@@ -68,11 +57,6 @@
             "type": "array"
         }
     },
-    "propertyOrder": [
-        "name",
-        "roles",
-        "features"
-    ],
     "required": [
         "features",
         "name",

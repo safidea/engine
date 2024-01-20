@@ -22,7 +22,9 @@
     "baseUrl": ".",
     "paths": {
       "@solumy/engine": ["dist/index"],
+      "@solumy/engine/*": ["dist/*"],
       "@domain/*": ["src/domain/*"],
+      "@drivers/*": ["src/drivers/*"],
     },
   },
   "exclude": ["node_modules", "dist", "examples", ".old"],

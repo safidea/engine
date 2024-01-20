@@ -1,6 +1,14 @@
 name: Request
 roles:
   - name: anyone
+translations:
+  en:
+    - &HomePageTitle Request
+    - &HomePageDescription Request
+    - &HomePageHeroTitle Your tech team on demand
+    - &HomePageHeroDescription Tech subscriptions for everyone. Pause or cancel anytime.
+    - &HomePageHeroPrimaryButtonLabel Get Started
+    - &HomePageHeroPrimaryButtonPath '/get-started'
 features:
   - story:
       as: anyone
@@ -11,40 +19,26 @@ features:
         when:
           - open: /
         then:
-          - title: t.pages.home.seo.title
-          - h1: t.pages.home.body.landing-hero.title
-          - p: t.pages.home.body.landing-hero.description
+          - title: *HomePageTitle
+          - h1: *HomePageHeroTitle
+          - p: *HomePageHeroDescription
           - a:
-              text: t.pages.home.body.landing-hero.primary-button.label
-              href: t.pages.home.body.landing-hero.primary-button.path
+              text: *HomePageHeroPrimaryButtonLabel
+              href: *HomePageHeroPrimaryButtonPath
     pages:
       - name: home
         path: /
         seo:
-          title: t.pages.home.seo.title
-          description: t.pages.home.seo.description
+          title: *HomePageTitle
+          description: *HomePageDescription
         body:
           - component: hero
             name: landing-hero
-            title: t.pages.home.body.landing-hero.title
-            description: t.pages.home.body.landing-hero.description
+            title: *HomePageHeroTitle
+            description: *HomePageHeroDescription
             primary-button:
-              text: t.pages.home.body.landing-hero.primary-button.label
-              path: t.pages.home.body.landing-hero.primary-button.path
-translations:
-  en:
-    pages:
-      home:
-        seo:
-          title: Request
-          description: Request
-        body:
-          landing-hero:
-            title: Your tech team on demand
-            description: Tech subscriptions for everyone. Pause or cancel anytime.
-            primary-button:
-              text: Get Started
-              path: '/get-started'
+              text: *HomePageHeroPrimaryButtonLabel
+              path: *HomePageHeroPrimaryButtonPath
 components:
   - name: hero
     template: /hero.handlebars
