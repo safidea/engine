@@ -5,9 +5,10 @@ import type { IRole } from './role'
 import type { IComponent } from './component'
 import { RoleList } from '@domain/entities/role/RoleList'
 import { ComponentList } from '@domain/entities/component/ComponentList'
+import type { ConfigError } from '@domain/entities/ConfigError'
 
 export class Feature {
-  errors: FeatureError[] = []
+  errors: ConfigError[] = []
   entity: FeatureEntity | undefined
 
   constructor(

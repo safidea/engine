@@ -1,12 +1,12 @@
+import type { ConfigError } from '../ConfigError'
 import type { IList } from '../IList'
 import { FeatureEntity } from './FeatureEntity'
-import type { FeatureError } from './FeatureError'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 
 export class FeatureList implements IList<FeatureEntity> {
   features: FeatureEntity[]
-  errors: FeatureError[] = []
+  errors: ConfigError[] = []
 
   constructor(
     public config: IFeature[],

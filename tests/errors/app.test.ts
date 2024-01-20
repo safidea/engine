@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { App, AppError, type IApp } from '@solumy/engine/app'
 import { FeatureError } from '@solumy/engine/feature'
+import { PageError } from '@solumy/engine/page'
 
 test.describe('App schema errors', () => {
   test('empty config should return 5 errors', async () => {
@@ -202,5 +203,51 @@ test.describe('App config errors', () => {
     expect(error).toBeInstanceOf(FeatureError)
     expect((error as FeatureError).data?.feature).toBe('feature')
     expect((error as FeatureError).data?.role).toBe('unknown')
+  })
+
+  test('app feature page component should be a defined component', async () => {
+    // GIVEN
+    const config: IApp = {
+      name: 'app',
+      roles: [{ name: 'user' }],
+      features: [
+        {
+          name: 'feature',
+          story: {
+            asRole: 'user',
+            iWant: 'lorem ipsum',
+            soThat: 'lorem ipsum',
+          },
+          specs: [],
+          pages: [
+            {
+              name: 'home',
+              path: '/',
+              seo: {
+                title: 'Home',
+                description: 'Home page',
+              },
+              body: [
+                {
+                  component: 'unknown',
+                  name: 'unknown',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      components: [],
+      translations: [],
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(PageError)
+    expect((error as PageError).data?.component).toBe('unknown')
   })
 })

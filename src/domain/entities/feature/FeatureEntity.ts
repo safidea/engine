@@ -1,3 +1,4 @@
+import type { ConfigError } from '../ConfigError'
 import { PageList } from '../page/PageList'
 import { SpecList } from '../spec/SpecList'
 import { FeatureError } from './FeatureError'
@@ -5,7 +6,7 @@ import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 
 export class FeatureEntity {
-  errors: FeatureError[] = []
+  errors: ConfigError[] = []
   specs: SpecList
   pages: PageList
 
@@ -16,6 +17,9 @@ export class FeatureEntity {
     this.validateFeatureConfig(params)
     this.specs = new SpecList(config.specs)
     this.pages = new PageList(config.pages, { components: params.components })
+    if (this.pages.errors.length) {
+      this.errors = this.pages.errors
+    }
   }
 
   validateFeatureConfig(params: IFeatureParams) {
