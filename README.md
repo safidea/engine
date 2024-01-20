@@ -6,7 +6,7 @@
   - [x] Landing page (Webflow alternative)
   - [x] Contact form (Typeform alternative)
 - [x] Write the json schema of the engine from typescript interfaces
-- [ ] Write the config validator from the json schema
+- [x] Write the config validator from the json schema
 - [ ] Write a tests runner for this config (as a standalone tool / package)
 - [ ] Develop the new engine by TDD
 
