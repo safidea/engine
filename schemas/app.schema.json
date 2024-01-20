@@ -1,9 +1,12 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "definitions": {
         "IFeature": {
+            "additionalProperties": false,
             "properties": {
                 "story": {
+                    "additionalProperties": false,
                     "properties": {
                         "as": {
                             "type": "string"
@@ -29,6 +32,7 @@
             "type": "object"
         },
         "IRole": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"

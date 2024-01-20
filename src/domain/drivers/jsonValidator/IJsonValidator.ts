@@ -2,12 +2,12 @@ import type { IApp } from '@domain/entities/app/IApp'
 import type { AppError } from '@domain/entities/app/AppError'
 
 export interface IJsonValidatorData {
-  data: IApp
+  json: IApp
   errors: undefined
 }
 
 export interface IJsonValidatorErrors {
-  data: undefined
+  json: undefined
   errors: AppError[]
 }
 

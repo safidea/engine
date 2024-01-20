@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
-import { App } from '@solumy/engine/app'
+import { App, AppError } from '@solumy/engine/app'
 
-test.describe('Instanciate an app', () => {
-  test('with empty config', async () => {
+test.describe('App class', () => {
+  test('empty config should return errors', async () => {
     // GIVEN
     const config = {}
 
@@ -10,10 +10,19 @@ test.describe('Instanciate an app', () => {
     const app = new App(config)
 
     // THEN
-    expect(app.errors).toEqual([
-      { code: 'NAME_REQUIRED' },
-      { code: 'ROLES_REQUIRED' },
-      { code: 'FEATURES_REQUIRED' },
-    ])
+    expect(app.errors).toBeInstanceOf(Array)
+    expect(app.errors).toHaveLength(3)
+
+    const nameError = app.errors.find((e) => e.message === 'NAME_REQUIRED')
+    expect(nameError).toBeDefined()
+    expect(nameError).toBeInstanceOf(AppError)
+
+    const rolesError = app.errors.find((e) => e.message === 'ROLES_REQUIRED')
+    expect(rolesError).toBeDefined()
+    expect(rolesError).toBeInstanceOf(AppError)
+
+    const featuresError = app.errors.find((e) => e.message === 'FEATURES_REQUIRED')
+    expect(featuresError).toBeDefined()
+    expect(featuresError).toBeInstanceOf(AppError)
   })
 })

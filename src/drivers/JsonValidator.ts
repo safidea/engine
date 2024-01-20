@@ -12,17 +12,23 @@ class JsonValidator implements IJsonValidator {
   private validateApp: ValidateFunction<IApp>
 
   constructor() {
-    const ajv = new Ajv()
+    const ajv = new Ajv({ allErrors: true })
     const appSchema: JSONSchemaType<IApp> = fs.readJSONSync(join(schemaPath, 'app.schema.json'))
     this.validateApp = ajv.compile(appSchema)
   }
 
   validateAppConfig(json: unknown) {
     if (this.validateApp(json)) {
-      return { data: json }
+      return { json }
     } else if (this.validateApp.errors) {
-      const errors = this.validateApp.errors.map(() => {
-        return new AppError('NAME_REQUIRED')
+      const errors = this.validateApp.errors.map((error) => {
+        const { keyword, params, message } = error
+        if (keyword === 'required') {
+          if (params.missingProperty === 'name') return new AppError('NAME_REQUIRED')
+          if (params.missingProperty === 'roles') return new AppError('ROLES_REQUIRED')
+          if (params.missingProperty === 'features') return new AppError('FEATURES_REQUIRED')
+        }
+        throw new Error('Unknown AJV error: ' + message)
       })
       return { errors }
     } else {
