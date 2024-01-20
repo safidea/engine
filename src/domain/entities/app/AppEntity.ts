@@ -5,12 +5,16 @@ import type { IApp } from './IApp'
 
 export class AppEntity {
   roles: RoleList
-  feature: FeatureList
   components: ComponentList
+  feature: FeatureList
+
 
   constructor(public config: IApp) {
     this.roles = new RoleList(config.roles)
-    this.feature = new FeatureList(config.features)
     this.components = new ComponentList(config.components)
+    this.feature = new FeatureList(config.features, {
+      roles: this.roles,
+      components: this.components
+    })
   }
 }

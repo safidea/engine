@@ -13,8 +13,6 @@ export type AppErrorCode =
 
 export interface AppErrorData {
   property?: string
-  feature?: string
-  role?: string
 }
 
 export class AppError extends Error {
