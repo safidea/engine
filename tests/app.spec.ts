@@ -82,6 +82,21 @@ test.describe('App class', () => {
     expect(error).toBeInstanceOf(AppError)
   })
 
+  test('features should be an array', async () => {
+    // GIVEN
+    const config = {
+      features: 1,
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_FEATURES_ARRAY_TYPE_REQUIRED')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(AppError)
+  })
+
   test('components should be required', async () => {
     // GIVEN
     const config = {}
@@ -95,6 +110,21 @@ test.describe('App class', () => {
     expect(error).toBeInstanceOf(AppError)
   })
 
+  test('components should be an array', async () => {
+    // GIVEN
+    const config = {
+      components: 1,
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_COMPONENTS_ARRAY_TYPE_REQUIRED')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(AppError)
+  })
+
   test('translations should be required', async () => {
     // GIVEN
     const config = {}
@@ -104,6 +134,21 @@ test.describe('App class', () => {
 
     // THEN
     const error = app.errors.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_REQUIRED')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(AppError)
+  })
+
+  test('translations should be an array', async () => {
+    // GIVEN
+    const config = {
+      translations: 1,
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_ARRAY_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })

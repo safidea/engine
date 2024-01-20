@@ -40,6 +40,10 @@ class JsonValidator implements IJsonValidator {
         } else if (keyword === 'type') {
           if (instancePath === '/name') return new AppError('NAME_STRING_TYPE_REQUIRED')
           if (instancePath === '/roles') return new AppError('ROLES_ARRAY_TYPE_REQUIRED')
+          if (instancePath === '/features') return new AppError('FEATURES_ARRAY_TYPE_REQUIRED')
+          if (instancePath === '/components') return new AppError('COMPONENTS_ARRAY_TYPE_REQUIRED')
+          if (instancePath === '/translations')
+            return new AppError('TRANSLATIONS_ARRAY_TYPE_REQUIRED')
         }
         throw new Error('Unknown AJV error: ' + JSON.stringify(error, null, 2))
       })
