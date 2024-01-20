@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { Role, RoleError } from '@solumy/engine/role'
 
-test.describe('Role errors', () => {
+test.describe('Role schema errors', () => {
   test('empty config should return 1 errors', async () => {
     // GIVEN
     const config = {}

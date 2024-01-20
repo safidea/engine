@@ -6,18 +6,16 @@ import type { IComponent } from './component'
 import { RoleList } from '@domain/entities/role/RoleList'
 import { ComponentList } from '@domain/entities/component/ComponentList'
 
-interface IFeatureParams {
-  roles: IRole[]
-  components: IComponent[]
-}
-
 export class Feature {
   errors: FeatureError[] = []
   entity: FeatureEntity | undefined
 
   constructor(
     public config: unknown,
-    params: IFeatureParams
+    params: {
+      roles: IRole[]
+      components: IComponent[]
+    }
   ) {
     const { jsonValidator } = drivers
     const { json, errors } = jsonValidator.validateFeatureConfig(config)

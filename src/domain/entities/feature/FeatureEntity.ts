@@ -15,7 +15,7 @@ export class FeatureEntity {
   ) {
     this.validateFeatureConfig(params)
     this.specs = new SpecList(config.specs)
-    this.pages = new PageList(config.pages)
+    this.pages = new PageList(config.pages, { components: params.components })
   }
 
   validateFeatureConfig(params: IFeatureParams) {

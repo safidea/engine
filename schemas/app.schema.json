@@ -185,7 +185,6 @@
                 }
             },
             "required": [
-                "children",
                 "component",
                 "name"
             ],

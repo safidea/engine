@@ -3,7 +3,7 @@ import { Feature, FeatureError, type IFeature } from '@solumy/engine/feature'
 
 const params = { roles: [], components: [] }
 
-test.describe('Feature errors', () => {
+test.describe('Feature schema errors', () => {
   test('empty config should return 1 errors', async () => {
     // GIVEN
     const config = {}

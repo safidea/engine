@@ -37,7 +37,6 @@
                 }
             },
             "required": [
-                "children",
                 "component",
                 "name"
             ],

@@ -32,8 +32,8 @@ features:
           title: *HomePageTitle
           description: *HomePageDescription
         body:
-          - component: hero
-            name: landing-hero
+          - name: landing-hero
+            component: hero
             title: *HomePageHeroTitle
             description: *HomePageHeroDescription
             primary-button:

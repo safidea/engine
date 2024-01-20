@@ -5,9 +5,11 @@ export type PageErrorCode =
   | 'PATH_REQUIRED'
   | 'SEO_REQUIRED'
   | 'BODY_REQUIRED'
+  | 'COMPONENT_NOT_FOUND'
 
 export interface PageErrorData {
-  property: string
+  property?: string
+  component?: string
 }
 
 export class PageError extends Error {
