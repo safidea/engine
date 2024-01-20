@@ -13,7 +13,7 @@ translations:
 features:
   - name: landing-page
     story:
-      as: anyone
+      asRole: anyone
       iWant: to see the landing page
       soThat: i can learn more about the product
     specs:

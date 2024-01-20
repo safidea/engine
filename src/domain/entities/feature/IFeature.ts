@@ -5,7 +5,7 @@ import type { ISpec } from '../spec/ISpec'
 export interface IFeature {
   name: string
   story: {
-    as: IRole['name']
+    asRole: IRole['name']
     iWant: string
     soThat: string
   }

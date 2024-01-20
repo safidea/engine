@@ -12,7 +12,9 @@ export type AppErrorCode =
   | 'TRANSLATIONS_ARRAY_TYPE_REQUIRED'
 
 export interface AppErrorData {
-  property: string
+  property?: string
+  feature?: string
+  role?: string
 }
 
 export class AppError extends Error {

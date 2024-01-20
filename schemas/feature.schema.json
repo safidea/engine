@@ -178,7 +178,7 @@
         "story": {
             "additionalProperties": false,
             "properties": {
-                "as": {
+                "asRole": {
                     "type": "string"
                 },
                 "iWant": {
@@ -189,7 +189,7 @@
                 }
             },
             "required": [
-                "as",
+                "asRole",
                 "iWant",
                 "soThat"
             ],
