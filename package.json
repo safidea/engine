@@ -7,8 +7,9 @@
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "build": "bun run scripts/build/index.ts",
-    "pretest": "bun run build",
-    "test": "bunx playwright test"
+    "pretest": "bun run build && bunx playwright install",
+    "test": "bunx playwright test",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",
@@ -22,6 +23,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "fs-extra": "^11.2.0",
+    "husky": "^8.0.3",
     "prettier": "^3.2.4",
     "typescript-json-schema": "^0.62.0"
   },
