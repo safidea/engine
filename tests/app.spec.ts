@@ -10,6 +10,17 @@ import {
 } from '@solumy/engine/app'
 
 test.describe('App class', () => {
+  test('empty config should return 5 errors', async () => {
+    // GIVEN
+    const config = {}
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    expect(app.errors).toHaveLength(5)
+  })
+
   test('name should be required', async () => {
     // GIVEN
     const config = {}
@@ -78,9 +89,6 @@ test.describe('App class', () => {
   test('unknown property should not be allowed', async () => {
     // GIVEN
     const config = {
-      name: 'test',
-      roles: [],
-      features: [],
       unknown: 'unknown',
     }
 
@@ -88,9 +96,9 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const unknownError = app.errors.find((e) => e.message === 'UNKNOWN_PROPERTY')
-    expect(unknownError).toBeDefined()
-    expect(unknownError).toBeInstanceOf(AppUnknownPropertyError)
-    expect((unknownError as AppUnknownPropertyError).property).toBe('unknown')
+    const error = app.errors.find((e) => e.message === 'UNKNOWN_PROPERTY')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(AppUnknownPropertyError)
+    expect((error as AppUnknownPropertyError).property).toBe('unknown')
   })
 })
