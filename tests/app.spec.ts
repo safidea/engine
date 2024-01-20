@@ -25,4 +25,26 @@ test.describe('App class', () => {
     expect(featuresError).toBeDefined()
     expect(featuresError).toBeInstanceOf(AppError)
   })
+
+  test('config with unknown prop should return errors', async () => {
+    // GIVEN
+    const config = {
+      name: 'test',
+      roles: [],
+      features: [],
+      unknown: 'unknown',
+    }
+
+    // WHEN
+    const app = new App(config)
+
+    // THEN
+    expect(app.errors).toBeInstanceOf(Array)
+    expect(app.errors).toHaveLength(1)
+
+    const unknownError = app.errors.find((e) => e.message === 'UNKNOWN_PROPERTY')
+    expect(unknownError).toBeDefined()
+    expect(unknownError).toBeInstanceOf(AppError)
+    expect(unknownError?.data.propertyToRemove).toBe('unknown')
+  })
 })

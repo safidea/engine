@@ -22,13 +22,19 @@ class JsonValidator implements IJsonValidator {
       return { json }
     } else if (this.validateApp.errors) {
       const errors = this.validateApp.errors.map((error) => {
-        const { keyword, params, message } = error
+        const { keyword, params } = error
         if (keyword === 'required') {
-          if (params.missingProperty === 'name') return new AppError('NAME_REQUIRED')
-          if (params.missingProperty === 'roles') return new AppError('ROLES_REQUIRED')
-          if (params.missingProperty === 'features') return new AppError('FEATURES_REQUIRED')
+          if (params.missingProperty === 'name') return new AppError({ code: 'NAME_REQUIRED' })
+          if (params.missingProperty === 'roles') return new AppError({ code: 'ROLES_REQUIRED' })
+          if (params.missingProperty === 'features')
+            return new AppError({ code: 'FEATURES_REQUIRED' })
+        } else if (keyword === 'additionalProperties') {
+          return new AppError({
+            code: 'UNKNOWN_PROPERTY',
+            propertyToRemove: params.additionalProperty,
+          })
         }
-        throw new Error('Unknown AJV error: ' + message)
+        throw new Error('Unknown AJV error: ' + JSON.stringify(error, null, 2))
       })
       return { errors }
     } else {

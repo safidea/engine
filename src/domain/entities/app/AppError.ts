@@ -1,7 +1,11 @@
-export type AppCodeError = 'NAME_REQUIRED' | 'ROLES_REQUIRED' | 'FEATURES_REQUIRED'
+export type AppCodeError =
+  | { code: 'NAME_REQUIRED' }
+  | { code: 'ROLES_REQUIRED' }
+  | { code: 'FEATURES_REQUIRED' }
+  | { code: 'UNKNOWN_PROPERTY'; propertyToRemove: string }
 
 export class AppError extends Error {
-  constructor(code: AppCodeError) {
-    super(code)
+  constructor(public data: AppCodeError) {
+    super(data.code)
   }
 }
