@@ -1,5 +1,5 @@
-import type { IFeature } from './feature/IFeature'
-import type { IRole } from './role/IRole'
+import type { IFeature } from '../feature/IFeature'
+import type { IRole } from '../role/IRole'
 
 export interface IApp {
   name: string

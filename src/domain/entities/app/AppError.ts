@@ -1,11 +1,15 @@
-export type AppCodeError =
-  | { code: 'NAME_REQUIRED' }
-  | { code: 'ROLES_REQUIRED' }
-  | { code: 'FEATURES_REQUIRED' }
-  | { code: 'UNKNOWN_PROPERTY'; propertyToRemove: string }
+export { AppNameRequiredError } from './errors/AppNameRequiredError'
+export { AppFeaturesRequiredError } from './errors/AppFeaturesRequiredError'
+export { AppRolesRequiredError } from './errors/AppRolesRequiredError'
+export { AppUnknownPropertyError } from './errors/AppUnknownPropertyError'
 
-export class AppError extends Error {
-  constructor(public data: AppCodeError) {
-    super(data.code)
-  }
-}
+import type { AppFeaturesRequiredError } from './errors/AppFeaturesRequiredError'
+import type { AppNameRequiredError } from './errors/AppNameRequiredError'
+import type { AppRolesRequiredError } from './errors/AppRolesRequiredError'
+import type { AppUnknownPropertyError } from './errors/AppUnknownPropertyError'
+
+export type AppError =
+  | AppNameRequiredError
+  | AppFeaturesRequiredError
+  | AppRolesRequiredError
+  | AppUnknownPropertyError

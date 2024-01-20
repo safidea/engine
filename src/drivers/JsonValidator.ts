@@ -4,7 +4,10 @@ import { join } from 'path'
 import type { JSONSchemaType, ValidateFunction } from 'ajv'
 import type { IJsonValidator } from '@domain/drivers/jsonValidator/IJsonValidator'
 import type { IApp } from '@domain/entities/app/IApp'
-import { AppError } from '@domain/entities/app/AppError'
+import { AppNameRequiredError } from '@domain/entities/app/errors/AppNameRequiredError'
+import { AppRolesRequiredError } from '@domain/entities/app/errors/AppRolesRequiredError'
+import { AppFeaturesRequiredError } from '@domain/entities/app/errors/AppFeaturesRequiredError'
+import { AppUnknownPropertyError } from '@domain/entities/app/errors/AppUnknownPropertyError'
 
 const schemaPath = join(process.cwd(), 'schemas/')
 
@@ -24,15 +27,11 @@ class JsonValidator implements IJsonValidator {
       const errors = this.validateApp.errors.map((error) => {
         const { keyword, params } = error
         if (keyword === 'required') {
-          if (params.missingProperty === 'name') return new AppError({ code: 'NAME_REQUIRED' })
-          if (params.missingProperty === 'roles') return new AppError({ code: 'ROLES_REQUIRED' })
-          if (params.missingProperty === 'features')
-            return new AppError({ code: 'FEATURES_REQUIRED' })
+          if (params.missingProperty === 'name') return new AppNameRequiredError()
+          if (params.missingProperty === 'roles') return new AppRolesRequiredError()
+          if (params.missingProperty === 'features') return new AppFeaturesRequiredError()
         } else if (keyword === 'additionalProperties') {
-          return new AppError({
-            code: 'UNKNOWN_PROPERTY',
-            propertyToRemove: params.additionalProperty,
-          })
+          return new AppUnknownPropertyError(params.additionalProperty)
         }
         throw new Error('Unknown AJV error: ' + JSON.stringify(error, null, 2))
       })

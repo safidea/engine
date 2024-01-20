@@ -1,9 +1,6 @@
 import { AppEntity } from '@domain/entities/app/AppEntity'
-import { AppError } from '@domain/entities/app/AppError'
 import { drivers } from '@drivers/index'
-
-export type { IApp } from '@domain/entities/app/IApp'
-export { AppError }
+import type { AppError } from '@domain/entities/app/AppError'
 
 export class App {
   errors: AppError[] = []
@@ -19,3 +16,6 @@ export class App {
     }
   }
 }
+
+export type { IApp } from '@domain/entities/app/IApp'
+export * from '@domain/entities/app/AppError'
