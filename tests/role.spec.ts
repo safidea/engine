@@ -26,6 +26,21 @@ test.describe('Role class', () => {
     expect(error).toBeInstanceOf(RoleError)
   })
 
+  test('name should be a string', async () => {
+    // GIVEN
+    const config = {
+      name: 1,
+    }
+
+    // WHEN
+    const app = new Role(config)
+
+    // THEN
+    const error = app.errors.find((e) => e.code === 'ROLE_ERROR_NAME_STRING_TYPE_REQUIRED')
+    expect(error).toBeDefined()
+    expect(error).toBeInstanceOf(RoleError)
+  })
+
   test('unknown property should not be allowed', async () => {
     // GIVEN
     const config = {

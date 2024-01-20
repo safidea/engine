@@ -1,4 +1,4 @@
-export type RoleErrorCode = 'NAME_REQUIRED' | 'UNKNOWN_PROPERTY'
+export type RoleErrorCode = 'NAME_REQUIRED' | 'UNKNOWN_PROPERTY' | 'NAME_STRING_TYPE_REQUIRED'
 
 export interface RoleErrorData {
   property: string
@@ -8,7 +8,7 @@ export class RoleError extends Error {
   public code: string
 
   constructor(
-    message: RoleErrorCode,
+    public message: RoleErrorCode,
     public data?: RoleErrorData
   ) {
     super(message)

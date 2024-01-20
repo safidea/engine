@@ -58,11 +58,13 @@ class JsonValidator implements IJsonValidator {
       return { json }
     } else if (this.validateRole.errors) {
       const errors = this.validateRole.errors.map((error) => {
-        const { keyword, params } = error
+        const { keyword, params, instancePath } = error
         if (keyword === 'required') {
           if (params.missingProperty === 'name') return new RoleError('NAME_REQUIRED')
         } else if (keyword === 'additionalProperties') {
           return new RoleError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
+        } else if (keyword === 'type') {
+          if (instancePath === '/name') return new RoleError('NAME_STRING_TYPE_REQUIRED')
         }
         throw new Error('Unknown AJV error: ' + JSON.stringify(error, null, 2))
       })
