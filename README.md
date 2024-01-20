@@ -7,7 +7,7 @@
   - [x] Contact form (Typeform alternative)
 - [x] Write the json schema of the engine from typescript interfaces
 - [x] Write the config validator from the json schema
-- [ ] Write a tests runner for this config (as a standalone tool / package)
+- [ ] Write the spec tester for a config
 - [ ] Develop the new engine by TDD
 
 **Notes:**
@@ -26,3 +26,7 @@
 - La rédaction de la configuration est équivalent à la rédaction de tests qui permettent de vérifier si les drivers fonctionnent correctement tout en exprimant les besoins métiers
 
 - On rédige les tests pour les actions et les composants dans la configuration, ainsi il n'est plus nécessaire d'avoir de tests E2E, il n'y a que les développements extérieurs qui doivent correspondre à la configuration
+
+20/01
+
+- Les tests font partie intégrante de la configuration, ils sont écrits dans la configuration et sont exécutés par le moteur, permettant de valider l'intégrité des composants et des actions
