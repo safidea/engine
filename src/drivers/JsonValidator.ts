@@ -9,6 +9,7 @@ import { AppRolesRequiredError } from '@domain/entities/app/errors/AppRolesRequi
 import { AppFeaturesRequiredError } from '@domain/entities/app/errors/AppFeaturesRequiredError'
 import { AppUnknownPropertyError } from '@domain/entities/app/errors/AppUnknownPropertyError'
 import { AppComponentsRequiredError } from '@domain/entities/app/errors/AppComponentsRequiredError'
+import { AppTranslationsRequiredError } from '@domain/entities/app/errors/AppTranslationsRequiredError'
 
 const schemaPath = join(process.cwd(), 'schemas/')
 
@@ -32,6 +33,7 @@ class JsonValidator implements IJsonValidator {
           if (params.missingProperty === 'roles') return new AppRolesRequiredError()
           if (params.missingProperty === 'features') return new AppFeaturesRequiredError()
           if (params.missingProperty === 'components') return new AppComponentsRequiredError()
+          if (params.missingProperty === 'translations') return new AppTranslationsRequiredError()
         } else if (keyword === 'additionalProperties') {
           return new AppUnknownPropertyError(params.additionalProperty)
         }

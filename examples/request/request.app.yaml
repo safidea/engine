@@ -2,13 +2,14 @@ name: Request
 roles:
   - name: anyone
 translations:
-  en:
-    - &HomePageTitle Request
-    - &HomePageDescription Request
-    - &HomePageHeroTitle Your tech team on demand
-    - &HomePageHeroDescription Tech subscriptions for everyone. Pause or cancel anytime.
-    - &HomePageHeroPrimaryButtonLabel Get Started
-    - &HomePageHeroPrimaryButtonPath '/get-started'
+  - language: EN
+    texts:
+      - &HomePageTitle Request
+      - &HomePageDescription Request
+      - &HomePageHeroTitle Your tech team on demand
+      - &HomePageHeroDescription Tech subscriptions for everyone. Pause or cancel anytime.
+      - &HomePageHeroPrimaryButtonLabel Get Started
+      - &HomePageHeroPrimaryButtonPath '/get-started'
 features:
   - story:
       as: anyone

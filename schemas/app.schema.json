@@ -116,6 +116,26 @@
                 "name"
             ],
             "type": "object"
+        },
+        "ITranslation": {
+            "additionalProperties": false,
+            "properties": {
+                "language": {
+                    "const": "EN",
+                    "type": "string"
+                },
+                "texts": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "language",
+                "texts"
+            ],
+            "type": "object"
         }
     },
     "properties": {
@@ -139,13 +159,20 @@
                 "$ref": "#/definitions/IRole"
             },
             "type": "array"
+        },
+        "translations": {
+            "items": {
+                "$ref": "#/definitions/ITranslation"
+            },
+            "type": "array"
         }
     },
     "required": [
         "components",
         "features",
         "name",
-        "roles"
+        "roles",
+        "translations"
     ],
     "type": "object"
 }
