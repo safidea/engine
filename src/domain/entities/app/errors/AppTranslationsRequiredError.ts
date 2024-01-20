@@ -1,5 +1,5 @@
 export class AppTranslationsRequiredError extends Error {
   constructor() {
-    super('TRANSLATIONS_REQUIRED')
+    super('APP_TRANSLATIONS_REQUIRED')
   }
 }

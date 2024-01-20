@@ -1,5 +1,5 @@
 export class AppNameRequiredError extends Error {
   constructor() {
-    super('NAME_REQUIRED')
+    super('APP_NAME_REQUIRED')
   }
 }

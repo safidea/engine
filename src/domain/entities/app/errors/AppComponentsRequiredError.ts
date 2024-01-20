@@ -1,5 +1,5 @@
 export class AppComponentsRequiredError extends Error {
   constructor() {
-    super('COMPONENTS_REQUIRED')
+    super('APP_COMPONENTS_REQUIRED')
   }
 }

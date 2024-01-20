@@ -31,9 +31,13 @@ export async function exec(command: string) {
   })
 }
 
-export async function fixBunNodeBuild(file: string) {
-  await exec(
-    `bunx rexreplace '^(#!.+\\n)?' '$1import { createRequire as createImportMetaRequire } from "module"; import.meta.require ||= (id) => createImportMetaRequire(import.meta.url)(id);\\n' -GM ${file}`
+export async function fixBunNodeBuild(files: string[]) {
+  await Promise.all(
+    files.map((file) =>
+      exec(
+        `bunx rexreplace '^(#!.+\\n)?' '$1import { createRequire as createImportMetaRequire } from "module"; import.meta.require ||= (id) => createImportMetaRequire(import.meta.url)(id);\\n' -GM ${file.replace('src/', 'dist/')}`
+      )
+    )
   )
 }
 

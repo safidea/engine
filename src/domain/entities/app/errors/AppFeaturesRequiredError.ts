@@ -1,5 +1,5 @@
 export class AppFeaturesRequiredError extends Error {
   constructor() {
-    super('FEATURES_REQUIRED')
+    super('APP_FEATURES_REQUIRED')
   }
 }

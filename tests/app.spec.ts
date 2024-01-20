@@ -4,7 +4,7 @@ import {
   AppNameRequiredError,
   AppRolesRequiredError,
   AppFeaturesRequiredError,
-  AppUnknownPropertyError,
+  UnknownAppPropertyError,
   AppComponentsRequiredError,
   AppTranslationsRequiredError,
 } from '@solumy/engine/app'
@@ -29,7 +29,7 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'NAME_REQUIRED')
+    const error = app.errors.find((e) => e.message === 'APP_NAME_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppNameRequiredError)
   })
@@ -42,7 +42,7 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'ROLES_REQUIRED')
+    const error = app.errors.find((e) => e.message === 'APP_ROLES_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppRolesRequiredError)
   })
@@ -55,7 +55,7 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'FEATURES_REQUIRED')
+    const error = app.errors.find((e) => e.message === 'APP_FEATURES_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppFeaturesRequiredError)
   })
@@ -68,7 +68,7 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'COMPONENTS_REQUIRED')
+    const error = app.errors.find((e) => e.message === 'APP_COMPONENTS_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppComponentsRequiredError)
   })
@@ -81,7 +81,7 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'TRANSLATIONS_REQUIRED')
+    const error = app.errors.find((e) => e.message === 'APP_TRANSLATIONS_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppTranslationsRequiredError)
   })
@@ -96,9 +96,9 @@ test.describe('App class', () => {
     const app = new App(config)
 
     // THEN
-    const error = app.errors.find((e) => e.message === 'UNKNOWN_PROPERTY')
+    const error = app.errors.find((e) => e.message === 'UNKNOWN_APP_PROPERTY')
     expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppUnknownPropertyError)
-    expect((error as AppUnknownPropertyError).property).toBe('unknown')
+    expect(error).toBeInstanceOf(UnknownAppPropertyError)
+    expect((error as UnknownAppPropertyError).property).toBe('unknown')
   })
 })
