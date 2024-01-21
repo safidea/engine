@@ -22,6 +22,8 @@
 - Les tests E2E des features peuvent s'exécuter via une fonction dédiée, on peut decider de lancer l'application avec les tests ou sans
 - Les tests E2E sont une exécution de fichiers de tests Playwright généré automatiquement depuis la config pour chaque features
 - Les tests peuvent s'exécuter pour toutes les features ou juste pour l'une d'entre elles
+- Les actions et les composants créé par défaut doivent se rajouter dans la configuration comme si c'était des composants custom, ils sont ensuite écrasé par un composant ou action qui a le même nom
+- Les actions et composants par défaut doivent être présentés dans le code comme des exemples de composants et d'actions personnalisés
 
 17/01
 
