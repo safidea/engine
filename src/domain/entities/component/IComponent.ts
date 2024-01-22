@@ -16,5 +16,5 @@ export type IComponentProp = IComponentObjectProp | IComponentStringProp
 export interface IComponent {
   name: string
   template: string
-  props: IComponentProp[]
+  props?: IComponentProp[]
 }

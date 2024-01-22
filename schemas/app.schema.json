@@ -20,7 +20,6 @@
             },
             "required": [
                 "name",
-                "props",
                 "template"
             ],
             "type": "object"
@@ -145,8 +144,7 @@
             "required": [
                 "body",
                 "name",
-                "path",
-                "seo"
+                "path"
             ],
             "type": "object"
         },
@@ -185,8 +183,7 @@
                 }
             },
             "required": [
-                "component",
-                "name"
+                "component"
             ],
             "type": "object"
         },

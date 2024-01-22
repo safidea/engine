@@ -24,8 +24,7 @@
             "required": [
                 "body",
                 "name",
-                "path",
-                "seo"
+                "path"
             ],
             "type": "object"
         },
@@ -64,8 +63,7 @@
                 }
             },
             "required": [
-                "component",
-                "name"
+                "component"
             ],
             "type": "object"
         },

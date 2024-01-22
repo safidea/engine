@@ -37,8 +37,7 @@
                 }
             },
             "required": [
-                "component",
-                "name"
+                "component"
             ],
             "type": "object"
         },
@@ -79,8 +78,7 @@
     "required": [
         "body",
         "name",
-        "path",
-        "seo"
+        "path"
     ],
     "type": "object"
 }

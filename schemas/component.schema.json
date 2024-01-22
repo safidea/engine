@@ -70,7 +70,6 @@
     },
     "required": [
         "name",
-        "props",
         "template"
     ],
     "type": "object"

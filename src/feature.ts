@@ -31,6 +31,8 @@ export class Feature {
       }
     }
   }
+
+  async testSpecs() {}
 }
 
 export type { IFeature } from '@domain/entities/feature/IFeature'

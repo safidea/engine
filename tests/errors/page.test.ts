@@ -12,7 +12,7 @@ test.describe('Page schema errors', () => {
     const app = new Page(config, params)
 
     // THEN
-    expect(app.errors).toHaveLength(4)
+    expect(app.errors).toHaveLength(3)
   })
 
   test('name should be required', async () => {

@@ -4,6 +4,6 @@ import type { IPageSeo } from './IPageSeo'
 export interface IPage {
   name: string
   path: string
-  seo: IPageSeo
+  seo?: IPageSeo
   body: IPageComponent[]
 }
