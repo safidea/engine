@@ -2,27 +2,18 @@ import { Page } from '@domain/entities/page/Page'
 import { drivers } from '@drivers/index'
 import { PageError } from '@domain/entities/page/PageError'
 import type { IComponent } from '@domain/entities/component/IComponent'
-import { ComponentList } from '@domain/entities/component/ComponentList'
+import type { EngineError } from '@domain/entities/EngineError'
+import { PageController } from './adapter/controllers/PageController'
 
 export function createPage(
   config: unknown,
   params: {
     components: IComponent[]
   }
-): { errors: PageError[]; page: undefined } | { page: Page; errors: undefined } {
-  const { jsonValidator } = drivers
-  const { json, errors } = jsonValidator.validatePageConfig(config)
-  if (errors) {
-    return { errors, page: undefined }
-  } else {
-    const components = new ComponentList(params.components)
-    const page = new Page(json, { components })
-    const errors = page.validateConfig()
-    if (errors.length) {
-      return { errors, page: undefined }
-    }
-    return { page, errors: undefined }
-  }
+): { page?: Page; errors?: EngineError[] } {
+  const pageController = new PageController(drivers, params)
+  const { entity, errors } = pageController.createEntity(config)
+  return { page: entity, errors }
 }
 
 export type { IPage } from '@domain/entities/page/IPage'

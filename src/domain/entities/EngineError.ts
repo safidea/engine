@@ -5,7 +5,7 @@ import type { PageError } from './page/PageError'
 import type { RoleError } from './role/RoleError'
 import type { SpecError } from './spec/SpecError'
 
-export type ConfigError =
+export type EngineError =
   | AppError
   | FeatureError
   | SpecError

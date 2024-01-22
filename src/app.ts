@@ -1,22 +1,12 @@
 import { drivers } from '@drivers/index'
-import type { ConfigError } from '@domain/entities/ConfigError'
+import type { EngineError } from '@domain/entities/EngineError'
 import { App } from '@domain/entities/app/App'
+import { AppController } from './adapter/controllers/AppController'
 
-export function createApp(
-  config: unknown
-): { errors: ConfigError[]; app: undefined } | { app: App; errors: undefined } {
-  const { jsonValidator } = drivers
-  const { json, errors } = jsonValidator.validateAppConfig(config)
-  if (errors) {
-    return { errors, app: undefined }
-  } else {
-    const app = new App(json, { drivers })
-    const errors = app.validateConfig()
-    if (errors.length) {
-      return { errors, app: undefined }
-    }
-    return { app, errors: undefined }
-  }
+export function createApp(config: unknown): { app?: App; errors?: EngineError[] } {
+  const appController = new AppController(drivers)
+  const { entity, errors } = appController.createEntity(config)
+  return { app: entity, errors }
 }
 
 export type { IApp } from '@domain/entities/app/IApp'

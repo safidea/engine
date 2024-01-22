@@ -1,6 +1,6 @@
-import type { ConfigError } from './ConfigError'
+import type { EngineError } from './EngineError'
 
 export interface IEntity {
   name: string
-  validateConfig(): ConfigError[]
+  validateConfig(): EngineError[]
 }

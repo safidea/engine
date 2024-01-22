@@ -1,24 +1,16 @@
 import { Component } from '@domain/entities/component/Component'
 import { drivers } from '@drivers/index'
 import { ComponentError } from '@domain/entities/component/ComponentError'
+import type { EngineError } from '@domain/entities/EngineError'
+import { ComponentController } from './adapter/controllers/ComponentController'
 
-export function createComponent(
-  config: unknown
-):
-  | { errors: ComponentError[]; component: undefined }
-  | { component: Component; errors: undefined } {
-  const { jsonValidator } = drivers
-  const { json, errors } = jsonValidator.validateComponentConfig(config)
-  if (errors) {
-    return { errors, component: undefined }
-  } else {
-    const component = new Component(json)
-    const errors = component.validateConfig()
-    if (errors.length) {
-      return { errors, component: undefined }
-    }
-    return { component, errors: undefined }
-  }
+export function createComponent(config: unknown): {
+  component?: Component
+  errors?: EngineError[]
+} {
+  const componentController = new ComponentController(drivers)
+  const { entity, errors } = componentController.createEntity(config)
+  return { component: entity, errors }
 }
 
 export type { IComponent } from '@domain/entities/component/IComponent'

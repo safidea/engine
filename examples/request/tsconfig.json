@@ -18,10 +18,10 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    
+
     "baseUrl": ".",
     "paths": {
       "@solumy/engine": ["../../dist/index"],
-    }
-  }
+    },
+  },
 }

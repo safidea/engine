@@ -3,7 +3,6 @@ export type PageErrorCode =
   | 'UNKNOWN_PROPERTY'
   | 'NAME_STRING_TYPE_REQUIRED'
   | 'PATH_REQUIRED'
-  | 'SEO_REQUIRED'
   | 'BODY_REQUIRED'
   | 'COMPONENT_NOT_FOUND'
 

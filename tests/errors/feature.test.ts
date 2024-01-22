@@ -12,7 +12,7 @@ test.describe('Feature schema errors', () => {
     const { errors } = createFeature(config, params)
 
     // THEN
-    expect(errors).toHaveLength(4)
+    expect(errors).toHaveLength(3)
   })
 
   test('name should be required', async () => {

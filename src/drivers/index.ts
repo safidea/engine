@@ -1,8 +1,8 @@
 import Browser from './Browser'
-import JsonValidator from './JsonValidator'
+import SchemaValidator from './SchemaValidator'
 import type { Drivers } from '@domain/drivers'
 
 export const drivers: Drivers = {
-  jsonValidator: JsonValidator,
+  schemaValidator: SchemaValidator,
   browser: Browser,
 }

@@ -1,4 +1,4 @@
-import type { ConfigError } from '../ConfigError'
+import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { ComponentList } from '../component/ComponentList'
 import { FeatureList } from '../feature/FeatureList'
@@ -24,7 +24,7 @@ export class App implements IEntity {
   }
 
   validateConfig() {
-    const errors: ConfigError[] = []
+    const errors: EngineError[] = []
     errors.push(...this.roles.validateConfig())
     errors.push(...this.components.validateConfig())
     errors.push(...this.features.validateConfig())

@@ -1,4 +1,4 @@
-import type { ConfigError } from '../ConfigError'
+import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { PageList } from '../page/PageList'
 import { SpecError } from '../spec/SpecError'
@@ -18,11 +18,11 @@ export class Feature implements IEntity {
   ) {
     this.name = config.name
     this.specs = new SpecList(config.specs)
-    this.pages = new PageList(config.pages, { components: params.components })
+    this.pages = new PageList(config.pages ?? [], { components: params.components })
   }
 
   validateConfig() {
-    const errors: ConfigError[] = []
+    const errors: EngineError[] = []
     const { roles } = this.params
     const { story } = this.config
     if (!roles.includes(story.asRole)) {
@@ -38,7 +38,7 @@ export class Feature implements IEntity {
     return errors
   }
 
-  async testSpecs(): Promise<ConfigError[]> {
+  async testSpecs(): Promise<EngineError[]> {
     const { name, specs: [spec] = [] } = this.config
     //const { e2eTester } = this.params.drivers
     if ('text' in spec.then[0]) {

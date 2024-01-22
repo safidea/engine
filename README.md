@@ -13,6 +13,7 @@
 **Notes:**
 
 21/01
+
 - L'engine doit proposer une liste de composants et d'action par défaut, tout en laissant la liberté dans ajouter des nouveaux par le développeur
 - L'intégrité des composants et des actions est vérifié par la validation de la configuration (schema + props / input)
 - Utiliser TailwindComponent au lieu de Tailwind UI pour les composants par défaut
@@ -43,5 +44,3 @@
 20/01
 
 - Les tests font partie intégrante de la configuration, ils sont écrits dans la configuration et sont exécutés par le moteur, permettant de valider l'intégrité des composants et des actions
-
- 

@@ -10,5 +10,5 @@ export interface IFeature {
     soThat: string
   }
   specs: ISpec[]
-  pages: IPage[]
+  pages?: IPage[]
 }

@@ -1,7 +1,7 @@
-import type { ConfigError } from './ConfigError'
+import type { EngineError } from './EngineError'
 
 export interface IList<T> {
-  validateConfig(): ConfigError[]
+  validateConfig(): EngineError[]
   includes(name: string): boolean
   find(name: string): T | undefined
 }

@@ -1,4 +1,4 @@
-import type { ConfigError } from '../ConfigError'
+import type { EngineError } from '../EngineError'
 import type { IList } from '../IList'
 import type { IPage } from './IPage'
 import type { IPageParams } from './IPageParams'
@@ -11,7 +11,7 @@ export class PageList implements IList<Page> {
     this.pages = config.map((page) => new Page(page, params))
   }
 
-  validateConfig(): ConfigError[] {
+  validateConfig(): EngineError[] {
     return this.pages.flatMap((page) => page.validateConfig())
   }
 

@@ -2,7 +2,6 @@ export type ComponentErrorCode =
   | 'NAME_REQUIRED'
   | 'UNKNOWN_PROPERTY'
   | 'NAME_STRING_TYPE_REQUIRED'
-  | 'PROPS_REQUIRED'
   | 'TEMPLATE_REQUIRED'
 
 export interface ComponentErrorData {
