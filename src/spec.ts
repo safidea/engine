@@ -1,19 +1,21 @@
-import { SpecEntity } from '@domain/entities/spec/SpecEntity'
+import { Spec } from '@domain/entities/spec/Spec'
 import { drivers } from '@drivers/index'
 import { SpecError } from '@domain/entities/spec/SpecError'
 
-export class Spec {
-  errors: SpecError[] = []
-  entity: SpecEntity | undefined
-
-  constructor(public config: unknown) {
-    const { jsonValidator } = drivers
-    const { json, errors } = jsonValidator.validateSpecConfig(config)
-    if (errors) {
-      this.errors = errors
-    } else {
-      this.entity = new SpecEntity(json)
+export function createSpec(
+  config: unknown
+): { errors: SpecError[]; spec: undefined } | { spec: Spec; errors: undefined } {
+  const { jsonValidator } = drivers
+  const { json, errors } = jsonValidator.validateSpecConfig(config)
+  if (errors) {
+    return { errors, spec: undefined }
+  } else {
+    const spec = new Spec(json)
+    const errors = spec.validateConfig()
+    if (errors.length) {
+      return { errors, spec: undefined }
     }
+    return { spec, errors: undefined }
   }
 }
 

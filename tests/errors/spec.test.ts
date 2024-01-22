@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { Spec, SpecError } from '@solumy/engine/spec'
+import { createSpec, SpecError } from '@solumy/engine/spec'
 
 test.describe('Spec schema errors', () => {
   test('empty config should return 1 errors', async () => {
@@ -7,10 +7,10 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Spec(config)
+    const { errors } = createSpec(config)
 
     // THEN
-    expect(app.errors).toHaveLength(3)
+    expect(errors).toHaveLength(3)
   })
 
   test('name should be required', async () => {
@@ -18,10 +18,10 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Spec(config)
+    const { errors } = createSpec(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'SPEC_ERROR_NAME_REQUIRED')
+    const error = errors?.find((e) => e.code === 'SPEC_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(SpecError)
   })
@@ -33,10 +33,10 @@ test.describe('Spec schema errors', () => {
     }
 
     // WHEN
-    const app = new Spec(config)
+    const { errors } = createSpec(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'SPEC_ERROR_NAME_STRING_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'SPEC_ERROR_NAME_STRING_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(SpecError)
   })
@@ -48,10 +48,10 @@ test.describe('Spec schema errors', () => {
     }
 
     // WHEN
-    const app = new Spec(config)
+    const { errors } = createSpec(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'SPEC_ERROR_UNKNOWN_PROPERTY')
+    const error = errors?.find((e) => e.code === 'SPEC_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(SpecError)
     if (!error) return

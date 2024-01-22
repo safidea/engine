@@ -1,12 +1,12 @@
 import type { IList } from '../IList'
 import type { ISpec } from './ISpec'
-import { SpecEntity } from './SpecEntity'
+import { Spec } from './Spec'
 
-export class SpecList implements IList<SpecEntity> {
-  specs: SpecEntity[] = []
+export class SpecList implements IList<Spec> {
+  specs: Spec[] = []
 
   constructor(public config: ISpec[]) {
-    this.specs = config.map((spec) => new SpecEntity(spec))
+    this.specs = config.map((spec) => new Spec(spec))
   }
 
   validateConfig() {
@@ -14,10 +14,10 @@ export class SpecList implements IList<SpecEntity> {
   }
 
   includes(name: string) {
-    return this.specs.some((spec) => spec.config.name === name)
+    return this.specs.some((spec) => spec.name === name)
   }
 
   find(name: string) {
-    return this.specs.find((spec) => spec.config.name === name)
+    return this.specs.find((spec) => spec.name === name)
   }
 }
