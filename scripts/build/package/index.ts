@@ -2,7 +2,7 @@ import { deleteFilesRecursively, log, onBunErrors } from '../utils'
 
 log('✓ Start building package')
 
-const externals: string[] = []
+const externals: string[] = ['ajv', 'fs-extra', 'puppeteer']
 
 const entrypoints = [
   'src/app.ts',

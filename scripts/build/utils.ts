@@ -4,6 +4,8 @@ import { promisify } from 'util'
 import fs from 'fs-extra'
 import path from 'path'
 
+await fs.ensureDir('dist')
+
 export const log = debug('engine:build')
 export const exec = promisify(execSync)
 

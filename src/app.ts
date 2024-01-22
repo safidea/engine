@@ -10,7 +10,7 @@ export function createApp(
   if (errors) {
     return { errors, app: undefined }
   } else {
-    const app = new App(json)
+    const app = new App(json, { drivers })
     const errors = app.validateConfig()
     if (errors.length) {
       return { errors, app: undefined }
