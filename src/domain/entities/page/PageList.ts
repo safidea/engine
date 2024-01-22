@@ -5,12 +5,9 @@ import type { IPageParams } from './IPageParams'
 import { Page } from './Page'
 
 export class PageList implements IList<Page> {
-  pages: Page[]
+  private pages: Page[]
 
-  constructor(
-    public config: IPage[],
-    params: IPageParams
-  ) {
+  constructor(config: IPage[], params: IPageParams) {
     this.pages = config.map((page) => new Page(page, params))
   }
 

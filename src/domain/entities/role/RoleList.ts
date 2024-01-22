@@ -1,12 +1,12 @@
 import type { IList } from '../IList'
 import type { IRole } from './IRole'
-import { RoleEntity } from './RoleEntity'
+import { Role } from './Role'
 
-export class RoleList implements IList<RoleEntity> {
-  roles: RoleEntity[]
+export class RoleList implements IList<Role> {
+  private roles: Role[]
 
-  constructor(public config: IRole[]) {
-    this.roles = config.map((role) => new RoleEntity(role))
+  constructor(config: IRole[]) {
+    this.roles = config.map((role) => new Role(role))
   }
 
   validateConfig() {
@@ -14,10 +14,10 @@ export class RoleList implements IList<RoleEntity> {
   }
 
   includes(name: string) {
-    return this.roles.some((role) => role.config.name === name)
+    return this.roles.some((role) => role.name === name)
   }
 
   find(name: string) {
-    return this.roles.find((role) => role.config.name === name)
+    return this.roles.find((role) => role.name === name)
   }
 }

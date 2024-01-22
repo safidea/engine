@@ -3,9 +3,9 @@ import type { ISpec } from './ISpec'
 import { Spec } from './Spec'
 
 export class SpecList implements IList<Spec> {
-  specs: Spec[] = []
+  private specs: Spec[] = []
 
-  constructor(public config: ISpec[]) {
+  constructor(config: ISpec[]) {
     this.specs = config.map((spec) => new Spec(spec))
   }
 

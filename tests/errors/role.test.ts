@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { Role, RoleError } from '@solumy/engine/role'
+import { createRole, RoleError } from '@solumy/engine/role'
 
 test.describe('Role schema errors', () => {
   test('empty config should return 1 errors', async () => {
@@ -7,10 +7,10 @@ test.describe('Role schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Role(config)
+    const { errors } = createRole(config)
 
     // THEN
-    expect(app.errors).toHaveLength(1)
+    expect(errors).toHaveLength(1)
   })
 
   test('name should be required', async () => {
@@ -18,10 +18,10 @@ test.describe('Role schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Role(config)
+    const { errors } = createRole(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'ROLE_ERROR_NAME_REQUIRED')
+    const error = errors?.find((e) => e.code === 'ROLE_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(RoleError)
   })
@@ -33,10 +33,10 @@ test.describe('Role schema errors', () => {
     }
 
     // WHEN
-    const app = new Role(config)
+    const { errors } = createRole(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'ROLE_ERROR_NAME_STRING_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'ROLE_ERROR_NAME_STRING_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(RoleError)
   })
@@ -48,10 +48,10 @@ test.describe('Role schema errors', () => {
     }
 
     // WHEN
-    const app = new Role(config)
+    const { errors } = createRole(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'ROLE_ERROR_UNKNOWN_PROPERTY')
+    const error = errors?.find((e) => e.code === 'ROLE_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(RoleError)
     expect((error as RoleError).data?.property).toBe('unknown')

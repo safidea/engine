@@ -1,19 +1,21 @@
-import { RoleEntity } from '@domain/entities/role/RoleEntity'
+import { Role } from '@domain/entities/role/Role'
 import { drivers } from '@drivers/index'
 import { RoleError } from '@domain/entities/role/RoleError'
 
-export class Role {
-  errors: RoleError[] = []
-  entity: RoleEntity | undefined
-
-  constructor(public config: unknown) {
-    const { jsonValidator } = drivers
-    const { json, errors } = jsonValidator.validateRoleConfig(config)
-    if (errors) {
-      this.errors = errors
-    } else {
-      this.entity = new RoleEntity(json)
+export function createRole(
+  config: unknown
+): { errors: RoleError[]; role: undefined } | { role: Role; errors: undefined } {
+  const { jsonValidator } = drivers
+  const { json, errors } = jsonValidator.validateRoleConfig(config)
+  if (errors) {
+    return { errors, role: undefined }
+  } else {
+    const role = new Role(json)
+    const errors = role.validateConfig()
+    if (errors.length) {
+      return { errors, role: undefined }
     }
+    return { role, errors: undefined }
   }
 }
 

@@ -4,12 +4,9 @@ import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 
 export class FeatureList implements IList<Feature> {
-  features: Feature[]
+  private features: Feature[]
 
-  constructor(
-    public config: IFeature[],
-    params: IFeatureParams
-  ) {
+  constructor(config: IFeature[], params: IFeatureParams) {
     this.features = config.map((feature) => new Feature(feature, params))
   }
 
