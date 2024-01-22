@@ -10,7 +10,7 @@ export class ComponentList implements IList<Component> {
   }
 
   validateConfig() {
-    return []
+    return this.components.flatMap((component) => component.validateConfig())
   }
 
   includes(name: string) {

@@ -10,7 +10,7 @@ export class RoleList implements IList<Role> {
   }
 
   validateConfig() {
-    return []
+    return this.roles.flatMap((role) => role.validateConfig())
   }
 
   includes(name: string) {

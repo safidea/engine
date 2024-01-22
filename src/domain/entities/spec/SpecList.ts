@@ -10,7 +10,7 @@ export class SpecList implements IList<Spec> {
   }
 
   validateConfig() {
-    return []
+    return this.specs.flatMap((spec) => spec.validateConfig())
   }
 
   includes(name: string) {
