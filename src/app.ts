@@ -1,22 +1,21 @@
-import { AppEntity } from '@domain/entities/app/AppEntity'
 import { drivers } from '@drivers/index'
 import type { ConfigError } from '@domain/entities/ConfigError'
+import { App } from '@domain/entities/app/App'
 
-export class App {
-  errors: ConfigError[] = []
-  entity: AppEntity | undefined
-
-  constructor(public config: unknown) {
-    const { jsonValidator } = drivers
-    const { json, errors } = jsonValidator.validateAppConfig(config)
-    if (errors) {
-      this.errors = errors
-    } else {
-      this.entity = new AppEntity(json)
-      if (this.entity.errors.length) {
-        this.errors = this.entity.errors
-      }
+export function createApp(
+  config: unknown
+): { errors: ConfigError[]; app: undefined } | { app: App; errors: undefined } {
+  const { jsonValidator } = drivers
+  const { json, errors } = jsonValidator.validateAppConfig(config)
+  if (errors) {
+    return { errors, app: undefined }
+  } else {
+    const app = new App(json)
+    const errors = app.validateConfig()
+    if (errors.length) {
+      return { errors, app: undefined }
     }
+    return { app, errors: undefined }
   }
 }
 

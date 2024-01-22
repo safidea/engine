@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { App, AppError, type IApp } from '@solumy/engine/app'
+import { createApp, AppError, type IApp } from '@solumy/engine/app'
 import { FeatureError } from '@solumy/engine/feature'
 import { PageError } from '@solumy/engine/page'
 
@@ -9,10 +9,10 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    expect(app.errors).toHaveLength(5)
+    expect(errors).toHaveLength(5)
   })
 
   test('name should be required', async () => {
@@ -20,10 +20,10 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_NAME_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -35,10 +35,10 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_NAME_STRING_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_NAME_STRING_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -48,10 +48,10 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_ROLES_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_ROLES_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -63,10 +63,10 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_ROLES_ARRAY_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_ROLES_ARRAY_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -76,10 +76,10 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_FEATURES_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_FEATURES_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -91,10 +91,10 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_FEATURES_ARRAY_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_FEATURES_ARRAY_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -104,10 +104,10 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_COMPONENTS_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_COMPONENTS_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -119,10 +119,10 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_COMPONENTS_ARRAY_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_COMPONENTS_ARRAY_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -132,10 +132,10 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -147,10 +147,10 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_ARRAY_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_ARRAY_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
   })
@@ -162,10 +162,10 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'APP_ERROR_UNKNOWN_PROPERTY')
+    const error = errors?.find((e) => e.code === 'APP_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(AppError)
     expect((error as AppError).data?.property).toBe('unknown')
@@ -195,10 +195,10 @@ test.describe('App config errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'FEATURE_ERROR_STORY_AS_ROLE_NOT_FOUND')
+    const error = errors?.find((e) => e.code === 'FEATURE_ERROR_STORY_AS_ROLE_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
     if (!error) return
@@ -247,10 +247,10 @@ test.describe('App config errors', () => {
     }
 
     // WHEN
-    const app = new App(config)
+    const { errors } = createApp(config)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
+    const error = errors?.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
     if (!error) return
