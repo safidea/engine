@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import type { IComponent } from '@solumy/engine/component'
-import { Feature, type IFeature } from '@solumy/engine/feature'
+import { createFeature, type IFeature } from '@solumy/engine/feature'
 
 test.describe('Feature specs', () => {
   test.skip('should return error if a spec failed', async () => {
@@ -39,12 +39,12 @@ test.describe('Feature specs', () => {
     ]
 
     // WHEN
-    const feature = new Feature(config, { roles: [{ name: 'Role' }], components })
-    const errors = await feature.testSpecs()
+    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components })
+    const errors = await feature?.testSpecs()
 
     // THEN
     expect(errors).toHaveLength(1)
-    expect(errors[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
+    expect(errors?.[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
 
   test.skip('should return no error if a spec succeed', async () => {
@@ -83,8 +83,8 @@ test.describe('Feature specs', () => {
     ]
 
     // WHEN
-    const feature = new Feature(config, { roles: [{ name: 'Role' }], components })
-    const errors = await feature.testSpecs()
+    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components })
+    const errors = await feature?.testSpecs()
 
     // THEN
     expect(errors).toHaveLength(0)

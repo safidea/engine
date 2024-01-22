@@ -1,18 +1,18 @@
 import type { ConfigError } from '../ConfigError'
 import type { IList } from '../IList'
-import { FeatureEntity } from './FeatureEntity'
+import { Feature } from './Feature'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 
-export class FeatureList implements IList<FeatureEntity> {
-  features: FeatureEntity[]
+export class FeatureList implements IList<Feature> {
+  features: Feature[]
   errors: ConfigError[] = []
 
   constructor(
     public config: IFeature[],
     params: IFeatureParams
   ) {
-    this.features = config.map((feature) => new FeatureEntity(feature, params))
+    this.features = config.map((feature) => new Feature(feature, params))
     if (this.features.some((feature) => feature.errors.length)) {
       this.errors = this.features.flatMap((feature) => feature.errors)
     }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { Feature, FeatureError, type IFeature } from '@solumy/engine/feature'
+import { createFeature, FeatureError, type IFeature } from '@solumy/engine/feature'
 
 const params = { roles: [], components: [] }
 
@@ -9,10 +9,10 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Feature(config, params)
+    const { errors } = createFeature(config, params)
 
     // THEN
-    expect(app.errors).toHaveLength(4)
+    expect(errors).toHaveLength(4)
   })
 
   test('name should be required', async () => {
@@ -20,10 +20,10 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Feature(config, params)
+    const { errors } = createFeature(config, params)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'FEATURE_ERROR_NAME_REQUIRED')
+    const error = errors?.find((e) => e.code === 'FEATURE_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
   })
@@ -35,10 +35,10 @@ test.describe('Feature schema errors', () => {
     }
 
     // WHEN
-    const app = new Feature(config, params)
+    const { errors } = createFeature(config, params)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'FEATURE_ERROR_NAME_STRING_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'FEATURE_ERROR_NAME_STRING_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
   })
@@ -50,10 +50,10 @@ test.describe('Feature schema errors', () => {
     }
 
     // WHEN
-    const app = new Feature(config, params)
+    const { errors } = createFeature(config, params)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'FEATURE_ERROR_UNKNOWN_PROPERTY')
+    const error = errors?.find((e) => e.code === 'FEATURE_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
     if (!error) return
@@ -79,10 +79,10 @@ test.describe('Feature config errors', () => {
     }
 
     // WHEN
-    const feature = new Feature(config, params)
+    const { errors } = createFeature(config, params)
 
     // THEN
-    const error = feature.errors.find((e) => e.code === 'FEATURE_ERROR_STORY_AS_ROLE_NOT_FOUND')
+    const error = errors?.find((e) => e.code === 'FEATURE_ERROR_STORY_AS_ROLE_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
     if (!error) return

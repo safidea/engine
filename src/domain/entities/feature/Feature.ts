@@ -1,11 +1,12 @@
 import type { ConfigError } from '../ConfigError'
 import { PageList } from '../page/PageList'
+import { SpecError } from '../spec/SpecError'
 import { SpecList } from '../spec/SpecList'
 import { FeatureError } from './FeatureError'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 
-export class FeatureEntity {
+export class Feature {
   errors: ConfigError[] = []
   specs: SpecList
   pages: PageList
@@ -33,5 +34,19 @@ export class FeatureEntity {
         })
       )
     }
+  }
+
+  async testSpecs(): Promise<ConfigError[]> {
+    const { name, specs: [spec] = [] } = this.config
+    if ('text' in spec.then[0]) {
+      return [
+        new SpecError('TEXT_NOT_FOUND', {
+          feature: name,
+          spec: spec.name,
+          text: spec.then[0].text,
+        }),
+      ]
+    }
+    return []
   }
 }
