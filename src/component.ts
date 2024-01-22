@@ -1,19 +1,23 @@
-import { ComponentEntity } from '@domain/entities/component/ComponentEntity'
+import { Component } from '@domain/entities/component/Component'
 import { drivers } from '@drivers/index'
 import { ComponentError } from '@domain/entities/component/ComponentError'
 
-export class Component {
-  errors: ComponentError[] = []
-  entity: ComponentEntity | undefined
-
-  constructor(public config: unknown) {
-    const { jsonValidator } = drivers
-    const { json, errors } = jsonValidator.validateComponentConfig(config)
-    if (errors) {
-      this.errors = errors
-    } else {
-      this.entity = new ComponentEntity(json)
+export function createComponent(
+  config: unknown
+):
+  | { errors: ComponentError[]; component: undefined }
+  | { component: Component; errors: undefined } {
+  const { jsonValidator } = drivers
+  const { json, errors } = jsonValidator.validateComponentConfig(config)
+  if (errors) {
+    return { errors, component: undefined }
+  } else {
+    const component = new Component(json)
+    const errors = component.validateConfig()
+    if (errors.length) {
+      return { errors, component: undefined }
     }
+    return { component, errors: undefined }
   }
 }
 

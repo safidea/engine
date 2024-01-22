@@ -1,12 +1,12 @@
 import type { IList } from '../IList'
-import { ComponentEntity } from './ComponentEntity'
+import { Component } from './Component'
 import type { IComponent } from './IComponent'
 
-export class ComponentList implements IList<ComponentEntity> {
-  components: ComponentEntity[] = []
+export class ComponentList implements IList<Component> {
+  private components: Component[] = []
 
-  constructor(public config: IComponent[]) {
-    this.components = config.map((component) => new ComponentEntity(component))
+  constructor(config: IComponent[]) {
+    this.components = config.map((component) => new Component(component))
   }
 
   validateConfig() {
@@ -14,10 +14,10 @@ export class ComponentList implements IList<ComponentEntity> {
   }
 
   includes(name: string) {
-    return this.components.some((component) => component.config.name === name)
+    return this.components.some((component) => component.name === name)
   }
 
   find(name: string) {
-    return this.components.find((component) => component.config.name === name)
+    return this.components.find((component) => component.name === name)
   }
 }
