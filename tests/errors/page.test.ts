@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { Page, PageError, type IPage } from '@solumy/engine/page'
+import { createPage, PageError, type IPage } from '@solumy/engine/page'
 
 const params = { components: [] }
 
@@ -9,10 +9,10 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Page(config, params)
+    const { errors } = createPage(config, params)
 
     // THEN
-    expect(app.errors).toHaveLength(3)
+    expect(errors).toHaveLength(3)
   })
 
   test('name should be required', async () => {
@@ -20,10 +20,10 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const app = new Page(config, params)
+    const { errors } = createPage(config, params)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'PAGE_ERROR_NAME_REQUIRED')
+    const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
   })
@@ -35,10 +35,10 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const app = new Page(config, params)
+    const { errors } = createPage(config, params)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'PAGE_ERROR_NAME_STRING_TYPE_REQUIRED')
+    const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_STRING_TYPE_REQUIRED')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
   })
@@ -50,10 +50,10 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const app = new Page(config, params)
+    const { errors } = createPage(config, params)
 
     // THEN
-    const error = app.errors.find((e) => e.code === 'PAGE_ERROR_UNKNOWN_PROPERTY')
+    const error = errors?.find((e) => e.code === 'PAGE_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
     if (!error) return
@@ -83,10 +83,10 @@ test.describe('Page config errors', () => {
     }
 
     // WHEN
-    const page = new Page(config, params)
+    const { errors } = createPage(config, params)
 
     // THEN
-    const error = page.errors.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
+    const error = errors?.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
     if (!error) return

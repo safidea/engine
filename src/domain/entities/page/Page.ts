@@ -1,29 +1,32 @@
+import type { IEntity } from '../IEntity'
 import type { IPage } from './IPage'
 import type { IPageComponent } from './IPageComponent'
 import type { IPageParams } from './IPageParams'
 import { PageError } from './PageError'
 
-export class PageEntity {
-  errors: PageError[] = []
+export class Page implements IEntity {
+  name: string
 
   constructor(
-    public config: IPage,
-    params: IPageParams
+    private config: IPage,
+    private params: IPageParams
   ) {
-    this.validatePageConfig(params)
+    this.name = config.name
   }
 
-  validatePageConfig(params: IPageParams) {
-    const { components } = params
+  validateConfig() {
+    const errors: PageError[] = []
+    const { components } = this.params
     const { body } = this.config
     const validateComponents = (body: IPageComponent[]) => {
       for (const { component, children } of body) {
         if (!components.includes(component)) {
-          this.errors.push(new PageError('COMPONENT_NOT_FOUND', { component }))
+          errors.push(new PageError('COMPONENT_NOT_FOUND', { component }))
         }
         if (children) validateComponents(children)
       }
     }
     validateComponents(body)
+    return errors
   }
 }

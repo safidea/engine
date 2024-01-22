@@ -9,6 +9,10 @@ export class SpecList implements IList<SpecEntity> {
     this.specs = config.map((spec) => new SpecEntity(spec))
   }
 
+  validateConfig() {
+    return []
+  }
+
   includes(name: string) {
     return this.specs.some((spec) => spec.config.name === name)
   }

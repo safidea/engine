@@ -9,6 +9,10 @@ export class RoleList implements IList<RoleEntity> {
     this.roles = config.map((role) => new RoleEntity(role))
   }
 
+  validateConfig() {
+    return []
+  }
+
   includes(name: string) {
     return this.roles.some((role) => role.config.name === name)
   }

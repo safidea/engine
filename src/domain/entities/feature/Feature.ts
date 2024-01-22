@@ -1,4 +1,5 @@
 import type { ConfigError } from '../ConfigError'
+import type { IEntity } from '../IEntity'
 import { PageList } from '../page/PageList'
 import { SpecError } from '../spec/SpecError'
 import { SpecList } from '../spec/SpecList'
@@ -6,34 +7,35 @@ import { FeatureError } from './FeatureError'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 
-export class Feature {
-  errors: ConfigError[] = []
-  specs: SpecList
-  pages: PageList
+export class Feature implements IEntity {
+  name: string
+  private specs: SpecList
+  private pages: PageList
 
   constructor(
-    public config: IFeature,
-    params: IFeatureParams
+    private config: IFeature,
+    private params: IFeatureParams
   ) {
-    this.validateFeatureConfig(params)
+    this.name = config.name
     this.specs = new SpecList(config.specs)
     this.pages = new PageList(config.pages, { components: params.components })
-    if (this.pages.errors.length) {
-      this.errors = this.pages.errors
-    }
   }
 
-  validateFeatureConfig(params: IFeatureParams) {
-    const { roles } = params
+  validateConfig() {
+    const errors: ConfigError[] = []
+    const { roles } = this.params
     const { story } = this.config
     if (!roles.includes(story.asRole)) {
-      this.errors.push(
+      errors.push(
         new FeatureError('STORY_AS_ROLE_NOT_FOUND', {
           feature: this.config.name,
           role: story.asRole,
         })
       )
     }
+    errors.push(...this.specs.validateConfig())
+    errors.push(...this.pages.validateConfig())
+    return errors
   }
 
   async testSpecs(): Promise<ConfigError[]> {

@@ -17,6 +17,6 @@ export class AppEntity {
       roles: this.roles,
       components: this.components,
     })
-    this.errors = [...this.features.errors]
+    this.errors = this.features.validateConfig()
   }
 }

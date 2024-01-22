@@ -1,28 +1,28 @@
+import type { ConfigError } from '../ConfigError'
 import type { IList } from '../IList'
 import type { IPage } from './IPage'
 import type { IPageParams } from './IPageParams'
-import { PageEntity } from './PageEntity'
-import type { PageError } from './PageError'
+import { Page } from './Page'
 
-export class PageList implements IList<PageEntity> {
-  pages: PageEntity[]
-  errors: PageError[] = []
+export class PageList implements IList<Page> {
+  pages: Page[]
 
   constructor(
     public config: IPage[],
     params: IPageParams
   ) {
-    this.pages = config.map((page) => new PageEntity(page, params))
-    if (this.pages.some((page) => page.errors.length)) {
-      this.errors = this.pages.flatMap((page) => page.errors)
-    }
+    this.pages = config.map((page) => new Page(page, params))
+  }
+
+  validateConfig(): ConfigError[] {
+    return this.pages.flatMap((page) => page.validateConfig())
   }
 
   includes(name: string) {
-    return this.pages.some((page) => page.config.name === name)
+    return this.pages.some((page) => page.name === name)
   }
 
   find(name: string) {
-    return this.pages.find((page) => page.config.name === name)
+    return this.pages.find((page) => page.name === name)
   }
 }

@@ -9,6 +9,10 @@ export class ComponentList implements IList<ComponentEntity> {
     this.components = config.map((component) => new ComponentEntity(component))
   }
 
+  validateConfig() {
+    return []
+  }
+
   includes(name: string) {
     return this.components.some((component) => component.config.name === name)
   }

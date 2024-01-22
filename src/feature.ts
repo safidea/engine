@@ -22,8 +22,9 @@ export function createFeature(
     const roles = new RoleList(params.roles)
     const components = new ComponentList(params.components)
     const feature = new Feature(json, { roles, components })
-    if (feature.errors.length) {
-      return { errors: feature.errors, feature: undefined }
+    const errors = feature.validateConfig()
+    if (errors.length) {
+      return { errors, feature: undefined }
     }
     return { feature, errors: undefined }
   }
