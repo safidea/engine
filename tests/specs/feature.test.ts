@@ -3,7 +3,7 @@ import type { IComponent } from '@solumy/engine/component'
 import { Feature, type IFeature } from '@solumy/engine/feature'
 
 test.describe('Feature specs', () => {
-  test.skip('should fail a spec', async () => {
+  test.only('should return error if a spec failed', async () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',
@@ -14,9 +14,9 @@ test.describe('Feature specs', () => {
       },
       specs: [
         {
-          name: 'Spec',
+          name: 'display invalid text',
           when: [{ open: '/' }],
-          then: [{ text: 'text' }],
+          then: [{ text: 'invalid' }],
         },
       ],
       pages: [
@@ -34,7 +34,7 @@ test.describe('Feature specs', () => {
     const components: IComponent[] = [
       {
         name: 'text',
-        template: 'invalid',
+        template: 'export default () => <div>valid</div>',
       },
     ]
 
@@ -44,5 +44,49 @@ test.describe('Feature specs', () => {
 
     // THEN
     expect(errors).toHaveLength(1)
+    expect(errors[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
+  })
+
+  test.skip('should return no error if a spec succeed', async () => {
+    // GIVEN
+    const config: IFeature = {
+      name: 'Feature',
+      story: {
+        asRole: 'Role',
+        iWant: 'I want',
+        soThat: 'So that',
+      },
+      specs: [
+        {
+          name: 'display invalid text',
+          when: [{ open: '/' }],
+          then: [{ text: 'valid' }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'text',
+            },
+          ],
+        },
+      ],
+    }
+    const components: IComponent[] = [
+      {
+        name: 'text',
+        template: 'export default () => <div>valid</div>',
+      },
+    ]
+
+    // WHEN
+    const feature = new Feature(config, { roles: [{ name: 'Role' }], components })
+    const errors = await feature.testSpecs()
+
+    // THEN
+    expect(errors).toHaveLength(0)
   })
 })

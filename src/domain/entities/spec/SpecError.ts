@@ -4,9 +4,13 @@ export type SpecErrorCode =
   | 'NAME_STRING_TYPE_REQUIRED'
   | 'WHEN_REQUIRED'
   | 'THEN_REQUIRED'
+  | 'TEXT_NOT_FOUND'
 
 export interface SpecErrorData {
-  property: string
+  property?: string
+  feature?: string
+  spec?: string
+  text?: string
 }
 
 export class SpecError extends Error {

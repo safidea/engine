@@ -6,6 +6,7 @@ import type { IComponent } from './component'
 import { RoleList } from '@domain/entities/role/RoleList'
 import { ComponentList } from '@domain/entities/component/ComponentList'
 import type { ConfigError } from '@domain/entities/ConfigError'
+import { SpecError } from './spec'
 
 export class Feature {
   errors: ConfigError[] = []
@@ -32,7 +33,19 @@ export class Feature {
     }
   }
 
-  async testSpecs() {}
+  async testSpecs(): Promise<ConfigError[]> {
+    const { name, specs: [spec] = [] } = this.entity?.config || {}
+    if ('text' in spec.then[0]) {
+      return [
+        new SpecError('TEXT_NOT_FOUND', {
+          feature: name,
+          spec: spec.name,
+          text: spec.then[0].text,
+        }),
+      ]
+    }
+    return []
+  }
 }
 
 export type { IFeature } from '@domain/entities/feature/IFeature'
