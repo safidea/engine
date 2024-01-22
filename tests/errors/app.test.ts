@@ -201,8 +201,13 @@ test.describe('App config errors', () => {
     const error = app.errors.find((e) => e.code === 'FEATURE_ERROR_STORY_AS_ROLE_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
-    expect((error as FeatureError).data?.feature).toBe('feature')
-    expect((error as FeatureError).data?.role).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('feature')
+    if (data && 'feature' in data) expect(data.feature).toBe('feature')
+    expect(data).toHaveProperty('role')
+    if (data && 'role' in data) expect(data.role).toBe('unknown')
   })
 
   test('app feature page component should be a defined component', async () => {
@@ -248,6 +253,10 @@ test.describe('App config errors', () => {
     const error = app.errors.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
-    expect((error as PageError).data?.component).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('component')
+    if (data && 'component' in data) expect(data.component).toBe('unknown')
   })
 })

@@ -6,12 +6,15 @@ export type SpecErrorCode =
   | 'THEN_REQUIRED'
   | 'TEXT_NOT_FOUND'
 
-export interface SpecErrorData {
-  property?: string
-  feature?: string
-  spec?: string
-  text?: string
-}
+export type SpecErrorData =
+  | {
+      property: string
+    }
+  | {
+      feature: string
+      spec: string
+      text: string
+    }
 
 export class SpecError extends Error {
   public code: string

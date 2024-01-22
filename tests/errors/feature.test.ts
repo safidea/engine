@@ -56,7 +56,11 @@ test.describe('Feature schema errors', () => {
     const error = app.errors.find((e) => e.code === 'FEATURE_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
-    expect((error as FeatureError).data?.property).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('property')
+    if (data && 'property' in data) expect(data.property).toBe('unknown')
   })
 })
 
@@ -81,7 +85,12 @@ test.describe('Feature config errors', () => {
     const error = feature.errors.find((e) => e.code === 'FEATURE_ERROR_STORY_AS_ROLE_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(FeatureError)
-    expect((error as FeatureError).data?.feature).toBe('feature')
-    expect((error as FeatureError).data?.role).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('feature')
+    if (data && 'feature' in data) expect(data.feature).toBe('feature')
+    expect(data).toHaveProperty('role')
+    if (data && 'role' in data) expect(data.role).toBe('unknown')
   })
 })

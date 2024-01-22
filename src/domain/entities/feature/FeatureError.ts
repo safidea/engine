@@ -7,11 +7,14 @@ export type FeatureErrorCode =
   | 'PAGES_REQUIRED'
   | 'STORY_AS_ROLE_NOT_FOUND'
 
-export interface FeatureErrorData {
-  property?: string
-  feature?: string
-  role?: string
-}
+export type FeatureErrorData =
+  | {
+      property: string
+    }
+  | {
+      feature: string
+      role: string
+    }
 
 export class FeatureError extends Error {
   public code: string

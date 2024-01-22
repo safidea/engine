@@ -34,7 +34,11 @@ export class Feature {
   }
 
   async testSpecs(): Promise<ConfigError[]> {
-    const { name, specs: [spec] = [] } = this.entity?.config || {}
+    // TODO: add state machine for feature (errored or not)
+    if (!this.entity) {
+      return this.errors
+    }
+    const { name, specs: [spec] = [] } = this.entity.config
     if ('text' in spec.then[0]) {
       return [
         new SpecError('TEXT_NOT_FOUND', {

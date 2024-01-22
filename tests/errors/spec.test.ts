@@ -54,6 +54,10 @@ test.describe('Spec schema errors', () => {
     const error = app.errors.find((e) => e.code === 'SPEC_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(SpecError)
-    expect((error as SpecError).data?.property).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('property')
+    if (data && 'property' in data) expect(data.property).toBe('unknown')
   })
 })

@@ -56,7 +56,11 @@ test.describe('Page schema errors', () => {
     const error = app.errors.find((e) => e.code === 'PAGE_ERROR_UNKNOWN_PROPERTY')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
-    expect((error as PageError).data?.property).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('property')
+    if (data && 'property' in data) expect(data.property).toBe('unknown')
   })
 })
 
@@ -85,6 +89,10 @@ test.describe('Page config errors', () => {
     const error = page.errors.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
     expect(error).toBeDefined()
     expect(error).toBeInstanceOf(PageError)
-    expect((error as PageError).data?.component).toBe('unknown')
+    if (!error) return
+    const data = error.data
+    expect(data).toBeDefined()
+    expect(data).toHaveProperty('component')
+    if (data && 'component' in data) expect(data.component).toBe('unknown')
   })
 })

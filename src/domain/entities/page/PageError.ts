@@ -7,10 +7,13 @@ export type PageErrorCode =
   | 'BODY_REQUIRED'
   | 'COMPONENT_NOT_FOUND'
 
-export interface PageErrorData {
-  property?: string
-  component?: string
-}
+export type PageErrorData =
+  | {
+      property: string
+    }
+  | {
+      component: string
+    }
 
 export class PageError extends Error {
   public code: string
