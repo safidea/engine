@@ -6,6 +6,10 @@ export interface IBrowserPage {
   close(): Promise<void>
 }
 
+export interface IBrowserLaunchOptions {
+  baseUrl: string
+}
+
 export interface IBrowser {
-  launch(): Promise<IBrowserPage>
+  launch(options?: IBrowserLaunchOptions): Promise<IBrowserPage>
 }

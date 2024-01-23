@@ -8,6 +8,7 @@
 - [x] Write the json schema of the engine from typescript interfaces
 - [x] Write the config validator from the json schema
 - [ ] Write the spec tester for a config
+- [ ] Add logger
 - [ ] Develop the new engine by TDD
 
 **Notes:**

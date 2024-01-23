@@ -17,10 +17,10 @@ export class Spec implements IEntity {
     return []
   }
 
-  async test(feature: string) {
+  async test(feature: string, baseUrl: string): Promise<SpecError | undefined> {
     const { when, then } = this.config
     const { browser } = this.params.drivers
-    const page = await browser.launch()
+    const page = await browser.launch({ baseUrl })
     for (const action of when) {
       if ('open' in action) {
         await page.open(action.open)
@@ -30,17 +30,14 @@ export class Spec implements IEntity {
       if ('text' in result) {
         const text = await page.getByText(result.text)
         if (text) {
-          return [
-            new SpecError('TEXT_NOT_FOUND', {
-              feature,
-              spec: this.name,
-              text: result.text,
-            }),
-          ]
+          return new SpecError('TEXT_NOT_FOUND', {
+            feature,
+            spec: this.name,
+            text: result.text,
+          })
         }
       }
     }
     await page.close()
-    return []
   }
 }

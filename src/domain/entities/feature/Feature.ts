@@ -1,3 +1,4 @@
+import type { IServerInstance } from '@domain/drivers/IServer'
 import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { PageList } from '../page/PageList'
@@ -10,14 +11,17 @@ export class Feature implements IEntity {
   name: string
   private specs: SpecList
   private pages: PageList
+  private server: IServerInstance
 
   constructor(
     private config: IFeature,
     private params: IFeatureParams
   ) {
     this.name = config.name
-    this.specs = new SpecList(config.specs, { drivers: params.drivers })
-    this.pages = new PageList(config.pages ?? [], { components: params.components })
+    const { drivers, components } = params
+    this.specs = new SpecList(config.specs, { drivers })
+    this.pages = new PageList(config.pages ?? [], { components })
+    this.server = drivers.server.create()
   }
 
   validateConfig() {
@@ -38,6 +42,9 @@ export class Feature implements IEntity {
   }
 
   async testSpecs(): Promise<EngineError[]> {
-    return this.specs.test(this.name)
+    const url = await this.server.start()
+    const errors = await this.specs.test(this.name, url)
+    await this.server.stop()
+    return errors
   }
 }
