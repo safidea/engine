@@ -11,6 +11,8 @@ const externals: string[] = [
   'cors',
   'helmet',
   'cookie-parser',
+  'react',
+  'react-dom'
 ]
 
 const entrypoints = [

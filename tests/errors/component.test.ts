@@ -10,7 +10,7 @@ test.describe('Component schema errors', () => {
     const { errors } = createComponent(config)
 
     // THEN
-    expect(errors).toHaveLength(2)
+    expect(errors).toHaveLength(4)
   })
 
   test('name should be required', async () => {

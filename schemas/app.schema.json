@@ -3,6 +3,16 @@
     "additionalProperties": false,
     "definitions": {
         "IComponent": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IComponentParagraph"
+                },
+                {
+                    "$ref": "#/definitions/IComponentCustom"
+                }
+            ]
+        },
+        "IComponentCustom": {
             "additionalProperties": false,
             "properties": {
                 "name": {
@@ -15,7 +25,8 @@
                     "type": "array"
                 },
                 "template": {
-                    "type": "string"
+                    "additionalProperties": false,
+                    "type": "object"
                 }
             },
             "required": [
@@ -45,6 +56,24 @@
                 "name",
                 "props",
                 "type"
+            ],
+            "type": "object"
+        },
+        "IComponentParagraph": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "const": "paragraph",
+                    "type": "string"
+                },
+                "template": {
+                    "additionalProperties": false,
+                    "type": "object"
+                }
+            },
+            "required": [
+                "name",
+                "template"
             ],
             "type": "object"
         },

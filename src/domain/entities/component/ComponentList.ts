@@ -1,12 +1,13 @@
 import type { IList } from '../IList'
 import { Component } from './Component'
 import type { IComponent } from './IComponent'
+import { base } from './base'
 
 export class ComponentList implements IList<Component> {
   private components: Component[] = []
 
   constructor(config: IComponent[]) {
-    this.components = config.map((component) => new Component(component))
+    this.components = [...config, ...base].map((component) => new Component(component))
   }
 
   validateConfig() {

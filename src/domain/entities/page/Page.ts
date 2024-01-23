@@ -13,11 +13,21 @@ export class Page implements IEntity {
   ) {
     this.name = config.name
     const { server } = params
-    server.get(config.path, async () => {
-      return {
-        html: '<div>valid</div>',
-      }
-    })
+    server.get(config.path, this.get)
+  }
+
+  get = async () => {
+    const {
+      components,
+      drivers: { ui },
+    } = this.params
+    const page = ui.createPage()
+    for (const { component: name, ...props } of this.config.body) {
+      const component = components.find(name)
+      if (component) await page.addComponent(component, props)
+    }
+    const html = page.render()
+    return { html }
   }
 
   validateConfig() {

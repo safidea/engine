@@ -1,3 +1,5 @@
+import type { IComponentParagraph, IComponentParagraphProps } from './base/Text'
+
 export interface IComponentBaseProp {
   name: string
 }
@@ -13,8 +15,13 @@ export interface IComponentStringProp extends IComponentBaseProp {
 
 export type IComponentProp = IComponentObjectProp | IComponentStringProp
 
-export interface IComponent {
+export interface IComponentBase {
   name: string
-  template: string
+  template: (props: IComponentParagraphProps) => JSX.Element
+}
+
+export interface IComponentCustom extends IComponentBase {
   props?: IComponentProp[]
 }
+
+export type IComponent = IComponentCustom | IComponentParagraph

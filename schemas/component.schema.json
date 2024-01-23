@@ -1,7 +1,37 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
+    "anyOf": [
+        {
+            "$ref": "#/definitions/IComponentParagraph"
+        },
+        {
+            "$ref": "#/definitions/IComponentCustom"
+        }
+    ],
     "definitions": {
+        "IComponentCustom": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "props": {
+                    "items": {
+                        "$ref": "#/definitions/IComponentProp"
+                    },
+                    "type": "array"
+                },
+                "template": {
+                    "additionalProperties": false,
+                    "type": "object"
+                }
+            },
+            "required": [
+                "name",
+                "template"
+            ],
+            "type": "object"
+        },
         "IComponentObjectProp": {
             "additionalProperties": false,
             "properties": {
@@ -23,6 +53,24 @@
                 "name",
                 "props",
                 "type"
+            ],
+            "type": "object"
+        },
+        "IComponentParagraph": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "const": "paragraph",
+                    "type": "string"
+                },
+                "template": {
+                    "additionalProperties": false,
+                    "type": "object"
+                }
+            },
+            "required": [
+                "name",
+                "template"
             ],
             "type": "object"
         },
@@ -53,25 +101,6 @@
             ],
             "type": "object"
         }
-    },
-    "properties": {
-        "name": {
-            "type": "string"
-        },
-        "props": {
-            "items": {
-                "$ref": "#/definitions/IComponentProp"
-            },
-            "type": "array"
-        },
-        "template": {
-            "type": "string"
-        }
-    },
-    "required": [
-        "name",
-        "template"
-    ],
-    "type": "object"
+    }
 }
 

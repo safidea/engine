@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import type { IComponent } from '@solumy/engine/component'
 import { createFeature, type IFeature } from '@solumy/engine/feature'
 
 test.describe('Feature specs', () => {
@@ -25,21 +24,16 @@ test.describe('Feature specs', () => {
           path: '/',
           body: [
             {
-              component: 'text',
+              component: 'paragraph',
+              text: 'valid',
             },
           ],
         },
       ],
     }
-    const components: IComponent[] = [
-      {
-        name: 'text',
-        template: 'export default () => <div>valid</div>',
-      },
-    ]
 
     // WHEN
-    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components })
+    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components: [] })
     const errors = await feature?.testSpecs()
 
     // THEN
@@ -47,7 +41,7 @@ test.describe('Feature specs', () => {
     expect(errors?.[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
 
-  test.skip('should return no error if a spec succeed', async () => {
+  test('should return no error if a spec succeed', async () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',
@@ -69,21 +63,16 @@ test.describe('Feature specs', () => {
           path: '/',
           body: [
             {
-              component: 'text',
+              component: 'paragraph',
+              text: 'valid',
             },
           ],
         },
       ],
     }
-    const components: IComponent[] = [
-      {
-        name: 'text',
-        template: 'export default () => <div>valid</div>',
-      },
-    ]
 
     // WHEN
-    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components })
+    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components: [] })
     const errors = await feature?.testSpecs()
 
     // THEN

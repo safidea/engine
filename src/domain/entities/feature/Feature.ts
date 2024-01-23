@@ -21,7 +21,7 @@ export class Feature implements IEntity {
     const { drivers, components } = params
     this.server = drivers.server.create()
     this.specs = new SpecList(config.specs, { drivers })
-    this.pages = new PageList(config.pages ?? [], { components, server: this.server })
+    this.pages = new PageList(config.pages ?? [], { components, server: this.server, drivers })
   }
 
   validateConfig() {

@@ -20,7 +20,7 @@ export class PageController implements IController<Page> {
     if (!json || schemaErrors) return { errors: schemaErrors }
     const components = new ComponentList(this.params.components)
     const server = this.drivers.server.create()
-    const entity = new Page(json, { components, server })
+    const entity = new Page(json, { components, server, drivers: this.drivers })
     const configError = entity.validateConfig()
     if (configError.length) return { errors: configError }
     return { entity }
