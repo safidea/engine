@@ -9,7 +9,7 @@ export class PageController implements IController<Page> {
   private middleware: PageMiddleware
 
   constructor(
-    drivers: Drivers,
+    private drivers: Drivers,
     private params: { components: IComponent[] }
   ) {
     this.middleware = new PageMiddleware(drivers)
@@ -17,9 +17,10 @@ export class PageController implements IController<Page> {
 
   createEntity(data: unknown) {
     const { json, errors: schemaErrors } = this.middleware.validateSchema(data)
-    if (!json ||schemaErrors) return { errors: schemaErrors }
+    if (!json || schemaErrors) return { errors: schemaErrors }
     const components = new ComponentList(this.params.components)
-    const entity = new Page(json, { components })
+    const server = this.drivers.server.create()
+    const entity = new Page(json, { components, server })
     const configError = entity.validateConfig()
     if (configError.length) return { errors: configError }
     return { entity }

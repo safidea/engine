@@ -12,6 +12,12 @@ export class Page implements IEntity {
     private params: IPageParams
   ) {
     this.name = config.name
+    const { server } = params
+    server.get(config.path, async () => {
+      return {
+        html: '<div>valid</div>',
+      }
+    })
   }
 
   validateConfig() {
