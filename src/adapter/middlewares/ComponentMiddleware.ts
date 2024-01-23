@@ -11,6 +11,7 @@ export class ComponentMiddleware implements IMiddleware<IComponent> {
     if (json) return { json }
     const errors = schemaValidatorErrors
       ?.filter(({ keyword }) => {
+        // TODO: add a better management for these keywords
         return keyword !== 'anyOf' && keyword !== 'const'
       })
       .map((error) => {

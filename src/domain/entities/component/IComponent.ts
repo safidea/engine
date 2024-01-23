@@ -20,6 +20,7 @@ export interface IComponentBase {
   template: (props: IComponentParagraphProps) => JSX.Element
 }
 
+// TODO: maybe remove this interface and managing only arbitrary props ?
 export interface IComponentCustom extends IComponentBase {
   props?: IComponentProp[]
 }

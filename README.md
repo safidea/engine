@@ -7,11 +7,15 @@
   - [x] Contact form (Typeform alternative)
 - [x] Write the json schema of the engine from typescript interfaces
 - [x] Write the config validator from the json schema
-- [ ] Write the spec tester for a config
-- [ ] Add logger
+- [x] Write the spec tester for a config
+- [ ] Refactor to fix all TODOs
 - [ ] Develop the new engine by TDD
 
 **Notes:**
+
+23/01
+
+- Les composants peuvent être personnalisés uniquement si ils contiennent les mêmes props que le composant par défaut, ainsi le comportement reste le même mais le design change
 
 21/01
 

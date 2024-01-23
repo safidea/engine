@@ -7,6 +7,7 @@ export class ComponentList implements IList<Component> {
   private components: Component[] = []
 
   constructor(config: IComponent[]) {
+    // TODO: filter base component if config includes it with the same name
     this.components = [...config, ...base].map((component) => new Component(component))
   }
 
