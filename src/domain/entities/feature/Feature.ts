@@ -1,7 +1,6 @@
 import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { PageList } from '../page/PageList'
-import { SpecError } from '../spec/SpecError'
 import { SpecList } from '../spec/SpecList'
 import { FeatureError } from './FeatureError'
 import type { IFeature } from './IFeature'
@@ -17,7 +16,7 @@ export class Feature implements IEntity {
     private params: IFeatureParams
   ) {
     this.name = config.name
-    this.specs = new SpecList(config.specs)
+    this.specs = new SpecList(config.specs, { drivers: params.drivers })
     this.pages = new PageList(config.pages ?? [], { components: params.components })
   }
 
@@ -39,22 +38,6 @@ export class Feature implements IEntity {
   }
 
   async testSpecs(): Promise<EngineError[]> {
-    const { name, specs: [spec] = [] } = this.config
-    const { browser } = this.params.drivers
-    const page = await browser.launch()
-    await page.open('https://example.com')
-    const title = await page.title()
-    console.log(title)
-    await page.close()
-    if ('text' in spec.then[0]) {
-      return [
-        new SpecError('TEXT_NOT_FOUND', {
-          feature: name,
-          spec: spec.name,
-          text: spec.then[0].text,
-        }),
-      ]
-    }
-    return []
+    return this.specs.test(this.name)
   }
 }

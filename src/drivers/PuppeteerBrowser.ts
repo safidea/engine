@@ -1,5 +1,6 @@
-import puppeteer, { Page, Browser } from 'puppeteer'
-import type { IBrowser, IBrowserPage } from '@domain/drivers/IBrowser'
+import puppeteer, { Page, Browser, ElementHandle } from 'puppeteer'
+import type { IBrowser, IBrowserElement, IBrowserPage } from '@domain/drivers/IBrowser'
+import type { Node } from 'typescript'
 
 class PuppeteerBrowser implements IBrowser {
   async launch() {
@@ -21,13 +22,19 @@ class PuppeteerBrowserPage implements IBrowserPage {
     await this.page.goto(url)
   }
 
-  async title() {
-    return this.page.title()
+  async getByText(text: string) {
+    const element = await this.page.waitForXPath(`//*[contains(text(), '${text}')]`)
+    if (element) return new PuppeteerBrowserElement(element)
+    return null
   }
 
   async close() {
     await this.browser.close()
   }
+}
+
+class PuppeteerBrowserElement implements IBrowserElement {
+  constructor(private element: ElementHandle<Node>) {}
 }
 
 export default new PuppeteerBrowser()

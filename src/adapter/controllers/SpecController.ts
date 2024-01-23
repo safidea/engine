@@ -13,7 +13,7 @@ export class SpecController implements IController<Spec> {
   createEntity(data: unknown) {
     const { json, errors: schemaErrors } = this.middleware.validateSchema(data)
     if (!json || schemaErrors) return { errors: schemaErrors }
-    const entity = new Spec(json)
+    const entity = new Spec(json, { drivers: this.drivers })
     const configError = entity.validateConfig()
     if (configError.length) return { errors: configError }
     return { entity }

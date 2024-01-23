@@ -1,12 +1,22 @@
 import type { IList } from '../IList'
 import type { ISpec } from './ISpec'
+import type { ISpecParams } from './ISpecParams'
 import { Spec } from './Spec'
+import type { SpecError } from './SpecError'
 
 export class SpecList implements IList<Spec> {
   private specs: Spec[] = []
 
-  constructor(config: ISpec[]) {
-    this.specs = config.map((spec) => new Spec(spec))
+  constructor(config: ISpec[], params: ISpecParams) {
+    this.specs = config.map((spec) => new Spec(spec, params))
+  }
+
+  async test(feature: string) {
+    const errors: SpecError[] = []
+    for (const spec of this.specs) {
+      errors.push(...(await spec.test(feature)))
+    }
+    return errors
   }
 
   validateConfig() {
