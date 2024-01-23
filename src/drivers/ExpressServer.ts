@@ -17,7 +17,7 @@ export class ExpressServer implements IServer {
 
 class ExpressServerInstance implements IServerInstance {
   private express: Express
-  private server?: HttpServer
+  private server: HttpServer
 
   constructor(
     private log: ILoggerLog,
@@ -33,24 +33,19 @@ class ExpressServerInstance implements IServerInstance {
       this.log(`${req.method} ${req.originalUrl}`)
       res.send('Hello World!')
     })
+    this.server = http.createServer(this.express)
+    this.server.on('error', (e) => this.log(e.message))
   }
 
   async start() {
-    await new Promise((resolve, reject) => {
-      this.server = http.createServer(this.express)
-      this.server.listen(this.port, () => resolve(null))
-      this.server.on('error', reject)
-    })
+    this.server.listen(this.port)
     const url = `http://localhost:${this.port}`
     this.log(`Server started at ${url}`)
     return url
   }
 
   async stop() {
-    await new Promise((resolve) => {
-      if (!this.server) return resolve(null)
-      this.server.close(async () => resolve(null))
-    })
+    this.server.close()
     this.log(`Server stopped`)
   }
 }

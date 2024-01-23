@@ -28,8 +28,8 @@ export class Spec implements IEntity {
     }
     for (const result of then) {
       if ('text' in result) {
-        const text = await page.getByText(result.text)
-        if (text) {
+        const textElement = await page.getByText(result.text)
+        if (!textElement) {
           return new SpecError('TEXT_NOT_FOUND', {
             feature,
             spec: this.name,

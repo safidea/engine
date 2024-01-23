@@ -19,22 +19,20 @@ export class PuppeteerBrowser implements IBrowser {
 }
 
 class PuppeteerBrowserPage implements IBrowserPage {
-  private timeout = 1000
-
   constructor(
     private browser: Browser,
     private page: Page,
     private baseUrl: string
-  ) {}
+  ) {
+    page.setDefaultTimeout(5000)
+  }
 
   async open(path: string) {
     await this.page.goto(this.baseUrl + path)
   }
 
   async getByText(text: string) {
-    const element = await this.page.waitForXPath(`//*[contains(text(), '${text}')]`, {
-      timeout: this.timeout,
-    })
+    const [element] = await this.page.$x(`//*[contains(text(), '${text}')]`)
     if (element) return new PuppeteerBrowserElement(element)
     return null
   }

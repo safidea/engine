@@ -3,7 +3,7 @@ import type { IComponent } from '@solumy/engine/component'
 import { createFeature, type IFeature } from '@solumy/engine/feature'
 
 test.describe('Feature specs', () => {
-  test.skip('should return error if a spec failed', async () => {
+  test('should return error if a spec failed', async () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',
