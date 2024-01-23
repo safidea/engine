@@ -4,7 +4,7 @@ import { join } from 'path'
 import type { JSONSchemaType } from 'ajv'
 import type { ISchemaValidator, ISchemaValidatorSchema } from '@domain/drivers/ISchemaValidator'
 
-class SchemaValidator implements ISchemaValidator {
+class AjvSchemaValidator implements ISchemaValidator {
   private ajv: Ajv
 
   constructor() {
@@ -37,4 +37,4 @@ class SchemaValidator implements ISchemaValidator {
   }
 }
 
-export default new SchemaValidator()
+export default new AjvSchemaValidator()

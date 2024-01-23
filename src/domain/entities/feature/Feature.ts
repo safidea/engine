@@ -41,10 +41,11 @@ export class Feature implements IEntity {
   async testSpecs(): Promise<EngineError[]> {
     const { name, specs: [spec] = [] } = this.config
     const { browser } = this.params.drivers
-    const page = await browser.openPage('https://example.com')
+    const page = await browser.launch()
+    await page.open('https://example.com')
     const title = await page.title()
     console.log(title)
-    await browser.close()
+    await page.close()
     if ('text' in spec.then[0]) {
       return [
         new SpecError('TEXT_NOT_FOUND', {

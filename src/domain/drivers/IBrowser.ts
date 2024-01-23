@@ -1,9 +1,9 @@
 export interface IBrowserPage {
   open(url: string): Promise<void>
   title(): Promise<string>
+  close(): Promise<void>
 }
 
 export interface IBrowser {
-  openPage(url: string): Promise<IBrowserPage>
-  close(): Promise<void>
+  launch(): Promise<IBrowserPage>
 }

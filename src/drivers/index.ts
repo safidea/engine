@@ -1,8 +1,8 @@
-import Browser from './Browser'
-import SchemaValidator from './SchemaValidator'
+import PuppeteerBrowser from './PuppeteerBrowser'
+import AjvSchemaValidator from './AjvSchemaValidator'
 import type { Drivers } from '@domain/drivers'
 
 export const drivers: Drivers = {
-  schemaValidator: SchemaValidator,
-  browser: Browser,
+  schemaValidator: AjvSchemaValidator,
+  browser: PuppeteerBrowser,
 }
