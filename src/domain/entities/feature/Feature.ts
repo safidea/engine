@@ -6,6 +6,7 @@ import { SpecList } from '../spec/SpecList'
 import { FeatureError } from './FeatureError'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
+import type { SpecError } from '../spec/SpecError'
 
 export class Feature implements IEntity {
   name: string
@@ -41,7 +42,7 @@ export class Feature implements IEntity {
     return errors
   }
 
-  async testSpecs(): Promise<EngineError[]> {
+  async testSpecs(): Promise<SpecError[]> {
     const url = await this.server.start()
     const errors = await this.specs.test(this.name, url)
     await this.server.stop()

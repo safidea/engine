@@ -37,6 +37,7 @@ test.describe('Feature specs', () => {
     const errors = await feature?.testSpecs()
 
     // THEN
+    expect(feature).toBeDefined()
     expect(errors).toHaveLength(1)
     expect(errors?.[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
@@ -76,6 +77,7 @@ test.describe('Feature specs', () => {
     const errors = await feature?.testSpecs()
 
     // THEN
+    expect(feature).toBeDefined()
     expect(errors).toHaveLength(0)
   })
 })

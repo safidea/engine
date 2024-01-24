@@ -30,4 +30,8 @@ export class App implements IEntity {
     errors.push(...this.features.validateConfig())
     return errors
   }
+
+  async testFeaturesSpecs() {
+    return this.features.testSpecs()
+  }
 }

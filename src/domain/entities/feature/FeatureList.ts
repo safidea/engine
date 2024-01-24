@@ -1,4 +1,5 @@
 import type { IList } from '../IList'
+import type { SpecError } from '../spec/SpecError'
 import { Feature } from './Feature'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
@@ -8,6 +9,14 @@ export class FeatureList implements IList<Feature> {
 
   constructor(config: IFeature[], params: IFeatureParams) {
     this.features = config.map((feature) => new Feature(feature, params))
+  }
+
+  async testSpecs(): Promise<SpecError[]> {
+    const errors: SpecError[] = []
+    for (const feature of this.features) {
+      errors.push(...(await feature.testSpecs()))
+    }
+    return errors
   }
 
   validateConfig() {
