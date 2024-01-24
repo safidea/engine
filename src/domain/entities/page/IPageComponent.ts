@@ -1,5 +1,5 @@
 import type { IComponent } from '@domain/components'
 
-export interface IPageComponent extends IComponent {
+export type IPageComponent = IComponent & {
   name?: string
 }

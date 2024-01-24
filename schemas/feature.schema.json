@@ -29,24 +29,69 @@
             "type": "object"
         },
         "IPageComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "component": {
-                    "const": "Paragraph",
-                    "type": "string"
+            "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Hero",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "path",
+                                "text"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
                 },
-                "name": {
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Paragraph",
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "text"
+                    ],
+                    "type": "object"
                 }
-            },
-            "required": [
-                "component",
-                "text"
-            ],
-            "type": "object"
+            ]
         },
         "IPageSeo": {
             "additionalProperties": false,

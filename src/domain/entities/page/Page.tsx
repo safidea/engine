@@ -23,9 +23,13 @@ export class Page implements IEntity {
     const { body } = this.config
     return (
       <>
-        {body.map(({ component: name, ...props }, index) => {
-          const Component = components[name]
-          return <Component key={index} {...props} />
+        {body.map((component, index) => {
+          const { component: name } = component
+          if (name === 'Paragraph') {
+            return <components.Paragraph key={index} {...component} />
+          } else if (name === 'Hero') {
+            return <components.Hero key={index} {...component} />
+          }
         })}
       </>
     )
