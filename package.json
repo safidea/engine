@@ -10,7 +10,8 @@
     "build:schemas": "bun run scripts/build/schemas/index.ts",
     "build:package": "bun run scripts/build/package/index.ts",
     "build:types": "bun run scripts/build/types/index.ts",
-    "build": "concurrently \"npm run build:schemas\" \"npm run build:package\" \"npm run build:types\"",
+    "build:css": "bun run scripts/build/css/index.ts",
+    "build": "concurrently \"npm run build:schemas\" \"npm run build:package\" \"npm run build:types\" \"npm run build:css\"",
     "watch:schemas": "nodemon --config scripts/build/schemas/nodemon.json",
     "watch:package": "nodemon --config scripts/build/package/nodemon.json",
     "watch:types": "nodemon --config scripts/build/types/nodemon.json",
@@ -50,7 +51,8 @@
     "husky": "^8.0.3",
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
-    "typescript-json-schema": "^0.62.0"
+    "typescript-json-schema": "^0.62.0",
+    "tailwindcss": "^3.4.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
