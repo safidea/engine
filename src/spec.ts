@@ -4,7 +4,7 @@ import { SpecError } from '@domain/entities/spec/SpecError'
 import type { EngineError } from '@domain/entities/EngineError'
 import { SpecController } from './adapter/controllers/SpecController'
 
-export function createSpec(config: unknown): { spec?: Spec; errors?: EngineError[] } {
+export function createSpec(config: unknown): { spec?: Spec; errors: EngineError[] } {
   const specController = new SpecController(drivers)
   const { entity, errors } = specController.createEntity(config)
   return { spec: entity, errors }

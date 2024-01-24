@@ -1,14 +1,9 @@
 import type { IPage } from '../page/IPage'
-import type { IRole } from '../role/IRole'
 import type { ISpec } from '../spec/ISpec'
 
 export interface IFeature {
   name: string
-  story: {
-    asRole: IRole['name']
-    iWant: string
-    soThat: string
-  }
-  specs: ISpec[]
+  role?: string
+  specs?: ISpec[]
   pages?: IPage[]
 }

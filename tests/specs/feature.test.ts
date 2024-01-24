@@ -6,11 +6,6 @@ test.describe('Feature specs', () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',
-      story: {
-        asRole: 'Role',
-        iWant: 'I want',
-        soThat: 'So that',
-      },
       specs: [
         {
           name: 'display invalid text',
@@ -24,7 +19,7 @@ test.describe('Feature specs', () => {
           path: '/',
           body: [
             {
-              component: 'paragraph',
+              component: 'Paragraph',
               text: 'valid',
             },
           ],
@@ -33,24 +28,19 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components: [] })
-    const errors = await feature?.testSpecs()
+    const { feature, errors } = createFeature(config)
+    const specErrors = await feature?.testSpecs()
 
     // THEN
-    expect(feature).toBeDefined()
-    expect(errors).toHaveLength(1)
-    expect(errors?.[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
+    expect(errors).toHaveLength(0)
+    expect(specErrors).toHaveLength(1)
+    expect(specErrors?.[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
 
   test('should return no error if a spec succeed', async () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',
-      story: {
-        asRole: 'Role',
-        iWant: 'I want',
-        soThat: 'So that',
-      },
       specs: [
         {
           name: 'display invalid text',
@@ -64,7 +54,7 @@ test.describe('Feature specs', () => {
           path: '/',
           body: [
             {
-              component: 'paragraph',
+              component: 'Paragraph',
               text: 'valid',
             },
           ],
@@ -73,11 +63,11 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config, { roles: [{ name: 'Role' }], components: [] })
-    const errors = await feature?.testSpecs()
+    const { feature, errors } = createFeature(config)
+    const specErrors = await feature?.testSpecs()
 
     // THEN
-    expect(feature).toBeDefined()
     expect(errors).toHaveLength(0)
+    expect(specErrors).toHaveLength(0)
   })
 })

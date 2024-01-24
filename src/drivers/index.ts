@@ -7,7 +7,7 @@ import { ReactUi } from './ReactUi'
 
 const logger = new DebugLogger()
 const schemaValidator = new AjvSchemaValidator()
-const browser = new PuppeteerBrowser()
+const browser = new PuppeteerBrowser(logger)
 const server = new ExpressServer(logger)
 const ui = new ReactUi()
 

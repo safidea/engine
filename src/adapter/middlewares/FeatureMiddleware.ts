@@ -10,8 +10,6 @@ export class FeatureMiddleware implements IMiddleware<IFeature> {
 
   validateSchema(data: unknown) {
     const { json, errors } = this.drivers.schemaValidator.validateSchema<IFeature>(data, 'feature')
-    if (json) return { json }
-    if (!errors) return { errors: [] }
-    return { errors: this.mapper.schemaValidatorToEngineErrors(errors) }
+    return { json, errors: this.mapper.schemaValidatorToEngineErrors(errors) }
   }
 }

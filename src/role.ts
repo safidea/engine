@@ -4,7 +4,7 @@ import { RoleError } from '@domain/entities/role/RoleError'
 import type { EngineError } from '@domain/entities/EngineError'
 import { RoleController } from './adapter/controllers/RoleController'
 
-export function createRole(config: unknown): { role?: Role; errors?: EngineError[] } {
+export function createRole(config: unknown): { role?: Role; errors: EngineError[] } {
   const roleController = new RoleController(drivers)
   const { entity, errors } = roleController.createEntity(config)
   return { role: entity, errors }

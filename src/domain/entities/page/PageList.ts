@@ -2,7 +2,7 @@ import type { EngineError } from '../EngineError'
 import type { IList } from '../IList'
 import type { IPage } from './IPage'
 import type { IPageParams } from './IPageParams'
-import { Page } from './Page'
+import { Page } from './Page.tsx'
 
 export class PageList implements IList<Page> {
   private pages: Page[]

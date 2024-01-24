@@ -5,7 +5,7 @@ import { Spec } from './Spec'
 import type { SpecError } from './SpecError'
 
 export class SpecList implements IList<Spec> {
-  private specs: Spec[] = []
+  private specs: Spec[]
 
   constructor(config: ISpec[], params: ISpecParams) {
     this.specs = config.map((spec) => new Spec(spec, params))

@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createPage, PageError, type IPage } from '@solumy/engine/page'
-
-const params = { components: [] }
+import { createPage, PageError } from '@solumy/engine/page'
 
 test.describe('Page schema errors', () => {
   test('empty config should return 1 errors', async () => {
@@ -9,7 +7,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createPage(config, params)
+    const { errors } = createPage(config)
 
     // THEN
     expect(errors).toHaveLength(3)
@@ -20,7 +18,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createPage(config, params)
+    const { errors } = createPage(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_REQUIRED')
@@ -35,7 +33,7 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createPage(config, params)
+    const { errors } = createPage(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -50,7 +48,7 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createPage(config, params)
+    const { errors } = createPage(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_UNKNOWN_PROPERTY')
@@ -61,38 +59,5 @@ test.describe('Page schema errors', () => {
     expect(data).toBeDefined()
     expect(data).toHaveProperty('property')
     if (data && 'property' in data) expect(data.property).toBe('unknown')
-  })
-})
-
-test.describe('Page config errors', () => {
-  test('page component should be a defined component', async () => {
-    // GIVEN
-    const config: IPage = {
-      name: 'home',
-      path: '/',
-      seo: {
-        title: 'Home',
-        description: 'Home page',
-      },
-      body: [
-        {
-          component: 'unknown',
-          name: 'unknown',
-        },
-      ],
-    }
-
-    // WHEN
-    const { errors } = createPage(config, params)
-
-    // THEN
-    const error = errors?.find((e) => e.code === 'PAGE_ERROR_COMPONENT_NOT_FOUND')
-    expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(PageError)
-    if (!error) return
-    const data = error.data
-    expect(data).toBeDefined()
-    expect(data).toHaveProperty('component')
-    if (data && 'component' in data) expect(data.component).toBe('unknown')
   })
 })

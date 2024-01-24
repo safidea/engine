@@ -1,4 +1,5 @@
 export type SpecErrorCode =
+  | 'UNKNOWN_SCHEMA_ERROR'
   | 'NAME_REQUIRED'
   | 'UNKNOWN_PROPERTY'
   | 'NAME_STRING_TYPE_REQUIRED'

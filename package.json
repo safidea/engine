@@ -1,7 +1,7 @@
 {
   "name": "engine",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/app.js",
+  "types": "dist/app.d.ts",
   "type": "module",
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
@@ -15,7 +15,7 @@
     "watch:package": "nodemon --config scripts/build/package/nodemon.json",
     "watch:types": "nodemon --config scripts/build/types/nodemon.json",
     "watch": "concurrently \"npm run watch:schemas\" \"npm run watch:package\" \"npm run watch:types\"",
-    "pretest": "bunx playwright install",
+    "pretest": "bunx playwright install && bun build ./tests/__helpers__/components.tsx --outdir ./tests/dist  --target node",
     "test": "bunx playwright test",
     "prepare": "husky install"
   },

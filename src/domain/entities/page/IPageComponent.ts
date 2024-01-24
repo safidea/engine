@@ -1,6 +1,5 @@
-export interface IPageComponent {
-  component: string
+import type { IComponent } from '@domain/components'
+
+export interface IPageComponent extends IComponent {
   name?: string
-  children?: IPageComponent[]
-  [x: string]: string | { [key: string]: string } | IPageComponent[] | undefined
 }

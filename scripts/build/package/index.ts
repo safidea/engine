@@ -12,7 +12,7 @@ const externals: string[] = [
   'helmet',
   'cookie-parser',
   'react',
-  'react-dom'
+  'react-dom',
 ]
 
 const entrypoints = [
@@ -21,7 +21,6 @@ const entrypoints = [
   'src/feature.ts',
   'src/page.ts',
   'src/spec.ts',
-  'src/component.ts',
 ]
 
 await deleteFilesRecursively('dist', '.js')

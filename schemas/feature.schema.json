@@ -29,41 +29,22 @@
             "type": "object"
         },
         "IPageComponent": {
-            "additionalProperties": {
-                "anyOf": [
-                    {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object"
-                    },
-                    {
-                        "items": {
-                            "$ref": "#/definitions/IPageComponent"
-                        },
-                        "type": "array"
-                    },
-                    {
-                        "type": "string"
-                    }
-                ]
-            },
+            "additionalProperties": false,
             "properties": {
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/IPageComponent"
-                    },
-                    "type": "array"
-                },
                 "component": {
+                    "const": "Paragraph",
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
+                },
+                "text": {
+                    "type": "string"
                 }
             },
             "required": [
-                "component"
+                "component",
+                "text"
             ],
             "type": "object"
         },
@@ -166,37 +147,18 @@
             },
             "type": "array"
         },
+        "role": {
+            "type": "string"
+        },
         "specs": {
             "items": {
                 "$ref": "#/definitions/ISpec"
             },
             "type": "array"
-        },
-        "story": {
-            "additionalProperties": false,
-            "properties": {
-                "asRole": {
-                    "type": "string"
-                },
-                "iWant": {
-                    "type": "string"
-                },
-                "soThat": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "asRole",
-                "iWant",
-                "soThat"
-            ],
-            "type": "object"
         }
     },
     "required": [
-        "name",
-        "specs",
-        "story"
+        "name"
     ],
     "type": "object"
 }

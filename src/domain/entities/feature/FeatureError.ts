@@ -1,10 +1,9 @@
 export type FeatureErrorCode =
+  | 'UNKNOWN_SCHEMA_ERROR'
   | 'NAME_REQUIRED'
   | 'UNKNOWN_PROPERTY'
   | 'NAME_STRING_TYPE_REQUIRED'
-  | 'STORY_REQUIRED'
-  | 'SPECS_REQUIRED'
-  | 'STORY_AS_ROLE_NOT_FOUND'
+  | 'ROLE_NOT_FOUND'
 
 export type FeatureErrorData =
   | {

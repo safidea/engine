@@ -1,4 +1,8 @@
-export type RoleErrorCode = 'NAME_REQUIRED' | 'UNKNOWN_PROPERTY' | 'NAME_STRING_TYPE_REQUIRED'
+export type RoleErrorCode =
+  | 'UNKNOWN_SCHEMA_ERROR'
+  | 'NAME_REQUIRED'
+  | 'UNKNOWN_PROPERTY'
+  | 'NAME_STRING_TYPE_REQUIRED'
 
 export interface RoleErrorData {
   property: string

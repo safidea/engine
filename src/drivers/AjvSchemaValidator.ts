@@ -13,19 +13,11 @@ export class AjvSchemaValidator implements ISchemaValidator {
 
   validateSchema<T>(data: unknown, schema: ISchemaValidatorSchema) {
     const schemaPath = join(process.cwd(), 'schemas/', schema + '.schema.json')
-    if (!fs.existsSync(schemaPath)) {
-      throw new Error('Schema file not found: ' + schemaPath)
-    }
     const schemaJson: JSONSchemaType<T> = fs.readJSONSync(schemaPath)
     const validate = this.ajv.compile(schemaJson)
-    if (validate(data)) {
-      return { json: data }
-    }
-    if (!validate.errors) {
-      throw new Error(`No AJV errors found while ${schema} schema is invalid`)
-    }
+    if (validate(data)) return { json: data, errors: [] }
     return {
-      errors: validate.errors.map((error) => ({
+      errors: (validate.errors || []).map((error) => ({
         instancePath: error.instancePath,
         keyword: error.keyword,
         params: {

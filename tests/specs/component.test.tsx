@@ -1,56 +1,39 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine/app'
+import { createFeature, type IFeature } from '@solumy/engine/feature'
+import { components } from '@tests/components'
 
 test.describe('Components specs', () => {
-  test.skip('should test a page with a custom component', async () => {
+  test('should test a page with a custom component', async () => {
     // GIVEN
-    const config: IApp = {
-      name: 'App',
-      roles: [{ name: 'Role' }],
-      features: [
+    const config: IFeature = {
+      name: 'Feature',
+      specs: [
         {
-          name: 'Feature',
-          story: {
-            asRole: 'Role',
-            iWant: 'I want',
-            soThat: 'So that',
-          },
-          specs: [
-            {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'Hello world' }],
-            },
-          ],
-          pages: [
-            {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'paragraph',
-                  text: 'world',
-                },
-              ],
-            },
-          ],
+          name: 'display invalid text',
+          when: [{ open: '/' }],
+          then: [{ text: 'Hello world' }],
         },
       ],
-      translations: [],
-      components: [
+      pages: [
         {
-          name: 'paragraph',
-          template: ({ text }) => <p>Hello {text}</p>,
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Paragraph',
+              text: 'world',
+            },
+          ],
         },
       ],
     }
 
     // WHEN
-    const { app } = createApp(config)
-    const errors = await app?.testFeaturesSpecs()
+    const { feature, errors } = createFeature(config, { components })
+    const specErrors = await feature?.testSpecs()
 
     // THEN
-    expect(app).toBeDefined()
     expect(errors).toHaveLength(0)
+    expect(specErrors).toHaveLength(0)
   })
 })

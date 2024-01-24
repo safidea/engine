@@ -21,19 +21,19 @@ export class Feature implements IEntity {
     this.name = config.name
     const { drivers, components } = params
     this.server = drivers.server.create()
-    this.specs = new SpecList(config.specs, { drivers })
+    this.specs = new SpecList(config.specs ?? [], { drivers })
     this.pages = new PageList(config.pages ?? [], { components, server: this.server, drivers })
   }
 
   validateConfig() {
     const errors: EngineError[] = []
     const { roles } = this.params
-    const { story } = this.config
-    if (!roles.includes(story.asRole)) {
+    const { role } = this.config
+    if (role && !roles.includes(role)) {
       errors.push(
-        new FeatureError('STORY_AS_ROLE_NOT_FOUND', {
+        new FeatureError('ROLE_NOT_FOUND', {
           feature: this.config.name,
-          role: story.asRole,
+          role,
         })
       )
     }

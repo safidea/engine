@@ -2,108 +2,6 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
-        "IComponent": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/IComponentParagraph"
-                },
-                {
-                    "$ref": "#/definitions/IComponentCustom"
-                }
-            ]
-        },
-        "IComponentCustom": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "props": {
-                    "items": {
-                        "$ref": "#/definitions/IComponentProp"
-                    },
-                    "type": "array"
-                },
-                "template": {
-                    "additionalProperties": false,
-                    "type": "object"
-                }
-            },
-            "required": [
-                "name",
-                "template"
-            ],
-            "type": "object"
-        },
-        "IComponentObjectProp": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "props": {
-                    "items": {
-                        "$ref": "#/definitions/IComponentProp"
-                    },
-                    "type": "array"
-                },
-                "type": {
-                    "const": "object",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "props",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IComponentParagraph": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "const": "paragraph",
-                    "type": "string"
-                },
-                "template": {
-                    "additionalProperties": false,
-                    "type": "object"
-                }
-            },
-            "required": [
-                "name",
-                "template"
-            ],
-            "type": "object"
-        },
-        "IComponentProp": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/IComponentObjectProp"
-                },
-                {
-                    "$ref": "#/definitions/IComponentStringProp"
-                }
-            ]
-        },
-        "IComponentStringProp": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "const": "string",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "type"
-            ],
-            "type": "object"
-        },
         "IFeature": {
             "additionalProperties": false,
             "properties": {
@@ -116,37 +14,18 @@
                     },
                     "type": "array"
                 },
+                "role": {
+                    "type": "string"
+                },
                 "specs": {
                     "items": {
                         "$ref": "#/definitions/ISpec"
                     },
                     "type": "array"
-                },
-                "story": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "asRole": {
-                            "type": "string"
-                        },
-                        "iWant": {
-                            "type": "string"
-                        },
-                        "soThat": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "asRole",
-                        "iWant",
-                        "soThat"
-                    ],
-                    "type": "object"
                 }
             },
             "required": [
-                "name",
-                "specs",
-                "story"
+                "name"
             ],
             "type": "object"
         },
@@ -177,41 +56,22 @@
             "type": "object"
         },
         "IPageComponent": {
-            "additionalProperties": {
-                "anyOf": [
-                    {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object"
-                    },
-                    {
-                        "items": {
-                            "$ref": "#/definitions/IPageComponent"
-                        },
-                        "type": "array"
-                    },
-                    {
-                        "type": "string"
-                    }
-                ]
-            },
+            "additionalProperties": false,
             "properties": {
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/IPageComponent"
-                    },
-                    "type": "array"
-                },
                 "component": {
+                    "const": "Paragraph",
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
+                },
+                "text": {
+                    "type": "string"
                 }
             },
             "required": [
-                "component"
+                "component",
+                "text"
             ],
             "type": "object"
         },
@@ -337,12 +197,6 @@
         }
     },
     "properties": {
-        "components": {
-            "items": {
-                "$ref": "#/definitions/IComponent"
-            },
-            "type": "array"
-        },
         "features": {
             "items": {
                 "$ref": "#/definitions/IFeature"
@@ -366,11 +220,8 @@
         }
     },
     "required": [
-        "components",
         "features",
-        "name",
-        "roles",
-        "translations"
+        "name"
     ],
     "type": "object"
 }

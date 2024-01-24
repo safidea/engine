@@ -7,6 +7,7 @@ export interface ISchemaValidatorError {
     missingProperty: string
     additionalProperty: string
   }
+  index?: number
 }
 
 export interface ISchemaValidator {
@@ -15,6 +16,6 @@ export interface ISchemaValidator {
     schema: ISchemaValidatorSchema
   ): {
     json?: T
-    errors?: ISchemaValidatorError[]
+    errors: ISchemaValidatorError[]
   }
 }

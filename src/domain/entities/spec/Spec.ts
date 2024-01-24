@@ -20,7 +20,7 @@ export class Spec implements IEntity {
   async test(feature: string, baseUrl: string): Promise<SpecError | undefined> {
     const { when, then } = this.config
     const { browser } = this.params.drivers
-    const page = await browser.launch({ baseUrl })
+    const page = await browser.launch({ baseUrl, logName: `spec:${this.name}` })
     for (const action of when) {
       if ('open' in action) {
         await page.open(action.open)
