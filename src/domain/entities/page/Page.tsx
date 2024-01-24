@@ -15,20 +15,27 @@ export class Page implements IEntity {
   }
 
   get = async () => {
-    const {
-      components,
-      drivers: { ui },
-    } = this.params
-    const html = ui.render(
+    return { html: this.renderHtml() }
+  }
+
+  renderComponent = () => {
+    const { components } = this.params
+    const { body } = this.config
+    return (
       <>
-        {this.config.body.map(({ component: name, ...props }, index) => {
+        {body.map(({ component: name, ...props }, index) => {
           const Component = components[name]
           return <Component key={index} {...props} />
         })}
       </>
     )
+  }
+
+  renderHtml = () => {
+    const { ui } = this.params.drivers
+    const html = ui.render(this.renderComponent())
     const cleanedHtml = html.replace(/<!--.*?-->/gs, '')
-    return { html: cleanedHtml }
+    return cleanedHtml
   }
 
   validateConfig() {
