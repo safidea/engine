@@ -9,14 +9,15 @@
 - [x] Write the config validator from the json schema
 - [x] Write the spec tester for a config
 - [x] Refactor to fix all TODOs
-- [ ] Develop the new engine by TDD
+- [ ] Install storybook
+- [ ] Write the Request Landing Page with TDD (tests for each component)
+- [ ] Write the Request Contact Form with TDD (tests for each component)
 
 **Notes:**
 
 24/01
 
-- Créer un composant form qui intègre directement les inputs 
-- Ne charger le serveur de l'app que sur les pages, pas sur les specs
+- Créer un composant form qui intègre directement les inputs
 
 23/01
 
