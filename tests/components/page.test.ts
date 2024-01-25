@@ -21,4 +21,29 @@ test.describe('Page component', () => {
     const pageTitle = await page.title()
     expect(pageTitle).toContain(title)
   })
+
+  test('should render a meta description', async ({ page }) => {
+    // GIVEN
+    const description = 'This is a description'
+    const config: IPage = {
+      name: 'Page',
+      path: '/',
+      metas: [
+        {
+          name: 'description',
+          content: description,
+        },
+      ],
+      body: [],
+    }
+
+    // WHEN
+    const { page: pageEngine } = createPage(config)
+    const html = pageEngine!.renderHtml()
+    await page.setContent(html!)
+
+    // THEN
+    const pageDescription = await page.$eval('meta[name="description"]', (el) => el.content)
+    expect(pageDescription).toContain(description)
+  })
 })
