@@ -2,33 +2,32 @@ import type { Drivers } from '@domain/drivers'
 import { AppMiddleware } from '../middlewares/AppMiddleware'
 import { App } from '@domain/entities/app/App'
 import type { IController } from './IController'
-import { AppError } from 'src/app'
 import type { Components } from '@domain/components'
 import { Controller } from './Controller'
+import type { IApp } from '@domain/entities/app/IApp'
+import { AppError } from '@domain/entities/app/AppError'
 
-export class AppController extends Controller implements IController<App> {
-  private middleware: AppMiddleware
-
+export class AppController extends Controller<IApp> implements IController<App> {
   constructor(
     private drivers: Drivers,
     private params?: { components?: Partial<Components>; port?: number }
   ) {
-    super()
-    this.middleware = new AppMiddleware(drivers)
+    const middleware = new AppMiddleware(drivers)
+    const log = drivers.logger.init('controller:app')
+    super(middleware, log)
   }
 
   createEntity(data: unknown) {
-    const schema = this.middleware.validateSchema(data)
-    if (schema.errors.length) return { errors: schema.errors }
-    if (!schema.json) return { errors: [new AppError('UNKNOWN_SCHEMA_ERROR')] }
+    const schema = this.getSchemaWithErrors(data, (message) => new AppError(message))
+    if (schema.errors) return { errors: schema.errors }
     const { components, port } = this.params ?? {}
     const entity = new App(schema.json, {
       drivers: this.drivers,
       components: this.getComponents(components),
       port,
     })
-    const errors = entity.validateConfig()
-    if (errors.length) return { errors }
+    const errors = this.getConfigErrors(entity)
+    if (errors) return { errors }
     return { entity, errors: [] }
   }
 }

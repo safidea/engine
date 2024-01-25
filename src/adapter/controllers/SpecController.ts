@@ -3,29 +3,30 @@ import { SpecMiddleware } from '../middlewares/SpecMiddleware'
 import { Spec } from '@domain/entities/spec/Spec'
 import type { IController } from './IController'
 import { SpecError } from '@domain/entities/spec/SpecError'
+import { Controller } from './Controller'
+import type { ISpec } from '@domain/entities/spec/ISpec'
 
-export class SpecController implements IController<Spec> {
-  private middleware: SpecMiddleware
-
+export class SpecController extends Controller<ISpec> implements IController<Spec> {
   constructor(
     private drivers: Drivers,
     private params?: {
       featureName?: string
     }
   ) {
-    this.middleware = new SpecMiddleware(drivers)
+    const middleware = new SpecMiddleware(drivers)
+    const log = drivers.logger.init('controller:spec')
+    super(middleware, log)
   }
 
   createEntity(data: unknown) {
-    const schema = this.middleware.validateSchema(data)
-    if (schema.errors.length) return { errors: schema.errors }
-    if (!schema.json) return { errors: [new SpecError('UNKNOWN_SCHEMA_ERROR')] }
+    const schema = this.getSchemaWithErrors(data, (message) => new SpecError(message))
+    if (schema.errors) return { errors: schema.errors }
     const entity = new Spec(schema.json, {
       drivers: this.drivers,
       featureName: this.params?.featureName || 'default',
     })
-    const errors = entity.validateConfig()
-    if (errors.length) return { errors }
+    const errors = this.getConfigErrors(entity)
+    if (errors) return { errors }
     return { entity, errors: [] }
   }
 }

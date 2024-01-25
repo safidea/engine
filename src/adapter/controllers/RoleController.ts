@@ -3,21 +3,22 @@ import { RoleMiddleware } from '../middlewares/RoleMiddleware'
 import { Role } from '@domain/entities/role/Role'
 import type { IController } from './IController'
 import { RoleError } from '@domain/entities/role/RoleError'
+import type { IRole } from '@domain/entities/role/IRole'
+import { Controller } from './Controller'
 
-export class RoleController implements IController<Role> {
-  private middleware: RoleMiddleware
-
+export class RoleController extends Controller<IRole> implements IController<Role> {
   constructor(drivers: Drivers) {
-    this.middleware = new RoleMiddleware(drivers)
+    const middleware = new RoleMiddleware(drivers)
+    const log = drivers.logger.init('controller:role')
+    super(middleware, log)
   }
 
   createEntity(data: unknown) {
-    const schema = this.middleware.validateSchema(data)
-    if (schema.errors.length) return { errors: schema.errors }
-    if (!schema.json) return { errors: [new RoleError('UNKNOWN_SCHEMA_ERROR')] }
+    const schema = this.getSchemaWithErrors(data, (message) => new RoleError(message))
+    if (schema.errors) return { errors: schema.errors }
     const entity = new Role(schema.json)
-    const errors = entity.validateConfig()
-    if (errors.length) return { errors }
+    const errors = this.getConfigErrors(entity)
+    if (errors) return { errors }
     return { entity, errors: [] }
   }
 }

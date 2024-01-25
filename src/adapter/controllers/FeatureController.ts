@@ -4,33 +4,32 @@ import { Feature } from '@domain/entities/feature/Feature'
 import type { IController } from './IController'
 import { RoleList } from '@domain/entities/role/RoleList'
 import type { IRole } from '@domain/entities/role/IRole'
-import { FeatureError } from 'src/feature'
 import type { Components } from '@domain/components'
 import { Controller } from './Controller'
+import type { IFeature } from '@domain/entities/feature/IFeature'
+import { FeatureError } from '@domain/entities/feature/FeatureError'
 
-export class FeatureController extends Controller implements IController<Feature> {
-  private middleware: FeatureMiddleware
-
+export class FeatureController extends Controller<IFeature> implements IController<Feature> {
   constructor(
     private drivers: Drivers,
     private params?: { roles?: IRole[]; components?: Partial<Components> }
   ) {
-    super()
-    this.middleware = new FeatureMiddleware(drivers)
+    const middleware = new FeatureMiddleware(drivers)
+    const log = drivers.logger.init('controller:feature')
+    super(middleware, log)
   }
 
   createEntity(data: unknown) {
-    const schema = this.middleware.validateSchema(data)
-    if (schema.errors.length) return { errors: schema.errors }
-    if (!schema.json) return { errors: [new FeatureError('UNKNOWN_SCHEMA_ERROR')] }
+    const schema = this.getSchemaWithErrors(data, (message) => new FeatureError(message))
+    if (schema.errors) return { errors: schema.errors }
     const roles = new RoleList(this.params?.roles ?? [])
     const entity = new Feature(schema.json, {
       drivers: this.drivers,
       roles,
       components: this.getComponents(this.params?.components),
     })
-    const errors = entity.validateConfig()
-    if (errors.length) return { errors }
+    const errors = this.getConfigErrors(entity)
+    if (errors) return { errors }
     return { entity, errors: [] }
   }
 }

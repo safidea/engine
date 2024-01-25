@@ -1,5 +1,7 @@
+import type { EngineErrorCode } from "../EngineError"
+
 export type AppErrorCode =
-  | 'UNKNOWN_SCHEMA_ERROR'
+  | EngineErrorCode
   | 'NAME_REQUIRED'
   | 'FEATURES_REQUIRED'
   | 'UNKNOWN_PROPERTY'

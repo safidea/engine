@@ -1,5 +1,7 @@
+import type { EngineErrorCode } from "../EngineError"
+
 export type PageErrorCode =
-  | 'UNKNOWN_SCHEMA_ERROR'
+  | EngineErrorCode
   | 'NAME_REQUIRED'
   | 'UNKNOWN_PROPERTY'
   | 'NAME_STRING_TYPE_REQUIRED'
