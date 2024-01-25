@@ -33,6 +33,18 @@ export class Spec implements IEntity {
         }
       }
       for (const result of then) {
+        if ('title' in result) {
+          this.log(`checking title ${result.title}`)
+          const pageTitle = await page.title()
+          if (pageTitle !== result.title) {
+            throw new SpecError('TITLE_NOT_FOUND', {
+              feature: this.params.featureName,
+              spec: this.name,
+              expect: result.title,
+              got: pageTitle,
+            })
+          }
+        }
         if ('text' in result) {
           this.log(`checking text ${result.text}`)
           const textElement = await page.getByText(result.text)
@@ -40,7 +52,8 @@ export class Spec implements IEntity {
             throw new SpecError('TEXT_NOT_FOUND', {
               feature: this.params.featureName,
               spec: this.name,
-              text: result.text,
+              expect: result.text,
+              got: '',
             })
           }
         }

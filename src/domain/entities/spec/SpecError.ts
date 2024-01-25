@@ -8,6 +8,7 @@ export type SpecErrorCode =
   | 'WHEN_REQUIRED'
   | 'THEN_REQUIRED'
   | 'TEXT_NOT_FOUND'
+  | 'TITLE_NOT_FOUND'
 
 export type SpecErrorData =
   | {
@@ -16,7 +17,8 @@ export type SpecErrorData =
   | {
       feature: string
       spec: string
-      text: string
+      expect: string
+      got: string
     }
 
 export class SpecError extends Error {

@@ -13,14 +13,23 @@ translations:
 features:
   - name: landing-page
     specs:
-      - name: should display the landing page
+      - name: should display the page title
         when:
           - open: /
         then:
           - title: *HomePageTitle
+      - name: should display the hero
+        when:
+          - open: /
+        then:
           - text: *HomePageHeroTitle
           - text: *HomePageHeroDescription
           - text: *HomePageHeroPrimaryButtonLabel
+      - name: should display the logos
+        when:
+          - open: /
+        then:
+          - text: *HomePageHeroTitle
     pages:
       - name: home
         path: /

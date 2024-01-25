@@ -32,6 +32,10 @@ class PuppeteerBrowserPage implements IBrowserPage {
     await this.page.goto(this.baseUrl + path)
   }
 
+  async title() {
+    return this.page.title()
+  }
+
   async getByText(text: string) {
     const [element] = await this.page.$x(`//*[contains(text(), '${text}')]`)
     if (element) {
