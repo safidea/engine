@@ -13,6 +13,10 @@
 
 **Notes:**
 
+24/01
+
+- Créer un composant form qui intègre directement les inputs 
+
 23/01
 
 - Les composants peuvent être personnalisés uniquement si ils contiennent les mêmes props que le composant par défaut, ainsi le comportement reste le même mais le design change
