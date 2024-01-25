@@ -75,7 +75,6 @@ test.describe('App', () => {
 
   test('should start an app on a dedicated PORT', async () => {
     // GIVEN
-    process.env.PORT = '3000'
     const config: IApp = {
       name: 'App',
       features: [
@@ -96,7 +95,7 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config)
+    const { app } = createApp(config, { port: 3000 })
 
     // WHEN
     const url = await app!.start()

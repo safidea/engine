@@ -4,8 +4,11 @@ import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
+import { join } from 'path'
 import type { IServer, IServerHandler, IServerInstance } from '@domain/drivers/IServer'
 import type { ILogger, ILoggerLog } from '@domain/drivers/ILogger'
+
+const dirname = new URL('.', import.meta.url).pathname
 
 interface NetworkError extends Error {
   code?: string
@@ -14,9 +17,7 @@ interface NetworkError extends Error {
 export class ExpressServer implements IServer {
   constructor(private logger: ILogger) {}
 
-  create({ withPort = true } = {}) {
-    const { PORT } = process.env
-    const port = withPort ? (PORT ? parseInt(PORT) : undefined) : undefined
+  create(port?: number) {
     return new ExpressServerInstance(this.logger, port)
   }
 }
@@ -38,6 +39,8 @@ class ExpressServerInstance implements IServerInstance {
     this.express.use(cookieParser())
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
+    this.express.use(express.static(join(dirname, 'public')))
+    this.express.use(express.static('public'))
     this.express.get('/health', (_, res) => res.json({ success: true }))
   }
 
@@ -62,7 +65,7 @@ class ExpressServerInstance implements IServerInstance {
             .listen(options, () => resolve(null))
             .on('error', (err: NetworkError) => {
               if (err.code === 'EADDRINUSE') {
-                console.log(`Port ${port} is in use, retrying...`)
+                this.log(`Port ${port} is in use, retrying...`)
                 currentRetry++
                 setTimeout(() => reject(err), retryDelay)
               } else {

@@ -8,6 +8,7 @@ export function createApp(
   config: unknown,
   params?: {
     components?: Partial<Components>
+    port?: number
   }
 ): { app?: App; errors: EngineError[] } {
   const appController = new AppController(drivers, params)

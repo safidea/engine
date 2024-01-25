@@ -12,5 +12,5 @@ export interface IServerInstance {
 }
 
 export interface IServer {
-  create(otpions?: { withPort: false }): IServerInstance
+  create(port?: number): IServerInstance
 }

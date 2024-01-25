@@ -23,7 +23,7 @@ export class Feature implements IEntity {
     const { drivers, components, serverInstance } = params
     const { server, logger } = drivers
     this.name = config.name
-    this.server = serverInstance ?? server.create({ withPort: false })
+    this.server = serverInstance ?? server.create()
     this.log = logger.init('feature:' + logger.slug(this.name))
     this.specs = new SpecList(config.specs ?? [], { drivers, featureName: this.name })
     this.pages = new PageList(config.pages ?? [], {

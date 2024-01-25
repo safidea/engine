@@ -11,7 +11,7 @@ export class AppController extends Controller implements IController<App> {
 
   constructor(
     private drivers: Drivers,
-    private params?: { components?: Partial<Components> }
+    private params?: { components?: Partial<Components>; port?: number }
   ) {
     super()
     this.middleware = new AppMiddleware(drivers)
@@ -21,9 +21,11 @@ export class AppController extends Controller implements IController<App> {
     const schema = this.middleware.validateSchema(data)
     if (schema.errors.length) return { errors: schema.errors }
     if (!schema.json) return { errors: [new AppError('UNKNOWN_SCHEMA_ERROR')] }
+    const { components, port } = this.params ?? {}
     const entity = new App(schema.json, {
       drivers: this.drivers,
-      components: this.getComponents(this.params?.components),
+      components: this.getComponents(components),
+      port,
     })
     const errors = entity.validateConfig()
     if (errors.length) return { errors }

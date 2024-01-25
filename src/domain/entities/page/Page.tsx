@@ -31,7 +31,6 @@ export class Page implements IEntity {
     scripts.forEach((script) => {
       script.src += `?ts=${this.timestamp}`
     })
-    // TODO: add output.css to the server static files
     links.unshift({ href: '/output.css' })
     links.forEach((link) => {
       link.href += `?ts=${this.timestamp}`

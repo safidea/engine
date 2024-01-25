@@ -15,10 +15,10 @@ export class App implements IEntity {
   private log: ILoggerLog
 
   constructor(config: IApp, params: IAppParams) {
-    const { drivers, components } = params
+    const { drivers, components, port } = params
     const { server, logger } = drivers
     this.name = config.name
-    this.server = server.create()
+    this.server = server.create(port)
     this.log = logger.init('app:' + logger.slug(this.name))
     this.roles = new RoleList(config.roles ?? [])
     this.features = new FeatureList(config.features, {
@@ -27,6 +27,8 @@ export class App implements IEntity {
       drivers,
       serverInstance: this.server,
     })
+    process.on('SIGTERM', () => this.onClose('SIGTERM'))
+    process.on('SIGINT', () => this.onClose('SIGINT'))
   }
 
   validateConfig() {
@@ -53,5 +55,10 @@ export class App implements IEntity {
 
   isRunning(): boolean {
     return this.server.isListening()
+  }
+
+  private onClose = async (signal: 'SIGTERM' | 'SIGINT') => {
+    this.log(`received ${signal}. Closing server...`)
+    await this.server.stop()
   }
 }
