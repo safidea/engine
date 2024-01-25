@@ -5,7 +5,7 @@
     "src/domain/entities/page/IPage.ts",
     "src/domain/entities/spec/ISpec.ts",
     "src/domain/entities/feature/IFeature.ts",
-    "src/domain/entities/component/IComponent.ts"
+    "src/domain/components/index.ts"
   ],
   "ext": "ts,tsx",
   "ignore": ["dist/", "node_modules/"],

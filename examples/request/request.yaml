@@ -9,6 +9,7 @@ translations:
       - &HomePageHeroDescription Tech subscriptions for everyone. Pause or cancel anytime.
       - &HomePageHeroPrimaryButtonLabel Get Started
       - &HomePageHeroPrimaryButtonPath '/get-started'
+      - &HomePageLogosTitle Our clients
 features:
   - name: landing-page
     specs:
@@ -34,3 +35,5 @@ features:
             primaryButton:
               text: *HomePageHeroPrimaryButtonLabel
               path: *HomePageHeroPrimaryButtonPath
+          - component: Logos
+            title: *HomePageLogosTitle

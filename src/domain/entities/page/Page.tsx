@@ -43,6 +43,8 @@ export class Page implements IEntity {
             return <components.Paragraph key={index} {...component} />
           } else if (name === 'Hero') {
             return <components.Hero key={index} {...component} />
+          } else if (name === 'Logos') {
+            return <components.Logos key={index} {...component} />
           }
         })}
       </components.Page>
