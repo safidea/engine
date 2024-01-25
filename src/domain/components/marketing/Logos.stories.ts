@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Logos } from '../Logos'
+import { Logos } from './Logos'
 
 const meta = {
   title: 'Marketing/Logos',
@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Lorem ipsum dolor sit amet',
+    title: 'You’ll be in good company',
     logos: [
       {
         alt: 'Agorastore',

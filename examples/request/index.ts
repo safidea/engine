@@ -10,8 +10,12 @@ const jsonConfig = yaml.load(yamlConfig)
 const { app, errors } = createApp(jsonConfig, { port: 3000 })
 
 if (app) {
-  await app.testFeaturesSpecs()
-  await app.start()
+  const errors = await app.testFeaturesSpecs()
+  if (errors.length === 0) {
+    await app.start()
+  } else {
+    console.log(JSON.stringify(errors, null, 2))
+  }
 } else {
-  console.error(errors)
+  console.log(JSON.stringify(errors, null, 2))
 }

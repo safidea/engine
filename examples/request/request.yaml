@@ -10,6 +10,20 @@ translations:
       - &HomePageHeroPrimaryButtonLabel Get Started
       - &HomePageHeroPrimaryButtonPath '/get-started'
       - &HomePageLogosTitle Our clients
+      - &HomePageFeaturesTitle Our features
+      - &HomePageFeaturesDescription We provide a full stack of services to help you build your information system.
+      - &HomePageFeaturesItem1Title Web development
+      - &HomePageFeaturesItem1Description We build web applications using the latest technologies.
+      - &HomePageFeaturesItem2Title Mobile development
+      - &HomePageFeaturesItem2Description We build mobile applications using the latest technologies.
+      - &HomePageFeaturesItem3Title DevOps
+      - &HomePageFeaturesItem3Description We build and maintain your infrastructure using the latest technologies.
+      - &HomePageFeaturesItem4Title Consulting
+      - &HomePageFeaturesItem4Description We help you build your information system.
+      - &HomePageFeaturesItem5Title Training
+      - &HomePageFeaturesItem5Description We train your team to the latest technologies.
+      - &HomePageFeaturesItem6Title Support
+      - &HomePageFeaturesItem6Description We provide support for your information system.
 features:
   - name: landing-page
     specs:
@@ -32,8 +46,40 @@ features:
         when:
           - open: /
         then:
-          - text: *HomePageHeroTitle
+          - text: *HomePageLogosTitle
             tag: h2
+      - name: should display the features
+        when:
+          - open: /
+        then:
+          - text: *HomePageFeaturesTitle
+            tag: h2
+          - text: *HomePageFeaturesDescription
+            tag: p
+          - text: *HomePageFeaturesItem1Title
+            tag: h3
+          - text: *HomePageFeaturesItem1Description
+            tag: p
+          - text: *HomePageFeaturesItem2Title
+            tag: h3
+          - text: *HomePageFeaturesItem2Description
+            tag: p
+          - text: *HomePageFeaturesItem3Title
+            tag: h3
+          - text: *HomePageFeaturesItem3Description
+            tag: p
+          - text: *HomePageFeaturesItem4Title 
+            tag: h3
+          - text: *HomePageFeaturesItem4Description
+            tag: p
+          - text: *HomePageFeaturesItem5Title
+            tag: h3
+          - text: *HomePageFeaturesItem5Description
+            tag: p
+          - text: *HomePageFeaturesItem6Title
+            tag: h3
+          - text: *HomePageFeaturesItem6Description
+            tag: p
     pages:
       - name: home
         path: /
@@ -61,3 +107,25 @@ features:
                 src: '/logos/dun-seul-geste.png'
               - alt: "L'intendance"
                 src: '/logos/lintendance.png'
+          - component: Features
+            title: *HomePageFeaturesTitle
+            description: *HomePageFeaturesDescription
+            features:
+              - title: *HomePageFeaturesItem1Title
+                description: *HomePageFeaturesItem1Description
+                icon: 'code'
+              - title: *HomePageFeaturesItem2Title
+                description: *HomePageFeaturesItem2Description
+                icon: 'mobile-alt'
+              - title: *HomePageFeaturesItem3Title
+                description: *HomePageFeaturesItem3Description
+                icon: 'server'
+              - title: *HomePageFeaturesItem4Title
+                description: *HomePageFeaturesItem4Description
+                icon: 'comments'
+              - title: *HomePageFeaturesItem5Title
+                description: *HomePageFeaturesItem5Description
+                icon: 'chalkboard-teacher'
+              - title: *HomePageFeaturesItem6Title
+                description: *HomePageFeaturesItem6Description
+                icon: 'life-ring'

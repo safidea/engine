@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Hero } from '../Hero'
+import { Hero } from './Hero'
 
 const meta = {
   title: 'Marketing/Hero',
@@ -14,11 +14,11 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Lorem ipsum dolor sit amet',
+    title: 'We invest in the world’s potential',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl.',
+      'Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.',
     primaryButton: {
-      text: 'Lorem ipsum',
+      text: 'Learn more',
       path: '#',
     },
   },
