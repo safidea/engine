@@ -23,5 +23,5 @@
       "@tests/components": ["tests/dist/components"],
     },
   },
-  "exclude": ["node_modules", "dist", "examples", ".old"],
+  "exclude": ["node_modules", "dist", ".old"],
 }

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { createFeature, type IFeature } from '@solumy/engine/feature'
 
 test.describe('Feature specs', () => {
-  test('should return error if a spec failed', async () => {
+  test('should not find a text', async () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',
@@ -37,7 +37,7 @@ test.describe('Feature specs', () => {
     expect(specErrors![0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
 
-  test('should return no error if a spec succeed', async () => {
+  test('should find a text', async () => {
     // GIVEN
     const config: IFeature = {
       name: 'Feature',

@@ -1,6 +1,0 @@
-{
-  "watch": ["index.ts", "../../src/"],
-  "ext": "ts,tsx",
-  "ignore": ["dist/", "node_modules/"],
-  "exec": "bun run build && bun run start"
-}
