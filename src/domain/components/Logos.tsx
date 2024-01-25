@@ -22,9 +22,8 @@ export const Logos = ({ title, logos }: LogosProps) => {
         </h2>
         <div className={classNames(`mx-auto grid grid-cols-2 gap-8 sm:gap-12`, gridColumn)}>
           {logos.map((logo, index) => (
-            <div className="flex justify-center items-center">
+            <div key={index} className="flex justify-center items-center">
               <img
-                key={index}
                 className="col-span-2 max-h-32 w-full object-contain opacity-75 grayscale"
                 src={logo.src}
                 alt={logo.alt}
