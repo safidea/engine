@@ -1,3 +1,5 @@
+import { classNames } from './utils'
+
 export interface LogosProps {
   title: string
   logos: {
@@ -10,22 +12,44 @@ export interface ILogos extends LogosProps {
   component: 'Logos'
 }
 
-export const Logos = ({ title, logos }: LogosProps) => (
-  <section className="bg-white dark:bg-gray-900">
-    <div className="py-8 lg:py-16 mx-auto max-w-screen-xl px-4">
-      <h2 className="mb-8 lg:mb-16 text-3xl font-extrabold tracking-tight leading-tight text-center text-gray-900 dark:text-white md:text-4xl">
-        {title}
-      </h2>
-      <div className="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 md:grid-cols-3 lg:grid-cols-6 dark:text-gray-400">
-        {logos.map((logo, index) => (
-          <img
-            key={index}
-            className="h-12 opacity-50 hover:opacity-100 transition-opacity duration-200"
-            src={logo.src}
-            alt={logo.alt}
-          />
-        ))}
+export const Logos = ({ title, logos }: LogosProps) => {
+  const gridColumn = getGridColumns(logos.length)
+  return (
+    <section className="bg-white dark:bg-gray-900">
+      <div className="py-8 lg:py-16 mx-auto max-w-screen-xl px-4">
+        <h2 className="mb-8 lg:mb-16 text-3xl font-extrabold tracking-tight leading-tight text-center text-gray-900 dark:text-white md:text-4xl">
+          {title}
+        </h2>
+        <div className={classNames(`mx-auto grid grid-cols-2 gap-8 sm:gap-12`, gridColumn)}>
+          {logos.map((logo, index) => (
+            <div className="flex justify-center items-center">
+              <img
+                key={index}
+                className="col-span-2 max-h-32 w-full object-contain opacity-75 grayscale"
+                src={logo.src}
+                alt={logo.alt}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-)
+    </section>
+  )
+}
+
+function getGridColumns(number: number) {
+  switch (number) {
+    case 1:
+      return 'grid-cols-1'
+    case 2:
+      return 'grid-cols-2 md:grid-cols-2'
+    case 3:
+      return 'grid-cols-2 md:grid-cols-3'
+    case 4:
+      return 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+    case 5:
+      return 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
+    default:
+      return 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
+  }
+}

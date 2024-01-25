@@ -37,3 +37,14 @@ features:
               path: *HomePageHeroPrimaryButtonPath
           - component: Logos
             title: *HomePageLogosTitle
+            logos: 
+              - alt: 'Agorastore'
+                src: '/logos/agorastore.jpeg'
+              - alt: 'Capital PV'
+                src: '/logos/capital-pv.png'
+              - alt: 'Codesign-it'
+                src: '/logos/codesign-it.png'
+              - alt: 'dun-seul-geste'
+                src: '/logos/dun-seul-geste.png'
+              - alt: "L'intendance"
+                src: '/logos/lintendance.png'

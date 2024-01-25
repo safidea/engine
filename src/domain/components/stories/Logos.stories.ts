@@ -17,28 +17,24 @@ export const Default: Story = {
     title: 'Lorem ipsum dolor sit amet',
     logos: [
       {
-        src: 'https://via.placeholder.com/150',
-        alt: 'Lorem ipsum',
+        alt: 'Agorastore',
+        src: '/logos/agorastore.jpeg',
       },
       {
-        src: 'https://via.placeholder.com/150',
-        alt: 'Lorem ipsum',
+        alt: 'Capital PV',
+        src: '/logos/capital-pv.png',
       },
       {
-        src: 'https://via.placeholder.com/150',
-        alt: 'Lorem ipsum',
+        alt: 'Codesign-it',
+        src: '/logos/codesign-it.png',
       },
       {
-        src: 'https://via.placeholder.com/150',
-        alt: 'Lorem ipsum',
+        alt: 'dun-seul-geste',
+        src: '/logos/dun-seul-geste.png',
       },
       {
-        src: 'https://via.placeholder.com/150',
-        alt: 'Lorem ipsum',
-      },
-      {
-        src: 'https://via.placeholder.com/150',
-        alt: 'Lorem ipsum',
+        alt: "L'intendance",
+        src: '/logos/lintendance.png',
       },
     ],
   },

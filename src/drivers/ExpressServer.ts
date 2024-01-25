@@ -40,7 +40,7 @@ class ExpressServerInstance implements IServerInstance {
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
     this.express.use(express.static(join(dirname, 'public')))
-    this.express.use(express.static('public'))
+    this.express.use(express.static(join(process.cwd(), 'public')))
     this.express.get('/health', (_, res) => res.json({ success: true }))
   }
 
