@@ -169,4 +169,37 @@ test.describe('App', () => {
     // THEN
     expect(paragraphText).toBe(text)
   })
+
+  test('should stop an app', async ({ request }) => {
+    // GIVEN
+    const config: IApp = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'Hello world!',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const { app } = createApp(config)
+    const url = await app!.start()
+
+    // WHEN
+    await app!.stop()
+    const response = await request.get(url).catch((err) => err)
+
+    // THEN
+    expect(response.message).toContain('ECONNREFUSED')
+  })
 })
