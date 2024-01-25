@@ -7,21 +7,25 @@ import { FeatureError } from './FeatureError'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 import type { SpecError } from '../spec/SpecError'
+import type { ILoggerLog } from '@domain/drivers/ILogger'
 
 export class Feature implements IEntity {
   name: string
   private specs: SpecList
   private pages: PageList
   private server: IServerInstance
+  private log: ILoggerLog
 
   constructor(
     private config: IFeature,
     private params: IFeatureParams
   ) {
     const { drivers, components } = params
+    const { server, logger } = drivers
     this.name = config.name
-    this.server = drivers.server.create({ withPort: false })
-    this.specs = new SpecList(config.specs ?? [], { drivers })
+    this.server = server.create({ withPort: false })
+    this.log = logger.init('feature:' + logger.slug(this.name))
+    this.specs = new SpecList(config.specs ?? [], { drivers, featureName: this.name })
     this.pages = new PageList(config.pages ?? [], { components, server: this.server, drivers })
   }
 
@@ -44,8 +48,10 @@ export class Feature implements IEntity {
 
   async testSpecs(): Promise<SpecError[]> {
     const url = await this.server.start()
-    const errors = await this.specs.test(this.name, url)
+    this.log(`server started at ${url}`)
+    const errors = await this.specs.test(url)
     await this.server.stop()
+    this.log(`server stopped`)
     return errors
   }
 }

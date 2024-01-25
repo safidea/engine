@@ -7,7 +7,12 @@ import { SpecError } from '@domain/entities/spec/SpecError'
 export class SpecController implements IController<Spec> {
   private middleware: SpecMiddleware
 
-  constructor(private drivers: Drivers) {
+  constructor(
+    private drivers: Drivers,
+    private params?: {
+      featureName?: string
+    }
+  ) {
     this.middleware = new SpecMiddleware(drivers)
   }
 
@@ -15,7 +20,10 @@ export class SpecController implements IController<Spec> {
     const schema = this.middleware.validateSchema(data)
     if (schema.errors.length) return { errors: schema.errors }
     if (!schema.json) return { errors: [new SpecError('UNKNOWN_SCHEMA_ERROR')] }
-    const entity = new Spec(schema.json, { drivers: this.drivers })
+    const entity = new Spec(schema.json, {
+      drivers: this.drivers,
+      featureName: this.params?.featureName || 'default',
+    })
     const errors = entity.validateConfig()
     if (errors.length) return { errors }
     return { entity, errors: [] }

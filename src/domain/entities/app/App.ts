@@ -5,22 +5,26 @@ import { FeatureList } from '../feature/FeatureList'
 import { RoleList } from '../role/RoleList'
 import type { IApp } from './IApp'
 import type { IAppParams } from './IAppParams'
+import type { ILoggerLog } from '@domain/drivers/ILogger'
 
 export class App implements IEntity {
   name: string
   private roles: RoleList
   private features: FeatureList
   private server: IServerInstance
+  private log: ILoggerLog
 
   constructor(config: IApp, params: IAppParams) {
-    const { drivers } = params
+    const { drivers, components } = params
+    const { server, logger } = drivers
     this.name = config.name
-    this.server = drivers.server.create()
+    this.server = server.create()
+    this.log = logger.init('app:' + logger.slug(this.name))
     this.roles = new RoleList(config.roles ?? [])
     this.features = new FeatureList(config.features, {
       roles: this.roles,
-      components: params.components,
-      drivers: params.drivers,
+      components,
+      drivers,
     })
   }
 
@@ -36,11 +40,14 @@ export class App implements IEntity {
   }
 
   async start(): Promise<string> {
-    return this.server.start()
+    const url = await this.server.start()
+    this.log(`server started at ${url}`)
+    return url
   }
 
   async stop(): Promise<void> {
     await this.server.stop()
+    this.log(`server stopped`)
   }
 
   isRunning(): boolean {

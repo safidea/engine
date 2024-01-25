@@ -31,7 +31,7 @@ class ExpressServerInstance implements IServerInstance {
     private logger: ILogger,
     private port?: number
   ) {
-    this.log = logger.init('server:express:' + port)
+    this.log = logger.init('server:' + port)
     this.express = express()
     this.express.use(cors())
     this.express.use(helmet())
@@ -69,15 +69,12 @@ class ExpressServerInstance implements IServerInstance {
     const port = await this.getPort()
     const options = { port }
     await new Promise((resolve) => this.server.listen(options, () => resolve(null)))
-    const url = `http://localhost:${port}`
-    this.log(`Server started at ${url}`)
     this.listening = true
-    return url
+    return `http://localhost:${port}`
   }
 
   async stop() {
     this.server.close()
-    this.log(`Server stopped`)
     this.listening = false
   }
 
@@ -96,7 +93,7 @@ class ExpressServerInstance implements IServerInstance {
         resolve(address.port)
       })
     })
-    this.log = this.logger.init('server:express:' + port)
+    this.log = this.logger.init('server:' + port)
     return port
   }
 }

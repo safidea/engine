@@ -11,10 +11,10 @@ export class SpecList implements IList<Spec> {
     this.specs = config.map((spec) => new Spec(spec, params))
   }
 
-  async test(feature: string, baseUrl: string) {
+  async test(baseUrl: string) {
     const errors: SpecError[] = []
     for (const spec of this.specs) {
-      const error = await spec.test(feature, baseUrl)
+      const error = await spec.test(baseUrl)
       if (error) errors.push(error)
     }
     return errors

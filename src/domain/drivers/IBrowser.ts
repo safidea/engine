@@ -7,7 +7,6 @@ export interface IBrowserPage {
 }
 
 export interface IBrowserLaunchOptions {
-  logName: string
   baseUrl: string
 }
 
