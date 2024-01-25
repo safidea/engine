@@ -42,6 +42,7 @@ class ExpressServerInstance implements IServerInstance {
       this.log(`${req.method} ${req.originalUrl}`)
       next()
     })
+    this.express.get('/health', (_, res) => res.json({ success: true }))
     this.server = http.createServer(this.express)
     this.server.on('error', (e: NetworkError) => {
       if (e.code === 'EADDRINUSE') {

@@ -9,13 +9,6 @@ test.describe('App', () => {
       features: [
         {
           name: 'Feature',
-          specs: [
-            {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'valid' }],
-            },
-          ],
           pages: [
             {
               name: 'Page',
@@ -23,7 +16,7 @@ test.describe('App', () => {
               body: [
                 {
                   component: 'Paragraph',
-                  text: 'valid',
+                  text: 'Hello world!',
                 },
               ],
             },
@@ -31,9 +24,9 @@ test.describe('App', () => {
         },
       ],
     }
+    const { app } = createApp(config)
 
     // WHEN
-    const { app } = createApp(config)
     await app!.start()
 
     // THEN
@@ -51,7 +44,7 @@ test.describe('App', () => {
             {
               name: 'display invalid text',
               when: [{ open: '/' }],
-              then: [{ text: 'valid' }],
+              then: [{ text: 'Hello world!' }],
             },
           ],
           pages: [
@@ -61,7 +54,7 @@ test.describe('App', () => {
               body: [
                 {
                   component: 'Paragraph',
-                  text: 'valid',
+                  text: 'Hello world!',
                 },
               ],
             },
@@ -69,9 +62,9 @@ test.describe('App', () => {
         },
       ],
     }
+    const { app } = createApp(config)
 
     // WHEN
-    const { app } = createApp(config)
     const errors = await app!.testFeaturesSpecs()
     await app!.start()
 
@@ -88,13 +81,6 @@ test.describe('App', () => {
       features: [
         {
           name: 'Feature',
-          specs: [
-            {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'valid' }],
-            },
-          ],
           pages: [
             {
               name: 'Page',
@@ -102,7 +88,7 @@ test.describe('App', () => {
               body: [
                 {
                   component: 'Paragraph',
-                  text: 'valid',
+                  text: 'Hello world!',
                 },
               ],
             },
@@ -110,29 +96,22 @@ test.describe('App', () => {
         },
       ],
     }
+    const { app } = createApp(config)
 
     // WHEN
-    const { app } = createApp(config)
     const url = await app!.start()
 
     // THEN
     expect(url).toBe('http://localhost:3000')
   })
 
-  test.skip('should check the app status through /health endpoint', async ({ request }) => {
+  test('should check the app running status through /health endpoint', async ({ request }) => {
     // GIVEN
     const config: IApp = {
       name: 'App',
       features: [
         {
           name: 'Feature',
-          specs: [
-            {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'valid' }],
-            },
-          ],
           pages: [
             {
               name: 'Page',
@@ -140,7 +119,7 @@ test.describe('App', () => {
               body: [
                 {
                   component: 'Paragraph',
-                  text: 'valid',
+                  text: 'Hello world!',
                 },
               ],
             },
@@ -148,13 +127,13 @@ test.describe('App', () => {
         },
       ],
     }
+    const { app } = createApp(config)
+    const url = await app!.start()
 
     // WHEN
-    const { app } = createApp(config)
-    await app!.start()
+    const { success } = await request.get(url + '/health').then((res) => res.json())
 
     // THEN
-    const { success } = await request.get('/health').then((res) => res.json())
     expect(success).toBe(true)
   })
 })
