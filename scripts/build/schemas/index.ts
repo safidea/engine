@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import { capitalize, exec, log } from '../utils'
 
-log(`✓ Start building schemas`)
+log(`Start building schemas...`)
 
 const schemas = ['app', 'role', 'feature', 'page', 'spec']
 
@@ -12,7 +12,7 @@ async function buildSchema(schema: string) {
   await exec(
     `bunx typescript-json-schema ./tsconfig.json I${capitalize(schema)} --out ./schemas/${schema}.schema.json --required --noExtraProps`
   )
-  log(`✓ Built ${schema} schema`)
+  log(`✓ ${capitalize(schema)} schema builded`)
 }
 
 const promises = []

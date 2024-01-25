@@ -13,7 +13,7 @@ export class FeatureController extends Controller implements IController<Feature
 
   constructor(
     private drivers: Drivers,
-    private params?: { roles?: IRole[]; components?: Components }
+    private params?: { roles?: IRole[]; components?: Partial<Components> }
   ) {
     super()
     this.middleware = new FeatureMiddleware(drivers)

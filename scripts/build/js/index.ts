@@ -1,6 +1,6 @@
 import { deleteFilesRecursively, log, onBunErrors } from '../utils'
 
-log('✓ Start building package')
+log('Start building JS...')
 
 const externals: string[] = [
   'ajv',
@@ -15,13 +15,7 @@ const externals: string[] = [
   'react-dom',
 ]
 
-const entrypoints = [
-  'src/app.ts',
-  'src/role.ts',
-  'src/feature.ts',
-  'src/page.ts',
-  'src/spec.ts',
-]
+const entrypoints = ['src/app.ts', 'src/role.ts', 'src/feature.ts', 'src/page.ts', 'src/spec.ts']
 
 await deleteFilesRecursively('dist', '.js')
 
@@ -32,6 +26,6 @@ const { success, logs } = await Bun.build({
   splitting: true,
   external: externals,
 })
-if (!success) onBunErrors('package', logs)
+if (!success) onBunErrors('js', logs)
 
-log('✓ Built package')
+log('✓ JS builded')

@@ -29,12 +29,12 @@ test.describe('Feature specs', () => {
 
     // WHEN
     const { feature, errors } = createFeature(config)
-    const specErrors = await feature?.testSpecs()
+    const specErrors = await feature!.testSpecs()
 
     // THEN
     expect(errors).toHaveLength(0)
     expect(specErrors).toHaveLength(1)
-    expect(specErrors?.[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
+    expect(specErrors![0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
 
   test('should return no error if a spec succeed', async () => {
@@ -64,7 +64,7 @@ test.describe('Feature specs', () => {
 
     // WHEN
     const { feature, errors } = createFeature(config)
-    const specErrors = await feature?.testSpecs()
+    const specErrors = await feature!.testSpecs()
 
     // THEN
     expect(errors).toHaveLength(0)

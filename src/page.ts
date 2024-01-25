@@ -8,7 +8,7 @@ import type { Components } from '@domain/components'
 export function createPage(
   config: unknown,
   params?: {
-    components?: Components
+    components?: Partial<Components>
   }
 ): { page?: Page; errors: EngineError[] } {
   const pageController = new PageController(drivers, params)

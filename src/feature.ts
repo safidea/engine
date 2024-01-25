@@ -10,7 +10,7 @@ export function createFeature(
   config: unknown,
   params?: {
     roles?: IRole[]
-    components?: Components
+    components?: Partial<Components>
   }
 ): { feature?: Feature; errors: EngineError[] } {
   const featureController = new FeatureController(drivers, params)

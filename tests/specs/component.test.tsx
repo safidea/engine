@@ -30,7 +30,7 @@ test.describe('Components specs', () => {
 
     // WHEN
     const { feature, errors } = createFeature(config, { components })
-    const specErrors = await feature?.testSpecs()
+    const specErrors = await feature!.testSpecs()
 
     // THEN
     expect(errors).toHaveLength(0)

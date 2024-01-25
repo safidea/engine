@@ -1,19 +1,15 @@
 import { test, expect } from '@playwright/test'
 import { createPage, type IPage } from '@solumy/engine/page'
 
-test.describe('Paragraph component', () => {
-  test('should render a paragraph', async ({ page }) => {
+test.describe('Page component', () => {
+  test('should render a title', async ({ page }) => {
     // GIVEN
-    const text = 'This is a paragraph.'
+    const title = 'This is a title'
     const config: IPage = {
       name: 'Page',
       path: '/',
-      body: [
-        {
-          component: 'Paragraph',
-          text,
-        },
-      ],
+      title,
+      body: [],
     }
 
     // WHEN
@@ -22,7 +18,7 @@ test.describe('Paragraph component', () => {
     await page.setContent(html!)
 
     // THEN
-    const paragraphContent = await page.textContent('p')
-    expect(paragraphContent).toContain(text)
+    const pageTitle = await page.title()
+    expect(pageTitle).toContain(title)
   })
 })

@@ -1,6 +1,4 @@
 name: Request
-roles:
-  - name: anyone
 translations:
   - language: EN
     texts:
@@ -12,10 +10,6 @@ translations:
       - &HomePageHeroPrimaryButtonPath '/get-started'
 features:
   - name: landing-page
-    story:
-      asRole: anyone
-      iWant: to see the landing page
-      soThat: i can learn more about the product
     specs:
       - name: should display the landing page
         when:
@@ -39,18 +33,3 @@ features:
             primary-button:
               text: *HomePageHeroPrimaryButtonLabel
               path: *HomePageHeroPrimaryButtonPath
-components:
-  - name: hero
-    template: /hero.handlebars
-    props:
-      - name: title
-        type: string
-      - name: description
-        type: string
-      - name: primary-button
-        type: object
-        props:
-          - name: text
-            type: string
-          - name: path
-            type: string

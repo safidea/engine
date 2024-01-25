@@ -11,7 +11,7 @@ export class AppController extends Controller implements IController<App> {
 
   constructor(
     private drivers: Drivers,
-    private params?: { components?: Components }
+    private params?: { components?: Partial<Components> }
   ) {
     super()
     this.middleware = new AppMiddleware(drivers)

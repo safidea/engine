@@ -7,7 +7,7 @@ import type { Components } from '@domain/components'
 export function createApp(
   config: unknown,
   params?: {
-    components?: Components
+    components?: Partial<Components>
   }
 ): { app?: App; errors: EngineError[] } {
   const appController = new AppController(drivers, params)

@@ -2,7 +2,7 @@ import { deleteFilesRecursively, exec, log } from '../utils'
 import path from 'path'
 import fs from 'fs-extra'
 
-log('✓ Start building types')
+log('Start building types...')
 
 const __dirname = new URL('.', import.meta.url).pathname
 const OUTPUT_DIR = path.resolve(process.cwd(), 'dist')
@@ -44,4 +44,4 @@ await deleteFilesRecursively('dist', '.d.ts')
 await exec(`tsc --project ${path.join(__dirname, 'tsconfig.json')}`)
 processDirectory(OUTPUT_DIR)
 
-log(`✓ Built types`)
+log(`✓ Types builded`)

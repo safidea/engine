@@ -11,14 +11,32 @@
                     },
                     "type": "array"
                 },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/IPageLink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IPageMeta"
+                    },
+                    "type": "array"
+                },
                 "name": {
                     "type": "string"
                 },
                 "path": {
                     "type": "string"
                 },
-                "seo": {
-                    "$ref": "#/definitions/IPageSeo"
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IPageScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -30,6 +48,26 @@
         },
         "IPageComponent": {
             "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Paragraph",
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "text"
+                    ],
+                    "type": "object"
+                },
                 {
                     "additionalProperties": false,
                     "properties": {
@@ -70,42 +108,53 @@
                         "title"
                     ],
                     "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "component": {
-                            "const": "Paragraph",
-                            "type": "string"
-                        },
-                        "name": {
-                            "type": "string"
-                        },
-                        "text": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "component",
-                        "text"
-                    ],
-                    "type": "object"
                 }
             ]
         },
-        "IPageSeo": {
+        "IPageLink": {
             "additionalProperties": false,
             "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "title": {
+                "href": {
                     "type": "string"
                 }
             },
             "required": [
-                "description",
-                "title"
+                "href"
+            ],
+            "type": "object"
+        },
+        "IPageMeta": {
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPageScript": {
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
             ],
             "type": "object"
         },

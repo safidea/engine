@@ -4,6 +4,7 @@ import type { IPageParams } from './IPageParams'
 
 export class Page implements IEntity {
   name: string
+  timestamp: number = +new Date()
 
   constructor(
     private config: IPage,
@@ -20,9 +21,17 @@ export class Page implements IEntity {
 
   renderComponent = () => {
     const { components } = this.params
-    const { body } = this.config
+    const { body, title, metas = [], scripts = [], links = [] } = this.config
+    scripts.forEach((script) => {
+      script.src += `?ts=${this.timestamp}`
+    })
+    // TODO: add output.css to the server static files
+    links.unshift({ href: '/output.css' })
+    links.forEach((link) => {
+      link.href += `?ts=${this.timestamp}`
+    })
     return (
-      <>
+      <components.Page title={title} metas={metas} scripts={scripts} links={links}>
         {body.map((component, index) => {
           const { component: name } = component
           if (name === 'Paragraph') {
@@ -31,7 +40,7 @@ export class Page implements IEntity {
             return <components.Hero key={index} {...component} />
           }
         })}
-      </>
+      </components.Page>
     )
   }
 
