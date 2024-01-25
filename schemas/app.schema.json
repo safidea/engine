@@ -288,6 +288,9 @@
         "ISpecTextResult": {
             "additionalProperties": false,
             "properties": {
+                "tag": {
+                    "type": "string"
+                },
                 "text": {
                     "type": "string"
                 }

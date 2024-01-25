@@ -120,7 +120,7 @@ test.describe('App schema errors', () => {
 })
 
 test.describe('App config errors', () => {
-  test('app feature story "asRole" should be a defined role', async () => {
+  test('app feature role should be a defined role', async () => {
     // GIVEN
     const config: IApp = {
       name: 'app',

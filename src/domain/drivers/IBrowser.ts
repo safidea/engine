@@ -3,7 +3,7 @@ export interface IBrowserElement {}
 export interface IBrowserPage {
   open(url: string): Promise<void>
   title(): Promise<string>
-  getByText(text: string): Promise<IBrowserElement | null>
+  getByText(text: string, options?: { tag?: string }): Promise<IBrowserElement | null>
   close(): Promise<void>
 }
 

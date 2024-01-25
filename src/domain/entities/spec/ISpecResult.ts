@@ -4,6 +4,7 @@ export interface ISpecTitleResult {
 
 export interface ISpecTextResult {
   text: string
+  tag?: string
 }
 
 export type ISpecResult = ISpecTitleResult | ISpecTextResult

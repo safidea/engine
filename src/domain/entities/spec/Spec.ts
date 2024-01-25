@@ -28,13 +28,13 @@ export class Spec implements IEntity {
     try {
       for (const action of when) {
         if ('open' in action) {
-          this.log(`opening ${action.open}`)
+          this.log(`opening "${action.open}"`)
           await page.open(action.open)
         }
       }
       for (const result of then) {
         if ('title' in result) {
-          this.log(`checking title ${result.title}`)
+          this.log(`checking title "${result.title}"`)
           const pageTitle = await page.title()
           if (pageTitle !== result.title) {
             throw new SpecError('TITLE_NOT_FOUND', {
@@ -46,13 +46,14 @@ export class Spec implements IEntity {
           }
         }
         if ('text' in result) {
-          this.log(`checking text ${result.text}`)
-          const textElement = await page.getByText(result.text)
+          const { tag, text } = result
+          this.log(`checking text "${result.text}"`)
+          const textElement = await page.getByText(text, { tag })
           if (!textElement) {
             throw new SpecError('TEXT_NOT_FOUND', {
               feature: this.params.featureName,
               spec: this.name,
-              expect: result.text,
+              expect: text,
               got: '',
             })
           }

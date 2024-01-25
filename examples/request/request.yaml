@@ -23,13 +23,17 @@ features:
           - open: /
         then:
           - text: *HomePageHeroTitle
+            tag: h1
           - text: *HomePageHeroDescription
+            tag: p
           - text: *HomePageHeroPrimaryButtonLabel
+            tag: a
       - name: should display the logos
         when:
           - open: /
         then:
           - text: *HomePageHeroTitle
+            tag: h2
     pages:
       - name: home
         path: /
