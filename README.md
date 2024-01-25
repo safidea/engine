@@ -16,6 +16,7 @@
 24/01
 
 - Créer un composant form qui intègre directement les inputs 
+- Ne charger le serveur de l'app que sur les pages, pas sur les specs
 
 23/01
 
