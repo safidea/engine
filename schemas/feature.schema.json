@@ -1,0 +1,350 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "IPage": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IPageComponent"
+                    },
+                    "type": "array"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/IPageLink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IPageMeta"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IPageScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path"
+            ],
+            "type": "object"
+        },
+        "IPageComponent": {
+            "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Paragraph",
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "text"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Hero",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "path": {
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "path",
+                                "text"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Logos",
+                            "type": "string"
+                        },
+                        "logos": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "alt": {
+                                        "type": "string"
+                                    },
+                                    "src": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "alt",
+                                    "src"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "logos",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Features",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "features": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "description",
+                                    "icon",
+                                    "title"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "features",
+                        "title"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "IPageLink": {
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href"
+            ],
+            "type": "object"
+        },
+        "IPageMeta": {
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPageScript": {
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
+            ],
+            "type": "object"
+        },
+        "ISpec": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/ISpecResult"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/ISpecOpenAction"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "ISpecOpenAction": {
+            "additionalProperties": false,
+            "properties": {
+                "open": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "open"
+            ],
+            "type": "object"
+        },
+        "ISpecResult": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ISpecTitleResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecTextResult"
+                }
+            ]
+        },
+        "ISpecTextResult": {
+            "additionalProperties": false,
+            "properties": {
+                "tag": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "ISpecTitleResult": {
+            "additionalProperties": false,
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "pages": {
+            "items": {
+                "$ref": "#/definitions/IPage"
+            },
+            "type": "array"
+        },
+        "role": {
+            "type": "string"
+        },
+        "specs": {
+            "items": {
+                "$ref": "#/definitions/ISpec"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "type": "object"
+}
+
