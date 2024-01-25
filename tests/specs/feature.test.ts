@@ -33,7 +33,7 @@ test.describe('Feature specs', () => {
 
     // THEN
     expect(errors).toHaveLength(1)
-    expect(errors![0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
+    expect(errors[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
   })
 
   test('should find a text', async () => {

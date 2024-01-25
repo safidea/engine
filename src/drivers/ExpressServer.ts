@@ -14,8 +14,10 @@ interface NetworkError extends Error {
 export class ExpressServer implements IServer {
   constructor(private logger: ILogger) {}
 
-  create(port?: number, host?: string) {
-    return new ExpressServerInstance(this.logger, port, host)
+  create({ withPort = true } = {}) {
+    const { PORT } = process.env
+    const port = withPort ? (PORT ? parseInt(PORT) : undefined) : undefined
+    return new ExpressServerInstance(this.logger, port)
   }
 }
 
@@ -23,11 +25,11 @@ class ExpressServerInstance implements IServerInstance {
   private log: ILoggerLog
   private express: Express
   private server: HttpServer
+  private listening = false
 
   constructor(
     private logger: ILogger,
-    private port?: number,
-    private host?: string
+    private port?: number
   ) {
     this.log = logger.init('server:express:' + port)
     this.express = express()
@@ -47,8 +49,7 @@ class ExpressServerInstance implements IServerInstance {
         setTimeout(async () => {
           this.server.close()
           const port = await this.getPort()
-          const host = this.getHost()
-          this.server.listen(port, host)
+          this.server.listen(port)
         }, 1000)
       } else {
         this.log(e.message)
@@ -65,17 +66,22 @@ class ExpressServerInstance implements IServerInstance {
 
   async start() {
     const port = await this.getPort()
-    const host = this.getHost()
-    const options = { port, host }
+    const options = { port }
     await new Promise((resolve) => this.server.listen(options, () => resolve(null)))
     const url = `http://localhost:${port}`
     this.log(`Server started at ${url}`)
+    this.listening = true
     return url
   }
 
   async stop() {
     this.server.close()
     this.log(`Server stopped`)
+    this.listening = false
+  }
+
+  isListening() {
+    return this.listening
   }
 
   private async getPort() {
@@ -91,9 +97,5 @@ class ExpressServerInstance implements IServerInstance {
     })
     this.log = this.logger.init('server:express:' + port)
     return port
-  }
-
-  private getHost() {
-    return this.host ?? 'localhost'
   }
 }

@@ -7,6 +7,11 @@ const dirname = new URL('.', import.meta.url).pathname
 const yamlConfig = fs.readFileSync(join(dirname, 'request.yaml'), 'utf8')
 const jsonConfig = yaml.load(yamlConfig)
 
-const { errors } = createApp(jsonConfig)
+const { app, errors } = createApp(jsonConfig)
 
-console.log('Errors:', errors)
+if (app) {
+  await app.testFeaturesSpecs()
+  await app.start()
+} else {
+  console.error(errors)
+}

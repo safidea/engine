@@ -18,9 +18,9 @@ export class Feature implements IEntity {
     private config: IFeature,
     private params: IFeatureParams
   ) {
-    this.name = config.name
     const { drivers, components } = params
-    this.server = drivers.server.create()
+    this.name = config.name
+    this.server = drivers.server.create({ withPort: false })
     this.specs = new SpecList(config.specs ?? [], { drivers })
     this.pages = new PageList(config.pages ?? [], { components, server: this.server, drivers })
   }

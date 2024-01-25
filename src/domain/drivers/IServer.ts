@@ -8,8 +8,9 @@ export interface IServerInstance {
   get: (path: string, handler: IServerHandler) => void
   start(): Promise<string>
   stop(): Promise<void>
+  isListening(): boolean
 }
 
 export interface IServer {
-  create(): IServerInstance
+  create(otpions?: { withPort: false }): IServerInstance
 }

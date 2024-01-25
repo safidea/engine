@@ -1,3 +1,4 @@
+import type { IServerInstance } from '@domain/drivers/IServer'
 import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { FeatureList } from '../feature/FeatureList'
@@ -9,9 +10,12 @@ export class App implements IEntity {
   name: string
   private roles: RoleList
   private features: FeatureList
+  private server: IServerInstance
 
   constructor(config: IApp, params: IAppParams) {
+    const { drivers } = params
     this.name = config.name
+    this.server = drivers.server.create()
     this.roles = new RoleList(config.roles ?? [])
     this.features = new FeatureList(config.features, {
       roles: this.roles,
@@ -29,5 +33,17 @@ export class App implements IEntity {
 
   async testFeaturesSpecs() {
     return this.features.testSpecs()
+  }
+
+  async start(): Promise<string> {
+    return this.server.start()
+  }
+
+  async stop(): Promise<void> {
+    await this.server.stop()
+  }
+
+  isRunning(): boolean {
+    return this.server.isListening()
   }
 }
