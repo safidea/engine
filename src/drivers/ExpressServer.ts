@@ -24,7 +24,7 @@ export class ExpressServer implements IServer {
 class ExpressServerInstance implements IServerInstance {
   private log: ILoggerLog
   private express: Express
-  private server: HttpServer
+  private server?: HttpServer
   private listening = false
 
   constructor(
@@ -38,24 +38,7 @@ class ExpressServerInstance implements IServerInstance {
     this.express.use(cookieParser())
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
-    this.express.use((req, _, next) => {
-      this.log(`${req.method} ${req.originalUrl}`)
-      next()
-    })
     this.express.get('/health', (_, res) => res.json({ success: true }))
-    this.server = http.createServer(this.express)
-    this.server.on('error', (e: NetworkError) => {
-      if (e.code === 'EADDRINUSE') {
-        this.log('Address in use, retrying...')
-        setTimeout(async () => {
-          this.server.close()
-          const port = await this.getPort()
-          this.server.listen(port)
-        }, 1000)
-      } else {
-        this.log(e.message)
-      }
-    })
   }
 
   async get(path: string, handler: IServerHandler) {
@@ -66,15 +49,41 @@ class ExpressServerInstance implements IServerInstance {
   }
 
   async start() {
-    const port = await this.getPort()
-    const options = { port }
-    await new Promise((resolve) => this.server.listen(options, () => resolve(null)))
-    this.listening = true
-    return `http://localhost:${port}`
+    const maxRetries = 5
+    const retryDelay = 1000
+    let currentRetry = 0
+    while (currentRetry < maxRetries) {
+      try {
+        const port = await this.getPort()
+        const options = { port }
+        const server = http.createServer(this.express)
+        await new Promise((resolve, reject) => {
+          server
+            .listen(options, () => resolve(null))
+            .on('error', (err: NetworkError) => {
+              if (err.code === 'EADDRINUSE') {
+                console.log(`Port ${port} is in use, retrying...`)
+                currentRetry++
+                setTimeout(() => reject(err), retryDelay)
+              } else {
+                reject(err)
+              }
+            })
+        })
+        this.server = server
+        this.listening = true
+        return `http://localhost:${port}`
+      } catch (error) {
+        if (currentRetry >= maxRetries) {
+          throw new Error(`Failed to start server after ${maxRetries} attempts`)
+        }
+      }
+    }
+    throw new Error('Unable to start server after multiple attempts')
   }
 
   async stop() {
-    this.server.close()
+    if (this.server) this.server.close()
     this.listening = false
   }
 

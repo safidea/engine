@@ -9,6 +9,7 @@ export function createPage(
   config: unknown,
   params?: {
     components?: Partial<Components>
+    featureName?: string
   }
 ): { page?: Page; errors: EngineError[] } {
   const pageController = new PageController(drivers, params)

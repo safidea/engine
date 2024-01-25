@@ -13,7 +13,7 @@ export class PageController extends Controller implements IController<Page> {
 
   constructor(
     private drivers: Drivers,
-    private params?: { components?: Partial<Components> }
+    private params?: { components?: Partial<Components>, featureName?: string}
   ) {
     super()
     this.middleware = new PageMiddleware(drivers)
@@ -36,6 +36,7 @@ export class PageController extends Controller implements IController<Page> {
       components: this.getComponents(this.params?.components),
       server,
       drivers: this.drivers,
+      featureName: 'default',
     })
     const configError = entity.validateConfig()
     if (configError.length) {

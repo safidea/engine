@@ -25,6 +25,7 @@ export class App implements IEntity {
       roles: this.roles,
       components,
       drivers,
+      serverInstance: this.server,
     })
   }
 

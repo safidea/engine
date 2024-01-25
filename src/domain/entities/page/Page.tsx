@@ -1,21 +1,27 @@
+import type { ILoggerLog } from '@domain/drivers/ILogger'
 import type { IEntity } from '../IEntity'
 import type { IPage } from './IPage'
 import type { IPageParams } from './IPageParams'
 
 export class Page implements IEntity {
   name: string
-  timestamp: number = +new Date()
+  private timestamp: number = +new Date()
+  private log: ILoggerLog
 
   constructor(
     private config: IPage,
     private params: IPageParams
   ) {
+    const { server, drivers, featureName } = params
+    const { logger } = drivers
     this.name = config.name
-    const { server } = params
+    this.log = logger.init(`feature:${logger.slug(featureName)}:page:${logger.slug(this.name)}`)
     server.get(config.path, this.get)
+    this.log(`GET mounted on ${config.path}`)
   }
 
   get = async () => {
+    this.log('GET ' + this.config.path)
     return { html: this.renderHtml() }
   }
 

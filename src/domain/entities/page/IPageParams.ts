@@ -6,4 +6,5 @@ export interface IPageParams {
   components: Components
   server: IServerInstance
   drivers: Drivers
+  featureName: string
 }

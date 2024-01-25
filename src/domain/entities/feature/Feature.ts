@@ -20,13 +20,18 @@ export class Feature implements IEntity {
     private config: IFeature,
     private params: IFeatureParams
   ) {
-    const { drivers, components } = params
+    const { drivers, components, serverInstance } = params
     const { server, logger } = drivers
     this.name = config.name
-    this.server = server.create({ withPort: false })
+    this.server = serverInstance ?? server.create({ withPort: false })
     this.log = logger.init('feature:' + logger.slug(this.name))
     this.specs = new SpecList(config.specs ?? [], { drivers, featureName: this.name })
-    this.pages = new PageList(config.pages ?? [], { components, server: this.server, drivers })
+    this.pages = new PageList(config.pages ?? [], {
+      components,
+      server: this.server,
+      drivers,
+      featureName: this.name,
+    })
   }
 
   validateConfig() {

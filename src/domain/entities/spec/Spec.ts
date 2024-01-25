@@ -14,7 +14,7 @@ export class Spec implements IEntity {
     const { drivers, featureName } = params
     const { logger } = drivers
     this.name = config.name
-    this.log = logger.init(`feature:${featureName}:spec:${logger.slug(this.name)}`)
+    this.log = logger.init(`feature:${logger.slug(featureName)}:spec:${logger.slug(this.name)}`)
   }
 
   validateConfig() {
