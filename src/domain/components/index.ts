@@ -3,11 +3,12 @@ import { Paragraph, type ParagraphProps, type IParagraph } from './base/Paragrap
 import { Hero, type HeroProps, type IHero } from './marketing/Hero'
 import { Logos, type ILogos, type LogosProps } from './marketing/Logos'
 import { Features, type FeaturesProps, type IFeatures } from './marketing/Features'
-import { type ICTA, type CTAProps, CTA } from './marketing/CTA'
+import { CTA, type CTAProps, type ICTA } from './marketing/CTA'
 import { Button, type ButtonProps, type IButton } from './base/Button'
+import { Footer, type FooterProps, type IFooter } from './marketing/Footer'
 
 export type { Icon } from './utils'
-export type IComponent = IParagraph | IHero | ILogos | IFeatures | ICTA | IButton
+export type IComponent = IParagraph | IHero | ILogos | IFeatures | ICTA | IButton | IFooter
 
 export type Components = {
   Page: (props: PageProps) => JSX.Element
@@ -17,6 +18,7 @@ export type Components = {
   Features: (props: FeaturesProps) => JSX.Element
   CTA: (props: CTAProps) => JSX.Element
   Button: (props: ButtonProps) => JSX.Element
+  Footer: (props: FooterProps) => JSX.Element
 }
 
 export const components: Components = {
@@ -27,4 +29,5 @@ export const components: Components = {
   Features,
   CTA,
   Button,
+  Footer,
 }

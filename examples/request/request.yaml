@@ -28,6 +28,15 @@ translations:
       - &HomePageCTADescription Get started with Request
       - &HomePageCTAPrimaryButtonLabel Get Started
       - &HomePageCTAPrimaryButtonHref '/get-started'
+      - &HomePageFooterTitle Request
+      - &HomePageFooterDescription Request is a tech company based in Paris, France.
+      - &HomePageFootercopyright © 2021 Request
+      - &HomePageFooterLinksHomeLabel Home
+      - &HomePageFooterLinksHomeHref /
+      - &HomePageFooterLinksGetStartedLabel Get Started
+      - &HomePageFooterLinksGetStartedHref /get-started
+      - &HomePageFooterLinksContactLabel Contact
+      - &HomePageFooterLinksContactHref /contact
 features:
   - name: landing-page
     specs:
@@ -102,6 +111,34 @@ features:
             tag: a
             attribute: href
             value: *HomePageCTAPrimaryButtonHref
+      - name: should display the footer
+        when:
+          - open: /
+        then:
+          - text: *HomePageFooterTitle
+            tag: a
+          - text: *HomePageFooterDescription
+            tag: p
+          - text: *HomePageFooterLinksHomeLabel
+            tag: a
+          - text: *HomePageFooterLinksHomeLabel
+            tag: a
+            attribute: href
+            value: *HomePageFooterLinksHomeHref
+          - text: *HomePageFooterLinksGetStartedLabel
+            tag: a
+          - text: *HomePageFooterLinksGetStartedLabel
+            tag: a
+            attribute: href
+            value: *HomePageFooterLinksGetStartedHref
+          - text: *HomePageFooterLinksContactLabel
+            tag: a
+          - text: *HomePageFooterLinksContactLabel
+            tag: a
+            attribute: href
+            value: *HomePageFooterLinksContactHref
+          - text: *HomePageFootercopyright
+            tag: span
     pages:
       - name: home
         path: /
@@ -157,3 +194,15 @@ features:
             primaryButton:
               label: *HomePageCTAPrimaryButtonLabel
               href: *HomePageCTAPrimaryButtonHref
+          - component: Footer
+            title: *HomePageFooterTitle
+            description: *HomePageFooterDescription
+            links: 
+              - label: *HomePageFooterLinksHomeLabel
+                href: *HomePageFooterLinksHomeHref
+              - label: *HomePageFooterLinksGetStartedLabel
+                href: *HomePageFooterLinksGetStartedHref
+              - label: *HomePageFooterLinksContactLabel
+                href: *HomePageFooterLinksContactHref
+            copyright: *HomePageFootercopyright
+

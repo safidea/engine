@@ -51,6 +51,8 @@ export class Page implements IEntity {
             return <components.Button key={index} {...props} />
           } else if (component === 'CTA') {
             return <components.CTA key={index} {...props} />
+          } else if (component === 'Footer') {
+            return <components.Footer key={index} {...props} />
           }
         })}
       </components.Page>
