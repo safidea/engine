@@ -10,7 +10,7 @@
 - [x] Write the spec tester for a config
 - [x] Refactor to fix all TODOs
 - [x] Install storybook
-- [ ] Write the Request Landing Page with TDD (tests for each component)
+- [x] Write the Request Landing Page with TDD (tests for each component)
 - [ ] Write the Request Contact Form with TDD (tests for each component)
 
 **Notes:**

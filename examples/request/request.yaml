@@ -5,7 +5,7 @@ translations:
     texts:
       - &HomePageTitle Request
       - &HomePageDescription Request
-      - &HomePageHeroTitle Your tech team on demand
+      - &HomePageHeroTitle Your tech team on demand 🚀
       - &HomePageHeroDescription Tech subscriptions for everyone. Pause or cancel anytime.
       - &HomePageHeroPrimaryButtonLabel Get Started
       - &HomePageHeroPrimaryButtonHref '/get-started'
