@@ -24,7 +24,7 @@ test.describe('Hero component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = createPage(config)
+    const { page: pageEngine } = await createPage(config)
     const html = pageEngine!.renderHtml()
     await page.setContent(html!)
 
@@ -61,7 +61,7 @@ test.describe('Hero component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = createPage(config)
+    const { page: pageEngine } = await createPage(config)
     const html = pageEngine!.renderHtml()
     await page.setContent(html!)
     await page.click('a')

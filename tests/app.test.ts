@@ -24,7 +24,7 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config)
+    const { app } = await createApp(config)
 
     // WHEN
     await app!.start()
@@ -62,10 +62,9 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config)
+    const { app, errors } = await createApp(config)
 
     // WHEN
-    const errors = await app!.testFeaturesSpecs()
     await app!.start()
 
     // THEN
@@ -95,7 +94,7 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config, { port: 3000 })
+    const { app } = await createApp(config, { port: 3000 })
 
     // WHEN
     const url = await app!.start()
@@ -126,7 +125,7 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config)
+    const { app } = await createApp(config)
     const url = await app!.start()
 
     // WHEN
@@ -159,7 +158,7 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config)
+    const { app } = await createApp(config)
     const url = await app!.start()
 
     // WHEN
@@ -192,7 +191,7 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = createApp(config)
+    const { app } = await createApp(config)
     const url = await app!.start()
 
     // WHEN

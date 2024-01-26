@@ -4,12 +4,12 @@ import { SpecError } from '@domain/entities/spec/SpecError'
 import type { EngineError } from '@domain/entities/EngineError'
 import { SpecController } from './adapter/controllers/SpecController'
 
-export function createSpec(
+export async function createSpec(
   config: unknown,
   params?: { featureName?: string }
-): { spec?: Spec; errors: EngineError[] } {
+): Promise<{ spec?: Spec; errors: EngineError[] }> {
   const specController = new SpecController(drivers, params)
-  const { entity, errors } = specController.createEntity(config)
+  const { entity, errors } = await specController.createEntity(config)
   return { spec: entity, errors }
 }
 

@@ -7,7 +7,7 @@ test.describe('Role schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createRole(config)
+    const { errors } = await createRole(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -18,7 +18,7 @@ test.describe('Role schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createRole(config)
+    const { errors } = await createRole(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'ROLE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Role schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createRole(config)
+    const { errors } = await createRole(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'ROLE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Role schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createRole(config)
+    const { errors } = await createRole(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'ROLE_ERROR_UNKNOWN_PROPERTY')

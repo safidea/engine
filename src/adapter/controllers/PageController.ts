@@ -17,7 +17,7 @@ export class PageController extends Controller<IPage> implements IController<Pag
     super(middleware, log)
   }
 
-  createEntity(data: unknown) {
+  async createEntity(data: unknown) {
     const schema = this.getSchemaWithErrors(data, (message) => new PageError(message))
     if (schema.errors) return { errors: schema.errors }
     const server = this.drivers.server.create()

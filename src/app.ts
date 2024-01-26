@@ -4,15 +4,16 @@ import { App } from '@domain/entities/app/App'
 import { AppController } from './adapter/controllers/AppController'
 import type { Components } from '@domain/components'
 
-export function createApp(
+export async function createApp(
   config: unknown,
   params?: {
     components?: Partial<Components>
     port?: number
+    testSpecs?: boolean
   }
-): { app?: App; errors: EngineError[] } {
+): Promise<{ app?: App; errors: EngineError[] }> {
   const appController = new AppController(drivers, params)
-  const { entity, errors } = appController.createEntity(config)
+  const { entity, errors } = await appController.createEntity(config)
   return { app: entity, errors }
 }
 

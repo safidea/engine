@@ -5,15 +5,15 @@ import type { EngineError } from '@domain/entities/EngineError'
 import { PageController } from './adapter/controllers/PageController'
 import type { Components } from '@domain/components'
 
-export function createPage(
+export async function createPage(
   config: unknown,
   params?: {
     components?: Partial<Components>
     featureName?: string
   }
-): { page?: Page; errors: EngineError[] } {
+): Promise<{ page?: Page; errors: EngineError[] }> {
   const pageController = new PageController(drivers, params)
-  const { entity, errors } = pageController.createEntity(config)
+  const { entity, errors } = await pageController.createEntity(config)
   return { page: entity, errors }
 }
 

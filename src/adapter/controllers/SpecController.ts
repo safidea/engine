@@ -18,7 +18,7 @@ export class SpecController extends Controller<ISpec> implements IController<Spe
     super(middleware, log)
   }
 
-  createEntity(data: unknown) {
+  async createEntity(data: unknown) {
     const schema = this.getSchemaWithErrors(data, (message) => new SpecError(message))
     if (schema.errors) return { errors: schema.errors }
     const entity = new Spec(schema.json, {

@@ -7,7 +7,7 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createFeature(config)
+    const { errors } = await createFeature(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -18,7 +18,7 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createFeature(config)
+    const { errors } = await createFeature(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Feature schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createFeature(config)
+    const { errors } = await createFeature(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Feature schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createFeature(config)
+    const { errors } = await createFeature(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_UNKNOWN_PROPERTY')
@@ -71,7 +71,7 @@ test.describe('Feature config errors', () => {
     }
 
     // WHEN
-    const { errors } = createFeature(config)
+    const { errors } = await createFeature(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_ROLE_NOT_FOUND')

@@ -9,7 +9,7 @@
 - [x] Write the config validator from the json schema
 - [x] Write the spec tester for a config
 - [x] Refactor to fix all TODOs
-- [ ] Install storybook
+- [x] Install storybook
 - [ ] Write the Request Landing Page with TDD (tests for each component)
 - [ ] Write the Request Contact Form with TDD (tests for each component)
 

@@ -13,7 +13,7 @@ test.describe('Page component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = createPage(config)
+    const { page: pageEngine } = await createPage(config)
     const html = pageEngine!.renderHtml()
     await page.setContent(html!)
 
@@ -38,7 +38,7 @@ test.describe('Page component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = createPage(config)
+    const { page: pageEngine } = await createPage(config)
     const html = pageEngine!.renderHtml()
     await page.setContent(html!)
 

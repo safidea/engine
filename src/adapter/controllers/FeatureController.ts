@@ -19,7 +19,7 @@ export class FeatureController extends Controller<IFeature> implements IControll
     super(middleware, log)
   }
 
-  createEntity(data: unknown) {
+  async createEntity(data: unknown) {
     const schema = this.getSchemaWithErrors(data, (message) => new FeatureError(message))
     if (schema.errors) return { errors: schema.errors }
     const roles = new RoleList(this.params?.roles ?? [])

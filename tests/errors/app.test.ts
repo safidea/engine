@@ -8,7 +8,7 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     expect(errors).toHaveLength(2)
@@ -19,7 +19,7 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_NAME_REQUIRED')
@@ -34,7 +34,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -51,7 +51,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_ROLES_ARRAY_TYPE_REQUIRED')
@@ -64,7 +64,7 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_FEATURES_REQUIRED')
@@ -79,7 +79,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_FEATURES_ARRAY_TYPE_REQUIRED')
@@ -94,7 +94,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_ARRAY_TYPE_REQUIRED')
@@ -109,7 +109,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_UNKNOWN_PROPERTY')
@@ -133,7 +133,7 @@ test.describe('App config errors', () => {
     }
 
     // WHEN
-    const { errors } = createApp(config)
+    const { errors } = await createApp(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_ROLE_NOT_FOUND')

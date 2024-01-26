@@ -17,7 +17,7 @@ test.describe('Custom component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = createPage(config, { components })
+    const { page: pageEngine } = await createPage(config, { components })
     const html = pageEngine!.renderHtml()
     await page.setContent(html!)
 

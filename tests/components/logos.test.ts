@@ -32,7 +32,7 @@ test.describe('Logos component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = createPage(config)
+    const { page: pageEngine } = await createPage(config)
     const html = pageEngine!.renderHtml()
     await page.setContent(html!)
 

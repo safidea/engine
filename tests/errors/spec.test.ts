@@ -7,7 +7,7 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createSpec(config)
+    const { errors } = await createSpec(config)
 
     // THEN
     expect(errors).toHaveLength(3)
@@ -18,7 +18,7 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = createSpec(config)
+    const { errors } = await createSpec(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'SPEC_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Spec schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createSpec(config)
+    const { errors } = await createSpec(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'SPEC_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Spec schema errors', () => {
     }
 
     // WHEN
-    const { errors } = createSpec(config)
+    const { errors } = await createSpec(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'SPEC_ERROR_UNKNOWN_PROPERTY')

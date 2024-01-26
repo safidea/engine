@@ -24,7 +24,7 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config)
+    const { feature } = await createFeature(config)
     const errors = await feature!.testSpecs()
 
     // THEN
@@ -54,7 +54,7 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config)
+    const { feature } = await createFeature(config)
     const errors = await feature!.testSpecs()
 
     // THEN
@@ -87,7 +87,7 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config)
+    const { feature } = await createFeature(config)
     const errors = await feature!.testSpecs()
 
     // THEN
@@ -121,7 +121,7 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config)
+    const { feature } = await createFeature(config)
     const errors = await feature!.testSpecs()
 
     // THEN
@@ -154,7 +154,7 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config)
+    const { feature } = await createFeature(config)
     const errors = await feature!.testSpecs()
 
     // THEN
@@ -188,7 +188,7 @@ test.describe('Feature specs', () => {
     }
 
     // WHEN
-    const { feature } = createFeature(config)
+    const { feature } = await createFeature(config)
     const errors = await feature!.testSpecs()
 
     // THEN

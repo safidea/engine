@@ -13,7 +13,7 @@ export class RoleController extends Controller<IRole> implements IController<Rol
     super(middleware, log)
   }
 
-  createEntity(data: unknown) {
+  async createEntity(data: unknown) {
     const schema = this.getSchemaWithErrors(data, (message) => new RoleError(message))
     if (schema.errors) return { errors: schema.errors }
     const entity = new Role(schema.json)

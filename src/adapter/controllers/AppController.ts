@@ -10,24 +10,35 @@ import { AppError } from '@domain/entities/app/AppError'
 export class AppController extends Controller<IApp> implements IController<App> {
   constructor(
     private drivers: Drivers,
-    private params?: { components?: Partial<Components>; port?: number }
+    private params?: {
+      components?: Partial<Components>
+      port?: number
+      testSpecs?: boolean
+    }
   ) {
     const middleware = new AppMiddleware(drivers)
     const log = drivers.logger.init('controller:app')
     super(middleware, log)
   }
 
-  createEntity(data: unknown) {
-    const schema = this.getSchemaWithErrors(data, (message) => new AppError(message))
-    if (schema.errors) return { errors: schema.errors }
-    const { components, port } = this.params ?? {}
-    const entity = new App(schema.json, {
+  async createEntity(data: unknown) {
+    const { json, errors: schemaErrors } = this.getSchemaWithErrors(
+      data,
+      (message) => new AppError(message)
+    )
+    if (schemaErrors) return { errors: schemaErrors }
+    const { components, port, testSpecs = true } = this.params ?? {}
+    const entity = new App(json, {
       drivers: this.drivers,
       components: this.getComponents(components),
       port,
     })
-    const errors = this.getConfigErrors(entity)
-    if (errors) return { errors }
+    const configErrors = this.getConfigErrors(entity)
+    if (configErrors) return { errors: configErrors }
+    if (testSpecs === true) {
+      const specsErrors = await entity.testFeaturesSpecs()
+      if (specsErrors.length > 0) return { errors: specsErrors }
+    }
     return { entity, errors: [] }
   }
 }
