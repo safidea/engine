@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import type { Icon } from '@solumy/engine'
 import { createPage, type IPage } from '@solumy/engine/page'
 
 test.describe('Features component', () => {
@@ -6,21 +7,25 @@ test.describe('Features component', () => {
     // GIVEN
     const title = 'This is a title'
     const description = 'This is a description'
-    const features = [
+    const features: {
+      title: string
+      description: string
+      icon: Icon
+    }[] = [
       {
         title: 'Feature 1',
         description: 'Description 1',
-        icon: 'icon',
+        icon: 'ChartBarSquare',
       },
       {
         title: 'Feature 2',
         description: 'Description 2',
-        icon: 'icon',
+        icon: 'Scale',
       },
       {
         title: 'Feature 3',
         description: 'Description 3',
-        icon: 'icon',
+        icon: 'Cog6Tooth',
       },
     ]
     const config: IPage = {

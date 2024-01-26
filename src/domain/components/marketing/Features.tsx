@@ -1,4 +1,4 @@
-import { getIcon } from '../utils'
+import { getIcon, type Icon } from '../utils'
 
 export interface FeaturesProps {
   title: string
@@ -6,7 +6,7 @@ export interface FeaturesProps {
   features: {
     title: string
     description: string
-    icon: string
+    icon: Icon
   }[]
 }
 

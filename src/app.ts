@@ -18,5 +18,5 @@ export async function createApp(
 }
 
 export type { IApp } from '@domain/entities/app/IApp'
-export type { Components } from '@domain/components'
+export type { Components, Icon } from '@domain/components'
 export { AppError } from '@domain/entities/app/AppError'

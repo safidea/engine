@@ -4,6 +4,7 @@ import { Hero, type HeroProps, type IHero } from './marketing/Hero'
 import { Logos, type ILogos, type LogosProps } from './marketing/Logos'
 import { Features, type FeaturesProps, type IFeatures } from './marketing/Features'
 
+export type { Icon } from './utils'
 export type IComponent = IParagraph | IHero | ILogos | IFeatures
 
 export type Components = {

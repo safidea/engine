@@ -22,37 +22,37 @@ export const Default: Story = {
         title: 'Marketing',
         description:
           'Plan it, create it, launch it. Collaborate seamlessly with all the organization and hit your marketing goals every month with our marketing plan.',
-        icon: 'icon-1',
+        icon: 'ChartBarSquare',
       },
       {
         title: 'Legal',
         description:
           'Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.',
-        icon: 'icon-2',
+        icon: 'Scale',
       },
       {
         title: 'Business Automation',
         description:
           'Auto-assign tasks, send Slack messages, and much more. Now power up with hundreds of new templates to help you get started.',
-        icon: 'icon-3',
+        icon: 'Cog6Tooth',
       },
       {
         title: 'Sales',
         description:
           'Close more deals, track your progress, and get actionable insights with our sales tools.',
-        icon: 'icon-4',
+        icon: 'Banknotes',
       },
       {
         title: 'Customer Support',
         description:
           'Get the help you need, when you need it with our 24/7 support. We’re here for you.',
-        icon: 'icon-5',
+        icon: 'ChatBubbleLeftEllipsis',
       },
       {
         title: 'Human Resources',
         description:
           'Manage your team, track your progress, and get actionable insights with our sales tools.',
-        icon: 'icon-6',
+        icon: 'FaceSmile',
       },
     ],
   },
