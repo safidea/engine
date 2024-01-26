@@ -27,7 +27,7 @@ translations:
       - &HomePageCTATitle Get Started
       - &HomePageCTADescription Get started with Request
       - &HomePageCTAPrimaryButtonLabel Get Started
-      - &HomePageCTAPrimaryButtonPath '/get-started'
+      - &HomePageCTAPrimaryButtonHref '/get-started'
 features:
   - name: landing-page
     specs:
@@ -156,4 +156,4 @@ features:
             description: *HomePageCTADescription
             primaryButton:
               label: *HomePageCTAPrimaryButtonLabel
-              href: *HomePageCTAPrimaryButtonPath
+              href: *HomePageCTAPrimaryButtonHref

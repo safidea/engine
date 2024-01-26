@@ -34,20 +34,27 @@ export class Spec implements IEntity {
       }
       for (const result of then) {
         if ('title' in result) {
-          this.log(`checking title "${result.title}"`)
+          const { title } = result
+          this.log(`checking if title "${title}" exist`)
           const pageTitle = await page.title()
           if (pageTitle !== result.title) {
             throw new SpecError('TITLE_NOT_FOUND', {
               feature: this.params.featureName,
               spec: this.name,
-              expected: result.title,
+              expected: title,
               received: pageTitle,
             })
           }
         }
         if ('text' in result) {
           const { tag, text, attribute, value } = result
-          this.log(`checking text "${result.text}"`)
+          if (attribute) {
+            const attributeMessage = `checking if attribute "${attribute}" has value "${value}" in text "${text}"`
+            this.log(tag ? `${attributeMessage} with tag "${tag}"` : attributeMessage)
+          } else {
+            const textMessage = `checking if text "${text}" exist`
+            this.log(tag ? `${textMessage} with tag "${tag}"` : textMessage)
+          }
           const textElement = await page.getByText(text, { tag })
           if (attribute && textElement) {
             const attributeValue = await textElement.getAttribute(attribute)

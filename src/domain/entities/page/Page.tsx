@@ -37,20 +37,20 @@ export class Page implements IEntity {
     })
     return (
       <components.Page title={title} metas={metas} scripts={scripts} links={links}>
-        {body.map((component, index) => {
-          const { component: name } = component
-          if (name === 'Paragraph') {
-            return <components.Paragraph key={index} {...component} />
-          } else if (name === 'Hero') {
-            return <components.Hero key={index} {...component} />
-          } else if (name === 'Logos') {
-            return <components.Logos key={index} {...component} />
-          } else if (name === 'Features') {
-            return <components.Features key={index} {...component} />
-          } else if (name === 'Button') {
-            return <components.Button key={index} {...component} />
-          } else if (name === 'CTA') {
-            return <components.CTA key={index} {...component} />
+        {body.map((props, index) => {
+          const { component } = props
+          if (component === 'Paragraph') {
+            return <components.Paragraph key={index} {...props} />
+          } else if (component === 'Hero') {
+            return <components.Hero key={index} {...props} />
+          } else if (component === 'Logos') {
+            return <components.Logos key={index} {...props} />
+          } else if (component === 'Features') {
+            return <components.Features key={index} {...props} />
+          } else if (component === 'Button') {
+            return <components.Button key={index} {...props} />
+          } else if (component === 'CTA') {
+            return <components.CTA key={index} {...props} />
           }
         })}
       </components.Page>
