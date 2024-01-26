@@ -37,7 +37,10 @@ export class AppController extends Controller<IApp> implements IController<App> 
     if (configErrors) return { errors: configErrors }
     if (testSpecs === true) {
       const specsErrors = await entity.testFeaturesSpecs()
-      if (specsErrors.length > 0) return { errors: specsErrors }
+      if (specsErrors.length > 0) {
+        this.log(`specs errors: ${JSON.stringify(specsErrors, null, 2)}`)
+        return { errors: specsErrors }
+      }
     }
     return { entity, errors: [] }
   }

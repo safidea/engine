@@ -113,19 +113,19 @@ features:
             features:
               - title: *HomePageFeaturesItem1Title
                 description: *HomePageFeaturesItem1Description
-                icon: 'code'
+                icon: 'ComputerDesktop'
               - title: *HomePageFeaturesItem2Title
                 description: *HomePageFeaturesItem2Description
-                icon: 'mobile-alt'
+                icon: 'DevicePhoneMobile'
               - title: *HomePageFeaturesItem3Title
                 description: *HomePageFeaturesItem3Description
-                icon: 'server'
+                icon: 'CommandLine'
               - title: *HomePageFeaturesItem4Title
                 description: *HomePageFeaturesItem4Description
-                icon: 'comments'
+                icon: 'MagnifyingGlass'
               - title: *HomePageFeaturesItem5Title
                 description: *HomePageFeaturesItem5Description
-                icon: 'chalkboard-teacher'
+                icon: 'AcademicCap'
               - title: *HomePageFeaturesItem6Title
                 description: *HomePageFeaturesItem6Description
-                icon: 'life-ring'
+                icon: 'ChatBubbleBottomCenterText'

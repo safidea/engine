@@ -7,10 +7,8 @@ const dirname = new URL('.', import.meta.url).pathname
 const yamlConfig = fs.readFileSync(join(dirname, 'request.yaml'), 'utf8')
 const jsonConfig = yaml.load(yamlConfig)
 
-const { app, errors } = await createApp(jsonConfig, { port: 3000 })
+const { app } = await createApp(jsonConfig, { port: 3000 })
 
 if (app) {
   await app.start()
-} else {
-  console.log(JSON.stringify(errors, null, 2))
 }
