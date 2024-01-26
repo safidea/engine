@@ -24,16 +24,10 @@ export class Page implements IEntity {
     return { html: this.renderHtml() }
   }
 
-  renderPage = ({ children }: { children: React.ReactNode }) => {
-    const { components, timestamp, layoutPage } = this.params
+  layoutPage = ({ children }: { children: React.ReactNode }) => {
+    const { components, layoutPage } = this.params
     const { title, metas = [], scripts = [], links = [] } = this.config
-    scripts.forEach((script) => {
-      script.src += `?ts=${timestamp}`
-    })
-    links.unshift({ href: '/output.css' })
-    links.forEach((link) => {
-      link.href += `?ts=${timestamp}`
-    })
+    if (!layoutPage) links.unshift({ href: '/output.css' })
     const Page = layoutPage ?? components.Page
     return (
       <Page title={title} metas={metas} scripts={scripts} links={links}>
@@ -43,9 +37,9 @@ export class Page implements IEntity {
   }
 
   renderComponent = () => {
-    const { components, layoutPage } = this.params
+    const { components } = this.params
     const { body } = this.config
-    const Page = layoutPage ?? this.renderPage
+    const Page = this.layoutPage
     return (
       <Page>
         {body.map((props, index) => {

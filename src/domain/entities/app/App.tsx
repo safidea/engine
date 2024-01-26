@@ -31,9 +31,9 @@ export class App implements IEntity {
       drivers,
       serverInstance: this.server,
       layoutPage: this.layoutPage,
-      timestamp: this.timestamp,
     })
     this.server.notFound(this.notFoundPage)
+    this.log(`404 mounted`)
     process.on('SIGTERM', () => this.onClose('SIGTERM'))
     process.on('SIGINT', () => this.onClose('SIGINT'))
   }
@@ -83,6 +83,7 @@ export class App implements IEntity {
       </Layout>
     )
     const html = ui.render(Page)
+    this.log('GET 404')
     return { html }
   }
 
