@@ -312,6 +312,95 @@
                         "title"
                     ],
                     "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Form",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "inputs": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "label": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "placeholder": {
+                                        "type": "string"
+                                    },
+                                    "required": {
+                                        "type": "boolean"
+                                    },
+                                    "type": {
+                                        "enum": [
+                                            "button",
+                                            "checkbox",
+                                            "color",
+                                            "date",
+                                            "datetime-local",
+                                            "email",
+                                            "file",
+                                            "hidden",
+                                            "image",
+                                            "month",
+                                            "number",
+                                            "password",
+                                            "radio",
+                                            "range",
+                                            "reset",
+                                            "search",
+                                            "submit",
+                                            "tel",
+                                            "text",
+                                            "time",
+                                            "url",
+                                            "week"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "submitButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "inputs",
+                        "submitButton",
+                        "title"
+                    ],
+                    "type": "object"
                 }
             ]
         },

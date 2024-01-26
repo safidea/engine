@@ -58,6 +58,8 @@ export class Page implements IEntity {
             return <components.CTA key={index} {...props} />
           } else if (component === 'Footer') {
             return <components.Footer key={index} {...props} />
+          } else if (component === 'Form') {
+            return <components.Form key={index} {...props} />
           }
         })}
       </Page>

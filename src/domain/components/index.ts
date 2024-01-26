@@ -6,10 +6,20 @@ import { Features, type FeaturesProps, type IFeatures } from './marketing/Featur
 import { CTA, type CTAProps, type ICTA } from './marketing/CTA'
 import { Button, type ButtonProps, type IButton } from './base/Button'
 import { Footer, type FooterProps, type IFooter } from './marketing/Footer'
-import { NotFound, type INotFound, type NotFoundProps } from './marketing/NotFound'
+import { NotFound, type NotFoundProps, type INotFound } from './marketing/NotFound'
+import { Form, type FormProps, type IForm } from './application/Form'
 
 export type { Icon } from './utils'
-export type IComponent = IParagraph | IHero | ILogos | IFeatures | ICTA | IButton | IFooter | INotFound
+export type IComponent =
+  | IParagraph
+  | IHero
+  | ILogos
+  | IFeatures
+  | ICTA
+  | IButton
+  | IFooter
+  | INotFound
+  | IForm
 
 export type Components = {
   Page: (props: PageProps) => JSX.Element
@@ -21,6 +31,7 @@ export type Components = {
   Button: (props: ButtonProps) => JSX.Element
   Footer: (props: FooterProps) => JSX.Element
   NotFound: (props: NotFoundProps) => JSX.Element
+  Form: (props: FormProps) => JSX.Element
 }
 
 export const components: Components = {
@@ -33,4 +44,5 @@ export const components: Components = {
   Button,
   Footer,
   NotFound,
+  Form,
 }
