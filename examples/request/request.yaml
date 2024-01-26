@@ -8,7 +8,7 @@ translations:
       - &HomePageHeroTitle Your tech team on demand
       - &HomePageHeroDescription Tech subscriptions for everyone. Pause or cancel anytime.
       - &HomePageHeroPrimaryButtonLabel Get Started
-      - &HomePageHeroPrimaryButtonPath '/get-started'
+      - &HomePageHeroPrimaryButtonHref '/get-started'
       - &HomePageLogosTitle Our clients
       - &HomePageFeaturesTitle Our features
       - &HomePageFeaturesDescription We provide a full stack of services to help you build your information system.
@@ -24,6 +24,10 @@ translations:
       - &HomePageFeaturesItem5Description We train your team to the latest technologies.
       - &HomePageFeaturesItem6Title Support
       - &HomePageFeaturesItem6Description We provide support for your information system.
+      - &HomePageCTATitle Get Started
+      - &HomePageCTADescription Get started with Request
+      - &HomePageCTAPrimaryButtonLabel Get Started
+      - &HomePageCTAPrimaryButtonPath '/get-started'
 features:
   - name: landing-page
     specs:
@@ -42,6 +46,10 @@ features:
             tag: p
           - text: *HomePageHeroPrimaryButtonLabel
             tag: a
+          - text: *HomePageHeroPrimaryButtonLabel
+            tag: a
+            attribute: href
+            value: *HomePageHeroPrimaryButtonHref
       - name: should display the logos
         when:
           - open: /
@@ -80,6 +88,20 @@ features:
             tag: h3
           - text: *HomePageFeaturesItem6Description
             tag: p
+      - name: should display the CTA
+        when:
+          - open: /
+        then:
+          - text: *HomePageCTATitle
+            tag: h2
+          - text: *HomePageCTADescription
+            tag: p
+          - text: *HomePageCTAPrimaryButtonLabel
+            tag: a
+          - text: *HomePageCTAPrimaryButtonLabel
+            tag: a
+            attribute: href
+            value: *HomePageCTAPrimaryButtonHref
     pages:
       - name: home
         path: /
@@ -92,8 +114,8 @@ features:
             title: *HomePageHeroTitle
             description: *HomePageHeroDescription
             primaryButton:
-              text: *HomePageHeroPrimaryButtonLabel
-              path: *HomePageHeroPrimaryButtonPath
+              label: *HomePageHeroPrimaryButtonLabel
+              href: *HomePageHeroPrimaryButtonHref
           - component: Logos
             title: *HomePageLogosTitle
             logos: 
@@ -129,3 +151,9 @@ features:
               - title: *HomePageFeaturesItem6Title
                 description: *HomePageFeaturesItem6Description
                 icon: 'ChatBubbleBottomCenterText'
+          - component: CTA
+            title: *HomePageCTATitle
+            description: *HomePageCTADescription
+            primaryButton:
+              label: *HomePageCTAPrimaryButtonLabel
+              href: *HomePageCTAPrimaryButtonPath

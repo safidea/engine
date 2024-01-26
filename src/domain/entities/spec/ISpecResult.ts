@@ -2,9 +2,27 @@ export interface ISpecTitleResult {
   title: string
 }
 
-export interface ISpecTextResult {
+interface ISpecHTMLTextResult {
   text: string
-  tag?: string
+  tag?: keyof HTMLElementTagNameMap
+  attribute?: undefined
+  value?: undefined
 }
+
+interface ISpecHTMLAttributeResult {
+  text: string
+  tag?: keyof HTMLElementTagNameMap
+  attribute: keyof HTMLElement
+  value: string
+}
+
+interface ISpecAnchorTextResult {
+  text: string
+  tag: 'a'
+  attribute: keyof HTMLAnchorElement
+  value: string
+}
+
+export type ISpecTextResult = ISpecHTMLTextResult | ISpecHTMLAttributeResult | ISpecAnchorTextResult
 
 export type ISpecResult = ISpecTitleResult | ISpecTextResult

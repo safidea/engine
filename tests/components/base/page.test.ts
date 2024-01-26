@@ -43,7 +43,7 @@ test.describe('Page component', () => {
     await page.setContent(html!)
 
     // THEN
-    const pageDescription = await page.$eval('meta[name="description"]', (el) => el.content)
-    expect(pageDescription).toContain(description)
+    const descriptionElement = page.locator('meta[name="description"]')
+    expect(await descriptionElement.getAttribute('content')).toContain(description)
   })
 })

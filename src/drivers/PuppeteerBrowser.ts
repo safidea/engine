@@ -5,7 +5,6 @@ import type {
   IBrowserLaunchOptions,
   IBrowserPage,
 } from '@domain/drivers/IBrowser'
-import type { Node } from 'typescript'
 
 export class PuppeteerBrowser implements IBrowser {
   constructor() {}
@@ -39,7 +38,7 @@ class PuppeteerBrowserPage implements IBrowserPage {
   async getByText(text: string, { tag = '*' }: { tag?: string } = {}) {
     const [element] = await this.page.$x(`//${tag}[contains(text(), '${text}')]`)
     if (element) {
-      return new PuppeteerBrowserElement(element)
+      return new PuppeteerBrowserElement(this.page, element)
     }
     return null
   }
@@ -50,5 +49,16 @@ class PuppeteerBrowserPage implements IBrowserPage {
 }
 
 class PuppeteerBrowserElement implements IBrowserElement {
-  constructor(private element: ElementHandle<Node>) {}
+  constructor(
+    private page: Page,
+    private element: ElementHandle<globalThis.Node>
+  ) {}
+
+  getAttribute(attribute: string) {
+    return this.page.evaluate(
+      (el, attr) => (el as Element).getAttribute(attr) ?? undefined,
+      this.element,
+      attribute
+    )
+  }
 }

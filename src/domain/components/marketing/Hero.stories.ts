@@ -18,8 +18,8 @@ export const Default: Story = {
     description:
       'Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.',
     primaryButton: {
-      text: 'Learn more',
-      path: '#',
+      label: 'Learn more',
+      href: '#',
     },
   },
 }

@@ -1,4 +1,6 @@
-export interface IBrowserElement {}
+export interface IBrowserElement {
+  getAttribute(attribute: string): Promise<string | undefined>
+}
 
 export interface IBrowserPage {
   open(url: string): Promise<void>

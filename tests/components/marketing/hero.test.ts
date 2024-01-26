@@ -7,8 +7,8 @@ test.describe('Hero component', () => {
     const title = 'This is a title'
     const description = 'This is a description'
     const primaryButton = {
-      text: 'Click me',
-      path: '/',
+      label: 'Click me',
+      href: '/',
     }
     const config: IPage = {
       name: 'Page',
@@ -36,7 +36,7 @@ test.describe('Hero component', () => {
     expect(descriptionContent).toContain(description)
 
     const buttonContent = await page.textContent('a')
-    expect(buttonContent).toContain(primaryButton.text)
+    expect(buttonContent).toContain(primaryButton.label)
   })
 
   test('should redirect when clicking on primary button', async ({ page }) => {
@@ -44,8 +44,8 @@ test.describe('Hero component', () => {
     const title = 'This is a title'
     const description = 'This is a description'
     const primaryButton = {
-      text: 'Click me',
-      path: 'https://example.com/',
+      label: 'Click me',
+      href: 'https://example.com/',
     }
     const config: IPage = {
       name: 'Page',
@@ -67,6 +67,6 @@ test.describe('Hero component', () => {
     await page.click('a')
 
     // THEN
-    expect(page.url()).toBe(primaryButton.path)
+    expect(page.url()).toBe(primaryButton.href)
   })
 })

@@ -40,21 +40,31 @@ export class Spec implements IEntity {
             throw new SpecError('TITLE_NOT_FOUND', {
               feature: this.params.featureName,
               spec: this.name,
-              expect: result.title,
-              got: pageTitle,
+              expected: result.title,
+              received: pageTitle,
             })
           }
         }
         if ('text' in result) {
-          const { tag, text } = result
+          const { tag, text, attribute, value } = result
           this.log(`checking text "${result.text}"`)
           const textElement = await page.getByText(text, { tag })
-          if (!textElement) {
+          if (attribute && textElement) {
+            const attributeValue = await textElement.getAttribute(attribute)
+            if (attributeValue !== value) {
+              throw new SpecError('ATTRIBUTE_NOT_FOUND', {
+                feature: this.params.featureName,
+                spec: this.name,
+                expected: value,
+                received: attributeValue,
+              })
+            }
+          } else if (!textElement) {
             throw new SpecError('TEXT_NOT_FOUND', {
               feature: this.params.featureName,
               spec: this.name,
-              expect: text,
-              got: '',
+              expected: text,
+              received: '',
             })
           }
         }

@@ -40,16 +40,16 @@
                         "primaryButton": {
                             "additionalProperties": false,
                             "properties": {
-                                "path": {
+                                "href": {
                                     "type": "string"
                                 },
-                                "text": {
+                                "label": {
                                     "type": "string"
                                 }
                             },
                             "required": [
-                                "path",
-                                "text"
+                                "href",
+                                "label"
                             ],
                             "type": "object"
                         },
@@ -150,6 +150,77 @@
                         "description",
                         "features",
                         "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "CTA",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "href",
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Button",
+                            "type": "string"
+                        },
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "variant": {
+                            "enum": [
+                                "primary",
+                                "secondary"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "label"
                     ],
                     "type": "object"
                 }
