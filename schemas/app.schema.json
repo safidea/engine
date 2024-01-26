@@ -2,6 +2,36 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
+        "IAppPages": {
+            "additionalProperties": false,
+            "properties": {
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/IPageLink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IPageMeta"
+                    },
+                    "type": "array"
+                },
+                "notFound": {
+                    "$ref": "#/definitions/NotFoundProps"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IPageScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "IFeature": {
             "additionalProperties": false,
             "properties": {
@@ -339,6 +369,47 @@
                         "copyright",
                         "description",
                         "links",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "NotFound",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "href",
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
                         "title"
                     ],
                     "type": "object"
@@ -1699,6 +1770,39 @@
                 "XMark"
             ],
             "type": "string"
+        },
+        "NotFoundProps": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "primaryButton": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
         }
     },
     "properties": {
@@ -1710,6 +1814,9 @@
         },
         "name": {
             "type": "string"
+        },
+        "pages": {
+            "$ref": "#/definitions/IAppPages"
         },
         "roles": {
             "items": {

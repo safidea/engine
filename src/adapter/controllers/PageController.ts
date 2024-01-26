@@ -20,10 +20,10 @@ export class PageController extends Controller<IPage> implements IController<Pag
   async createEntity(data: unknown) {
     const schema = this.getSchemaWithErrors(data, (message) => new PageError(message))
     if (schema.errors) return { errors: schema.errors }
-    const server = this.drivers.server.create()
+    const serverInstance = this.drivers.server.create()
     const entity = new Page(schema.json, {
       components: this.getComponents(this.params?.components),
-      server,
+      serverInstance,
       drivers: this.drivers,
       featureName: 'default',
     })

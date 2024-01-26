@@ -271,6 +271,47 @@
                         "title"
                     ],
                     "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "NotFound",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "href",
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
                 }
             ]
         },

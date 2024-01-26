@@ -14,12 +14,15 @@ export interface IPageLink {
   href: string
 }
 
-export interface IPage {
-  name: string
-  path: string
-  body: IPageComponent[]
+export interface IPageHead {
   title?: string
   metas?: IPageMeta[]
   scripts?: IPageScript[]
   links?: IPageLink[]
+}
+
+export interface IPage extends IPageHead {
+  name: string
+  path: string
+  body: IPageComponent[]
 }

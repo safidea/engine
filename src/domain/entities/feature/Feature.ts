@@ -20,7 +20,7 @@ export class Feature implements IEntity {
     private config: IFeature,
     private params: IFeatureParams
   ) {
-    const { drivers, components, serverInstance } = params
+    const { drivers, components, serverInstance, layoutPage, timestamp } = params
     const { server, logger } = drivers
     this.name = config.name
     this.server = serverInstance ?? server.create()
@@ -28,9 +28,11 @@ export class Feature implements IEntity {
     this.specs = new SpecList(config.specs ?? [], { drivers, featureName: this.name })
     this.pages = new PageList(config.pages ?? [], {
       components,
-      server: this.server,
+      serverInstance: this.server,
       drivers,
       featureName: this.name,
+      layoutPage,
+      timestamp,
     })
   }
 

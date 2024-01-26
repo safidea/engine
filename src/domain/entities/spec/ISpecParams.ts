@@ -1,6 +1,9 @@
 import type { Drivers } from '@domain/drivers'
 
-export interface ISpecParams {
+export interface ISpecParamsShared {
   drivers: Drivers
+}
+
+export interface ISpecParams extends ISpecParamsShared {
   featureName: string
 }

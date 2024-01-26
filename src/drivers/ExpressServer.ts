@@ -44,10 +44,17 @@ class ExpressServerInstance implements IServerInstance {
     this.express.get('/health', (_, res) => res.json({ success: true }))
   }
 
-  async get(path: string, handler: IServerHandler) {
+  get(path: string, handler: IServerHandler) {
     this.express.get(path, async (_, res) => {
       const response = await handler()
       res.send(response.html)
+    })
+  }
+
+  notFound(handler: IServerHandler) {
+    this.express.use(async (_, res) => {
+      const response = await handler()
+      res.status(404).send(response.html)
     })
   }
 

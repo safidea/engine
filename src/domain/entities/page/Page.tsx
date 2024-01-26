@@ -5,18 +5,17 @@ import type { IPageParams } from './IPageParams'
 
 export class Page implements IEntity {
   name: string
-  private timestamp: number = +new Date()
   private log: ILoggerLog
 
   constructor(
     private config: IPage,
     private params: IPageParams
   ) {
-    const { server, drivers, featureName } = params
+    const { serverInstance, drivers, featureName } = params
     const { logger } = drivers
     this.name = config.name
     this.log = logger.init(`feature:${logger.slug(featureName)}:page:${logger.slug(this.name)}`)
-    server.get(config.path, this.get)
+    serverInstance.get(config.path, this.get)
     this.log(`GET mounted on ${config.path}`)
   }
 
@@ -25,18 +24,30 @@ export class Page implements IEntity {
     return { html: this.renderHtml() }
   }
 
-  renderComponent = () => {
-    const { components } = this.params
-    const { body, title, metas = [], scripts = [], links = [] } = this.config
+  renderPage = ({ children }: { children: React.ReactNode }) => {
+    const { components, timestamp, layoutPage } = this.params
+    const { title, metas = [], scripts = [], links = [] } = this.config
     scripts.forEach((script) => {
-      script.src += `?ts=${this.timestamp}`
+      script.src += `?ts=${timestamp}`
     })
     links.unshift({ href: '/output.css' })
     links.forEach((link) => {
-      link.href += `?ts=${this.timestamp}`
+      link.href += `?ts=${timestamp}`
     })
+    const Page = layoutPage ?? components.Page
     return (
-      <components.Page title={title} metas={metas} scripts={scripts} links={links}>
+      <Page title={title} metas={metas} scripts={scripts} links={links}>
+        {children}
+      </Page>
+    )
+  }
+
+  renderComponent = () => {
+    const { components, layoutPage } = this.params
+    const { body } = this.config
+    const Page = layoutPage ?? this.renderPage
+    return (
+      <Page>
         {body.map((props, index) => {
           const { component } = props
           if (component === 'Paragraph') {
@@ -55,7 +66,7 @@ export class Page implements IEntity {
             return <components.Footer key={index} {...props} />
           }
         })}
-      </components.Page>
+      </Page>
     )
   }
 
