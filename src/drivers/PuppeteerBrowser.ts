@@ -11,7 +11,7 @@ export class PuppeteerBrowser implements IBrowser {
 
   async launch({ baseUrl = '' }: IBrowserLaunchOptions) {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: 'new',
     })
     const page = await browser.newPage()
     return new PuppeteerBrowserPage(browser, page, baseUrl)
