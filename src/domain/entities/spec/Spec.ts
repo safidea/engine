@@ -30,6 +30,20 @@ export class Spec implements IEntity {
         if ('open' in action) {
           this.log(`opening "${action.open}"`)
           await page.open(action.open)
+        } else if ('fill' in action) {
+          const { fill, value } = action
+          this.log(`typing "${value}" in input "${fill}"`)
+          const inputElement = await page.getInputByName(fill)
+          if (inputElement) {
+            await inputElement.type(value)
+          } else {
+            throw new SpecError('INPUT_NOT_FOUND', {
+              feature: this.params.featureName,
+              spec: this.name,
+              expected: value,
+              received: '',
+            })
+          }
         }
       }
       for (const result of then) {
@@ -45,8 +59,7 @@ export class Spec implements IEntity {
               received: pageTitle,
             })
           }
-        }
-        if ('text' in result) {
+        } else if ('text' in result) {
           const { tag, text, attribute, value } = result
           if (attribute) {
             const attributeMessage = `checking if attribute "${attribute}" has value "${value}" in text "${text}"`
@@ -64,6 +77,7 @@ export class Spec implements IEntity {
                 spec: this.name,
                 expected: value,
                 received: attributeValue,
+                tag,
               })
             }
           } else if (!textElement) {
@@ -72,6 +86,20 @@ export class Spec implements IEntity {
               spec: this.name,
               expected: text,
               received: '',
+              tag,
+            })
+          }
+        } else if ('input' in result) {
+          const { input, value } = result
+          this.log(`checking if input "${input}" has value "${value}"`)
+          const inputValue = await page.getInputByName(input)
+          const attributeValue = await inputValue?.getValue()
+          if (attributeValue !== value) {
+            throw new SpecError('INPUT_NOT_FOUND', {
+              feature: this.params.featureName,
+              spec: this.name,
+              expected: value,
+              received: attributeValue,
             })
           }
         }

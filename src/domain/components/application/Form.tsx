@@ -13,6 +13,7 @@ export interface FormProps {
   submitButton: {
     label: string
   }
+  successMessage?: string
 }
 
 export interface IForm extends FormProps {

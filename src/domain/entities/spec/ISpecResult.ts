@@ -23,6 +23,11 @@ interface ISpecAnchorTextResult {
   value: string
 }
 
-export type ISpecTextResult = ISpecHTMLTextResult | ISpecHTMLAttributeResult | ISpecAnchorTextResult
+interface ISpecInputTextResult {
+  input: string
+  value: string
+}
+
+export type ISpecTextResult = ISpecHTMLTextResult | ISpecHTMLAttributeResult | ISpecAnchorTextResult | ISpecInputTextResult
 
 export type ISpecResult = ISpecTitleResult | ISpecTextResult
