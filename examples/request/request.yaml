@@ -238,6 +238,7 @@ features:
                 required: true
             submitButton:
               label: Send
+            successMessage: Your message has been sent.
           - component: Footer
             title: *HomePageFooterTitle
             description: *HomePageFooterDescription
@@ -248,5 +249,4 @@ features:
                 href: *HomePageFooterLinksGetStartedHref
               - label: *HomePageFooterLinksContactLabel
                 href: *HomePageFooterLinksContactHref
-            copyright: *HomePageFootercopyright
-
+            copyright: *HomePageFootercopyright 

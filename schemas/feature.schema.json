@@ -433,6 +433,9 @@
                             ],
                             "type": "object"
                         },
+                        "successMessage": {
+                            "type": "string"
+                        },
                         "title": {
                             "type": "string"
                         }

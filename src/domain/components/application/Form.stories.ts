@@ -42,3 +42,10 @@ export const Default: Story = {
     },
   },
 }
+
+export const Success: Story = {
+  args: {
+    ...Default.args,
+    successMessage: 'Your message has been sent successfully!',
+  },
+}
