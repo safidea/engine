@@ -25,7 +25,6 @@ export class Page implements IEntity {
   }
 
   get = async () => {
-    this.log('GET ' + this.path)
     const html = this.renderHtml()
     return new TextServerResponse(html)
   }

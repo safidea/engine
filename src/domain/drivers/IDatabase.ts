@@ -1,18 +1,20 @@
-import type { TableList } from '@domain/entities/table/TableList'
+import type { ITable } from '@domain/entities/table/ITable'
 
 export interface IDatabaseRow {
   [key: string]: string | number | boolean | undefined
 }
 
 export interface IDatabaseTable {
-  create: (data: IDatabaseRow) => Promise<void>
-  find: (data: IDatabaseRow) => Promise<IDatabaseRow>
+  insert: (data: IDatabaseRow) => Promise<IDatabaseRow>
+  read: (data: IDatabaseRow) => Promise<IDatabaseRow | undefined>
 }
 
 export interface IDatabaseInstance {
+  migrate: () => Promise<void>
+  disconnect: () => Promise<void>
   table: (name: string) => IDatabaseTable
 }
 
 export interface IDatabase {
-  create(tables: TableList): IDatabaseInstance
+  create(tables: ITable[]): IDatabaseInstance
 }

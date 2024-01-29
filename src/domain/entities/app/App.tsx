@@ -8,6 +8,8 @@ import type { IAppParams } from './IAppParams'
 import type { ILoggerLog } from '@domain/drivers/ILogger'
 import type { IDatabaseInstance } from '@domain/drivers/IDatabase'
 import { TextServerResponse } from '@domain/drivers/server/response/text'
+import { TableList } from '../table/TableList'
+import { PageList } from '../page/PageList'
 
 export class App implements IEntity {
   name: string
@@ -17,6 +19,8 @@ export class App implements IEntity {
   private server: IServerInstance
   private log: ILoggerLog
   public database?: IDatabaseInstance
+  private tables?: TableList
+  private pages?: PageList
 
   constructor(
     private config: IApp,
@@ -28,15 +32,32 @@ export class App implements IEntity {
     this.server = server.create(port)
     this.log = logger.init('app:' + logger.slug(this.name))
     this.roles = new RoleList(config.roles ?? [])
+    // TODO: should instantiate features only for testing
+    // TODO: should merge tables and pages directly
     this.features = new FeatureList(config.features, {
       roles: this.roles,
       components,
       drivers,
-      serverInstance: this.server,
       layoutPage: this.layoutPage,
     })
     if (this.features.hasTables()) {
-      this.database = database.create(this.features.mergeTables())
+      const tables = this.features.mergeTables()
+      this.database = database.create(tables)
+      this.tables = new TableList(tables, {
+        drivers,
+        serverInstance: this.server,
+        databaseInstance: this.database,
+        featureName: this.name,
+      })
+    }
+    if (this.features.hasPages()) {
+      const pages = this.features.mergePages()
+      this.pages = new PageList(pages, {
+        drivers,
+        components,
+        serverInstance: this.server,
+        featureName: this.name,
+      })
     }
     this.server.notFound(this.notFoundPage)
     this.log(`404 mounted`)
@@ -97,14 +118,23 @@ export class App implements IEntity {
     return this.features.testSpecs()
   }
 
+  async migrateDatabase() {
+    return this.database?.migrate()
+  }
+
   async start(): Promise<string> {
+    this.log(`starting server...`)
+    await this.database?.migrate()
     const url = await this.server.start()
     this.log(`server started at ${url}`)
     return url
   }
 
   async stop(): Promise<void> {
-    await this.server.stop()
+    this.log(`stopping server...`)
+    await this.server.stop(async () => {
+      await this.database?.disconnect()
+    })
     this.log(`server stopped`)
   }
 

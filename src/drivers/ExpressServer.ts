@@ -5,13 +5,14 @@ import cookieParser from 'cookie-parser'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
-import type { IServer, IServerHandler, IServerInstance } from '@domain/drivers/server/IServer'
+import type { IServer, IServerInstance } from '@domain/drivers/server/IServer'
 import type { ILogger, ILoggerLog } from '@domain/drivers/ILogger'
 import { isServerResponse, type ServerResponse } from '@domain/drivers/server/response'
 import { isJsonServerResponse } from '@domain/drivers/server/response/json'
-import { isRedirectServerResponse } from '@domain/drivers/server/response/redirect'
-import { isStreamServerResponse } from '@domain/drivers/server/response/stream'
 import { isTextServerResponse } from '@domain/drivers/server/response/text'
+import type { IServerGetHandler } from '@domain/drivers/server/request/get'
+import type { IServerPostHandler } from '@domain/drivers/server/request/post'
+import type { IServerHandler } from '@domain/drivers/server/request'
 
 const dirname = new URL('.', import.meta.url).pathname
 
@@ -31,7 +32,8 @@ class ExpressServerInstance implements IServerInstance {
   private log: ILoggerLog
   private express: Express
   private server?: HttpServer
-  private listening = false
+  private listening: boolean = false
+  private isShuttingDown: boolean = false
 
   constructor(
     private logger: ILogger,
@@ -46,10 +48,17 @@ class ExpressServerInstance implements IServerInstance {
     this.express.use(express.urlencoded({ extended: true }))
     this.express.use(express.static(join(dirname, 'public')))
     this.express.use(express.static(join(process.cwd(), 'public')))
+    this.express.use((req, res, next) => {
+      this.log(`${req.method} ${req.originalUrl}`)
+      if (this.isShuttingDown === false) return next()
+      this.log('Server is in the process of restarting')
+      res.setHeader('Connection', 'close')
+      res.status(503).send('Server is in the process of restarting')
+    })
     this.express.get('/health', (_, res) => res.json({ success: true }))
   }
 
-  get(path: string, handler: IServerHandler) {
+  get(path: string, handler: IServerGetHandler) {
     this.express.get(path, async (req, res) => {
       try {
         const response = await handler()
@@ -60,10 +69,10 @@ class ExpressServerInstance implements IServerInstance {
     })
   }
 
-  post(path: string, handler: IServerHandler) {
+  post(path: string, handler: IServerPostHandler) {
     this.express.post(path, async (req, res) => {
       try {
-        const response = await handler()
+        const response = await handler({ body: req.body })
         this.sendResponse(req, res, response)
       } catch (error) {
         this.catchError(req, res, error)
@@ -98,22 +107,6 @@ class ExpressServerInstance implements IServerInstance {
       if (headers) res.set(headers)
       res.send(body)
       this.log(`${statusCode} TEXT`)
-    } else if (isRedirectServerResponse(response)) {
-      const { path } = response
-      res.redirect(statusCode, path)
-      this.log(`${statusCode} REDIRECT ${path}`)
-    } else if (isStreamServerResponse(response)) {
-      res.set({
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      })
-      response.onEvent((event: string) => {
-        const success = res.write(event)
-        if (!success) response.close()
-      })
-      req.socket.on('close', () => response.close())
-      this.log(`${statusCode} STREAM`)
     }
   }
 
@@ -130,6 +123,7 @@ class ExpressServerInstance implements IServerInstance {
     const maxRetries = 5
     const retryDelay = 1000
     let currentRetry = 0
+    this.isShuttingDown = false
     while (currentRetry < maxRetries) {
       try {
         const port = await this.getPort()
@@ -160,7 +154,9 @@ class ExpressServerInstance implements IServerInstance {
     throw new Error('Unable to start server after multiple attempts')
   }
 
-  async stop() {
+  async stop(callback?: () => Promise<void>) {
+    this.isShuttingDown = true
+    if (callback) await callback()
     if (this.server) this.server.close()
     this.listening = false
   }

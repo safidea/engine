@@ -164,7 +164,7 @@ test.describe('Form component', () => {
     await page.click('button')
 
     // THEN
-    const lead = await app!.database!.table('leads').find({ email: 'test@test.com' })
+    const lead = await app!.database!.table('leads').read({ email: 'test@test.com' })
     expect(lead).toBeDefined()
   })
 })

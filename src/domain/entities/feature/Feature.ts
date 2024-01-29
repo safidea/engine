@@ -14,10 +14,10 @@ import type { IDatabaseInstance } from '@domain/drivers/IDatabase'
 export class Feature implements IEntity {
   name: string
   private specs: SpecList
-  private pages: PageList
-  private tables: TableList
+  private pages?: PageList
+  private tables?: TableList
   private server: IServerInstance
-  private database: IDatabaseInstance
+  private database?: IDatabaseInstance
   private log: ILoggerLog
 
   constructor(
@@ -26,27 +26,34 @@ export class Feature implements IEntity {
   ) {
     const { drivers, components, serverInstance, layoutPage } = params
     const { server, database, logger } = drivers
-    this.name = config.name
+    const { pages, tables, name } = config
+    this.name = name
     this.server = serverInstance ?? server.create()
     this.log = logger.init('feature:' + logger.slug(this.name))
-    this.tables = new TableList(config.tables ?? [], {
-      drivers,
-      featureName: this.name,
-      serverInstance: this.server,
-    })
-    this.database = database.create(this.tables)
+    if (tables && tables.length > 0) {
+      this.database = database.create(tables)
+      this.tables = new TableList(tables ?? [], {
+        drivers,
+        featureName: this.name,
+        serverInstance: this.server,
+        databaseInstance: this.database,
+      })
+    }
+    // TODO: specs instanciation should be optional
     this.specs = new SpecList(config.specs ?? [], {
       drivers,
       featureName: this.name,
       databaseInstance: this.database,
     })
-    this.pages = new PageList(config.pages ?? [], {
-      components,
-      serverInstance: this.server,
-      drivers,
-      featureName: this.name,
-      layoutPage,
-    })
+    if (pages && pages.length > 0) {
+      this.pages = new PageList(config.pages ?? [], {
+        components,
+        serverInstance: this.server,
+        drivers,
+        featureName: this.name,
+        layoutPage,
+      })
+    }
   }
 
   validateConfig() {
@@ -62,8 +69,8 @@ export class Feature implements IEntity {
       )
     }
     errors.push(...this.specs.validateConfig())
-    errors.push(...this.pages.validateConfig())
-    errors.push(...this.tables.validateConfig())
+    if (this.pages) errors.push(...this.pages.validateConfig())
+    if (this.tables) errors.push(...this.tables.validateConfig())
     return errors
   }
 
@@ -77,10 +84,18 @@ export class Feature implements IEntity {
   }
 
   hasTables() {
-    return this.tables.length > 0
+    return !!this.tables
+  }
+
+  hasPages() {
+    return !!this.pages
   }
 
   getTables() {
-    return this.tables.all
+    return this.config.tables ?? []
+  }
+
+  getPages() {
+    return this.config.pages ?? []
   }
 }

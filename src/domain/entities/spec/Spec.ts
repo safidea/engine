@@ -128,7 +128,7 @@ export class Spec implements IEntity {
         } else if ('table' in result) {
           const { table, row } = result
           this.log(`checking if table "${table}" has row "${JSON.stringify(row)}"`)
-          const tableRow = await databaseInstance.table(table).find(row)
+          const tableRow = await databaseInstance?.table(table).read(row)
           if (!tableRow) {
             throw new SpecError('ROW_NOT_FOUND', {
               feature: this.params.featureName,

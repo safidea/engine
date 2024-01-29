@@ -9,10 +9,10 @@ test.describe('App with pages', () => {
       name: 'App',
       features: [
         {
-          name: 'Feature',
+          name: 'display paragraph',
           pages: [
             {
-              name: 'Page',
+              name: 'paragraph',
               path: '/',
               body: [
                 {

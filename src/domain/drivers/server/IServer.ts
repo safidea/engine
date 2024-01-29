@@ -1,13 +1,13 @@
-import type { ServerResponse } from './response'
-
-export type IServerHandler = () => Promise<ServerResponse>
+import type { IServerHandler } from './request'
+import type { IServerGetHandler } from './request/get'
+import type { IServerPostHandler } from './request/post'
 
 export interface IServerInstance {
-  get: (path: string, handler: IServerHandler) => void
-  post: (path: string, handler: IServerHandler) => void
+  get: (path: string, handler: IServerGetHandler) => void
+  post: (path: string, handler: IServerPostHandler) => void
   notFound: (handler: IServerHandler) => void
   start(): Promise<string>
-  stop(): Promise<void>
+  stop(callback?: () => Promise<void>): Promise<void>
   isListening(): boolean
 }
 

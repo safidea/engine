@@ -7,7 +7,12 @@ import type { ITable } from '@domain/entities/table/ITable'
 import { TableError } from '@domain/entities/table/TableError'
 
 export class TableController extends Controller<ITable> implements IController<Table> {
-  constructor(private drivers: Drivers) {
+  constructor(
+    private drivers: Drivers,
+    private params?: {
+      tables?: ITable[]
+    }
+  ) {
     const middleware = new TableMiddleware(drivers)
     const log = drivers.logger.init('controller:table')
     super(middleware, log)
@@ -16,10 +21,12 @@ export class TableController extends Controller<ITable> implements IController<T
   async createEntity(data: unknown) {
     const schema = this.getSchemaWithErrors(data, (message) => new TableError(message))
     if (schema.errors) return { errors: schema.errors }
+    const databaseInstance = this.drivers.database.create(this.params?.tables ?? [])
     const entity = new Table(schema.json, {
       drivers: this.drivers,
       featureName: 'default',
       serverInstance: this.drivers.server.create(),
+      databaseInstance,
     })
     const errors = this.getConfigErrors(entity)
     if (errors) return { errors }

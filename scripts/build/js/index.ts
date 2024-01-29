@@ -13,6 +13,8 @@ const externals: string[] = [
   'cookie-parser',
   'react',
   'react-dom',
+  'better-sqlite3',
+  'kysely',
 ]
 
 const entrypoints = [

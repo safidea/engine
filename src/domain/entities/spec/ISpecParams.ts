@@ -7,5 +7,5 @@ export interface ISpecParamsShared {
 
 export interface ISpecParams extends ISpecParamsShared {
   featureName: string
-  databaseInstance: IDatabaseInstance
+  databaseInstance?: IDatabaseInstance
 }

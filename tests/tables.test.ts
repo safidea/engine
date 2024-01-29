@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { createApp, type IApp } from '@solumy/engine'
 
 test.describe('App with tables', () => {
-  test('should create a row when request table api', async ({ request }) => {
+  test('should create a row when posting on table api', async ({ request }) => {
     // GIVEN
     const config: IApp = {
       name: 'App',
@@ -39,13 +39,13 @@ test.describe('App with tables', () => {
     expect(record.name).toBe('John')
   })
 
-  test.skip('should create a row in database when request table api', async ({ request }) => {
+  test('should create a row in database when posting on table api', async ({ request }) => {
     // GIVEN
     const config: IApp = {
-      name: 'App',
+      name: 'leads backend',
       features: [
         {
-          name: 'Feature',
+          name: 'leads table',
           tables: [
             {
               name: 'leads',
@@ -69,7 +69,7 @@ test.describe('App with tables', () => {
     })
 
     // THEN
-    const row = await app!.database?.table('leads').find({ name: 'John' })
+    const row = await app!.database?.table('leads').read({ name: 'John' })
     expect(row).toBeDefined()
     expect(row!.id).toBeDefined()
     expect(row!.name).toBe('John')

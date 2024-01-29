@@ -4,14 +4,14 @@ import { AjvSchemaValidator } from './AjvSchemaValidator'
 import { ExpressServer } from './ExpressServer'
 import { DebugLogger } from './DebugLogger'
 import { ReactUi } from './ReactUi'
-import { SqliteDatabase } from './SqliteDatabase'
+import { SqliteDatabase } from './database/SqliteDatabase'
 
 const logger = new DebugLogger()
 const schemaValidator = new AjvSchemaValidator()
 const browser = new PuppeteerBrowser()
 const server = new ExpressServer(logger)
 const ui = new ReactUi()
-const database = new SqliteDatabase()
+const database = new SqliteDatabase(logger)
 
 export const drivers: Drivers = {
   schemaValidator,

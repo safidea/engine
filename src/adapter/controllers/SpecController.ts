@@ -6,7 +6,6 @@ import { SpecError } from '@domain/entities/spec/SpecError'
 import { Controller } from './Controller'
 import type { ISpec } from '@domain/entities/spec/ISpec'
 import type { ITable } from '@domain/entities/table/ITable'
-import { TableList } from '@domain/entities/table/TableList'
 
 export class SpecController extends Controller<ISpec> implements IController<Spec> {
   constructor(
@@ -25,12 +24,7 @@ export class SpecController extends Controller<ISpec> implements IController<Spe
     const schema = this.getSchemaWithErrors(data, (message) => new SpecError(message))
     if (schema.errors) return { errors: schema.errors }
     const featureName = this.params?.featureName ?? 'default'
-    const tables = new TableList(this.params?.tables ?? [], {
-      drivers: this.drivers,
-      featureName,
-      serverInstance: this.drivers.server.create(),
-    })
-    const databaseInstance = this.drivers.database.create(tables)
+    const databaseInstance = this.drivers.database.create(this.params?.tables ?? [])
     const entity = new Spec(schema.json, {
       drivers: this.drivers,
       featureName,

@@ -1,6 +1,5 @@
 import type { IList } from '../IList'
 import type { SpecError } from '../spec/SpecError'
-import { TableList } from '../table/TableList'
 import { Feature } from './Feature'
 import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
@@ -47,13 +46,15 @@ export class FeatureList implements IList<Feature> {
     return this.features.some((feature) => feature.hasTables())
   }
 
+  hasPages() {
+    return this.features.some((feature) => feature.hasPages())
+  }
+
   mergeTables() {
-    const { drivers, serverInstance } = this.params
-    const tables = this.config.flatMap((feature) => feature.tables ?? [])
-    return new TableList(tables, {
-      drivers,
-      featureName: 'all',
-      serverInstance: serverInstance ?? drivers.server.create(),
-    })
+    return this.features.flatMap((feature) => feature.getTables())
+  }
+
+  mergePages() {
+    return this.features.flatMap((feature) => feature.getPages())
   }
 }
