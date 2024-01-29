@@ -1,0 +1,2111 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "IAppPages": {
+            "additionalProperties": false,
+            "properties": {
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/IPageLink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IPageMeta"
+                    },
+                    "type": "array"
+                },
+                "notFound": {
+                    "$ref": "#/definitions/NotFoundProps"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IPageScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IEmailField": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "const": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "IFeature": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "pages": {
+                    "items": {
+                        "$ref": "#/definitions/IPage"
+                    },
+                    "type": "array"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "specs": {
+                    "items": {
+                        "$ref": "#/definitions/ISpec"
+                    },
+                    "type": "array"
+                },
+                "tables": {
+                    "items": {
+                        "$ref": "#/definitions/ITable"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPage": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IPageComponent"
+                    },
+                    "type": "array"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/IPageLink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IPageMeta"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IPageScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path"
+            ],
+            "type": "object"
+        },
+        "IPageComponent": {
+            "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Paragraph",
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "text"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Hero",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "href",
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Logos",
+                            "type": "string"
+                        },
+                        "logos": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "alt": {
+                                        "type": "string"
+                                    },
+                                    "src": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "alt",
+                                    "src"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "logos",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Features",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "features": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "$ref": "#/definitions/Icon"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "description",
+                                    "icon",
+                                    "title"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "features",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "CTA",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "href",
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Button",
+                            "type": "string"
+                        },
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "variant": {
+                            "enum": [
+                                "primary",
+                                "secondary"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Footer",
+                            "type": "string"
+                        },
+                        "copyright": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "links": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "href": {
+                                        "type": "string"
+                                    },
+                                    "label": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "href",
+                                    "label"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "copyright",
+                        "description",
+                        "links",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "NotFound",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "primaryButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "href",
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "primaryButton",
+                        "title"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "component": {
+                            "const": "Form",
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "inputs": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "label": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "placeholder": {
+                                        "type": "string"
+                                    },
+                                    "required": {
+                                        "type": "boolean"
+                                    },
+                                    "type": {
+                                        "enum": [
+                                            "button",
+                                            "checkbox",
+                                            "color",
+                                            "date",
+                                            "datetime-local",
+                                            "email",
+                                            "file",
+                                            "hidden",
+                                            "image",
+                                            "month",
+                                            "number",
+                                            "password",
+                                            "radio",
+                                            "range",
+                                            "reset",
+                                            "search",
+                                            "submit",
+                                            "tel",
+                                            "text",
+                                            "time",
+                                            "url",
+                                            "week"
+                                        ],
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "submitButton": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "label": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "label"
+                            ],
+                            "type": "object"
+                        },
+                        "successMessage": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "component",
+                        "description",
+                        "inputs",
+                        "submitButton",
+                        "title"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "IPageLink": {
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href"
+            ],
+            "type": "object"
+        },
+        "IPageMeta": {
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPageScript": {
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
+            ],
+            "type": "object"
+        },
+        "IRole": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "ISingleLineTextField": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "ISpec": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/ISpecResult"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/ISpecAction"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "ISpecAction": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ISpecOpenAction"
+                },
+                {
+                    "$ref": "#/definitions/ISpecFillAction"
+                },
+                {
+                    "$ref": "#/definitions/ISpecClickAction"
+                },
+                {
+                    "$ref": "#/definitions/ISpecPostAction"
+                }
+            ]
+        },
+        "ISpecAnchorTextResult": {
+            "additionalProperties": false,
+            "properties": {
+                "attribute": {
+                    "enum": [
+                        "ATTRIBUTE_NODE",
+                        "CDATA_SECTION_NODE",
+                        "COMMENT_NODE",
+                        "DOCUMENT_FRAGMENT_NODE",
+                        "DOCUMENT_NODE",
+                        "DOCUMENT_POSITION_CONTAINED_BY",
+                        "DOCUMENT_POSITION_CONTAINS",
+                        "DOCUMENT_POSITION_DISCONNECTED",
+                        "DOCUMENT_POSITION_FOLLOWING",
+                        "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC",
+                        "DOCUMENT_POSITION_PRECEDING",
+                        "DOCUMENT_TYPE_NODE",
+                        "ELEMENT_NODE",
+                        "ENTITY_NODE",
+                        "ENTITY_REFERENCE_NODE",
+                        "NOTATION_NODE",
+                        "PROCESSING_INSTRUCTION_NODE",
+                        "TEXT_NODE",
+                        "accessKey",
+                        "accessKeyLabel",
+                        "addEventListener",
+                        "after",
+                        "animate",
+                        "append",
+                        "appendChild",
+                        "ariaAtomic",
+                        "ariaAutoComplete",
+                        "ariaBusy",
+                        "ariaChecked",
+                        "ariaColCount",
+                        "ariaColIndex",
+                        "ariaColSpan",
+                        "ariaCurrent",
+                        "ariaDisabled",
+                        "ariaExpanded",
+                        "ariaHasPopup",
+                        "ariaHidden",
+                        "ariaInvalid",
+                        "ariaKeyShortcuts",
+                        "ariaLabel",
+                        "ariaLevel",
+                        "ariaLive",
+                        "ariaModal",
+                        "ariaMultiLine",
+                        "ariaMultiSelectable",
+                        "ariaOrientation",
+                        "ariaPlaceholder",
+                        "ariaPosInSet",
+                        "ariaPressed",
+                        "ariaReadOnly",
+                        "ariaRequired",
+                        "ariaRoleDescription",
+                        "ariaRowCount",
+                        "ariaRowIndex",
+                        "ariaRowSpan",
+                        "ariaSelected",
+                        "ariaSetSize",
+                        "ariaSort",
+                        "ariaValueMax",
+                        "ariaValueMin",
+                        "ariaValueNow",
+                        "ariaValueText",
+                        "assignedSlot",
+                        "attachInternals",
+                        "attachShadow",
+                        "attributeStyleMap",
+                        "attributes",
+                        "autocapitalize",
+                        "autofocus",
+                        "baseURI",
+                        "before",
+                        "blur",
+                        "charset",
+                        "checkVisibility",
+                        "childElementCount",
+                        "childNodes",
+                        "children",
+                        "classList",
+                        "className",
+                        "click",
+                        "clientHeight",
+                        "clientLeft",
+                        "clientTop",
+                        "clientWidth",
+                        "cloneNode",
+                        "closest",
+                        "compareDocumentPosition",
+                        "computedStyleMap",
+                        "contains",
+                        "contentEditable",
+                        "coords",
+                        "dataset",
+                        "dir",
+                        "dispatchEvent",
+                        "download",
+                        "draggable",
+                        "enterKeyHint",
+                        "firstChild",
+                        "firstElementChild",
+                        "focus",
+                        "getAnimations",
+                        "getAttribute",
+                        "getAttributeNS",
+                        "getAttributeNames",
+                        "getAttributeNode",
+                        "getAttributeNodeNS",
+                        "getBoundingClientRect",
+                        "getClientRects",
+                        "getElementsByClassName",
+                        "getElementsByTagName",
+                        "getElementsByTagNameNS",
+                        "getRootNode",
+                        "hasAttribute",
+                        "hasAttributeNS",
+                        "hasAttributes",
+                        "hasChildNodes",
+                        "hasPointerCapture",
+                        "hash",
+                        "hidden",
+                        "host",
+                        "hostname",
+                        "href",
+                        "hreflang",
+                        "id",
+                        "inert",
+                        "innerHTML",
+                        "innerText",
+                        "inputMode",
+                        "insertAdjacentElement",
+                        "insertAdjacentHTML",
+                        "insertAdjacentText",
+                        "insertBefore",
+                        "isConnected",
+                        "isContentEditable",
+                        "isDefaultNamespace",
+                        "isEqualNode",
+                        "isSameNode",
+                        "lang",
+                        "lastChild",
+                        "lastElementChild",
+                        "localName",
+                        "lookupNamespaceURI",
+                        "lookupPrefix",
+                        "matches",
+                        "name",
+                        "namespaceURI",
+                        "nextElementSibling",
+                        "nextSibling",
+                        "nodeName",
+                        "nodeType",
+                        "nodeValue",
+                        "nonce",
+                        "normalize",
+                        "offsetHeight",
+                        "offsetLeft",
+                        "offsetParent",
+                        "offsetTop",
+                        "offsetWidth",
+                        "onabort",
+                        "onanimationcancel",
+                        "onanimationend",
+                        "onanimationiteration",
+                        "onanimationstart",
+                        "onauxclick",
+                        "onbeforeinput",
+                        "onblur",
+                        "oncancel",
+                        "oncanplay",
+                        "oncanplaythrough",
+                        "onchange",
+                        "onclick",
+                        "onclose",
+                        "oncontextmenu",
+                        "oncopy",
+                        "oncuechange",
+                        "oncut",
+                        "ondblclick",
+                        "ondrag",
+                        "ondragend",
+                        "ondragenter",
+                        "ondragleave",
+                        "ondragover",
+                        "ondragstart",
+                        "ondrop",
+                        "ondurationchange",
+                        "onemptied",
+                        "onended",
+                        "onerror",
+                        "onfocus",
+                        "onformdata",
+                        "onfullscreenchange",
+                        "onfullscreenerror",
+                        "ongotpointercapture",
+                        "oninput",
+                        "oninvalid",
+                        "onkeydown",
+                        "onkeypress",
+                        "onkeyup",
+                        "onload",
+                        "onloadeddata",
+                        "onloadedmetadata",
+                        "onloadstart",
+                        "onlostpointercapture",
+                        "onmousedown",
+                        "onmouseenter",
+                        "onmouseleave",
+                        "onmousemove",
+                        "onmouseout",
+                        "onmouseover",
+                        "onmouseup",
+                        "onpaste",
+                        "onpause",
+                        "onplay",
+                        "onplaying",
+                        "onpointercancel",
+                        "onpointerdown",
+                        "onpointerenter",
+                        "onpointerleave",
+                        "onpointermove",
+                        "onpointerout",
+                        "onpointerover",
+                        "onpointerup",
+                        "onprogress",
+                        "onratechange",
+                        "onreset",
+                        "onresize",
+                        "onscroll",
+                        "onsecuritypolicyviolation",
+                        "onseeked",
+                        "onseeking",
+                        "onselect",
+                        "onselectionchange",
+                        "onselectstart",
+                        "onslotchange",
+                        "onstalled",
+                        "onsubmit",
+                        "onsuspend",
+                        "ontimeupdate",
+                        "ontoggle",
+                        "ontouchcancel",
+                        "ontouchend",
+                        "ontouchmove",
+                        "ontouchstart",
+                        "ontransitioncancel",
+                        "ontransitionend",
+                        "ontransitionrun",
+                        "ontransitionstart",
+                        "onvolumechange",
+                        "onwaiting",
+                        "onwebkitanimationend",
+                        "onwebkitanimationiteration",
+                        "onwebkitanimationstart",
+                        "onwebkittransitionend",
+                        "onwheel",
+                        "origin",
+                        "outerHTML",
+                        "outerText",
+                        "ownerDocument",
+                        "parentElement",
+                        "parentNode",
+                        "part",
+                        "password",
+                        "pathname",
+                        "ping",
+                        "port",
+                        "prefix",
+                        "prepend",
+                        "previousElementSibling",
+                        "previousSibling",
+                        "protocol",
+                        "querySelector",
+                        "querySelectorAll",
+                        "referrerPolicy",
+                        "rel",
+                        "relList",
+                        "releasePointerCapture",
+                        "remove",
+                        "removeAttribute",
+                        "removeAttributeNS",
+                        "removeAttributeNode",
+                        "removeChild",
+                        "removeEventListener",
+                        "replaceChild",
+                        "replaceChildren",
+                        "replaceWith",
+                        "requestFullscreen",
+                        "requestPointerLock",
+                        "rev",
+                        "role",
+                        "scroll",
+                        "scrollBy",
+                        "scrollHeight",
+                        "scrollIntoView",
+                        "scrollLeft",
+                        "scrollTo",
+                        "scrollTop",
+                        "scrollWidth",
+                        "search",
+                        "setAttribute",
+                        "setAttributeNS",
+                        "setAttributeNode",
+                        "setAttributeNodeNS",
+                        "setPointerCapture",
+                        "shadowRoot",
+                        "shape",
+                        "slot",
+                        "spellcheck",
+                        "style",
+                        "tabIndex",
+                        "tagName",
+                        "target",
+                        "text",
+                        "textContent",
+                        "title",
+                        "toString",
+                        "toggleAttribute",
+                        "translate",
+                        "type",
+                        "username",
+                        "webkitMatchesSelector"
+                    ],
+                    "type": "string"
+                },
+                "tag": {
+                    "const": "a",
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attribute",
+                "tag",
+                "text",
+                "value"
+            ],
+            "type": "object"
+        },
+        "ISpecClickAction": {
+            "additionalProperties": false,
+            "properties": {
+                "click": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click"
+            ],
+            "type": "object"
+        },
+        "ISpecFillAction": {
+            "additionalProperties": false,
+            "properties": {
+                "fill": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fill",
+                "value"
+            ],
+            "type": "object"
+        },
+        "ISpecHTMLAttributeResult": {
+            "additionalProperties": false,
+            "properties": {
+                "attribute": {
+                    "enum": [
+                        "ATTRIBUTE_NODE",
+                        "CDATA_SECTION_NODE",
+                        "COMMENT_NODE",
+                        "DOCUMENT_FRAGMENT_NODE",
+                        "DOCUMENT_NODE",
+                        "DOCUMENT_POSITION_CONTAINED_BY",
+                        "DOCUMENT_POSITION_CONTAINS",
+                        "DOCUMENT_POSITION_DISCONNECTED",
+                        "DOCUMENT_POSITION_FOLLOWING",
+                        "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC",
+                        "DOCUMENT_POSITION_PRECEDING",
+                        "DOCUMENT_TYPE_NODE",
+                        "ELEMENT_NODE",
+                        "ENTITY_NODE",
+                        "ENTITY_REFERENCE_NODE",
+                        "NOTATION_NODE",
+                        "PROCESSING_INSTRUCTION_NODE",
+                        "TEXT_NODE",
+                        "accessKey",
+                        "accessKeyLabel",
+                        "addEventListener",
+                        "after",
+                        "animate",
+                        "append",
+                        "appendChild",
+                        "ariaAtomic",
+                        "ariaAutoComplete",
+                        "ariaBusy",
+                        "ariaChecked",
+                        "ariaColCount",
+                        "ariaColIndex",
+                        "ariaColSpan",
+                        "ariaCurrent",
+                        "ariaDisabled",
+                        "ariaExpanded",
+                        "ariaHasPopup",
+                        "ariaHidden",
+                        "ariaInvalid",
+                        "ariaKeyShortcuts",
+                        "ariaLabel",
+                        "ariaLevel",
+                        "ariaLive",
+                        "ariaModal",
+                        "ariaMultiLine",
+                        "ariaMultiSelectable",
+                        "ariaOrientation",
+                        "ariaPlaceholder",
+                        "ariaPosInSet",
+                        "ariaPressed",
+                        "ariaReadOnly",
+                        "ariaRequired",
+                        "ariaRoleDescription",
+                        "ariaRowCount",
+                        "ariaRowIndex",
+                        "ariaRowSpan",
+                        "ariaSelected",
+                        "ariaSetSize",
+                        "ariaSort",
+                        "ariaValueMax",
+                        "ariaValueMin",
+                        "ariaValueNow",
+                        "ariaValueText",
+                        "assignedSlot",
+                        "attachInternals",
+                        "attachShadow",
+                        "attributeStyleMap",
+                        "attributes",
+                        "autocapitalize",
+                        "autofocus",
+                        "baseURI",
+                        "before",
+                        "blur",
+                        "checkVisibility",
+                        "childElementCount",
+                        "childNodes",
+                        "children",
+                        "classList",
+                        "className",
+                        "click",
+                        "clientHeight",
+                        "clientLeft",
+                        "clientTop",
+                        "clientWidth",
+                        "cloneNode",
+                        "closest",
+                        "compareDocumentPosition",
+                        "computedStyleMap",
+                        "contains",
+                        "contentEditable",
+                        "dataset",
+                        "dir",
+                        "dispatchEvent",
+                        "draggable",
+                        "enterKeyHint",
+                        "firstChild",
+                        "firstElementChild",
+                        "focus",
+                        "getAnimations",
+                        "getAttribute",
+                        "getAttributeNS",
+                        "getAttributeNames",
+                        "getAttributeNode",
+                        "getAttributeNodeNS",
+                        "getBoundingClientRect",
+                        "getClientRects",
+                        "getElementsByClassName",
+                        "getElementsByTagName",
+                        "getElementsByTagNameNS",
+                        "getRootNode",
+                        "hasAttribute",
+                        "hasAttributeNS",
+                        "hasAttributes",
+                        "hasChildNodes",
+                        "hasPointerCapture",
+                        "hidden",
+                        "id",
+                        "inert",
+                        "innerHTML",
+                        "innerText",
+                        "inputMode",
+                        "insertAdjacentElement",
+                        "insertAdjacentHTML",
+                        "insertAdjacentText",
+                        "insertBefore",
+                        "isConnected",
+                        "isContentEditable",
+                        "isDefaultNamespace",
+                        "isEqualNode",
+                        "isSameNode",
+                        "lang",
+                        "lastChild",
+                        "lastElementChild",
+                        "localName",
+                        "lookupNamespaceURI",
+                        "lookupPrefix",
+                        "matches",
+                        "namespaceURI",
+                        "nextElementSibling",
+                        "nextSibling",
+                        "nodeName",
+                        "nodeType",
+                        "nodeValue",
+                        "nonce",
+                        "normalize",
+                        "offsetHeight",
+                        "offsetLeft",
+                        "offsetParent",
+                        "offsetTop",
+                        "offsetWidth",
+                        "onabort",
+                        "onanimationcancel",
+                        "onanimationend",
+                        "onanimationiteration",
+                        "onanimationstart",
+                        "onauxclick",
+                        "onbeforeinput",
+                        "onblur",
+                        "oncancel",
+                        "oncanplay",
+                        "oncanplaythrough",
+                        "onchange",
+                        "onclick",
+                        "onclose",
+                        "oncontextmenu",
+                        "oncopy",
+                        "oncuechange",
+                        "oncut",
+                        "ondblclick",
+                        "ondrag",
+                        "ondragend",
+                        "ondragenter",
+                        "ondragleave",
+                        "ondragover",
+                        "ondragstart",
+                        "ondrop",
+                        "ondurationchange",
+                        "onemptied",
+                        "onended",
+                        "onerror",
+                        "onfocus",
+                        "onformdata",
+                        "onfullscreenchange",
+                        "onfullscreenerror",
+                        "ongotpointercapture",
+                        "oninput",
+                        "oninvalid",
+                        "onkeydown",
+                        "onkeypress",
+                        "onkeyup",
+                        "onload",
+                        "onloadeddata",
+                        "onloadedmetadata",
+                        "onloadstart",
+                        "onlostpointercapture",
+                        "onmousedown",
+                        "onmouseenter",
+                        "onmouseleave",
+                        "onmousemove",
+                        "onmouseout",
+                        "onmouseover",
+                        "onmouseup",
+                        "onpaste",
+                        "onpause",
+                        "onplay",
+                        "onplaying",
+                        "onpointercancel",
+                        "onpointerdown",
+                        "onpointerenter",
+                        "onpointerleave",
+                        "onpointermove",
+                        "onpointerout",
+                        "onpointerover",
+                        "onpointerup",
+                        "onprogress",
+                        "onratechange",
+                        "onreset",
+                        "onresize",
+                        "onscroll",
+                        "onsecuritypolicyviolation",
+                        "onseeked",
+                        "onseeking",
+                        "onselect",
+                        "onselectionchange",
+                        "onselectstart",
+                        "onslotchange",
+                        "onstalled",
+                        "onsubmit",
+                        "onsuspend",
+                        "ontimeupdate",
+                        "ontoggle",
+                        "ontouchcancel",
+                        "ontouchend",
+                        "ontouchmove",
+                        "ontouchstart",
+                        "ontransitioncancel",
+                        "ontransitionend",
+                        "ontransitionrun",
+                        "ontransitionstart",
+                        "onvolumechange",
+                        "onwaiting",
+                        "onwebkitanimationend",
+                        "onwebkitanimationiteration",
+                        "onwebkitanimationstart",
+                        "onwebkittransitionend",
+                        "onwheel",
+                        "outerHTML",
+                        "outerText",
+                        "ownerDocument",
+                        "parentElement",
+                        "parentNode",
+                        "part",
+                        "prefix",
+                        "prepend",
+                        "previousElementSibling",
+                        "previousSibling",
+                        "querySelector",
+                        "querySelectorAll",
+                        "releasePointerCapture",
+                        "remove",
+                        "removeAttribute",
+                        "removeAttributeNS",
+                        "removeAttributeNode",
+                        "removeChild",
+                        "removeEventListener",
+                        "replaceChild",
+                        "replaceChildren",
+                        "replaceWith",
+                        "requestFullscreen",
+                        "requestPointerLock",
+                        "role",
+                        "scroll",
+                        "scrollBy",
+                        "scrollHeight",
+                        "scrollIntoView",
+                        "scrollLeft",
+                        "scrollTo",
+                        "scrollTop",
+                        "scrollWidth",
+                        "setAttribute",
+                        "setAttributeNS",
+                        "setAttributeNode",
+                        "setAttributeNodeNS",
+                        "setPointerCapture",
+                        "shadowRoot",
+                        "slot",
+                        "spellcheck",
+                        "style",
+                        "tabIndex",
+                        "tagName",
+                        "textContent",
+                        "title",
+                        "toggleAttribute",
+                        "translate",
+                        "webkitMatchesSelector"
+                    ],
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attribute",
+                "text",
+                "value"
+            ],
+            "type": "object"
+        },
+        "ISpecHTMLTextResult": {
+            "additionalProperties": false,
+            "properties": {
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "ISpecInputTextResult": {
+            "additionalProperties": false,
+            "properties": {
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
+        "ISpecOpenAction": {
+            "additionalProperties": false,
+            "properties": {
+                "open": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "open"
+            ],
+            "type": "object"
+        },
+        "ISpecPostAction": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "post": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "post"
+            ],
+            "type": "object"
+        },
+        "ISpecResult": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ISpecTitleResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecHTMLTextResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecHTMLAttributeResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecAnchorTextResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecInputTextResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecTableResult"
+                }
+            ]
+        },
+        "ISpecTableResult": {
+            "additionalProperties": false,
+            "properties": {
+                "rows": {
+                    "items": {
+                        "additionalProperties": true,
+                        "properties": {},
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "rows",
+                "table"
+            ],
+            "type": "object"
+        },
+        "ISpecTitleResult": {
+            "additionalProperties": false,
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "type": "object"
+        },
+        "ITable": {
+            "additionalProperties": false,
+            "properties": {
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/ITableField"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fields",
+                "name"
+            ],
+            "type": "object"
+        },
+        "ITableField": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ISingleLineTextField"
+                },
+                {
+                    "$ref": "#/definitions/IEmailField"
+                }
+            ]
+        },
+        "ITranslation": {
+            "additionalProperties": false,
+            "properties": {
+                "language": {
+                    "const": "EN",
+                    "type": "string"
+                },
+                "texts": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "language",
+                "texts"
+            ],
+            "type": "object"
+        },
+        "Icon": {
+            "enum": [
+                "AcademicCap",
+                "AdjustmentsHorizontal",
+                "AdjustmentsVertical",
+                "ArchiveBox",
+                "ArchiveBoxArrowDown",
+                "ArchiveBoxXMark",
+                "ArrowDown",
+                "ArrowDownCircle",
+                "ArrowDownLeft",
+                "ArrowDownOnSquare",
+                "ArrowDownOnSquareStack",
+                "ArrowDownRight",
+                "ArrowDownTray",
+                "ArrowLeft",
+                "ArrowLeftCircle",
+                "ArrowLeftEndOnRectangle",
+                "ArrowLeftOnRectangle",
+                "ArrowLeftStartOnRectangle",
+                "ArrowLongDown",
+                "ArrowLongLeft",
+                "ArrowLongRight",
+                "ArrowLongUp",
+                "ArrowPath",
+                "ArrowPathRoundedSquare",
+                "ArrowRight",
+                "ArrowRightCircle",
+                "ArrowRightEndOnRectangle",
+                "ArrowRightOnRectangle",
+                "ArrowRightStartOnRectangle",
+                "ArrowSmallDown",
+                "ArrowSmallLeft",
+                "ArrowSmallRight",
+                "ArrowSmallUp",
+                "ArrowTopRightOnSquare",
+                "ArrowTrendingDown",
+                "ArrowTrendingUp",
+                "ArrowUp",
+                "ArrowUpCircle",
+                "ArrowUpLeft",
+                "ArrowUpOnSquare",
+                "ArrowUpOnSquareStack",
+                "ArrowUpRight",
+                "ArrowUpTray",
+                "ArrowUturnDown",
+                "ArrowUturnLeft",
+                "ArrowUturnRight",
+                "ArrowUturnUp",
+                "ArrowsPointingIn",
+                "ArrowsPointingOut",
+                "ArrowsRightLeft",
+                "ArrowsUpDown",
+                "AtSymbol",
+                "Backspace",
+                "Backward",
+                "Banknotes",
+                "Bars2",
+                "Bars3",
+                "Bars3BottomLeft",
+                "Bars3BottomRight",
+                "Bars3CenterLeft",
+                "Bars4",
+                "BarsArrowDown",
+                "BarsArrowUp",
+                "Battery0",
+                "Battery100",
+                "Battery50",
+                "Beaker",
+                "Bell",
+                "BellAlert",
+                "BellSlash",
+                "BellSnooze",
+                "Bolt",
+                "BoltSlash",
+                "BookOpen",
+                "Bookmark",
+                "BookmarkSlash",
+                "BookmarkSquare",
+                "Briefcase",
+                "BugAnt",
+                "BuildingLibrary",
+                "BuildingOffice",
+                "BuildingOffice2",
+                "BuildingStorefront",
+                "Cake",
+                "Calculator",
+                "Calendar",
+                "CalendarDays",
+                "Camera",
+                "ChartBar",
+                "ChartBarSquare",
+                "ChartPie",
+                "ChatBubbleBottomCenter",
+                "ChatBubbleBottomCenterText",
+                "ChatBubbleLeft",
+                "ChatBubbleLeftEllipsis",
+                "ChatBubbleLeftRight",
+                "ChatBubbleOvalLeft",
+                "ChatBubbleOvalLeftEllipsis",
+                "Check",
+                "CheckBadge",
+                "CheckCircle",
+                "ChevronDoubleDown",
+                "ChevronDoubleLeft",
+                "ChevronDoubleRight",
+                "ChevronDoubleUp",
+                "ChevronDown",
+                "ChevronLeft",
+                "ChevronRight",
+                "ChevronUp",
+                "ChevronUpDown",
+                "CircleStack",
+                "Clipboard",
+                "ClipboardDocument",
+                "ClipboardDocumentCheck",
+                "ClipboardDocumentList",
+                "Clock",
+                "Cloud",
+                "CloudArrowDown",
+                "CloudArrowUp",
+                "CodeBracket",
+                "CodeBracketSquare",
+                "Cog",
+                "Cog6Tooth",
+                "Cog8Tooth",
+                "CommandLine",
+                "ComputerDesktop",
+                "CpuChip",
+                "CreditCard",
+                "Cube",
+                "CubeTransparent",
+                "CurrencyBangladeshi",
+                "CurrencyDollar",
+                "CurrencyEuro",
+                "CurrencyPound",
+                "CurrencyRupee",
+                "CurrencyYen",
+                "CursorArrowRays",
+                "CursorArrowRipple",
+                "DevicePhoneMobile",
+                "DeviceTablet",
+                "Document",
+                "DocumentArrowDown",
+                "DocumentArrowUp",
+                "DocumentChartBar",
+                "DocumentCheck",
+                "DocumentDuplicate",
+                "DocumentMagnifyingGlass",
+                "DocumentMinus",
+                "DocumentPlus",
+                "DocumentText",
+                "EllipsisHorizontal",
+                "EllipsisHorizontalCircle",
+                "EllipsisVertical",
+                "Envelope",
+                "EnvelopeOpen",
+                "ExclamationCircle",
+                "ExclamationTriangle",
+                "Eye",
+                "EyeDropper",
+                "EyeSlash",
+                "FaceFrown",
+                "FaceSmile",
+                "Film",
+                "FingerPrint",
+                "Fire",
+                "Flag",
+                "Folder",
+                "FolderArrowDown",
+                "FolderMinus",
+                "FolderOpen",
+                "FolderPlus",
+                "Forward",
+                "Funnel",
+                "Gif",
+                "Gift",
+                "GiftTop",
+                "GlobeAlt",
+                "GlobeAmericas",
+                "GlobeAsiaAustralia",
+                "GlobeEuropeAfrica",
+                "HandRaised",
+                "HandThumbDown",
+                "HandThumbUp",
+                "Hashtag",
+                "Heart",
+                "Home",
+                "HomeModern",
+                "Identification",
+                "Inbox",
+                "InboxArrowDown",
+                "InboxStack",
+                "InformationCircle",
+                "Key",
+                "Language",
+                "Lifebuoy",
+                "LightBulb",
+                "Link",
+                "ListBullet",
+                "LockClosed",
+                "LockOpen",
+                "MagnifyingGlass",
+                "MagnifyingGlassCircle",
+                "MagnifyingGlassMinus",
+                "MagnifyingGlassPlus",
+                "Map",
+                "MapPin",
+                "Megaphone",
+                "Microphone",
+                "Minus",
+                "MinusCircle",
+                "MinusSmall",
+                "Moon",
+                "MusicalNote",
+                "Newspaper",
+                "NoSymbol",
+                "PaintBrush",
+                "PaperAirplane",
+                "PaperClip",
+                "Pause",
+                "PauseCircle",
+                "Pencil",
+                "PencilSquare",
+                "Phone",
+                "PhoneArrowDownLeft",
+                "PhoneArrowUpRight",
+                "PhoneXMark",
+                "Photo",
+                "Play",
+                "PlayCircle",
+                "PlayPause",
+                "Plus",
+                "PlusCircle",
+                "PlusSmall",
+                "Power",
+                "PresentationChartBar",
+                "PresentationChartLine",
+                "Printer",
+                "PuzzlePiece",
+                "QrCode",
+                "QuestionMarkCircle",
+                "QueueList",
+                "Radio",
+                "ReceiptPercent",
+                "ReceiptRefund",
+                "RectangleGroup",
+                "RectangleStack",
+                "RocketLaunch",
+                "Rss",
+                "Scale",
+                "Scissors",
+                "Server",
+                "ServerStack",
+                "Share",
+                "ShieldCheck",
+                "ShieldExclamation",
+                "ShoppingBag",
+                "ShoppingCart",
+                "Signal",
+                "SignalSlash",
+                "Sparkles",
+                "SpeakerWave",
+                "SpeakerXMark",
+                "Square2Stack",
+                "Square3Stack3D",
+                "Squares2X2",
+                "SquaresPlus",
+                "Star",
+                "Stop",
+                "StopCircle",
+                "Sun",
+                "Swatch",
+                "TableCells",
+                "Tag",
+                "Ticket",
+                "Trash",
+                "Trophy",
+                "Truck",
+                "Tv",
+                "User",
+                "UserCircle",
+                "UserGroup",
+                "UserMinus",
+                "UserPlus",
+                "Users",
+                "Variable",
+                "VideoCamera",
+                "VideoCameraSlash",
+                "ViewColumns",
+                "ViewfinderCircle",
+                "Wallet",
+                "Wifi",
+                "Window",
+                "Wrench",
+                "WrenchScrewdriver",
+                "XCircle",
+                "XMark"
+            ],
+            "type": "string"
+        },
+        "NotFoundProps": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "primaryButton": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "features": {
+            "items": {
+                "$ref": "#/definitions/IFeature"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "pages": {
+            "$ref": "#/definitions/IAppPages"
+        },
+        "roles": {
+            "items": {
+                "$ref": "#/definitions/IRole"
+            },
+            "type": "array"
+        },
+        "translations": {
+            "items": {
+                "$ref": "#/definitions/ITranslation"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "features",
+        "name"
+    ],
+    "type": "object"
+}
+

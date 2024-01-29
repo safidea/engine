@@ -3,7 +3,7 @@ import { createApp, AppError, type IApp } from '@solumy/engine'
 import { FeatureError } from '@solumy/engine/feature'
 
 test.describe('App schema errors', () => {
-  test('empty config should return 5 errors', async () => {
+  test('empty config should return 2 errors', async () => {
     // GIVEN
     const config = {}
 

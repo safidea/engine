@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { createSpec, SpecError } from '@solumy/engine/spec'
 
 test.describe('Spec schema errors', () => {
-  test('empty config should return 1 errors', async () => {
+  test('empty config should return 3 errors', async () => {
     // GIVEN
     const config = {}
 

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { createPage, PageError } from '@solumy/engine/page'
 
 test.describe('Page schema errors', () => {
-  test('empty config should return 1 errors', async () => {
+  test('empty config should return 3 errors', async () => {
     // GIVEN
     const config = {}
 
