@@ -37,6 +37,19 @@ translations:
       - &HomePageFooterLinksGetStartedHref /get-started
       - &HomePageFooterLinksContactLabel Contact
       - &HomePageFooterLinksContactHref /contact
+      - &ContactPageTitle Request - Get Started
+      - &ContactPageFormTitle Get Started
+      - &ContactPageFormDescription Get started with Request
+      - &ContactPageFormPrimaryButtonLabel Send message
+      - &ContactPageFormInputsEmailName email
+      - &ContactPageFormInputsEmailLabel Your email
+      - &ContactPageFormInputsNameName name
+      - &ContactPageFormInputsNameLabel Your name
+      - &ContactPageFormInputsSubjectName subject
+      - &ContactPageFormInputsSubjectLabel Subject
+      - &ContactPageFormInputsMessageName message
+      - &ContactPageFormInputsMessageLabel Your message
+      - &ContactPageFormSuccessMessage Your message has been sent.
 features:
   - name: landing-page
     specs:
@@ -205,6 +218,39 @@ features:
               - label: *HomePageFooterLinksContactLabel
                 href: *HomePageFooterLinksContactHref
             copyright: *HomePageFootercopyright
+  - name: get-started-page
+    specs: 
+      - name: should display the page title
+        when:
+          - open: /get-started
+        then:
+          - title: *ContactPageTitle
+      - name: should display the form
+        when:
+          - open: /get-started
+        then:
+          - text: *ContactPageFormTitle
+            tag: h2
+          - text: *ContactPageFormDescription
+            tag: p
+          - text: *ContactPageFormPrimaryButtonLabel
+            tag: button
+      - name: should submit the form
+        when:
+          - open: /get-started
+          - fill: *ContactPageFormInputsEmailName
+            value: test@test.com
+          - fill: *ContactPageFormInputsNameName
+            value: John Doe
+          - fill: *ContactPageFormInputsSubjectName
+            value: 'I would like to get started with Request.'
+          - fill: *ContactPageFormInputsMessageName
+            value: 'Hello, I would like to get started with Request.'
+          - click: *ContactPageFormPrimaryButtonLabel
+        then:
+          - text: *ContactPageFormPrimaryButtonLabel
+            tag: button
+    pages:
       - name: get-started
         path: /get-started
         title: Request - Get Started
@@ -213,32 +259,32 @@ features:
             content: Get started with Request
         body:
           - component: Form
-            title: Get Started
-            description: Get started with Request
+            title: *ContactPageFormTitle
+            description: *ContactPageFormDescription
             inputs: 
-              - name: email
-                label: Your email
+              - name: *ContactPageFormInputsEmailName
+                label: *ContactPageFormInputsEmailLabel
                 placeholder: name@solumy.com
                 type: email
                 required: true
-              - name: name
-                label: Your name
+              - name: *ContactPageFormInputsNameName
+                label: *ContactPageFormInputsNameLabel
                 placeholder: John Doe
                 type: text
                 required: true
-              - name: subject
-                label: Subject
+              - name: *ContactPageFormInputsSubjectName
+                label: *ContactPageFormInputsSubjectLabel
                 placeholder: 'I would like to get started with Request.'
                 type: text
                 required: true
-              - name: message
-                label: Your message
+              - name: *ContactPageFormInputsMessageName
+                label: *ContactPageFormInputsMessageLabel
                 placeholder: 'Hello, I would like to get started with Request.'
                 type: text
                 required: true
             submitButton:
-              label: Send
-            successMessage: Your message has been sent.
+              label: *ContactPageFormPrimaryButtonLabel
+            successMessage: *ContactPageFormSuccessMessage
           - component: Footer
             title: *HomePageFooterTitle
             description: *HomePageFooterDescription

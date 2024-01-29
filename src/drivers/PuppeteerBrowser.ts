@@ -43,6 +43,14 @@ class PuppeteerBrowserPage implements IBrowserPage {
     return null
   }
 
+  async getInputByName(input: string) {
+    const [element] = await this.page.$x(`//input[@name='${input}']`)
+    if (element) {
+      return new PuppeteerBrowserElement(this.page, element)
+    }
+    return null
+  }
+
   async close() {
     await this.browser.close()
   }
@@ -56,9 +64,20 @@ class PuppeteerBrowserElement implements IBrowserElement {
 
   getAttribute(attribute: string) {
     return this.page.evaluate(
-      (el, attr) => (el as Element).getAttribute(attr) ?? undefined,
+      (el, attr) => (el as HTMLElement).getAttribute(attr) ?? undefined,
       this.element,
       attribute
     )
+  }
+
+  getValue() {
+    return this.page.evaluate(
+      (el) => (el as HTMLInputElement).value ?? undefined,
+      this.element,
+    )
+  }
+
+  type(value: string) {
+    return this.element.type(value)
   }
 }

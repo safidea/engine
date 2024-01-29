@@ -10,6 +10,7 @@ export type SpecErrorCode =
   | 'TEXT_NOT_FOUND'
   | 'TITLE_NOT_FOUND'
   | 'ATTRIBUTE_NOT_FOUND'
+  | 'INPUT_NOT_FOUND'
 
 export type SpecErrorData =
   | {
@@ -20,6 +21,7 @@ export type SpecErrorData =
       spec: string
       expected: string
       received?: string
+      tag?: string
     }
 
 export class SpecError extends Error {

@@ -512,7 +512,7 @@
                 },
                 "when": {
                     "items": {
-                        "$ref": "#/definitions/ISpecOpenAction"
+                        "$ref": "#/definitions/ISpecAction"
                     },
                     "type": "array"
                 }
@@ -523,6 +523,19 @@
                 "when"
             ],
             "type": "object"
+        },
+        "ISpecAction": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ISpecOpenAction"
+                },
+                {
+                    "$ref": "#/definitions/ISpecFillAction"
+                },
+                {
+                    "$ref": "#/definitions/ISpecClickAction"
+                }
+            ]
         },
         "ISpecAnchorTextResult": {
             "additionalProperties": false,
@@ -867,6 +880,34 @@
                 "attribute",
                 "tag",
                 "text",
+                "value"
+            ],
+            "type": "object"
+        },
+        "ISpecClickAction": {
+            "additionalProperties": false,
+            "properties": {
+                "click": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click"
+            ],
+            "type": "object"
+        },
+        "ISpecFillAction": {
+            "additionalProperties": false,
+            "properties": {
+                "fill": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fill",
                 "value"
             ],
             "type": "object"
@@ -1433,6 +1474,22 @@
             ],
             "type": "object"
         },
+        "ISpecInputTextResult": {
+            "additionalProperties": false,
+            "properties": {
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
         "ISpecOpenAction": {
             "additionalProperties": false,
             "properties": {
@@ -1458,6 +1515,9 @@
                 },
                 {
                     "$ref": "#/definitions/ISpecAnchorTextResult"
+                },
+                {
+                    "$ref": "#/definitions/ISpecInputTextResult"
                 }
             ]
         },

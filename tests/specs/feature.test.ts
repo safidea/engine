@@ -283,4 +283,98 @@ test.describe('Feature specs', () => {
     // THEN
     expect(errors).toHaveLength(0)
   })
+
+  test('should not find an input with a specific value', async () => {
+    // GIVEN
+    const config: IFeature = {
+      name: 'Feature',
+      specs: [
+        {
+          name: 'display invalid text',
+          when: [{ open: '/' }, { fill: 'name', value: 'john' }],
+          then: [{ input: 'name', value: 'doe' }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Form',
+              title: 'Form',
+              description: 'Form description',
+              inputs: [
+                {
+                  name: 'name',
+                  label: 'Name',
+                  type: 'text',
+                },
+              ],
+              submitButton: {
+                label: 'Submit',
+              },
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const { feature } = await createFeature(config)
+    const errors = await feature!.testSpecs()
+
+    // THEN
+    expect(errors).toHaveLength(1)
+    const [{ data, code }] = errors
+    expect(code).toBe('SPEC_ERROR_INPUT_NOT_FOUND')
+    if (data && 'feature' in data) {
+      expect(data.expected).toBe('doe')
+      expect(data.received).toBe('john')
+    }
+  })
+
+  test('should find an input with a specific value', async () => {
+    // GIVEN
+    const config: IFeature = {
+      name: 'Feature',
+      specs: [
+        {
+          name: 'display invalid text',
+          when: [{ open: '/' }, { fill: 'name', value: 'john' }],
+          then: [{ input: 'name', value: 'john' }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Form',
+              title: 'Form',
+              description: 'Form description',
+              inputs: [
+                {
+                  name: 'name',
+                  label: 'Name',
+                  type: 'text',
+                },
+              ],
+              submitButton: {
+                label: 'Submit',
+              },
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const { feature } = await createFeature(config)
+    const errors = await feature!.testSpecs()
+
+    // THEN
+    expect(errors).toHaveLength(0)
+  })
 })

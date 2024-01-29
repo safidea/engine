@@ -2,4 +2,13 @@ export interface ISpecOpenAction {
   open: string
 }
 
-export type ISpecAction = ISpecOpenAction
+export interface ISpecFillAction {
+  fill: string
+  value: string
+}
+
+export interface ISpecClickAction {
+  click: string
+}
+
+export type ISpecAction = ISpecOpenAction | ISpecFillAction | ISpecClickAction
