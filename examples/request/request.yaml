@@ -248,8 +248,8 @@ features:
             value: 'Hello, I would like to get started with Request.'
           - click: *ContactPageFormPrimaryButtonLabel
         then:
-          - text: *ContactPageFormPrimaryButtonLabel
-            tag: button
+          - text: *ContactPageFormSuccessMessage
+            tag: p
     pages:
       - name: get-started
         path: /get-started
