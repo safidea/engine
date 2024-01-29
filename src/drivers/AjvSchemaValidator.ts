@@ -8,7 +8,7 @@ export class AjvSchemaValidator implements ISchemaValidator {
   private ajv: Ajv
 
   constructor() {
-    this.ajv = new Ajv({ allErrors: true })
+    this.ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
   }
 
   validateSchema<T>(data: unknown, schema: ISchemaValidatorSchema) {
