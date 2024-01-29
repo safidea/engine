@@ -1,4 +1,4 @@
-import type { IServerInstance } from '@domain/drivers/IServer'
+import type { IServerInstance } from '@domain/drivers/server/IServer'
 import type { Drivers } from '@domain/drivers'
 import type { Components } from '@domain/components'
 import type { PageProps } from '@domain/components/base/Page'

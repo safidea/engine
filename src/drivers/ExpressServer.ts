@@ -5,8 +5,13 @@ import cookieParser from 'cookie-parser'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
-import type { IServer, IServerHandler, IServerInstance } from '@domain/drivers/IServer'
+import type { IServer, IServerHandler, IServerInstance } from '@domain/drivers/server/IServer'
 import type { ILogger, ILoggerLog } from '@domain/drivers/ILogger'
+import { isServerResponse, type ServerResponse } from '@domain/drivers/server/response'
+import { isJsonServerResponse } from '@domain/drivers/server/response/json'
+import { isRedirectServerResponse } from '@domain/drivers/server/response/redirect'
+import { isStreamServerResponse } from '@domain/drivers/server/response/stream'
+import { isTextServerResponse } from '@domain/drivers/server/response/text'
 
 const dirname = new URL('.', import.meta.url).pathname
 
@@ -45,17 +50,80 @@ class ExpressServerInstance implements IServerInstance {
   }
 
   get(path: string, handler: IServerHandler) {
-    this.express.get(path, async (_, res) => {
-      const response = await handler()
-      res.send(response.html)
+    this.express.get(path, async (req, res) => {
+      try {
+        const response = await handler()
+        this.sendResponse(req, res, response)
+      } catch (error) {
+        this.catchError(req, res, error)
+      }
+    })
+  }
+
+  post(path: string, handler: IServerHandler) {
+    this.express.post(path, async (req, res) => {
+      try {
+        const response = await handler()
+        this.sendResponse(req, res, response)
+      } catch (error) {
+        this.catchError(req, res, error)
+      }
     })
   }
 
   notFound(handler: IServerHandler) {
-    this.express.use(async (_, res) => {
-      const response = await handler()
-      res.status(404).send(response.html)
+    this.express.use(async (req, res) => {
+      try {
+        const response = await handler()
+        this.sendResponse(req, res, response)
+      } catch (error) {
+        this.catchError(req, res, error)
+      }
     })
+  }
+
+  private sendResponse = (
+    req: express.Request,
+    res: express.Response,
+    response: ServerResponse
+  ) => {
+    const { statusCode } = response
+    res.status(statusCode)
+    if (isJsonServerResponse(response)) {
+      const { body } = response
+      res.json(body)
+      this.log(`${statusCode} JSON ${JSON.stringify(body)}`)
+    } else if (isTextServerResponse(response)) {
+      const { headers, body } = response
+      if (headers) res.set(headers)
+      res.send(body)
+      this.log(`${statusCode} TEXT`)
+    } else if (isRedirectServerResponse(response)) {
+      const { path } = response
+      res.redirect(statusCode, path)
+      this.log(`${statusCode} REDIRECT ${path}`)
+    } else if (isStreamServerResponse(response)) {
+      res.set({
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      })
+      response.onEvent((event: string) => {
+        const success = res.write(event)
+        if (!success) response.close()
+      })
+      req.socket.on('close', () => response.close())
+      this.log(`${statusCode} STREAM`)
+    }
+  }
+
+  private catchError(req: express.Request, res: express.Response, error: unknown) {
+    if (isServerResponse(error)) {
+      this.sendResponse(req, res, error)
+    } else {
+      this.log(`ERROR ${error}`)
+      res.status(500).send('Internal Server Error')
+    }
   }
 
   async start() {

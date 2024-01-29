@@ -1,11 +1,10 @@
-export type IServerHtmlResponse = {
-  html: string
-}
+import type { ServerResponse } from './response'
 
-export type IServerHandler = () => Promise<IServerHtmlResponse>
+export type IServerHandler = () => Promise<ServerResponse>
 
 export interface IServerInstance {
   get: (path: string, handler: IServerHandler) => void
+  post: (path: string, handler: IServerHandler) => void
   notFound: (handler: IServerHandler) => void
   start(): Promise<string>
   stop(): Promise<void>

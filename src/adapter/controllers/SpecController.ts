@@ -28,6 +28,7 @@ export class SpecController extends Controller<ISpec> implements IController<Spe
     const tables = new TableList(this.params?.tables ?? [], {
       drivers: this.drivers,
       featureName,
+      serverInstance: this.drivers.server.create(),
     })
     const databaseInstance = this.drivers.database.create(tables)
     const entity = new Spec(schema.json, {

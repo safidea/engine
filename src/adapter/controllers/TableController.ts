@@ -19,6 +19,7 @@ export class TableController extends Controller<ITable> implements IController<T
     const entity = new Table(schema.json, {
       drivers: this.drivers,
       featureName: 'default',
+      serverInstance: this.drivers.server.create(),
     })
     const errors = this.getConfigErrors(entity)
     if (errors) return { errors }

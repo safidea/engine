@@ -2,6 +2,7 @@ import type { ILoggerLog } from '@domain/drivers/ILogger'
 import type { IEntity } from '../IEntity'
 import type { IPage } from './IPage'
 import type { IPageParams } from './IPageParams'
+import { TextServerResponse } from '@domain/drivers/server/response/text'
 
 export class Page implements IEntity {
   name: string
@@ -15,13 +16,18 @@ export class Page implements IEntity {
     const { logger } = drivers
     this.name = config.name
     this.log = logger.init(`feature:${logger.slug(featureName)}:page:${logger.slug(this.name)}`)
-    serverInstance.get(config.path, this.get)
-    this.log(`GET mounted on ${config.path}`)
+    serverInstance.get(this.path, this.get)
+    this.log(`GET mounted on ${this.path}`)
+  }
+
+  get path() {
+    return this.config.path
   }
 
   get = async () => {
-    this.log('GET ' + this.config.path)
-    return { html: this.renderHtml() }
+    this.log('GET ' + this.path)
+    const html = this.renderHtml()
+    return new TextServerResponse(html)
   }
 
   layoutPage = ({ children }: { children: React.ReactNode }) => {

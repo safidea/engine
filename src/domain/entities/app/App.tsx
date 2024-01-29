@@ -1,4 +1,4 @@
-import type { IServerHtmlResponse, IServerInstance } from '@domain/drivers/IServer'
+import type { IServerInstance } from '@domain/drivers/server/IServer'
 import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { FeatureList } from '../feature/FeatureList'
@@ -7,6 +7,7 @@ import type { IApp, IAppLayoutPageProps } from './IApp'
 import type { IAppParams } from './IAppParams'
 import type { ILoggerLog } from '@domain/drivers/ILogger'
 import type { IDatabaseInstance } from '@domain/drivers/IDatabase'
+import { TextServerResponse } from '@domain/drivers/server/response/text'
 
 export class App implements IEntity {
   name: string
@@ -70,7 +71,7 @@ export class App implements IEntity {
     )
   }
 
-  notFoundPage = async (): Promise<IServerHtmlResponse> => {
+  notFoundPage = async (): Promise<TextServerResponse> => {
     const {
       components: { NotFound },
       drivers: { ui },
@@ -89,7 +90,7 @@ export class App implements IEntity {
     )
     const html = ui.render(Page)
     this.log('GET 404')
-    return { html }
+    return new TextServerResponse(html)
   }
 
   async testFeaturesSpecs() {

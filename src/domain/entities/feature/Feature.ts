@@ -1,4 +1,4 @@
-import type { IServerInstance } from '@domain/drivers/IServer'
+import type { IServerInstance } from '@domain/drivers/server/IServer'
 import type { EngineError } from '../EngineError'
 import type { IEntity } from '../IEntity'
 import { PageList } from '../page/PageList'
@@ -32,6 +32,7 @@ export class Feature implements IEntity {
     this.tables = new TableList(config.tables ?? [], {
       drivers,
       featureName: this.name,
+      serverInstance: this.server,
     })
     this.database = database.create(this.tables)
     this.specs = new SpecList(config.specs ?? [], {

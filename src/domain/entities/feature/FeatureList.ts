@@ -48,10 +48,12 @@ export class FeatureList implements IList<Feature> {
   }
 
   mergeTables() {
+    const { drivers, serverInstance } = this.params
     const tables = this.config.flatMap((feature) => feature.tables ?? [])
     return new TableList(tables, {
-      drivers: this.params.drivers,
+      drivers,
       featureName: 'all',
+      serverInstance: serverInstance ?? drivers.server.create(),
     })
   }
 }
