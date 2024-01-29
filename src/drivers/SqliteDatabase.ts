@@ -23,11 +23,11 @@ class SqliteDatabaseInstance implements IDatabaseInstance {
 class SqliteDatabaseTable implements IDatabaseTable {
   constructor(private name: string) {}
 
-  create(data: IDatabaseRow) {
+  async create(data: IDatabaseRow) {
     console.log('create', this.name, data)
   }
 
-  find(data: IDatabaseRow) {
+  async find(data: IDatabaseRow) {
     console.log('create', this.name, data)
     return {}
   }

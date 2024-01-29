@@ -9,6 +9,7 @@ import type { IFeatureParams } from './IFeatureParams'
 import type { SpecError } from '../spec/SpecError'
 import type { ILoggerLog } from '@domain/drivers/ILogger'
 import { TableList } from '../table/TableList'
+import type { IDatabaseInstance } from '@domain/drivers/IDatabase'
 
 export class Feature implements IEntity {
   name: string
@@ -16,6 +17,7 @@ export class Feature implements IEntity {
   private pages: PageList
   private tables: TableList
   private server: IServerInstance
+  private database: IDatabaseInstance
   private log: ILoggerLog
 
   constructor(
@@ -23,21 +25,26 @@ export class Feature implements IEntity {
     private params: IFeatureParams
   ) {
     const { drivers, components, serverInstance, layoutPage } = params
-    const { server, logger } = drivers
+    const { server, database, logger } = drivers
     this.name = config.name
     this.server = serverInstance ?? server.create()
     this.log = logger.init('feature:' + logger.slug(this.name))
-    this.specs = new SpecList(config.specs ?? [], { drivers, featureName: this.name })
+    this.tables = new TableList(config.tables ?? [], {
+      drivers,
+      featureName: this.name,
+    })
+    this.database = database.create(this.tables)
+    this.specs = new SpecList(config.specs ?? [], {
+      drivers,
+      featureName: this.name,
+      databaseInstance: this.database,
+    })
     this.pages = new PageList(config.pages ?? [], {
       components,
       serverInstance: this.server,
       drivers,
       featureName: this.name,
       layoutPage,
-    })
-    this.tables = new TableList(config.tables ?? [], {
-      drivers,
-      featureName: this.name,
     })
   }
 

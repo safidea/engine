@@ -2,6 +2,16 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
+        "IDatabaseRow": {
+            "additionalProperties": {
+                "type": [
+                    "string",
+                    "number",
+                    "boolean"
+                ]
+            },
+            "type": "object"
+        },
         "ISpecAction": {
             "anyOf": [
                 {
@@ -1025,20 +1035,15 @@
         "ISpecTableResult": {
             "additionalProperties": false,
             "properties": {
-                "rows": {
-                    "items": {
-                        "additionalProperties": true,
-                        "properties": {},
-                        "type": "object"
-                    },
-                    "type": "array"
+                "row": {
+                    "$ref": "#/definitions/IDatabaseRow"
                 },
                 "table": {
                     "type": "string"
                 }
             },
             "required": [
-                "rows",
+                "row",
                 "table"
             ],
             "type": "object"

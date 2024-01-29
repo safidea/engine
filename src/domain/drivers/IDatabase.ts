@@ -5,8 +5,8 @@ export interface IDatabaseRow {
 }
 
 export interface IDatabaseTable {
-  create: (data: IDatabaseRow) => void
-  find: (data: IDatabaseRow) => IDatabaseRow
+  create: (data: IDatabaseRow) => Promise<void>
+  find: (data: IDatabaseRow) => Promise<IDatabaseRow>
 }
 
 export interface IDatabaseInstance {

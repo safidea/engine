@@ -1,3 +1,5 @@
+import type { IDatabaseRow } from "@domain/drivers/IDatabase"
+
 export interface ISpecTitleResult {
   title: string
 }
@@ -30,7 +32,7 @@ interface ISpecInputTextResult {
 
 interface ISpecTableResult {
   table: string
-  rows: object[]
+  row: IDatabaseRow
 }
 
 export type ISpecTextResult =

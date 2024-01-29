@@ -1,3 +1,4 @@
+import type { IBrowserPage } from '@domain/drivers/IBrowser'
 import type { IEntity } from '../IEntity'
 import type { ISpec } from './ISpec'
 import type { ISpecParams } from './ISpecParams'
@@ -23,17 +24,21 @@ export class Spec implements IEntity {
 
   async test(baseUrl: string): Promise<SpecError | undefined> {
     const { when, then } = this.config
-    const { browser } = this.params.drivers
-    const page = await browser.launch({ baseUrl })
+    const { drivers, databaseInstance } = this.params
+    const { browser } = drivers
+    let page: IBrowserPage | undefined
+    if (when.find((action) => 'open' in action)) {
+      page = await browser.launch({ baseUrl })
+    }
     try {
       for (const action of when) {
         if ('open' in action) {
           this.log(`opening "${action.open}"`)
-          await page.open(action.open)
+          await page?.open(action.open)
         } else if ('fill' in action) {
           const { fill, value } = action
           this.log(`typing "${value}" in input "${fill}"`)
-          const inputElement = await page.getInputByName(fill)
+          const inputElement = await page?.getInputByName(fill)
           if (inputElement) {
             await inputElement.type(value)
           } else {
@@ -44,13 +49,31 @@ export class Spec implements IEntity {
               received: '',
             })
           }
+        } else if ('post' in action) {
+          const { post, body } = action
+          this.log(`posting "${JSON.stringify(body)}" to "${post}"`)
+          const res = await fetch(`${baseUrl}${post}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          })
+          if (!res.ok) {
+            throw new SpecError('POST_REQUEST_ERROR', {
+              feature: this.params.featureName,
+              spec: this.name,
+              expected: '200',
+              received: res.status.toString(),
+            })
+          }
         }
       }
       for (const result of then) {
         if ('title' in result) {
           const { title } = result
           this.log(`checking if title "${title}" exist`)
-          const pageTitle = await page.title()
+          const pageTitle = await page?.title()
           if (pageTitle !== result.title) {
             throw new SpecError('TITLE_NOT_FOUND', {
               feature: this.params.featureName,
@@ -68,7 +91,7 @@ export class Spec implements IEntity {
             const textMessage = `checking if text "${text}" exist`
             this.log(tag ? `${textMessage} with tag "${tag}"` : textMessage)
           }
-          const textElement = await page.getByText(text, { tag })
+          const textElement = await page?.getByText(text, { tag })
           if (attribute && textElement) {
             const attributeValue = await textElement.getAttribute(attribute)
             if (attributeValue !== value) {
@@ -92,7 +115,7 @@ export class Spec implements IEntity {
         } else if ('input' in result) {
           const { input, value } = result
           this.log(`checking if input "${input}" has value "${value}"`)
-          const inputValue = await page.getInputByName(input)
+          const inputValue = await page?.getInputByName(input)
           const attributeValue = await inputValue?.getValue()
           if (attributeValue !== value) {
             throw new SpecError('INPUT_NOT_FOUND', {
@@ -102,12 +125,24 @@ export class Spec implements IEntity {
               received: attributeValue,
             })
           }
+        } else if ('table' in result) {
+          const { table, row } = result
+          this.log(`checking if table "${table}" has row "${JSON.stringify(row)}"`)
+          const tableRow = await databaseInstance.table(table).find(row)
+          if (!tableRow) {
+            throw new SpecError('ROW_NOT_FOUND', {
+              feature: this.params.featureName,
+              spec: this.name,
+              expected: JSON.stringify(tableRow),
+              received: undefined,
+            })
+          }
         }
       }
-      await page.close()
+      await page?.close()
       this.log('passed')
     } catch (error) {
-      await page.close()
+      await page?.close()
       this.log('failed')
       if (error instanceof SpecError) return error
       else throw error

@@ -11,6 +11,8 @@ export type SpecErrorCode =
   | 'TITLE_NOT_FOUND'
   | 'ATTRIBUTE_NOT_FOUND'
   | 'INPUT_NOT_FOUND'
+  | 'POST_REQUEST_ERROR'
+  | 'ROW_NOT_FOUND'
 
 export type SpecErrorData =
   | {

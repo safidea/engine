@@ -32,6 +32,16 @@
             },
             "type": "object"
         },
+        "IDatabaseRow": {
+            "additionalProperties": {
+                "type": [
+                    "string",
+                    "number",
+                    "boolean"
+                ]
+            },
+            "type": "object"
+        },
         "IEmailField": {
             "additionalProperties": false,
             "properties": {
@@ -1662,20 +1672,15 @@
         "ISpecTableResult": {
             "additionalProperties": false,
             "properties": {
-                "rows": {
-                    "items": {
-                        "additionalProperties": true,
-                        "properties": {},
-                        "type": "object"
-                    },
-                    "type": "array"
+                "row": {
+                    "$ref": "#/definitions/IDatabaseRow"
                 },
                 "table": {
                     "type": "string"
                 }
             },
             "required": [
-                "rows",
+                "row",
                 "table"
             ],
             "type": "object"
