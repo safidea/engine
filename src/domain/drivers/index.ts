@@ -3,6 +3,7 @@ import type { IBrowser } from './IBrowser'
 import type { IServer } from './IServer'
 import type { ILogger } from './ILogger'
 import type { IUi } from './IUi'
+import type { IDatabase } from './IDatabase'
 
 export interface Drivers {
   schemaValidator: ISchemaValidator
@@ -10,4 +11,5 @@ export interface Drivers {
   server: IServer
   logger: ILogger
   ui: IUi
+  database: IDatabase
 }

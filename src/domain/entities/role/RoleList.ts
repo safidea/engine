@@ -9,6 +9,14 @@ export class RoleList implements IList<Role> {
     this.roles = config.map((role) => new Role(role))
   }
 
+  get length() {
+    return this.roles.length
+  }
+
+  get all() {
+    return this.roles
+  }
+
   validateConfig() {
     return this.roles.flatMap((role) => role.validateConfig())
   }

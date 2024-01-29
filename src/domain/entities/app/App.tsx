@@ -6,6 +6,7 @@ import { RoleList } from '../role/RoleList'
 import type { IApp, IAppLayoutPageProps } from './IApp'
 import type { IAppParams } from './IAppParams'
 import type { ILoggerLog } from '@domain/drivers/ILogger'
+import type { IDatabaseInstance } from '@domain/drivers/IDatabase'
 
 export class App implements IEntity {
   name: string
@@ -14,13 +15,14 @@ export class App implements IEntity {
   private features: FeatureList
   private server: IServerInstance
   private log: ILoggerLog
+  public database?: IDatabaseInstance
 
   constructor(
     private config: IApp,
     private params: IAppParams
   ) {
     const { drivers, components, port } = params
-    const { server, logger } = drivers
+    const { server, logger, database } = drivers
     this.name = config.name
     this.server = server.create(port)
     this.log = logger.init('app:' + logger.slug(this.name))
@@ -32,6 +34,9 @@ export class App implements IEntity {
       serverInstance: this.server,
       layoutPage: this.layoutPage,
     })
+    if (this.features.hasTables()) {
+      this.database = database.create(this.features.mergeTables())
+    }
     this.server.notFound(this.notFoundPage)
     this.log(`404 mounted`)
     process.on('SIGTERM', () => this.onClose('SIGTERM'))

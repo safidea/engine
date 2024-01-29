@@ -11,4 +11,9 @@ export interface ISpecClickAction {
   click: string
 }
 
-export type ISpecAction = ISpecOpenAction | ISpecFillAction | ISpecClickAction
+export interface ISpecPostAction {
+  post: string
+  body?: object
+}
+
+export type ISpecAction = ISpecOpenAction | ISpecFillAction | ISpecClickAction | ISpecPostAction

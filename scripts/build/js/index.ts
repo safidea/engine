@@ -15,7 +15,14 @@ const externals: string[] = [
   'react-dom',
 ]
 
-const entrypoints = ['src/app.ts', 'src/role.ts', 'src/feature.ts', 'src/page.ts', 'src/spec.ts']
+const entrypoints = [
+  'src/app.ts',
+  'src/role.ts',
+  'src/feature.ts',
+  'src/page.ts',
+  'src/spec.ts',
+  'src/table.ts',
+]
 
 await deleteFilesRecursively('dist', '.js')
 

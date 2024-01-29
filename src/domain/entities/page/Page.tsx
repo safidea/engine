@@ -59,7 +59,9 @@ export class Page implements IEntity {
           } else if (component === 'Footer') {
             return <components.Footer key={index} {...props} />
           } else if (component === 'Form') {
-            return <components.Form key={index} {...props} />
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { successMessage, ...initProps } = props
+            return <components.Form key={index} {...initProps} />
           }
         })}
       </Page>

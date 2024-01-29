@@ -20,6 +20,14 @@ export class SpecList implements IList<Spec> {
     return errors
   }
 
+  get length() {
+    return this.specs.length
+  }
+
+  get all() {
+    return this.specs
+  }
+
   validateConfig() {
     return this.specs.flatMap((spec) => spec.validateConfig())
   }

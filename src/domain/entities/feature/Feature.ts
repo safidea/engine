@@ -8,11 +8,13 @@ import type { IFeature } from './IFeature'
 import type { IFeatureParams } from './IFeatureParams'
 import type { SpecError } from '../spec/SpecError'
 import type { ILoggerLog } from '@domain/drivers/ILogger'
+import { TableList } from '../table/TableList'
 
 export class Feature implements IEntity {
   name: string
   private specs: SpecList
   private pages: PageList
+  private tables: TableList
   private server: IServerInstance
   private log: ILoggerLog
 
@@ -33,6 +35,10 @@ export class Feature implements IEntity {
       featureName: this.name,
       layoutPage,
     })
+    this.tables = new TableList(config.tables ?? [], {
+      drivers,
+      featureName: this.name,
+    })
   }
 
   validateConfig() {
@@ -49,6 +55,7 @@ export class Feature implements IEntity {
     }
     errors.push(...this.specs.validateConfig())
     errors.push(...this.pages.validateConfig())
+    errors.push(...this.tables.validateConfig())
     return errors
   }
 
@@ -59,5 +66,13 @@ export class Feature implements IEntity {
     await this.server.stop()
     this.log(`server stopped`)
     return errors
+  }
+
+  hasTables() {
+    return this.tables.length > 0
+  }
+
+  getTables() {
+    return this.tables.all
   }
 }

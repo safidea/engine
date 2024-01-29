@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { createFeature, type IFeature } from '@solumy/engine/feature'
 
-test.describe('Feature specs', () => {
+test.describe('Pages specs', () => {
   test('should not find a page title', async () => {
     // GIVEN
     const config: IFeature = {

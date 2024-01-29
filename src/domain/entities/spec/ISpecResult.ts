@@ -28,6 +28,16 @@ interface ISpecInputTextResult {
   value: string
 }
 
-export type ISpecTextResult = ISpecHTMLTextResult | ISpecHTMLAttributeResult | ISpecAnchorTextResult | ISpecInputTextResult
+interface ISpecTableResult {
+  table: string
+  rows: object[]
+}
+
+export type ISpecTextResult =
+  | ISpecHTMLTextResult
+  | ISpecHTMLAttributeResult
+  | ISpecAnchorTextResult
+  | ISpecInputTextResult
+  | ISpecTableResult
 
 export type ISpecResult = ISpecTitleResult | ISpecTextResult

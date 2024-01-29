@@ -11,6 +11,14 @@ export class PageList implements IList<Page> {
     this.pages = config.map((page) => new Page(page, params))
   }
 
+  get length() {
+    return this.pages.length
+  }
+
+  get all() {
+    return this.pages
+  }
+
   validateConfig(): EngineError[] {
     return this.pages.flatMap((page) => page.validateConfig())
   }

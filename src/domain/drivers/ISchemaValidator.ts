@@ -1,4 +1,11 @@
-export type ISchemaValidatorSchema = 'app' | 'component' | 'feature' | 'page' | 'role' | 'spec'
+export type ISchemaValidatorSchema =
+  | 'app'
+  | 'component'
+  | 'feature'
+  | 'page'
+  | 'role'
+  | 'spec'
+  | 'table'
 
 export interface ISchemaValidatorError {
   instancePath: string
