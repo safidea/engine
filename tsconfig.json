@@ -18,10 +18,11 @@
     "paths": {
       "@solumy/engine": ["dist/app"],
       "@solumy/engine/*": ["dist/*"],
+      "@infra/*": ["src/infra/*"],
+      "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
-      "@drivers/*": ["src/drivers/*"],
       "@tests/components": ["tests/dist/components"],
     },
   },
-  "exclude": ["node_modules", "dist", ".old"],
+  "exclude": ["node_modules", "dist", ".old", "src_OLD"],
 }

@@ -75,7 +75,7 @@ test.describe('App with tables', () => {
     expect(row!.name).toBe('John')
   })
 
-  test.only('should create a row with an id with a length of 24', async ({ request }) => {
+  test('should create a row with an id with a length of 24', async ({ request }) => {
     // GIVEN
     const config: IApp = {
       name: 'leads backend',

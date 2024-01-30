@@ -1,9 +1,9 @@
-import type { IIdGeneratorMapper } from './IIdGeneratorMapper'
+import type { IIdGeneratorMapper } from '../../mappers/IIdGeneratorMapper'
 
 export class IdGenerator {
   constructor(private mapper: IIdGeneratorMapper) {}
 
-  forDatabase(): string {
+  forRecord() {
     return this.mapper.generate(
       24,
       '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'

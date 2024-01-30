@@ -18,11 +18,11 @@ const externals: string[] = [
 ]
 
 const entrypoints = [
-  'src/app.ts',
+  /*'src/app.ts',
   'src/role.ts',
   'src/feature.ts',
   'src/page.ts',
-  'src/spec.ts',
+  'src/spec.ts',*/
   'src/table.ts',
 ]
 

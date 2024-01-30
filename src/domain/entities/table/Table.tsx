@@ -1,42 +1,40 @@
-import type { ILoggerLog } from '@domain/drivers/ILogger'
 import type { IEntity } from '../IEntity'
-import type { ITable } from './ITable'
-import type { ITableParams } from './ITableParams'
-import { JsonServerResponse } from '@domain/drivers/server/response/json'
-import type { IDatabaseRow, IDatabaseTable } from '@domain/drivers/IDatabase'
+import type { TableDto } from './TableDto'
+import type { TableParams } from './TableParams'
+import type { DatabaseTable } from '@domain/services/database/table/DatabaseTable'
+import type { RecordToCreateDto } from '../../services/record/toCreate/RecordToCreateDto'
+import { JsonServerResponse } from '@domain/services/server/response/json'
 
 export class Table implements IEntity {
-  name: string
-  private log: ILoggerLog
-  private databaseTable: IDatabaseTable
+  private database: DatabaseTable
 
   constructor(
-    private config: ITable,
-    private params: ITableParams
+    private config: TableDto,
+    private params: TableParams
   ) {
-    const { featureName, drivers, serverInstance, databaseInstance } = params
-    const { logger } = drivers
-    this.name = config.name
-    this.log = logger.init(`feature:${logger.slug(featureName)}:table:${logger.slug(this.name)}`)
-    serverInstance.post(this.path, this.post)
-    this.databaseTable = databaseInstance.table(this.name)
-    this.log(`POST mounted on ${this.path}`)
+    const { server, database, logger } = params
+    server.post(this.path, this.post)
+    this.database = database.table(this.name)
+    logger.log(`POST mounted on ${this.path}`)
   }
 
-  get path() {
-    return `/api/table/${this.name}`
+  get name() {
+    return this.config.name
   }
 
   get fields() {
     return this.config.fields
   }
 
+  get path() {
+    return `/api/table/${this.name}`
+  }
+
   post = async ({ body }: { body: unknown }) => {
     // TODO: validate body
-    const data = body as IDatabaseRow
-    const id = this.params.services.idGenerator.forDatabase()
-    const record = await this.databaseTable.insert({ id, ...data })
-    return new JsonServerResponse({ record })
+    const recordToCreate = this.params.services.record().create(body as RecordToCreateDto)
+    const persistedRecord = await this.database.insert(recordToCreate)
+    return new JsonServerResponse({ record: persistedRecord.dto })
   }
 
   validateConfig() {

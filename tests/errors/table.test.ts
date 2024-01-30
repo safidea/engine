@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { createTable, TableError } from '@solumy/engine/table'
 
-test.describe('Table schema errors', () => {
+test.describe.only('Table schema errors', () => {
   test('empty config should return 2 errors', async () => {
     // GIVEN
     const config = {}

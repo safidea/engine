@@ -19,6 +19,13 @@
 
 **Notes:**
 
+30/01
+
+- Les drivers peuvent être remplacés dans createApp, etc...
+- Il n'y a aucune logique métier dans les drivers et les mappers
+- Les fonctions comme createApp permettent juste de créer l'entity avec les drivers et les mappers
+- Le prefix I est uniquement utiliser pour indiquer que c'est une interface À IMPLEMENTER
+
 24/01
 
 - Créer un composant form qui intègre directement les inputs

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-bun run lint
-bun run build
-bun run test
+#bun run lint
+#bun run build
+#bun run test

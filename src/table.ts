@@ -1,20 +1,14 @@
-import { Table } from '@domain/entities/table/Table'
-import { drivers } from '@drivers/index'
-import { TableError } from '@domain/entities/table/TableError'
-import type { EngineError } from '@domain/entities/EngineError'
-import { TableController } from './adapter/controllers/TableController'
-import type { ITable } from '@domain/entities/table/ITable'
+import { TableController } from '@adapter/api/controllers/TableController'
+import { drivers as defaultDrivers } from '@infra/Drivers'
+import type { CreateTableParamsDto } from '@adapter/api/dtos/CreateTableParamsDto'
+import type { CreateTableResultDto } from '@adapter/api/dtos/CreateTableResultDto'
+
+export type { TableDto as Table } from '@domain/entities/table/TableDto'
 
 export async function createTable(
   config: unknown,
-  params?: {
-    tables?: ITable[]
-  }
-): Promise<{ table?: Table; errors: EngineError[] }> {
-  const tableController = new TableController(drivers, params)
-  const { entity, errors } = await tableController.createEntity(config)
-  return { table: entity, errors }
+  params?: CreateTableParamsDto
+): Promise<CreateTableResultDto> {
+  const { drivers = {} } = params ?? {}
+  return new TableController({ ...defaultDrivers, ...drivers }).create(config)
 }
-
-export type { ITable } from '@domain/entities/table/ITable'
-export { TableError }
