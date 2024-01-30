@@ -4,6 +4,7 @@ import type { IServer } from './server/IServer'
 import type { ILogger } from './ILogger'
 import type { IUi } from './IUi'
 import type { IDatabase } from './IDatabase'
+import type { IIdGeneratorDriver } from 'src/mappers/services/idGenerator/IIdGeneratorDriver'
 
 export interface Drivers {
   schemaValidator: ISchemaValidator
@@ -12,4 +13,5 @@ export interface Drivers {
   logger: ILogger
   ui: IUi
   database: IDatabase
+  idGenerator: IIdGeneratorDriver
 }

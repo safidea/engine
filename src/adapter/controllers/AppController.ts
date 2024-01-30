@@ -6,6 +6,8 @@ import type { Components } from '@domain/components'
 import { Controller } from './Controller'
 import type { IApp } from '@domain/entities/app/IApp'
 import { AppError } from '@domain/entities/app/AppError'
+import { IdGeneratorMapper } from 'src/mappers/services/idGenerator/IdGeneratorMapper'
+import { Services } from '@domain/services/Services'
 
 export class AppController extends Controller<IApp> implements IController<App> {
   constructor(
@@ -32,6 +34,7 @@ export class AppController extends Controller<IApp> implements IController<App> 
       drivers: this.drivers,
       components: this.getComponents(components),
       port,
+      services: new Services({ idGenerator: new IdGeneratorMapper(this.drivers.idGenerator) }),
     })
     const configErrors = this.getConfigErrors(entity)
     if (configErrors) return { errors: configErrors }

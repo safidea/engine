@@ -24,7 +24,7 @@ export class Feature implements IEntity {
     private config: IFeature,
     private params: IFeatureParams
   ) {
-    const { drivers, components, serverInstance, layoutPage } = params
+    const { drivers, components, serverInstance, layoutPage, services } = params
     const { server, database, logger } = drivers
     const { pages, tables, name } = config
     this.name = name
@@ -37,6 +37,7 @@ export class Feature implements IEntity {
         featureName: this.name,
         serverInstance: this.server,
         databaseInstance: this.database,
+        services,
       })
     }
     // TODO: specs instanciation should be optional

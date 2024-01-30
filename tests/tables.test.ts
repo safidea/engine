@@ -74,4 +74,39 @@ test.describe('App with tables', () => {
     expect(row!.id).toBeDefined()
     expect(row!.name).toBe('John')
   })
+
+  test.only('should create a row with an id with a length of 24', async ({ request }) => {
+    // GIVEN
+    const config: IApp = {
+      name: 'leads backend',
+      features: [
+        {
+          name: 'leads table',
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const { app } = await createApp(config)
+    const url = await app!.start()
+
+    // WHEN
+    await request.post(`${url}/api/table/leads`, {
+      data: { name: 'John' },
+    })
+
+    // THEN
+    const row = await app!.database?.table('leads').read({ name: 'John' })
+    expect(row).toBeDefined()
+    expect(row!.id).toHaveLength(24)
+  })
 })

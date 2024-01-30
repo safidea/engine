@@ -13,6 +13,10 @@
 - [x] Write the Request Landing Page with TDD (tests for each component)
 - [ ] Write the Request Contact Form with TDD (tests for each component)
 
+**Refactor Clean Archi**
+
+- [ ] Replace all drivers in domain by services
+
 **Notes:**
 
 24/01

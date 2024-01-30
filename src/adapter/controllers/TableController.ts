@@ -5,6 +5,8 @@ import type { IController } from './IController'
 import { Controller } from './Controller'
 import type { ITable } from '@domain/entities/table/ITable'
 import { TableError } from '@domain/entities/table/TableError'
+import { Services } from '@domain/services/Services'
+import { IdGeneratorMapper } from 'src/mappers/services/idGenerator/IdGeneratorMapper'
 
 export class TableController extends Controller<ITable> implements IController<Table> {
   constructor(
@@ -27,6 +29,7 @@ export class TableController extends Controller<ITable> implements IController<T
       featureName: 'default',
       serverInstance: this.drivers.server.create(),
       databaseInstance,
+      services: new Services({ idGenerator: new IdGeneratorMapper(this.drivers.idGenerator) }),
     })
     const errors = this.getConfigErrors(entity)
     if (errors) return { errors }

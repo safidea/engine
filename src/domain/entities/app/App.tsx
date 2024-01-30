@@ -26,7 +26,7 @@ export class App implements IEntity {
     private config: IApp,
     private params: IAppParams
   ) {
-    const { drivers, components, port } = params
+    const { drivers, components, port, services } = params
     const { server, logger, database } = drivers
     this.name = config.name
     this.server = server.create(port)
@@ -39,6 +39,7 @@ export class App implements IEntity {
       components,
       drivers,
       layoutPage: this.layoutPage,
+      services,
     })
     if (this.features.hasTables()) {
       const tables = this.features.mergeTables()
@@ -48,6 +49,7 @@ export class App implements IEntity {
         serverInstance: this.server,
         databaseInstance: this.database,
         featureName: this.name,
+        services,
       })
     }
     if (this.features.hasPages()) {

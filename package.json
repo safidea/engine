@@ -39,6 +39,7 @@
     "fs-extra": "^11.2.0",
     "helmet": "^7.1.0",
     "kysely": "^0.27.2",
+    "nanoid": "^5.0.4",
     "puppeteer": "^21.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

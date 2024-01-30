@@ -12,7 +12,7 @@ export class Table implements IEntity {
 
   constructor(
     private config: ITable,
-    params: ITableParams
+    private params: ITableParams
   ) {
     const { featureName, drivers, serverInstance, databaseInstance } = params
     const { logger } = drivers
@@ -34,8 +34,8 @@ export class Table implements IEntity {
   post = async ({ body }: { body: unknown }) => {
     // TODO: validate body
     const data = body as IDatabaseRow
-    // TODO: generate automatic id
-    const record = await this.databaseTable.insert({ id: '1234', ...data })
+    const id = this.params.services.idGenerator.forDatabase()
+    const record = await this.databaseTable.insert({ id, ...data })
     return new JsonServerResponse({ record })
   }
 

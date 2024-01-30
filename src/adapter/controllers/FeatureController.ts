@@ -8,6 +8,8 @@ import type { Components } from '@domain/components'
 import { Controller } from './Controller'
 import type { IFeature } from '@domain/entities/feature/IFeature'
 import { FeatureError } from '@domain/entities/feature/FeatureError'
+import { Services } from '@domain/services/Services'
+import { IdGeneratorMapper } from 'src/mappers/services/idGenerator/IdGeneratorMapper'
 
 export class FeatureController extends Controller<IFeature> implements IController<Feature> {
   constructor(
@@ -27,6 +29,7 @@ export class FeatureController extends Controller<IFeature> implements IControll
       drivers: this.drivers,
       roles,
       components: this.getComponents(this.params?.components),
+      services: new Services({ idGenerator: new IdGeneratorMapper(this.drivers.idGenerator) }),
     })
     const errors = this.getConfigErrors(entity)
     if (errors) return { errors }
