@@ -1,4 +1,4 @@
-import type { GetRequest } from './GetRequest'
-import type { PostRequest } from './PostRequest'
+import type { Get } from './Get'
+import type { Post } from './Post'
 
-export type Request = GetRequest | PostRequest
+export type Request = Get | Post

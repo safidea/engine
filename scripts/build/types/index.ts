@@ -8,6 +8,8 @@ const __dirname = new URL('.', import.meta.url).pathname
 const OUTPUT_DIR = path.resolve(process.cwd(), 'dist')
 const ALIAS_MAP = {
   '@domain/': path.resolve(OUTPUT_DIR, 'domain') + '/',
+  '@adapter/': path.resolve(OUTPUT_DIR, 'adapter') + '/',
+  '@infrastructure/': path.resolve(OUTPUT_DIR, 'infrastructure') + '/',
 }
 
 function replaceAliasesWithRelativePaths(filePath: string) {

@@ -1,6 +1,6 @@
-import { TableAPI, type CreateParams, type CreateResult } from '@adapter/api/TableApi'
-import { drivers } from './infrastructure'
+import { TableAPI } from '@adapter/api/TableAPI'
+import { drivers } from '@infrastructure/drivers'
 
-export async function createTable(config: unknown, params?: CreateParams): Promise<CreateResult> {
-  return new TableAPI(drivers).create(config, params)
-}
+export { TableError } from '@domain/entities/TableError'
+export type { TableConfig } from '@domain/entities/Table'
+export default new TableAPI(drivers)

@@ -1,11 +1,11 @@
-import type { ToCreateRecord } from './record/ToCreateRecord'
+import type { ToCreate } from './Record/ToCreate'
 import type { DatabaseSPI } from './Database'
-import type { Filter } from './filter'
-import type { PersistedRecord } from './record/PersistedRecord'
+import type { Filter } from './Filter'
+import type { Persisted } from './Record/Persisted'
 
 export interface DatabaseTableSPI {
-  insert: (toCreateRecord: ToCreateRecord) => Promise<PersistedRecord>
-  read: (filters: Filter[]) => Promise<PersistedRecord | undefined>
+  insert: (toCreateRecord: ToCreate) => Promise<Persisted>
+  read: (filters: Filter[]) => Promise<Persisted | undefined>
 }
 
 export class DatabaseTable {
@@ -15,7 +15,11 @@ export class DatabaseTable {
     this.table = spi.table(name)
   }
 
-  async insert(toCreateRecord: ToCreateRecord) {
+  async insert(toCreateRecord: ToCreate) {
     return this.table.insert(toCreateRecord)
+  }
+
+  async read(filters: Filter[]) {
+    return this.table.read(filters)
   }
 }

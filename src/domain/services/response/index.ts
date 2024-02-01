@@ -1,8 +1,8 @@
-import { JsonServerResponse, isJsonServerResponse } from './JsonServerResponse'
-import { TextServerResponse, isTextServerResponse } from './TextServerResponse'
+import { HTMLResponse, isHTML } from './HTML'
+import { JSONResponse, isJSON } from './JSON'
 
-export type ServerResponse = JsonServerResponse | TextServerResponse
+export type Response = JSONResponse | HTMLResponse
 
-export function isServerResponse(value: unknown): value is ServerResponse {
-  return isJsonServerResponse(value) || isTextServerResponse(value)
+export function isResponse(value: unknown): value is Response {
+  return isJSON(value) || isHTML(value)
 }

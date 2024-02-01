@@ -10,7 +10,7 @@ await fs.emptyDir('schemas')
 
 async function buildSchema(schema: string) {
   await exec(
-    `bunx typescript-json-schema ./tsconfig.json I${capitalize(schema)} --out ./schemas/${schema}.schema.json --required --noExtraProps`
+    `bunx typescript-json-schema ./tsconfig.json ${capitalize(schema)}Config --out ./schemas/${schema}.schema.json --required --noExtraProps`
   )
   log(`✓ ${capitalize(schema)} schema builded`)
 }

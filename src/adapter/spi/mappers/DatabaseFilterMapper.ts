@@ -1,18 +1,18 @@
-import type { Filter } from '@domain/services/filter'
+import type { Filter } from '@domain/services/Filter'
 import type { DatabaseFilterDto } from '../dtos/DatabaseFilterDto'
-import { IsAnyOfFilter } from '@domain/services/filter/IsAnyOfFilter'
-import { IsFilter } from '@domain/services/filter/IsFilter'
+import { IsAnyOf } from '@domain/services/Filter/IsAnyOf'
+import { Is } from '@domain/services/Filter/Is'
 
 export class DatabaseFilterMapper {
   static toEntity = (dto: DatabaseFilterDto): Filter => {
     switch (dto.operator) {
       case 'in':
-        return new IsAnyOfFilter({
+        return new IsAnyOf({
           field: dto.column,
           value: dto.value,
         })
       case '=':
-        return new IsFilter({
+        return new Is({
           field: dto.column,
           value: dto.value,
         })
@@ -24,14 +24,14 @@ export class DatabaseFilterMapper {
   }
 
   static toDto = (filter: Filter): DatabaseFilterDto => {
-    if (filter instanceof IsAnyOfFilter) {
+    if (filter instanceof IsAnyOf) {
       return {
         column: filter.field,
         operator: 'in',
         value: filter.value,
       }
     }
-    if (filter instanceof IsFilter) {
+    if (filter instanceof Is) {
       return {
         column: filter.field,
         operator: '=',

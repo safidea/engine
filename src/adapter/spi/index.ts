@@ -25,4 +25,5 @@ export class SPIs implements ISPIs {
   idGenerator = () => new IdGeneratorSPI(this.drivers.idGenerator())
   logger = (location: string) => new LoggerSPI(this.drivers.logger(location))
   schemaValidator = () => new SchemaValidatorSPI(this.drivers.schemaValidator())
+  ui = () => this.drivers.ui()
 }

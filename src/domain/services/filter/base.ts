@@ -1,11 +1,11 @@
-export type BaseFilterProps = {
+export type BaseProps = {
   field: string
 }
 
-export class BaseFilter {
+export class Base {
   readonly field: string
 
-  constructor({ field }: BaseFilter) {
+  constructor({ field }: Base) {
     this.field = field
   }
 }

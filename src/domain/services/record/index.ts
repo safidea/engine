@@ -1,15 +1,16 @@
-import type { IdGenerator } from '../IdGenerator'
-import { PersistedRecord, type PersistedRecordData } from './PersistedRecord'
-import { ToCreateRecord, type ToCreateRecordData } from './ToCreateRecord'
+import { Persisted, type PersistedData } from './Persisted'
+import { ToCreate, type ToCreateData, type ToCreateParams } from './ToCreate'
+
+export type RecordParams = ToCreateParams
 
 export class Record {
-  constructor(private params: { idGenerator: IdGenerator }) {}
+  constructor(private params: RecordParams) {}
 
-  create(data: ToCreateRecordData) {
-    return new ToCreateRecord(data, this.params)
+  create(data: ToCreateData) {
+    return new ToCreate(data, this.params)
   }
 
-  persist(data: PersistedRecordData) {
-    return new PersistedRecord(data)
+  persist(data: PersistedData) {
+    return new Persisted(data)
   }
 }

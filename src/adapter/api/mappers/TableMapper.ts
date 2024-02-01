@@ -1,7 +1,7 @@
-import { Table } from '@domain/entities/table/Table'
-import { TableError } from '@domain/entities/table/TableError'
+import { Table } from '@domain/entities/Table'
+import { TableError } from '@domain/entities/TableError'
 import { Services } from '@domain/services'
-import type { SchemaValidatorErrorDto } from 'src/adapter/spi/dtos/SchemaValidatorErrorDto'
+import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import type { TableDto } from '../dtos/TableDto'
 
 export class TableMapper {
@@ -9,7 +9,8 @@ export class TableMapper {
     const server = services.server()
     const database = services.database()
     const logger = services.logger(`table:${dto.name}`)
-    return new Table(dto, { services, server, database, logger })
+    const record = services.record()
+    return new Table(dto, { server, database, logger, record })
   }
 
   static toErrorEntity(errorDto: SchemaValidatorErrorDto) {
