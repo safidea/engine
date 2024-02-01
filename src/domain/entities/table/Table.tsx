@@ -1,19 +1,31 @@
-import type { IEntity } from '../IEntity'
-import type { TableDto } from './TableDto'
-import type { TableParams } from './TableParams'
-import type { DatabaseTable } from '@domain/services/database/table/DatabaseTable'
-import type { RecordToCreateDto } from '../../services/record/toCreate/RecordToCreateDto'
-import { JsonServerResponse } from '@domain/services/server/response/json'
+import type { DatabaseTable } from '@domain/services/DatabaseTable'
+import { JsonServerResponse } from '@domain/services/response/JsonServerResponse'
+import type { Server } from '@domain/services/Server'
+import type { Database } from '@domain/services/Database'
+import type { Logger } from '@domain/services/Logger'
+import type { Field } from './fields'
+import type { Engine, EngineParams } from '../Engine'
+import type { ToCreateRecordData } from '@domain/services/record/ToCreateRecord'
 
-export class Table implements IEntity {
+export interface TableConfig {
+  name: string
+  fields: Field[]
+}
+
+export interface TableParams extends EngineParams {
+  server: Server
+  database: Database
+  logger: Logger
+}
+
+export class Table implements Engine {
   private database: DatabaseTable
 
   constructor(
-    private config: TableDto,
+    private config: TableConfig,
     private params: TableParams
   ) {
-    const { server, database, logger } = params
-    server.post(this.path, this.post)
+    const { database, logger } = params
     this.database = database.table(this.name)
     logger.log(`POST mounted on ${this.path}`)
   }
@@ -32,9 +44,9 @@ export class Table implements IEntity {
 
   post = async ({ body }: { body: unknown }) => {
     // TODO: validate body
-    const recordToCreate = this.params.services.record().create(body as RecordToCreateDto)
-    const persistedRecord = await this.database.insert(recordToCreate)
-    return new JsonServerResponse({ record: persistedRecord.dto })
+    const toCreateRecord = this.params.services.record().create(body as ToCreateRecordData)
+    const persistedRecord = await this.database.insert(toCreateRecord)
+    return new JsonServerResponse({ record: persistedRecord.data })
   }
 
   validateConfig() {

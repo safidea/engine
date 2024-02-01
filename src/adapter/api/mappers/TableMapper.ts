@@ -1,15 +1,15 @@
-import type { TableDto } from '@domain/entities/table/TableDto'
 import { Table } from '@domain/entities/table/Table'
 import { TableError } from '@domain/entities/table/TableError'
-import { Services } from '@domain/services/Services'
+import { Services } from '@domain/services'
 import type { SchemaValidatorErrorDto } from 'src/adapter/spi/dtos/SchemaValidatorErrorDto'
+import type { TableDto } from '../dtos/TableDto'
 
 export class TableMapper {
-  static toEntity(tableDto: TableDto, services: Services) {
+  static toEntity(dto: TableDto, services: Services) {
     const server = services.server()
     const database = services.database()
-    const logger = services.logger(`table:${tableDto.name}`)
-    return new Table(tableDto, { services, server, database, logger })
+    const logger = services.logger(`table:${dto.name}`)
+    return new Table(dto, { services, server, database, logger })
   }
 
   static toErrorEntity(errorDto: SchemaValidatorErrorDto) {
@@ -22,6 +22,7 @@ export class TableMapper {
     } else if (keyword === 'type') {
       if (instancePath === '/name') return new TableError('NAME_STRING_TYPE_REQUIRED')
     }
+    return new TableError('UNKNOWN_SCHEMA_ERROR')
   }
 
   static toErrorEntities(errorDtos: SchemaValidatorErrorDto[]) {

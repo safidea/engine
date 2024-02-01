@@ -18,7 +18,7 @@
     "paths": {
       "@solumy/engine": ["dist/app"],
       "@solumy/engine/*": ["dist/*"],
-      "@infra/*": ["src/infra/*"],
+      "@infra/*": ["src/infrastructure/*"],
       "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
       "@tests/components": ["tests/dist/components"],

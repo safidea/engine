@@ -7,7 +7,7 @@ export type TableErrorCode =
   | 'NAME_STRING_TYPE_REQUIRED'
   | 'FIELDS_REQUIRED'
 
-export type TableErrorData = {
+export interface TableErrorData {
   property: string
 }
 

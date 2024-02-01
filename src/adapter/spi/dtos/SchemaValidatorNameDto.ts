@@ -1,8 +1,3 @@
-export type SchemaValidatorNameDto =
-  | 'app'
-  | 'component'
-  | 'feature'
-  | 'page'
-  | 'role'
-  | 'spec'
-  | 'table'
+import type { SchemaValidatorName } from '@domain/services/SchemaValidator'
+
+export type SchemaValidatorNameDto = SchemaValidatorName

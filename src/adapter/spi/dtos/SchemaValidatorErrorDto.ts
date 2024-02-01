@@ -1,9 +1,3 @@
-export interface SchemaValidatorErrorDto {
-  instancePath: string
-  keyword: string
-  params: {
-    missingProperty: string
-    additionalProperty: string
-  }
-  index?: number
-}
+import type { SchemaValidatorError } from '@domain/services/SchemaValidator'
+
+export type SchemaValidatorErrorDto = SchemaValidatorError

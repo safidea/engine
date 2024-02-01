@@ -1,13 +1,11 @@
 import type { EngineError } from '../EngineError.ts'
-import type { IList } from '../IList.ts'
-import type { TableDto } from './TableDto.ts'
-import type { TableParams } from './TableParams.ts'
-import { Table } from './Table.tsx'
+import type { EngineList } from '../EngineList.ts'
+import { Table, type TableConfig, type TableParams } from './Table.tsx'
 
-export class TableList implements IList<Table> {
+export class TableList implements EngineList<Table> {
   private tables: Table[]
 
-  constructor(config: TableDto[], params: TableParams) {
+  constructor(config: TableConfig[], params: TableParams) {
     this.tables = config.map((table) => new Table(table, params))
   }
 

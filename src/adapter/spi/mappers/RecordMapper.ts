@@ -1,13 +1,14 @@
-import { PersistedRecord } from '@domain/services/record/persisted/PersistedRecord'
-import type { RecordToCreate } from '@domain/services/record/toCreate/RecordToCreate'
-import type { RecordDto } from '@adapter/spi/dtos/RecordDto'
+import { PersistedRecord } from '@domain/services/record/PersistedRecord'
+import type { ToCreateRecord } from '@domain/services/record/ToCreateRecord'
+import type { PersistedRecordDto } from '../dtos/PersistedRecordDto'
+import type { ToCreateRecordDto } from '../dtos/ToCreateRecordDto'
 
 export class RecordMapper {
-  static toCreateDto(recordToCreate: RecordToCreate): RecordDto {
-    return recordToCreate.data
+  static toCreateDto = (toCreateRecord: ToCreateRecord): ToCreateRecordDto => {
+    return toCreateRecord.data
   }
 
-  static toPersistedEntity(record: RecordDto) {
+  static toPersistedEntity = (record: PersistedRecordDto) => {
     return new PersistedRecord(record)
   }
 }

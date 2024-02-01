@@ -1,14 +1,6 @@
-import { TableController } from '@adapter/api/controllers/TableController'
-import { drivers as defaultDrivers } from '@infra/Drivers'
-import type { CreateTableParamsDto } from '@adapter/api/dtos/CreateTableParamsDto'
-import type { CreateTableResultDto } from '@adapter/api/dtos/CreateTableResultDto'
+import { TableAPI, type CreateParams, type CreateResult } from '@adapter/api/TableApi'
+import { drivers } from './infrastructure'
 
-export type { TableDto as Table } from '@domain/entities/table/TableDto'
-
-export async function createTable(
-  config: unknown,
-  params?: CreateTableParamsDto
-): Promise<CreateTableResultDto> {
-  const { drivers = {} } = params ?? {}
-  return new TableController({ ...defaultDrivers, ...drivers }).create(config)
+export async function createTable(config: unknown, params?: CreateParams): Promise<CreateResult> {
+  return new TableAPI(drivers).create(config, params)
 }
