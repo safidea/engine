@@ -11,4 +11,8 @@ export class Meta {
     this.name = config.name
     this.content = config.content
   }
+
+  render = () => {
+    return <meta name={this.name} content={this.content} />
+  }
 }

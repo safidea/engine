@@ -1,24 +1,4 @@
-import type { HTMLInputType } from '../utils'
-
-export interface FormProps {
-  title: string
-  description: string
-  inputs: {
-    name: string
-    type?: HTMLInputType
-    placeholder?: string
-    label?: string
-    required?: boolean
-  }[]
-  submitButton: {
-    label: string
-  }
-  successMessage?: string
-}
-
-export interface IForm extends FormProps {
-  component: 'Form'
-}
+import type { FormProps } from '@domain/entities/Component/application/Form'
 
 export const Form = ({ title, description, inputs, submitButton, successMessage }: FormProps) => (
   <section className="bg-white dark:bg-gray-900">

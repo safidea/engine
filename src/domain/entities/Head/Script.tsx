@@ -11,4 +11,8 @@ export class Script {
     this.src = config.src
     this.type = config.type || 'text/javascript'
   }
+
+  render = () => {
+    return <script src={this.src} type={this.type} />
+  }
 }

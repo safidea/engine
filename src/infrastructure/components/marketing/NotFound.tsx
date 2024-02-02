@@ -1,15 +1,4 @@
-export interface NotFoundProps {
-  title: string
-  description: string
-  primaryButton: {
-    label: string
-    href: string
-  }
-}
-
-export interface INotFound extends NotFoundProps {
-  component: 'NotFound'
-}
+import type { NotFoundProps } from '@domain/entities/Component/marketing/NotFound'
 
 export const NotFound = ({ title, description, primaryButton }: NotFoundProps) => (
   <section className="bg-white dark:bg-gray-900">

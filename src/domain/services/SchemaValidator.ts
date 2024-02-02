@@ -17,7 +17,7 @@ export interface SchemaValidatorError {
   index?: number
 }
 
-export interface SchemaValidatorSPI {
+export interface SchemaValidatorSpi {
   validateSchema<T>(
     json: unknown,
     name: SchemaValidatorName
@@ -28,7 +28,7 @@ export interface SchemaValidatorSPI {
 }
 
 export class SchemaValidator {
-  constructor(public spi: SchemaValidatorSPI) {}
+  constructor(public spi: SchemaValidatorSpi) {}
 
   validate<T>(json: unknown, schema: SchemaValidatorName) {
     return this.spi.validateSchema<T>(json, schema)

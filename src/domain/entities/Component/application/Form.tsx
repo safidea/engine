@@ -1,11 +1,11 @@
-import type { Base, BaseComponent, HTMLInputType } from '../base'
+import type { Base, ReactComponent, InputType } from '../base'
 
 export interface FormConfig {
   title: string
   description: string
   inputs: {
     name: string
-    type?: HTMLInputType
+    type?: InputType
     placeholder?: string
     label?: string
     required?: boolean
@@ -19,7 +19,7 @@ export interface FormConfig {
 export type FormProps = FormConfig
 
 export interface FormParams {
-  component: BaseComponent<FormConfig>
+  component: ReactComponent<FormConfig>
 }
 
 export class Form implements Base {

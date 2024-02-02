@@ -1,10 +1,10 @@
-import type { LoggerSPI as ILoggerSPI } from '@domain/services/Logger'
+import type { LoggerSpi as ILoggerSpi } from '@domain/services/Logger'
 
 export interface LoggerDriver {
   log: (message: string) => void
 }
 
-export class LoggerSPI implements ILoggerSPI {
+export class LoggerSpi implements ILoggerSpi {
   constructor(private driver: LoggerDriver) {}
 
   log = (message: string) => this.driver.log(message)

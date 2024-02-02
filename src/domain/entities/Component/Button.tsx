@@ -1,4 +1,4 @@
-import type { BaseComponent, Base } from './base'
+import type { ReactComponent, Base } from './base'
 
 export interface ButtonProps {
   label: string
@@ -9,7 +9,7 @@ export interface ButtonProps {
 export type ButtonConfig = ButtonProps
 
 export interface ButtonParams {
-  component: BaseComponent<ButtonProps>
+  component: ReactComponent<ButtonProps>
 }
 
 export class Button implements Base {

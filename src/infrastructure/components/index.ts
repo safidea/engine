@@ -1,46 +1,22 @@
-import { Page, type PageProps } from './base/Page'
-import { Paragraph, type ParagraphProps, type IParagraph } from './base/Paragraph'
-import { Hero, type HeroProps, type IHero } from './marketing/Hero'
-import { Logos, type ILogos, type LogosProps } from './marketing/Logos'
-import { Features, type FeaturesProps, type IFeatures } from './marketing/Features'
-import { CTA, type CTAProps, type ICTA } from './marketing/CTA'
-import { Button, type ButtonProps, type IButton } from './base/Button'
-import { Footer, type FooterProps, type IFooter } from './marketing/Footer'
-import { NotFound, type NotFoundProps, type INotFound } from './marketing/NotFound'
-import { Form, type FormProps, type IForm } from './application/Form'
+import type { ReactComponents } from '@domain/entities/Component'
+import { Form } from './application/Form'
+import { Button } from './base/Button'
+import { Html } from './base/Html'
+import { Paragraph } from './base/Paragraph'
+import { Cta } from './marketing/Cta'
+import { Features } from './marketing/Features'
+import { Footer } from './marketing/Footer'
+import { Hero } from './marketing/Hero'
+import { Logos } from './marketing/Logos'
+import { NotFound } from './marketing/NotFound'
 
-export type { Icon } from './utils'
-export type IComponent =
-  | IParagraph
-  | IHero
-  | ILogos
-  | IFeatures
-  | ICTA
-  | IButton
-  | IFooter
-  | INotFound
-  | IForm
-
-export type Components = {
-  Page: (props: PageProps) => JSX.Element
-  Paragraph: (props: ParagraphProps) => JSX.Element
-  Hero: (props: HeroProps) => JSX.Element
-  Logos: (props: LogosProps) => JSX.Element
-  Features: (props: FeaturesProps) => JSX.Element
-  CTA: (props: CTAProps) => JSX.Element
-  Button: (props: ButtonProps) => JSX.Element
-  Footer: (props: FooterProps) => JSX.Element
-  NotFound: (props: NotFoundProps) => JSX.Element
-  Form: (props: FormProps) => JSX.Element
-}
-
-export const components: Components = {
-  Page,
+export const components: ReactComponents = {
+  Html,
   Paragraph,
   Hero,
   Logos,
   Features,
-  CTA,
+  Cta,
   Button,
   Footer,
   NotFound,

@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 import { createPage, type IPage } from '@solumy/engine/page'
 
-test.describe('CTA component', () => {
-  test('should render a CTA', async ({ page }) => {
+test.describe('Cta component', () => {
+  test('should render a Cta', async ({ page }) => {
     // GIVEN
     const title = 'This is a title'
     const description = 'This is a description'
@@ -15,7 +15,7 @@ test.describe('CTA component', () => {
       path: '/',
       body: [
         {
-          component: 'CTA',
+          component: 'Cta',
           title,
           description,
           primaryButton,
@@ -52,7 +52,7 @@ test.describe('CTA component', () => {
       path: '/',
       body: [
         {
-          component: 'CTA',
+          component: 'Cta',
           title,
           description,
           primaryButton,

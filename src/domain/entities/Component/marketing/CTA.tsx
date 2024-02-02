@@ -1,6 +1,6 @@
-import type { BaseComponent, Base } from '../base'
+import type { ReactComponent, Base } from '../base'
 
-export interface CTAProps {
+export interface CtaProps {
   title: string
   description: string
   primaryButton: {
@@ -9,16 +9,16 @@ export interface CTAProps {
   }
 }
 
-export type CTAConfig = CTAProps
+export type CtaConfig = CtaProps
 
-export interface CTAParams {
-  component: BaseComponent<CTAProps>
+export interface CtaParams {
+  component: ReactComponent<CtaProps>
 }
 
-export class CTA implements Base {
+export class Cta implements Base {
   constructor(
-    private config: CTAConfig,
-    private params: CTAParams
+    private config: CtaConfig,
+    private params: CtaParams
   ) {}
 
   render = () => <this.params.component {...this.config} />

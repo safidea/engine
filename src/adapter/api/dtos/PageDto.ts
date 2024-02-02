@@ -1,3 +1,9 @@
-import type { PageConfig } from '@domain/entities/Page'
+import type { ComponentDto } from './ComponentDto'
+import type { HeadDto } from './HeadDto'
 
-export type PageDto = PageConfig
+export type PageDto = {
+  name: string
+  path: string
+  head: HeadDto
+  body: ComponentDto[]
+}

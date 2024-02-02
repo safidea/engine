@@ -1,4 +1,4 @@
-import type { DatabaseTableDriver } from '@adapter/spi/DatabaseTableSPI'
+import type { DatabaseTableDriver } from '@adapter/spi/DatabaseTableSpi'
 import type { DatabaseFilterDto } from '@adapter/spi/dtos/DatabaseFilterDto'
 import type { DatabaseTableColumnDto } from '@adapter/spi/dtos/DatabaseTableColumnDto'
 import type { PersistedDto, ToCreateDto } from '@adapter/spi/dtos/RecordDto'

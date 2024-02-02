@@ -1,4 +1,4 @@
-import type { DatabaseDriver } from '@adapter/spi/DatabaseSPI'
+import type { DatabaseDriver } from '@adapter/spi/DatabaseSpi'
 import SQLite from 'better-sqlite3'
 import { Kysely, SqliteDialect } from 'kysely'
 import { KyselyDatabaseTable, type Database } from './KyselyDatabaseTableDriver'

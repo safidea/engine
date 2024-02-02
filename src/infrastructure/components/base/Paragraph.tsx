@@ -1,9 +1,3 @@
-export interface ParagraphProps {
-  text: string
-}
-
-export interface IParagraph extends ParagraphProps {
-  component: 'Paragraph'
-}
+import type { ParagraphProps } from '@domain/entities/Component/Paragraph'
 
 export const Paragraph = ({ text }: ParagraphProps) => <p>{text}</p>

@@ -1,24 +1,25 @@
-import { Services } from '@domain/services'
-import { SPIs, type Drivers } from '@adapter/spi'
+import { type Drivers } from '@adapter/spi'
 import { TableMapper } from './mappers/TableMapper'
-import type { Table, TableConfig } from '@domain/entities/Table'
+import type { Table } from '@domain/entities/Table'
 import { TableError } from '@domain/entities/TableError'
+import type { ReactComponents } from '@domain/entities/Component'
+import { Api, type ApiParams } from './Api'
+import type { TableDto } from './dtos/TableDto'
 
-export class TableAPI {
-  constructor(private drivers: Drivers) {}
+export class TableApi extends Api {
+  constructor(drivers: Drivers, components: ReactComponents) {
+    super(drivers, components)
+  }
 
   async create(
     config: unknown,
-    params?: {
-      drivers?: Partial<Drivers>
-    }
+    params?: ApiParams
   ): Promise<{
     table?: Table
     errors: TableError[]
   }> {
-    const { drivers = {} } = params ?? {}
-    const services = new Services(new SPIs({ ...this.drivers, ...drivers }))
-    const schema = services.schemaValidator().validate<TableConfig>(config, 'table')
+    const services = this.services(params)
+    const schema = services.schemaValidator().validate<TableDto>(config, 'table')
     if (schema.errors) return { errors: TableMapper.toErrorEntities(schema.errors) }
     if (!schema.json) return { errors: [new TableError('UNKNOWN_SCHEMA_ERROR')] }
     const table = TableMapper.toEntity(schema.json, services)

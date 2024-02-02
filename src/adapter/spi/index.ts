@@ -1,11 +1,12 @@
-import type { SPIs as ISPIs } from '@domain/services'
-import type { BrowserDriver } from './BrowserSPI'
-import { DatabaseSPI, type DatabaseDriver } from './DatabaseSPI'
-import { IdGeneratorSPI, type IdGeneratorDriver } from './IdGeneratorSPI'
-import { LoggerSPI, type LoggerDriver } from './LoggerSPI'
-import { SchemaValidatorSPI, type SchemaValidatorDriver } from './SchemaValidatorSPI'
-import { ServerSPI, type ServerDriver } from './ServerSPI'
-import type { UIDriver } from './UISPI'
+import type { Spis as ISpis } from '@domain/services'
+import type { BrowserDriver } from './BrowserSpi'
+import { DatabaseSpi, type DatabaseDriver } from './DatabaseSpi'
+import { IdGeneratorSpi, type IdGeneratorDriver } from './IdGeneratorSpi'
+import { LoggerSpi, type LoggerDriver } from './LoggerSpi'
+import { SchemaValidatorSpi, type SchemaValidatorDriver } from './SchemaValidatorSpi'
+import { ServerSpi, type ServerDriver } from './ServerSpi'
+import type { UiDriver } from './UiSpi'
+import type { ReactComponents } from '@domain/entities/Component'
 
 export interface Drivers {
   server: () => ServerDriver
@@ -14,16 +15,19 @@ export interface Drivers {
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
-  ui: () => UIDriver
+  ui: () => UiDriver
 }
 
-export class SPIs implements ISPIs {
-  constructor(private drivers: Drivers) {}
+export class Spis implements ISpis {
+  constructor(
+    private drivers: Drivers,
+    public components: ReactComponents
+  ) {}
 
-  database = () => new DatabaseSPI(this.drivers.database())
-  server = () => new ServerSPI(this.drivers.server())
-  idGenerator = () => new IdGeneratorSPI(this.drivers.idGenerator())
-  logger = (location: string) => new LoggerSPI(this.drivers.logger(location))
-  schemaValidator = () => new SchemaValidatorSPI(this.drivers.schemaValidator())
+  database = () => new DatabaseSpi(this.drivers.database())
+  server = () => new ServerSpi(this.drivers.server())
+  idGenerator = () => new IdGeneratorSpi(this.drivers.idGenerator())
+  logger = (location: string) => new LoggerSpi(this.drivers.logger(location))
+  schemaValidator = () => new SchemaValidatorSpi(this.drivers.schemaValidator())
   ui = () => this.drivers.ui()
 }

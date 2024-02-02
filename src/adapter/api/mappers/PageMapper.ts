@@ -3,13 +3,17 @@ import { PageError } from '@domain/entities/PageError'
 import { Services } from '@domain/services'
 import type { PageDto } from '../dtos/PageDto'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
+import { ComponentMapper } from './ComponentMapper'
+import { HeadMapper } from './HeadMapper'
 
 export class PageMapper {
   static toEntity(dto: PageDto, services: Services) {
     const server = services.server()
     const ui = services.ui()
     const logger = services.logger(`page:${dto.name}`)
-    return new Page(dto, { server, logger, ui })
+    const body = ComponentMapper.toManyEntities(dto.body, services.components)
+    const head = HeadMapper.toEntity(dto.head)
+    return new Page({ ...dto, head, body }, { server, logger, ui, Html: services.components.Html })
   }
 
   static toErrorEntity(errorDto: SchemaValidatorErrorDto) {

@@ -1,6 +1,7 @@
-import { PageAPI } from '@adapter/api/PageAPI'
+import { PageApi } from '@adapter/api/PageApi'
+import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { PageError } from '@domain/entities/PageError'
-export type { PageConfig } from '@domain/entities/Page'
-export default new PageAPI(drivers)
+export type { PageDto as PageConfig } from '@adapter/api/dtos/PageDto'
+export default new PageApi(drivers, components)

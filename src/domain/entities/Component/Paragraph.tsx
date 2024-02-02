@@ -1,4 +1,4 @@
-import type { BaseComponent, Base } from './base'
+import type { ReactComponent, Base } from './base'
 
 export interface ParagraphProps {
   text: string
@@ -7,7 +7,7 @@ export interface ParagraphProps {
 export type ParagraphConfig = ParagraphProps
 
 export interface ParagraphParams {
-  component: BaseComponent<ParagraphProps>
+  component: ReactComponent<ParagraphProps>
 }
 
 export class Paragraph implements Base {

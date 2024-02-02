@@ -1,5 +1,5 @@
 import type { BrowserLaunchOptionsDto } from '@adapter/spi/dtos/BrowserLaunchOptionsDto'
-import type { BrowserDriver } from '@adapter/spi/BrowserSPI'
+import type { BrowserDriver } from '@adapter/spi/BrowserSpi'
 import puppeteer from 'puppeteer'
 import { PuppeteerBrowserPageDriver } from './PuppeteerBrowserPageDriver'
 

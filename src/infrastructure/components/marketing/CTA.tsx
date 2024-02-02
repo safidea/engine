@@ -1,17 +1,6 @@
-export interface CTAProps {
-  title: string
-  description: string
-  primaryButton: {
-    label: string
-    href: string
-  }
-}
+import type { CtaProps } from '@domain/entities/Component/marketing/Cta'
 
-export interface ICTA extends CTAProps {
-  component: 'CTA'
-}
-
-export const CTA = ({ title, description, primaryButton }: CTAProps) => (
+export const Cta = ({ title, description, primaryButton }: CtaProps) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div className="max-w-screen-md">

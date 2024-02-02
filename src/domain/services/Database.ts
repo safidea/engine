@@ -1,11 +1,11 @@
-import { DatabaseTable, type DatabaseTableSPI } from './DatabaseTable'
+import { DatabaseTable, type DatabaseTableSpi } from './DatabaseTable'
 
-export interface DatabaseSPI {
-  table: (name: string) => DatabaseTableSPI
+export interface DatabaseSpi {
+  table: (name: string) => DatabaseTableSpi
 }
 
 export class Database {
-  constructor(private spi: DatabaseSPI) {}
+  constructor(private spi: DatabaseSpi) {}
 
   table(name: string) {
     return new DatabaseTable(this.spi, name)

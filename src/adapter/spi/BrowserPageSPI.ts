@@ -1,4 +1,4 @@
-import type { BrowserElementDriver } from './BrowserElementSPI'
+import type { BrowserElementDriver } from './BrowserElementSpi'
 
 export interface BrowserPageDriver {
   open(url: string): Promise<void>

@@ -1,3 +1,3 @@
-export interface UIDriver {
+export interface UiDriver {
   render: (component: JSX.Element) => string
 }

@@ -1,4 +1,4 @@
-import type { BaseComponent, Base } from '../base'
+import type { ReactComponent, Base } from '../base'
 
 export interface HeroProps {
   title: string
@@ -12,7 +12,7 @@ export interface HeroProps {
 export type HeroConfig = HeroProps
 
 export interface HeroParams {
-  component: BaseComponent<HeroProps>
+  component: ReactComponent<HeroProps>
 }
 
 export class Hero implements Base {

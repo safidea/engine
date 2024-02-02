@@ -1,10 +1,10 @@
-export type BaseComponent<T> = (props: T) => JSX.Element
+export type ReactComponent<T> = (props: T) => JSX.Element
 
 export interface Base {
   render: () => JSX.Element
 }
 
-export type HTMLInputType =
+export type InputType =
   | 'button'
   | 'checkbox'
   | 'color'

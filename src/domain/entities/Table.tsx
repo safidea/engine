@@ -6,7 +6,7 @@ import type { Field } from './Field'
 import type { Engine } from './Engine'
 import type { Record } from '@domain/services/Record'
 import type { ToCreateData } from '@domain/services/Record/ToCreate'
-import { JSONResponse } from '@domain/services/Response/JSON'
+import { Json } from '@domain/services/Response/JSON'
 
 export interface TableConfig {
   name: string
@@ -49,7 +49,7 @@ export class Table implements Engine {
     // TODO: validate body
     const toCreateRecord = this.params.record.create(body as ToCreateData)
     const persistedRecord = await this.database.insert(toCreateRecord)
-    return new JSONResponse({ record: persistedRecord.data })
+    return new Json({ record: persistedRecord.data })
   }
 
   validateConfig() {

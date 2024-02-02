@@ -1,5 +1,5 @@
 import type { SchemaValidatorNameDto } from './dtos/SchemaValidatorNameDto'
-import type { SchemaValidatorSPI as ISchemaValidatorSPI } from '@domain/services/SchemaValidator'
+import type { SchemaValidatorSpi as ISchemaValidatorSpi } from '@domain/services/SchemaValidator'
 import type { SchemaValidatorErrorDto } from './dtos/SchemaValidatorErrorDto'
 
 export interface SchemaValidatorDriver {
@@ -12,7 +12,7 @@ export interface SchemaValidatorDriver {
   }
 }
 
-export class SchemaValidatorSPI implements ISchemaValidatorSPI {
+export class SchemaValidatorSpi implements ISchemaValidatorSpi {
   constructor(private driver: SchemaValidatorDriver) {}
 
   validateSchema = <T>(data: unknown, schema: SchemaValidatorNameDto) => {

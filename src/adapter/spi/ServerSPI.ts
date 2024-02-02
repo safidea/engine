@@ -1,7 +1,7 @@
 import type { Get } from '@domain/services/Request/Get'
 import type { Post } from '@domain/services/Request/Post'
 import type { Response } from '@domain/services/Response'
-import type { ServerSPI as IServerSPI } from '@domain/services/Server'
+import type { ServerSpi as IServerSpi } from '@domain/services/Server'
 import type { GetDto, PostDto } from './dtos/RequestDto'
 import { RequestMapper } from './mappers/RequestMapper'
 import type { ResponseDto } from './dtos/ResponseDto'
@@ -13,7 +13,7 @@ export interface ServerDriver {
   post(path: string, handler: (request: PostDto) => Promise<ResponseDto>): Promise<void>
 }
 
-export class ServerSPI implements IServerSPI {
+export class ServerSpi implements IServerSpi {
   constructor(private driver: ServerDriver) {}
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {

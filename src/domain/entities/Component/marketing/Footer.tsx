@@ -1,4 +1,4 @@
-import type { BaseComponent, Base } from '../base'
+import type { ReactComponent, Base } from '../base'
 
 export interface FooterProps {
   title: string
@@ -13,7 +13,7 @@ export interface FooterProps {
 export type FooterConfig = FooterProps
 
 export interface FooterParams {
-  component: BaseComponent<FooterProps>
+  component: ReactComponent<FooterProps>
 }
 
 export class Footer implements Base {

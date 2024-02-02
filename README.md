@@ -39,7 +39,7 @@
 
 - L'engine doit proposer une liste de composants et d'action par défaut, tout en laissant la liberté d'en ajouter des nouveaux par le développeur
 - L'intégrité des composants et des actions est vérifié par la validation du schema
-- Utiliser TailwindComponent au lieu de Tailwind UI pour les composants par défaut
+- Utiliser TailwindComponent au lieu de Tailwind Ui pour les composants par défaut
 - Les composants doivent être du JSX
 - Les tests E2E des features peuvent s'exécuter via une fonction dédiée, on peut decider de lancer l'application avec les tests ou sans
 - Les tests peuvent s'exécuter pour toutes les features ou juste pour l'une d'entre elles

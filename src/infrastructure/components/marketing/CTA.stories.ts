@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { CTA } from './CTA'
+import { Cta } from './Cta'
 
 const meta = {
-  title: 'Marketing/CTA',
-  component: CTA,
+  title: 'Marketing/Cta',
+  component: Cta,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof CTA>
+} satisfies Meta<typeof Cta>
 
 export default meta
 type Story = StoryObj<typeof meta>

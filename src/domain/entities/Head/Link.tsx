@@ -8,4 +8,8 @@ export class Link {
   constructor(config: LinkConfig) {
     this.href = config.href
   }
+
+  render = () => {
+    return <link href={this.href} />
+  }
 }

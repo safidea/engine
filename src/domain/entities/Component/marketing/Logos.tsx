@@ -1,4 +1,4 @@
-import type { BaseComponent, Base } from '../base'
+import type { ReactComponent, Base } from '../base'
 
 export interface LogosProps {
   title: string
@@ -11,7 +11,7 @@ export interface LogosProps {
 export type LogosConfig = LogosProps
 
 export interface LogosParams {
-  component: BaseComponent<LogosProps>
+  component: ReactComponent<LogosProps>
 }
 
 export class Logos implements Base {

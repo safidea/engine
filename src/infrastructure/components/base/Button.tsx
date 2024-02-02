@@ -1,12 +1,4 @@
-export interface ButtonProps {
-  label: string
-  href?: string
-  variant?: 'primary' | 'secondary'
-}
-
-export interface IButton extends ButtonProps {
-  component: 'Button'
-}
+import type { ButtonProps } from '@domain/entities/Component/Button'
 
 export const Button = ({ label, href, variant = 'primary' }: ButtonProps) => {
   const classes = getVariant(variant)

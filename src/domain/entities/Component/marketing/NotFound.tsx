@@ -1,4 +1,4 @@
-import type { Base, BaseComponent } from '../base'
+import type { Base, ReactComponent } from '../base'
 
 export interface NotFoundProps {
   title: string
@@ -12,7 +12,7 @@ export interface NotFoundProps {
 export type NotFoundConfig = NotFoundProps
 
 export interface NotFoundParams {
-  component: BaseComponent<NotFoundProps>
+  component: ReactComponent<NotFoundProps>
 }
 
 export class NotFound implements Base {

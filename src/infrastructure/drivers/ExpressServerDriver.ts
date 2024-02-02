@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
-import type { ServerDriver } from '@adapter/spi/ServerSPI'
+import type { ServerDriver } from '@adapter/spi/ServerSpi'
 import type { GetDto, PostDto } from '@adapter/spi/dtos/RequestDto'
 import type { ResponseDto } from '@adapter/spi/dtos/ResponseDto'
 

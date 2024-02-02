@@ -1,18 +1,5 @@
-import { getIcon, type Icon } from '../utils'
-
-export interface FeaturesProps {
-  title: string
-  description: string
-  features: {
-    title: string
-    description: string
-    icon: Icon
-  }[]
-}
-
-export interface IFeatures extends FeaturesProps {
-  component: 'Features'
-}
+import type { FeaturesProps } from '@domain/entities/Component/marketing/Features'
+import { getIcon } from '../utils'
 
 export const Features = ({ title, description, features }: FeaturesProps) => (
   <section className="bg-white dark:bg-gray-900">

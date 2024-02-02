@@ -2,7 +2,7 @@ import type { Get } from './Request/Get'
 import type { Post } from './Request/Post'
 import type { Response } from './Response'
 
-export interface ServerSPI {
+export interface ServerSpi {
   start: () => Promise<void>
   stop: () => Promise<void>
   get: (path: string, handler: (request: Get) => Promise<Response>) => Promise<void>
@@ -10,7 +10,7 @@ export interface ServerSPI {
 }
 
 export class Server {
-  constructor(private spi: ServerSPI) {}
+  constructor(private spi: ServerSpi) {}
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
     await this.spi.get(path, handler)

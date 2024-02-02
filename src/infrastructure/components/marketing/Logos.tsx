@@ -1,16 +1,5 @@
+import type { LogosProps } from '@domain/entities/Component/marketing/Logos'
 import { classNames } from '../utils'
-
-export interface LogosProps {
-  title: string
-  logos: {
-    src: string
-    alt: string
-  }[]
-}
-
-export interface ILogos extends LogosProps {
-  component: 'Logos'
-}
 
 export const Logos = ({ title, logos }: LogosProps) => {
   const gridColumn = getGridColumns(logos.length)

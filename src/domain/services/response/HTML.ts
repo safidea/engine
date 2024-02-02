@@ -1,6 +1,6 @@
 import { Base } from './base'
 
-export class HTMLResponse extends Base {
+export class Html extends Base {
   constructor(html: string) {
     super({
       body: html,
@@ -11,6 +11,6 @@ export class HTMLResponse extends Base {
   }
 }
 
-export function isHTML(value: unknown): value is HTMLResponse {
-  return value instanceof HTMLResponse
+export function isHTML(value: unknown): value is Html {
+  return value instanceof Html
 }

@@ -1,5 +1,5 @@
 import type { Icon } from '../Icon'
-import type { BaseComponent, Base } from '../base'
+import type { ReactComponent, Base } from '../base'
 
 export interface FeaturesProps {
   title: string
@@ -14,7 +14,7 @@ export interface FeaturesProps {
 export type FeaturesConfig = FeaturesProps
 
 export interface FeaturesParams {
-  component: BaseComponent<FeaturesProps>
+  component: ReactComponent<FeaturesProps>
 }
 
 export class Features implements Base {

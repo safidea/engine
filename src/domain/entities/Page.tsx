@@ -3,8 +3,10 @@ import type { Engine } from './Engine'
 import type { Component } from './Component'
 import type { Logger } from '@domain/services/Logger'
 import type { Head } from './Head'
-import { HTMLResponse } from '@domain/services/Response/HTML'
-import type { UI } from '@domain/services/UI'
+import { Html as HtmlResponse } from '@domain/services/Response/HTML'
+import type { Ui } from '@domain/services/Ui'
+import type { HtmlProps } from './Component/Html'
+import type { ReactComponent } from './Component/base'
 
 export interface PageConfig {
   name: string
@@ -16,8 +18,8 @@ export interface PageConfig {
 export interface PageParams {
   server: Server
   logger: Logger
-  component: Component
-  ui: UI
+  ui: Ui
+  Html: ReactComponent<HtmlProps>
 }
 
 export class Page implements Engine {
@@ -39,15 +41,16 @@ export class Page implements Engine {
 
   get = async () => {
     const { body, head } = this.config
-    const { ui } = this.params
+    const { ui, Html } = this.params
     const html = ui.render(
-      <head.render>
-        {body.map((component, index) => (
+      <Html
+        head={<head.render />}
+        body={body.map((component, index) => (
           <component.render key={index} />
         ))}
-      </head.render>
+      />
     )
-    return new HTMLResponse(html)
+    return new HtmlResponse(html)
   }
 
   validateConfig() {

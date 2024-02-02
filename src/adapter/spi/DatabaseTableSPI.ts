@@ -4,7 +4,7 @@ import { DatabaseFilterMapper } from './mappers/DatabaseFilterMapper'
 import type { Filter } from '@domain/services/Filter'
 import type { DatabaseTableColumnDto } from './dtos/DatabaseTableColumnDto'
 import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
-import type { DatabaseTableSPI as IDatabaseTableSPI } from '@domain/services/DatabaseTable'
+import type { DatabaseTableSpi as IDatabaseTableSpi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
 
 export interface DatabaseTableDriver {
@@ -16,7 +16,7 @@ export interface DatabaseTableDriver {
   read: (filters: DatabaseFilterDto[]) => Promise<PersistedDto | undefined>
 }
 
-export class DatabaseTableSPI implements IDatabaseTableSPI {
+export class DatabaseTableSpi implements IDatabaseTableSpi {
   constructor(private driver: DatabaseTableDriver) {}
 
   insert = async (toCreateRecord: ToCreate) => {

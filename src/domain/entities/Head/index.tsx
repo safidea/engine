@@ -1,13 +1,6 @@
-import type { Meta, MetaConfig } from './Meta'
-import type { Link, LinkConfig } from './Link'
-import type { Script, ScriptConfig } from './Script'
-
-export interface HeadProps {
-  title: string
-  metas: MetaConfig[]
-  links: LinkConfig[]
-  scripts: ScriptConfig[]
-}
+import type { Meta } from './Meta'
+import type { Link } from './Link'
+import type { Script } from './Script'
 
 export type HeadConfig = {
   title: string
@@ -16,17 +9,13 @@ export type HeadConfig = {
   scripts: Script[]
 }
 
-export interface HeadParams {
-  component: (props: HeadProps) => JSX.Element
-}
-
 export class Head {
-  constructor(
-    private config: HeadConfig,
-    private params: HeadParams
-  ) {}
+  constructor(private config: HeadConfig) {}
 
-  render = ({ children }: { children: React.ReactNode }) => (
-    <this.params.component {...this.config}>{children}</this.params.component>
-  )
+  render = () => [
+    <title key="title">{this.config.title}</title>,
+    ...this.config.metas.map((meta) => <meta.render key={meta.name} />),
+    ...this.config.links.map((link) => <link.render key={link.href} />),
+    ...this.config.scripts.map((script) => <script.render key={script.src} />),
+  ]
 }

@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import type { JSONSchemaType } from 'ajv'
 import type { SchemaValidatorNameDto } from '@adapter/spi/dtos/SchemaValidatorNameDto'
-import type { SchemaValidatorDriver } from '@adapter/spi/SchemaValidatorSPI'
+import type { SchemaValidatorDriver } from '@adapter/spi/SchemaValidatorSpi'
 
 export class AJVSchemaValidatorDriver implements SchemaValidatorDriver {
   private ajv: Ajv

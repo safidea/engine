@@ -1,24 +1,25 @@
-import { Services } from '@domain/services'
-import { SPIs, type Drivers } from '@adapter/spi'
+import { type Drivers } from '@adapter/spi'
 import { PageMapper } from './mappers/PageMapper'
-import type { Page, PageConfig } from '@domain/entities/Page'
+import type { Page } from '@domain/entities/Page'
 import { PageError } from '@domain/entities/PageError'
+import type { PageDto } from './dtos/PageDto'
+import type { ReactComponents } from '@domain/entities/Component'
+import { Api, type ApiParams } from './Api'
 
-export class PageAPI {
-  constructor(private drivers: Drivers) {}
+export class PageApi extends Api {
+  constructor(drivers: Drivers, components: ReactComponents) {
+    super(drivers, components)
+  }
 
   async create(
     config: unknown,
-    params?: {
-      drivers?: Partial<Drivers>
-    }
+    params?: ApiParams
   ): Promise<{
     page?: Page
     errors: PageError[]
   }> {
-    const { drivers = {} } = params ?? {}
-    const services = new Services(new SPIs({ ...this.drivers, ...drivers }))
-    const schema = services.schemaValidator().validate<PageConfig>(config, 'page')
+    const services = this.services(params)
+    const schema = services.schemaValidator().validate<PageDto>(config, 'page')
     if (schema.errors) return { errors: PageMapper.toErrorEntities(schema.errors) }
     if (!schema.json) return { errors: [new PageError('UNKNOWN_SCHEMA_ERROR')] }
     const page = PageMapper.toEntity(schema.json, services)

@@ -1,4 +1,4 @@
-import type { LoggerDriver } from '@adapter/spi/LoggerSPI'
+import type { LoggerDriver } from '@adapter/spi/LoggerSpi'
 import debug from 'debug'
 
 export class DebugLoggerDriver implements LoggerDriver {

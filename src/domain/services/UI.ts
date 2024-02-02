@@ -1,9 +1,9 @@
-export interface UISPI {
+export interface UiSpi {
   render: (component: JSX.Element) => string
 }
 
-export class UI {
-  constructor(private spi: UISPI) {}
+export class Ui {
+  constructor(private spi: UiSpi) {}
 
   render = (component: JSX.Element): string => {
     const html = this.spi.render(component)
