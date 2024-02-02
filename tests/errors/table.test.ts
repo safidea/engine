@@ -7,7 +7,7 @@ test.describe.only('Table schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = Table.getConfigErrors(config)
+    const errors = new Table().getConfigErrors(config)
 
     // THEN
     expect(errors).toHaveLength(2)
@@ -18,7 +18,7 @@ test.describe.only('Table schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = Table.getConfigErrors(config)
+    const errors = new Table().getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'TABLE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe.only('Table schema errors', () => {
     }
 
     // WHEN
-    const errors = Table.getConfigErrors(config)
+    const errors = new Table().getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'TABLE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe.only('Table schema errors', () => {
     }
 
     // WHEN
-    const errors = Table.getConfigErrors(config)
+    const errors = new Table().getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'TABLE_ERROR_UNKNOWN_PROPERTY')

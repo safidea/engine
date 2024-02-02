@@ -7,7 +7,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = Page.getConfigErrors(config)
+    const errors = new Page().getConfigErrors(config)
 
     // THEN
     expect(errors).toHaveLength(3)
@@ -18,7 +18,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = Page.getConfigErrors(config)
+    const errors = new Page().getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const errors = Page.getConfigErrors(config)
+    const errors = new Page().getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const errors = Page.getConfigErrors(config)
+    const errors = new Page().getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_UNKNOWN_PROPERTY')

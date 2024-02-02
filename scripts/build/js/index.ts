@@ -20,9 +20,9 @@ const externals: string[] = [
 const entrypoints = [
   /*'src/infrastructure/engine/app.ts',
   'src/infrastructure/engine/role.ts',
-  'src/infrastructure/engine/feature.ts',
+  'src/infrastructure/engine/feature.ts',*/
   'src/infrastructure/engine/page.ts',
-  'src/infrastructure/engine/spec.ts',*/
+  'src/infrastructure/engine/spec.ts',
   'src/infrastructure/engine/table.ts',
 ]
 
