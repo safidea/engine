@@ -1,4 +1,4 @@
-import type { FormProps } from '@domain/entities/Component/application/Form'
+import type { FormProps } from '@domain/entities/page/Component/application/Form'
 
 export const Form = ({ title, description, inputs, submitButton, successMessage }: FormProps) => (
   <section className="bg-white dark:bg-gray-900">

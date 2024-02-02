@@ -6,7 +6,7 @@ import { Record } from './Record'
 import { SchemaValidator, type SchemaValidatorSpi } from './SchemaValidator'
 import { Server, type ServerSpi } from './Server'
 import { Ui, type UiSpi } from './Ui'
-import type { ReactComponents } from '@domain/entities/Component'
+import type { ReactComponents } from '@domain/entities/page/Component'
 
 export interface Spis {
   components: ReactComponents

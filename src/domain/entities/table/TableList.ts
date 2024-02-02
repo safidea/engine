@@ -1,5 +1,5 @@
-import type { EngineError } from './EngineError.ts'
-import type { EngineList } from './EngineList.ts'
+import type { EngineError } from '../EngineError.ts'
+import type { EngineList } from '../EngineList.ts'
 import { Table, type TableConfig, type TableParams } from './Table.tsx'
 
 export class TableList implements EngineList<Table> {

@@ -1,4 +1,4 @@
-import type { CtaProps } from '@domain/entities/Component/marketing/Cta'
+import type { CtaProps } from '@domain/entities/page/Component/marketing/Cta'
 
 export const Cta = ({ title, description, primaryButton }: CtaProps) => (
   <section className="bg-white dark:bg-gray-900">

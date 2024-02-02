@@ -1,4 +1,4 @@
-import type { EngineErrorCode } from './EngineError'
+import type { EngineErrorCode } from '../EngineError'
 
 export type TableErrorCode =
   | EngineErrorCode

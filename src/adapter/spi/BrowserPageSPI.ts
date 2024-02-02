@@ -5,5 +5,4 @@ export interface BrowserPageDriver {
   title(): Promise<string>
   getByText(text: string, options?: { tag?: string }): Promise<BrowserElementDriver | null>
   getInputByName(input: string): Promise<BrowserElementDriver | null>
-  close(): Promise<void>
 }

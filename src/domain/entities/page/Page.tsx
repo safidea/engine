@@ -1,5 +1,5 @@
 import type { Server } from '@domain/services/Server'
-import type { Engine } from './Engine'
+import type { Engine } from '../Engine'
 import type { Component } from './Component'
 import type { Logger } from '@domain/services/Logger'
 import type { Head } from './Head'

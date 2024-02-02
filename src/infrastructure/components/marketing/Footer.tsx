@@ -1,4 +1,4 @@
-import type { FooterProps } from '@domain/entities/Component/marketing/Footer'
+import type { FooterProps } from '@domain/entities/page/Component/marketing/Footer'
 
 export const Footer = ({ title, description, links, copyright }: FooterProps) => (
   <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">

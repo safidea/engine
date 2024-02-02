@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@domain/entities/Component/Button'
+import type { ButtonProps } from '@domain/entities/page/Component/Button'
 
 export const Button = ({ label, href, variant = 'primary' }: ButtonProps) => {
   const classes = getVariant(variant)

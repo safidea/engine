@@ -1,4 +1,4 @@
-import type { NotFoundProps } from '@domain/entities/Component/marketing/NotFound'
+import type { NotFoundProps } from '@domain/entities/page/Component/marketing/NotFound'
 
 export const NotFound = ({ title, description, primaryButton }: NotFoundProps) => (
   <section className="bg-white dark:bg-gray-900">

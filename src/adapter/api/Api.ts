@@ -1,5 +1,5 @@
 import { Spis, type Drivers } from '@adapter/spi'
-import type { ReactComponents } from '@domain/entities/Component'
+import type { ReactComponents } from '@domain/entities/page/Component'
 import { Services } from '@domain/services'
 import type { Mapper } from './mappers/Mapper'
 import type { SchemaName } from '@domain/services/SchemaValidator'

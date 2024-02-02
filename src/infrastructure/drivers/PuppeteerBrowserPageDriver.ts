@@ -1,10 +1,9 @@
 import type { BrowserPageDriver } from '@adapter/spi/BrowserPageSpi'
-import type { Browser, Page } from 'puppeteer'
+import type { Page } from 'puppeteer'
 import { PuppeteerBrowserElementDriver } from './PuppeteerBrowserElementDriver'
 
 export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
   constructor(
-    private browser: Browser,
     private page: Page,
     private baseUrl: string
   ) {
@@ -33,9 +32,5 @@ export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }
     return null
-  }
-
-  async close() {
-    await this.browser.close()
   }
 }

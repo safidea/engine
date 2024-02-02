@@ -1,8 +1,8 @@
-import { Head } from '@domain/entities/Head'
+import { Head } from '@domain/entities/page/Head'
 import type { HeadDto } from '../dtos/HeadDto'
-import { Meta } from '@domain/entities/Head/Meta'
-import { Link } from '@domain/entities/Head/Link'
-import { Script } from '@domain/entities/Head/Script'
+import { Meta } from '@domain/entities/page/Head/Meta'
+import { Link } from '@domain/entities/page/Head/Link'
+import { Script } from '@domain/entities/page/Head/Script'
 
 export class HeadMapper {
   static toEntity(dto: HeadDto) {

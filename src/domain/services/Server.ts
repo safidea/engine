@@ -3,13 +3,16 @@ import type { Post } from './Request/Post'
 import type { Response } from './Response'
 
 export interface ServerSpi {
-  start: () => Promise<void>
+  start: () => Promise<string>
   stop: () => Promise<void>
   get: (path: string, handler: (request: Get) => Promise<Response>) => Promise<void>
   post: (path: string, handler: (request: Post) => Promise<Response>) => Promise<void>
 }
 
 export class Server {
+  isListening: boolean = false
+  isShuttingDown: boolean = false
+
   constructor(private spi: ServerSpi) {}
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
@@ -21,10 +24,14 @@ export class Server {
   }
 
   start = async () => {
-    await this.spi.start()
+    return this.spi.start()
   }
 
-  stop = async () => {
+  stop = async (callback: () => Promise<void>) => {
+    this.isShuttingDown = true
+    await callback()
+    this.isListening = false
     await this.spi.stop()
+    this.isShuttingDown = false
   }
 }

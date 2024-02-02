@@ -1,13 +1,13 @@
 import type { ComponentDto } from '../dtos/ComponentDto'
-import { Hero } from '@domain/entities/Component/marketing/Hero'
-import { Footer } from '@domain/entities/Component/marketing/Footer'
-import type { Component, ReactComponents } from '@domain/entities/Component'
-import { Paragraph } from '@domain/entities/Component/Paragraph'
-import { Form } from '@domain/entities/Component/application/Form'
-import { Button } from '@domain/entities/Component/Button'
-import { Cta } from '@domain/entities/Component/marketing/Cta'
-import { Features } from '@domain/entities/Component/marketing/Features'
-import { Logos } from '@domain/entities/Component/marketing/Logos'
+import { Hero } from '@domain/entities/page/Component/marketing/Hero'
+import { Footer } from '@domain/entities/page/Component/marketing/Footer'
+import type { Component, ReactComponents } from '@domain/entities/page/Component'
+import { Paragraph } from '@domain/entities/page/Component/Paragraph'
+import { Form } from '@domain/entities/page/Component/application/Form'
+import { Button } from '@domain/entities/page/Component/Button'
+import { Cta } from '@domain/entities/page/Component/marketing/Cta'
+import { Features } from '@domain/entities/page/Component/marketing/Features'
+import { Logos } from '@domain/entities/page/Component/marketing/Logos'
 
 export class ComponentMapper {
   static toEntity(dto: ComponentDto, components: ReactComponents): Component {

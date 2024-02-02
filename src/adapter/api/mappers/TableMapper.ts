@@ -1,5 +1,5 @@
-import { Table } from '@domain/entities/Table'
-import { TableError, type TableErrorCode } from '@domain/entities/TableError'
+import { Table } from '@domain/entities/table/Table'
+import { TableError, type TableErrorCode } from '@domain/entities/table/TableError'
 import { Services } from '@domain/services'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import type { TableDto } from '../dtos/TableDto'

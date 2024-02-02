@@ -1,5 +1,5 @@
-import type { PageError } from './PageError'
-import type { TableError } from './TableError'
+import type { PageError } from './page/PageError'
+import type { TableError } from './table/TableError'
 
 export type EngineErrorCode = 'UNKNOWN_SCHEMA_ERROR'
 

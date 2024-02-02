@@ -1,4 +1,4 @@
-import type { FeaturesProps } from '@domain/entities/Component/marketing/Features'
+import type { FeaturesProps } from '@domain/entities/page/Component/marketing/Features'
 import { getIcon } from '../utils'
 
 export const Features = ({ title, description, features }: FeaturesProps) => (

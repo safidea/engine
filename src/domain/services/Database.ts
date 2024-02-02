@@ -10,4 +10,6 @@ export class Database {
   table(name: string) {
     return new DatabaseTable(this.spi, name)
   }
+
+  disconnect = async () => {}
 }

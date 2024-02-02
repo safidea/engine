@@ -1,4 +1,4 @@
-import type { HeroProps } from '@domain/entities/Component/marketing/Hero'
+import type { HeroProps } from '@domain/entities/page/Component/marketing/Hero'
 
 export const Hero = ({ title, description, primaryButton }: HeroProps) => (
   <section className="bg-white dark:bg-gray-900">

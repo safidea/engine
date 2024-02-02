@@ -1,3 +1,3 @@
-import type { TableConfig } from '@domain/entities/Table'
+import type { TableConfig } from '@domain/entities/table/Table'
 
 export type TableDto = TableConfig

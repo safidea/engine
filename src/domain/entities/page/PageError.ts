@@ -1,4 +1,4 @@
-import type { EngineErrorCode } from '../../../src_OLD/domain/entities/EngineError'
+import type { EngineErrorCode } from '../../../../src_OLD/domain/entities/EngineError'
 
 export type PageErrorCode =
   | EngineErrorCode

@@ -33,7 +33,7 @@ export class ServerSpi implements IServerSpi {
   }
 
   start = async () => {
-    await this.driver.start()
+    return this.driver.start()
   }
 
   stop = async () => {

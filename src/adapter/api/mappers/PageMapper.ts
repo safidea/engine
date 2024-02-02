@@ -1,5 +1,5 @@
-import { Page } from '@domain/entities/Page'
-import { PageError, type PageErrorCode } from '@domain/entities/PageError'
+import { Page } from '@domain/entities/page/Page'
+import { PageError, type PageErrorCode } from '@domain/entities/page/PageError'
 import { Services } from '@domain/services'
 import type { PageDto } from '../dtos/PageDto'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'

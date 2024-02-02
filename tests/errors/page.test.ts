@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createPage, PageError } from '@solumy/engine/page'
+import Page, { PageError } from '@solumy/engine/page'
 
 test.describe('Page schema errors', () => {
   test('empty config should return 3 errors', async () => {
@@ -7,7 +7,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = await createPage(config)
+    const errors = Page.getConfigErrors(config)
 
     // THEN
     expect(errors).toHaveLength(3)
@@ -18,7 +18,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = await createPage(config)
+    const errors = Page.getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createPage(config)
+    const errors = Page.getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Page schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createPage(config)
+    const errors = Page.getConfigErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'PAGE_ERROR_UNKNOWN_PROPERTY')

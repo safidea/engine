@@ -1,5 +1,5 @@
-import type { EngineError } from './EngineError.ts'
-import type { EngineList } from './EngineList.ts'
+import type { EngineError } from '../EngineError.ts'
+import type { EngineList } from '../EngineList.ts'
 import { Page, type PageConfig, type PageParams } from './Page.tsx'
 
 export class PageList implements EngineList<Page> {

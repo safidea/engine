@@ -1,4 +1,4 @@
-import type { HtmlProps } from '@domain/entities/Component/Html'
+import type { HtmlProps } from '@domain/entities/page/Component/Html'
 
 export const Html = ({ head, body }: HtmlProps) => (
   <html>

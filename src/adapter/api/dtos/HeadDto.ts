@@ -1,6 +1,6 @@
-import type { LinkConfig } from '@domain/entities/Head/Link'
-import type { MetaConfig } from '@domain/entities/Head/Meta'
-import type { ScriptConfig } from '@domain/entities/Head/Script'
+import type { LinkConfig } from '@domain/entities/page/Head/Link'
+import type { MetaConfig } from '@domain/entities/page/Head/Meta'
+import type { ScriptConfig } from '@domain/entities/page/Head/Script'
 
 export interface HeadDto {
   title: string
