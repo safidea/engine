@@ -6,7 +6,7 @@ import type { Field } from './Field'
 import type { Engine } from './Engine'
 import type { Record } from '@domain/services/Record'
 import type { ToCreateData } from '@domain/services/Record/ToCreate'
-import { Json } from '@domain/services/Response/JSON'
+import { Json } from '@domain/services/Response/Json'
 
 export interface TableConfig {
   name: string

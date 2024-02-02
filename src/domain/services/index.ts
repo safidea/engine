@@ -1,3 +1,4 @@
+import type { EngineError, EngineErrorCode } from '@domain/entities/EngineError'
 import { Database, type DatabaseSpi } from './Database'
 import { IdGenerator, type IdGeneratorSpi } from './IdGenerator'
 import { Logger, type LoggerSpi } from './Logger'
@@ -28,7 +29,8 @@ export class Services {
   idGenerator = () => new IdGenerator(this.spis.idGenerator())
   database = () => new Database(this.spis.database())
   server = () => new Server(this.spis.server())
-  schemaValidator = () => new SchemaValidator(this.spis.schemaValidator())
+  schemaValidator = (error: (code: EngineErrorCode) => EngineError) =>
+    new SchemaValidator(this.spis.schemaValidator(), error)
   ui = () => new Ui(this.spis.ui())
 
   record = () => new Record({ idGenerator: this.idGenerator() })

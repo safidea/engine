@@ -1,8 +1,8 @@
-import { Html, isHTML } from './HTML'
-import { Json, isJSON } from './JSON'
+import { Html, isHtml } from './Html'
+import { Json, isJson } from './Json'
 
 export type Response = Json | Html
 
 export function isResponse(value: unknown): value is Response {
-  return isJSON(value) || isHTML(value)
+  return isJson(value) || isHtml(value)
 }

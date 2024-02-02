@@ -1,11 +1,12 @@
 import { Table } from '@domain/entities/Table'
-import { TableError } from '@domain/entities/TableError'
+import { TableError, type TableErrorCode } from '@domain/entities/TableError'
 import { Services } from '@domain/services'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import type { TableDto } from '../dtos/TableDto'
+import type { Mapper } from './Mapper'
 
-export class TableMapper {
-  static toEntity(dto: TableDto, services: Services) {
+export const TableMapper: Mapper<TableDto, TableError, Table> = class TableMapper {
+  static toEntity = (dto: TableDto, services: Services) => {
     const server = services.server()
     const database = services.database()
     const logger = services.logger(`table:${dto.name}`)
@@ -13,7 +14,7 @@ export class TableMapper {
     return new Table(dto, { server, database, logger, record })
   }
 
-  static toErrorEntity(errorDto: SchemaValidatorErrorDto) {
+  static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
     const { instancePath, keyword, params } = errorDto
     if (keyword === 'required') {
       if (params.missingProperty === 'name') return new TableError('NAME_REQUIRED')
@@ -26,7 +27,11 @@ export class TableMapper {
     return new TableError('UNKNOWN_SCHEMA_ERROR')
   }
 
-  static toErrorEntities(errorDtos: SchemaValidatorErrorDto[]) {
-    return errorDtos.map(TableMapper.toErrorEntity)
+  static toErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
+    return errorDtos.map(this.toErrorEntity)
+  }
+
+  static toErrorEntityFromCode = (code: TableErrorCode) => {
+    return new TableError(code)
   }
 }

@@ -11,6 +11,6 @@ export class Html extends Base {
   }
 }
 
-export function isHTML(value: unknown): value is Html {
+export function isHtml(value: unknown): value is Html {
   return value instanceof Html
 }

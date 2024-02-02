@@ -11,6 +11,6 @@ export class Json extends Base {
   }
 }
 
-export function isJSON(value: unknown): value is Json {
+export function isJson(value: unknown): value is Json {
   return value instanceof Json
 }
