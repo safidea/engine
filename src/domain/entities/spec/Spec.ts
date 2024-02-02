@@ -80,7 +80,7 @@ export class Spec implements Engine {
         if (action instanceof ActionWithPage) {
           if (page) await action.executeWithPage(page)
         } else {
-          await action.execute()
+          await action.executeWithRequest(baseUrl)
         }
       }
       for (const result of then) {

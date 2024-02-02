@@ -7,6 +7,7 @@ import { SchemaValidator, type SchemaValidatorSpi } from './SchemaValidator'
 import { Server, type ServerSpi } from './Server'
 import { Ui, type UiSpi } from './Ui'
 import type { ReactComponents } from '@domain/entities/page/Component'
+import { Browser, type BrowserSpi } from './Browser'
 
 export interface Spis {
   components: ReactComponents
@@ -16,6 +17,7 @@ export interface Spis {
   idGenerator: () => IdGeneratorSpi
   schemaValidator: () => SchemaValidatorSpi
   ui: () => UiSpi
+  browser: () => BrowserSpi
 }
 
 export class Services {
@@ -32,6 +34,7 @@ export class Services {
   schemaValidator = (error: (code: EngineErrorCode) => EngineError) =>
     new SchemaValidator(this.spis.schemaValidator(), error)
   ui = () => new Ui(this.spis.ui())
+  browser = () => new Browser(this.spis.browser())
 
   record = () => new Record({ idGenerator: this.idGenerator() })
 }

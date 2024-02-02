@@ -5,11 +5,10 @@ export interface BaseParams {
   logger: Logger
   feature: string
   spec: string
-  baseUrl: string
 }
 
-export class Base {
-  execute = async () => {}
+export class BaseWithRequest {
+  executeWithRequest = async (_baseUrl: string) => {}
 }
 
 export class BaseWithPage {

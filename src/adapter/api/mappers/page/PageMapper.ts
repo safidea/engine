@@ -1,11 +1,11 @@
 import { Page } from '@domain/entities/page/Page'
 import { PageError, type PageErrorCode } from '@domain/entities/page/PageError'
 import { Services } from '@domain/services'
-import type { PageDto } from '../dtos/PageDto'
+import type { PageDto } from '../../dtos/page/PageDto'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import { ComponentMapper } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
-import type { Mapper } from './Mapper'
+import type { Mapper } from '../Mapper'
 
 export const PageMapper: Mapper<PageDto, PageError, Page> = class PageMapper {
   static toEntity = (dto: PageDto, services: Services) => {

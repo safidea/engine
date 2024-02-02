@@ -1,10 +1,13 @@
-import type { BrowserElement } from './BrowserElement'
+import { BrowserElement, type BrowserElementSpi } from './BrowserElement'
 
 export interface BrowserPageSpi {
   open: (path: string) => Promise<void>
   title: () => Promise<string>
-  getByText: (text: string, options?: { tag: string | undefined }) => Promise<BrowserElement>
-  getInputByName: (name: string) => Promise<BrowserElement>
+  getByText: (
+    text: string,
+    options?: { tag: string | undefined }
+  ) => Promise<BrowserElementSpi | undefined>
+  getInputByName: (name: string) => Promise<BrowserElementSpi | undefined>
 }
 
 export class BrowserPage {
@@ -19,10 +22,12 @@ export class BrowserPage {
   }
 
   async getByText(text: string, options?: { tag: string | undefined }) {
-    return this.spi.getByText(text, options)
+    const element = await this.spi.getByText(text, options)
+    if (element) return new BrowserElement(element)
   }
 
   async getInputByName(name: string) {
-    return this.spi.getInputByName(name)
+    const element = await this.spi.getInputByName(name)
+    if (element) return new BrowserElement(element)
   }
 }

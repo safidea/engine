@@ -1,7 +1,7 @@
 {
   "name": "@solumy/engine",
-  "module": "dist/app.js",
-  "types": "dist/app.d.ts",
+  "module": "dist/instrastructure/engine/app.js",
+  "types": "dist/instrastructure/engine/app.d.ts",
   "type": "module",
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",

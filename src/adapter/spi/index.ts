@@ -1,5 +1,5 @@
 import type { Spis as ISpis } from '@domain/services'
-import type { BrowserDriver } from './BrowserSpi'
+import { BrowserSpi, type BrowserDriver } from './BrowserSpi'
 import { DatabaseSpi, type DatabaseDriver } from './DatabaseSpi'
 import { IdGeneratorSpi, type IdGeneratorDriver } from './IdGeneratorSpi'
 import { LoggerSpi, type LoggerDriver } from './LoggerSpi'
@@ -30,4 +30,5 @@ export class Spis implements ISpis {
   logger = (location: string) => new LoggerSpi(this.drivers.logger(location))
   schemaValidator = () => new SchemaValidatorSpi(this.drivers.schemaValidator())
   ui = () => this.drivers.ui()
+  browser = () => new BrowserSpi(this.drivers.browser())
 }

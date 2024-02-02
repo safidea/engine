@@ -23,7 +23,6 @@ export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
     if (element) {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }
-    return null
   }
 
   async getInputByName(input: string) {
@@ -31,6 +30,5 @@ export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
     if (element) {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }
-    return null
   }
 }

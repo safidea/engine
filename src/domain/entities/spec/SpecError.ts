@@ -12,7 +12,7 @@ export type SpecErrorCode =
   | 'ATTRIBUTE_NOT_FOUND'
   | 'INPUT_NOT_FOUND'
   | 'POST_REQUEST_ERROR'
-  | 'ROW_NOT_FOUND'
+  | 'RECORD_NOT_FOUND'
   | 'OPEN_ACTION_REQUIRED'
 
 export type SpecErrorData =

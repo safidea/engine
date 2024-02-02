@@ -1,5 +1,5 @@
 import { Head } from '@domain/entities/page/Head'
-import type { HeadDto } from '../dtos/HeadDto'
+import type { HeadDto } from '../../dtos/page/HeadDto'
 import { Meta } from '@domain/entities/page/Head/Meta'
 import { Link } from '@domain/entities/page/Head/Link'
 import { Script } from '@domain/entities/page/Head/Script'

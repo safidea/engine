@@ -1,7 +1,7 @@
 import type { EngineError } from '@domain/entities/EngineError'
 import type { SchemaValidatorErrorDto } from '../../spi/dtos/SchemaValidatorErrorDto'
 import { TableMapper } from '@adapter/api/mappers/TableMapper'
-import { PageMapper } from '@adapter/api/mappers/PageMapper'
+import { PageMapper } from '@adapter/api/mappers/page/PageMapper'
 
 export const EngineMapper = class EngineMapper {
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto): EngineError => {

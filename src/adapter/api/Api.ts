@@ -6,42 +6,37 @@ import type { SchemaName } from '@domain/services/SchemaValidator'
 import type { Engine } from '@domain/entities/Engine'
 import type { EngineError } from '@domain/entities/EngineError'
 
-export interface ApiParams {
+export interface ApiOptions {
   drivers?: Partial<Drivers>
   components?: Partial<ReactComponents>
 }
 
 export class Api<Dto, Error extends EngineError, Entity extends Engine> {
+  protected services: Services
+
   constructor(
-    private drivers: Drivers,
-    private components: ReactComponents,
+    drivers: Drivers,
+    components: ReactComponents,
     private mapper: Mapper<Dto, Error, Entity>,
     private schema: SchemaName
-  ) {}
-
-  private services = (params?: ApiParams): Services => {
-    const { drivers = {}, components = {} } = params ?? {}
-    const mergedDrivers = { ...this.drivers, ...drivers }
-    const mergedComponents = { ...this.components, ...components }
-    return new Services(new Spis(mergedDrivers, mergedComponents))
+  ) {
+    this.services = new Services(new Spis(drivers, components))
   }
 
-  getConfigErrors(config: unknown, params?: ApiParams): EngineError[] {
-    const services = this.services(params)
-    const { errors, json } = services
+  getConfigErrors(config: unknown): EngineError[] {
+    const { errors, json } = this.services
       .schemaValidator(this.mapper.toErrorEntityFromCode)
       .validate<Dto>(config, this.schema)
     if (errors) return errors
-    const table = this.mapper.toEntity(json, services)
+    const table = this.mapper.toEntity(json, this.services)
     return table.validateConfig()
   }
 
-  isValidConfig(config: unknown, params?: ApiParams): config is Dto {
-    return this.getConfigErrors(config, params).length === 0
+  isValidConfig(config: unknown): config is Dto {
+    return this.getConfigErrors(config).length === 0
   }
 
-  createFromConfig(config: Dto, params?: ApiParams): Entity {
-    const services = this.services(params)
-    return this.mapper.toEntity(config, services)
+  createFromConfig(config: Dto): Entity {
+    return this.mapper.toEntity(config, this.services)
   }
 }

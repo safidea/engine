@@ -15,8 +15,8 @@ export class Open extends BaseWithPage {
 
   executeWithPage = async (page: BrowserPage) => {
     const { open } = this.config
-    const { logger, baseUrl } = this.params
+    const { logger } = this.params
     logger.log(`opening "${open}"`)
-    await page.open(baseUrl + open)
+    await page.open(open)
   }
 }

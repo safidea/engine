@@ -18,12 +18,12 @@ const externals: string[] = [
 ]
 
 const entrypoints = [
-  /*'src/app.ts',
-  'src/role.ts',
-  'src/feature.ts',
-  'src/page.ts',
-  'src/spec.ts',*/
-  'src/table.ts',
+  /*'src/infrastructure/engine/app.ts',
+  'src/infrastructure/engine/role.ts',
+  'src/infrastructure/engine/feature.ts',
+  'src/infrastructure/engine/page.ts',
+  'src/infrastructure/engine/spec.ts',*/
+  'src/infrastructure/engine/table.ts',
 ]
 
 await deleteFilesRecursively('dist', '.js')

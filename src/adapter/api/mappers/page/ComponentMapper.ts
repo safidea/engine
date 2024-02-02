@@ -1,4 +1,4 @@
-import type { ComponentDto } from '../dtos/ComponentDto'
+import type { ComponentDto } from '../../dtos/page/ComponentDto'
 import { Hero } from '@domain/entities/page/Component/marketing/Hero'
 import { Footer } from '@domain/entities/page/Component/marketing/Footer'
 import type { Component, ReactComponents } from '@domain/entities/page/Component'

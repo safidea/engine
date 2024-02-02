@@ -1,6 +1,6 @@
 import type { InputText } from './InputText'
-import type { Table } from './Table'
+import type { Record } from './Record'
 import type { Text } from './Text'
 import type { Title } from './Title'
 
-export type Result = InputText | Table | Text | Title
+export type Result = InputText | Record | Text | Title

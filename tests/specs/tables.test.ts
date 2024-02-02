@@ -33,7 +33,7 @@ test.describe('Tables specs', () => {
     // THEN
     expect(errors).toHaveLength(1)
     const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_ROW_NOT_FOUND')
+    expect(code).toBe('SPEC_ERROR_RECORD_NOT_FOUND')
     if (data && 'feature' in data) {
       expect(data.expected).toBe(JSON.stringify([{ name: 'John' }]))
       expect(data.received).toBe(JSON.stringify([{ name: 'Doe' }]))

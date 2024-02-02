@@ -3,14 +3,14 @@ import { BaseWithDatabase, type BaseParams } from './base'
 import { SpecError } from '../SpecError'
 import type { Filter } from '@domain/services/Filter'
 
-export interface TableConfig {
+export interface RecordConfig {
   table: string
   find: Filter[]
 }
 
-export class Table extends BaseWithDatabase {
+export class Record extends BaseWithDatabase {
   constructor(
-    private config: TableConfig,
+    private config: RecordConfig,
     private params: BaseParams
   ) {
     super()
@@ -19,10 +19,10 @@ export class Table extends BaseWithDatabase {
   executeWithDatabase = async (database: Database) => {
     const { table, find } = this.config
     const { logger, feature, spec } = this.params
-    logger.log(`checking if table "${table}" has a row matching "${JSON.stringify(find)}"`)
+    logger.log(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
     const tableRow = await database.table(table).read(find)
     if (!tableRow) {
-      throw new SpecError('ROW_NOT_FOUND', {
+      throw new SpecError('RECORD_NOT_FOUND', {
         feature,
         spec,
         expected: JSON.stringify(find),
