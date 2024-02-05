@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine/App'
+import type { Props } from '@infrastructure/engine'
 import { getIcon } from '../utils'
 
 export const Features = ({ title, description, features }: Props['Features']) => (

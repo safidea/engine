@@ -1,9 +1,10 @@
 import type { Meta } from './Meta'
-import type { Link } from './Link'
+import { Link } from './Link'
 import type { Script } from './Script'
 
 interface Params {
   title: string
+  timestamp: number
   metas: Meta[]
   links: Link[]
   scripts: Script[]

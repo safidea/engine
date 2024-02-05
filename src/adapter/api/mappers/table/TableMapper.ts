@@ -5,20 +5,41 @@ import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorE
 import type { Table as TableConfig } from '../../configs/table/Table'
 import type { Mapper } from '../Mapper'
 import { FieldMapper } from './FieldMapper'
+import type { Server } from '@domain/services/Server'
+import type { Logger } from '@domain/services/Logger'
+import type { Database } from '@domain/services/Database'
+import type { Record } from '@domain/services/Record'
 
-export const TableMapper: Mapper<TableConfig, TableError, Table> = class TableMapper {
-  static toEntity = (config: TableConfig, services: Services, feature: string) => {
+export interface Params {
+  newLogger: (location: string) => Logger
+  server: Server
+  database: Database
+  record: Record
+}
+
+export const TableMapper: Mapper<TableConfig, TableError, Table, Params> = class TableMapper {
+  static toEntity = (config: TableConfig, params: Params) => {
     const { name } = config
-    const server = services.server()
-    const database = services.database()
-    const logger = services.logger(`feature:${feature}:table:${config.name}`)
-    const record = services.record()
+    const { server, database, newLogger, record } = params
+    const logger = newLogger(`table:${config.name}`)
     const fields = FieldMapper.toManyEntities(config.fields)
     return new Table({ name, fields, server, database, logger, record })
   }
 
-  static toManyEntities = (configs: TableConfig[], services: Services, feature: string) => {
-    return configs.map((config) => this.toEntity(config, services, feature))
+  static toManyEntities = (configs: TableConfig[], params: Params) => {
+    return configs.map((config) => this.toEntity(config, params))
+  }
+
+  static toEntityFromServices = (config: TableConfig, services: Services) => {
+    const server = services.server()
+    const database = services.database()
+    const newLogger = (location: string) => services.logger(location)
+    const record = services.record()
+    return this.toEntity(config, { server, database, newLogger, record })
+  }
+
+  static toManyEntitiesFromServices = (configs: TableConfig[], services: Services) => {
+    return configs.map((config) => this.toEntityFromServices(config, services))
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {

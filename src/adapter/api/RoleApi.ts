@@ -6,7 +6,7 @@ import type { ReactComponents } from '@domain/entities/page/Component'
 import { Api } from './Api'
 import type { Role as RoleConfig } from './configs/Role'
 
-export class RoleApi extends Api<RoleConfig, RoleError, Role> {
+export class RoleApi extends Api<RoleConfig, RoleError, Role, undefined> {
   constructor(drivers: Drivers, components: ReactComponents) {
     super(drivers, components, RoleMapper, 'role')
   }

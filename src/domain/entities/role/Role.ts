@@ -1,4 +1,5 @@
 import type { Engine } from '../Engine'
+import type { EngineError } from '../EngineError'
 
 interface Params {
   name: string
@@ -11,7 +12,7 @@ export class Role implements Engine {
     return this.params.name
   }
 
-  validateConfig() {
+  validateConfig(): EngineError[] {
     return []
   }
 }

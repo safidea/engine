@@ -6,20 +6,41 @@ import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorE
 import { ComponentMapper } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
 import type { Mapper } from '../Mapper'
+import type { Server } from '@domain/services/Server'
+import type { Ui } from '@domain/services/Ui'
+import type { Logger } from '@domain/services/Logger'
+import type { ReactComponents } from '@domain/entities/page/Component'
 
-export const PageMapper: Mapper<PageConfig, PageError, Page> = class PageMapper {
-  static toEntity = (config: PageConfig, services: Services) => {
+export interface Params {
+  server: Server
+  ui: Ui
+  newLogger: (location: string) => Logger
+  components: ReactComponents
+}
+
+export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class PageMapper {
+  static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const server = services.server()
-    const ui = services.ui()
-    const logger = services.logger(`page:${config.name}`)
-    const body = ComponentMapper.toManyEntities(config.body, services.components)
+    const { server, newLogger, ui, components } = params
+    const logger = newLogger(`page:${config.name}`)
+    const body = ComponentMapper.toManyEntities(config.body, components)
     const head = HeadMapper.toEntity(config.head)
-    return new Page({ name, path, head, body, server, logger, ui, Html: services.components.Html })
+    return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
   }
 
-  static toManyEntities = (configs: PageConfig[], services: Services) => {
-    return configs.map((config) => this.toEntity(config, services))
+  static toManyEntities = (configs: PageConfig[], params: Params) => {
+    return configs.map((config) => this.toEntity(config, params))
+  }
+
+  static toEntityFromServices = (config: PageConfig, services: Services) => {
+    const ui = services.ui()
+    const server = services.server()
+    const newLogger = (location: string) => services.logger(location)
+    return this.toEntity(config, { server, newLogger, ui, components: services.components })
+  }
+
+  static toManyEntitiesFromServices = (configs: PageConfig[], services: Services) => {
+    return configs.map((config) => this.toEntityFromServices(config, services))
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {

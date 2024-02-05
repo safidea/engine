@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import Spec, { SpecError } from '@solumy/engine/spec'
+import spec, { SpecError } from '@solumy/engine/spec'
 
 test.describe('Spec schema errors', () => {
   test('empty config should return 3 errors', async () => {
@@ -7,7 +7,7 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Spec().getConfigErrors(config)
+    const errors = spec.getErrors(config)
 
     // THEN
     expect(errors).toHaveLength(3)
@@ -18,7 +18,7 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Spec().getConfigErrors(config)
+    const errors = spec.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'SPEC_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Spec schema errors', () => {
     }
 
     // WHEN
-    const errors = new Spec().getConfigErrors(config)
+    const errors = spec.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'SPEC_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Spec schema errors', () => {
     }
 
     // WHEN
-    const errors = new Spec().getConfigErrors(config)
+    const errors = spec.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'SPEC_ERROR_UNKNOWN_PROPERTY')

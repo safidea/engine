@@ -16,7 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@solumy/engine": ["dist/infrastructure/engine/App"],
+      "@solumy/engine": ["dist/infrastructure/engine/index"],
       "@solumy/engine/*": ["dist/infrastructure/engine/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
       "@adapter/*": ["src/adapter/*"],

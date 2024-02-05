@@ -7,6 +7,7 @@ import type { Table } from '../table/Table'
 import type { Role } from '../role/Role'
 import type { EngineError } from '../EngineError'
 import { FeatureError } from './FeatureError'
+import type { Logger } from '@domain/services/Logger'
 
 interface Params {
   name: string
@@ -16,6 +17,7 @@ interface Params {
   tables: Table[]
   roles: Role[]
   server: Server
+  logger: Logger
 }
 
 export class Feature implements Engine {
@@ -43,9 +45,12 @@ export class Feature implements Engine {
   }
 
   async testSpecs(): Promise<SpecError[]> {
+    const { logger } = this.params
     const errors: SpecError[] = []
+    logger.log(`start testing specs`)
     const results = await Promise.all(this.params.specs.flatMap((spec) => spec.test()))
     for (const result of results) if (result) errors.push(result)
+    logger.log(`finish testing specs with ${errors.length} error(s)`)
     return errors.flat()
   }
 }

@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine/App'
+import type { Props } from '@infrastructure/engine'
 import { classNames } from '../utils'
 
 export const Logos = ({ title, logos }: Props['Logos']) => {

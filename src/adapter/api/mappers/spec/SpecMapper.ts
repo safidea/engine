@@ -6,16 +6,25 @@ import type { Spec as SpecConfig } from '../../configs/spec/Spec'
 import type { Mapper } from '../Mapper'
 import { ActionMapper } from './ActionMapper'
 import { ResultMapper } from './ResultMapper'
+import type { Logger } from '@domain/services/Logger'
+import type { Server } from '@domain/services/Server'
+import type { Database } from '@domain/services/Database'
+import type { Browser } from '@domain/services/Browser'
 
-export const SpecMapper: Mapper<SpecConfig, SpecError, Spec> = class SpecMapper {
-  static toEntity = (config: SpecConfig, services: Services, feature: string) => {
-    const newServer = () => services.server()
-    const newDatabase = () => services.database()
-    const newBrowser = () => services.browser()
-    const logger = services.logger(`feature:${feature}:spec:${config.name}`)
-    const params = { logger, feature, spec: config.name }
-    const when = ActionMapper.toManyEntities(config.when, params)
-    const then = ResultMapper.toManyEntities(config.then, params)
+export interface Params {
+  feature: string
+  newLogger: (location: string) => Logger
+  newServer: () => Server
+  newDatabase: () => Database
+  newBrowser: () => Browser
+}
+
+export const SpecMapper: Mapper<SpecConfig, SpecError, Spec, Params> = class SpecMapper {
+  static toEntity = (config: SpecConfig, params: Params) => {
+    const { feature, newLogger, newServer, newDatabase, newBrowser } = params
+    const logger = newLogger(`spec:${config.name}`)
+    const when = ActionMapper.toManyEntities(config.when, { logger, feature, spec: config.name })
+    const then = ResultMapper.toManyEntities(config.then, { logger, feature, spec: config.name })
     return new Spec({
       name: config.name,
       when,
@@ -28,8 +37,21 @@ export const SpecMapper: Mapper<SpecConfig, SpecError, Spec> = class SpecMapper 
     })
   }
 
-  static toManyEntities = (configs: SpecConfig[], services: Services, feature: string) => {
-    return configs.map((config) => this.toEntity(config, services, feature))
+  static toManyEntities = (configs: SpecConfig[], params: Params) => {
+    return configs.map((config) => this.toEntity(config, params))
+  }
+
+  static toEntityFromServices = (config: SpecConfig, services: Services) => {
+    const newServer = () => services.server()
+    const newDatabase = () => services.database()
+    const newBrowser = () => services.browser()
+    const newLogger = (location: string) => services.logger(location)
+    const feature = 'current'
+    return this.toEntity(config, { feature, newLogger, newServer, newDatabase, newBrowser })
+  }
+
+  static toManyEntitiesFromServices = (configs: SpecConfig[], services: Services) => {
+    return configs.map((config) => this.toEntityFromServices(config, services))
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {

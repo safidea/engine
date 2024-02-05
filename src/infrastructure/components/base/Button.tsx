@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine/App'
+import type { Props } from '@infrastructure/engine'
 
 export const Button = ({ label, href, variant = 'primary' }: Props['Button']) => {
   const classes = getVariant(variant)

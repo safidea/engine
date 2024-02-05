@@ -11,13 +11,13 @@ export interface ApiOptions {
   components?: Partial<ReactComponents>
 }
 
-export class Api<Dto, Error extends EngineError, Entity extends Engine> {
+export class Api<Dto, Error extends EngineError, Entity extends Engine, Params> {
   protected services: Services
 
   constructor(
     drivers: Drivers,
     components: ReactComponents,
-    private mapper: Mapper<Dto, Error, Entity>,
+    private mapper: Mapper<Dto, Error, Entity, Params>,
     private schema: SchemaName
   ) {
     this.services = new Services(new Spis(drivers, components))
@@ -28,15 +28,11 @@ export class Api<Dto, Error extends EngineError, Entity extends Engine> {
       .schemaValidator(this.mapper.toErrorEntityFromCode)
       .validate<Dto>(config, this.schema)
     if (errors) return errors
-    const table = this.mapper.toEntity(json, this.services)
+    const table = this.mapper.toEntityFromServices(json, this.services)
     return table.validateConfig()
   }
 
   isValidConfig(config: unknown): config is Dto {
     return this.getConfigErrors(config).length === 0
-  }
-
-  createFromConfig(config: Dto): Entity {
-    return this.mapper.toEntity(config, this.services)
   }
 }

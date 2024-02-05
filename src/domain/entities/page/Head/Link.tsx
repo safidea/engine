@@ -1,15 +1,17 @@
 interface Params {
   href: string
+  timestamp: number
 }
 
 export class Link {
   constructor(private params: Params) {}
 
-  render = () => {
-    return <link href={this.params.href} />
+  get href() {
+    const { href, timestamp } = this.params
+    return href.includes('?') ? `${href}&t=${timestamp}` : `${href}?t=${timestamp}`
   }
 
-  get href() {
-    return this.params.href
+  render = () => {
+    return <link href={this.href} />
   }
 }

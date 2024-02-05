@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine/App'
+import type { Props } from '@infrastructure/engine'
 
 export const Hero = ({ title, description, primaryButton }: Props['Hero']) => (
   <section className="bg-white dark:bg-gray-900">

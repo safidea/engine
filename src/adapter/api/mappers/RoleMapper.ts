@@ -4,13 +4,21 @@ import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorE
 import type { Role as RoleConfig } from '../configs/Role'
 import type { Mapper } from './Mapper'
 
-export const RoleMapper: Mapper<RoleConfig, RoleError, Role> = class RoleMapper {
+export const RoleMapper: Mapper<RoleConfig, RoleError, Role, undefined> = class RoleMapper {
   static toEntity = (config: RoleConfig) => {
     return new Role(config)
   }
 
   static toManyEntities = (configs: RoleConfig[]) => {
     return configs.map(this.toEntity)
+  }
+
+  static toEntityFromServices = (config: RoleConfig) => {
+    return new Role(config)
+  }
+
+  static toManyEntitiesFromServices = (configs: RoleConfig[]) => {
+    return configs.map(this.toEntityFromServices)
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {

@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test'
-import { createApp, AppError, type IApp } from '@solumy/engine'
+import app, { AppError, type App } from '@solumy/engine'
 import { FeatureError } from '@solumy/engine/feature'
 
-test.describe('App schema errors', () => {
+test.describe('app schema errors', () => {
   test('empty config should return 2 errors', async () => {
     // GIVEN
     const config = {}
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     expect(errors).toHaveLength(2)
@@ -19,7 +19,7 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_NAME_REQUIRED')
@@ -34,7 +34,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -51,7 +51,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_ROLES_ARRAY_TYPE_REQUIRED')
@@ -64,7 +64,7 @@ test.describe('App schema errors', () => {
     const config = {}
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_FEATURES_REQUIRED')
@@ -79,7 +79,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_FEATURES_ARRAY_TYPE_REQUIRED')
@@ -94,7 +94,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_ARRAY_TYPE_REQUIRED')
@@ -109,7 +109,7 @@ test.describe('App schema errors', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'APP_ERROR_UNKNOWN_PROPERTY')
@@ -119,10 +119,10 @@ test.describe('App schema errors', () => {
   })
 })
 
-test.describe('App config errors', () => {
+test.describe('app config errors', () => {
   test('app feature role should be a defined role', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: App = {
       name: 'app',
       features: [
         {
@@ -133,7 +133,7 @@ test.describe('App config errors', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = app.getErrors(config)
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_ROLE_NOT_FOUND')
