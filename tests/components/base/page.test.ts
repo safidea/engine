@@ -1,21 +1,21 @@
 import { test, expect } from '@playwright/test'
-import { createPage, type IPage } from '@solumy/engine/page'
+import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Page component', () => {
   test('should render a title', async ({ page }) => {
     // GIVEN
     const title = 'This is a title'
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
-      title,
+      head: { title },
       body: [],
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const pageTitle = await page.title()
@@ -25,22 +25,24 @@ test.describe('Page component', () => {
   test('should render a meta description', async ({ page }) => {
     // GIVEN
     const description = 'This is a description'
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
-      metas: [
-        {
-          name: 'description',
-          content: description,
-        },
-      ],
+      head: {
+        metas: [
+          {
+            name: 'description',
+            content: description,
+          },
+        ],
+      },
       body: [],
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const descriptionElement = page.locator('meta[name="description"]')

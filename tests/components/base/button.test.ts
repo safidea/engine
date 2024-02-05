@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { createPage, type IPage } from '@solumy/engine/page'
+import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Button component', () => {
   test('should render a button', async ({ page }) => {
     // GIVEN
     const label = 'Button'
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
@@ -17,9 +17,9 @@ test.describe('Button component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const buttonContent = await page.textContent('button')
@@ -30,7 +30,7 @@ test.describe('Button component', () => {
     // GIVEN
     const label = 'Button'
     const href = 'https://example.com/'
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
@@ -43,9 +43,9 @@ test.describe('Button component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const button = page.locator('a', { hasText: label })

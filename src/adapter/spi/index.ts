@@ -9,26 +9,34 @@ import type { UiDriver } from './UiSpi'
 import type { ReactComponents } from '@domain/entities/page/Component'
 
 export interface Drivers {
-  server: () => ServerDriver
+  server: (port?: number) => ServerDriver
   logger: (location: string) => LoggerDriver
-  database: () => DatabaseDriver
+  database: (url?: string) => DatabaseDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
 }
 
-export class Spis implements ISpis {
-  constructor(
-    private drivers: Drivers,
-    public components: ReactComponents
-  ) {}
+export interface Params {
+  drivers: Drivers
+  components: ReactComponents
+  databaseUrl?: string
+  port?: number
+}
 
-  database = () => new DatabaseSpi(this.drivers.database())
-  server = () => new ServerSpi(this.drivers.server())
-  idGenerator = () => new IdGeneratorSpi(this.drivers.idGenerator())
-  logger = (location: string) => new LoggerSpi(this.drivers.logger(location))
-  schemaValidator = () => new SchemaValidatorSpi(this.drivers.schemaValidator())
-  ui = () => this.drivers.ui()
-  browser = () => new BrowserSpi(this.drivers.browser())
+export class Spis implements ISpis {
+  constructor(private params: Params) {}
+
+  get components() {
+    return this.params.components
+  }
+
+  database = () => new DatabaseSpi(this.params.drivers.database(this.params.databaseUrl))
+  server = () => new ServerSpi(this.params.drivers.server(this.params.port))
+  idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
+  logger = (location: string) => new LoggerSpi(this.params.drivers.logger(location))
+  schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
+  ui = () => this.params.drivers.ui()
+  browser = () => new BrowserSpi(this.params.drivers.browser())
 }

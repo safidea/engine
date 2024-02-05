@@ -44,13 +44,14 @@ export class Feature implements Engine {
     return errors
   }
 
-  async testSpecs(): Promise<SpecError[]> {
+  async test(): Promise<SpecError[]> {
     const { logger } = this.params
-    const errors: SpecError[] = []
+    let errors: SpecError[] = []
     logger.log(`start testing specs`)
     const results = await Promise.all(this.params.specs.flatMap((spec) => spec.test()))
     for (const result of results) if (result) errors.push(result)
+    errors = errors.flat()
     logger.log(`finish testing specs with ${errors.length} error(s)`)
-    return errors.flat()
+    return errors
   }
 }

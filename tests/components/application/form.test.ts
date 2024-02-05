@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine'
-import { createPage, type IPage } from '@solumy/engine/page'
+import App, { type Config as AppConfig } from '@solumy/engine'
+import Page, { type Config as PageConfig } from '@solumy/engine/page'
+import { Database } from '@utils/tests/database'
 
 test.describe('Form component', () => {
   test('should display a form', async ({ page }) => {
@@ -17,7 +18,7 @@ test.describe('Form component', () => {
         placeholder: '',
       },
     ]
-    const config: IPage = {
+    const config: PageConfig = {
       name: 'Page',
       path: '/',
       body: [
@@ -32,9 +33,9 @@ test.describe('Form component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const titleContent = await page.textContent('h2')
@@ -67,7 +68,7 @@ test.describe('Form component', () => {
       },
     ]
     const successMessage = 'Success message'
-    const config: IPage = {
+    const config: PageConfig = {
       name: 'Page',
       path: '/',
       body: [
@@ -83,9 +84,9 @@ test.describe('Form component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const titleContent = await page.textContent('h2')
@@ -105,7 +106,7 @@ test.describe('Form component', () => {
 
   test.skip('should submit a form into database', async ({ page }) => {
     // GIVEN
-    const config: IApp = {
+    const config: AppConfig = {
       name: 'App',
       features: [
         {
@@ -154,8 +155,9 @@ test.describe('Form component', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
-    const url = await app!.start()
+    const database = new Database()
+    const app = new App(config, { databaseUrl: database.url })
+    const url = await app.start()
 
     // WHEN
     await page.goto(url)
@@ -164,7 +166,9 @@ test.describe('Form component', () => {
     await page.click('button')
 
     // THEN
-    const lead = await app!.database!.table('leads').read({ email: 'test@test.com' })
+    const lead = await database
+      .table('leads')
+      .read([{ column: 'email', operator: '=', value: 'test@test.com' }])
     expect(lead).toBeDefined()
   })
 })

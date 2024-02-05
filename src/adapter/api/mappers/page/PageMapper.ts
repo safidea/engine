@@ -24,7 +24,7 @@ export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class Pag
     const { server, newLogger, ui, components } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, components)
-    const head = HeadMapper.toEntity(config.head)
+    const head = config.head && HeadMapper.toEntity(config.head)
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
   }
 

@@ -13,6 +13,6 @@ export const drivers: Drivers = {
   server: (port?: number) => new ExpressServerDriver(port),
   logger: (location: string) => new DebugLoggerDriver(location),
   ui: () => new ReactUiDriver(),
-  database: () => new KyselyDatabaseDriver(),
+  database: (url?: string) => new KyselyDatabaseDriver(url),
   idGenerator: () => new NanoidIdGeneratorDriver(),
 }

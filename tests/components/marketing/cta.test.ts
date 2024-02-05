@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createPage, type IPage } from '@solumy/engine/page'
+import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Cta component', () => {
   test('should render a Cta', async ({ page }) => {
@@ -10,12 +10,12 @@ test.describe('Cta component', () => {
       label: 'Click me',
       href: '/',
     }
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
         {
-          component: 'Cta',
+          component: 'CTA',
           title,
           description,
           primaryButton,
@@ -24,9 +24,9 @@ test.describe('Cta component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const titleContent = await page.textContent('h2')
@@ -47,12 +47,12 @@ test.describe('Cta component', () => {
       label: 'Click me',
       href: 'https://example.com/',
     }
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
         {
-          component: 'Cta',
+          component: 'CTA',
           title,
           description,
           primaryButton,
@@ -61,9 +61,9 @@ test.describe('Cta component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
     await page.click('a')
 
     // THEN

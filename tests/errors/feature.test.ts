@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import feature, { FeatureError, type Feature } from '@solumy/engine/feature'
+import Feature, { FeatureError, type Config } from '@solumy/engine/feature'
 
 test.describe('Feature schema errors', () => {
   test('empty config should return 1 errors', async () => {
@@ -7,7 +7,7 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = feature.getErrors(config)
+    const errors = new Feature(config).getErrors()
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -18,7 +18,7 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = feature.getErrors(config)
+    const errors = new Feature(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe('Feature schema errors', () => {
     }
 
     // WHEN
-    const errors = feature.getErrors(config)
+    const errors = new Feature(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe('Feature schema errors', () => {
     }
 
     // WHEN
-    const errors = feature.getErrors(config)
+    const errors = new Feature(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_UNKNOWN_PROPERTY')
@@ -65,13 +65,13 @@ test.describe('Feature schema errors', () => {
 test.describe('Feature config errors', () => {
   test('feature role should be a defined role', async () => {
     // GIVEN
-    const config: Feature = {
+    const config: Config = {
       name: 'feature',
       role: 'unknown',
     }
 
     // WHEN
-    const errors = feature.getErrors(config)
+    const errors = new Feature(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'FEATURE_ERROR_ROLE_NOT_FOUND')

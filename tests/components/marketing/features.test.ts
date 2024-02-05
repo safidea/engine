@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import type { Icon } from '@solumy/engine'
-import { createPage, type IPage } from '@solumy/engine/page'
+import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Features component', () => {
   test('should render features', async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe('Features component', () => {
         icon: 'Cog6Tooth',
       },
     ]
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
@@ -42,9 +42,9 @@ test.describe('Features component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const titleLocator = page.locator('h2', { hasText: title })

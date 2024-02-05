@@ -6,9 +6,9 @@ import { KyselyDatabaseTable, type Database } from './KyselyDatabaseTableDriver'
 export class KyselyDatabaseDriver implements DatabaseDriver {
   private db: Kysely<Database>
 
-  constructor() {
+  constructor(public url = ':memory:') {
     const dialect = new SqliteDialect({
-      database: new SQLite(':memory:', { fileMustExist: true }),
+      database: new SQLite(url, { fileMustExist: true }),
     })
     this.db = new Kysely<Database>({ dialect })
   }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import table, { TableError } from '@solumy/engine/table'
+import Table, { TableError } from '@solumy/engine/table'
 
 test.describe.only('Table schema errors', () => {
   test('empty config should return 2 errors', async () => {
@@ -7,7 +7,7 @@ test.describe.only('Table schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = table.getErrors(config)
+    const errors = new Table(config).getErrors()
 
     // THEN
     expect(errors).toHaveLength(2)
@@ -18,7 +18,7 @@ test.describe.only('Table schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = table.getErrors(config)
+    const errors = new Table(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'TABLE_ERROR_NAME_REQUIRED')
@@ -33,7 +33,7 @@ test.describe.only('Table schema errors', () => {
     }
 
     // WHEN
-    const errors = table.getErrors(config)
+    const errors = new Table(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'TABLE_ERROR_NAME_STRING_TYPE_REQUIRED')
@@ -48,7 +48,7 @@ test.describe.only('Table schema errors', () => {
     }
 
     // WHEN
-    const errors = table.getErrors(config)
+    const errors = new Table(config).getErrors()
 
     // THEN
     const error = errors?.find((e) => e.code === 'TABLE_ERROR_UNKNOWN_PROPERTY')

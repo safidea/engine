@@ -4,6 +4,6 @@ import type { Head } from './Head'
 export interface Page {
   name: string
   path: string
-  head: Head
+  head?: Head
   body: Component[]
 }

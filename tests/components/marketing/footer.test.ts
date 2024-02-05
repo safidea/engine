@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createPage, type IPage } from '@solumy/engine/page'
+import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Footer component', () => {
   test('should render a footer', async ({ page }) => {
@@ -17,7 +17,7 @@ test.describe('Footer component', () => {
       },
     ]
     const copyright = '@ Copyright'
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
@@ -32,9 +32,9 @@ test.describe('Footer component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const titleLocator = page.locator('a', { hasText: title })

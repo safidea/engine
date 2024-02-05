@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine'
+import App, { type Config } from '@solumy/engine'
+import { Database } from '@utils/tests/database'
 
 test.describe('App with tables', () => {
   test('should create a row when posting on table api', async ({ request }) => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -23,8 +24,8 @@ test.describe('App with tables', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
-    const url = await app!.start()
+    const app = new App(config)
+    const url = await app.start()
 
     // WHEN
     const res = await request.post(`${url}/api/table/leads`, {
@@ -41,7 +42,7 @@ test.describe('App with tables', () => {
 
   test('should create a row in database when posting on table api', async ({ request }) => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'leads backend',
       features: [
         {
@@ -60,8 +61,9 @@ test.describe('App with tables', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
-    const url = await app!.start()
+    const database = new Database()
+    const app = new App(config, { databaseUrl: database.url })
+    const url = await app.start()
 
     // WHEN
     await request.post(`${url}/api/table/leads`, {
@@ -69,7 +71,9 @@ test.describe('App with tables', () => {
     })
 
     // THEN
-    const row = await app!.database?.table('leads').read({ name: 'John' })
+    const row = await database
+      .table('leads')
+      .read([{ column: 'name', operator: '=', value: 'John' }])
     expect(row).toBeDefined()
     expect(row!.id).toBeDefined()
     expect(row!.name).toBe('John')
@@ -77,7 +81,7 @@ test.describe('App with tables', () => {
 
   test('should create a row with an id with a length of 24', async ({ request }) => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'leads backend',
       features: [
         {
@@ -96,8 +100,9 @@ test.describe('App with tables', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
-    const url = await app!.start()
+    const database = new Database()
+    const app = new App(config, { databaseUrl: database.url })
+    const url = await app.start()
 
     // WHEN
     await request.post(`${url}/api/table/leads`, {
@@ -105,7 +110,9 @@ test.describe('App with tables', () => {
     })
 
     // THEN
-    const row = await app!.database?.table('leads').read({ name: 'John' })
+    const row = await database
+      .table('leads')
+      .read([{ column: 'name', operator: '=', value: 'John' }])
     expect(row).toBeDefined()
     expect(row!.id).toHaveLength(24)
   })

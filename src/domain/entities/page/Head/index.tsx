@@ -3,7 +3,7 @@ import { Link } from './Link'
 import type { Script } from './Script'
 
 interface Params {
-  title: string
+  title?: string
   timestamp: number
   metas: Meta[]
   links: Link[]
@@ -13,10 +13,13 @@ interface Params {
 export class Head {
   constructor(private params: Params) {}
 
-  render = () => [
-    <title key="title">{this.params.title}</title>,
-    ...this.params.metas.map((meta) => <meta.render key={meta.name} />),
-    ...this.params.links.map((link) => <link.render key={link.href} />),
-    ...this.params.scripts.map((script) => <script.render key={script.src} />),
-  ]
+  render = () => {
+    const { title, metas, links, scripts } = this.params
+    const tags = []
+    if (title) tags.push(<title key="title">{title}</title>)
+    tags.push(...metas.map((meta) => <meta.render key={meta.name} />))
+    tags.push(...links.map((link) => <link.render key={link.href} />))
+    tags.push(...scripts.map((script) => <script.render key={script.src} />))
+    return tags
+  }
 }

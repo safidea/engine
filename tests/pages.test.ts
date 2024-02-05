@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine'
+import App, { type Config } from '@solumy/engine'
 
 test.describe('App with pages', () => {
   test('should display a paragraph', async ({ page }) => {
     // GIVEN
     const text = 'Hello world!'
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -25,7 +25,7 @@ test.describe('App with pages', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
+    const app = new App(config)
     const url = await app!.start()
 
     // WHEN

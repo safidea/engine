@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine'
+import App, { type Config } from '@solumy/engine'
 
 test.describe('App', () => {
   test('should start an app', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -24,18 +24,19 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
+    const app = new App(config)
+    await app.start()
 
     // WHEN
-    await app!.start()
+    const url = await app.start()
 
     // THEN
-    expect(app!.isRunning()).toBe(true)
+    expect(url).toBeDefined()
   })
 
   test('should start an app after testing specs', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -62,19 +63,20 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app, errors } = await createApp(config)
+    const app = new App(config)
 
     // WHEN
-    await app!.start()
+    const url = await app.start()
+    const errors = await app.test()
 
     // THEN
     expect(errors).toHaveLength(0)
-    expect(app!.isRunning()).toBe(true)
+    expect(url).toBeDefined()
   })
 
   test('should start an app on a dedicated PORT', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -94,10 +96,10 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = await createApp(config, { port: 3000 })
+    const app = new App(config, { port: 3000 })
 
     // WHEN
-    const url = await app!.start()
+    const url = await app.start()
 
     // THEN
     expect(url).toBe('http://localhost:3000')
@@ -105,7 +107,7 @@ test.describe('App', () => {
 
   test('should check the app running status through /health endpoint', async ({ request }) => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -125,8 +127,8 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
-    const url = await app!.start()
+    const app = new App(config)
+    const url = await app.start()
 
     // WHEN
     const { success } = await request.get(url + '/health').then((res) => res.json())
@@ -137,7 +139,7 @@ test.describe('App', () => {
 
   test('should stop an app', async ({ request }) => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -157,8 +159,8 @@ test.describe('App', () => {
         },
       ],
     }
-    const { app } = await createApp(config)
-    const url = await app!.start()
+    const app = new App(config)
+    const url = await app.start()
 
     // WHEN
     await app!.stop()

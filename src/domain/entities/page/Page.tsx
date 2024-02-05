@@ -11,7 +11,7 @@ import type { ReactComponent } from './Component/base'
 interface Params {
   name: string
   path: string
-  head: Head
+  head?: Head
   body: Component[]
   server: Server
   logger: Logger
@@ -35,17 +35,20 @@ export class Page implements Engine {
   }
 
   get = async () => {
+    return new HtmlResponse(this.html())
+  }
+
+  html() {
     const { body, head } = this.params
     const { ui, Html } = this.params
-    const html = ui.render(
+    return ui.render(
       <Html
-        head={<head.render />}
+        head={head ? head.render() : null}
         body={body.map((component, index) => (
           <component.render key={index} />
         ))}
       />
     )
-    return new HtmlResponse(html)
   }
 
   validateConfig() {

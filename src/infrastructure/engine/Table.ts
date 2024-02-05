@@ -1,14 +1,31 @@
 import { TableApi } from '@adapter/api/TableApi'
+import type { EngineError } from '@domain/entities/EngineError'
+import type { ReactComponents } from '@domain/entities/page/Component'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { TableError } from '@domain/entities/table/TableError'
-export type { Table } from '@adapter/api/configs/table/Table'
+export type { Table as Config } from '@adapter/api/configs/table/Table'
 
-class Table {
-  constructor(private api: TableApi) {}
-  getErrors = (config: unknown) => this.api.getConfigErrors(config)
-  validate = (config: unknown) => this.api.isValidConfig(config)
+interface Options {
+  components?: Partial<ReactComponents>
 }
 
-export default new Table(new TableApi(drivers, components))
+export default class {
+  private api: TableApi
+
+  constructor(
+    private config: unknown,
+    options?: Options
+  ) {
+    this.api = new TableApi({
+      drivers,
+      components: {
+        ...components,
+        ...options?.components,
+      },
+    })
+  }
+
+  getErrors = (): EngineError[] => this.api.getErrors(this.config)
+}

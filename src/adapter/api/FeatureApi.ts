@@ -1,13 +1,19 @@
-import { type Drivers } from '@adapter/spi'
 import { FeatureMapper, type Params } from './mappers/FeatureMapper'
-import type { Feature } from '@domain/entities/feature/Feature'
-import type { ReactComponents } from '@domain/entities/page/Component'
+import { Feature } from '@domain/entities/feature/Feature'
+import type { Params as SpisParams } from '@adapter/spi'
 import { Api } from './Api'
 import type { Feature as FeatureConfig } from './configs/Feature'
 import type { EngineError } from '@domain/entities/EngineError'
+import type { SpecError } from '@infrastructure/engine/spec'
 
 export class FeatureApi extends Api<FeatureConfig, EngineError, Feature, Params> {
-  constructor(drivers: Drivers, components: ReactComponents) {
-    super(drivers, components, FeatureMapper, 'feature')
+  constructor(params: SpisParams) {
+    super(params, FeatureMapper, 'feature')
+  }
+
+  test = async (config: unknown): Promise<SpecError[]> => {
+    if (!this.validate(config)) throw new Error('Invalid config')
+    const feature = this.mapper.toEntityFromServices(config, this.services)
+    return feature.test()
   }
 }

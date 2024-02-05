@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine'
+import App, { type Config } from '@solumy/engine'
 
 test.describe('App specs', () => {
   test('should not find a text', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -33,7 +33,7 @@ test.describe('App specs', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = new App(config).getErrors()
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -42,7 +42,7 @@ test.describe('App specs', () => {
 
   test('should find a text', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -71,15 +71,15 @@ test.describe('App specs', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = new App(config).getErrors()
 
     // THEN
     expect(errors).toHaveLength(0)
   })
 
-  test('should test specs by default when starting the app', async () => {
+  test('should no test specs by default when starting the app', async () => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [
         {
@@ -108,47 +108,47 @@ test.describe('App specs', () => {
     }
 
     // WHEN
-    const { errors } = await createApp(config)
+    const errors = new App(config).getErrors()
+
+    // THEN
+    expect(errors).toHaveLength(0)
+  })
+
+  test('should test specs', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          specs: [
+            {
+              name: 'display invalid text',
+              when: [{ open: '/' }],
+              then: [{ text: 'invalid' }],
+            },
+          ],
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'valid',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const errors = await new App(config).test()
 
     // THEN
     expect(errors).toHaveLength(1)
     expect(errors[0].code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
-  })
-
-  test('should not test specs when starting the app', async () => {
-    // GIVEN
-    const config: IApp = {
-      name: 'App',
-      features: [
-        {
-          name: 'Feature',
-          specs: [
-            {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'invalid' }],
-            },
-          ],
-          pages: [
-            {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'valid',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
-
-    // WHEN
-    const { errors } = await createApp(config, { testSpecs: false })
-
-    // THEN
-    expect(errors).toHaveLength(0)
   })
 })

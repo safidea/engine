@@ -31,7 +31,7 @@ await deleteFilesRecursively('dist', '.js')
 const { success, logs } = await Bun.build({
   target: 'node',
   entrypoints,
-  outdir: 'dist',
+  outdir: 'dist/infrastructure/engine',
   splitting: true,
   external: externals,
 })

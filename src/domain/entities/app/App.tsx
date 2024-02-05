@@ -5,15 +5,11 @@ import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { EngineError } from '../EngineError'
 import type { SpecError } from '../spec/SpecError'
-import type { Page } from '../page/Page'
-import type { Table } from '../table/Table'
-import type { Spec } from '../spec/Spec'
+import type { Feature } from '../feature/Feature'
 
 interface Params {
   name: string
-  specs: Spec[]
-  pages: Page[]
-  tables: Table[]
+  features: Feature[]
   roles: Role[]
   logger: Logger
   server: Server
@@ -33,17 +29,19 @@ export class App implements Engine {
   validateConfig() {
     const errors: EngineError[] = []
     errors.push(...this.params.roles.map((role) => role.validateConfig()).flat())
-    errors.push(...this.params.tables.map((table) => table.validateConfig()).flat())
-    errors.push(...this.params.pages.map((page) => page.validateConfig()).flat())
-    errors.push(...this.params.specs.map((spec) => spec.validateConfig()).flat())
+    errors.push(...this.params.features.map((feature) => feature.validateConfig()).flat())
     return errors
   }
 
-  testSpecs = async (): Promise<SpecError[]> => {
-    const errors: SpecError[] = []
-    const results = await Promise.all(this.params.specs.map((spec) => spec.test()))
-    for (const result of results) if (result) errors.push(result)
-    return errors.flat()
+  test = async (): Promise<SpecError[]> => {
+    const { logger, features } = this.params
+    let errors: SpecError[] = []
+    logger.log(`start testing features specs...`)
+    const results = await Promise.all(features.map((feature) => feature.test()))
+    for (const result of results.flat()) if (result) errors.push(result)
+    errors = errors.flat()
+    logger.log(`finish testing features specs with ${errors.length} error(s)`)
+    return errors
   }
 
   start = async (): Promise<string> => {

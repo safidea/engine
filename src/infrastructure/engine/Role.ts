@@ -1,14 +1,17 @@
 import { RoleApi } from '@adapter/api/RoleApi'
+import type { EngineError } from '@domain/entities/EngineError'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { RoleError } from '@domain/entities/role/RoleError'
-export type { Role } from '@adapter/api/configs/Role'
+export type { Role as Config } from '@adapter/api/configs/Role'
 
-class Role {
-  constructor(private api: RoleApi) {}
-  getErrors = (config: unknown) => this.api.getConfigErrors(config)
-  validate = (config: unknown) => this.api.isValidConfig(config)
+export default class {
+  private api: RoleApi
+
+  constructor(private config: unknown) {
+    this.api = new RoleApi({ drivers, components })
+  }
+
+  getErrors = (): EngineError[] => this.api.getErrors(this.config)
 }
-
-export default new Role(new RoleApi(drivers, components))

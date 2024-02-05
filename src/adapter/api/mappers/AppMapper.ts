@@ -8,19 +8,12 @@ import { SpecMapper } from './spec/SpecMapper'
 import { PageMapper } from './page/PageMapper'
 import { TableMapper } from './table/TableMapper'
 import type { EngineError } from '@domain/entities/EngineError'
-import type { Params as SpecParams } from './spec/SpecMapper'
-import type { Params as PageParams } from './page/PageMapper'
-import type { Params as TableParams } from './table/TableMapper'
-import type { Logger } from '@domain/services/Logger'
-import type { Server } from '@domain/services/Server'
+import { FeatureMapper, type Params as FeatureParams } from './FeatureMapper'
 import { RoleMapper } from './RoleMapper'
+import type { Database } from '@domain/services/Database'
 
-export interface Params {
-  newLogger: (location: string) => Logger
-  server: Server
-  table: TableParams
-  page: PageParams
-  spec: SpecParams
+export interface Params extends FeatureParams {
+  database: Database
 }
 
 export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppMapper {
@@ -33,29 +26,18 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppM
   }
 
   static toEntity = (config: AppConfig, params: Params) => {
-    const { name, features, roles: rolesConfigs } = config
-    const { server, table, page, spec, newLogger } = params
-    const specsConfigs = []
-    const pagesConfigs = []
-    const tablesConfigs = []
-    for (const feature of features) {
-      specsConfigs.push(...(feature.specs ?? []))
-      pagesConfigs.push(...(feature.pages ?? []))
-      tablesConfigs.push(...(feature.tables ?? []))
-    }
-    const specs = SpecMapper.toManyEntities(specsConfigs, spec)
-    const pages = PageMapper.toManyEntities(pagesConfigs, page)
-    const tables = TableMapper.toManyEntities(tablesConfigs, table)
+    const { name, features: featuresConfigs, roles: rolesConfigs = [] } = config
+    const { server, newLogger, database } = params
+    const features = FeatureMapper.toManyEntities(featuresConfigs, params)
     const roles = RoleMapper.toManyEntities(rolesConfigs, undefined)
     const logger = newLogger(`app:${name}`)
     return new App({
       name,
-      specs,
-      pages,
-      tables,
+      features,
       roles,
       server,
       logger,
+      database,
     })
   }
 
@@ -76,7 +58,7 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppM
     const table = { newLogger, server, database, record }
     const page = { server, newLogger, ui, components }
     const spec = { feature: 'current', newLogger, newServer, newDatabase, newBrowser }
-    return this.toEntity(config, { table, page, spec, newLogger, server })
+    return this.toEntity(config, { table, page, spec, newLogger, server, database })
   }
 
   static toManyEntitiesFromServices = (configs: AppConfig[], services: Services) => {

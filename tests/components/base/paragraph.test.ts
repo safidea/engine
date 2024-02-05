@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { createPage, type IPage } from '@solumy/engine/page'
+import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Paragraph component', () => {
   test('should render a paragraph', async ({ page }) => {
     // GIVEN
     const text = 'This is a paragraph.'
-    const config: IPage = {
+    const config: Config = {
       name: 'Page',
       path: '/',
       body: [
@@ -17,9 +17,9 @@ test.describe('Paragraph component', () => {
     }
 
     // WHEN
-    const { page: pageEngine } = await createPage(config)
-    const html = pageEngine!.renderHtml()
-    await page.setContent(html!)
+    const pageEngine = new Page(config)
+    const html = pageEngine.getHtml()
+    await page.setContent(html)
 
     // THEN
     const paragraphContent = await page.textContent('p')

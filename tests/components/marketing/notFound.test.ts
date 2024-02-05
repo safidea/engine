@@ -1,17 +1,17 @@
 import { test, expect } from '@playwright/test'
-import { createApp, type IApp } from '@solumy/engine'
+import App, { type Config } from '@solumy/engine'
 
 test.describe('NotFound component', () => {
   test('should render the 404 default page', async ({ page }) => {
     // GIVEN
-    const config: IApp = {
+    const config: Config = {
       name: 'App',
       features: [],
     }
-    const { app } = await createApp(config)
+    const app = new App(config)
 
     // WHEN
-    const url = await app!.start()
+    const url = await app.start()
     await page.goto(url)
 
     // THEN

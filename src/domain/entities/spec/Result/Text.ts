@@ -5,8 +5,8 @@ import { SpecError } from '../SpecError'
 interface Params extends BaseParams {
   text: string
   tag?: keyof HTMLElementTagNameMap
-  attribute?: undefined
-  value?: undefined
+  attribute?: string
+  value?: string
 }
 
 export class Text extends BaseWithPage {
