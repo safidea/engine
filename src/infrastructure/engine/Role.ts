@@ -1,13 +1,13 @@
 import type { ApiOptions } from '@adapter/api/Api'
 import { RoleApi } from '@adapter/api/RoleApi'
-import type { RoleDto } from '@adapter/api/dtos/RoleDto'
+import type { Role } from '@adapter/api/configs/Role'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { RoleError } from '@domain/entities/role/RoleError'
-export type { RoleDto as RoleConfig } from '@adapter/api/dtos/RoleDto'
+export type { Role } from '@adapter/api/configs/Role'
 
-export default class Role {
+export default class {
   api: RoleApi
 
   constructor(options?: ApiOptions) {
@@ -19,5 +19,5 @@ export default class Role {
 
   getConfigErrors = (config: unknown) => this.api.getConfigErrors(config)
   isValidConfig = (config: unknown) => this.api.isValidConfig(config)
-  createFromConfig = (config: RoleDto) => this.api.createFromConfig(config)
+  createFromConfig = (config: Role) => this.api.createFromConfig(config)
 }

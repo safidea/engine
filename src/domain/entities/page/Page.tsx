@@ -8,14 +8,11 @@ import type { Ui } from '@domain/services/Ui'
 import type { HtmlProps } from './Component/Html'
 import type { ReactComponent } from './Component/base'
 
-export interface PageConfig {
+interface Params {
   name: string
   path: string
   head: Head
   body: Component[]
-}
-
-export interface PageParams {
   server: Server
   logger: Logger
   ui: Ui
@@ -23,24 +20,22 @@ export interface PageParams {
 }
 
 export class Page implements Engine {
-  name: string
-
-  constructor(
-    private config: PageConfig,
-    private params: PageParams
-  ) {
+  constructor(private params: Params) {
     const { server, logger } = params
-    this.name = config.name
     server.get(this.path, this.get)
     logger.log(`GET mounted on ${this.path}`)
   }
 
+  get name() {
+    return this.params.name
+  }
+
   get path() {
-    return this.config.path
+    return this.params.path
   }
 
   get = async () => {
-    const { body, head } = this.config
+    const { body, head } = this.params
     const { ui, Html } = this.params
     const html = ui.render(
       <Html

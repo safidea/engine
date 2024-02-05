@@ -1,6 +1,6 @@
 import type { Base, ReactComponent, InputType } from '../base'
 
-export interface FormConfig {
+export interface Props {
   title: string
   description: string
   inputs: {
@@ -16,17 +16,13 @@ export interface FormConfig {
   successMessage?: string
 }
 
-export type FormProps = FormConfig
-
-export interface FormParams {
-  component: ReactComponent<FormConfig>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Form implements Base {
-  constructor(
-    private config: FormConfig,
-    private params: FormParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

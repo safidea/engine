@@ -1,15 +1,15 @@
-export interface LinkConfig {
+interface Params {
   href: string
 }
 
 export class Link {
-  href: string
-
-  constructor(config: LinkConfig) {
-    this.href = config.href
-  }
+  constructor(private params: Params) {}
 
   render = () => {
-    return <link href={this.href} />
+    return <link href={this.params.href} />
+  }
+
+  get href() {
+    return this.params.href
   }
 }

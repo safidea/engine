@@ -1,11 +1,3 @@
-export interface BaseFieldProps {
+export interface BaseParams {
   name: string
-}
-
-export class BaseField {
-  readonly name: string
-
-  constructor({ name }: BaseFieldProps) {
-    this.name = name
-  }
 }

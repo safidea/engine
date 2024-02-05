@@ -1,6 +1,6 @@
-import type { NotFoundProps } from '@domain/entities/page/Component/marketing/NotFound'
+import type { Props } from '@infrastructure/engine/App'
 
-export const NotFound = ({ title, description, primaryButton }: NotFoundProps) => (
+export const NotFound = ({ title, description, primaryButton }: Props['NotFound']) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
       <div className="mx-auto max-w-screen-sm text-center">

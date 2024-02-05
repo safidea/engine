@@ -1,3 +1,3 @@
-import type { ParagraphProps } from '@domain/entities/page/Component/Paragraph'
+import type { Props } from '@infrastructure/engine/App'
 
-export const Paragraph = ({ text }: ParagraphProps) => <p>{text}</p>
+export const Paragraph = ({ text }: Props['Paragraph']) => <p>{text}</p>

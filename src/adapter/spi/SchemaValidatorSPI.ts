@@ -22,7 +22,7 @@ export class SchemaValidatorSpi implements ISchemaValidatorSpi {
     const { json, errors } = this.driver.validateSchema<T>(schema, name)
     return {
       json,
-      errors: EngineMapper.toErrorEntities(errors),
+      errors: EngineMapper.toManyErrorEntities(errors),
     }
   }
 }

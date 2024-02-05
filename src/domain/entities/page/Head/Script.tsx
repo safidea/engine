@@ -1,18 +1,16 @@
-export interface ScriptConfig {
+interface Params {
   src: string
   type?: 'module' | 'text/javascript'
 }
 
 export class Script {
-  src: string
-  type: 'module' | 'text/javascript'
-
-  constructor(config: ScriptConfig) {
-    this.src = config.src
-    this.type = config.type || 'text/javascript'
-  }
+  constructor(private params: Params) {}
 
   render = () => {
-    return <script src={this.src} type={this.type} />
+    return <script src={this.params.src} type={this.params.type} />
+  }
+
+  get src() {
+    return this.params.src
   }
 }

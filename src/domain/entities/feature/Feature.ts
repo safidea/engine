@@ -8,36 +8,30 @@ import type { Role } from '../role/Role'
 import type { EngineError } from '../EngineError'
 import { FeatureError } from './FeatureError'
 
-export interface FeatureConfig {
+interface Params {
   name: string
   role?: string
   specs: Spec[]
   pages: Page[]
   tables: Table[]
-}
-
-export interface FeatureParams {
-  server: Server
   roles: Role[]
+  server: Server
 }
 
 export class Feature implements Engine {
   name: string
 
-  constructor(
-    private config: FeatureConfig,
-    private params: FeatureParams
-  ) {
-    this.name = config.name
+  constructor(private params: Params) {
+    this.name = params.name
   }
 
   validateConfig() {
     const errors: EngineError[] = []
-    const { specs, pages, tables, role } = this.config
+    const { specs, pages, tables, role } = this.params
     const { roles } = this.params
     if (role && !roles.find((r) => r.name === role)) {
       const error = new FeatureError('ROLE_NOT_FOUND', {
-        feature: this.config.name,
+        feature: this.params.name,
         role,
       })
       errors.push(error)
@@ -50,7 +44,7 @@ export class Feature implements Engine {
 
   async testSpecs(): Promise<SpecError[]> {
     const errors: SpecError[] = []
-    const results = await Promise.all(this.config.specs.flatMap((spec) => spec.test()))
+    const results = await Promise.all(this.params.specs.flatMap((spec) => spec.test()))
     for (const result of results) if (result) errors.push(result)
     return errors.flat()
   }

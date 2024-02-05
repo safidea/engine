@@ -14,13 +14,10 @@ import {
 } from './Result/base'
 import type { Server } from '@domain/services/Server'
 
-export interface SpecConfig {
+interface Params {
   name: string
   when: Action[]
   then: Result[]
-}
-
-export interface SpecParams {
   newServer: () => Server
   newDatabase: () => Database
   newBrowser: () => Browser
@@ -29,15 +26,10 @@ export interface SpecParams {
 }
 
 export class Spec implements Engine {
-  name: string
-  logger: Logger
+  constructor(private params: Params) {}
 
-  constructor(
-    private config: SpecConfig,
-    private params: SpecParams
-  ) {
-    this.name = config.name
-    this.logger = params.logger
+  get name() {
+    return this.params.name
   }
 
   validateConfig() {
@@ -45,8 +37,7 @@ export class Spec implements Engine {
   }
 
   async test(): Promise<SpecError | undefined> {
-    const { when, then } = this.config
-    const { newServer, newBrowser, newDatabase, logger, feature } = this.params
+    const { when, then, newServer, newBrowser, newDatabase, logger, feature } = this.params
     const server = newServer()
     const baseUrl = await server.start()
     let database: Database | undefined

@@ -1,7 +1,7 @@
-import type { FeaturesProps } from '@domain/entities/page/Component/marketing/Features'
+import type { Props } from '@infrastructure/engine/App'
 import { getIcon } from '../utils'
 
-export const Features = ({ title, description, features }: FeaturesProps) => (
+export const Features = ({ title, description, features }: Props['Features']) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div className="max-w-screen-md mb-8 lg:mb-16">

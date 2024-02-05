@@ -1,20 +1,16 @@
 import type { ReactComponent, Base } from './base'
 
-export interface ParagraphProps {
+export interface Props {
   text: string
 }
 
-export type ParagraphConfig = ParagraphProps
-
-export interface ParagraphParams {
-  component: ReactComponent<ParagraphProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Paragraph implements Base {
-  constructor(
-    private config: ParagraphConfig,
-    private params: ParagraphParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

@@ -2,21 +2,17 @@ import type { BrowserPage } from '@domain/services/BrowserPage'
 import { BaseWithPage, type BaseParams } from './base'
 import { SpecError } from '../SpecError'
 
-export interface TitleConfig {
+interface Params extends BaseParams {
   title: string
 }
 
 export class Title extends BaseWithPage {
-  constructor(
-    private config: TitleConfig,
-    private params: BaseParams
-  ) {
+  constructor(private params: Params) {
     super()
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { title } = this.config
-    const { logger, feature, spec } = this.params
+    const { title, logger, feature, spec } = this.params
     logger.log(`checking if title "${title}" exist`)
     const pageTitle = await page.title()
     if (pageTitle !== title) {

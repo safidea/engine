@@ -1,6 +1,6 @@
 import type { Base, ReactComponent } from '../base'
 
-export interface NotFoundProps {
+export interface Props {
   title: string
   description: string
   primaryButton: {
@@ -9,17 +9,13 @@ export interface NotFoundProps {
   }
 }
 
-export type NotFoundConfig = NotFoundProps
-
-export interface NotFoundParams {
-  component: ReactComponent<NotFoundProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class NotFound implements Base {
-  constructor(
-    private config: NotFoundProps,
-    private params: NotFoundParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

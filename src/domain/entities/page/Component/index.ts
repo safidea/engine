@@ -1,14 +1,14 @@
-import type { Button, ButtonProps } from './Button'
+import type { Button, Props as ButtonProps } from './Button'
 import type { HtmlProps } from './Html'
-import type { Paragraph, ParagraphProps } from './Paragraph'
-import type { Form, FormProps } from './application/Form'
+import type { Paragraph, Props as ParagraphProps } from './Paragraph'
+import type { Form, Props as FormProps } from './application/Form'
 import type { ReactComponent } from './base'
-import type { Cta, CtaProps } from './marketing/Cta'
-import type { Features, FeaturesProps } from './marketing/Features'
-import type { Footer, FooterProps } from './marketing/Footer'
-import type { Hero, HeroProps } from './marketing/Hero'
-import type { Logos, LogosProps } from './marketing/Logos'
-import type { NotFound, NotFoundProps } from './marketing/NotFound'
+import type { Cta, Props as CtaProps } from './marketing/Cta'
+import type { Features, Props as FeaturesProps } from './marketing/Features'
+import type { Footer, Props as FooterProps } from './marketing/Footer'
+import type { Hero, Props as HeroProps } from './marketing/Hero'
+import type { Logos, Props as LogosProps } from './marketing/Logos'
+import type { NotFound, Props as NotFoundProps } from './marketing/NotFound'
 
 export type Component =
   | Paragraph
@@ -32,4 +32,17 @@ export interface ReactComponents {
   Footer: ReactComponent<FooterProps>
   NotFound: ReactComponent<NotFoundProps>
   Form: ReactComponent<FormProps>
+}
+
+export interface Props {
+  Html: HtmlProps
+  Paragraph: ParagraphProps
+  Hero: HeroProps
+  Logos: LogosProps
+  Features: FeaturesProps
+  Cta: CtaProps
+  Button: ButtonProps
+  Footer: FooterProps
+  NotFound: NotFoundProps
+  Form: FormProps
 }

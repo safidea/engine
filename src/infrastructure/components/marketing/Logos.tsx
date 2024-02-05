@@ -1,7 +1,7 @@
-import type { LogosProps } from '@domain/entities/page/Component/marketing/Logos'
+import type { Props } from '@infrastructure/engine/App'
 import { classNames } from '../utils'
 
-export const Logos = ({ title, logos }: LogosProps) => {
+export const Logos = ({ title, logos }: Props['Logos']) => {
   const gridColumn = getGridColumns(logos.length)
   return (
     <section className="bg-white dark:bg-gray-900">

@@ -1,22 +1,18 @@
 import type { ReactComponent, Base } from './base'
 
-export interface ButtonProps {
+export interface Props {
   label: string
   href?: string
   variant?: 'primary' | 'secondary'
 }
 
-export type ButtonConfig = ButtonProps
-
-export interface ButtonParams {
-  component: ReactComponent<ButtonProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Button implements Base {
-  constructor(
-    private config: ButtonConfig,
-    private params: ButtonParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

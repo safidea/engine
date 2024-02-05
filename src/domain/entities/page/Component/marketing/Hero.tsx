@@ -1,6 +1,6 @@
 import type { ReactComponent, Base } from '../base'
 
-export interface HeroProps {
+export interface Props {
   title: string
   description: string
   primaryButton: {
@@ -9,17 +9,13 @@ export interface HeroProps {
   }
 }
 
-export type HeroConfig = HeroProps
-
-export interface HeroParams {
-  component: ReactComponent<HeroProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Hero implements Base {
-  constructor(
-    private config: HeroProps,
-    private params: HeroParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

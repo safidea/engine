@@ -1,14 +1,14 @@
 import type { Engine } from '../Engine'
 
-export interface RoleConfig {
+interface Params {
   name: string
 }
 
 export class Role implements Engine {
-  name: string
+  constructor(private params: Params) {}
 
-  constructor(config: RoleConfig) {
-    this.name = config.name
+  get name() {
+    return this.params.name
   }
 
   validateConfig() {

@@ -2,7 +2,7 @@ import type { Meta } from './Meta'
 import type { Link } from './Link'
 import type { Script } from './Script'
 
-export type HeadConfig = {
+interface Params {
   title: string
   metas: Meta[]
   links: Link[]
@@ -10,12 +10,12 @@ export type HeadConfig = {
 }
 
 export class Head {
-  constructor(private config: HeadConfig) {}
+  constructor(private params: Params) {}
 
   render = () => [
-    <title key="title">{this.config.title}</title>,
-    ...this.config.metas.map((meta) => <meta.render key={meta.name} />),
-    ...this.config.links.map((link) => <link.render key={link.href} />),
-    ...this.config.scripts.map((script) => <script.render key={script.src} />),
+    <title key="title">{this.params.title}</title>,
+    ...this.params.metas.map((meta) => <meta.render key={meta.name} />),
+    ...this.params.links.map((link) => <link.render key={link.href} />),
+    ...this.params.scripts.map((script) => <script.render key={script.src} />),
   ]
 }

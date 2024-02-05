@@ -1,7 +1,7 @@
 import type { Icon } from '../Icon'
 import type { ReactComponent, Base } from '../base'
 
-export interface FeaturesProps {
+export interface Props {
   title: string
   description: string
   features: {
@@ -11,17 +11,13 @@ export interface FeaturesProps {
   }[]
 }
 
-export type FeaturesConfig = FeaturesProps
-
-export interface FeaturesParams {
-  component: ReactComponent<FeaturesProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Features implements Base {
-  constructor(
-    private config: FeaturesConfig,
-    private params: FeaturesParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

@@ -2,14 +2,14 @@ import { Feature } from '@domain/entities/feature/Feature'
 import { FeatureError, type FeatureErrorCode } from '@domain/entities/feature/FeatureError'
 import { Services } from '@domain/services'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
-import type { FeatureDto } from '../dtos/FeatureDto'
+import type { Feature as FeatureConfig } from '../configs/Feature'
 import type { Mapper } from './Mapper'
 import { SpecMapper } from './spec/SpecMapper'
 import { PageMapper } from './page/PageMapper'
-import { TableMapper } from './TableMapper'
+import { TableMapper } from './table/TableMapper'
 import type { EngineError } from '@domain/entities/EngineError'
 
-export const FeatureMapper: Mapper<FeatureDto, EngineError, Feature> = class FeatureMapper {
+export const FeatureMapper: Mapper<FeatureConfig, EngineError, Feature> = class FeatureMapper {
   static getPaths = (instancePath: string): string[] => {
     return instancePath.split('/').filter((item) => item !== '')
   }
@@ -18,23 +18,23 @@ export const FeatureMapper: Mapper<FeatureDto, EngineError, Feature> = class Fea
     return this.getPaths(instancePath)[0]
   }
 
-  static toEntity = (dto: FeatureDto, services: Services) => {
-    const specs = SpecMapper.toEntities(dto.specs ?? [], services, dto.name)
-    const pages = PageMapper.toEntities(dto.pages ?? [], services, dto.name)
-    const tables = TableMapper.toEntities(dto.tables ?? [], services, dto.name)
+  static toEntity = (dto: FeatureConfig, services: Services) => {
+    const specs = SpecMapper.toManyEntities(dto.specs ?? [], services, dto.name)
+    const pages = PageMapper.toManyEntities(dto.pages ?? [], services, dto.name)
+    const tables = TableMapper.toManyEntities(dto.tables ?? [], services, dto.name)
     const server = services.server()
-    return new Feature(
-      {
-        ...dto,
-        specs,
-        pages,
-        tables,
-      },
-      { server, roles: [] }
-    )
+    return new Feature({
+      name: dto.name,
+      role: dto.role,
+      specs,
+      pages,
+      tables,
+      server,
+      roles: [],
+    })
   }
 
-  static toEntities = (dtos: FeatureDto[], services: Services) => {
+  static toManyEntities = (dtos: FeatureConfig[], services: Services) => {
     return dtos.map((dto) => this.toEntity(dto, services))
   }
 
@@ -59,7 +59,7 @@ export const FeatureMapper: Mapper<FeatureDto, EngineError, Feature> = class Fea
     return new FeatureError('UNKNOWN_SCHEMA_ERROR')
   }
 
-  static toErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
+  static toManyErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
     return errorDtos.map(this.toErrorEntity)
   }
 

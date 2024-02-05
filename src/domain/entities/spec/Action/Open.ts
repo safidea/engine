@@ -1,21 +1,17 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { BaseWithPage, type BaseParams } from './base'
 
-export interface OpenConfig {
+interface Params extends BaseParams {
   open: string
 }
 
 export class Open extends BaseWithPage {
-  constructor(
-    private config: OpenConfig,
-    private params: BaseParams
-  ) {
+  constructor(private params: Params) {
     super()
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { open } = this.config
-    const { logger } = this.params
+    const { open, logger } = this.params
     logger.log(`opening "${open}"`)
     await page.open(open)
   }

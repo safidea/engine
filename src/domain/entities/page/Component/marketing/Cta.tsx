@@ -1,6 +1,6 @@
 import type { ReactComponent, Base } from '../base'
 
-export interface CtaProps {
+export interface Props {
   title: string
   description: string
   primaryButton: {
@@ -9,17 +9,13 @@ export interface CtaProps {
   }
 }
 
-export type CtaConfig = CtaProps
-
-export interface CtaParams {
-  component: ReactComponent<CtaProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Cta implements Base {
-  constructor(
-    private config: CtaConfig,
-    private params: CtaParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

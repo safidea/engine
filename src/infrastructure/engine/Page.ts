@@ -1,13 +1,13 @@
 import type { ApiOptions } from '@adapter/api/Api'
 import { PageApi } from '@adapter/api/PageApi'
-import type { PageDto } from '@adapter/api/dtos/page/PageDto'
+import type { Page } from '@adapter/api/configs/page/Page'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { PageError } from '@domain/entities/page/PageError'
-export type { PageDto as PageConfig } from '@adapter/api/dtos/page/PageDto'
+export type { Page } from '@adapter/api/configs/page/Page'
 
-export default class Page {
+export default class {
   api: PageApi
 
   constructor(options?: ApiOptions) {
@@ -19,5 +19,5 @@ export default class Page {
 
   getConfigErrors = (config: unknown) => this.api.getConfigErrors(config)
   isValidConfig = (config: unknown) => this.api.isValidConfig(config)
-  createFromConfig = (config: PageDto) => this.api.createFromConfig(config)
+  createFromConfig = (config: Page) => this.api.createFromConfig(config)
 }

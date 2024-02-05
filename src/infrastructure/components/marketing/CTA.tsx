@@ -1,6 +1,6 @@
-import type { CtaProps } from '@domain/entities/page/Component/marketing/Cta'
+import type { Props } from '@infrastructure/engine/App'
 
-export const Cta = ({ title, description, primaryButton }: CtaProps) => (
+export const Cta = ({ title, description, primaryButton }: Props['Cta']) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div className="max-w-screen-md">

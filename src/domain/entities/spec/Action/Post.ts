@@ -1,22 +1,18 @@
 import { SpecError } from '../SpecError'
 import { BaseWithRequest, type BaseParams } from './base'
 
-export interface PostConfig {
+interface Params extends BaseParams {
   post: string
   body: object
 }
 
 export class Post extends BaseWithRequest {
-  constructor(
-    private config: PostConfig,
-    private params: BaseParams
-  ) {
+  constructor(private params: Params) {
     super()
   }
 
   executeWithRequest = async (baseUrl: string) => {
-    const { post, body } = this.config
-    const { logger, feature, spec } = this.params
+    const { post, body, logger, feature, spec } = this.params
     logger.log(`posting "${JSON.stringify(body)}" to "${post}"`)
     const res = await fetch(`${baseUrl}${post}`, {
       method: 'POST',

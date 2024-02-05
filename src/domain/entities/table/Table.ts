@@ -8,12 +8,9 @@ import type { Record } from '@domain/services/Record'
 import type { ToCreateData } from '@domain/services/Record/ToCreate'
 import { Json } from '@domain/services/Response/Json'
 
-export interface TableConfig {
+interface Params {
   name: string
   fields: Field[]
-}
-
-export interface TableParams {
   server: Server
   database: Database
   logger: Logger
@@ -23,10 +20,7 @@ export interface TableParams {
 export class Table implements Engine {
   private database: DatabaseTable
 
-  constructor(
-    private config: TableConfig,
-    private params: TableParams
-  ) {
+  constructor(private params: Params) {
     const { database, logger, server } = params
     this.database = database.table(this.name)
     server.post(this.path, this.post)
@@ -34,11 +28,11 @@ export class Table implements Engine {
   }
 
   get name() {
-    return this.config.name
+    return this.params.name
   }
 
   get fields() {
-    return this.config.fields
+    return this.params.fields
   }
 
   get path() {

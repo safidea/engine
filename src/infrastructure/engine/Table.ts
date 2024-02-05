@@ -1,13 +1,13 @@
 import type { ApiOptions } from '@adapter/api/Api'
 import { TableApi } from '@adapter/api/TableApi'
-import type { TableDto } from '@adapter/api/dtos/TableDto'
+import type { Table } from '@adapter/api/configs/table/Table'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { TableError } from '@domain/entities/table/TableError'
-export type { TableDto as TableConfig } from '@adapter/api/dtos/TableDto'
+export type { Table } from '@adapter/api/configs/table/Table'
 
-export default class Table {
+export default class {
   api: TableApi
 
   constructor(options?: ApiOptions) {
@@ -19,5 +19,5 @@ export default class Table {
 
   getConfigErrors = (config: unknown) => this.api.getConfigErrors(config)
   isValidConfig = (config: unknown) => this.api.isValidConfig(config)
-  createFromConfig = (config: TableDto) => this.api.createFromConfig(config)
+  createFromConfig = (config: Table) => this.api.createFromConfig(config)
 }

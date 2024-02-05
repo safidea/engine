@@ -1,6 +1,6 @@
 import type { ReactComponent, Base } from '../base'
 
-export interface FooterProps {
+export interface Props {
   title: string
   description: string
   copyright: string
@@ -10,17 +10,13 @@ export interface FooterProps {
   }[]
 }
 
-export type FooterConfig = FooterProps
-
-export interface FooterParams {
-  component: ReactComponent<FooterProps>
+export interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Footer implements Base {
-  constructor(
-    private config: FooterProps,
-    private params: FooterParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

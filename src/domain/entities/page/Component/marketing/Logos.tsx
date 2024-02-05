@@ -1,6 +1,6 @@
 import type { ReactComponent, Base } from '../base'
 
-export interface LogosProps {
+export interface Props {
   title: string
   logos: {
     src: string
@@ -8,17 +8,13 @@ export interface LogosProps {
   }[]
 }
 
-export type LogosConfig = LogosProps
-
-export interface LogosParams {
-  component: ReactComponent<LogosProps>
+interface Params {
+  props: Props
+  component: ReactComponent<Props>
 }
 
 export class Logos implements Base {
-  constructor(
-    private config: LogosProps,
-    private params: LogosParams
-  ) {}
+  constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.config} />
+  render = () => <this.params.component {...this.params.props} />
 }

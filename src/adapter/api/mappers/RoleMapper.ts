@@ -1,16 +1,16 @@
 import { Role } from '@domain/entities/role/Role'
 import { RoleError, type RoleErrorCode } from '@domain/entities/role/RoleError'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
-import type { RoleDto } from '../dtos/RoleDto'
+import type { Role as RoleConfig } from '../configs/Role'
 import type { Mapper } from './Mapper'
 
-export const RoleMapper: Mapper<RoleDto, RoleError, Role> = class RoleMapper {
-  static toEntity = (dto: RoleDto) => {
-    return new Role(dto)
+export const RoleMapper: Mapper<RoleConfig, RoleError, Role> = class RoleMapper {
+  static toEntity = (config: RoleConfig) => {
+    return new Role(config)
   }
 
-  static toEntities = (dtos: RoleDto[]) => {
-    return dtos.map(this.toEntity)
+  static toManyEntities = (configs: RoleConfig[]) => {
+    return configs.map(this.toEntity)
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
@@ -25,7 +25,7 @@ export const RoleMapper: Mapper<RoleDto, RoleError, Role> = class RoleMapper {
     return new RoleError('UNKNOWN_SCHEMA_ERROR')
   }
 
-  static toErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
+  static toManyErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
     return errorDtos.map(this.toErrorEntity)
   }
 

@@ -2,7 +2,7 @@ import type { BrowserPage } from '@domain/services/BrowserPage'
 import { BaseWithPage, type BaseParams } from './base'
 import { SpecError } from '../SpecError'
 
-export interface TextConfig {
+interface Params extends BaseParams {
   text: string
   tag?: keyof HTMLElementTagNameMap
   attribute?: undefined
@@ -10,16 +10,12 @@ export interface TextConfig {
 }
 
 export class Text extends BaseWithPage {
-  constructor(
-    private config: TextConfig,
-    private params: BaseParams
-  ) {
+  constructor(private params: Params) {
     super()
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { tag, text, attribute, value } = this.config
-    const { logger, feature, spec } = this.params
+    const { tag, text, attribute, value, logger, feature, spec } = this.params
     if (attribute) {
       const attributeMessage = `checking if attribute "${attribute}" has value "${value}" in text "${text}"`
       logger.log(tag ? `${attributeMessage} with tag "${tag}"` : attributeMessage)

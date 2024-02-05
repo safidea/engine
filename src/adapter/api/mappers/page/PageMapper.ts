@@ -1,24 +1,25 @@
 import { Page } from '@domain/entities/page/Page'
 import { PageError, type PageErrorCode } from '@domain/entities/page/PageError'
 import { Services } from '@domain/services'
-import type { PageDto } from '../../dtos/page/PageDto'
+import type { Page as PageConfig } from '../../configs/page/Page'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import { ComponentMapper } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
 import type { Mapper } from '../Mapper'
 
-export const PageMapper: Mapper<PageDto, PageError, Page> = class PageMapper {
-  static toEntity = (dto: PageDto, services: Services) => {
+export const PageMapper: Mapper<PageConfig, PageError, Page> = class PageMapper {
+  static toEntity = (config: PageConfig, services: Services) => {
+    const { name, path } = config
     const server = services.server()
     const ui = services.ui()
-    const logger = services.logger(`page:${dto.name}`)
-    const body = ComponentMapper.toManyEntities(dto.body, services.components)
-    const head = HeadMapper.toEntity(dto.head)
-    return new Page({ ...dto, head, body }, { server, logger, ui, Html: services.components.Html })
+    const logger = services.logger(`page:${config.name}`)
+    const body = ComponentMapper.toManyEntities(config.body, services.components)
+    const head = HeadMapper.toEntity(config.head)
+    return new Page({ name, path, head, body, server, logger, ui, Html: services.components.Html })
   }
 
-  static toEntities = (dtos: PageDto[], services: Services) => {
-    return dtos.map((dto) => this.toEntity(dto, services))
+  static toManyEntities = (configs: PageConfig[], services: Services) => {
+    return configs.map((config) => this.toEntity(config, services))
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
@@ -35,7 +36,7 @@ export const PageMapper: Mapper<PageDto, PageError, Page> = class PageMapper {
     return new PageError('UNKNOWN_SCHEMA_ERROR')
   }
 
-  static toErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
+  static toManyErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
     return errorDtos.map(this.toErrorEntity)
   }
 
