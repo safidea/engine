@@ -87,21 +87,6 @@ test.describe('app schema errors', () => {
     expect(error).toBeInstanceOf(AppError)
   })
 
-  test('translations should be an array', async () => {
-    // GIVEN
-    const config = {
-      translations: 1,
-    }
-
-    // WHEN
-    const errors = new App(config).getErrors()
-
-    // THEN
-    const error = errors?.find((e) => e.code === 'APP_ERROR_TRANSLATIONS_ARRAY_TYPE_REQUIRED')
-    expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppError)
-  })
-
   test('unknown property should not be allowed', async () => {
     // GIVEN
     const config = {

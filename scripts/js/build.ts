@@ -26,7 +26,7 @@ const entrypoints = [
   'src/infrastructure/engine/table.ts',
 ]
 
-await deleteFilesRecursively('dist', '.js')
+await deleteFilesRecursively('dist/infrastructure/engine', '.js')
 
 const { success, logs } = await Bun.build({
   target: 'node',

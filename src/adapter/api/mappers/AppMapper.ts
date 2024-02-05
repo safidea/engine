@@ -82,8 +82,8 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppM
         return new AppError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
       } else if (keyword === 'type') {
         if (instancePath === '/name') return new AppError('NAME_STRING_TYPE_REQUIRED')
-        if (instancePath === '/translations')
-          return new AppError('TRANSLATIONS_ARRAY_TYPE_REQUIRED')
+        if (instancePath === '/roles') return new AppError('ROLES_ARRAY_TYPE_REQUIRED')
+        if (instancePath === '/features') return new AppError('FEATURES_ARRAY_TYPE_REQUIRED')
       }
     }
     return new AppError('UNKNOWN_SCHEMA_ERROR')

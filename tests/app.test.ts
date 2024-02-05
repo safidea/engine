@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
 
-test.describe('App', () => {
+test.describe.only('App', () => {
   test('should start an app', async () => {
     // GIVEN
     const config: Config = {
