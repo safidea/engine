@@ -6,12 +6,16 @@ import type { TableDto } from '../dtos/TableDto'
 import type { Mapper } from './Mapper'
 
 export const TableMapper: Mapper<TableDto, TableError, Table> = class TableMapper {
-  static toEntity = (dto: TableDto, services: Services) => {
+  static toEntity = (dto: TableDto, services: Services, feature: string) => {
     const server = services.server()
     const database = services.database()
-    const logger = services.logger(`table:${dto.name}`)
+    const logger = services.logger(`feature:${feature}:table:${dto.name}`)
     const record = services.record()
     return new Table(dto, { server, database, logger, record })
+  }
+
+  static toEntities = (dtos: TableDto[], services: Services, feature: string) => {
+    return dtos.map((dto) => this.toEntity(dto, services, feature))
   }
 
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {

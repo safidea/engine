@@ -9,6 +9,10 @@ export const RoleMapper: Mapper<RoleDto, RoleError, Role> = class RoleMapper {
     return new Role(dto)
   }
 
+  static toEntities = (dtos: RoleDto[]) => {
+    return dtos.map(this.toEntity)
+  }
+
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
     const { instancePath, keyword, params } = errorDto
     if (keyword === 'required') {

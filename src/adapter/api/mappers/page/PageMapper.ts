@@ -17,6 +17,10 @@ export const PageMapper: Mapper<PageDto, PageError, Page> = class PageMapper {
     return new Page({ ...dto, head, body }, { server, logger, ui, Html: services.components.Html })
   }
 
+  static toEntities = (dtos: PageDto[], services: Services) => {
+    return dtos.map((dto) => this.toEntity(dto, services))
+  }
+
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
     const { instancePath, keyword, params } = errorDto
     if (keyword === 'required') {

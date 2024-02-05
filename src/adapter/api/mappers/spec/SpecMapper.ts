@@ -26,6 +26,10 @@ export const SpecMapper: Mapper<SpecDto, SpecError, Spec> = class SpecMapper {
     )
   }
 
+  static toEntities = (dtos: SpecDto[], services: Services, feature: string) => {
+    return dtos.map((dto) => this.toEntity(dto, services, feature))
+  }
+
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
     const { instancePath, keyword, params } = errorDto
     if (keyword === 'required') {

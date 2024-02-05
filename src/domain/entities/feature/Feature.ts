@@ -1,24 +1,24 @@
 import type { Server } from '@domain/services/Server'
 import type { Engine } from '../Engine'
-import type { RoleList } from '../role/RoleList'
-import type { SpecList } from '../spec/SpecList'
-import type { PageList } from '../page/PageList'
-import type { TableList } from '../table/TableList'
 import type { SpecError } from '../spec/SpecError'
+import type { Page } from '../page/Page'
+import type { Spec } from '../spec/Spec'
+import type { Table } from '../table/Table'
+import type { Role } from '../role/Role'
 import type { EngineError } from '../EngineError'
 import { FeatureError } from './FeatureError'
 
 export interface FeatureConfig {
   name: string
   role?: string
-  specs?: SpecList
-  pages?: PageList
-  tables?: TableList
+  specs: Spec[]
+  pages: Page[]
+  tables: Table[]
 }
 
 export interface FeatureParams {
   server: Server
-  roles: RoleList
+  roles: Role[]
 }
 
 export class Feature implements Engine {
@@ -35,36 +35,23 @@ export class Feature implements Engine {
     const errors: EngineError[] = []
     const { specs, pages, tables, role } = this.config
     const { roles } = this.params
-    if (role && !roles.includes(role)) {
+    if (role && !roles.find((r) => r.name === role)) {
       const error = new FeatureError('ROLE_NOT_FOUND', {
         feature: this.config.name,
         role,
       })
       errors.push(error)
     }
-    if (specs) errors.push(...specs.validateConfig())
-    if (pages) errors.push(...pages.validateConfig())
-    if (tables) errors.push(...tables.validateConfig())
+    if (specs) errors.push(...specs.flatMap((spec) => spec.validateConfig()))
+    if (pages) errors.push(...pages.flatMap((page) => page.validateConfig()))
+    if (tables) errors.push(...tables.flatMap((table) => table.validateConfig()))
     return errors
   }
 
   async testSpecs(): Promise<SpecError[]> {
-    return this.config.specs?.test() ?? []
-  }
-
-  hasTables() {
-    return !!this.config.tables
-  }
-
-  hasPages() {
-    return !!this.config.pages
-  }
-
-  getTables() {
-    return this.config.tables?.all ?? []
-  }
-
-  getPages() {
-    return this.config.pages?.all ?? []
+    const errors: SpecError[] = []
+    const results = await Promise.all(this.config.specs.flatMap((spec) => spec.test()))
+    for (const result of results) if (result) errors.push(result)
+    return errors.flat()
   }
 }
