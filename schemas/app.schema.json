@@ -1,0 +1,948 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Action": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Fill"
+                },
+                {
+                    "$ref": "#/definitions/Open"
+                },
+                {
+                    "$ref": "#/definitions/Post"
+                }
+            ]
+        },
+        "Button": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Button",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Component": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
+                    "$ref": "#/definitions/Button"
+                },
+                {
+                    "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Cta"
+                },
+                {
+                    "$ref": "#/definitions/Features"
+                },
+                {
+                    "$ref": "#/definitions/Hero"
+                },
+                {
+                    "$ref": "#/definitions/Footer"
+                },
+                {
+                    "$ref": "#/definitions/Logos"
+                }
+            ]
+        },
+        "Cta": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "CTA",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "primaryButton": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Email": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Features": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Features",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "icon": {
+                                "$ref": "#/definitions/Icon"
+                            },
+                            "title": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "icon",
+                            "title"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "features",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Field": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/SingleLineText"
+                }
+            ]
+        },
+        "Fill": {
+            "additionalProperties": false,
+            "properties": {
+                "fill": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fill",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Filter": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Is"
+                },
+                {
+                    "$ref": "#/definitions/IsAnyOf"
+                }
+            ]
+        },
+        "Footer": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Footer",
+                    "type": "string"
+                },
+                "copyright": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "href": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "href",
+                            "label"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "copyright",
+                "description",
+                "links",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Form": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Form",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "inputs": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "placeholder": {
+                                "type": "string"
+                            },
+                            "required": {
+                                "type": "boolean"
+                            },
+                            "type": {
+                                "enum": [
+                                    "button",
+                                    "checkbox",
+                                    "color",
+                                    "date",
+                                    "datetime-local",
+                                    "email",
+                                    "file",
+                                    "hidden",
+                                    "image",
+                                    "month",
+                                    "number",
+                                    "password",
+                                    "radio",
+                                    "range",
+                                    "reset",
+                                    "search",
+                                    "submit",
+                                    "tel",
+                                    "text",
+                                    "time",
+                                    "url",
+                                    "week"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "submitButton": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "successMessage": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "inputs",
+                "submitButton",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Head": {
+            "additionalProperties": false,
+            "properties": {
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/Meta"
+                    },
+                    "type": "array"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/Script"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Hero": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Hero",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "primaryButton": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Icon": {
+            "enum": [
+                "Banknotes",
+                "ChartBarSquare",
+                "ChatBubbleLeftEllipsis",
+                "Cog",
+                "Cog6Tooth",
+                "FaceSmile",
+                "Scale"
+            ],
+            "type": "string"
+        },
+        "InputText": {
+            "additionalProperties": false,
+            "properties": {
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Is": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "is",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsAnyOf": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "isAnyOf",
+                    "type": "string"
+                },
+                "value": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Link": {
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href"
+            ],
+            "type": "object"
+        },
+        "Logos": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Logos",
+                    "type": "string"
+                },
+                "logos": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "alt": {
+                                "type": "string"
+                            },
+                            "src": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "alt",
+                            "src"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "logos",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Meta": {
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "name"
+            ],
+            "type": "object"
+        },
+        "Open": {
+            "additionalProperties": false,
+            "properties": {
+                "open": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "open"
+            ],
+            "type": "object"
+        },
+        "Page": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "head": {
+                    "$ref": "#/definitions/Head"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path"
+            ],
+            "type": "object"
+        },
+        "Paragraph": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Paragraph",
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "text"
+            ],
+            "type": "object"
+        },
+        "Post": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "post": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "post"
+            ],
+            "type": "object"
+        },
+        "Record": {
+            "additionalProperties": false,
+            "properties": {
+                "find": {
+                    "items": {
+                        "$ref": "#/definitions/Filter"
+                    },
+                    "type": "array"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "find",
+                "table"
+            ],
+            "type": "object"
+        },
+        "Result": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Record"
+                },
+                {
+                    "$ref": "#/definitions/Text"
+                },
+                {
+                    "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                }
+            ]
+        },
+        "Role": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "Script": {
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
+            ],
+            "type": "object"
+        },
+        "SingleLineText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Spec": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/Result"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/Action"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "Table": {
+            "additionalProperties": false,
+            "properties": {
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/Field"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fields",
+                "name"
+            ],
+            "type": "object"
+        },
+        "Text": {
+            "additionalProperties": false,
+            "properties": {
+                "attribute": {
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "Title": {
+            "additionalProperties": false,
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "features": {
+            "items": {
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "pages": {
+                        "items": {
+                            "$ref": "#/definitions/Page"
+                        },
+                        "type": "array"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "specs": {
+                        "items": {
+                            "$ref": "#/definitions/Spec"
+                        },
+                        "type": "array"
+                    },
+                    "tables": {
+                        "items": {
+                            "$ref": "#/definitions/Table"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "roles": {
+            "items": {
+                "$ref": "#/definitions/Role"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "features",
+        "name"
+    ],
+    "type": "object"
+}
+

@@ -6,3 +6,5 @@ export interface App {
   features: Feature[]
   roles?: Role[]
 }
+
+export type AppSchema = App

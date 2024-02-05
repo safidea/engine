@@ -9,3 +9,5 @@ export type Feature = {
   pages?: Page[]
   tables?: Table[]
 }
+
+export type FeatureSchema = Feature

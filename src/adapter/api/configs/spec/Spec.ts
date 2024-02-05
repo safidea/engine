@@ -6,3 +6,5 @@ export interface Spec {
   when: Action[]
   then: Result[]
 }
+
+export type SpecSchema = Spec

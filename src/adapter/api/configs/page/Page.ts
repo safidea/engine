@@ -7,3 +7,5 @@ export interface Page {
   head?: Head
   body: Component[]
 }
+
+export type PageSchema = Page
