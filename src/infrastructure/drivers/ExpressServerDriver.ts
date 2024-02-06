@@ -50,7 +50,7 @@ export class ExpressServerDriver implements ServerDriver {
     })
   }
 
-  start = async (): Promise<string> => {
+  start = async (retry = 0): Promise<string> => {
     try {
       const port = await this.getPort()
       const options = { port }
@@ -59,8 +59,8 @@ export class ExpressServerDriver implements ServerDriver {
       this.server = server
       return `http://localhost:${port}`
     } catch (err) {
-      if (err instanceof Error && err.message.includes('EADDRINUSE')) {
-        return this.start()
+      if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
+        return this.start(++retry)
       }
       throw err
     }
