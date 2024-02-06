@@ -33,7 +33,8 @@ test.describe('App specs', () => {
     }
 
     // WHEN
-    const errors = new App(config).getErrors()
+    const app = new App(config)
+    const errors = await app.test()
 
     // THEN
     expect(errors).toHaveLength(1)
