@@ -45,7 +45,6 @@ export class ExpressServerDriver implements ServerDriver {
   notFound = async (handler: (getDto: GetDto) => Promise<ResponseDto>) => {
     this.express.use(async (req, res) => {
       const getDto: GetDto = { path: req.path, query: {}, params: {} }
-      console.log('not found', getDto)
       const { headers, body } = await handler(getDto)
       res.status(404).set(headers).send(body)
     })

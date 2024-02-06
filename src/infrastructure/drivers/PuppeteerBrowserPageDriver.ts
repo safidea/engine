@@ -18,15 +18,21 @@ export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
     return this.page.title()
   }
 
-  async getByText(text: string, { tag = '*' }: { tag?: string } = {}) {
-    const element = await this.page.$(`xpath/${tag}[contains(text(), '${text}')]`)
+  async getByText(text: string, { tag }: { tag?: string } = {}) {
+    if (!tag) {
+      const element = await this.page.$(`::-p-text(${text})`)
+      if (element) {
+        return new PuppeteerBrowserElementDriver(this.page, element)
+      }
+    }
+    const element = await this.page.$(`::-p-xpath(${tag}[contains(text(), '${text}')])`)
     if (element) {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }
   }
 
   async getInputByName(input: string) {
-    const element = await this.page.$(`xpath/input[@name='${input}']`)
+    const element = await this.page.$(`input[name="${input}"]`)
     if (element) {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }
