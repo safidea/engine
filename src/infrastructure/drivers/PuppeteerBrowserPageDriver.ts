@@ -25,7 +25,7 @@ export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
         return new PuppeteerBrowserElementDriver(this.page, element)
       }
     }
-    const element = await this.page.$(`::-p-xpath(${tag}[contains(text(), '${text}')])`)
+    const element = await this.page.$(`::-p-xpath(//${tag}[contains(text(), '${text}')])`)
     if (element) {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }

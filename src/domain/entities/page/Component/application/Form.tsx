@@ -24,5 +24,12 @@ interface Params {
 export class Form implements Base {
   constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.params.props} />
+  render = () => {
+    const {
+      component: Component,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      props: { successMessage, ...props },
+    } = this.params
+    return <Component {...props} />
+  }
 }
