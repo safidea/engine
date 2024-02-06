@@ -154,9 +154,6 @@
         "Result": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -164,6 +161,9 @@
                 },
                 {
                     "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
                 }
             ]
         },
