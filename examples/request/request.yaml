@@ -155,10 +155,11 @@ features:
     pages:
       - name: home
         path: /
-        title: *HomePageTitle
-        metas: 
-          - name: description
-            content: *HomePageDescription
+        head: 
+          title: *HomePageTitle
+          metas: 
+            - name: description
+              content: *HomePageDescription
         body:
           - component: Hero
             title: *HomePageHeroTitle
@@ -253,10 +254,11 @@ features:
     pages:
       - name: get-started
         path: /get-started
-        title: Request - Get Started
-        metas: 
-          - name: description
-            content: Get started with Request
+        head:
+          title: Request - Get Started
+          metas: 
+            - name: description
+              content: Get started with Request
         body:
           - component: Form
             title: *ContactPageFormTitle

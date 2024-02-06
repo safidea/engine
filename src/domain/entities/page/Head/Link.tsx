@@ -12,6 +12,6 @@ export class Link {
   }
 
   render = () => {
-    return <link href={this.href} />
+    return <link rel="stylesheet" href={this.href} />
   }
 }

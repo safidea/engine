@@ -12,6 +12,9 @@
                 },
                 {
                     "$ref": "#/definitions/Post"
+                },
+                {
+                    "$ref": "#/definitions/Click"
                 }
             ]
         },
@@ -39,6 +42,18 @@
             "required": [
                 "component",
                 "label"
+            ],
+            "type": "object"
+        },
+        "Click": {
+            "additionalProperties": false,
+            "properties": {
+                "click": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click"
             ],
             "type": "object"
         },
@@ -430,12 +445,18 @@
         },
         "Icon": {
             "enum": [
+                "AcademicCap",
                 "Banknotes",
                 "ChartBarSquare",
+                "ChatBubbleBottomCenterText",
                 "ChatBubbleLeftEllipsis",
                 "Cog",
                 "Cog6Tooth",
+                "CommandLine",
+                "ComputerDesktop",
+                "DevicePhoneMobile",
                 "FaceSmile",
+                "MagnifyingGlass",
                 "Scale"
             ],
             "type": "string"

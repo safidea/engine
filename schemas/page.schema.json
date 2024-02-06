@@ -344,12 +344,18 @@
         },
         "Icon": {
             "enum": [
+                "AcademicCap",
                 "Banknotes",
                 "ChartBarSquare",
+                "ChatBubbleBottomCenterText",
                 "ChatBubbleLeftEllipsis",
                 "Cog",
                 "Cog6Tooth",
+                "CommandLine",
+                "ComputerDesktop",
+                "DevicePhoneMobile",
                 "FaceSmile",
+                "MagnifyingGlass",
                 "Scale"
             ],
             "type": "string"

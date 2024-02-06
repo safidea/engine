@@ -12,8 +12,23 @@
                 },
                 {
                     "$ref": "#/definitions/Post"
+                },
+                {
+                    "$ref": "#/definitions/Click"
                 }
             ]
+        },
+        "Click": {
+            "additionalProperties": false,
+            "properties": {
+                "click": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click"
+            ],
+            "type": "object"
         },
         "Fill": {
             "additionalProperties": false,

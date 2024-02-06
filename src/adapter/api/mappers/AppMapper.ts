@@ -47,35 +47,35 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
       }
       if (feature.pages && feature.pages.length > 0) {
         pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
-        if (!pages.find((page) => page.path === '/404')) {
-          pages.push(
-            PageMapper.toEntity(
-              {
-                name: 'not found',
-                path: '/404',
-                head: {
-                  title: '404 not found',
-                },
-                body: [
-                  {
-                    component: 'NotFound',
-                    title: "Something's missing.",
-                    description:
-                      "Sorry, we can't find that page. You'll find lots to explore on the home page.",
-                    primaryButton: {
-                      label: 'Back to Homepage',
-                      href: '/',
-                    },
-                  },
-                ],
-              },
-              params.page
-            )
-          )
-        }
       }
     }
     const logger = newLogger(`app:${name}`)
+    if (!pages.find((page) => page.path === '/404')) {
+      pages.push(
+        PageMapper.toEntity(
+          {
+            name: 'not found',
+            path: '/404',
+            head: {
+              title: '404 not found',
+            },
+            body: [
+              {
+                component: 'NotFound',
+                title: "Something's missing.",
+                description:
+                  "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+                primaryButton: {
+                  label: 'Back to Homepage',
+                  href: '/',
+                },
+              },
+            ],
+          },
+          params.page
+        )
+      )
+    }
     return new App({
       name,
       tables,

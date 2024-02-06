@@ -16,10 +16,7 @@ interface Params {
 }
 
 export class App implements Engine {
-  constructor(private params: Params) {
-    process.on('SIGTERM', () => this.onClose('SIGTERM'))
-    process.on('SIGINT', () => this.onClose('SIGINT'))
-  }
+  constructor(private params: Params) {}
 
   get name() {
     return this.params.name
@@ -41,6 +38,8 @@ export class App implements Engine {
     }
     logger.log(`starting server...`)
     const url = await server.start()
+    process.on('SIGTERM', () => this.onClose('SIGTERM'))
+    process.on('SIGINT', () => this.onClose('SIGINT'))
     logger.log(`server listening at ${url}`)
     return url
   }
@@ -49,7 +48,10 @@ export class App implements Engine {
     const { logger, server, database } = this.params
     logger.log(`closing server...`)
     await server.stop(async () => {
-      if (database) await database.disconnect()
+      if (database) {
+        logger.log(`disconnecting database...`)
+        await database.disconnect()
+      }
     })
     logger.log('server closed')
   }
