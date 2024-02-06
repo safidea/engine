@@ -1,19 +1,23 @@
 import type { Get } from './Request/Get'
 import type { Post } from './Request/Post'
 import type { Response } from './Response'
+import { Json } from './Response/Json'
 
 export interface ServerSpi {
   start: () => Promise<string>
   stop: () => Promise<void>
   get: (path: string, handler: (request: Get) => Promise<Response>) => Promise<void>
   post: (path: string, handler: (request: Post) => Promise<Response>) => Promise<void>
+  notFound: (handler: (request: Get) => Promise<Response>) => Promise<void>
 }
 
 export class Server {
   isListening: boolean = false
   isShuttingDown: boolean = false
 
-  constructor(private spi: ServerSpi) {}
+  constructor(private spi: ServerSpi) {
+    this.get('/health', async () => new Json({ success: true }))
+  }
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
     await this.spi.get(path, handler)
@@ -21,6 +25,10 @@ export class Server {
 
   post = async (path: string, handler: (request: Post) => Promise<Response>) => {
     await this.spi.post(path, handler)
+  }
+
+  notFound = async (handler: (request: Get) => Promise<Response>) => {
+    await this.spi.notFound(handler)
   }
 
   start = async () => {

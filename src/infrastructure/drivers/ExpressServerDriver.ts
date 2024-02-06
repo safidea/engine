@@ -30,9 +30,7 @@ export class ExpressServerDriver implements ServerDriver {
     this.express.get(path, async (req, res) => {
       const getDto: GetDto = { path: req.path, query: {}, params: {} }
       const { status, headers, body } = await handler(getDto)
-      res.status(status)
-      res.set(headers)
-      res.send(body)
+      res.status(status).set(headers).send(body)
     })
   }
 
@@ -40,9 +38,16 @@ export class ExpressServerDriver implements ServerDriver {
     this.express.post(path, async (req, res) => {
       const postDto: PostDto = { path: req.path, query: {}, params: {}, body: req.body }
       const { status, headers, body } = await handler(postDto)
-      res.status(status)
-      res.set(headers)
-      res.send(body)
+      res.status(status).set(headers).send(body)
+    })
+  }
+
+  notFound = async (handler: (getDto: GetDto) => Promise<ResponseDto>) => {
+    this.express.use(async (req, res) => {
+      const getDto: GetDto = { path: req.path, query: {}, params: {} }
+      console.log('not found', getDto)
+      const { headers, body } = await handler(getDto)
+      res.status(404).set(headers).send(body)
     })
   }
 

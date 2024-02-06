@@ -11,6 +11,7 @@ export interface ServerDriver {
   stop(): Promise<void>
   get(path: string, handler: (request: GetDto) => Promise<ResponseDto>): Promise<void>
   post(path: string, handler: (request: PostDto) => Promise<ResponseDto>): Promise<void>
+  notFound(handler: (request: GetDto) => Promise<ResponseDto>): Promise<void>
 }
 
 export class ServerSpi implements IServerSpi {
@@ -27,6 +28,14 @@ export class ServerSpi implements IServerSpi {
   post = async (path: string, handler: (request: Post) => Promise<Response>) => {
     await this.driver.post(path, async (postDto) => {
       const request = RequestMapper.toPostService(postDto)
+      const response = await handler(request)
+      return response
+    })
+  }
+
+  notFound = async (handler: (request: Get) => Promise<Response>) => {
+    await this.driver.notFound(async (getDto) => {
+      const request = RequestMapper.toGetService(getDto)
       const response = await handler(request)
       return response
     })

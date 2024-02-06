@@ -3,7 +3,6 @@ import type { Engine } from '../Engine'
 import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { EngineError } from '../EngineError'
-import { Json } from '@domain/services/Response/Json'
 import type { Table } from '../table/Table'
 import type { Page } from '../page/Page'
 
@@ -18,10 +17,8 @@ interface Params {
 
 export class App implements Engine {
   constructor(private params: Params) {
-    const { server } = params
     process.on('SIGTERM', () => this.onClose('SIGTERM'))
     process.on('SIGINT', () => this.onClose('SIGINT'))
-    server.get('/health', async () => new Json({ success: true }))
   }
 
   get name() {

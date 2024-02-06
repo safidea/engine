@@ -23,7 +23,7 @@ export class Page implements Engine {
   constructor(private params: Params) {
     const { server } = params
     if (this.path === '/404') {
-      server.get('*', this.get)
+      server.notFound(this.get)
     } else {
       server.get(this.path, this.get)
     }
@@ -38,6 +38,7 @@ export class Page implements Engine {
   }
 
   get = async () => {
+    this.params.logger.log(`GET ${this.path}`)
     return new HtmlResponse(this.html())
   }
 
