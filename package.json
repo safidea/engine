@@ -40,7 +40,8 @@
     "helmet": "^7.1.0",
     "kysely": "^0.27.2",
     "nanoid": "^5.0.4",
-    "puppeteer": "^21.7.0",
+    "pg": "^8.11.3",
+    "puppeteer": "^22.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -64,6 +65,7 @@
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.11.5",
     "@types/nodemon": "^1.19.6",
+    "@types/pg": "^8.11.0",
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",

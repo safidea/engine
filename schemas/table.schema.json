@@ -2,6 +2,23 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
+        "DateTime": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "DateTime",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
         "Email": {
             "additionalProperties": false,
             "properties": {
@@ -21,6 +38,9 @@
         },
         "Field": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/DateTime"
+                },
                 {
                     "$ref": "#/definitions/Email"
                 },

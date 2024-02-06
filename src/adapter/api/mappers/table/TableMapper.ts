@@ -23,6 +23,30 @@ export const TableMapper: Mapper<TableConfig, TableError, Table, Params> = class
     const { server, database, newLogger, record } = params
     const logger = newLogger(`table:${config.name}`)
     const fields = FieldMapper.toManyEntities(config.fields)
+    if (!fields.find((field) => field.name === 'id')) {
+      fields.unshift(
+        FieldMapper.toEntity({
+          name: 'id',
+          type: 'SingleLineText',
+        })
+      )
+    }
+    if (!fields.find((field) => field.name === 'created_at')) {
+      fields.push(
+        FieldMapper.toEntity({
+          name: 'created_at',
+          type: 'DateTime',
+        })
+      )
+    }
+    if (!fields.find((field) => field.name === 'updated_at')) {
+      fields.push(
+        FieldMapper.toEntity({
+          name: 'updated_at',
+          type: 'DateTime',
+        })
+      )
+    }
     return new Table({ name, fields, server, database, logger, record })
   }
 

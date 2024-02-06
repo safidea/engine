@@ -13,4 +13,8 @@ export class DatabaseSpi implements IDatabaseSpi {
     const databaseTableDriver = this.driver.table(name)
     return new DatabaseTableSpi(databaseTableDriver)
   }
+
+  async disconnect() {
+    await this.driver.disconnect()
+  }
 }

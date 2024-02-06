@@ -1,5 +1,7 @@
-import { type BaseParams } from './base'
+import { Base, type BaseParams } from './base'
 
-export class SingleLineText {
-  constructor(private params: BaseParams) {}
+export class SingleLineText extends Base {
+  constructor(params: BaseParams) {
+    super(params)
+  }
 }

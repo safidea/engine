@@ -21,10 +21,9 @@ export class Table implements Engine {
   private database: DatabaseTable
 
   constructor(private params: Params) {
-    const { database, logger, server } = params
+    const { database, server } = params
     this.database = database.table(this.name)
     server.post(this.path, this.post)
-    logger.log(`POST mounted on ${this.path}`)
   }
 
   get name() {

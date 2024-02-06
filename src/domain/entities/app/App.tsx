@@ -35,10 +35,13 @@ export class App implements Engine {
 
   start = async (): Promise<string> => {
     const { logger, server, database } = this.params
+    if (database) {
+      logger.log(`migrating database...`)
+      await database.migrate(this.params.tables)
+    }
     logger.log(`starting server...`)
-    if (database) await database.migrate()
     const url = await server.start()
-    logger.log(`server started at ${url}`)
+    logger.log(`server listening at ${url}`)
     return url
   }
 

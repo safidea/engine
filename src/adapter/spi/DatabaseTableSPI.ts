@@ -2,15 +2,20 @@ import type { ToCreate } from '@domain/services/Record/ToCreate'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
 import { DatabaseFilterMapper } from './mappers/DatabaseFilterMapper'
 import type { Filter } from '@domain/services/Filter'
-import type { DatabaseTableColumnDto } from './dtos/DatabaseTableColumnDto'
+import type { DatabaseTableFieldDto } from './dtos/DatabaseTableFieldDto'
 import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
 import type { DatabaseTableSpi as IDatabaseTableSpi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
+import type { Field } from '@domain/entities/table/Field'
+import { FieldMapper } from './mappers/FieldMapper'
 
 export interface DatabaseTableDriver {
-  create: (columns: DatabaseTableColumnDto[]) => Promise<void>
-  addColumn: (column: DatabaseTableColumnDto) => Promise<void>
-  dropColumn: (name: string) => Promise<void>
+  exists: () => Promise<boolean>
+  create: (columns: DatabaseTableFieldDto[]) => Promise<void>
+  fieldExists: (name: string) => Promise<boolean>
+  addField: (column: DatabaseTableFieldDto) => Promise<void>
+  alterField: (column: DatabaseTableFieldDto) => Promise<void>
+  dropField: (name: string) => Promise<void>
   drop: () => Promise<void>
   insert: (record: ToCreateDto) => Promise<PersistedDto>
   read: (filters: DatabaseFilterDto[]) => Promise<PersistedDto | undefined>
@@ -30,5 +35,28 @@ export class DatabaseTableSpi implements IDatabaseTableSpi {
     const persistedRecordDto = await this.driver.read(filterDtos)
     if (!persistedRecordDto) return undefined
     return RecordMapper.toPersistedService(persistedRecordDto)
+  }
+
+  exists = async () => {
+    return this.driver.exists()
+  }
+
+  create = async (fields: Field[]) => {
+    const fieldsDto = FieldMapper.toManyDto(fields)
+    await this.driver.create(fieldsDto)
+  }
+
+  fieldExists = async (name: string) => {
+    return this.driver.fieldExists(name)
+  }
+
+  addField = async (field: Field) => {
+    const fieldDto = FieldMapper.toDto(field)
+    await this.driver.addField(fieldDto)
+  }
+
+  alterField = async (field: Field) => {
+    const fieldDto = FieldMapper.toDto(field)
+    await this.driver.alterField(fieldDto)
   }
 }

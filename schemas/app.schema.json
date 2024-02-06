@@ -45,13 +45,13 @@
         "Component": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                {
                     "$ref": "#/definitions/Button"
                 },
                 {
                     "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 {
                     "$ref": "#/definitions/Cta"
@@ -108,6 +108,23 @@
                 "description",
                 "primaryButton",
                 "title"
+            ],
+            "type": "object"
+        },
+        "DateTime": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "DateTime",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
             ],
             "type": "object"
         },
@@ -175,6 +192,9 @@
         },
         "Field": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/DateTime"
+                },
                 {
                     "$ref": "#/definitions/Email"
                 },
@@ -679,6 +699,9 @@
         "Result": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -686,9 +709,6 @@
                 },
                 {
                     "$ref": "#/definitions/Title"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
                 }
             ]
         },

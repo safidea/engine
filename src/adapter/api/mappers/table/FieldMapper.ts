@@ -1,5 +1,6 @@
 import type { Field as FieldConfig } from '@adapter/api/configs/table/Field'
 import type { Field } from '@domain/entities/table/Field'
+import { DateTime } from '@domain/entities/table/Field/DateTime'
 import { Email } from '@domain/entities/table/Field/Email'
 import { SingleLineText } from '@domain/entities/table/Field/SingleLineText'
 
@@ -10,6 +11,8 @@ export class FieldMapper {
         return new SingleLineText(config)
       case 'Email':
         return new Email(config)
+      case 'DateTime':
+        return new DateTime(config)
       default:
         throw new Error('Unknown field type')
     }
