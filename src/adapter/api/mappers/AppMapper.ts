@@ -3,20 +3,31 @@ import { AppError, type AppErrorCode } from '@domain/entities/app/AppError'
 import { Services } from '@domain/services'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import type { App as AppConfig } from '../configs/App'
+import type { Feature as FeatureConfig } from '../configs/Feature'
 import type { Mapper } from './Mapper'
 import { SpecMapper } from './spec/SpecMapper'
-import { PageMapper } from './page/PageMapper'
-import { TableMapper } from './table/TableMapper'
+import { PageMapper, type Params as PageParams } from './page/PageMapper'
+import { TableMapper, type Params as TableParams } from './table/TableMapper'
 import type { EngineError } from '@domain/entities/EngineError'
-import { FeatureMapper, type Params as FeatureParams } from './FeatureMapper'
-import { RoleMapper } from './RoleMapper'
 import type { Database } from '@domain/services/Database'
+import type { Table } from '@domain/entities/table/Table'
+import type { Page } from '@domain/entities/page/Page'
+import type { Server } from '@domain/services/Server'
+import type { Logger } from '@domain/services/Logger'
 
-export interface Params extends FeatureParams {
-  database: Database
+export interface Params {
+  table: TableParams
+  page: PageParams
+  newLogger: (location: string) => Logger
+  server: Server
+  database?: Database
 }
 
-export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppMapper {
+interface Private {
+  featureToEntityFromServices: (featureConfig: FeatureConfig, services: Services) => App
+}
+
+export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = class AppMapper {
   static getPaths = (instancePath: string): string[] => {
     return instancePath.split('/').filter((item) => item !== '')
   }
@@ -26,15 +37,19 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppM
   }
 
   static toEntity = (config: AppConfig, params: Params) => {
-    const { name, features: featuresConfigs, roles: rolesConfigs = [] } = config
+    const { name, features } = config
     const { server, newLogger, database } = params
-    const features = FeatureMapper.toManyEntities(featuresConfigs, params)
-    const roles = RoleMapper.toManyEntities(rolesConfigs, undefined)
+    const tables: Table[] = []
+    const pages: Page[] = []
+    for (const feature of features) {
+      if (feature.tables) tables.push(...TableMapper.toManyEntities(feature.tables, params.table))
+      if (feature.pages) pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
+    }
     const logger = newLogger(`app:${name}`)
     return new App({
       name,
-      features,
-      roles,
+      tables,
+      pages,
       server,
       logger,
       database,
@@ -52,13 +67,17 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> = class AppM
     const database = services.database()
     const record = services.record()
     const newLogger = (location: string) => services.logger(location)
-    const newServer = () => services.server()
-    const newDatabase = () => services.database()
-    const newBrowser = () => services.browser()
     const table = { newLogger, server, database, record }
     const page = { server, newLogger, ui, components }
-    const spec = { feature: 'current', newLogger, newServer, newDatabase, newBrowser }
-    return this.toEntity(config, { table, page, spec, newLogger, server, database })
+    return this.toEntity(config, { table, page, newLogger, server, database })
+  }
+
+  static featureToEntityFromServices = (featureConfig: FeatureConfig, services: Services) => {
+    const appConfig: AppConfig = {
+      name: 'feature: ' + featureConfig.name,
+      features: [featureConfig],
+    }
+    return this.toEntityFromServices(appConfig, services)
   }
 
   static toManyEntitiesFromServices = (configs: AppConfig[], services: Services) => {

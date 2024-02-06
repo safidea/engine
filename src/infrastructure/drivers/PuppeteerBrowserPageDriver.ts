@@ -31,4 +31,8 @@ export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
       return new PuppeteerBrowserElementDriver(this.page, element)
     }
   }
+
+  async getHtml() {
+    return this.page.content()
+  }
 }

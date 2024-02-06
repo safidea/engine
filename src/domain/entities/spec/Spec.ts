@@ -1,5 +1,4 @@
 import { SpecError } from './SpecError'
-import type { Database } from '@domain/services/Database'
 import type { Browser } from '@domain/services/Browser'
 import type { Logger } from '@domain/services/Logger'
 import type { Engine } from '../Engine'
@@ -12,14 +11,12 @@ import {
   BaseWithPage as ResultWithPage,
   BaseWithDatabase as ResultWithDatabase,
 } from './Result/base'
-import type { Server } from '@domain/services/Server'
+import type { App } from '../app/App'
 
 interface Params {
   name: string
   when: Action[]
   then: Result[]
-  newServer: () => Server
-  newDatabase: () => Database
   newBrowser: () => Browser
   logger: Logger
   feature: string
@@ -36,20 +33,12 @@ export class Spec implements Engine {
     return []
   }
 
-  async test(): Promise<SpecError | undefined> {
-    const { when, then, newServer, newBrowser, newDatabase, logger, feature } = this.params
-    const server = newServer()
-    const baseUrl = await server.start()
-    let database: Database | undefined
+  async test(app: App): Promise<SpecError | undefined> {
+    const { when, then, newBrowser, logger, feature } = this.params
     let browser: Browser | undefined
     let page: BrowserPage | undefined
-    const cleanRessources = async () => {
-      await server.stop(async () => {
-        if (browser) await browser.close()
-        if (database) await database.disconnect()
-      })
-    }
     try {
+      const baseUrl = await app.start()
       if (
         when.find((action) => action instanceof ActionWithPage) ||
         then.find((result) => result instanceof ResultWithPage)
@@ -65,7 +54,7 @@ export class Spec implements Engine {
         }
       }
       if (then.find((result) => result instanceof ResultWithDatabase)) {
-        database = newDatabase()
+        if (!app.database) throw new SpecError('DATABASE_REQUIRED', { feature, spec: this.name })
       }
       for (const action of when) {
         if (action instanceof ActionWithPage) {
@@ -78,16 +67,21 @@ export class Spec implements Engine {
         if (result instanceof ResultWithPage) {
           if (page) await result.executeWithPage(page)
         } else {
-          if (database) await result.executeWithDatabase(database)
+          if (app.database) await result.executeWithDatabase(app.database)
         }
       }
-      await cleanRessources()
+      if (browser) await browser.close()
+      await app.stop()
       logger.log('passed')
     } catch (error) {
-      await cleanRessources()
-      logger.log('failed')
-      if (error instanceof SpecError) return error
-      else throw error
+      const html = page ? await page.getHtml() : ''
+      if (browser) await browser.close()
+      await app.stop()
+      if (error instanceof SpecError) {
+        logger.log('failed: ' + error.message)
+        if (html) logger.log('html: ' + html)
+        return error
+      } else throw error
     }
   }
 }

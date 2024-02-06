@@ -651,18 +651,6 @@
                 }
             ]
         },
-        "Role": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name"
-            ],
-            "type": "object"
-        },
         "Script": {
             "additionalProperties": false,
             "properties": {
@@ -906,9 +894,6 @@
                         },
                         "type": "array"
                     },
-                    "role": {
-                        "type": "string"
-                    },
                     "specs": {
                         "items": {
                             "$ref": "#/definitions/Spec"
@@ -931,12 +916,6 @@
         },
         "name": {
             "type": "string"
-        },
-        "roles": {
-            "items": {
-                "$ref": "#/definitions/Role"
-            },
-            "type": "array"
         }
     },
     "required": [

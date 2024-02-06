@@ -6,6 +6,7 @@ export interface BrowserPageDriver {
   title(): Promise<string>
   getByText(text: string, options?: { tag?: string }): Promise<BrowserElementDriver | undefined>
   getInputByName(input: string): Promise<BrowserElementDriver | undefined>
+  getHtml(): Promise<string>
 }
 
 export class BrowserPageSpi implements IBrowserPageSpi {
@@ -25,5 +26,9 @@ export class BrowserPageSpi implements IBrowserPageSpi {
 
   async getInputByName(input: string) {
     return this.driver.getInputByName(input)
+  }
+
+  async getHtml() {
+    return this.driver.getHtml()
   }
 }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import Feature, { FeatureError, type Config } from '@solumy/engine/feature'
+import Feature, { FeatureError } from '@solumy/engine/feature'
 
 test.describe('Feature schema errors', () => {
   test('empty config should return 1 errors', async () => {
@@ -59,30 +59,5 @@ test.describe('Feature schema errors', () => {
     expect(data).toBeDefined()
     expect(data).toHaveProperty('property')
     if (data && 'property' in data) expect(data.property).toBe('unknown')
-  })
-})
-
-test.describe('Feature config errors', () => {
-  test('feature role should be a defined role', async () => {
-    // GIVEN
-    const config: Config = {
-      name: 'feature',
-      role: 'unknown',
-    }
-
-    // WHEN
-    const errors = new Feature(config).getErrors()
-
-    // THEN
-    const error = errors?.find((e) => e.code === 'FEATURE_ERROR_ROLE_NOT_FOUND')
-    expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(FeatureError)
-    if (!error) return
-    const data = error.data
-    expect(data).toBeDefined()
-    expect(data).toHaveProperty('feature')
-    if (data && 'feature' in data) expect(data.feature).toBe('feature')
-    expect(data).toHaveProperty('role')
-    if (data && 'role' in data) expect(data.role).toBe('unknown')
   })
 })

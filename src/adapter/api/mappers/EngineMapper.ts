@@ -5,7 +5,6 @@ import { PageMapper } from '@adapter/api/mappers/page/PageMapper'
 import { SpecMapper } from './spec/SpecMapper'
 import { AppMapper } from './AppMapper'
 import { FeatureMapper } from './FeatureMapper'
-import { RoleMapper } from './RoleMapper'
 
 export const EngineMapper = class EngineMapper {
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto): EngineError => {
@@ -16,8 +15,6 @@ export const EngineMapper = class EngineMapper {
         return PageMapper.toErrorEntity(errorDto)
       case 'spec':
         return SpecMapper.toErrorEntity(errorDto)
-      case 'role':
-        return RoleMapper.toErrorEntity(errorDto)
       case 'feature':
         return FeatureMapper.toErrorEntity(errorDto)
       case 'app':

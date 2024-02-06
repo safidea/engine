@@ -4,7 +4,6 @@ import type { Table } from './table/Table'
 
 export type Feature = {
   name: string
-  role?: string
   specs?: Spec[]
   pages?: Page[]
   tables?: Table[]

@@ -890,9 +890,6 @@
             },
             "type": "array"
         },
-        "role": {
-            "type": "string"
-        },
         "specs": {
             "items": {
                 "$ref": "#/definitions/Spec"

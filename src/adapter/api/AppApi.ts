@@ -5,6 +5,7 @@ import { Api } from './Api'
 import type { App as AppConfig } from './configs/App'
 import type { EngineError } from '@domain/entities/EngineError'
 import type { SpecError } from '@domain/entities/spec/SpecError'
+import { FeatureMapper } from './mappers/FeatureMapper'
 
 export class AppApi extends Api<AppConfig, EngineError, App, AppParams> {
   private app?: App
@@ -15,8 +16,14 @@ export class AppApi extends Api<AppConfig, EngineError, App, AppParams> {
 
   test = async (config: unknown): Promise<SpecError[]> => {
     if (!this.validate(config)) throw new Error('Invalid config')
-    this.app = this.mapper.toEntityFromServices(config, this.services)
-    return this.app.test()
+    const errors: SpecError[] = []
+    for (const featureConfig of config.features) {
+      const feature = FeatureMapper.toEntityFromServices(featureConfig, this.services)
+      const newApp = () => AppMapper.featureToEntityFromServices(featureConfig, this.services)
+      const specErrors = await feature.test(newApp)
+      errors.push(...specErrors)
+    }
+    return errors
   }
 
   start = async (config: unknown): Promise<string> => {

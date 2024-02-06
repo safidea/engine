@@ -8,6 +8,7 @@ export interface BrowserPageSpi {
     options?: { tag: string | undefined }
   ) => Promise<BrowserElementSpi | undefined>
   getInputByName: (name: string) => Promise<BrowserElementSpi | undefined>
+  getHtml: () => Promise<string>
 }
 
 export class BrowserPage {
@@ -29,5 +30,9 @@ export class BrowserPage {
   async getInputByName(name: string) {
     const element = await this.spi.getInputByName(name)
     if (element) return new BrowserElement(element)
+  }
+
+  async getHtml() {
+    return this.spi.getHtml()
   }
 }

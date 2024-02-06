@@ -14,6 +14,7 @@ export type SpecErrorCode =
   | 'POST_REQUEST_ERROR'
   | 'RECORD_NOT_FOUND'
   | 'OPEN_ACTION_REQUIRED'
+  | 'DATABASE_REQUIRED'
 
 export type SpecErrorData =
   | {

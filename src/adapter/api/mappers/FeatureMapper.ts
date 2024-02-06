@@ -8,17 +8,11 @@ import { PageMapper } from './page/PageMapper'
 import { TableMapper } from './table/TableMapper'
 import type { EngineError } from '@domain/entities/EngineError'
 import type { Params as SpecParams } from './spec/SpecMapper'
-import type { Params as PageParams } from './page/PageMapper'
-import type { Params as TableParams } from './table/TableMapper'
 import type { Logger } from '@domain/services/Logger'
-import type { Server } from '@domain/services/Server'
 import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 
 export interface Params {
   newLogger: (location: string) => Logger
-  server: Server
-  table: TableParams
-  page: PageParams
   spec: SpecParams
 }
 
@@ -33,28 +27,15 @@ export const FeatureMapper: Mapper<FeatureConfig, EngineError, Feature, Params> 
     }
 
     static toEntity = (config: FeatureConfig, params: Params) => {
-      const {
-        name,
-        role,
-        specs: specConfigs = [],
-        pages: pagesConfig = [],
-        tables: tablesConfigs = [],
-      } = config
-      const { table, page, spec, newLogger, server } = params
+      const { name, specs: specConfigs = [] } = config
+      const { spec, newLogger } = params
       const specs = specConfigs.map((specConfig) =>
         SpecMapper.toEntity(specConfig, { ...spec, feature: name })
       )
-      const pages = PageMapper.toManyEntities(pagesConfig, page)
-      const tables = TableMapper.toManyEntities(tablesConfigs, table)
       const logger = newLogger(`feature:${name}`)
       return new Feature({
         name,
-        role,
         specs,
-        pages,
-        tables,
-        server,
-        roles: [],
         logger,
       })
     }
@@ -64,19 +45,10 @@ export const FeatureMapper: Mapper<FeatureConfig, EngineError, Feature, Params> 
     }
 
     static toEntityFromServices = (config: FeatureConfig, services: Services) => {
-      const server = services.server()
-      const ui = services.ui()
-      const components = services.components
-      const database = services.database()
-      const record = services.record()
       const newLogger = (location: string) => services.logger(location)
-      const newServer = () => services.server()
-      const newDatabase = () => services.database()
       const newBrowser = () => services.browser()
-      const table = { newLogger, server, database, record }
-      const page = { server, newLogger, ui, components }
-      const spec = { feature: 'current', newLogger, newServer, newDatabase, newBrowser }
-      return this.toEntity(config, { table, page, spec, newLogger, server })
+      const spec = { feature: 'current', newLogger, newBrowser }
+      return this.toEntity(config, { spec, newLogger })
     }
 
     static toManyEntitiesFromServices = (configs: FeatureConfig[], services: Services) => {
