@@ -38,7 +38,7 @@ export class Spec implements Engine {
     let browser: Browser | undefined
     let page: BrowserPage | undefined
     try {
-      const baseUrl = await app.start()
+      const baseUrl = await app.start({ isTest: true })
       if (
         when.find((action) => action instanceof ActionWithPage) ||
         then.find((result) => result instanceof ResultWithPage)

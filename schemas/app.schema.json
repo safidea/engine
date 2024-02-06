@@ -963,6 +963,15 @@
         }
     },
     "properties": {
+        "database": {
+            "additionalProperties": false,
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "features": {
             "items": {
                 "additionalProperties": false,
@@ -998,6 +1007,15 @@
         },
         "name": {
             "type": "string"
+        },
+        "server": {
+            "additionalProperties": false,
+            "properties": {
+                "port": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
         },
         "translations": {
             "items": {

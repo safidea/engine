@@ -95,8 +95,9 @@ test.describe('App', () => {
           ],
         },
       ],
+      server: { port: 3000 },
     }
-    const app = new App(config, { port: 3000 })
+    const app = new App(config)
 
     // WHEN
     const url = await app.start()

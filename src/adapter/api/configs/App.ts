@@ -7,6 +7,12 @@ export interface App {
     language: 'EN'
     texts: string[]
   }[]
+  server?: {
+    port?: number
+  }
+  database?: {
+    url?: string
+  }
 }
 
 export type AppSchema = App

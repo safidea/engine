@@ -91,10 +91,10 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
   }
 
   static toEntityFromServices = (config: AppConfig, services: Services) => {
-    const server = services.server()
+    const server = services.server(config.server?.port)
     const ui = services.ui()
     const components = services.components
-    const database = services.database()
+    const database = services.database(config.database?.url)
     const record = services.record()
     const newLogger = (location: string) => services.logger(location)
     const table = { newLogger, server, database, record }

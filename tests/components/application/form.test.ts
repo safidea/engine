@@ -106,6 +106,7 @@ test.describe('Form component', () => {
 
   test.skip('should submit a form into database', async ({ page }) => {
     // GIVEN
+    const database = new Database()
     const config: AppConfig = {
       name: 'App',
       features: [
@@ -154,9 +155,11 @@ test.describe('Form component', () => {
           ],
         },
       ],
+      database: {
+        url: database.url,
+      },
     }
-    const database = new Database()
-    const app = new App(config, { databaseUrl: database.url })
+    const app = new App(config)
     const url = await app.start()
 
     // WHEN

@@ -21,8 +21,6 @@ export interface Drivers {
 export interface Params {
   drivers: Drivers
   components: ReactComponents
-  databaseUrl?: string
-  port?: number
 }
 
 export class Spis implements ISpis {
@@ -32,8 +30,8 @@ export class Spis implements ISpis {
     return this.params.components
   }
 
-  database = () => new DatabaseSpi(this.params.drivers.database(this.params.databaseUrl))
-  server = () => new ServerSpi(this.params.drivers.server(this.params.port))
+  database = (url?: string) => new DatabaseSpi(this.params.drivers.database(url))
+  server = (port?: number) => new ServerSpi(this.params.drivers.server(port))
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
   logger = (location: string) => new LoggerSpi(this.params.drivers.logger(location))
   schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())

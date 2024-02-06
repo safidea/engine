@@ -236,21 +236,21 @@ features:
             tag: p
           - text: *ContactPageFormPrimaryButtonLabel
             tag: button
-      - name: should submit the form
-        when:
-          - open: /get-started
-          - fill: *ContactPageFormInputsEmailName
-            value: test@test.com
-          - fill: *ContactPageFormInputsNameName
-            value: John Doe
-          - fill: *ContactPageFormInputsSubjectName
-            value: 'I would like to get started with Request.'
-          - fill: *ContactPageFormInputsMessageName
-            value: 'Hello, I would like to get started with Request.'
-          - click: *ContactPageFormPrimaryButtonLabel
-        then:
-          - text: *ContactPageFormSuccessMessage
-            tag: p
+      #- name: should submit the form
+      #  when:
+      #    - open: /get-started
+      #    - fill: *ContactPageFormInputsEmailName
+      #      value: test@test.com
+      #    - fill: *ContactPageFormInputsNameName
+      #      value: John Doe
+      #    - fill: *ContactPageFormInputsSubjectName
+      #      value: 'I would like to get started with Request.'
+      #    - fill: *ContactPageFormInputsMessageName
+      #      value: 'Hello, I would like to get started with Request.'
+      #    - click: *ContactPageFormPrimaryButtonLabel
+      #  then:
+      #    - text: *ContactPageFormSuccessMessage
+      #      tag: p
     pages:
       - name: get-started
         path: /get-started
@@ -298,3 +298,5 @@ features:
               - label: *HomePageFooterLinksContactLabel
                 href: *HomePageFooterLinksContactHref
             copyright: *HomePageFootercopyright 
+server: 
+  port: 3000

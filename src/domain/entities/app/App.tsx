@@ -30,7 +30,7 @@ export class App implements Engine {
     return errors
   }
 
-  start = async (): Promise<string> => {
+  start = async ({ isTest = false } = {}): Promise<string> => {
     const { logger, server, database } = this.params
     if (database) {
       logger.log(`migrating database...`)
@@ -38,8 +38,10 @@ export class App implements Engine {
     }
     logger.log(`starting server...`)
     const url = await server.start()
-    process.on('SIGTERM', () => this.onClose('SIGTERM'))
-    process.on('SIGINT', () => this.onClose('SIGINT'))
+    if (!isTest) {
+      process.on('SIGTERM', () => this.onClose('SIGTERM'))
+      process.on('SIGINT', () => this.onClose('SIGINT'))
+    }
     logger.log(`server listening at ${url}`)
     return url
   }

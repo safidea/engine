@@ -14,8 +14,6 @@ export type { Icon } from '@domain/entities/page/Component/Icon'
 interface Options {
   components?: Partial<ReactComponents>
   drivers?: Partial<Drivers>
-  databaseUrl?: string
-  port?: number
 }
 
 export default class {
@@ -26,7 +24,6 @@ export default class {
     options?: Options
   ) {
     this.api = new AppApi({
-      ...options,
       drivers: { ...drivers, ...options?.drivers },
       components: { ...components, ...options?.components },
     })

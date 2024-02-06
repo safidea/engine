@@ -42,6 +42,7 @@ test.describe('App with tables', () => {
 
   test('should create a row in database when posting on table api', async ({ request }) => {
     // GIVEN
+    const database = new Database()
     const config: Config = {
       name: 'leads backend',
       features: [
@@ -60,9 +61,11 @@ test.describe('App with tables', () => {
           ],
         },
       ],
+      database: {
+        url: database.url,
+      },
     }
-    const database = new Database()
-    const app = new App(config, { databaseUrl: database.url })
+    const app = new App(config)
     const url = await app.start()
 
     // WHEN
@@ -81,6 +84,7 @@ test.describe('App with tables', () => {
 
   test('should create a row with an id with a length of 24', async ({ request }) => {
     // GIVEN
+    const database = new Database()
     const config: Config = {
       name: 'leads backend',
       features: [
@@ -99,9 +103,11 @@ test.describe('App with tables', () => {
           ],
         },
       ],
+      database: {
+        url: database.url,
+      },
     }
-    const database = new Database()
-    const app = new App(config, { databaseUrl: database.url })
+    const app = new App(config)
     const url = await app.start()
 
     // WHEN

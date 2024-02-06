@@ -16,6 +16,9 @@ export class ActionMapper {
     if ('post' in config) {
       return new Post({ ...config, ...params })
     }
+    if ('click' in config) {
+      throw new Error('Not implemented')
+    }
     throw new Error('Unknown action')
   }
 

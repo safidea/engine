@@ -11,8 +11,8 @@ import { Browser, type BrowserSpi } from './Browser'
 
 export interface Spis {
   components: ReactComponents
-  server: () => ServerSpi
-  database: () => DatabaseSpi
+  server: (port?: number) => ServerSpi
+  database: (url?: string) => DatabaseSpi
   logger: (location: string) => LoggerSpi
   idGenerator: () => IdGeneratorSpi
   schemaValidator: () => SchemaValidatorSpi
@@ -29,8 +29,8 @@ export class Services {
 
   logger = (location: string) => new Logger(this.spis.logger(location))
   idGenerator = () => new IdGenerator(this.spis.idGenerator())
-  database = () => new Database(this.spis.database())
-  server = () => new Server(this.spis.server())
+  database = (url?: string) => new Database(this.spis.database(url))
+  server = (port?: number) => new Server(this.spis.server(port))
   schemaValidator = (error: (code: EngineErrorCode) => EngineError) =>
     new SchemaValidator(this.spis.schemaValidator(), error)
   ui = () => new Ui(this.spis.ui())
