@@ -8,6 +8,7 @@ import { Button } from '@domain/entities/page/Component/Button'
 import { Cta } from '@domain/entities/page/Component/marketing/Cta'
 import { Features } from '@domain/entities/page/Component/marketing/Features'
 import { Logos } from '@domain/entities/page/Component/marketing/Logos'
+import { NotFound } from '@domain/entities/page/Component/marketing/NotFound'
 
 export class ComponentMapper {
   static toEntity(config: ComponentConfig, components: ReactComponents): Component {
@@ -28,6 +29,8 @@ export class ComponentMapper {
         return new Features({ props: config, component: components.Features })
       case 'Logos':
         return new Logos({ props: config, component: components.Logos })
+      case 'NotFound':
+        return new NotFound({ props: config, component: components.NotFound })
     }
   }
 

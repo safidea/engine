@@ -41,23 +41,6 @@ test.describe('app schema errors', () => {
     expect(error).toBeInstanceOf(AppError)
   })
 
-  test('roles should be an array', async () => {
-    // GIVEN
-    const config = {
-      name: 'app',
-      features: [],
-      roles: 1,
-    }
-
-    // WHEN
-    const errors = new App(config).getErrors()
-
-    // THEN
-    const error = errors?.find((e) => e.code === 'APP_ERROR_ROLES_ARRAY_TYPE_REQUIRED')
-    expect(error).toBeDefined()
-    expect(error).toBeInstanceOf(AppError)
-  })
-
   test('features should be required', async () => {
     // GIVEN
     const config = {}

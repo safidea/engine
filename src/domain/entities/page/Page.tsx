@@ -11,7 +11,7 @@ import type { ReactComponent } from './Component/base'
 interface Params {
   name: string
   path: string
-  head?: Head
+  head: Head
   body: Component[]
   server: Server
   logger: Logger
@@ -21,9 +21,12 @@ interface Params {
 
 export class Page implements Engine {
   constructor(private params: Params) {
-    const { server, logger } = params
-    server.get(this.path, this.get)
-    logger.log(`GET mounted on ${this.path}`)
+    const { server } = params
+    if (this.path === '/404') {
+      server.get('*', this.get)
+    } else {
+      server.get(this.path, this.get)
+    }
   }
 
   get name() {

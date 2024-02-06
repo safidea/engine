@@ -6,13 +6,29 @@ test.describe('NotFound component', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [],
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Home',
+              path: '/',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'Hello world!',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     }
     const app = new App(config)
 
     // WHEN
     const url = await app.start()
-    await page.goto(url)
+    await page.goto(url + '/contact')
 
     // THEN
     expect(await page.title()).toContain('404 not found')
