@@ -168,7 +168,7 @@ test.describe('Form component', () => {
     // THEN
     const lead = await database
       .table('leads')
-      .read([{ column: 'email', operator: '=', value: 'test@test.com' }])
+      .read([{ field: 'email', operator: '=', value: 'test@test.com' }])
     expect(lead).toBeDefined()
   })
 })

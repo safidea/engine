@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import Feature, { type Config } from '@solumy/engine/feature'
 
 test.describe('Tables specs', () => {
-  test.skip('should not find a created row', async () => {
+  test('should not find a created row', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
@@ -10,7 +10,7 @@ test.describe('Tables specs', () => {
         {
           name: 'create a row',
           when: [{ post: '/api/table/leads', body: { name: 'Doe' } }],
-          then: [{ table: 'leads', find: [{ field: 'name', operator: 'is', value: 'John' }] }],
+          then: [{ table: 'leads', findOne: [{ field: 'name', operator: 'is', value: 'John' }] }],
         },
       ],
       tables: [
@@ -35,12 +35,12 @@ test.describe('Tables specs', () => {
     const [{ data, code }] = errors
     expect(code).toBe('SPEC_ERROR_RECORD_NOT_FOUND')
     if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe(JSON.stringify([{ name: 'John' }]))
-      expect(data.received).toBe(JSON.stringify([{ name: 'Doe' }]))
+      expect(data.expected).toBe(JSON.stringify({ name: 'John' }))
+      expect(data.received).toBeUndefined()
     }
   })
 
-  test.skip('should find a created row', async () => {
+  test('should find a created row', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
@@ -48,7 +48,7 @@ test.describe('Tables specs', () => {
         {
           name: 'create a row',
           when: [{ post: '/api/table/leads', body: { name: 'John' } }],
-          then: [{ table: 'leads', find: [{ field: 'name', operator: 'is', value: 'John' }] }],
+          then: [{ table: 'leads', findOne: [{ field: 'name', operator: 'is', value: 'John' }] }],
         },
       ],
       tables: [

@@ -1,5 +1,5 @@
 type Base = {
-  column: string
+  field: string
 }
 
 type Equal = Base & {

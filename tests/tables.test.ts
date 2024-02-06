@@ -73,7 +73,7 @@ test.describe('App with tables', () => {
     // THEN
     const row = await database
       .table('leads')
-      .read([{ column: 'name', operator: '=', value: 'John' }])
+      .read([{ field: 'name', operator: '=', value: 'John' }])
     expect(row).toBeDefined()
     expect(row!.id).toBeDefined()
     expect(row!.name).toBe('John')
@@ -112,7 +112,7 @@ test.describe('App with tables', () => {
     // THEN
     const row = await database
       .table('leads')
-      .read([{ column: 'name', operator: '=', value: 'John' }])
+      .read([{ field: 'name', operator: '=', value: 'John' }])
     expect(row).toBeDefined()
     expect(row!.id).toHaveLength(24)
   })

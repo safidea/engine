@@ -18,10 +18,11 @@ export class Record extends BaseWithDatabase {
     logger.log(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
     const tableRow = await database.table(table).read(find)
     if (!tableRow) {
+      const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})
       throw new SpecError('RECORD_NOT_FOUND', {
         feature,
         spec,
-        expected: JSON.stringify(find),
+        expected: JSON.stringify(expect),
         received: undefined,
       })
     }

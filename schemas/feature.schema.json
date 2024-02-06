@@ -680,7 +680,7 @@
         "Record": {
             "additionalProperties": false,
             "properties": {
-                "find": {
+                "findOne": {
                     "items": {
                         "$ref": "#/definitions/Filter"
                     },
@@ -691,7 +691,7 @@
                 }
             },
             "required": [
-                "find",
+                "findOne",
                 "table"
             ],
             "type": "object"

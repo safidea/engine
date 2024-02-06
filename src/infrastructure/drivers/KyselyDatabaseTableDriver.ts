@@ -114,7 +114,7 @@ export class KyselyDatabaseTable implements DatabaseTableDriver {
   async read(filters: DatabaseFilterDto[]): Promise<PersistedDto | undefined> {
     let query = this.db.selectFrom(this.name).selectAll()
     for (const filter of filters) {
-      query = query.where(filter.column, filter.operator, filter.value)
+      query = query.where(filter.field, filter.operator, filter.value)
     }
     const record = await query.executeTakeFirst()
     return record as PersistedDto | undefined

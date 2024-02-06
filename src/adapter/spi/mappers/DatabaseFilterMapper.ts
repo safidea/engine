@@ -2,20 +2,15 @@ import type { Filter } from '@domain/services/Filter'
 import type { DatabaseFilterDto } from '../dtos/DatabaseFilterDto'
 import { IsAnyOf } from '@domain/services/Filter/IsAnyOf'
 import { Is } from '@domain/services/Filter/Is'
+import { type Filter as FilterConfig } from '@adapter/api/configs/filter'
 
 export class DatabaseFilterMapper {
   static toEntity = (dto: DatabaseFilterDto): Filter => {
     switch (dto.operator) {
       case 'in':
-        return new IsAnyOf({
-          field: dto.column,
-          value: dto.value,
-        })
+        return new IsAnyOf(dto)
       case '=':
-        return new Is({
-          field: dto.column,
-          value: dto.value,
-        })
+        return new Is(dto)
     }
   }
 
@@ -23,19 +18,30 @@ export class DatabaseFilterMapper {
     return dtos.map(this.toEntity)
   }
 
+  static toEntityFromConfig = (filter: FilterConfig): Filter => {
+    switch (filter.operator) {
+      case 'isAnyOf':
+        return new IsAnyOf(filter)
+      case 'is':
+        return new Is(filter)
+    }
+  }
+
+  static toManyEntitiesFromConfig = (filters: FilterConfig[]): Filter[] => {
+    return filters.map(this.toEntityFromConfig)
+  }
+
   static toDto = (filter: Filter): DatabaseFilterDto => {
     if (filter instanceof IsAnyOf) {
       return {
-        column: filter.field,
+        ...filter,
         operator: 'in',
-        value: filter.value,
       }
     }
     if (filter instanceof Is) {
       return {
-        column: filter.field,
+        ...filter,
         operator: '=',
-        value: filter.value,
       }
     }
     throw new Error('Filter not supported')
