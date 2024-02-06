@@ -50,13 +50,20 @@ export class ExpressServerDriver implements ServerDriver {
     })
   }
 
-  start = async () => {
-    const port = await this.getPort()
-    const options = { port }
-    const server = http.createServer(this.express)
-    await new Promise((resolve) => server.listen(options, () => resolve(null)))
-    this.server = server
-    return `http://localhost:${port}`
+  start = async (): Promise<string> => {
+    try {
+      const port = await this.getPort()
+      const options = { port }
+      const server = http.createServer(this.express)
+      await new Promise((resolve) => server.listen(options, () => resolve(null)))
+      this.server = server
+      return `http://localhost:${port}`
+    } catch (err) {
+      if (err instanceof Error && err.message.includes('EADDRINUSE')) {
+        return this.start()
+      }
+      throw err
+    }
   }
 
   stop = async () => {
