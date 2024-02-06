@@ -6,6 +6,7 @@ import type { Database } from '@domain/services/Database'
 import type { EngineError } from '../EngineError'
 import type { SpecError } from '../spec/SpecError'
 import type { Feature } from '../feature/Feature'
+import { Json } from '@domain/services/Response/Json'
 
 interface Params {
   name: string
@@ -18,8 +19,10 @@ interface Params {
 
 export class App implements Engine {
   constructor(private params: Params) {
+    const { server } = params
     process.on('SIGTERM', () => this.onClose('SIGTERM'))
     process.on('SIGINT', () => this.onClose('SIGINT'))
+    server.get('/health', async () => new Json({ success: true }))
   }
 
   get name() {

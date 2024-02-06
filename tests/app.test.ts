@@ -34,7 +34,7 @@ test.describe.only('App', () => {
     expect(url).toBeDefined()
   })
 
-  test('should start an app after testing specs', async () => {
+  test.only('should start an app after testing specs', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
