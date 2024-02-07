@@ -4,12 +4,12 @@ import { DatabaseFilterMapper } from './mappers/DatabaseFilterMapper'
 import type { Filter } from '@domain/services/filter'
 import type { DatabaseTableFieldDto } from './dtos/DatabaseTableFieldDto'
 import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
-import type { DatabaseTableSpi as IDatabaseTableSpi } from '@domain/services/DatabaseTable'
+import type { Spi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
 import type { Field } from '@domain/entities/table/field'
 import { FieldMapper } from './mappers/FieldMapper'
 
-export interface DatabaseTableDriver {
+export interface Driver {
   exists: () => Promise<boolean>
   create: (columns: DatabaseTableFieldDto[]) => Promise<void>
   fieldExists: (name: string) => Promise<boolean>
@@ -21,8 +21,8 @@ export interface DatabaseTableDriver {
   read: (filters: DatabaseFilterDto[]) => Promise<PersistedDto | undefined>
 }
 
-export class DatabaseTableSpi implements IDatabaseTableSpi {
-  constructor(private driver: DatabaseTableDriver) {}
+export class DatabaseTableSpi implements Spi {
+  constructor(private driver: Driver) {}
 
   insert = async (toCreateRecord: ToCreate) => {
     const toCreateRecordDto = RecordMapper.toCreateDto(toCreateRecord)

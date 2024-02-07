@@ -38,14 +38,13 @@ export class Page implements Engine {
   }
 
   get = async () => {
-    this.params.logger.log(`GET ${this.path}`)
     return new HtmlResponse(this.html())
   }
 
   html() {
     const { body, head } = this.params
     const { ui, Html } = this.params
-    return ui.render(
+    return ui.renderToHtml(
       <Html
         head={head ? head.render() : null}
         body={body.map((component, index) => (

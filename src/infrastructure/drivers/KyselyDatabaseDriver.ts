@@ -1,16 +1,15 @@
-import type { DatabaseDriver } from '@adapter/spi/DatabaseSpi'
+import type { Driver } from '@adapter/spi/DatabaseSpi'
 import SQLite from 'better-sqlite3'
 import pg from 'pg'
 import { Kysely, PostgresDialect, SqliteDialect } from 'kysely'
 import { KyselyDatabaseTable, type Database } from './KyselyDatabaseTableDriver'
+import type { Params } from '@domain/services/Database'
 
-export class KyselyDatabaseDriver implements DatabaseDriver {
+export class KyselyDatabaseDriver implements Driver {
   private db: Kysely<Database>
 
-  constructor(
-    public url: string = ':memory:',
-    public database: 'sqlite' | 'postgres' = 'sqlite'
-  ) {
+  constructor(public params: Params) {
+    const { database, url } = params
     if (database === 'sqlite') {
       const dialect = new SqliteDialect({
         database: new SQLite(url, { fileMustExist: true }),
@@ -32,6 +31,6 @@ export class KyselyDatabaseDriver implements DatabaseDriver {
   }
 
   table(name: string) {
-    return new KyselyDatabaseTable(name, this.db, this.database)
+    return new KyselyDatabaseTable(name, this.db, this.params.database)
   }
 }

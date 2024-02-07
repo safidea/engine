@@ -1,7 +1,7 @@
-import type { BrowserElementDriver } from '@adapter/spi/BrowserElementSpi'
+import type { Driver } from '@adapter/spi/BrowserElementSpi'
 import type { ElementHandle, Page } from 'puppeteer'
 
-export class PuppeteerBrowserElementDriver implements BrowserElementDriver {
+export class PuppeteerBrowserElementDriver implements Driver {
   constructor(
     private page: Page,
     private element: ElementHandle<globalThis.Node>

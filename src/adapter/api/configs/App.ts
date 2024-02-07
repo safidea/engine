@@ -12,6 +12,7 @@ export interface App {
   }
   database?: {
     url?: string
+    database?: 'sqlite' | 'postgres'
   }
 }
 

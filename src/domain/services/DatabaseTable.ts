@@ -1,10 +1,10 @@
 import type { ToCreate } from './record/ToCreate'
-import type { DatabaseSpi } from './Database'
+import type { Spi as DatabaseSpi } from './Database'
 import type { Filter } from './filter'
 import type { Persisted } from './record/Persisted'
 import type { Field } from '@domain/entities/table/field'
 
-export interface DatabaseTableSpi {
+export interface Spi {
   insert: (toCreateRecord: ToCreate) => Promise<Persisted>
   read: (filters: Filter[]) => Promise<Persisted | undefined>
   exists: () => Promise<boolean>
@@ -15,14 +15,22 @@ export interface DatabaseTableSpi {
 }
 
 export class DatabaseTable {
-  private table: DatabaseTableSpi
+  private table: Spi
 
-  constructor(spi: DatabaseSpi, name: string) {
+  constructor(
+    private spi: DatabaseSpi,
+    private name: string
+  ) {
     this.table = spi.table(name)
   }
 
   async insert(toCreateRecord: ToCreate) {
-    return this.table.insert(toCreateRecord)
+    const { logger } = this.spi.params
+    const persistedRecord = await this.table.insert(toCreateRecord)
+    logger.log(
+      `inserted in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`
+    )
+    return persistedRecord
   }
 
   async read(filters: Filter[]) {

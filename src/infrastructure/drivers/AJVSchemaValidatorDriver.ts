@@ -2,13 +2,13 @@ import Ajv from 'ajv'
 import fs from 'fs-extra'
 import { join } from 'path'
 import type { JSONSchemaType } from 'ajv'
-import type { SchemaValidatorDriver } from '@adapter/spi/SchemaValidatorSpi'
-import type { SchemaName } from '@domain/services/SchemaValidator'
+import type { Driver } from '@adapter/spi/SchemaValidatorSpi'
+import type { Params, SchemaName } from '@domain/services/SchemaValidator'
 
-export class AJVSchemaValidatorDriver implements SchemaValidatorDriver {
+export class AJVSchemaValidatorDriver implements Driver {
   private ajv: Ajv
 
-  constructor() {
+  constructor(public params: Params) {
     this.ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
   }
 

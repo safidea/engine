@@ -305,5 +305,16 @@ features:
               - label: *HomePageFooterLinksContactLabel
                 href: *HomePageFooterLinksContactHref
             copyright: *HomePageFootercopyright 
+    tables:
+      - name : leads
+        fields:
+          - name: email
+            type: Email
+          - name: name
+            type: SingleLineText
+          - name: subject
+            type: SingleLineText
+          - name: message
+            type: SingleLineText
 server: 
   port: 3000

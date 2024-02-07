@@ -1,8 +1,19 @@
-import type { UiDriver } from '@adapter/spi/UiSpi'
+import type { Driver } from '@adapter/spi/UiSpi'
+import type { FrameProps } from '@domain/services/Ui'
 import ReactDOMServer from 'react-dom/server'
 
-export class ReactUiDriver implements UiDriver {
-  render(component: JSX.Element) {
+export interface Client {
+  Frame: (props: FrameProps) => JSX.Element
+}
+
+export class ReactUiDriver implements Driver {
+  constructor(private client: Client) {}
+
+  render = (component: JSX.Element) => {
     return ReactDOMServer.renderToString(component)
+  }
+
+  Frame = (props: FrameProps) => {
+    return this.client.Frame(props)
   }
 }

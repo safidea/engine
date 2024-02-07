@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import App, { type Config as AppConfig } from '@solumy/engine'
 import Page, { type Config as PageConfig } from '@solumy/engine/page'
-import { Database } from '@utils/tests/database'
+import Database from '@utils/tests/database'
 
 test.describe('Form component', () => {
   test('should display a form', async ({ page }) => {
@@ -107,6 +107,7 @@ test.describe('Form component', () => {
   test('should submit a form into database', async ({ page }) => {
     // GIVEN
     const database = new Database()
+    const successMessage = 'Your message has been sent successfully!'
     const config: AppConfig = {
       name: 'App',
       features: [
@@ -136,6 +137,7 @@ test.describe('Form component', () => {
                   submitButton: {
                     label: 'Save',
                   },
+                  successMessage,
                 },
               ],
             },
@@ -169,6 +171,7 @@ test.describe('Form component', () => {
     await page.fill('input[name="name"]', 'John')
     await page.fill('input[name="email"]', 'test@test.com')
     await page.click('button')
+    await page.getByText(successMessage).waitFor({ state: 'visible' })
 
     // THEN
     const lead = await database
@@ -177,7 +180,7 @@ test.describe('Form component', () => {
     expect(lead).toBeDefined()
   })
 
-  test.skip('should display a success message after submiting a form', async ({ page }) => {
+  test('should display a success message after submiting a form', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your message has been sent successfully!'
@@ -248,4 +251,6 @@ test.describe('Form component', () => {
     // THEN
     await expect(page.getByText(successMessage)).toBeVisible()
   })
+
+  test.skip('should display an error message after submiting a form', async () => {})
 })

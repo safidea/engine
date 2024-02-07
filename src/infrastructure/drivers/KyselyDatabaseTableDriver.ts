@@ -1,4 +1,4 @@
-import type { DatabaseTableDriver } from '@adapter/spi/DatabaseTableSpi'
+import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { DatabaseFilterDto } from '@adapter/spi/dtos/DatabaseFilterDto'
 import type { DatabaseTableFieldDto } from '@adapter/spi/dtos/DatabaseTableFieldDto'
 import type { PersistedDto, ToCreateDto } from '@adapter/spi/dtos/RecordDto'
@@ -10,7 +10,7 @@ export interface Database {
   }
 }
 
-export class KyselyDatabaseTable implements DatabaseTableDriver {
+export class KyselyDatabaseTable implements Driver {
   constructor(
     private name: string,
     private db: Kysely<Database>,

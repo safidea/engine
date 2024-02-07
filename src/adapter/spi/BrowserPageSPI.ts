@@ -1,7 +1,7 @@
-import type { BrowserElementDriver } from './BrowserElementSpi'
-import type { BrowserPageSpi as IBrowserPageSpi } from '@domain/services/BrowserPage'
+import type { Driver as BrowserElementDriver } from './BrowserElementSpi'
+import type { Spi } from '@domain/services/BrowserPage'
 
-export interface BrowserPageDriver {
+export interface Driver {
   open(url: string): Promise<void>
   title(): Promise<string>
   getByText(text: string, options?: { tag?: string }): Promise<BrowserElementDriver | undefined>
@@ -9,8 +9,8 @@ export interface BrowserPageDriver {
   getHtml(): Promise<string>
 }
 
-export class BrowserPageSpi implements IBrowserPageSpi {
-  constructor(private driver: BrowserPageDriver) {}
+export class BrowserPageSpi implements Spi {
+  constructor(private driver: Driver) {}
 
   async open(url: string) {
     return this.driver.open(url)

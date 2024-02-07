@@ -1,12 +1,12 @@
-import { BrowserPage, type BrowserPageSpi } from './BrowserPage'
+import { BrowserPage, type Spi as BrowserPageSpi } from './BrowserPage'
 
-export interface BrowserSpi {
+export interface Spi {
   launch: (options: { baseUrl: string }) => Promise<BrowserPageSpi>
   close: () => Promise<void>
 }
 
 export class Browser {
-  constructor(private spi: BrowserSpi) {}
+  constructor(private spi: Spi) {}
 
   async launch(options: { baseUrl: string }) {
     const page = await this.spi.launch(options)

@@ -1,19 +1,23 @@
 import type { Spis as ISpis } from '@domain/services'
-import { BrowserSpi, type BrowserDriver } from './BrowserSpi'
-import { DatabaseSpi, type DatabaseDriver } from './DatabaseSpi'
-import { IdGeneratorSpi, type IdGeneratorDriver } from './IdGeneratorSpi'
-import { LoggerSpi, type LoggerDriver } from './LoggerSpi'
-import { SchemaValidatorSpi, type SchemaValidatorDriver } from './SchemaValidatorSpi'
-import { ServerSpi, type ServerDriver } from './ServerSpi'
-import type { UiDriver } from './UiSpi'
+import { BrowserSpi, type Driver as BrowserDriver } from './BrowserSpi'
+import { DatabaseSpi, type Driver as DatabaseDriver } from './DatabaseSpi'
+import { IdGeneratorSpi, type Driver as IdGeneratorDriver } from './IdGeneratorSpi'
+import { LoggerSpi, type Driver as LoggerDriver } from './LoggerSpi'
+import { SchemaValidatorSpi, type Driver as SchemaValidatorDriver } from './SchemaValidatorSpi'
+import { ServerSpi, type Driver as ServerDriver } from './ServerSpi'
+import type { Driver as UiDriver } from './UiSpi'
 import type { ReactComponents } from '@domain/entities/page/component'
+import type { Params as ServerParams } from '@domain/services/Server'
+import type { Params as DatabaseParams } from '@domain/services/Database'
+import type { Params as LoggerParams } from '@domain/services/Logger'
+import type { Params as SchemaValidatorParams } from '@domain/services/SchemaValidator'
 
 export interface Drivers {
-  server: (port?: number) => ServerDriver
-  logger: (location: string) => LoggerDriver
-  database: (url?: string) => DatabaseDriver
+  server: (params: ServerParams) => ServerDriver
+  logger: (params: LoggerParams) => LoggerDriver
+  database: (params: DatabaseParams) => DatabaseDriver
   idGenerator: () => IdGeneratorDriver
-  schemaValidator: () => SchemaValidatorDriver
+  schemaValidator: (params: SchemaValidatorParams) => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
 }
@@ -30,11 +34,12 @@ export class Spis implements ISpis {
     return this.params.components
   }
 
-  database = (url?: string) => new DatabaseSpi(this.params.drivers.database(url))
-  server = (port?: number) => new ServerSpi(this.params.drivers.server(port))
+  database = (params: DatabaseParams) => new DatabaseSpi(this.params.drivers.database(params))
+  server = (params: ServerParams) => new ServerSpi(this.params.drivers.server(params))
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
-  logger = (location: string) => new LoggerSpi(this.params.drivers.logger(location))
-  schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
+  logger = (params: LoggerParams) => new LoggerSpi(this.params.drivers.logger(params))
+  schemaValidator = (params: SchemaValidatorParams) =>
+    new SchemaValidatorSpi(this.params.drivers.schemaValidator(params))
   ui = () => this.params.drivers.ui()
   browser = () => new BrowserSpi(this.params.drivers.browser())
 }

@@ -2,5 +2,5 @@
   "watch": ["src/adapter/api/configs/"],
   "ext": "ts,tsx",
   "ignore": ["dist/", "node_modules/"],
-  "exec": "DEBUG=* bun run build:schema"
+  "exec": "DEBUG=* bun run build:schemas"
 }

@@ -13,7 +13,7 @@ interface Params {
   component: ReactComponent<Props>
 }
 
-export class Logos implements Base {
+export class Logos implements Base<Props> {
   constructor(private params: Params) {}
 
   render = () => <this.params.component {...this.params.props} />

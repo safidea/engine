@@ -1,21 +1,24 @@
-import type { EngineError, EngineErrorCode } from '@domain/entities/EngineError'
-import { Database, type DatabaseSpi } from './Database'
-import { IdGenerator, type IdGeneratorSpi } from './IdGenerator'
-import { Logger, type LoggerSpi } from './Logger'
+import { Database, type Spi as DatabaseSpi, type Params as DatabaseParams } from './Database'
+import { IdGenerator, type Spi as IdGeneratorSpi } from './IdGenerator'
+import { Logger, type Spi as LoggerSpi, type Params as LoggerParams } from './Logger'
 import { Record } from './record'
-import { SchemaValidator, type SchemaValidatorSpi } from './SchemaValidator'
-import { Server, type ServerSpi } from './Server'
-import { Ui, type UiSpi } from './Ui'
+import {
+  SchemaValidator,
+  type Spi as SchemaValidatorSpi,
+  type Params as SchemaValidatorParams,
+} from './SchemaValidator'
+import { Server, type Spi as ServerSpi, type Params as ServerParams } from './Server'
+import { Ui, type Spi as UiSpi } from './Ui'
 import type { ReactComponents } from '@domain/entities/page/component'
-import { Browser, type BrowserSpi } from './Browser'
+import { Browser, type Spi as BrowserSpi } from './Browser'
 
 export interface Spis {
   components: ReactComponents
-  server: (port?: number) => ServerSpi
-  database: (url?: string) => DatabaseSpi
-  logger: (location: string) => LoggerSpi
+  server: (params: ServerParams) => ServerSpi
+  database: (params: DatabaseParams) => DatabaseSpi
+  logger: (params: LoggerParams) => LoggerSpi
   idGenerator: () => IdGeneratorSpi
-  schemaValidator: () => SchemaValidatorSpi
+  schemaValidator: (params: SchemaValidatorParams) => SchemaValidatorSpi
   ui: () => UiSpi
   browser: () => BrowserSpi
 }
@@ -27,12 +30,12 @@ export class Services {
     this.components = this.spis.components
   }
 
-  logger = (location: string) => new Logger(this.spis.logger(location))
+  logger = (params: LoggerParams) => new Logger(this.spis.logger(params))
   idGenerator = () => new IdGenerator(this.spis.idGenerator())
-  database = (url?: string) => new Database(this.spis.database(url))
-  server = (port?: number) => new Server(this.spis.server(port))
-  schemaValidator = (error: (code: EngineErrorCode) => EngineError) =>
-    new SchemaValidator(this.spis.schemaValidator(), error)
+  database = (params: DatabaseParams) => new Database(this.spis.database(params))
+  server = (params: ServerParams) => new Server(this.spis.server(params))
+  schemaValidator = (params: SchemaValidatorParams) =>
+    new SchemaValidator(this.spis.schemaValidator(params))
   ui = () => new Ui(this.spis.ui())
   browser = () => new Browser(this.spis.browser())
 

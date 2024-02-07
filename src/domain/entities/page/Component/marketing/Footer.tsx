@@ -15,7 +15,7 @@ export interface Params {
   component: ReactComponent<Props>
 }
 
-export class Footer implements Base {
+export class Footer implements Base<Props> {
   constructor(private params: Params) {}
 
   render = () => <this.params.component {...this.params.props} />

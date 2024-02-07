@@ -979,6 +979,13 @@
         "database": {
             "additionalProperties": false,
             "properties": {
+                "database": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }

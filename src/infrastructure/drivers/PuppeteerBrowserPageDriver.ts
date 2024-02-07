@@ -1,8 +1,8 @@
-import type { BrowserPageDriver } from '@adapter/spi/BrowserPageSpi'
+import type { Driver } from '@adapter/spi/BrowserPageSpi'
 import type { Page } from 'puppeteer'
 import { PuppeteerBrowserElementDriver } from './PuppeteerBrowserElementDriver'
 
-export class PuppeteerBrowserPageDriver implements BrowserPageDriver {
+export class PuppeteerBrowserPageDriver implements Driver {
   constructor(
     private page: Page,
     private baseUrl: string

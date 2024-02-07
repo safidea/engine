@@ -1,9 +1,9 @@
 import type { BrowserLaunchOptionsDto } from '@adapter/spi/dtos/BrowserLaunchOptionsDto'
-import type { BrowserDriver } from '@adapter/spi/BrowserSpi'
+import type { Driver } from '@adapter/spi/BrowserSpi'
 import puppeteer, { Browser } from 'puppeteer'
 import { PuppeteerBrowserPageDriver } from './PuppeteerBrowserPageDriver'
 
-export class PuppeteerBrowserDriver implements BrowserDriver {
+export class PuppeteerBrowserDriver implements Driver {
   browser?: Browser
 
   constructor() {}

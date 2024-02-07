@@ -1,11 +1,11 @@
-import type { IdGeneratorSpi as IIdGeneratorSpi } from '@domain/services/IdGenerator'
+import type { Spi } from '@domain/services/IdGenerator'
 
-export interface IdGeneratorDriver {
+export interface Driver {
   generate(length: number, chars: string): string
 }
 
-export class IdGeneratorSpi implements IIdGeneratorSpi {
-  constructor(private driver: IdGeneratorDriver) {}
+export class IdGeneratorSpi implements Spi {
+  constructor(private driver: Driver) {}
 
   generate = (length: number, chars: string): string => this.driver.generate(length, chars)
 }

@@ -5,17 +5,18 @@ import cookieParser from 'cookie-parser'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
-import type { ServerDriver } from '@adapter/spi/ServerSpi'
+import type { Driver } from '@adapter/spi/ServerSpi'
 import type { GetDto, PostDto } from '@adapter/spi/dtos/RequestDto'
 import type { ResponseDto } from '@adapter/spi/dtos/ResponseDto'
+import type { Params } from '@domain/services/Server'
 
 const dirname = new URL('.', import.meta.url).pathname
 
-export class ExpressServerDriver implements ServerDriver {
+export class ExpressServerDriver implements Driver {
   private express: Express
   private server?: HttpServer
 
-  constructor(private port?: number) {
+  constructor(public params: Params) {
     this.express = express()
     this.express.use(cors())
     this.express.use(helmet())
@@ -28,7 +29,7 @@ export class ExpressServerDriver implements ServerDriver {
 
   get = async (path: string, handler: (getDto: GetDto) => Promise<ResponseDto>) => {
     this.express.get(path, async (req, res) => {
-      const getDto: GetDto = { path: req.path, query: {}, params: {} }
+      const getDto: GetDto = this.getRequestDto(req)
       const { status, headers, body } = await handler(getDto)
       res.status(status).set(headers).send(body)
     })
@@ -36,7 +37,10 @@ export class ExpressServerDriver implements ServerDriver {
 
   post = async (path: string, handler: (postDto: PostDto) => Promise<ResponseDto>) => {
     this.express.post(path, async (req, res) => {
-      const postDto: PostDto = { path: req.path, query: {}, params: {}, body: req.body }
+      const postDto: PostDto = {
+        ...this.getRequestDto(req),
+        body: req.body,
+      }
       const { status, headers, body } = await handler(postDto)
       res.status(status).set(headers).send(body)
     })
@@ -44,7 +48,7 @@ export class ExpressServerDriver implements ServerDriver {
 
   notFound = async (handler: (getDto: GetDto) => Promise<ResponseDto>) => {
     this.express.use(async (req, res) => {
-      const getDto: GetDto = { path: req.path, query: {}, params: {} }
+      const getDto: GetDto = this.getRequestDto(req)
       const { headers, body } = await handler(getDto)
       res.status(404).set(headers).send(body)
     })
@@ -71,7 +75,7 @@ export class ExpressServerDriver implements ServerDriver {
   }
 
   private async getPort() {
-    if (this.port) return this.port
+    if (this.params.port) return this.params.port
     const port: number = await new Promise((resolve, reject) => {
       const srv = net.createServer()
       srv.listen(0, function () {
@@ -82,5 +86,14 @@ export class ExpressServerDriver implements ServerDriver {
       })
     })
     return port
+  }
+
+  private getRequestDto(req: express.Request): GetDto {
+    return {
+      path: req.path,
+      baseUrl: `${req.protocol}://${req.get('host')}`,
+      query: {},
+      params: {},
+    }
   }
 }

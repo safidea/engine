@@ -16,8 +16,8 @@ import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 
 export interface Params {
-  table: TableParams
-  page: PageParams
+  table?: TableParams
+  page?: PageParams
   newLogger: (location: string) => Logger
   server: Server
   database?: Database
@@ -42,15 +42,15 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     const tables: Table[] = []
     const pages: Page[] = []
     for (const feature of features) {
-      if (feature.tables && feature.tables.length > 0) {
+      if (params.table && feature.tables && feature.tables.length > 0) {
         tables.push(...TableMapper.toManyEntities(feature.tables, params.table))
       }
-      if (feature.pages && feature.pages.length > 0) {
+      if (params.page && feature.pages && feature.pages.length > 0) {
         pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
       }
     }
     const logger = newLogger(`app:${name}`)
-    if (!pages.find((page) => page.path === '/404')) {
+    if (params.page && !pages.find((page) => page.path === '/404')) {
       pages.push(
         PageMapper.toEntity(
           {
@@ -91,14 +91,29 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
   }
 
   static toEntityFromServices = (config: AppConfig, services: Services) => {
-    const server = services.server(config.server?.port)
+    const server = services.server({
+      logger: services.logger({ location: `server` }),
+      port: config.server?.port,
+    })
     const ui = services.ui()
     const components = services.components
-    const database = services.database(config.database?.url)
     const record = services.record()
-    const newLogger = (location: string) => services.logger(location)
-    const table = { newLogger, server, database, record }
-    const page = { server, newLogger, ui, components }
+    const idGenerator = services.idGenerator()
+    const newLogger = (location: string) => services.logger({ location })
+    let database: Database | undefined
+    let table: TableParams | undefined
+    let page: PageParams | undefined
+    if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
+      database = services.database({
+        logger: services.logger({ location: `database` }),
+        url: config.database?.url ?? ':memory:',
+        database: config.database?.database ?? 'sqlite',
+      })
+      table = { newLogger, server, database, record }
+    }
+    if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
+      page = { server, newLogger, ui, components, idGenerator }
+    }
     return this.toEntity(config, { table, page, newLogger, server, database })
   }
 

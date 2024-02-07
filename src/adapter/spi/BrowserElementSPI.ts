@@ -1,13 +1,13 @@
-import type { BrowserElementSpi as IBrowserElementSpi } from '@domain/services/BrowserElement'
+import type { Spi } from '@domain/services/BrowserElement'
 
-export interface BrowserElementDriver {
+export interface Driver {
   getAttribute(attribute: string): Promise<string | undefined>
   getValue(): Promise<string | undefined>
   type(value: string): Promise<void>
 }
 
-export class BrowserElementSpi implements IBrowserElementSpi {
-  constructor(private driver: BrowserElementDriver) {}
+export class BrowserElementSpi implements Spi {
+  constructor(private driver: Driver) {}
 
   async getAttribute(attribute: string) {
     return this.driver.getAttribute(attribute)

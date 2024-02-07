@@ -1,5 +1,6 @@
 type Base = {
   path: string
+  baseUrl: string
   query: { [key: string]: string }
   params: { [key: string]: string }
 }

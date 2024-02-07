@@ -55,9 +55,15 @@ export const TableMapper: Mapper<TableConfig, TableError, Table, Params> = class
   }
 
   static toEntityFromServices = (config: TableConfig, services: Services) => {
-    const server = services.server()
-    const database = services.database()
-    const newLogger = (location: string) => services.logger(location)
+    const server = services.server({
+      logger: services.logger({ location: `server` }),
+    })
+    const database = services.database({
+      logger: services.logger({ location: `database` }),
+      url: ':memory:',
+      database: 'sqlite',
+    })
+    const newLogger = (location: string) => services.logger({location})
     const record = services.record()
     return this.toEntity(config, { server, database, newLogger, record })
   }

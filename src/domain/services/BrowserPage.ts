@@ -1,6 +1,6 @@
-import { BrowserElement, type BrowserElementSpi } from './BrowserElement'
+import { BrowserElement, type Spi as BrowserElementSpi } from './BrowserElement'
 
-export interface BrowserPageSpi {
+export interface Spi {
   open: (path: string) => Promise<void>
   title: () => Promise<string>
   getByText: (
@@ -12,7 +12,7 @@ export interface BrowserPageSpi {
 }
 
 export class BrowserPage {
-  constructor(private spi: BrowserPageSpi) {}
+  constructor(private spi: Spi) {}
 
   async open(path: string) {
     await this.spi.open(path)

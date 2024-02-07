@@ -45,7 +45,7 @@ export const FeatureMapper: Mapper<FeatureConfig, EngineError, Feature, Params> 
     }
 
     static toEntityFromServices = (config: FeatureConfig, services: Services) => {
-      const newLogger = (location: string) => services.logger(location)
+      const newLogger = (location: string) => services.logger({ location })
       const newBrowser = () => services.browser()
       const spec = { feature: 'current', newLogger, newBrowser }
       return this.toEntity(config, { spec, newLogger })

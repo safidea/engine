@@ -31,31 +31,21 @@ export class App implements Engine {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    const { logger, server, database } = this.params
-    if (database) {
-      logger.log(`migrating database...`)
-      await database.migrate(this.params.tables)
-    }
-    logger.log(`starting server...`)
+    const { server, database } = this.params
+    if (database) await database.migrate(this.params.tables)
     const url = await server.start()
     if (!isTest) {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
       process.on('SIGINT', () => this.onClose('SIGINT'))
     }
-    logger.log(`server listening at ${url}`)
     return url
   }
 
   stop = async (): Promise<void> => {
-    const { logger, server, database } = this.params
-    logger.log(`closing server...`)
+    const { server, database } = this.params
     await server.stop(async () => {
-      if (database) {
-        logger.log(`disconnecting database...`)
-        await database.disconnect()
-      }
+      if (database) await database.disconnect()
     })
-    logger.log('server closed')
   }
 
   get running() {

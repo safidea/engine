@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
-import { Database } from '@utils/tests/database'
+import Database from '@utils/tests/database'
 
 test.describe('App with tables', () => {
   test('should create a row when posting on table api', async ({ request }) => {

@@ -1,11 +1,11 @@
-export interface BrowserElementSpi {
+export interface Spi {
   getAttribute: (attribute: string) => Promise<string | undefined>
   getValue: () => Promise<string | undefined>
   type: (value: string) => Promise<void>
 }
 
 export class BrowserElement {
-  constructor(private spi: BrowserElementSpi) {}
+  constructor(private spi: Spi) {}
 
   async getAttribute(attribute: string) {
     return this.spi.getAttribute(attribute)

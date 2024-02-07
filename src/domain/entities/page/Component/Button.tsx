@@ -11,7 +11,7 @@ interface Params {
   component: ReactComponent<Props>
 }
 
-export class Button implements Base {
+export class Button implements Base<Props> {
   constructor(private params: Params) {}
 
   render = () => <this.params.component {...this.params.props} />

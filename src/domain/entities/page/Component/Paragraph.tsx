@@ -9,7 +9,7 @@ interface Params {
   component: ReactComponent<Props>
 }
 
-export class Paragraph implements Base {
+export class Paragraph implements Base<Props> {
   constructor(private params: Params) {}
 
   render = () => <this.params.component {...this.params.props} />

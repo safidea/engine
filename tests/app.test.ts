@@ -164,7 +164,7 @@ test.describe('App', () => {
     const url = await app.start()
 
     // WHEN
-    await app!.stop()
+    await app.stop()
     const response = await request.get(url).catch((err) => err)
 
     // THEN

@@ -1,13 +1,13 @@
-import type { BrowserPageDriver } from './BrowserPageSpi'
+import type { Driver as BrowserPageDriver } from './BrowserPageSpi'
 import type { BrowserLaunchOptionsDto } from './dtos/BrowserLaunchOptionsDto'
 
-export interface BrowserDriver {
+export interface Driver {
   launch(options?: BrowserLaunchOptionsDto): Promise<BrowserPageDriver>
   close(): Promise<void>
 }
 
 export class BrowserSpi {
-  constructor(private driver: BrowserDriver) {}
+  constructor(private driver: Driver) {}
 
   async launch(options: BrowserLaunchOptionsDto) {
     return this.driver.launch(options)

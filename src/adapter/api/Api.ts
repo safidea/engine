@@ -19,7 +19,7 @@ export class Api<Config, Error extends EngineError, Entity extends Engine, Param
 
   getErrors(config: unknown): EngineError[] {
     const { errors, json } = this.services
-      .schemaValidator(this.mapper.toErrorEntityFromCode)
+      .schemaValidator({ error: this.mapper.toErrorEntityFromCode })
       .validate<Config>(config, this.schema)
     if (errors) return errors
     const table = this.mapper.toEntityFromServices(json, this.services)

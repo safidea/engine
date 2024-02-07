@@ -37,7 +37,7 @@ export const SpecMapper: Mapper<SpecConfig, SpecError, Spec, Params> = class Spe
 
   static toEntityFromServices = (config: SpecConfig, services: Services) => {
     const newBrowser = () => services.browser()
-    const newLogger = (location: string) => services.logger(location)
+    const newLogger = (location: string) => services.logger({ location })
     const feature = 'current'
     return this.toEntity(config, { feature, newLogger, newBrowser })
   }

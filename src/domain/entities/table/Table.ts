@@ -40,7 +40,6 @@ export class Table implements Engine {
 
   post = async ({ body }: { body: unknown }) => {
     // TODO: validate body
-    this.params.logger.log(`POST ${this.path}: ${JSON.stringify(body, null, 2)}`)
     const toCreateRecord = this.params.record.create(body as ToCreateData)
     const persistedRecord = await this.database.insert(toCreateRecord)
     return new Json({ record: persistedRecord.data })

@@ -10,10 +10,12 @@ import type { Server } from '@domain/services/Server'
 import type { Ui } from '@domain/services/Ui'
 import type { Logger } from '@domain/services/Logger'
 import type { ReactComponents } from '@domain/entities/page/component'
+import type { IdGenerator } from '@domain/services/IdGenerator'
 
 export interface Params {
   server: Server
   ui: Ui
+  idGenerator: IdGenerator
   newLogger: (location: string) => Logger
   components: ReactComponents
 }
@@ -21,9 +23,14 @@ export interface Params {
 export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const { server, newLogger, ui, components } = params
+    const { server, newLogger, ui, components, idGenerator } = params
     const logger = newLogger(`page:${config.name}`)
-    const body = ComponentMapper.toManyEntities(config.body, components)
+    const body = ComponentMapper.toManyEntities(config.body, {
+      components,
+      server,
+      ui,
+      idGenerator,
+    })
     const head = HeadMapper.toEntity(config.head ?? {})
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
   }
@@ -34,9 +41,18 @@ export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class Pag
 
   static toEntityFromServices = (config: PageConfig, services: Services) => {
     const ui = services.ui()
-    const server = services.server()
-    const newLogger = (location: string) => services.logger(location)
-    return this.toEntity(config, { server, newLogger, ui, components: services.components })
+    const server = services.server({
+      logger: services.logger({ location: `server` }),
+    })
+    const idGenerator = services.idGenerator()
+    const newLogger = (location: string) => services.logger({ location })
+    return this.toEntity(config, {
+      server,
+      newLogger,
+      ui,
+      components: services.components,
+      idGenerator,
+    })
   }
 
   static toManyEntitiesFromServices = (configs: PageConfig[], services: Services) => {
