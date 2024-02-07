@@ -2,11 +2,11 @@ import type { DatabaseTable } from '@domain/services/DatabaseTable'
 import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { Logger } from '@domain/services/Logger'
-import type { Field } from './Field'
+import type { Field } from './field'
 import type { Engine } from '../Engine'
-import type { Record } from '@domain/services/Record'
-import type { ToCreateData } from '@domain/services/Record/ToCreate'
-import { Json } from '@domain/services/Response/Json'
+import type { Record } from '@domain/services/record'
+import type { ToCreateData } from '@domain/services/record/ToCreate'
+import { Json } from '@domain/services/response/Json'
 
 interface Params {
   name: string

@@ -1,5 +1,5 @@
-import { Persisted } from '@domain/services/Record/Persisted'
-import type { ToCreate } from '@domain/services/Record/ToCreate'
+import { Persisted } from '@domain/services/record/Persisted'
+import type { ToCreate } from '@domain/services/record/ToCreate'
 import type { PersistedDto, ToCreateDto } from '../dtos/RecordDto'
 
 export class RecordMapper {

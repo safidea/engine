@@ -1,5 +1,5 @@
-import type { Action } from './Action'
-import type { Result } from './Result'
+import type { Action } from './action'
+import type { Result } from './result'
 
 export interface Spec {
   name: string

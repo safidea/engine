@@ -1,6 +1,6 @@
-import { deleteFilesRecursively, log, onBunErrors } from '../utils'
+import { deleteFilesRecursively, log, onBunErrors } from '../helpers'
 
-log('Start building JS...')
+log('Start building server...')
 
 const externals: string[] = [
   'ajv',
@@ -37,4 +37,4 @@ const { success, logs } = await Bun.build({
 })
 if (!success) onBunErrors('js', logs)
 
-log('✓ JS builded')
+log('✓ Server builded')

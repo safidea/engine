@@ -1,4 +1,4 @@
-import { deleteFilesRecursively, exec, log } from '../utils'
+import { deleteFilesRecursively, exec, log } from '../helpers'
 import path from 'path'
 import fs from 'fs-extra'
 

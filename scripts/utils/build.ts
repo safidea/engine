@@ -1,6 +1,6 @@
-import { log, onBunErrors } from '../utils'
+import { log, onBunErrors } from '../helpers'
 
-log('Start building tests...')
+log('Start building utils...')
 
 const entrypoints = ['utils/tests/components.tsx']
 
@@ -11,4 +11,4 @@ const { success, logs } = await Bun.build({
 })
 if (!success) onBunErrors('tests', logs)
 
-log('✓ Tests builded')
+log('✓ Utils builded')

@@ -3,14 +3,14 @@ import type { Browser } from '@domain/services/Browser'
 import type { Logger } from '@domain/services/Logger'
 import type { Engine } from '../Engine'
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import type { Action } from './Action'
-import type { Result } from './Result'
-import { Open } from './Action/Open'
-import { BaseWithPage as ActionWithPage } from './Action/base'
+import type { Action } from './action'
+import type { Result } from './result'
+import { Open } from './action/Open'
+import { BaseWithPage as ActionWithPage } from './action/base'
 import {
   BaseWithPage as ResultWithPage,
   BaseWithDatabase as ResultWithDatabase,
-} from './Result/base'
+} from './result/base'
 import type { App } from '../app/App'
 
 interface Params {

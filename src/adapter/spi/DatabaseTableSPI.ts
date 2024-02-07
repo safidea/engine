@@ -1,12 +1,12 @@
-import type { ToCreate } from '@domain/services/Record/ToCreate'
+import type { ToCreate } from '@domain/services/record/ToCreate'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
 import { DatabaseFilterMapper } from './mappers/DatabaseFilterMapper'
-import type { Filter } from '@domain/services/Filter'
+import type { Filter } from '@domain/services/filter'
 import type { DatabaseTableFieldDto } from './dtos/DatabaseTableFieldDto'
 import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
 import type { DatabaseTableSpi as IDatabaseTableSpi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
-import type { Field } from '@domain/entities/table/Field'
+import type { Field } from '@domain/entities/table/field'
 import { FieldMapper } from './mappers/FieldMapper'
 
 export interface DatabaseTableDriver {

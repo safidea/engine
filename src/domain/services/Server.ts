@@ -1,7 +1,7 @@
-import type { Get } from './Request/Get'
-import type { Post } from './Request/Post'
-import type { Response } from './Response'
-import { Json } from './Response/Json'
+import type { Get } from './request/Get'
+import type { Post } from './request/Post'
+import type { Response } from './response'
+import { Json } from './response/Json'
 
 export interface ServerSpi {
   start: () => Promise<string>

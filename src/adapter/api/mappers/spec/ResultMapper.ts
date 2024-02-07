@@ -1,10 +1,10 @@
-import type { Result as ResultConfig } from '@adapter/api/configs/spec/Result'
-import type { Result } from '@domain/entities/spec/Result'
-import { Title } from '@domain/entities/spec/Result/Title'
-import { Text } from '@domain/entities/spec/Result/Text'
-import { InputText } from '@domain/entities/spec/Result/InputText'
-import { Record } from '@domain/entities/spec/Result/Record'
-import type { BaseParams as ResultParams } from '@domain/entities/spec/Result/base'
+import type { Result as ResultConfig } from '@adapter/api/configs/spec/result'
+import type { Result } from '@domain/entities/spec/result'
+import { Title } from '@domain/entities/spec/result/Title'
+import { Text } from '@domain/entities/spec/result/Text'
+import { InputText } from '@domain/entities/spec/result/InputText'
+import { Record } from '@domain/entities/spec/result/Record'
+import type { BaseParams as ResultParams } from '@domain/entities/spec/result/base'
 import { DatabaseFilterMapper } from '@adapter/spi/mappers/DatabaseFilterMapper'
 
 export class ResultMapper {

@@ -176,4 +176,76 @@ test.describe('Form component', () => {
       .read([{ field: 'email', operator: '=', value: 'test@test.com' }])
     expect(lead).toBeDefined()
   })
+
+  test.skip('should display a success message after submiting a form', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const successMessage = 'Your message has been sent successfully!'
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Form',
+                  title: 'This is a title',
+                  description: 'This is a description',
+                  action: '/api/table/leads',
+                  method: 'POST',
+                  inputs: [
+                    {
+                      name: 'name',
+                      label: 'Your name',
+                    },
+                    {
+                      name: 'email',
+                      label: 'Your email',
+                    },
+                  ],
+                  submitButton: {
+                    label: 'Save',
+                  },
+                  successMessage,
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: {
+        url: database.url,
+      },
+    }
+    const app = new App(config)
+    const url = await app.start()
+
+    // WHEN
+    await page.goto(url)
+    await page.fill('input[name="name"]', 'John')
+    await page.fill('input[name="email"]', 'test@test.com')
+    await page.click('button')
+
+    // THEN
+    await expect(page.getByText(successMessage)).toBeVisible()
+  })
 })

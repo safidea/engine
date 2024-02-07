@@ -1,15 +1,15 @@
 import { AppApi } from '@adapter/api/AppApi'
 import type { Drivers } from '@adapter/spi'
 import type { EngineError } from '@domain/entities/EngineError'
-import type { ReactComponents } from '@domain/entities/page/Component'
+import type { ReactComponents } from '@domain/entities/page/component'
 import type { SpecError } from '@domain/entities/spec/SpecError'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export { AppError } from '@domain/entities/app/AppError'
 export type { App as Config } from '@adapter/api/configs/App'
-export type { Props, ReactComponents } from '@domain/entities/page/Component'
-export type { Icon } from '@domain/entities/page/Component/Icon'
+export type { Props, ReactComponents } from '@domain/entities/page/component'
+export type { Icon } from '@domain/entities/page/component/Icon'
 
 interface Options {
   components?: Partial<ReactComponents>

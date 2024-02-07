@@ -1,4 +1,4 @@
-import type { Props } from '@domain/entities/page/Component/marketing/Logos'
+import type { Props } from '@domain/entities/page/component/marketing/Logos'
 
 export interface Logos extends Props {
   component: 'Logos'

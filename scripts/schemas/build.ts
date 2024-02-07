@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { capitalize, exec, log } from '../utils'
+import { capitalize, exec, log } from '../helpers'
 
 log(`Start building schemas...`)
 

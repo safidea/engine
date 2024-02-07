@@ -2,11 +2,11 @@ import type { EngineError, EngineErrorCode } from '@domain/entities/EngineError'
 import { Database, type DatabaseSpi } from './Database'
 import { IdGenerator, type IdGeneratorSpi } from './IdGenerator'
 import { Logger, type LoggerSpi } from './Logger'
-import { Record } from './Record'
+import { Record } from './record'
 import { SchemaValidator, type SchemaValidatorSpi } from './SchemaValidator'
 import { Server, type ServerSpi } from './Server'
 import { Ui, type UiSpi } from './Ui'
-import type { ReactComponents } from '@domain/entities/page/Component'
+import type { ReactComponents } from '@domain/entities/page/component'
 import { Browser, type BrowserSpi } from './Browser'
 
 export interface Spis {

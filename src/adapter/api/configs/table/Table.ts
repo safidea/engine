@@ -1,4 +1,4 @@
-import type { Field } from './Field'
+import type { Field } from './field'
 
 export interface Table {
   name: string

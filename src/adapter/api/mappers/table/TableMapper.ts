@@ -8,7 +8,7 @@ import { FieldMapper } from './FieldMapper'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 import type { Database } from '@domain/services/Database'
-import type { Record } from '@domain/services/Record'
+import type { Record } from '@domain/services/record'
 
 export interface Params {
   newLogger: (location: string) => Logger

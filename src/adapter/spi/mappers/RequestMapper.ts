@@ -1,6 +1,6 @@
 import type { GetDto, PostDto } from '../dtos/RequestDto'
-import { Get } from '@domain/services/Request/Get'
-import { Post } from '@domain/services/Request/Post'
+import { Get } from '@domain/services/request/Get'
+import { Post } from '@domain/services/request/Post'
 
 export class RequestMapper {
   static toGetService(dto: GetDto): Get {

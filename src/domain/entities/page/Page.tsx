@@ -1,12 +1,12 @@
 import type { Server } from '@domain/services/Server'
 import type { Engine } from '../Engine'
-import type { Component } from './Component'
+import type { Component } from './component'
 import type { Logger } from '@domain/services/Logger'
-import type { Head } from './Head'
-import { Html as HtmlResponse } from '@domain/services/Response/Html'
+import type { Head } from './head'
+import { Html as HtmlResponse } from '@domain/services/response/Html'
 import type { Ui } from '@domain/services/Ui'
-import type { HtmlProps } from './Component/Html'
-import type { ReactComponent } from './Component/base'
+import type { HtmlProps } from './component/Html'
+import type { ReactComponent } from './component/base'
 
 interface Params {
   name: string

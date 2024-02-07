@@ -1,9 +1,9 @@
-import type { Action as ActionConfig } from '@adapter/api/configs/spec/Action'
-import type { Action } from '@domain/entities/spec/Action'
-import { Fill } from '@domain/entities/spec/Action/Fill'
-import { Open } from '@domain/entities/spec/Action/Open'
-import { Post } from '@domain/entities/spec/Action/Post'
-import type { BaseParams as ActionParams } from '@domain/entities/spec/Action/base'
+import type { Action as ActionConfig } from '@adapter/api/configs/spec/action'
+import type { Action } from '@domain/entities/spec/action'
+import { Fill } from '@domain/entities/spec/action/Fill'
+import { Open } from '@domain/entities/spec/action/Open'
+import { Post } from '@domain/entities/spec/action/Post'
+import type { BaseParams as ActionParams } from '@domain/entities/spec/action/base'
 
 export class ActionMapper {
   static toEntity(config: ActionConfig, params: ActionParams): Action {

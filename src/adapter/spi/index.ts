@@ -6,7 +6,7 @@ import { LoggerSpi, type LoggerDriver } from './LoggerSpi'
 import { SchemaValidatorSpi, type SchemaValidatorDriver } from './SchemaValidatorSpi'
 import { ServerSpi, type ServerDriver } from './ServerSpi'
 import type { UiDriver } from './UiSpi'
-import type { ReactComponents } from '@domain/entities/page/Component'
+import type { ReactComponents } from '@domain/entities/page/component'
 
 export interface Drivers {
   server: (port?: number) => ServerDriver

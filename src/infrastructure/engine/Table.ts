@@ -1,6 +1,6 @@
 import { TableApi } from '@adapter/api/TableApi'
 import type { EngineError } from '@domain/entities/EngineError'
-import type { ReactComponents } from '@domain/entities/page/Component'
+import type { ReactComponents } from '@domain/entities/page/component'
 import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 

@@ -2,5 +2,5 @@
   "watch": ["src/domain/components"],
   "ext": "ts,tsx",
   "ignore": ["dist/", "node_modules/"],
-  "exec": "DEBUG=* bun run build:css"
+  "exec": "DEBUG=* bun run build:styles"
 }

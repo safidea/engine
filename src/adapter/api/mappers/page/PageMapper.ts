@@ -9,7 +9,7 @@ import type { Mapper } from '../Mapper'
 import type { Server } from '@domain/services/Server'
 import type { Ui } from '@domain/services/Ui'
 import type { Logger } from '@domain/services/Logger'
-import type { ReactComponents } from '@domain/entities/page/Component'
+import type { ReactComponents } from '@domain/entities/page/component'
 
 export interface Params {
   server: Server
