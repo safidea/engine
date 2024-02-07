@@ -292,6 +292,9 @@
         "Form": {
             "additionalProperties": false,
             "properties": {
+                "action": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Form",
                     "type": "string"
@@ -349,6 +352,16 @@
                         "type": "object"
                     },
                     "type": "array"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
+                    "type": "string"
                 },
                 "submitButton": {
                     "additionalProperties": false,

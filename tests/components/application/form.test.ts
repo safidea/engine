@@ -104,7 +104,7 @@ test.describe('Form component', () => {
     }
   })
 
-  test.skip('should submit a form into database', async ({ page }) => {
+  test('should submit a form into database', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {
@@ -121,6 +121,8 @@ test.describe('Form component', () => {
                   component: 'Form',
                   title: 'This is a title',
                   description: 'This is a description',
+                  action: '/api/table/leads',
+                  method: 'POST',
                   inputs: [
                     {
                       name: 'name',

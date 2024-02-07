@@ -6,6 +6,8 @@ export const Form = ({
   inputs,
   submitButton,
   successMessage,
+  action,
+  method,
 }: Props['Form']) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
@@ -18,7 +20,7 @@ export const Form = ({
       {successMessage ? (
         <p className="mb-8 lg:mb-16 text-center sm:text-xl">{successMessage}</p>
       ) : (
-        <form action="#" className="space-y-8">
+        <form action={action} method={method} className="space-y-8">
           {inputs.map((input) => (
             <div key={input.name}>
               {input.label ? (

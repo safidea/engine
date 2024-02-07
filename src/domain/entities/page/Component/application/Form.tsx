@@ -3,6 +3,8 @@ import type { Base, ReactComponent, InputType } from '../base'
 export interface Props {
   title: string
   description: string
+  action?: string
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   inputs: {
     name: string
     type?: InputType

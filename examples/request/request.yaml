@@ -236,21 +236,26 @@ features:
             tag: p
           - text: *ContactPageFormPrimaryButtonLabel
             tag: button
-      #- name: should submit the form
-      #  when:
-      #    - open: /get-started
-      #    - fill: *ContactPageFormInputsEmailName
-      #      value: test@test.com
-      #    - fill: *ContactPageFormInputsNameName
-      #      value: John Doe
-      #    - fill: *ContactPageFormInputsSubjectName
-      #      value: 'I would like to get started with Request.'
-      #    - fill: *ContactPageFormInputsMessageName
-      #      value: 'Hello, I would like to get started with Request.'
-      #    - click: *ContactPageFormPrimaryButtonLabel
-      #  then:
-      #    - text: *ContactPageFormSuccessMessage
-      #      tag: p
+      - name: should submit the form
+        when:
+          - open: /get-started
+          - fill: *ContactPageFormInputsEmailName
+            value: test@test.com
+          - fill: *ContactPageFormInputsNameName
+            value: John Doe
+          - fill: *ContactPageFormInputsSubjectName
+            value: 'I would like to get started with Request.'
+          - fill: *ContactPageFormInputsMessageName
+            value: 'Hello, I would like to get started with Request.'
+          - click: *ContactPageFormPrimaryButtonLabel
+        then:
+          - text: *ContactPageFormSuccessMessage
+            tag: p
+          - table: leads
+            findOne: 
+              - field: email
+                operator: is
+                value: test@test.com
     pages:
       - name: get-started
         path: /get-started
@@ -261,6 +266,8 @@ features:
               content: Get started with Request
         body:
           - component: Form
+            action: '/api/table/leads'
+            method: POST
             title: *ContactPageFormTitle
             description: *ContactPageFormDescription
             inputs: 

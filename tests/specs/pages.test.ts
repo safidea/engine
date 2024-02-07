@@ -377,4 +377,6 @@ test.describe('Pages specs', () => {
     // THEN
     expect(errors).toHaveLength(0)
   })
+
+  test.skip('should submit a form into database', async () => {})
 })
