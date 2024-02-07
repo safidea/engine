@@ -251,6 +251,4 @@ test.describe('Form component', () => {
     // THEN
     await expect(page.getByText(successMessage)).toBeVisible()
   })
-
-  test.skip('should display an error message after submiting a form', async () => {})
 })
