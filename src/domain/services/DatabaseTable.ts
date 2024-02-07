@@ -24,36 +24,34 @@ export class DatabaseTable {
     this.table = spi.table(name)
   }
 
-  async insert(toCreateRecord: ToCreate) {
+  insert = async (toCreateRecord: ToCreate) => {
     const { logger } = this.spi.params
     const persistedRecord = await this.table.insert(toCreateRecord)
-    logger.log(
-      `inserted in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`
-    )
+    logger.log(`inserted in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
 
-  async read(filters: Filter[]) {
+  read = async (filters: Filter[]) => {
     return this.table.read(filters)
   }
 
-  async exists() {
+  exists = async () => {
     return this.table.exists()
   }
 
-  async create(fields: Field[]) {
+  create = async (fields: Field[]) => {
     await this.table.create(fields)
   }
 
-  async fieldExists(name: string) {
+  fieldExists = async (name: string) => {
     return this.table.fieldExists(name)
   }
 
-  async addField(field: Field) {
+  addField = async (field: Field) => {
     await this.table.addField(field)
   }
 
-  async alterField(field: Field) {
+  alterField = async (field: Field) => {
     await this.table.alterField(field)
   }
 }

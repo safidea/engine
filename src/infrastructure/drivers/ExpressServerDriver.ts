@@ -66,6 +66,7 @@ export class ExpressServerDriver implements Driver {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         return this.start(++retry)
       }
+      console.log(JSON.stringify(err, null, 2))
       throw err
     }
   }

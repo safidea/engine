@@ -20,7 +20,7 @@ export interface Spi {
 export class SchemaValidator {
   constructor(public spi: Spi) {}
 
-  validate<T>(schema: unknown, name: SchemaName) {
+  validate = <T>(schema: unknown, name: SchemaName) => {
     const { params, validateSchema } = this.spi
     const { json, errors } = validateSchema<T>(schema, name)
     if (errors.length > 0) return { errors, json: undefined }

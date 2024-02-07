@@ -12,7 +12,7 @@ export class AJVSchemaValidatorDriver implements Driver {
     this.ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
   }
 
-  validateSchema<T>(data: unknown, schema: SchemaName) {
+  validateSchema = <T>(data: unknown, schema: SchemaName) => {
     const schemaPath = join(process.cwd(), 'schemas/', schema + '.schema.json')
     const schemaJson: JSONSchemaType<T> = fs.readJSONSync(schemaPath)
     const validate = this.ajv.compile(schemaJson)

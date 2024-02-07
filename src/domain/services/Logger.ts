@@ -10,7 +10,7 @@ export interface Spi {
 export class Logger {
   constructor(private spi: Spi) {}
 
-  log(message: string) {
+  log = (message: string) => {
     this.spi.log(message)
   }
 }

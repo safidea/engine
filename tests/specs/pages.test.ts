@@ -101,7 +101,6 @@ test.describe('Pages specs', () => {
     expect(code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
     if (data && 'feature' in data && 'expected' in data) {
       expect(data.expected).toBe('invalid')
-      expect(data.received).toBe('')
     }
   })
 
@@ -173,7 +172,6 @@ test.describe('Pages specs', () => {
     expect(code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
     if (data && 'feature' in data && 'expected' in data) {
       expect(data.expected).toBe('valid')
-      expect(data.received).toBe('')
     }
   })
 
@@ -210,7 +208,7 @@ test.describe('Pages specs', () => {
     expect(errors).toHaveLength(0)
   })
 
-  test('should not find a text of an attribute in a specific tag', async () => {
+  test('should not find an attribute in a specific tag', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
@@ -218,7 +216,7 @@ test.describe('Pages specs', () => {
         {
           name: 'display invalid text',
           when: [{ open: '/' }],
-          then: [{ text: 'button', tag: 'a', attribute: 'href', value: '/' }],
+          then: [{ tag: 'a', attribute: 'href', value: '/' }],
         },
       ],
       pages: [
@@ -246,7 +244,6 @@ test.describe('Pages specs', () => {
     expect(code).toBe('SPEC_ERROR_ATTRIBUTE_NOT_FOUND')
     if (data && 'feature' in data && 'expected' in data) {
       expect(data.expected).toBe('/')
-      expect(data.received).toBe('https://example.com/')
     }
   })
 
@@ -258,7 +255,7 @@ test.describe('Pages specs', () => {
         {
           name: 'display invalid text',
           when: [{ open: '/' }],
-          then: [{ text: 'button', tag: 'a', attribute: 'href', value: 'https://example.com/' }],
+          then: [{ tag: 'a', attribute: 'href', value: 'https://example.com/' }],
         },
       ],
       pages: [
@@ -378,5 +375,67 @@ test.describe('Pages specs', () => {
     expect(errors).toHaveLength(0)
   })
 
-  test.skip('should submit a form into database', async () => {})
+  test('should submit a form into database', async () => {
+    // GIVEN
+    const successMessage = 'Form submitted'
+    const config: Config = {
+      name: 'Feature',
+      specs: [
+        {
+          name: 'submit form to database',
+          when: [
+            { open: '/' },
+            { fill: 'name', value: 'john' },
+            { click: 'Submit' },
+            { waitForText: successMessage },
+          ],
+          then: [{ table: 'leads', findOne: [{ field: 'name', operator: 'is', value: 'john' }] }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Form',
+              title: 'Form',
+              description: 'Form description',
+              action: '/api/table/leads',
+              method: 'POST',
+              inputs: [
+                {
+                  name: 'name',
+                  label: 'Name',
+                  type: 'text',
+                },
+              ],
+              submitButton: {
+                label: 'Submit',
+              },
+              successMessage,
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+          ],
+        },
+      ],
+    }
+    const feature = new Feature(config)
+
+    // WHEN
+    const errors = await feature.test()
+
+    // THEN
+    expect(errors).toHaveLength(0)
+  })
 })

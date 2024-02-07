@@ -14,7 +14,7 @@ export class Title extends BaseWithPage {
   executeWithPage = async (page: BrowserPage) => {
     const { title, logger, feature, spec } = this.params
     logger.log(`checking if title "${title}" exist`)
-    const pageTitle = await page.title()
+    const pageTitle = await page.getTitle()
     if (pageTitle !== title) {
       throw new SpecError('TITLE_NOT_FOUND', {
         feature,

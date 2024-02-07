@@ -5,11 +5,11 @@ export interface Spi {
 export class IdGenerator {
   constructor(private spi: Spi) {}
 
-  forRecord() {
+  forRecord = () => {
     return this.spi.generate(24, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
   }
 
-  forForm() {
+  forForm = () => {
     return this.spi.generate(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
   }
 }

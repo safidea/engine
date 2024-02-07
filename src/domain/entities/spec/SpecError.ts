@@ -15,6 +15,8 @@ export type SpecErrorCode =
   | 'RECORD_NOT_FOUND'
   | 'OPEN_ACTION_REQUIRED'
   | 'DATABASE_REQUIRED'
+  | 'BUTTON_NOT_FOUND'
+  | 'PAGE_NOT_FOUND'
 
 export type SpecErrorData =
   | {

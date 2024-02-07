@@ -3,23 +3,23 @@ import { BaseWithPage, type BaseParams } from './base'
 import { SpecError } from '../SpecError'
 
 interface Params extends BaseParams {
-  open: string
+  click: string
 }
 
-export class Open extends BaseWithPage {
+export class Click extends BaseWithPage {
   constructor(private params: Params) {
     super()
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { open, logger, feature, spec } = this.params
-    logger.log(`opening "${open}"`)
-    const success = await page.open(open)
+    const { click, logger, feature, spec } = this.params
+    logger.log(`clicking "${click}"`)
+    const success = await page.click(click)
     if (!success) {
-      throw new SpecError('PAGE_NOT_FOUND', {
+      throw new SpecError('BUTTON_NOT_FOUND', {
         feature,
         spec,
-        expected: open,
+        expected: click,
       })
     }
   }

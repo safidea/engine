@@ -9,11 +9,11 @@ export interface Driver {
 export class BrowserSpi {
   constructor(private driver: Driver) {}
 
-  async launch(options: BrowserLaunchOptionsDto) {
+  launch = async (options: BrowserLaunchOptionsDto) => {
     return this.driver.launch(options)
   }
 
-  async close() {
+  close = async () => {
     return this.driver.close()
   }
 }

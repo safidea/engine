@@ -9,7 +9,7 @@ export class DebugLoggerDriver implements Driver {
     this.log = debug(`engine:${this.slugify(params.location)}`)
   }
 
-  slugify(text: string) {
+  private slugify = (text: string) => {
     return text
       .toString()
       .normalize('NFD')

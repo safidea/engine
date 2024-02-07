@@ -3,23 +3,24 @@ import { BaseWithPage, type BaseParams } from './base'
 import { SpecError } from '../SpecError'
 
 interface Params extends BaseParams {
-  open: string
+  waitForText: string
+  timeout?: number
 }
 
-export class Open extends BaseWithPage {
+export class WaitForText extends BaseWithPage {
   constructor(private params: Params) {
     super()
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { open, logger, feature, spec } = this.params
-    logger.log(`opening "${open}"`)
-    const success = await page.open(open)
+    const { waitForText, timeout, logger, feature, spec } = this.params
+    logger.log(`waiting for text "${waitForText}"`)
+    const success = await page.waitForText(waitForText, { timeout })
     if (!success) {
-      throw new SpecError('PAGE_NOT_FOUND', {
+      throw new SpecError('TEXT_NOT_FOUND', {
         feature,
         spec,
-        expected: open,
+        expected: waitForText,
       })
     }
   }

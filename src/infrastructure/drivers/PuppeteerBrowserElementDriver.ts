@@ -7,7 +7,7 @@ export class PuppeteerBrowserElementDriver implements Driver {
     private element: ElementHandle<globalThis.Node>
   ) {}
 
-  async getAttribute(attribute: string) {
+  getAttribute = async (attribute: string) => {
     return this.page.evaluate(
       (el, attr) => (el as HTMLElement).getAttribute(attr) ?? undefined,
       this.element,
@@ -15,11 +15,7 @@ export class PuppeteerBrowserElementDriver implements Driver {
     )
   }
 
-  async getValue() {
+  getInputValue = async () => {
     return this.page.evaluate((el) => (el as HTMLInputElement).value ?? undefined, this.element)
-  }
-
-  async type(value: string) {
-    await this.element.type(value)
   }
 }

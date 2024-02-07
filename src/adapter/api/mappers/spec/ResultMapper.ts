@@ -6,6 +6,7 @@ import { InputText } from '@domain/entities/spec/result/InputText'
 import { Record } from '@domain/entities/spec/result/Record'
 import type { BaseParams as ResultParams } from '@domain/entities/spec/result/base'
 import { DatabaseFilterMapper } from '@adapter/spi/mappers/DatabaseFilterMapper'
+import { Attribute } from '@domain/entities/spec/result/Attribute'
 
 export class ResultMapper {
   static toEntity = (config: ResultConfig, params: ResultParams): Result => {
@@ -21,6 +22,9 @@ export class ResultMapper {
     if ('table' in config) {
       const find = config.findOne.map((filter) => DatabaseFilterMapper.toEntityFromConfig(filter))
       return new Record({ ...config, ...params, find })
+    }
+    if ('attribute' in config) {
+      return new Attribute({ ...config, ...params })
     }
     throw new Error('Unknown result type')
   }

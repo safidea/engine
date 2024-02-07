@@ -8,13 +8,13 @@ export class PuppeteerBrowserDriver implements Driver {
 
   constructor() {}
 
-  async launch({ baseUrl = '' }: BrowserLaunchOptionsDto) {
+  launch = async ({ baseUrl = '' }: BrowserLaunchOptionsDto) => {
     this.browser = await puppeteer.launch()
     const page = await this.browser.newPage()
     return new PuppeteerBrowserPageDriver(page, baseUrl)
   }
 
-  async close() {
+  close = async () => {
     await this.browser?.close()
   }
 }

@@ -17,7 +17,7 @@ export interface Spi {
 export class Database {
   constructor(private spi: Spi) {}
 
-  table(name: string) {
+  table = (name: string) => {
     return new DatabaseTable(this.spi, name)
   }
 

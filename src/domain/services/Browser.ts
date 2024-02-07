@@ -8,12 +8,12 @@ export interface Spi {
 export class Browser {
   constructor(private spi: Spi) {}
 
-  async launch(options: { baseUrl: string }) {
+  launch = async (options: { baseUrl: string }) => {
     const page = await this.spi.launch(options)
     return new BrowserPage(page)
   }
 
-  async close() {
+  close = async () => {
     await this.spi.close()
   }
 }

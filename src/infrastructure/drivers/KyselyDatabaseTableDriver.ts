@@ -17,7 +17,7 @@ export class KyselyDatabaseTable implements Driver {
     private database: 'sqlite' | 'postgres'
   ) {}
 
-  async exists() {
+  exists = async () => {
     if (this.database === 'postgres') {
       const result = await this.db
         .selectFrom('information_schema.tables')
@@ -39,7 +39,7 @@ export class KyselyDatabaseTable implements Driver {
     throw new Error(`Database ${this.database} not supported`)
   }
 
-  async create(fields: DatabaseTableFieldDto[]) {
+  create = async (fields: DatabaseTableFieldDto[]) => {
     let query = this.db.schema.createTable(this.name)
     fields.forEach(({ name, type }) => {
       query = query.addColumn(name, type)
@@ -47,7 +47,7 @@ export class KyselyDatabaseTable implements Driver {
     await query.execute()
   }
 
-  async fieldExists(name: string) {
+  fieldExists = async (name: string) => {
     if (this.database === 'postgres') {
       const result = await this.db
         .selectFrom('information_schema.columns')
@@ -66,11 +66,11 @@ export class KyselyDatabaseTable implements Driver {
     throw new Error(`Database ${this.database} not supported`)
   }
 
-  async addField(field: DatabaseTableFieldDto) {
+  addField = async (field: DatabaseTableFieldDto) => {
     await this.db.schema.alterTable(this.name).addColumn(field.name, field.type).execute()
   }
 
-  async alterField(field: DatabaseTableFieldDto) {
+  alterField = async (field: DatabaseTableFieldDto) => {
     await sql`
       ALTER TABLE ${this.name}
       ALTER COLUMN ${field.name}}
@@ -78,15 +78,15 @@ export class KyselyDatabaseTable implements Driver {
     `.execute(this.db)
   }
 
-  async dropField(name: string) {
+  dropField = async (name: string) => {
     await this.db.schema.alterTable(this.name).dropColumn(name).execute()
   }
 
-  async drop() {
+  drop = async () => {
     await this.db.schema.dropTable(this.name).execute()
   }
 
-  async insert(recordtoCreateDto: ToCreateDto): Promise<PersistedDto> {
+  insert = async (recordtoCreateDto: ToCreateDto): Promise<PersistedDto> => {
     if (this.database === 'sqlite') {
       for (const key in recordtoCreateDto) {
         const value = recordtoCreateDto[key]
@@ -111,7 +111,7 @@ export class KyselyDatabaseTable implements Driver {
     return persistedRecord as PersistedDto
   }
 
-  async read(filters: DatabaseFilterDto[]): Promise<PersistedDto | undefined> {
+  read = async (filters: DatabaseFilterDto[]): Promise<PersistedDto | undefined> => {
     let query = this.db.selectFrom(this.name).selectAll()
     for (const filter of filters) {
       query = query.where(filter.field, filter.operator, filter.value)

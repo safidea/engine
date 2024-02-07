@@ -15,10 +15,8 @@ export class Fill extends BaseWithPage {
   executeWithPage = async (page: BrowserPage) => {
     const { fill, value, logger, feature, spec } = this.params
     logger.log(`typing "${value}" in input "${fill}"`)
-    const inputElement = await page.getInputByName(fill)
-    if (inputElement) {
-      await inputElement.type(value)
-    } else {
+    const success = await page.type(fill, value)
+    if (!success) {
       throw new SpecError('INPUT_NOT_FOUND', {
         feature,
         spec,

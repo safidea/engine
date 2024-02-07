@@ -26,11 +26,11 @@ export class KyselyDatabaseDriver implements Driver {
     } else throw new Error(`Database ${database} not supported`)
   }
 
-  async disconnect(): Promise<void> {
+  disconnect = async (): Promise<void> => {
     await this.db.destroy()
   }
 
-  table(name: string) {
+  table = (name: string) => {
     return new KyselyDatabaseTable(name, this.db, this.params.database)
   }
 }

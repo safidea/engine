@@ -1,8 +1,10 @@
 import type { Action as ActionConfig } from '@adapter/api/configs/spec/action'
 import type { Action } from '@domain/entities/spec/action'
+import { Click } from '@domain/entities/spec/action/Click'
 import { Fill } from '@domain/entities/spec/action/Fill'
 import { Open } from '@domain/entities/spec/action/Open'
 import { Post } from '@domain/entities/spec/action/Post'
+import { WaitForText } from '@domain/entities/spec/action/WaitForText'
 import type { BaseParams as ActionParams } from '@domain/entities/spec/action/base'
 
 export class ActionMapper {
@@ -17,7 +19,10 @@ export class ActionMapper {
       return new Post({ ...config, ...params })
     }
     if ('click' in config) {
-      throw new Error('Not implemented')
+      return new Click({ ...config, ...params })
+    }
+    if ('waitForText' in config) {
+      return new WaitForText({ ...config, ...params })
     }
     throw new Error('Unknown action')
   }
