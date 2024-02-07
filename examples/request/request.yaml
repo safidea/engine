@@ -68,10 +68,9 @@ features:
             tag: p
           - text: *HomePageHeroPrimaryButtonLabel
             tag: a
-          - text: *HomePageHeroPrimaryButtonLabel
-            tag: a
-            attribute: href
+          - attribute: href
             value: *HomePageHeroPrimaryButtonHref
+            tag: a
       - name: should display the logos
         when:
           - open: /
@@ -120,10 +119,9 @@ features:
             tag: p
           - text: *HomePageCTAPrimaryButtonLabel
             tag: a
-          - text: *HomePageCTAPrimaryButtonLabel
-            tag: a
-            attribute: href
+          - attribute: href
             value: *HomePageCTAPrimaryButtonHref
+            tag: a
       - name: should display the footer
         when:
           - open: /
@@ -134,21 +132,18 @@ features:
             tag: p
           - text: *HomePageFooterLinksHomeLabel
             tag: a
-          - text: *HomePageFooterLinksHomeLabel
-            tag: a
-            attribute: href
+          - attribute: href
             value: *HomePageFooterLinksHomeHref
-          - text: *HomePageFooterLinksGetStartedLabel
             tag: a
           - text: *HomePageFooterLinksGetStartedLabel
             tag: a
-            attribute: href
+          - attribute: href
             value: *HomePageFooterLinksGetStartedHref
-          - text: *HomePageFooterLinksContactLabel
             tag: a
           - text: *HomePageFooterLinksContactLabel
             tag: a
-            attribute: href
+          - attribute: href
+            tag: a
             value: *HomePageFooterLinksContactHref
           - text: *HomePageFootercopyright
             tag: span
@@ -248,6 +243,7 @@ features:
           - fill: *ContactPageFormInputsMessageName
             value: 'Hello, I would like to get started with Request.'
           - click: *ContactPageFormPrimaryButtonLabel
+          - waitForText: *ContactPageFormSuccessMessage
         then:
           - text: *ContactPageFormSuccessMessage
             tag: p
