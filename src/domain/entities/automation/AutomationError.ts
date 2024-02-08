@@ -19,7 +19,7 @@ export class AutomationError extends Error {
     public data?: AutomationErrorData
   ) {
     super(message)
-    this.name = 'TABLE_ERROR'
+    this.name = 'AUTOMATION_ERROR'
     this.code = this.name + '_' + message
   }
 }

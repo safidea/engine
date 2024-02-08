@@ -5,6 +5,7 @@ import { PageMapper } from '@adapter/api/mappers/page/PageMapper'
 import { SpecMapper } from './spec/SpecMapper'
 import { AppMapper } from './AppMapper'
 import { FeatureMapper } from './FeatureMapper'
+import { AutomationMapper } from './automation/AutomationMapper'
 
 export const EngineMapper = class EngineMapper {
   static toErrorEntity = (errorDto: SchemaValidatorErrorDto): EngineError => {
@@ -19,6 +20,8 @@ export const EngineMapper = class EngineMapper {
         return FeatureMapper.toErrorEntity(errorDto)
       case 'app':
         return AppMapper.toErrorEntity(errorDto)
+      case 'automation':
+        return AutomationMapper.toErrorEntity(errorDto)
       default:
         throw new Error('Unknown schema')
     }

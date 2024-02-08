@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import Automation, { AutomationError } from '@solumy/engine/automation'
 
-test.describe.skip('Automations schema errors', () => {
+test.describe('Automations schema errors', () => {
   test('empty config should return 3 errors', async () => {
     // GIVEN
     const config = {}
