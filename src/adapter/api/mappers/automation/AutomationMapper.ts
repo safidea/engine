@@ -11,21 +11,23 @@ import type { Logger } from '@domain/services/Logger'
 import { ActionMapper } from './ActionMapper'
 import { TriggerMapper } from './TriggerMapper'
 import type { Server } from '@domain/services/Server'
+import type { Queue } from '@domain/services/Queue'
 
 export interface Params {
   newLogger: (location: string) => Logger
   server: Server
+  queue: Queue
 }
 
 export const AutomationMapper: Mapper<AutomationConfig, AutomationError, Automation, Params> =
   class AutomationMapper {
     static toEntity = (config: AutomationConfig, params: Params) => {
       const { name } = config
-      const { newLogger, server } = params
+      const { newLogger, server, queue } = params
       const logger = newLogger(`automation:${config.name}`)
-      const trigger = TriggerMapper.toEntity(config.trigger, { server })
+      const trigger = TriggerMapper.toEntity(config.trigger, { server, queue, automation: name })
       const actions = ActionMapper.toManyEntities(config.actions)
-      return new Automation({ name, trigger, actions, logger })
+      return new Automation({ name, trigger, actions, logger, queue })
     }
 
     static toManyEntities = (configs: AutomationConfig[], params: Params) => {
@@ -37,7 +39,12 @@ export const AutomationMapper: Mapper<AutomationConfig, AutomationError, Automat
       const server = services.server({
         logger: newLogger(`server`),
       })
-      return this.toEntity(config, { newLogger, server })
+      const queue = services.queue({
+        logger: newLogger(`queue`),
+        url: ':memory:',
+        database: 'sqlite',
+      })
+      return this.toEntity(config, { newLogger, server, queue })
     }
 
     static toManyEntitiesFromServices = (configs: AutomationConfig[], services: Services) => {

@@ -16,6 +16,7 @@ import type { Page } from '@domain/entities/page/Page'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 import type { Automation } from '@domain/entities/automation/Automation'
+import type { Queue } from '@domain/services/Queue'
 
 export interface Params {
   table?: TableParams
@@ -24,6 +25,7 @@ export interface Params {
   newLogger: (location: string) => Logger
   server: Server
   database?: Database
+  queue?: Queue
 }
 
 interface Private {
@@ -41,7 +43,7 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
 
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
-    const { server, newLogger, database } = params
+    const { server, newLogger, database, queue } = params
     const tables: Table[] = []
     const pages: Page[] = []
     const automations: Automation[] = []
@@ -91,6 +93,7 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
       server,
       logger,
       database,
+      queue,
     })
   }
 
@@ -109,24 +112,34 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     const idGenerator = services.idGenerator()
     const newLogger = (location: string) => services.logger({ location })
     let database: Database | undefined
+    let queue: Queue | undefined
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
+    const databaseConfig = {
+      logger: services.logger({ location: `database` }),
+      url: config.database?.url ?? ':memory:',
+      database: config.database?.database ?? 'sqlite',
+    }
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
-      database = services.database({
-        logger: services.logger({ location: `database` }),
-        url: config.database?.url ?? ':memory:',
-        database: config.database?.database ?? 'sqlite',
-      })
+      database = services.database(databaseConfig)
       table = { newLogger, server, database, record }
     }
     if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
       page = { server, newLogger, ui, components, idGenerator }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
-      automation = { newLogger, server }
+      if (!database) {
+        database = services.database(databaseConfig)
+      }
+      queue = services.queue({
+        logger: services.logger({ location: `queue` }),
+        url: databaseConfig.url,
+        database: databaseConfig.database
+      })
+      automation = { newLogger, server, queue }
     }
-    return this.toEntity(config, { table, page, newLogger, server, database, automation })
+    return this.toEntity(config, { table, page, newLogger, server, database, automation, queue })
   }
 
   static featureToEntityFromServices = (featureConfig: FeatureConfig, services: Services) => {

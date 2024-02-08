@@ -3,7 +3,7 @@ import App, { type Config } from '@solumy/engine'
 import Queue from '@utils/tests/queue'
 import Database from '@utils/tests/database'
 
-test.describe.skip('App with automations', () => {
+test.describe('App with automations', () => {
   test('should start an automation with a webhook trigger', async ({ request }) => {
     // GIVEN
     const database = new Database()
@@ -52,9 +52,9 @@ test.describe.skip('App with automations', () => {
     expect(success).toBeTruthy()
     expect(id).toBeDefined()
 
-    await queue.waitForJob(id)
-    const job = await queue.getJob(id)
+    await queue.wait(id)
+    const job = await queue.get(id)
     expect(job).toBeDefined()
-    //expect(job.status).toBe('completed')
+    expect(job?.state).toBe('completed')
   })
 })

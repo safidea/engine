@@ -6,6 +6,7 @@ import type { EngineError } from '../EngineError'
 import type { Table } from '../table/Table'
 import type { Page } from '../page/Page'
 import type { Automation } from '../automation/Automation'
+import type { Queue } from '@domain/services/Queue'
 
 interface Params {
   name: string
@@ -15,6 +16,7 @@ interface Params {
   logger: Logger
   server: Server
   database?: Database
+  queue?: Queue
 }
 
 export class App implements Engine {
@@ -34,8 +36,9 @@ export class App implements Engine {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    const { server, database } = this.params
+    const { server, database, queue } = this.params
     if (database) await database.migrate(this.params.tables)
+    if (queue) await queue.start()
     const url = await server.start()
     if (!isTest) {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
@@ -45,9 +48,10 @@ export class App implements Engine {
   }
 
   stop = async (): Promise<void> => {
-    const { server, database } = this.params
+    const { server, database, queue } = this.params
     await server.stop(async () => {
       if (database) await database.disconnect()
+      if (queue) await queue.stop()
     })
   }
 

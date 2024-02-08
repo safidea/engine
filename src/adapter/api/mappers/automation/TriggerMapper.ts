@@ -2,20 +2,22 @@ import type { Trigger as TriggerConfig } from '@adapter/api/configs/automation/t
 import type { Trigger } from '@domain/entities/automation/trigger'
 import { RecordCreated } from '@domain/entities/automation/trigger/RecordCreated'
 import { WebhookCalled } from '@domain/entities/automation/trigger/WebhookCalled'
+import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 
 interface Params {
+  automation: string
   server: Server
+  queue: Queue
 }
 
 export class TriggerMapper {
   static toEntity(config: TriggerConfig, params: Params): Trigger {
-    const { server } = params
     switch (config.event) {
       case 'RecordCreated':
         return new RecordCreated(config)
       case 'WebhookCalled':
-        return new WebhookCalled({ ...config, server })
+        return new WebhookCalled({ ...config, ...params })
       default:
         throw new Error('Unknown trigger event')
     }
