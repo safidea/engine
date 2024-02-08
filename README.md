@@ -12,3 +12,8 @@
 - [x] Install storybook
 - [x] Write the Request Landing Page with TDD (tests for each component)
 - [ ] Write the Request Contact Form with TDD (tests for each component)
+
+
+### Auth
+
+Use https://www.passportjs.org/ for authentication

@@ -24,6 +24,7 @@ const entrypoints = [
   'src/infrastructure/engine/page.ts',
   'src/infrastructure/engine/spec.ts',
   'src/infrastructure/engine/table.ts',
+  'src/infrastructure/engine/automation.ts',
 ]
 
 await deleteFilesRecursively('dist/infrastructure/engine', '.js')

@@ -18,6 +18,9 @@
                 },
                 {
                     "$ref": "#/definitions/WaitForText"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
                 }
             ]
         },
@@ -459,6 +462,18 @@
             },
             "required": [
                 "title"
+            ],
+            "type": "object"
+        },
+        "WaitForAutomation": {
+            "additionalProperties": false,
+            "properties": {
+                "waitForAutomation": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "waitForAutomation"
             ],
             "type": "object"
         },

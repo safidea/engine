@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import App, { AppError } from '@solumy/engine'
 
-test.describe('app schema errors', () => {
+test.describe('App schema errors', () => {
   test('empty config should return 2 errors', async () => {
     // GIVEN
     const config = {}

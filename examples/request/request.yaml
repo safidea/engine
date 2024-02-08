@@ -50,6 +50,8 @@ translations:
       - &ContactPageFormInputsMessageName message
       - &ContactPageFormInputsMessageLabel Your message
       - &ContactPageFormSuccessMessage Your message has been sent.
+      - &ContactPageFormEmailSubject Thank you for your interest in Request
+      - &ContactPageFormEmailBody Thank you for your interest in Request. We will get back to you as soon as possible.
 features:
   - name: landing-page
     specs:
@@ -244,6 +246,7 @@ features:
             value: 'Hello, I would like to get started with Request.'
           - click: *ContactPageFormPrimaryButtonLabel
           - waitForText: *ContactPageFormSuccessMessage
+          #- waitForAutomation: send-confirmation-email
         then:
           - text: *ContactPageFormSuccessMessage
             tag: p
@@ -252,6 +255,10 @@ features:
               - field: email
                 operator: is
                 value: test@test.com
+          #- mailbox: test@test.com
+          #  findOne: 
+          #    - subject: *ContactPageFormEmailSubject
+          #    - body: *ContactPageFormEmailBody
     pages:
       - name: get-started
         path: /get-started
@@ -312,5 +319,17 @@ features:
             type: SingleLineText
           - name: message
             type: SingleLineText
+    #automations:
+    #  - name: send-confirmation-email
+    #    trigger: 
+    #      event: record-created
+    #      table: leads
+    #    actions: 
+    #      - name: send-confirmation-email
+    #        action: send-email
+    #        from: 'noreply@solumy.com'
+    #        to: '{{trigger.email}}'
+    #        subject: *ContactPageFormEmailSubject
+    #        body: *ContactPageFormEmailBody
 server: 
   port: 3000

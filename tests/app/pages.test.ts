@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
 
 test.describe('App with pages', () => {
-  test('should display a paragraph', async ({ page }) => {
+  test('should display a paragraph in app page', async ({ page }) => {
     // GIVEN
     const text = 'Hello world!'
     const config: Config = {

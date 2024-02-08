@@ -3,7 +3,7 @@ import App, { type Config } from '@solumy/engine'
 import Database from '@utils/tests/database'
 
 test.describe('App with tables', () => {
-  test('should create a row when posting on table api', async ({ request }) => {
+  test('should get a created record when posting on table api', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -40,7 +40,7 @@ test.describe('App with tables', () => {
     expect(record.name).toBe('John')
   })
 
-  test('should create a row in database when posting on table api', async ({ request }) => {
+  test('should create a record in database when posting on table api', async ({ request }) => {
     // GIVEN
     const database = new Database()
     const config: Config = {
@@ -74,15 +74,15 @@ test.describe('App with tables', () => {
     })
 
     // THEN
-    const row = await database
+    const record = await database
       .table('leads')
       .read([{ field: 'name', operator: '=', value: 'John' }])
-    expect(row).toBeDefined()
-    expect(row!.id).toBeDefined()
-    expect(row!.name).toBe('John')
+    expect(record).toBeDefined()
+    expect(record!.id).toBeDefined()
+    expect(record!.name).toBe('John')
   })
 
-  test('should create a row with an id with a length of 24', async ({ request }) => {
+  test('should create a record with an id with a length of 24', async ({ request }) => {
     // GIVEN
     const database = new Database()
     const config: Config = {
@@ -116,10 +116,10 @@ test.describe('App with tables', () => {
     })
 
     // THEN
-    const row = await database
+    const record = await database
       .table('leads')
       .read([{ field: 'name', operator: '=', value: 'John' }])
-    expect(row).toBeDefined()
-    expect(row!.id).toHaveLength(24)
+    expect(record).toBeDefined()
+    expect(record!.id).toHaveLength(24)
   })
 })

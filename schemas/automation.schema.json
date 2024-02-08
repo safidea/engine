@@ -1,0 +1,146 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Action": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/CreateRecord"
+                },
+                {
+                    "$ref": "#/definitions/SendEmail"
+                }
+            ]
+        },
+        "CreateRecord": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateRecord",
+                    "type": "string"
+                },
+                "fields": {
+                    "$ref": "#/definitions/Record<string,string>"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fields",
+                "name",
+                "table"
+            ],
+            "type": "object"
+        },
+        "Record<string,string>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "RecordCreated": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "RecordCreated",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "table"
+            ],
+            "type": "object"
+        },
+        "SendEmail": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "SendEmail",
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "body",
+                "name",
+                "subject",
+                "to"
+            ],
+            "type": "object"
+        },
+        "Trigger": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/RecordCreated"
+                },
+                {
+                    "$ref": "#/definitions/WebhookCalled"
+                }
+            ]
+        },
+        "WebhookCalled": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WebhookCalled",
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "method"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "actions": {
+            "items": {
+                "$ref": "#/definitions/Action"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "trigger": {
+            "$ref": "#/definitions/Trigger"
+        }
+    },
+    "required": [
+        "actions",
+        "name",
+        "trigger"
+    ],
+    "type": "object"
+}
+

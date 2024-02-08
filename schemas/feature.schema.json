@@ -18,6 +18,19 @@
                 },
                 {
                     "$ref": "#/definitions/WaitForText"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
+                }
+            ]
+        },
+        "Action_1": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/CreateRecord"
+                },
+                {
+                    "$ref": "#/definitions/SendEmail"
                 }
             ]
         },
@@ -154,6 +167,29 @@
             ],
             "type": "object"
         },
+        "Automation": {
+            "additionalProperties": false,
+            "properties": {
+                "actions": {
+                    "items": {
+                        "$ref": "#/definitions/Action_1"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "trigger": {
+                    "$ref": "#/definitions/Trigger"
+                }
+            },
+            "required": [
+                "actions",
+                "name",
+                "trigger"
+            ],
+            "type": "object"
+        },
         "Button": {
             "additionalProperties": false,
             "properties": {
@@ -223,6 +259,31 @@
                     "$ref": "#/definitions/NotFound"
                 }
             ]
+        },
+        "CreateRecord": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateRecord",
+                    "type": "string"
+                },
+                "fields": {
+                    "$ref": "#/definitions/Record<string,string>"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fields",
+                "name",
+                "table"
+            ],
+            "type": "object"
         },
         "Cta": {
             "additionalProperties": false,
@@ -866,6 +927,27 @@
             ],
             "type": "object"
         },
+        "Record<string,string>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "RecordCreated": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "RecordCreated",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "table"
+            ],
+            "type": "object"
+        },
         "Result": {
             "anyOf": [
                 {
@@ -901,6 +983,35 @@
             },
             "required": [
                 "src"
+            ],
+            "type": "object"
+        },
+        "SendEmail": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "SendEmail",
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "body",
+                "name",
+                "subject",
+                "to"
             ],
             "type": "object"
         },
@@ -1107,6 +1218,28 @@
             ],
             "type": "object"
         },
+        "Trigger": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/RecordCreated"
+                },
+                {
+                    "$ref": "#/definitions/WebhookCalled"
+                }
+            ]
+        },
+        "WaitForAutomation": {
+            "additionalProperties": false,
+            "properties": {
+                "waitForAutomation": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "waitForAutomation"
+            ],
+            "type": "object"
+        },
         "WaitForText": {
             "additionalProperties": false,
             "properties": {
@@ -1118,9 +1251,39 @@
                 "waitForText"
             ],
             "type": "object"
+        },
+        "WebhookCalled": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WebhookCalled",
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "method"
+            ],
+            "type": "object"
         }
     },
     "properties": {
+        "automations": {
+            "items": {
+                "$ref": "#/definitions/Automation"
+            },
+            "type": "array"
+        },
         "name": {
             "type": "string"
         },

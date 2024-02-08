@@ -4,6 +4,7 @@ import { Click } from '@domain/entities/spec/action/Click'
 import { Fill } from '@domain/entities/spec/action/Fill'
 import { Open } from '@domain/entities/spec/action/Open'
 import { Post } from '@domain/entities/spec/action/Post'
+import { WaitForAutomation } from '@domain/entities/spec/action/WaitForAutomation'
 import { WaitForText } from '@domain/entities/spec/action/WaitForText'
 import type { BaseParams as ActionParams } from '@domain/entities/spec/action/base'
 
@@ -23,6 +24,9 @@ export class ActionMapper {
     }
     if ('waitForText' in config) {
       return new WaitForText({ ...config, ...params })
+    }
+    if ('waitForAutomation' in config) {
+      return new WaitForAutomation({ ...config, ...params })
     }
     throw new Error('Unknown action')
   }

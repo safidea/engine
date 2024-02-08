@@ -1,6 +1,14 @@
 import type { EngineError, EngineErrorCode } from '@domain/entities/EngineError'
 
-export type SchemaName = 'app' | 'component' | 'feature' | 'page' | 'role' | 'spec' | 'table'
+export type SchemaName =
+  | 'app'
+  | 'component'
+  | 'feature'
+  | 'page'
+  | 'role'
+  | 'spec'
+  | 'table'
+  | 'automation'
 
 export interface Params {
   error: (code: EngineErrorCode) => EngineError
