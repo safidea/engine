@@ -12,7 +12,7 @@ import type { Params } from '@domain/services/Server'
 
 const dirname = new URL('.', import.meta.url).pathname
 
-export class ExpressServerDriver implements Driver {
+export class ServerDriver implements Driver {
   private express: Express
   private server?: HttpServer
 

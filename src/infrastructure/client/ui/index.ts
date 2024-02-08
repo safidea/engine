@@ -1,4 +1,4 @@
-import type { Client } from '@infrastructure/drivers/ReactUiDriver'
+import type { Client } from '@infrastructure/drivers/UiDriver'
 import HotwiredFrame from './Frame'
 
 export const client: Client = {

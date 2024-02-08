@@ -2,11 +2,11 @@ import type { Driver } from '@adapter/spi/DatabaseSpi'
 import SQLite from 'better-sqlite3'
 import pg from 'pg'
 import { Kysely, PostgresDialect, SqliteDialect } from 'kysely'
-import { KyselyDatabaseTable, type Database } from './KyselyDatabaseTableDriver'
+import { DatabaseTableDriver, type Schema } from './DatabaseTableDriver'
 import type { Params } from '@domain/services/Database'
 
-export class KyselyDatabaseDriver implements Driver {
-  private db: Kysely<Database>
+export class DatabaseDriver implements Driver {
+  private db: Kysely<Schema>
 
   constructor(public params: Params) {
     const { database, url } = params
@@ -14,7 +14,7 @@ export class KyselyDatabaseDriver implements Driver {
       const dialect = new SqliteDialect({
         database: new SQLite(url, { fileMustExist: true }),
       })
-      this.db = new Kysely<Database>({ dialect })
+      this.db = new Kysely<Schema>({ dialect })
     } else if (database === 'postgres') {
       const { Pool } = pg
       const dialect = new PostgresDialect({
@@ -22,7 +22,7 @@ export class KyselyDatabaseDriver implements Driver {
           connectionString: url,
         }),
       })
-      this.db = new Kysely<Database>({ dialect })
+      this.db = new Kysely<Schema>({ dialect })
     } else throw new Error(`Database ${database} not supported`)
   }
 
@@ -31,6 +31,6 @@ export class KyselyDatabaseDriver implements Driver {
   }
 
   table = (name: string) => {
-    return new KyselyDatabaseTable(name, this.db, this.params.database)
+    return new DatabaseTableDriver(name, this.db, this.params.database)
   }
 }

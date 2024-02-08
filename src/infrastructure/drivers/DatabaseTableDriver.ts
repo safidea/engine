@@ -4,16 +4,16 @@ import type { DatabaseTableFieldDto } from '@adapter/spi/dtos/DatabaseTableField
 import type { PersistedDto, ToCreateDto } from '@adapter/spi/dtos/RecordDto'
 import { sql, Kysely } from 'kysely'
 
-export interface Database {
+export interface Schema {
   [key: string]: {
     [key: string]: unknown
   }
 }
 
-export class KyselyDatabaseTable implements Driver {
+export class DatabaseTableDriver implements Driver {
   constructor(
     private name: string,
-    private db: Kysely<Database>,
+    private db: Kysely<Schema>,
     private database: 'sqlite' | 'postgres'
   ) {}
 

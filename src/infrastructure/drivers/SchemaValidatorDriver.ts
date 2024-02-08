@@ -5,7 +5,7 @@ import type { JSONSchemaType } from 'ajv'
 import type { Driver } from '@adapter/spi/SchemaValidatorSpi'
 import type { Params, SchemaName } from '@domain/services/SchemaValidator'
 
-export class AJVSchemaValidatorDriver implements Driver {
+export class SchemaValidatorDriver implements Driver {
   private ajv: Ajv
 
   constructor(public params: Params) {

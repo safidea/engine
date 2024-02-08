@@ -1,9 +1,9 @@
 import { LoggerSpi } from '@adapter/spi/LoggerSpi'
 import { Logger } from '@domain/services/Logger'
-import { DebugLoggerDriver } from '@infrastructure/drivers/DebugLoggerDriver'
+import { LoggerDriver } from '@infrastructure/drivers/LoggerDriver'
 
 export default class extends Logger {
   constructor(location: string) {
-    super(new LoggerSpi(new DebugLoggerDriver({ location: '[test]:' + location })))
+    super(new LoggerSpi(new LoggerDriver({ location: '[test]:' + location })))
   }
 }

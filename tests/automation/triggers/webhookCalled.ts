@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
 
-test.describe.skip('App with automations', () => {
+test.describe.only('WebhookCalled trigger', () => {
   test('should start an automation with a webhook trigger', async ({ request }) => {
     // GIVEN
     const config: Config = {

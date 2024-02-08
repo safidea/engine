@@ -1,17 +1,17 @@
 import type { BrowserLaunchOptionsDto } from '@adapter/spi/dtos/BrowserLaunchOptionsDto'
 import type { Driver } from '@adapter/spi/BrowserSpi'
-import puppeteer, { Browser } from 'puppeteer'
-import { PuppeteerBrowserPageDriver } from './PuppeteerBrowserPageDriver'
+import puppeteer, { Browser as PuppeteerBrowser } from 'puppeteer'
+import { BrowserPageDriver } from './BrowserPageDriver'
 
-export class PuppeteerBrowserDriver implements Driver {
-  browser?: Browser
+export class BrowserDriver implements Driver {
+  browser?: PuppeteerBrowser
 
   constructor() {}
 
   launch = async ({ baseUrl = '' }: BrowserLaunchOptionsDto) => {
     this.browser = await puppeteer.launch()
     const page = await this.browser.newPage()
-    return new PuppeteerBrowserPageDriver(page, baseUrl)
+    return new BrowserPageDriver(page, baseUrl)
   }
 
   close = async () => {

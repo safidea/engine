@@ -1,8 +1,8 @@
 import type { Driver } from '@adapter/spi/BrowserPageSpi'
 import type { Page } from 'puppeteer'
-import { PuppeteerBrowserElementDriver } from './PuppeteerBrowserElementDriver'
+import { BrowserElementDriver } from './BrowserElementDriver'
 
-export class PuppeteerBrowserPageDriver implements Driver {
+export class BrowserPageDriver implements Driver {
   constructor(
     private page: Page,
     private baseUrl: string
@@ -55,19 +55,19 @@ export class PuppeteerBrowserPageDriver implements Driver {
     if (!tag) {
       const element = await this.page.$(`::-p-text(${text})`)
       if (element) {
-        return new PuppeteerBrowserElementDriver(this.page, element)
+        return new BrowserElementDriver(this.page, element)
       }
     }
     const element = await this.page.$(`::-p-xpath(//${tag}[contains(text(), '${text}')])`)
     if (element) {
-      return new PuppeteerBrowserElementDriver(this.page, element)
+      return new BrowserElementDriver(this.page, element)
     }
   }
 
   getByAttribute = async (attribute: string, value: string, { tag }: { tag?: string } = {}) => {
     const element = await this.page.$(`${tag ?? ''}[${attribute}="${value}"]`)
     if (element) {
-      return new PuppeteerBrowserElementDriver(this.page, element)
+      return new BrowserElementDriver(this.page, element)
     }
   }
 

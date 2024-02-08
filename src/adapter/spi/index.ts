@@ -11,6 +11,8 @@ import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'
 import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as SchemaValidatorParams } from '@domain/services/SchemaValidator'
+import type { Params as QueueParams } from '@domain/services/Queue'
+import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -20,6 +22,7 @@ export interface Drivers {
   schemaValidator: (params: SchemaValidatorParams) => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
+  queue: (params: QueueParams) => QueueDriver
 }
 
 export interface Params {
@@ -35,11 +38,19 @@ export class Spis implements ISpis {
   }
 
   database = (params: DatabaseParams) => new DatabaseSpi(this.params.drivers.database(params))
+
   server = (params: ServerParams) => new ServerSpi(this.params.drivers.server(params))
+
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
+
   logger = (params: LoggerParams) => new LoggerSpi(this.params.drivers.logger(params))
+
   schemaValidator = (params: SchemaValidatorParams) =>
     new SchemaValidatorSpi(this.params.drivers.schemaValidator(params))
+
   ui = () => this.params.drivers.ui()
+
   browser = () => new BrowserSpi(this.params.drivers.browser())
+
+  queue = (params: QueueParams) => new QueueSpi(this.params.drivers.queue(params))
 }

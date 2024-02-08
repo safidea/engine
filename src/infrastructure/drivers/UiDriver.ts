@@ -6,7 +6,7 @@ export interface Client {
   Frame: (props: FrameProps) => JSX.Element
 }
 
-export class ReactUiDriver implements Driver {
+export class UiDriver implements Driver {
   constructor(private client: Client) {}
 
   render = (component: JSX.Element) => {

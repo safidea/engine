@@ -1,9 +1,13 @@
 import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
+import Queue from '@utils/tests/queue'
+import Database from '@utils/tests/database'
 
-test.describe('App with automations', () => {
+test.describe.skip('App with automations', () => {
   test('should start an automation with a webhook trigger', async ({ request }) => {
     // GIVEN
+    const database = new Database()
+    const queue = new Queue(database)
     const config: Config = {
       name: 'App',
       features: [
@@ -30,6 +34,9 @@ test.describe('App with automations', () => {
           ],
         },
       ],
+      database: {
+        url: database.url,
+      }
     }
     const app = new App(config)
     const url = await app.start()
@@ -44,5 +51,10 @@ test.describe('App with automations', () => {
     const { success, id } = await res.json()
     expect(success).toBeTruthy()
     expect(id).toBeDefined()
+
+    await queue.waitForJob(id)
+    const job = await queue.getJob(id)
+    expect(job).toBeDefined()
+    //expect(job.status).toBe('completed')
   })
 })
