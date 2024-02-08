@@ -29,10 +29,11 @@ test.describe.skip('Automations specs', () => {
       ],
       automations: [
         {
-          name: 'new-lead',
+          name: 'New lead',
           trigger: {
             event: 'WebhookCalled',
             method: 'POST',
+            path: 'new-lead',
           },
           actions: [
             {

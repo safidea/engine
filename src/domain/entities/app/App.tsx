@@ -5,11 +5,13 @@ import type { Database } from '@domain/services/Database'
 import type { EngineError } from '../EngineError'
 import type { Table } from '../table/Table'
 import type { Page } from '../page/Page'
+import type { Automation } from '../automation/Automation'
 
 interface Params {
   name: string
   tables: Table[]
   pages: Page[]
+  automations: Automation[]
   logger: Logger
   server: Server
   database?: Database
@@ -23,10 +25,11 @@ export class App implements Engine {
   }
 
   validateConfig() {
-    const { tables, pages } = this.params
+    const { tables, pages, automations } = this.params
     const errors: EngineError[] = []
     errors.push(...tables.flatMap((table) => table.validateConfig()))
     errors.push(...pages.flatMap((page) => page.validateConfig()))
+    errors.push(...automations.flatMap((automation) => automation.validateConfig()))
     return errors
   }
 

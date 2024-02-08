@@ -10,18 +10,20 @@ import type { Mapper } from '../Mapper'
 import type { Logger } from '@domain/services/Logger'
 import { ActionMapper } from './ActionMapper'
 import { TriggerMapper } from './TriggerMapper'
+import type { Server } from '@domain/services/Server'
 
 export interface Params {
   newLogger: (location: string) => Logger
+  server: Server
 }
 
 export const AutomationMapper: Mapper<AutomationConfig, AutomationError, Automation, Params> =
   class AutomationMapper {
     static toEntity = (config: AutomationConfig, params: Params) => {
       const { name } = config
-      const { newLogger } = params
+      const { newLogger, server } = params
       const logger = newLogger(`automation:${config.name}`)
-      const trigger = TriggerMapper.toEntity(config.trigger)
+      const trigger = TriggerMapper.toEntity(config.trigger, { server })
       const actions = ActionMapper.toManyEntities(config.actions)
       return new Automation({ name, trigger, actions, logger })
     }
@@ -32,7 +34,10 @@ export const AutomationMapper: Mapper<AutomationConfig, AutomationError, Automat
 
     static toEntityFromServices = (config: AutomationConfig, services: Services) => {
       const newLogger = (location: string) => services.logger({ location })
-      return this.toEntity(config, { newLogger })
+      const server = services.server({
+        logger: newLogger(`server`),
+      })
+      return this.toEntity(config, { newLogger, server })
     }
 
     static toManyEntitiesFromServices = (configs: AutomationConfig[], services: Services) => {

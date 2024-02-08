@@ -1260,19 +1260,17 @@
                     "type": "string"
                 },
                 "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST",
-                        "PUT"
-                    ],
+                    "const": "POST",
+                    "type": "string"
+                },
+                "path": {
                     "type": "string"
                 }
             },
             "required": [
                 "event",
-                "method"
+                "method",
+                "path"
             ],
             "type": "object"
         }

@@ -8,16 +8,19 @@ import type { Mapper } from './Mapper'
 import { SpecMapper } from './spec/SpecMapper'
 import { PageMapper, type Params as PageParams } from './page/PageMapper'
 import { TableMapper, type Params as TableParams } from './table/TableMapper'
+import { AutomationMapper, type Params as AutomationParams } from './automation/AutomationMapper'
 import type { EngineError } from '@domain/entities/EngineError'
 import type { Database } from '@domain/services/Database'
 import type { Table } from '@domain/entities/table/Table'
 import type { Page } from '@domain/entities/page/Page'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
+import type { Automation } from '@domain/entities/automation/Automation'
 
 export interface Params {
   table?: TableParams
   page?: PageParams
+  automation?: AutomationParams
   newLogger: (location: string) => Logger
   server: Server
   database?: Database
@@ -41,12 +44,16 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     const { server, newLogger, database } = params
     const tables: Table[] = []
     const pages: Page[] = []
+    const automations: Automation[] = []
     for (const feature of features) {
       if (params.table && feature.tables && feature.tables.length > 0) {
         tables.push(...TableMapper.toManyEntities(feature.tables, params.table))
       }
       if (params.page && feature.pages && feature.pages.length > 0) {
         pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
+      }
+      if (params.automation && feature.automations && feature.automations.length > 0) {
+        automations.push(...AutomationMapper.toManyEntities(feature.automations, params.automation))
       }
     }
     const logger = newLogger(`app:${name}`)
@@ -80,6 +87,7 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
       name,
       tables,
       pages,
+      automations,
       server,
       logger,
       database,
@@ -103,6 +111,7 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     let database: Database | undefined
     let table: TableParams | undefined
     let page: PageParams | undefined
+    let automation: AutomationParams | undefined
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
       database = services.database({
         logger: services.logger({ location: `database` }),
@@ -114,7 +123,10 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
       page = { server, newLogger, ui, components, idGenerator }
     }
-    return this.toEntity(config, { table, page, newLogger, server, database })
+    if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
+      automation = { newLogger, server }
+    }
+    return this.toEntity(config, { table, page, newLogger, server, database, automation })
   }
 
   static featureToEntityFromServices = (featureConfig: FeatureConfig, services: Services) => {
