@@ -1,13 +1,5 @@
 import { join } from 'path'
 import { defineConfig, devices } from '@playwright/test'
-import { config } from 'dotenv'
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-const dirname = new URL('.', import.meta.url).pathname
-config({ path: join(dirname, '.env.test') })
 
 /**
  * See https://playwright.dev/docs/test-configuration.
