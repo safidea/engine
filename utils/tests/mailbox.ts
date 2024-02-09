@@ -73,8 +73,8 @@ export default class {
         html: parsed.html || '',
       }
       this.emails.push(email)
+      callback()
     })
-    callback()
   }
 
   private getPort = async () => {
