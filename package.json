@@ -45,6 +45,7 @@
     "kysely": "^0.27.2",
     "mailparser": "^3.6.7",
     "nanoid": "^5.0.4",
+    "nodemailer": "^6.9.9",
     "pg": "^8.11.3",
     "pg-boss": "^9.0.3",
     "puppeteer": "^22.0.0",

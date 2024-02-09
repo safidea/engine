@@ -19,6 +19,8 @@ const externals: string[] = [
   'nodemailer',
   'pg-boss',
   'handlebars',
+  'uuid',
+  'nanoid',
 ]
 
 const entrypoints = [
