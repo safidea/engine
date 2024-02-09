@@ -9,6 +9,8 @@ test.describe('App with automations', () => {
     // GIVEN
     const database = new Database()
     const queue = new Queue(database)
+    const mailbox = new Mailbox()
+    await mailbox.start()
     const config: Config = {
       name: 'App',
       features: [
@@ -26,9 +28,11 @@ test.describe('App with automations', () => {
                 {
                   name: 'send-email',
                   action: 'SendEmail',
-                  to: '{{trigger.email}}',
+                  from: mailbox.username,
+                  to: '{{ trigger.body.email }}',
                   subject: 'New lead',
-                  body: 'A new lead has been created!',
+                  text: 'A new lead has been created!',
+                  html: '<p>A new lead has been created!</p>',
                 },
               ],
             },
@@ -37,6 +41,12 @@ test.describe('App with automations', () => {
       ],
       database: {
         url: database.url,
+      },
+      mailer: {
+        host: mailbox.host,
+        port: mailbox.port,
+        user: mailbox.username,
+        pass: mailbox.password,
       },
     }
     const app = new App(config)
@@ -56,7 +66,7 @@ test.describe('App with automations', () => {
     expect(job?.state).toBe('completed')
   })
 
-  test.skip('should send an email from a webhook call', async ({ request }) => {
+  test('should send an email from a webhook call', async ({ request }) => {
     // GIVEN
     const database = new Database()
     const queue = new Queue(database)
@@ -79,9 +89,11 @@ test.describe('App with automations', () => {
                 {
                   name: 'send-email',
                   action: 'SendEmail',
-                  to: '{{trigger.email}}',
+                  from: mailbox.username,
+                  to: '{{ trigger.body.email }}',
                   subject: 'New lead',
-                  body: 'A new lead has been created!',
+                  text: 'A new lead has been created!',
+                  html: '<p>A new lead has been created!</p>',
                 },
               ],
             },
@@ -90,6 +102,12 @@ test.describe('App with automations', () => {
       ],
       database: {
         url: database.url,
+      },
+      mailer: {
+        host: mailbox.host,
+        port: mailbox.port,
+        user: mailbox.username,
+        pass: mailbox.password,
       },
     }
     const app = new App(config)
@@ -108,6 +126,6 @@ test.describe('App with automations', () => {
     expect(email).toBeDefined()
     expect(email?.to).toBe(mailbox.username)
     expect(email?.subject).toBe('New lead')
-    expect(email?.body).toBe('A new lead has been created!')
+    expect(email?.text).toBe('A new lead has been created!')
   })
 })

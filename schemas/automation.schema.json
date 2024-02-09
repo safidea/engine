@@ -37,6 +37,43 @@
             ],
             "type": "object"
         },
+        "Partial<Database>": {
+            "additionalProperties": false,
+            "properties": {
+                "database": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Partial<Mailer>": {
+            "additionalProperties": false,
+            "properties": {
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "number"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "Record<string,string>": {
             "additionalProperties": false,
             "type": "object"
@@ -65,7 +102,10 @@
                     "const": "SendEmail",
                     "type": "string"
                 },
-                "body": {
+                "from": {
+                    "type": "string"
+                },
+                "html": {
                     "type": "string"
                 },
                 "name": {
@@ -74,15 +114,20 @@
                 "subject": {
                     "type": "string"
                 },
+                "text": {
+                    "type": "string"
+                },
                 "to": {
                     "type": "string"
                 }
             },
             "required": [
                 "action",
-                "body",
+                "from",
+                "html",
                 "name",
                 "subject",
+                "text",
                 "to"
             ],
             "type": "object"
@@ -126,6 +171,12 @@
                 "$ref": "#/definitions/Action"
             },
             "type": "array"
+        },
+        "database": {
+            "$ref": "#/definitions/Partial<Database>"
+        },
+        "mailer": {
+            "$ref": "#/definitions/Partial<Mailer>"
         },
         "name": {
             "type": "string"

@@ -17,15 +17,7 @@ test.describe('WebhookCalled trigger', () => {
                 method: 'POST',
                 path: 'send-email',
               },
-              actions: [
-                {
-                  name: 'send-email',
-                  action: 'SendEmail',
-                  to: '{{trigger.email}}',
-                  subject: 'New lead',
-                  body: 'A new lead has been created!',
-                },
-              ],
+              actions: [],
             },
           ],
         },

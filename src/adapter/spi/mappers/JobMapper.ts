@@ -1,14 +1,14 @@
-import type { Job } from '@domain/services/job'
+import type { Job } from '@domain/entities/job'
 import type { JobDto } from '../dtos/JobDto'
-import { Pending } from '@domain/services/job/Pending'
-import { Completed } from '@domain/services/job/Completed'
-import { Failed } from '@domain/services/job/Failed'
+import { Completed } from '@domain/entities/job/Completed'
+import { Failed } from '@domain/entities/job/Failed'
+import { Created } from '@domain/entities/job/Created'
 
 export class JobMapper {
   static toEntity = (dto: JobDto): Job => {
     switch (dto.state) {
-      case 'pending':
-        return new Pending(dto)
+      case 'created':
+        return new Created(dto)
       case 'completed':
         return new Completed(dto)
       case 'failed':

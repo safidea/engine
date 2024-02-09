@@ -69,7 +69,7 @@ export class QueueDriver implements Driver {
       const interval = setInterval(async () => {
         const job = await this.boss.getJobById(id)
         if (!job) throw new Error('Job not found')
-        if (job.state !== 'pending') {
+        if (job.state !== 'created' && job.state !== 'active') {
           clearInterval(interval)
           resolve(true)
         }
@@ -123,26 +123,31 @@ class SqliteBoss {
     const id = uuidv4()
     this.db
       .prepare(`INSERT INTO _jobs (id, name, data, state, retrycount) VALUES (?, ?, ?, ?, ?)`)
-      .run(id, job, JSON.stringify(data), 'pending', retryLimit)
+      .run(id, job, JSON.stringify(data), 'created', retryLimit)
     return id
   }
 
   work = <D>(jobName: string, callback: (job: PgBoss.Job<D>) => Promise<void>): void => {
-    const getJob = this.db.prepare('SELECT * FROM _jobs WHERE name = ? AND state = ? LIMIT 1')
+    const getJob = this.db.prepare(
+      'SELECT * FROM _jobs WHERE name = ? AND (state = ? OR state = ?) LIMIT 1'
+    )
     const updateJobStatus = this.db.prepare(
       'UPDATE _jobs SET state = ?, retrycount = ? WHERE id = ?'
     )
     const interval = setInterval(async () => {
-      const job = getJob.get(jobName, 'pending') as JobDto & { retrycount: number; data: string }
+      const job = getJob.get(jobName, 'created', 'retry') as JobDto & {
+        retrycount: number
+        data: string
+      }
       if (job) {
         try {
-          updateJobStatus.run('running', job.retrycount, job.id)
+          updateJobStatus.run('active', job.retrycount, job.id)
           const data = JSON.parse(job.data)
-          await callback(data)
+          await callback({ id: job.id, name: job.name, data })
           updateJobStatus.run('completed', 0, job.id)
         } catch (error) {
           if (job.retrycount > 0) {
-            updateJobStatus.run('pending', job.retrycount - 1, job.id)
+            updateJobStatus.run('retry', job.retrycount - 1, job.id)
           } else {
             updateJobStatus.run('failed', 0, job.id)
           }

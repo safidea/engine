@@ -8,7 +8,7 @@ import { FieldMapper } from './FieldMapper'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 import type { Database } from '@domain/services/Database'
-import type { Record } from '@domain/services/record'
+import type { Record } from '@domain/entities/record'
 
 export interface Params {
   newLogger: (location: string) => Logger
@@ -60,10 +60,10 @@ export const TableMapper: Mapper<TableConfig, TableError, Table, Params> = class
     })
     const database = services.database({
       logger: services.logger({ location: `database` }),
-      url: ':memory:',
-      database: 'sqlite',
+      url: config.database?.url ?? ':memory:',
+      database: config.database?.database ?? 'sqlite',
     })
-    const newLogger = (location: string) => services.logger({location})
+    const newLogger = (location: string) => services.logger({ location })
     const record = services.record()
     return this.toEntity(config, { server, database, newLogger, record })
   }

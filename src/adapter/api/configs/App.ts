@@ -1,4 +1,7 @@
+import type { Database } from './Database'
 import type { Feature } from './Feature'
+import type { Mailer } from './Mailer'
+import type { Server } from './Server'
 
 export interface App {
   name: string
@@ -7,13 +10,9 @@ export interface App {
     language: 'EN'
     texts: string[]
   }[]
-  server?: {
-    port?: number
-  }
-  database?: {
-    url?: string
-    database?: 'sqlite' | 'postgres'
-  }
+  server?: Partial<Server>
+  database?: Partial<Database>
+  mailer?: Partial<Mailer>
 }
 
 export type AppSchema = App

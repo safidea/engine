@@ -1,7 +1,7 @@
-import type { Filter } from '@domain/services/filter'
+import type { Filter } from '@domain/entities/filter'
 import type { DatabaseFilterDto } from '../dtos/DatabaseFilterDto'
-import { IsAnyOf } from '@domain/services/filter/IsAnyOf'
-import { Is } from '@domain/services/filter/Is'
+import { IsAnyOf } from '@domain/entities/filter/IsAnyOf'
+import { Is } from '@domain/entities/filter/Is'
 import { type Filter as FilterConfig } from '@adapter/api/configs/filter'
 
 export class DatabaseFilterMapper {

@@ -1,8 +1,8 @@
 import type { Logger } from './Logger'
-import type { Get } from './request/Get'
-import type { Post } from './request/Post'
-import type { Response } from './response'
-import { Json } from './response/Json'
+import type { Get } from '../entities/request/Get'
+import type { Post } from '../entities/request/Post'
+import type { Response } from '../entities/response'
+import { Json } from '../entities/response/Json'
 
 export interface Params {
   port?: number

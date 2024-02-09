@@ -16,6 +16,9 @@ const externals: string[] = [
   'better-sqlite3',
   'pg',
   'kysely',
+  'nodemailer',
+  'pg-boss',
+  'handlebars',
 ]
 
 const entrypoints = [

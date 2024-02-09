@@ -17,6 +17,7 @@ import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 import type { Automation } from '@domain/entities/automation/Automation'
 import type { Queue } from '@domain/services/Queue'
+import type { Database as DatabaseConfig } from '../configs/Database'
 
 export interface Params {
   table?: TableParams
@@ -116,13 +117,15 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
-    const databaseConfig = {
-      logger: services.logger({ location: `database` }),
+    const databaseConfig: DatabaseConfig = {
       url: config.database?.url ?? ':memory:',
       database: config.database?.database ?? 'sqlite',
     }
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
-      database = services.database(databaseConfig)
+      database = services.database({
+        logger: services.logger({ location: `database` }),
+        ...databaseConfig,
+      })
       table = { newLogger, server, database, record }
     }
     if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
@@ -130,14 +133,32 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
       if (!database) {
-        database = services.database(databaseConfig)
+        database = services.database({
+          logger: services.logger({ location: `database` }),
+          ...databaseConfig,
+        })
       }
       queue = services.queue({
         logger: services.logger({ location: `queue` }),
-        url: databaseConfig.url,
-        database: databaseConfig.database
+        ...databaseConfig,
       })
-      automation = { newLogger, server, queue }
+      if (
+        !config.mailer?.host ||
+        !config.mailer?.port ||
+        !config.mailer?.user ||
+        !config.mailer?.pass
+      ) {
+        throw new Error(`mailer config not found`)
+      }
+      const mailer = services.mailer({
+        logger: services.logger({ location: `mailer` }),
+        host: config.mailer.host,
+        port: config.mailer.port,
+        user: config.mailer.user,
+        pass: config.mailer.pass,
+      })
+      const templateCompiler = services.templateCompiler()
+      automation = { newLogger, server, queue, mailer, idGenerator, database, templateCompiler }
     }
     return this.toEntity(config, { table, page, newLogger, server, database, automation, queue })
   }
@@ -163,6 +184,8 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
       return PageMapper.toErrorEntity(errorDto)
     } else if (firstPath === 'tables') {
       return TableMapper.toErrorEntity(errorDto)
+    } else if (firstPath === 'automations') {
+      return AutomationMapper.toErrorEntity(errorDto)
     } else {
       if (keyword === 'required') {
         if (params.missingProperty === 'name') return new AppError('NAME_REQUIRED')

@@ -1,7 +1,7 @@
-import type { ToCreate } from './record/ToCreate'
+import type { ToCreate } from '../entities/record/ToCreate'
 import type { Spi as DatabaseSpi } from './Database'
-import type { Filter } from './filter'
-import type { Persisted } from './record/Persisted'
+import type { Filter } from '../entities/filter'
+import type { Persisted } from '../entities/record/Persisted'
 import type { Field } from '@domain/entities/table/field'
 
 export interface Spi {

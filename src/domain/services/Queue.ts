@@ -1,5 +1,5 @@
 import type { Logger } from './Logger'
-import type { Job } from './job'
+import type { Job } from '../entities/job'
 
 export interface Params {
   url: string

@@ -49,6 +49,22 @@
                 }
             ]
         },
+        "Partial<Database>": {
+            "additionalProperties": false,
+            "properties": {
+                "database": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "SingleLineText": {
             "additionalProperties": false,
             "properties": {
@@ -68,6 +84,9 @@
         }
     },
     "properties": {
+        "database": {
+            "$ref": "#/definitions/Partial<Database>"
+        },
         "fields": {
             "items": {
                 "$ref": "#/definitions/Field"

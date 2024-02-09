@@ -13,6 +13,9 @@ import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as SchemaValidatorParams } from '@domain/services/SchemaValidator'
 import type { Params as QueueParams } from '@domain/services/Queue'
 import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
+import type { Params as MailerParams } from '@domain/services/Mailer'
+import { MailerSpi, type Driver as MailerDriver } from './MailerSpi'
+import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -23,6 +26,8 @@ export interface Drivers {
   browser: () => BrowserDriver
   ui: () => UiDriver
   queue: (params: QueueParams) => QueueDriver
+  mailer: (params: MailerParams) => MailerDriver
+  templateCompiler: () => TemplateCompilerDriver
 }
 
 export interface Params {
@@ -53,4 +58,8 @@ export class Spis implements ISpis {
   browser = () => new BrowserSpi(this.params.drivers.browser())
 
   queue = (params: QueueParams) => new QueueSpi(this.params.drivers.queue(params))
+
+  mailer = (params: MailerParams) => new MailerSpi(this.params.drivers.mailer(params))
+
+  templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
 }

@@ -1,7 +1,7 @@
 import { Database, type Spi as DatabaseSpi, type Params as DatabaseParams } from './Database'
 import { IdGenerator, type Spi as IdGeneratorSpi } from './IdGenerator'
 import { Logger, type Spi as LoggerSpi, type Params as LoggerParams } from './Logger'
-import { Record } from './record'
+import { Record } from '../entities/record'
 import {
   SchemaValidator,
   type Spi as SchemaValidatorSpi,
@@ -12,6 +12,8 @@ import { Ui, type Spi as UiSpi } from './Ui'
 import type { ReactComponents } from '@domain/entities/page/component'
 import { Browser, type Spi as BrowserSpi } from './Browser'
 import { Queue, type Spi as QueueSpi, type Params as QueueParams } from './Queue'
+import { Mailer, type Spi as MailerSpi, type Params as MailerParams } from './Mailer'
+import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCompiler'
 
 export interface Spis {
   components: ReactComponents
@@ -23,6 +25,8 @@ export interface Spis {
   ui: () => UiSpi
   browser: () => BrowserSpi
   queue: (params: QueueParams) => QueueSpi
+  mailer: (params: MailerParams) => MailerSpi
+  templateCompiler: () => TemplateCompilerSpi
 }
 
 export class Services {
@@ -48,6 +52,10 @@ export class Services {
   browser = () => new Browser(this.spis.browser())
 
   queue = (params: QueueParams) => new Queue(this.spis.queue(params))
+
+  mailer = (params: MailerParams) => new Mailer(this.spis.mailer(params))
+
+  templateCompiler = () => new TemplateCompiler(this.spis.templateCompiler())
 
   record = () => new Record({ idGenerator: this.idGenerator() })
 }

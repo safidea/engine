@@ -1,5 +1,5 @@
-import { Persisted, type PersistedData } from './Persisted'
-import { ToCreate, type ToCreateData, type ToCreateParams } from './ToCreate'
+import { Persisted, type Data as PersistedData } from './Persisted'
+import { ToCreate, type Data as ToCreateData, type Params as ToCreateParams } from './ToCreate'
 
 export type RecordParams = ToCreateParams
 

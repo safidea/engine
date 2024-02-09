@@ -1,19 +1,19 @@
 import type { IdGenerator } from '@domain/services/IdGenerator'
 
-export interface ToCreateData {
+export interface Data {
   id: string
   created_at: Date
   [key: string]: string | number | boolean | Date | undefined
 }
 
-export interface ToCreateParams {
+export interface Params {
   idGenerator: IdGenerator
 }
 
 export class ToCreate {
-  public data: ToCreateData
+  public data: Data
 
-  constructor(data: Partial<ToCreateData>, { idGenerator }: ToCreateParams) {
+  constructor(data: Partial<Data>, { idGenerator }: Params) {
     this.data = {
       ...data,
       id: idGenerator.forRecord(),

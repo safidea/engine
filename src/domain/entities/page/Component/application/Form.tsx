@@ -1,9 +1,9 @@
 import type { Server } from '@domain/services/Server'
 import type { Base, ReactComponent, InputType } from '../base'
-import type { Post } from '@domain/services/request/Post'
+import type { Post } from '@domain/entities/request/Post'
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { Response } from '@domain/services/response'
-import { Html } from '@domain/services/response/Html'
+import type { Response } from '@domain/entities/response'
+import { Html } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
 
 export interface Props {

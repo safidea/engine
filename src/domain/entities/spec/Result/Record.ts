@@ -1,7 +1,7 @@
 import type { Database } from '@domain/services/Database'
 import { BaseWithDatabase, type BaseParams } from './base'
 import { SpecError } from '../SpecError'
-import type { Filter } from '@domain/services/filter'
+import type { Filter } from '@domain/entities/filter'
 
 interface Params extends BaseParams {
   table: string

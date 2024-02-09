@@ -10,6 +10,6 @@ export interface JobDto {
     | 'expired'
     | 'cancelled'
     | 'failed'
-    | 'pending'
+    | 'archive'
   retryCount: number
 }

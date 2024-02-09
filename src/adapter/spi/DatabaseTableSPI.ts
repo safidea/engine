@@ -1,7 +1,7 @@
-import type { ToCreate } from '@domain/services/record/ToCreate'
+import type { ToCreate } from '@domain/entities/record/ToCreate'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
 import { DatabaseFilterMapper } from './mappers/DatabaseFilterMapper'
-import type { Filter } from '@domain/services/filter'
+import type { Filter } from '@domain/entities/filter'
 import type { DatabaseTableFieldDto } from './dtos/DatabaseTableFieldDto'
 import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
 import type { Spi } from '@domain/services/DatabaseTable'
@@ -27,14 +27,14 @@ export class DatabaseTableSpi implements Spi {
   insert = async (toCreateRecord: ToCreate) => {
     const toCreateRecordDto = RecordMapper.toCreateDto(toCreateRecord)
     const persistedRecordDto = await this.driver.insert(toCreateRecordDto)
-    return RecordMapper.toPersistedService(persistedRecordDto)
+    return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
   read = async (filters: Filter[]) => {
     const filterDtos = DatabaseFilterMapper.toManyDtos(filters)
     const persistedRecordDto = await this.driver.read(filterDtos)
     if (!persistedRecordDto) return undefined
-    return RecordMapper.toPersistedService(persistedRecordDto)
+    return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
   exists = async () => {

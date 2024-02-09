@@ -1,5 +1,5 @@
-import { Persisted } from '@domain/services/record/Persisted'
-import type { ToCreate } from '@domain/services/record/ToCreate'
+import { Persisted } from '@domain/entities/record/Persisted'
+import type { ToCreate } from '@domain/entities/record/ToCreate'
 import type { PersistedDto, ToCreateDto } from '../dtos/RecordDto'
 
 export class RecordMapper {
@@ -7,7 +7,7 @@ export class RecordMapper {
     return toCreateRecord.data
   }
 
-  static toPersistedService = (record: PersistedDto) => {
+  static toPersistedEntity = (record: PersistedDto) => {
     return new Persisted(record)
   }
 }

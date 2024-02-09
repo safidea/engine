@@ -98,6 +98,7 @@ export class ServerDriver implements Driver {
     return {
       path: req.path,
       baseUrl: `${req.protocol}://${req.get('host')}`,
+      headers: {},
       query: {},
       params: {},
     }

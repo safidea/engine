@@ -3,26 +3,22 @@ import { simpleParser } from 'mailparser'
 import { Stream } from 'stream'
 import Logger from './logger'
 import net from 'net'
-
-interface Email {
-  to: string
-  from: string
-  subject: string
-  body: string
-}
+import type { SentDto } from '@adapter/spi/dtos/EmailDto'
 
 export default class {
+  host = 'localhost'
+  port = 0
   username = 'test@test.com'
   password = 'password'
   private logger: Logger
   private smtpServer: SMTPServer
-  private emails: Email[] = []
+  private emails: SentDto[] = []
   private ready = false
 
   constructor() {
     this.logger = new Logger('mailbox')
     this.smtpServer = new SMTPServer({
-      onData: (stream) => this.processEmail(stream),
+      onData: (stream, session, callback) => this.processEmail(stream, session, callback),
       onAuth: (auth, session, callback) => {
         if (auth.username !== this.username || auth.password !== this.password) {
           return callback(new Error('invalid username or password'))
@@ -30,22 +26,23 @@ export default class {
         callback(null, { user: 1 })
       },
       logger: false,
+      secure: false,
     })
   }
 
   start = async (retry = 0): Promise<void> => {
     try {
       this.logger.log('starting mailbox...')
-      const port = await this.getPort()
+      this.port = await this.getPort()
       await new Promise((resolve, reject) => {
         try {
-          this.smtpServer.listen(port, () => resolve(null))
+          this.smtpServer.listen(this.port, () => resolve(null))
         } catch (err) {
-          reject()
+          reject(err)
         }
       })
       this.ready = true
-      this.logger.log('mailbox started on port ' + port)
+      this.logger.log('mailbox started on port ' + this.port)
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         return this.start(++retry)
@@ -54,27 +51,30 @@ export default class {
     }
   }
 
-  getLastEmail = async (): Promise<Email | undefined> => {
+  getLastEmail = async (): Promise<SentDto | undefined> => {
     if (!this.ready) throw new Error('mailbox is not ready')
     if (this.emails.length === 0) return undefined
     return this.emails[this.emails.length - 1]
   }
 
-  private processEmail = (stream: Stream): void => {
+  private processEmail = (stream: Stream, _: unknown, callback: () => void): void => {
     simpleParser(stream, {}, (err: Error, parsed) => {
       if (err) {
         this.logger.log('failed to parse email: ' + err.message)
       }
-      const email: Email = {
+      const email: SentDto = {
+        id: parsed.messageId || '',
         to: Array.isArray(parsed.to)
           ? parsed.to.map((to) => to.text).join(', ')
           : parsed.to?.text || '',
         from: parsed.from?.text || '',
         subject: parsed.subject || '',
-        body: parsed.text || '',
+        text: parsed.text || '',
+        html: parsed.html || '',
       }
       this.emails.push(email)
     })
+    callback()
   }
 
   private getPort = async () => {

@@ -4,9 +4,10 @@ import type { Database } from '@domain/services/Database'
 import type { Logger } from '@domain/services/Logger'
 import type { Field } from './field'
 import type { Engine } from '../Engine'
-import type { Record } from '@domain/services/record'
-import type { ToCreateData } from '@domain/services/record/ToCreate'
-import { Json } from '@domain/services/response/Json'
+import type { Record } from '@domain/entities/record'
+import type { Data as ToCreateData } from '@domain/entities/record/ToCreate'
+import { Json } from '@domain/entities/response/Json'
+import type { Post } from '../request/Post'
 
 interface Params {
   name: string
@@ -38,7 +39,7 @@ export class Table implements Engine {
     return `/api/table/${this.name}`
   }
 
-  post = async ({ body }: { body: unknown }) => {
+  post = async ({ body }: Post) => {
     // TODO: validate body
     const toCreateRecord = this.params.record.create(body as ToCreateData)
     const persistedRecord = await this.database.insert(toCreateRecord)
