@@ -59,14 +59,19 @@ export class ServerDriver implements Driver {
       const port = await this.getPort()
       const options = { port }
       const server = http.createServer(this.express)
-      await new Promise((resolve) => server.listen(options, () => resolve(null)))
+      await new Promise((resolve, reject) => {
+        try {
+          server.listen(options, () => resolve(null))
+        } catch (err) {
+          reject(err)
+        }
+      })
       this.server = server
       return `http://localhost:${port}`
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         return this.start(++retry)
       }
-      console.log(JSON.stringify(err, null, 2))
       throw err
     }
   }

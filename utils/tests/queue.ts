@@ -5,7 +5,8 @@ import Logger from './logger'
 export default class extends QueueDriver {
   constructor({ url, database }: Database) {
     const logger = new Logger('queue')
-    logger.log(`connect queue to database`)
+    logger.log(`connecting queue to database...`)
     super({ url, database, logger })
+    logger.log(`queue connected to database`)
   }
 }

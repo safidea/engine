@@ -42,6 +42,7 @@
     "fs-extra": "^11.2.0",
     "helmet": "^7.1.0",
     "kysely": "^0.27.2",
+    "mailparser": "^3.6.7",
     "nanoid": "^5.0.4",
     "pg": "^8.11.3",
     "pg-boss": "^9.0.3",
@@ -68,14 +69,17 @@
     "@types/express": "^4.17.21",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
+    "@types/mailparser": "^3.4.4",
     "@types/node": "^20.11.5",
     "@types/nodemon": "^1.19.6",
     "@types/pg": "^8.11.0",
     "@types/react-dom": "^18.2.18",
+    "@types/smtp-server": "^3.5.10",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "concurrently": "^8.2.2",
     "debug": "^4.3.4",
+    "dotenv": "^16.4.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.6.15",
@@ -83,6 +87,7 @@
     "js-yaml": "^4.1.0",
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
+    "smtp-server": "^3.13.2",
     "storybook": "^7.6.10",
     "tailwindcss": "^3.4.1",
     "typescript-json-schema": "^0.62.0"
@@ -91,8 +96,8 @@
     "typescript": "^5.0.0"
   },
   "engines": {
-    "bun": "1.0.25",
-    "node": "21.6.1",
+    "bun": "1.0.26",
+    "node": "20.11.0",
     "npm": "10.2.4"
   }
 }
