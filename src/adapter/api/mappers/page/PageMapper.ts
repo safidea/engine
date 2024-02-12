@@ -31,7 +31,7 @@ export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class Pag
       ui,
       idGenerator,
     })
-    const head = HeadMapper.toEntity(config.head ?? {})
+    const head = HeadMapper.toEntity(config.head ?? {}, { ui })
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
   }
 
