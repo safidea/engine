@@ -34,7 +34,9 @@ export class Services {
 
   logger = (params: LoggerParams) => new Logger(this.spis.logger(params))
 
-  idGenerator = () => new IdGenerator(this.spis.idGenerator())
+  queue = (params: QueueParams) => new Queue(this.spis.queue(params))
+
+  mailer = (params: MailerParams) => new Mailer(this.spis.mailer(params))
 
   database = (params: DatabaseParams) => new Database(this.spis.database(params))
 
@@ -46,11 +48,10 @@ export class Services {
 
   browser = () => new Browser(this.spis.browser())
 
-  queue = (params: QueueParams) => new Queue(this.spis.queue(params))
-
-  mailer = (params: MailerParams) => new Mailer(this.spis.mailer(params))
+  idGenerator = () => new IdGenerator(this.spis.idGenerator())
 
   templateCompiler = () => new TemplateCompiler(this.spis.templateCompiler())
 
-  record = () => new Record({ idGenerator: this.idGenerator() })
+  record = () =>
+    new Record({ idGenerator: this.idGenerator(), templateCompiler: this.templateCompiler() })
 }

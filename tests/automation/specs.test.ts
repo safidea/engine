@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import Feature, { type Config } from '@solumy/engine/feature'
 
-test.describe.skip('Automations specs', () => {
+test.describe('Automations specs', () => {
   test('should wait for an automation', async () => {
     // GIVEN
     const config: Config = {
@@ -41,7 +41,7 @@ test.describe.skip('Automations specs', () => {
               action: 'CreateRecord',
               table: 'leads',
               fields: {
-                name: '{{trigger.name}}',
+                name: '{{ trigger.body.name }}',
               },
             },
           ],

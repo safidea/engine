@@ -20,7 +20,7 @@ export class ActionMapper {
   static toEntity(config: ActionConfig, params: Params): Action {
     const { idGenerator, database, mailer, templateCompiler } = params
     if (config.action === 'CreateRecord') {
-      const recordToCreate = new ToCreate(config.fields, { idGenerator })
+      const recordToCreate = new ToCreate(config.fields, { idGenerator, templateCompiler })
       return new CreateRecord({ ...config, recordToCreate, database })
     } else if (config.action === 'SendEmail') {
       const emailToSend = new ToSend(
