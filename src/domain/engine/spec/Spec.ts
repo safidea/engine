@@ -5,7 +5,7 @@ import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { Action } from './action'
 import type { Result } from './result'
 import { Open } from './action/Open'
-import { BaseWithPage as ActionWithPage } from './action/base'
+import { BaseWithRequest as ActionWithRequest, BaseWithPage as ActionWithPage } from './action/base'
 import {
   BaseWithPage as ResultWithPage,
   BaseWithDatabase as ResultWithDatabase,
@@ -61,8 +61,10 @@ export class Spec implements Base {
       for (const action of when) {
         if (action instanceof ActionWithPage) {
           if (page) await action.executeWithPage(page)
-        } else {
+        } else if (action instanceof ActionWithRequest) {
           await action.executeWithRequest(baseUrl)
+        } else {
+          await action.executeWithApp(app)
         }
       }
       for (const result of then) {

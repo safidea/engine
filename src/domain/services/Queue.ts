@@ -16,6 +16,7 @@ export interface Spi {
   job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
   get: (id: string) => Promise<Job | undefined>
   wait: (id: string) => Promise<void>
+  waitForAll: (job: string) => Promise<void>
 }
 
 export class Queue {
@@ -60,7 +61,15 @@ export class Queue {
   }
 
   job = (job: string, callback: <D extends object>(data: D) => Promise<void>) => {
-    this.jobs.push({ job, callback })
+    const { logger } = this.spi.params
+    this.jobs.push({
+      job,
+      callback: async (data) => {
+        logger.log(`job "${job}" started`)
+        await callback(data)
+        logger.log(`job "${job}" finished`)
+      },
+    })
   }
 
   get = async (id: string) => {
@@ -69,7 +78,13 @@ export class Queue {
 
   wait = async (id: string) => {
     const { logger } = this.spi.params
-    logger.log('waiting for job...')
+    logger.log(`waiting for job "${id}"...`)
     return this.spi.wait(id)
+  }
+
+  waitForAll = async (job: string) => {
+    const { logger } = this.spi.params
+    logger.log(`waiting for all jobs "${job}"...`)
+    return this.spi.waitForAll(job)
   }
 }

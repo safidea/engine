@@ -1,13 +1,31 @@
-import { BaseWithPage, type BaseParams } from './base'
+import type { App } from '@domain/engine/App'
+import { BaseWithApp, type BaseParams } from './base'
+import { TestError } from '@domain/entities/error/Test'
 
 interface Params extends BaseParams {
   waitForAutomation: string
 }
 
-export class WaitForAutomation extends BaseWithPage {
+export class WaitForAutomation extends BaseWithApp {
   constructor(private params: Params) {
     super()
   }
 
-  execute = async () => {}
+  executeWithApp = async (app: App) => {
+    const { waitForAutomation, logger, feature, spec } = this.params
+    logger.log(`waiting for automation "${waitForAutomation}"`)
+    const timeoutPromise = new Promise((_, reject) => {
+      const timeout = setTimeout(() => {
+        clearTimeout(timeout)
+        reject(
+          new TestError({
+            code: 'WAIT_FOR_AUTOMATION_TIMEOUT',
+            feature,
+            spec,
+          })
+        )
+      }, 5000)
+    })
+    await Promise.race([app.queue?.waitForAll(waitForAutomation), timeoutPromise])
+  }
 }

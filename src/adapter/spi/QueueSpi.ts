@@ -11,6 +11,7 @@ export interface Driver {
   job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
   get: (id: string) => Promise<JobDto | undefined>
   wait: (id: string) => Promise<void>
+  waitForAll: (job: string) => Promise<void>
 }
 
 export class QueueSpi implements Spi {
@@ -48,5 +49,9 @@ export class QueueSpi implements Spi {
 
   wait = async (id: string) => {
     return this.driver.wait(id)
+  }
+
+  waitForAll = async (job: string) => {
+    return this.driver.waitForAll(job)
   }
 }

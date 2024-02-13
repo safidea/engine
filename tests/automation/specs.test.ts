@@ -11,7 +11,7 @@ test.describe.skip('Automations specs', () => {
           name: 'create a row',
           when: [
             { post: '/api/automation/new-lead', body: { name: 'John' } },
-            { waitForAutomation: 'new-lead' },
+            { waitForAutomation: 'New lead' },
           ],
           then: [
             {

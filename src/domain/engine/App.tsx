@@ -63,6 +63,10 @@ export class App implements Base {
     return this.params.database
   }
 
+  get queue() {
+    return this.params.queue
+  }
+
   private onClose = async (signal: 'SIGTERM' | 'SIGINT') => {
     const { logger } = this.params
     logger.log(`received ${signal}`)

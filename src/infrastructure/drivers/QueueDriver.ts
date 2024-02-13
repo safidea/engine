@@ -76,6 +76,18 @@ export class QueueDriver implements Driver {
       }, 500)
     })
   }
+
+  waitForAll = async (jobName: string) => {
+    let isCompleted = false
+    while (!isCompleted) {
+      const job = await this.boss.fetch(jobName)
+      if (!job) {
+        isCompleted = true
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+      }
+    }
+  }
 }
 
 class SqliteBoss {
@@ -160,5 +172,14 @@ class SqliteBoss {
   getJobById = async (id: string) => {
     const job = await this.db.prepare('SELECT * FROM _jobs WHERE id = ?').get(id)
     return job as JobDto & { retrycount: number }
+  }
+
+  fetch = async (jobName: string) => {
+    const job = await this.db
+      .prepare(
+        'SELECT * FROM _jobs WHERE name = ? AND (state = ? OR state = ? OR state = ?) LIMIT 1'
+      )
+      .get(jobName, 'created', 'retry', 'active')
+    return job as JobDto | null
   }
 }
