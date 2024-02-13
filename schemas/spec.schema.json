@@ -166,6 +166,29 @@
             ],
             "type": "object"
         },
+        "Email": {
+            "properties": {
+                "findOne": {
+                    "properties": {
+                        "subject": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "subject"
+                    ],
+                    "type": "object"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "findOne",
+                "mailbox"
+            ],
+            "type": "object"
+        },
         "Fill": {
             "properties": {
                 "fill": {
@@ -311,6 +334,9 @@
                 },
                 {
                     "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
                 }
             ]
         },

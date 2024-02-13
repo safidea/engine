@@ -2,8 +2,8 @@
 import App from '../../dist/infrastructure/engine/index.js'
 import { config } from './config.js'
 
-const app = new App(config)
-const errors = await app.test()
+const app = new App()
+const errors = await app.test(config)
 if (errors.length > 0) {
   console.error(errors)
   process.exit(1)

@@ -246,7 +246,7 @@ features:
             value: 'Hello, I would like to get started with Request.'
           - click: *ContactPageFormPrimaryButtonLabel
           - waitForText: *ContactPageFormSuccessMessage
-          #- waitForAutomation: send-confirmation-email
+          - waitForAutomation: send-confirmation-email
         then:
           - text: *ContactPageFormSuccessMessage
             tag: p
@@ -255,10 +255,9 @@ features:
               - field: email
                 operator: is
                 value: test@test.com
-          #- mailbox: test@test.com
-          #  findOne: 
-          #    - subject: *ContactPageFormEmailSubject
-          #    - body: *ContactPageFormEmailBody
+          - mailbox: test@test.com
+            findOne: 
+              subject: *ContactPageFormEmailSubject
     pages:
       - name: get-started
         path: /get-started

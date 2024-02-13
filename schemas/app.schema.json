@@ -365,6 +365,29 @@
         },
         "Email": {
             "properties": {
+                "findOne": {
+                    "properties": {
+                        "subject": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "subject"
+                    ],
+                    "type": "object"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "findOne",
+                "mailbox"
+            ],
+            "type": "object"
+        },
+        "Email_1": {
+            "properties": {
                 "name": {
                     "type": "string"
                 },
@@ -425,7 +448,7 @@
         "Field": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Email"
+                    "$ref": "#/definitions/Email_1"
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
@@ -982,6 +1005,9 @@
                 },
                 {
                     "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
                 }
             ]
         },
