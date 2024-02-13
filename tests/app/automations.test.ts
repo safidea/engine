@@ -39,15 +39,8 @@ test.describe('App with automations', () => {
           ],
         },
       ],
-      database: {
-        url: database.url,
-      },
-      mailer: {
-        host: mailbox.host,
-        port: mailbox.port,
-        user: mailbox.username,
-        pass: mailbox.password,
-      },
+      database: database.config,
+      mailer: mailbox.config,
     }
     const app = new App()
     const url = await app.start(config)
@@ -100,15 +93,8 @@ test.describe('App with automations', () => {
           ],
         },
       ],
-      database: {
-        url: database.url,
-      },
-      mailer: {
-        host: mailbox.host,
-        port: mailbox.port,
-        user: mailbox.username,
-        pass: mailbox.password,
-      },
+      database: database.config,
+      mailer: mailbox.config,
     }
     const app = new App()
     const url = await app.start(config)

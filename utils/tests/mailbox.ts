@@ -6,10 +6,10 @@ import net from 'net'
 import type { SentDto } from '@adapter/spi/dtos/EmailDto'
 
 export default class {
-  host = 'localhost'
-  port = 0
-  username = 'test@test.com'
-  password = 'password'
+  readonly username = 'test@test.com'
+  private host = 'localhost'
+  private port = 0
+  private password = 'password'
   private logger: Logger
   private smtpServer: SMTPServer
   private emails: SentDto[] = []
@@ -28,6 +28,15 @@ export default class {
       logger: false,
       secure: false,
     })
+  }
+
+  get config() {
+    return {
+      host: this.host,
+      port: this.port,
+      user: this.username,
+      pass: this.password,
+    }
   }
 
   start = async (retry = 0): Promise<void> => {

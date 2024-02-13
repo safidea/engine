@@ -4,7 +4,7 @@ import type { Field } from './field'
 export interface Table {
   name: string
   fields: Field[]
-  database?: Partial<Database>
+  database?: Database
 }
 
 export type TableSchema = Table

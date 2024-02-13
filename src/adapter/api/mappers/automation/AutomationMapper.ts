@@ -1,26 +1,26 @@
 import { Automation } from '@domain/engine/automation/Automation'
 import { Services } from '@domain/services'
+import type { Database } from '@domain/services/Database'
+import type { IdGenerator } from '@domain/services/IdGenerator'
+import type { Logger } from '@domain/services/Logger'
+import type { Mailer } from '@domain/services/Mailer'
+import type { Queue } from '@domain/services/Queue'
+import type { Server } from '@domain/services/Server'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { Database as DatabaseConfig } from '../../configs/Database'
 import type { Automation as AutomationConfig } from '../../configs/automation/Automation'
 import type { Mapper } from '../Mapper'
-import type { Logger } from '@domain/services/Logger'
 import { ActionMapper } from './ActionMapper'
 import { TriggerMapper } from './TriggerMapper'
-import type { Server } from '@domain/services/Server'
-import type { Queue } from '@domain/services/Queue'
-import type { Mailer } from '@domain/services/Mailer'
-import type { Database } from '@domain/services/Database'
-import type { Database as DatabaseConfig } from '../../configs/Database'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface Params {
   newLogger: (location: string) => Logger
   server: Server
   queue: Queue
-  mailer: Mailer
   database: Database
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
+  mailer?: Mailer
 }
 
 export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
@@ -47,7 +47,7 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       const newLogger = (location: string) => services.logger({ location })
       const databaseConfig: DatabaseConfig = {
         url: config.database?.url ?? ':memory:',
-        database: config.database?.database ?? 'sqlite',
+        db: config.database?.db ?? 'sqlite',
       }
       const server = services.server({
         logger: newLogger(`server`),
@@ -56,21 +56,13 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
         logger: newLogger(`queue`),
         ...databaseConfig,
       })
-      if (
-        !config.mailer?.host ||
-        !config.mailer?.port ||
-        !config.mailer?.user ||
-        !config.mailer?.pass
-      ) {
-        throw new Error(`mailer config not found`)
+      let mailer: Mailer | undefined
+      if (config.mailer) {
+        mailer = services.mailer({
+          logger: newLogger(`mailer`),
+          ...config.mailer,
+        })
       }
-      const mailer = services.mailer({
-        logger: newLogger(`mailer`),
-        host: config.mailer.host,
-        port: config.mailer.port,
-        user: config.mailer.user,
-        pass: config.mailer.pass,
-      })
       const database = services.database({
         logger: newLogger(`database`),
         ...databaseConfig,

@@ -3,10 +3,10 @@ import Database from './database'
 import Logger from './logger'
 
 export default class extends QueueDriver {
-  constructor({ url, database }: Database) {
+  constructor({ url, db }: Database) {
     const logger = new Logger('queue')
     logger.log(`connecting queue to database...`)
-    super({ url, database, logger })
+    super({ url, db, logger })
     logger.log(`queue connected to database`)
   }
 }

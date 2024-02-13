@@ -1,9 +1,26 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
     "definitions": {
+        "Database": {
+            "properties": {
+                "db": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "db",
+                "url"
+            ],
+            "type": "object"
+        },
         "DateTime": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -20,7 +37,6 @@
             "type": "object"
         },
         "Email": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -49,24 +65,7 @@
                 }
             ]
         },
-        "Partial<Database>": {
-            "additionalProperties": false,
-            "properties": {
-                "database": {
-                    "enum": [
-                        "postgres",
-                        "sqlite"
-                    ],
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "SingleLineText": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -85,7 +84,7 @@
     },
     "properties": {
         "database": {
-            "$ref": "#/definitions/Partial<Database>"
+            "$ref": "#/definitions/Database"
         },
         "fields": {
             "items": {

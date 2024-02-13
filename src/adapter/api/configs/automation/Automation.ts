@@ -7,8 +7,8 @@ export interface Automation {
   name: string
   trigger: Trigger
   actions: Action[]
-  mailer?: Partial<Mailer>
-  database?: Partial<Database>
+  mailer?: Mailer
+  database?: Database
 }
 
 export type AutomationSchema = Automation

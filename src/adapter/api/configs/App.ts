@@ -10,9 +10,9 @@ export interface App {
     language: 'EN'
     texts: string[]
   }[]
-  server?: Partial<Server>
-  database?: Partial<Database>
-  mailer?: Partial<Mailer>
+  server?: Server
+  database?: Database
+  mailer?: Mailer
 }
 
 export type AppSchema = App

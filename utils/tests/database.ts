@@ -6,18 +6,25 @@ import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
 
 export default class extends DatabaseDriver {
   public url: string
-  public database: 'sqlite'
+  public db: 'sqlite'
 
   constructor() {
     const logger = new Logger('database')
     logger.log(`creating sqlite database...`)
-    const database = 'sqlite'
+    const db = 'sqlite'
     const path = join('tmp', nanoid(), 'database.db')
     const url = join(process.cwd(), path)
     fs.ensureFileSync(url)
-    super({ url, database, logger })
+    super({ url, db, logger })
     this.url = url
-    this.database = database
+    this.db = db
     logger.log(`sqlite database created at /${path}`)
+  }
+
+  get config() {
+    return {
+      url: this.url,
+      db: this.db,
+    }
   }
 }

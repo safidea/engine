@@ -3,7 +3,7 @@ import type { Job } from '../entities/job'
 
 export interface Params {
   url: string
-  database: 'sqlite' | 'postgres'
+  db: 'sqlite' | 'postgres'
   logger: Logger
 }
 

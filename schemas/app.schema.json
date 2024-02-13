@@ -1,6 +1,5 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
     "definitions": {
         "Action": {
             "anyOf": [
@@ -35,7 +34,6 @@
             ]
         },
         "Attribute": {
-            "additionalProperties": false,
             "properties": {
                 "attribute": {
                     "type": "string"
@@ -168,7 +166,6 @@
             "type": "object"
         },
         "Automation": {
-            "additionalProperties": false,
             "properties": {
                 "actions": {
                     "items": {
@@ -177,10 +174,10 @@
                     "type": "array"
                 },
                 "database": {
-                    "$ref": "#/definitions/Partial<Database>"
+                    "$ref": "#/definitions/Database"
                 },
                 "mailer": {
-                    "$ref": "#/definitions/Partial<Mailer>"
+                    "$ref": "#/definitions/Mailer"
                 },
                 "name": {
                     "type": "string"
@@ -197,7 +194,6 @@
             "type": "object"
         },
         "Button": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Button",
@@ -224,7 +220,6 @@
             "type": "object"
         },
         "Click": {
-            "additionalProperties": false,
             "properties": {
                 "click": {
                     "type": "string"
@@ -267,14 +262,20 @@
             ]
         },
         "CreateRecord": {
-            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "CreateRecord",
                     "type": "string"
                 },
                 "fields": {
-                    "$ref": "#/definitions/Record<string,string>"
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
                 },
                 "name": {
                     "type": "string"
@@ -292,7 +293,6 @@
             "type": "object"
         },
         "Cta": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "CTA",
@@ -302,7 +302,6 @@
                     "type": "string"
                 },
                 "primaryButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "href": {
                             "type": "string"
@@ -329,8 +328,26 @@
             ],
             "type": "object"
         },
+        "Database": {
+            "properties": {
+                "db": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "db",
+                "url"
+            ],
+            "type": "object"
+        },
         "DateTime": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -347,7 +364,6 @@
             "type": "object"
         },
         "Email": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -364,7 +380,6 @@
             "type": "object"
         },
         "Features": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Features",
@@ -375,7 +390,6 @@
                 },
                 "features": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "description": {
                                 "type": "string"
@@ -422,7 +436,6 @@
             ]
         },
         "Fill": {
-            "additionalProperties": false,
             "properties": {
                 "fill": {
                     "type": "string"
@@ -448,7 +461,6 @@
             ]
         },
         "Footer": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Footer",
@@ -462,7 +474,6 @@
                 },
                 "links": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "href": {
                                 "type": "string"
@@ -493,7 +504,6 @@
             "type": "object"
         },
         "Form": {
-            "additionalProperties": false,
             "properties": {
                 "action": {
                     "type": "string"
@@ -507,7 +517,6 @@
                 },
                 "inputs": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "label": {
                                 "type": "string"
@@ -567,7 +576,6 @@
                     "type": "string"
                 },
                 "submitButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "label": {
                             "type": "string"
@@ -595,7 +603,6 @@
             "type": "object"
         },
         "Head": {
-            "additionalProperties": false,
             "properties": {
                 "links": {
                     "items": {
@@ -622,7 +629,6 @@
             "type": "object"
         },
         "Hero": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Hero",
@@ -632,7 +638,6 @@
                     "type": "string"
                 },
                 "primaryButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "href": {
                             "type": "string"
@@ -678,7 +683,6 @@
             "type": "string"
         },
         "InputText": {
-            "additionalProperties": false,
             "properties": {
                 "input": {
                     "type": "string"
@@ -694,7 +698,6 @@
             "type": "object"
         },
         "Is": {
-            "additionalProperties": false,
             "properties": {
                 "field": {
                     "type": "string"
@@ -715,7 +718,6 @@
             "type": "object"
         },
         "IsAnyOf": {
-            "additionalProperties": false,
             "properties": {
                 "field": {
                     "type": "string"
@@ -739,7 +741,6 @@
             "type": "object"
         },
         "Link": {
-            "additionalProperties": false,
             "properties": {
                 "href": {
                     "type": "string"
@@ -751,7 +752,6 @@
             "type": "object"
         },
         "Logos": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Logos",
@@ -759,7 +759,6 @@
                 },
                 "logos": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "alt": {
                                 "type": "string"
@@ -787,8 +786,33 @@
             ],
             "type": "object"
         },
+        "Mailer": {
+            "properties": {
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "number"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
         "Meta": {
-            "additionalProperties": false,
             "properties": {
                 "content": {
                     "type": "string"
@@ -804,7 +828,6 @@
             "type": "object"
         },
         "NotFound": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "NotFound",
@@ -814,7 +837,6 @@
                     "type": "string"
                 },
                 "primaryButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "href": {
                             "type": "string"
@@ -842,7 +864,6 @@
             "type": "object"
         },
         "Open": {
-            "additionalProperties": false,
             "properties": {
                 "open": {
                     "type": "string"
@@ -854,7 +875,6 @@
             "type": "object"
         },
         "Page": {
-            "additionalProperties": false,
             "properties": {
                 "body": {
                     "items": {
@@ -880,7 +900,6 @@
             "type": "object"
         },
         "Paragraph": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Paragraph",
@@ -896,54 +915,7 @@
             ],
             "type": "object"
         },
-        "Partial<Database>": {
-            "additionalProperties": false,
-            "properties": {
-                "database": {
-                    "enum": [
-                        "postgres",
-                        "sqlite"
-                    ],
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Partial<Mailer>": {
-            "additionalProperties": false,
-            "properties": {
-                "host": {
-                    "type": "string"
-                },
-                "pass": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "number"
-                },
-                "secure": {
-                    "type": "boolean"
-                },
-                "user": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Partial<Server>": {
-            "additionalProperties": false,
-            "properties": {
-                "port": {
-                    "type": "number"
-                }
-            },
-            "type": "object"
-        },
         "Post": {
-            "additionalProperties": false,
             "properties": {
                 "body": {
                     "additionalProperties": true,
@@ -961,7 +933,6 @@
             "type": "object"
         },
         "Record": {
-            "additionalProperties": false,
             "properties": {
                 "findOne": {
                     "items": {
@@ -979,12 +950,7 @@
             ],
             "type": "object"
         },
-        "Record<string,string>": {
-            "additionalProperties": false,
-            "type": "object"
-        },
         "RecordCreated": {
-            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "RecordCreated",
@@ -1020,7 +986,6 @@
             ]
         },
         "Script": {
-            "additionalProperties": false,
             "properties": {
                 "src": {
                     "type": "string"
@@ -1039,7 +1004,6 @@
             "type": "object"
         },
         "SendEmail": {
-            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "SendEmail",
@@ -1075,8 +1039,18 @@
             ],
             "type": "object"
         },
+        "Server": {
+            "properties": {
+                "port": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "port"
+            ],
+            "type": "object"
+        },
         "SingleLineText": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -1093,7 +1067,6 @@
             "type": "object"
         },
         "Spec": {
-            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -1119,10 +1092,9 @@
             "type": "object"
         },
         "Table": {
-            "additionalProperties": false,
             "properties": {
                 "database": {
-                    "$ref": "#/definitions/Partial<Database>"
+                    "$ref": "#/definitions/Database"
                 },
                 "fields": {
                     "items": {
@@ -1141,7 +1113,6 @@
             "type": "object"
         },
         "Text": {
-            "additionalProperties": false,
             "properties": {
                 "tag": {
                     "enum": [
@@ -1270,7 +1241,6 @@
             "type": "object"
         },
         "Title": {
-            "additionalProperties": false,
             "properties": {
                 "title": {
                     "type": "string"
@@ -1292,7 +1262,6 @@
             ]
         },
         "WaitForAutomation": {
-            "additionalProperties": false,
             "properties": {
                 "waitForAutomation": {
                     "type": "string"
@@ -1304,7 +1273,6 @@
             "type": "object"
         },
         "WaitForText": {
-            "additionalProperties": false,
             "properties": {
                 "waitForText": {
                     "type": "string"
@@ -1316,7 +1284,6 @@
             "type": "object"
         },
         "WebhookCalled": {
-            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "WebhookCalled",
@@ -1340,11 +1307,10 @@
     },
     "properties": {
         "database": {
-            "$ref": "#/definitions/Partial<Database>"
+            "$ref": "#/definitions/Database"
         },
         "features": {
             "items": {
-                "additionalProperties": false,
                 "properties": {
                     "automations": {
                         "items": {
@@ -1382,17 +1348,16 @@
             "type": "array"
         },
         "mailer": {
-            "$ref": "#/definitions/Partial<Mailer>"
+            "$ref": "#/definitions/Mailer"
         },
         "name": {
             "type": "string"
         },
         "server": {
-            "$ref": "#/definitions/Partial<Server>"
+            "$ref": "#/definitions/Server"
         },
         "translations": {
             "items": {
-                "additionalProperties": false,
                 "properties": {
                     "language": {
                         "const": "EN",

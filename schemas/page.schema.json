@@ -1,9 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
     "definitions": {
         "Button": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Button",
@@ -61,7 +59,6 @@
             ]
         },
         "Cta": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "CTA",
@@ -71,7 +68,6 @@
                     "type": "string"
                 },
                 "primaryButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "href": {
                             "type": "string"
@@ -99,7 +95,6 @@
             "type": "object"
         },
         "Features": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Features",
@@ -110,7 +105,6 @@
                 },
                 "features": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "description": {
                                 "type": "string"
@@ -144,7 +138,6 @@
             "type": "object"
         },
         "Footer": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Footer",
@@ -158,7 +151,6 @@
                 },
                 "links": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "href": {
                                 "type": "string"
@@ -189,7 +181,6 @@
             "type": "object"
         },
         "Form": {
-            "additionalProperties": false,
             "properties": {
                 "action": {
                     "type": "string"
@@ -203,7 +194,6 @@
                 },
                 "inputs": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "label": {
                                 "type": "string"
@@ -263,7 +253,6 @@
                     "type": "string"
                 },
                 "submitButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "label": {
                             "type": "string"
@@ -291,7 +280,6 @@
             "type": "object"
         },
         "Head": {
-            "additionalProperties": false,
             "properties": {
                 "links": {
                     "items": {
@@ -318,7 +306,6 @@
             "type": "object"
         },
         "Hero": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Hero",
@@ -328,7 +315,6 @@
                     "type": "string"
                 },
                 "primaryButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "href": {
                             "type": "string"
@@ -374,7 +360,6 @@
             "type": "string"
         },
         "Link": {
-            "additionalProperties": false,
             "properties": {
                 "href": {
                     "type": "string"
@@ -386,7 +371,6 @@
             "type": "object"
         },
         "Logos": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Logos",
@@ -394,7 +378,6 @@
                 },
                 "logos": {
                     "items": {
-                        "additionalProperties": false,
                         "properties": {
                             "alt": {
                                 "type": "string"
@@ -423,7 +406,6 @@
             "type": "object"
         },
         "Meta": {
-            "additionalProperties": false,
             "properties": {
                 "content": {
                     "type": "string"
@@ -439,7 +421,6 @@
             "type": "object"
         },
         "NotFound": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "NotFound",
@@ -449,7 +430,6 @@
                     "type": "string"
                 },
                 "primaryButton": {
-                    "additionalProperties": false,
                     "properties": {
                         "href": {
                             "type": "string"
@@ -477,7 +457,6 @@
             "type": "object"
         },
         "Paragraph": {
-            "additionalProperties": false,
             "properties": {
                 "component": {
                     "const": "Paragraph",
@@ -494,7 +473,6 @@
             "type": "object"
         },
         "Script": {
-            "additionalProperties": false,
             "properties": {
                 "src": {
                     "type": "string"

@@ -11,9 +11,9 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Params {
   database: Database
-  mailer: Mailer
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
+  mailer?: Mailer
 }
 
 export class ActionMapper {
@@ -35,6 +35,7 @@ export class ActionMapper {
           templateCompiler,
         }
       )
+      if (!mailer) throw new Error(`Mailer config not found`)
       return new SendEmail({ ...config, emailToSend, mailer })
     }
     throw new Error(`Action not found`)

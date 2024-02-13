@@ -4,7 +4,7 @@ import type { Logger } from './Logger'
 
 export interface Params {
   url: string
-  database: 'sqlite' | 'postgres'
+  db: 'sqlite' | 'postgres'
   logger: Logger
 }
 

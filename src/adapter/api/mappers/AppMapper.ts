@@ -14,6 +14,7 @@ import type { Logger } from '@domain/services/Logger'
 import type { Automation } from '@domain/engine/automation/Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { Database as DatabaseConfig } from '../configs/Database'
+import type { Mailer } from '@domain/services/Mailer'
 
 export interface Params {
   table?: TableParams
@@ -30,14 +31,6 @@ interface Private {
 }
 
 export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
-  static getPaths = (instancePath: string): string[] => {
-    return instancePath.split('/').filter((item) => item !== '')
-  }
-
-  static getFirstPath = (instancePath: string): string => {
-    return this.getPaths(instancePath)[0]
-  }
-
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
     const { server, newLogger, database, queue } = params
@@ -110,12 +103,13 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const newLogger = (location: string) => services.logger({ location })
     let database: Database | undefined
     let queue: Queue | undefined
+    let mailer: Mailer | undefined
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
     const databaseConfig: DatabaseConfig = {
       url: config.database?.url ?? ':memory:',
-      database: config.database?.database ?? 'sqlite',
+      db: config.database?.db ?? 'sqlite',
     }
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
       database = services.database({
@@ -138,21 +132,12 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         logger: services.logger({ location: `queue` }),
         ...databaseConfig,
       })
-      if (
-        !config.mailer?.host ||
-        !config.mailer?.port ||
-        !config.mailer?.user ||
-        !config.mailer?.pass
-      ) {
-        throw new Error(`mailer config not found`)
+      if (config.mailer) {
+        mailer = services.mailer({
+          logger: services.logger({ location: `mailer` }),
+          ...config.mailer,
+        })
       }
-      const mailer = services.mailer({
-        logger: services.logger({ location: `mailer` }),
-        host: config.mailer.host,
-        port: config.mailer.port,
-        user: config.mailer.user,
-        pass: config.mailer.pass,
-      })
       const templateCompiler = services.templateCompiler()
       automation = { newLogger, server, queue, mailer, idGenerator, database, templateCompiler }
     }

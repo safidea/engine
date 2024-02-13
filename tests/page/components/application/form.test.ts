@@ -159,9 +159,7 @@ test.describe('Form component', () => {
           ],
         },
       ],
-      database: {
-        url: database.url,
-      },
+      database: database.config,
     }
     const app = new App()
     const url = await app.start(config)
@@ -235,9 +233,7 @@ test.describe('Form component', () => {
           ],
         },
       ],
-      database: {
-        url: database.url,
-      },
+      database: database.config,
     }
     const app = new App()
     const url = await app.start(config)

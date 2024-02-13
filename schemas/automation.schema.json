@@ -1,6 +1,5 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
     "definitions": {
         "Action": {
             "anyOf": [
@@ -13,14 +12,20 @@
             ]
         },
         "CreateRecord": {
-            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "CreateRecord",
                     "type": "string"
                 },
                 "fields": {
-                    "$ref": "#/definitions/Record<string,string>"
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
                 },
                 "name": {
                     "type": "string"
@@ -37,10 +42,9 @@
             ],
             "type": "object"
         },
-        "Partial<Database>": {
-            "additionalProperties": false,
+        "Database": {
             "properties": {
-                "database": {
+                "db": {
                     "enum": [
                         "postgres",
                         "sqlite"
@@ -51,10 +55,13 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "db",
+                "url"
+            ],
             "type": "object"
         },
-        "Partial<Mailer>": {
-            "additionalProperties": false,
+        "Mailer": {
             "properties": {
                 "host": {
                     "type": "string"
@@ -72,14 +79,15 @@
                     "type": "string"
                 }
             },
-            "type": "object"
-        },
-        "Record<string,string>": {
-            "additionalProperties": false,
+            "required": [
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
             "type": "object"
         },
         "RecordCreated": {
-            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "RecordCreated",
@@ -96,7 +104,6 @@
             "type": "object"
         },
         "SendEmail": {
-            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "SendEmail",
@@ -143,7 +150,6 @@
             ]
         },
         "WebhookCalled": {
-            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "WebhookCalled",
@@ -173,10 +179,10 @@
             "type": "array"
         },
         "database": {
-            "$ref": "#/definitions/Partial<Database>"
+            "$ref": "#/definitions/Database"
         },
         "mailer": {
-            "$ref": "#/definitions/Partial<Mailer>"
+            "$ref": "#/definitions/Mailer"
         },
         "name": {
             "type": "string"

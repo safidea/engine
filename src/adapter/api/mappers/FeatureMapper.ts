@@ -13,14 +13,6 @@ export interface Params {
 
 export const FeatureMapper: Mapper<FeatureConfig, Feature, Params> =
   class FeatureMapper {
-    static getPaths = (instancePath: string): string[] => {
-      return instancePath.split('/').filter((item) => item !== '')
-    }
-
-    static getFirstPath = (instancePath: string): string => {
-      return this.getPaths(instancePath)[0]
-    }
-
     static toEntity = (config: FeatureConfig, params: Params) => {
       const { name, specs: specConfigs = [] } = config
       const { spec, newLogger } = params

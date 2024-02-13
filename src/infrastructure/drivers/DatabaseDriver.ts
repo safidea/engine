@@ -6,31 +6,31 @@ import { DatabaseTableDriver, type Schema } from './DatabaseTableDriver'
 import type { Params } from '@domain/services/Database'
 
 export class DatabaseDriver implements Driver {
-  private db: Kysely<Schema>
+  private kysely: Kysely<Schema>
 
   constructor(public params: Params) {
-    const { database, url } = params
-    if (database === 'sqlite') {
+    const { db, url } = params
+    if (db === 'sqlite') {
       const dialect = new SqliteDialect({
         database: new SQLite(url, { fileMustExist: true }),
       })
-      this.db = new Kysely<Schema>({ dialect })
-    } else if (database === 'postgres') {
+      this.kysely = new Kysely<Schema>({ dialect })
+    } else if (db === 'postgres') {
       const { Pool } = pg
       const dialect = new PostgresDialect({
         pool: new Pool({
           connectionString: url,
         }),
       })
-      this.db = new Kysely<Schema>({ dialect })
-    } else throw new Error(`Database ${database} not supported`)
+      this.kysely = new Kysely<Schema>({ dialect })
+    } else throw new Error(`Database ${db} not supported`)
   }
 
   disconnect = async (): Promise<void> => {
-    await this.db.destroy()
+    await this.kysely.destroy()
   }
 
   table = (name: string) => {
-    return new DatabaseTableDriver(name, this.db, this.params.database)
+    return new DatabaseTableDriver(name, this.kysely, this.params.db)
   }
 }
