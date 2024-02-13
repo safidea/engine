@@ -1,11 +1,10 @@
 import { SpecMapper, type Params } from './mappers/spec/SpecMapper'
-import type { Spec } from '@domain/entities/spec/Spec'
-import { SpecError } from '@domain/entities/spec/SpecError'
+import type { Spec } from '@domain/engine/spec/Spec'
 import type { Params as SpisParams } from '@adapter/spi'
-import { Api } from './Api'
-import type { Spec as SpecConfig } from './configs/spec/Spec'
+import { Base } from './base'
+import type { Spec as Config } from './configs/spec/Spec'
 
-export class SpecApi extends Api<SpecConfig, SpecError, Spec, Params> {
+export class SpecApi extends Base<Config, Spec, Params> {
   constructor(params: SpisParams) {
     super(params, SpecMapper, 'spec')
   }

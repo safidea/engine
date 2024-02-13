@@ -27,17 +27,15 @@ test.describe('Tables specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
-    const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_RECORD_NOT_FOUND')
-    if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe(JSON.stringify({ name: 'John' }))
-      expect(data.received).toBeUndefined()
-    }
+    const [{ expected, received, code }] = errors
+    expect(code).toBe('RECORD_NOT_FOUND')
+    expect(expected).toBe(JSON.stringify({ name: 'John' }))
+    expect(received).toBeUndefined()
   })
 
   test('should find a created row', async () => {
@@ -65,8 +63,8 @@ test.describe('Tables specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

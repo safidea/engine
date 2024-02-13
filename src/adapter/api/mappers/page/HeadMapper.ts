@@ -1,8 +1,8 @@
-import { Head } from '@domain/entities/page/head'
+import { Head } from '@domain/engine/page/head'
 import type { Head as HeadConfig } from '../../configs/page/head'
-import { Meta } from '@domain/entities/page/head/Meta'
-import { Link } from '@domain/entities/page/head/Link'
-import { Script } from '@domain/entities/page/head/Script'
+import { Meta } from '@domain/engine/page/head/Meta'
+import { Link } from '@domain/engine/page/head/Link'
+import { Script } from '@domain/engine/page/head/Script'
 import type { Ui } from '@domain/services/Ui'
 
 interface Params {

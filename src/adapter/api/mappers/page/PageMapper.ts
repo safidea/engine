@@ -1,15 +1,13 @@
-import { Page } from '@domain/entities/page/Page'
-import { PageError, type PageErrorCode } from '@domain/entities/page/PageError'
+import { Page } from '@domain/engine/page/Page'
 import { Services } from '@domain/services'
 import type { Page as PageConfig } from '../../configs/page/Page'
-import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import { ComponentMapper } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
 import type { Mapper } from '../Mapper'
 import type { Server } from '@domain/services/Server'
 import type { Ui } from '@domain/services/Ui'
 import type { Logger } from '@domain/services/Logger'
-import type { ReactComponents } from '@domain/entities/page/component'
+import type { ReactComponents } from '@domain/engine/page/component'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 
 export interface Params {
@@ -20,7 +18,7 @@ export interface Params {
   components: ReactComponents
 }
 
-export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class PageMapper {
+export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
     const { server, newLogger, ui, components, idGenerator } = params
@@ -57,27 +55,5 @@ export const PageMapper: Mapper<PageConfig, PageError, Page, Params> = class Pag
 
   static toManyEntitiesFromServices = (configs: PageConfig[], services: Services) => {
     return configs.map((config) => this.toEntityFromServices(config, services))
-  }
-
-  static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
-    const { instancePath, keyword, params } = errorDto
-    if (keyword === 'required') {
-      if (params.missingProperty === 'name') return new PageError('NAME_REQUIRED')
-      if (params.missingProperty === 'path') return new PageError('PATH_REQUIRED')
-      if (params.missingProperty === 'body') return new PageError('BODY_REQUIRED')
-    } else if (keyword === 'additionalProperties') {
-      return new PageError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
-    } else if (keyword === 'type') {
-      if (instancePath === '/name') return new PageError('NAME_STRING_TYPE_REQUIRED')
-    }
-    return new PageError('UNKNOWN_SCHEMA_ERROR')
-  }
-
-  static toManyErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
-    return errorDtos.map(this.toErrorEntity)
-  }
-
-  static toErrorEntityFromCode = (code: PageErrorCode) => {
-    return new PageError(code)
   }
 }

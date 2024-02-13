@@ -1,4 +1,4 @@
-import type { Meta } from "@domain/entities/page/head/Meta"
+import type { Meta } from '@domain/engine/page/head/Meta'
 
 export type FrameId = string | 'page' | 'self'
 export type Navigation = 'replace' | 'advance'

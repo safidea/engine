@@ -1,8 +1,8 @@
 import type { Field as FieldConfig } from '@adapter/api/configs/table/field'
-import type { Field } from '@domain/entities/table/field'
-import { DateTime } from '@domain/entities/table/field/DateTime'
-import { Email } from '@domain/entities/table/field/Email'
-import { SingleLineText } from '@domain/entities/table/field/SingleLineText'
+import type { Field } from '@domain/engine/table/field'
+import { DateTime } from '@domain/engine/table/field/DateTime'
+import { Email } from '@domain/engine/table/field/Email'
+import { SingleLineText } from '@domain/engine/table/field/SingleLineText'
 
 export class FieldMapper {
   static toEntity(config: FieldConfig): Field {

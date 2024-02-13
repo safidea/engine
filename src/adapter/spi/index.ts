@@ -6,11 +6,10 @@ import { LoggerSpi, type Driver as LoggerDriver } from './LoggerSpi'
 import { SchemaValidatorSpi, type Driver as SchemaValidatorDriver } from './SchemaValidatorSpi'
 import { ServerSpi, type Driver as ServerDriver } from './ServerSpi'
 import { UiSpi, type Driver as UiDriver } from './UiSpi'
-import type { ReactComponents } from '@domain/entities/page/component'
+import type { ReactComponents } from '@domain/engine/page/component'
 import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'
 import type { Params as LoggerParams } from '@domain/services/Logger'
-import type { Params as SchemaValidatorParams } from '@domain/services/SchemaValidator'
 import type { Params as QueueParams } from '@domain/services/Queue'
 import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
 import type { Params as MailerParams } from '@domain/services/Mailer'
@@ -22,7 +21,7 @@ export interface Drivers {
   logger: (params: LoggerParams) => LoggerDriver
   database: (params: DatabaseParams) => DatabaseDriver
   idGenerator: () => IdGeneratorDriver
-  schemaValidator: (params: SchemaValidatorParams) => SchemaValidatorDriver
+  schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
   queue: (params: QueueParams) => QueueDriver
@@ -50,8 +49,7 @@ export class Spis implements ISpis {
 
   logger = (params: LoggerParams) => new LoggerSpi(this.params.drivers.logger(params))
 
-  schemaValidator = (params: SchemaValidatorParams) =>
-    new SchemaValidatorSpi(this.params.drivers.schemaValidator(params))
+  schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
 
   ui = () => new UiSpi(this.params.drivers.ui())
 

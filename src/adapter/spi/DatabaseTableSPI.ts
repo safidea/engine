@@ -6,7 +6,7 @@ import type { DatabaseTableFieldDto } from './dtos/DatabaseTableFieldDto'
 import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
 import type { Spi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
-import type { Field } from '@domain/entities/table/field'
+import type { Field } from '@domain/engine/table/field'
 import { FieldMapper } from './mappers/FieldMapper'
 
 export interface Driver {

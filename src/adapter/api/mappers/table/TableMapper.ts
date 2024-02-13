@@ -1,7 +1,5 @@
-import { Table } from '@domain/entities/table/Table'
-import { TableError, type TableErrorCode } from '@domain/entities/table/TableError'
+import { Table } from '@domain/engine/table/Table'
 import { Services } from '@domain/services'
-import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import type { Table as TableConfig } from '../../configs/table/Table'
 import type { Mapper } from '../Mapper'
 import { FieldMapper } from './FieldMapper'
@@ -17,7 +15,7 @@ export interface Params {
   record: Record
 }
 
-export const TableMapper: Mapper<TableConfig, TableError, Table, Params> = class TableMapper {
+export const TableMapper: Mapper<TableConfig, Table, Params> = class TableMapper {
   static toEntity = (config: TableConfig, params: Params) => {
     const { name } = config
     const { server, database, newLogger, record } = params
@@ -70,26 +68,5 @@ export const TableMapper: Mapper<TableConfig, TableError, Table, Params> = class
 
   static toManyEntitiesFromServices = (configs: TableConfig[], services: Services) => {
     return configs.map((config) => this.toEntityFromServices(config, services))
-  }
-
-  static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
-    const { instancePath, keyword, params } = errorDto
-    if (keyword === 'required') {
-      if (params.missingProperty === 'name') return new TableError('NAME_REQUIRED')
-      if (params.missingProperty === 'fields') return new TableError('FIELDS_REQUIRED')
-    } else if (keyword === 'additionalProperties') {
-      return new TableError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
-    } else if (keyword === 'type') {
-      if (instancePath === '/name') return new TableError('NAME_STRING_TYPE_REQUIRED')
-    }
-    return new TableError('UNKNOWN_SCHEMA_ERROR')
-  }
-
-  static toManyErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
-    return errorDtos.map(this.toErrorEntity)
-  }
-
-  static toErrorEntityFromCode = (code: TableErrorCode) => {
-    return new TableError(code)
   }
 }

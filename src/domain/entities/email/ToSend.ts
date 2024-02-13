@@ -1,5 +1,5 @@
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Context } from '../automation/Context'
+import type { Context } from '../../engine/automation/Context'
 import type { Template } from '@domain/services/Template'
 
 export interface Data {

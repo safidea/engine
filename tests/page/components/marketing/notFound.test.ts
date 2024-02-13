@@ -24,10 +24,10 @@ test.describe('NotFound component', () => {
         },
       ],
     }
-    const app = new App(config)
+    const app = new App()
 
     // WHEN
-    const url = await app.start()
+    const url = await app.start(config)
     await page.goto(url + '/contact')
 
     // THEN

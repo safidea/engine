@@ -1,7 +1,7 @@
 import type { Trigger as TriggerConfig } from '@adapter/api/configs/automation/trigger'
-import type { Trigger } from '@domain/entities/automation/trigger'
-import { RecordCreated } from '@domain/entities/automation/trigger/RecordCreated'
-import { WebhookCalled } from '@domain/entities/automation/trigger/WebhookCalled'
+import type { Trigger } from '@domain/engine/automation/trigger'
+import { RecordCreated } from '@domain/engine/automation/trigger/RecordCreated'
+import { WebhookCalled } from '@domain/engine/automation/trigger/WebhookCalled'
 import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 

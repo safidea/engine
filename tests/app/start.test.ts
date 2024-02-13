@@ -24,11 +24,10 @@ test.describe('App api', () => {
         },
       ],
     }
-    const app = new App(config)
-    await app.start()
+    const app = new App()
 
     // WHEN
-    const url = await app.start()
+    const url = await app.start(config)
 
     // THEN
     expect(url).toBeDefined()
@@ -63,11 +62,11 @@ test.describe('App api', () => {
         },
       ],
     }
-    const app = new App(config)
+    const app = new App()
 
     // WHEN
-    const url = await app.start()
-    const errors = await app.test()
+    const errors = await app.test(config)
+    const url = await app.start(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -97,10 +96,10 @@ test.describe('App api', () => {
       ],
       server: { port: 3000 },
     }
-    const app = new App(config)
+    const app = new App()
 
     // WHEN
-    const url = await app.start()
+    const url = await app.start(config)
 
     // THEN
     expect(url).toBe('http://localhost:3000')
@@ -128,8 +127,8 @@ test.describe('App api', () => {
         },
       ],
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     const { success } = await request.get(url + '/health').then((res) => res.json())
@@ -160,8 +159,8 @@ test.describe('App api', () => {
         },
       ],
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     await app.stop()

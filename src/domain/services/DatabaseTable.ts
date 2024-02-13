@@ -2,7 +2,7 @@ import type { ToCreate } from '../entities/record/ToCreate'
 import type { Spi as DatabaseSpi } from './Database'
 import type { Filter } from '../entities/filter'
 import type { Persisted } from '../entities/record/Persisted'
-import type { Field } from '@domain/entities/table/field'
+import type { Field } from '@domain/engine/table/field'
 
 export interface Spi {
   insert: (toCreateRecord: ToCreate) => Promise<Persisted>

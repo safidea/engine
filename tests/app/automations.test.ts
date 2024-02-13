@@ -49,8 +49,8 @@ test.describe('App with automations', () => {
         pass: mailbox.password,
       },
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     const res = await request.post(`${url}/api/automation/send-email`, {
@@ -110,8 +110,8 @@ test.describe('App with automations', () => {
         pass: mailbox.password,
       },
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     const res = await request.post(`${url}/api/automation/send-email`, {

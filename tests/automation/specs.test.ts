@@ -61,8 +61,8 @@ test.describe.skip('Automations specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

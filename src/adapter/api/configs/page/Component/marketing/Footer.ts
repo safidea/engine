@@ -1,4 +1,4 @@
-import type { Props } from '@domain/entities/page/component/marketing/Footer'
+import type { Props } from '@domain/engine/page/component/marketing/Footer'
 
 export interface Footer extends Props {
   component: 'Footer'

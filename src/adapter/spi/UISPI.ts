@@ -1,5 +1,5 @@
 import type { Meta as MetaConfig } from '@adapter/api/configs/page/head/Meta'
-import { Meta } from '@domain/entities/page/head/Meta'
+import { Meta } from '@domain/engine/page/head/Meta'
 import type { FrameProps, Spi } from '@domain/services/Ui'
 
 export interface Driver {

@@ -1,4 +1,4 @@
-import type { Icon } from '@domain/entities/page/component/Icon'
+import type { Icon } from '@domain/engine/page/component/Icon'
 import * as heroicons from '@heroicons/react/24/outline'
 
 export function classNames(...classes: string[]) {

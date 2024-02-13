@@ -1,21 +1,17 @@
-import { App } from '@domain/entities/app/App'
-import { AppError, type AppErrorCode } from '@domain/entities/app/AppError'
+import { App } from '@domain/engine/App'
 import { Services } from '@domain/services'
-import type { SchemaValidatorErrorDto } from '@adapter/spi/dtos/SchemaValidatorErrorDto'
 import type { App as AppConfig } from '../configs/App'
 import type { Feature as FeatureConfig } from '../configs/Feature'
 import type { Mapper } from './Mapper'
-import { SpecMapper } from './spec/SpecMapper'
 import { PageMapper, type Params as PageParams } from './page/PageMapper'
 import { TableMapper, type Params as TableParams } from './table/TableMapper'
 import { AutomationMapper, type Params as AutomationParams } from './automation/AutomationMapper'
-import type { EngineError } from '@domain/entities/EngineError'
 import type { Database } from '@domain/services/Database'
-import type { Table } from '@domain/entities/table/Table'
-import type { Page } from '@domain/entities/page/Page'
+import type { Table } from '@domain/engine/table/Table'
+import type { Page } from '@domain/engine/page/Page'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
-import type { Automation } from '@domain/entities/automation/Automation'
+import type { Automation } from '@domain/engine/automation/Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { Database as DatabaseConfig } from '../configs/Database'
 
@@ -33,7 +29,7 @@ interface Private {
   featureToEntityFromServices: (featureConfig: FeatureConfig, services: Services) => App
 }
 
-export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = class AppMapper {
+export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
   static getPaths = (instancePath: string): string[] => {
     return instancePath.split('/').filter((item) => item !== '')
   }
@@ -173,39 +169,5 @@ export const AppMapper: Mapper<AppConfig, EngineError, App, Params> & Private = 
 
   static toManyEntitiesFromServices = (configs: AppConfig[], services: Services) => {
     return configs.map((config) => this.toEntityFromServices(config, services))
-  }
-
-  static toErrorEntity = (errorDto: SchemaValidatorErrorDto) => {
-    const { instancePath, keyword, params } = errorDto
-    const firstPath = this.getFirstPath(instancePath)
-    if (firstPath === 'specs') {
-      return SpecMapper.toErrorEntity(errorDto)
-    } else if (firstPath === 'pages') {
-      return PageMapper.toErrorEntity(errorDto)
-    } else if (firstPath === 'tables') {
-      return TableMapper.toErrorEntity(errorDto)
-    } else if (firstPath === 'automations') {
-      return AutomationMapper.toErrorEntity(errorDto)
-    } else {
-      if (keyword === 'required') {
-        if (params.missingProperty === 'name') return new AppError('NAME_REQUIRED')
-        if (params.missingProperty === 'features') return new AppError('FEATURES_REQUIRED')
-      } else if (keyword === 'additionalProperties') {
-        return new AppError('UNKNOWN_PROPERTY', { property: params.additionalProperty })
-      } else if (keyword === 'type') {
-        if (instancePath === '/name') return new AppError('NAME_STRING_TYPE_REQUIRED')
-        if (instancePath === '/roles') return new AppError('ROLES_ARRAY_TYPE_REQUIRED')
-        if (instancePath === '/features') return new AppError('FEATURES_ARRAY_TYPE_REQUIRED')
-      }
-    }
-    return new AppError('UNKNOWN_SCHEMA_ERROR')
-  }
-
-  static toManyErrorEntities = (errorDtos: SchemaValidatorErrorDto[]) => {
-    return errorDtos.map(this.toErrorEntity)
-  }
-
-  static toErrorEntityFromCode = (code: AppErrorCode) => {
-    return new AppError(code)
   }
 }

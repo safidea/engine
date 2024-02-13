@@ -18,8 +18,8 @@ test.describe('Paragraph component', () => {
     }
 
     // WHEN
-    const pageEngine = new Page(config)
-    const html = pageEngine.getHtml()
+    const pageEngine = new Page()
+    const html = pageEngine.getHtml(config)
     await page.setContent(html)
 
     // THEN
@@ -50,8 +50,8 @@ test.describe('Paragraph component', () => {
         },
       ],
     }
-    const app = new App(config)
-    const url = await app!.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     await page.goto(url)

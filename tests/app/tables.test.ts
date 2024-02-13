@@ -24,8 +24,8 @@ test.describe('App with tables', () => {
         },
       ],
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     const res = await request.post(`${url}/api/table/leads`, {
@@ -65,8 +65,8 @@ test.describe('App with tables', () => {
         url: database.url,
       },
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/table/leads`, {
@@ -107,8 +107,8 @@ test.describe('App with tables', () => {
         url: database.url,
       },
     }
-    const app = new App(config)
-    const url = await app.start()
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/table/leads`, {

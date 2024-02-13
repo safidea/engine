@@ -1,22 +1,21 @@
 import { AppMapper, type Params as AppParams } from './mappers/AppMapper'
-import type { App } from '@domain/entities/app/App'
+import type { App } from '@domain/engine/App'
 import type { Params as SpisParams } from '@adapter/spi'
-import { Api } from './Api'
-import type { App as AppConfig } from './configs/App'
-import type { EngineError } from '@domain/entities/EngineError'
-import type { SpecError } from '@domain/entities/spec/SpecError'
+import { Base } from './base'
+import type { App as Config } from './configs/App'
 import { FeatureMapper } from './mappers/FeatureMapper'
+import type { TestError } from '@domain/entities/error/Test'
 
-export class AppApi extends Api<AppConfig, EngineError, App, AppParams> {
+export class AppApi extends Base<Config, App, AppParams> {
   private app?: App
 
   constructor(params: SpisParams) {
     super(params, AppMapper, 'app')
   }
 
-  test = async (config: unknown): Promise<SpecError[]> => {
+  test = async (config: unknown): Promise<TestError[]> => {
     if (!this.validate(config)) throw new Error('Invalid config')
-    const errors: SpecError[] = []
+    const errors: TestError[] = []
     for (const featureConfig of config.features) {
       const feature = FeatureMapper.toEntityFromServices(featureConfig, this.services)
       const newApp = () => AppMapper.featureToEntityFromServices(featureConfig, this.services)

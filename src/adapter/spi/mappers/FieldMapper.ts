@@ -1,8 +1,8 @@
-import type { Field } from '@domain/entities/table/field'
+import type { Field } from '@domain/engine/table/field'
 import type { DatabaseTableFieldDto } from '../dtos/DatabaseTableFieldDto'
-import { Email } from '@domain/entities/table/field/Email'
-import { SingleLineText } from '@domain/entities/table/field/SingleLineText'
-import { DateTime } from '@domain/entities/table/field/DateTime'
+import { Email } from '@domain/engine/table/field/Email'
+import { SingleLineText } from '@domain/engine/table/field/SingleLineText'
+import { DateTime } from '@domain/engine/table/field/DateTime'
 
 export class FieldMapper {
   static toDto = (field: Field): DatabaseTableFieldDto => {

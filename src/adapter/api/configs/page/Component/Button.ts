@@ -1,4 +1,4 @@
-import type { Props } from '@domain/entities/page/component/Button'
+import type { Props } from '@domain/engine/page/component/Button'
 
 export interface Button extends Props {
   component: 'Button'

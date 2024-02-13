@@ -1,4 +1,4 @@
-import type { ReactComponents } from '@domain/entities/page/component'
+import type { ReactComponents } from '@domain/engine/page/component'
 import { Form } from './application/Form'
 import { Button } from './base/Button'
 import { Html } from './base/Html'

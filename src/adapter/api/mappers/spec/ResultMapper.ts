@@ -1,12 +1,12 @@
 import type { Result as ResultConfig } from '@adapter/api/configs/spec/result'
-import type { Result } from '@domain/entities/spec/result'
-import { Title } from '@domain/entities/spec/result/Title'
-import { Text } from '@domain/entities/spec/result/Text'
-import { InputText } from '@domain/entities/spec/result/InputText'
-import { Record } from '@domain/entities/spec/result/Record'
-import type { BaseParams as ResultParams } from '@domain/entities/spec/result/base'
+import type { Result } from '@domain/engine/spec/result'
+import { Title } from '@domain/engine/spec/result/Title'
+import { Text } from '@domain/engine/spec/result/Text'
+import { InputText } from '@domain/engine/spec/result/InputText'
+import { Record } from '@domain/engine/spec/result/Record'
+import type { BaseParams as ResultParams } from '@domain/engine/spec/result/base'
 import { DatabaseFilterMapper } from '@adapter/spi/mappers/DatabaseFilterMapper'
-import { Attribute } from '@domain/entities/spec/result/Attribute'
+import { Attribute } from '@domain/engine/spec/result/Attribute'
 
 export class ResultMapper {
   static toEntity = (config: ResultConfig, params: ResultParams): Result => {

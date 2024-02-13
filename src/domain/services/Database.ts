@@ -1,4 +1,4 @@
-import type { Table } from '@domain/entities/table/Table'
+import type { Table } from '@domain/engine/table/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 

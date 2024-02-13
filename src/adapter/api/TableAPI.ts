@@ -1,11 +1,10 @@
 import { TableMapper, type Params } from './mappers/table/TableMapper'
-import type { Table } from '@domain/entities/table/Table'
-import { TableError } from '@domain/entities/table/TableError'
+import type { Table } from '@domain/engine/table/Table'
 import type { Params as SpisParams } from '@adapter/spi'
-import { Api } from './Api'
-import type { Table as TableConfig } from './configs/table/Table'
+import { Base } from './base'
+import type { Table as Config } from './configs/table/Table'
 
-export class TableApi extends Api<TableConfig, TableError, Table, Params> {
+export class TableApi extends Base<Config, Table, Params> {
   constructor(params: SpisParams) {
     super(params, TableMapper, 'table')
   }

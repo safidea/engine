@@ -2,7 +2,6 @@ import type { Drivers } from '@adapter/spi'
 import { client } from '@infrastructure/client/ui'
 import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'
-import type { Params as SchemaValidatorParams } from '@domain/services/SchemaValidator'
 import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as QueueParams } from '@domain/services/Queue'
 import type { Params as MailerParams } from '@domain/services/Mailer'
@@ -18,7 +17,7 @@ import { MailerDriver } from './MailerDriver'
 import { TemplateCompilerDriver } from './TemplateCompilerDriver'
 
 export const drivers: Drivers = {
-  schemaValidator: (params: SchemaValidatorParams) => new SchemaValidatorDriver(params),
+  schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),
   server: (params: ServerParams) => new ServerDriver(params),
   logger: (params: LoggerParams) => new LoggerDriver(params),

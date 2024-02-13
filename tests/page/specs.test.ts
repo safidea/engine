@@ -24,17 +24,15 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
-    const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_TITLE_NOT_FOUND')
-    if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe('Title invalid')
-      expect(data.received).toBe('Title')
-    }
+    const [{ expected, received, code }] = errors
+    expect(code).toBe('TITLE_NOT_FOUND')
+    expect(expected).toBe('Title invalid')
+    expect(received).toBe('Title')
   })
 
   test('should find a page title', async () => {
@@ -59,8 +57,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -92,16 +90,14 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
-    const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
-    if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe('invalid')
-    }
+    const [{ expected, code }] = errors
+    expect(code).toBe('TEXT_NOT_FOUND')
+    expect(expected).toBe('invalid')
   })
 
   test('should find a text', async () => {
@@ -130,8 +126,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -163,16 +159,14 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
-    const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_TEXT_NOT_FOUND')
-    if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe('valid')
-    }
+    const [{ expected, code }] = errors
+    expect(code).toBe('TEXT_NOT_FOUND')
+    expect(expected).toBe('valid')
   })
 
   test('should find a text in a specific tag', async () => {
@@ -201,8 +195,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -235,16 +229,14 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
-    const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_ATTRIBUTE_NOT_FOUND')
-    if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe('/')
-    }
+    const [{ expected, code }] = errors
+    expect(code).toBe('ATTRIBUTE_NOT_FOUND')
+    expect(expected).toBe('/')
   })
 
   test('should find a text of an attribute in a specific tag', async () => {
@@ -274,8 +266,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -318,17 +310,15 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
-    const [{ data, code }] = errors
-    expect(code).toBe('SPEC_ERROR_INPUT_NOT_FOUND')
-    if (data && 'feature' in data && 'expected' in data) {
-      expect(data.expected).toBe('doe')
-      expect(data.received).toBe('john')
-    }
+    const [{ expected, received, code }] = errors
+    expect(code).toBe('INPUT_NOT_FOUND')
+    expect(expected).toBe('doe')
+    expect(received).toBe('john')
   })
 
   test('should find an input with a specific value', async () => {
@@ -368,8 +358,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature(config)
-    const errors = await feature.test()
+    const feature = new Feature()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -430,10 +420,10 @@ test.describe('Pages specs', () => {
         },
       ],
     }
-    const feature = new Feature(config)
+    const feature = new Feature()
 
     // WHEN
-    const errors = await feature.test()
+    const errors = await feature.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

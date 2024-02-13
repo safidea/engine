@@ -1,9 +1,8 @@
 import fs from 'fs-extra'
 import { capitalize, exec, log } from '../helpers'
+import { schemas } from '@domain/schemas'
 
 log(`Start building schemas...`)
-
-const schemas = ['app', 'feature', 'page', 'spec', 'table', 'automation']
 
 await fs.ensureDir('schemas')
 await fs.emptyDir('schemas')
