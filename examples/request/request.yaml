@@ -320,17 +320,18 @@ features:
             type: SingleLineText
           - name: message
             type: SingleLineText
-    #automations:
-    #  - name: send-confirmation-email
-    #    trigger: 
-    #      event: record-created
-    #      table: leads
-    #    actions: 
-    #      - name: send-confirmation-email
-    #        action: send-email
-    #        from: 'noreply@solumy.com'
-    #        to: '{{trigger.email}}'
-    #        subject: *ContactPageFormEmailSubject
-    #        body: *ContactPageFormEmailBody
+    automations:
+      - name: send-confirmation-email
+        trigger: 
+          event: RecordCreated
+          table: leads
+        actions: 
+          - name: send-confirmation-email
+            action: SendEmail
+            from: 'noreply@solumy.com'
+            to: '{{ trigger.email }}'
+            subject: *ContactPageFormEmailSubject
+            text: *ContactPageFormEmailBody
+            html: *ContactPageFormEmailBody
 server: 
   port: 3000
