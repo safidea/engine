@@ -7,6 +7,23 @@ export interface Params {
   logger: Logger
 }
 
+export type State =
+  | 'retry'
+  | 'created'
+  | 'active'
+  | 'completed'
+  | 'expired'
+  | 'cancelled'
+  | 'failed'
+  | 'archive'
+
+export interface WaitForParams {
+  id?: string
+  name?: string
+  state: State
+  timeout?: number
+}
+
 export interface Spi {
   params: Params
   onError: (callback: (error: Error) => void) => void
@@ -14,9 +31,10 @@ export interface Spi {
   stop: () => Promise<void>
   add: <D extends object>(job: string, data: D, options?: { retry: number }) => Promise<string>
   job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
-  get: (id: string) => Promise<Job | undefined>
-  wait: (id: string) => Promise<void>
-  waitForAll: (job: string) => Promise<void>
+  getById: (id: string) => Promise<Job | undefined>
+  getByName: (name: string) => Promise<Job | undefined>
+  waitFor: (params: WaitForParams) => Promise<Job | undefined>
+  waitForAllCompleted: (job: string) => Promise<void>
 }
 
 export class Queue {
@@ -72,19 +90,23 @@ export class Queue {
     })
   }
 
-  get = async (id: string) => {
-    return this.spi.get(id)
+  getById = async (id: string) => {
+    return this.spi.getById(id)
   }
 
-  wait = async (id: string) => {
+  getByName = async (name: string) => {
+    return this.spi.getByName(name)
+  }
+
+  waitFor = async (params: WaitForParams) => {
     const { logger } = this.spi.params
-    logger.log(`waiting for job "${id}"...`)
-    return this.spi.wait(id)
+    logger.log(`waiting for job "${params.id ?? params.name}"...`)
+    return this.spi.waitFor(params)
   }
 
-  waitForAll = async (job: string) => {
+  waitForAllCompleted = async (job: string) => {
     const { logger } = this.spi.params
     logger.log(`waiting for all jobs "${job}"...`)
-    return this.spi.waitForAll(job)
+    return this.spi.waitForAllCompleted(job)
   }
 }

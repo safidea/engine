@@ -55,13 +55,13 @@
         "Field": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/DateTime"
-                },
-                {
                     "$ref": "#/definitions/Email"
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/DateTime"
                 }
             ]
         },

@@ -4,9 +4,6 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Click"
-                },
-                {
                     "$ref": "#/definitions/Fill"
                 },
                 {
@@ -16,10 +13,13 @@
                     "$ref": "#/definitions/Post"
                 },
                 {
-                    "$ref": "#/definitions/WaitForAutomation"
+                    "$ref": "#/definitions/Click"
                 },
                 {
                     "$ref": "#/definitions/WaitForText"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
                 }
             ]
         },
@@ -316,15 +316,6 @@
         "Result": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -332,6 +323,15 @@
                 },
                 {
                     "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
                 }
             ]
         },

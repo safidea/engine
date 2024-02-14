@@ -26,6 +26,6 @@ export class WaitForAutomation extends BaseWithApp {
         )
       }, 5000)
     })
-    await Promise.race([app.queue?.waitForAll(waitForAutomation), timeoutPromise])
+    await Promise.race([app.queue?.waitForAllCompleted(waitForAutomation), timeoutPromise])
   }
 }

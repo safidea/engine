@@ -1,5 +1,5 @@
 import type { Driver } from '@adapter/spi/QueueSpi'
-import type { Params } from '@domain/services/Queue'
+import type { Params, WaitForParams } from '@domain/services/Queue'
 import SQLite from 'better-sqlite3'
 import PgBoss from 'pg-boss'
 import { v4 as uuidv4 } from 'uuid'
@@ -53,7 +53,7 @@ export class QueueDriver implements Driver {
     })
   }
 
-  get = async (id: string) => {
+  getById = async (id: string) => {
     const job = await this.boss.getJobById(id)
     if (!job) return undefined
     return {
@@ -65,23 +65,37 @@ export class QueueDriver implements Driver {
     }
   }
 
-  wait = async (id: string) => {
-    await new Promise((resolve) => {
+  getByName = async (jobName: string) => {
+    const job = await this.boss.fetch(jobName)
+    if (!job) return undefined
+    return this.getById(job.id)
+  }
+
+  waitFor = async ({ id, name, state, timeout = 5000 }: WaitForParams) => {
+    const timeoutPromise = new Promise<undefined>((resolve) =>
+      setTimeout(() => resolve(undefined), timeout)
+    )
+    const waiterPromise = new Promise<JobDto>((resolve) => {
       const interval = setInterval(async () => {
-        const job = await this.boss.getJobById(id)
-        if (!job) throw new Error('Job not found')
-        if (job.state !== 'created' && job.state !== 'active') {
+        let job: JobDto | undefined
+        if (id) {
+          job = await this.getById(id)
+        } else if (name) {
+          job = await this.getByName(name)
+        }
+        if (job && job.state === state) {
           clearInterval(interval)
-          resolve(true)
+          resolve(job)
         }
       }, 500)
     })
+    return Promise.race([waiterPromise, timeoutPromise])
   }
 
-  waitForAll = async (jobName: string) => {
+  waitForAllCompleted = async (name: string) => {
     let isCompleted = false
     while (!isCompleted) {
-      const job = await this.boss.fetch(jobName)
+      const job = await this.boss.fetch(name)
       if (!job) {
         isCompleted = true
       } else {

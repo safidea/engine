@@ -4,9 +4,6 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Click"
-                },
-                {
                     "$ref": "#/definitions/Fill"
                 },
                 {
@@ -16,10 +13,13 @@
                     "$ref": "#/definitions/Post"
                 },
                 {
-                    "$ref": "#/definitions/WaitForAutomation"
+                    "$ref": "#/definitions/Click"
                 },
                 {
                     "$ref": "#/definitions/WaitForText"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
                 }
             ]
         },
@@ -233,13 +233,13 @@
         "Component": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
                     "$ref": "#/definitions/Button"
                 },
                 {
                     "$ref": "#/definitions/Form"
-                },
-                {
-                    "$ref": "#/definitions/Paragraph"
                 },
                 {
                     "$ref": "#/definitions/Cta"
@@ -443,13 +443,13 @@
         "Field": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/DateTime"
-                },
-                {
                     "$ref": "#/definitions/Email_1"
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/DateTime"
                 }
             ]
         },
@@ -987,15 +987,6 @@
         "Result": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -1003,6 +994,15 @@
                 },
                 {
                     "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
                 }
             ]
         },

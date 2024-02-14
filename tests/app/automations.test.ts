@@ -52,8 +52,7 @@ test.describe('App with automations', () => {
     // THEN
     expect(res.ok()).toBeTruthy()
     const { id } = await res.json()
-    await queue.wait(id)
-    const job = await queue.get(id)
+    const job = await queue.waitFor({ id, state: 'completed' })
     expect(job).toBeDefined()
     expect(job?.state).toBe('completed')
   })
@@ -105,7 +104,7 @@ test.describe('App with automations', () => {
     // THEN
     expect(res.ok()).toBeTruthy()
     const { id } = await res.json()
-    await queue.wait(id)
+    await queue.waitFor({ id, state: 'completed' })
     const email = await mailer.find([{ field: 'subject', operator: '=', value: 'New lead' }])
     expect(email).toBeDefined()
     expect(email?.to).toBe('test@test.com')

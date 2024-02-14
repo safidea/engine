@@ -1,4 +1,4 @@
-import type { Params, Spi } from '@domain/services/Queue'
+import type { Params, Spi, WaitForParams } from '@domain/services/Queue'
 import type { JobDto } from './dtos/JobDto'
 import { JobMapper } from './mappers/JobMapper'
 
@@ -9,9 +9,10 @@ export interface Driver {
   stop: () => Promise<void>
   add: <D extends object>(job: string, data: D, options?: { retry: number }) => Promise<string>
   job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
-  get: (id: string) => Promise<JobDto | undefined>
-  wait: (id: string) => Promise<void>
-  waitForAll: (job: string) => Promise<void>
+  getById: (id: string) => Promise<JobDto | undefined>
+  getByName: (name: string) => Promise<JobDto | undefined>
+  waitFor: (params: WaitForParams) => Promise<JobDto | undefined>
+  waitForAllCompleted: (name: string) => Promise<void>
 }
 
 export class QueueSpi implements Spi {
@@ -21,8 +22,14 @@ export class QueueSpi implements Spi {
     return this.driver.params
   }
 
-  get = async (id: string) => {
-    const jboDto = await this.driver.get(id)
+  getById = async (id: string) => {
+    const jboDto = await this.driver.getById(id)
+    if (!jboDto) return undefined
+    return JobMapper.toEntity(jboDto)
+  }
+
+  getByName = async (name: string) => {
+    const jboDto = await this.driver.getByName(name)
     if (!jboDto) return undefined
     return JobMapper.toEntity(jboDto)
   }
@@ -47,11 +54,13 @@ export class QueueSpi implements Spi {
     return this.driver.job(job, callback)
   }
 
-  wait = async (id: string) => {
-    return this.driver.wait(id)
+  waitFor = async (params: WaitForParams) => {
+    const jboDto = await this.driver.waitFor(params)
+    if (!jboDto) return undefined
+    return JobMapper.toEntity(jboDto)
   }
 
-  waitForAll = async (job: string) => {
-    return this.driver.waitForAll(job)
+  waitForAllCompleted = async (job: string) => {
+    return this.driver.waitForAllCompleted(job)
   }
 }

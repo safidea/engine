@@ -251,13 +251,15 @@ features:
           - text: *ContactPageFormSuccessMessage
             tag: p
           - table: leads
-            findOne: 
+            find: 
               - field: email
                 operator: is
                 value: test@test.com
           - mailbox: test@test.com
-            findOne: 
-              subject: *ContactPageFormEmailSubject
+            find: 
+              - field: 'subject'
+                operator: is
+                value: *ContactPageFormEmailSubject
     pages:
       - name: get-started
         path: /get-started
