@@ -5,8 +5,9 @@ import { Text } from '@domain/engine/spec/result/Text'
 import { InputText } from '@domain/engine/spec/result/InputText'
 import { Record } from '@domain/engine/spec/result/Record'
 import type { BaseParams as ResultParams } from '@domain/engine/spec/result/base'
-import { DatabaseFilterMapper } from '@adapter/spi/mappers/DatabaseFilterMapper'
+import { FilterMapper } from '@adapter/spi/mappers/FilterMapper'
 import { Attribute } from '@domain/engine/spec/result/Attribute'
+import { Email } from '@domain/engine/spec/result/Email'
 
 export class ResultMapper {
   static toEntity = (config: ResultConfig, params: ResultParams): Result => {
@@ -19,12 +20,16 @@ export class ResultMapper {
     if ('input' in config) {
       return new InputText({ ...config, ...params })
     }
-    if ('table' in config) {
-      const find = config.findOne.map((filter) => DatabaseFilterMapper.toEntityFromConfig(filter))
-      return new Record({ ...config, ...params, find })
-    }
     if ('attribute' in config) {
       return new Attribute({ ...config, ...params })
+    }
+    if ('table' in config) {
+      const find = config.find.map((filter) => FilterMapper.toEntityFromConfig(filter))
+      return new Record({ ...config, ...params, find })
+    }
+    if ('mailbox' in config) {
+      const find = config.find.map((filter) => FilterMapper.toEntityFromConfig(filter))
+      return new Email({ ...config, ...params, find })
     }
     throw new Error('Unknown result type')
   }

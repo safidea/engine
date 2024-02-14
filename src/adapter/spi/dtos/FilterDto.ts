@@ -12,4 +12,4 @@ type In = Base & {
   value: string[]
 }
 
-export type DatabaseFilterDto = Equal | In
+export type FilterDto = Equal | In

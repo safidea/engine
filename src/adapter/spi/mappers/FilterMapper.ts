@@ -1,11 +1,11 @@
 import type { Filter } from '@domain/entities/filter'
-import type { DatabaseFilterDto } from '../dtos/DatabaseFilterDto'
+import type { FilterDto } from '../dtos/FilterDto'
 import { IsAnyOf } from '@domain/entities/filter/IsAnyOf'
 import { Is } from '@domain/entities/filter/Is'
 import { type Filter as FilterConfig } from '@adapter/api/configs/filter'
 
-export class DatabaseFilterMapper {
-  static toEntity = (dto: DatabaseFilterDto): Filter => {
+export class FilterMapper {
+  static toEntity = (dto: FilterDto): Filter => {
     switch (dto.operator) {
       case 'in':
         return new IsAnyOf(dto)
@@ -14,7 +14,7 @@ export class DatabaseFilterMapper {
     }
   }
 
-  static toManyEntities = (dtos: DatabaseFilterDto[]): Filter[] => {
+  static toManyEntities = (dtos: FilterDto[]): Filter[] => {
     return dtos.map(this.toEntity)
   }
 
@@ -31,7 +31,7 @@ export class DatabaseFilterMapper {
     return filters.map(this.toEntityFromConfig)
   }
 
-  static toDto = (filter: Filter): DatabaseFilterDto => {
+  static toDto = (filter: Filter): FilterDto => {
     if (filter instanceof IsAnyOf) {
       return {
         ...filter,
@@ -47,7 +47,7 @@ export class DatabaseFilterMapper {
     throw new Error('Filter not supported')
   }
 
-  static toManyDtos = (filters: Filter[]): DatabaseFilterDto[] => {
+  static toManyDtos = (filters: Filter[]): FilterDto[] => {
     return filters.map(this.toDto)
   }
 }

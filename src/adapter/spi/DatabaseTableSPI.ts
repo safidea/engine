@@ -1,9 +1,9 @@
 import type { ToCreate } from '@domain/entities/record/ToCreate'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
-import { DatabaseFilterMapper } from './mappers/DatabaseFilterMapper'
+import { FilterMapper } from './mappers/FilterMapper'
 import type { Filter } from '@domain/entities/filter'
-import type { DatabaseTableFieldDto } from './dtos/DatabaseTableFieldDto'
-import type { DatabaseFilterDto } from './dtos/DatabaseFilterDto'
+import type { FieldDto } from './dtos/FieldDto'
+import type { FilterDto } from './dtos/FilterDto'
 import type { Spi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
 import type { Field } from '@domain/engine/table/field'
@@ -11,14 +11,14 @@ import { FieldMapper } from './mappers/FieldMapper'
 
 export interface Driver {
   exists: () => Promise<boolean>
-  create: (columns: DatabaseTableFieldDto[]) => Promise<void>
+  create: (columns: FieldDto[]) => Promise<void>
   fieldExists: (name: string) => Promise<boolean>
-  addField: (column: DatabaseTableFieldDto) => Promise<void>
-  alterField: (column: DatabaseTableFieldDto) => Promise<void>
+  addField: (column: FieldDto) => Promise<void>
+  alterField: (column: FieldDto) => Promise<void>
   dropField: (name: string) => Promise<void>
   drop: () => Promise<void>
   insert: (record: ToCreateDto) => Promise<PersistedDto>
-  read: (filters: DatabaseFilterDto[]) => Promise<PersistedDto | undefined>
+  read: (filters: FilterDto[]) => Promise<PersistedDto | undefined>
 }
 
 export class DatabaseTableSpi implements Spi {
@@ -31,7 +31,7 @@ export class DatabaseTableSpi implements Spi {
   }
 
   read = async (filters: Filter[]) => {
-    const filterDtos = DatabaseFilterMapper.toManyDtos(filters)
+    const filterDtos = FilterMapper.toManyDtos(filters)
     const persistedRecordDto = await this.driver.read(filterDtos)
     if (!persistedRecordDto) return undefined
     return RecordMapper.toPersistedEntity(persistedRecordDto)

@@ -7,6 +7,7 @@ import type { Page } from './page/Page'
 import type { Automation } from './automation/Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { ConfigError } from '@domain/entities/error/Config'
+import type { Mailer } from '@domain/services/Mailer'
 
 interface Params {
   name: string
@@ -17,6 +18,7 @@ interface Params {
   server: Server
   database?: Database
   queue?: Queue
+  mailer?: Mailer
 }
 
 export class App implements Base {
@@ -36,9 +38,10 @@ export class App implements Base {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    const { server, database, queue } = this.params
+    const { server, database, queue, mailer } = this.params
     if (database) await database.migrate(this.params.tables)
     if (queue) await queue.start()
+    if (mailer) await mailer.verify()
     const url = await server.start()
     if (!isTest) {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
@@ -48,10 +51,11 @@ export class App implements Base {
   }
 
   stop = async (): Promise<void> => {
-    const { server, database, queue } = this.params
+    const { server, database, queue, mailer } = this.params
     await server.stop(async () => {
       if (database) await database.disconnect()
       if (queue) await queue.stop()
+      if (mailer) await mailer.close()
     })
   }
 
@@ -65,6 +69,10 @@ export class App implements Base {
 
   get queue() {
     return this.params.queue
+  }
+
+  get mailer() {
+    return this.params.mailer
   }
 
   private onClose = async (signal: 'SIGTERM' | 'SIGINT') => {

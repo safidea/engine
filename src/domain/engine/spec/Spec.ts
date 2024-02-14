@@ -9,6 +9,7 @@ import { BaseWithRequest as ActionWithRequest, BaseWithPage as ActionWithPage } 
 import {
   BaseWithPage as ResultWithPage,
   BaseWithDatabase as ResultWithDatabase,
+  BaseWithMailer as ResultWithMailer,
 } from './result/base'
 import type { App } from '../App'
 import { TestError } from '@domain/entities/error/Test'
@@ -45,7 +46,7 @@ export class Spec implements Base {
       ) {
         if (when.find((action) => action instanceof Open)) {
           browser = newBrowser()
-          page = await browser.launch({ baseUrl })
+          page = await browser.launch(baseUrl)
         } else {
           throw new TestError({
             code: 'OPEN_ACTION_REQUIRED',
@@ -57,6 +58,9 @@ export class Spec implements Base {
       if (then.find((result) => result instanceof ResultWithDatabase)) {
         if (!app.database)
           throw new TestError({ code: 'DATABASE_REQUIRED', feature, spec: this.name })
+      }
+      if (then.find((result) => result instanceof ResultWithMailer)) {
+        if (!app.mailer) throw new TestError({ code: 'MAILER_REQUIRED', feature, spec: this.name })
       }
       for (const action of when) {
         if (action instanceof ActionWithPage) {
@@ -70,8 +74,10 @@ export class Spec implements Base {
       for (const result of then) {
         if (result instanceof ResultWithPage) {
           if (page) await result.executeWithPage(page)
-        } else {
+        } else if (result instanceof ResultWithDatabase) {
           if (app.database) await result.executeWithDatabase(app.database)
+        } else if (result instanceof ResultWithMailer) {
+          if (app.mailer) await result.executeWithMailer(app.mailer)
         }
       }
       if (browser) await browser.close()

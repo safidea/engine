@@ -5,6 +5,7 @@ import PgBoss from 'pg-boss'
 import { v4 as uuidv4 } from 'uuid'
 import { EventEmitter } from 'events'
 import type { JobDto } from '@adapter/spi/dtos/JobDto'
+import { Kysely, SqliteDialect } from 'kysely'
 
 export class QueueDriver implements Driver {
   private boss: PgBoss | SqliteBoss
@@ -90,13 +91,28 @@ export class QueueDriver implements Driver {
   }
 }
 
+interface SqliteBossTable {
+  id: string
+  name: string
+  data: string
+  state: JobDto['state']
+  retrycount: number
+}
+
+interface SqliteBossSchema {
+  _jobs: SqliteBossTable
+}
+
 class SqliteBoss {
-  private db: SQLite.Database
+  private db: Kysely<SqliteBossSchema>
   private intervalsQueues: Timer[] = []
   private emitter: EventEmitter
 
   constructor(url: string) {
-    this.db = new SQLite(url, { fileMustExist: true })
+    const dialect = new SqliteDialect({
+      database: new SQLite(url),
+    })
+    this.db = new Kysely<SqliteBossSchema>({ dialect })
     this.emitter = new EventEmitter()
   }
 
@@ -105,25 +121,21 @@ class SqliteBoss {
   }
 
   start = async (): Promise<void> => {
-    this.db
-      .prepare(
-        `CREATE TABLE IF NOT EXISTS _jobs (
-            id TEXT PRIMARY KEY,
-            name TEXT,
-            data TEXT,
-            state TEXT,
-            retrycount INTEGER
-        )`
-      )
-      .run()
+    await this.db.schema
+      .createTable('_jobs')
+      .ifNotExists()
+      .addColumn('id', 'text', (col) => col.primaryKey())
+      .addColumn('name', 'text')
+      .addColumn('data', 'text')
+      .addColumn('state', 'text')
+      .addColumn('retrycount', 'integer')
+      .execute()
   }
 
   stop = async (): Promise<void> => {
     this.intervalsQueues.forEach((interval) => clearInterval(interval))
-    this.db.close()
-    setTimeout(() => {
-      this.emitter.emit('stopped')
-    }, 100)
+    await this.db.destroy()
+    setTimeout(() => this.emitter.emit('stopped'), 100)
   }
 
   send = async <D extends object>(
@@ -133,35 +145,67 @@ class SqliteBoss {
   ): Promise<string> => {
     const { retryLimit = 0 } = option || {}
     const id = uuidv4()
-    this.db
-      .prepare(`INSERT INTO _jobs (id, name, data, state, retrycount) VALUES (?, ?, ?, ?, ?)`)
-      .run(id, job, JSON.stringify(data), 'created', retryLimit)
+    await this.db
+      .insertInto('_jobs')
+      .values({
+        id,
+        name: job,
+        data: JSON.stringify(data),
+        state: 'created',
+        retrycount: retryLimit,
+      })
+      .execute()
     return id
   }
 
   work = <D>(jobName: string, callback: (job: PgBoss.Job<D>) => Promise<void>): void => {
-    const getJob = this.db.prepare(
-      'SELECT * FROM _jobs WHERE name = ? AND (state = ? OR state = ?) LIMIT 1'
-    )
-    const updateJobStatus = this.db.prepare(
-      'UPDATE _jobs SET state = ?, retrycount = ? WHERE id = ?'
-    )
     const interval = setInterval(async () => {
-      const job = getJob.get(jobName, 'created', 'retry') as JobDto & {
-        retrycount: number
-        data: string
-      }
+      const job = await this.db
+        .selectFrom('_jobs')
+        .selectAll()
+        .where('name', '=', jobName)
+        .where('state', 'in', ['created', 'retry'])
+        .limit(1)
+        .executeTakeFirst()
       if (job) {
         try {
-          updateJobStatus.run('active', job.retrycount, job.id)
+          await this.db
+            .updateTable('_jobs')
+            .set({
+              state: 'active',
+              retrycount: job.retrycount,
+            })
+            .where('id', '=', job.id)
+            .execute()
           const data = JSON.parse(job.data)
           await callback({ id: job.id, name: job.name, data })
-          updateJobStatus.run('completed', 0, job.id)
+          await this.db
+            .updateTable('_jobs')
+            .set({
+              state: 'completed',
+              retrycount: 0,
+            })
+            .where('id', '=', job.id)
+            .execute()
         } catch (error) {
           if (job.retrycount > 0) {
-            updateJobStatus.run('retry', job.retrycount - 1, job.id)
+            await this.db
+              .updateTable('_jobs')
+              .set({
+                state: 'retry',
+                retrycount: job.retrycount - 1,
+              })
+              .where('id', '=', job.id)
+              .execute()
           } else {
-            updateJobStatus.run('failed', 0, job.id)
+            await this.db
+              .updateTable('_jobs')
+              .set({
+                state: 'failed',
+                retrycount: 0,
+              })
+              .where('id', '=', job.id)
+              .execute()
           }
         }
       }
@@ -170,16 +214,21 @@ class SqliteBoss {
   }
 
   getJobById = async (id: string) => {
-    const job = await this.db.prepare('SELECT * FROM _jobs WHERE id = ?').get(id)
-    return job as JobDto & { retrycount: number }
+    const job = await this.db
+      .selectFrom('_jobs')
+      .selectAll()
+      .where('id', '=', id)
+      .executeTakeFirst()
+    return job
   }
 
   fetch = async (jobName: string) => {
     const job = await this.db
-      .prepare(
-        'SELECT * FROM _jobs WHERE name = ? AND (state = ? OR state = ? OR state = ?) LIMIT 1'
-      )
-      .get(jobName, 'created', 'retry', 'active')
-    return job as JobDto | null
+      .selectFrom('_jobs')
+      .selectAll()
+      .where('name', '=', jobName)
+      .where('state', 'in', ['created', 'retry', 'active'])
+      .executeTakeFirst()
+    return job
   }
 }

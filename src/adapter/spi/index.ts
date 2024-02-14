@@ -45,7 +45,9 @@ export class Spis implements ISpis {
 
   server = (params: ServerParams) => new ServerSpi(this.params.drivers.server(params))
 
-  idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
+  queue = (params: QueueParams) => new QueueSpi(this.params.drivers.queue(params))
+
+  mailer = (params: MailerParams) => new MailerSpi(this.params.drivers.mailer(params))
 
   logger = (params: LoggerParams) => new LoggerSpi(this.params.drivers.logger(params))
 
@@ -55,9 +57,7 @@ export class Spis implements ISpis {
 
   browser = () => new BrowserSpi(this.params.drivers.browser())
 
-  queue = (params: QueueParams) => new QueueSpi(this.params.drivers.queue(params))
-
-  mailer = (params: MailerParams) => new MailerSpi(this.params.drivers.mailer(params))
+  idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
 
   templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
 }

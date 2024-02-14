@@ -8,6 +8,7 @@ import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Database as DatabaseConfig } from '../../configs/Database'
+import type { Mailer as MailerConfig } from '../../configs/Mailer'
 import type { Automation as AutomationConfig } from '../../configs/automation/Automation'
 import type { Mapper } from '../Mapper'
 import { ActionMapper } from './ActionMapper'
@@ -49,6 +50,13 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
         url: config.database?.url ?? ':memory:',
         db: config.database?.db ?? 'sqlite',
       }
+      const mailerConfig: MailerConfig = {
+        host:
+          config.mailer?.host ?? databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:',
+        port: config.mailer?.port ?? 0,
+        user: config.mailer?.user ?? '_sqlite',
+        pass: config.mailer?.pass ?? '_sqlite',
+      }
       const server = services.server({
         logger: newLogger(`server`),
       })
@@ -56,13 +64,10 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
         logger: newLogger(`queue`),
         ...databaseConfig,
       })
-      let mailer: Mailer | undefined
-      if (config.mailer) {
-        mailer = services.mailer({
-          logger: newLogger(`mailer`),
-          ...config.mailer,
-        })
-      }
+      const mailer = services.mailer({
+        logger: newLogger(`mailer`),
+        ...mailerConfig,
+      })
       const database = services.database({
         logger: newLogger(`database`),
         ...databaseConfig,

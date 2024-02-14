@@ -379,7 +379,7 @@ test.describe('Pages specs', () => {
             { click: 'Submit' },
             { waitForText: successMessage },
           ],
-          then: [{ table: 'leads', findOne: [{ field: 'name', operator: 'is', value: 'john' }] }],
+          then: [{ table: 'leads', find: [{ field: 'name', operator: 'is', value: 'john' }] }],
         },
       ],
       pages: [

@@ -43,7 +43,6 @@
     "handlebars": "^4.7.8",
     "helmet": "^7.1.0",
     "kysely": "^0.27.2",
-    "mailparser": "^3.6.7",
     "nanoid": "^5.0.4",
     "nodemailer": "^6.9.9",
     "pg": "^8.11.3",
@@ -88,7 +87,6 @@
     "js-yaml": "^4.1.0",
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
-    "smtp-server": "^3.13.2",
     "storybook": "^7.6.10",
     "tailwindcss": "^3.4.1",
     "typescript-json-schema": "^0.62.0"

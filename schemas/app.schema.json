@@ -4,6 +4,9 @@
         "Action": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/Click"
+                },
+                {
                     "$ref": "#/definitions/Fill"
                 },
                 {
@@ -13,13 +16,10 @@
                     "$ref": "#/definitions/Post"
                 },
                 {
-                    "$ref": "#/definitions/Click"
+                    "$ref": "#/definitions/WaitForAutomation"
                 },
                 {
                     "$ref": "#/definitions/WaitForText"
-                },
-                {
-                    "$ref": "#/definitions/WaitForAutomation"
                 }
             ]
         },
@@ -233,13 +233,13 @@
         "Component": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                {
                     "$ref": "#/definitions/Button"
                 },
                 {
                     "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 {
                     "$ref": "#/definitions/Cta"
@@ -365,23 +365,18 @@
         },
         "Email": {
             "properties": {
-                "findOne": {
-                    "properties": {
-                        "subject": {
-                            "type": "string"
-                        }
+                "find": {
+                    "items": {
+                        "$ref": "#/definitions/Filter"
                     },
-                    "required": [
-                        "subject"
-                    ],
-                    "type": "object"
+                    "type": "array"
                 },
                 "mailbox": {
                     "type": "string"
                 }
             },
             "required": [
-                "findOne",
+                "find",
                 "mailbox"
             ],
             "type": "object"
@@ -448,13 +443,13 @@
         "Field": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/DateTime"
+                },
+                {
                     "$ref": "#/definitions/Email_1"
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
-                },
-                {
-                    "$ref": "#/definitions/DateTime"
                 }
             ]
         },
@@ -957,7 +952,7 @@
         },
         "Record": {
             "properties": {
-                "findOne": {
+                "find": {
                     "items": {
                         "$ref": "#/definitions/Filter"
                     },
@@ -968,7 +963,7 @@
                 }
             },
             "required": [
-                "findOne",
+                "find",
                 "table"
             ],
             "type": "object"
@@ -992,6 +987,15 @@
         "Result": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -999,15 +1003,6 @@
                 },
                 {
                     "$ref": "#/definitions/Title"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
                 }
             ]
         },

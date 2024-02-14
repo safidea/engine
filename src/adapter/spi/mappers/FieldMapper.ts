@@ -1,11 +1,11 @@
 import type { Field } from '@domain/engine/table/field'
-import type { DatabaseTableFieldDto } from '../dtos/DatabaseTableFieldDto'
+import type { FieldDto } from '../dtos/FieldDto'
 import { Email } from '@domain/engine/table/field/Email'
 import { SingleLineText } from '@domain/engine/table/field/SingleLineText'
 import { DateTime } from '@domain/engine/table/field/DateTime'
 
 export class FieldMapper {
-  static toDto = (field: Field): DatabaseTableFieldDto => {
+  static toDto = (field: Field): FieldDto => {
     if (field instanceof Email || field instanceof SingleLineText) {
       return {
         name: field.name,
@@ -21,7 +21,7 @@ export class FieldMapper {
     throw new Error('Field type not supported')
   }
 
-  static toManyDto = (fields: Field[]): DatabaseTableFieldDto[] => {
+  static toManyDto = (fields: Field[]): FieldDto[] => {
     return fields.map(FieldMapper.toDto)
   }
 }

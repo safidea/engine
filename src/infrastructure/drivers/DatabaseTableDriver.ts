@@ -1,6 +1,6 @@
 import type { Driver } from '@adapter/spi/DatabaseTableSpi'
-import type { DatabaseFilterDto } from '@adapter/spi/dtos/DatabaseFilterDto'
-import type { DatabaseTableFieldDto } from '@adapter/spi/dtos/DatabaseTableFieldDto'
+import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
+import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { PersistedDto, ToCreateDto } from '@adapter/spi/dtos/RecordDto'
 import { sql, Kysely } from 'kysely'
 
@@ -39,7 +39,7 @@ export class DatabaseTableDriver implements Driver {
     throw new Error(`Database ${this.db} not supported`)
   }
 
-  create = async (fields: DatabaseTableFieldDto[]) => {
+  create = async (fields: FieldDto[]) => {
     let query = this.kysely.schema.createTable(this.name)
     fields.forEach(({ name, type }) => {
       query = query.addColumn(name, type)
@@ -68,11 +68,11 @@ export class DatabaseTableDriver implements Driver {
     throw new Error(`Database ${this.db} not supported`)
   }
 
-  addField = async (field: DatabaseTableFieldDto) => {
+  addField = async (field: FieldDto) => {
     await this.kysely.schema.alterTable(this.name).addColumn(field.name, field.type).execute()
   }
 
-  alterField = async (field: DatabaseTableFieldDto) => {
+  alterField = async (field: FieldDto) => {
     await sql`
       ALTER TABLE ${this.name}
       ALTER COLUMN ${field.name}}
@@ -113,7 +113,7 @@ export class DatabaseTableDriver implements Driver {
     return persistedRecord as PersistedDto
   }
 
-  read = async (filters: DatabaseFilterDto[]): Promise<PersistedDto | undefined> => {
+  read = async (filters: FilterDto[]): Promise<PersistedDto | undefined> => {
     let query = this.kysely.selectFrom(this.name).selectAll()
     for (const filter of filters) {
       query = query.where(filter.field, filter.operator, filter.value)

@@ -1,6 +1,6 @@
+import type { Filter } from '../../filter'
+
 export interface Email {
   mailbox: string
-  findOne: {
-    subject: string
-  }
+  find: Filter[]
 }

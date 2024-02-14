@@ -14,6 +14,7 @@ import type { Logger } from '@domain/services/Logger'
 import type { Automation } from '@domain/engine/automation/Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { Database as DatabaseConfig } from '../configs/Database'
+import type { Mailer as MailerConfig } from '../configs/Mailer'
 import type { Mailer } from '@domain/services/Mailer'
 
 export interface Params {
@@ -24,6 +25,7 @@ export interface Params {
   server: Server
   database?: Database
   queue?: Queue
+  mailer?: Mailer
 }
 
 interface Private {
@@ -33,7 +35,7 @@ interface Private {
 export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
-    const { server, newLogger, database, queue } = params
+    const { server, newLogger, database, queue, mailer } = params
     const tables: Table[] = []
     const pages: Page[] = []
     const automations: Automation[] = []
@@ -84,6 +86,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       logger,
       database,
       queue,
+      mailer,
     })
   }
 
@@ -111,6 +114,12 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       url: config.database?.url ?? ':memory:',
       db: config.database?.db ?? 'sqlite',
     }
+    const mailerConfig: MailerConfig = {
+      host: config.mailer?.host ?? databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:',
+      port: config.mailer?.port ?? 0,
+      user: config.mailer?.user ?? '_sqlite',
+      pass: config.mailer?.pass ?? '_sqlite',
+    }
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
       database = services.database({
         logger: services.logger({ location: `database` }),
@@ -132,16 +141,14 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         logger: services.logger({ location: `queue` }),
         ...databaseConfig,
       })
-      if (config.mailer) {
-        mailer = services.mailer({
-          logger: services.logger({ location: `mailer` }),
-          ...config.mailer,
-        })
-      }
+      mailer = services.mailer({
+        logger: services.logger({ location: `mailer` }),
+        ...mailerConfig,
+      })
       const templateCompiler = services.templateCompiler()
       automation = { newLogger, server, queue, mailer, idGenerator, database, templateCompiler }
     }
-    return this.toEntity(config, { table, page, newLogger, server, database, automation, queue })
+    return this.toEntity(config, { table, page, newLogger, server, database, automation, queue, mailer })
   }
 
   static featureToEntityFromServices = (featureConfig: FeatureConfig, services: Services) => {

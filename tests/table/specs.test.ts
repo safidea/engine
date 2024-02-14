@@ -10,7 +10,7 @@ test.describe('Tables specs', () => {
         {
           name: 'create a row',
           when: [{ post: '/api/table/leads', body: { name: 'Doe' } }],
-          then: [{ table: 'leads', findOne: [{ field: 'name', operator: 'is', value: 'John' }] }],
+          then: [{ table: 'leads', find: [{ field: 'name', operator: 'is', value: 'John' }] }],
         },
       ],
       tables: [
@@ -46,7 +46,7 @@ test.describe('Tables specs', () => {
         {
           name: 'create a row',
           when: [{ post: '/api/table/leads', body: { name: 'John' } }],
-          then: [{ table: 'leads', findOne: [{ field: 'name', operator: 'is', value: 'John' }] }],
+          then: [{ table: 'leads', find: [{ field: 'name', operator: 'is', value: 'John' }] }],
         },
       ],
       tables: [

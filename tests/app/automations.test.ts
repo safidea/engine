@@ -2,15 +2,14 @@ import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
 import Queue from '@utils/tests/queue'
 import Database from '@utils/tests/database'
-import Mailbox from '@utils/tests/mailbox'
+import Mailer from '@utils/tests/mailer'
 
 test.describe('App with automations', () => {
   test('should wait for a job to be completed', async ({ request }) => {
     // GIVEN
     const database = new Database()
     const queue = new Queue(database)
-    const mailbox = new Mailbox()
-    await mailbox.start()
+    const mailer = new Mailer(database)
     const config: Config = {
       name: 'App',
       features: [
@@ -28,7 +27,7 @@ test.describe('App with automations', () => {
                 {
                   name: 'send-email',
                   action: 'SendEmail',
-                  from: mailbox.username,
+                  from: 'noreply@test.com',
                   to: '{{ trigger.body.email }}',
                   subject: 'New lead',
                   text: 'A new lead has been created!',
@@ -40,7 +39,7 @@ test.describe('App with automations', () => {
         },
       ],
       database: database.config,
-      mailer: mailbox.config,
+      mailer: mailer.config,
     }
     const app = new App()
     const url = await app.start(config)
@@ -63,8 +62,7 @@ test.describe('App with automations', () => {
     // GIVEN
     const database = new Database()
     const queue = new Queue(database)
-    const mailbox = new Mailbox()
-    await mailbox.start()
+    const mailer = new Mailer(database)
     const config: Config = {
       name: 'App',
       features: [
@@ -82,7 +80,7 @@ test.describe('App with automations', () => {
                 {
                   name: 'send-email',
                   action: 'SendEmail',
-                  from: mailbox.username,
+                  from: 'noreply@test.com',
                   to: '{{ trigger.body.email }}',
                   subject: 'New lead',
                   text: 'A new lead has been created!',
@@ -94,23 +92,23 @@ test.describe('App with automations', () => {
         },
       ],
       database: database.config,
-      mailer: mailbox.config,
+      mailer: mailer.config,
     }
     const app = new App()
     const url = await app.start(config)
 
     // WHEN
     const res = await request.post(`${url}/api/automation/send-email`, {
-      data: { email: mailbox.username },
+      data: { email: 'test@test.com' },
     })
 
     // THEN
     expect(res.ok()).toBeTruthy()
     const { id } = await res.json()
     await queue.wait(id)
-    const email = await mailbox.getLastEmail()
+    const email = await mailer.find([{ field: 'subject', operator: '=', value: 'New lead' }])
     expect(email).toBeDefined()
-    expect(email?.to).toBe(mailbox.username)
+    expect(email?.to).toBe('test@test.com')
     expect(email?.subject).toBe('New lead')
     expect(email?.text).toBe('A new lead has been created!')
   })
