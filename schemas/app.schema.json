@@ -1339,9 +1339,6 @@
                         },
                         "type": "array"
                     },
-                    "database": {
-                        "$ref": "#/definitions/Database"
-                    },
                     "name": {
                         "type": "string"
                     },
