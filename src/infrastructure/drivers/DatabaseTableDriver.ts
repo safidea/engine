@@ -1,7 +1,7 @@
 import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type { PersistedDto, ToCreateDto } from '@adapter/spi/dtos/RecordDto'
+import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
 import { sql, Kysely } from 'kysely'
 
 export interface Schema {
@@ -113,6 +113,32 @@ export class DatabaseTableDriver implements Driver {
     return persistedRecord as PersistedDto
   }
 
+  update = async (record: ToUpdateDto): Promise<PersistedDto> => {
+    if (this.db === 'sqlite') {
+      for (const key in record) {
+        const value = record[key]
+        if (value instanceof Date) {
+          record[key] = value.getTime()
+        }
+      }
+    }
+    const persistedRecord = await this.kysely
+      .updateTable(this.name)
+      .set(record)
+      .where('id', '=', record.id)
+      .returningAll()
+      .executeTakeFirstOrThrow()
+    if (this.db === 'sqlite') {
+      for (const key in persistedRecord) {
+        const value = persistedRecord[key]
+        if (value instanceof Date) {
+          persistedRecord[key] = new Date(value)
+        }
+      }
+    }
+    return persistedRecord as PersistedDto
+  }
+
   read = async (filters: FilterDto[]): Promise<PersistedDto | undefined> => {
     let query = this.kysely.selectFrom(this.name).selectAll()
     for (const filter of filters) {
@@ -120,5 +146,14 @@ export class DatabaseTableDriver implements Driver {
     }
     const record = await query.executeTakeFirst()
     return record as PersistedDto | undefined
+  }
+
+  list = async (filters: FilterDto[]): Promise<PersistedDto[]> => {
+    let query = this.kysely.selectFrom(this.name).selectAll()
+    for (const filter of filters) {
+      query = query.where(filter.field, filter.operator, filter.value)
+    }
+    const records = await query.execute()
+    return records as PersistedDto[]
   }
 }

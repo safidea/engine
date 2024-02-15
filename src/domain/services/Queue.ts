@@ -1,9 +1,9 @@
 import type { Logger } from './Logger'
 import type { Job } from '../entities/job'
+import type { Database } from './Database'
 
 export interface Params {
-  url: string
-  db: 'sqlite' | 'postgres'
+  database: Database
   logger: Logger
 }
 
@@ -29,8 +29,8 @@ export interface Spi {
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
   stop: () => Promise<void>
-  add: <D extends object>(job: string, data: D, options?: { retry: number }) => Promise<string>
-  job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
+  add: (job: string, data: object, options?: { retry: number }) => Promise<string>
+  job: (job: string, callback: (data: object) => Promise<void>) => void
   getById: (id: string) => Promise<Job | undefined>
   getByName: (name: string) => Promise<Job | undefined>
   waitFor: (params: WaitForParams) => Promise<Job | undefined>
@@ -39,8 +39,8 @@ export interface Spi {
 
 export class Queue {
   private jobs: {
-    job: string
-    callback: <D extends object>(data: D) => Promise<void>
+    name: string
+    callback: (data: object) => Promise<void>
   }[] = []
 
   constructor(private spi: Spi) {}
@@ -56,8 +56,8 @@ export class Queue {
     const { logger } = this.spi.params
     logger.log('starting queue...')
     await this.spi.start()
-    for (const { job, callback } of this.jobs) {
-      this.spi.job(job, callback)
+    for (const { name, callback } of this.jobs) {
+      this.spi.job(name, callback)
     }
     logger.log('queue started')
   }
@@ -78,14 +78,14 @@ export class Queue {
     return this.spi.add(job, data, options)
   }
 
-  job = (job: string, callback: <D extends object>(data: D) => Promise<void>) => {
+  job = (name: string, initCallback: (data: object) => Promise<void>) => {
     const { logger } = this.spi.params
     this.jobs.push({
-      job,
-      callback: async (data) => {
-        logger.log(`job "${job}" started`)
-        await callback(data)
-        logger.log(`job "${job}" finished`)
+      name,
+      callback: async (data: object) => {
+        logger.log(`job "${name}" started`)
+        await initCallback(data)
+        logger.log(`job "${name}" finished`)
       },
     })
   }

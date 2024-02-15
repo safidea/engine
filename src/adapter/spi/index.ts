@@ -11,21 +11,24 @@ import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'
 import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as QueueParams } from '@domain/services/Queue'
+import type { Params as RealtimeParams } from '@domain/services/Realtime'
 import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
 import type { Params as MailerParams } from '@domain/services/Mailer'
 import { MailerSpi, type Driver as MailerDriver } from './MailerSpi'
 import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
+import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
   logger: (params: LoggerParams) => LoggerDriver
   database: (params: DatabaseParams) => DatabaseDriver
+  queue: (params: QueueParams) => QueueDriver
+  mailer: (params: MailerParams) => MailerDriver
+  realtime: (params: RealtimeParams) => RealtimeDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
-  queue: (params: QueueParams) => QueueDriver
-  mailer: (params: MailerParams) => MailerDriver
   templateCompiler: () => TemplateCompilerDriver
 }
 
@@ -50,6 +53,8 @@ export class Spis implements ISpis {
   mailer = (params: MailerParams) => new MailerSpi(this.params.drivers.mailer(params))
 
   logger = (params: LoggerParams) => new LoggerSpi(this.params.drivers.logger(params))
+
+  realtime = (params: RealtimeParams) => new RealtimeSpi(this.params.drivers.realtime(params))
 
   schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
 

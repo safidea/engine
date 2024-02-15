@@ -5,9 +5,10 @@ import type { Filter } from '@domain/entities/filter'
 import type { FieldDto } from './dtos/FieldDto'
 import type { FilterDto } from './dtos/FilterDto'
 import type { Spi } from '@domain/services/DatabaseTable'
-import type { PersistedDto, ToCreateDto } from './dtos/RecordDto'
+import type { PersistedDto, ToCreateDto, ToUpdateDto } from './dtos/RecordDto'
 import type { Field } from '@domain/engine/table/field'
 import { FieldMapper } from './mappers/FieldMapper'
+import type { ToUpdate } from '@domain/entities/record/ToUpdate'
 
 export interface Driver {
   exists: () => Promise<boolean>
@@ -18,7 +19,9 @@ export interface Driver {
   dropField: (name: string) => Promise<void>
   drop: () => Promise<void>
   insert: (record: ToCreateDto) => Promise<PersistedDto>
+  update: (record: ToUpdateDto) => Promise<PersistedDto>
   read: (filters: FilterDto[]) => Promise<PersistedDto | undefined>
+  list: (filters: FilterDto[]) => Promise<PersistedDto[]>
 }
 
 export class DatabaseTableSpi implements Spi {
@@ -30,11 +33,23 @@ export class DatabaseTableSpi implements Spi {
     return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
+  update = async (toUpdateRecord: ToUpdate) => {
+    const toUpdateRecordDto = RecordMapper.toUpdateDto(toUpdateRecord)
+    const persistedRecordDto = await this.driver.update(toUpdateRecordDto)
+    return RecordMapper.toPersistedEntity(persistedRecordDto)
+  }
+
   read = async (filters: Filter[]) => {
     const filterDtos = FilterMapper.toManyDtos(filters)
     const persistedRecordDto = await this.driver.read(filterDtos)
     if (!persistedRecordDto) return undefined
     return RecordMapper.toPersistedEntity(persistedRecordDto)
+  }
+
+  list = async (filters: Filter[]) => {
+    const filterDtos = FilterMapper.toManyDtos(filters)
+    const persistedRecordsDtos = await this.driver.list(filterDtos)
+    return RecordMapper.toManyPersistedEntity(persistedRecordsDtos)
   }
 
   exists = async () => {

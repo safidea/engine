@@ -10,18 +10,20 @@ import { Browser, type Spi as BrowserSpi } from './Browser'
 import { Queue, type Spi as QueueSpi, type Params as QueueParams } from './Queue'
 import { Mailer, type Spi as MailerSpi, type Params as MailerParams } from './Mailer'
 import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCompiler'
+import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
 
 export interface Spis {
   components: ReactComponents
   server: (params: ServerParams) => ServerSpi
   database: (params: DatabaseParams) => DatabaseSpi
   logger: (params: LoggerParams) => LoggerSpi
+  queue: (params: QueueParams) => QueueSpi
+  mailer: (params: MailerParams) => MailerSpi
+  realtime: (params: RealtimeParams) => RealtimeSpi
   idGenerator: () => IdGeneratorSpi
   schemaValidator: () => SchemaValidatorSpi
   ui: () => UiSpi
   browser: () => BrowserSpi
-  queue: (params: QueueParams) => QueueSpi
-  mailer: (params: MailerParams) => MailerSpi
   templateCompiler: () => TemplateCompilerSpi
 }
 
@@ -41,6 +43,8 @@ export class Services {
   database = (params: DatabaseParams) => new Database(this.spis.database(params))
 
   server = (params: ServerParams) => new Server(this.spis.server(params))
+
+  realtime = (params: RealtimeParams) => new Realtime(this.spis.realtime(params))
 
   schemaValidator = () => new SchemaValidator(this.spis.schemaValidator())
 

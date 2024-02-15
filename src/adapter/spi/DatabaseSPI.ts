@@ -5,6 +5,7 @@ export interface Driver {
   params: Params
   disconnect: () => Promise<void>
   table: (name: string) => DatabaseTableDriver
+  exec: (query: string) => Promise<void>
 }
 
 export class DatabaseSpi implements Spi {
@@ -21,5 +22,9 @@ export class DatabaseSpi implements Spi {
 
   disconnect = async () => {
     await this.driver.disconnect()
+  }
+
+  exec = async (query: string) => {
+    return this.driver.exec(query)
   }
 }

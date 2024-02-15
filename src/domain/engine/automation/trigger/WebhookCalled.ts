@@ -1,7 +1,7 @@
 import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import { Json } from '@domain/entities/response/Json'
-import type { Post, Params as PostParams } from '@domain/entities/request/Post'
+import type { Post } from '@domain/entities/request/Post'
 
 interface Params {
   automation: string
@@ -10,8 +10,6 @@ interface Params {
   server: Server
   queue: Queue
 }
-
-export type Result = PostParams
 
 export class WebhookCalled {
   constructor(private params: Params) {
@@ -28,7 +26,7 @@ export class WebhookCalled {
 
   post = async (request: Post) => {
     const { automation, queue } = this.params
-    const result: Result = {
+    const result = {
       path: request.path,
       baseUrl: request.baseUrl,
       body: request.body,

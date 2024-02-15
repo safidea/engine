@@ -8,6 +8,7 @@ import type { Automation } from './automation/Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Mailer } from '@domain/services/Mailer'
+import type { Realtime } from '@domain/services/Realtime'
 
 interface Params {
   name: string
@@ -19,6 +20,7 @@ interface Params {
   database?: Database
   queue?: Queue
   mailer?: Mailer
+  realtime?: Realtime
 }
 
 export class App implements Base {
@@ -38,10 +40,11 @@ export class App implements Base {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    const { server, database, queue, mailer } = this.params
+    const { server, database, queue, mailer, realtime } = this.params
     if (database) await database.migrate(this.params.tables)
     if (queue) await queue.start()
     if (mailer) await mailer.verify()
+    if (realtime) await realtime.connect(this.params.tables)
     const url = await server.start()
     if (!isTest) {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
@@ -51,11 +54,12 @@ export class App implements Base {
   }
 
   stop = async (): Promise<void> => {
-    const { server, database, queue, mailer } = this.params
+    const { server, database, queue, mailer, realtime } = this.params
     await server.stop(async () => {
       if (database) await database.disconnect()
       if (queue) await queue.stop()
       if (mailer) await mailer.close()
+      if (realtime) await realtime.disconnect()
     })
   }
 

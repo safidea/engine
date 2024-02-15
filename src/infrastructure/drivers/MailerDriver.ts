@@ -120,7 +120,7 @@ class SqliteTransporter {
       query = query.where(
         filter.field as keyof SqliteTransporterTable,
         filter.operator,
-        filter.value
+        String(filter.value)
       )
     }
     const email = await query.executeTakeFirst()

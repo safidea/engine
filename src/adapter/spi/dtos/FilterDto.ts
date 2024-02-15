@@ -4,7 +4,7 @@ type Base = {
 
 type Equal = Base & {
   operator: '='
-  value: string
+  value: string | number | boolean | Date
 }
 
 type In = Base & {

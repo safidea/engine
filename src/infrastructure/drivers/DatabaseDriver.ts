@@ -7,22 +7,25 @@ import type { Params } from '@domain/services/Database'
 
 export class DatabaseDriver implements Driver {
   private kysely: Kysely<Schema>
+  exec: (query: string) => Promise<void>
 
   constructor(public params: Params) {
     const { db, url } = params
     if (db === 'sqlite') {
-      const dialect = new SqliteDialect({
-        database: new SQLite(url, { fileMustExist: true }),
-      })
+      const database = new SQLite(url)
+      const dialect = new SqliteDialect({ database })
+      this.exec = async (query: string) => {
+        database.exec(query)
+      }
       this.kysely = new Kysely<Schema>({ dialect })
     } else if (db === 'postgres') {
       const { Pool } = pg
-      const dialect = new PostgresDialect({
-        pool: new Pool({
-          connectionString: url,
-        }),
-      })
+      const pool = new Pool({ connectionString: url })
+      const dialect = new PostgresDialect({ pool })
       this.kysely = new Kysely<Schema>({ dialect })
+      this.exec = async (query: string) => {
+        await pool.query(query)
+      }
     } else throw new Error(`Database ${db} not supported`)
   }
 

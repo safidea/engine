@@ -16,6 +16,7 @@ import type { Queue } from '@domain/services/Queue'
 import type { Database as DatabaseConfig } from '../configs/Database'
 import type { Mailer as MailerConfig } from '../configs/Mailer'
 import type { Mailer } from '@domain/services/Mailer'
+import type { Realtime } from '@domain/services/Realtime'
 
 export interface Params {
   table?: TableParams
@@ -26,6 +27,7 @@ export interface Params {
   database?: Database
   queue?: Queue
   mailer?: Mailer
+  realtime?: Realtime
 }
 
 interface Private {
@@ -35,7 +37,7 @@ interface Private {
 export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
-    const { server, newLogger, database, queue, mailer } = params
+    const { server, newLogger, database, queue, mailer, realtime } = params
     const tables: Table[] = []
     const pages: Page[] = []
     const automations: Automation[] = []
@@ -87,6 +89,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       database,
       queue,
       mailer,
+      realtime,
     })
   }
 
@@ -107,6 +110,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     let database: Database | undefined
     let queue: Queue | undefined
     let mailer: Mailer | undefined
+    let realtime: Realtime | undefined
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
@@ -125,6 +129,10 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         logger: services.logger({ location: `database` }),
         ...databaseConfig,
       })
+      realtime = services.realtime({
+        logger: services.logger({ location: `realtime` }),
+        database,
+      })
       table = { newLogger, server, database, record }
     }
     if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
@@ -137,18 +145,43 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
           ...databaseConfig,
         })
       }
+      if (!realtime) {
+        realtime = services.realtime({
+          logger: services.logger({ location: `realtime` }),
+          database,
+        })
+      }
       queue = services.queue({
         logger: services.logger({ location: `queue` }),
-        ...databaseConfig,
+        database,
       })
       mailer = services.mailer({
         logger: services.logger({ location: `mailer` }),
         ...mailerConfig,
       })
       const templateCompiler = services.templateCompiler()
-      automation = { newLogger, server, queue, mailer, idGenerator, database, templateCompiler }
+      automation = {
+        newLogger,
+        server,
+        queue,
+        mailer,
+        idGenerator,
+        database,
+        templateCompiler,
+        realtime,
+      }
     }
-    return this.toEntity(config, { table, page, newLogger, server, database, automation, queue, mailer })
+    return this.toEntity(config, {
+      table,
+      page,
+      newLogger,
+      server,
+      database,
+      automation,
+      queue,
+      mailer,
+      realtime,
+    })
   }
 
   static featureToEntityFromServices = (featureConfig: FeatureConfig, services: Services) => {

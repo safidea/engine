@@ -11,7 +11,7 @@ export class QueueDriver implements Driver {
   private boss: PgBoss | SqliteBoss
 
   constructor(public params: Params) {
-    const { db, url } = params
+    const { db, url } = params.database.params
     if (db === 'sqlite') {
       this.boss = new SqliteBoss(url)
     } else if (db === 'postgres') {

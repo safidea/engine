@@ -13,6 +13,7 @@ import type { Automation as AutomationConfig } from '../../configs/automation/Au
 import type { Mapper } from '../Mapper'
 import { ActionMapper } from './ActionMapper'
 import { TriggerMapper } from './TriggerMapper'
+import type { Realtime } from '@domain/services/Realtime'
 
 export interface Params {
   newLogger: (location: string) => Logger
@@ -21,6 +22,7 @@ export interface Params {
   database: Database
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
+  realtime: Realtime
   mailer?: Mailer
 }
 
@@ -28,9 +30,23 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
   class AutomationMapper {
     static toEntity = (config: AutomationConfig, params: Params) => {
       const { name } = config
-      const { newLogger, server, queue, mailer, database, idGenerator, templateCompiler } = params
+      const {
+        newLogger,
+        server,
+        queue,
+        mailer,
+        database,
+        idGenerator,
+        templateCompiler,
+        realtime,
+      } = params
       const logger = newLogger(`automation:${config.name}`)
-      const trigger = TriggerMapper.toEntity(config.trigger, { server, queue, automation: name })
+      const trigger = TriggerMapper.toEntity(config.trigger, {
+        server,
+        queue,
+        automation: name,
+        realtime,
+      })
       const actions = ActionMapper.toManyEntities(config.actions, {
         database,
         mailer,
@@ -60,10 +76,6 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       const server = services.server({
         logger: newLogger(`server`),
       })
-      const queue = services.queue({
-        logger: newLogger(`queue`),
-        ...databaseConfig,
-      })
       const mailer = services.mailer({
         logger: newLogger(`mailer`),
         ...mailerConfig,
@@ -71,6 +83,14 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       const database = services.database({
         logger: newLogger(`database`),
         ...databaseConfig,
+      })
+      const queue = services.queue({
+        logger: newLogger(`queue`),
+        database,
+      })
+      const realtime = services.realtime({
+        logger: newLogger(`realtime`),
+        database
       })
       const idGenerator = services.idGenerator()
       const templateCompiler = services.templateCompiler()
@@ -82,6 +102,7 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
         mailer,
         idGenerator,
         templateCompiler,
+        realtime,
       })
     }
 

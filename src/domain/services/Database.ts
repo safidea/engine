@@ -12,10 +12,15 @@ export interface Spi {
   params: Params
   table: (name: string) => DatabaseTableSpi
   disconnect: () => Promise<void>
+  exec: (query: string) => Promise<void>
 }
 
 export class Database {
   constructor(private spi: Spi) {}
+
+  get params() {
+    return this.spi.params
+  }
 
   table = (name: string): DatabaseTable => {
     return new DatabaseTable(this.spi, name)
@@ -44,5 +49,9 @@ export class Database {
       }
     }
     logger.log(`database migrated`)
+  }
+
+  exec = async (query: string) => {
+    await this.spi.exec(query)
   }
 }

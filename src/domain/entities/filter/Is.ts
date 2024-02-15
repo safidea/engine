@@ -1,11 +1,11 @@
 import { Base, type BaseProps } from './base'
 
 type IsProps = BaseProps & {
-  value: string
+  value: string | number | boolean | Date
 }
 
 export class Is extends Base {
-  readonly value: string
+  readonly value: string | number | boolean | Date
 
   constructor(props: IsProps) {
     super(props)

@@ -4,7 +4,7 @@ import Database from '@utils/tests/database'
 import Queue from '@utils/tests/queue'
 
 test.describe('RecordCreated trigger', () => {
-  test.skip('should start an automation', async () => {
+  test('should start an automation', async () => {
     // GIVEN
     const database = new Database()
     const queue = new Queue(database)

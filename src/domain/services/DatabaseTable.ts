@@ -3,10 +3,13 @@ import type { Spi as DatabaseSpi } from './Database'
 import type { Filter } from '../entities/filter'
 import type { Persisted } from '../entities/record/Persisted'
 import type { Field } from '@domain/engine/table/field'
+import type { ToUpdate } from '@domain/entities/record/ToUpdate'
 
 export interface Spi {
   insert: (toCreateRecord: ToCreate) => Promise<Persisted>
+  update: (toUpdateRecord: ToUpdate) => Promise<Persisted>
   read: (filters: Filter[]) => Promise<Persisted | undefined>
+  list: (filters: Filter[]) => Promise<Persisted[]>
   exists: () => Promise<boolean>
   create: (fields: Field[]) => Promise<void>
   fieldExists: (name: string) => Promise<boolean>
@@ -31,8 +34,19 @@ export class DatabaseTable {
     return persistedRecord
   }
 
+  update = async (toUpdateRecord: ToUpdate) => {
+    const { logger } = this.spi.params
+    const persistedRecord = await this.table.update(toUpdateRecord)
+    logger.log(`updated in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+    return persistedRecord
+  }
+
   read = async (filters: Filter[]) => {
     return this.table.read(filters)
+  }
+
+  list = async (filters: Filter[]) => {
+    return this.table.list(filters)
   }
 
   exists = async () => {
