@@ -8,4 +8,4 @@ if (errors.length > 0) {
   console.error(errors)
   process.exit(1)
 }
-await app.start()
+await app.start(config)

@@ -241,7 +241,6 @@ class SqliteBoss {
       .selectFrom('_jobs')
       .selectAll()
       .where('name', '=', jobName)
-      .where('state', 'in', ['created', 'retry', 'active'])
       .executeTakeFirst()
     return job
   }
