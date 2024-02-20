@@ -1,3 +1,4 @@
+import type { Auth } from './Auth'
 import type { Database } from './Database'
 import type { Feature } from './Feature'
 import type { Mailer } from './Mailer'
@@ -13,6 +14,7 @@ export interface App {
   server?: Server
   database?: Database
   mailer?: Mailer
+  auth?: Auth
 }
 
 export type AppSchema = App

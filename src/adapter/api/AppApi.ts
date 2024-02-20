@@ -16,9 +16,11 @@ export class AppApi extends Base<Config, App, AppParams> {
   test = async (config: unknown): Promise<TestError[]> => {
     if (!this.validate(config)) throw new Error('Invalid config')
     const errors: TestError[] = []
+    const { auth } = config
     for (const featureConfig of config.features) {
-      const feature = FeatureMapper.toEntityFromServices(featureConfig, this.services)
-      const newApp = () => AppMapper.featureToEntityFromServices(featureConfig, this.services)
+      const feature = FeatureMapper.toEntityFromServices({ ...featureConfig, auth }, this.services)
+      const newApp = () =>
+        AppMapper.featureToEntityFromServices({ ...featureConfig, auth }, this.services)
       const specErrors = await feature.test(newApp)
       errors.push(...specErrors)
     }

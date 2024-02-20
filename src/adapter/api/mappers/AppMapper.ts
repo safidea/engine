@@ -171,6 +171,12 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         realtime,
       }
     }
+    if (config.auth && !mailer) {
+      mailer = services.mailer({
+        logger: services.logger({ location: `mailer` }),
+        ...mailerConfig,
+      })
+    }
     return this.toEntity(config, {
       table,
       page,
@@ -188,6 +194,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const appConfig: AppConfig = {
       name: 'feature: ' + featureConfig.name,
       features: [featureConfig],
+      auth: featureConfig.auth,
     }
     return this.toEntityFromServices(appConfig, services)
   }
