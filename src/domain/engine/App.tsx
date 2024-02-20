@@ -56,10 +56,10 @@ export class App implements Base {
   stop = async (): Promise<void> => {
     const { server, database, queue, mailer, realtime } = this.params
     await server.stop(async () => {
-      if (database) await database.disconnect()
-      if (queue) await queue.stop()
-      if (mailer) await mailer.close()
       if (realtime) await realtime.disconnect()
+      if (mailer) await mailer.close()
+      if (queue) await queue.stop()
+      if (database) await database.disconnect()
     })
   }
 
