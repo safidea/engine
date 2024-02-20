@@ -276,8 +276,7 @@
             "required": [
                 "component",
                 "inputs",
-                "submitButton",
-                "title"
+                "submitButton"
             ],
             "type": "object"
         },

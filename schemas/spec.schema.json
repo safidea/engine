@@ -20,6 +20,9 @@
                 },
                 {
                     "$ref": "#/definitions/WaitForAutomation"
+                },
+                {
+                    "$ref": "#/definitions/ClickInEmail"
                 }
             ]
         },
@@ -163,6 +166,28 @@
             },
             "required": [
                 "click"
+            ],
+            "type": "object"
+        },
+        "ClickInEmail": {
+            "properties": {
+                "click": {
+                    "type": "string"
+                },
+                "find": {
+                    "items": {
+                        "$ref": "#/definitions/Filter"
+                    },
+                    "type": "array"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click",
+                "find",
+                "mailbox"
             ],
             "type": "object"
         },
