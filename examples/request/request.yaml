@@ -340,7 +340,7 @@ features:
           - open: /login
         then:
           - text: 'Login'
-            tag: h1
+            tag: h2
           - text: 'Email'
             tag: label
           - text: 'Password'
@@ -364,10 +364,12 @@ features:
                 label: Email
                 type: email
                 required: true
+                placeholder: Email
               - name: password
                 label: Password
                 type: password
                 required: true
+                placeholder: Password
             submitButton:
               label: Login
           - component: Link
