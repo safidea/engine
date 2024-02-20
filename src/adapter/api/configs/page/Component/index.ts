@@ -7,6 +7,7 @@ import type { Hero } from './marketing/Hero'
 import type { Footer } from './marketing/Footer'
 import type { Logos } from './marketing/Logos'
 import type { NotFound } from './marketing/NotFound'
+import type { Link } from './Link'
 
 export type Component =
   | Paragraph
@@ -18,3 +19,4 @@ export type Component =
   | Footer
   | Logos
   | NotFound
+  | Link

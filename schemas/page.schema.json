@@ -55,6 +55,9 @@
                 },
                 {
                     "$ref": "#/definitions/NotFound"
+                },
+                {
+                    "$ref": "#/definitions/Link_1"
                 }
             ]
         },
@@ -272,7 +275,6 @@
             },
             "required": [
                 "component",
-                "description",
                 "inputs",
                 "submitButton",
                 "title"
@@ -367,6 +369,26 @@
             },
             "required": [
                 "href"
+            ],
+            "type": "object"
+        },
+        "Link_1": {
+            "properties": {
+                "component": {
+                    "const": "Link",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "href",
+                "text"
             ],
             "type": "object"
         },

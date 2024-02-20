@@ -1,8 +1,12 @@
 # Solumy Engine
 
-## ROADMAP
+## ROADMAP REQUEST
 
-- [ ]
+- [ ] Login Page
+- [ ] Register Page
+- [ ] Requests Page
+- [ ] New Request Page
+- [ ] Request Details Page
 
 ### Auth
 

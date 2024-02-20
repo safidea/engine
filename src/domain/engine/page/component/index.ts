@@ -1,5 +1,6 @@
 import type { Button, Props as ButtonProps } from './Button'
 import type { HtmlProps } from './Html'
+import type { Link, Props as LinkProps } from './Link'
 import type { Paragraph, Props as ParagraphProps } from './Paragraph'
 import type { Form, Props as FormProps } from './application/Form'
 import type { ReactComponent } from './base'
@@ -20,6 +21,7 @@ export type Component =
   | Logos
   | NotFound
   | Form
+  | Link
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -32,6 +34,7 @@ export interface ReactComponents {
   Footer: ReactComponent<FooterProps>
   NotFound: ReactComponent<NotFoundProps>
   Form: ReactComponent<FormProps>
+  Link: ReactComponent<LinkProps>
 }
 
 export interface Props {
@@ -45,4 +48,5 @@ export interface Props {
   Footer: FooterProps
   NotFound: NotFoundProps
   Form: FormProps
+  Link: LinkProps
 }

@@ -2,17 +2,19 @@ import { test, expect } from '@playwright/test'
 import Page, { type Config as PageConfig } from '@solumy/engine/page'
 import App, { type Config as AppConfig } from '@solumy/engine'
 
-test.describe('Paragraph component', () => {
-  test('should render a paragraph', async ({ page }) => {
+test.describe('Link component', () => {
+  test('should render a link', async ({ page }) => {
     // GIVEN
-    const text = 'This is a paragraph.'
+    const text = 'This is a link.'
+    const href = '/about'
     const config: PageConfig = {
       name: 'Page',
       path: '/',
       body: [
         {
-          component: 'Paragraph',
+          component: 'Link',
           text,
+          href,
         },
       ],
     }
@@ -23,13 +25,14 @@ test.describe('Paragraph component', () => {
     await page.setContent(html)
 
     // THEN
-    const paragraphContent = await page.textContent('p')
-    expect(paragraphContent).toContain(text)
+    const link = page.getByText(text)
+    expect(await link.getAttribute('href')).toBe(href)
   })
 
-  test('should display a paragraph in app page', async ({ page }) => {
+  test('should display a link in app page', async ({ page }) => {
     // GIVEN
     const text = 'Hello world!'
+    const href = '/about'
     const config: AppConfig = {
       name: 'App',
       features: [
@@ -37,12 +40,13 @@ test.describe('Paragraph component', () => {
           name: 'display paragraph',
           pages: [
             {
-              name: 'paragraph',
+              name: 'link',
               path: '/',
               body: [
                 {
-                  component: 'Paragraph',
+                  component: 'Link',
                   text,
+                  href,
                 },
               ],
             },
@@ -57,7 +61,7 @@ test.describe('Paragraph component', () => {
     await page.goto(url)
 
     // THEN
-    const paragraphText = await page.textContent('p')
-    expect(paragraphText).toBe(text)
+    const link = page.getByText(text)
+    expect(await link.getAttribute('href')).toBe(href)
   })
 })

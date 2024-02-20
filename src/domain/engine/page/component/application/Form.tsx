@@ -8,7 +8,7 @@ import type { Ui } from '@domain/services/Ui'
 
 export interface Props {
   title: string
-  description: string
+  description?: string
   action?: string
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   inputs: {

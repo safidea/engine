@@ -12,6 +12,7 @@ import { NotFound } from '@domain/engine/page/component/marketing/NotFound'
 import type { Ui } from '@domain/services/Ui'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Server } from '@domain/services/Server'
+import { Link } from '@domain/engine/page/component/Link'
 
 export interface Params {
   components: ReactComponents
@@ -42,6 +43,8 @@ export class ComponentMapper {
         return new Logos({ props: config, component: components.Logos })
       case 'NotFound':
         return new NotFound({ props: config, component: components.NotFound })
+      case 'Link':
+        return new Link({ props: config, component: components.Link })
     }
   }
 

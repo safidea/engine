@@ -333,5 +333,45 @@ features:
             subject: *ContactPageFormEmailSubject
             text: *ContactPageFormEmailBody
             html: *ContactPageFormEmailBody
+  - name: login
+    specs: 
+      - name: should display the login form
+        when:
+          - open: /login
+        then:
+          - text: 'Login'
+            tag: h1
+          - text: 'Email'
+            tag: label
+          - text: 'Password'
+            tag: label
+          - text: 'Forgot your password?'
+            tag: a
+          - text: 'Login'
+            tag: button
+    pages:
+      - name: login
+        path: /login
+        head:
+          title: Login
+        body:
+          - component: Form
+            action: '/api/auth/login'
+            method: POST
+            title: Login
+            inputs: 
+              - name: email
+                label: Email
+                type: email
+                required: true
+              - name: password
+                label: Password
+                type: password
+                required: true
+            submitButton:
+              label: Login
+          - component: Link
+            text: Forgot your password?
+            href: /forgot-password
 server: 
   port: 3000

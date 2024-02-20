@@ -46,7 +46,7 @@ export class App implements Base {
     if (mailer) await mailer.verify()
     if (realtime) await realtime.connect(this.params.tables)
     const url = await server.start()
-    if (!isTest) {
+    if (!isTest && process.env.NODE_ENV === 'production') {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
       process.on('SIGINT', () => this.onClose('SIGINT'))
     }
