@@ -5,7 +5,11 @@ import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { Action } from './action'
 import type { Result } from './result'
 import { Open } from './action/Open'
-import { BaseWithRequest as ActionWithRequest, BaseWithPage as ActionWithPage } from './action/base'
+import {
+  BaseWithRequest as ActionWithRequest,
+  BaseWithPage as ActionWithPage,
+  BaseWithPageAndMailer as ActionWithPageAndMailer,
+} from './action/base'
 import {
   BaseWithPage as ResultWithPage,
   BaseWithDatabase as ResultWithDatabase,
@@ -42,6 +46,7 @@ export class Spec implements Base {
       const baseUrl = await app.start({ isTest: true })
       if (
         when.find((action) => action instanceof ActionWithPage) ||
+        when.find((action) => action instanceof ActionWithPageAndMailer) ||
         then.find((result) => result instanceof ResultWithPage)
       ) {
         if (when.find((action) => action instanceof Open)) {
@@ -59,12 +64,17 @@ export class Spec implements Base {
         if (!app.database)
           throw new TestError({ code: 'DATABASE_REQUIRED', feature, spec: this.name })
       }
-      if (then.find((result) => result instanceof ResultWithMailer)) {
+      if (
+        when.find((action) => action instanceof ActionWithPageAndMailer) ||
+        then.find((result) => result instanceof ResultWithMailer)
+      ) {
         if (!app.mailer) throw new TestError({ code: 'MAILER_REQUIRED', feature, spec: this.name })
       }
       for (const action of when) {
         if (action instanceof ActionWithPage) {
           if (page) await action.executeWithPage(page)
+        } else if (action instanceof ActionWithPageAndMailer) {
+          if (page && app.mailer) await action.executeWithPageAndMailer(page, app.mailer)
         } else if (action instanceof ActionWithRequest) {
           await action.executeWithRequest(baseUrl)
         } else {

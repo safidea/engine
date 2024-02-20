@@ -8,11 +8,15 @@ import type { BaseParams as ResultParams } from '@domain/engine/spec/result/base
 import { FilterMapper } from '@adapter/spi/mappers/FilterMapper'
 import { Attribute } from '@domain/engine/spec/result/Attribute'
 import { Email } from '@domain/engine/spec/result/Email'
+import { Url } from '@domain/engine/spec/result/Url'
 
 export class ResultMapper {
   static toEntity = (config: ResultConfig, params: ResultParams): Result => {
     if ('title' in config) {
       return new Title({ ...config, ...params })
+    }
+    if ('url' in config) {
+      return new Url({ ...config, ...params })
     }
     if ('text' in config) {
       return new Text({ ...config, ...params })

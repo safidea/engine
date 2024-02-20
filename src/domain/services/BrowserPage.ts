@@ -6,6 +6,7 @@ export interface Spi {
   click: (text: string) => Promise<boolean>
   waitForText: (text: string, options: { timeout: number }) => Promise<boolean>
   getTitle: () => Promise<string>
+  getUrl: () => Promise<string>
   getByText: (
     text: string,
     options?: { tag: string | undefined }
@@ -40,6 +41,10 @@ export class BrowserPage {
 
   getTitle = async () => {
     return this.spi.getTitle()
+  }
+
+  getUrl = async () => {
+    return this.spi.getUrl()
   }
 
   getByText = async (text: string, options?: { tag: string | undefined }) => {

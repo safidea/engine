@@ -7,6 +7,7 @@ export interface Driver {
   click(text: string): Promise<boolean>
   waitForText(text: string, options: { timeout: number }): Promise<boolean>
   getTitle(): Promise<string>
+  getUrl(): Promise<string>
   getByText(text: string, options?: { tag?: string }): Promise<BrowserElementDriver | undefined>
   getByAttribute(
     attribute: string,
@@ -37,6 +38,10 @@ export class BrowserPageSpi implements Spi {
 
   getTitle = async () => {
     return this.driver.getTitle()
+  }
+
+  getUrl = async () => {
+    return this.driver.getUrl()
   }
 
   getByText = async (text: string, options?: { tag?: string }) => {

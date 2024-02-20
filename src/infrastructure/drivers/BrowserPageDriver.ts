@@ -51,6 +51,10 @@ export class BrowserPageDriver implements Driver {
     return this.page.title()
   }
 
+  getUrl = async () => {
+    return this.page.url()
+  }
+
   getByText = async (text: string, { tag }: { tag?: string } = {}) => {
     if (!tag) {
       const element = await this.page.$(`::-p-text(${text})`)

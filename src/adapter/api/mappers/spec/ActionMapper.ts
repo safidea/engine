@@ -1,6 +1,8 @@
 import type { Action as ActionConfig } from '@adapter/api/configs/spec/action'
+import { FilterMapper } from '@adapter/spi/mappers/FilterMapper'
 import type { Action } from '@domain/engine/spec/action'
 import { Click } from '@domain/engine/spec/action/Click'
+import { ClickInEmail } from '@domain/engine/spec/action/ClickInEmail'
 import { Fill } from '@domain/engine/spec/action/Fill'
 import { Open } from '@domain/engine/spec/action/Open'
 import { Post } from '@domain/engine/spec/action/Post'
@@ -18,6 +20,10 @@ export class ActionMapper {
     }
     if ('post' in config) {
       return new Post({ ...config, ...params })
+    }
+    if ('mailbox' in config && 'click' in config) {
+      const find = config.find.map((filter) => FilterMapper.toEntityFromConfig(filter))
+      return new ClickInEmail({ ...config, ...params, find })
     }
     if ('click' in config) {
       return new Click({ ...config, ...params })

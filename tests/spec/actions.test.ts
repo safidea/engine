@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import Feature, { type Config } from '@solumy/engine/feature'
 
 test.describe('Spec actions', () => {
-  test.skip('should click on a link in a email', async () => {
+  test.only('should click on a link in a email', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -22,6 +22,9 @@ test.describe('Spec actions', () => {
             },
             {
               waitForText: 'Welcome back, John Doe',
+            },
+            {
+              waitForAutomation: 'send-email',
             },
             {
               mailbox: 'test@test.com',
@@ -71,14 +74,14 @@ test.describe('Spec actions', () => {
           name: 'send-email',
           trigger: {
             event: 'WebhookCalled',
-            path: '/send-email',
+            path: 'send-email',
             method: 'POST',
           },
           actions: [
             {
               action: 'SendEmail',
-              name: 'Welcome to the app',
-              to: 'email',
+              name: 'send-email',
+              to: '{{ trigger.body.email }}',
               from: 'noreply@test.com',
               subject: 'Welcome to the app',
               text: 'Click here to confirm your email',
