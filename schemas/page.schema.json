@@ -30,13 +30,13 @@
         "Component": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
                     "$ref": "#/definitions/Button"
                 },
                 {
                     "$ref": "#/definitions/Form"
-                },
-                {
-                    "$ref": "#/definitions/Paragraph"
                 },
                 {
                     "$ref": "#/definitions/Cta"
