@@ -1025,6 +1025,9 @@
                 },
                 {
                     "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/Url"
                 }
             ]
         },
@@ -1303,6 +1306,17 @@
                     "$ref": "#/definitions/WebhookCalled"
                 }
             ]
+        },
+        "Url": {
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
         },
         "WaitForAutomation": {
             "properties": {

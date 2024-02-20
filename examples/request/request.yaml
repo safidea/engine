@@ -343,12 +343,23 @@ features:
             tag: h2
           - text: 'Email'
             tag: label
-          - text: 'Password'
-            tag: label
-          - text: 'Forgot your password?'
-            tag: a
           - text: 'Login'
             tag: button
+      - name: should submit the login form
+        when:
+          - open: /login
+          - fill: email
+            value: test@test.com
+          - click: Login
+          - waitForText: 'Your email has been sent.'
+          - mailbox: test@test.com
+            find: 
+              - field: 'subject'
+                operator: is
+                value: 'Confirm your email'
+            click: 'Confirm my email'
+        then:
+          - url: /dashboard
     pages:
       - name: login
         path: /login
@@ -356,7 +367,7 @@ features:
           title: Login
         body:
           - component: Form
-            action: '/api/auth/login'
+            action: '/api/auth/login/magic-link'
             method: POST
             title: Login
             inputs: 
@@ -364,16 +375,19 @@ features:
                 label: Email
                 type: email
                 required: true
-                placeholder: Email
-              - name: password
-                label: Password
-                type: password
-                required: true
-                placeholder: Password
+                placeholder: My email
             submitButton:
               label: Login
-          - component: Link
-            text: Forgot your password?
-            href: /forgot-password
+            successMessage: 'Your email has been sent.'
 server: 
   port: 3000
+auth: 
+  redirectOnLogin: /dashboard
+  providers: 
+    - name: magic-link
+      email: 
+        from: 'noreply@solumy.com'
+        to: '{{ email }}'
+        subject: 'Confirm your email'
+        text: 'Click on the link to confirm your email: {{ link }}.'
+        html: 'Click on the link to confirm your email: <a href="{{ link }}">Confirm my email</a>.'

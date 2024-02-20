@@ -332,6 +332,9 @@
                 },
                 {
                     "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/Url"
                 }
             ]
         },
@@ -471,6 +474,17 @@
             },
             "required": [
                 "title"
+            ],
+            "type": "object"
+        },
+        "Url": {
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
             ],
             "type": "object"
         },
