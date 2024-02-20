@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import Feature, { type Config } from '@solumy/engine/feature'
 
 test.describe('Pages specs', () => {
-  test('should not find a page title', async () => {
+  test('should find an invalid page title', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
@@ -30,7 +30,7 @@ test.describe('Pages specs', () => {
     // THEN
     expect(errors).toHaveLength(1)
     const [{ expected, received, code }] = errors
-    expect(code).toBe('TITLE_NOT_FOUND')
+    expect(code).toBe('INVALID_TITLE')
     expect(expected).toBe('Title invalid')
     expect(received).toBe('Title')
   })

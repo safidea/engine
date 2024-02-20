@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import Feature, { type Config } from '@solumy/engine/feature'
 
 test.describe('Spec actions', () => {
-  test.only('should click on a link in a email', async () => {
+  test('should click on a link in a email', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
