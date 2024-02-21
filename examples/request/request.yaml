@@ -343,14 +343,14 @@ features:
             tag: h2
           - text: 'Email'
             tag: label
-          - text: 'Login'
+          - text: 'Send magic link'
             tag: button
       - name: should submit the login form
         when:
           - open: /login
           - fill: email
             value: test@test.com
-          - click: Login
+          - click: Send magic link
           - waitForText: 'Your email has been sent.'
           - mailbox: test@test.com
             find: 
@@ -377,12 +377,20 @@ features:
                 required: true
                 placeholder: My email
             submitButton:
-              label: Login
+              label: Send magic link
             successMessage: 'Your email has been sent.'
+      - name: dashboard
+        path: /dashboard
+        head:
+          title: Dashboard
+        body:
+          - component: Paragraph
+            text: 'Welcome to your dashboard.' 
 server: 
   port: 3000
 auth: 
   redirectOnLogin: /dashboard
+  redirectOnLogout: /login
   strategy: magic-link
   confirmEmail:
     subject: 'Confirm your email'
