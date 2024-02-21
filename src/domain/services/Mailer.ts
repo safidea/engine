@@ -6,7 +6,7 @@ import { Is } from '@domain/entities/filter/Is'
 
 export interface Params {
   host: string
-  port: number
+  port: string
   user: string
   pass: string
   from: string

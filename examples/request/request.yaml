@@ -387,7 +387,13 @@ features:
           - component: Paragraph
             text: 'Welcome to your dashboard.' 
 server: 
-  port: 3000
+  port: '3000'
+mailer: 
+  host: $MAILER_HOST
+  port: $MAILER_PORT
+  user: $MAILER_USER
+  pass: $MAILER_PASS
+  from: $MAILER_FROM
 auth: 
   redirectOnLogin: /dashboard
   redirectOnLogout: /login

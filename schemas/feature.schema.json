@@ -906,7 +906,7 @@
                     "type": "string"
                 },
                 "port": {
-                    "type": "number"
+                    "type": "string"
                 },
                 "secure": {
                     "type": "boolean"

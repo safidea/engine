@@ -1,6 +1,6 @@
 export interface Mailer {
   host: string
-  port: number
+  port: string
   user: string
   pass: string
   from: string

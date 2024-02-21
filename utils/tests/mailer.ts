@@ -8,7 +8,7 @@ export default class extends MailerDriver {
     logger.log(`creating mailbox...`)
     super({
       host: url,
-      port: 0,
+      port: '0',
       user: '_sqlite',
       pass: '_sqlite',
       logger,

@@ -94,7 +94,7 @@ test.describe('App api', () => {
           ],
         },
       ],
-      server: { port: 3000 },
+      server: { port: '3000' },
     }
     const app = new App()
 
@@ -168,5 +168,38 @@ test.describe('App api', () => {
 
     // THEN
     expect(response.message).toContain('ECONNREFUSED')
+  })
+
+  test.skip('should replace env variables in the config', async () => {
+    // GIVEN
+    process.env.PORT = '5432'
+    const config: Config = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'Hello world!',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      server: { port: '$PORT' },
+    }
+    const app = new App()
+
+    // WHEN
+    const url = await app.start(config)
+
+    // THEN
+    expect(url).toContain('5432')
   })
 })

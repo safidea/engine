@@ -906,7 +906,7 @@
                     "type": "string"
                 },
                 "port": {
-                    "type": "number"
+                    "type": "string"
                 },
                 "secure": {
                     "type": "boolean"
@@ -1160,7 +1160,7 @@
         "Server": {
             "properties": {
                 "port": {
-                    "type": "number"
+                    "type": "string"
                 }
             },
             "required": [

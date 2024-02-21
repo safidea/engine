@@ -81,7 +81,7 @@ export class ServerDriver implements Driver {
   }
 
   private getPort = async () => {
-    if (this.params.port) return this.params.port
+    if (this.params.port) return Number(this.params.port)
     const port: number = await new Promise((resolve, reject) => {
       const srv = net.createServer()
       srv.listen(0, function () {

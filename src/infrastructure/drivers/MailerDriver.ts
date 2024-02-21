@@ -17,7 +17,7 @@ export class MailerDriver implements Driver {
     } else {
       this.transporter = nodemailer.createTransport({
         host,
-        port,
+        port: Number(port),
         secure,
         auth: {
           user,

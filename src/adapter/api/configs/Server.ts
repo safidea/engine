@@ -1,3 +1,3 @@
 export interface Server {
-  port: number
+  port: string
 }

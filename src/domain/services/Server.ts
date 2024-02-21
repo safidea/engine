@@ -5,7 +5,7 @@ import type { Response } from '../entities/response'
 import { Json } from '../entities/response/Json'
 
 export interface Params {
-  port?: number
+  port?: string
   logger: Logger
 }
 

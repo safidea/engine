@@ -69,7 +69,7 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       const mailerConfig: MailerConfig = {
         host:
           config.mailer?.host ?? databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:',
-        port: config.mailer?.port ?? 0,
+        port: config.mailer?.port ?? '0',
         user: config.mailer?.user ?? '_sqlite',
         pass: config.mailer?.pass ?? '_sqlite',
         from: config.mailer?.from ?? 'noreply@localhost',
