@@ -68,7 +68,7 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       }
       const mailerConfig: MailerConfig = {
         host:
-          config.mailer?.host ?? databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:',
+          config.mailer?.host ?? (databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:'),
         port: config.mailer?.port ?? '0',
         user: config.mailer?.user ?? '_sqlite',
         pass: config.mailer?.pass ?? '_sqlite',
@@ -91,7 +91,7 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       })
       const realtime = services.realtime({
         logger: newLogger(`realtime`),
-        database
+        database,
       })
       const idGenerator = services.idGenerator()
       const templateCompiler = services.templateCompiler()

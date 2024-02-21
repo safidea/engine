@@ -387,7 +387,7 @@ features:
           - component: Paragraph
             text: 'Welcome to your dashboard.' 
 server: 
-  port: '3000'
+  port: $PORT
 mailer: 
   host: $MAILER_HOST
   port: $MAILER_PORT

@@ -124,7 +124,8 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       db: config.database?.db ?? 'sqlite',
     }
     const mailerConfig: MailerConfig = {
-      host: config.mailer?.host ?? databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:',
+      host:
+        config.mailer?.host ?? (databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:'),
       port: config.mailer?.port ?? '0',
       user: config.mailer?.user ?? '_sqlite',
       pass: config.mailer?.pass ?? '_sqlite',

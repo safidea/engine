@@ -25,8 +25,8 @@
     "pretest": "bunx playwright install",
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui",
-    "examples:request": "DEBUG=engine:* node examples/request/index.js",
-    "examples:request:test": "DEBUG=engine:* node examples/request/tests.js",
+    "examples:request": "DEBUG=engine:* node --env-file examples/request/.env examples/request/index.js",
+    "examples:request:test": "DEBUG=engine:* node --env-file examples/request/.env examples/request/tests.js",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
