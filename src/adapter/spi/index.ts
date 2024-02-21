@@ -12,11 +12,13 @@ import type { Params as DatabaseParams } from '@domain/services/Database'
 import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as QueueParams } from '@domain/services/Queue'
 import type { Params as RealtimeParams } from '@domain/services/Realtime'
+import type { Params as AuthParams } from '@domain/services/Auth'
 import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
 import type { Params as MailerParams } from '@domain/services/Mailer'
 import { MailerSpi, type Driver as MailerDriver } from './MailerSpi'
 import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
 import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
+import { AuthSpi, type Driver as AuthDriver } from './AuthSpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -25,6 +27,7 @@ export interface Drivers {
   queue: (params: QueueParams) => QueueDriver
   mailer: (params: MailerParams) => MailerDriver
   realtime: (params: RealtimeParams) => RealtimeDriver
+  auth: (params: AuthParams) => AuthDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
@@ -55,6 +58,8 @@ export class Spis implements ISpis {
   logger = (params: LoggerParams) => new LoggerSpi(this.params.drivers.logger(params))
 
   realtime = (params: RealtimeParams) => new RealtimeSpi(this.params.drivers.realtime(params))
+
+  auth = (params: AuthParams) => new AuthSpi(this.params.drivers.auth(params))
 
   schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
 

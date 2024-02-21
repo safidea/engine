@@ -63,6 +63,9 @@
         },
         "Mailer": {
             "properties": {
+                "from": {
+                    "type": "string"
+                },
                 "host": {
                     "type": "string"
                 },
@@ -80,6 +83,7 @@
                 }
             },
             "required": [
+                "from",
                 "host",
                 "pass",
                 "port",

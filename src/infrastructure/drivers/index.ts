@@ -6,6 +6,7 @@ import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as QueueParams } from '@domain/services/Queue'
 import type { Params as MailerParams } from '@domain/services/Mailer'
 import type { Params as RealtimeParams } from '@domain/services/Realtime'
+import type { Params as AuthParams } from '@domain/services/Auth'
 import { SchemaValidatorDriver } from './SchemaValidatorDriver'
 import { BrowserDriver } from './BrowserDriver'
 import { ServerDriver } from './ServerDriver'
@@ -17,6 +18,7 @@ import { QueueDriver } from './QueueDriver'
 import { MailerDriver } from './MailerDriver'
 import { TemplateCompilerDriver } from './TemplateCompilerDriver'
 import { RealtimeDriver } from './RealtimeDriver'
+import { AuthDriver } from './AuthDriver'
 
 export const drivers: Drivers = {
   server: (params: ServerParams) => new ServerDriver(params),
@@ -25,6 +27,7 @@ export const drivers: Drivers = {
   queue: (params: QueueParams) => new QueueDriver(params),
   mailer: (params: MailerParams) => new MailerDriver(params),
   realtime: (params: RealtimeParams) => new RealtimeDriver(params),
+  auth: (params: AuthParams) => new AuthDriver(params),
   templateCompiler: () => new TemplateCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),

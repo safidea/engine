@@ -30,8 +30,8 @@ export class ServerDriver implements Driver {
   get = async (path: string, handler: (getDto: GetDto) => Promise<ResponseDto>) => {
     this.express.get(path, async (req, res) => {
       const getDto: GetDto = this.getRequestDto(req)
-      const { status, headers, body } = await handler(getDto)
-      res.status(status).set(headers).send(body)
+      const responseDto = await handler(getDto)
+      this.returnResponse(res, responseDto)
     })
   }
 
@@ -41,16 +41,16 @@ export class ServerDriver implements Driver {
         ...this.getRequestDto(req),
         body: req.body,
       }
-      const { status, headers, body } = await handler(postDto)
-      res.status(status).set(headers).send(body)
+      const responseDto = await handler(postDto)
+      this.returnResponse(res, responseDto)
     })
   }
 
   notFound = async (handler: (getDto: GetDto) => Promise<ResponseDto>) => {
     this.express.use(async (req, res) => {
       const getDto: GetDto = this.getRequestDto(req)
-      const { headers, body } = await handler(getDto)
-      res.status(404).set(headers).send(body)
+      const responseDto = await handler(getDto)
+      this.returnResponse(res, { ...responseDto, status: 404 })
     })
   }
 
@@ -80,7 +80,7 @@ export class ServerDriver implements Driver {
     if (this.server) this.server.close()
   }
 
-  private async getPort() {
+  private getPort = async () => {
     if (this.params.port) return this.params.port
     const port: number = await new Promise((resolve, reject) => {
       const srv = net.createServer()
@@ -94,12 +94,31 @@ export class ServerDriver implements Driver {
     return port
   }
 
-  private getRequestDto(req: express.Request): GetDto {
+  private returnResponse = (res: express.Response, response: ResponseDto) => {
+    const { status, headers, body } = response
+    // https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission
+    if (status === 302) {
+      res.redirect(303, body)
+    } else {
+      res.status(status).set(headers).send(body)
+    }
+  }
+
+  private getRequestDto = (req: express.Request): GetDto => {
+    const query: { [key: string]: string } = {}
+    Object.keys(req.query).forEach((key) => {
+      const value = req.query[key]
+      if (typeof value === 'string') {
+        query[key] = value
+      } else if (Array.isArray(value)) {
+        query[key] = value.join(',')
+      }
+    })
     return {
       path: req.path,
       baseUrl: `${req.protocol}://${req.get('host')}`,
       headers: {},
-      query: {},
+      query,
       params: {},
     }
   }

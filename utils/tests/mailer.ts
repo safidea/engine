@@ -12,6 +12,7 @@ export default class extends MailerDriver {
       user: '_sqlite',
       pass: '_sqlite',
       logger,
+      from: 'noreply@localhost',
     })
     logger.log(`mailbox created`)
   }
@@ -22,6 +23,7 @@ export default class extends MailerDriver {
       port: this.params.port,
       user: this.params.user,
       pass: this.params.pass,
+      from: this.params.from,
     }
   }
 }

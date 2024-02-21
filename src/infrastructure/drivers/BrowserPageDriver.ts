@@ -12,7 +12,8 @@ export class BrowserPageDriver implements Driver {
 
   open = async (path: string) => {
     try {
-      await this.page.goto(this.baseUrl + path)
+      const url = path.includes('http') ? path : this.baseUrl + path
+      await this.page.goto(url)
       return true
     } catch (error) {
       return false

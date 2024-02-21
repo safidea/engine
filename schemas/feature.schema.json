@@ -170,56 +170,45 @@
         },
         "Auth": {
             "properties": {
-                "providers": {
-                    "items": {
-                        "properties": {
-                            "email": {
-                                "properties": {
-                                    "from": {
-                                        "type": "string"
-                                    },
-                                    "html": {
-                                        "type": "string"
-                                    },
-                                    "subject": {
-                                        "type": "string"
-                                    },
-                                    "text": {
-                                        "type": "string"
-                                    },
-                                    "to": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "from",
-                                    "html",
-                                    "subject",
-                                    "text",
-                                    "to"
-                                ],
-                                "type": "object"
-                            },
-                            "name": {
-                                "const": "magic-link",
-                                "type": "string"
-                            }
+                "confirmEmail": {
+                    "properties": {
+                        "html": {
+                            "type": "string"
                         },
-                        "required": [
-                            "email",
-                            "name"
-                        ],
-                        "type": "object"
+                        "subject": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
                     },
-                    "type": "array"
+                    "required": [
+                        "html",
+                        "subject",
+                        "text"
+                    ],
+                    "type": "object"
                 },
                 "redirectOnLogin": {
+                    "type": "string"
+                },
+                "redirectOnLogout": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "strategy": {
+                    "const": "magic-link",
                     "type": "string"
                 }
             },
             "required": [
-                "providers",
-                "redirectOnLogin"
+                "confirmEmail",
+                "redirectOnLogin",
+                "redirectOnLogout",
+                "secret",
+                "strategy"
             ],
             "type": "object"
         },
@@ -907,6 +896,9 @@
         },
         "Mailer": {
             "properties": {
+                "from": {
+                    "type": "string"
+                },
                 "host": {
                     "type": "string"
                 },
@@ -924,6 +916,7 @@
                 }
             },
             "required": [
+                "from",
                 "host",
                 "pass",
                 "port",

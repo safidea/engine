@@ -9,6 +9,7 @@ import type { Queue } from '@domain/services/Queue'
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
+import type { Auth } from '@domain/services/Auth'
 
 interface Params {
   name: string
@@ -21,6 +22,7 @@ interface Params {
   queue?: Queue
   mailer?: Mailer
   realtime?: Realtime
+  auth?: Auth
 }
 
 export class App implements Base {
@@ -40,11 +42,12 @@ export class App implements Base {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    const { server, database, queue, mailer, realtime } = this.params
+    const { server, database, queue, mailer, realtime, auth } = this.params
     if (database) await database.migrate(this.params.tables)
     if (queue) await queue.start()
     if (mailer) await mailer.verify()
     if (realtime) await realtime.connect(this.params.tables)
+    if (auth) await auth.connect()
     const url = await server.start()
     if (!isTest && process.env.NODE_ENV === 'production') {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
@@ -54,8 +57,9 @@ export class App implements Base {
   }
 
   stop = async (): Promise<void> => {
-    const { server, database, queue, mailer, realtime } = this.params
+    const { server, database, queue, mailer, realtime, auth } = this.params
     await server.stop(async () => {
+      if (auth) await auth.disconnect()
       if (realtime) await realtime.disconnect()
       if (mailer) await mailer.close()
       if (queue) await queue.stop()

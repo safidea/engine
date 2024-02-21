@@ -17,6 +17,7 @@ import type { Database as DatabaseConfig } from '../configs/Database'
 import type { Mailer as MailerConfig } from '../configs/Mailer'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
+import type { Auth } from '@domain/services/Auth'
 
 export interface Params {
   table?: TableParams
@@ -28,6 +29,7 @@ export interface Params {
   queue?: Queue
   mailer?: Mailer
   realtime?: Realtime
+  auth?: Auth
 }
 
 interface Private {
@@ -37,7 +39,7 @@ interface Private {
 export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
-    const { server, newLogger, database, queue, mailer, realtime } = params
+    const { server, newLogger, database, queue, mailer, realtime, auth } = params
     const tables: Table[] = []
     const pages: Page[] = []
     const automations: Automation[] = []
@@ -90,6 +92,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       queue,
       mailer,
       realtime,
+      auth,
     })
   }
 
@@ -106,11 +109,13 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const components = services.components
     const record = services.record()
     const idGenerator = services.idGenerator()
+    const templateCompiler = services.templateCompiler()
     const newLogger = (location: string) => services.logger({ location })
     let database: Database | undefined
     let queue: Queue | undefined
     let mailer: Mailer | undefined
     let realtime: Realtime | undefined
+    let auth: Auth | undefined
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
@@ -123,6 +128,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       port: config.mailer?.port ?? 0,
       user: config.mailer?.user ?? '_sqlite',
       pass: config.mailer?.pass ?? '_sqlite',
+      from: config.mailer?.from ?? 'noreply@localhost',
     }
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
       database = services.database({
@@ -159,7 +165,6 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         logger: services.logger({ location: `mailer` }),
         ...mailerConfig,
       })
-      const templateCompiler = services.templateCompiler()
       automation = {
         newLogger,
         server,
@@ -171,10 +176,27 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         realtime,
       }
     }
-    if (config.auth && !mailer) {
-      mailer = services.mailer({
-        logger: services.logger({ location: `mailer` }),
-        ...mailerConfig,
+    if (config.auth) {
+      if (!mailer) {
+        mailer = services.mailer({
+          logger: services.logger({ location: `mailer` }),
+          ...mailerConfig,
+        })
+      }
+      if (!database) {
+        database = services.database({
+          logger: services.logger({ location: `database` }),
+          ...databaseConfig,
+        })
+      }
+      auth = services.auth({
+        logger: services.logger({ location: `auth` }),
+        database,
+        server,
+        mailer,
+        templateCompiler,
+        from: mailerConfig.from,
+        ...config.auth,
       })
     }
     return this.toEntity(config, {
@@ -187,6 +209,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       queue,
       mailer,
       realtime,
+      auth,
     })
   }
 

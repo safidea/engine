@@ -367,7 +367,7 @@ features:
           title: Login
         body:
           - component: Form
-            action: '/api/auth/login/magic-link'
+            action: '/api/auth/login'
             method: POST
             title: Login
             inputs: 
@@ -383,11 +383,9 @@ server:
   port: 3000
 auth: 
   redirectOnLogin: /dashboard
-  providers: 
-    - name: magic-link
-      email: 
-        from: 'noreply@solumy.com'
-        to: '{{ email }}'
-        subject: 'Confirm your email'
-        text: 'Click on the link to confirm your email: {{ link }}.'
-        html: 'Click on the link to confirm your email: <a href="{{ link }}">Confirm my email</a>.'
+  strategy: magic-link
+  confirmEmail:
+    subject: 'Confirm your email'
+    text: 'Click on the link to confirm your email: {{{ link }}}.'
+    html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.'
+  secret: 'my-secret'

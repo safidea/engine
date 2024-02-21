@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import App, { type Config } from '@solumy/engine'
 
 test.describe('Auth login', () => {
-  test.skip('should login from magic-link provider', async () => {
+  test('should login from magic-link provider', async () => {
     // GIVEN
     const config: Config = {
       name: 'Request',
@@ -55,7 +55,7 @@ test.describe('Auth login', () => {
               body: [
                 {
                   component: 'Form',
-                  action: '/api/auth/login/magic-link',
+                  action: '/api/auth/login',
                   method: 'POST',
                   title: 'Login',
                   inputs: [
@@ -74,23 +74,32 @@ test.describe('Auth login', () => {
                 },
               ],
             },
+            {
+              name: 'dashboard',
+              path: '/dashboard',
+              head: {
+                title: 'Dashboard',
+              },
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'Welcome to the dashboard!',
+                },
+              ],
+            },
           ],
         },
       ],
       auth: {
         redirectOnLogin: '/dashboard',
-        providers: [
-          {
-            name: 'magic-link',
-            email: {
-              from: 'noreply@solumy.com',
-              to: '{{ email }}',
-              subject: 'Confirm your email',
-              text: 'Click on the link to confirm your email: {{ link }}.',
-              html: 'Click on the link to confirm your email: <a href="{{ link }}">Confirm my email</a>.',
-            },
-          },
-        ],
+        redirectOnLogout: '/login',
+        strategy: 'magic-link',
+        confirmEmail: {
+          subject: 'Confirm your email',
+          text: 'Click on the link to confirm your email: {{{ link }}}.',
+          html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.',
+        },
+        secret: 'secret',
       },
     }
     const app = new App()

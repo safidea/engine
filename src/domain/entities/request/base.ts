@@ -28,4 +28,18 @@ export class Base {
   get params() {
     return this._params.params
   }
+
+  getQuery = (key: string): string | undefined => {
+    const { query } = this
+    if (key in query) return query[key]
+    return undefined
+  }
+
+  getQueryOrThrow = (key: string): string => {
+    const value = this.getQuery(key)
+    if (value === undefined) {
+      throw new Error(`Key ${key} not found in query`)
+    }
+    return value
+  }
 }

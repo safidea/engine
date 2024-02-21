@@ -9,6 +9,7 @@ export interface Params {
   port: number
   user: string
   pass: string
+  from: string
   secure?: boolean
   logger: Logger
 }

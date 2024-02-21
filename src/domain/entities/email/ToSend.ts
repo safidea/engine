@@ -33,7 +33,18 @@ export class ToSend {
     this.html = templateCompiler.compile(data.html)
   }
 
-  fillWithContext(context: Context): ToSend {
+  fill = (data: Record<string, unknown>): ToSend => {
+    const filledData = {
+      from: this.from.fill(data),
+      to: this.to.fill(data),
+      subject: this.subject.fill(data),
+      text: this.text.fill(data),
+      html: this.html.fill(data),
+    }
+    return new ToSend(filledData, this.params)
+  }
+
+  fillWithContext = (context: Context): ToSend => {
     const data = {
       from: context.fillTemplate(this.from),
       to: context.fillTemplate(this.to),

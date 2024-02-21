@@ -72,6 +72,7 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
         port: config.mailer?.port ?? 0,
         user: config.mailer?.user ?? '_sqlite',
         pass: config.mailer?.pass ?? '_sqlite',
+        from: config.mailer?.from ?? 'noreply@localhost',
       }
       const server = services.server({
         logger: newLogger(`server`),

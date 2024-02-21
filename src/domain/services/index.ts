@@ -11,6 +11,7 @@ import { Queue, type Spi as QueueSpi, type Params as QueueParams } from './Queue
 import { Mailer, type Spi as MailerSpi, type Params as MailerParams } from './Mailer'
 import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCompiler'
 import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
+import { Auth, type Spi as AuthSpi, type Params as AuthParams } from './Auth'
 
 export interface Spis {
   components: ReactComponents
@@ -20,6 +21,7 @@ export interface Spis {
   queue: (params: QueueParams) => QueueSpi
   mailer: (params: MailerParams) => MailerSpi
   realtime: (params: RealtimeParams) => RealtimeSpi
+  auth: (params: AuthParams) => AuthSpi
   idGenerator: () => IdGeneratorSpi
   schemaValidator: () => SchemaValidatorSpi
   ui: () => UiSpi
@@ -45,6 +47,8 @@ export class Services {
   server = (params: ServerParams) => new Server(this.spis.server(params))
 
   realtime = (params: RealtimeParams) => new Realtime(this.spis.realtime(params))
+
+  auth = (params: AuthParams) => new Auth(this.spis.auth(params))
 
   schemaValidator = () => new SchemaValidator(this.spis.schemaValidator())
 
