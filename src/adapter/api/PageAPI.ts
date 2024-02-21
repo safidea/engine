@@ -10,8 +10,7 @@ export class PageApi extends Base<Config, Page, Params> {
   }
 
   getHtml = (config: unknown): string => {
-    if (!this.validate(config)) throw new Error('Invalid config')
-    const page = this.mapper.toEntityFromServices(config, this.services)
+    const page = this.mapper.toEntityFromServices(this.prepareConfig(config), this.services)
     return page.html()
   }
 }

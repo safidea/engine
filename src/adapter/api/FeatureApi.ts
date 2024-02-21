@@ -12,8 +12,9 @@ export class FeatureApi extends Base<Config, Feature, Params> {
   }
 
   test = async (config: unknown): Promise<TestError[]> => {
-    if (!this.validate(config)) throw new Error('Invalid config')
-    const feature = this.mapper.toEntityFromServices(config, this.services)
-    return feature.test(() => AppMapper.featureToEntityFromServices(config, this.services))
+    const feature = this.mapper.toEntityFromServices(this.prepareConfig(config), this.services)
+    return feature.test(() =>
+      AppMapper.featureToEntityFromServices(this.prepareConfig(config), this.services)
+    )
   }
 }

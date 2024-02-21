@@ -170,7 +170,7 @@ test.describe('App api', () => {
     expect(response.message).toContain('ECONNREFUSED')
   })
 
-  test.skip('should replace env variables in the config', async () => {
+  test('should replace env variables in the config', async () => {
     // GIVEN
     process.env.PORT = '5432'
     const config: Config = {
