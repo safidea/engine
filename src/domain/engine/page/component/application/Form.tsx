@@ -1,5 +1,5 @@
 import type { Server } from '@domain/services/Server'
-import type { Base, ReactComponent, InputType } from '../base'
+import type { Base, ReactComponent, InputType } from '../base/base'
 import type { Post } from '@domain/entities/request/Post'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Response } from '@domain/entities/response'

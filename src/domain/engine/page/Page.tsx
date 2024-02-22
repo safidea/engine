@@ -6,7 +6,7 @@ import type { Head } from './head'
 import { Html as HtmlResponse } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
 import type { HtmlProps } from './component/Html'
-import type { ReactComponent } from './component/base'
+import type { ReactComponent } from './component/base/base'
 
 interface Params {
   name: string

@@ -158,6 +158,18 @@ features:
             - name: description
               content: *HomePageDescription
         body:
+          - component: Header
+            title: *HomePageTitle
+            links: 
+              - label: *HomePageFooterLinksHomeLabel
+                href: *HomePageFooterLinksHomeHref
+              - label: *HomePageFooterLinksGetStartedLabel
+                href: *HomePageFooterLinksGetStartedHref
+              - label: *HomePageFooterLinksContactLabel
+                href: *HomePageFooterLinksContactHref
+            buttons:
+              - label: 'Login'
+                href: '/login'
           - component: Hero
             title: *HomePageHeroTitle
             description: *HomePageHeroDescription
@@ -379,7 +391,7 @@ features:
             submitButton:
               label: Send magic link
             successMessage: 'Your email has been sent.'
-
+  - name: requests
 server: 
   port: $PORT
 mailer: 
@@ -389,7 +401,7 @@ mailer:
   pass: $MAILER_PASS
   from: $MAILER_FROM
 auth: 
-  redirectOnLogin: /dashboard
+  redirectOnLogin: /requests
   redirectOnLogout: /login
   strategy: magic-link
   confirmEmail:

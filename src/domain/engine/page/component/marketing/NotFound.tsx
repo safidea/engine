@@ -1,4 +1,4 @@
-import type { Base, ReactComponent } from '../base'
+import type { Base, ReactComponent } from '../base/base'
 
 export interface Props {
   title: string

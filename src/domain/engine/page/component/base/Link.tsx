@@ -1,7 +1,7 @@
 import type { ReactComponent, Base } from './base'
 
 export interface Props {
-  text: string
+  label: string
   href: string
 }
 

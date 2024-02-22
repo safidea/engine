@@ -10,6 +10,7 @@ import { Hero } from './marketing/Hero'
 import { Logos } from './marketing/Logos'
 import { NotFound } from './marketing/NotFound'
 import { Link } from './base/Link'
+import { Header } from './marketing/Header'
 
 export const components: ReactComponents = {
   Html,
@@ -23,4 +24,5 @@ export const components: ReactComponents = {
   NotFound,
   Form,
   Link,
+  Header,
 }

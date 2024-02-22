@@ -1,5 +1,5 @@
 import type { Icon } from '../Icon'
-import type { ReactComponent, Base } from '../base'
+import type { ReactComponent, Base } from '../base/base'
 
 export interface Props {
   title: string

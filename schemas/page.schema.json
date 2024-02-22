@@ -58,6 +58,9 @@
                 },
                 {
                     "$ref": "#/definitions/Link_1"
+                },
+                {
+                    "$ref": "#/definitions/Header"
                 }
             ]
         },
@@ -306,6 +309,36 @@
             },
             "type": "object"
         },
+        "Header": {
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Props_1"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Header",
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Props"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "buttons",
+                "component",
+                "links",
+                "title"
+            ],
+            "type": "object"
+        },
         "Hero": {
             "properties": {
                 "component": {
@@ -380,14 +413,14 @@
                 "href": {
                     "type": "string"
                 },
-                "text": {
+                "label": {
                     "type": "string"
                 }
             },
             "required": [
                 "component",
                 "href",
-                "text"
+                "label"
             ],
             "type": "object"
         },
@@ -490,6 +523,42 @@
             "required": [
                 "component",
                 "text"
+            ],
+            "type": "object"
+        },
+        "Props": {
+            "properties": {
+                "href": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Props_1": {
+            "properties": {
+                "href": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label"
             ],
             "type": "object"
         },

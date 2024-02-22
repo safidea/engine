@@ -2,9 +2,9 @@ import type { Component as ComponentConfig } from '../../configs/page/component'
 import { Hero } from '@domain/engine/page/component/marketing/Hero'
 import { Footer } from '@domain/engine/page/component/marketing/Footer'
 import type { Component, ReactComponents } from '@domain/engine/page/component'
-import { Paragraph } from '@domain/engine/page/component/Paragraph'
+import { Paragraph } from '@domain/engine/page/component/base/Paragraph'
 import { Form } from '@domain/engine/page/component/application/Form'
-import { Button } from '@domain/engine/page/component/Button'
+import { Button } from '@domain/engine/page/component/base/Button'
 import { Cta } from '@domain/engine/page/component/marketing/Cta'
 import { Features } from '@domain/engine/page/component/marketing/Features'
 import { Logos } from '@domain/engine/page/component/marketing/Logos'
@@ -12,7 +12,8 @@ import { NotFound } from '@domain/engine/page/component/marketing/NotFound'
 import type { Ui } from '@domain/services/Ui'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Server } from '@domain/services/Server'
-import { Link } from '@domain/engine/page/component/Link'
+import { Link } from '@domain/engine/page/component/base/Link'
+import { Header } from '@domain/engine/page/component/marketing/Header'
 
 export interface Params {
   components: ReactComponents
@@ -27,6 +28,8 @@ export class ComponentMapper {
     switch (config.component) {
       case 'Hero':
         return new Hero({ props: config, component: components.Hero })
+      case 'Header':
+        return new Header({ props: config, component: components.Header })
       case 'Footer':
         return new Footer({ props: config, component: components.Footer })
       case 'Form':

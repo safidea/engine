@@ -1,15 +1,16 @@
-import type { Button, Props as ButtonProps } from './Button'
+import type { Button, Props as ButtonProps } from './base/Button'
 import type { HtmlProps } from './Html'
-import type { Link, Props as LinkProps } from './Link'
-import type { Paragraph, Props as ParagraphProps } from './Paragraph'
+import type { Link, Props as LinkProps } from './base/Link'
+import type { Paragraph, Props as ParagraphProps } from './base/Paragraph'
 import type { Form, Props as FormProps } from './application/Form'
-import type { ReactComponent } from './base'
+import type { ReactComponent } from './base/base'
 import type { Cta, Props as CtaProps } from './marketing/Cta'
 import type { Features, Props as FeaturesProps } from './marketing/Features'
 import type { Footer, Props as FooterProps } from './marketing/Footer'
 import type { Hero, Props as HeroProps } from './marketing/Hero'
 import type { Logos, Props as LogosProps } from './marketing/Logos'
 import type { NotFound, Props as NotFoundProps } from './marketing/NotFound'
+import type { Header, Props as HeaderProps } from './marketing/Header'
 
 export type Component =
   | Paragraph
@@ -22,6 +23,7 @@ export type Component =
   | NotFound
   | Form
   | Link
+  | Header
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -35,6 +37,7 @@ export interface ReactComponents {
   NotFound: ReactComponent<NotFoundProps>
   Form: ReactComponent<FormProps>
   Link: ReactComponent<LinkProps>
+  Header: ReactComponent<HeaderProps>
 }
 
 export interface Props {
@@ -49,4 +52,5 @@ export interface Props {
   NotFound: NotFoundProps
   Form: FormProps
   Link: LinkProps
+  Header: HeaderProps
 }
