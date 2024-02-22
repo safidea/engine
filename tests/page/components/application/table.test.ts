@@ -55,7 +55,7 @@ test.describe('Table component', () => {
     await expect(page.locator('text=John')).toBeVisible()
   })
 
-  test.skip('should open an add row page', async ({ page }) => {
+  test('should open an add row page', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {

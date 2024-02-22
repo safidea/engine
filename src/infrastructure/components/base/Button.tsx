@@ -4,7 +4,7 @@ export const Button = ({ label, href, variant = 'primary' }: Props['Button']) =>
   const classes = getVariant(variant)
   if (href) {
     return (
-      <a className={classes} href={href}>
+      <a className={classes} href={href} target="_top">
         {label}
       </a>
     )
