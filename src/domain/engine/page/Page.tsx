@@ -38,17 +38,23 @@ export class Page implements Base {
   }
 
   get = async () => {
-    return new HtmlResponse(this.html())
+    return new HtmlResponse(await this.html())
   }
 
-  html() {
+  html = async () => {
+    const { ui } = this.params
+    return ui.renderToHtml(await this.render())
+  }
+
+  render = async () => {
     const { body, head } = this.params
-    const { ui, Html } = this.params
-    return ui.renderToHtml(
+    const { Html } = this.params
+    const components = await Promise.all(body.map((component) => component.render()))
+    return (
       <Html
         head={head ? head.render() : null}
-        body={body.map((component, index) => (
-          <component.render key={index} />
+        body={components.map((Component, index) => (
+          <Component key={index} />
         ))}
       />
     )

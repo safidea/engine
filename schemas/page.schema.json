@@ -27,6 +27,21 @@
             ],
             "type": "object"
         },
+        "Column": {
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label",
+                "name"
+            ],
+            "type": "object"
+        },
         "Component": {
             "anyOf": [
                 {
@@ -61,6 +76,9 @@
                 },
                 {
                     "$ref": "#/definitions/Header"
+                },
+                {
+                    "$ref": "#/definitions/Table"
                 }
             ]
         },
@@ -332,9 +350,7 @@
                 }
             },
             "required": [
-                "buttons",
                 "component",
-                "links",
                 "title"
             ],
             "type": "object"
@@ -577,6 +593,29 @@
             },
             "required": [
                 "src"
+            ],
+            "type": "object"
+        },
+        "Table": {
+            "properties": {
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "source"
             ],
             "type": "object"
         }

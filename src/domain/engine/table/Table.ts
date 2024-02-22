@@ -25,6 +25,7 @@ export class Table implements Base {
     const { database, server } = params
     this.database = database.table(this.name)
     server.post(this.path, this.post)
+    server.get(this.path, this.get)
   }
 
   get name() {
@@ -44,6 +45,11 @@ export class Table implements Base {
     const toCreateRecord = this.params.record.create(body as ToCreateData)
     const persistedRecord = await this.database.insert(toCreateRecord)
     return new Json({ record: persistedRecord.data })
+  }
+
+  get = async () => {
+    const records = await this.database.list([])
+    return new Json({ records: records.map((record) => record.data) })
   }
 
   validateConfig() {

@@ -33,7 +33,7 @@ test.describe('Footer component', () => {
 
     // WHEN
     const pageEngine = new Page()
-    const html = pageEngine.getHtml(config)
+    const html = await pageEngine.getHtml(config)
     await page.setContent(html)
 
     // THEN

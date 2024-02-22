@@ -14,6 +14,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Server } from '@domain/services/Server'
 import { Link } from '@domain/engine/page/component/base/Link'
 import { Header } from '@domain/engine/page/component/marketing/Header'
+import { Table } from '@domain/engine/page/component/application/Table'
 
 export interface Params {
   components: ReactComponents
@@ -48,6 +49,8 @@ export class ComponentMapper {
         return new NotFound({ props: config, component: components.NotFound })
       case 'Link':
         return new Link({ props: config, component: components.Link })
+      case 'Table':
+        return new Table({ props: config, component: components.Table, server, ui, idGenerator })
     }
   }
 

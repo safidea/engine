@@ -11,6 +11,7 @@ import { Logos } from './marketing/Logos'
 import { NotFound } from './marketing/NotFound'
 import { Link } from './base/Link'
 import { Header } from './marketing/Header'
+import { Table } from './application/Table'
 
 export const components: ReactComponents = {
   Html,
@@ -25,4 +26,5 @@ export const components: ReactComponents = {
   Form,
   Link,
   Header,
+  Table,
 }

@@ -1,7 +1,12 @@
 export type ReactComponent<T> = (props: T) => JSX.Element
 
-export interface Base<P> {
-  render: (props?: Partial<P>) => JSX.Element
+export interface BaseProps {
+  key?: string | number
+  className?: string
+}
+
+export interface Base<P extends BaseProps> {
+  render: () => Promise<(props?: Partial<P>) => JSX.Element>
 }
 
 export type InputType =

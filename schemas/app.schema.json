@@ -299,6 +299,21 @@
             ],
             "type": "object"
         },
+        "Column": {
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label",
+                "name"
+            ],
+            "type": "object"
+        },
         "Component": {
             "anyOf": [
                 {
@@ -333,6 +348,9 @@
                 },
                 {
                     "$ref": "#/definitions/Header"
+                },
+                {
+                    "$ref": "#/definitions/Table"
                 }
             ]
         },
@@ -742,9 +760,7 @@
                 }
             },
             "required": [
-                "buttons",
                 "component",
-                "links",
                 "title"
             ],
             "type": "object"
@@ -1280,6 +1296,29 @@
         },
         "Table": {
             "properties": {
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "source"
+            ],
+            "type": "object"
+        },
+        "Table_1": {
+            "properties": {
                 "database": {
                     "$ref": "#/definitions/Database"
                 },
@@ -1539,7 +1578,7 @@
                     },
                     "tables": {
                         "items": {
-                            "$ref": "#/definitions/Table"
+                            "$ref": "#/definitions/Table_1"
                         },
                         "type": "array"
                     }

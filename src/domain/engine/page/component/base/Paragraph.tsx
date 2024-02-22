@@ -1,6 +1,6 @@
-import type { ReactComponent, Base } from './base'
+import type { ReactComponent, Base, BaseProps } from './base'
 
-export interface Props {
+export interface Props extends BaseProps {
   text: string
 }
 
@@ -12,5 +12,8 @@ interface Params {
 export class Paragraph implements Base<Props> {
   constructor(private params: Params) {}
 
-  render = () => <this.params.component {...this.params.props} />
+  render = async () => {
+    const { props: defaultProps, component: Component } = this.params
+    return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
+  }
 }

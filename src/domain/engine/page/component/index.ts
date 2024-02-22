@@ -11,6 +11,7 @@ import type { Hero, Props as HeroProps } from './marketing/Hero'
 import type { Logos, Props as LogosProps } from './marketing/Logos'
 import type { NotFound, Props as NotFoundProps } from './marketing/NotFound'
 import type { Header, Props as HeaderProps } from './marketing/Header'
+import type { Table, Props as TableProps } from './application/Table'
 
 export type Component =
   | Paragraph
@@ -24,6 +25,7 @@ export type Component =
   | Form
   | Link
   | Header
+  | Table
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -38,6 +40,7 @@ export interface ReactComponents {
   Form: ReactComponent<FormProps>
   Link: ReactComponent<LinkProps>
   Header: ReactComponent<HeaderProps>
+  Table: ReactComponent<TableProps>
 }
 
 export interface Props {
@@ -53,4 +56,5 @@ export interface Props {
   Form: FormProps
   Link: LinkProps
   Header: HeaderProps
+  Table: TableProps
 }

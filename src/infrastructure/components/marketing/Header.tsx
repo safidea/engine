@@ -11,20 +11,24 @@ export const Header = ({ title, links, buttons }: Props['Header']) => (
             {title}
           </span>
         </a>
-        <div className="justify-between items-center flex w-auto">
-          <ul className="flex flex-row font-medium space-x-8 mt-0">
-            {links.map((link, index) => (
-              <li key={index}>
-                <Link {...link} />
-              </li>
+        {links ? (
+          <div className="justify-between items-center flex w-auto">
+            <ul className="flex flex-row font-medium space-x-8 mt-0">
+              {links.map((link, index) => (
+                <li key={index}>
+                  <Link {...link} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {buttons ? (
+          <div className="flex items-center">
+            {buttons.map((button, index) => (
+              <Button key={index} {...button} />
             ))}
-          </ul>
-        </div>
-        <div className="flex items-center">
-          {buttons.map((button, index) => (
-            <Button key={index} {...button} />
-          ))}
-        </div>
+          </div>
+        ) : null}
       </div>
     </nav>
   </header>

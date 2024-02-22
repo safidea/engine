@@ -404,6 +404,28 @@ features:
               label: Send magic link
             successMessage: 'Your email has been sent.'
   - name: requests
+    specs: 
+      - name: should display the requests
+        when:
+          - open: /requests
+        then:
+          - text: 'Requests'
+    pages: 
+      - name: requests  
+        path: /requests
+        head:
+          title: Requests
+        body:
+          - component: Header
+            title: *HomePageTitle
+          - component: Table
+            source: '/api/table/requests'
+            columns: 
+              - name: subject
+                label: Subject
+            addButton: 
+              label: 'Add request'
+              href: '/requests/add'
 server: 
   port: $PORT
 mailer: 

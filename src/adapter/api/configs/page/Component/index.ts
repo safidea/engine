@@ -9,6 +9,7 @@ import type { Logos } from './marketing/Logos'
 import type { NotFound } from './marketing/NotFound'
 import type { Link } from './base/Link'
 import type { Header } from './marketing/Header'
+import type { Table } from './application/Table'
 
 export type Component =
   | Paragraph
@@ -22,3 +23,4 @@ export type Component =
   | NotFound
   | Link
   | Header
+  | Table

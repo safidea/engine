@@ -1,12 +1,12 @@
 import type { Server } from '@domain/services/Server'
-import type { Base, ReactComponent, InputType } from '../base/base'
+import type { Base, ReactComponent, InputType, BaseProps } from '../base/base'
 import type { Post } from '@domain/entities/request/Post'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Response } from '@domain/entities/response'
 import { Html } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
 
-export interface Props {
+export interface Props extends BaseProps {
   title?: string
   description?: string
   action?: string
@@ -43,7 +43,7 @@ export class Form implements Base<Props> {
     const { idGenerator, props, server } = params
     this.id = idGenerator.forForm()
     if (props.action) {
-      this.path = `/api/form/${this.id}`
+      this.path = `/api/component/form/${this.id}`
       server.post(this.path, this.post)
     }
     const { successMessage, ...res } = props
@@ -67,23 +67,24 @@ export class Form implements Base<Props> {
         body: JSON.stringify(request.body),
       })
       if (result.ok) {
-        return new Html(this.html({ successMessage: this.successMessage }))
+        return new Html(await this.html({ successMessage: this.successMessage }))
       } else {
         const errorMessage = await result.text()
-        return new Html(this.html({ errorMessage }))
+        return new Html(await this.html({ errorMessage }))
       }
     }
-    return new Html(this.html())
+    return new Html(await this.html())
   }
 
-  html = (props?: Partial<Props>) => {
+  html = async (props?: Partial<Props>) => {
     const { ui } = this.params
-    return ui.renderToHtml(this.render(props))
+    const Component = await this.render()
+    return ui.renderToHtml(<Component {...props} />)
   }
 
-  render = (props?: Partial<Props>) => {
+  render = async () => {
     const { ui, component: Component } = this.params
-    return (
+    return (props?: Partial<Props>) => (
       <ui.Frame id={`form-${this.id}`}>
         <Component {...{ ...this.props, ...props }} />
       </ui.Frame>
