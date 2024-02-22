@@ -2,8 +2,7 @@
 
 ## ROADMAP REQUEST
 
-- [ ] Login Page
-- [ ] Register Page
+- [x] Login Page
 - [ ] Requests Page
 - [ ] New Request Page
 - [ ] Request Details Page

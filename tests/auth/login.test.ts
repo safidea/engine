@@ -74,19 +74,6 @@ test.describe('Auth login', () => {
                 },
               ],
             },
-            {
-              name: 'dashboard',
-              path: '/dashboard',
-              head: {
-                title: 'Dashboard',
-              },
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Welcome to the dashboard!',
-                },
-              ],
-            },
           ],
         },
       ],

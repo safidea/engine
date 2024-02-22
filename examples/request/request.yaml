@@ -379,13 +379,7 @@ features:
             submitButton:
               label: Send magic link
             successMessage: 'Your email has been sent.'
-      - name: dashboard
-        path: /dashboard
-        head:
-          title: Dashboard
-        body:
-          - component: Paragraph
-            text: 'Welcome to your dashboard.' 
+
 server: 
   port: $PORT
 mailer: 
