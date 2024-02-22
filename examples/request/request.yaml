@@ -281,6 +281,18 @@ features:
             - name: description
               content: Get started with Request
         body:
+          - component: Header
+            title: *HomePageTitle
+            links: 
+              - label: *HomePageFooterLinksHomeLabel
+                href: *HomePageFooterLinksHomeHref
+              - label: *HomePageFooterLinksGetStartedLabel
+                href: *HomePageFooterLinksGetStartedHref
+              - label: *HomePageFooterLinksContactLabel
+                href: *HomePageFooterLinksContactHref
+            buttons:
+              - label: 'Login'
+                href: '/login'
           - component: Form
             action: '/api/table/leads'
             method: POST
