@@ -54,4 +54,60 @@ test.describe('Table component', () => {
     // THEN
     await expect(page.locator('text=John')).toBeVisible()
   })
+
+  test.skip('should open an add row page', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                  addButton: {
+                    label: 'Add row',
+                    href: '/add',
+                  },
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+    await page.click('text=Add row')
+
+    // THEN
+    expect(page.url()).toContain('/add')
+  })
 })

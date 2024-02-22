@@ -242,12 +242,21 @@
         },
         "Button": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Button",
                     "type": "string"
                 },
                 "href": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "label": {
                     "type": "string"
@@ -387,12 +396,21 @@
         },
         "Cta": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "CTA",
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "primaryButton": {
                     "properties": {
@@ -492,6 +510,9 @@
         },
         "Features": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Features",
                     "type": "string"
@@ -520,6 +541,12 @@
                         "type": "object"
                     },
                     "type": "array"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "title": {
                     "type": "string"
@@ -573,6 +600,9 @@
         },
         "Footer": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Footer",
                     "type": "string"
@@ -582,6 +612,12 @@
                 },
                 "description": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "links": {
                     "items": {
@@ -617,6 +653,9 @@
         "Form": {
             "properties": {
                 "action": {
+                    "type": "string"
+                },
+                "className": {
                     "type": "string"
                 },
                 "component": {
@@ -675,6 +714,12 @@
                         "type": "object"
                     },
                     "type": "array"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "method": {
                     "enum": [
@@ -745,9 +790,18 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Header",
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "links": {
                     "items": {
@@ -767,12 +821,21 @@
         },
         "Hero": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Hero",
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "primaryButton": {
                     "properties": {
@@ -890,12 +953,21 @@
         },
         "Link_1": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Link",
                     "type": "string"
                 },
                 "href": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "label": {
                     "type": "string"
@@ -910,9 +982,18 @@
         },
         "Logos": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Logos",
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "logos": {
                     "items": {
@@ -990,12 +1071,21 @@
         },
         "NotFound": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "NotFound",
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "primaryButton": {
                     "properties": {
@@ -1062,9 +1152,18 @@
         },
         "Paragraph": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Paragraph",
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "text": {
                     "type": "string"
@@ -1095,8 +1194,17 @@
         },
         "Props": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "href": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "label": {
                     "type": "string"
@@ -1110,8 +1218,17 @@
         },
         "Props_1": {
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "href": {
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "label": {
                     "type": "string"
@@ -1296,6 +1413,12 @@
         },
         "Table": {
             "properties": {
+                "addButton": {
+                    "$ref": "#/definitions/Props_1"
+                },
+                "className": {
+                    "type": "string"
+                },
                 "columns": {
                     "items": {
                         "$ref": "#/definitions/Column"
@@ -1305,6 +1428,12 @@
                 "component": {
                     "const": "Table",
                     "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "source": {
                     "type": "string"

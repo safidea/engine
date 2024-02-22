@@ -4,6 +4,7 @@ import type { Ui } from '@domain/services/Ui'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Get } from '@domain/entities/request/Get'
 import { Html } from '@domain/entities/response/Html'
+import type { Props as ButtonProps } from '../base/Button'
 
 export interface Column {
   name: string
@@ -17,6 +18,7 @@ export interface Row {
 export interface Props extends BaseProps {
   columns: Column[]
   rows: Row[]
+  addButton?: ButtonProps
 }
 
 interface Params {
