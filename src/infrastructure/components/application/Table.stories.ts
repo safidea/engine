@@ -47,3 +47,13 @@ export const Default: Story = {
     ],
   },
 }
+
+export const WithAddButton: Story = {
+  args: {
+    ...Default.args,
+    addButton: {
+      label: 'Add',
+      href: '/add',
+    },
+  },
+}
