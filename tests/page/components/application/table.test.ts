@@ -151,4 +151,62 @@ test.describe('Table component', () => {
     // THEN
     expect(page.url()).toContain('/add')
   })
+
+  test.skip('should display a new row in realtime', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                  addButton: {
+                    label: 'Add row',
+                    href: '/add',
+                  },
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+
+    // WHEN
+    await page.goto(url)
+    await page.getByText('John').waitFor({ state: 'visible' })
+    await database.table('leads').insert({ id: '2', name: 'Doe', created_at: new Date() })
+
+    // THEN
+    await expect(page.getByText('Doe')).toBeVisible()
+  })
 })

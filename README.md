@@ -3,8 +3,9 @@
 ## ROADMAP REQUEST
 
 - [x] Login Page
-- [ ] Requests Page
-- [ ] New Request Page
+- [x] Requests Page
+- [x] New Request Page
+- [ ] Navigation Sidebar
 - [ ] Request Details Page
 
 ### Auth
