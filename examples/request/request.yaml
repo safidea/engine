@@ -383,7 +383,7 @@ features:
                 value: 'Confirm your email'
             click: 'Confirm my email'
         then:
-          - url: /dashboard
+          - url: /requests
     pages:
       - name: login
         path: /login
@@ -409,7 +409,7 @@ features:
         when:
           - open: /requests
         then:
-          - text: 'Requests'
+          - text: Request
     pages: 
       - name: requests  
         path: /requests
@@ -445,7 +445,11 @@ features:
                 placeholder: My request
             submitButton:
               label: 'Add request'
-
+    tables:
+      - name: requests
+        fields:
+          - name: subject
+            type: SingleLineText
 server: 
   port: $PORT
 mailer: 
