@@ -17,24 +17,55 @@ export class Base<Config, Engine extends BaseEngine, Params> {
     this.services = new Services(new Spis(params))
   }
 
-  validateSchema = (config: unknown): SchemaError[] => {
-    const { errors = [] } = this.services.schemaValidator().validate<Config>(config, this.schema)
-    return errors
+  public getSchemaErrors = (config: unknown): SchemaError[] => {
+    return this.services.schemaValidator().validate(config, this.schema)
   }
 
-  validateConfig = (config: Config): ConfigError[] => {
-    return this.mapper.toEntityFromServices(config, this.services).validateConfig()
+  private isConfig = (config: unknown): config is Config => {
+    return this.getSchemaErrors(config).length === 0
   }
 
-  protected validate = (config: unknown): config is Config => {
-    const { errors, json } = this.services.schemaValidator().validate<Config>(config, this.schema)
-    if (errors || !json) return false
-    return this.validateConfig(json).length === 0
+  protected validateSchemaOrThrow = (config: unknown): Config => {
+    if (!this.isConfig(config)) {
+      const errors = this.getSchemaErrors(config)
+      throw new Error('Invalid schema: ' + errors[0].message)
+    }
+    return config
   }
 
-  protected prepareConfig = (config: unknown): Config => {
-    if (!this.validate(config)) throw new Error('Invalid config')
-    return this.replaceEnvVariablesDeep(config)
+  protected getConfigWithEnv = (config: unknown): Config => {
+    const configWithValidatedSchema = this.validateSchemaOrThrow(config)
+    return this.replaceEnvVariablesDeep(configWithValidatedSchema)
+  }
+
+  protected getEngine = (config: unknown): Engine => {
+    const configWithEnv = this.getConfigWithEnv(config)
+    return this.mapper.toEntityFromServices(configWithEnv, this.services)
+  }
+
+  public getConfigErrors = async (config: unknown): Promise<ConfigError[]> => {
+    const engine = this.getEngine(config)
+    return engine.validateConfig()
+  }
+
+  protected validateOrThrow = async (
+    config: unknown
+  ): Promise<{ config: Config; engine: Engine }> => {
+    const configWithEnv = this.getConfigWithEnv(config)
+    const engine = this.mapper.toEntityFromServices(configWithEnv, this.services)
+    const errors = await engine.validateConfig()
+    if (errors.length > 0) throw new Error('Invalid config: ' + errors[0].message)
+    return { config: configWithEnv, engine }
+  }
+
+  protected validateConfigOrThrow = async (config: unknown): Promise<Config> => {
+    const { config: validatedConfig } = await this.validateOrThrow(config)
+    return validatedConfig
+  }
+
+  protected validateEngineOrThrow = async (config: unknown): Promise<Engine> => {
+    const { engine } = await this.validateOrThrow(config)
+    return engine
   }
 
   private isObject = (value: unknown): value is Record<string, unknown> => {

@@ -426,6 +426,26 @@ features:
             addButton: 
               label: 'Add request'
               href: '/requests/add'
+      - name: new-request
+        path: /requests/add
+        head:
+          title: New request
+        body:
+          - component: Header
+            title: *HomePageTitle
+          - component: Form
+            action: '/api/table/requests'
+            method: POST
+            title: New request
+            inputs: 
+              - name: subject
+                label: Subject
+                type: text
+                required: true
+                placeholder: My request
+            submitButton:
+              label: 'Add request'
+
 server: 
   port: $PORT
 mailer: 

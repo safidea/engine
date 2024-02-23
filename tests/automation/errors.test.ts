@@ -7,7 +7,7 @@ test.describe('Automations schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Automation().validateSchema(config)
+    const errors = new Automation().getSchemaErrors(config)
 
     // THEN
     expect(errors).toHaveLength(3)

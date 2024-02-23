@@ -202,4 +202,41 @@ test.describe('App api', () => {
     // THEN
     expect(url).toContain('5432')
   })
+
+  test('should display a config error', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+
+    // WHEN
+    const call = async () => app.test(config)
+
+    // THEN
+    await expect(call).rejects.toThrow('Table source /api/table/leads does not have a GET handler')
+  })
 })

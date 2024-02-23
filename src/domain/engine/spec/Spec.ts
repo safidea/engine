@@ -34,7 +34,9 @@ export class Spec implements Base {
     return this.params.name
   }
 
-  validateConfig() {
+  init = async () => {}
+
+  validateConfig = async () => {
     return []
   }
 

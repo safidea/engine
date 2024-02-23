@@ -2,5 +2,6 @@ import type { ConfigError } from '@domain/entities/error/Config'
 
 export interface Base {
   name: string
-  validateConfig(): ConfigError[]
+  init: () => Promise<void>
+  validateConfig: () => Promise<ConfigError[]>
 }

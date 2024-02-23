@@ -9,4 +9,8 @@ export interface Params {
 
 export class SchemaError {
   constructor(private params: Params) {}
+
+  get message() {
+    return this.params.message
+  }
 }

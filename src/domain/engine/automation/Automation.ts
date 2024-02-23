@@ -23,7 +23,12 @@ export class Automation implements Base {
     return this.params.name
   }
 
-  validateConfig() {
+  init = async () => {
+    const { trigger } = this.params
+    await trigger.init()
+  }
+
+  validateConfig = async () => {
     return []
   }
 

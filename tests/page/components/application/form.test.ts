@@ -24,6 +24,7 @@ test.describe('Form component', () => {
       body: [
         {
           component: 'Form',
+          action: '#',
           title,
           description,
           inputs,
@@ -74,6 +75,7 @@ test.describe('Form component', () => {
       body: [
         {
           component: 'Form',
+          action: '#',
           title,
           description,
           inputs,

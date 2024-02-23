@@ -3,23 +3,14 @@ import type { SchemaErrorDto } from './dtos/ErrorDto'
 import { ErrorMapper } from './mappers/ErrorMapper'
 
 export interface Driver {
-  validateSchema<T>(
-    json: unknown,
-    name: string
-  ): {
-    json?: T
-    errors: SchemaErrorDto[]
-  }
+  validateSchema(json: unknown, name: string): SchemaErrorDto[]
 }
 
 export class SchemaValidatorSpi implements Spi {
   constructor(private driver: Driver) {}
 
-  validateSchema = <T>(schema: unknown, name: string) => {
-    const { json, errors } = this.driver.validateSchema<T>(schema, name)
-    return {
-      json,
-      errors: ErrorMapper.toManySchemaEntities(errors),
-    }
+  validateSchema = (schema: unknown, name: string) => {
+    const errors = this.driver.validateSchema(schema, name)
+    return ErrorMapper.toManySchemaEntities(errors)
   }
 }

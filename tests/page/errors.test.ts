@@ -7,7 +7,7 @@ test.describe('Page schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Page().validateSchema(config)
+    const errors = new Page().getSchemaErrors(config)
 
     // THEN
     expect(errors).toHaveLength(3)

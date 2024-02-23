@@ -7,7 +7,7 @@ test.describe('Table schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Table().validateSchema(config)
+    const errors = new Table().getSchemaErrors(config)
 
     // THEN
     expect(errors).toHaveLength(2)

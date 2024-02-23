@@ -18,18 +18,25 @@ export class Feature implements Base {
     this.name = params.name
   }
 
-  validateConfig() {
-    const errors: ConfigError[] = []
+  init = async () => {
     const { specs } = this.params
-    if (specs) errors.push(...specs.flatMap((spec) => spec.validateConfig()))
-    return errors
+    await Promise.all(specs.map((spec) => spec.init()))
   }
 
-  async test(callback: () => App): Promise<TestError[]> {
+  validateConfig = async () => {
+    await this.init()
+    const errors: Promise<ConfigError[]>[] = []
+    const { specs } = this.params
+    if (specs) errors.push(...specs.map((spec) => spec.validateConfig()))
+    return Promise.all(errors).then((errors) => errors.flat())
+  }
+
+  test = async (callback: () => Promise<App>): Promise<TestError[]> => {
+    await this.init()
     const { logger, specs } = this.params
     const errors: TestError[] = []
     logger.log(`start testing specs`)
-    const results = await Promise.all(specs.flatMap((spec) => spec.test(callback())))
+    const results = await Promise.all(specs.flatMap(async (spec) => spec.test(await callback())))
     for (const result of results) if (result) errors.push(result)
     logger.log(`finish testing specs with ${errors.length} error(s)`)
     return errors

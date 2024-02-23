@@ -7,9 +7,9 @@ import { Html } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
 
 export interface Props extends BaseProps {
+  action: string
   title?: string
   description?: string
-  action?: string
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   inputs: {
     name: string
@@ -40,12 +40,9 @@ export class Form implements Base<Props> {
   private successMessage?: string
 
   constructor(private params: Params) {
-    const { idGenerator, props, server } = params
+    const { idGenerator, props } = params
     this.id = idGenerator.forForm()
-    if (props.action) {
-      this.path = `/api/component/form/${this.id}`
-      server.post(this.path, this.post)
-    }
+    this.path = `/api/component/form/${this.id}`
     const { successMessage, ...res } = props
     this.props = {
       ...res,
@@ -55,25 +52,27 @@ export class Form implements Base<Props> {
     this.successMessage = successMessage
   }
 
+  init = async () => {
+    const { server } = this.params
+    await server.post(this.path, this.post)
+  }
+
   post = async (request: Post): Promise<Response> => {
-    const { action, method } = this.params.props
-    if (action) {
-      const url = action.startsWith('/') ? request.baseUrl + action : action
-      const result = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(request.body),
-      })
-      if (result.ok) {
-        return new Html(await this.html({ successMessage: this.successMessage }))
-      } else {
-        const errorMessage = await result.text()
-        return new Html(await this.html({ errorMessage }))
-      }
+    const { action, method = 'POST' } = this.params.props
+    const url = action.startsWith('/') ? request.baseUrl + action : action
+    const result = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request.body),
+    })
+    if (result.ok) {
+      return new Html(await this.html({ successMessage: this.successMessage }))
+    } else {
+      const errorMessage = await result.text()
+      return new Html(await this.html({ errorMessage }))
     }
-    return new Html(await this.html())
   }
 
   html = async (props?: Partial<Props>) => {
@@ -89,5 +88,9 @@ export class Form implements Base<Props> {
         <Component {...{ ...this.props, ...props }} />
       </ui.Frame>
     )
+  }
+
+  validateConfig = () => {
+    return []
   }
 }

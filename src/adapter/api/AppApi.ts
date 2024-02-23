@@ -15,10 +15,10 @@ export class AppApi extends Base<Config, App, AppParams> {
 
   test = async (config: unknown): Promise<TestError[]> => {
     const errors: TestError[] = []
-    const { auth, features } = this.prepareConfig(config)
+    const { auth, features } = await this.validateConfigOrThrow(config)
     for (const featureConfig of features) {
       const feature = FeatureMapper.toEntityFromServices({ ...featureConfig, auth }, this.services)
-      const newApp = () =>
+      const newApp = async () =>
         AppMapper.featureToEntityFromServices({ ...featureConfig, auth }, this.services)
       const specErrors = await feature.test(newApp)
       errors.push(...specErrors)
@@ -27,7 +27,7 @@ export class AppApi extends Base<Config, App, AppParams> {
   }
 
   start = async (config: unknown): Promise<string> => {
-    this.app = this.mapper.toEntityFromServices(this.prepareConfig(config), this.services)
+    this.app = this.getEngine(config)
     return this.app.start()
   }
 

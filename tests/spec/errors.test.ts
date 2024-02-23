@@ -7,7 +7,7 @@ test.describe('Spec schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Spec().validateSchema(config)
+    const errors = new Spec().getSchemaErrors(config)
 
     // THEN
     expect(errors).toHaveLength(3)

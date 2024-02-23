@@ -12,9 +12,10 @@ export class FeatureApi extends Base<Config, Feature, Params> {
   }
 
   test = async (config: unknown): Promise<TestError[]> => {
-    const feature = this.mapper.toEntityFromServices(this.prepareConfig(config), this.services)
-    return feature.test(() =>
-      AppMapper.featureToEntityFromServices(this.prepareConfig(config), this.services)
+    const validatedConfig = await this.validateConfigOrThrow(config)
+    const feature = this.mapper.toEntityFromServices(validatedConfig, this.services)
+    return feature.test(async () =>
+      AppMapper.featureToEntityFromServices(validatedConfig, this.services)
     )
   }
 }

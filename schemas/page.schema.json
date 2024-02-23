@@ -340,6 +340,7 @@
                 }
             },
             "required": [
+                "action",
                 "component",
                 "inputs",
                 "submitButton"

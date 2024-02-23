@@ -14,6 +14,7 @@ export const Default: Story = {
     title: 'Contact Us',
     description:
       'Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.',
+    action: '#',
     inputs: [
       {
         name: 'email',

@@ -5,6 +5,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Get } from '@domain/entities/request/Get'
 import { Html } from '@domain/entities/response/Html'
 import type { Props as ButtonProps } from '../base/Button'
+import { ConfigError } from '@domain/entities/error/Config'
 
 export interface Column {
   name: string
@@ -35,11 +36,15 @@ export class Table implements Base<Props> {
   private props: Props
 
   constructor(private params: Params) {
-    const { props, idGenerator, server } = params
+    const { props, idGenerator } = params
     this.props = { ...props, rows: [] }
     this.id = idGenerator.forForm()
     this.path = `/api/component/table/${this.id}`
-    server.get(this.path, this.get)
+  }
+
+  init = async () => {
+    const { server } = this.params
+    await server.get(this.path, this.get)
   }
 
   get = async (request: Get) => {
@@ -67,5 +72,23 @@ export class Table implements Base<Props> {
         <Component {...{ ...this.props, ...props }} />
       </ui.Frame>
     )
+  }
+
+  validateConfig = () => {
+    const {
+      props: { source },
+      server,
+    } = this.params
+    const errors = []
+    if (source.startsWith('/api/table/')) {
+      if (!server.hasGetHandler(source)) {
+        errors.push(
+          new ConfigError({ message: `Table source ${source} does not have a GET handler` })
+        )
+      }
+    } else {
+      errors.push(new ConfigError({ message: 'Table source must start with /api/table/' }))
+    }
+    return errors
   }
 }

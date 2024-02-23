@@ -1,8 +1,49 @@
 import { test, expect } from '@playwright/test'
-import App, { type Config as AppConfig } from '@solumy/engine'
+import App, { type Config as AppConfig, ConfigError } from '@solumy/engine'
 import Database from '@utils/tests/database'
 
 test.describe('Table component', () => {
+  test('should return an error config if source is not valid table endpoint', async () => {
+    // GIVEN
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+
+    // WHEN
+    const errors = await app.getConfigErrors(config)
+
+    // THEN
+    expect(errors).toContainEqual(
+      new ConfigError({
+        message: 'Table source /api/table/leads does not have a GET handler',
+      })
+    )
+  })
+
   test('should display a row in a table', async ({ page }) => {
     // GIVEN
     const database = new Database()

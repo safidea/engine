@@ -10,9 +10,11 @@ interface Params {
 }
 
 export class RecordCreated {
-  constructor(private params: Params) {
-    const { realtime, table } = params
-    realtime.onInsert(table, this.onInsert)
+  constructor(private params: Params) {}
+
+  init = async () => {
+    const { realtime, table } = this.params
+    await realtime.onInsert(table, this.onInsert)
   }
 
   onInsert = async (record: Persisted) => {

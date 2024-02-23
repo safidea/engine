@@ -7,7 +7,7 @@ test.describe('Feature schema errors', () => {
     const config = {}
 
     // WHEN
-    const errors = new Feature().validateSchema(config)
+    const errors = new Feature().getSchemaErrors(config)
 
     // THEN
     expect(errors).toHaveLength(1)

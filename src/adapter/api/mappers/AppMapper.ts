@@ -47,11 +47,15 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       if (params.table && feature.tables && feature.tables.length > 0) {
         tables.push(...TableMapper.toManyEntities(feature.tables, params.table))
       }
-      if (params.page && feature.pages && feature.pages.length > 0) {
-        pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
-      }
+    }
+    for (const feature of features) {
       if (params.automation && feature.automations && feature.automations.length > 0) {
         automations.push(...AutomationMapper.toManyEntities(feature.automations, params.automation))
+      }
+    }
+    for (const feature of features) {
+      if (params.page && feature.pages && feature.pages.length > 0) {
+        pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
       }
     }
     const logger = newLogger(`app:${name}`)

@@ -20,13 +20,21 @@ interface Params {
 }
 
 export class Page implements Base {
-  constructor(private params: Params) {
-    const { server } = params
+  constructor(private params: Params) {}
+
+  init = async () => {
+    const { server, body } = this.params
     if (this.path === '/404') {
-      server.notFound(this.get)
+      await server.notFound(this.get)
     } else {
-      server.get(this.path, this.get)
+      await Promise.all(body.map((component) => component.init()))
+      await server.get(this.path, this.get)
     }
+  }
+
+  validateConfig = async () => {
+    const { body } = this.params
+    return Promise.all(body.flatMap((component) => component.validateConfig()))
   }
 
   get name() {
@@ -58,9 +66,5 @@ export class Page implements Base {
         ))}
       />
     )
-  }
-
-  validateConfig() {
-    return []
   }
 }

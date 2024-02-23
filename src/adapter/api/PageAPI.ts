@@ -9,8 +9,8 @@ export class PageApi extends Base<Config, Page, Params> {
     super(params, PageMapper, 'page')
   }
 
-  getHtml = (config: unknown): Promise<string> => {
-    const page = this.mapper.toEntityFromServices(this.prepareConfig(config), this.services)
+  getHtml = async (config: unknown): Promise<string> => {
+    const page = await this.validateEngineOrThrow(config)
     return page.html()
   }
 }

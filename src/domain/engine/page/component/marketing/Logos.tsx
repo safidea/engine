@@ -16,8 +16,14 @@ interface Params {
 export class Logos implements Base<Props> {
   constructor(private params: Params) {}
 
+  init = async () => {}
+
   render = async () => {
     const { props: defaultProps, component: Component } = this.params
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
+  }
+
+  validateConfig = () => {
+    return []
   }
 }

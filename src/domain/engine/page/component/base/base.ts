@@ -1,3 +1,5 @@
+import type { ConfigError } from '@domain/entities/error/Config'
+
 export type ReactComponent<T> = (props: T) => JSX.Element
 
 export interface BaseProps {
@@ -6,7 +8,9 @@ export interface BaseProps {
 }
 
 export interface Base<P extends BaseProps> {
+  init: () => Promise<void>
   render: () => Promise<(props?: Partial<P>) => JSX.Element>
+  validateConfig: () => ConfigError[]
 }
 
 export type InputType =

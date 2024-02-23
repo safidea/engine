@@ -12,16 +12,18 @@ interface Params {
 }
 
 export class WebhookCalled {
-  constructor(private params: Params) {
-    const { server, method } = params
-    if (method === 'POST') {
-      server.post(this.path, this.post)
-    }
-  }
+  constructor(private params: Params) {}
 
   get path() {
     const { path } = this.params
     return `/api/automation/${path}`
+  }
+
+  init = async () => {
+    const { server, method } = this.params
+    if (method === 'POST') {
+      await server.post(this.path, this.post)
+    }
   }
 
   post = async (request: Post) => {

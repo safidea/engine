@@ -22,10 +22,18 @@ export class Table implements Base {
   private database: DatabaseTable
 
   constructor(private params: Params) {
-    const { database, server } = params
+    const { database } = params
     this.database = database.table(this.name)
-    server.post(this.path, this.post)
-    server.get(this.path, this.get)
+  }
+
+  init = async () => {
+    const { server } = this.params
+    await server.post(this.path, this.post)
+    await server.get(this.path, this.get)
+  }
+
+  validateConfig = async () => {
+    return []
   }
 
   get name() {
@@ -50,9 +58,5 @@ export class Table implements Base {
   get = async () => {
     const records = await this.database.list([])
     return new Json({ records: records.map((record) => record.data) })
-  }
-
-  validateConfig() {
-    return []
   }
 }

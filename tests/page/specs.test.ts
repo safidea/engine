@@ -291,6 +291,7 @@ test.describe('Pages specs', () => {
           body: [
             {
               component: 'Form',
+              action: '#',
               title: 'Form',
               description: 'Form description',
               inputs: [
@@ -339,6 +340,7 @@ test.describe('Pages specs', () => {
           body: [
             {
               component: 'Form',
+              action: '#',
               title: 'Form',
               description: 'Form description',
               inputs: [

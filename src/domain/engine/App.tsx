@@ -32,16 +32,25 @@ export class App implements Base {
     return this.params.name
   }
 
-  validateConfig() {
+  init = async () => {
     const { tables, pages, automations } = this.params
-    const errors: ConfigError[] = []
-    errors.push(...tables.flatMap((table) => table.validateConfig()))
-    errors.push(...pages.flatMap((page) => page.validateConfig()))
-    errors.push(...automations.flatMap((automation) => automation.validateConfig()))
-    return errors
+    for (const table of tables) await table.init()
+    for (const automation of automations) await automation.init()
+    for (const page of pages) await page.init()
+  }
+
+  validateConfig = async () => {
+    await this.init()
+    const { tables, pages, automations } = this.params
+    const errors: Promise<ConfigError[]>[] = []
+    errors.push(...tables.map((table) => table.validateConfig()))
+    errors.push(...pages.map((page) => page.validateConfig()))
+    errors.push(...automations.map((automation) => automation.validateConfig()))
+    return Promise.all(errors).then((errors) => errors.flat())
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
+    await this.validateConfig()
     const { server, database, queue, mailer, realtime, auth } = this.params
     if (database) await database.migrate(this.params.tables)
     if (queue) await queue.start()
