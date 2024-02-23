@@ -27,7 +27,7 @@ export class AppApi extends Base<Config, App, AppParams> {
   }
 
   start = async (config: unknown): Promise<string> => {
-    this.app = this.getEngine(config)
+    this.app = await this.validateEngineOrThrow(config)
     return this.app.start()
   }
 
