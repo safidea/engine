@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ preview_number }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .customer-info {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h2>Invoice {{#if number}}{{ number }}{{else}}{{ preview_number }}{{/if}}</h2>
+        {{#unless number}}<p>Preview</p>{{/unless}}
+        {{#if finalised_time}}
+            <p>Date: {{datetime_format finalised_time "dd/MM/yy"}}</p>
+        {{else}}
+            <p>Date: {{now "dd/MM/yy"}}</p>
+        {{/if}}
+    </div>
+
+    <div class="customer-info">
+        <strong>Customer:</strong> {{ customer }}<br>
+        <strong>Address:</strong> {{ address }}, {{ zip_code }} {{ city }}<br>
+        <strong>Country:</strong> {{ country }}<br>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Activity</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>VAT</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+                <tr>
+                    <td>{{ this.activity }}</td>
+                    <td>{{ this.quantity }}</td>
+                    <td>{{currency this.unit_price }}</td>
+                    <td>{{ this.vat }}</td>
+                    <td>{{currency this.total_amount }}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right;"><strong>Net Total:</strong></td>
+                <td><strong>{{currency total_net_amount }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: right;"><strong>VAT:</strong></td>
+                <td><strong>{{currency total_vat }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
+                <td><strong>{{currency total_amount }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html>

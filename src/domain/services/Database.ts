@@ -40,8 +40,11 @@ export class Database {
       const tableDb = this.table(table.name)
       if (await tableDb.exists()) {
         for (const field of table.fields) {
-          logger.log(`altering field ${field.name} in table ${table.name}`)
-          await tableDb.alterField(field)
+          const fieldExists = await tableDb.fieldExists(field.name)
+          if (!fieldExists) {
+            logger.log(`adding field ${field.name} to table ${table.name}`)
+            await tableDb.addField(field)
+          }
         }
       } else {
         logger.log(`creating table ${table.name}`)

@@ -1,0 +1,22 @@
+{
+  "recommendations": [
+    // Linting / Formatting
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // Showing todo comments
+    "gruntfuggly.todo-tree",
+
+    // Editing
+    "vscode-icons-team.vscode-icons",
+
+    // Testing
+    "orta.vscode-jest",
+
+    // Github Copilot
+    "github.copilot",
+
+    // REST
+    "humao.rest-client"
+  ]
+}

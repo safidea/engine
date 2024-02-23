@@ -1,0 +1,4953 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ButtonComponentParams": {
+      "properties": {
+        "display": {
+          "enum": ["primary", "secondary"],
+          "type": "string"
+        },
+        "size": {
+          "enum": ["extra-large", "extra-small", "large", "medium", "small"],
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "button": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["button"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["button"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "text", "size", "display", "style", "testId"],
+      "required": ["text", "type"],
+      "type": "object"
+    },
+    "CardComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "card": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["card"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["card"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "components", "style", "testId"],
+      "required": ["components", "type"],
+      "type": "object"
+    },
+    "ColumnsComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "column": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "columns": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["columns", "column"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["columns"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "components", "style", "testId"],
+      "required": ["components", "type"],
+      "type": "object"
+    },
+    "ComponentParams": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ContainerComponentParams"
+        },
+        {
+          "$ref": "#/definitions/LinkComponentParams"
+        },
+        {
+          "$ref": "#/definitions/ParagraphComponentParams"
+        },
+        {
+          "$ref": "#/definitions/NavigationComponentParams"
+        },
+        {
+          "$ref": "#/definitions/TitleComponentParams"
+        },
+        {
+          "$ref": "#/definitions/ListComponentParams"
+        },
+        {
+          "$ref": "#/definitions/FormComponentParams"
+        },
+        {
+          "$ref": "#/definitions/TextInputComponentParams"
+        },
+        {
+          "$ref": "#/definitions/TableInputComponentParams"
+        },
+        {
+          "$ref": "#/definitions/SingleSelectRecordInputComponentParams"
+        },
+        {
+          "$ref": "#/definitions/SingleSelectInputComponentParams"
+        },
+        {
+          "$ref": "#/definitions/ColumnsComponentParams"
+        },
+        {
+          "$ref": "#/definitions/ImageComponentParams"
+        },
+        {
+          "$ref": "#/definitions/RowsComponentParams"
+        },
+        {
+          "$ref": "#/definitions/ButtonComponentParams"
+        },
+        {
+          "$ref": "#/definitions/IconComponentParams"
+        },
+        {
+          "$ref": "#/definitions/CardComponentParams"
+        },
+        {
+          "$ref": "#/definitions/RowComponentParams"
+        }
+      ]
+    },
+    "ContainerComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "container": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "section": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["container", "section"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["container"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "components", "style", "testId"],
+      "required": ["components", "type"],
+      "type": "object"
+    },
+    "FormComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "recordIdToUpdate": {
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "errorMessage": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "form": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "loading": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "submit": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["form", "submit", "loading", "errorMessage"],
+          "type": "object"
+        },
+        "submit": {
+          "properties": {
+            "actionsOnSuccess": {
+              "items": {
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "propertyOrder": ["type", "path"],
+                "required": ["path", "type"],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "autosave": {
+              "type": "boolean"
+            },
+            "label": {
+              "type": "string"
+            },
+            "loadingLabel": {
+              "type": "string"
+            }
+          },
+          "propertyOrder": ["label", "loadingLabel", "autosave", "actionsOnSuccess"],
+          "required": ["loadingLabel"],
+          "type": "object"
+        },
+        "table": {
+          "type": "string"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["form"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": [
+        "type",
+        "table",
+        "components",
+        "submit",
+        "recordIdToUpdate",
+        "style",
+        "testId"
+      ],
+      "required": ["components", "submit", "table", "type"],
+      "type": "object"
+    },
+    "IconComponentParams": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "enum": ["extra-large", "extra-small", "large", "medium", "small"],
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "icon": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["icon"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["icon"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "name", "size", "style", "testId"],
+      "required": ["name", "type"],
+      "type": "object"
+    },
+    "ImageComponentParams": {
+      "properties": {
+        "height": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "image": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["image"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["image"],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "path", "text", "width", "height", "style", "testId"],
+      "required": ["path", "text", "type"],
+      "type": "object"
+    },
+    "LinkComponentParams": {
+      "properties": {
+        "display": {
+          "enum": ["link", "primary-button", "secondary-button"],
+          "type": "string"
+        },
+        "icon": {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "position": {
+              "enum": ["left", "right"],
+              "type": "string"
+            },
+            "size": {
+              "enum": ["extra-large", "extra-small", "large", "medium", "small"],
+              "type": "string"
+            },
+            "style": {
+              "properties": {
+                "icon": {
+                  "properties": {
+                    "background": {
+                      "properties": {
+                        "color": {
+                          "enum": ["gray-100", "gray-200"],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["color"],
+                      "type": "object"
+                    },
+                    "content": {
+                      "properties": {
+                        "justify": {
+                          "enum": ["center", "left", "right"],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["justify"],
+                      "type": "object"
+                    },
+                    "items": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    },
+                    "margin": {
+                      "properties": {
+                        "bottom": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        },
+                        "left": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        },
+                        "right": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        },
+                        "top": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["top", "right", "bottom", "left"],
+                      "type": "object"
+                    },
+                    "rounded": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "shadow": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "text": {
+                      "properties": {
+                        "align": {
+                          "enum": ["center", "left", "right"],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["align"],
+                      "type": "object"
+                    }
+                  },
+                  "propertyOrder": [
+                    "items",
+                    "background",
+                    "margin",
+                    "text",
+                    "rounded",
+                    "shadow",
+                    "content"
+                  ],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": ["icon"],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["name", "size", "position", "style"],
+          "required": ["name"],
+          "type": "object"
+        },
+        "path": {
+          "type": "string"
+        },
+        "size": {
+          "enum": ["extra-large", "extra-small", "large", "medium", "small"],
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "link": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["link"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["link"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "path", "text", "size", "display", "icon", "style", "testId"],
+      "required": ["path", "text", "type"],
+      "type": "object"
+    },
+    "ListComponentParams": {
+      "properties": {
+        "columns": {
+          "items": {
+            "properties": {
+              "action": {
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "propertyOrder": ["type", "path", "url"],
+                "type": "object"
+              },
+              "buttonLabel": {
+                "type": "string"
+              },
+              "field": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "options": {
+                "items": {
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["name", "label"],
+                  "required": ["label", "name"],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "type": {
+                "type": "string"
+              }
+            },
+            "propertyOrder": ["label", "field", "options", "type", "action", "buttonLabel"],
+            "required": ["label"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "groupBy": {
+          "items": {
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "order": {
+                "enum": ["asc", "desc", "first_to_last", "last_to_first"],
+                "type": "string"
+              }
+            },
+            "propertyOrder": ["field", "order"],
+            "required": ["field", "order"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "sortBy": {
+          "items": {
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "order": {
+                "enum": ["asc", "desc", "first_to_last", "last_to_first"],
+                "type": "string"
+              }
+            },
+            "propertyOrder": ["field", "order"],
+            "required": ["field", "order"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "cell": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "container": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "group": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "header": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "headerColumn": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "row": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "rows": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["container", "header", "headerColumn", "row", "rows", "group", "cell"],
+          "type": "object"
+        },
+        "table": {
+          "type": "string"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["list"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "table", "columns", "groupBy", "sortBy", "style", "testId"],
+      "required": ["columns", "table", "type"],
+      "type": "object"
+    },
+    "NavigationComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "links": {
+          "items": {
+            "$ref": "#/definitions/LinkComponentParams"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "container": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "content": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "linkItem": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "linksContainer": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "sidebar": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "title": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": [
+            "container",
+            "sidebar",
+            "title",
+            "linksContainer",
+            "linkItem",
+            "content"
+          ],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "title": {
+          "$ref": "#/definitions/TitleComponentParams"
+        },
+        "type": {
+          "enum": ["navigation"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "title", "links", "components", "style", "testId"],
+      "required": ["components", "links", "title", "type"],
+      "type": "object"
+    },
+    "ParagraphComponentParams": {
+      "properties": {
+        "icon": {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "style": {
+              "properties": {
+                "icon": {
+                  "properties": {
+                    "background": {
+                      "properties": {
+                        "color": {
+                          "enum": ["gray-100", "gray-200"],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["color"],
+                      "type": "object"
+                    },
+                    "content": {
+                      "properties": {
+                        "justify": {
+                          "enum": ["center", "left", "right"],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["justify"],
+                      "type": "object"
+                    },
+                    "items": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    },
+                    "margin": {
+                      "properties": {
+                        "bottom": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        },
+                        "left": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        },
+                        "right": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        },
+                        "top": {
+                          "enum": [
+                            "extra-large",
+                            "extra-small",
+                            "large",
+                            "medium",
+                            "none",
+                            "small"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["top", "right", "bottom", "left"],
+                      "type": "object"
+                    },
+                    "rounded": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "shadow": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "text": {
+                      "properties": {
+                        "align": {
+                          "enum": ["center", "left", "right"],
+                          "type": "string"
+                        }
+                      },
+                      "propertyOrder": ["align"],
+                      "type": "object"
+                    }
+                  },
+                  "propertyOrder": [
+                    "items",
+                    "background",
+                    "margin",
+                    "text",
+                    "rounded",
+                    "shadow",
+                    "content"
+                  ],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": ["icon"],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["name", "style"],
+          "required": ["name"],
+          "type": "object"
+        },
+        "size": {
+          "enum": ["large", "medium", "small"],
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "paragraph": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["paragraph"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["paragraph"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "text", "size", "icon", "style", "testId"],
+      "required": ["text", "type"],
+      "type": "object"
+    },
+    "RowComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "row": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["row"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["row"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "components", "style", "testId"],
+      "required": ["components", "type"],
+      "type": "object"
+    },
+    "RowsComponentParams": {
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/definitions/ComponentParams"
+          },
+          "type": "array"
+        },
+        "style": {
+          "properties": {
+            "row": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "rows": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["rows", "row"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["rows"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "components", "style", "testId"],
+      "required": ["components", "type"],
+      "type": "object"
+    },
+    "SingleSelectInputComponentParams": {
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "propertyOrder": ["value", "label"],
+            "required": ["label", "value"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "label": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "option": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "select": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["option", "select", "label"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["single_select_input"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "field", "options", "label", "placeholder", "style", "testId"],
+      "required": ["field", "options", "type"],
+      "type": "object"
+    },
+    "SingleSelectRecordInputComponentParams": {
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "fieldForOptionLabel": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "label": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "option": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "select": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["option", "select", "label"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["single_select_record_input"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": [
+        "type",
+        "field",
+        "fieldForOptionLabel",
+        "placeholder",
+        "label",
+        "style",
+        "testId"
+      ],
+      "required": ["field", "fieldForOptionLabel", "type"],
+      "type": "object"
+    },
+    "TableInputComponentParams": {
+      "properties": {
+        "addLabel": {
+          "type": "string"
+        },
+        "columns": {
+          "items": {
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "placeholder": {
+                "type": "string"
+              }
+            },
+            "propertyOrder": ["label", "field", "placeholder"],
+            "required": ["field", "label"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "addLabel": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "cell": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "container": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "header": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "headerColumn": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "label": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "menu": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "remove": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "row": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "rows": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "table": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": [
+            "container",
+            "menu",
+            "label",
+            "addLabel",
+            "table",
+            "header",
+            "headerColumn",
+            "rows",
+            "row",
+            "cell",
+            "remove"
+          ],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["table_input"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": [
+        "type",
+        "field",
+        "columns",
+        "addLabel",
+        "label",
+        "placeholder",
+        "style",
+        "testId"
+      ],
+      "required": ["addLabel", "columns", "field", "type"],
+      "type": "object"
+    },
+    "TextInputComponentParams": {
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "input": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            },
+            "label": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["input", "label"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["text_input"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "field", "label", "placeholder", "style", "testId"],
+      "required": ["field", "type"],
+      "type": "object"
+    },
+    "TitleComponentParams": {
+      "properties": {
+        "size": {
+          "enum": ["extra-large", "extra-small", "large", "medium", "small"],
+          "type": "string"
+        },
+        "style": {
+          "properties": {
+            "title": {
+              "properties": {
+                "background": {
+                  "properties": {
+                    "color": {
+                      "enum": ["gray-100", "gray-200"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["color"],
+                  "type": "object"
+                },
+                "content": {
+                  "properties": {
+                    "justify": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["justify"],
+                  "type": "object"
+                },
+                "items": {
+                  "enum": ["center", "left", "right"],
+                  "type": "string"
+                },
+                "margin": {
+                  "properties": {
+                    "bottom": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "left": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "right": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    },
+                    "top": {
+                      "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["top", "right", "bottom", "left"],
+                  "type": "object"
+                },
+                "rounded": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "shadow": {
+                  "enum": ["extra-large", "extra-small", "large", "medium", "none", "small"],
+                  "type": "string"
+                },
+                "text": {
+                  "properties": {
+                    "align": {
+                      "enum": ["center", "left", "right"],
+                      "type": "string"
+                    }
+                  },
+                  "propertyOrder": ["align"],
+                  "type": "object"
+                }
+              },
+              "propertyOrder": [
+                "items",
+                "background",
+                "margin",
+                "text",
+                "rounded",
+                "shadow",
+                "content"
+              ],
+              "type": "object"
+            }
+          },
+          "propertyOrder": ["title"],
+          "type": "object"
+        },
+        "testId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["title"],
+          "type": "string"
+        }
+      },
+      "propertyOrder": ["type", "text", "size", "style", "testId"],
+      "required": ["text", "type"],
+      "type": "object"
+    }
+  },
+  "properties": {
+    "components": {
+      "items": {
+        "$ref": "#/definitions/ComponentParams"
+      },
+      "type": "array"
+    },
+    "name": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    }
+  },
+  "propertyOrder": ["name", "path", "title", "components"],
+  "required": ["components", "name", "path", "title"],
+  "type": "object"
+}

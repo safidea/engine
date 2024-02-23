@@ -416,8 +416,6 @@ features:
         head:
           title: Requests
         body:
-          - component: Header
-            title: *HomePageTitle
           - component: Table
             source: '/api/table/requests'
             columns: 
@@ -431,8 +429,6 @@ features:
         head:
           title: New request
         body:
-          - component: Header
-            title: *HomePageTitle
           - component: Form
             action: '/api/table/requests'
             method: POST
@@ -458,6 +454,9 @@ mailer:
   user: $MAILER_USER
   pass: $MAILER_PASS
   from: $MAILER_FROM
+database: 
+  url: $DATABASE_URL
+  db: sqlite
 auth: 
   redirectOnLogin: /requests
   redirectOnLogout: /login
