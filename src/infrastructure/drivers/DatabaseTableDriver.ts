@@ -3,6 +3,8 @@ import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
 import { sql, Kysely } from 'kysely'
+import SQLite from 'better-sqlite3'
+import pg from 'pg'
 
 export interface Schema {
   [key: string]: {
@@ -14,11 +16,11 @@ export class DatabaseTableDriver implements Driver {
   constructor(
     private name: string,
     private kysely: Kysely<Schema>,
-    private db: 'sqlite' | 'postgres'
+    private db: SQLite.Database | pg.Pool
   ) {}
 
   exists = async () => {
-    if (this.db === 'postgres') {
+    if (this.db instanceof pg.Pool) {
       const result = await this.kysely
         .selectFrom('information_schema.tables')
         .select('table_name')
@@ -27,7 +29,7 @@ export class DatabaseTableDriver implements Driver {
         .execute()
       return result.length > 0
     }
-    if (this.db === 'sqlite') {
+    if (this.db instanceof SQLite) {
       const result = await this.kysely
         .selectFrom('sqlite_master')
         .select('name')
@@ -48,7 +50,7 @@ export class DatabaseTableDriver implements Driver {
   }
 
   fieldExists = async (name: string) => {
-    if (this.db === 'postgres') {
+    if (this.db instanceof pg.Pool) {
       const result = await this.kysely
         .selectFrom('information_schema.columns')
         .select('column_name')
@@ -58,12 +60,9 @@ export class DatabaseTableDriver implements Driver {
         .execute()
       return result.length > 0
     }
-    if (this.db === 'sqlite') {
-      const { rows } = await sql<{ name: string }>`PRAGMA table_info(${this.name})`.execute(
-        this.kysely
-      )
-      const exists = rows.find((column) => column.name === name) !== undefined
-      return exists
+    if (this.db instanceof SQLite) {
+      const fields = (await this.db.pragma(`table_info(${this.name})`)) as { name: string }[]
+      return fields.some((field: { name: string }) => field.name === name)
     }
     throw new Error(`Database ${this.db} not supported`)
   }
@@ -89,7 +88,7 @@ export class DatabaseTableDriver implements Driver {
   }
 
   insert = async (recordtoCreateDto: ToCreateDto): Promise<PersistedDto> => {
-    if (this.db === 'sqlite') {
+    if (this.db instanceof SQLite) {
       for (const key in recordtoCreateDto) {
         const value = recordtoCreateDto[key]
         if (value instanceof Date) {
@@ -102,7 +101,7 @@ export class DatabaseTableDriver implements Driver {
       .values(recordtoCreateDto)
       .returningAll()
       .executeTakeFirstOrThrow()
-    if (this.db === 'sqlite') {
+    if (this.db instanceof SQLite) {
       for (const key in persistedRecord) {
         const value = persistedRecord[key]
         if (value instanceof Date) {
@@ -114,7 +113,7 @@ export class DatabaseTableDriver implements Driver {
   }
 
   update = async (record: ToUpdateDto): Promise<PersistedDto> => {
-    if (this.db === 'sqlite') {
+    if (this.db instanceof SQLite) {
       for (const key in record) {
         const value = record[key]
         if (value instanceof Date) {
@@ -128,7 +127,7 @@ export class DatabaseTableDriver implements Driver {
       .where('id', '=', record.id)
       .returningAll()
       .executeTakeFirstOrThrow()
-    if (this.db === 'sqlite') {
+    if (this.db instanceof SQLite) {
       for (const key in persistedRecord) {
         const value = persistedRecord[key]
         if (value instanceof Date) {

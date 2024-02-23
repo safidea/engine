@@ -5,7 +5,7 @@ export interface Driver {
   params: Params
   disconnect: () => Promise<void>
   table: (name: string) => DatabaseTableDriver
-  exec: (query: string) => Promise<void>
+  exec: (query: string) => Promise<unknown>
 }
 
 export class DatabaseSpi implements Spi {

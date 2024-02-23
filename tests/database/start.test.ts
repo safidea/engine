@@ -39,7 +39,7 @@ test.describe('Database start', () => {
     await expect(database.table('users').exists()).resolves.toBe(true)
   })
 
-  test.skip('should start with an existing table', async () => {
+  test('should start with an existing table', async () => {
     // GIVEN
     const database = new Database()
     const config: Config = {
@@ -71,10 +71,6 @@ test.describe('Database start', () => {
         name: 'email',
         type: 'text',
       },
-      {
-        name: 'password',
-        type: 'text',
-      },
     ])
 
     // WHEN
@@ -82,6 +78,6 @@ test.describe('Database start', () => {
     await app.start(config)
 
     // THEN
-    await expect(database.table('users').exists()).resolves.toBe(true)
+    await expect(database.table('users').fieldExists('password')).resolves.toBe(true)
   })
 })

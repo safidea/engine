@@ -12,7 +12,7 @@ export interface Spi {
   params: Params
   table: (name: string) => DatabaseTableSpi
   disconnect: () => Promise<void>
-  exec: (query: string) => Promise<void>
+  exec: (query: string) => Promise<unknown>
 }
 
 export class Database {
