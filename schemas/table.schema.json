@@ -1,0 +1,105 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Database": {
+            "properties": {
+                "db": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "db",
+                "url"
+            ],
+            "type": "object"
+        },
+        "DateTime": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "DateTime",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Email": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Field": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/DateTime"
+                }
+            ]
+        },
+        "SingleLineText": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "database": {
+            "$ref": "#/definitions/Database"
+        },
+        "fields": {
+            "items": {
+                "$ref": "#/definitions/Field"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "fields",
+        "name"
+    ],
+    "type": "object"
+}
+
