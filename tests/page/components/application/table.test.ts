@@ -152,7 +152,7 @@ test.describe('Table component', () => {
     expect(page.url()).toContain('/add')
   })
 
-  test.skip('should display a new row in realtime', async ({ page }) => {
+  test('should display a new row in realtime', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {

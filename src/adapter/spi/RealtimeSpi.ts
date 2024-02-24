@@ -9,6 +9,7 @@ export interface Driver {
   connect: (tables: string[]) => Promise<void>
   disconnect: () => Promise<void>
   onInsert: (table: string, callback: (record: PersistedDto) => Promise<void>) => Promise<string>
+  offInsert: (id: string) => Promise<void>
 }
 
 export class RealtimeSpi implements Spi {
@@ -32,5 +33,9 @@ export class RealtimeSpi implements Spi {
       const persisted = RecordMapper.toPersistedEntity(record)
       await callback(persisted)
     })
+  }
+
+  offInsert = async (id: string) => {
+    await this.driver.offInsert(id)
   }
 }

@@ -13,6 +13,7 @@ export interface Spi {
   connect: (tables: Table[]) => Promise<void>
   disconnect: () => Promise<void>
   onInsert: (table: string, callback: (record: Persisted) => Promise<void>) => Promise<string>
+  offInsert: (id: string) => Promise<void>
 }
 
 export class Realtime {
@@ -37,5 +38,9 @@ export class Realtime {
 
   onInsert = async (tableName: string, callback: (record: Persisted) => Promise<void>) => {
     return this.spi.onInsert(tableName, callback)
+  }
+
+  offInsert = async (id: string) => {
+    await this.spi.offInsert(id)
   }
 }

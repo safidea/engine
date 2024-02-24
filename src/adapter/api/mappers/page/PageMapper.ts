@@ -9,6 +9,7 @@ import type { Ui } from '@domain/services/Ui'
 import type { Logger } from '@domain/services/Logger'
 import type { ReactComponents } from '@domain/engine/page/component'
 import type { IdGenerator } from '@domain/services/IdGenerator'
+import type { Realtime } from '@domain/services/Realtime'
 
 export interface Params {
   server: Server
@@ -16,18 +17,20 @@ export interface Params {
   idGenerator: IdGenerator
   newLogger: (location: string) => Logger
   components: ReactComponents
+  realtime?: Realtime
 }
 
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const { server, newLogger, ui, components, idGenerator } = params
+    const { server, newLogger, ui, components, idGenerator, realtime } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
       server,
       ui,
       idGenerator,
+      realtime
     })
     const head = HeadMapper.toEntity(config.head ?? {}, { ui })
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })

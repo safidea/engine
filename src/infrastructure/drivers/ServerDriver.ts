@@ -7,8 +7,10 @@ import net from 'net'
 import { join } from 'path'
 import type { Driver } from '@adapter/spi/ServerSpi'
 import type { GetDto, PostDto } from '@adapter/spi/dtos/RequestDto'
-import type { ResponseDto } from '@adapter/spi/dtos/ResponseDto'
 import type { Params } from '@domain/services/Server'
+import type { Response } from '@domain/entities/response'
+import { Redirect } from '@domain/entities/response/Redirect'
+import { Stream } from '@domain/entities/response/Stream'
 
 const dirname = new URL('.', import.meta.url).pathname
 
@@ -27,30 +29,30 @@ export class ServerDriver implements Driver {
     this.express.use(express.static(join(process.cwd(), 'public')))
   }
 
-  get = async (path: string, handler: (getDto: GetDto) => Promise<ResponseDto>) => {
+  get = async (path: string, handler: (getDto: GetDto) => Promise<Response>) => {
     this.express.get(path, async (req, res) => {
       const getDto: GetDto = this.getRequestDto(req)
-      const responseDto = await handler(getDto)
-      this.returnResponse(res, responseDto)
+      const response = await handler(getDto)
+      this.returnResponse(res, req, response)
     })
   }
 
-  post = async (path: string, handler: (postDto: PostDto) => Promise<ResponseDto>) => {
+  post = async (path: string, handler: (postDto: PostDto) => Promise<Response>) => {
     this.express.post(path, async (req, res) => {
       const postDto: PostDto = {
         ...this.getRequestDto(req),
         body: req.body,
       }
-      const responseDto = await handler(postDto)
-      this.returnResponse(res, responseDto)
+      const response = await handler(postDto)
+      this.returnResponse(res, req, response)
     })
   }
 
-  notFound = async (handler: (getDto: GetDto) => Promise<ResponseDto>) => {
+  notFound = async (handler: (getDto: GetDto) => Promise<Response>) => {
     this.express.use(async (req, res) => {
       const getDto: GetDto = this.getRequestDto(req)
-      const responseDto = await handler(getDto)
-      this.returnResponse(res, { ...responseDto, status: 404 })
+      const response = await handler(getDto)
+      this.returnResponse(res, req, { ...response, status: 404 })
     })
   }
 
@@ -94,10 +96,17 @@ export class ServerDriver implements Driver {
     return port
   }
 
-  private returnResponse = (res: express.Response, response: ResponseDto) => {
+  private returnResponse = (res: express.Response, req: express.Request, response: Response) => {
     const { status, headers, body } = response
-    // https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission
-    if (status === 302) {
+    if (response instanceof Stream) {
+      res.status(status).set(headers)
+      response.onEvent((event: string) => {
+        const success = res.write(event)
+        if (!success) response.close()
+      })
+      req.socket.on('close', () => response.close())
+    } else if (response instanceof Redirect) {
+      // https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission
       res.redirect(303, body)
     } else {
       res.status(status).set(headers).send(body)

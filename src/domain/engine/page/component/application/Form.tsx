@@ -35,7 +35,7 @@ interface Params {
 
 export class Form implements Base<Props> {
   private id: string
-  private path = '#'
+  private path: string
   private props: Props
   private successMessage?: string
 
@@ -68,10 +68,12 @@ export class Form implements Base<Props> {
       body: JSON.stringify(request.body),
     })
     if (result.ok) {
-      return new Html(await this.html({ successMessage: this.successMessage }))
+      const html = await this.html({ successMessage: this.successMessage })
+      return new Html(html)
     } else {
       const errorMessage = await result.text()
-      return new Html(await this.html({ errorMessage }))
+      const html = await this.html({ errorMessage })
+      return new Html(html)
     }
   }
 
@@ -84,7 +86,7 @@ export class Form implements Base<Props> {
   render = async () => {
     const { ui, component: Component } = this.params
     return (props?: Partial<Props>) => (
-      <ui.Frame id={`form-${this.id}`}>
+      <ui.Frame id={this.id}>
         <Component {...{ ...this.props, ...props }} />
       </ui.Frame>
     )

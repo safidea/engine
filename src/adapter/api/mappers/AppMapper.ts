@@ -115,10 +115,8 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
     const newLogger = (location: string) => services.logger({ location })
-    let database: Database | undefined
     let queue: Queue | undefined
     let mailer: Mailer | undefined
-    let realtime: Realtime | undefined
     let auth: Auth | undefined
     let table: TableParams | undefined
     let page: PageParams | undefined
@@ -135,33 +133,21 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       pass: config.mailer?.pass ?? '_sqlite',
       from: config.mailer?.from ?? 'noreply@localhost',
     }
+    const database = services.database({
+      logger: services.logger({ location: `database` }),
+      ...databaseConfig,
+    })
+    const realtime = services.realtime({
+      logger: services.logger({ location: `realtime` }),
+      database,
+    })
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
-      database = services.database({
-        logger: services.logger({ location: `database` }),
-        ...databaseConfig,
-      })
-      realtime = services.realtime({
-        logger: services.logger({ location: `realtime` }),
-        database,
-      })
       table = { newLogger, server, database, record }
     }
     if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
-      page = { server, newLogger, ui, components, idGenerator }
+      page = { server, newLogger, ui, components, idGenerator, realtime }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
-      if (!database) {
-        database = services.database({
-          logger: services.logger({ location: `database` }),
-          ...databaseConfig,
-        })
-      }
-      if (!realtime) {
-        realtime = services.realtime({
-          logger: services.logger({ location: `realtime` }),
-          database,
-        })
-      }
       queue = services.queue({
         logger: services.logger({ location: `queue` }),
         database,
@@ -186,12 +172,6 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         mailer = services.mailer({
           logger: services.logger({ location: `mailer` }),
           ...mailerConfig,
-        })
-      }
-      if (!database) {
-        database = services.database({
-          logger: services.logger({ location: `database` }),
-          ...databaseConfig,
         })
       }
       auth = services.auth({

@@ -15,17 +15,19 @@ import type { Server } from '@domain/services/Server'
 import { Link } from '@domain/engine/page/component/base/Link'
 import { Header } from '@domain/engine/page/component/marketing/Header'
 import { Table } from '@domain/engine/page/component/application/Table'
+import type { Realtime } from '@domain/services/Realtime'
 
 export interface Params {
   components: ReactComponents
   server: Server
   ui: Ui
   idGenerator: IdGenerator
+  realtime?: Realtime
 }
 
 export class ComponentMapper {
   static toEntity(config: ComponentConfig, params: Params): Component {
-    const { components, server, ui, idGenerator } = params
+    const { components, server, ui, idGenerator, realtime } = params
     switch (config.component) {
       case 'Hero':
         return new Hero({ props: config, component: components.Hero })
@@ -50,7 +52,7 @@ export class ComponentMapper {
       case 'Link':
         return new Link({ props: config, component: components.Link })
       case 'Table':
-        return new Table({ props: config, component: components.Table, server, ui, idGenerator })
+        return new Table({ props: config, component: components.Table, server, ui, idGenerator, realtime })
     }
   }
 
