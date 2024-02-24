@@ -1,29 +1,14 @@
 import type { Driver } from '@adapter/spi/RealtimeSpi'
 import type { Params } from '@domain/services/Realtime'
 import pg from 'pg'
-import type { PersistedDto } from '@adapter/spi/dtos/RecordDto'
 import EventEmitter from 'events'
-import { v4 as uuidv4 } from 'uuid'
 import type { Database } from '@domain/services/Database'
 import { Is } from '@domain/entities/filter/Is'
-
-interface Payload {
-  action: 'INSERT' | 'UPDATE' | 'DELETE'
-  table: string
-  record: PersistedDto
-}
-
-interface Listener {
-  id: string
-  action: Payload['action']
-  table: string
-  callback: (record: PersistedDto) => Promise<void>
-}
+import type { EventDto } from '@adapter/spi/dtos/EventDto'
 
 export class RealtimeDriver implements Driver {
   private client: pg.Client | SqliteClient
-  private emitter: EventEmitter
-  private listeners: Listener[]
+  emitter: EventEmitter
 
   constructor(public params: Params) {
     const { db, url } = params.database.params
@@ -36,8 +21,6 @@ export class RealtimeDriver implements Driver {
       this.client = new SqliteClient(params.database)
     } else throw new Error(`Database ${db} not supported`)
     this.emitter = new EventEmitter()
-    this.emitter.on('INSERT', this.executeEvent)
-    this.listeners = []
   }
 
   connect = async (tables: string[]) => {
@@ -45,8 +28,8 @@ export class RealtimeDriver implements Driver {
     await this.setupDatabase(tables)
     this.client.on('notification', (msg) => {
       if (!msg.payload) return
-      const payload: Payload = JSON.parse(msg.payload)
-      this.emitter.emit(payload.action, payload)
+      const event: EventDto = JSON.parse(msg.payload)
+      this.emitter.emit('EVENT', event)
     })
     await this.client.query('LISTEN realtime')
   }
@@ -55,34 +38,8 @@ export class RealtimeDriver implements Driver {
     await this.client.end()
   }
 
-  onInsert = async (table: string, callback: (record: PersistedDto) => Promise<void>) => {
-    const id = uuidv4()
-    this.listeners.push({
-      action: 'INSERT',
-      table,
-      callback,
-      id,
-    })
-    return id
-  }
-
-  offInsert = async (id: string) => {
-    this.listeners = this.listeners.filter((l) => l.id !== id)
-  }
-
-  private executeEvent = async (payload: Payload) => {
-    const { action, table, record } = payload
-    const listeners = this.listeners.filter((l) => l.table === table && l.action === action)
-    const promises = []
-    for (const listener of listeners) {
-      promises.push(listener.callback(record))
-    }
-    await Promise.all(promises)
-  }
-
   private setupDatabase = async (tables: string[]) => {
-    const { db } = this.params.database.params
-    if (db === 'sqlite') {
+    if (this.client instanceof SqliteClient) {
       for (const table of tables) {
         await this.client.query(`
           -- Trigger for INSERT
@@ -110,7 +67,7 @@ export class RealtimeDriver implements Driver {
           END;
         `)
       }
-    } else if (db === 'postgres') {
+    } else if (this.client instanceof pg.Client) {
       await this.client.query(`
         CREATE OR REPLACE FUNCTION notify_trigger_func() RETURNS trigger AS $$
         BEGIN

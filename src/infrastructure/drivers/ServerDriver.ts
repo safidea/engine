@@ -100,10 +100,10 @@ export class ServerDriver implements Driver {
     const { status, headers, body } = response
     if (response instanceof Stream) {
       res.status(status).set(headers)
-      response.onEvent((event: string) => {
+      response.onEvent = (event: string) => {
         const success = res.write(event)
         if (!success) response.close()
-      })
+      }
       req.socket.on('close', () => response.close())
     } else if (response instanceof Redirect) {
       // https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission

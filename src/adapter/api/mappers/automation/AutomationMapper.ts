@@ -74,6 +74,8 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
         pass: config.mailer?.pass ?? '_sqlite',
         from: config.mailer?.from ?? 'noreply@localhost',
       }
+      const idGenerator = services.idGenerator()
+      const templateCompiler = services.templateCompiler()
       const server = services.server({
         logger: newLogger(`server`),
       })
@@ -92,9 +94,8 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       const realtime = services.realtime({
         logger: newLogger(`realtime`),
         database,
+        idGenerator,
       })
-      const idGenerator = services.idGenerator()
-      const templateCompiler = services.templateCompiler()
       return this.toEntity(config, {
         newLogger,
         server,

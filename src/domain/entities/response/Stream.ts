@@ -2,7 +2,8 @@ import { Base } from './base'
 
 export class Stream extends Base {
   private interval: Timer
-  private callback?: (event: string) => void
+  public onEvent?: (event: string) => void
+  public onClose?: () => void
 
   constructor() {
     super({
@@ -13,20 +14,17 @@ export class Stream extends Base {
       },
     })
     this.interval = setInterval(() => {
-      this.sendEvent(`event: ping\ndata: {}\n\n`)
+      if (this.onEvent) this.onEvent(`event: ping\ndata: {}\n\n`)
     }, 55000)
   }
 
-  onEvent = (callback: (message: string) => void) => {
-    this.callback = callback
-  }
-
   sendEvent = (html: string) => {
-    if (this.callback) this.callback(`event: message\ndata: ${html}\n\n`)
+    if (this.onEvent) this.onEvent(`event: message\ndata: ${html}\n\n`)
   }
 
   close = () => {
     clearInterval(this.interval)
+    if (this.onClose) this.onClose()
   }
 }
 

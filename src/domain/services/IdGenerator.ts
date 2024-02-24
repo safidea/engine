@@ -12,4 +12,8 @@ export class IdGenerator {
   forForm = () => {
     return this.spi.generate(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
   }
+
+  forListener = () => {
+    return this.spi.generate(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+  }
 }

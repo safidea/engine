@@ -140,6 +140,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const realtime = services.realtime({
       logger: services.logger({ location: `realtime` }),
       database,
+      idGenerator,
     })
     if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
       table = { newLogger, server, database, record }

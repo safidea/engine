@@ -1,15 +1,14 @@
-import type { Persisted } from '@domain/entities/record/Persisted'
-import type { Params, Spi } from '@domain/services/Realtime'
-import type { PersistedDto } from './dtos/RecordDto'
-import { RecordMapper } from './mappers/RecordMapper'
+import type { Event, Params, Spi } from '@domain/services/Realtime'
 import type { Table } from '@domain/engine/table/Table'
+import type EventEmitter from 'events'
+import type { EventDto } from './dtos/EventDto'
+import { EventMapper } from './mappers/EventMapper'
 
 export interface Driver {
   params: Params
+  emitter: EventEmitter
   connect: (tables: string[]) => Promise<void>
   disconnect: () => Promise<void>
-  onInsert: (table: string, callback: (record: PersistedDto) => Promise<void>) => Promise<string>
-  offInsert: (id: string) => Promise<void>
 }
 
 export class RealtimeSpi implements Spi {
@@ -28,14 +27,10 @@ export class RealtimeSpi implements Spi {
     await this.driver.disconnect()
   }
 
-  onInsert = async (table: string, callback: (record: Persisted) => Promise<void>) => {
-    return this.driver.onInsert(table, async (record: PersistedDto) => {
-      const persisted = RecordMapper.toPersistedEntity(record)
-      await callback(persisted)
+  onEvent = (callback: (event: Event) => Promise<void>) => {
+    this.driver.emitter.on('EVENT', async (eventDto: EventDto) => {
+      const event = EventMapper.toEventEntity(eventDto)
+      await callback(event)
     })
-  }
-
-  offInsert = async (id: string) => {
-    await this.driver.offInsert(id)
   }
 }
