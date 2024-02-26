@@ -16,6 +16,7 @@ import { Link } from '@domain/engine/page/component/base/Link'
 import { Header } from '@domain/engine/page/component/marketing/Header'
 import { Table } from '@domain/engine/page/component/application/Table'
 import type { Realtime } from '@domain/services/Realtime'
+import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
 
 export interface Params {
   components: ReactComponents
@@ -28,32 +29,46 @@ export interface Params {
 export class ComponentMapper {
   static toEntity(config: ComponentConfig, params: Params): Component {
     const { components, server, ui, idGenerator, realtime } = params
-    switch (config.component) {
-      case 'Hero':
+    if ('component' in config) {
+      if (config.component === 'Hero') {
         return new Hero({ props: config, component: components.Hero })
-      case 'Header':
+      } else if (config.component === 'Header') {
         return new Header({ props: config, component: components.Header })
-      case 'Footer':
+      } else if (config.component === 'Footer') {
         return new Footer({ props: config, component: components.Footer })
-      case 'Form':
+      } else if (config.component === 'Form') {
         return new Form({ props: config, component: components.Form, server, ui, idGenerator })
-      case 'Paragraph':
+      } else if (config.component === 'Paragraph') {
         return new Paragraph({ props: config, component: components.Paragraph })
-      case 'Button':
+      } else if (config.component === 'Button') {
         return new Button({ props: config, component: components.Button })
-      case 'CTA':
+      } else if (config.component === 'CTA') {
         return new Cta({ props: config, component: components.Cta })
-      case 'Features':
+      } else if (config.component === 'Features') {
         return new Features({ props: config, component: components.Features })
-      case 'Logos':
+      } else if (config.component === 'Logos') {
         return new Logos({ props: config, component: components.Logos })
-      case 'NotFound':
+      } else if (config.component === 'NotFound') {
         return new NotFound({ props: config, component: components.NotFound })
-      case 'Link':
+      } else if (config.component === 'Link') {
         return new Link({ props: config, component: components.Link })
-      case 'Table':
-        return new Table({ props: config, component: components.Table, server, ui, idGenerator, realtime })
+      } else if (config.component === 'Table') {
+        return new Table({
+          props: config,
+          component: components.Table,
+          server,
+          ui,
+          idGenerator,
+          realtime,
+        })
+      } else if (config.component === 'Sidebar') {
+        const children = config.children.map((child) => this.toEntity(child, params))
+        return new Sidebar({ props: { ...config, children }, component: components.Sidebar })
+      }
+    } else if ('sharedComponent' in config) {
+      throw new Error('Shared components are not supported')
     }
+    throw new Error('Invalid component')
   }
 
   static toManyEntities(configs: ComponentConfig[], params: Params): Component[] {

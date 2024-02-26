@@ -12,6 +12,7 @@ import type { Logos, Props as LogosProps } from './marketing/Logos'
 import type { NotFound, Props as NotFoundProps } from './marketing/NotFound'
 import type { Header, Props as HeaderProps } from './marketing/Header'
 import type { Table, Props as TableProps } from './application/Table'
+import type { Sidebar, Props as SidebarProps } from './application/Sidebar'
 
 export type Component =
   | Paragraph
@@ -26,6 +27,7 @@ export type Component =
   | Link
   | Header
   | Table
+  | Sidebar
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -41,6 +43,7 @@ export interface ReactComponents {
   Link: ReactComponent<LinkProps>
   Header: ReactComponent<HeaderProps>
   Table: ReactComponent<TableProps>
+  Sidebar: ReactComponent<SidebarProps>
 }
 
 export interface Props {
@@ -57,4 +60,5 @@ export interface Props {
   Link: LinkProps
   Header: HeaderProps
   Table: TableProps
+  Sidebar: SidebarProps
 }

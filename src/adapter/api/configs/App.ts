@@ -3,6 +3,7 @@ import type { Database } from './Database'
 import type { Feature } from './Feature'
 import type { Mailer } from './Mailer'
 import type { Server } from './Server'
+import type { Shared } from './Shared'
 
 export interface App {
   name: string
@@ -15,6 +16,7 @@ export interface App {
   database?: Database
   mailer?: Mailer
   auth?: Auth
+  shared?: Shared
 }
 
 export type AppSchema = App

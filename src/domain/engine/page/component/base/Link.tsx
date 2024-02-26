@@ -3,6 +3,9 @@ import type { ReactComponent, Base, BaseProps } from './base'
 export interface Props extends BaseProps {
   label: string
   href: string
+  beforeIcon?: string
+  afterIcon?: string
+  active?: boolean
 }
 
 interface Params {

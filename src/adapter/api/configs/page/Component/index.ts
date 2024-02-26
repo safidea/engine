@@ -10,6 +10,12 @@ import type { NotFound } from './marketing/NotFound'
 import type { Link } from './base/Link'
 import type { Header } from './marketing/Header'
 import type { Table } from './application/Table'
+import type { Sidebar } from './application/Sidebar'
+
+interface Shared {
+  sharedComponent: string
+  children?: Component[]
+}
 
 export type Component =
   | Paragraph
@@ -24,3 +30,5 @@ export type Component =
   | Link
   | Header
   | Table
+  | Sidebar
+  | Shared

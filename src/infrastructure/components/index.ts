@@ -12,6 +12,7 @@ import { NotFound } from './marketing/NotFound'
 import { Link } from './base/Link'
 import { Header } from './marketing/Header'
 import { Table } from './application/Table'
+import { Sidebar } from './application/Sidebar'
 
 export const components: ReactComponents = {
   Html,
@@ -27,4 +28,5 @@ export const components: ReactComponents = {
   Link,
   Header,
   Table,
+  Sidebar,
 }
