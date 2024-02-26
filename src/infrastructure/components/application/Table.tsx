@@ -1,13 +1,16 @@
 import type { Props } from '@infrastructure/engine'
 import { Button } from '../base/Button'
 
-export const Table = ({ columns, rows, addButton }: Props['Table']) => (
+export const Table = ({ title, columns, rows, addButton }: Props['Table']) => (
   <section className="dark:bg-gray-800 relative overflow-hidden">
-    {addButton ? (
+    {addButton || title ? (
       <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-        <div className="w-full flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-          <Button {...addButton} />
-        </div>
+        {title && <div className="w-full md:w-1/2">{title}</div>}
+        {addButton && (
+          <div className="w-full flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+            <Button {...addButton} />
+          </div>
+        )}
       </div>
     ) : null}
     <div className="overflow-x-auto">

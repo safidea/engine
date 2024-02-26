@@ -19,6 +19,7 @@ export interface Row {
 }
 
 export interface Props extends BaseProps {
+  title?: string
   columns: Column[]
   rows: Row[]
   addButton?: ButtonProps

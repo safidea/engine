@@ -392,7 +392,6 @@ features:
         body:
           - component: Form
             action: '/api/auth/login'
-            method: POST
             title: Login
             inputs: 
               - name: email
@@ -417,6 +416,7 @@ features:
           title: Requests
         body:
           - component: Table
+            title: Requests
             source: '/api/table/requests'
             columns: 
               - name: subject
@@ -431,7 +431,6 @@ features:
         body:
           - component: Form
             action: '/api/table/requests'
-            method: POST
             title: New request
             inputs: 
               - name: subject

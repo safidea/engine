@@ -57,3 +57,10 @@ export const WithAddButton: Story = {
     },
   },
 }
+
+export const WithTitle: Story = {
+  args: {
+    ...Default.args,
+    title: 'Leads',
+  },
+}

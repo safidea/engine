@@ -209,4 +209,56 @@ test.describe('Table component', () => {
     // THEN
     await expect(page.getByText('Doe')).toBeVisible()
   })
+
+  test('should display a title for a table', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  title: 'Leads',
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    await expect(page.locator('text=Leads')).toBeVisible()
+  })
 })
