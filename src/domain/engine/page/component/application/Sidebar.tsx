@@ -17,7 +17,10 @@ interface Params {
 export class Sidebar implements Base<Props> {
   constructor(private params: Params) {}
 
-  init = async () => {}
+  init = async () => {
+    const { props } = this.params
+    await Promise.all(props.children.map((child) => child.init()))
+  }
 
   render = async () => {
     const { props: defaultProps, component: Component } = this.params

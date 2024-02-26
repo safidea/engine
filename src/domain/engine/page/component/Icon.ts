@@ -14,3 +14,4 @@ export type Icon =
   | 'ChatBubbleBottomCenterText'
   | 'Home'
   | 'Users'
+  | 'RectangleStack'

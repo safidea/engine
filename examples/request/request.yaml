@@ -415,31 +415,35 @@ features:
         head:
           title: Requests
         body:
-          - component: Table
-            title: Requests
-            source: '/api/table/requests'
-            columns: 
-              - name: subject
-                label: Subject
-            addButton: 
-              label: 'Add request'
-              href: '/requests/add'
+          - block: sidebar
+            children:
+              - component: Table
+                title: Requests
+                source: '/api/table/requests'
+                columns: 
+                  - name: subject
+                    label: Subject
+                addButton: 
+                  label: 'Add request'
+                  href: '/requests/add'
       - name: new-request
         path: /requests/add
         head:
           title: New request
         body:
-          - component: Form
-            action: '/api/table/requests'
-            title: New request
-            inputs: 
-              - name: subject
-                label: Subject
-                type: text
-                required: true
-                placeholder: My request
-            submitButton:
-              label: 'Add request'
+          - block: sidebar
+            children:
+              - component: Form
+                action: '/api/table/requests'
+                title: New request
+                inputs: 
+                  - name: subject
+                    label: Subject
+                    type: text
+                    required: true
+                    placeholder: My request
+                submitButton:
+                  label: 'Add request'
     tables:
       - name: requests
         fields:
@@ -465,3 +469,11 @@ auth:
     text: 'Click on the link to confirm your email: {{{ link }}}.'
     html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.'
   secret: 'my-secret'
+blocks: 
+  - name: sidebar
+    component: Sidebar
+    title: 'Request'
+    links: 
+      - label: 'My requests'
+        href: '/requests'
+        beforeIcon: RectangleStack

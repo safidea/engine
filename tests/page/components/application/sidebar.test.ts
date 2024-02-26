@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import App, { type Config as AppConfig } from '@solumy/engine'
+import Database from '@utils/tests/database'
 
 test.describe('Sidebar component', () => {
   test('should display a title', async ({ page }) => {
@@ -157,5 +158,64 @@ test.describe('Sidebar component', () => {
     // THEN
     const paragraphContent = await page.textContent('p')
     expect(paragraphContent).toContain('Leads page')
+  })
+
+  test('should display a table with a row', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Sidebar',
+                  title: 'Menu',
+                  links: [],
+                  children: [
+                    {
+                      component: 'Table',
+                      source: '/api/table/leads',
+                      columns: [
+                        {
+                          name: 'name',
+                          label: 'Name',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    await expect(page.getByText('John')).toBeVisible()
   })
 })
