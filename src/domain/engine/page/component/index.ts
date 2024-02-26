@@ -14,6 +14,7 @@ import type { Header, Props as HeaderProps } from './marketing/Header'
 import type { Table, Props as TableProps } from './application/Table'
 import type { Sidebar, Props as SidebarProps } from './application/Sidebar'
 import type { Title, Props as TitleProps } from './base/Title'
+import type { InvalidBlock } from './InvalidBlock'
 
 export type Component =
   | Paragraph
@@ -30,6 +31,7 @@ export type Component =
   | Table
   | Sidebar
   | Title
+  | InvalidBlock
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>

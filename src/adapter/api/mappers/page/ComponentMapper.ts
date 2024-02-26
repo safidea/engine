@@ -19,7 +19,7 @@ import type { Realtime } from '@domain/services/Realtime'
 import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
 import type { Block } from '@adapter/api/configs/Block'
 import { Title } from '@domain/engine/page/component/base/Title'
-import { ConfigError } from '@domain/entities/error/Config'
+import { InvalidBlock } from '@domain/engine/page/component/InvalidBlock'
 
 export interface Params {
   components: ReactComponents
@@ -74,9 +74,7 @@ export class ComponentMapper {
     } else if ('block' in config) {
       const { block: blockName, ...res } = config
       const block = blocks.find((c) => c.name === blockName)
-      if (!block) {
-        throw new ConfigError({ message: `Block not found: ${config.block}` })
-      }
+      if (!block) return new InvalidBlock({ props: { block: blockName } })
       return this.toEntity({ ...block, ...res }, params)
     }
     throw new Error('Invalid component')
