@@ -20,6 +20,6 @@ export const Sidebar = ({ title, links, children }: Props['Sidebar']) => (
         </ul>
       </div>
     </aside>
-    <main className="p-4 md:ml-64 h-auto">{children}</main>
+    <main className="ml-64 h-auto">{children}</main>
   </div>
 )
