@@ -1,0 +1,1783 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Action": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Fill"
+                },
+                {
+                    "$ref": "#/definitions/Open"
+                },
+                {
+                    "$ref": "#/definitions/Post"
+                },
+                {
+                    "$ref": "#/definitions/Click"
+                },
+                {
+                    "$ref": "#/definitions/WaitForText"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
+                },
+                {
+                    "$ref": "#/definitions/ClickInEmail"
+                }
+            ]
+        },
+        "Action_1": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/CreateRecord"
+                },
+                {
+                    "$ref": "#/definitions/SendEmail"
+                }
+            ]
+        },
+        "Attribute": {
+            "properties": {
+                "attribute": {
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attribute",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Auth": {
+            "properties": {
+                "confirmEmail": {
+                    "properties": {
+                        "html": {
+                            "type": "string"
+                        },
+                        "subject": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "html",
+                        "subject",
+                        "text"
+                    ],
+                    "type": "object"
+                },
+                "redirectOnLogin": {
+                    "type": "string"
+                },
+                "redirectOnLogout": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "strategy": {
+                    "const": "magic-link",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "confirmEmail",
+                "redirectOnLogin",
+                "redirectOnLogout",
+                "secret",
+                "strategy"
+            ],
+            "type": "object"
+        },
+        "Automation": {
+            "properties": {
+                "actions": {
+                    "items": {
+                        "$ref": "#/definitions/Action_1"
+                    },
+                    "type": "array"
+                },
+                "database": {
+                    "$ref": "#/definitions/Database"
+                },
+                "mailer": {
+                    "$ref": "#/definitions/Mailer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "trigger": {
+                    "$ref": "#/definitions/Trigger"
+                }
+            },
+            "required": [
+                "actions",
+                "name",
+                "trigger"
+            ],
+            "type": "object"
+        },
+        "Button": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Button",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "label": {
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Click": {
+            "properties": {
+                "click": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click"
+            ],
+            "type": "object"
+        },
+        "ClickInEmail": {
+            "properties": {
+                "click": {
+                    "type": "string"
+                },
+                "find": {
+                    "items": {
+                        "$ref": "#/definitions/Filter"
+                    },
+                    "type": "array"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "click",
+                "find",
+                "mailbox"
+            ],
+            "type": "object"
+        },
+        "Column": {
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label",
+                "name"
+            ],
+            "type": "object"
+        },
+        "Component": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
+                    "$ref": "#/definitions/Button"
+                },
+                {
+                    "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Cta"
+                },
+                {
+                    "$ref": "#/definitions/Features"
+                },
+                {
+                    "$ref": "#/definitions/Hero"
+                },
+                {
+                    "$ref": "#/definitions/Footer"
+                },
+                {
+                    "$ref": "#/definitions/Logos"
+                },
+                {
+                    "$ref": "#/definitions/NotFound"
+                },
+                {
+                    "$ref": "#/definitions/Link_1"
+                },
+                {
+                    "$ref": "#/definitions/Header"
+                },
+                {
+                    "$ref": "#/definitions/Table"
+                },
+                {
+                    "$ref": "#/definitions/Sidebar"
+                },
+                {
+                    "$ref": "#/definitions/Shared"
+                }
+            ]
+        },
+        "CreateRecord": {
+            "properties": {
+                "action": {
+                    "const": "CreateRecord",
+                    "type": "string"
+                },
+                "fields": {
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fields",
+                "name",
+                "table"
+            ],
+            "type": "object"
+        },
+        "Cta": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "CTA",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "primaryButton": {
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Database": {
+            "properties": {
+                "db": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "db",
+                "url"
+            ],
+            "type": "object"
+        },
+        "DateTime": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "DateTime",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Email": {
+            "properties": {
+                "find": {
+                    "items": {
+                        "$ref": "#/definitions/Filter"
+                    },
+                    "type": "array"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "find",
+                "mailbox"
+            ],
+            "type": "object"
+        },
+        "Email_1": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Features": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Features",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "features": {
+                    "items": {
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "icon": {
+                                "$ref": "#/definitions/Icon"
+                            },
+                            "title": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "icon",
+                            "title"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "features",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Field": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Email_1"
+                },
+                {
+                    "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/DateTime"
+                }
+            ]
+        },
+        "Fill": {
+            "properties": {
+                "fill": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fill",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Filter": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Is"
+                },
+                {
+                    "$ref": "#/definitions/IsAnyOf"
+                }
+            ]
+        },
+        "Footer": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Footer",
+                    "type": "string"
+                },
+                "copyright": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "links": {
+                    "items": {
+                        "properties": {
+                            "href": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "href",
+                            "label"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "copyright",
+                "description",
+                "links",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Form": {
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Form",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "inputs": {
+                    "items": {
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "placeholder": {
+                                "type": "string"
+                            },
+                            "required": {
+                                "type": "boolean"
+                            },
+                            "type": {
+                                "enum": [
+                                    "button",
+                                    "checkbox",
+                                    "color",
+                                    "date",
+                                    "datetime-local",
+                                    "email",
+                                    "file",
+                                    "hidden",
+                                    "image",
+                                    "month",
+                                    "number",
+                                    "password",
+                                    "radio",
+                                    "range",
+                                    "reset",
+                                    "search",
+                                    "submit",
+                                    "tel",
+                                    "text",
+                                    "time",
+                                    "url",
+                                    "week"
+                                ],
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
+                    "type": "string"
+                },
+                "submitButton": {
+                    "properties": {
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "successMessage": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "component",
+                "inputs",
+                "submitButton"
+            ],
+            "type": "object"
+        },
+        "Head": {
+            "properties": {
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/Meta"
+                    },
+                    "type": "array"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/Script"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Header": {
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Props_1"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Header",
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Props"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Hero": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Hero",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "primaryButton": {
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Icon": {
+            "enum": [
+                "AcademicCap",
+                "Banknotes",
+                "ChartBarSquare",
+                "ChatBubbleBottomCenterText",
+                "ChatBubbleLeftEllipsis",
+                "Cog",
+                "Cog6Tooth",
+                "CommandLine",
+                "ComputerDesktop",
+                "DevicePhoneMobile",
+                "FaceSmile",
+                "MagnifyingGlass",
+                "Scale"
+            ],
+            "type": "string"
+        },
+        "InputText": {
+            "properties": {
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Is": {
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "is",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsAnyOf": {
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "isAnyOf",
+                    "type": "string"
+                },
+                "value": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Link": {
+            "properties": {
+                "href": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href"
+            ],
+            "type": "object"
+        },
+        "Link_1": {
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "afterIcon": {
+                    "type": "string"
+                },
+                "beforeIcon": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Link",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "label": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Logos": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Logos",
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "logos": {
+                    "items": {
+                        "properties": {
+                            "alt": {
+                                "type": "string"
+                            },
+                            "src": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "alt",
+                            "src"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "logos",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Mailer": {
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
+        "Meta": {
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "name"
+            ],
+            "type": "object"
+        },
+        "NotFound": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "NotFound",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "primaryButton": {
+                    "properties": {
+                        "href": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "href",
+                        "label"
+                    ],
+                    "type": "object"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "description",
+                "primaryButton",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Open": {
+            "properties": {
+                "open": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "open"
+            ],
+            "type": "object"
+        },
+        "Page": {
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "head": {
+                    "$ref": "#/definitions/Head"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path"
+            ],
+            "type": "object"
+        },
+        "Paragraph": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Paragraph",
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "text"
+            ],
+            "type": "object"
+        },
+        "Post": {
+            "properties": {
+                "body": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "post": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "post"
+            ],
+            "type": "object"
+        },
+        "Props": {
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "afterIcon": {
+                    "type": "string"
+                },
+                "beforeIcon": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "label": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Props_1": {
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "label": {
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "type": "object"
+        },
+        "Record": {
+            "properties": {
+                "find": {
+                    "items": {
+                        "$ref": "#/definitions/Filter"
+                    },
+                    "type": "array"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "find",
+                "table"
+            ],
+            "type": "object"
+        },
+        "RecordCreated": {
+            "properties": {
+                "event": {
+                    "const": "RecordCreated",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "table"
+            ],
+            "type": "object"
+        },
+        "Result": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Record"
+                },
+                {
+                    "$ref": "#/definitions/Text"
+                },
+                {
+                    "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/Url"
+                }
+            ]
+        },
+        "Script": {
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
+            ],
+            "type": "object"
+        },
+        "SendEmail": {
+            "properties": {
+                "action": {
+                    "const": "SendEmail",
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "html": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "from",
+                "html",
+                "name",
+                "subject",
+                "text",
+                "to"
+            ],
+            "type": "object"
+        },
+        "Shared": {
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "sharedComponent": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "sharedComponent"
+            ],
+            "type": "object"
+        },
+        "Sidebar": {
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Sidebar",
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Props"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component",
+                "links"
+            ],
+            "type": "object"
+        },
+        "SingleLineText": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Spec": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/Result"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/Action"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "Table": {
+            "properties": {
+                "addButton": {
+                    "$ref": "#/definitions/Props_1"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "source": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "source"
+            ],
+            "type": "object"
+        },
+        "Table_1": {
+            "properties": {
+                "database": {
+                    "$ref": "#/definitions/Database"
+                },
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/Field"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fields",
+                "name"
+            ],
+            "type": "object"
+        },
+        "Text": {
+            "properties": {
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "Title": {
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "type": "object"
+        },
+        "Trigger": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/RecordCreated"
+                },
+                {
+                    "$ref": "#/definitions/WebhookCalled"
+                }
+            ]
+        },
+        "Url": {
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        },
+        "WaitForAutomation": {
+            "properties": {
+                "waitForAutomation": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "waitForAutomation"
+            ],
+            "type": "object"
+        },
+        "WaitForText": {
+            "properties": {
+                "waitForText": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "waitForText"
+            ],
+            "type": "object"
+        },
+        "WebhookCalled": {
+            "properties": {
+                "event": {
+                    "const": "WebhookCalled",
+                    "type": "string"
+                },
+                "method": {
+                    "const": "POST",
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "method",
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "auth": {
+            "$ref": "#/definitions/Auth"
+        },
+        "automations": {
+            "items": {
+                "$ref": "#/definitions/Automation"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "pages": {
+            "items": {
+                "$ref": "#/definitions/Page"
+            },
+            "type": "array"
+        },
+        "specs": {
+            "items": {
+                "$ref": "#/definitions/Spec"
+            },
+            "type": "array"
+        },
+        "tables": {
+            "items": {
+                "$ref": "#/definitions/Table_1"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "type": "object"
+}
+

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import App, { type Config as AppConfig } from '@solumy/engine'
 
 test.describe('Sidebar component', () => {
-  test.skip('should display a title', async ({ page }) => {
+  test('should display a title', async ({ page }) => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',

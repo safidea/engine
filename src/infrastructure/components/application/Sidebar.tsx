@@ -9,7 +9,7 @@ export const Sidebar = ({ title, links, children }: Props['Sidebar']) => (
       id="drawer-navigation"
     >
       <div className="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
-        {title}
+        <h2>{title}</h2>
         <ul className="space-y-2">
           {links.map((link) => (
             <li>
