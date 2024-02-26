@@ -25,7 +25,7 @@ test.describe('Link component', () => {
     await page.setContent(html)
 
     // THEN
-    const link = page.getByText(label)
+    const link = page.getByRole('link', { name: label })
     expect(await link.getAttribute('href')).toBe(href)
   })
 
@@ -61,7 +61,7 @@ test.describe('Link component', () => {
     await page.goto(url)
 
     // THEN
-    const link = page.getByText(label)
+    const link = page.getByRole('link', { name: label })
     expect(await link.getAttribute('href')).toBe(href)
   })
 })

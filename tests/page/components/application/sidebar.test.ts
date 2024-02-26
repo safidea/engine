@@ -33,11 +33,11 @@ test.describe('Sidebar component', () => {
     await page.goto(url)
 
     // THEN
-    const titleContent = await page.textContent('h2')
+    const titleContent = await page.textContent('h4')
     expect(titleContent).toContain('Menu')
   })
 
-  test.skip('should display a list of links with icons', async ({ page }) => {
+  test('should display a list of links with icons', async ({ page }) => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
@@ -55,12 +55,12 @@ test.describe('Sidebar component', () => {
                   links: [
                     {
                       label: 'Home',
-                      beforeIcon: 'home',
+                      beforeIcon: 'Home',
                       href: '/',
                     },
                     {
                       label: 'Leads',
-                      beforeIcon: 'leads',
+                      beforeIcon: 'Users',
                       href: '/leads',
                     },
                   ],
@@ -136,12 +136,12 @@ test.describe('Sidebar component', () => {
             links: [
               {
                 label: 'Home',
-                beforeIcon: 'home',
+                beforeIcon: 'Home',
                 href: '/',
               },
               {
                 label: 'Leads',
-                beforeIcon: 'leads',
+                beforeIcon: 'Users',
                 href: '/leads',
               },
             ],

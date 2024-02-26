@@ -12,3 +12,5 @@ export type Icon =
   | 'MagnifyingGlass'
   | 'AcademicCap'
   | 'ChatBubbleBottomCenterText'
+  | 'Home'
+  | 'Users'

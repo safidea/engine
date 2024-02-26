@@ -23,7 +23,13 @@ export class Sidebar implements Base<Props> {
     const { props: defaultProps, component: Component } = this.params
     const children = await Promise.all(defaultProps.children.map((child) => child.render()))
     return (props?: Partial<Props>) => (
-      <Component {...{ ...defaultProps, ...props, children: children.map((el) => el()) }} />
+      <Component
+        {...{
+          ...defaultProps,
+          ...props,
+          children: children.map((Child, index) => <Child key={index} />),
+        }}
+      />
     )
   }
 

@@ -13,6 +13,7 @@ import { Link } from './base/Link'
 import { Header } from './marketing/Header'
 import { Table } from './application/Table'
 import { Sidebar } from './application/Sidebar'
+import { Title } from './base/Title'
 
 export const components: ReactComponents = {
   Html,
@@ -29,4 +30,5 @@ export const components: ReactComponents = {
   Header,
   Table,
   Sidebar,
+  Title,
 }

@@ -1,12 +1,9 @@
-import type { Icon } from '../Icon'
 import type { ReactComponent, Base, BaseProps } from './base'
 
 export interface Props extends BaseProps {
-  label: string
-  href: string
-  beforeIcon?: Icon
-  afterIcon?: Icon
-  active?: boolean
+  text: string
+  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  center?: boolean
 }
 
 interface Params {
@@ -14,7 +11,7 @@ interface Params {
   component: ReactComponent<Props>
 }
 
-export class Link implements Base<Props> {
+export class Title implements Base<Props> {
   constructor(private params: Params) {}
 
   init = async () => {}

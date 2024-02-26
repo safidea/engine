@@ -94,6 +94,9 @@
                 },
                 {
                     "$ref": "#/definitions/Shared"
+                },
+                {
+                    "$ref": "#/definitions/Title"
                 }
             ]
         },
@@ -474,8 +477,10 @@
                 "ComputerDesktop",
                 "DevicePhoneMobile",
                 "FaceSmile",
+                "Home",
                 "MagnifyingGlass",
-                "Scale"
+                "Scale",
+                "Users"
             ],
             "type": "string"
         },
@@ -496,9 +501,43 @@
                     "type": "boolean"
                 },
                 "afterIcon": {
+                    "enum": [
+                        "AcademicCap",
+                        "Banknotes",
+                        "ChartBarSquare",
+                        "ChatBubbleBottomCenterText",
+                        "ChatBubbleLeftEllipsis",
+                        "Cog",
+                        "Cog6Tooth",
+                        "CommandLine",
+                        "ComputerDesktop",
+                        "DevicePhoneMobile",
+                        "FaceSmile",
+                        "Home",
+                        "MagnifyingGlass",
+                        "Scale",
+                        "Users"
+                    ],
                     "type": "string"
                 },
                 "beforeIcon": {
+                    "enum": [
+                        "AcademicCap",
+                        "Banknotes",
+                        "ChartBarSquare",
+                        "ChatBubbleBottomCenterText",
+                        "ChatBubbleLeftEllipsis",
+                        "Cog",
+                        "Cog6Tooth",
+                        "CommandLine",
+                        "ComputerDesktop",
+                        "DevicePhoneMobile",
+                        "FaceSmile",
+                        "Home",
+                        "MagnifyingGlass",
+                        "Scale",
+                        "Users"
+                    ],
                     "type": "string"
                 },
                 "className": {
@@ -663,9 +702,43 @@
                     "type": "boolean"
                 },
                 "afterIcon": {
+                    "enum": [
+                        "AcademicCap",
+                        "Banknotes",
+                        "ChartBarSquare",
+                        "ChatBubbleBottomCenterText",
+                        "ChatBubbleLeftEllipsis",
+                        "Cog",
+                        "Cog6Tooth",
+                        "CommandLine",
+                        "ComputerDesktop",
+                        "DevicePhoneMobile",
+                        "FaceSmile",
+                        "Home",
+                        "MagnifyingGlass",
+                        "Scale",
+                        "Users"
+                    ],
                     "type": "string"
                 },
                 "beforeIcon": {
+                    "enum": [
+                        "AcademicCap",
+                        "Banknotes",
+                        "ChartBarSquare",
+                        "ChatBubbleBottomCenterText",
+                        "ChatBubbleLeftEllipsis",
+                        "Cog",
+                        "Cog6Tooth",
+                        "CommandLine",
+                        "ComputerDesktop",
+                        "DevicePhoneMobile",
+                        "FaceSmile",
+                        "Home",
+                        "MagnifyingGlass",
+                        "Scale",
+                        "Users"
+                    ],
                     "type": "string"
                 },
                 "className": {
@@ -828,6 +901,46 @@
                 "columns",
                 "component",
                 "source"
+            ],
+            "type": "object"
+        },
+        "Title": {
+            "properties": {
+                "center": {
+                    "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Title",
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "size",
+                "text"
             ],
             "type": "object"
         }

@@ -11,6 +11,7 @@ import type { Link } from './base/Link'
 import type { Header } from './marketing/Header'
 import type { Table } from './application/Table'
 import type { Sidebar } from './application/Sidebar'
+import type { Title } from './base/Title'
 
 interface Shared {
   sharedComponent: string
@@ -32,3 +33,4 @@ export type Component =
   | Table
   | Sidebar
   | Shared
+  | Title
