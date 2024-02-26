@@ -146,7 +146,15 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       table = { newLogger, server, database, record }
     }
     if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
-      page = { server, newLogger, ui, components, idGenerator, realtime }
+      page = {
+        server,
+        newLogger,
+        ui,
+        components,
+        idGenerator,
+        realtime,
+        blocks: config.blocks ?? [],
+      }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
       queue = services.queue({

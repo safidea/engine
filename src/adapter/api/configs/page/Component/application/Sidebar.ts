@@ -3,5 +3,5 @@ import type { Component } from '..'
 
 export interface Sidebar extends Omit<Props, 'children'> {
   component: 'Sidebar'
-  children: Component[]
+  children?: Component[]
 }

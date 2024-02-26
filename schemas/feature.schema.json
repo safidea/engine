@@ -240,6 +240,26 @@
             ],
             "type": "object"
         },
+        "Block": {
+            "properties": {
+                "block": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "block"
+            ],
+            "type": "object"
+        },
         "Button": {
             "properties": {
                 "className": {
@@ -365,10 +385,56 @@
                     "$ref": "#/definitions/Sidebar"
                 },
                 {
-                    "$ref": "#/definitions/Shared"
+                    "$ref": "#/definitions/Title_1"
+                }
+            ]
+        },
+        "ComponentWithBlock": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
+                    "$ref": "#/definitions/Button"
+                },
+                {
+                    "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Cta"
+                },
+                {
+                    "$ref": "#/definitions/Features"
+                },
+                {
+                    "$ref": "#/definitions/Hero"
+                },
+                {
+                    "$ref": "#/definitions/Footer"
+                },
+                {
+                    "$ref": "#/definitions/Logos"
+                },
+                {
+                    "$ref": "#/definitions/NotFound"
+                },
+                {
+                    "$ref": "#/definitions/Link_1"
+                },
+                {
+                    "$ref": "#/definitions/Header"
+                },
+                {
+                    "$ref": "#/definitions/Table"
+                },
+                {
+                    "$ref": "#/definitions/Sidebar"
                 },
                 {
                     "$ref": "#/definitions/Title_1"
+                },
+                {
+                    "$ref": "#/definitions/Block"
                 }
             ]
         },
@@ -1184,7 +1250,7 @@
             "properties": {
                 "body": {
                     "items": {
-                        "$ref": "#/definitions/Component"
+                        "$ref": "#/definitions/ComponentWithBlock"
                     },
                     "type": "array"
                 },
@@ -1457,23 +1523,6 @@
             ],
             "type": "object"
         },
-        "Shared": {
-            "properties": {
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "sharedComponent": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "sharedComponent"
-            ],
-            "type": "object"
-        },
         "Sidebar": {
             "properties": {
                 "children": {
@@ -1506,7 +1555,6 @@
                 }
             },
             "required": [
-                "children",
                 "component",
                 "links"
             ],

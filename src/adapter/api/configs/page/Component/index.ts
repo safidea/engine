@@ -12,11 +12,7 @@ import type { Header } from './marketing/Header'
 import type { Table } from './application/Table'
 import type { Sidebar } from './application/Sidebar'
 import type { Title } from './base/Title'
-
-interface Shared {
-  sharedComponent: string
-  children?: Component[]
-}
+import type { Block } from './block'
 
 export type Component =
   | Paragraph
@@ -32,5 +28,6 @@ export type Component =
   | Header
   | Table
   | Sidebar
-  | Shared
   | Title
+
+export type ComponentWithBlock = Component | Block

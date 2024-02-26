@@ -86,7 +86,7 @@ test.describe('Sidebar component', () => {
     expect(leadsLink).toContain('Leads')
   })
 
-  test.skip('should display a paragraph when clicking on a link', async ({ page }) => {
+  test('should display a paragraph when clicking on a link', async ({ page }) => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
@@ -99,7 +99,7 @@ test.describe('Sidebar component', () => {
               path: '/',
               body: [
                 {
-                  sharedComponent: 'Sidebar',
+                  block: 'Sidebar',
                   children: [
                     {
                       component: 'Paragraph',
@@ -114,7 +114,7 @@ test.describe('Sidebar component', () => {
               path: '/leads',
               body: [
                 {
-                  sharedComponent: 'Sidebar',
+                  block: 'Sidebar',
                   children: [
                     {
                       component: 'Paragraph',
@@ -127,28 +127,25 @@ test.describe('Sidebar component', () => {
           ],
         },
       ],
-      shared: {
-        components: [
-          {
-            name: 'Sidebar',
-            component: 'Sidebar',
-            title: 'Menu',
-            links: [
-              {
-                label: 'Home',
-                beforeIcon: 'Home',
-                href: '/',
-              },
-              {
-                label: 'Leads',
-                beforeIcon: 'Users',
-                href: '/leads',
-              },
-            ],
-            children: [],
-          },
-        ],
-      },
+      blocks: [
+        {
+          name: 'Sidebar',
+          component: 'Sidebar',
+          title: 'Menu',
+          links: [
+            {
+              label: 'Home',
+              beforeIcon: 'Home',
+              href: '/',
+            },
+            {
+              label: 'Leads',
+              beforeIcon: 'Users',
+              href: '/leads',
+            },
+          ],
+        },
+      ],
     }
     const app = new App()
     const url = await app.start(config)

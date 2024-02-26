@@ -1,4 +1,4 @@
-import type { Component as ComponentConfig } from '../../configs/page/component'
+import type { ComponentWithBlock as ComponentConfig } from '../../configs/page/component'
 import { Hero } from '@domain/engine/page/component/marketing/Hero'
 import { Footer } from '@domain/engine/page/component/marketing/Footer'
 import type { Component, ReactComponents } from '@domain/engine/page/component'
@@ -17,6 +17,9 @@ import { Header } from '@domain/engine/page/component/marketing/Header'
 import { Table } from '@domain/engine/page/component/application/Table'
 import type { Realtime } from '@domain/services/Realtime'
 import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
+import type { Block } from '@adapter/api/configs/Block'
+import { Title } from '@domain/engine/page/component/base/Title'
+import { ConfigError } from '@domain/entities/error/Config'
 
 export interface Params {
   components: ReactComponents
@@ -24,11 +27,12 @@ export interface Params {
   ui: Ui
   idGenerator: IdGenerator
   realtime?: Realtime
+  blocks?: Block[]
 }
 
 export class ComponentMapper {
   static toEntity(config: ComponentConfig, params: Params): Component {
-    const { components, server, ui, idGenerator, realtime } = params
+    const { components, server, ui, idGenerator, realtime, blocks = [] } = params
     if ('component' in config) {
       if (config.component === 'Hero') {
         return new Hero({ props: config, component: components.Hero })
@@ -62,11 +66,18 @@ export class ComponentMapper {
           realtime,
         })
       } else if (config.component === 'Sidebar') {
-        const children = config.children.map((child) => this.toEntity(child, params))
+        const children = (config.children ?? []).map((child) => this.toEntity(child, params))
         return new Sidebar({ props: { ...config, children }, component: components.Sidebar })
+      } else if (config.component === 'Title') {
+        return new Title({ props: config, component: components.Title })
       }
-    } else if ('sharedComponent' in config) {
-      throw new Error('Shared components are not supported')
+    } else if ('block' in config) {
+      const { block: blockName, ...res } = config
+      const block = blocks.find((c) => c.name === blockName)
+      if (!block) {
+        throw new ConfigError({ message: `Block not found: ${config.block}` })
+      }
+      return this.toEntity({ ...block, ...res }, params)
     }
     throw new Error('Invalid component')
   }
