@@ -9,7 +9,8 @@
 - [ ] Request Details Page
 
 ## Refactor
-- [ ] Use client as a driver
+
+- [x] Use client as a driver
 - [ ] Refactor domain components by removing props in params
 
 ### Auth

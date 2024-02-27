@@ -5,6 +5,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Response } from '@domain/entities/response'
 import { Html } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
+import type { Client } from '@domain/services/Client'
 
 export interface Props extends BaseProps {
   action: string
@@ -31,6 +32,7 @@ interface Params {
   server: Server
   idGenerator: IdGenerator
   ui: Ui
+  client: Client
 }
 
 export class Form implements Base<Props> {
@@ -84,11 +86,11 @@ export class Form implements Base<Props> {
   }
 
   render = async () => {
-    const { ui, component: Component } = this.params
+    const { client, component: Component } = this.params
     return (props?: Partial<Props>) => (
-      <ui.Frame id={this.id}>
+      <client.Frame id={this.id}>
         <Component {...{ ...this.props, ...props }} />
-      </ui.Frame>
+      </client.Frame>
     )
   }
 

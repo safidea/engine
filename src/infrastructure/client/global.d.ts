@@ -3,7 +3,13 @@ export {}
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'turbo-frame': { id: string; class?: string; children: React.ReactNode }
+      'turbo-frame': {
+        id: string
+        class?: string
+        children: React.ReactNode
+        target?: string
+        'data-turbo-action'?: string
+      }
       'turbo-stream': {
         action: string
         target: string

@@ -12,6 +12,7 @@ import { Mailer, type Spi as MailerSpi, type Params as MailerParams } from './Ma
 import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCompiler'
 import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
 import { Auth, type Spi as AuthSpi, type Params as AuthParams } from './Auth'
+import { Client, type Spi as ClientSpi } from './Client'
 
 export interface Spis {
   components: ReactComponents
@@ -25,6 +26,7 @@ export interface Spis {
   idGenerator: () => IdGeneratorSpi
   schemaValidator: () => SchemaValidatorSpi
   ui: () => UiSpi
+  client: () => ClientSpi
   browser: () => BrowserSpi
   templateCompiler: () => TemplateCompilerSpi
 }
@@ -53,6 +55,8 @@ export class Services {
   schemaValidator = () => new SchemaValidator(this.spis.schemaValidator())
 
   ui = () => new Ui(this.spis.ui())
+
+  client = () => new Client(this.spis.client())
 
   browser = () => new Browser(this.spis.browser())
 

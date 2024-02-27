@@ -1,5 +1,4 @@
 import type { Drivers } from '@adapter/spi'
-import { client } from '@infrastructure/client/ui'
 import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'
 import type { Params as LoggerParams } from '@domain/services/Logger'
@@ -19,6 +18,7 @@ import { MailerDriver } from './MailerDriver'
 import { TemplateCompilerDriver } from './TemplateCompilerDriver'
 import { RealtimeDriver } from './RealtimeDriver'
 import { AuthDriver } from './AuthDriver'
+import { ClientDriver } from './ClientDriver'
 
 export const drivers: Drivers = {
   server: (params: ServerParams) => new ServerDriver(params),
@@ -31,6 +31,7 @@ export const drivers: Drivers = {
   templateCompiler: () => new TemplateCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),
-  ui: () => new UiDriver(client),
+  ui: () => new UiDriver(),
+  client: () => new ClientDriver(),
   idGenerator: () => new IdGeneratorDriver(),
 }

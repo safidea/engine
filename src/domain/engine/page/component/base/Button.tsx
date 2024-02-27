@@ -1,5 +1,5 @@
-import type { Ui } from '@domain/services/Ui'
 import type { ReactComponent, Base, BaseProps } from './base'
+import type { Client } from '@domain/services/Client'
 
 export interface Props extends BaseProps {
   label: string
@@ -13,7 +13,7 @@ interface Params {
   href?: string
   variant?: 'primary' | 'secondary'
   component: ReactComponent<Props>
-  ui: Ui
+  client: Client
 }
 
 export class Button implements Base<Props> {
@@ -22,8 +22,8 @@ export class Button implements Base<Props> {
   init = async () => {}
 
   render = async () => {
-    const { label, href, variant, component: Component, ui } = this.params
-    const clientProps = ui.getClientLinkProps()
+    const { label, href, variant, component: Component, client } = this.params
+    const clientProps = client.getLinkProps()
     return (props?: Partial<Props>) => (
       <Component {...{ label, href, variant, ...props, clientProps }} />
     )

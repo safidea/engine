@@ -3,15 +3,15 @@ import type { Head as HeadConfig } from '../../configs/page/head'
 import { Meta } from '@domain/engine/page/head/Meta'
 import { Link } from '@domain/engine/page/head/Link'
 import { Script } from '@domain/engine/page/head/Script'
-import type { Ui } from '@domain/services/Ui'
+import type { Client } from '@domain/services/Client'
 
 interface Params {
-  ui: Ui
+  client: Client
 }
 
 export class HeadMapper {
   static toEntity(config: HeadConfig, params: Params) {
-    const { ui } = params
+    const { client } = params
     const {
       title,
       metas: metasConfigs = [],
@@ -20,7 +20,7 @@ export class HeadMapper {
     } = config
     const timestamp = +new Date()
     const metas = metasConfigs.map((meta) => new Meta(meta))
-    metas.push(...ui.metas)
+    metas.push(...client.metas)
     const indexJs = new Script({ src: '/index.js', timestamp })
     const scripts = [
       indexJs,

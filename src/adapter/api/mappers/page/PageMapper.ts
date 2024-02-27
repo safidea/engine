@@ -5,15 +5,17 @@ import { ComponentMapper } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
 import type { Mapper } from '../Mapper'
 import type { Server } from '@domain/services/Server'
-import type { Ui } from '@domain/services/Ui'
 import type { Logger } from '@domain/services/Logger'
 import type { ReactComponents } from '@domain/engine/page/component'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Block } from '@adapter/api/configs/Block'
+import type { Client } from '@domain/services/Client'
+import type { Ui } from '@domain/services/Ui'
 
 export interface Params {
   server: Server
+  client: Client
   ui: Ui
   idGenerator: IdGenerator
   newLogger: (location: string) => Logger
@@ -25,17 +27,18 @@ export interface Params {
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const { server, newLogger, ui, components, idGenerator, realtime, blocks } = params
+    const { server, newLogger, ui, client, components, idGenerator, realtime, blocks } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
       server,
       ui,
+      client,
       idGenerator,
       realtime,
       blocks,
     })
-    const head = HeadMapper.toEntity(config.head ?? {}, { ui })
+    const head = HeadMapper.toEntity(config.head ?? {}, { client })
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
   }
 
@@ -45,6 +48,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
 
   static toEntityFromServices = (config: PageConfig, services: Services) => {
     const ui = services.ui()
+    const client = services.client()
     const server = services.server({
       logger: services.logger({ location: `server` }),
     })
@@ -54,6 +58,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       server,
       newLogger,
       ui,
+      client,
       components: services.components,
       idGenerator,
     })

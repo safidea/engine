@@ -110,6 +110,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       port: config.server?.port,
     })
     const ui = services.ui()
+    const client = services.client()
     const components = services.components
     const record = services.record()
     const idGenerator = services.idGenerator()
@@ -150,6 +151,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         server,
         newLogger,
         ui,
+        client,
         components,
         idGenerator,
         realtime,

@@ -8,6 +8,7 @@ import { ConfigError } from '@domain/entities/error/Config'
 import { Stream } from '@domain/entities/response/Stream'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Button } from '../base/Button'
+import type { Client } from '@domain/services/Client'
 
 export interface Column {
   name: string
@@ -33,6 +34,7 @@ interface Params {
   component: ReactComponent<Props>
   server: Server
   ui: Ui
+  client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
 }
@@ -96,26 +98,26 @@ export class Table implements Base<Props> {
   }
 
   htmlStream = async (props?: Partial<Props>) => {
-    const { ui, title, columns, addButton } = this.params
+    const { ui, client, title, columns, addButton } = this.params
     const Component = await this.render({ withSource: false })
     const AddButton = addButton ? (await addButton.render())() : undefined
     return ui.renderToHtml(
-      <ui.Stream action="replace" target={this.id}>
+      <client.Stream action="replace" target={this.id}>
         <Component {...{ title, columns, AddButton, ...props }} />
-      </ui.Stream>
+      </client.Stream>
     )
   }
 
   render = async (options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { ui, component: Component, title, columns, addButton } = this.params
+    const { client, component: Component, title, columns, addButton } = this.params
     const AddButton = addButton ? (await addButton.render())() : undefined
     return (props?: Partial<Props>) => (
       <>
-        <ui.Frame id={this.id} src={withSource ? this.path : ''}>
+        <client.Frame id={this.id} src={withSource ? this.path : ''}>
           <Component {...{ title, columns, AddButton, rows: [], ...props }} />
-        </ui.Frame>
-        {this.stream ? <ui.StreamSource src={this.stream.path} /> : null}
+        </client.Frame>
+        {this.stream ? <client.StreamSource src={this.stream.path} /> : null}
       </>
     )
   }

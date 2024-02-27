@@ -19,6 +19,7 @@ import { MailerSpi, type Driver as MailerDriver } from './MailerSpi'
 import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
 import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
 import { AuthSpi, type Driver as AuthDriver } from './AuthSpi'
+import { ClientSpi, type Driver as ClientDriver } from './ClientSpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -32,6 +33,7 @@ export interface Drivers {
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
+  client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
 }
 
@@ -64,6 +66,8 @@ export class Spis implements ISpis {
   schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
 
   ui = () => new UiSpi(this.params.drivers.ui())
+
+  client = () => new ClientSpi(this.params.drivers.client())
 
   browser = () => new BrowserSpi(this.params.drivers.browser())
 

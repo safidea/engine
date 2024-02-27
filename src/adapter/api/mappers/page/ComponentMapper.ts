@@ -20,11 +20,13 @@ import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
 import type { Block } from '@adapter/api/configs/Block'
 import { Title } from '@domain/engine/page/component/base/Title'
 import { InvalidBlock } from '@domain/engine/page/component/InvalidBlock'
+import type { Client } from '@domain/services/Client'
 
 export interface Params {
   components: ReactComponents
   server: Server
   ui: Ui
+  client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
   blocks?: Block[]
@@ -32,7 +34,7 @@ export interface Params {
 
 export class ComponentMapper {
   static toEntity(config: ComponentConfig, params: Params): Component {
-    const { components, server, ui, idGenerator, realtime, blocks = [] } = params
+    const { components, server, ui, client, idGenerator, realtime, blocks = [] } = params
     if ('component' in config) {
       if (config.component === 'Hero') {
         return new Hero({ props: config, component: components.Hero })
@@ -41,11 +43,18 @@ export class ComponentMapper {
       } else if (config.component === 'Footer') {
         return new Footer({ props: config, component: components.Footer })
       } else if (config.component === 'Form') {
-        return new Form({ props: config, component: components.Form, server, ui, idGenerator })
+        return new Form({
+          props: config,
+          component: components.Form,
+          server,
+          ui,
+          idGenerator,
+          client,
+        })
       } else if (config.component === 'Paragraph') {
         return new Paragraph({ props: config, component: components.Paragraph })
       } else if (config.component === 'Button') {
-        return new Button({ ...config, component: components.Button, ui })
+        return new Button({ ...config, component: components.Button, client })
       } else if (config.component === 'CTA') {
         return new Cta({ props: config, component: components.Cta })
       } else if (config.component === 'Features') {
@@ -58,13 +67,14 @@ export class ComponentMapper {
         return new Link({ props: config, component: components.Link })
       } else if (config.component === 'Table') {
         const addButton = config.addButton
-          ? new Button({ ...config.addButton, component: components.Button, ui })
+          ? new Button({ ...config.addButton, component: components.Button, client })
           : undefined
         return new Table({
           ...config,
           component: components.Table,
           server,
           ui,
+          client,
           idGenerator,
           realtime,
           addButton,
