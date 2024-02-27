@@ -12,7 +12,7 @@ export const Link = ({ label, href, beforeIcon, afterIcon, active }: Props['Link
     active ? 'bg-gray-100 dark:bg-gray-700' : ''
   )
   return (
-    <a href={href} className={linkClass} target="_top">
+    <a href={href} className={linkClass}>
       {BeforeIcon ? <BeforeIcon className={iconClass} /> : null}
       <span className={labelClass}>{label}</span>
       {AfterIcon ? <AfterIcon className={iconClass} /> : null}

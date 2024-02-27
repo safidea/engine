@@ -156,8 +156,7 @@ test.describe('Sidebar component', () => {
     await page.click('a[href="/leads"]')
 
     // THEN
-    const paragraphContent = await page.textContent('p')
-    expect(paragraphContent).toContain('Leads page')
+    await expect(page.getByText('Leads page')).toBeVisible()
   })
 
   test('should display a table with a row', async ({ page }) => {

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Sidebar } from './Sidebar'
+import { Table } from './Table'
 
 const meta = {
   title: 'Application/Sidebar',
@@ -28,5 +29,31 @@ export const Default: Story = {
       },
     ],
     children: <p>Some children</p>,
+  },
+}
+
+export const WithTable: Story = {
+  args: {
+    title: 'Menu',
+    links: [
+      {
+        label: 'Home',
+        beforeIcon: 'Home',
+        href: '/',
+      },
+      {
+        label: 'Leads',
+        beforeIcon: 'Users',
+        href: '/leads',
+      },
+    ],
+    children: (
+      <Table
+        title="Table"
+        addButton={{ label: 'Add row' }}
+        columns={[{ name: 'email', label: 'Email' }]}
+        rows={[{ email: 'test@test.com' }]}
+      />
+    ),
   },
 }

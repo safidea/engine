@@ -93,7 +93,7 @@ test.describe('Table component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('text=John')).toBeVisible()
+    await expect(page.getByText('John')).toBeVisible()
   })
 
   test('should open an add row page', async ({ page }) => {
@@ -149,7 +149,7 @@ test.describe('Table component', () => {
     await page.click('text=Add row')
 
     // THEN
-    expect(page.url()).toContain('/add')
+    await expect(page.waitForURL('**/add')).resolves.toBeUndefined()
   })
 
   test('should display a new row in realtime', async ({ page }) => {
