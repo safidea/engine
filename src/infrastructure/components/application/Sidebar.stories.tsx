@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Sidebar } from './Sidebar'
 import { Table } from './Table'
+import { Button } from '../base/Button'
 
 const meta = {
   title: 'Application/Sidebar',
@@ -50,7 +51,7 @@ export const WithTable: Story = {
     children: (
       <Table
         title="Table"
-        addButton={{ label: 'Add row' }}
+        AddButton={<Button label="Add row" />}
         columns={[{ name: 'email', label: 'Email' }]}
         rows={[{ email: 'test@test.com' }]}
       />

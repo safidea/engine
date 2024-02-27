@@ -7,6 +7,7 @@ export interface Client {
   Frame: (props: FrameProps) => JSX.Element
   Stream: (props: StreamProps) => JSX.Element
   StreamSource: (props: StreamSourceProps) => JSX.Element
+  getLinkProps: () => { [key: string]: string }
   metas: Meta[]
 }
 
@@ -31,5 +32,9 @@ export class UiDriver implements Driver {
 
   StreamSource = (props: StreamSourceProps) => {
     return this.client.StreamSource(props)
+  }
+
+  getClientLinkProps = () => {
+    return this.client.getLinkProps()
   }
 }

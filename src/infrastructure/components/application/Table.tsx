@@ -1,14 +1,13 @@
 import type { Props } from '@infrastructure/engine'
-import { Button } from '../base/Button'
 
-export const Table = ({ title, columns, rows, addButton }: Props['Table']) => (
+export const Table = ({ title, columns, rows, AddButton }: Props['Table']) => (
   <section className="dark:bg-gray-800 relative overflow-hidden">
-    {addButton || title ? (
+    {AddButton || title ? (
       <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
         {title && <div className="w-full md:w-1/2">{title}</div>}
-        {addButton && (
+        {AddButton && (
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-            <Button {...addButton} />
+            {AddButton}
           </div>
         )}
       </div>

@@ -45,7 +45,7 @@ export class ComponentMapper {
       } else if (config.component === 'Paragraph') {
         return new Paragraph({ props: config, component: components.Paragraph })
       } else if (config.component === 'Button') {
-        return new Button({ props: config, component: components.Button })
+        return new Button({ ...config, component: components.Button, ui })
       } else if (config.component === 'CTA') {
         return new Cta({ props: config, component: components.Cta })
       } else if (config.component === 'Features') {
@@ -57,13 +57,17 @@ export class ComponentMapper {
       } else if (config.component === 'Link') {
         return new Link({ props: config, component: components.Link })
       } else if (config.component === 'Table') {
+        const addButton = config.addButton
+          ? new Button({ ...config.addButton, component: components.Button, ui })
+          : undefined
         return new Table({
-          props: config,
+          ...config,
           component: components.Table,
           server,
           ui,
           idGenerator,
           realtime,
+          addButton,
         })
       } else if (config.component === 'Sidebar') {
         const children = (config.children ?? []).map((child) => this.toEntity(child, params))

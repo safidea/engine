@@ -5,8 +5,12 @@
 - [x] Login Page
 - [x] Requests Page
 - [x] New Request Page
-- [ ] Navigation Sidebar
+- [x] Navigation Sidebar
 - [ ] Request Details Page
+
+## Refactor
+- [ ] Use client as a driver
+- [ ] Refactor domain components by removing props in params
 
 ### Auth
 

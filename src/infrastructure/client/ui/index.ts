@@ -9,4 +9,9 @@ export const client: Client = {
   Frame,
   Stream,
   StreamSource,
+  getLinkProps: () => {
+    return {
+      'data-turbo-frame': '_top',
+    }
+  },
 }

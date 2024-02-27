@@ -4,10 +4,10 @@ import type { Ui } from '@domain/services/Ui'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Get } from '@domain/entities/request/Get'
 import { Html } from '@domain/entities/response/Html'
-import type { Props as ButtonProps } from '../base/Button'
 import { ConfigError } from '@domain/entities/error/Config'
 import { Stream } from '@domain/entities/response/Stream'
 import type { Realtime } from '@domain/services/Realtime'
+import type { Button } from '../base/Button'
 
 export interface Column {
   name: string
@@ -22,11 +22,14 @@ export interface Props extends BaseProps {
   title?: string
   columns: Column[]
   rows: Row[]
-  addButton?: ButtonProps
+  AddButton?: React.ReactNode
 }
 
 interface Params {
-  props: Omit<Props, 'rows'> & { source: string }
+  source: string
+  title?: string
+  columns: Column[]
+  addButton?: Button
   component: ReactComponent<Props>
   server: Server
   ui: Ui
@@ -37,33 +40,32 @@ interface Params {
 export class Table implements Base<Props> {
   private id: string
   private path: string
-  private props: Props
   private stream?: {
     path: string
     table: string
   }
 
   constructor(private params: Params) {
-    const { props, idGenerator } = params
-    this.props = { ...props, rows: [] }
+    const { source, idGenerator } = params
     this.id = idGenerator.forForm()
     this.path = `/api/component/table/${this.id}`
-    if (props.source.startsWith('/api/table/')) {
+    if (source.startsWith('/api/table/')) {
       this.stream = {
         path: this.path + '/stream',
-        table: props.source.replace('/api/table/', ''),
+        table: source.replace('/api/table/', ''),
       }
     }
   }
 
   init = async () => {
-    const { server } = this.params
+    const { server, addButton } = this.params
     await server.get(this.path, this.getData)
     if (this.stream) await server.get(this.stream.path, this.streamData)
+    if (addButton) await addButton.init()
   }
 
   getData = async (request: Get) => {
-    const { source } = this.params.props
+    const { source } = this.params
     const url = this.stream ? request.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
@@ -74,10 +76,7 @@ export class Table implements Base<Props> {
   }
 
   streamData = async (request: Get) => {
-    const {
-      realtime,
-      props: { source },
-    } = this.params
+    const { realtime, source } = this.params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
@@ -97,22 +96,24 @@ export class Table implements Base<Props> {
   }
 
   htmlStream = async (props?: Partial<Props>) => {
-    const { ui } = this.params
+    const { ui, title, columns, addButton } = this.params
     const Component = await this.render({ withSource: false })
+    const AddButton = addButton ? (await addButton.render())() : undefined
     return ui.renderToHtml(
       <ui.Stream action="replace" target={this.id}>
-        <Component {...{ ...this.props, ...props }} />
+        <Component {...{ title, columns, AddButton, ...props }} />
       </ui.Stream>
     )
   }
 
   render = async (options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { ui, component: Component } = this.params
+    const { ui, component: Component, title, columns, addButton } = this.params
+    const AddButton = addButton ? (await addButton.render())() : undefined
     return (props?: Partial<Props>) => (
       <>
         <ui.Frame id={this.id} src={withSource ? this.path : ''}>
-          <Component {...{ ...this.props, ...props }} />
+          <Component {...{ title, columns, AddButton, rows: [], ...props }} />
         </ui.Frame>
         {this.stream ? <ui.StreamSource src={this.stream.path} /> : null}
       </>
@@ -120,10 +121,7 @@ export class Table implements Base<Props> {
   }
 
   validateConfig = () => {
-    const {
-      props: { source },
-      server,
-    } = this.params
+    const { source, addButton, server } = this.params
     const errors = []
     if (source.startsWith('/api/table/')) {
       if (!server.hasGetHandler(source)) {
@@ -134,6 +132,7 @@ export class Table implements Base<Props> {
     } else {
       errors.push(new ConfigError({ message: 'Table source must start with /api/table/' }))
     }
+    if (addButton) errors.push(...addButton.validateConfig())
     return errors
   }
 }

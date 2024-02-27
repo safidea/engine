@@ -8,6 +8,7 @@ export interface Driver {
   Frame: (props: FrameProps) => JSX.Element
   Stream: (props: StreamProps) => JSX.Element
   StreamSource: (props: StreamSourceProps) => JSX.Element
+  getClientLinkProps: () => { [key: string]: string }
 }
 
 export class UiSpi implements Spi {
@@ -24,4 +25,8 @@ export class UiSpi implements Spi {
   Stream = (props: StreamProps) => this.driver.Stream(props)
 
   StreamSource = (props: StreamSourceProps) => this.driver.StreamSource(props)
+
+  getClientLinkProps = () => {
+    return this.driver.getClientLinkProps()
+  }
 }

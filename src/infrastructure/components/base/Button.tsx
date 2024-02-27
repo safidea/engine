@@ -1,11 +1,10 @@
 import type { Props } from '@infrastructure/engine'
 
-export const Button = ({ label, href, variant = 'primary' }: Props['Button']) => {
+export const Button = ({ label, href, variant = 'primary', clientProps = {} }: Props['Button']) => {
   const classes = getVariant(variant)
   if (href) {
-    // TODO: extract data-turbo to client
     return (
-      <a className={classes} href={href} data-turbo-frame="_top">
+      <a className={classes} href={href} {...clientProps}>
         {label}
       </a>
     )

@@ -31,6 +31,7 @@ export interface Spi {
   Frame: (props: FrameProps) => JSX.Element
   Stream: (props: StreamProps) => JSX.Element
   StreamSource: (props: StreamSourceProps) => JSX.Element
+  getClientLinkProps: () => { [key: string]: string }
 }
 
 export class Ui {
@@ -55,5 +56,9 @@ export class Ui {
 
   StreamSource = (props: StreamSourceProps): JSX.Element => {
     return this.spi.StreamSource(props)
+  }
+
+  getClientLinkProps = () => {
+    return this.spi.getClientLinkProps()
   }
 }

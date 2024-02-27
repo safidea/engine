@@ -1019,6 +1019,9 @@
             ],
             "type": "object"
         },
+        "Iterable<React.ReactNode>": {
+            "type": "object"
+        },
         "Link": {
             "properties": {
                 "href": {
@@ -1390,6 +1393,12 @@
                 "className": {
                     "type": "string"
                 },
+                "clientProps": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
                 "href": {
                     "type": "string"
                 },
@@ -1412,6 +1421,85 @@
             },
             "required": [
                 "label"
+            ],
+            "type": "object"
+        },
+        "React.ReactElement<any,string|React.JSXElementConstructor<any>>": {
+            "description": "Represents a JSX element.\n\nWhere {@link ReactNode} represents everything that can be rendered, `ReactElement`\nonly represents JSX.",
+            "properties": {
+                "key": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "props": {
+                    "description": "The type of the props object"
+                },
+                "type": {
+                    "description": "The type of the component or tag",
+                    "type": [
+                        "string",
+                        "object"
+                    ]
+                }
+            },
+            "required": [
+                "key",
+                "props",
+                "type"
+            ],
+            "type": "object"
+        },
+        "React.ReactNode": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/React.ReactElement<any,string|React.JSXElementConstructor<any>>"
+                },
+                {
+                    "$ref": "#/definitions/Iterable<React.ReactNode>"
+                },
+                {
+                    "$ref": "#/definitions/React.ReactPortal"
+                },
+                {
+                    "type": [
+                        "null",
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            ],
+            "description": "Represents all of the things React can render.\n\nWhere {@link ReactElement} only represents JSX, `ReactNode` represents everything that can be rendered."
+        },
+        "React.ReactPortal": {
+            "properties": {
+                "children": {
+                    "$ref": "#/definitions/React.ReactNode"
+                },
+                "key": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "props": {
+                    "description": "The type of the props object"
+                },
+                "type": {
+                    "description": "The type of the component or tag",
+                    "type": [
+                        "string",
+                        "object"
+                    ]
+                }
+            },
+            "required": [
+                "children",
+                "key",
+                "props",
+                "type"
             ],
             "type": "object"
         },
@@ -1608,6 +1696,9 @@
         },
         "Table": {
             "properties": {
+                "AddButton": {
+                    "$ref": "#/definitions/React.ReactNode"
+                },
                 "addButton": {
                     "$ref": "#/definitions/Props_1"
                 },
