@@ -14,6 +14,7 @@
 - [x] Refactor domain components by removing props in params
 - [ ] Clean UI components
 
-### Auth
 
-Use https://www.passportjs.org/ for authentication
+## Test Postgres
+
+Use https://testcontainers.com/ for e2e tests

@@ -3,12 +3,15 @@ import type { ReactComponent, Base, BaseProps } from '../base/base'
 import type { Title } from '../base/Title'
 import type { Paragraph } from '../base/Paragraph'
 import type { Link } from '../base/Link'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as ParagraphProps } from '../base/Paragraph'
+import type { Props as LinkProps } from '../base/Link'
 
 export interface Props extends BaseProps {
-  Title: React.FC
-  Paragraph: React.FC
+  Title: React.FC<Partial<TitleProps>>
+  Paragraph: React.FC<Partial<ParagraphProps>>
   copyright: string
-  Links: React.FC[]
+  Links: React.FC<Partial<LinkProps>>[]
 }
 
 export interface Params {

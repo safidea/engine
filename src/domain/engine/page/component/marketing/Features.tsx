@@ -3,14 +3,17 @@ import type { Icon } from '../base/Icon'
 import type { Paragraph } from '../base/Paragraph'
 import type { Title } from '../base/Title'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as IconProps } from '../base/Icon'
+import type { Props as ParagraphProps } from '../base/Paragraph'
 
 export interface Props extends BaseProps {
-  Title: React.FC
-  Paragraph: React.FC
+  Title: React.FC<Partial<TitleProps>>
+  Paragraph: React.FC<Partial<ParagraphProps>>
   Features: {
-    Title: React.FC
-    Paragraph: React.FC
-    Icon: React.FC
+    Title: React.FC<Partial<TitleProps>>
+    Paragraph: React.FC<Partial<ParagraphProps>>
+    Icon: React.FC<Partial<IconProps>>
   }[]
 }
 

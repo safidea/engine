@@ -3,11 +3,14 @@ import type { Title } from '../base/Title'
 import type { Image } from '../base/Image'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
 import type { ConfigError } from '@domain/entities/error/Config'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as ParagraphProps } from '../base/Paragraph'
+import type { Props as ImageProps } from '../base/Image'
 
 export interface Props extends BaseProps {
-  Title?: React.FC
-  Paragraph?: React.FC
-  Images: React.FC[]
+  Title?: React.FC<Partial<TitleProps>>
+  Paragraph?: React.FC<Partial<ParagraphProps>>
+  Images: React.FC<Partial<ImageProps>>[]
 }
 
 interface Params {

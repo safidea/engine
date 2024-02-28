@@ -1,7 +1,11 @@
 import type { ReactComponent, Base, BaseProps } from './base'
 
+export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
 export interface Props extends BaseProps {
   text: string
+  center?: boolean
+  size?: Size
 }
 
 interface Params extends Props {

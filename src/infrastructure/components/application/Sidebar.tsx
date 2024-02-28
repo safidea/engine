@@ -8,7 +8,7 @@ export const Sidebar = ({ Title, Links, children }: Props['Sidebar']) => (
       id="drawer-navigation"
     >
       <div className="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
-        {Title ? <Title className="mb-4" /> : null}
+        {Title ? <Title className="mb-4 ml-2" /> : null}
         <ul className="space-y-2">
           {Links.map((Link, index) => (
             <li key={index}>

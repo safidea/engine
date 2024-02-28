@@ -50,7 +50,7 @@ test.describe('Features component', () => {
     const component = config.body[0]
     if (!('blockRef' in component) && component.component === 'Features') {
       for (const feature of component.features) {
-        const featureTitleLocator = page.locator('h4', { hasText: feature.title.text })
+        const featureTitleLocator = page.locator('h6', { hasText: feature.title.text })
         await expect(featureTitleLocator).toBeVisible()
 
         const featureDescriptionLocator = page.locator('p', {

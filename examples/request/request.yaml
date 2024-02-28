@@ -428,6 +428,10 @@ features:
             action: '/api/auth/login'
             title: 
               text: Login
+              center: true
+            paragraph:
+              text: Get your magic link to login.
+              center: true
             inputs: 
               - name: email
                 label: Email

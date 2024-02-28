@@ -3,11 +3,14 @@ import type { Button } from '../base/Button'
 import type { Link } from '../base/Link'
 import type { Title } from '../base/Title'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as LinkProps } from '../base/Link'
+import type { Props as ButtonProps } from '../base/Button'
 
 export interface Props extends BaseProps {
-  Title: React.FC
-  Links?: React.FC[]
-  Buttons?: React.FC[]
+  Title: React.FC<Partial<TitleProps>>
+  Links?: React.FC<Partial<LinkProps>>[]
+  Buttons?: React.FC<Partial<ButtonProps>>[]
 }
 
 interface Params {

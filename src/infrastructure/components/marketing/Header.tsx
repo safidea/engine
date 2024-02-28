@@ -21,7 +21,7 @@ export const Header = ({ Title, Links, Buttons }: Props['Header']) => (
         {Buttons ? (
           <div className="flex items-center">
             {Buttons.map((Button, index) => (
-              <Button key={index} />
+              <Button key={index} className="ml-2" />
             ))}
           </div>
         ) : null}

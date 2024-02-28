@@ -10,6 +10,8 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Button } from '../base/Button'
 import type { Client } from '@domain/services/Client'
 import type { Title } from '../base/Title'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as ButtonProps } from '../base/Button'
 
 export interface Column {
   name: string
@@ -23,8 +25,8 @@ export interface Row {
 export interface Props extends BaseProps {
   columns: Column[]
   rows: Row[]
-  Title?: React.FC
-  Buttons?: React.FC[]
+  Title?: React.FC<Partial<TitleProps>>
+  Buttons?: React.FC<Partial<ButtonProps>>[]
 }
 
 interface Params {

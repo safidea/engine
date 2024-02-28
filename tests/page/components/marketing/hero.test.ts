@@ -29,7 +29,7 @@ test.describe('Hero component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleContent = await page.textContent('h4')
+    const titleContent = await page.textContent('h2')
     expect(titleContent).toContain(title)
 
     const descriptionContent = await page.textContent('p')

@@ -12,14 +12,18 @@ import type { Paragraph } from '../base/Paragraph'
 import type { Input } from '../base/Input'
 import type { Button } from '../base/Button'
 import type { ConfigError } from '@domain/entities/error/Config'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as ParagraphProps } from '../base/Paragraph'
+import type { Props as InputsProps } from '../base/Input'
+import type { Props as ButtonProps } from '../base/Button'
 
 export interface Props extends BaseProps {
   action: string
   method?: Method
-  Title?: React.FC
-  Paragraph?: React.FC
-  Inputs: React.FC[]
-  Buttons: React.FC[]
+  Title?: React.FC<Partial<TitleProps>>
+  Paragraph?: React.FC<Partial<ParagraphProps>>
+  Inputs: React.FC<Partial<InputsProps>>[]
+  Buttons: React.FC<Partial<ButtonProps>>[]
   successMessage?: string
   errorMessage?: string
 }

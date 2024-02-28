@@ -11,18 +11,20 @@ export const Form = ({
 }: Props['Form']) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
-      {Title && <Title />}
-      {Paragraph && <Paragraph />}
+      {Title && <Title className="mb-4" />}
+      {Paragraph && <Paragraph className="mb-8" />}
       {successMessage ? (
-        <p className="mb-8 lg:mb-16 text-center sm:text-xl">{successMessage}</p>
+        <p className="mb-8 lg:mb-16 text-center">{successMessage}</p>
       ) : (
         <form action={action} method={method} className="space-y-8">
           {Inputs.map((Input, index) => (
             <Input key={index} />
           ))}
-          {Buttons.map((Button, index) => (
-            <Button key={index} />
-          ))}
+          <div className="flex justify-end">
+            {Buttons.map((Button, index) => (
+              <Button key={index} />
+            ))}
+          </div>
         </form>
       )}
     </div>

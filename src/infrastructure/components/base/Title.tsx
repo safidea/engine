@@ -1,4 +1,5 @@
 import type { Props } from '@domain/engine/page/component'
+import type { Size } from '@domain/engine/page/component/base/Title'
 import { classNames } from '../utils'
 
 export const Title = ({ size = 'md', text, center, className = '' }: Props['Title']) => {
@@ -19,7 +20,7 @@ export const Title = ({ size = 'md', text, center, className = '' }: Props['Titl
   }
 }
 
-export function getClasses(size: Props['Title']['size'] = '2xl', center = false) {
+export function getClasses(size: Size, center = false) {
   const centerClasses = center ? 'text-center' : ''
   const sharedClasses = 'font-bold text-gray-900'
   switch (size) {

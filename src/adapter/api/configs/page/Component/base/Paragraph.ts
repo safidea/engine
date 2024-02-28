@@ -1,5 +1,9 @@
+import type { Size } from '@domain/engine/page/component/base/Paragraph'
+
 export interface Paragraph {
   text: string
+  center?: boolean
+  size?: Size
 }
 
 export interface ParagraphComponent extends Paragraph {

@@ -3,10 +3,12 @@ import type { Link } from '../base/Link'
 import type { Component } from '..'
 import type { Title } from '../base/Title'
 import type { ConfigError } from '@domain/entities/error/Config'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as LinkProps } from '../base/Link'
 
 export interface Props extends BaseProps {
-  Title?: React.FC<BaseProps>
-  Links: React.FC[]
+  Title?: React.FC<Partial<TitleProps>>
+  Links: React.FC<Partial<LinkProps>>[]
   children: React.ReactNode
 }
 

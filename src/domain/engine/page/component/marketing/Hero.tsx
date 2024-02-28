@@ -3,11 +3,14 @@ import type { Button } from '../base/Button'
 import type { Paragraph } from '../base/Paragraph'
 import type { Title } from '../base/Title'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { Props as TitleProps } from '../base/Title'
+import type { Props as ParagraphProps } from '../base/Paragraph'
+import type { Props as ButtonProps } from '../base/Button'
 
 export interface Props extends BaseProps {
-  Title: React.FC
-  Paragraph: React.FC
-  Buttons: React.FC[]
+  Title: React.FC<Partial<TitleProps>>
+  Paragraph: React.FC<Partial<ParagraphProps>>
+  Buttons: React.FC<Partial<ButtonProps>>[]
 }
 
 interface Params {
