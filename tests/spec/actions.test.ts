@@ -61,9 +61,12 @@ test.describe('Spec actions', () => {
                   required: true,
                 },
               ],
-              submitButton: {
-                label: 'Login',
-              },
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Login',
+                },
+              ],
               successMessage: 'Welcome back, John Doe',
             },
           ],

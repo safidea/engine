@@ -9,9 +9,9 @@ import type { Logger } from '@domain/services/Logger'
 import type { ReactComponents } from '@domain/engine/page/component'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Realtime } from '@domain/services/Realtime'
-import type { Block } from '@adapter/api/configs/Block'
 import type { Client } from '@domain/services/Client'
 import type { Ui } from '@domain/services/Ui'
+import type { Block } from '@adapter/api/configs/page/component'
 
 export interface Params {
   server: Server

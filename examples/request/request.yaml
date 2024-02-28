@@ -159,7 +159,8 @@ features:
               content: *HomePageDescription
         body:
           - component: Header
-            title: *HomePageTitle
+            title: 
+              text: *HomePageTitle
             links: 
               - label: *HomePageFooterLinksHomeLabel
                 href: *HomePageFooterLinksHomeHref
@@ -171,14 +172,17 @@ features:
               - label: 'Login'
                 href: '/login'
           - component: Hero
-            title: *HomePageHeroTitle
-            description: *HomePageHeroDescription
-            primaryButton:
-              label: *HomePageHeroPrimaryButtonLabel
-              href: *HomePageHeroPrimaryButtonHref
+            title: 
+              text: *HomePageHeroTitle
+            paragraph:  
+              text: *HomePageHeroDescription
+            buttons:
+              - label: *HomePageHeroPrimaryButtonLabel
+                href: *HomePageHeroPrimaryButtonHref
           - component: Logos
-            title: *HomePageLogosTitle
-            logos: 
+            title: 
+              text:  *HomePageLogosTitle
+            images: 
               - alt: 'Agorastore'
                 src: '/logos/agorastore.jpeg'
               - alt: 'Capital PV'
@@ -190,36 +194,60 @@ features:
               - alt: "L'intendance"
                 src: '/logos/lintendance.png'
           - component: Features
-            title: *HomePageFeaturesTitle
-            description: *HomePageFeaturesDescription
+            title:  
+              text: *HomePageFeaturesTitle
+            paragraph:  
+              text: *HomePageFeaturesDescription
             features:
-              - title: *HomePageFeaturesItem1Title
-                description: *HomePageFeaturesItem1Description
-                icon: 'ComputerDesktop'
-              - title: *HomePageFeaturesItem2Title
-                description: *HomePageFeaturesItem2Description
-                icon: 'DevicePhoneMobile'
-              - title: *HomePageFeaturesItem3Title
-                description: *HomePageFeaturesItem3Description
-                icon: 'CommandLine'
-              - title: *HomePageFeaturesItem4Title
-                description: *HomePageFeaturesItem4Description
-                icon: 'MagnifyingGlass'
-              - title: *HomePageFeaturesItem5Title
-                description: *HomePageFeaturesItem5Description
-                icon: 'AcademicCap'
-              - title: *HomePageFeaturesItem6Title
-                description: *HomePageFeaturesItem6Description
-                icon: 'ChatBubbleBottomCenterText'
+              - title:  
+                  text: *HomePageFeaturesItem1Title
+                paragraph:  
+                  text: *HomePageFeaturesItem1Description
+                icon: 
+                  type: 'ComputerDesktop'
+              - title:  
+                  text: *HomePageFeaturesItem2Title
+                paragraph:  
+                  text: *HomePageFeaturesItem2Description
+                icon: 
+                  type: 'DevicePhoneMobile'
+              - title:  
+                  text: *HomePageFeaturesItem3Title
+                paragraph:  
+                  text: *HomePageFeaturesItem3Description
+                icon: 
+                  type: 'CommandLine'
+              - title:  
+                  text: *HomePageFeaturesItem4Title
+                paragraph:  
+                  text: *HomePageFeaturesItem4Description
+                icon: 
+                  type: 'MagnifyingGlass'
+              - title:  
+                  text: *HomePageFeaturesItem5Title
+                paragraph:  
+                  text: *HomePageFeaturesItem5Description
+                icon: 
+                  type: 'AcademicCap'
+              - title:  
+                  text: *HomePageFeaturesItem6Title
+                paragraph:  
+                  text: *HomePageFeaturesItem6Description
+                icon: 
+                  type: 'ChatBubbleBottomCenterText'
           - component: CTA
-            title: *HomePageCTATitle
-            description: *HomePageCTADescription
-            primaryButton:
-              label: *HomePageCTAPrimaryButtonLabel
-              href: *HomePageCTAPrimaryButtonHref
+            title: 
+              text: *HomePageCTATitle
+            paragraph: 
+              text: *HomePageCTADescription
+            buttons:
+              - label: *HomePageCTAPrimaryButtonLabel
+                href: *HomePageCTAPrimaryButtonHref
           - component: Footer
-            title: *HomePageFooterTitle
-            description: *HomePageFooterDescription
+            title: 
+              text: *HomePageFooterTitle
+            paragraph: 
+              text: *HomePageFooterDescription
             links: 
               - label: *HomePageFooterLinksHomeLabel
                 href: *HomePageFooterLinksHomeHref
@@ -282,7 +310,8 @@ features:
               content: Get started with Request
         body:
           - component: Header
-            title: *HomePageTitle
+            title: 
+              text: *HomePageTitle
             links: 
               - label: *HomePageFooterLinksHomeLabel
                 href: *HomePageFooterLinksHomeHref
@@ -296,8 +325,10 @@ features:
           - component: Form
             action: '/api/table/leads'
             method: POST
-            title: *ContactPageFormTitle
-            description: *ContactPageFormDescription
+            title: 
+              text: *ContactPageFormTitle
+            paragraph: 
+              text: *ContactPageFormDescription
             inputs: 
               - name: *ContactPageFormInputsEmailName
                 label: *ContactPageFormInputsEmailLabel
@@ -319,12 +350,15 @@ features:
                 placeholder: 'Hello, I would like to get started with Request.'
                 type: text
                 required: true
-            submitButton:
-              label: *ContactPageFormPrimaryButtonLabel
+            buttons:
+              - type: submit
+                label: *ContactPageFormPrimaryButtonLabel
             successMessage: *ContactPageFormSuccessMessage
           - component: Footer
-            title: *HomePageFooterTitle
-            description: *HomePageFooterDescription
+            title: 
+              text: *HomePageFooterTitle
+            paragraph: 
+              text: *HomePageFooterDescription
             links: 
               - label: *HomePageFooterLinksHomeLabel
                 href: *HomePageFooterLinksHomeHref
@@ -392,15 +426,17 @@ features:
         body:
           - component: Form
             action: '/api/auth/login'
-            title: Login
+            title: 
+              text: Login
             inputs: 
               - name: email
                 label: Email
                 type: email
                 required: true
                 placeholder: My email
-            submitButton:
-              label: Send magic link
+            buttons:
+              - type: submit
+                label: Send magic link
             successMessage: 'Your email has been sent.'
   - name: requests
     specs: 
@@ -415,35 +451,40 @@ features:
         head:
           title: Requests
         body:
-          - block: sidebar
+          - blockRef: sidebar
+            component: Sidebar
             children:
               - component: Table
-                title: Requests
+                title: 
+                  text: Requests
                 source: '/api/table/requests'
                 columns: 
                   - name: subject
                     label: Subject
-                addButton: 
-                  label: 'Add request'
-                  href: '/requests/add'
+                buttons: 
+                  - label: 'Add request'
+                    href: '/requests/add'
       - name: new-request
         path: /requests/add
         head:
           title: New request
         body:
-          - block: sidebar
+          - blockRef: sidebar
+            component: Sidebar
             children:
               - component: Form
                 action: '/api/table/requests'
-                title: New request
+                title:  
+                  text: New request
                 inputs: 
                   - name: subject
                     label: Subject
                     type: text
                     required: true
                     placeholder: My request
-                submitButton:
-                  label: 'Add request'
+                buttons:
+                  - type: submit
+                    label: 'Add request'
     tables:
       - name: requests
         fields:
@@ -470,10 +511,12 @@ auth:
     html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.'
   secret: 'my-secret'
 blocks: 
-  - name: sidebar
+  - ref: sidebar
     component: Sidebar
-    title: 'Request'
+    title: 
+      text: 'Request'
     links: 
       - label: 'My requests'
         href: '/requests'
-        beforeIcon: RectangleStack
+        prefixIcon: 
+          type: RectangleStack

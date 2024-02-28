@@ -9,6 +9,7 @@ test.describe('Form component', () => {
     const title = 'This is a title'
     const description = 'This is a description'
     const submitButton = {
+      type: 'submit',
       label: 'Save',
     }
     const inputs = [
@@ -25,10 +26,15 @@ test.describe('Form component', () => {
         {
           component: 'Form',
           action: '#',
-          title,
-          description,
+          title: { text: title },
+          paragraph: { text: description },
           inputs,
-          submitButton,
+          buttons: [
+            {
+              type: 'submit',
+              label: 'Save',
+            },
+          ],
         },
       ],
     }
@@ -39,7 +45,7 @@ test.describe('Form component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleContent = await page.textContent('h2')
+    const titleContent = await page.textContent('h4')
     expect(titleContent).toContain(title)
 
     const descriptionContent = await page.textContent('p')
@@ -59,6 +65,7 @@ test.describe('Form component', () => {
     const title = 'This is a title'
     const description = 'This is a description'
     const submitButton = {
+      type: 'submit',
       label: 'Save',
     }
     const inputs = [
@@ -76,10 +83,13 @@ test.describe('Form component', () => {
         {
           component: 'Form',
           action: '#',
-          title,
-          description,
+          title: { text: title },
+          paragraph: { text: description },
           inputs,
-          submitButton,
+          buttons: [{
+            type: 'submit',
+            label: 'Save',
+          }],
           successMessage,
         },
       ],
@@ -91,7 +101,7 @@ test.describe('Form component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleContent = await page.textContent('h2')
+    const titleContent = await page.textContent('h4')
     expect(titleContent).toContain(title)
 
     const descriptionContent = await page.textContent('p')
@@ -122,8 +132,8 @@ test.describe('Form component', () => {
               body: [
                 {
                   component: 'Form',
-                  title: 'This is a title',
-                  description: 'This is a description',
+                  title: { text: 'This is a title' },
+                  paragraph: { text: 'This is a description' },
                   action: '/api/table/leads',
                   method: 'POST',
                   inputs: [
@@ -136,9 +146,12 @@ test.describe('Form component', () => {
                       label: 'Your email',
                     },
                   ],
-                  submitButton: {
-                    label: 'Save',
-                  },
+                  buttons: [
+                    {
+                      type: 'submit',
+                      label: 'Save',
+                    },
+                  ],
                   successMessage,
                 },
               ],
@@ -196,8 +209,8 @@ test.describe('Form component', () => {
               body: [
                 {
                   component: 'Form',
-                  title: 'This is a title',
-                  description: 'This is a description',
+                  title: { text: 'This is a title' },
+                  paragraph: { text: 'This is a description' },
                   action: '/api/table/leads',
                   method: 'POST',
                   inputs: [
@@ -210,9 +223,12 @@ test.describe('Form component', () => {
                       label: 'Your email',
                     },
                   ],
-                  submitButton: {
-                    label: 'Save',
-                  },
+                  buttons: [
+                    {
+                      type: 'submit',
+                      label: 'Save',
+                    },
+                  ],
                   successMessage,
                 },
               ],

@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Sidebar } from './Sidebar'
 import { Table } from './Table'
 import { Button } from '../base/Button'
+import { Title } from '../base/Title'
+import { Link } from '../base/Link'
 
 const meta = {
   title: 'Application/Sidebar',
@@ -16,18 +18,10 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Menu',
-    links: [
-      {
-        label: 'Home',
-        beforeIcon: 'Home',
-        href: '/',
-      },
-      {
-        label: 'Leads',
-        beforeIcon: 'Users',
-        href: '/leads',
-      },
+    Title: (props) => <Title text="Leads" {...props} />,
+    Links: [
+      (props) => <Link label="Home" href="/" {...props} />,
+      (props) => <Link label="Leads" href="/leads" {...props} />,
     ],
     children: <p>Some children</p>,
   },
@@ -35,23 +29,15 @@ export const Default: Story = {
 
 export const WithTable: Story = {
   args: {
-    title: 'Menu',
-    links: [
-      {
-        label: 'Home',
-        beforeIcon: 'Home',
-        href: '/',
-      },
-      {
-        label: 'Leads',
-        beforeIcon: 'Users',
-        href: '/leads',
-      },
+    Title: (props) => <Title text="Leads" {...props} />,
+    Links: [
+      (props) => <Link label="Home" href="/" {...props} />,
+      (props) => <Link label="Leads" href="/leads" {...props} />,
     ],
     children: (
       <Table
-        title="Table"
-        AddButton={<Button label="Add row" />}
+        Title={(props) => <Title text="Leads" {...props} />}
+        Buttons={[(props) => <Button label="Add row" {...props} />]}
         columns={[{ name: 'email', label: 'Email' }]}
         rows={[{ email: 'test@test.com' }]}
       />

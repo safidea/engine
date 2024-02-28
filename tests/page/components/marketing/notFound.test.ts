@@ -32,7 +32,7 @@ test.describe('NotFound component', () => {
 
     // THEN
     expect(await page.title()).toContain('404 not found')
-    await expect(page.locator('p', { hasText: "Something's missing." })).toBeVisible()
+    await expect(page.locator('h4', { hasText: "Something's missing." })).toBeVisible()
     await expect(
       page.locator('p', {
         hasText: "Sorry, we can't find that page. You'll find lots to explore on the home page.",

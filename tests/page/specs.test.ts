@@ -292,8 +292,8 @@ test.describe('Pages specs', () => {
             {
               component: 'Form',
               action: '#',
-              title: 'Form',
-              description: 'Form description',
+              title: { text: 'Form' },
+              paragraph: { text: 'Form description' },
               inputs: [
                 {
                   name: 'name',
@@ -301,9 +301,12 @@ test.describe('Pages specs', () => {
                   type: 'text',
                 },
               ],
-              submitButton: {
-                label: 'Submit',
-              },
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Submit',
+                },
+              ],
             },
           ],
         },
@@ -341,8 +344,8 @@ test.describe('Pages specs', () => {
             {
               component: 'Form',
               action: '#',
-              title: 'Form',
-              description: 'Form description',
+              title: { text: 'Form' },
+              paragraph: { text: 'Form description' },
               inputs: [
                 {
                   name: 'name',
@@ -350,9 +353,12 @@ test.describe('Pages specs', () => {
                   type: 'text',
                 },
               ],
-              submitButton: {
-                label: 'Submit',
-              },
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Submit',
+                },
+              ],
             },
           ],
         },
@@ -391,8 +397,8 @@ test.describe('Pages specs', () => {
           body: [
             {
               component: 'Form',
-              title: 'Form',
-              description: 'Form description',
+              title: { text: 'Form' },
+              paragraph: { text: 'Form description' },
               action: '/api/table/leads',
               method: 'POST',
               inputs: [
@@ -402,9 +408,12 @@ test.describe('Pages specs', () => {
                   type: 'text',
                 },
               ],
-              submitButton: {
-                label: 'Submit',
-              },
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Submit',
+                },
+              ],
               successMessage,
             },
           ],

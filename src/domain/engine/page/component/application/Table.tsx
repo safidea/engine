@@ -9,6 +9,7 @@ import { Stream } from '@domain/entities/response/Stream'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Button } from '../base/Button'
 import type { Client } from '@domain/services/Client'
+import type { Title } from '../base/Title'
 
 export interface Column {
   name: string
@@ -20,18 +21,18 @@ export interface Row {
 }
 
 export interface Props extends BaseProps {
-  title?: string
   columns: Column[]
   rows: Row[]
-  AddButton?: React.ReactNode
+  Title?: React.FC
+  Buttons?: React.FC[]
 }
 
 interface Params {
   source: string
-  title?: string
+  title?: Title
   columns: Column[]
-  addButton?: Button
-  component: ReactComponent<Props>
+  buttons?: Button[]
+  Component: ReactComponent<Props>
   server: Server
   ui: Ui
   client: Client
@@ -60,10 +61,13 @@ export class Table implements Base<Props> {
   }
 
   init = async () => {
-    const { server, addButton } = this.params
-    await server.get(this.path, this.getData)
-    if (this.stream) await server.get(this.stream.path, this.streamData)
-    if (addButton) await addButton.init()
+    const { server, buttons = [], title } = this.params
+    await Promise.all([
+      server.get(this.path, this.getData),
+      this.stream ? server.get(this.stream.path, this.streamData) : undefined,
+      ...buttons.map((button) => button.init()),
+      title?.init(),
+    ])
   }
 
   getData = async (request: Get) => {
@@ -98,24 +102,26 @@ export class Table implements Base<Props> {
   }
 
   htmlStream = async (props?: Partial<Props>) => {
-    const { ui, client, title, columns, addButton } = this.params
+    const { ui, client, title, columns, buttons = [] } = this.params
     const Component = await this.render({ withSource: false })
-    const AddButton = addButton ? (await addButton.render())() : undefined
+    const Buttons = await Promise.all(buttons.map((button) => button.render()))
+    const Title = title ? await title.render() : undefined
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
-        <Component {...{ title, columns, AddButton, ...props }} />
+        <Component {...{ Title, columns, Buttons, ...props }} />
       </client.Stream>
     )
   }
 
   render = async (options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { client, component: Component, title, columns, addButton } = this.params
-    const AddButton = addButton ? (await addButton.render())() : undefined
+    const { client, Component, title, columns, buttons = [] } = this.params
+    const Buttons = await Promise.all(buttons.map((button) => button.render()))
+    const Title = title ? await title.render() : undefined
     return (props?: Partial<Props>) => (
       <>
         <client.Frame id={this.id} src={withSource ? this.path : ''}>
-          <Component {...{ title, columns, AddButton, rows: [], ...props }} />
+          <Component {...{ Title, columns, Buttons, rows: [], ...props }} />
         </client.Frame>
         {this.stream ? <client.StreamSource src={this.stream.path} /> : null}
       </>
@@ -123,7 +129,7 @@ export class Table implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { source, addButton, server } = this.params
+    const { source, buttons, server, title } = this.params
     const errors = []
     if (source.startsWith('/api/table/')) {
       if (!server.hasGetHandler(source)) {
@@ -134,7 +140,14 @@ export class Table implements Base<Props> {
     } else {
       errors.push(new ConfigError({ message: 'Table source must start with /api/table/' }))
     }
-    if (addButton) errors.push(...addButton.validateConfig())
+    if (buttons) {
+      buttons.forEach((button) => {
+        errors.push(...button.validateConfig())
+      })
+    }
+    if (title) {
+      errors.push(...title.validateConfig())
+    }
     return errors
   }
 }

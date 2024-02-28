@@ -4,9 +4,8 @@ export interface Props extends BaseProps {
   text: string
 }
 
-interface Params {
-  props: Props
-  component: ReactComponent<Props>
+interface Params extends Props {
+  Component: ReactComponent<Props>
 }
 
 export class Paragraph implements Base<Props> {
@@ -15,7 +14,7 @@ export class Paragraph implements Base<Props> {
   init = async () => {}
 
   render = async () => {
-    const { props: defaultProps, component: Component } = this.params
+    const { Component, ...defaultProps } = this.params
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
   }
 

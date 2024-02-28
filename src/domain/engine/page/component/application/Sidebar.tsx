@@ -1,42 +1,63 @@
-import type React from 'react'
 import type { Base, ReactComponent, BaseProps } from '../base/base'
-import type { Props as LinkProps } from '../base/Link'
+import type { Link } from '../base/Link'
 import type { Component } from '..'
+import type { Title } from '../base/Title'
+import type { ConfigError } from '@domain/entities/error/Config'
 
 export interface Props extends BaseProps {
-  title?: string
-  links: LinkProps[]
+  Title?: React.FC<BaseProps>
+  Links: React.FC[]
   children: React.ReactNode
 }
 
 interface Params {
-  props: Omit<Props, 'children'> & { children: Component[] }
-  component: ReactComponent<Props>
+  title?: Title
+  links: Link[]
+  children: Component[]
+  Component: ReactComponent<Props>
 }
 
 export class Sidebar implements Base<Props> {
   constructor(private params: Params) {}
 
   init = async () => {
-    const { props } = this.params
-    await Promise.all(props.children.map((child) => child.init()))
+    const { children, title, links } = this.params
+    await Promise.all([
+      ...children.map((child) => child.init()),
+      ...links.map((link) => link.init()),
+      title?.init(),
+    ])
   }
 
   render = async () => {
-    const { props: defaultProps, component: Component } = this.params
-    const children = await Promise.all(defaultProps.children.map((child) => child.render()))
+    const { Component } = this.params
+    const children = await Promise.all(this.params.children.map((child) => child.render()))
+    const Links = await Promise.all(this.params.links.map((link) => link.render()))
+    const Title = this.params.title ? await this.params.title.render() : undefined
     return (props?: Partial<Props>) => (
       <Component
         {...{
-          ...defaultProps,
-          ...props,
+          Title,
+          Links,
           children: children.map((Child, index) => <Child key={index} />),
+          ...props,
         }}
       />
     )
   }
 
   validateConfig = () => {
-    return []
+    const { children, title, links } = this.params
+    const errors: ConfigError[] = []
+    if (title) {
+      errors.push(...title.validateConfig())
+    }
+    children.forEach((child) => {
+      errors.push(...child.validateConfig())
+    })
+    links.forEach((link) => {
+      errors.push(...link.validateConfig())
+    })
+    return errors
   }
 }

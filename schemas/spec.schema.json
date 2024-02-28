@@ -1,8 +1,15 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "definitions": {
         "Action": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/Click"
+                },
+                {
+                    "$ref": "#/definitions/ClickInEmail"
+                },
                 {
                     "$ref": "#/definitions/Fill"
                 },
@@ -13,20 +20,15 @@
                     "$ref": "#/definitions/Post"
                 },
                 {
-                    "$ref": "#/definitions/Click"
-                },
-                {
-                    "$ref": "#/definitions/WaitForText"
-                },
-                {
                     "$ref": "#/definitions/WaitForAutomation"
                 },
                 {
-                    "$ref": "#/definitions/ClickInEmail"
+                    "$ref": "#/definitions/WaitForText"
                 }
             ]
         },
         "Attribute": {
+            "additionalProperties": false,
             "properties": {
                 "attribute": {
                     "type": "string"
@@ -159,6 +161,7 @@
             "type": "object"
         },
         "Click": {
+            "additionalProperties": false,
             "properties": {
                 "click": {
                     "type": "string"
@@ -170,6 +173,7 @@
             "type": "object"
         },
         "ClickInEmail": {
+            "additionalProperties": false,
             "properties": {
                 "click": {
                     "type": "string"
@@ -192,6 +196,7 @@
             "type": "object"
         },
         "Email": {
+            "additionalProperties": false,
             "properties": {
                 "find": {
                     "items": {
@@ -210,6 +215,7 @@
             "type": "object"
         },
         "Fill": {
+            "additionalProperties": false,
             "properties": {
                 "fill": {
                     "type": "string"
@@ -235,6 +241,7 @@
             ]
         },
         "InputText": {
+            "additionalProperties": false,
             "properties": {
                 "input": {
                     "type": "string"
@@ -250,6 +257,7 @@
             "type": "object"
         },
         "Is": {
+            "additionalProperties": false,
             "properties": {
                 "field": {
                     "type": "string"
@@ -270,6 +278,7 @@
             "type": "object"
         },
         "IsAnyOf": {
+            "additionalProperties": false,
             "properties": {
                 "field": {
                     "type": "string"
@@ -293,6 +302,7 @@
             "type": "object"
         },
         "Open": {
+            "additionalProperties": false,
             "properties": {
                 "open": {
                     "type": "string"
@@ -304,6 +314,7 @@
             "type": "object"
         },
         "Post": {
+            "additionalProperties": false,
             "properties": {
                 "body": {
                     "additionalProperties": true,
@@ -321,6 +332,7 @@
             "type": "object"
         },
         "Record": {
+            "additionalProperties": false,
             "properties": {
                 "find": {
                     "items": {
@@ -341,6 +353,15 @@
         "Result": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -350,20 +371,12 @@
                     "$ref": "#/definitions/Title"
                 },
                 {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
                     "$ref": "#/definitions/Url"
                 }
             ]
         },
         "Text": {
+            "additionalProperties": false,
             "properties": {
                 "tag": {
                     "enum": [
@@ -492,6 +505,7 @@
             "type": "object"
         },
         "Title": {
+            "additionalProperties": false,
             "properties": {
                 "title": {
                     "type": "string"
@@ -503,6 +517,7 @@
             "type": "object"
         },
         "Url": {
+            "additionalProperties": false,
             "properties": {
                 "url": {
                     "type": "string"
@@ -514,6 +529,7 @@
             "type": "object"
         },
         "WaitForAutomation": {
+            "additionalProperties": false,
             "properties": {
                 "waitForAutomation": {
                     "type": "string"
@@ -525,6 +541,7 @@
             "type": "object"
         },
         "WaitForText": {
+            "additionalProperties": false,
             "properties": {
                 "waitForText": {
                     "type": "string"

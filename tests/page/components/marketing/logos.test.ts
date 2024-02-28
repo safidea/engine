@@ -25,8 +25,8 @@ test.describe('Logos component', () => {
       body: [
         {
           component: 'Logos',
-          title,
-          logos,
+          title: { text: title },
+          images: logos,
         },
       ],
     }
@@ -37,7 +37,7 @@ test.describe('Logos component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleContent = await page.textContent('h2')
+    const titleContent = await page.textContent('h4')
     expect(titleContent).toContain(title)
 
     for (const logo of logos) {

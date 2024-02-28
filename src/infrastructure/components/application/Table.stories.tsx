@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Table } from './Table'
 import { Button } from '../base/Button'
+import { Title } from '../base/Title'
 
 const meta = {
   title: 'Application/Table',
@@ -52,13 +53,13 @@ export const Default: Story = {
 export const WithAddButton: Story = {
   args: {
     ...Default.args,
-    AddButton: <Button href="/add" label="Add" />,
+    Buttons: [(props) => <Button href="/add" label="Add" {...props} />],
   },
 }
 
 export const WithTitle: Story = {
   args: {
     ...Default.args,
-    title: 'Leads',
+    Title: (props) => <Title text="Users" {...props} />,
   },
 }

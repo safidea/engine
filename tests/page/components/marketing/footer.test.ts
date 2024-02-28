@@ -23,8 +23,8 @@ test.describe('Footer component', () => {
       body: [
         {
           component: 'Footer',
-          title,
-          description,
+          title: { text: title },
+          paragraph: { text: description },
           links,
           copyright,
         },
@@ -37,7 +37,7 @@ test.describe('Footer component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleLocator = page.locator('a', { hasText: title })
+    const titleLocator = page.locator('h4', { hasText: title })
     await expect(titleLocator).toBeVisible()
 
     const descriptionLocator = page.locator('p', { hasText: description })

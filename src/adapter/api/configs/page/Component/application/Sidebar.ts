@@ -1,7 +1,22 @@
-import type { Props } from '@domain/engine/page/component/application/Sidebar'
-import type { Component } from '..'
+import type { Component as OtherComponent } from '..'
+import type { Link } from '../base/Link'
+import type { Title } from '../base/Title'
 
-export interface Sidebar extends Omit<Props, 'children'> {
+export interface Sidebar {
+  title: Title
+  links: Link[]
+  children?: OtherComponent[]
+}
+
+export interface SidebarComponent extends Sidebar {
   component: 'Sidebar'
-  children?: Component[]
+}
+
+export interface SidebarBlock extends SidebarComponent {
+  ref: string
+}
+
+export interface SidebarBlockRef extends Partial<Sidebar> {
+  component: 'Sidebar'
+  blockRef: string
 }

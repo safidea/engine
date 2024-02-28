@@ -1,14 +1,15 @@
 import type { ReactComponent, Base, BaseProps } from './base'
 
+export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+
 export interface Props extends BaseProps {
   text: string
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  size?: Size
   center?: boolean
 }
 
-interface Params {
-  props: Props
-  component: ReactComponent<Props>
+interface Params extends Props {
+  Component: ReactComponent<Props>
 }
 
 export class Title implements Base<Props> {
@@ -17,7 +18,7 @@ export class Title implements Base<Props> {
   init = async () => {}
 
   render = async () => {
-    const { props: defaultProps, component: Component } = this.params
+    const { Component, ...defaultProps } = this.params
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
   }
 

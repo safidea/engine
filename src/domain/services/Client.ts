@@ -1,12 +1,8 @@
 import type { Meta } from '@domain/engine/page/head/Meta'
 
-export type FrameId = string | '_top' | '_self'
-export type Navigation = 'replace' | 'advance'
-export type Method = 'GET' | 'POST' | 'PUT' | 'PUT' | 'DELETE'
-
 export interface BaseProps {
-  navigation?: Navigation
-  frameId?: FrameId
+  navigation?: 'replace' | 'advance'
+  frameId?: string | '_top' | '_self'
 }
 
 export interface FrameProps extends BaseProps {

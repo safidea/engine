@@ -28,7 +28,8 @@ test.describe('App config errors', () => {
               path: '/',
               body: [
                 {
-                  block: 'BlockThatDoesNotExist',
+                  blockRef: 'BlockThatDoesNotExist',
+                  component: 'Title',
                 },
               ],
             },
@@ -43,5 +44,43 @@ test.describe('App config errors', () => {
     // THEN
     expect(errors).toHaveLength(1)
     expect(errors[0].message).toContain('Block BlockThatDoesNotExist does not exist')
+  })
+
+  test('should not be able to load a block with the wrong component', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  blockRef: 'Marketing',
+                  component: 'Title',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      blocks: [
+        {
+          ref: 'Marketing',
+          component: 'Paragraph',
+          text: 'This is a paragraph',
+        },
+      ],
+    }
+
+    // WHEN
+    const errors = await new App().getConfigErrors(config)
+
+    // THEN
+    expect(errors).toHaveLength(1)
+    expect(errors[0].message).toContain('BlockRef Marketing is not a Paragraph component')
   })
 })

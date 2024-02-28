@@ -1,8 +1,23 @@
-import type { Props } from '@domain/engine/page/component/application/Table'
-import type { Props as ButtonProps } from '@domain/engine/page/component/base/Button'
+import type { Column } from '@domain/engine/page/component/application/Table'
+import type { Title } from '../base/Title'
+import type { Button } from '../base/Button'
 
-export interface Table extends Omit<Props, 'rows' | 'addButton'> {
-  component: 'Table'
+export interface Table {
   source: string
-  addButton?: ButtonProps
+  columns: Column[]
+  title?: Title
+  buttons?: Button[]
+}
+
+export interface TableComponent extends Table {
+  component: 'Table'
+}
+
+export interface TableBlock extends TableComponent {
+  ref: string
+}
+
+export interface TableBlockRef extends Partial<Table> {
+  component: 'Table'
+  blockRef: string
 }

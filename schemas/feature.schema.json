@@ -1,8 +1,15 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "definitions": {
         "Action": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/Click"
+                },
+                {
+                    "$ref": "#/definitions/ClickInEmail"
+                },
                 {
                     "$ref": "#/definitions/Fill"
                 },
@@ -13,16 +20,10 @@
                     "$ref": "#/definitions/Post"
                 },
                 {
-                    "$ref": "#/definitions/Click"
-                },
-                {
-                    "$ref": "#/definitions/WaitForText"
-                },
-                {
                     "$ref": "#/definitions/WaitForAutomation"
                 },
                 {
-                    "$ref": "#/definitions/ClickInEmail"
+                    "$ref": "#/definitions/WaitForText"
                 }
             ]
         },
@@ -37,6 +38,7 @@
             ]
         },
         "Attribute": {
+            "additionalProperties": false,
             "properties": {
                 "attribute": {
                     "type": "string"
@@ -169,8 +171,10 @@
             "type": "object"
         },
         "Auth": {
+            "additionalProperties": false,
             "properties": {
                 "confirmEmail": {
+                    "additionalProperties": false,
                     "properties": {
                         "html": {
                             "type": "string"
@@ -213,6 +217,7 @@
             "type": "object"
         },
         "Automation": {
+            "additionalProperties": false,
             "properties": {
                 "actions": {
                     "items": {
@@ -240,29 +245,40 @@
             ],
             "type": "object"
         },
-        "Block": {
+        "Button": {
+            "additionalProperties": false,
             "properties": {
-                "block": {
+                "href": {
                     "type": "string"
                 },
-                "className": {
+                "label": {
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "block"
+                "label"
             ],
             "type": "object"
         },
-        "Button": {
+        "ButtonBlockRef": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "blockRef": {
                     "type": "string"
                 },
                 "component": {
@@ -272,13 +288,50 @@
                 "href": {
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                "label": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ButtonComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Button",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
                 },
                 "label": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
                     "type": "string"
                 },
                 "variant": {
@@ -296,6 +349,7 @@
             "type": "object"
         },
         "Click": {
+            "additionalProperties": false,
             "properties": {
                 "click": {
                     "type": "string"
@@ -307,6 +361,7 @@
             "type": "object"
         },
         "ClickInEmail": {
+            "additionalProperties": false,
             "properties": {
                 "click": {
                     "type": "string"
@@ -329,6 +384,7 @@
             "type": "object"
         },
         "Column": {
+            "additionalProperties": false,
             "properties": {
                 "label": {
                     "type": "string"
@@ -346,99 +402,166 @@
         "Component": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Paragraph"
+                    "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/Button"
+                    "$ref": "#/definitions/TitleComponent"
                 },
                 {
-                    "$ref": "#/definitions/Form"
+                    "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
-                    "$ref": "#/definitions/Cta"
+                    "$ref": "#/definitions/InputComponent"
                 },
                 {
-                    "$ref": "#/definitions/Features"
+                    "$ref": "#/definitions/FormComponent"
                 },
                 {
-                    "$ref": "#/definitions/Hero"
+                    "$ref": "#/definitions/CtaComponent"
                 },
                 {
-                    "$ref": "#/definitions/Footer"
+                    "$ref": "#/definitions/IconComponent"
                 },
                 {
-                    "$ref": "#/definitions/Logos"
+                    "$ref": "#/definitions/FeaturesComponent"
                 },
                 {
-                    "$ref": "#/definitions/NotFound"
+                    "$ref": "#/definitions/HeroComponent"
                 },
                 {
-                    "$ref": "#/definitions/Link_1"
+                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
-                    "$ref": "#/definitions/Header"
+                    "$ref": "#/definitions/FooterComponent"
                 },
                 {
-                    "$ref": "#/definitions/Table"
+                    "$ref": "#/definitions/ImageComponent"
                 },
                 {
-                    "$ref": "#/definitions/Sidebar"
+                    "$ref": "#/definitions/LogosComponent"
                 },
                 {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/NotFoundComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeaderComponent"
+                },
+                {
+                    "$ref": "#/definitions/TableComponent"
+                },
+                {
+                    "$ref": "#/definitions/SidebarComponent"
                 }
             ]
         },
-        "ComponentWithBlock": {
+        "ComponentWithBlockRef": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Paragraph"
+                    "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/Button"
+                    "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/Form"
+                    "$ref": "#/definitions/TitleComponent"
                 },
                 {
-                    "$ref": "#/definitions/Cta"
+                    "$ref": "#/definitions/TitleBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/Features"
+                    "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
-                    "$ref": "#/definitions/Hero"
+                    "$ref": "#/definitions/ParagraphBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/Footer"
+                    "$ref": "#/definitions/InputComponent"
                 },
                 {
-                    "$ref": "#/definitions/Logos"
+                    "$ref": "#/definitions/InputBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/NotFound"
+                    "$ref": "#/definitions/FormComponent"
                 },
                 {
-                    "$ref": "#/definitions/Link_1"
+                    "$ref": "#/definitions/FormBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/Header"
+                    "$ref": "#/definitions/CtaComponent"
                 },
                 {
-                    "$ref": "#/definitions/Table"
+                    "$ref": "#/definitions/CtaBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/Sidebar"
+                    "$ref": "#/definitions/IconComponent"
                 },
                 {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/IconBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/Block"
+                    "$ref": "#/definitions/FeaturesComponent"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeroComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeroBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LinkComponent"
+                },
+                {
+                    "$ref": "#/definitions/LinkBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FooterComponent"
+                },
+                {
+                    "$ref": "#/definitions/FooterBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LogosComponent"
+                },
+                {
+                    "$ref": "#/definitions/LogosBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundComponent"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeaderComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeaderBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TableComponent"
+                },
+                {
+                    "$ref": "#/definitions/TableBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/SidebarComponent"
+                },
+                {
+                    "$ref": "#/definitions/SidebarBlockRef"
                 }
             ]
         },
         "CreateRecord": {
+            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "CreateRecord",
@@ -469,52 +592,65 @@
             ],
             "type": "object"
         },
-        "Cta": {
+        "CtaBlockRef": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "blockRef": {
                     "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
                 },
                 "component": {
                     "const": "CTA",
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "primaryButton": {
-                    "properties": {
-                        "href": {
-                            "type": "string"
-                        },
-                        "label": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "href",
-                        "label"
-                    ],
-                    "type": "object"
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 "title": {
-                    "type": "string"
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "CtaComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "CTA",
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "buttons",
                 "component",
-                "description",
-                "primaryButton",
+                "paragraph",
                 "title"
             ],
             "type": "object"
         },
         "Database": {
+            "additionalProperties": false,
             "properties": {
                 "db": {
                     "enum": [
@@ -534,6 +670,7 @@
             "type": "object"
         },
         "DateTime": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -550,6 +687,7 @@
             "type": "object"
         },
         "Email": {
+            "additionalProperties": false,
             "properties": {
                 "find": {
                     "items": {
@@ -568,6 +706,7 @@
             "type": "object"
         },
         "Email_1": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -583,54 +722,93 @@
             ],
             "type": "object"
         },
-        "Features": {
+        "FeaturesBlockRef": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "blockRef": {
                     "type": "string"
                 },
                 "component": {
                     "const": "Features",
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
                 "features": {
                     "items": {
+                        "additionalProperties": false,
                         "properties": {
-                            "description": {
-                                "type": "string"
-                            },
                             "icon": {
                                 "$ref": "#/definitions/Icon"
                             },
+                            "paragraph": {
+                                "$ref": "#/definitions/Paragraph"
+                            },
                             "title": {
-                                "type": "string"
+                                "$ref": "#/definitions/Title_1"
                             }
                         },
                         "required": [
-                            "description",
                             "icon",
+                            "paragraph",
                             "title"
                         ],
                         "type": "object"
                     },
                     "type": "array"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "FeaturesComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Features",
                     "type": "string"
+                },
+                "features": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "icon": {
+                                "$ref": "#/definitions/Icon"
+                            },
+                            "paragraph": {
+                                "$ref": "#/definitions/Paragraph"
+                            },
+                            "title": {
+                                "$ref": "#/definitions/Title_1"
+                            }
+                        },
+                        "required": [
+                            "icon",
+                            "paragraph",
+                            "title"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
                 "component",
-                "description",
                 "features",
+                "paragraph",
                 "title"
             ],
             "type": "object"
@@ -638,17 +816,18 @@
         "Field": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/DateTime"
+                },
+                {
                     "$ref": "#/definitions/Email_1"
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
-                },
-                {
-                    "$ref": "#/definitions/DateTime"
                 }
             ]
         },
         "Fill": {
+            "additionalProperties": false,
             "properties": {
                 "fill": {
                     "type": "string"
@@ -673,9 +852,10 @@
                 }
             ]
         },
-        "Footer": {
+        "FooterBlockRef": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "blockRef": {
                     "type": "string"
                 },
                 "component": {
@@ -685,116 +865,81 @@
                 "copyright": {
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
                 "links": {
                     "items": {
-                        "properties": {
-                            "href": {
-                                "type": "string"
-                            },
-                            "label": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "href",
-                            "label"
-                        ],
-                        "type": "object"
+                        "$ref": "#/definitions/Link_1"
                     },
                     "type": "array"
                 },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
                 "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "FooterComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Footer",
                     "type": "string"
+                },
+                "copyright": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
                 "component",
                 "copyright",
-                "description",
                 "links",
+                "paragraph",
                 "title"
             ],
             "type": "object"
         },
-        "Form": {
+        "FormBlockRef": {
+            "additionalProperties": false,
             "properties": {
                 "action": {
                     "type": "string"
                 },
-                "className": {
+                "blockRef": {
                     "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
                 },
                 "component": {
                     "const": "Form",
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
                 "inputs": {
                     "items": {
-                        "properties": {
-                            "label": {
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "placeholder": {
-                                "type": "string"
-                            },
-                            "required": {
-                                "type": "boolean"
-                            },
-                            "type": {
-                                "enum": [
-                                    "button",
-                                    "checkbox",
-                                    "color",
-                                    "date",
-                                    "datetime-local",
-                                    "email",
-                                    "file",
-                                    "hidden",
-                                    "image",
-                                    "month",
-                                    "number",
-                                    "password",
-                                    "radio",
-                                    "range",
-                                    "reset",
-                                    "search",
-                                    "submit",
-                                    "tel",
-                                    "text",
-                                    "time",
-                                    "url",
-                                    "week"
-                                ],
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "name"
-                        ],
-                        "type": "object"
+                        "$ref": "#/definitions/Input"
                     },
                     "type": "array"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
                 },
                 "method": {
                     "enum": [
@@ -806,33 +951,74 @@
                     ],
                     "type": "string"
                 },
-                "submitButton": {
-                    "properties": {
-                        "label": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "label"
-                    ],
-                    "type": "object"
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 "successMessage": {
                     "type": "string"
                 },
                 "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "FormComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
                     "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Form",
+                    "type": "string"
+                },
+                "inputs": {
+                    "items": {
+                        "$ref": "#/definitions/Input"
+                    },
+                    "type": "array"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "successMessage": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
                 "action",
+                "buttons",
                 "component",
-                "inputs",
-                "submitButton"
+                "inputs"
             ],
             "type": "object"
         },
         "Head": {
+            "additionalProperties": false,
             "properties": {
                 "links": {
                     "items": {
@@ -858,110 +1044,412 @@
             },
             "type": "object"
         },
-        "Header": {
+        "HeaderBlockRef": {
+            "additionalProperties": false,
             "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Props_1"
+                        "$ref": "#/definitions/Button"
                     },
                     "type": "array"
-                },
-                "className": {
-                    "type": "string"
                 },
                 "component": {
                     "const": "Header",
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Props"
+                        "$ref": "#/definitions/Link_1"
                     },
                     "type": "array"
                 },
                 "title": {
-                    "type": "string"
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "HeaderComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Header",
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "buttons",
                 "component",
+                "links",
                 "title"
             ],
             "type": "object"
         },
-        "Hero": {
+        "HeroBlockRef": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "blockRef": {
                     "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
                 },
                 "component": {
                     "const": "Hero",
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "primaryButton": {
-                    "properties": {
-                        "href": {
-                            "type": "string"
-                        },
-                        "label": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "href",
-                        "label"
-                    ],
-                    "type": "object"
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 "title": {
-                    "type": "string"
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "HeroComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Hero",
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "buttons",
                 "component",
-                "description",
-                "primaryButton",
+                "paragraph",
                 "title"
             ],
             "type": "object"
         },
         "Icon": {
-            "enum": [
-                "AcademicCap",
-                "Banknotes",
-                "ChartBarSquare",
-                "ChatBubbleBottomCenterText",
-                "ChatBubbleLeftEllipsis",
-                "Cog",
-                "Cog6Tooth",
-                "CommandLine",
-                "ComputerDesktop",
-                "DevicePhoneMobile",
-                "FaceSmile",
-                "Home",
-                "MagnifyingGlass",
-                "RectangleStack",
-                "Scale",
-                "Users"
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/Type"
+                }
+            },
+            "required": [
+                "type"
             ],
-            "type": "string"
+            "type": "object"
+        },
+        "IconBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Icon",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "AcademicCap",
+                        "Banknotes",
+                        "ChartBarSquare",
+                        "ChatBubbleBottomCenterText",
+                        "ChatBubbleLeftEllipsis",
+                        "Cog",
+                        "Cog6Tooth",
+                        "CommandLine",
+                        "ComputerDesktop",
+                        "DevicePhoneMobile",
+                        "FaceSmile",
+                        "Home",
+                        "MagnifyingGlass",
+                        "RectangleStack",
+                        "Scale",
+                        "Users"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "IconComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Icon",
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/Type"
+                }
+            },
+            "required": [
+                "component",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Image": {
+            "additionalProperties": false,
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "src": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "alt",
+                "src"
+            ],
+            "type": "object"
+        },
+        "ImageBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "blockRef": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Image",
+                    "type": "string"
+                },
+                "src": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ImageComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Image",
+                    "type": "string"
+                },
+                "src": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "alt",
+                "component",
+                "src"
+            ],
+            "type": "object"
+        },
+        "Input": {
+            "additionalProperties": false,
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "InputBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Input",
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "InputComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Input",
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "name"
+            ],
+            "type": "object"
         },
         "InputText": {
+            "additionalProperties": false,
             "properties": {
                 "input": {
                     "type": "string"
@@ -977,6 +1465,7 @@
             "type": "object"
         },
         "Is": {
+            "additionalProperties": false,
             "properties": {
                 "field": {
                     "type": "string"
@@ -997,6 +1486,7 @@
             "type": "object"
         },
         "IsAnyOf": {
+            "additionalProperties": false,
             "properties": {
                 "field": {
                     "type": "string"
@@ -1019,10 +1509,8 @@
             ],
             "type": "object"
         },
-        "Iterable<React.ReactNode>": {
-            "type": "object"
-        },
         "Link": {
+            "additionalProperties": false,
             "properties": {
                 "href": {
                     "type": "string"
@@ -1033,54 +1521,13 @@
             ],
             "type": "object"
         },
-        "Link_1": {
+        "LinkBlockRef": {
+            "additionalProperties": false,
             "properties": {
                 "active": {
                     "type": "boolean"
                 },
-                "afterIcon": {
-                    "enum": [
-                        "AcademicCap",
-                        "Banknotes",
-                        "ChartBarSquare",
-                        "ChatBubbleBottomCenterText",
-                        "ChatBubbleLeftEllipsis",
-                        "Cog",
-                        "Cog6Tooth",
-                        "CommandLine",
-                        "ComputerDesktop",
-                        "DevicePhoneMobile",
-                        "FaceSmile",
-                        "Home",
-                        "MagnifyingGlass",
-                        "RectangleStack",
-                        "Scale",
-                        "Users"
-                    ],
-                    "type": "string"
-                },
-                "beforeIcon": {
-                    "enum": [
-                        "AcademicCap",
-                        "Banknotes",
-                        "ChartBarSquare",
-                        "ChatBubbleBottomCenterText",
-                        "ChatBubbleLeftEllipsis",
-                        "Cog",
-                        "Cog6Tooth",
-                        "CommandLine",
-                        "ComputerDesktop",
-                        "DevicePhoneMobile",
-                        "FaceSmile",
-                        "Home",
-                        "MagnifyingGlass",
-                        "RectangleStack",
-                        "Scale",
-                        "Users"
-                    ],
-                    "type": "string"
-                },
-                "className": {
+                "blockRef": {
                     "type": "string"
                 },
                 "component": {
@@ -1090,14 +1537,43 @@
                 "href": {
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                "label": {
+                    "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Icon"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Icon"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "LinkComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "component": {
+                    "const": "Link",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
                 },
                 "label": {
                     "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Icon"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Icon"
                 }
             },
             "required": [
@@ -1107,51 +1583,88 @@
             ],
             "type": "object"
         },
-        "Logos": {
+        "Link_1": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "active": {
+                    "type": "boolean"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Icon"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Icon"
+                }
+            },
+            "required": [
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "LogosBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
                     "type": "string"
                 },
                 "component": {
                     "const": "Logos",
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "logos": {
+                "images": {
                     "items": {
-                        "properties": {
-                            "alt": {
-                                "type": "string"
-                            },
-                            "src": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "alt",
-                            "src"
-                        ],
-                        "type": "object"
+                        "$ref": "#/definitions/Image"
                     },
                     "type": "array"
                 },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
                 "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "LogosComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Logos",
                     "type": "string"
+                },
+                "images": {
+                    "items": {
+                        "$ref": "#/definitions/Image"
+                    },
+                    "type": "array"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
                 "component",
-                "logos",
-                "title"
+                "images"
             ],
             "type": "object"
         },
         "Mailer": {
+            "additionalProperties": false,
             "properties": {
                 "from": {
                     "type": "string"
@@ -1182,6 +1695,7 @@
             "type": "object"
         },
         "Meta": {
+            "additionalProperties": false,
             "properties": {
                 "content": {
                     "type": "string"
@@ -1196,52 +1710,59 @@
             ],
             "type": "object"
         },
-        "NotFound": {
+        "NotFoundBlockRef": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "blockRef": {
                     "type": "string"
+                },
+                "button": {
+                    "$ref": "#/definitions/Button"
                 },
                 "component": {
                     "const": "NotFound",
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "primaryButton": {
-                    "properties": {
-                        "href": {
-                            "type": "string"
-                        },
-                        "label": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "href",
-                        "label"
-                    ],
-                    "type": "object"
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
                 },
                 "title": {
-                    "type": "string"
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "NotFoundComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "button": {
+                    "$ref": "#/definitions/Button"
+                },
+                "component": {
+                    "const": "NotFound",
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "button",
                 "component",
-                "description",
-                "primaryButton",
+                "paragraph",
                 "title"
             ],
             "type": "object"
         },
         "Open": {
+            "additionalProperties": false,
             "properties": {
                 "open": {
                     "type": "string"
@@ -1253,10 +1774,11 @@
             "type": "object"
         },
         "Page": {
+            "additionalProperties": false,
             "properties": {
                 "body": {
                     "items": {
-                        "$ref": "#/definitions/ComponentWithBlock"
+                        "$ref": "#/definitions/ComponentWithBlockRef"
                     },
                     "type": "array"
                 },
@@ -1278,19 +1800,43 @@
             "type": "object"
         },
         "Paragraph": {
+            "additionalProperties": false,
             "properties": {
-                "className": {
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "ParagraphBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
                     "type": "string"
                 },
                 "component": {
                     "const": "Paragraph",
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ParagraphComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Paragraph",
+                    "type": "string"
                 },
                 "text": {
                     "type": "string"
@@ -1303,6 +1849,7 @@
             "type": "object"
         },
         "Post": {
+            "additionalProperties": false,
             "properties": {
                 "body": {
                     "additionalProperties": true,
@@ -1319,191 +1866,8 @@
             ],
             "type": "object"
         },
-        "Props": {
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "afterIcon": {
-                    "enum": [
-                        "AcademicCap",
-                        "Banknotes",
-                        "ChartBarSquare",
-                        "ChatBubbleBottomCenterText",
-                        "ChatBubbleLeftEllipsis",
-                        "Cog",
-                        "Cog6Tooth",
-                        "CommandLine",
-                        "ComputerDesktop",
-                        "DevicePhoneMobile",
-                        "FaceSmile",
-                        "Home",
-                        "MagnifyingGlass",
-                        "RectangleStack",
-                        "Scale",
-                        "Users"
-                    ],
-                    "type": "string"
-                },
-                "beforeIcon": {
-                    "enum": [
-                        "AcademicCap",
-                        "Banknotes",
-                        "ChartBarSquare",
-                        "ChatBubbleBottomCenterText",
-                        "ChatBubbleLeftEllipsis",
-                        "Cog",
-                        "Cog6Tooth",
-                        "CommandLine",
-                        "ComputerDesktop",
-                        "DevicePhoneMobile",
-                        "FaceSmile",
-                        "Home",
-                        "MagnifyingGlass",
-                        "RectangleStack",
-                        "Scale",
-                        "Users"
-                    ],
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "label": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "href",
-                "label"
-            ],
-            "type": "object"
-        },
-        "Props_1": {
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "clientProps": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "label": {
-                    "type": "string"
-                },
-                "variant": {
-                    "enum": [
-                        "primary",
-                        "secondary"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "label"
-            ],
-            "type": "object"
-        },
-        "React.ReactElement<any,string|React.JSXElementConstructor<any>>": {
-            "description": "Represents a JSX element.\n\nWhere {@link ReactNode} represents everything that can be rendered, `ReactElement`\nonly represents JSX.",
-            "properties": {
-                "key": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "props": {
-                    "description": "The type of the props object"
-                },
-                "type": {
-                    "description": "The type of the component or tag",
-                    "type": [
-                        "string",
-                        "object"
-                    ]
-                }
-            },
-            "required": [
-                "key",
-                "props",
-                "type"
-            ],
-            "type": "object"
-        },
-        "React.ReactNode": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/React.ReactElement<any,string|React.JSXElementConstructor<any>>"
-                },
-                {
-                    "$ref": "#/definitions/Iterable<React.ReactNode>"
-                },
-                {
-                    "$ref": "#/definitions/React.ReactPortal"
-                },
-                {
-                    "type": [
-                        "null",
-                        "string",
-                        "number",
-                        "boolean"
-                    ]
-                }
-            ],
-            "description": "Represents all of the things React can render.\n\nWhere {@link ReactElement} only represents JSX, `ReactNode` represents everything that can be rendered."
-        },
-        "React.ReactPortal": {
-            "properties": {
-                "children": {
-                    "$ref": "#/definitions/React.ReactNode"
-                },
-                "key": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "props": {
-                    "description": "The type of the props object"
-                },
-                "type": {
-                    "description": "The type of the component or tag",
-                    "type": [
-                        "string",
-                        "object"
-                    ]
-                }
-            },
-            "required": [
-                "children",
-                "key",
-                "props",
-                "type"
-            ],
-            "type": "object"
-        },
         "Record": {
+            "additionalProperties": false,
             "properties": {
                 "find": {
                     "items": {
@@ -1522,6 +1886,7 @@
             "type": "object"
         },
         "RecordCreated": {
+            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "RecordCreated",
@@ -1540,6 +1905,15 @@
         "Result": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -1549,20 +1923,12 @@
                     "$ref": "#/definitions/Title"
                 },
                 {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
                     "$ref": "#/definitions/Url"
                 }
             ]
         },
         "Script": {
+            "additionalProperties": false,
             "properties": {
                 "src": {
                     "type": "string"
@@ -1581,6 +1947,7 @@
             "type": "object"
         },
         "SendEmail": {
+            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "SendEmail",
@@ -1616,7 +1983,40 @@
             ],
             "type": "object"
         },
-        "Sidebar": {
+        "SidebarBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Sidebar",
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "SidebarComponent": {
+            "additionalProperties": false,
             "properties": {
                 "children": {
                     "items": {
@@ -1624,36 +2024,29 @@
                     },
                     "type": "array"
                 },
-                "className": {
-                    "type": "string"
-                },
                 "component": {
                     "const": "Sidebar",
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Props"
+                        "$ref": "#/definitions/Link_1"
                     },
                     "type": "array"
                 },
                 "title": {
-                    "type": "string"
+                    "$ref": "#/definitions/Title_1"
                 }
             },
             "required": [
                 "component",
-                "links"
+                "links",
+                "title"
             ],
             "type": "object"
         },
         "SingleLineText": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -1670,6 +2063,7 @@
             "type": "object"
         },
         "Spec": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -1695,47 +2089,7 @@
             "type": "object"
         },
         "Table": {
-            "properties": {
-                "AddButton": {
-                    "$ref": "#/definitions/React.ReactNode"
-                },
-                "addButton": {
-                    "$ref": "#/definitions/Props_1"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "Table",
-                    "type": "string"
-                },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                },
-                "source": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "columns",
-                "component",
-                "source"
-            ],
-            "type": "object"
-        },
-        "Table_1": {
+            "additionalProperties": false,
             "properties": {
                 "database": {
                     "$ref": "#/definitions/Database"
@@ -1756,7 +2110,76 @@
             ],
             "type": "object"
         },
+        "TableBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "TableComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "source"
+            ],
+            "type": "object"
+        },
         "Text": {
+            "additionalProperties": false,
             "properties": {
                 "tag": {
                     "enum": [
@@ -1885,6 +2308,7 @@
             "type": "object"
         },
         "Title": {
+            "additionalProperties": false,
             "properties": {
                 "title": {
                     "type": "string"
@@ -1895,23 +2319,49 @@
             ],
             "type": "object"
         },
-        "Title_1": {
+        "TitleBlockRef": {
+            "additionalProperties": false,
             "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
                 "center": {
                     "type": "boolean"
-                },
-                "className": {
-                    "type": "string"
                 },
                 "component": {
                     "const": "Title",
                     "type": "string"
                 },
-                "key": {
-                    "type": [
-                        "string",
-                        "number"
-                    ]
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "TitleComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "center": {
+                    "type": "boolean"
+                },
+                "component": {
+                    "const": "Title",
+                    "type": "string"
                 },
                 "size": {
                     "enum": [
@@ -1930,7 +2380,32 @@
             },
             "required": [
                 "component",
-                "size",
+                "text"
+            ],
+            "type": "object"
+        },
+        "Title_1": {
+            "additionalProperties": false,
+            "properties": {
+                "center": {
+                    "type": "boolean"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
                 "text"
             ],
             "type": "object"
@@ -1945,7 +2420,29 @@
                 }
             ]
         },
+        "Type": {
+            "enum": [
+                "AcademicCap",
+                "Banknotes",
+                "ChartBarSquare",
+                "ChatBubbleBottomCenterText",
+                "ChatBubbleLeftEllipsis",
+                "Cog",
+                "Cog6Tooth",
+                "CommandLine",
+                "ComputerDesktop",
+                "DevicePhoneMobile",
+                "FaceSmile",
+                "Home",
+                "MagnifyingGlass",
+                "RectangleStack",
+                "Scale",
+                "Users"
+            ],
+            "type": "string"
+        },
         "Url": {
+            "additionalProperties": false,
             "properties": {
                 "url": {
                     "type": "string"
@@ -1957,6 +2454,7 @@
             "type": "object"
         },
         "WaitForAutomation": {
+            "additionalProperties": false,
             "properties": {
                 "waitForAutomation": {
                     "type": "string"
@@ -1968,6 +2466,7 @@
             "type": "object"
         },
         "WaitForText": {
+            "additionalProperties": false,
             "properties": {
                 "waitForText": {
                     "type": "string"
@@ -1979,6 +2478,7 @@
             "type": "object"
         },
         "WebhookCalled": {
+            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "WebhookCalled",
@@ -2027,7 +2527,7 @@
         },
         "tables": {
             "items": {
-                "$ref": "#/definitions/Table_1"
+                "$ref": "#/definitions/Table"
             },
             "type": "array"
         }

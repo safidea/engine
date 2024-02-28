@@ -5,7 +5,7 @@ import type { Logger } from '@domain/services/Logger'
 import type { Head } from './head'
 import { Html as HtmlResponse } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
-import type { HtmlProps } from './component/Html'
+import type { HtmlProps } from './component/base/Html'
 import type { ReactComponent } from './component/base/base'
 
 interface Params {

@@ -1,5 +1,5 @@
 import type { Button, Props as ButtonProps } from './base/Button'
-import type { HtmlProps } from './Html'
+import type { HtmlProps } from './base/Html'
 import type { Link, Props as LinkProps } from './base/Link'
 import type { Paragraph, Props as ParagraphProps } from './base/Paragraph'
 import type { Form, Props as FormProps } from './application/Form'
@@ -14,7 +14,10 @@ import type { Header, Props as HeaderProps } from './marketing/Header'
 import type { Table, Props as TableProps } from './application/Table'
 import type { Sidebar, Props as SidebarProps } from './application/Sidebar'
 import type { Title, Props as TitleProps } from './base/Title'
-import type { InvalidBlock } from './InvalidBlock'
+import type { InvalidBlock } from './base/InvalidBlock'
+import type { Input, Props as InputProps } from './base/Input'
+import type { Icon, Props as IconProps } from './base/Icon'
+import type { Image, Props as ImageProps } from './base/Image'
 
 export type Component =
   | Paragraph
@@ -32,6 +35,9 @@ export type Component =
   | Sidebar
   | Title
   | InvalidBlock
+  | Input
+  | Icon
+  | Image
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -49,6 +55,9 @@ export interface ReactComponents {
   Table: ReactComponent<TableProps>
   Sidebar: ReactComponent<SidebarProps>
   Title: ReactComponent<TitleProps>
+  Input: ReactComponent<InputProps>
+  Icon: ReactComponent<IconProps>
+  Image: ReactComponent<ImageProps>
 }
 
 export interface Props {
@@ -67,4 +76,7 @@ export interface Props {
   Table: TableProps
   Sidebar: SidebarProps
   Title: TitleProps
+  Input: InputProps
+  Icon: IconProps
+  Image: ImageProps
 }

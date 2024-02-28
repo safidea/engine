@@ -118,10 +118,12 @@ test.describe('Table component', () => {
                       label: 'Name',
                     },
                   ],
-                  addButton: {
-                    label: 'Add row',
-                    href: '/add',
-                  },
+                  buttons: [
+                    {
+                      label: 'Add row',
+                      href: '/add',
+                    },
+                  ],
                 },
               ],
             },
@@ -174,10 +176,12 @@ test.describe('Table component', () => {
                       label: 'Name',
                     },
                   ],
-                  addButton: {
-                    label: 'Add row',
-                    href: '/add',
-                  },
+                  buttons: [
+                    {
+                      label: 'Add row',
+                      href: '/add',
+                    },
+                  ],
                 },
               ],
             },
@@ -225,7 +229,7 @@ test.describe('Table component', () => {
               body: [
                 {
                   component: 'Table',
-                  title: 'Leads',
+                  title: { text: 'Leads' },
                   source: '/api/table/leads',
                   columns: [
                     {

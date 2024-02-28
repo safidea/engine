@@ -1,13 +1,11 @@
 import { ConfigError } from '@domain/entities/error/Config'
-import type { Base, BaseProps } from './base/base'
+import type { Base, BaseProps } from './base'
 
 export interface Props extends BaseProps {
-  block: string
+  message: string
 }
 
-interface Params {
-  props: Props
-}
+interface Params extends Props {}
 
 export class InvalidBlock implements Base<Props> {
   constructor(private params: Params) {}
@@ -15,15 +13,15 @@ export class InvalidBlock implements Base<Props> {
   init = async () => {}
 
   render = async () => {
-    const { props } = this.params
-    return () => <>Block {props.block} does not exist</>
+    const { message } = this.params
+    return () => <>{message}</>
   }
 
   validateConfig = () => {
-    const { props } = this.params
+    const { message } = this.params
     return [
       new ConfigError({
-        message: `Block ${props.block} does not exist'`,
+        message,
       }),
     ]
   }

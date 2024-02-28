@@ -14,6 +14,9 @@ import { Header } from './marketing/Header'
 import { Table } from './application/Table'
 import { Sidebar } from './application/Sidebar'
 import { Title } from './base/Title'
+import { Icon } from './base/Icon'
+import { Input } from './base/Input'
+import { Image } from './base/Image'
 
 export const components: ReactComponents = {
   Html,
@@ -31,4 +34,7 @@ export const components: ReactComponents = {
   Table,
   Sidebar,
   Title,
+  Icon,
+  Input,
+  Image
 }

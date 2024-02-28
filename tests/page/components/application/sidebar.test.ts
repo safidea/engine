@@ -17,7 +17,7 @@ test.describe('Sidebar component', () => {
               body: [
                 {
                   component: 'Sidebar',
-                  title: 'Menu',
+                  title: { text: 'Menu' },
                   links: [],
                   children: [],
                 },
@@ -52,16 +52,16 @@ test.describe('Sidebar component', () => {
               body: [
                 {
                   component: 'Sidebar',
-                  title: 'Menu',
+                  title: { text: 'Menu' },
                   links: [
                     {
                       label: 'Home',
-                      beforeIcon: 'Home',
+                      prefixIcon: { type: 'Home' },
                       href: '/',
                     },
                     {
                       label: 'Leads',
-                      beforeIcon: 'Users',
+                      prefixIcon: { type: 'Users' },
                       href: '/leads',
                     },
                   ],
@@ -100,7 +100,8 @@ test.describe('Sidebar component', () => {
               path: '/',
               body: [
                 {
-                  block: 'Sidebar',
+                  blockRef: 'Sidebar',
+                  component: 'Sidebar',
                   children: [
                     {
                       component: 'Paragraph',
@@ -115,7 +116,8 @@ test.describe('Sidebar component', () => {
               path: '/leads',
               body: [
                 {
-                  block: 'Sidebar',
+                  blockRef: 'Sidebar',
+                  component: 'Sidebar',
                   children: [
                     {
                       component: 'Paragraph',
@@ -130,18 +132,18 @@ test.describe('Sidebar component', () => {
       ],
       blocks: [
         {
-          name: 'Sidebar',
+          ref: 'Sidebar',
           component: 'Sidebar',
-          title: 'Menu',
+          title: { text: 'Menu' },
           links: [
             {
               label: 'Home',
-              beforeIcon: 'Home',
+              prefixIcon: { type: 'Home' },
               href: '/',
             },
             {
               label: 'Leads',
-              beforeIcon: 'Users',
+              prefixIcon: { type: 'Users' },
               href: '/leads',
             },
           ],
@@ -174,7 +176,7 @@ test.describe('Sidebar component', () => {
               body: [
                 {
                   component: 'Sidebar',
-                  title: 'Menu',
+                  title: { text: 'Menu' },
                   links: [],
                   children: [
                     {

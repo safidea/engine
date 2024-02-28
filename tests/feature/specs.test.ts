@@ -30,7 +30,7 @@ test.describe('Feature specs', () => {
           then: [
             {
               text: 'Get Started',
-              tag: 'h2',
+              tag: 'h4',
             },
             {
               text: 'Get started with Request',
@@ -120,8 +120,8 @@ test.describe('Feature specs', () => {
               component: 'Form',
               action: '/api/table/leads',
               method: 'POST',
-              title: 'Get Started',
-              description: 'Get started with Request',
+              title: { text: 'Get Started' },
+              paragraph: { text: 'Get started with Request' },
               inputs: [
                 {
                   name: 'email',
@@ -152,15 +152,18 @@ test.describe('Feature specs', () => {
                   required: true,
                 },
               ],
-              submitButton: {
-                label: 'Send message',
-              },
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Send message',
+                },
+              ],
               successMessage: 'Your message has been sent.',
             },
             {
               component: 'Footer',
-              title: 'Request',
-              description: 'Request is a tech company based in Paris, France.',
+              title: { text: 'Request' },
+              paragraph: { text: 'Request is a tech company based in Paris, France.' },
               links: [
                 {
                   label: 'Home',

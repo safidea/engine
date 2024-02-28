@@ -57,7 +57,7 @@ test.describe('Auth login', () => {
                   component: 'Form',
                   action: '/api/auth/login',
                   method: 'POST',
-                  title: 'Login',
+                  title: { text: 'Login' },
                   inputs: [
                     {
                       name: 'email',
@@ -67,9 +67,12 @@ test.describe('Auth login', () => {
                       placeholder: 'My email',
                     },
                   ],
-                  submitButton: {
-                    label: 'Send magic link',
-                  },
+                  buttons: [
+                    {
+                      type: 'submit',
+                      label: 'Send magic link',
+                    },
+                  ],
                   successMessage: 'Your email has been sent.',
                 },
               ],

@@ -1,28 +1,40 @@
+import type React from 'react'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { Title } from '../base/Title'
+import type { Paragraph } from '../base/Paragraph'
+import type { Link } from '../base/Link'
 
 export interface Props extends BaseProps {
-  title: string
-  description: string
+  Title: React.FC
+  Paragraph: React.FC
   copyright: string
-  links: {
-    label: string
-    href: string
-  }[]
+  Links: React.FC[]
 }
 
 export interface Params {
-  props: Props
-  component: ReactComponent<Props>
+  title: Title
+  paragraph: Paragraph
+  links: Link[]
+  copyright: string
+  Component: ReactComponent<Props>
 }
 
 export class Footer implements Base<Props> {
   constructor(private params: Params) {}
 
-  init = async () => {}
+  init = async () => {
+    const { title, paragraph, links } = this.params
+    await Promise.all([title.init(), paragraph.init(), ...links.map((link) => link.init())])
+  }
 
   render = async () => {
-    const { props: defaultProps, component: Component } = this.params
-    return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
+    const { title, paragraph, links, copyright, Component } = this.params
+    const Title = await title.render()
+    const Paragraph = await paragraph.render()
+    const Links = await Promise.all(links.map((link) => link.render()))
+    return (props?: Partial<Props>) => (
+      <Component {...{ Title, Paragraph, Links, copyright, ...props }} />
+    )
   }
 
   validateConfig = () => {

@@ -1,5 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "definitions": {
         "Action": {
             "anyOf": [
@@ -12,6 +13,7 @@
             ]
         },
         "CreateRecord": {
+            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "CreateRecord",
@@ -43,6 +45,7 @@
             "type": "object"
         },
         "Database": {
+            "additionalProperties": false,
             "properties": {
                 "db": {
                     "enum": [
@@ -62,6 +65,7 @@
             "type": "object"
         },
         "Mailer": {
+            "additionalProperties": false,
             "properties": {
                 "from": {
                     "type": "string"
@@ -92,6 +96,7 @@
             "type": "object"
         },
         "RecordCreated": {
+            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "RecordCreated",
@@ -108,6 +113,7 @@
             "type": "object"
         },
         "SendEmail": {
+            "additionalProperties": false,
             "properties": {
                 "action": {
                     "const": "SendEmail",
@@ -154,6 +160,7 @@
             ]
         },
         "WebhookCalled": {
+            "additionalProperties": false,
             "properties": {
                 "event": {
                     "const": "WebhookCalled",

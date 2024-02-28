@@ -1,31 +1,27 @@
 import type { Props } from '@infrastructure/engine'
-import { Button } from '../base/Button'
-import { Link } from '../base/Link'
 
-export const Header = ({ title, links, buttons }: Props['Header']) => (
+export const Header = ({ Title, Links, Buttons }: Props['Header']) => (
   <header>
     <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
         <a href="/" className="flex items-center">
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-            {title}
-          </span>
+          <Title />
         </a>
-        {links ? (
+        {Links ? (
           <div className="justify-between items-center flex w-auto">
             <ul className="flex flex-row font-medium space-x-8 mt-0">
-              {links.map((link, index) => (
+              {Links.map((Link, index) => (
                 <li key={index}>
-                  <Link {...link} />
+                  <Link />
                 </li>
               ))}
             </ul>
           </div>
         ) : null}
-        {buttons ? (
+        {Buttons ? (
           <div className="flex items-center">
-            {buttons.map((button, index) => (
-              <Button key={index} {...button} />
+            {Buttons.map((Button, index) => (
+              <Button key={index} />
             ))}
           </div>
         ) : null}

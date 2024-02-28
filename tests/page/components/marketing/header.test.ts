@@ -10,7 +10,7 @@ test.describe('Header component', () => {
       body: [
         {
           component: 'Header',
-          title: 'This is a title',
+          title: { text: 'This is a title' },
           links: [
             {
               label: 'Home',
@@ -56,7 +56,7 @@ test.describe('Header component', () => {
       body: [
         {
           component: 'Header',
-          title: 'This is a title',
+          title: { text: 'This is a title' },
           links: [
             {
               label: 'Home',

@@ -16,9 +16,9 @@ test.describe('Hero component', () => {
       body: [
         {
           component: 'Hero',
-          title,
-          description,
-          primaryButton,
+          title: { text: title },
+          paragraph: { text: description },
+          buttons: [primaryButton],
         },
       ],
     }
@@ -29,7 +29,7 @@ test.describe('Hero component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleContent = await page.textContent('h1')
+    const titleContent = await page.textContent('h4')
     expect(titleContent).toContain(title)
 
     const descriptionContent = await page.textContent('p')
@@ -53,9 +53,9 @@ test.describe('Hero component', () => {
       body: [
         {
           component: 'Hero',
-          title,
-          description,
-          primaryButton,
+          title: { text: title },
+          paragraph: { text: description },
+          buttons: [primaryButton],
         },
       ],
     }

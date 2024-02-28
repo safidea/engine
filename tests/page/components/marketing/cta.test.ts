@@ -16,9 +16,9 @@ test.describe('Cta component', () => {
       body: [
         {
           component: 'CTA',
-          title,
-          description,
-          primaryButton,
+          title: { text: title },
+          paragraph: { text: description },
+          buttons: [primaryButton],
         },
       ],
     }
@@ -29,7 +29,7 @@ test.describe('Cta component', () => {
     await page.setContent(html)
 
     // THEN
-    const titleContent = await page.textContent('h2')
+    const titleContent = await page.textContent('h4')
     expect(titleContent).toContain(title)
 
     const descriptionContent = await page.textContent('p')
@@ -53,9 +53,9 @@ test.describe('Cta component', () => {
       body: [
         {
           component: 'CTA',
-          title,
-          description,
-          primaryButton,
+          title: { text: title },
+          paragraph: { text: description },
+          buttons: [primaryButton],
         },
       ],
     }

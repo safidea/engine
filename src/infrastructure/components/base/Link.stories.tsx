@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Link } from './Link'
+import { Icon } from './Icon'
 
 const meta = {
   title: 'Base/Link',
@@ -28,7 +29,7 @@ export const WithBeforeIcon: Story = {
   args: {
     label: 'This is a link with a before icon',
     href: '/',
-    beforeIcon: 'Home',
+    PrefixIcon: (props) => <Icon type="Home" {...props} />,
   },
 }
 
@@ -36,6 +37,6 @@ export const WithAfterIcon: Story = {
   args: {
     label: 'This is a link with an after icon',
     href: '/',
-    afterIcon: 'Home',
+    SuffixIcon: (props) => <Icon type="Home" {...props} />,
   },
 }

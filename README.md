@@ -11,7 +11,8 @@
 ## Refactor
 
 - [x] Use client as a driver
-- [ ] Refactor domain components by removing props in params
+- [x] Refactor domain components by removing props in params
+- [ ] Clean UI components
 
 ### Auth
 

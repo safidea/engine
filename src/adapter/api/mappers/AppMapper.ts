@@ -71,10 +71,11 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
             body: [
               {
                 component: 'NotFound',
-                title: "Something's missing.",
-                description:
-                  "Sorry, we can't find that page. You'll find lots to explore on the home page.",
-                primaryButton: {
+                title: { text: "Something's missing." },
+                paragraph: {
+                  text: "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+                },
+                button: {
                   label: 'Back to Homepage',
                   href: '/',
                 },
