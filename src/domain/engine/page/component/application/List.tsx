@@ -25,6 +25,7 @@ export interface Row {
 export interface Props extends BaseProps {
   columns: Column[]
   rows: Row[]
+  linkClientProps?: { [key: string]: string }
 }
 
 interface Params {
@@ -102,17 +103,19 @@ export class List implements Base<Props> {
   }
 
   html = async (props?: Partial<Props>) => {
-    const { ui } = this.params
+    const { ui, client } = this.params
     const Component = await this.render({ withSource: false })
-    return ui.renderToHtml(<Component {...props} />)
+    const linkClientProps = client.getLinkProps()
+    return ui.renderToHtml(<Component {...props} linkClientProps={linkClientProps} />)
   }
 
   htmlStream = async (props?: Partial<Props>) => {
     const { ui, client, columns } = this.params
     const Component = await this.render({ withSource: false })
+    const linkClientProps = client.getLinkProps()
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
-        <Component {...{ columns, ...props }} />
+        <Component {...{ columns, ...props, linkClientProps }} />
       </client.Stream>
     )
   }

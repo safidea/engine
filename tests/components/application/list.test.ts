@@ -96,7 +96,7 @@ test.describe('List component', () => {
     await expect(page.getByText('John')).toBeVisible()
   })
 
-  test.skip('should open a row page', async ({ page }) => {
+  test('should open a row page', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {
