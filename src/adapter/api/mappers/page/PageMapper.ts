@@ -12,6 +12,7 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
 import type { Ui } from '@domain/services/Ui'
 import type { Block } from '@adapter/api/configs/page/component'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface Params {
   server: Server
@@ -20,6 +21,7 @@ export interface Params {
   idGenerator: IdGenerator
   newLogger: (location: string) => Logger
   components: ReactComponents
+  templateCompiler: TemplateCompiler
   realtime?: Realtime
   blocks?: Block[]
 }
@@ -27,7 +29,7 @@ export interface Params {
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const { server, newLogger, ui, client, components, idGenerator, realtime, blocks } = params
+    const { server, newLogger, ui, client, components, idGenerator, realtime, blocks, templateCompiler } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
@@ -37,6 +39,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       idGenerator,
       realtime,
       blocks,
+      templateCompiler,
     })
     const head = HeadMapper.toEntity(config.head ?? {}, { client })
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
@@ -53,6 +56,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       logger: services.logger({ location: `server` }),
     })
     const idGenerator = services.idGenerator()
+    const templateCompiler = services.templateCompiler()
     const newLogger = (location: string) => services.logger({ location })
     return this.toEntity(config, {
       server,
@@ -61,6 +65,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       client,
       components: services.components,
       idGenerator,
+      templateCompiler,
     })
   }
 

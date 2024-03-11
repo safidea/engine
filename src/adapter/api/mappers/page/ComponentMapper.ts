@@ -47,6 +47,7 @@ import type { Footer as FooterConfig } from '@adapter/api/configs/page/component
 import type { Header as HeaderConfig } from '@adapter/api/configs/page/component/marketing/Header'
 import type { Hero as HeroConfig } from '@adapter/api/configs/page/component/marketing/Hero'
 import type { List as ListConfig } from '@adapter/api/configs/page/component/application/List'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface Params {
   components: ReactComponents
@@ -55,6 +56,7 @@ export interface Params {
   client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
+  templateCompiler: TemplateCompiler
   blocks?: Block[]
 }
 
@@ -130,7 +132,7 @@ export class ComponentMapper {
   }
 
   static toListEntity = (config: ListConfig, params: Params): List => {
-    const { server, ui, client, idGenerator, realtime, components } = params
+    const { server, ui, client, idGenerator, realtime, components, templateCompiler } = params
     return new List({
       ...config,
       Component: components.List,
@@ -139,6 +141,7 @@ export class ComponentMapper {
       client,
       idGenerator,
       realtime,
+      templateCompiler
     })
   }
 

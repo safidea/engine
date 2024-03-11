@@ -44,7 +44,7 @@ test.describe('List component', () => {
     )
   })
 
-  test.skip('should display a row in a list', async ({ page }) => {
+  test('should display a row in a list', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {
@@ -138,8 +138,8 @@ test.describe('List component', () => {
       database: database.config,
     }
     const app = new App()
-    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
     const url = await app.start(config)
+    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN
     await page.goto(url)
