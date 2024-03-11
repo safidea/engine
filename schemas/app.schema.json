@@ -300,6 +300,9 @@
                 },
                 {
                     "$ref": "#/definitions/ListBlock"
+                },
+                {
+                    "$ref": "#/definitions/HeadingBlock"
                 }
             ]
         },
@@ -563,6 +566,9 @@
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeadingComponent"
                 }
             ]
         },
@@ -623,6 +629,9 @@
                     "$ref": "#/definitions/ListComponent"
                 },
                 {
+                    "$ref": "#/definitions/HeadingComponent"
+                },
+                {
                     "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
@@ -675,6 +684,9 @@
                 },
                 {
                     "$ref": "#/definitions/ListBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeadingBlockRef"
                 }
             ]
         },
@@ -1436,6 +1448,82 @@
                 "buttons",
                 "component",
                 "links",
+                "title"
+            ],
+            "type": "object"
+        },
+        "HeadingBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Heading",
+                    "type": "string"
+                },
+                "ref": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "component",
+                "ref",
+                "title"
+            ],
+            "type": "object"
+        },
+        "HeadingBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Heading",
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "HeadingComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Button"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Heading",
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Title_1"
+                }
+            },
+            "required": [
+                "component",
                 "title"
             ],
             "type": "object"

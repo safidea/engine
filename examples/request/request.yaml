@@ -458,8 +458,12 @@ features:
           - blockRef: sidebar
             component: Sidebar
             children:
-              - component: Title
-                text: 'Requests'
+              - component: Heading
+                title: 
+                  text: 'Requests'
+                buttons: 
+                  - label: 'New request'
+                    href: '/requests/add'
               - component: List
                 source: '/api/table/requests'
                 columns: 

@@ -18,6 +18,7 @@ import { Icon } from './base/Icon'
 import { Input } from './base/Input'
 import { Image } from './base/Image'
 import { List } from './application/List'
+import { Heading } from './application/Heading'
 
 export const components: ReactComponents = {
   Html,
@@ -39,4 +40,5 @@ export const components: ReactComponents = {
   Input,
   Image,
   List,
+  Heading,
 }

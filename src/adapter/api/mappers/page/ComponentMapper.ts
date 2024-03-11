@@ -48,6 +48,8 @@ import type { Header as HeaderConfig } from '@adapter/api/configs/page/component
 import type { Hero as HeroConfig } from '@adapter/api/configs/page/component/marketing/Hero'
 import type { List as ListConfig } from '@adapter/api/configs/page/component/application/List'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import { Heading } from '@domain/engine/page/component/application/Heading'
+import type { Heading as HeadingConfig } from '@adapter/api/configs/page/component/application/Heading'
 
 export interface Params {
   components: ReactComponents
@@ -141,7 +143,7 @@ export class ComponentMapper {
       client,
       idGenerator,
       realtime,
-      templateCompiler
+      templateCompiler,
     })
   }
 
@@ -237,6 +239,13 @@ export class ComponentMapper {
     return new Hero({ title, paragraph, buttons, Component: components.Hero })
   }
 
+  static toHeadingEntity = (config: HeadingConfig, params: Params): Heading => {
+    const { components } = params
+    const title = this.toTitleEntity(config.title, params)
+    const buttons = config.buttons ? this.toManyButtonEntities(config.buttons, params) : undefined
+    return new Heading({ title, buttons, Component: components.Heading })
+  }
+
   static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -257,6 +266,7 @@ export class ComponentMapper {
     if (component === 'Input') return this.toInputEntity(config, params)
     if (component === 'Icon') return this.toIconEntity(config, params)
     if (component === 'List') return this.toListEntity(config, params)
+    if (component === 'Heading') return this.toHeadingEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 
@@ -302,6 +312,8 @@ export class ComponentMapper {
       return this.toHeroEntity({ ...block, ...config }, params)
     if (config.component === 'List' && block.component === 'List')
       return this.toListEntity({ ...block, ...config }, params)
+    if (config.component === 'Heading' && block.component === 'Heading')
+      return this.toHeadingEntity({ ...block, ...config }, params)
     return new InvalidBlock({
       message: `BlockRef ${config.blockRef} is not a ${block.component} component`,
     })

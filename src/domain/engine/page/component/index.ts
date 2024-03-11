@@ -19,6 +19,7 @@ import type { Input, Props as InputProps } from './base/Input'
 import type { Icon, Props as IconProps } from './base/Icon'
 import type { Image, Props as ImageProps } from './base/Image'
 import type { List, Props as ListProps } from './application/List'
+import type { Heading, Props as HeadingProps } from './application/Heading'
 
 export type Component =
   | Paragraph
@@ -40,6 +41,7 @@ export type Component =
   | Icon
   | Image
   | List
+  | Heading
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -61,6 +63,7 @@ export interface ReactComponents {
   Icon: ReactComponent<IconProps>
   Image: ReactComponent<ImageProps>
   List: ReactComponent<ListProps>
+  Heading: ReactComponent<HeadingProps>
 }
 
 export interface Props {
@@ -83,4 +86,5 @@ export interface Props {
   Icon: IconProps
   Image: ImageProps
   List: ListProps
+  Heading: HeadingProps
 }
