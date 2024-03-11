@@ -499,9 +499,9 @@ features:
             component: Sidebar
             children:
               - component: Form
-                action: '/api/table/requests/{{ urlParams.id }}'
+                action: '/api/table/requests/{{ url.params.id }}'
                 method: PATCH
-                source: '/api/table/requests/{{ urlParams.id }}'
+                source: '/api/table/requests/{{ url.params.id }}'
                 title:  
                   text: Update request
                 inputs: 

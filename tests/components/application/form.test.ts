@@ -86,10 +86,12 @@ test.describe('Form component', () => {
           title: { text: title },
           paragraph: { text: description },
           inputs,
-          buttons: [{
-            type: 'submit',
-            label: 'Save',
-          }],
+          buttons: [
+            {
+              type: 'submit',
+              label: 'Save',
+            },
+          ],
           successMessage,
         },
       ],
@@ -116,10 +118,10 @@ test.describe('Form component', () => {
     }
   })
 
-  test('should submit a form into database', async ({ page }) => {
+  test('should submit a form and create a row in a database', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const successMessage = 'Your message has been sent successfully!'
+    const successMessage = 'Your lead has been created successfully!'
     const config: AppConfig = {
       name: 'App',
       features: [
@@ -196,7 +198,7 @@ test.describe('Form component', () => {
   test('should display a success message after submiting a form', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const successMessage = 'Your message has been sent successfully!'
+    const successMessage = 'Your lead has been created successfully!'
     const config: AppConfig = {
       name: 'App',
       features: [
@@ -264,5 +266,85 @@ test.describe('Form component', () => {
 
     // THEN
     await expect(page.getByText(successMessage)).toBeVisible()
+  })
+
+  test.skip('should submit a form and update a row in a database', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const successMessage = 'Your lead has been updated successfully!'
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/:id',
+              body: [
+                {
+                  component: 'Form',
+                  title: { text: 'This is a title' },
+                  paragraph: { text: 'This is a description' },
+                  action: '/api/table/leads/{{ url.params.id }}',
+                  source: '/api/table/leads/{{ url.params.id }}',
+                  method: 'PATCH',
+                  inputs: [
+                    {
+                      name: 'name',
+                      label: 'Your name',
+                      defaultValue: '{{ data.name }}',
+                    },
+                    {
+                      name: 'email',
+                      label: 'Your email',
+                      defaultValue: '{{ data.email }}',
+                    },
+                  ],
+                  buttons: [
+                    {
+                      type: 'submit',
+                      label: 'Update',
+                    },
+                  ],
+                  successMessage,
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database
+      .table('leads')
+      .insert({ id: '1', name: 'John', email: 'test@test.com', created_at: new Date() })
+
+    // WHEN
+    await page.goto(url)
+    await page.fill('input[name="name"]', 'John Doe')
+    await page.click('button')
+    await page.getByText(successMessage).waitFor({ state: 'visible' })
+
+    // THEN
+    const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
+    expect(lead?.name).toEqual('John Doe')
   })
 })
