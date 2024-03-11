@@ -117,7 +117,7 @@ test.describe('List component', () => {
                       name: 'name',
                     },
                   ],
-                  open: '/request/{{id}}',
+                  open: '/request/{{ row.id }}',
                 },
               ],
             },

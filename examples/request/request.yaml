@@ -458,16 +458,13 @@ features:
           - blockRef: sidebar
             component: Sidebar
             children:
-              - component: Table
-                title: 
-                  text: Requests
+              - component: Title
+                text: 'Requests'
+              - component: List
                 source: '/api/table/requests'
                 columns: 
                   - name: subject
-                    label: Subject
-                buttons: 
-                  - label: 'Add request'
-                    href: '/requests/add'
+                open: '/request/{{ row.id }}'
       - name: new-request
         path: /requests/add
         head:
@@ -489,6 +486,30 @@ features:
                 buttons:
                   - type: submit
                     label: 'Add request'
+      - name: request
+        path: /request/:id
+        head:
+          title: Request
+        body:
+          - blockRef: sidebar
+            component: Sidebar
+            children:
+              - component: Form
+                action: '/api/table/requests/{{ urlParams.id }}'
+                method: PATCH
+                source: '/api/table/requests/{{ urlParams.id }}'
+                title:  
+                  text: Update request
+                inputs: 
+                  - name: subject
+                    label: Subject
+                    type: text
+                    required: true
+                    placeholder: My request
+                    defaultValue: '{{ row.subject }}'
+                buttons:
+                  - type: submit
+                    label: 'Update request'
     tables:
       - name: requests
         fields:

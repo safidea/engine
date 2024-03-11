@@ -975,6 +975,9 @@
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
+                "source": {
+                    "type": "string"
+                },
                 "successMessage": {
                     "type": "string"
                 },
@@ -1022,6 +1025,9 @@
                 },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
+                },
+                "source": {
+                    "type": "string"
                 },
                 "successMessage": {
                     "type": "string"
@@ -1315,6 +1321,9 @@
         "Input": {
             "additionalProperties": false,
             "properties": {
+                "defaultValue": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -1370,6 +1379,9 @@
                     "const": "Input",
                     "type": "string"
                 },
+                "defaultValue": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -1421,6 +1433,9 @@
             "properties": {
                 "component": {
                     "const": "Input",
+                    "type": "string"
+                },
+                "defaultValue": {
                     "type": "string"
                 },
                 "label": {

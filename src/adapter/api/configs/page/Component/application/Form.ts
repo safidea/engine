@@ -7,6 +7,7 @@ import type { Input } from '../base/Input'
 export interface Form {
   action: string
   method?: Method
+  source?: string
   inputs: Input[]
   buttons: Button[]
   title?: Title

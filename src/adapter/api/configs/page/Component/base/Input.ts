@@ -6,6 +6,7 @@ export interface Input {
   placeholder?: string
   label?: string
   required?: boolean
+  defaultValue?: string
 }
 
 export interface InputComponent extends Input {
