@@ -149,7 +149,7 @@ test.describe('List component', () => {
     await expect(page.waitForURL('**/request/1')).resolves.toBeUndefined()
   })
 
-  test.skip('should display a new row in realtime', async ({ page }) => {
+  test('should display a new row in realtime', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {
