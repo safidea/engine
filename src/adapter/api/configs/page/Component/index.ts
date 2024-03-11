@@ -15,6 +15,7 @@ import type { TitleComponent, TitleBlockRef, TitleBlock } from './base/Title'
 import type { IconComponent, IconBlockRef, IconBlock } from './base/Icon'
 import type { ImageComponent, ImageBlockRef, ImageBlock } from './base/Image'
 import type { InputComponent, InputBlockRef, InputBlock } from './base/Input'
+import type { ListBlock, ListBlockRef, ListComponent } from './application/List'
 
 export type Component =
   | ButtonComponent
@@ -34,6 +35,7 @@ export type Component =
   | IconComponent
   | ImageComponent
   | InputComponent
+  | ListComponent
 
 export type BlockRef =
   | ButtonBlockRef
@@ -53,6 +55,7 @@ export type BlockRef =
   | IconBlockRef
   | ImageBlockRef
   | InputBlockRef
+  | ListBlockRef
 
 export type Block =
   | ButtonBlock
@@ -72,5 +75,6 @@ export type Block =
   | IconBlock
   | ImageBlock
   | InputBlock
+  | ListBlock
 
 export type ComponentWithBlockRef = Component | BlockRef

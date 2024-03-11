@@ -399,6 +399,18 @@
             ],
             "type": "object"
         },
+        "Column_1": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
         "Component": {
             "anyOf": [
                 {
@@ -451,6 +463,9 @@
                 },
                 {
                     "$ref": "#/definitions/InputComponent"
+                },
+                {
+                    "$ref": "#/definitions/ListComponent"
                 }
             ]
         },
@@ -508,6 +523,9 @@
                     "$ref": "#/definitions/InputComponent"
                 },
                 {
+                    "$ref": "#/definitions/ListComponent"
+                },
+                {
                     "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
@@ -557,6 +575,9 @@
                 },
                 {
                     "$ref": "#/definitions/InputBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ListBlockRef"
                 }
             ]
         },
@@ -1605,6 +1626,63 @@
             "required": [
                 "href",
                 "label"
+            ],
+            "type": "object"
+        },
+        "ListBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column_1"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "List",
+                    "type": "string"
+                },
+                "open": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ListComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column_1"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "List",
+                    "type": "string"
+                },
+                "open": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "open",
+                "source"
             ],
             "type": "object"
         },

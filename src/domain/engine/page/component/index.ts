@@ -18,6 +18,7 @@ import type { InvalidBlock } from './base/InvalidBlock'
 import type { Input, Props as InputProps } from './base/Input'
 import type { Icon, Props as IconProps } from './base/Icon'
 import type { Image, Props as ImageProps } from './base/Image'
+import type { List, Props as ListProps } from './application/List'
 
 export type Component =
   | Paragraph
@@ -38,6 +39,7 @@ export type Component =
   | Input
   | Icon
   | Image
+  | List
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -58,6 +60,7 @@ export interface ReactComponents {
   Input: ReactComponent<InputProps>
   Icon: ReactComponent<IconProps>
   Image: ReactComponent<ImageProps>
+  List: ReactComponent<ListProps>
 }
 
 export interface Props {
@@ -79,4 +82,5 @@ export interface Props {
   Input: InputProps
   Icon: IconProps
   Image: ImageProps
+  List: ListProps
 }

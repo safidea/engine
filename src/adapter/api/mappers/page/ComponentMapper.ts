@@ -9,6 +9,7 @@ import { Footer } from '@domain/engine/page/component/marketing/Footer'
 import type { Component, ReactComponents } from '@domain/engine/page/component'
 import { Paragraph } from '@domain/engine/page/component/base/Paragraph'
 import { Form } from '@domain/engine/page/component/application/Form'
+import { List } from '@domain/engine/page/component/application/List'
 import { Button } from '@domain/engine/page/component/base/Button'
 import { Cta } from '@domain/engine/page/component/marketing/Cta'
 import { Features } from '@domain/engine/page/component/marketing/Features'
@@ -45,6 +46,7 @@ import type { Form as FormConfig } from '@adapter/api/configs/page/component/app
 import type { Footer as FooterConfig } from '@adapter/api/configs/page/component/marketing/Footer'
 import type { Header as HeaderConfig } from '@adapter/api/configs/page/component/marketing/Header'
 import type { Hero as HeroConfig } from '@adapter/api/configs/page/component/marketing/Hero'
+import type { List as ListConfig } from '@adapter/api/configs/page/component/application/List'
 
 export interface Params {
   components: ReactComponents
@@ -119,6 +121,19 @@ export class ComponentMapper {
       title,
       buttons,
       Component: components.Table,
+      server,
+      ui,
+      client,
+      idGenerator,
+      realtime,
+    })
+  }
+
+  static toListEntity = (config: ListConfig, params: Params): List => {
+    const { server, ui, client, idGenerator, realtime, components } = params
+    return new List({
+      ...config,
+      Component: components.List,
       server,
       ui,
       client,
@@ -238,6 +253,7 @@ export class ComponentMapper {
     if (component === 'Image') return this.toImageEntity(config, params)
     if (component === 'Input') return this.toInputEntity(config, params)
     if (component === 'Icon') return this.toIconEntity(config, params)
+    if (component === 'List') return this.toListEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 
@@ -281,6 +297,8 @@ export class ComponentMapper {
       return this.toHeaderEntity({ ...block, ...config }, params)
     if (config.component === 'Hero' && block.component === 'Hero')
       return this.toHeroEntity({ ...block, ...config }, params)
+    if (config.component === 'List' && block.component === 'List')
+      return this.toListEntity({ ...block, ...config }, params)
     return new InvalidBlock({
       message: `BlockRef ${config.blockRef} is not a ${block.component} component`,
     })
