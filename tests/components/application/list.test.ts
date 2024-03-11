@@ -3,7 +3,7 @@ import App, { type Config as AppConfig, ConfigError } from '@solumy/engine'
 import Database from '@utils/tests/database'
 
 test.describe('List component', () => {
-  test.skip('should return an error config if source is not valid table endpoint', async () => {
+  test('should return an error config if source is not valid table endpoint', async () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
