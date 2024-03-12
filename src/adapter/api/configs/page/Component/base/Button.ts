@@ -1,10 +1,13 @@
 import type { Type, Variant } from '@domain/engine/page/component/base/Button'
+import type { Method } from '@domain/entities/request'
 
 export interface Button {
   label: string
   href?: string
   type?: Type
   variant?: Variant
+  action?: string
+  method?: Method
 }
 
 export interface ButtonComponent extends Button {

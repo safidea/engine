@@ -512,6 +512,10 @@ features:
                     placeholder: My request
                 buttons:
                   - type: submit
+                    label: 'Delete Request'
+                    action: '/api/table/requests/{{ params.id }}'
+                    method: DELETE
+                  - type: submit
                     label: 'Update request'
     tables:
       - name: requests

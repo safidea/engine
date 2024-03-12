@@ -5,10 +5,23 @@
         "Button": {
             "additionalProperties": false,
             "properties": {
+                "action": {
+                    "type": "string"
+                },
                 "href": {
                     "type": "string"
                 },
                 "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
                     "type": "string"
                 },
                 "type": {
@@ -35,6 +48,9 @@
         "ButtonBlockRef": {
             "additionalProperties": false,
             "properties": {
+                "action": {
+                    "type": "string"
+                },
                 "blockRef": {
                     "type": "string"
                 },
@@ -46,6 +62,16 @@
                     "type": "string"
                 },
                 "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
                     "type": "string"
                 },
                 "type": {
@@ -73,6 +99,9 @@
         "ButtonComponent": {
             "additionalProperties": false,
             "properties": {
+                "action": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Button",
                     "type": "string"
@@ -81,6 +110,16 @@
                     "type": "string"
                 },
                 "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST",
+                        "PUT"
+                    ],
                     "type": "string"
                 },
                 "type": {
@@ -139,13 +178,22 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/FormComponent"
+                    "$ref": "#/definitions/TitleComponent"
                 },
                 {
                     "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
+                    "$ref": "#/definitions/InputComponent"
+                },
+                {
+                    "$ref": "#/definitions/FormComponent"
+                },
+                {
                     "$ref": "#/definitions/CtaComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconComponent"
                 },
                 {
                     "$ref": "#/definitions/FeaturesComponent"
@@ -154,16 +202,19 @@
                     "$ref": "#/definitions/HeroComponent"
                 },
                 {
+                    "$ref": "#/definitions/LinkComponent"
+                },
+                {
                     "$ref": "#/definitions/FooterComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
                 },
                 {
                     "$ref": "#/definitions/LogosComponent"
                 },
                 {
                     "$ref": "#/definitions/NotFoundComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
                     "$ref": "#/definitions/HeaderComponent"
@@ -173,18 +224,6 @@
                 },
                 {
                     "$ref": "#/definitions/SidebarComponent"
-                },
-                {
-                    "$ref": "#/definitions/TitleComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
-                },
-                {
-                    "$ref": "#/definitions/InputComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -200,52 +239,100 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
-                    "$ref": "#/definitions/ParagraphComponent"
-                },
-                {
-                    "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeroComponent"
-                },
-                {
-                    "$ref": "#/definitions/FooterComponent"
-                },
-                {
-                    "$ref": "#/definitions/LogosComponent"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeaderComponent"
-                },
-                {
-                    "$ref": "#/definitions/TableComponent"
-                },
-                {
-                    "$ref": "#/definitions/SidebarComponent"
+                    "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
                     "$ref": "#/definitions/TitleComponent"
                 },
                 {
+                    "$ref": "#/definitions/TitleBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ParagraphComponent"
+                },
+                {
+                    "$ref": "#/definitions/ParagraphBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/InputComponent"
+                },
+                {
+                    "$ref": "#/definitions/InputBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FormComponent"
+                },
+                {
+                    "$ref": "#/definitions/FormBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/CtaComponent"
+                },
+                {
+                    "$ref": "#/definitions/CtaBlockRef"
+                },
+                {
                     "$ref": "#/definitions/IconComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesComponent"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeroComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeroBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LinkComponent"
+                },
+                {
+                    "$ref": "#/definitions/LinkBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FooterComponent"
+                },
+                {
+                    "$ref": "#/definitions/FooterBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ImageComponent"
                 },
                 {
-                    "$ref": "#/definitions/InputComponent"
+                    "$ref": "#/definitions/ImageBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LogosComponent"
+                },
+                {
+                    "$ref": "#/definitions/LogosBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundComponent"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeaderComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeaderBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TableComponent"
+                },
+                {
+                    "$ref": "#/definitions/TableBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/SidebarComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -254,55 +341,7 @@
                     "$ref": "#/definitions/HeadingComponent"
                 },
                 {
-                    "$ref": "#/definitions/ButtonBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FormBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ParagraphBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/CtaBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeroBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FooterBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LogosBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LinkBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeaderBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TableBlockRef"
-                },
-                {
                     "$ref": "#/definitions/SidebarBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TitleBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/IconBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/InputBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ListBlockRef"
