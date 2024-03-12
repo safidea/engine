@@ -167,6 +167,14 @@ export class DatabaseTableDriver implements Driver {
     return persistedRecord as PersistedDto
   }
 
+  delete = async (filters: FilterDto[]): Promise<void> => {
+    let query = this.kysely.deleteFrom(this.name)
+    for (const filter of filters) {
+      query = query.where(filter.field, filter.operator, filter.value)
+    }
+    await query.execute()
+  }
+
   read = async (filters: FilterDto[]): Promise<PersistedDto | undefined> => {
     let query = this.kysely.selectFrom(this.name).selectAll()
     for (const filter of filters) {

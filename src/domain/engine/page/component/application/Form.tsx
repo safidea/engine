@@ -117,7 +117,7 @@ export class Form implements Base<Props> {
   render = async (state: State) => {
     const { client, Component, title, paragraph, inputs, buttons } = this.params
     const record = await this.getData(state)
-    const Buttons = await Promise.all(buttons.map((button) => button.render()))
+    const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
     const Paragraph = paragraph ? await paragraph.render() : undefined
     const Inputs = await Promise.all(

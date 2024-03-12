@@ -2,9 +2,10 @@ import type { Get } from '@domain/entities/request/Get'
 import type { Post } from '@domain/entities/request/Post'
 import type { Response } from '@domain/entities/response'
 import type { Params, Spi } from '@domain/services/Server'
-import type { GetDto, PatchDto, PostDto } from './dtos/RequestDto'
+import type { DeleteDto, GetDto, PatchDto, PostDto } from './dtos/RequestDto'
 import { RequestMapper } from './mappers/RequestMapper'
 import type { Patch } from '@domain/entities/request/Patch'
+import type { Delete } from '@domain/entities/request/Delete'
 
 export interface Driver {
   params: Params
@@ -14,6 +15,7 @@ export interface Driver {
   get(path: string, handler: (request: GetDto) => Promise<Response>): Promise<void>
   post(path: string, handler: (request: PostDto) => Promise<Response>): Promise<void>
   patch(path: string, handler: (request: PatchDto) => Promise<Response>): Promise<void>
+  delete(path: string, handler: (request: DeleteDto) => Promise<Response>): Promise<void>
   notFound(handler: (request: GetDto) => Promise<Response>): Promise<void>
 }
 
@@ -45,6 +47,13 @@ export class ServerSpi implements Spi {
   patch = async (path: string, handler: (request: Patch) => Promise<Response>) => {
     await this.driver.patch(path, async (patchDto) => {
       const request = RequestMapper.toPatchService(patchDto)
+      return handler(request)
+    })
+  }
+
+  delete = async (path: string, handler: (request: Delete) => Promise<Response>) => {
+    await this.driver.delete(path, async (deleteDto) => {
+      const request = RequestMapper.toDeleteService(deleteDto)
       return handler(request)
     })
   }

@@ -6,6 +6,7 @@ import type { Base, BaseProps, ReactComponent } from '../base/base'
 import type { Props as ButtonProps } from '../base/Button'
 import type { Props as ParagraphProps } from '../base/Paragraph'
 import type { Props as TitleProps } from '../base/Title'
+import type { State } from '../../State'
 
 export interface Props extends BaseProps {
   Title: React.FC<Partial<TitleProps>>
@@ -28,11 +29,11 @@ export class NotFound implements Base<Props> {
     await Promise.all([title.init(), paragraph.init(), button.init()])
   }
 
-  render = async () => {
+  render = async (state: State) => {
     const { Component, title, paragraph, button } = this.params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
-    const Button = await button.render()
+    const Button = await button.render(state)
     return (props?: Partial<Props>) => <Component {...{ Title, Paragraph, Button, ...props }} />
   }
 

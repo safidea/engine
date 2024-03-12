@@ -4,6 +4,7 @@ import type { Post } from '../entities/request/Post'
 import type { Response } from '../entities/response'
 import { Json } from '../entities/response/Json'
 import type { Patch } from '@domain/entities/request/Patch'
+import type { Delete } from '@domain/entities/request/Delete'
 
 export interface Params {
   port?: string
@@ -18,6 +19,7 @@ export interface Spi {
   get: (path: string, handler: (request: Get) => Promise<Response>) => Promise<void>
   post: (path: string, handler: (request: Post) => Promise<Response>) => Promise<void>
   patch: (path: string, handler: (request: Patch) => Promise<Response>) => Promise<void>
+  delete: (path: string, handler: (request: Delete) => Promise<Response>) => Promise<void>
   notFound: (handler: (request: Get) => Promise<Response>) => Promise<void>
 }
 
@@ -30,7 +32,7 @@ export class Server {
 
   constructor(private spi: Spi) {}
 
-  get baseUrl () {
+  get baseUrl() {
     return this.spi.baseUrl
   }
 
@@ -40,9 +42,8 @@ export class Server {
   }
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
-    const { params, get } = this.spi
-    const { logger } = params
-    await get(path, async (request: Get) => {
+    const { logger } = this.spi.params
+    await this.spi.get(path, async (request: Get) => {
       logger.log(`GET ${path}`)
       return handler(request)
     })
@@ -51,9 +52,8 @@ export class Server {
   }
 
   post = async (path: string, handler: (request: Post) => Promise<Response>) => {
-    const { params, post } = this.spi
-    const { logger } = params
-    await post(path, async (request: Post) => {
+    const { logger } = this.spi.params
+    await this.spi.post(path, async (request: Post) => {
       logger.log(`POST ${path} ${JSON.stringify(request.body, null, 2)}`)
       return handler(request)
     })
@@ -62,20 +62,27 @@ export class Server {
   }
 
   patch = async (path: string, handler: (request: Patch) => Promise<Response>) => {
-    const { params, patch } = this.spi
-    const { logger } = params
-    await patch(path, async (request: Patch) => {
+    const { logger } = this.spi.params
+    await this.spi.patch(path, async (request: Patch) => {
       logger.log(`PATCH ${path} ${JSON.stringify(request.body, null, 2)}`)
       return handler(request)
     })
     logger.log(`add PATCH handler ${path}`)
   }
 
+  delete = async (path: string, handler: (request: Delete) => Promise<Response>) => {
+    const { logger } = this.spi.params
+    await this.spi.delete(path, async (request: Delete) => {
+      logger.log(`DELETE ${path}`)
+      return handler(request)
+    })
+    logger.log(`add DELETE handler ${path}`)
+  }
+
   notFound = async (handler: (request: Get) => Promise<Response>) => {
     this.notFoundHandler = async () => {
-      const { params, notFound } = this.spi
-      const { logger } = params
-      await notFound(async (request: Get) => {
+      const { logger } = this.spi.params
+      await this.spi.notFound(async (request: Get) => {
         logger.log(`404 ${request.path}`)
         return handler(request)
       })

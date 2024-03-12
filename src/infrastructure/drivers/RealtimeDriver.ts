@@ -148,14 +148,14 @@ export class SqliteClient {
         const record = await this.db
           .table(tableName)
           .read([new Is({ field: 'id', value: recordId })])
-        if (!record) throw new Error(`Record with id ${recordId} not found in table ${tableName}`)
-        callback({
-          payload: JSON.stringify({
-            action: log.getFieldAsString('action'),
-            table: tableName,
-            record: record.data,
-          }),
-        })
+        if (record)
+          callback({
+            payload: JSON.stringify({
+              action: log.getFieldAsString('action'),
+              table: tableName,
+              record: record.data,
+            }),
+          })
         await this.db.exec(
           `UPDATE _logs SET processed = 1 WHERE id = ${log.getFieldAsString('id')}`
         )

@@ -109,7 +109,7 @@ export class Table implements Base<Props> {
   htmlStream = async (state: State, props?: Partial<Props>) => {
     const { ui, client, title, columns, buttons = [] } = this.params
     const Component = await this.render(state, { withSource: false })
-    const Buttons = await Promise.all(buttons.map((button) => button.render()))
+    const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
@@ -121,7 +121,7 @@ export class Table implements Base<Props> {
   render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
     const { client, Component, title, columns, buttons = [] } = this.params
-    const Buttons = await Promise.all(buttons.map((button) => button.render()))
+    const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
     return (props?: Partial<Props>) => (
       <>

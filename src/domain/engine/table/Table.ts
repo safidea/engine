@@ -12,6 +12,7 @@ import type { Post } from '../../entities/request/Post'
 import type { Patch } from '@domain/entities/request/Patch'
 import type { Get } from '@domain/entities/request/Get'
 import { Is } from '@domain/entities/filter/Is'
+import type { Delete } from '@domain/entities/request/Delete'
 
 interface Params {
   name: string
@@ -32,10 +33,13 @@ export class Table implements Base {
 
   init = async () => {
     const { server } = this.params
-    await server.post(this.path, this.post)
-    await server.patch(this.recordPath, this.patch)
-    await server.get(this.path, this.getAll)
-    await server.get(this.recordPath, this.get)
+    await Promise.all([
+      server.post(this.path, this.post),
+      server.get(this.path, this.getAll),
+      server.get(this.recordPath, this.get),
+      server.patch(this.recordPath, this.patch),
+      server.delete(this.recordPath, this.delete),
+    ])
   }
 
   validateConfig = async () => {
@@ -87,5 +91,11 @@ export class Table implements Base {
   getAll = async () => {
     const records = await this.database.list([])
     return new Json({ records: records.map((record) => record.data) })
+  }
+
+  delete = async (request: Delete) => {
+    const id = request.getParamOrThrow('id')
+    await this.database.delete([new Is({ field: 'id', value: id })])
+    return new Json({ id })
   }
 }

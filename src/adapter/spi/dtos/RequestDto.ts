@@ -13,3 +13,5 @@ export type PostDto = Base & {
 }
 
 export type PatchDto = PostDto
+
+export type DeleteDto = Base

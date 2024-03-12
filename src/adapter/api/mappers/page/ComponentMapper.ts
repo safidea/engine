@@ -72,7 +72,13 @@ export class ComponentMapper {
   }
 
   static toButtonEntity = (config: ButtonConfig, params: Params): Button => {
-    return new Button({ ...config, Component: params.components.Button, client: params.client })
+    const { components, client, templateCompiler } = params
+    return new Button({
+      ...config,
+      Component: components.Button,
+      client,
+      templateCompiler,
+    })
   }
 
   static toManyButtonEntities = (configs: ButtonConfig[], params: Params): Button[] => {

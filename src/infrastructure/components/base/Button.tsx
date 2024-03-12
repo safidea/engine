@@ -8,16 +8,31 @@ export const Button = ({
   variant = 'primary',
   className = '',
   clientProps = {},
+  type,
+  action,
+  method,
 }: Props['Button']) => {
   const classes = getVariant(variant)
-  if (href) {
+  if (action) {
+    return (
+      <form action={action} method={method}>
+        <button type={type} className={classNames(classes, className)}>
+          {label}
+        </button>
+      </form>
+    )
+  } else if (href) {
     return (
       <a className={classNames(classes, className)} href={href} {...clientProps}>
         {label}
       </a>
     )
   } else {
-    return <button className={classNames(classes, className)}>{label}</button>
+    return (
+      <button type={type} className={classNames(classes, className)}>
+        {label}
+      </button>
+    )
   }
 }
 

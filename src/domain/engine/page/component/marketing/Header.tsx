@@ -6,6 +6,7 @@ import type { ReactComponent, Base, BaseProps } from '../base/base'
 import type { Props as TitleProps } from '../base/Title'
 import type { Props as LinkProps } from '../base/Link'
 import type { Props as ButtonProps } from '../base/Button'
+import type { State } from '../../State'
 
 export interface Props extends BaseProps {
   Title: React.FC<Partial<TitleProps>>
@@ -32,11 +33,11 @@ export class Header implements Base<Props> {
     ])
   }
 
-  render = async () => {
+  render = async (state: State) => {
     const { title, links = [], buttons = [], Component } = this.params
     const Title = await title.render()
     const Links = await Promise.all(links.map((link) => link.render()))
-    const Buttons = await Promise.all(buttons.map((button) => button.render()))
+    const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     return (props?: Partial<Props>) => <Component {...{ Title, Links, Buttons, ...props }} />
   }
 

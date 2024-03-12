@@ -6,7 +6,7 @@ import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
 import type { Driver } from '@adapter/spi/ServerSpi'
-import type { GetDto, PatchDto, PostDto } from '@adapter/spi/dtos/RequestDto'
+import type { DeleteDto, GetDto, PatchDto, PostDto } from '@adapter/spi/dtos/RequestDto'
 import type { Params } from '@domain/services/Server'
 import type { Response } from '@domain/entities/response'
 import { Redirect } from '@domain/entities/response/Redirect'
@@ -57,6 +57,14 @@ export class ServerDriver implements Driver {
         body: req.body,
       }
       const response = await handler(patchDto)
+      this.returnResponse(res, req, response)
+    })
+  }
+
+  delete = async (path: string, handler: (deleteDto: DeleteDto) => Promise<Response>) => {
+    this.express.delete(path, async (req, res) => {
+      const deleteDto: DeleteDto = this.getRequestDto(req)
+      const response = await handler(deleteDto)
       this.returnResponse(res, req, response)
     })
   }

@@ -8,6 +8,7 @@ import type { ToUpdate } from '@domain/entities/record/ToUpdate'
 export interface Spi {
   insert: (toCreateRecord: ToCreate) => Promise<Persisted>
   update: (toUpdateRecord: ToUpdate) => Promise<Persisted>
+  delete: (filters: Filter[]) => Promise<void>
   read: (filters: Filter[]) => Promise<Persisted | undefined>
   list: (filters: Filter[]) => Promise<Persisted[]>
   exists: () => Promise<boolean>
@@ -39,6 +40,12 @@ export class DatabaseTable {
     const persistedRecord = await this.table.update(toUpdateRecord)
     logger.log(`updated in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
+  }
+
+  delete = async (filters: Filter[]) => {
+    const { logger } = this.spi.params
+    await this.table.delete(filters)
+    logger.log(`deleting in ${this.name} ${filters[0].field} ${filters[0].value}`)
   }
 
   read = async (filters: Filter[]) => {

@@ -54,7 +54,7 @@ test.describe('Button component', () => {
     expect(await button.getAttribute('href')).toContain(href)
   })
 
-  test.skip('should delete a row when clicked', async ({ page }) => {
+  test('should delete a row when clicked', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {
@@ -71,7 +71,7 @@ test.describe('Button component', () => {
                   component: 'Button',
                   type: 'submit',
                   label: 'Delete Request',
-                  action: '/api/table/requests/{{ params.id }}',
+                  action: '/api/table/leads/{{ params.id }}',
                   method: 'DELETE',
                 },
               ],
@@ -105,7 +105,7 @@ test.describe('Button component', () => {
     // WHEN
     await page.goto(url + '/1')
     await page.click('button')
-    await page.getByText('Delete Request').waitFor({ state: 'visible' })
+    await page.locator('[aria-busy="true"]').waitFor({ state: 'hidden' })
 
     // THEN
     const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])

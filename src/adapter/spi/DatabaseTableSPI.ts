@@ -20,6 +20,7 @@ export interface Driver {
   drop: () => Promise<void>
   insert: (record: ToCreateDto) => Promise<PersistedDto>
   update: (record: ToUpdateDto) => Promise<PersistedDto>
+  delete: (filters: FilterDto[]) => Promise<void>
   read: (filters: FilterDto[]) => Promise<PersistedDto | undefined>
   list: (filters: FilterDto[]) => Promise<PersistedDto[]>
 }
@@ -37,6 +38,11 @@ export class DatabaseTableSpi implements Spi {
     const toUpdateRecordDto = RecordMapper.toUpdateDto(toUpdateRecord)
     const persistedRecordDto = await this.driver.update(toUpdateRecordDto)
     return RecordMapper.toPersistedEntity(persistedRecordDto)
+  }
+
+  delete = async (filters: Filter[]) => {
+    const filterDtos = FilterMapper.toManyDtos(filters)
+    await this.driver.delete(filterDtos)
   }
 
   read = async (filters: Filter[]) => {
