@@ -16,6 +16,8 @@ import type { Props as TitleProps } from '../base/Title'
 import type { Props as ParagraphProps } from '../base/Paragraph'
 import type { Props as InputsProps } from '../base/Input'
 import type { Props as ButtonProps } from '../base/Button'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { Template } from '@domain/services/Template'
 
 export interface Props extends BaseProps {
   action: string
@@ -36,21 +38,27 @@ interface Params {
   inputs: Input[]
   buttons: Button[]
   successMessage?: string
+  source?: string
   Component: ReactComponent<Props>
   server: Server
   idGenerator: IdGenerator
   ui: Ui
   client: Client
+  templateCompiler: TemplateCompiler
 }
 
 export class Form implements Base<Props> {
   private id: string
   private path: string
+  private action: Template
+  private source?: Template
 
   constructor(private params: Params) {
-    const { idGenerator } = params
+    const { action, source, idGenerator, templateCompiler } = params
     this.id = idGenerator.forForm()
     this.path = `/api/component/form/${this.id}`
+    this.action = templateCompiler.compile(action)
+    if (source) this.source = templateCompiler.compile(source)
   }
 
   init = async () => {
@@ -64,9 +72,24 @@ export class Form implements Base<Props> {
     ])
   }
 
+  getData = async () => {
+    const { server } = this.params
+    if (this.source) {
+      const filledSource = this.source.fill({ url: { params: { id: '1' } } })
+      const url = filledSource.startsWith('/api/table/')
+        ? server.baseUrl + filledSource
+        : filledSource
+      const { record } = await fetch(url).then((res) => res.json())
+      return record
+    }
+    return {}
+  }
+
   post = async (request: Post): Promise<Response> => {
-    const { action, method = 'POST', successMessage } = this.params
-    const url = action.startsWith('/') ? request.baseUrl + action : action
+    const { method = 'POST', successMessage, server } = this.params
+    // TODO: Implement the context
+    const filledAction = this.action.fill({ url: { params: { id: '1' } } })
+    const url = filledAction.startsWith('/') ? server.baseUrl + filledAction : filledAction
     const result = await fetch(url, {
       method,
       headers: {
@@ -92,10 +115,13 @@ export class Form implements Base<Props> {
 
   render = async () => {
     const { client, Component, title, paragraph, inputs, buttons } = this.params
+    const record = await this.getData()
     const Buttons = await Promise.all(buttons.map((button) => button.render()))
     const Title = title ? await title.render() : undefined
     const Paragraph = paragraph ? await paragraph.render() : undefined
-    const Inputs = await Promise.all(inputs.map((input) => input.render()))
+    const Inputs = await Promise.all(
+      inputs.map((input) => input.render({ defaultValue: record[input.name] }))
+    )
     return (props?: Partial<Props>) => (
       <client.Frame id={this.id}>
         <Component

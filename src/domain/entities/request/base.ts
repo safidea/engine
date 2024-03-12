@@ -42,4 +42,18 @@ export class Base {
     }
     return value
   }
+
+  getParam = (key: string): string | undefined => {
+    const { params } = this
+    if (key in params) return params[key]
+    return undefined
+  }
+
+  getParamOrThrow = (key: string): string => {
+    const value = this.getParam(key)
+    if (value === undefined) {
+      throw new Error(`Key ${key} not found in params`)
+    }
+    return value
+  }
 }

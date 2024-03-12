@@ -30,6 +30,7 @@ export interface Props extends BaseProps {
   placeholder?: string
   label?: string
   required?: boolean
+  defaultValue?: string
 }
 
 interface Params extends Props {
@@ -39,11 +40,17 @@ interface Params extends Props {
 export class Input implements Base<Props> {
   constructor(private params: Params) {}
 
+  get name() {
+    return this.params.name
+  }
+
   init = async () => {}
 
-  render = async () => {
+  render = async (renderProps?: Partial<Props>) => {
     const { Component, ...defaultProps } = this.params
-    return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
+    return (props?: Partial<Props>) => (
+      <Component {...{ ...defaultProps, ...renderProps, ...props }} />
+    )
   }
 
   validateConfig = () => {

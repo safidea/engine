@@ -68,7 +68,7 @@ export class Auth {
 
   sendMagicLink = async (request: Post) => {
     const { mailer, confirmEmail, templateCompiler, from } = this.spi.params
-    const email = request.getBodyStringOrThrow('email')
+    const email = request.getFromBodyStringOrThrow('email')
     const token = await this.spi.sign({ email }, { expiresIn: '1h' })
     const link = `${request.baseUrl}${this.verifyMagicLinkPath}?token=${token}`
     const toSend = new ToSend({ to: email, from, ...confirmEmail }, { templateCompiler })

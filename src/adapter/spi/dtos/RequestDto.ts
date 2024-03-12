@@ -11,3 +11,5 @@ export type GetDto = Base
 export type PostDto = Base & {
   body: unknown
 }
+
+export type PatchDto = PostDto

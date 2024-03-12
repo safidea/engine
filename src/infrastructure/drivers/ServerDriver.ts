@@ -6,7 +6,7 @@ import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
 import type { Driver } from '@adapter/spi/ServerSpi'
-import type { GetDto, PostDto } from '@adapter/spi/dtos/RequestDto'
+import type { GetDto, PatchDto, PostDto } from '@adapter/spi/dtos/RequestDto'
 import type { Params } from '@domain/services/Server'
 import type { Response } from '@domain/entities/response'
 import { Redirect } from '@domain/entities/response/Redirect'
@@ -15,10 +15,12 @@ import { Stream } from '@domain/entities/response/Stream'
 const dirname = new URL('.', import.meta.url).pathname
 
 export class ServerDriver implements Driver {
+  public baseUrl: string
   private express: Express
   private server?: HttpServer
 
   constructor(public params: Params) {
+    this.baseUrl = `http://localhost:${params.port}`
     this.express = express()
     this.express.use(cors())
     this.express.use(helmet())
@@ -48,6 +50,17 @@ export class ServerDriver implements Driver {
     })
   }
 
+  patch = async (path: string, handler: (patchDto: PatchDto) => Promise<Response>) => {
+    this.express.patch(path, async (req, res) => {
+      const patchDto: PatchDto = {
+        ...this.getRequestDto(req),
+        body: req.body,
+      }
+      const response = await handler(patchDto)
+      this.returnResponse(res, req, response)
+    })
+  }
+
   notFound = async (handler: (getDto: GetDto) => Promise<Response>) => {
     this.express.use(async (req, res) => {
       const getDto: GetDto = this.getRequestDto(req)
@@ -69,7 +82,8 @@ export class ServerDriver implements Driver {
         }
       })
       this.server = server
-      return `http://localhost:${port}`
+      this.baseUrl = `http://localhost:${port}`
+      return this.baseUrl
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         return this.start(++retry)
@@ -128,7 +142,7 @@ export class ServerDriver implements Driver {
       baseUrl: `${req.protocol}://${req.get('host')}`,
       headers: {},
       query,
-      params: {},
+      params: req.params,
     }
   }
 }

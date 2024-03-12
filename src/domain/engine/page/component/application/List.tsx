@@ -2,7 +2,6 @@ import type { Server } from '@domain/services/Server'
 import type { Base, BaseProps, ReactComponent } from '../base/base'
 import type { Ui } from '@domain/services/Ui'
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { Get } from '@domain/entities/request/Get'
 import { Html } from '@domain/entities/response/Html'
 import { ConfigError } from '@domain/entities/error/Config'
 import { Stream } from '@domain/entities/response/Stream'
@@ -77,9 +76,9 @@ export class List implements Base<Props> {
       open: this.open.fill({ row: record }),
     }))
 
-  getData = async (request: Get) => {
-    const { source } = this.params
-    const url = this.stream ? request.baseUrl + source : source
+  getData = async () => {
+    const { source, server } = this.params
+    const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
       const { records } = result
@@ -88,13 +87,13 @@ export class List implements Base<Props> {
     return new Html(await this.html({ rows: this.getRows(result) }))
   }
 
-  streamData = async (request: Get) => {
-    const { realtime, source } = this.params
+  streamData = async () => {
+    const { realtime, source, server } = this.params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
     const id = realtime.onInsert(this.stream.table, async () => {
-      const { records } = await fetch(request.baseUrl + source).then((res) => res.json())
+      const { records } = await fetch(server.baseUrl + source).then((res) => res.json())
       const htmlStream = await this.htmlStream({ rows: this.getRows(records) })
       stream.sendEvent(htmlStream)
     })

@@ -268,7 +268,7 @@ test.describe('Form component', () => {
     await expect(page.getByText(successMessage)).toBeVisible()
   })
 
-  test.skip('should submit a form and update a row in a database', async ({ page }) => {
+  test('should submit a form and update a row in a database', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'
@@ -338,7 +338,7 @@ test.describe('Form component', () => {
       .insert({ id: '1', name: 'John', email: 'test@test.com', created_at: new Date() })
 
     // WHEN
-    await page.goto(url)
+    await page.goto(url + '/1')
     await page.fill('input[name="name"]', 'John Doe')
     await page.click('button')
     await page.getByText(successMessage).waitFor({ state: 'visible' })
@@ -346,5 +346,6 @@ test.describe('Form component', () => {
     // THEN
     const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
     expect(lead?.name).toEqual('John Doe')
+    expect(lead?.email).toEqual('test@test.com')
   })
 })

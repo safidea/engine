@@ -1,5 +1,9 @@
-import { type Data as PersistedData } from './Persisted'
+export interface Data {
+  id: string
+  updated_at: Date
+  [key: string]: string | number | boolean | Date | undefined
+}
 
 export class ToUpdate {
-  constructor(public data: PersistedData) {}
+  constructor(public data: Data) {}
 }

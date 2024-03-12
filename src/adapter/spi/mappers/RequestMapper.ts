@@ -1,5 +1,6 @@
-import type { GetDto, PostDto } from '../dtos/RequestDto'
+import type { GetDto, PatchDto, PostDto } from '../dtos/RequestDto'
 import { Get } from '@domain/entities/request/Get'
+import { Patch } from '@domain/entities/request/Patch'
 import { Post } from '@domain/entities/request/Post'
 
 export class RequestMapper {
@@ -16,6 +17,14 @@ export class RequestMapper {
   }
 
   static toPostDto = (service: Post): PostDto => {
+    return service
+  }
+
+  static toPatchService = (dto: PatchDto): Patch => {
+    return new Patch(dto)
+  }
+
+  static toPatchDto = (service: Patch): PatchDto => {
     return service
   }
 }

@@ -12,7 +12,7 @@ export class Post extends Base {
     this.body = params.body
   }
 
-  getBody = (key: string): string | number | boolean | undefined => {
+  getFromBody = (key: string): string | number | boolean | undefined => {
     const { body } = this
     if (typeof body === 'object' && body && key in body) {
       return body[key as keyof typeof body]
@@ -20,22 +20,22 @@ export class Post extends Base {
     return undefined
   }
 
-  getBodyOrThrow = (key: string): string | number | boolean => {
-    const value = this.getBody(key)
+  getFromBodyOrThrow = (key: string): string | number | boolean => {
+    const value = this.getFromBody(key)
     if (value === undefined) {
       throw new Error(`Key ${key} not found in body`)
     }
     return value
   }
 
-  getBodyString = (key: string): string | undefined => {
-    const value = this.getBody(key)
+  getFromBodyString = (key: string): string | undefined => {
+    const value = this.getFromBody(key)
     if (value) return value.toString()
     return undefined
   }
 
-  getBodyStringOrThrow = (key: string): string => {
-    const value = this.getBodyOrThrow(key)
+  getFromBodyStringOrThrow = (key: string): string => {
+    const value = this.getFromBodyOrThrow(key)
     return value.toString()
   }
 }

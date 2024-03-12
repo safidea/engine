@@ -3,6 +3,7 @@ import type { Get } from '../entities/request/Get'
 import type { Post } from '../entities/request/Post'
 import type { Response } from '../entities/response'
 import { Json } from '../entities/response/Json'
+import type { Patch } from '@domain/entities/request/Patch'
 
 export interface Params {
   port?: string
@@ -11,10 +12,12 @@ export interface Params {
 
 export interface Spi {
   params: Params
+  baseUrl: string
   start: () => Promise<string>
   stop: () => Promise<void>
   get: (path: string, handler: (request: Get) => Promise<Response>) => Promise<void>
   post: (path: string, handler: (request: Post) => Promise<Response>) => Promise<void>
+  patch: (path: string, handler: (request: Patch) => Promise<Response>) => Promise<void>
   notFound: (handler: (request: Get) => Promise<Response>) => Promise<void>
 }
 
@@ -26,6 +29,10 @@ export class Server {
   notFoundHandler?: () => Promise<void>
 
   constructor(private spi: Spi) {}
+
+  get baseUrl () {
+    return this.spi.baseUrl
+  }
 
   init = async () => {
     await this.get('/health', async () => new Json({ success: true }))
@@ -52,6 +59,16 @@ export class Server {
     })
     this.postHandlers.push(path)
     logger.log(`add POST handler ${path}`)
+  }
+
+  patch = async (path: string, handler: (request: Patch) => Promise<Response>) => {
+    const { params, patch } = this.spi
+    const { logger } = params
+    await patch(path, async (request: Patch) => {
+      logger.log(`PATCH ${path} ${JSON.stringify(request.body, null, 2)}`)
+      return handler(request)
+    })
+    logger.log(`add PATCH handler ${path}`)
   }
 
   notFound = async (handler: (request: Get) => Promise<Response>) => {

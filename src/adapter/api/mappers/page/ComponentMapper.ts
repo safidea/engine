@@ -194,7 +194,7 @@ export class ComponentMapper {
   }
 
   static toFormEntity = (config: FormConfig, params: Params): Form => {
-    const { components, server, ui, client, idGenerator } = params
+    const { components, server, ui, client, idGenerator, templateCompiler } = params
     const title = config.title ? this.toTitleEntity(config.title, params) : undefined
     const paragraph = config.paragraph
       ? this.toParagraphEntity(config.paragraph, params)
@@ -212,6 +212,7 @@ export class ComponentMapper {
       ui,
       idGenerator,
       client,
+      templateCompiler,
     })
   }
 
