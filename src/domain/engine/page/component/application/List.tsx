@@ -9,6 +9,8 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
+import type { State } from '../../State'
+import type { Get } from '@domain/entities/request/Get'
 
 export interface Column {
   name: string
@@ -76,41 +78,41 @@ export class List implements Base<Props> {
       open: this.open.fill({ row: record }),
     }))
 
-  getData = async () => {
+  getData = async (request: Get) => {
     const { source, server } = this.params
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
       const { records } = result
-      return new Html(await this.html({ rows: this.getRows(records) }))
+      return new Html(await this.html(request.state, { rows: this.getRows(records) }))
     }
-    return new Html(await this.html({ rows: this.getRows(result) }))
+    return new Html(await this.html(request.state, { rows: this.getRows(result) }))
   }
 
-  streamData = async () => {
+  streamData = async (request: Get) => {
     const { realtime, source, server } = this.params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
     const id = realtime.onInsert(this.stream.table, async () => {
       const { records } = await fetch(server.baseUrl + source).then((res) => res.json())
-      const htmlStream = await this.htmlStream({ rows: this.getRows(records) })
+      const htmlStream = await this.htmlStream(request.state, { rows: this.getRows(records) })
       stream.sendEvent(htmlStream)
     })
     stream.onClose = () => realtime.removeListener(id)
     return stream
   }
 
-  html = async (props?: Partial<Props>) => {
+  html = async (state: State, props?: Partial<Props>) => {
     const { ui, client } = this.params
-    const Component = await this.render({ withSource: false })
+    const Component = await this.render(state, { withSource: false })
     const linkClientProps = client.getLinkProps()
     return ui.renderToHtml(<Component {...props} linkClientProps={linkClientProps} />)
   }
 
-  htmlStream = async (props?: Partial<Props>) => {
+  htmlStream = async (state: State, props?: Partial<Props>) => {
     const { ui, client, columns } = this.params
-    const Component = await this.render({ withSource: false })
+    const Component = await this.render(state, { withSource: false })
     const linkClientProps = client.getLinkProps()
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
@@ -119,7 +121,7 @@ export class List implements Base<Props> {
     )
   }
 
-  render = async (options?: { withSource: boolean }) => {
+  render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
     const { client, Component, columns } = this.params
     return (props?: Partial<Props>) => (

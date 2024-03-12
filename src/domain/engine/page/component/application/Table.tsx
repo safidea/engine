@@ -11,6 +11,8 @@ import type { Client } from '@domain/services/Client'
 import type { Title } from '../base/Title'
 import type { Props as TitleProps } from '../base/Title'
 import type { Props as ButtonProps } from '../base/Button'
+import type { State } from '../../State'
+import type { Get } from '@domain/entities/request/Get'
 
 export interface Column {
   name: string
@@ -71,40 +73,40 @@ export class Table implements Base<Props> {
     ])
   }
 
-  getData = async () => {
+  getData = async (request: Get) => {
     const { source, server } = this.params
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
       const { records } = result
-      return new Html(await this.html({ rows: records }))
+      return new Html(await this.html(request.state, { rows: records }))
     }
-    return new Html(await this.html({ rows: result }))
+    return new Html(await this.html(request.state, { rows: result }))
   }
 
-  streamData = async () => {
+  streamData = async (request: Get) => {
     const { realtime, source, server } = this.params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
     const id = realtime.onInsert(this.stream.table, async () => {
       const { records } = await fetch(server.baseUrl + source).then((res) => res.json())
-      const htmlStream = await this.htmlStream({ rows: records })
+      const htmlStream = await this.htmlStream(request.state, { rows: records })
       stream.sendEvent(htmlStream)
     })
     stream.onClose = () => realtime.removeListener(id)
     return stream
   }
 
-  html = async (props?: Partial<Props>) => {
+  html = async (state: State, props?: Partial<Props>) => {
     const { ui } = this.params
-    const Component = await this.render({ withSource: false })
+    const Component = await this.render(state, { withSource: false })
     return ui.renderToHtml(<Component {...props} />)
   }
 
-  htmlStream = async (props?: Partial<Props>) => {
+  htmlStream = async (state: State, props?: Partial<Props>) => {
     const { ui, client, title, columns, buttons = [] } = this.params
-    const Component = await this.render({ withSource: false })
+    const Component = await this.render(state, { withSource: false })
     const Buttons = await Promise.all(buttons.map((button) => button.render()))
     const Title = title ? await title.render() : undefined
     return ui.renderToHtml(
@@ -114,7 +116,7 @@ export class Table implements Base<Props> {
     )
   }
 
-  render = async (options?: { withSource: boolean }) => {
+  render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
     const { client, Component, title, columns, buttons = [] } = this.params
     const Buttons = await Promise.all(buttons.map((button) => button.render()))

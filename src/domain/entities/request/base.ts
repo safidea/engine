@@ -1,3 +1,5 @@
+import { State } from '@domain/engine/page/State'
+
 export type Params = {
   path: string
   baseUrl: string
@@ -27,6 +29,10 @@ export class Base {
 
   get params() {
     return this._params.params
+  }
+
+  get state() {
+    return new State()
   }
 
   getQuery = (key: string): string | undefined => {

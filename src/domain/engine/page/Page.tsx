@@ -7,6 +7,8 @@ import { Html as HtmlResponse } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
 import type { HtmlProps } from './component/base/Html'
 import type { ReactComponent } from './component/base/base'
+import type { State } from './State'
+import type { Get } from '@domain/entities/request/Get'
 
 interface Params {
   name: string
@@ -45,19 +47,19 @@ export class Page implements Base {
     return this.params.path
   }
 
-  get = async () => {
-    return new HtmlResponse(await this.html())
+  get = async (request: Get) => {
+    return new HtmlResponse(await this.html(request.state))
   }
 
-  html = async () => {
+  html = async (state: State) => {
     const { ui } = this.params
-    return ui.renderToHtml(await this.render())
+    return ui.renderToHtml(await this.render(state))
   }
 
-  render = async () => {
+  render = async (state: State) => {
     const { body, head } = this.params
     const { Html } = this.params
-    const components = await Promise.all(body.map((component) => component.render()))
+    const components = await Promise.all(body.map((component) => component.render(state)))
     return (
       <Html
         head={head ? head.render() : null}

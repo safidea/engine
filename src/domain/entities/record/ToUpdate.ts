@@ -5,5 +5,12 @@ export interface Data {
 }
 
 export class ToUpdate {
-  constructor(public data: Data) {}
+  public data: Data
+
+  constructor(data: Data) {
+    this.data = {
+      ...data,
+      updated_at: new Date(),
+    }
+  }
 }

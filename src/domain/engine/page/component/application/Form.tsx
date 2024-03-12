@@ -18,6 +18,7 @@ import type { Props as InputsProps } from '../base/Input'
 import type { Props as ButtonProps } from '../base/Button'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
+import type { State } from '../../State'
 
 export interface Props extends BaseProps {
   action: string
@@ -72,14 +73,14 @@ export class Form implements Base<Props> {
     ])
   }
 
-  getData = async () => {
+  getData = async (state: State) => {
     const { server } = this.params
     if (this.source) {
-      const filledSource = this.source.fill({ url: { params: { id: '1' } } })
+      const filledSource = state.fillTemplate(this.source)
       const url = filledSource.startsWith('/api/table/')
         ? server.baseUrl + filledSource
         : filledSource
-      const { record } = await fetch(url).then((res) => res.json())
+      const { record = {} } = await fetch(url).then((res) => res.json())
       return record
     }
     return {}
@@ -87,8 +88,7 @@ export class Form implements Base<Props> {
 
   post = async (request: Post): Promise<Response> => {
     const { method = 'POST', successMessage, server } = this.params
-    // TODO: Implement the context
-    const filledAction = this.action.fill({ url: { params: { id: '1' } } })
+    const filledAction = request.state.fillTemplate(this.action)
     const url = filledAction.startsWith('/') ? server.baseUrl + filledAction : filledAction
     const result = await fetch(url, {
       method,
@@ -98,29 +98,29 @@ export class Form implements Base<Props> {
       body: JSON.stringify(request.body),
     })
     if (result.ok) {
-      const html = await this.html({ successMessage })
+      const html = await this.html(request.state, { successMessage })
       return new Html(html)
     } else {
       const errorMessage = await result.text()
-      const html = await this.html({ errorMessage })
+      const html = await this.html(request.state, { errorMessage })
       return new Html(html)
     }
   }
 
-  html = async (props?: Partial<Props>) => {
+  html = async (state: State, props?: Partial<Props>) => {
     const { ui } = this.params
-    const Component = await this.render()
+    const Component = await this.render(state)
     return ui.renderToHtml(<Component {...props} />)
   }
 
-  render = async () => {
+  render = async (state: State) => {
     const { client, Component, title, paragraph, inputs, buttons } = this.params
-    const record = await this.getData()
+    const record = await this.getData(state)
     const Buttons = await Promise.all(buttons.map((button) => button.render()))
     const Title = title ? await title.render() : undefined
     const Paragraph = paragraph ? await paragraph.render() : undefined
     const Inputs = await Promise.all(
-      inputs.map((input) => input.render({ defaultValue: record[input.name] }))
+      inputs.map((input) => input.render(state, { defaultValue: record[input.name] }))
     )
     return (props?: Partial<Props>) => (
       <client.Frame id={this.id}>

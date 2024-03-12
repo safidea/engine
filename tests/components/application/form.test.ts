@@ -293,12 +293,10 @@ test.describe('Form component', () => {
                     {
                       name: 'name',
                       label: 'Your name',
-                      defaultValue: '{{ data.name }}',
                     },
                     {
                       name: 'email',
                       label: 'Your email',
-                      defaultValue: '{{ data.email }}',
                     },
                   ],
                   buttons: [

@@ -1,3 +1,4 @@
+import type { State } from '../../State'
 import type { ReactComponent, Base, BaseProps } from './base'
 
 export type Type =
@@ -46,7 +47,7 @@ export class Input implements Base<Props> {
 
   init = async () => {}
 
-  render = async (renderProps?: Partial<Props>) => {
+  render = async (state: State, renderProps?: Partial<Props>) => {
     const { Component, ...defaultProps } = this.params
     return (props?: Partial<Props>) => (
       <Component {...{ ...defaultProps, ...renderProps, ...props }} />
