@@ -268,7 +268,7 @@ test.describe('Form component', () => {
     await expect(page.getByText(successMessage)).toBeVisible()
   })
 
-  test('should submit a form and update a row in a database', async ({ page }) => {
+  test('should submit a form and update a row in a table', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'
@@ -345,5 +345,86 @@ test.describe('Form component', () => {
     const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
     expect(lead?.name).toEqual('John Doe')
     expect(lead?.email).toEqual('test@test.com')
+  })
+
+  test('should submit a form and update a specific row in a table with rows', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const successMessage = 'Your lead has been updated successfully!'
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/:id',
+              body: [
+                {
+                  component: 'Form',
+                  title: { text: 'This is a title' },
+                  paragraph: { text: 'This is a description' },
+                  action: '/api/table/leads/{{ params.id }}',
+                  source: '/api/table/leads/{{ params.id }}',
+                  method: 'PATCH',
+                  inputs: [
+                    {
+                      name: 'name',
+                      label: 'Your name',
+                    },
+                    {
+                      name: 'email',
+                      label: 'Your email',
+                    },
+                  ],
+                  buttons: [
+                    {
+                      type: 'submit',
+                      label: 'Update',
+                    },
+                  ],
+                  successMessage,
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database.table('leads').insertMany([
+      { id: '1', name: 'John 1', email: 'test1@test.com', created_at: new Date() },
+      { id: '2', name: 'John 2', email: 'test2@test.com', created_at: new Date() },
+      { id: '3', name: 'John 3', email: 'test3@test.com', created_at: new Date() },
+    ])
+
+    // WHEN
+    await page.goto(url + '/2')
+    await page.fill('input[name="name"]', 'John Doe')
+    await page.click('button')
+    await page.getByText(successMessage).waitFor({ state: 'visible' })
+
+    // THEN
+    const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '2' }])
+    expect(lead?.name).toEqual('John Doe')
+    expect(lead?.email).toEqual('test2@test.com')
   })
 })

@@ -112,6 +112,35 @@ export class DatabaseTableDriver implements Driver {
     return persistedRecord as PersistedDto
   }
 
+  insertMany = async (recordtoCreateDtos: ToCreateDto[]): Promise<PersistedDto[]> => {
+    if (this.db instanceof SQLite) {
+      for (const recordtoCreateDto of recordtoCreateDtos) {
+        for (const key in recordtoCreateDto) {
+          const value = recordtoCreateDto[key]
+          if (value instanceof Date) {
+            recordtoCreateDto[key] = value.getTime()
+          }
+        }
+      }
+    }
+    const persistedRecords = await this.kysely
+      .insertInto(this.name)
+      .values(recordtoCreateDtos)
+      .returningAll()
+      .execute()
+    if (this.db instanceof SQLite) {
+      for (const persistedRecord of persistedRecords) {
+        for (const key in persistedRecord) {
+          const value = persistedRecord[key]
+          if (value instanceof Date) {
+            persistedRecord[key] = new Date(value)
+          }
+        }
+      }
+    }
+    return persistedRecords as PersistedDto[]
+  }
+
   update = async (record: ToUpdateDto): Promise<PersistedDto> => {
     if (this.db instanceof SQLite) {
       for (const key in record) {

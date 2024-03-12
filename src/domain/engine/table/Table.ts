@@ -10,6 +10,8 @@ import type { Data as ToUpdateData } from '@domain/entities/record/ToUpdate'
 import { Json } from '@domain/entities/response/Json'
 import type { Post } from '../../entities/request/Post'
 import type { Patch } from '@domain/entities/request/Patch'
+import type { Get } from '@domain/entities/request/Get'
+import { Is } from '@domain/entities/filter/Is'
 
 interface Params {
   name: string
@@ -56,25 +58,26 @@ export class Table implements Base {
     return `${this.path}/:id`
   }
 
-  post = async (post: Post) => {
+  post = async (request: Post) => {
     const { record } = this.params
     // TODO: validate body
-    const toCreateRecord = record.create(post.body as ToCreateData)
+    const toCreateRecord = record.create(request.body as ToCreateData)
     const persistedRecord = await this.database.insert(toCreateRecord)
     return new Json({ record: persistedRecord.data })
   }
 
-  patch = async (patch: Patch) => {
+  patch = async (request: Patch) => {
     const { record } = this.params
     // TODO: validate body
-    const id = patch.getParamOrThrow('id')
-    const toUpdateRecord = record.update({ id, ...(patch.body as object) } as ToUpdateData)
+    const id = request.getParamOrThrow('id')
+    const toUpdateRecord = record.update({ id, ...(request.body as object) } as ToUpdateData)
     const persistedRecord = await this.database.update(toUpdateRecord)
     return new Json({ record: persistedRecord.data })
   }
 
-  get = async () => {
-    const record = await this.database.read([])
+  get = async (request: Get) => {
+    const id = request.getParamOrThrow('id')
+    const record = await this.database.read([new Is({ field: 'id', value: id })])
     if (!record) {
       return new Json({ record: null })
     }

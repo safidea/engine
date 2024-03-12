@@ -499,9 +499,9 @@ features:
             component: Sidebar
             children:
               - component: Form
-                action: '/api/table/requests/{{ url.params.id }}'
+                action: '/api/table/requests/{{ params.id }}'
                 method: PATCH
-                source: '/api/table/requests/{{ url.params.id }}'
+                source: '/api/table/requests/{{ params.id }}'
                 title:  
                   text: Update request
                 inputs: 
@@ -510,7 +510,6 @@ features:
                     type: text
                     required: true
                     placeholder: My request
-                    defaultValue: '{{ row.subject }}'
                 buttons:
                   - type: submit
                     label: 'Update request'
