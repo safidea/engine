@@ -286,8 +286,8 @@ test.describe('Form component', () => {
                   component: 'Form',
                   title: { text: 'This is a title' },
                   paragraph: { text: 'This is a description' },
-                  action: '/api/table/leads/{{ url.params.id }}',
-                  source: '/api/table/leads/{{ url.params.id }}',
+                  action: '/api/table/leads/{{ params.id }}',
+                  source: '/api/table/leads/{{ params.id }}',
                   method: 'PATCH',
                   inputs: [
                     {

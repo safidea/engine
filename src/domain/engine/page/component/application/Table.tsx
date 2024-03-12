@@ -11,7 +11,7 @@ import type { Client } from '@domain/services/Client'
 import type { Title } from '../base/Title'
 import type { Props as TitleProps } from '../base/Title'
 import type { Props as ButtonProps } from '../base/Button'
-import type { State } from '../../State'
+import { State } from '../../State'
 import type { Get } from '@domain/entities/request/Get'
 
 export interface Column {
@@ -74,24 +74,26 @@ export class Table implements Base<Props> {
   }
 
   getData = async (request: Get) => {
+    const state = new State(request)
     const { source, server } = this.params
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
       const { records } = result
-      return new Html(await this.html(request.state, { rows: records }))
+      return new Html(await this.html(state, { rows: records }))
     }
-    return new Html(await this.html(request.state, { rows: result }))
+    return new Html(await this.html(state, { rows: result }))
   }
 
   streamData = async (request: Get) => {
+    const state = new State(request)
     const { realtime, source, server } = this.params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
     const id = realtime.onInsert(this.stream.table, async () => {
       const { records } = await fetch(server.baseUrl + source).then((res) => res.json())
-      const htmlStream = await this.htmlStream(request.state, { rows: records })
+      const htmlStream = await this.htmlStream(state, { rows: records })
       stream.sendEvent(htmlStream)
     })
     stream.onClose = () => realtime.removeListener(id)

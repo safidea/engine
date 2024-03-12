@@ -18,7 +18,7 @@ import type { Props as InputsProps } from '../base/Input'
 import type { Props as ButtonProps } from '../base/Button'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
-import type { State } from '../../State'
+import { State } from '../../State'
 
 export interface Props extends BaseProps {
   action: string
@@ -87,8 +87,9 @@ export class Form implements Base<Props> {
   }
 
   post = async (request: Post): Promise<Response> => {
+    const state = new State(request)
     const { method = 'POST', successMessage, server } = this.params
-    const filledAction = request.state.fillTemplate(this.action)
+    const filledAction = state.fillTemplate(this.action)
     const url = filledAction.startsWith('/') ? server.baseUrl + filledAction : filledAction
     const result = await fetch(url, {
       method,
@@ -98,11 +99,11 @@ export class Form implements Base<Props> {
       body: JSON.stringify(request.body),
     })
     if (result.ok) {
-      const html = await this.html(request.state, { successMessage })
+      const html = await this.html(state, { successMessage })
       return new Html(html)
     } else {
       const errorMessage = await result.text()
-      const html = await this.html(request.state, { errorMessage })
+      const html = await this.html(state, { errorMessage })
       return new Html(html)
     }
   }
@@ -122,11 +123,12 @@ export class Form implements Base<Props> {
     const Inputs = await Promise.all(
       inputs.map((input) => input.render(state, { defaultValue: record[input.name] }))
     )
+    const action = state.addQueryToPath(this.path)
     return (props?: Partial<Props>) => (
       <client.Frame id={this.id}>
         <Component
           {...{
-            action: this.path,
+            action,
             method: 'POST',
             Title,
             Paragraph,

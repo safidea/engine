@@ -7,7 +7,7 @@ import { Html as HtmlResponse } from '@domain/entities/response/Html'
 import type { Ui } from '@domain/services/Ui'
 import type { HtmlProps } from './component/base/Html'
 import type { ReactComponent } from './component/base/base'
-import type { State } from './State'
+import { State } from './State'
 import type { Get } from '@domain/entities/request/Get'
 
 interface Params {
@@ -48,7 +48,8 @@ export class Page implements Base {
   }
 
   get = async (request: Get) => {
-    return new HtmlResponse(await this.html(request.state))
+    const state = new State(request)
+    return new HtmlResponse(await this.html(state))
   }
 
   html = async (state: State) => {

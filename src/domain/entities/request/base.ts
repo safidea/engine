@@ -1,11 +1,9 @@
-import { State } from '@domain/engine/page/State'
-
 export type Params = {
   path: string
   baseUrl: string
-  headers: { [key: string]: string }
-  query: { [key: string]: string }
-  params: { [key: string]: string }
+  headers?: { [key: string]: string }
+  query?: { [key: string]: string }
+  params?: { [key: string]: string }
 }
 
 export class Base {
@@ -20,19 +18,15 @@ export class Base {
   }
 
   get headers() {
-    return this._params.headers
+    return this._params.headers || {}
   }
 
   get query() {
-    return this._params.query
+    return this._params.query || {}
   }
 
   get params() {
-    return this._params.params
-  }
-
-  get state() {
-    return new State()
+    return this._params.params || {}
   }
 
   getQuery = (key: string): string | undefined => {

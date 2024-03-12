@@ -1,9 +1,9 @@
 type Base = {
   path: string
   baseUrl: string
-  headers: { [key: string]: string }
-  query: { [key: string]: string }
-  params: { [key: string]: string }
+  headers?: { [key: string]: string }
+  query?: { [key: string]: string }
+  params?: { [key: string]: string }
 }
 
 export type GetDto = Base
