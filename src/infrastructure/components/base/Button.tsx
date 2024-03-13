@@ -11,6 +11,7 @@ export const Button = ({
   type,
   action,
   method,
+  formId,
 }: Props['Button']) => {
   const classes = getVariant(variant)
   if (action) {
@@ -29,7 +30,7 @@ export const Button = ({
     )
   } else {
     return (
-      <button type={type} className={classNames(classes, className)}>
+      <button type={type} form={formId} className={classNames(classes, className)}>
         {label}
       </button>
     )

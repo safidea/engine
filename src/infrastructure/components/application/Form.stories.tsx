@@ -59,6 +59,7 @@ export const Default: Story = {
       ),
     ],
     Buttons: [(props) => <Button type="submit" label="Submit" {...props} />],
+    formId: 'contact-form',
   },
 }
 

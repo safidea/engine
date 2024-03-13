@@ -347,7 +347,9 @@ test.describe('Form component', () => {
     expect(lead?.email).toEqual('test@test.com')
   })
 
-  test('should submit a form and update a specific row in a table with rows', async ({ page }) => {
+  test('should submit a form and update a specific row in a table with rows', async ({
+    page,
+  }) => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'
@@ -428,7 +430,7 @@ test.describe('Form component', () => {
     expect(lead?.email).toEqual('test2@test.com')
   })
 
-  test.skip('should delete a row from a form button', async ({ page }) => {
+  test('should delete a row from a form button', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'

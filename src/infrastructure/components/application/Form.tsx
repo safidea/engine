@@ -8,6 +8,7 @@ export const Form = ({
   successMessage,
   action,
   method,
+  formId,
 }: Props['Form']) => (
   <section className="bg-white dark:bg-gray-900">
     <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
@@ -16,16 +17,18 @@ export const Form = ({
       {successMessage ? (
         <p className="mb-8 lg:mb-16 text-center">{successMessage}</p>
       ) : (
-        <form action={action} method={method} className="space-y-8">
-          {Inputs.map((Input, index) => (
-            <Input key={index} />
-          ))}
+        <div className="space-y-8">
+          <form id={formId} action={action} method={method} className="space-y-8">
+            {Inputs.map((Input, index) => (
+              <Input key={index} />
+            ))}
+          </form>
           <div className="flex justify-end space-x-4">
             {Buttons.map((Button, index) => (
-              <Button key={index} />
+              <Button key={index} formId={formId} />
             ))}
           </div>
-        </form>
+        </div>
       )}
     </div>
   </section>

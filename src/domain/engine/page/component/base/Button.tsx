@@ -16,6 +16,7 @@ export interface Props extends BaseProps {
   clientProps?: { [key: string]: string }
   action?: string
   method?: Method
+  formId?: string
 }
 
 interface Params {

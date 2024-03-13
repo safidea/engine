@@ -21,6 +21,7 @@ import type { Template } from '@domain/services/Template'
 import { State } from '../../State'
 
 export interface Props extends BaseProps {
+  formId: string
   action: string
   method?: Method
   Title?: React.FC<Partial<TitleProps>>
@@ -134,6 +135,7 @@ export class Form implements Base<Props> {
             Paragraph,
             Inputs,
             Buttons,
+            formId: 'form-' + this.id,
             ...props,
           }}
         />
