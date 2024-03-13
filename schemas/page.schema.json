@@ -23,6 +23,51 @@
                     ],
                     "type": "string"
                 },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
+                },
                 "type": {
                     "enum": [
                         "button",
@@ -72,6 +117,51 @@
                     ],
                     "type": "string"
                 },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
+                },
                 "type": {
                     "enum": [
                         "button",
@@ -118,6 +208,51 @@
                         "POST"
                     ],
                     "type": "string"
+                },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
                 },
                 "type": {
                     "enum": [

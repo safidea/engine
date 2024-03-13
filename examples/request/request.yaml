@@ -490,8 +490,8 @@ features:
                 buttons:
                   - type: submit
                     label: 'Add request'
-                    #onSuccess:
-                    #  redirect: '/requests'
+                    onSuccess:
+                      redirect: '/requests'
       - name: request
         path: /requests/:id
         head:
@@ -518,14 +518,14 @@ features:
                     label: 'Delete Request'
                     action: '/api/table/requests/{{ params.id }}'
                     method: DELETE
-                    #onSuccess:
-                    #  redirect: '/requests' 
+                    onSuccess:
+                      redirect: '/requests' 
                   - type: submit
                     label: 'Update request'
-                    #onSuccess: 
-                    #  notification: 
-                    #    message: 'Request updated'
-                    #    type: success
+                    onSuccess: 
+                      notification: 
+                        message: 'Request updated'
+                        type: success
     tables:
       - name: requests
         fields:

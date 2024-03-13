@@ -111,4 +111,74 @@ test.describe('Button component', () => {
     const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
     expect(lead).toBeUndefined()
   })
+
+  test.skip('should redirect after deleting a row successfully when clicked', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/:id',
+              body: [
+                {
+                  component: 'Button',
+                  type: 'submit',
+                  label: 'Delete Request',
+                  action: '/api/table/leads/{{ params.id }}',
+                  method: 'DELETE',
+                  onSuccess: {
+                    redirect: '/leads',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'Leads',
+              path: '/leads',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'leads',
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database
+      .table('leads')
+      .insert({ id: '1', name: 'John', email: 'test@test.com', created_at: new Date() })
+
+    // WHEN
+    await page.goto(url + '/1')
+    await page.click('button')
+    await page.locator('[aria-busy="true"]').waitFor({ state: 'hidden' })
+
+    // THEN
+    await expect(page.waitForURL('/leads')).resolves.toBeUndefined()
+  })
 })

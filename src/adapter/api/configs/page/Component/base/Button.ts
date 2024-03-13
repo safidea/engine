@@ -8,6 +8,16 @@ export interface Button {
   variant?: Variant
   action?: string
   method?: Method
+  onSuccess?:
+    | {
+        redirect: string
+      }
+    | {
+        notification: {
+          message: string
+          type: 'success' | 'error'
+        }
+      }
 }
 
 export interface ButtonComponent extends Button {
