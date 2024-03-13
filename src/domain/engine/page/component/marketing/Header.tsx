@@ -36,7 +36,7 @@ export class Header implements Base<Props> {
   render = async (state: State) => {
     const { title, links = [], buttons = [], Component } = this.params
     const Title = await title.render()
-    const Links = await Promise.all(links.map((link) => link.render()))
+    const Links = await Promise.all(links.map((link) => link.render(state)))
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     return (props?: Partial<Props>) => <Component {...{ Title, Links, Buttons, ...props }} />
   }

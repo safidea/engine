@@ -468,7 +468,7 @@ features:
                 source: '/api/table/requests'
                 columns: 
                   - name: subject
-                open: '/request/{{ row.id }}'
+                open: '/requests/{{ row.id }}'
       - name: new-request
         path: /requests/add
         head:
@@ -490,8 +490,10 @@ features:
                 buttons:
                   - type: submit
                     label: 'Add request'
+                    #onSuccess:
+                    #  redirect: '/requests'
       - name: request
-        path: /request/:id
+        path: /requests/:id
         head:
           title: Request
         body:
@@ -516,8 +518,14 @@ features:
                     label: 'Delete Request'
                     action: '/api/table/requests/{{ params.id }}'
                     method: DELETE
+                    #onSuccess:
+                    #  redirect: '/requests' 
                   - type: submit
                     label: 'Update request'
+                    #onSuccess: 
+                    #  notification: 
+                    #    message: 'Request updated'
+                    #    type: success
     tables:
       - name: requests
         fields:

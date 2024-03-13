@@ -1,10 +1,11 @@
 import type { Get } from '@domain/entities/request/Get'
 import type { Patch } from '@domain/entities/request/Patch'
 import type { Post } from '@domain/entities/request/Post'
+import type { Params } from '@domain/entities/request/base'
 import type { Template } from '@domain/services/Template'
 
 export class State {
-  private data = {}
+  private data: Partial<Params> = {}
 
   constructor(request: Get | Post | Patch) {
     const state = request.getQuery('state')
@@ -38,5 +39,10 @@ export class State {
     } else {
       return path + `?${this.getQuery()}`
     }
+  }
+
+  isActiveLink = (href: string): boolean => {
+    if (!this.data.path) return false
+    return this.data.path.includes(href)
   }
 }

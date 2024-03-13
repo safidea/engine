@@ -27,6 +27,17 @@ export const Default: Story = {
   },
 }
 
+export const WithActiveLink: Story = {
+  args: {
+    Title: (props) => <Title text="Leads" {...props} />,
+    Links: [
+      (props) => <Link label="Home" href="/" {...props} />,
+      (props) => <Link label="Leads" href="/leads" {...props} active={true} />,
+    ],
+    children: <p>Some children</p>,
+  },
+}
+
 export const WithTable: Story = {
   args: {
     Title: (props) => <Title text="Leads" {...props} />,

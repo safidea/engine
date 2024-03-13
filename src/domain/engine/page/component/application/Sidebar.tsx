@@ -35,7 +35,7 @@ export class Sidebar implements Base<Props> {
   render = async (state: State) => {
     const { Component } = this.params
     const children = await Promise.all(this.params.children.map((child) => child.render(state)))
-    const Links = await Promise.all(this.params.links.map((link) => link.render()))
+    const Links = await Promise.all(this.params.links.map((link) => link.render(state)))
     const Title = this.params.title ? await this.params.title.render() : undefined
     return (props?: Partial<Props>) => (
       <Component

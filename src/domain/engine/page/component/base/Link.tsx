@@ -1,6 +1,7 @@
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Icon } from './Icon'
 import type { ReactComponent, Base, BaseProps } from './base'
+import type { State } from '../../State'
 
 export interface Props extends BaseProps {
   label: string
@@ -27,12 +28,13 @@ export class Link implements Base<Props> {
     await Promise.all([prefixIcon?.init(), suffixIcon?.init()])
   }
 
-  render = async () => {
+  render = async (state: State) => {
     const { Component, prefixIcon, suffixIcon, ...defaultProps } = this.params
     const PrefixIcon = prefixIcon ? await prefixIcon.render() : undefined
     const SuffixIcon = suffixIcon ? await suffixIcon.render() : undefined
+    const active = state.isActiveLink(defaultProps.href)
     return (props?: Partial<Props>) => (
-      <Component {...{ PrefixIcon, SuffixIcon, ...defaultProps, ...props }} />
+      <Component {...{ PrefixIcon, SuffixIcon, ...defaultProps, active, ...props }} />
     )
   }
 

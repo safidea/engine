@@ -16,7 +16,7 @@ export const Button = ({
   const classes = getVariant(variant)
   if (action) {
     return (
-      <form action={action} method={method}>
+      <form action={action} method={method} className="m-0">
         <button type={type} className={classNames(classes, className)}>
           {label}
         </button>
