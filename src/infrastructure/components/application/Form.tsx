@@ -20,7 +20,7 @@ export const Form = ({
           {Inputs.map((Input, index) => (
             <Input key={index} />
           ))}
-          <div className="flex justify-end">
+          <div className="flex justify-end space-x-4">
             {Buttons.map((Button, index) => (
               <Button key={index} />
             ))}

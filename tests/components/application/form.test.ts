@@ -427,4 +427,86 @@ test.describe('Form component', () => {
     expect(lead?.name).toEqual('John Doe')
     expect(lead?.email).toEqual('test2@test.com')
   })
+
+  test.skip('should delete a row from a form button', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const successMessage = 'Your lead has been updated successfully!'
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/:id',
+              body: [
+                {
+                  component: 'Form',
+                  title: { text: 'This is a title' },
+                  paragraph: { text: 'This is a description' },
+                  action: '/api/table/leads/{{ params.id }}',
+                  source: '/api/table/leads/{{ params.id }}',
+                  method: 'PATCH',
+                  inputs: [
+                    {
+                      name: 'name',
+                      label: 'Your name',
+                    },
+                    {
+                      name: 'email',
+                      label: 'Your email',
+                    },
+                  ],
+                  buttons: [
+                    {
+                      type: 'submit',
+                      label: 'Delete Request',
+                      action: '/api/table/leads/{{ params.id }}',
+                      method: 'DELETE',
+                    },
+                    {
+                      type: 'submit',
+                      label: 'Update',
+                    },
+                  ],
+                  successMessage,
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database
+      .table('leads')
+      .insert({ id: '1', name: 'John 1', email: 'test1@test.com', created_at: new Date() })
+
+    // WHEN
+    await page.goto(url + '/1')
+    await page.getByText('Delete Request').click()
+
+    // THEN
+    const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
+    expect(lead).toBeUndefined()
+  })
 })
