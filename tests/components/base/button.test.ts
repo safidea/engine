@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import App, { type Config as AppConfig } from '@solumy/engine'
 import Page, { type Config as PageConfig } from '@solumy/engine/page'
 import Database from '@utils/tests/database'
@@ -122,6 +122,16 @@ test.describe('Button component', () => {
           name: 'Feature',
           pages: [
             {
+              name: 'Leads',
+              path: '/leads',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'leads',
+                },
+              ],
+            },
+            {
               name: 'Page',
               path: '/:id',
               body: [
@@ -134,16 +144,6 @@ test.describe('Button component', () => {
                   onSuccess: {
                     redirect: '/leads',
                   },
-                },
-              ],
-            },
-            {
-              name: 'Leads',
-              path: '/leads',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'leads',
                 },
               ],
             },
@@ -176,9 +176,10 @@ test.describe('Button component', () => {
     // WHEN
     await page.goto(url + '/1')
     await page.click('button')
-    await page.locator('[aria-busy="true"]').waitFor({ state: 'hidden' })
+    await page.locator('form[aria-busy="true"]').waitFor({ state: 'hidden' })
+    await page.waitForURL('/leads')
 
     // THEN
-    await expect(page.waitForURL('/leads')).resolves.toBeUndefined()
+    expect(page.url()).toBe('/leads')
   })
 })

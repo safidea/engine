@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import Feature from '@solumy/engine/feature'
 
 test.describe('Feature schema errors', () => {

@@ -26,7 +26,7 @@ export interface Row {
 export interface Props extends BaseProps {
   columns: Column[]
   rows: Row[]
-  linkClientProps?: { [key: string]: string }
+  actionClientProps?: { [key: string]: string }
 }
 
 interface Params {
@@ -53,7 +53,7 @@ export class List implements Base<Props> {
 
   constructor(private params: Params) {
     const { source, idGenerator, templateCompiler } = params
-    this.id = idGenerator.forForm()
+    this.id = idGenerator.forComponent()
     this.path = `/api/component/list/${this.id}`
     this.open = templateCompiler.compile(params.open)
     if (source.startsWith('/api/table/')) {
@@ -108,17 +108,17 @@ export class List implements Base<Props> {
   html = async (state: State, props?: Partial<Props>) => {
     const { ui, client } = this.params
     const Component = await this.render(state, { withSource: false })
-    const linkClientProps = client.getLinkProps()
-    return ui.renderToHtml(<Component {...props} linkClientProps={linkClientProps} />)
+    const actionClientProps = client.getActionProps({ reloadPageFrame: true })
+    return ui.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
     const { ui, client, columns } = this.params
     const Component = await this.render(state, { withSource: false })
-    const linkClientProps = client.getLinkProps()
+    const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
-        <Component {...{ columns, ...props, linkClientProps }} />
+        <Component {...{ columns, ...props, actionClientProps }} />
       </client.Stream>
     )
   }

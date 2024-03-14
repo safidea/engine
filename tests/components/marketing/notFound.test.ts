@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import App, { type Config } from '@solumy/engine'
 
 test.describe('NotFound component', () => {

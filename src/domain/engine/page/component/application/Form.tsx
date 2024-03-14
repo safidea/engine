@@ -57,7 +57,7 @@ export class Form implements Base<Props> {
 
   constructor(private params: Params) {
     const { action, source, idGenerator, templateCompiler } = params
-    this.id = idGenerator.forForm()
+    this.id = idGenerator.forComponent()
     this.path = `/api/component/form/${this.id}`
     this.action = templateCompiler.compile(action)
     if (source) this.source = templateCompiler.compile(source)

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Cta component', () => {

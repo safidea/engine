@@ -8,6 +8,8 @@ import type { Delete } from '@domain/entities/request/Delete'
 
 export interface Params {
   port?: string
+  sslCert?: string
+  sslKey?: string
   logger: Logger
 }
 

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import App, { type Config as AppConfig } from '@solumy/engine'
 import Page, { type Config as PageConfig } from '@solumy/engine/page'
 import Database from '@utils/tests/database'
@@ -347,9 +347,7 @@ test.describe('Form component', () => {
     expect(lead?.email).toEqual('test@test.com')
   })
 
-  test('should submit a form and update a specific row in a table with rows', async ({
-    page,
-  }) => {
+  test('should submit a form and update a specific row in a table with rows', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'

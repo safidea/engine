@@ -1,13 +1,13 @@
 import type { Meta as MetaConfig } from '@adapter/api/configs/page/head/Meta'
 import { Meta } from '@domain/engine/page/head/Meta'
-import type { FrameProps, Spi, StreamProps, StreamSourceProps } from '@domain/services/Client'
+import type { ActionProps, FrameProps, Spi, StreamProps, StreamSourceProps } from '@domain/services/Client'
 
 export interface Driver {
   metas: MetaConfig[]
   Frame: (props: FrameProps) => JSX.Element
   Stream: (props: StreamProps) => JSX.Element
   StreamSource: (props: StreamSourceProps) => JSX.Element
-  getLinkProps: () => { [key: string]: string }
+  getActionProps: (options?: ActionProps) => { [key: string]: string }
 }
 
 export class ClientSpi implements Spi {
@@ -23,5 +23,5 @@ export class ClientSpi implements Spi {
 
   StreamSource = (props: StreamSourceProps) => this.driver.StreamSource(props)
 
-  getLinkProps = () => this.driver.getLinkProps()
+  getActionProps = (options?: ActionProps) => this.driver.getActionProps(options)
 }

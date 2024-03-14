@@ -53,7 +53,7 @@ export class Table implements Base<Props> {
 
   constructor(private params: Params) {
     const { source, idGenerator } = params
-    this.id = idGenerator.forForm()
+    this.id = idGenerator.forComponent()
     this.path = `/api/component/table/${this.id}`
     if (source.startsWith('/api/table/')) {
       this.stream = {

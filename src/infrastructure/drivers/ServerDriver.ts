@@ -20,10 +20,11 @@ export class ServerDriver implements Driver {
   private server?: HttpServer
 
   constructor(public params: Params) {
-    this.baseUrl = `http://localhost:${params.port}`
+    const { port } = params
+    this.baseUrl = `http://localhost:${port}`
     this.express = express()
     this.express.use(cors())
-    this.express.use(helmet())
+    if (process.env.NODE_ENV === 'production') this.express.use(helmet())
     this.express.use(cookieParser())
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))

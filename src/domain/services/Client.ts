@@ -21,12 +21,17 @@ export interface StreamSourceProps {
   src: string
 }
 
+export interface ActionProps {
+  reloadPageFrame?: boolean
+  redirectPage?: boolean
+}
+
 export interface Spi {
   metas: Meta[]
   Frame: (props: FrameProps) => JSX.Element
   Stream: (props: StreamProps) => JSX.Element
   StreamSource: (props: StreamSourceProps) => JSX.Element
-  getLinkProps: () => { [key: string]: string }
+  getActionProps: (options?: ActionProps) => { [key: string]: string }
 }
 
 export class Client {
@@ -48,7 +53,7 @@ export class Client {
     return this.spi.StreamSource(props)
   }
 
-  getLinkProps = () => {
-    return this.spi.getLinkProps()
+  getActionProps = (options?: ActionProps) => {
+    return this.spi.getActionProps(options)
   }
 }

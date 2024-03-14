@@ -1,5 +1,10 @@
 import type { Driver } from '@adapter/spi/ClientSpi'
-import type { FrameProps, StreamProps, StreamSourceProps } from '@domain/services/Client'
+import type {
+  ActionProps,
+  FrameProps,
+  StreamProps,
+  StreamSourceProps,
+} from '@domain/services/Client'
 
 export class ClientDriver implements Driver {
   constructor() {}
@@ -37,9 +42,14 @@ export class ClientDriver implements Driver {
     return <turbo-stream-source {...props} />
   }
 
-  getLinkProps = () => {
-    return {
-      'data-turbo-frame': '_top',
-    }
+  getActionProps = (options?: ActionProps) => {
+    const { reloadPageFrame = false, redirectPage = false } = options || {}
+    const props: {
+      'data-turbo-frame'?: string
+      'data-turbo-action'?: string
+    } = {}
+    if (reloadPageFrame) props['data-turbo-frame'] = '_top'
+    if (redirectPage) props['data-turbo-action'] = 'replace'
+    return props
   }
 }

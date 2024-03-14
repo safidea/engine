@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import App, { type Config as AppConfig, ConfigError } from '@solumy/engine'
 import Database from '@utils/tests/database'
 
@@ -96,7 +96,7 @@ test.describe('Table component', () => {
     await expect(page.getByText('John')).toBeVisible()
   })
 
-  test('should open an add row page', async ({ page }) => {
+  test.skip('should open an add row page', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {

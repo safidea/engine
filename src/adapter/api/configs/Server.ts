@@ -1,3 +1,5 @@
 export interface Server {
-  port: string
+  port?: string
+  sslCert?: string
+  sslKey?: string
 }

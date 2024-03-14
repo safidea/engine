@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import App, { type Config } from '@solumy/engine'
 import Database from '@utils/tests/database'
 import Queue from '@utils/tests/queue'

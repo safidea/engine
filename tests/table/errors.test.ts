@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@utils/tests/fixtures'
 import Table from '@solumy/engine/table'
 
 test.describe('Table schema errors', () => {

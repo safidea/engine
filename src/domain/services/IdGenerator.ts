@@ -9,7 +9,7 @@ export class IdGenerator {
     return this.spi.generate(24, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
   }
 
-  forForm = () => {
+  forComponent = () => {
     return this.spi.generate(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
   }
 
