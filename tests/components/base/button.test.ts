@@ -176,9 +176,8 @@ test.describe('Button component', () => {
     // WHEN
     await page.goto(url + '/1')
     await page.getByText('Delete lead').click()
-    await page.getByText('My leads').waitFor({ state: 'visible' })
 
     // THEN
-    expect(page.url()).toContain('/leads')
+    await expect(page.waitForURL('**/leads')).resolves.toBeUndefined()
   })
 })
