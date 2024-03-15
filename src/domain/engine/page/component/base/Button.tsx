@@ -92,11 +92,12 @@ export class Button implements Base<Props> {
   render = async (state: State) => {
     const { label, href, variant, Component, client } = this.params
     const action = this.action ? state.addQueryToPath(this.path) : undefined
-
-    // TODO: find the configuration for redirection after form submittion
+    const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return (props?: Partial<Props>) => (
       <client.Frame id={this.id}>
-        <Component {...{ label, href, variant, action, method: 'POST', ...props }} />
+        <Component
+          {...{ label, href, variant, action, method: 'POST', actionClientProps, ...props }}
+        />
       </client.Frame>
     )
   }

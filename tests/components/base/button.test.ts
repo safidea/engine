@@ -112,7 +112,7 @@ test.describe('Button component', () => {
     expect(lead).toBeUndefined()
   })
 
-  test.skip('should redirect after deleting a row successfully when clicked', async ({ page }) => {
+  test('should redirect after deleting a row successfully when clicked', async ({ page }) => {
     // GIVEN
     const database = new Database()
     const config: AppConfig = {
@@ -126,8 +126,8 @@ test.describe('Button component', () => {
               path: '/leads',
               body: [
                 {
-                  component: 'Paragraph',
-                  text: 'leads',
+                  component: 'Title',
+                  text: 'My leads',
                 },
               ],
             },
@@ -138,7 +138,7 @@ test.describe('Button component', () => {
                 {
                   component: 'Button',
                   type: 'submit',
-                  label: 'Delete Request',
+                  label: 'Delete lead',
                   action: '/api/table/leads/{{ params.id }}',
                   method: 'DELETE',
                   onSuccess: {
@@ -175,11 +175,10 @@ test.describe('Button component', () => {
 
     // WHEN
     await page.goto(url + '/1')
-    await page.click('button')
-    await page.locator('form[aria-busy="true"]').waitFor({ state: 'hidden' })
-    await page.waitForURL('/leads')
+    await page.getByText('Delete lead').click()
+    await page.getByText('My leads').waitFor({ state: 'visible' })
 
     // THEN
-    expect(page.url()).toBe('/leads')
+    expect(page.url()).toContain('/leads')
   })
 })
