@@ -41,7 +41,7 @@ const url = await app.start({
 console.log(`Server started at ${url}`)
 ```
 
-Finally, run the startup file with bun:
+Finally, run the startup file with node:
 
 ```
 node index.js
