@@ -1,8 +1,36 @@
 {
   "name": "@solumy/engine",
-  "module": "dist/instrastructure/engine/app.js",
-  "types": "dist/instrastructure/engine/app.d.ts",
+  "description": "Generate web app with one config.",
+  "version": "0.4.7",
+  "module": "dist/instrastructure/engine/index.js",
+  "types": "dist/instrastructure/engine/index.d.ts",
   "type": "module",
+  "author": "Thomas JEANNEAU",
+  "license": "BSL 1.1",
+  "exports": {
+    ".": "./dist/instrastructure/engine/index.js",
+    "./page": "./dist/instrastructure/engine/Page.js",
+    "./automation": "./dist/instrastructure/engine/Automation.js",
+    "./table": "./dist/instrastructure/engine/Table.js",
+    "./feature": "./dist/instrastructure/engine/Feature.js",
+    "./spec": "./dist/instrastructure/engine/Spec.js",
+    "./schemas/*": "./schemas/*"
+  },
+  "files": [
+    "dist/**/*",
+    "schemas/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solumy/engine.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/solumy/engine/issues"
+  },
+  "homepage": "https://github.com/solumy/engine#readme",
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -14,7 +42,7 @@
     "build:types": "bun run scripts/types/build.ts",
     "build:schemas": "bun run scripts/schemas/build.ts",
     "build:utils": "bun run scripts/utils/build.ts",
-    "build": "bun run build:client && bun run build:server && bun run build:types && bun run build:styles && bun run build:utils && bun run build:schemas",
+    "build": "bun run build:client && bun run build:server && bun run build:styles && bun run build:utils && bun run build:types && bun run build:schemas",
     "watch:server": "nodemon --config scripts/server/watch.json",
     "watch:client": "nodemon --config scripts/client/watch.json",
     "watch:styles": "nodemon --config scripts/styles/watch.json",
@@ -109,5 +137,15 @@
     "bun": "1.0.33",
     "node": "20.11.1",
     "npm": "10.2.4"
+  },
+  "directories": {
+    "doc": "docs",
+    "example": "apps",
+    "test": "tests"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
