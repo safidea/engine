@@ -16,12 +16,6 @@ In a node project, install the engine with npm:
 npm install @solumy/engine
 ```
 
-Or with bun:
-
-```
-bun add @solumy/engine
-```
-
 ### Usage
 
 Then, create a startup file, for example `index.js`:
