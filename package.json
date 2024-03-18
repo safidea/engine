@@ -14,7 +14,7 @@
     "build:types": "bun run scripts/types/build.ts",
     "build:schemas": "bun run scripts/schemas/build.ts",
     "build:utils": "bun run scripts/utils/build.ts",
-    "build": "concurrently \"npm run build:schemas\" \"npm run build:client\" \"npm run build:server\" \"npm run build:types\" \"npm run build:styles\" \"npm run build:utils\"",
+    "build": "bun run build:client && bun run build:server && bun run build:types && bun run build:styles && bun run build:utils && bun run build:schemas",
     "watch:server": "nodemon --config scripts/server/watch.json",
     "watch:client": "nodemon --config scripts/client/watch.json",
     "watch:styles": "nodemon --config scripts/styles/watch.json",
