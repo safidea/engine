@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@infrastructure/client/engine'
 import { classNames } from '../utils'
 
 export const Link = ({ label, href, PrefixIcon, SuffixIcon, active }: Props['Link']) => {

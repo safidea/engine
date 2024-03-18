@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@infrastructure/client/engine'
 
 export const Heading = ({ Title, Buttons }: Props['Heading']) => (
   <section className="dark:bg-gray-800 relative overflow-hidden">

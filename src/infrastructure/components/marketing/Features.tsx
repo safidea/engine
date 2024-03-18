@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@infrastructure/client/engine'
 
 export const Features = ({ Title, Paragraph, Features }: Props['Features']) => (
   <section className="bg-white dark:bg-gray-900">

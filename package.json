@@ -9,11 +9,11 @@
   "license": "BSL 1.1",
   "exports": {
     ".": "./dist/instrastructure/engine/index.js",
-    "./page": "./dist/instrastructure/engine/Page.js",
-    "./automation": "./dist/instrastructure/engine/Automation.js",
-    "./table": "./dist/instrastructure/engine/Table.js",
-    "./feature": "./dist/instrastructure/engine/Feature.js",
-    "./spec": "./dist/instrastructure/engine/Spec.js",
+    "./page": "./dist/instrastructure/engine/page.js",
+    "./automation": "./dist/instrastructure/engine/automation.js",
+    "./table": "./dist/instrastructure/engine/table.js",
+    "./feature": "./dist/instrastructure/engine/feature.js",
+    "./spec": "./dist/instrastructure/engine/spec.js",
     "./schemas/*": "./schemas/*"
   },
   "files": [

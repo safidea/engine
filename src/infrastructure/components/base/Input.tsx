@@ -1,6 +1,13 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@infrastructure/client/engine'
 
-export const Input = ({ name, label, type, placeholder, required, defaultValue }: Props['Input']) => {
+export const Input = ({
+  name,
+  label,
+  type,
+  placeholder,
+  required,
+  defaultValue,
+}: Props['Input']) => {
   return (
     <div>
       {label ? (

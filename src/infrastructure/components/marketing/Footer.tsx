@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@infrastructure/client/engine'
 
 export const Footer = ({ Title, Paragraph, Links, copyright }: Props['Footer']) => (
   <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">

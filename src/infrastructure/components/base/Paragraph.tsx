@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@infrastructure/client/engine'
 import type { Size } from '@domain/engine/page/component/base/Paragraph'
 import { classNames } from '../utils'
 
