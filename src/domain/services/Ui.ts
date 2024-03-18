@@ -7,6 +7,6 @@ export class Ui {
 
   renderToHtml = (component: JSX.Element): string => {
     const html = this.spi.render(component)
-    return html.replace(/<!--.*?-->/gs, '')
+    return html.replace(/<!--|--!?>/g, "")
   }
 }
