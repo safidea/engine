@@ -6,7 +6,7 @@
 - [x] Requests Page
 - [x] New Request Page
 - [x] Navigation Sidebar
-- [ ] Request Details Page
+- [x] Request Details Page
 
 ### Test Postgres
 
