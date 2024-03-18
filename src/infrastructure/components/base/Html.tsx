@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/client/engine'
+import type { Props } from '@infrastructure/engine'
 
 export const Html = ({ head, body }: Props['Html']) => (
   <html>

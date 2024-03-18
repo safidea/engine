@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/client/engine'
+import type { Props } from '@infrastructure/engine'
 
 export const Sidebar = ({ Title, Links, children }: Props['Sidebar']) => (
   <div className="antialiased dark:bg-gray-900">

@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/client/engine'
+import type { Props } from '@infrastructure/engine'
 
 export const NotFound = ({ Title, Paragraph, Button }: Props['NotFound']) => (
   <section className="bg-white dark:bg-gray-900">
