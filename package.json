@@ -50,7 +50,7 @@
     "watch:schemas": "nodemon --config scripts/schemas/watch.json",
     "watch:utils": "nodemon --config scripts/utils/watch.json",
     "watch": "concurrently \"npm run watch:schemas\" \"npm run watch:client\" \"npm run watch:server\" \"npm run watch:types\" \"npm run watch:styles\" \"npm run watch:utils\"",
-    "pretest": "bunx playwright install",
+    "pretest": "bunx playwright install --with-deps",
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui",
     "example:request": "DEBUG=engine:* node --env-file examples/request/.env examples/request/index.js",
