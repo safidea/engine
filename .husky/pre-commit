@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# If not in CI environment, run precommit
-if [ -z "$CI" ]; then
-  bun run precommit
-fi
+bun run lint
+bun run test

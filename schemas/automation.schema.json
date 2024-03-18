@@ -1,248 +1,212 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "ActionParams": {
-      "anyOf": [
-        {
-          "properties": {
-            "bucket": {
-              "type": "string"
-            },
-            "data": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "propertyOrder": [],
-              "type": "object"
-            },
-            "filename": {
-              "type": "string"
-            },
-            "input": {
-              "enum": ["html"],
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "output": {
-              "enum": ["pdf"],
-              "type": "string"
-            },
-            "template": {
-              "anyOf": [
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Action": {
+            "anyOf": [
                 {
-                  "properties": {
-                    "path": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["path"],
-                  "required": ["path"],
-                  "type": "object"
+                    "$ref": "#/definitions/CreateRecord"
                 },
                 {
-                  "type": "string"
+                    "$ref": "#/definitions/SendEmail"
                 }
-              ]
-            },
-            "type": {
-              "enum": ["create_file"],
-              "type": "string"
-            }
-          },
-          "propertyOrder": [
-            "name",
-            "type",
-            "filename",
-            "input",
-            "output",
-            "template",
-            "bucket",
-            "data"
-          ],
-          "required": ["bucket", "data", "filename", "input", "name", "output", "template", "type"],
-          "type": "object"
+            ]
         },
-        {
-          "properties": {
-            "name": {
-              "type": "string"
+        "CreateRecord": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateRecord",
+                    "type": "string"
+                },
+                "fields": {
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
             },
-            "recordId": {
-              "type": "string"
-            },
-            "table": {
-              "type": "string"
-            },
-            "type": {
-              "enum": ["find_record"],
-              "type": "string"
-            }
-          },
-          "propertyOrder": ["name", "type", "table", "recordId"],
-          "required": ["name", "recordId", "table", "type"],
-          "type": "object"
+            "required": [
+                "action",
+                "fields",
+                "name",
+                "table"
+            ],
+            "type": "object"
         },
-        {
-          "properties": {
-            "message": {
-              "type": "string"
+        "Database": {
+            "additionalProperties": false,
+            "properties": {
+                "db": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
             },
-            "name": {
-              "type": "string"
-            },
-            "type": {
-              "enum": ["log"],
-              "type": "string"
-            }
-          },
-          "propertyOrder": ["name", "type", "message"],
-          "required": ["message", "name", "type"],
-          "type": "object"
+            "required": [
+                "db",
+                "url"
+            ],
+            "type": "object"
         },
-        {
-          "properties": {
-            "fields": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "propertyOrder": [],
-              "type": "object"
+        "Mailer": {
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
             },
-            "name": {
-              "type": "string"
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
+        "RecordCreated": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "RecordCreated",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
             },
-            "recordId": {
-              "type": "string"
+            "required": [
+                "event",
+                "table"
+            ],
+            "type": "object"
+        },
+        "SendEmail": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "SendEmail",
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "html": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
             },
-            "table": {
-              "type": "string"
+            "required": [
+                "action",
+                "from",
+                "html",
+                "name",
+                "subject",
+                "text",
+                "to"
+            ],
+            "type": "object"
+        },
+        "Trigger": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/RecordCreated"
+                },
+                {
+                    "$ref": "#/definitions/WebhookCalled"
+                }
+            ]
+        },
+        "WebhookCalled": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WebhookCalled",
+                    "type": "string"
+                },
+                "method": {
+                    "const": "POST",
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
             },
-            "type": {
-              "enum": ["update_record"],
-              "type": "string"
-            }
-          },
-          "propertyOrder": ["name", "type", "table", "recordId", "fields"],
-          "required": ["fields", "name", "recordId", "table", "type"],
-          "type": "object"
+            "required": [
+                "event",
+                "method",
+                "path"
+            ],
+            "type": "object"
         }
-      ]
     },
-    "FilterParams": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/IsFilterParams"
+    "properties": {
+        "actions": {
+            "items": {
+                "$ref": "#/definitions/Action"
+            },
+            "type": "array"
         },
-        {
-          "$ref": "#/definitions/IsAnyOfFilterParams"
-        }
-      ]
-    },
-    "IsAnyOfFilterParams": {
-      "properties": {
-        "field": {
-          "type": "string"
+        "database": {
+            "$ref": "#/definitions/Database"
         },
-        "operator": {
-          "enum": ["is_any_of"],
-          "type": "string"
+        "mailer": {
+            "$ref": "#/definitions/Mailer"
         },
-        "value": {
-          "items": {
+        "name": {
             "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "propertyOrder": ["operator", "value", "field"],
-      "required": ["field", "operator", "value"],
-      "type": "object"
-    },
-    "IsFilterParams": {
-      "properties": {
-        "field": {
-          "type": "string"
         },
-        "operator": {
-          "enum": ["is"],
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
+        "trigger": {
+            "$ref": "#/definitions/Trigger"
         }
-      },
-      "propertyOrder": ["operator", "value", "field"],
-      "required": ["field", "operator", "value"],
-      "type": "object"
     },
-    "TriggerParams": {
-      "anyOf": [
-        {
-          "properties": {
-            "event": {
-              "enum": ["record_created"],
-              "type": "string"
-            },
-            "filters": {
-              "items": {
-                "$ref": "#/definitions/FilterParams"
-              },
-              "type": "array"
-            },
-            "table": {
-              "type": "string"
-            }
-          },
-          "propertyOrder": ["event", "table", "filters"],
-          "required": ["event", "table"],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "event": {
-              "enum": ["record_updated"],
-              "type": "string"
-            },
-            "fields": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "filters": {
-              "items": {
-                "$ref": "#/definitions/FilterParams"
-              },
-              "type": "array"
-            },
-            "table": {
-              "type": "string"
-            }
-          },
-          "propertyOrder": ["event", "table", "fields", "filters"],
-          "required": ["event", "table"],
-          "type": "object"
-        }
-      ]
-    }
-  },
-  "properties": {
-    "actions": {
-      "items": {
-        "$ref": "#/definitions/ActionParams"
-      },
-      "type": "array"
-    },
-    "name": {
-      "type": "string"
-    },
-    "trigger": {
-      "$ref": "#/definitions/TriggerParams"
-    }
-  },
-  "propertyOrder": ["name", "trigger", "actions"],
-  "required": ["actions", "name", "trigger"],
-  "type": "object"
+    "required": [
+        "actions",
+        "name",
+        "trigger"
+    ],
+    "type": "object"
 }
+

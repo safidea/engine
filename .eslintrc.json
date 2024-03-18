@@ -2,14 +2,21 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": ["plugin:@typescript-eslint/recommended", "prettier", "plugin:storybook/recommended"],
-  "ignorePatterns": ["dist"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
   "overrides": [
     {
-      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/test/**/*"],
       "rules": {
         "@typescript-eslint/no-explicit-any": "off"
       }
     }
-  ]
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
 }

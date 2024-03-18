@@ -1,12 +1,12 @@
-# Solumy Engine - Internal Tool Framework
+# Solumy Engine - Web App Generator
 
-Solumy Engine is a framework to create internal tools, fast and easy. With a simple configuration file, you can create a full stack application with a React frontend and a Node.js backend.
+Solumy Engine is a API to generate web app, fast and easy. With a configuration file, you can create a full stack application.
 
 ## Getting Started
 
 ### Pre-requisites
 
-You should have Node.js v18 or higher installed on your machine, or Bun v1.0.0 or higher.
+You should have Node.js 20.11.1 or higher installed on your machine.
 
 ### Installation
 
@@ -27,22 +27,24 @@ bun add @solumy/engine
 Then, create a startup file, for example `index.js`:
 
 ```js
-const Engine = require('@solumy/engine')
+import App from '@solumy/engine'
 
-new Engine({
+const app = new App()
+const url = await app.start({
   pages: [
     {
       path: '/',
-      title: 'Home',
-      components: [
+      title: 'Hello world!',
+      body: [
         {
-          type: 'title',
-          text: 'Hello World!',
+          component: 'Title',
+          text: 'Hello world!',
         },
       ],
     },
   ],
-}).start()
+})
+console.log(`Server started at ${url}`)
 ```
 
 Finally, run the startup file with bun:
@@ -51,28 +53,13 @@ Finally, run the startup file with bun:
 node index.js
 ```
 
-Or with bun:
-
-```
-bun run index.js
-```
-
 ## Configuration
 
 A configuration is a JSON representation of the application. It contains the pages, the tables, the automations, the roles, etc...
 
 We will build a details documentation of the configuration in the future, but for now, you can see the [examples](https://github.com/solumy/engine/blob/main/examples) to see how to configure the engine.
 
-## Tools Examples
-
-- [Landing](https://github.com/solumy/engine/blob/main/examples/landing) : write a landing page to sell your product or service
-- [Invoices](https://github.com/solumy/engine/blob/main/examples/invoices) : manage your invoices and create pdf documents with personnalised design
-
-You can run and play with any example by cloning the repository and running the following command:
-
-```
-bun run example:<example-name>
-```
+## App Library
 
 ## Contributing
 

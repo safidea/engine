@@ -1,657 +1,110 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "AutonumberFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Database": {
+            "additionalProperties": false,
+            "properties": {
+                "db": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "db",
+                "url"
+            ],
+            "type": "object"
         },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
+        "DateTime": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "DateTime",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
         },
-        "name": {
-          "type": "string"
+        "Email": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
         },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
+        "Field": {
+            "anyOf": [
                 {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
+                    "$ref": "#/definitions/Email"
                 },
                 {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["autonumber"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
-    },
-    "CurrencyFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
+                    "$ref": "#/definitions/SingleLineText"
                 },
                 {
-                  "type": "boolean"
+                    "$ref": "#/definitions/DateTime"
                 }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
+            ]
         },
-        "type": {
-          "enum": ["currency"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
-    },
-    "DatetimeFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
+        "SingleLineText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
                 },
-                {
-                  "type": "boolean"
+                "type": {
+                    "const": "SingleLineText",
+                    "type": "string"
                 }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["datetime"],
-          "type": "string"
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
         }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
     },
-    "FieldParams": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/AutonumberFieldParams"
+    "properties": {
+        "database": {
+            "$ref": "#/definitions/Database"
         },
-        {
-          "$ref": "#/definitions/CurrencyFieldParams"
-        },
-        {
-          "$ref": "#/definitions/DatetimeFieldParams"
-        },
-        {
-          "$ref": "#/definitions/FormulaFieldParams"
-        },
-        {
-          "$ref": "#/definitions/LongTextFieldParams"
-        },
-        {
-          "$ref": "#/definitions/MultipleLinkedRecordsFieldParams"
-        },
-        {
-          "$ref": "#/definitions/NumberFieldParams"
-        },
-        {
-          "$ref": "#/definitions/RollupFieldParams"
-        },
-        {
-          "$ref": "#/definitions/SingleLineTextFieldParams"
-        },
-        {
-          "$ref": "#/definitions/SingleLinkedRecordFieldParams"
-        },
-        {
-          "$ref": "#/definitions/SingleSelectFieldParams"
-        },
-        {
-          "$ref": "#/definitions/UrlFieldParams"
-        }
-      ]
-    },
-    "FormulaFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "formula": {
-          "type": "string"
+        "fields": {
+            "items": {
+                "$ref": "#/definitions/Field"
+            },
+            "type": "array"
         },
         "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["formula"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "formula", "name", "optional", "format", "default", "permissions"],
-      "required": ["formula", "name", "type"],
-      "type": "object"
-    },
-    "LongTextFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["long_text"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
-    },
-    "MultipleLinkedRecordsFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "table": {
-          "type": "string"
-        },
-        "type": {
-          "enum": ["multiple_linked_records"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "table", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "table", "type"],
-      "type": "object"
-    },
-    "NumberFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["number"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
-    },
-    "RollupFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "formula": {
-          "type": "string"
-        },
-        "linkedField": {
-          "type": "string"
-        },
-        "linkedRecords": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["rollup"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": [
-        "type",
-        "linkedRecords",
-        "linkedField",
-        "formula",
-        "name",
-        "optional",
-        "format",
-        "default",
-        "permissions"
-      ],
-      "required": ["formula", "linkedField", "linkedRecords", "name", "type"],
-      "type": "object"
-    },
-    "SingleLineTextFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["single_line_text"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
-    },
-    "SingleLinkedRecordFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "table": {
-          "type": "string"
-        },
-        "type": {
-          "enum": ["single_linked_record"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "table", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "table", "type"],
-      "type": "object"
-    },
-    "SingleSelectFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "options": {
-          "items": {
             "type": "string"
-          },
-          "type": "array"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["single_select"],
-          "type": "string"
         }
-      },
-      "propertyOrder": ["type", "options", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "options", "type"],
-      "type": "object"
     },
-    "UrlFieldParams": {
-      "properties": {
-        "default": {
-          "type": ["string", "number", "boolean"]
-        },
-        "format": {
-          "enum": ["boolean", "currency", "datetime", "number", "recordId", "recordsIds", "text"],
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "optional": {
-          "type": "boolean"
-        },
-        "permissions": {
-          "properties": {
-            "update": {
-              "anyOf": [
-                {
-                  "properties": {
-                    "formula": {
-                      "type": "string"
-                    }
-                  },
-                  "propertyOrder": ["formula"],
-                  "required": ["formula"],
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            }
-          },
-          "propertyOrder": ["update"],
-          "type": "object"
-        },
-        "type": {
-          "enum": ["url"],
-          "type": "string"
-        }
-      },
-      "propertyOrder": ["type", "name", "optional", "format", "default", "permissions"],
-      "required": ["name", "type"],
-      "type": "object"
-    }
-  },
-  "properties": {
-    "fields": {
-      "items": {
-        "$ref": "#/definitions/FieldParams"
-      },
-      "type": "array"
-    },
-    "name": {
-      "type": "string"
-    }
-  },
-  "propertyOrder": ["name", "fields"],
-  "required": ["fields", "name"],
-  "type": "object"
+    "required": [
+        "fields",
+        "name"
+    ],
+    "type": "object"
 }
+
