@@ -5,7 +5,7 @@ import { IdGeneratorSpi, type Driver as IdGeneratorDriver } from './IdGeneratorS
 import { LoggerSpi, type Driver as LoggerDriver } from './LoggerSpi'
 import { SchemaValidatorSpi, type Driver as SchemaValidatorDriver } from './SchemaValidatorSpi'
 import { ServerSpi, type Driver as ServerDriver } from './ServerSpi'
-import { UiSpi, type Driver as UiDriver } from './UiSpi'
+import { UiSpi, type Driver as UiDriver } from './UISpi'
 import type { ReactComponents } from '@domain/engine/page/component'
 import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'

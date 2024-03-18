@@ -1,17 +1,72 @@
-# Solumy Engine
+# Solumy Engine - Web App Generator
 
-## ROADMAP REQUEST
+Solumy Engine is a API to generate web app, fast and easy. With a configuration file, you can create a full stack application.
 
-- [x] Login Page
-- [x] Requests Page
-- [x] New Request Page
-- [x] Navigation Sidebar
-- [x] Request Details Page
+## Getting Started
 
-### Test Postgres
+### Pre-requisites
 
-Use https://testcontainers.com/ for e2e tests with Postgresql
+You should have Node.js 20.11.1 or higher installed on your machine.
 
-### Role based access
+### Installation
 
-https://medium.com/@jayantchoudhary271/building-role-based-access-control-rbac-in-node-js-and-express-js-bc870ec32bdb
+In a node project, install the engine with npm:
+
+```
+npm install @solumy/engine
+```
+
+Or with bun:
+
+```
+bun add @solumy/engine
+```
+
+### Usage
+
+Then, create a startup file, for example `index.js`:
+
+```js
+import App from '@solumy/engine'
+
+const app = new App()
+const url = await app.start({
+  pages: [
+    {
+      path: '/',
+      title: 'Hello world!',
+      body: [
+        {
+          component: 'Title',
+          text: 'Hello world!',
+        },
+      ],
+    },
+  ],
+})
+console.log(`Server started at ${url}`)
+```
+
+Finally, run the startup file with bun:
+
+```
+node index.js
+```
+
+## Configuration
+
+A configuration is a JSON representation of the application. It contains the pages, the tables, the automations, the roles, etc...
+
+We will build a details documentation of the configuration in the future, but for now, you can see the [examples](https://github.com/solumy/engine/blob/main/examples) to see how to configure the engine.
+
+## App Library
+
+## Contributing
+
+Solumy Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
+
+You can read our [contributing guide here](https://github.com/solumy/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/solumy/engine/blob/main/docs/CODE_OF_CONDUCT.md).
+
+## License
+
+Solumy Engine is [BSL 1.1 licensed](https://github.com/solumy/engine/blob/main/LICENSE).

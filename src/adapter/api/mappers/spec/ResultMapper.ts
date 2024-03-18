@@ -1,4 +1,4 @@
-import type { Result as ResultConfig } from '@adapter/api/configs/spec/result'
+import type { Result as ResultConfig } from '@adapter/api/configs/spec/Result'
 import type { Result } from '@domain/engine/spec/result'
 import { Title } from '@domain/engine/spec/result/Title'
 import { Text } from '@domain/engine/spec/result/Text'

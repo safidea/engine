@@ -1,5 +1,5 @@
 import type { Database } from '../Database'
-import type { Field } from './field'
+import type { Field } from './Field'
 
 export interface Table {
   name: string

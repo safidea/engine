@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/UiSpi'
+import type { Driver } from '@adapter/spi/UISpi'
 import ReactDOMServer from 'react-dom/server'
 
 export class UiDriver implements Driver {

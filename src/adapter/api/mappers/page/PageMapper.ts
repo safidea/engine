@@ -11,7 +11,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
 import type { Ui } from '@domain/services/Ui'
-import type { Block } from '@adapter/api/configs/page/component'
+import type { Block } from '@adapter/api/configs/page/Component'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface Params {

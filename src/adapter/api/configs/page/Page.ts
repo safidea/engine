@@ -1,5 +1,5 @@
-import type { ComponentWithBlockRef } from './component'
-import type { Head } from './head'
+import type { ComponentWithBlockRef } from './Component'
+import type { Head } from './Head'
 
 export interface Page {
   name: string

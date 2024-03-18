@@ -1,4 +1,4 @@
-import type { Action as ActionConfig } from '@adapter/api/configs/spec/action'
+import type { Action as ActionConfig } from '@adapter/api/configs/spec/Action'
 import { FilterMapper } from '@adapter/spi/mappers/FilterMapper'
 import type { Action } from '@domain/engine/spec/action'
 import { Click } from '@domain/engine/spec/action/Click'

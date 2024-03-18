@@ -3,7 +3,7 @@ import type { Database } from './Database'
 import type { Feature } from './Feature'
 import type { Mailer } from './Mailer'
 import type { Server } from './Server'
-import type { Block } from './page/component'
+import type { Block } from './page/Component'
 
 export interface App {
   name: string

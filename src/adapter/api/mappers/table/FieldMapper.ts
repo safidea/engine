@@ -1,4 +1,4 @@
-import type { Field as FieldConfig } from '@adapter/api/configs/table/field'
+import type { Field as FieldConfig } from '@adapter/api/configs/table/Field'
 import type { Field } from '@domain/engine/table/field'
 import { DateTime } from '@domain/engine/table/field/DateTime'
 import { Email } from '@domain/engine/table/field/Email'

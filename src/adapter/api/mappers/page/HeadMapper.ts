@@ -1,5 +1,5 @@
 import { Head } from '@domain/engine/page/head'
-import type { Head as HeadConfig } from '../../configs/page/head'
+import type { Head as HeadConfig } from '../../configs/page/Head'
 import { Meta } from '@domain/engine/page/head/Meta'
 import { Link } from '@domain/engine/page/head/Link'
 import { Script } from '@domain/engine/page/head/Script'
