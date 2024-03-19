@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/solumy/engine/compare/v0.5.0...v0.5.1) (2024-03-19)
+
+
+### Bug Fixes
+
+* **dist:** update dist directory's architecture to fix package export ([6caffb8](https://github.com/solumy/engine/commit/6caffb8ea9183616cc5d99dd80a043dfc4696b91))
+
 # [0.5.0](https://github.com/solumy/engine/compare/v0.4.17...v0.5.0) (2024-03-18)
 
 
