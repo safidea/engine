@@ -2,6 +2,7 @@
   "name": "@solumy/engine",
   "description": "Generate web app with one config.",
   "version": "0.4.17",
+  "main": "dist/instrastructure/engine/index.js",
   "module": "dist/instrastructure/engine/index.js",
   "types": "dist/instrastructure/engine/index.d.ts",
   "type": "module",
