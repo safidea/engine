@@ -1,3 +1,10 @@
+## [0.5.2](https://github.com/solumy/engine/compare/v0.5.1...v0.5.2) (2024-03-19)
+
+
+### Bug Fixes
+
+* **schema:** can load schema from npm package ([872eb02](https://github.com/solumy/engine/commit/872eb028209bc89ba7f8a4872c584349a51a0367))
+
 ## [0.5.1](https://github.com/solumy/engine/compare/v0.5.0...v0.5.1) (2024-03-19)
 
 
