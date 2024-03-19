@@ -1,6 +1,6 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@solumy/engine'
-import Database from '@utils/tests/database'
+import Database from '@tests/database'
 
 test.describe('App with tables', () => {
   test('should get a created record when posting on table api', async ({ request }) => {

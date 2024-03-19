@@ -1,4 +1,4 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import Page, { type Config as PageConfig } from '@solumy/engine/page'
 import App, { type Config as AppConfig } from '@solumy/engine'
 

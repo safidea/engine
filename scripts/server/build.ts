@@ -23,21 +23,21 @@ const externals: string[] = [
   'nanoid',
 ]
 
-const entrypoints = [
-  'src/infrastructure/engine/index.ts',
-  'src/infrastructure/engine/feature.ts',
-  'src/infrastructure/engine/page.ts',
-  'src/infrastructure/engine/spec.ts',
-  'src/infrastructure/engine/table.ts',
-  'src/infrastructure/engine/automation.ts',
+const entrypoints: string[] = [
+  'index.ts',
+  'feature.ts',
+  'page.ts',
+  'spec.ts',
+  'table.ts',
+  'automation.ts',
 ]
 
-await deleteFilesRecursively('dist/infrastructure/engine', '.js')
+await deleteFilesRecursively('dist', '.js', ['public'])
 
 const { success, logs } = await Bun.build({
   target: 'node',
-  entrypoints,
-  outdir: 'dist/infrastructure/engine',
+  entrypoints: entrypoints.map((entry) => 'src/' + entry),
+  outdir: 'dist',
   splitting: true,
   external: externals,
 })

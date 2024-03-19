@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/solumy/engine/compare/v0.4.17...v0.5.0) (2024-03-18)
+
+
+### Features
+
+* **engine:** v2 ([b5c60e3](https://github.com/solumy/engine/commit/b5c60e3fecc2f68d497a7f4707676d3331777898))
+
 ## [0.4.17](https://github.com/solumy/engine/compare/v0.4.16...v0.4.17) (2024-03-18)
 
 

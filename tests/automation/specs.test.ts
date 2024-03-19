@@ -1,4 +1,4 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import Feature, { type Config } from '@solumy/engine/feature'
 
 test.describe('Automations specs', () => {

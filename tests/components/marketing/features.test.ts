@@ -1,4 +1,4 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import Page, { type Config } from '@solumy/engine/page'
 
 test.describe('Features component', () => {

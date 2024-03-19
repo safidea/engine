@@ -1,6 +1,6 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config as AppConfig } from '@solumy/engine'
-import Database from '@utils/tests/database'
+import Database from '@tests/database'
 
 test.describe('Sidebar component', () => {
   test('should display a title', async ({ page }) => {

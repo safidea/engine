@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@domain/engine/page/component'
 
 export const Header = ({ Title, Links, Buttons }: Props['Header']) => (
   <header>

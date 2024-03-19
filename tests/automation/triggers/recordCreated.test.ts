@@ -1,7 +1,7 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@solumy/engine'
-import Database from '@utils/tests/database'
-import Queue from '@utils/tests/queue'
+import Database from '@tests/database'
+import Queue from '@tests/queue'
 
 test.describe('RecordCreated trigger', () => {
   test('should start an automation', async () => {

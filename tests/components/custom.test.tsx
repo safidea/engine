@@ -1,6 +1,6 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import Page, { type Config } from '@solumy/engine/page'
-import { components } from '@utils/tests/components'
+import { components } from '@tests/components'
 
 test.describe('Custom component', () => {
   test('should render a custom paragraph component', async ({ page }) => {

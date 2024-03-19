@@ -1,6 +1,6 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@solumy/engine'
-import Database from '@utils/tests/database'
+import Database from '@tests/database'
 
 test.describe('Database start', () => {
   test('should start with a new table', async () => {

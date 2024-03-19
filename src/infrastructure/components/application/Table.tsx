@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@domain/engine/page/component'
 
 export const Table = ({ Title, Buttons, columns, rows }: Props['Table']) => (
   <section className="dark:bg-gray-800 relative overflow-hidden">

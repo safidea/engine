@@ -28,7 +28,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  globalTeardown: join(process.cwd(), 'utils/tests/teardown.ts'),
+  globalTeardown: join(process.cwd(), 'tests/utils/teardown.ts'),
 
   /* Configure projects for major browsers */
   projects: [

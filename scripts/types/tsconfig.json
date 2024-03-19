@@ -4,9 +4,10 @@
     "composite": false,
     "noEmit": false,
     "declaration": true,
+    "declarationMap": true,
     "emitDeclarationOnly": true,
     "outDir": "../../dist",
     "rootDir": "../../src",
   },
-  "include": ["../../src/**/*.ts"],
+  "include": ["../../src/**/*.ts"]
 }

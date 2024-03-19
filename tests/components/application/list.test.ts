@@ -1,6 +1,6 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config as AppConfig, ConfigError } from '@solumy/engine'
-import Database from '@utils/tests/database'
+import Database from '@tests/database'
 
 test.describe('List component', () => {
   test('should return an error config if source is not valid table endpoint', async () => {

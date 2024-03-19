@@ -1,8 +1,8 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@solumy/engine'
-import Queue from '@utils/tests/queue'
-import Database from '@utils/tests/database'
-import Mailer from '@utils/tests/mailer'
+import Queue from '@tests/queue'
+import Database from '@tests/database'
+import Mailer from '@tests/mailer'
 
 test.describe('App with automations', () => {
   test('should wait for a job to be completed', async ({ request }) => {

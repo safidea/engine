@@ -28,7 +28,7 @@ export class ServerDriver implements Driver {
     this.express.use(cookieParser())
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
-    this.express.use(express.static(join(dirname, '../..', 'public')))
+    this.express.use(express.static(join(dirname, 'public')))
     this.express.use(express.static(join(process.cwd(), 'public')))
   }
 

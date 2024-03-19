@@ -1,4 +1,4 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import Automation from '@solumy/engine/automation'
 
 test.describe('Automations schema errors', () => {

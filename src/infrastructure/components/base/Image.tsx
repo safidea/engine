@@ -1,4 +1,4 @@
-import type { Props } from '@infrastructure/engine'
+import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
 export const Image = ({ src, alt, className = '' }: Props['Image']) => {

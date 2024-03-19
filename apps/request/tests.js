@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import App from '../../dist/infrastructure/engine/index.js'
+import App from '../../dist/index.js'
 import { config } from './config.js'
 
 const app = new App()

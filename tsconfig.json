@@ -19,11 +19,11 @@
       "@infrastructure/*": ["src/infrastructure/*"],
       "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
-      "@solumy/engine": ["dist/infrastructure/engine/index"],
-      "@solumy/engine/*": ["dist/infrastructure/engine/*"],
-      "@utils/tests/components": ["dist/utils/tests/components"],
-      "@utils/tests/*": ["utils/tests/*"],
-    },
+      "@solumy/engine": ["dist/index"],
+      "@solumy/engine/*": ["dist/*"],
+      "@tests/components": ["tests/utils/dist/components"],
+      "@tests/*": ["tests/utils/*"]
+    }
   },
-  "exclude": ["node_modules", "dist"],
+  "exclude": ["node_modules", "dist", "**/*.stories.tsx"]
 }

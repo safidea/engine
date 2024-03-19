@@ -32,11 +32,16 @@ export function capitalize(str: string) {
   return str
 }
 
-export async function deleteFilesRecursively(directoryPath: string, extname: string) {
+export async function deleteFilesRecursively(
+  directoryPath: string,
+  extname: string,
+  exclude?: string[]
+) {
   if (!fs.existsSync(directoryPath)) return
   const entries = await fs.readdir(directoryPath, { withFileTypes: true })
   for (const entry of entries) {
     const entryPath = path.join(directoryPath, entry.name)
+    if (exclude && exclude.includes(entry.name)) continue
     if (entry.isDirectory()) {
       await deleteFilesRecursively(entryPath, extname)
     } else if (entry.isFile() && path.extname(entry.name) === extname) {

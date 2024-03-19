@@ -1,7 +1,7 @@
-import { test, expect } from '@utils/tests/fixtures'
+import { test, expect } from '@tests/fixtures'
 import App, { type Config as AppConfig } from '@solumy/engine'
 import Page, { type Config as PageConfig } from '@solumy/engine/page'
-import Database from '@utils/tests/database'
+import Database from '@tests/database'
 
 test.describe('Form component', () => {
   test('should display a form', async ({ page }) => {
