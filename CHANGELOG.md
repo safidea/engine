@@ -1,3 +1,10 @@
+## [0.5.3](https://github.com/solumy/engine/compare/v0.5.2...v0.5.3) (2024-03-19)
+
+
+### Bug Fixes
+
+* **config:** add env variable in server ([8b8f953](https://github.com/solumy/engine/commit/8b8f953b138b2caaf98416f3686a14c3b138c95f))
+
 ## [0.5.2](https://github.com/solumy/engine/compare/v0.5.1...v0.5.2) (2024-03-19)
 
 
