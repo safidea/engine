@@ -25,19 +25,26 @@ import App from '@solumy/engine'
 
 const app = new App()
 const url = await app.start({
-  pages: [
+  name: 'Hello world website',
+  features: [
     {
-      path: '/',
-      title: 'Hello world!',
-      body: [
+      name: 'website',
+      pages: [
         {
-          component: 'Title',
-          text: 'Hello world!',
+          name: 'home',
+          path: '/',
+          body: [
+            {
+              component: 'Title',
+              text: 'Hello world!',
+            },
+          ],
         },
       ],
     },
   ],
 })
+
 console.log(`Server started at ${url}`)
 ```
 
