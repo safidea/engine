@@ -36,7 +36,7 @@ test.describe('App with pages', () => {
     expect(paragraphText).toBe(text)
   })
 
-  test.skip('should display a title in app page in en production env', async ({ page }) => {
+  test.skip('should display a title in a production env', async ({ page }) => {
     // GIVEN
     const text = 'Hello world!'
     const config: Config = {
