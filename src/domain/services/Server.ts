@@ -10,6 +10,7 @@ export interface Params {
   port?: string
   sslCert?: string
   sslKey?: string
+  env?: string
   logger: Logger
 }
 
@@ -36,6 +37,10 @@ export class Server {
 
   get baseUrl() {
     return this.spi.baseUrl
+  }
+
+  get env() {
+    return this.spi.params.env || 'development'
   }
 
   init = async () => {

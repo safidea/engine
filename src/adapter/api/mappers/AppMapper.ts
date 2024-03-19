@@ -111,6 +111,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       port: config.server?.port,
       sslCert: config.server?.sslCert,
       sslKey: config.server?.sslKey,
+      env: config.server?.env,
     })
     const ui = services.ui()
     const client = services.client()

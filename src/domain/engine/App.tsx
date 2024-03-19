@@ -58,7 +58,7 @@ export class App implements Base {
     if (realtime) await realtime.connect(this.params.tables)
     if (auth) await auth.connect()
     const url = await server.start()
-    if (!isTest && process.env.NODE_ENV === 'production') {
+    if (!isTest && server.env === 'production') {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
       process.on('SIGINT', () => this.onClose('SIGINT'))
     }
