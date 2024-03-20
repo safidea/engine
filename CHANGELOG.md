@@ -1,3 +1,10 @@
+## [0.5.4](https://github.com/solumy/engine/compare/v0.5.3...v0.5.4) (2024-03-20)
+
+
+### Bug Fixes
+
+* **app:** display hello world in production ([bc1d9e9](https://github.com/solumy/engine/commit/bc1d9e9d21c4ba7d8e75e8e7b018dde2e4f6a28c))
+
 ## [0.5.3](https://github.com/solumy/engine/compare/v0.5.2...v0.5.3) (2024-03-19)
 
 
