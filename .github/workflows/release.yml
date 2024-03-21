@@ -56,6 +56,8 @@ jobs:
       - run: bun install
       - run: bun run lint
       - run: bun run build
+        env:
+          NODE_ENV: production
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
