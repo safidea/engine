@@ -1,3 +1,10 @@
+## [0.5.6](https://github.com/solumy/engine/compare/v0.5.5...v0.5.6) (2024-03-21)
+
+
+### Bug Fixes
+
+* **build:** add NODE_ENV=production in CI for build release ([92b8f22](https://github.com/solumy/engine/commit/92b8f22dd6f0b3fcfa96cc25e7226c55f95227c1))
+
 ## [0.5.5](https://github.com/solumy/engine/compare/v0.5.4...v0.5.5) (2024-03-21)
 
 
