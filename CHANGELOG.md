@@ -1,3 +1,10 @@
+## [0.5.5](https://github.com/solumy/engine/compare/v0.5.4...v0.5.5) (2024-03-21)
+
+
+### Bug Fixes
+
+* **build:** remove react from bun build externals ([7ccca54](https://github.com/solumy/engine/commit/7ccca54bcf018195ce3bcbf0116b3f175a679d27))
+
 ## [0.5.4](https://github.com/solumy/engine/compare/v0.5.3...v0.5.4) (2024-03-20)
 
 
