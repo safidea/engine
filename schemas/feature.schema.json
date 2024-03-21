@@ -640,6 +640,9 @@
                 },
                 {
                     "$ref": "#/definitions/HeadingComponent"
+                },
+                {
+                    "$ref": "#/definitions/CustomizedComponent"
                 }
             ]
         },
@@ -703,6 +706,9 @@
                     "$ref": "#/definitions/HeadingComponent"
                 },
                 {
+                    "$ref": "#/definitions/CustomizedComponent"
+                },
+                {
                     "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
@@ -758,6 +764,9 @@
                 },
                 {
                     "$ref": "#/definitions/HeadingBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/CustomizedBlockRef"
                 }
             ]
         },
@@ -847,6 +856,43 @@
                 "component",
                 "paragraph",
                 "title"
+            ],
+            "type": "object"
+        },
+        "CustomizedBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Customized",
+                    "type": "string"
+                },
+                "customRef": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "CustomizedComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "component": {
+                    "const": "Customized",
+                    "type": "string"
+                },
+                "customRef": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "customRef"
             ],
             "type": "object"
         },
