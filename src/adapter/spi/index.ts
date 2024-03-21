@@ -20,6 +20,7 @@ import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './Te
 import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
 import { AuthSpi, type Driver as AuthDriver } from './AuthSpi'
 import { ClientSpi, type Driver as ClientDriver } from './ClientSpi'
+import type { CustomizedComponents } from '@domain/engine/page/component/Customized'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -40,7 +41,7 @@ export interface Drivers {
 export interface Params {
   drivers: Drivers
   components: ReactComponents
-  customized?: { [key: string]: React.FC }
+  customized?: CustomizedComponents
 }
 
 export class Spis implements ISpis {

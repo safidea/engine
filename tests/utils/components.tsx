@@ -1,9 +1,10 @@
-import type { ReactComponents } from '@domain/engine/page/component'
+import type { ReactComponents, CustomizedComponents, CustomizedProps } from '@solumy/engine'
 
 export const overwritten: Partial<ReactComponents> = {
   Paragraph: ({ text }) => <p>Hello {text}</p>,
 }
 
-export const customized: { [key: string]: React.FC } = {
+export const customized: CustomizedComponents = {
   MyComponent: () => <p>Customized component</p>,
+  MyComponentWithProps: (props: CustomizedProps) => <p>Customized {props.text}</p>,
 }

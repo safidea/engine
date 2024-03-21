@@ -1,10 +1,17 @@
-import type { Base, BaseProps } from './base/base'
+import type { Base } from './base/base'
 
-export interface Props extends BaseProps {}
+export type Props = {
+  [key: string]: string | number | undefined
+}
 
-interface Params extends Props {
+export type CustomizedComponents = {
+  [key: string]: (props: Props) => JSX.Element
+}
+
+interface Params {
   customRef: string
-  customized: { [key: string]: React.FC }
+  customized: CustomizedComponents
+  props?: Props
 }
 
 export class Customized implements Base<Props> {
@@ -13,9 +20,9 @@ export class Customized implements Base<Props> {
   init = async () => {}
 
   render = async () => {
-    const { customized, customRef } = this.params
+    const { customized, customRef, props = {} } = this.params
     const Component = customized[customRef]
-    return () => <Component />
+    return () => <Component {...props} />
   }
 
   validateConfig = () => {

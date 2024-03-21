@@ -51,11 +51,11 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import { Heading } from '@domain/engine/page/component/application/Heading'
 import type { Heading as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
 import type { Customized as CustomizedConfig } from '@adapter/api/configs/page/Component/customized'
-import { Customized } from '@domain/engine/page/component/Customized'
+import { Customized, type CustomizedComponents } from '@domain/engine/page/component/Customized'
 
 export interface Params {
   components: ReactComponents
-  customized: { [key: string]: React.FC }
+  customized: CustomizedComponents
   server: Server
   ui: Ui
   client: Client

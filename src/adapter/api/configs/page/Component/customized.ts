@@ -1,5 +1,8 @@
+import type { Props } from '@domain/engine/page/component/Customized'
+
 export interface Customized {
   customRef: string
+  props?: Props
 }
 
 export interface CustomizedComponent extends Customized {

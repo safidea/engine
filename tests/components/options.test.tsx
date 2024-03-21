@@ -64,4 +64,45 @@ test.describe('Custom component', () => {
     const content = await page.textContent('p')
     expect(content).toContain('Customized component')
   })
+
+  test('should render a customized component with props', async ({ page }) => {
+    // GIVEN
+    const options: AppOptions = {
+      components: {
+        customized,
+      },
+    }
+    const config: AppConfig = {
+      name: 'Page',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Customized',
+                  customRef: 'MyComponentWithProps',
+                  props: {
+                    text: 'component with props',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App(options)
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    const content = await page.textContent('p')
+    expect(content).toContain('Customized component with props')
+  })
 })

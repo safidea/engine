@@ -13,10 +13,11 @@ import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCom
 import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
 import { Auth, type Spi as AuthSpi, type Params as AuthParams } from './Auth'
 import { Client, type Spi as ClientSpi } from './Client'
+import type { CustomizedComponents } from '@domain/engine/page/component/Customized'
 
 export interface Spis {
   components: ReactComponents
-  customized: { [key: string]: React.FC }
+  customized: CustomizedComponents
   server: (params: ServerParams) => ServerSpi
   database: (params: DatabaseParams) => DatabaseSpi
   logger: (params: LoggerParams) => LoggerSpi
@@ -34,7 +35,7 @@ export interface Spis {
 
 export class Services {
   components: ReactComponents
-  customized: { [key: string]: React.FC }
+  customized: CustomizedComponents
 
   constructor(private spis: Spis) {
     this.components = this.spis.components
