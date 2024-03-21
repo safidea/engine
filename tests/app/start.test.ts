@@ -94,7 +94,7 @@ test.describe('App api', () => {
           ],
         },
       ],
-      server: { port: '3000' },
+      server: { port: '6543' },
     }
     const app = new App()
 
@@ -102,7 +102,7 @@ test.describe('App api', () => {
     const url = await app.start(config)
 
     // THEN
-    expect(url).toBe('http://localhost:3000')
+    expect(url).toBe('http://localhost:6543')
   })
 
   test('should check the app running status through /health endpoint', async ({ request }) => {

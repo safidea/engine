@@ -11,8 +11,6 @@ const externals: string[] = [
   'cors',
   'helmet',
   'cookie-parser',
-  'react',
-  'react-dom',
   'better-sqlite3',
   'pg',
   'kysely',
