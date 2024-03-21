@@ -17,7 +17,7 @@ import type { ImageComponent, ImageBlockRef, ImageBlock } from './base/Image'
 import type { InputComponent, InputBlockRef, InputBlock } from './base/Input'
 import type { ListBlock, ListBlockRef, ListComponent } from './application/List'
 import type { HeadingBlock, HeadingBlockRef, HeadingComponent } from './application/Heading'
-import type { CustomizedBlockRef, CustomizedComponent, CustomizedBlock } from './custom'
+import type { CustomizedBlockRef, CustomizedComponent, CustomizedBlock } from './customized'
 
 export type Component =
   | ButtonComponent

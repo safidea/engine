@@ -27,7 +27,7 @@ test.describe('Custom component', () => {
     expect(paragraphContent).toContain('Hello world')
   })
 
-  test.skip('should render a customized component', async ({ page }) => {
+  test('should render a customized component', async ({ page }) => {
     // GIVEN
     const options: AppOptions = {
       components: {

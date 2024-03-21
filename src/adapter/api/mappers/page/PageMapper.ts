@@ -21,6 +21,7 @@ export interface Params {
   idGenerator: IdGenerator
   newLogger: (location: string) => Logger
   components: ReactComponents
+  customized: { [key: string]: React.FC }
   templateCompiler: TemplateCompiler
   realtime?: Realtime
   blocks?: Block[]
@@ -29,10 +30,11 @@ export interface Params {
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const { server, newLogger, ui, client, components, idGenerator, realtime, blocks, templateCompiler } = params
+    const { server, newLogger, ui, client, components, idGenerator, realtime, blocks, templateCompiler, customized } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
+      customized,
       server,
       ui,
       client,
@@ -66,6 +68,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       components: services.components,
       idGenerator,
       templateCompiler,
+      customized: services.customized,
     })
   }
 

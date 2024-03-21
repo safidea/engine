@@ -40,6 +40,7 @@ export interface Drivers {
 export interface Params {
   drivers: Drivers
   components: ReactComponents
+  customized?: { [key: string]: React.FC }
 }
 
 export class Spis implements ISpis {
@@ -47,6 +48,10 @@ export class Spis implements ISpis {
 
   get components() {
     return this.params.components
+  }
+
+  get customized() {
+    return this.params.customized ?? {}
   }
 
   database = (params: DatabaseParams) => new DatabaseSpi(this.params.drivers.database(params))

@@ -16,6 +16,7 @@ import { Client, type Spi as ClientSpi } from './Client'
 
 export interface Spis {
   components: ReactComponents
+  customized: { [key: string]: React.FC }
   server: (params: ServerParams) => ServerSpi
   database: (params: DatabaseParams) => DatabaseSpi
   logger: (params: LoggerParams) => LoggerSpi
@@ -33,9 +34,11 @@ export interface Spis {
 
 export class Services {
   components: ReactComponents
+  customized: { [key: string]: React.FC }
 
   constructor(private spis: Spis) {
     this.components = this.spis.components
+    this.customized = this.spis.customized
   }
 
   logger = (params: LoggerParams) => new Logger(this.spis.logger(params))

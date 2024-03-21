@@ -15,6 +15,7 @@ export default class extends AppApi {
     super({
       drivers: { ...drivers, ...options?.drivers },
       components: { ...components, ...options?.components?.overwritten },
+      customized: options?.components?.customized,
     })
   }
 }

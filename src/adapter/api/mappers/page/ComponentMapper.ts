@@ -50,9 +50,12 @@ import type { List as ListConfig } from '@adapter/api/configs/page/Component/app
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import { Heading } from '@domain/engine/page/component/application/Heading'
 import type { Heading as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
+import type { Customized as CustomizedConfig } from '@adapter/api/configs/page/Component/customized'
+import { Customized } from '@domain/engine/page/component/Customized'
 
 export interface Params {
   components: ReactComponents
+  customized: { [key: string]: React.FC }
   server: Server
   ui: Ui
   client: Client
@@ -256,6 +259,11 @@ export class ComponentMapper {
     return new Heading({ title, buttons, Component: components.Heading })
   }
 
+  static toCustomizedEntity = (config: CustomizedConfig, params: Params): Customized => {
+    const { customized } = params
+    return new Customized({ ...config, customized })
+  }
+
   static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -277,6 +285,7 @@ export class ComponentMapper {
     if (component === 'Icon') return this.toIconEntity(config, params)
     if (component === 'List') return this.toListEntity(config, params)
     if (component === 'Heading') return this.toHeadingEntity(config, params)
+    if (component === 'Customized') return this.toCustomizedEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 
@@ -324,6 +333,8 @@ export class ComponentMapper {
       return this.toListEntity({ ...block, ...config }, params)
     if (config.component === 'Heading' && block.component === 'Heading')
       return this.toHeadingEntity({ ...block, ...config }, params)
+    if (config.component === 'Customized' && block.component === 'Customized')
+      return this.toCustomizedEntity({ ...block, ...config }, params)
     return new InvalidBlock({
       message: `BlockRef ${config.blockRef} is not a ${block.component} component`,
     })

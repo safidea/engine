@@ -20,6 +20,7 @@ import type { Icon, Props as IconProps } from './base/Icon'
 import type { Image, Props as ImageProps } from './base/Image'
 import type { List, Props as ListProps } from './application/List'
 import type { Heading, Props as HeadingProps } from './application/Heading'
+import type { Customized } from './Customized'
 
 export type Component =
   | Paragraph
@@ -42,6 +43,7 @@ export type Component =
   | Image
   | List
   | Heading
+  | Customized
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
