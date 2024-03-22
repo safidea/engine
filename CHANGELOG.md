@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/solumy/engine/compare/v0.5.6...v0.6.0) (2024-03-22)
+
+
+### Features
+
+* **components:** can add customized component ([3bba4a6](https://github.com/solumy/engine/commit/3bba4a6cfcb74b93e5b7934e6c6e99084227de3e))
+
 ## [0.5.6](https://github.com/solumy/engine/compare/v0.5.5...v0.5.6) (2024-03-21)
 
 
