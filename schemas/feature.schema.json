@@ -643,6 +643,9 @@
                 },
                 {
                     "$ref": "#/definitions/CustomizedComponent"
+                },
+                {
+                    "$ref": "#/definitions/ModalComponent"
                 }
             ]
         },
@@ -709,6 +712,9 @@
                     "$ref": "#/definitions/CustomizedComponent"
                 },
                 {
+                    "$ref": "#/definitions/ModalComponent"
+                },
+                {
                     "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
@@ -767,6 +773,9 @@
                 },
                 {
                     "$ref": "#/definitions/CustomizedBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ModalBlockRef"
                 }
             ]
         },
@@ -2091,6 +2100,80 @@
             "required": [
                 "content",
                 "name"
+            ],
+            "type": "object"
+        },
+        "ModalBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "button": {
+                    "$ref": "#/definitions/Button"
+                },
+                "component": {
+                    "const": "Modal",
+                    "type": "string"
+                },
+                "footer": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "header": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ModalComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "button": {
+                    "$ref": "#/definitions/Button"
+                },
+                "component": {
+                    "const": "Modal",
+                    "type": "string"
+                },
+                "footer": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "header": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "body",
+                "button",
+                "component"
             ],
             "type": "object"
         },

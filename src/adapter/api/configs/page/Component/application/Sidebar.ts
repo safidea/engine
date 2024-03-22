@@ -1,11 +1,11 @@
-import type { Component as OtherComponent } from '..'
+import type { Component } from '..'
 import type { Link } from '../base/Link'
 import type { Title } from '../base/Title'
 
 export interface Sidebar {
   title: Title
   links: Link[]
-  children?: OtherComponent[]
+  children?: Component[]
 }
 
 export interface SidebarComponent extends Sidebar {
