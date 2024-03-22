@@ -52,6 +52,8 @@ import { Heading } from '@domain/engine/page/component/application/Heading'
 import type { Heading as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
 import type { Customized as CustomizedConfig } from '@adapter/api/configs/page/Component/customized'
 import { Customized, type CustomizedComponents } from '@domain/engine/page/component/Customized'
+import { Modal } from '@domain/engine/page/component/application/Modal'
+import type { Modal as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
 
 export interface Params {
   components: ReactComponents
@@ -264,6 +266,15 @@ export class ComponentMapper {
     return new Customized({ ...config, customized })
   }
 
+  static toModalEntity = (config: ModalConfig, params: Params): Modal => {
+    const { components } = params
+    const button = this.toButtonEntity(config.button, params)
+    const header = config.header?.map((child) => this.toEntity(child, params))
+    const body = config.body.map((child) => this.toEntity(child, params))
+    const footer = config.footer?.map((child) => this.toEntity(child, params))
+    return new Modal({ header, body, footer, button, Component: components.Modal })
+  }
+
   static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -286,6 +297,7 @@ export class ComponentMapper {
     if (component === 'List') return this.toListEntity(config, params)
     if (component === 'Heading') return this.toHeadingEntity(config, params)
     if (component === 'Customized') return this.toCustomizedEntity(config, params)
+    if (component === 'Modal') return this.toModalEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 
@@ -335,6 +347,8 @@ export class ComponentMapper {
       return this.toHeadingEntity({ ...block, ...config }, params)
     if (config.component === 'Customized' && block.component === 'Customized')
       return this.toCustomizedEntity({ ...block, ...config }, params)
+    if (config.component === 'Modal' && block.component === 'Modal')
+      return this.toModalEntity({ ...block, ...config }, params)
     return new InvalidBlock({
       message: `BlockRef ${config.blockRef} is not a ${block.component} component`,
     })

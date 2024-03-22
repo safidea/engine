@@ -25,5 +25,5 @@
       "@tests/*": ["tests/utils/*"]
     }
   },
-  "exclude": ["node_modules", "dist", "**/*.stories.tsx"]
+  "exclude": ["node_modules", "dist"]
 }

@@ -19,6 +19,7 @@ import { Input } from './base/Input'
 import { Image } from './base/Image'
 import { List } from './application/List'
 import { Heading } from './application/Heading'
+import { Modal } from './application/Modal'
 
 export const components: ReactComponents = {
   Html,
@@ -41,4 +42,5 @@ export const components: ReactComponents = {
   Image,
   List,
   Heading,
+  Modal,
 }
