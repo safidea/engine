@@ -184,3 +184,4 @@ tmp/
 /dist
 .env
 build-storybook.log
+*storybook.log
