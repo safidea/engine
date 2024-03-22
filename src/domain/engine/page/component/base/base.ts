@@ -6,6 +6,8 @@ export type ReactComponent<T> = (props: T) => JSX.Element
 export interface BaseProps {
   key?: string | number
   className?: string
+  // TODO: replace this infrastructure dependency by domain dependency
+  'data-action'?: string
 }
 
 export interface Base<P extends BaseProps> {

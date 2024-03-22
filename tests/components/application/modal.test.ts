@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type Config as AppConfig } from '@solumy/engine'
 
 test.describe('Modal component', () => {
-  test.skip('should open a modal', async ({ page }) => {
+  test('should open a modal', async ({ page }) => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
@@ -34,7 +34,7 @@ test.describe('Modal component', () => {
                   footer: [
                     {
                       component: 'Button',
-                      label: 'Close',
+                      label: 'Save',
                     },
                   ],
                 },
@@ -54,6 +54,6 @@ test.describe('Modal component', () => {
     // THEN
     await expect(page.getByText('Modal Title')).toBeVisible()
     await expect(page.getByText('Modal Paragraph')).toBeVisible()
-    await expect(page.getByText('Close')).toBeVisible()
+    await expect(page.getByText('Save')).toBeVisible()
   })
 })

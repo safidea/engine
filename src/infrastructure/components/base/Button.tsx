@@ -12,6 +12,8 @@ export const Button = ({
   action,
   method,
   formId,
+  // TODO: replace this infrastructure dependency by domain dependency
+  'data-action': actionData,
 }: Props['Button']) => {
   const classes = getVariant(variant)
   if (action) {
@@ -30,7 +32,7 @@ export const Button = ({
     )
   } else {
     return (
-      <button type={type} form={formId} className={classNames(classes, className)}>
+      <button type={type} form={formId} className={classNames(classes, className)} data-action={actionData}>
         {label}
       </button>
     )
