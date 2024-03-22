@@ -1,5 +1,9 @@
 # ROADMAP
 
+## TODO
+
+- [ ] Pouvoir utiliser des composants React custom avec Stimulus et Turbo
+
 ### Test Postgres
 
 Use https://testcontainers.com/ for e2e tests with Postgresql
