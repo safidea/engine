@@ -5,12 +5,6 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Click"
-                },
-                {
-                    "$ref": "#/definitions/ClickInEmail"
-                },
-                {
                     "$ref": "#/definitions/Fill"
                 },
                 {
@@ -20,10 +14,16 @@
                     "$ref": "#/definitions/Post"
                 },
                 {
-                    "$ref": "#/definitions/WaitForAutomation"
+                    "$ref": "#/definitions/Click"
                 },
                 {
                     "$ref": "#/definitions/WaitForText"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
+                },
+                {
+                    "$ref": "#/definitions/ClickInEmail"
                 }
             ]
         },
@@ -251,22 +251,13 @@
                     "$ref": "#/definitions/ButtonBlock"
                 },
                 {
-                    "$ref": "#/definitions/TitleBlock"
+                    "$ref": "#/definitions/FormBlock"
                 },
                 {
                     "$ref": "#/definitions/ParagraphBlock"
                 },
                 {
-                    "$ref": "#/definitions/InputBlock"
-                },
-                {
-                    "$ref": "#/definitions/FormBlock"
-                },
-                {
                     "$ref": "#/definitions/CtaBlock"
-                },
-                {
-                    "$ref": "#/definitions/IconBlock"
                 },
                 {
                     "$ref": "#/definitions/FeaturesBlock"
@@ -275,19 +266,16 @@
                     "$ref": "#/definitions/HeroBlock"
                 },
                 {
-                    "$ref": "#/definitions/LinkBlock"
-                },
-                {
                     "$ref": "#/definitions/FooterBlock"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlock"
                 },
                 {
                     "$ref": "#/definitions/LogosBlock"
                 },
                 {
                     "$ref": "#/definitions/NotFoundBlock"
+                },
+                {
+                    "$ref": "#/definitions/LinkBlock"
                 },
                 {
                     "$ref": "#/definitions/HeaderBlock"
@@ -297,6 +285,18 @@
                 },
                 {
                     "$ref": "#/definitions/SidebarBlock"
+                },
+                {
+                    "$ref": "#/definitions/TitleBlock"
+                },
+                {
+                    "$ref": "#/definitions/IconBlock"
+                },
+                {
+                    "$ref": "#/definitions/ImageBlock"
+                },
+                {
+                    "$ref": "#/definitions/InputBlock"
                 },
                 {
                     "$ref": "#/definitions/ListBlock"
@@ -751,22 +751,13 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/TitleComponent"
+                    "$ref": "#/definitions/FormComponent"
                 },
                 {
                     "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
-                    "$ref": "#/definitions/InputComponent"
-                },
-                {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
                     "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
                 },
                 {
                     "$ref": "#/definitions/FeaturesComponent"
@@ -775,19 +766,16 @@
                     "$ref": "#/definitions/HeroComponent"
                 },
                 {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
                     "$ref": "#/definitions/FooterComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
                 },
                 {
                     "$ref": "#/definitions/LogosComponent"
                 },
                 {
                     "$ref": "#/definitions/NotFoundComponent"
+                },
+                {
+                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
                     "$ref": "#/definitions/HeaderComponent"
@@ -797,6 +785,18 @@
                 },
                 {
                     "$ref": "#/definitions/SidebarComponent"
+                },
+                {
+                    "$ref": "#/definitions/TitleComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
+                },
+                {
+                    "$ref": "#/definitions/InputComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -818,100 +818,52 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/ButtonBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TitleComponent"
-                },
-                {
-                    "$ref": "#/definitions/TitleBlockRef"
+                    "$ref": "#/definitions/FormComponent"
                 },
                 {
                     "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
-                    "$ref": "#/definitions/ParagraphBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/InputComponent"
-                },
-                {
-                    "$ref": "#/definitions/InputBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
-                    "$ref": "#/definitions/FormBlockRef"
-                },
-                {
                     "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/CtaBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconBlockRef"
                 },
                 {
                     "$ref": "#/definitions/FeaturesComponent"
                 },
                 {
-                    "$ref": "#/definitions/FeaturesBlockRef"
-                },
-                {
                     "$ref": "#/definitions/HeroComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeroBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkBlockRef"
                 },
                 {
                     "$ref": "#/definitions/FooterComponent"
                 },
                 {
-                    "$ref": "#/definitions/FooterBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlockRef"
-                },
-                {
                     "$ref": "#/definitions/LogosComponent"
-                },
-                {
-                    "$ref": "#/definitions/LogosBlockRef"
                 },
                 {
                     "$ref": "#/definitions/NotFoundComponent"
                 },
                 {
-                    "$ref": "#/definitions/NotFoundBlockRef"
+                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
                     "$ref": "#/definitions/HeaderComponent"
                 },
                 {
-                    "$ref": "#/definitions/HeaderBlockRef"
-                },
-                {
                     "$ref": "#/definitions/TableComponent"
                 },
                 {
-                    "$ref": "#/definitions/TableBlockRef"
+                    "$ref": "#/definitions/SidebarComponent"
                 },
                 {
-                    "$ref": "#/definitions/SidebarComponent"
+                    "$ref": "#/definitions/TitleComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
+                },
+                {
+                    "$ref": "#/definitions/InputComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -926,7 +878,55 @@
                     "$ref": "#/definitions/ModalComponent"
                 },
                 {
+                    "$ref": "#/definitions/ButtonBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FormBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ParagraphBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/CtaBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeroBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FooterBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LogosBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LinkBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeaderBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TableBlockRef"
+                },
+                {
                     "$ref": "#/definitions/SidebarBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TitleBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/IconBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ImageBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/InputBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ListBlockRef"
@@ -1364,13 +1364,13 @@
         "Field": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/DateTime"
-                },
-                {
                     "$ref": "#/definitions/Email_1"
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/DateTime"
                 }
             ]
         },
@@ -3176,15 +3176,6 @@
         "Result": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
                     "$ref": "#/definitions/Record"
                 },
                 {
@@ -3192,6 +3183,15 @@
                 },
                 {
                     "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
                 },
                 {
                     "$ref": "#/definitions/Url"
