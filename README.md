@@ -1,6 +1,6 @@
-# Solumy Engine - Web App Generator
+# Safidea Engine - Web App Generator
 
-Solumy Engine is a API to generate web app, fast and easy. With a configuration file, you can create a full stack application.
+Safidea Engine is a API to generate web app, fast and easy. With a configuration file, you can create a full stack application.
 
 ## Getting Started
 
@@ -64,10 +64,10 @@ We will build a details documentation of the configuration in the future, but fo
 
 ## Contributing
 
-Solumy Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
+Safidea Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
 
 You can read our [contributing guide here](https://github.com/solumy/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/solumy/engine/blob/main/docs/CODE_OF_CONDUCT.md).
 
 ## License
 
-Solumy Engine is [BSL 1.1 licensed](https://github.com/solumy/engine/blob/main/LICENSE).
+Safidea Engine is [BSL 1.1 licensed](https://github.com/solumy/engine/blob/main/LICENSE).

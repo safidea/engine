@@ -1,6 +1,6 @@
 # Architecture
 
-Solumy Engine is sharing the same codebase for the client and the server written in Typescript and React.
+Safidea Engine is sharing the same codebase for the client and the server written in Typescript and React.
 
 ## Project Structure
 

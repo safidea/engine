@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for Solumy Engine
+about: Suggest an idea for Safidea Engine
 ---
 
 ## Goal
@@ -15,7 +15,7 @@ In order to achieve that, we could ... <!-- (optional) provide solutions, ideas 
 
 ## How to
 
-<!-- This section explains how to contribute successfully to Solumy Engine's repo -->
+<!-- This section explains how to contribute successfully to Safidea Engine's repo -->
 
 In order to solve this issue, you are invited to fork this GitHub repository, makes changes to it, and then create a Pull Request so we can merge your changes back to this repository.
 

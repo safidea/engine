@@ -2,7 +2,7 @@
 
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
-This document proposes guidelines for contributing to the Solumy Engine repository.
+This document proposes guidelines for contributing to the Safidea Engine repository.
 
 The objectives of the guidelines are:
 
@@ -15,7 +15,7 @@ These are just guidelines, not rules, use your best judgment and feel free to pr
 
 ## What to contribute
 
-You can contribute to Solumy Engine in various ways:
+You can contribute to Safidea Engine in various ways:
 
 - Fix bugs or contribute to the development of features on which help is wanted: [see our To Do list](https://github.com/orgs/solumy/projects/1)
 - Submit Github issues for bugs you (or other users) found ([template](https://github.com/solumy/engine/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=))
@@ -28,7 +28,7 @@ You can contribute to Solumy Engine in various ways:
 1. Fork and clone the [@safidea/engine repository](https://github.com/solumy/engine), and make sure it runs properly on your computer
 2. Inform other contributors that you intend to contribute by posting a comment to the Github issue of your choice. Don't hesitate to ask questions if needed.
 3. Make changes in your local copy of the code, run automated tests, commit, then [submit a Pull Request](https://github.com/solumy/engine/compare)
-4. Wait for your PR to be reviewed and merged into the `main` branch of Solumy Engine's repository
+4. Wait for your PR to be reviewed and merged into the `main` branch of Safidea Engine's repository
 5. Be available to reply if a contributor gets involved in the reviewing process of your PR.
 
 ## Acceptance criteria for Pull Requests (PR)
