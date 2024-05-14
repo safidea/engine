@@ -58,7 +58,7 @@ node index.js
 
 A configuration is a JSON representation of the application. It contains the pages, the tables, the automations, the roles, etc...
 
-We will build a details documentation of the configuration in the future, but for now, you can see the [examples](https://github.com/solumy/engine/blob/main/examples) to see how to configure the engine.
+We will build a details documentation of the configuration in the future, but for now, you can see the [examples](https://github.com/safidea/engine/blob/main/examples) to see how to configure the engine.
 
 ## App Library
 
@@ -66,8 +66,8 @@ We will build a details documentation of the configuration in the future, but fo
 
 Safidea Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
 
-You can read our [contributing guide here](https://github.com/solumy/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/solumy/engine/blob/main/docs/CODE_OF_CONDUCT.md).
+You can read our [contributing guide here](https://github.com/safidea/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/safidea/engine/blob/main/docs/CODE_OF_CONDUCT.md).
 
 ## License
 
-Safidea Engine is [BSL 1.1 licensed](https://github.com/solumy/engine/blob/main/LICENSE).
+Safidea Engine is [BSL 1.1 licensed](https://github.com/safidea/engine/blob/main/LICENSE).
