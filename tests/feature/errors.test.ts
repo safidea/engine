@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature from '@solumy/engine/feature'
+import Feature from '@safidea/engine/feature'
 
 test.describe('Feature schema errors', () => {
   test('empty config should return 1 errors', async () => {

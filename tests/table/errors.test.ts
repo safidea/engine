@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Table from '@solumy/engine/table'
+import Table from '@safidea/engine/table'
 
 test.describe('Table schema errors', () => {
   test('empty config should return 2 errors', async () => {

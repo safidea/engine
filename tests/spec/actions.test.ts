@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Config } from '@solumy/engine/feature'
+import Feature, { type Config } from '@safidea/engine/feature'
 
 test.describe('Spec actions', () => {
   test('should click on a link in a email', async () => {

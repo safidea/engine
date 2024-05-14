@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Config } from '@solumy/engine/feature'
+import Feature, { type Config } from '@safidea/engine/feature'
 
 test.describe('Tables specs', () => {
   test('should not find a created row', async () => {

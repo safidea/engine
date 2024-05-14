@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config as AppConfig } from '@solumy/engine'
+import App, { type Config as AppConfig } from '@safidea/engine'
 
 test.describe('Modal component', () => {
   test('should open a modal', async ({ page }) => {

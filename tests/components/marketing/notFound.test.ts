@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@solumy/engine'
+import App, { type Config } from '@safidea/engine'
 
 test.describe('NotFound component', () => {
   test('should render the 404 default page', async ({ page }) => {

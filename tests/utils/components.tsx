@@ -1,4 +1,4 @@
-import type { ReactComponents, CustomizedComponents, CustomizedProps } from '@solumy/engine'
+import type { ReactComponents, CustomizedComponents, CustomizedProps } from '@safidea/engine'
 
 export const overwritten: Partial<ReactComponents> = {
   Paragraph: ({ text }) => <p>Hello {text}</p>,

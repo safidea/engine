@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config as AppConfig, ConfigError } from '@solumy/engine'
+import App, { type Config as AppConfig, ConfigError } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('List component', () => {

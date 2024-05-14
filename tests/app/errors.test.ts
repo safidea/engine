@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@solumy/engine'
+import App, { type Config } from '@safidea/engine'
 
 test.describe('App schema errors', () => {
   test('should return 2 errors if config is empty', async () => {

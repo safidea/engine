@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@solumy/engine'
+import App, { type Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('App with tables', () => {

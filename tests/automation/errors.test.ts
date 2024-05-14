@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Automation from '@solumy/engine/automation'
+import Automation from '@safidea/engine/automation'
 
 test.describe('Automations schema errors', () => {
   test('empty config should return 3 errors', async () => {

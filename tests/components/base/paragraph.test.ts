@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Config as PageConfig } from '@solumy/engine/page'
-import App, { type Config as AppConfig } from '@solumy/engine'
+import Page, { type Config as PageConfig } from '@safidea/engine/page'
+import App, { type Config as AppConfig } from '@safidea/engine'
 
 test.describe('Paragraph component', () => {
   test('should render a paragraph', async ({ page }) => {

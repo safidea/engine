@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@solumy/engine'
+import App, { type Config } from '@safidea/engine'
 import Queue from '@tests/queue'
 import Database from '@tests/database'
 import Mailer from '@tests/mailer'

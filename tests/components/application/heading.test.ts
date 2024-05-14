@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Config } from '@solumy/engine/page'
+import Page, { type Config } from '@safidea/engine/page'
 
 test.describe('Heading component', () => {
   test('should render a heading', async ({ page }) => {

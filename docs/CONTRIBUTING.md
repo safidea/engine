@@ -25,7 +25,7 @@ You can contribute to Solumy Engine in various ways:
 
 ## How to contribute to the code base
 
-1. Fork and clone the [@solumy/engine repository](https://github.com/solumy/engine), and make sure it runs properly on your computer
+1. Fork and clone the [@safidea/engine repository](https://github.com/solumy/engine), and make sure it runs properly on your computer
 2. Inform other contributors that you intend to contribute by posting a comment to the Github issue of your choice. Don't hesitate to ask questions if needed.
 3. Make changes in your local copy of the code, run automated tests, commit, then [submit a Pull Request](https://github.com/solumy/engine/compare)
 4. Wait for your PR to be reviewed and merged into the `main` branch of Solumy Engine's repository

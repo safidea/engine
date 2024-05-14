@@ -1,5 +1,5 @@
 {
-  "name": "@solumy/engine",
+  "name": "@safidea/engine",
   "description": "Generate web app with a configuration file",
   "version": "0.6.0",
   "main": "dist/index.js",
@@ -54,8 +54,8 @@
     "pretest": "bunx playwright install --with-deps",
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui",
-    "example:request": "DEBUG=engine:* node --env-file examples/request/.env examples/request/index.js",
-    "example:request:test": "DEBUG=engine:* node --env-file examples/request/.env examples/request/tests.js",
+    "app:request": "DEBUG=engine:* node --env-file apps/request/.env apps/request/index.js",
+    "app:request:test": "DEBUG=engine:* node --env-file apps/request/.env apps/request/tests.js",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

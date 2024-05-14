@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Page from '@solumy/engine/page'
+import Page from '@safidea/engine/page'
 
 test.describe('Page schema errors', () => {
   test('empty config should return 3 errors', async () => {

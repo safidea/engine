@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Config } from '@solumy/engine/feature'
+import Feature, { type Config } from '@safidea/engine/feature'
 
 test.describe('Pages specs', () => {
   test('should find an invalid page title', async () => {

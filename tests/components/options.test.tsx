@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Config as PageConfig } from '@solumy/engine/page'
-import App, { type Config as AppConfig, type Options as AppOptions } from '@solumy/engine'
+import Page, { type Config as PageConfig } from '@safidea/engine/page'
+import App, { type Config as AppConfig, type Options as AppOptions } from '@safidea/engine'
 import { overwritten, customized } from '@tests/components'
 
 test.describe('Custom component', () => {

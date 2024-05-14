@@ -19,8 +19,8 @@
       "@infrastructure/*": ["src/infrastructure/*"],
       "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
-      "@solumy/engine": ["dist/index"],
-      "@solumy/engine/*": ["dist/*"],
+      "@safidea/engine": ["dist/index"],
+      "@safidea/engine/*": ["dist/*"],
       "@tests/components": ["tests/utils/dist/components"],
       "@tests/*": ["tests/utils/*"]
     }
