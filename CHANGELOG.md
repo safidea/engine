@@ -1,3 +1,9 @@
+## [0.6.1](https://github.com/safidea/engine/compare/v0.6.0...v0.6.1) (2024-05-14)
+
+### Bug Fixes
+
+- **README:** replace Solumy by Safidea ([b5c5501](https://github.com/safidea/engine/commit/b5c55012d27a57c8e0319c0c5e7487fce67e2c18))
+
 # [0.6.0](https://github.com/safidea/engine/compare/v0.5.6...v0.6.0) (2024-03-22)
 
 ### Features
