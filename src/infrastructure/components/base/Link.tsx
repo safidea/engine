@@ -18,7 +18,7 @@ export const Link = ({
     active ? 'bg-gray-100 dark:bg-gray-700' : ''
   )
   return (
-    <a id={id} href={href} className={classNames(className, linkClass)}>
+    <a id={id} href={href} className={classNames(linkClass, className)}>
       {PrefixIcon ? <PrefixIcon className={iconClass} /> : null}
       <span className={labelClass}>{label}</span>
       {SuffixIcon ? <SuffixIcon className={iconClass} /> : null}

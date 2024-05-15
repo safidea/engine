@@ -1,7 +1,15 @@
 import type { Props } from '@domain/engine/page/component'
+import { classNames } from '../utils'
 
-export const Footer = ({ Title, Paragraph, Links, copyright }: Props['Footer']) => (
-  <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+export const Footer = ({
+  id,
+  className = '',
+  Title,
+  Paragraph,
+  Links,
+  copyright,
+}: Props['Footer']) => (
+  <footer id={id} className={classNames('p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800', className)}>
     <div className="mx-auto max-w-screen-xl text-center">
       <Title size="sm" className="flex justify-center items-center" />
       <Paragraph className="my-6" />

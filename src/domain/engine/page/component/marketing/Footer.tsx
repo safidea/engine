@@ -15,7 +15,7 @@ export interface Props extends BaseProps {
   Links: React.FC<Partial<LinkProps>>[]
 }
 
-export interface Params {
+export interface Params extends BaseProps {
   title: Title
   paragraph: Paragraph
   links: Link[]
@@ -32,12 +32,12 @@ export class Footer implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { title, paragraph, links, copyright, Component } = this.params
+    const { id, className, title, paragraph, links, copyright, Component } = this.params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Links = await Promise.all(links.map((link) => link.render(state)))
     return (props?: Partial<Props>) => (
-      <Component {...{ Title, Paragraph, Links, copyright, ...props }} />
+      <Component {...{ id, className, Title, Paragraph, Links, copyright, ...props }} />
     )
   }
 

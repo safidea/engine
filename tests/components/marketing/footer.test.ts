@@ -52,4 +52,40 @@ test.describe('Footer component', () => {
       expect(await linkLocator.getAttribute('href')).toContain(link.href)
     }
   })
+
+  test('should display the footer id', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Footer',
+          id: 'my-footer',
+          title: { text: 'This is a title' },
+          paragraph: { text: 'This is a description' },
+          links: [
+            {
+              label: 'Link 1',
+              href: '/',
+            },
+            {
+              label: 'Link 2',
+              href: '/',
+            },
+          ],
+          copyright: 'Copyright',
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const footer = page.locator('#my-footer')
+    await expect(footer).toBeVisible()
+  })
 })
