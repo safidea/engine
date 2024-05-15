@@ -4,6 +4,7 @@ import type { State } from '../../State'
 export type ReactComponent<T> = (props: T) => JSX.Element
 
 export interface BaseProps {
+  id?: string
   key?: string | number
   className?: string
   // TODO: replace this infrastructure dependency by domain dependency

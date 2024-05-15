@@ -60,4 +60,29 @@ test.describe('Paragraph component', () => {
     const paragraphText = await page.textContent('p')
     expect(paragraphText).toBe(text)
   })
+
+  test('should display the paragraph id', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Paragraph',
+          text: 'hello world',
+          id: 'my-paragraph',
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const paragraph = page.getByText('hello world')
+    await expect(paragraph).toHaveAttribute('id')
+    expect(await paragraph.getAttribute('id')).toBe('my-paragraph')
+  })
 })

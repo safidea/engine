@@ -2,9 +2,19 @@ import type { Props } from '@domain/engine/page/component'
 import type { Size } from '@domain/engine/page/component/base/Paragraph'
 import { classNames } from '../utils'
 
-export const Paragraph = ({ text, center, size = 'md', className = '' }: Props['Paragraph']) => {
+export const Paragraph = ({
+  id,
+  text,
+  center,
+  size = 'md',
+  className = '',
+}: Props['Paragraph']) => {
   const classes = getClasses(size, center)
-  return <p className={classNames(classes, className)}>{text}</p>
+  return (
+    <p id={id} className={classNames(classes, className)}>
+      {text}
+    </p>
+  )
 }
 
 export function getClasses(size: Size, center = false) {
