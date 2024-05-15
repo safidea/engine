@@ -26,13 +26,7 @@ export interface Props extends BaseProps {
   formId?: string
 }
 
-interface Params {
-  label: string
-  href?: string
-  type?: Type
-  variant?: Variant
-  action?: string
-  method?: Method
+interface Params extends Omit<Props, 'actionClientProps' | 'formId'> {
   onSuccess?:
     | {
         redirect: string
@@ -90,13 +84,23 @@ export class Button implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { label, href, variant, Component, client } = this.params
+    const { id, className, label, href, variant, Component, client } = this.params
     const action = this.action ? state.addQueryToPath(this.path) : undefined
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return (props?: Partial<Props>) => (
       <client.Frame id={this.id}>
         <Component
-          {...{ label, href, variant, action, method: 'POST', actionClientProps, ...props }}
+          {...{
+            id,
+            className,
+            label,
+            href,
+            variant,
+            action,
+            method: 'POST',
+            actionClientProps,
+            ...props,
+          }}
         />
       </client.Frame>
     )

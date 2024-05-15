@@ -3,6 +3,7 @@ import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
 export const Button = ({
+  id,
   label,
   href,
   variant = 'primary',
@@ -19,20 +20,26 @@ export const Button = ({
   if (action) {
     return (
       <form action={action} method={method} className="m-0" {...actionClientProps}>
-        <button type={type} className={classNames(classes, className)}>
+        <button id={id} type={type} className={classNames(classes, className)}>
           {label}
         </button>
       </form>
     )
   } else if (href) {
     return (
-      <a className={classNames(classes, className)} href={href} {...actionClientProps}>
+      <a id={id} className={classNames(classes, className)} href={href} {...actionClientProps}>
         {label}
       </a>
     )
   } else {
     return (
-      <button type={type} form={formId} className={classNames(classes, className)} data-action={actionData}>
+      <button
+        id={id}
+        type={type}
+        form={formId}
+        className={classNames(classes, className)}
+        data-action={actionData}
+      >
         {label}
       </button>
     )
