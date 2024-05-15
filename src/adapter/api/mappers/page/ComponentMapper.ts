@@ -243,7 +243,7 @@ export class ComponentMapper {
     const title = this.toTitleEntity(config.title, params)
     const links = this.toManyLinkEntities(config.links, params)
     const buttons = this.toManyButtonEntities(config.buttons, params)
-    return new Header({ title, links, buttons, Component: components.Header })
+    return new Header({ ...config, title, links, buttons, Component: components.Header })
   }
 
   static toHeroEntity = (config: HeroConfig, params: Params): Hero => {
@@ -251,14 +251,14 @@ export class ComponentMapper {
     const title = this.toTitleEntity(config.title, params)
     const paragraph = this.toParagraphEntity(config.paragraph, params)
     const buttons = this.toManyButtonEntities(config.buttons, params)
-    return new Hero({ title, paragraph, buttons, Component: components.Hero })
+    return new Hero({ ...config, title, paragraph, buttons, Component: components.Hero })
   }
 
   static toHeadingEntity = (config: HeadingConfig, params: Params): Heading => {
     const { components } = params
     const title = this.toTitleEntity(config.title, params)
     const buttons = config.buttons ? this.toManyButtonEntities(config.buttons, params) : undefined
-    return new Heading({ title, buttons, Component: components.Heading })
+    return new Heading({ ...config, title, buttons, Component: components.Heading })
   }
 
   static toCustomizedEntity = (config: CustomizedConfig, params: Params): Customized => {
