@@ -1,3 +1,11 @@
+## [0.6.2](https://github.com/safidea/engine/compare/v0.6.1...v0.6.2) (2024-05-14)
+
+
+### Bug Fixes
+
+* **README:** replace solumy/engine by safidea/engine ([6c571a3](https://github.com/safidea/engine/commit/6c571a39cabda8b33279599bb27c762bcb638024))
+* **README:** replace solumy/engine by safidea/engine ([e899804](https://github.com/safidea/engine/commit/e89980480ff82459d7e9cdfdffbde9df1c52e831))
+
 ## [0.6.1](https://github.com/safidea/engine/compare/v0.6.0...v0.6.1) (2024-05-14)
 
 ### Bug Fixes
