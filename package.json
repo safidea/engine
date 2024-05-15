@@ -1,5 +1,5 @@
 {
-  "name": "@safidea/engine",
+  "name": "@safidea_/engine",
   "description": "Generate web app with a configuration file",
   "version": "0.6.1",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/safidea/engine.git"
+    "url": "git+https://github.com/safidea/engine.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
