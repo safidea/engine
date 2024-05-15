@@ -1,3 +1,10 @@
+## [0.6.3](https://github.com/safidea/engine/compare/v0.6.2...v0.6.3) (2024-05-15)
+
+
+### Bug Fixes
+
+* **NPM:** can publish in public ([8033f61](https://github.com/safidea/engine/commit/8033f61ec89eab4756d58ffbf76b3548efbad0f6))
+
 ## [0.6.2](https://github.com/safidea/engine/compare/v0.6.1...v0.6.2) (2024-05-14)
 
 
