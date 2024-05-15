@@ -1,6 +1,7 @@
+import type { Base } from './Base'
 import type { Type } from '@domain/engine/page/component/base/Input'
 
-export interface Input {
+export interface Input extends Base {
   name: string
   type?: Type
   placeholder?: string

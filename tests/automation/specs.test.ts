@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Config } from '@safidea/engine/feature'
+import Feature, { type Feature as Config } from '@safidea/engine/feature'
 
 test.describe('Automations specs', () => {
   test('should wait for an automation', async () => {

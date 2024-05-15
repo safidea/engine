@@ -1,6 +1,7 @@
 import type { Type } from '@domain/engine/page/component/base/Icon'
+import type { Base } from './Base'
 
-export interface Icon {
+export interface Icon extends Base {
   type: Type
 }
 

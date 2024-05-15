@@ -1,7 +1,8 @@
 import type { Title } from '../base/Title'
 import type { Button } from '../base/Button'
+import type { Base } from '../base/Base'
 
-export interface Heading {
+export interface Heading extends Base {
   title: Title
   buttons?: Button[]
 }

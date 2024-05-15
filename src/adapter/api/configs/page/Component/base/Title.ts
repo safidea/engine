@@ -1,6 +1,7 @@
+import type { Base } from './Base'
 import type { Size } from '@domain/engine/page/component/base/Title'
 
-export interface Title {
+export interface Title extends Base {
   text: string
   size?: Size
   center?: boolean

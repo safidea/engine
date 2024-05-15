@@ -1,8 +1,9 @@
 import type { Title } from '../base/Title'
 import type { Paragraph } from '../base/Paragraph'
 import type { Image } from '../base/Image'
+import type { Base } from '../base/Base'
 
-export interface Logos {
+export interface Logos extends Base {
   title?: Title
   paragraph?: Paragraph
   images: Image[]

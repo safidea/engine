@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Config } from '@safidea/engine/page'
+import Page, { type Page as Config } from '@safidea/engine/page'
 
 test.describe('Features component', () => {
   test('should render features', async ({ page }) => {

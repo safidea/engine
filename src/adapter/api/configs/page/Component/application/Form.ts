@@ -3,8 +3,9 @@ import type { Title } from '../base/Title'
 import type { Paragraph } from '../base/Paragraph'
 import type { Button } from '../base/Button'
 import type { Input } from '../base/Input'
+import type { Base } from '../base/Base'
 
-export interface Form {
+export interface Form extends Base {
   action: string
   method?: Method
   source?: string

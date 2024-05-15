@@ -321,6 +321,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -410,6 +413,9 @@
                     "type": "string"
                 },
                 "href": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -511,6 +517,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -601,6 +610,9 @@
                     "type": "string"
                 },
                 "href": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -987,6 +999,9 @@
                     "const": "CTA",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1022,6 +1037,9 @@
                     "const": "CTA",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1046,6 +1064,9 @@
                 },
                 "component": {
                     "const": "CTA",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "paragraph": {
@@ -1251,6 +1272,9 @@
                     },
                     "type": "array"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1303,6 +1327,9 @@
                     },
                     "type": "array"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1345,6 +1372,9 @@
                         "type": "object"
                     },
                     "type": "array"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
@@ -1410,6 +1440,9 @@
                 "copyright": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -1449,6 +1482,9 @@
                 "copyright": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -1476,6 +1512,9 @@
                     "type": "string"
                 },
                 "copyright": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -1514,6 +1553,9 @@
                 },
                 "component": {
                     "const": "Form",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "inputs": {
@@ -1575,6 +1617,9 @@
                     "const": "Form",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "inputs": {
                     "items": {
                         "$ref": "#/definitions/Input"
@@ -1623,6 +1668,9 @@
                 },
                 "component": {
                     "const": "Form",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "inputs": {
@@ -1701,6 +1749,9 @@
                     "const": "Header",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -1739,6 +1790,9 @@
                     "const": "Header",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -1766,6 +1820,9 @@
                 },
                 "component": {
                     "const": "Header",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -1799,6 +1856,9 @@
                     "const": "Heading",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "ref": {
                     "type": "string"
                 },
@@ -1829,6 +1889,9 @@
                     "const": "Heading",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "title": {
                     "$ref": "#/definitions/Title_1"
                 }
@@ -1852,6 +1915,9 @@
                     "const": "Heading",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "title": {
                     "$ref": "#/definitions/Title_1"
                 }
@@ -1873,6 +1939,9 @@
                 },
                 "component": {
                     "const": "Hero",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "paragraph": {
@@ -1910,6 +1979,9 @@
                     "const": "Hero",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1936,6 +2008,9 @@
                     "const": "Hero",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1954,6 +2029,9 @@
         "Icon": {
             "additionalProperties": false,
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/Type"
                 }
@@ -1968,6 +2046,9 @@
             "properties": {
                 "component": {
                     "const": "Icon",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "ref": {
@@ -1992,6 +2073,9 @@
                 },
                 "component": {
                     "const": "Icon",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "type": {
@@ -2029,6 +2113,9 @@
                     "const": "Icon",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/Type"
                 }
@@ -2043,6 +2130,9 @@
             "additionalProperties": false,
             "properties": {
                 "alt": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "src": {
@@ -2063,6 +2153,9 @@
                 },
                 "component": {
                     "const": "Image",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "ref": {
@@ -2093,6 +2186,9 @@
                     "const": "Image",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "src": {
                     "type": "string"
                 }
@@ -2113,6 +2209,9 @@
                     "const": "Image",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "src": {
                     "type": "string"
                 }
@@ -2128,6 +2227,9 @@
             "additionalProperties": false,
             "properties": {
                 "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -2183,6 +2285,9 @@
                     "type": "string"
                 },
                 "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -2248,6 +2353,9 @@
                 "defaultValue": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -2302,6 +2410,9 @@
                     "type": "string"
                 },
                 "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -2436,6 +2547,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -2473,6 +2587,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -2502,6 +2619,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -2526,6 +2646,9 @@
                     "type": "boolean"
                 },
                 "href": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -2555,6 +2678,9 @@
                 },
                 "component": {
                     "const": "List",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "open": {
@@ -2592,6 +2718,9 @@
                     "const": "List",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "open": {
                     "type": "string"
                 },
@@ -2618,6 +2747,9 @@
                     "const": "List",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "open": {
                     "type": "string"
                 },
@@ -2638,6 +2770,9 @@
             "properties": {
                 "component": {
                     "const": "Logos",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "images": {
@@ -2673,6 +2808,9 @@
                     "const": "Logos",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "images": {
                     "items": {
                         "$ref": "#/definitions/Image"
@@ -2697,6 +2835,9 @@
             "properties": {
                 "component": {
                     "const": "Logos",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "images": {
@@ -2793,6 +2934,9 @@
                     },
                     "type": "array"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "ref": {
                     "type": "string"
                 }
@@ -2835,6 +2979,9 @@
                         "$ref": "#/definitions/Component"
                     },
                     "type": "array"
+                },
+                "id": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -2870,6 +3017,9 @@
                         "$ref": "#/definitions/Component"
                     },
                     "type": "array"
+                },
+                "id": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -2887,6 +3037,9 @@
                 },
                 "component": {
                     "const": "NotFound",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "paragraph": {
@@ -2921,6 +3074,9 @@
                     "const": "NotFound",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -2942,6 +3098,9 @@
                 },
                 "component": {
                     "const": "NotFound",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "paragraph": {
@@ -3003,6 +3162,9 @@
                 "center": {
                     "type": "boolean"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "size": {
                     "enum": [
                         "lg",
@@ -3030,6 +3192,9 @@
                 },
                 "component": {
                     "const": "Paragraph",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "ref": {
@@ -3069,6 +3234,9 @@
                     "const": "Paragraph",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "size": {
                     "enum": [
                         "lg",
@@ -3097,6 +3265,9 @@
                 },
                 "component": {
                     "const": "Paragraph",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "size": {
@@ -3285,6 +3456,9 @@
                     "const": "Sidebar",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -3322,6 +3496,9 @@
                     "const": "Sidebar",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -3349,6 +3526,9 @@
                 },
                 "component": {
                     "const": "Sidebar",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -3452,6 +3632,9 @@
                     "const": "Table",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "ref": {
                     "type": "string"
                 },
@@ -3492,6 +3675,9 @@
                     "const": "Table",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "source": {
                     "type": "string"
                 },
@@ -3522,6 +3708,9 @@
                 },
                 "component": {
                     "const": "Table",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "source": {
@@ -3689,6 +3878,9 @@
                     "const": "Title",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "ref": {
                     "type": "string"
                 },
@@ -3727,6 +3919,9 @@
                     "const": "Title",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "size": {
                     "enum": [
                         "2xl",
@@ -3758,6 +3953,9 @@
                     "const": "Title",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "size": {
                     "enum": [
                         "2xl",
@@ -3784,6 +3982,9 @@
             "properties": {
                 "center": {
                     "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "size": {
                     "enum": [

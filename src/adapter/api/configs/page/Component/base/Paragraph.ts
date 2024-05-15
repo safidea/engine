@@ -1,6 +1,7 @@
+import type { Base } from './Base'
 import type { Size } from '@domain/engine/page/component/base/Paragraph'
 
-export interface Paragraph {
+export interface Paragraph extends Base {
   text: string
   center?: boolean
   size?: Size

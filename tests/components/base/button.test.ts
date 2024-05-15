@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config as AppConfig } from '@safidea/engine'
-import Page, { type Config as PageConfig } from '@safidea/engine/page'
+import App, { type App as AppConfig } from '@safidea/engine'
+import Page, { type Page as PageConfig } from '@safidea/engine/page'
 import Database from '@tests/database'
 
 test.describe('Button component', () => {

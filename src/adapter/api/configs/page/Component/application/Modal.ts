@@ -1,7 +1,8 @@
 import type { Component } from '..'
 import type { Button } from '../base/Button'
+import type { Base } from '../base/Base'
 
-export interface Modal {
+export interface Modal extends Base {
   button: Button
   header?: Component[]
   body: Component[]

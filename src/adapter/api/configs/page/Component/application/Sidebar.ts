@@ -1,8 +1,9 @@
 import type { Component } from '..'
 import type { Link } from '../base/Link'
 import type { Title } from '../base/Title'
+import type { Base } from '../base/Base'
 
-export interface Sidebar {
+export interface Sidebar extends Base {
   title: Title
   links: Link[]
   children?: Component[]

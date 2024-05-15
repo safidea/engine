@@ -1,4 +1,6 @@
-export interface Image {
+import type { Base } from './Base'
+
+export interface Image extends Base {
   src: string
   alt: string
 }

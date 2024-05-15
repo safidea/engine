@@ -11,6 +11,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -105,6 +108,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -195,6 +201,9 @@
                     "type": "string"
                 },
                 "href": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -517,6 +526,9 @@
                     "const": "CTA",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -541,6 +553,9 @@
                 },
                 "component": {
                     "const": "CTA",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "paragraph": {
@@ -646,6 +661,9 @@
                     },
                     "type": "array"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -689,6 +707,9 @@
                     },
                     "type": "array"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -715,6 +736,9 @@
                     "type": "string"
                 },
                 "copyright": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -744,6 +768,9 @@
                     "type": "string"
                 },
                 "copyright": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -785,6 +812,9 @@
                 },
                 "component": {
                     "const": "Form",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "inputs": {
@@ -835,6 +865,9 @@
                 },
                 "component": {
                     "const": "Form",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "inputs": {
@@ -916,6 +949,9 @@
                     "const": "Header",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -943,6 +979,9 @@
                 },
                 "component": {
                     "const": "Header",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -979,6 +1018,9 @@
                     "const": "Heading",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "title": {
                     "$ref": "#/definitions/Title"
                 }
@@ -1000,6 +1042,9 @@
                 },
                 "component": {
                     "const": "Heading",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "title": {
@@ -1028,6 +1073,9 @@
                     "const": "Hero",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1054,6 +1102,9 @@
                     "const": "Hero",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1072,6 +1123,9 @@
         "Icon": {
             "additionalProperties": false,
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/Type"
                 }
@@ -1089,6 +1143,9 @@
                 },
                 "component": {
                     "const": "Icon",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "type": {
@@ -1126,6 +1183,9 @@
                     "const": "Icon",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/definitions/Type"
                 }
@@ -1140,6 +1200,9 @@
             "additionalProperties": false,
             "properties": {
                 "alt": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "src": {
@@ -1165,6 +1228,9 @@
                     "const": "Image",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "src": {
                     "type": "string"
                 }
@@ -1185,6 +1251,9 @@
                     "const": "Image",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "src": {
                     "type": "string"
                 }
@@ -1200,6 +1269,9 @@
             "additionalProperties": false,
             "properties": {
                 "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -1260,6 +1332,9 @@
                 "defaultValue": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -1314,6 +1389,9 @@
                     "type": "string"
                 },
                 "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -1390,6 +1468,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -1419,6 +1500,9 @@
                 "href": {
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -1443,6 +1527,9 @@
                     "type": "boolean"
                 },
                 "href": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "label": {
@@ -1477,6 +1564,9 @@
                     "const": "List",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "open": {
                     "type": "string"
                 },
@@ -1501,6 +1591,9 @@
                 },
                 "component": {
                     "const": "List",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "open": {
@@ -1528,6 +1621,9 @@
                     "const": "Logos",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "images": {
                     "items": {
                         "$ref": "#/definitions/Image"
@@ -1552,6 +1648,9 @@
             "properties": {
                 "component": {
                     "const": "Logos",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "images": {
@@ -1619,6 +1718,9 @@
                         "$ref": "#/definitions/Component"
                     },
                     "type": "array"
+                },
+                "id": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -1654,6 +1756,9 @@
                         "$ref": "#/definitions/Component"
                     },
                     "type": "array"
+                },
+                "id": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -1674,6 +1779,9 @@
                 },
                 "component": {
                     "const": "NotFound",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "paragraph": {
@@ -1699,6 +1807,9 @@
                     "const": "NotFound",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "paragraph": {
                     "$ref": "#/definitions/Paragraph"
                 },
@@ -1719,6 +1830,9 @@
             "properties": {
                 "center": {
                     "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "size": {
                     "enum": [
@@ -1752,6 +1866,9 @@
                     "const": "Paragraph",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "size": {
                     "enum": [
                         "lg",
@@ -1780,6 +1897,9 @@
                 },
                 "component": {
                     "const": "Paragraph",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "size": {
@@ -1837,6 +1957,9 @@
                     "const": "Sidebar",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "links": {
                     "items": {
                         "$ref": "#/definitions/Link_1"
@@ -1864,6 +1987,9 @@
                 },
                 "component": {
                     "const": "Sidebar",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "links": {
@@ -1905,6 +2031,9 @@
                     "const": "Table",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "source": {
                     "type": "string"
                 },
@@ -1937,6 +2066,9 @@
                     "const": "Table",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "source": {
                     "type": "string"
                 },
@@ -1956,6 +2088,9 @@
             "properties": {
                 "center": {
                     "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "size": {
                     "enum": [
@@ -1990,6 +2125,9 @@
                     "const": "Title",
                     "type": "string"
                 },
+                "id": {
+                    "type": "string"
+                },
                 "size": {
                     "enum": [
                         "2xl",
@@ -2019,6 +2157,9 @@
                 },
                 "component": {
                     "const": "Title",
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "size": {

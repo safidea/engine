@@ -1,6 +1,7 @@
+import type { Base } from './Base'
 import type { Icon } from './Icon'
 
-export interface Link {
+export interface Link extends Base {
   label: string
   href: string
   active?: boolean

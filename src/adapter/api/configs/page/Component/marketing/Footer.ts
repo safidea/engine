@@ -1,8 +1,9 @@
 import type { Title } from '../base/Title'
 import type { Paragraph } from '../base/Paragraph'
 import type { Link } from '../base/Link'
+import type { Base } from '../base/Base'
 
-export interface Footer {
+export interface Footer extends Base {
   title: Title
   paragraph: Paragraph
   links: Link[]

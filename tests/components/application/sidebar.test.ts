@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config as AppConfig } from '@safidea/engine'
+import App, { type App as AppConfig } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('Sidebar component', () => {

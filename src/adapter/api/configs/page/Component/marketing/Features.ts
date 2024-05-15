@@ -1,8 +1,9 @@
 import type { Icon } from '../base/Icon'
 import type { Paragraph } from '../base/Paragraph'
 import type { Title } from '../base/Title'
+import type { Base } from '../base/Base'
 
-export interface Features {
+export interface Features extends Base {
   title: Title
   paragraph: Paragraph
   features: {

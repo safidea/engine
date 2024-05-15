@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Config } from '@safidea/engine/page'
+import Page, { type Page as Config } from '@safidea/engine/page'
 
 test.describe('Logos component', () => {
   test('should render logos', async ({ page }) => {
@@ -34,6 +34,7 @@ test.describe('Logos component', () => {
     // WHEN
     const pageEngine = new Page()
     const html = await pageEngine.getHtml(config)
+    console.log(html)
     await page.setContent(html)
 
     // THEN

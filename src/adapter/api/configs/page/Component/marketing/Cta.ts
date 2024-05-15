@@ -1,8 +1,9 @@
 import type { Title } from '../base/Title'
 import type { Paragraph } from '../base/Paragraph'
 import type { Button } from '../base/Button'
+import type { Base } from '../base/Base'
 
-export interface Cta {
+export interface Cta extends Base {
   title: Title
   paragraph: Paragraph
   buttons: Button[]
