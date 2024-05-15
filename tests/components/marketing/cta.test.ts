@@ -69,4 +69,35 @@ test.describe('Cta component', () => {
     // THEN
     expect(page.url()).toBe(primaryButton.href)
   })
+
+  test('should display the cta id', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'CTA',
+          id: 'my-cta',
+          title: { text: 'This is a title' },
+          paragraph: { text: 'This is a description' },
+          buttons: [
+            {
+              label: 'Click me',
+              href: '/',
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const cta = page.locator('#my-cta')
+    await expect(cta).toBeVisible()
+  })
 })

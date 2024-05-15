@@ -34,7 +34,6 @@ test.describe('Logos component', () => {
     // WHEN
     const pageEngine = new Page()
     const html = await pageEngine.getHtml(config)
-    console.log(html)
     await page.setContent(html)
 
     // THEN
