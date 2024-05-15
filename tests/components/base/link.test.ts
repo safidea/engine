@@ -64,4 +64,30 @@ test.describe('Link component', () => {
     const link = page.getByRole('link', { name: label })
     expect(await link.getAttribute('href')).toBe(href)
   })
+
+  test('should display the link id', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Link',
+          label: 'hello world',
+          href: '/',
+          id: 'my-link',
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const link = page.getByRole('link', { name: 'hello world' })
+    await expect(link).toHaveAttribute('id')
+    expect(await link.getAttribute('id')).toBe('my-link')
+  })
 })

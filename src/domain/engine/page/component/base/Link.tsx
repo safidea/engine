@@ -11,10 +11,7 @@ export interface Props extends BaseProps {
   SuffixIcon?: React.FC<BaseProps>
 }
 
-interface Params extends Props {
-  label: string
-  href: string
-  active?: boolean
+interface Params extends Omit<Props, 'PrefixIcon' | 'SuffixIcon'> {
   prefixIcon?: Icon
   suffixIcon?: Icon
   Component: ReactComponent<Props>

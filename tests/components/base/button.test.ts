@@ -201,8 +201,8 @@ test.describe('Button component', () => {
     await page.setContent(html)
 
     // THEN
-    const paragraph = page.getByText('hello world')
-    await expect(paragraph).toHaveAttribute('id')
-    expect(await paragraph.getAttribute('id')).toBe('my-button')
+    const button = page.getByText('hello world')
+    await expect(button).toHaveAttribute('id')
+    expect(await button.getAttribute('id')).toBe('my-button')
   })
 })
