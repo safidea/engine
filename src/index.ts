@@ -4,7 +4,7 @@ import { components } from '@infrastructure/components'
 import { drivers } from '@infrastructure/drivers'
 
 export type { AppOptions as Options } from '@adapter/api/options/App'
-export type { App as Config } from '@adapter/api/configs/App'
+export type { App } from '@adapter/api/configs/App'
 export type { Props as ReactProps, ReactComponents } from '@domain/engine/page/component'
 export type {
   Props as CustomizedProps,
