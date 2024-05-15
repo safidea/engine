@@ -60,4 +60,46 @@ test.describe('Features component', () => {
       }
     }
   })
+
+  test('should display the features id', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Features',
+          id: 'my-features',
+          title: { text: 'This is a title' },
+          paragraph: { text: 'This is a description' },
+          features: [
+            {
+              title: { text: 'Feature 1' },
+              paragraph: { text: 'Description 1' },
+              icon: { type: 'ChartBarSquare' },
+            },
+            {
+              title: { text: 'Feature 2' },
+              paragraph: { text: 'Description 2' },
+              icon: { type: 'Scale' },
+            },
+            {
+              title: { text: 'Feature 3' },
+              paragraph: { text: 'Description 3' },
+              icon: { type: 'Cog6Tooth' },
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const features = page.locator('#my-features')
+    await expect(features).toBeVisible()
+  })
 })

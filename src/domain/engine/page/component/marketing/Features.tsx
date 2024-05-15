@@ -17,7 +17,7 @@ export interface Props extends BaseProps {
   }[]
 }
 
-interface Params {
+interface Params extends BaseProps {
   title: Title
   paragraph: Paragraph
   features: {
@@ -45,7 +45,7 @@ export class Features implements Base<Props> {
   }
 
   render = async () => {
-    const { Component, title, paragraph, features } = this.params
+    const { Component, title, paragraph, features, id, className } = this.params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Features = await Promise.all(
@@ -55,7 +55,9 @@ export class Features implements Base<Props> {
         Icon: await icon.render(),
       }))
     )
-    return (props?: Partial<Props>) => <Component {...{ Title, Paragraph, Features, ...props }} />
+    return (props?: Partial<Props>) => (
+      <Component {...{ id, className, Title, Paragraph, Features, ...props }} />
+    )
   }
 
   validateConfig = () => {

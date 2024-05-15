@@ -1,7 +1,8 @@
 import type { Props } from '@domain/engine/page/component'
+import { classNames } from '../utils'
 
-export const Features = ({ Title, Paragraph, Features }: Props['Features']) => (
-  <section className="bg-white dark:bg-gray-900">
+export const Features = ({ id, className = '', Title, Paragraph, Features }: Props['Features']) => (
+  <section id={id} className={classNames(className, 'bg-white dark:bg-gray-900')}>
     <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div className="max-w-screen-md mb-8 lg:mb-16">
         <Title className="mb-4" />
