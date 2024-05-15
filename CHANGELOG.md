@@ -1,3 +1,10 @@
+## [0.6.4](https://github.com/safidea/engine/compare/v0.6.3...v0.6.4) (2024-05-15)
+
+
+### Bug Fixes
+
+* **Component:** export Component type ([88b9d3d](https://github.com/safidea/engine/commit/88b9d3de1829b62dd71b2251b08ef89e6e7dc0cd))
+
 ## [0.6.3](https://github.com/safidea/engine/compare/v0.6.2...v0.6.3) (2024-05-15)
 
 
