@@ -69,4 +69,35 @@ test.describe('Hero component', () => {
     // THEN
     expect(page.url()).toBe(primaryButton.href)
   })
+
+  test('should display the hero id', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Hero',
+          id: 'my-hero',
+          title: { text: 'This is a title' },
+          paragraph: { text: 'This is a description' },
+          buttons: [
+            {
+              label: 'Click me',
+              href: '/',
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const hero = page.locator('#my-hero')
+    await expect(hero).toBeVisible()
+  })
 })

@@ -14,7 +14,7 @@ export interface Props extends BaseProps {
   Buttons: React.FC<Partial<ButtonProps>>[]
 }
 
-interface Params {
+interface Params extends BaseProps {
   title: Title
   paragraph: Paragraph
   buttons: Button[]
@@ -30,11 +30,13 @@ export class Hero implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { Component, title, paragraph, buttons } = this.params
+    const { Component, title, paragraph, buttons, id, className } = this.params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
-    return (props?: Partial<Props>) => <Component {...{ Title, Paragraph, Buttons, ...props }} />
+    return (props?: Partial<Props>) => (
+      <Component {...{ id, className, Title, Paragraph, Buttons, ...props }} />
+    )
   }
 
   validateConfig = () => {
