@@ -1,7 +1,8 @@
 import type { Props } from '@domain/engine/page/component'
+import { classNames } from '../utils'
 
-export const Sidebar = ({ Title, Links, children }: Props['Sidebar']) => (
-  <div className="antialiased dark:bg-gray-900">
+export const Sidebar = ({ id, className = '', Title, Links, children }: Props['Sidebar']) => (
+  <div id={id} className={classNames('antialiased dark:bg-gray-900', className)}>
     <aside
       className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
       aria-label="Sidenav"

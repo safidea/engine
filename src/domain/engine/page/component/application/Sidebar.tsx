@@ -13,7 +13,7 @@ export interface Props extends BaseProps {
   children: React.ReactNode
 }
 
-interface Params {
+interface Params extends BaseProps {
   title?: Title
   links: Link[]
   children: Component[]
@@ -33,13 +33,15 @@ export class Sidebar implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { Component } = this.params
+    const { Component, id, className } = this.params
     const children = await Promise.all(this.params.children.map((child) => child.render(state)))
     const Links = await Promise.all(this.params.links.map((link) => link.render(state)))
     const Title = this.params.title ? await this.params.title.render() : undefined
     return (props?: Partial<Props>) => (
       <Component
         {...{
+          id,
+          className,
           Title,
           Links,
           children: children.map((Child, index) => <Child key={index} />),

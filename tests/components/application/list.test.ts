@@ -202,4 +202,59 @@ test.describe('List component', () => {
     // THEN
     await expect(page.getByText('Doe')).toBeVisible()
   })
+
+  test('should display the list id', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'List',
+                  id: 'my-list',
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                    },
+                  ],
+                  open: '/{{name}}',
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+
+    // WHEN
+    await page.goto(url)
+    await page.getByText('John').waitFor({ state: 'visible' })
+
+    // THEN
+    const list = page.locator('#my-list')
+    await expect(list).toBeVisible()
+  })
 })

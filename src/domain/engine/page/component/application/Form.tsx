@@ -32,14 +32,12 @@ export interface Props extends BaseProps {
   errorMessage?: string
 }
 
-interface Params {
-  action: string
-  method?: Method
+interface Params
+  extends Omit<Props, 'formId' | 'Title' | 'Paragraph' | 'Inputs' | 'Buttons' | 'errorMessage'> {
   title?: Title
   paragraph?: Paragraph
   inputs: Input[]
   buttons: Button[]
-  successMessage?: string
   source?: string
   Component: ReactComponent<Props>
   server: Server
@@ -116,7 +114,7 @@ export class Form implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { client, Component, title, paragraph, inputs, buttons } = this.params
+    const { client, Component, title, paragraph, inputs, buttons, id, className } = this.params
     const record = await this.getData(state)
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
@@ -129,6 +127,8 @@ export class Form implements Base<Props> {
       <client.Frame id={this.id}>
         <Component
           {...{
+            id,
+            className,
             action,
             method: 'POST',
             Title,

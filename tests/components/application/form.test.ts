@@ -509,4 +509,43 @@ test.describe('Form component', () => {
     const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
     expect(lead).toBeUndefined()
   })
+
+  test('should display the form id', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Form',
+          id: 'my-form',
+          action: '#',
+          title: { text: 'This is a title' },
+          paragraph: { text: 'This is a description' },
+          inputs: [
+            {
+              name: 'email',
+              label: 'Your email',
+              placeholder: '',
+            },
+          ],
+          buttons: [
+            {
+              type: 'submit',
+              label: 'Save',
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const form = page.locator('#my-form')
+    await expect(form).toBeVisible()
+  })
 })

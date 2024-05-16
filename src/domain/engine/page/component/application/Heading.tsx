@@ -11,7 +11,7 @@ export interface Props extends BaseProps {
   Buttons?: React.FC<Partial<ButtonProps>>[]
 }
 
-interface Params {
+interface Params extends BaseProps {
   title: Title
   buttons?: Button[]
   Component: ReactComponent<Props>
@@ -26,10 +26,12 @@ export class Heading implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { title, buttons = [], Component } = this.params
+    const { id, className, title, buttons = [], Component } = this.params
     const Title = await title.render()
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
-    return (props?: Partial<Props>) => <Component {...{ Title, Buttons, ...props }} />
+    return (props?: Partial<Props>) => (
+      <Component {...{ id, className, Title, Buttons, ...props }} />
+    )
   }
 
   validateConfig = () => {

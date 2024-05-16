@@ -11,7 +11,7 @@ export interface Props extends BaseProps {
   footer?: React.ReactNode
 }
 
-interface Params {
+interface Params extends BaseProps {
   button: Button
   header?: Component[]
   body: Component[]
@@ -39,6 +39,8 @@ export class Modal implements Base<Props> {
       header: headerParam,
       body: bodyParam,
       footer: footerParam,
+      id,
+      className,
     } = this.params
     const Button = await button.render(state)
     const header = headerParam
@@ -51,6 +53,8 @@ export class Modal implements Base<Props> {
     return (props?: Partial<Props>) => (
       <Component
         {...{
+          id,
+          className,
           Button,
           header: header?.map((Child, index) => <Child key={index} />),
           body: body.map((Child, index) => <Child key={index} />),

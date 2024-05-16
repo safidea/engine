@@ -272,7 +272,7 @@ export class ComponentMapper {
     const header = config.header?.map((child) => this.toEntity(child, params))
     const body = config.body.map((child) => this.toEntity(child, params))
     const footer = config.footer?.map((child) => this.toEntity(child, params))
-    return new Modal({ header, body, footer, button, Component: components.Modal })
+    return new Modal({ ...config, header, body, footer, button, Component: components.Modal })
   }
 
   static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {

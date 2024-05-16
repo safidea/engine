@@ -29,7 +29,7 @@ export interface Props extends BaseProps {
   actionClientProps?: { [key: string]: string }
 }
 
-interface Params {
+interface Params extends BaseProps {
   source: string
   columns: Column[]
   open: string
@@ -113,12 +113,12 @@ export class List implements Base<Props> {
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { ui, client, columns } = this.params
+    const { ui, client, columns, id, className } = this.params
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
-        <Component {...{ columns, ...props, actionClientProps }} />
+        <Component {...{ id, className, columns, ...props, actionClientProps }} />
       </client.Stream>
     )
   }

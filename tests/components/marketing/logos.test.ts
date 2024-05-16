@@ -46,4 +46,43 @@ test.describe('Logos component', () => {
       expect(await image.getAttribute('src')).toBe(logo.src)
     }
   })
+
+  test('should display the logos id', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Logos',
+          id: 'my-logos',
+          title: { text: 'This is a title' },
+          paragraph: { text: 'This is a description' },
+          images: [
+            {
+              src: 'https://via.placeholder.com/150',
+              alt: 'logo-1',
+            },
+            {
+              src: 'https://via.placeholder.com/150',
+              alt: 'logo-2',
+            },
+            {
+              src: 'https://via.placeholder.com/150',
+              alt: 'logo-3',
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    const logos = page.locator('#my-logos')
+    await expect(logos).toBeVisible()
+  })
 })

@@ -1,10 +1,10 @@
 import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
-export const Logos = ({ Title, Paragraph, Images }: Props['Logos']) => {
+export const Logos = ({ id, className = '', Title, Paragraph, Images }: Props['Logos']) => {
   const gridColumn = getGridColumns(Images.length)
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section id={id} className={classNames('bg-white dark:bg-gray-900', className)}>
       <div className="py-8 lg:py-16 mx-auto max-w-screen-xl px-4">
         {Title ? <Title center={true} className={Paragraph ? 'mb-4' : 'mb-8'} /> : null}
         {Paragraph ? <Paragraph center={true} className="mb-8" /> : null}

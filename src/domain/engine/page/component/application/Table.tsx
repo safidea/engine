@@ -30,7 +30,7 @@ export interface Props extends BaseProps {
   Buttons?: React.FC<Partial<ButtonProps>>[]
 }
 
-interface Params {
+interface Params extends BaseProps {
   source: string
   title?: Title
   columns: Column[]
@@ -101,19 +101,19 @@ export class Table implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui } = this.params
+    const { ui, id, className } = this.params
     const Component = await this.render(state, { withSource: false })
-    return ui.renderToHtml(<Component {...props} />)
+    return ui.renderToHtml(<Component {...props} id={id} className={className} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { ui, client, title, columns, buttons = [] } = this.params
+    const { ui, client, title, columns, buttons = [], id, className } = this.params
     const Component = await this.render(state, { withSource: false })
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
     return ui.renderToHtml(
       <client.Stream action="replace" target={this.id}>
-        <Component {...{ Title, columns, Buttons, ...props }} />
+        <Component {...{ id, className, Title, columns, Buttons, ...props }} />
       </client.Stream>
     )
   }

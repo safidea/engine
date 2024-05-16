@@ -13,7 +13,7 @@ export interface Props extends BaseProps {
   Images: React.FC<Partial<ImageProps>>[]
 }
 
-interface Params {
+interface Params extends BaseProps {
   images: Image[]
   title?: Title
   paragraph?: Paragraph
@@ -29,11 +29,13 @@ export class Logos implements Base<Props> {
   }
 
   render = async () => {
-    const { Component, title, paragraph, images } = this.params
+    const { Component, title, paragraph, images, id, className } = this.params
     const Title = title ? await title.render() : undefined
     const Paragraph = paragraph ? await paragraph.render() : undefined
     const Images = await Promise.all(images.map((image) => image.render()))
-    return (props?: Partial<Props>) => <Component {...{ Title, Paragraph, Images, ...props }} />
+    return (props?: Partial<Props>) => (
+      <Component {...{ id, className, Title, Paragraph, Images, ...props }} />
+    )
   }
 
   validateConfig = () => {

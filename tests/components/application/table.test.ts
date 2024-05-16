@@ -265,4 +265,58 @@ test.describe('Table component', () => {
     // THEN
     await expect(page.locator('text=Leads')).toBeVisible()
   })
+
+  test('should display the table id', async ({ page }) => {
+    // GIVEN
+    const database = new Database()
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'Feature',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  id: 'my-table',
+                  title: { text: 'Leads' },
+                  source: '/api/table/leads',
+                  columns: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    const table = page.locator('#my-table')
+    await expect(table).toBeVisible()
+  })
 })
