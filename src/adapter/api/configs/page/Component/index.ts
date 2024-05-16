@@ -19,6 +19,7 @@ import type { ListBlock, ListBlockRef, ListComponent } from './application/List'
 import type { HeadingBlock, HeadingBlockRef, HeadingComponent } from './application/Heading'
 import type { CustomizedBlockRef, CustomizedComponent, CustomizedBlock } from './customized'
 import type { ModalBlock, ModalBlockRef, ModalComponent } from './application/Modal'
+import type { MenuBlock, MenuBlockRef, MenuComponent } from './base/Menu'
 
 export type Component =
   | ButtonComponent
@@ -42,6 +43,7 @@ export type Component =
   | HeadingComponent
   | CustomizedComponent
   | ModalComponent
+  | MenuComponent
 
 export type BlockRef =
   | ButtonBlockRef
@@ -65,6 +67,7 @@ export type BlockRef =
   | HeadingBlockRef
   | CustomizedBlockRef
   | ModalBlockRef
+  | MenuBlockRef
 
 export type Block =
   | ButtonBlock
@@ -88,5 +91,6 @@ export type Block =
   | HeadingBlock
   | CustomizedBlock
   | ModalBlock
+  | MenuBlock
 
 export type ComponentWithBlockRef = Component | BlockRef

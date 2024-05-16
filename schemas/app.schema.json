@@ -309,6 +309,9 @@
                 },
                 {
                     "$ref": "#/definitions/ModalBlock"
+                },
+                {
+                    "$ref": "#/definitions/MenuBlock"
                 }
             ]
         },
@@ -316,6 +319,9 @@
             "additionalProperties": false,
             "properties": {
                 "action": {
+                    "type": "string"
+                },
+                "className": {
                     "type": "string"
                 },
                 "href": {
@@ -406,6 +412,9 @@
             "additionalProperties": false,
             "properties": {
                 "action": {
+                    "type": "string"
+                },
+                "className": {
                     "type": "string"
                 },
                 "component": {
@@ -510,6 +519,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Button",
                     "type": "string"
@@ -603,6 +615,9 @@
             "additionalProperties": false,
             "properties": {
                 "action": {
+                    "type": "string"
+                },
+                "className": {
                     "type": "string"
                 },
                 "component": {
@@ -821,6 +836,9 @@
                 },
                 {
                     "$ref": "#/definitions/ModalComponent"
+                },
+                {
+                    "$ref": "#/definitions/MenuComponent"
                 }
             ]
         },
@@ -890,6 +908,9 @@
                     "$ref": "#/definitions/ModalComponent"
                 },
                 {
+                    "$ref": "#/definitions/MenuComponent"
+                },
+                {
                     "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
@@ -951,6 +972,9 @@
                 },
                 {
                     "$ref": "#/definitions/ModalBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/MenuBlockRef"
                 }
             ]
         },
@@ -995,6 +1019,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "CTA",
                     "type": "string"
@@ -1033,6 +1060,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "CTA",
                     "type": "string"
@@ -1061,6 +1091,9 @@
                         "$ref": "#/definitions/Button"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "CTA",
@@ -1245,6 +1278,9 @@
         "FeaturesBlock": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Features",
                     "type": "string"
@@ -1300,6 +1336,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Features",
                     "type": "string"
@@ -1346,6 +1385,9 @@
         "FeaturesComponent": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Features",
                     "type": "string"
@@ -1433,6 +1475,9 @@
         "FooterBlock": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Footer",
                     "type": "string"
@@ -1475,6 +1520,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Footer",
                     "type": "string"
@@ -1507,6 +1555,9 @@
         "FooterComponent": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Footer",
                     "type": "string"
@@ -1550,6 +1601,9 @@
                         "$ref": "#/definitions/Button"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Form",
@@ -1613,6 +1667,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Form",
                     "type": "string"
@@ -1665,6 +1722,9 @@
                         "$ref": "#/definitions/Button"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Form",
@@ -1745,6 +1805,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Header",
                     "type": "string"
@@ -1786,6 +1849,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Header",
                     "type": "string"
@@ -1817,6 +1883,9 @@
                         "$ref": "#/definitions/Button"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Header",
@@ -1852,6 +1921,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Heading",
                     "type": "string"
@@ -1885,6 +1957,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Heading",
                     "type": "string"
@@ -1911,6 +1986,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Heading",
                     "type": "string"
@@ -1936,6 +2014,9 @@
                         "$ref": "#/definitions/Button"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Hero",
@@ -1975,6 +2056,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Hero",
                     "type": "string"
@@ -2004,6 +2088,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Hero",
                     "type": "string"
@@ -2029,6 +2116,9 @@
         "Icon": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -2044,6 +2134,9 @@
         "IconBlock": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Icon",
                     "type": "string"
@@ -2069,6 +2162,9 @@
             "additionalProperties": false,
             "properties": {
                 "blockRef": {
+                    "type": "string"
+                },
+                "className": {
                     "type": "string"
                 },
                 "component": {
@@ -2109,6 +2205,9 @@
         "IconComponent": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Icon",
                     "type": "string"
@@ -2132,6 +2231,9 @@
                 "alt": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -2149,6 +2251,9 @@
             "additionalProperties": false,
             "properties": {
                 "alt": {
+                    "type": "string"
+                },
+                "className": {
                     "type": "string"
                 },
                 "component": {
@@ -2182,6 +2287,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Image",
                     "type": "string"
@@ -2205,6 +2313,9 @@
                 "alt": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Image",
                     "type": "string"
@@ -2226,6 +2337,9 @@
         "Input": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "defaultValue": {
                     "type": "string"
                 },
@@ -2280,6 +2394,9 @@
         "InputBlock": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Input",
                     "type": "string"
@@ -2346,6 +2463,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Input",
                     "type": "string"
@@ -2405,6 +2525,9 @@
         "InputComponent": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Input",
                     "type": "string"
@@ -2540,6 +2663,9 @@
                 "active": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Link",
                     "type": "string"
@@ -2580,6 +2706,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Link",
                     "type": "string"
@@ -2611,6 +2740,9 @@
             "properties": {
                 "active": {
                     "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Link",
@@ -2645,6 +2777,9 @@
                 "active": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "href": {
                     "type": "string"
                 },
@@ -2670,6 +2805,9 @@
         "ListBlock": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "columns": {
                     "items": {
                         "$ref": "#/definitions/Column_1"
@@ -2708,6 +2846,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "columns": {
                     "items": {
                         "$ref": "#/definitions/Column_1"
@@ -2737,6 +2878,9 @@
         "ListComponent": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "columns": {
                     "items": {
                         "$ref": "#/definitions/Column_1"
@@ -2768,6 +2912,9 @@
         "LogosBlock": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Logos",
                     "type": "string"
@@ -2804,6 +2951,9 @@
                 "blockRef": {
                     "type": "string"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Logos",
                     "type": "string"
@@ -2833,6 +2983,9 @@
         "LogosComponent": {
             "additionalProperties": false,
             "properties": {
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Logos",
                     "type": "string"
@@ -2890,6 +3043,102 @@
             ],
             "type": "object"
         },
+        "MenuBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Menu",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                },
+                "ref": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "label",
+                "links",
+                "ref"
+            ],
+            "type": "object"
+        },
+        "MenuBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Menu",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "MenuComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Menu",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "component",
+                "label",
+                "links"
+            ],
+            "type": "object"
+        },
         "Meta": {
             "additionalProperties": false,
             "properties": {
@@ -2917,6 +3166,9 @@
                 },
                 "button": {
                     "$ref": "#/definitions/Button"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Modal",
@@ -2964,6 +3216,9 @@
                 "button": {
                     "$ref": "#/definitions/Button"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Modal",
                     "type": "string"
@@ -3002,6 +3257,9 @@
                 "button": {
                     "$ref": "#/definitions/Button"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Modal",
                     "type": "string"
@@ -3034,6 +3292,9 @@
             "properties": {
                 "button": {
                     "$ref": "#/definitions/Button"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "NotFound",
@@ -3070,6 +3331,9 @@
                 "button": {
                     "$ref": "#/definitions/Button"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "NotFound",
                     "type": "string"
@@ -3095,6 +3359,9 @@
             "properties": {
                 "button": {
                     "$ref": "#/definitions/Button"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "NotFound",
@@ -3162,6 +3429,9 @@
                 "center": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -3189,6 +3459,9 @@
             "properties": {
                 "center": {
                     "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Paragraph",
@@ -3230,6 +3503,9 @@
                 "center": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Paragraph",
                     "type": "string"
@@ -3262,6 +3538,9 @@
             "properties": {
                 "center": {
                     "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Paragraph",
@@ -3452,6 +3731,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Sidebar",
                     "type": "string"
@@ -3492,6 +3774,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Sidebar",
                     "type": "string"
@@ -3523,6 +3808,9 @@
                         "$ref": "#/definitions/Component"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "component": {
                     "const": "Sidebar",
@@ -3622,6 +3910,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "columns": {
                     "items": {
                         "$ref": "#/definitions/Column"
@@ -3665,6 +3956,9 @@
                     },
                     "type": "array"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "columns": {
                     "items": {
                         "$ref": "#/definitions/Column"
@@ -3699,6 +3993,9 @@
                         "$ref": "#/definitions/Button"
                     },
                     "type": "array"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "columns": {
                     "items": {
@@ -3874,6 +4171,9 @@
                 "center": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Title",
                     "type": "string"
@@ -3915,6 +4215,9 @@
                 "center": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Title",
                     "type": "string"
@@ -3949,6 +4252,9 @@
                 "center": {
                     "type": "boolean"
                 },
+                "className": {
+                    "type": "string"
+                },
                 "component": {
                     "const": "Title",
                     "type": "string"
@@ -3982,6 +4288,9 @@
             "properties": {
                 "center": {
                     "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
