@@ -1,3 +1,10 @@
+## [0.6.5](https://github.com/safidea/engine/compare/v0.6.4...v0.6.5) (2024-05-15)
+
+
+### Bug Fixes
+
+* **Component:** add green test: should display the hero id ([806cb23](https://github.com/safidea/engine/commit/806cb238a576c87a7c406852c43e89d365f97ad4))
+
 ## [0.6.4](https://github.com/safidea/engine/compare/v0.6.3...v0.6.4) (2024-05-15)
 
 
