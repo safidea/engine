@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/safidea/engine/compare/v0.6.6...v0.7.0) (2024-06-04)
+
+
+### Features
+
+* **component:** add container component ([53fdf2b](https://github.com/safidea/engine/commit/53fdf2b59c5514050c06163df11daa721fe63cde))
+
 ## [0.6.6](https://github.com/safidea/engine/compare/v0.6.5...v0.6.6) (2024-05-16)
 
 
