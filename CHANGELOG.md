@@ -1,3 +1,10 @@
+## [0.6.6](https://github.com/safidea/engine/compare/v0.6.5...v0.6.6) (2024-05-16)
+
+
+### Bug Fixes
+
+* **Component:** add green tests for id customization ([da3361e](https://github.com/safidea/engine/commit/da3361ed4bf9801fbd7ef3d515a471955d5404bb))
+
 ## [0.6.5](https://github.com/safidea/engine/compare/v0.6.4...v0.6.5) (2024-05-15)
 
 
