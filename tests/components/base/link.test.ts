@@ -37,7 +37,7 @@ test.describe('Link component', () => {
       name: 'App',
       features: [
         {
-          name: 'display paragraph',
+          name: 'display link',
           pages: [
             {
               name: 'link',

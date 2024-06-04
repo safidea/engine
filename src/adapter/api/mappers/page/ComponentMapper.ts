@@ -24,12 +24,14 @@ import { Table } from '@domain/engine/page/component/application/Table'
 import type { Realtime } from '@domain/services/Realtime'
 import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
 import { Title } from '@domain/engine/page/component/base/Title'
+import { Container } from '@domain/engine/page/component/base/Container'
 import { InvalidBlock } from '@domain/engine/page/component/base/InvalidBlock'
 import type { Client } from '@domain/services/Client'
 import { Icon } from '@domain/engine/page/component/base/Icon'
 import { Input } from '@domain/engine/page/component/base/Input'
 import { Image } from '@domain/engine/page/component/base/Image'
 import type { Title as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
+import type { Container as ContainerConfig } from '@adapter/api/configs/page/Component/base/Container'
 import type { Paragraph as ParagraphConfig } from '@adapter/api/configs/page/Component/base/Paragraph'
 import type { Button as ButtonConfig } from '@adapter/api/configs/page/Component/base/Button'
 import type { Link as LinkConfig } from '@adapter/api/configs/page/Component/base/Link'
@@ -70,6 +72,11 @@ export interface Params {
 export class ComponentMapper {
   static toTitleEntity = (config: TitleConfig, params: Params): Title => {
     return new Title({ ...config, Component: params.components.Title })
+  }
+
+  static toContainerEntity = (config: ContainerConfig, params: Params): Container => {
+    const children = (config.children ?? []).map((child) => this.toEntity(child, params))
+    return new Container({ ...config, children, Component: params.components.Container })
   }
 
   static toParagraphEntity = (config: ParagraphConfig, params: Params): Paragraph => {
@@ -298,6 +305,7 @@ export class ComponentMapper {
     if (component === 'Heading') return this.toHeadingEntity(config, params)
     if (component === 'Customized') return this.toCustomizedEntity(config, params)
     if (component === 'Modal') return this.toModalEntity(config, params)
+    if (component === 'Container') return this.toContainerEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 
@@ -349,6 +357,8 @@ export class ComponentMapper {
       return this.toCustomizedEntity({ ...block, ...config }, params)
     if (config.component === 'Modal' && block.component === 'Modal')
       return this.toModalEntity({ ...block, ...config }, params)
+    if (config.component === 'Container' && block.component === 'Container')
+      return this.toContainerEntity({ ...block, ...config }, params)
     return new InvalidBlock({
       message: `BlockRef ${config.blockRef} is not a ${block.component} component`,
     })
