@@ -54,6 +54,8 @@ import type { Customized as CustomizedConfig } from '@adapter/api/configs/page/C
 import { Customized, type CustomizedComponents } from '@domain/engine/page/component/Customized'
 import { Modal } from '@domain/engine/page/component/application/Modal'
 import type { Modal as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
+import { Menu } from '@domain/engine/page/component/base/Menu'
+import type { Menu as MenuConfig } from '@adapter/api/configs/page/Component/base/Menu'
 
 export interface Params {
   components: ReactComponents
@@ -275,6 +277,12 @@ export class ComponentMapper {
     return new Modal({ ...config, header, body, footer, button, Component: components.Modal })
   }
 
+  static toMenuEntity = (config: MenuConfig, params: Params): Menu => {
+    const { components } = params
+    const links = this.toManyLinkEntities(config.links, params)
+    return new Menu({ ...config, links, Component: components.Menu })
+  }
+
   static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -298,6 +306,7 @@ export class ComponentMapper {
     if (component === 'Heading') return this.toHeadingEntity(config, params)
     if (component === 'Customized') return this.toCustomizedEntity(config, params)
     if (component === 'Modal') return this.toModalEntity(config, params)
+    if (component === 'Menu') return this.toMenuEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 

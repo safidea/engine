@@ -21,6 +21,7 @@ import type { Image, Props as ImageProps } from './base/Image'
 import type { List, Props as ListProps } from './application/List'
 import type { Heading, Props as HeadingProps } from './application/Heading'
 import type { Modal, Props as ModalProps } from './application/Modal'
+import type { Menu, Props as MenuProps } from './base/Menu'
 import type { Customized } from './Customized'
 
 export type Component =
@@ -46,6 +47,7 @@ export type Component =
   | Heading
   | Customized
   | Modal
+  | Menu
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -69,6 +71,7 @@ export interface ReactComponents {
   List: ReactComponent<ListProps>
   Heading: ReactComponent<HeadingProps>
   Modal: ReactComponent<ModalProps>
+  Menu: ReactComponent<MenuProps>
 }
 
 export interface Props {
@@ -93,4 +96,5 @@ export interface Props {
   List: ListProps
   Heading: HeadingProps
   Modal: ModalProps
+  Menu: MenuProps
 }
