@@ -3,8 +3,8 @@ import { Container } from '../base/Container'
 
 export const Features = ({ id, className = '', Title, Paragraph, Features }: Props['Features']) => (
   <Container id={id} className={className}>
-    <div className="max-w-screen-md mb-8 lg:mb-16">
-      <Title className="mb-4" />
+    <div className="max-w-screen-md lg:mb-16">
+      <Title />
       <Paragraph size="xl" />
     </div>
     <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">

@@ -7,8 +7,10 @@ export const NotFound = ({ Title, Paragraph, Button }: Props['NotFound']) => (
         <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">
           404
         </h1>
-        <Title className="mb-4" />
-        <Paragraph className="mb-8" />
+        <div className="mb-8">
+          <Title align="center" />
+          <Paragraph align="center" size="lg" />
+        </div>
         <Button />
       </div>
     </div>

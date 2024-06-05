@@ -12,8 +12,8 @@ export const Footer = ({
   <footer id={id} className={classNames('p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800', className)}>
     <div className="mx-auto max-w-screen-xl text-center">
       <Title size="sm" className="flex justify-center items-center" />
-      <Paragraph className="my-6" />
-      <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+      <Paragraph align="center" />
+      <ul className="flex flex-wrap justify-center items-center mb-4 text-gray-900 dark:text-white">
         {Links.map((Link, index) => (
           <li key={index}>
             <Link />

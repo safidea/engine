@@ -1,12 +1,13 @@
 import type { Props } from '@domain/engine/page/component'
-import { classNames, getTextAlignClass } from '../utils'
+import { classNames, getTextAlignClasses } from '../utils'
 import type { Size } from '@domain/engine/page/component/base/base'
 
 export const Title = ({ size = 'md', text, align = 'left', className = '' }: Props['Title']) => {
   const classes = classNames(
     'font-bold text-gray-900',
-    getTextClass(size),
-    getTextAlignClass(align),
+    getTextSizeClasses(size),
+    !className.includes('mb-') ? getTextMarginBottomClasses(size) : '',
+    getTextAlignClasses(align),
     className
   )
   switch (size) {
@@ -25,7 +26,7 @@ export const Title = ({ size = 'md', text, align = 'left', className = '' }: Pro
   }
 }
 
-export function getTextClass(size: Size) {
+export function getTextSizeClasses(size: Size) {
   switch (size) {
     case 'xs':
       return 'text-xl'
@@ -39,5 +40,22 @@ export function getTextClass(size: Size) {
       return 'text-5xl'
     case '2xl':
       return 'text-6xl'
+  }
+}
+
+export function getTextMarginBottomClasses(size: Size) {
+  switch (size) {
+    case 'xs':
+      return 'mb-2'
+    case 'sm':
+      return 'mb-2'
+    case 'md':
+      return 'mb-4'
+    case 'lg':
+      return 'mb-4'
+    case 'xl':
+      return 'mb-6'
+    case '2xl':
+      return 'mb-6'
   }
 }

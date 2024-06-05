@@ -4,7 +4,7 @@ export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function getTextAlignClass(align: Align) {
+export function getTextAlignClasses(align: Align) {
   switch (align) {
     case 'left':
       return 'text-left'
