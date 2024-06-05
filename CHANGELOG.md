@@ -1,3 +1,11 @@
+## [0.7.1](https://github.com/safidea/engine/compare/v0.7.0...v0.7.1) (2024-06-05)
+
+
+### Bug Fixes
+
+* **component:** add margin bottom to text component ([73c2150](https://github.com/safidea/engine/commit/73c2150062ca127480f23b397b077d9baabac373))
+* **component:** refactor size and align properties for text component ([5520b1b](https://github.com/safidea/engine/commit/5520b1bd461862658e5496190190fadae3f54cd9))
+
 # [0.7.0](https://github.com/safidea/engine/compare/v0.6.6...v0.7.0) (2024-06-04)
 
 
