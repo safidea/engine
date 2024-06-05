@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import Page, { type Page as Config } from '@safidea/engine/page'
 
 test.describe('Hero component', () => {
-  test.only('should render a hero', async ({ page }) => {
+  test('should render a hero', async ({ page }) => {
     // GIVEN
     const title = 'This is a title'
     const description = 'This is a description'
