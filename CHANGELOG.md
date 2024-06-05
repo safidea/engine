@@ -1,3 +1,10 @@
+## [0.7.2](https://github.com/safidea/engine/compare/v0.7.1...v0.7.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* **component:** add new icons ([d376838](https://github.com/safidea/engine/commit/d376838f2b0162e2673e3a25453a6de0773a756b))
+
 ## [0.7.1](https://github.com/safidea/engine/compare/v0.7.0...v0.7.1) (2024-06-05)
 
 
