@@ -1,3 +1,10 @@
+## [0.7.3](https://github.com/safidea/engine/compare/v0.7.2...v0.7.3) (2024-06-05)
+
+
+### Bug Fixes
+
+* **component:** add image size, rounded and align properties ([ef25b9c](https://github.com/safidea/engine/commit/ef25b9c8e50a06873d19cfc96edbd7a610ce6fba))
+
 ## [0.7.2](https://github.com/safidea/engine/compare/v0.7.1...v0.7.2) (2024-06-05)
 
 
