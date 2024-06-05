@@ -1,6 +1,10 @@
 import type { Props } from '@domain/engine/page/component'
-import { classNames, getTextAlignClasses } from '../utils'
-import type { Size } from '@domain/engine/page/component/base/base'
+import {
+  classNames,
+  getMarginBottomClasses,
+  getTextAlignClasses,
+  getTextSizeClasses,
+} from '../utils'
 
 export const Paragraph = ({
   id,
@@ -14,7 +18,8 @@ export const Paragraph = ({
       id={id}
       className={classNames(
         'font-light text-gray-500 dark:text-gray-400',
-        getTextClasses(size),
+        getTextSizeClasses(size),
+        getMarginBottomClasses(size, className),
         getTextAlignClasses(align),
         className
       )}
@@ -22,21 +27,4 @@ export const Paragraph = ({
       {text}
     </p>
   )
-}
-
-export function getTextClasses(size: Size) {
-  switch (size) {
-    case 'xs':
-      return 'text-xs mb-2'
-    case 'sm':
-      return 'text-sm mb-2'
-    case 'md':
-      return 'text-base mb-4'
-    case 'lg':
-      return 'text-lg mb-4'
-    case 'xl':
-      return 'text-xl mb-6'
-    case '2xl':
-      return 'text-2xl mb-6'
-  }
 }

@@ -13,7 +13,7 @@ export const Logos = ({ id, className = '', Title, Paragraph, Images }: Props['L
       <div className={classNames(`mx-auto grid grid-cols-2 gap-8 sm:gap-12`, gridColumn)}>
         {Images.map((Image, index) => (
           <div key={index} className="flex justify-center items-center">
-            <Image />
+            <Image className="opacity-75 grayscale" />
           </div>
         ))}
       </div>

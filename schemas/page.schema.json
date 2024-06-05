@@ -328,22 +328,13 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/TitleComponent"
+                    "$ref": "#/definitions/FormComponent"
                 },
                 {
                     "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
-                    "$ref": "#/definitions/InputComponent"
-                },
-                {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
                     "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
                 },
                 {
                     "$ref": "#/definitions/FeaturesComponent"
@@ -352,19 +343,16 @@
                     "$ref": "#/definitions/HeroComponent"
                 },
                 {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
                     "$ref": "#/definitions/FooterComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
                 },
                 {
                     "$ref": "#/definitions/LogosComponent"
                 },
                 {
                     "$ref": "#/definitions/NotFoundComponent"
+                },
+                {
+                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
                     "$ref": "#/definitions/HeaderComponent"
@@ -374,6 +362,18 @@
                 },
                 {
                     "$ref": "#/definitions/SidebarComponent"
+                },
+                {
+                    "$ref": "#/definitions/TitleComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
+                },
+                {
+                    "$ref": "#/definitions/InputComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -401,100 +401,52 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/ButtonBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TitleComponent"
-                },
-                {
-                    "$ref": "#/definitions/TitleBlockRef"
+                    "$ref": "#/definitions/FormComponent"
                 },
                 {
                     "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
-                    "$ref": "#/definitions/ParagraphBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/InputComponent"
-                },
-                {
-                    "$ref": "#/definitions/InputBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
-                    "$ref": "#/definitions/FormBlockRef"
-                },
-                {
                     "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/CtaBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconBlockRef"
                 },
                 {
                     "$ref": "#/definitions/FeaturesComponent"
                 },
                 {
-                    "$ref": "#/definitions/FeaturesBlockRef"
-                },
-                {
                     "$ref": "#/definitions/HeroComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeroBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkBlockRef"
                 },
                 {
                     "$ref": "#/definitions/FooterComponent"
                 },
                 {
-                    "$ref": "#/definitions/FooterBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlockRef"
-                },
-                {
                     "$ref": "#/definitions/LogosComponent"
-                },
-                {
-                    "$ref": "#/definitions/LogosBlockRef"
                 },
                 {
                     "$ref": "#/definitions/NotFoundComponent"
                 },
                 {
-                    "$ref": "#/definitions/NotFoundBlockRef"
+                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
                     "$ref": "#/definitions/HeaderComponent"
                 },
                 {
-                    "$ref": "#/definitions/HeaderBlockRef"
-                },
-                {
                     "$ref": "#/definitions/TableComponent"
                 },
                 {
-                    "$ref": "#/definitions/TableBlockRef"
+                    "$ref": "#/definitions/SidebarComponent"
                 },
                 {
-                    "$ref": "#/definitions/SidebarComponent"
+                    "$ref": "#/definitions/TitleComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
+                },
+                {
+                    "$ref": "#/definitions/InputComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -515,7 +467,55 @@
                     "$ref": "#/definitions/ContainerComponent"
                 },
                 {
+                    "$ref": "#/definitions/ButtonBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FormBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ParagraphBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/CtaBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeroBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FooterBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LogosBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LinkBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeaderBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TableBlockRef"
+                },
+                {
                     "$ref": "#/definitions/SidebarBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TitleBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/IconBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ImageBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/InputBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ListBlockRef"
@@ -1297,6 +1297,7 @@
                 "type": {
                     "enum": [
                         "AcademicCap",
+                        "ArrowTrendingUp",
                         "Banknotes",
                         "ChartBarSquare",
                         "ChatBubbleBottomCenterText",
@@ -1307,10 +1308,15 @@
                         "ComputerDesktop",
                         "DevicePhoneMobile",
                         "FaceSmile",
+                        "Gift",
                         "Home",
                         "MagnifyingGlass",
                         "RectangleStack",
+                        "RocketLaunch",
                         "Scale",
+                        "User",
+                        "UserCircle",
+                        "UserPlus",
                         "Users"
                     ],
                     "type": "string"
@@ -1348,6 +1354,14 @@
         "Image": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "alt": {
                     "type": "string"
                 },
@@ -1355,6 +1369,26 @@
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
                     "type": "string"
                 },
                 "src": {
@@ -1370,6 +1404,14 @@
         "ImageBlockRef": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "alt": {
                     "type": "string"
                 },
@@ -1386,6 +1428,26 @@
                 "id": {
                     "type": "string"
                 },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
                 "src": {
                     "type": "string"
                 }
@@ -1399,6 +1461,14 @@
         "ImageComponent": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "alt": {
                     "type": "string"
                 },
@@ -1410,6 +1480,26 @@
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
                     "type": "string"
                 },
                 "src": {
@@ -2511,6 +2601,7 @@
         "Type": {
             "enum": [
                 "AcademicCap",
+                "ArrowTrendingUp",
                 "Banknotes",
                 "ChartBarSquare",
                 "ChatBubbleBottomCenterText",
@@ -2521,10 +2612,15 @@
                 "ComputerDesktop",
                 "DevicePhoneMobile",
                 "FaceSmile",
+                "Gift",
                 "Home",
                 "MagnifyingGlass",
                 "RectangleStack",
+                "RocketLaunch",
                 "Scale",
+                "User",
+                "UserCircle",
+                "UserPlus",
                 "Users"
             ],
             "type": "string"

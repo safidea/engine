@@ -6,7 +6,7 @@ export const Title = ({ size = 'md', text, align = 'left', className = '' }: Pro
   const classes = classNames(
     'font-bold text-gray-900',
     getTextSizeClasses(size),
-    !className.includes('mb-') ? getTextMarginBottomClasses(size) : '',
+    getMarginBottomClasses(size, className),
     getTextAlignClasses(align),
     className
   )
@@ -43,7 +43,8 @@ export function getTextSizeClasses(size: Size) {
   }
 }
 
-export function getTextMarginBottomClasses(size: Size) {
+export function getMarginBottomClasses(size: Size, className: string) {
+  if (className.includes('mb-')) return ''
   switch (size) {
     case 'xs':
       return 'mb-2'

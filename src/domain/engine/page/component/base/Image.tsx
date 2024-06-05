@@ -1,8 +1,11 @@
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { ReactComponent, Base, BaseProps, Size, RoundedSize, Align } from './base'
 
 export interface Props extends BaseProps {
   src: string
   alt: string
+  size?: Size
+  rounded?: RoundedSize
+  align?: Align
 }
 
 interface Params extends Props {

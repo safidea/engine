@@ -19,3 +19,4 @@ export interface Base<P extends BaseProps> {
 
 export type Align = 'left' | 'center' | 'right'
 export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+export type RoundedSize = 'sm' | 'md' | 'lg' | 'xl'
