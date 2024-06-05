@@ -20,14 +20,14 @@ export const Left: Story = {
 
 export const Center: Story = {
   args: {
-    textAlign: 'center',
+    align: 'center',
     children: <div>Container with center aligned text</div>,
   },
 }
 
 export const Right: Story = {
   args: {
-    textAlign: 'right',
+    align: 'right',
     children: <div>Container with right aligned text</div>,
   },
 }

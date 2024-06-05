@@ -328,13 +328,22 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/FormComponent"
+                    "$ref": "#/definitions/TitleComponent"
                 },
                 {
                     "$ref": "#/definitions/ParagraphComponent"
                 },
                 {
+                    "$ref": "#/definitions/InputComponent"
+                },
+                {
+                    "$ref": "#/definitions/FormComponent"
+                },
+                {
                     "$ref": "#/definitions/CtaComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconComponent"
                 },
                 {
                     "$ref": "#/definitions/FeaturesComponent"
@@ -343,16 +352,19 @@
                     "$ref": "#/definitions/HeroComponent"
                 },
                 {
+                    "$ref": "#/definitions/LinkComponent"
+                },
+                {
                     "$ref": "#/definitions/FooterComponent"
+                },
+                {
+                    "$ref": "#/definitions/ImageComponent"
                 },
                 {
                     "$ref": "#/definitions/LogosComponent"
                 },
                 {
                     "$ref": "#/definitions/NotFoundComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
                 },
                 {
                     "$ref": "#/definitions/HeaderComponent"
@@ -362,18 +374,6 @@
                 },
                 {
                     "$ref": "#/definitions/SidebarComponent"
-                },
-                {
-                    "$ref": "#/definitions/TitleComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
-                },
-                {
-                    "$ref": "#/definitions/InputComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -401,52 +401,100 @@
                     "$ref": "#/definitions/ButtonComponent"
                 },
                 {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
-                    "$ref": "#/definitions/ParagraphComponent"
-                },
-                {
-                    "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeroComponent"
-                },
-                {
-                    "$ref": "#/definitions/FooterComponent"
-                },
-                {
-                    "$ref": "#/definitions/LogosComponent"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeaderComponent"
-                },
-                {
-                    "$ref": "#/definitions/TableComponent"
-                },
-                {
-                    "$ref": "#/definitions/SidebarComponent"
+                    "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
                     "$ref": "#/definitions/TitleComponent"
                 },
                 {
+                    "$ref": "#/definitions/TitleBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ParagraphComponent"
+                },
+                {
+                    "$ref": "#/definitions/ParagraphBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/InputComponent"
+                },
+                {
+                    "$ref": "#/definitions/InputBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FormComponent"
+                },
+                {
+                    "$ref": "#/definitions/FormBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/CtaComponent"
+                },
+                {
+                    "$ref": "#/definitions/CtaBlockRef"
+                },
+                {
                     "$ref": "#/definitions/IconComponent"
+                },
+                {
+                    "$ref": "#/definitions/IconBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesComponent"
+                },
+                {
+                    "$ref": "#/definitions/FeaturesBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeroComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeroBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LinkComponent"
+                },
+                {
+                    "$ref": "#/definitions/LinkBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/FooterComponent"
+                },
+                {
+                    "$ref": "#/definitions/FooterBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ImageComponent"
                 },
                 {
-                    "$ref": "#/definitions/InputComponent"
+                    "$ref": "#/definitions/ImageBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/LogosComponent"
+                },
+                {
+                    "$ref": "#/definitions/LogosBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundComponent"
+                },
+                {
+                    "$ref": "#/definitions/NotFoundBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/HeaderComponent"
+                },
+                {
+                    "$ref": "#/definitions/HeaderBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/TableComponent"
+                },
+                {
+                    "$ref": "#/definitions/TableBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/SidebarComponent"
                 },
                 {
                     "$ref": "#/definitions/ListComponent"
@@ -467,55 +515,7 @@
                     "$ref": "#/definitions/ContainerComponent"
                 },
                 {
-                    "$ref": "#/definitions/ButtonBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FormBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ParagraphBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/CtaBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeroBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FooterBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LogosBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LinkBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeaderBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TableBlockRef"
-                },
-                {
                     "$ref": "#/definitions/SidebarBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TitleBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/IconBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/InputBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ListBlockRef"
@@ -540,6 +540,14 @@
         "ContainerBlockRef": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "blockRef": {
                     "type": "string"
                 },
@@ -558,14 +566,6 @@
                 },
                 "id": {
                     "type": "string"
-                },
-                "textAlign": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
                 }
             },
             "required": [
@@ -577,6 +577,14 @@
         "ContainerComponent": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "children": {
                     "items": {
                         "$ref": "#/definitions/Component"
@@ -591,14 +599,6 @@
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
-                },
-                "textAlign": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
                     "type": "string"
                 }
             },
@@ -2090,8 +2090,13 @@
         "Paragraph": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2101,6 +2106,7 @@
                 },
                 "size": {
                     "enum": [
+                        "2xl",
                         "lg",
                         "md",
                         "sm",
@@ -2121,11 +2127,16 @@
         "ParagraphBlockRef": {
             "additionalProperties": false,
             "properties": {
-                "blockRef": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
                     "type": "string"
                 },
-                "center": {
-                    "type": "boolean"
+                "blockRef": {
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2139,6 +2150,7 @@
                 },
                 "size": {
                     "enum": [
+                        "2xl",
                         "lg",
                         "md",
                         "sm",
@@ -2160,8 +2172,13 @@
         "ParagraphComponent": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2175,6 +2192,7 @@
                 },
                 "size": {
                     "enum": [
+                        "2xl",
                         "lg",
                         "md",
                         "sm",
@@ -2369,8 +2387,13 @@
         "Title": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2401,11 +2424,16 @@
         "TitleBlockRef": {
             "additionalProperties": false,
             "properties": {
-                "blockRef": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
                     "type": "string"
                 },
-                "center": {
-                    "type": "boolean"
+                "blockRef": {
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2441,8 +2469,13 @@
         "TitleComponent": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"

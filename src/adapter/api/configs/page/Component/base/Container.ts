@@ -1,9 +1,9 @@
-import type { TextAlign } from '@domain/engine/page/component/base/Container'
+import type { Align } from '@domain/engine/page/component/base/base'
 import type { Component } from '..'
 import type { Base } from './Base'
 
 export interface Container extends Base {
-  textAlign?: TextAlign
+  align?: Align
   children: Component[]
 }
 

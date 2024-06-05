@@ -1,11 +1,9 @@
-import type { ReactComponent, Base, BaseProps } from './base'
-
-export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+import type { ReactComponent, Base, BaseProps, Align, Size } from './base'
 
 export interface Props extends BaseProps {
   text: string
   size?: Size
-  center?: boolean
+  align?: Align
 }
 
 interface Params extends Props {

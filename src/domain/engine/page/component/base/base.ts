@@ -16,3 +16,6 @@ export interface Base<P extends BaseProps> {
   render: (state: State) => Promise<(props?: Partial<P>) => JSX.Element>
   validateConfig: () => ConfigError[]
 }
+
+export type Align = 'left' | 'center' | 'right'
+export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'

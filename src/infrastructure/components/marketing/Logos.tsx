@@ -6,8 +6,8 @@ export const Logos = ({ id, className = '', Title, Paragraph, Images }: Props['L
   const gridColumn = getGridColumns(Images.length)
   return (
     <Container id={id} className={className}>
-      {Title ? <Title center={true} className={Paragraph ? 'mb-4' : 'mb-8'} /> : null}
-      {Paragraph ? <Paragraph center={true} className="mb-8" /> : null}
+      {Title ? <Title align="center" className={Paragraph ? 'mb-4' : 'mb-8'} /> : null}
+      {Paragraph ? <Paragraph align="center" className="mb-8" /> : null}
       <div className={classNames(`mx-auto grid grid-cols-2 gap-8 sm:gap-12`, gridColumn)}>
         {Images.map((Image, index) => (
           <div key={index} className="flex justify-center items-center">

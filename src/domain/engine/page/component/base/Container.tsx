@@ -1,11 +1,9 @@
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { ReactComponent, Base, BaseProps, Align } from './base'
 import type { Component } from '..'
 import type { State } from '../../State'
 
-export type TextAlign = 'left' | 'center' | 'right'
-
 export interface Props extends BaseProps {
-  textAlign?: TextAlign
+  align?: Align
   children: React.ReactNode
 }
 
