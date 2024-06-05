@@ -5,7 +5,7 @@ export const Features = ({ id, className = '', Title, Paragraph, Features }: Pro
   <Container id={id} className={className}>
     <div className="max-w-screen-md lg:mb-16">
       <Title />
-      <Paragraph size="xl" />
+      <Paragraph size="lg" />
     </div>
     <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
       {Features.map((Feature, index) => {
