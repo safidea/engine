@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/safidea/engine/compare/v0.7.3...v0.8.0) (2024-06-06)
+
+
+### Features
+
+* **components:** add textarea property to input component ([cec8c05](https://github.com/safidea/engine/commit/cec8c05b721e62dfab5008d14c62d82d29b307f5))
+
 ## [0.7.3](https://github.com/safidea/engine/compare/v0.7.2...v0.7.3) (2024-06-05)
 
 
