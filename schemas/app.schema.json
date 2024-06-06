@@ -1564,6 +1564,9 @@
                 },
                 {
                     "$ref": "#/definitions/DateTime"
+                },
+                {
+                    "$ref": "#/definitions/LongText"
                 }
             ]
         },
@@ -3248,6 +3251,23 @@
             "required": [
                 "component",
                 "images"
+            ],
+            "type": "object"
+        },
+        "LongText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "LongText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
             ],
             "type": "object"
         },

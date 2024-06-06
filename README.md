@@ -13,7 +13,7 @@ You should have Node.js 20.11.1 or higher installed on your machine.
 In a node project, install the engine with npm:
 
 ```
-npm install @safidea/engine
+npm install @safidea_/engine
 ```
 
 ### Usage
@@ -21,7 +21,7 @@ npm install @safidea/engine
 Then, create a startup file, for example `index.js`:
 
 ```js
-import App from '@safidea/engine'
+import App from '@safidea_/engine'
 
 const app = new App()
 const url = await app.start({
