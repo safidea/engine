@@ -1,6 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
+import { PostgreSqlContainer } from '@testcontainers/postgresql'
 
 test.describe('Database start', () => {
   test('should start with a new table', async () => {
@@ -79,5 +80,38 @@ test.describe('Database start', () => {
 
     // THEN
     await expect(database.table('users').fieldExists('password')).resolves.toBe(true)
+  })
+
+  test('should start with a postgres database', async () => {
+    // GIVEN
+    const postgresContainer = await new PostgreSqlContainer().start()
+    const database = new Database('postgres', postgresContainer.getConnectionUri())
+    const config: Config = {
+      name: 'Database',
+      features: [
+        {
+          name: 'start',
+          tables: [
+            {
+              name: 'users',
+              fields: [
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: database.config,
+    }
+
+    // WHEN
+    const app = new App()
+
+    // THEN
+    await expect(app.start(config)).resolves.not.toThrow()
+    await expect(database.table('users').fieldExists('email')).resolves.toBe(true)
   })
 })

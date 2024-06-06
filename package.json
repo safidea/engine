@@ -103,6 +103,7 @@
     "@storybook/react": "^8.1.5",
     "@storybook/react-vite": "^8.1.5",
     "@storybook/test": "^8.1.5",
+    "@testcontainers/postgresql": "^10.9.0",
     "@types/better-sqlite3": "^7.6.10",
     "@types/bun": "latest",
     "@types/cookie-parser": "^1.4.7",
