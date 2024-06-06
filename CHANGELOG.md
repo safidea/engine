@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/safidea/engine/compare/v0.8.0...v0.8.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* **database:** replace db property by type for better understanding and allow env variable use ([6e3d2b2](https://github.com/safidea/engine/commit/6e3d2b2dc55da5752117b957674cf1e1713af9d8))
+
 # [0.8.0](https://github.com/safidea/engine/compare/v0.7.3...v0.8.0) (2024-06-06)
 
 
