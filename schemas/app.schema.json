@@ -2621,6 +2621,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
@@ -2685,6 +2686,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
@@ -2751,6 +2753,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
@@ -2813,6 +2816,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
