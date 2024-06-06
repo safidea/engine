@@ -59,7 +59,7 @@ export const TableMapper: Mapper<TableConfig, Table, Params> = class TableMapper
     const database = services.database({
       logger: services.logger({ location: `database` }),
       url: config.database?.url ?? ':memory:',
-      db: config.database?.db ?? 'sqlite',
+      type: config.database?.type === 'postgres' ? 'postgres' : 'sqlite',
     })
     const newLogger = (location: string) => services.logger({ location })
     const record = services.record()

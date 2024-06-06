@@ -22,7 +22,7 @@ export const Input = ({
       ) : null}
       {type === 'textarea' ? (
         <textarea
-          rows={3}
+          rows={4}
           name={name}
           id={id ?? name}
           placeholder={placeholder}

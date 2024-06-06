@@ -63,7 +63,7 @@ test.describe('App with tables', () => {
       ],
       database: {
         url: database.url,
-        db: 'sqlite',
+        type: 'sqlite',
       },
     }
     const app = new App()
@@ -106,7 +106,7 @@ test.describe('App with tables', () => {
       ],
       database: {
         url: database.url,
-        db: 'sqlite',
+        type: 'sqlite',
       },
     }
     const app = new App()

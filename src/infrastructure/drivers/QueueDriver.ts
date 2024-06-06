@@ -11,13 +11,13 @@ export class QueueDriver implements Driver {
   private boss: PgBoss | SqliteBoss
 
   constructor(public params: Params) {
-    const { db, url } = params.database.params
-    if (db === 'sqlite') {
+    const { type, url } = params.database.params
+    if (type === 'sqlite') {
       this.boss = new SqliteBoss(url)
-    } else if (db === 'postgres') {
+    } else if (type === 'postgres') {
       this.boss = new PgBoss(url)
     } else {
-      throw new Error(`Database ${db} not supported`)
+      throw new Error(`Database ${type} not supported`)
     }
   }
 

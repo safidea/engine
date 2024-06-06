@@ -428,10 +428,10 @@ features:
             action: '/api/auth/login'
             title: 
               text: Login
-              center: true
+              align: 'center'
             paragraph:
               text: Get your magic link to login.
-              center: true
+              align: 'center'
             inputs: 
               - name: email
                 label: Email
@@ -541,7 +541,7 @@ mailer:
   from: $MAILER_FROM
 database: 
   url: $DATABASE_URL
-  db: sqlite
+  type: sqlite
 auth: 
   redirectOnLogin: /requests
   redirectOnLogout: /login

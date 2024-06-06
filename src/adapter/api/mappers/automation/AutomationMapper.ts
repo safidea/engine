@@ -1,13 +1,12 @@
 import { Automation } from '@domain/engine/automation/Automation'
 import { Services } from '@domain/services'
-import type { Database } from '@domain/services/Database'
+import type { Database, Config as DatabaseConfig } from '@domain/services/Database'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Database as DatabaseConfig } from '../../configs/Database'
 import type { Mailer as MailerConfig } from '../../configs/Mailer'
 import type { Automation as AutomationConfig } from '../../configs/automation/Automation'
 import type { Mapper } from '../Mapper'
@@ -64,11 +63,12 @@ export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
       const newLogger = (location: string) => services.logger({ location })
       const databaseConfig: DatabaseConfig = {
         url: config.database?.url ?? ':memory:',
-        db: config.database?.db ?? 'sqlite',
+        type: config.database?.type === 'postgres' ? 'postgres' : 'sqlite',
       }
       const mailerConfig: MailerConfig = {
         host:
-          config.mailer?.host ?? (databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:'),
+          config.mailer?.host ??
+          (databaseConfig.type === 'sqlite' ? databaseConfig.url : ':memory:'),
         port: config.mailer?.port ?? '0',
         user: config.mailer?.user ?? '_sqlite',
         pass: config.mailer?.pass ?? '_sqlite',

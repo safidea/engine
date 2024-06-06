@@ -1326,11 +1326,7 @@
         "Database": {
             "additionalProperties": false,
             "properties": {
-                "db": {
-                    "enum": [
-                        "postgres",
-                        "sqlite"
-                    ],
+                "type": {
                     "type": "string"
                 },
                 "url": {
@@ -1338,7 +1334,7 @@
                 }
             },
             "required": [
-                "db",
+                "type",
                 "url"
             ],
             "type": "object"

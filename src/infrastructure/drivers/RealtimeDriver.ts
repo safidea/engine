@@ -11,15 +11,15 @@ export class RealtimeDriver implements Driver {
   emitter: EventEmitter
 
   constructor(public params: Params) {
-    const { db, url } = params.database.params
-    if (db === 'postgres') {
+    const { type, url } = params.database.params
+    if (type === 'postgres') {
       const { Client } = pg
       this.client = new Client({
         connectionString: url,
       })
-    } else if (db === 'sqlite') {
+    } else if (type === 'sqlite') {
       this.client = new SqliteClient(params.database)
-    } else throw new Error(`Database ${db} not supported`)
+    } else throw new Error(`Database ${type} not supported`)
     this.emitter = new EventEmitter()
   }
 
