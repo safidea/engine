@@ -1,3 +1,10 @@
+## [0.8.2](https://github.com/safidea/engine/compare/v0.8.1...v0.8.2) (2024-06-06)
+
+
+### Bug Fixes
+
+* **database:** add green test: should start with a postgres database ([5d5d048](https://github.com/safidea/engine/commit/5d5d0485c33874e2e17aeb30d812a36bbf1a411a))
+
 ## [0.8.1](https://github.com/safidea/engine/compare/v0.8.0...v0.8.1) (2024-06-06)
 
 
