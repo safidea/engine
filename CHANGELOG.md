@@ -1,3 +1,10 @@
+## [0.8.4](https://github.com/safidea/engine/compare/v0.8.3...v0.8.4) (2024-06-07)
+
+
+### Bug Fixes
+
+* **components:** change default container spacing ([de1d543](https://github.com/safidea/engine/commit/de1d543a2680bbc00cb3a5de1c8d8352502545cd))
+
 ## [0.8.3](https://github.com/safidea/engine/compare/v0.8.2...v0.8.3) (2024-06-07)
 
 
