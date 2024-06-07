@@ -43,7 +43,7 @@ function getWithClasses(width: Size) {
 function getSpacingClasses(spacing: SizeWithNone) {
   switch (spacing) {
     case 'none':
-      return ''
+      return 'py-0 px-0'
     case 'xs':
       return 'py-2 px-1 lg:py-4 lg:px-2'
     case 'sm':
