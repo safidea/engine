@@ -1,3 +1,11 @@
+## [0.8.3](https://github.com/safidea/engine/compare/v0.8.2...v0.8.3) (2024-06-07)
+
+
+### Bug Fixes
+
+* **components:** add container properties for width and spacing ([06888ee](https://github.com/safidea/engine/commit/06888ee06b8e6b5790dff04cc58c9e5901c2a769))
+* **schema:** add missing schemas ([478831c](https://github.com/safidea/engine/commit/478831c70f3353a5aac87429d0fa0888f9863da9))
+
 ## [0.8.2](https://github.com/safidea/engine/compare/v0.8.1...v0.8.2) (2024-06-06)
 
 
