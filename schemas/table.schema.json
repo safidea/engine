@@ -1,0 +1,126 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Database": {
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "url"
+            ],
+            "type": "object"
+        },
+        "DateTime": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "DateTime",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Email": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Field": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/DateTime"
+                },
+                {
+                    "$ref": "#/definitions/LongText"
+                }
+            ]
+        },
+        "LongText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "LongText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "SingleLineText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "database": {
+            "$ref": "#/definitions/Database"
+        },
+        "fields": {
+            "items": {
+                "$ref": "#/definitions/Field"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "fields",
+        "name"
+    ],
+    "type": "object"
+}
+
