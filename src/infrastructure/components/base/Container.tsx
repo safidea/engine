@@ -7,7 +7,7 @@ export const Container = ({
   className = '',
   align = 'left',
   spacing = 'lg',
-  width = 'lg',
+  width = 'xl',
   children,
 }: Props['Container']) => (
   <section id={id} className={classNames('bg-white dark:bg-gray-900', className)}>
