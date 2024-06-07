@@ -31,3 +31,59 @@ export const Right: Story = {
     children: <div>Container with right aligned text</div>,
   },
 }
+
+export const ExtraExtraLarge: Story = {
+  args: {
+    children: <div>Container with 2xl spacing and width</div>,
+    spacing: '2xl',
+    width: '2xl',
+  },
+}
+
+export const ExtraLarge: Story = {
+  args: {
+    children: <div>Container with xl spacing and width</div>,
+    spacing: 'xl',
+    width: 'xl',
+  },
+}
+
+export const Large: Story = {
+  args: {
+    children: <div>Container with lg spacing and width</div>,
+    spacing: 'lg',
+    width: 'lg',
+  },
+}
+
+export const Medium: Story = {
+  args: {
+    children: <div>Container with md spacing and width</div>,
+    spacing: 'md',
+    width: 'md',
+  },
+}
+
+export const Small: Story = {
+  args: {
+    children: <div>Container with sm spacing and width</div>,
+    spacing: 'sm',
+    width: 'sm',
+  },
+}
+
+export const ExtraSmall: Story = {
+  args: {
+    children: <div>Container with xs spacing and width</div>,
+    spacing: 'xs',
+    width: 'xs',
+  },
+}
+
+export const NoneSpacing: Story = {
+  args: {
+    children: <div>Container with xs spacing and width</div>,
+    spacing: 'none',
+    width: 'xs',
+  },
+}

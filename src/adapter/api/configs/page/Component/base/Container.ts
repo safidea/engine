@@ -1,10 +1,12 @@
-import type { Align } from '@domain/engine/page/component/base/base'
+import type { Align, Size, SizeWithNone } from '@domain/engine/page/component/base/base'
 import type { Component } from '..'
 import type { Base } from './Base'
 
 export interface Container extends Base {
-  align?: Align
   children: Component[]
+  align?: Align
+  width?: Size
+  spacing?: SizeWithNone
 }
 
 export interface ContainerComponent extends Container {
