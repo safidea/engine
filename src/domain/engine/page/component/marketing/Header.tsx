@@ -7,6 +7,7 @@ import type { Props as TitleProps } from '../base/Title'
 import type { Props as LinkProps } from '../base/Link'
 import type { Props as ButtonProps } from '../base/Button'
 import type { State } from '../../State'
+import type { Dropdown } from '../base/Dropdown'
 
 export interface Props extends BaseProps {
   Title: React.FC<Partial<TitleProps>>
@@ -16,7 +17,7 @@ export interface Props extends BaseProps {
 
 interface Params extends BaseProps {
   title: Title
-  links?: Link[]
+  links?: (Link | Dropdown)[]
   buttons?: Button[]
   Component: ReactComponent<Props>
 }

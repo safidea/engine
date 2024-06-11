@@ -1121,6 +1121,31 @@
             ],
             "type": "object"
         },
+        "Dropdown": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "label",
+                "links"
+            ],
+            "type": "object"
+        },
         "DropdownBlockRef": {
             "additionalProperties": false,
             "properties": {
@@ -1608,7 +1633,14 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Link_1"
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/Link_1"
+                            },
+                            {
+                                "$ref": "#/definitions/Dropdown"
+                            }
+                        ]
                     },
                     "type": "array"
                 },
@@ -1643,7 +1675,14 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Link_1"
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/Link_1"
+                            },
+                            {
+                                "$ref": "#/definitions/Dropdown"
+                            }
+                        ]
                     },
                     "type": "array"
                 },

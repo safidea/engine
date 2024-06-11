@@ -2,10 +2,11 @@ import type { Title } from '../base/Title'
 import type { Button } from '../base/Button'
 import type { Link } from '../base/Link'
 import type { Base } from '../base/Base'
+import type { Dropdown } from '../base/Dropdown'
 
 export interface Header extends Base {
   title: Title
-  links: Link[]
+  links: (Link | Dropdown)[]
   buttons: Button[]
 }
 

@@ -250,7 +250,7 @@ export class ComponentMapper {
   static toHeaderEntity = (config: HeaderConfig, params: Params): Header => {
     const { components } = params
     const title = this.toTitleEntity(config.title, params)
-    const links = this.toManyLinkEntities(config.links, params)
+    const links = config.links.map((link) => "links" in link ? this.toDropdownEntity(link, params) : this.toLinkEntity(link, params))
     const buttons = this.toManyButtonEntities(config.buttons, params)
     return new Header({ ...config, title, links, buttons, Component: components.Header })
   }
