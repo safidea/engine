@@ -1,3 +1,15 @@
+# [0.9.0](https://github.com/safidea/engine/compare/v0.8.5...v0.9.0) (2024-06-11)
+
+
+### Bug Fixes
+
+* **header:** add green test: should render a header with a dropdown ([d329339](https://github.com/safidea/engine/commit/d3293393ecf5973380bb06405a10819130f706fd))
+
+
+### Features
+
+* **component:** add green test: should render a dropdown ([cf4ebb7](https://github.com/safidea/engine/commit/cf4ebb7e96e1960da181ba64b5b07798bb566350))
+
 ## [0.8.5](https://github.com/safidea/engine/compare/v0.8.4...v0.8.5) (2024-06-07)
 
 
