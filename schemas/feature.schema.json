@@ -666,7 +666,7 @@
                     "$ref": "#/definitions/ModalComponent"
                 },
                 {
-                    "$ref": "#/definitions/MenuComponent"
+                    "$ref": "#/definitions/DropdownComponent"
                 },
                 {
                     "$ref": "#/definitions/ContainerComponent"
@@ -739,7 +739,7 @@
                     "$ref": "#/definitions/ModalComponent"
                 },
                 {
-                    "$ref": "#/definitions/MenuComponent"
+                    "$ref": "#/definitions/DropdownComponent"
                 },
                 {
                     "$ref": "#/definitions/ContainerComponent"
@@ -808,7 +808,7 @@
                     "$ref": "#/definitions/ModalBlockRef"
                 },
                 {
-                    "$ref": "#/definitions/MenuBlockRef"
+                    "$ref": "#/definitions/DropdownBlockRef"
                 },
                 {
                     "$ref": "#/definitions/ContainerBlockRef"
@@ -1118,6 +1118,68 @@
             "required": [
                 "name",
                 "type"
+            ],
+            "type": "object"
+        },
+        "DropdownBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Dropdown",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "DropdownComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Dropdown",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Link_1"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "component",
+                "label",
+                "links"
             ],
             "type": "object"
         },
@@ -2526,68 +2588,6 @@
                 "pass",
                 "port",
                 "user"
-            ],
-            "type": "object"
-        },
-        "MenuBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Menu",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "MenuComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Menu",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "component",
-                "label",
-                "links"
             ],
             "type": "object"
         },

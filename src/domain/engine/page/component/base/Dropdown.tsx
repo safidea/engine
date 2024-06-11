@@ -13,7 +13,7 @@ interface Params extends Omit<Props, 'Links'> {
   Component: ReactComponent<Props>
 }
 
-export class Menu implements Base<Props> {
+export class Dropdown implements Base<Props> {
   constructor(private params: Params) {}
 
   init = async () => {

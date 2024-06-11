@@ -3,10 +3,10 @@
 import '@hotwired/turbo'
 import { Application } from '@hotwired/stimulus'
 import Modal from './controllers/Modal'
-import Menu from './controllers/Menu'
+import Dropdown from './controllers/Dropdown'
 
 window.Stimulus = Application.start()
 window.Stimulus.register('modal', Modal)
-window.Stimulus.register('menu', Menu)
+window.Stimulus.register('dropdown', Dropdown)
 
 console.log('Hotwired client app started')

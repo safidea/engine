@@ -56,8 +56,8 @@ import type { Customized as CustomizedConfig } from '@adapter/api/configs/page/C
 import { Customized, type CustomizedComponents } from '@domain/engine/page/component/Customized'
 import { Modal } from '@domain/engine/page/component/application/Modal'
 import type { Modal as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
-import { Menu } from '@domain/engine/page/component/base/Menu'
-import type { Menu as MenuConfig } from '@adapter/api/configs/page/Component/base/Menu'
+import { Dropdown } from '@domain/engine/page/component/base/Dropdown'
+import type { Dropdown as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
 
 export interface Params {
   components: ReactComponents
@@ -284,10 +284,10 @@ export class ComponentMapper {
     return new Modal({ ...config, header, body, footer, button, Component: components.Modal })
   }
 
-  static toMenuEntity = (config: MenuConfig, params: Params): Menu => {
+  static toDropdownEntity = (config: DropdownConfig, params: Params): Dropdown => {
     const { components } = params
     const links = this.toManyLinkEntities(config.links, params)
-    return new Menu({ ...config, links, Component: components.Menu })
+    return new Dropdown({ ...config, links, Component: components.Dropdown })
   }
 
   static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {
@@ -313,7 +313,7 @@ export class ComponentMapper {
     if (component === 'Heading') return this.toHeadingEntity(config, params)
     if (component === 'Customized') return this.toCustomizedEntity(config, params)
     if (component === 'Modal') return this.toModalEntity(config, params)
-    if (component === 'Menu') return this.toMenuEntity(config, params)
+    if (component === 'Dropdown') return this.toDropdownEntity(config, params)
     if (component === 'Container') return this.toContainerEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }

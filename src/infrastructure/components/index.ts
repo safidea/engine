@@ -20,7 +20,7 @@ import { Image } from './base/Image'
 import { List } from './application/List'
 import { Heading } from './application/Heading'
 import { Modal } from './application/Modal'
-import { Menu } from './base/Menu'
+import { Dropdown } from './base/Dropdown'
 import { Container } from './base/Container'
 
 export const components: ReactComponents = {
@@ -45,6 +45,6 @@ export const components: ReactComponents = {
   List,
   Heading,
   Modal,
-  Menu,
+  Dropdown,
   Container,
 }

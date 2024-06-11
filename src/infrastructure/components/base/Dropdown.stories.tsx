@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Menu } from './Menu'
+import { Dropdown } from './Dropdown'
 import { Link } from './Link'
 
 const meta = {
-  title: 'Base/Menu',
-  component: Menu,
-} satisfies Meta<typeof Menu>
+  title: 'Base/Dropdown',
+  component: Dropdown,
+} satisfies Meta<typeof Dropdown>
 
 export default meta
 type Story = StoryObj<typeof meta>
