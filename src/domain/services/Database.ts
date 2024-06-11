@@ -2,9 +2,12 @@ import type { Table } from '@domain/engine/table/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 
-export interface Params {
+export interface Config {
   url: string
-  db: 'sqlite' | 'postgres'
+  type: 'sqlite' | 'postgres'
+}
+
+export interface Params extends Config {
   logger: Logger
 }
 

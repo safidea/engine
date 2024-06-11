@@ -11,21 +11,21 @@ export class DatabaseDriver implements Driver {
   exec: (query: string) => Promise<unknown>
 
   constructor(public params: Params) {
-    const { db, url } = params
-    if (db === 'sqlite') {
+    const { type, url } = params
+    if (type === 'sqlite') {
       const database = new SQLite(url)
       database.pragma('journal_mode = WAL')
       this.exec = async (query: string) => database.exec(query)
       const dialect = new SqliteDialect({ database })
       this.kysely = new Kysely<Schema>({ dialect })
       this.database = database
-    } else if (db === 'postgres') {
+    } else if (type === 'postgres') {
       const pool = new pg.Pool({ connectionString: url })
       this.exec = async (query: string) => pool.query(query)
       const dialect = new PostgresDialect({ pool })
       this.kysely = new Kysely<Schema>({ dialect })
       this.database = pool
-    } else throw new Error(`Database ${db} not supported`)
+    } else throw new Error(`Database ${type} not supported`)
   }
 
   disconnect = async (): Promise<void> => {

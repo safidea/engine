@@ -667,6 +667,9 @@
                 },
                 {
                     "$ref": "#/definitions/MenuComponent"
+                },
+                {
+                    "$ref": "#/definitions/ContainerComponent"
                 }
             ]
         },
@@ -739,6 +742,9 @@
                     "$ref": "#/definitions/MenuComponent"
                 },
                 {
+                    "$ref": "#/definitions/ContainerComponent"
+                },
+                {
                     "$ref": "#/definitions/ButtonBlockRef"
                 },
                 {
@@ -803,8 +809,128 @@
                 },
                 {
                     "$ref": "#/definitions/MenuBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ContainerBlockRef"
                 }
             ]
+        },
+        "ContainerBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "blockRef": {
+                    "type": "string"
+                },
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Container",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "spacing": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "none",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "width": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ContainerComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Container",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "spacing": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "none",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "width": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component"
+            ],
+            "type": "object"
         },
         "CreateRecord": {
             "additionalProperties": false,
@@ -965,11 +1091,7 @@
         "Database": {
             "additionalProperties": false,
             "properties": {
-                "db": {
-                    "enum": [
-                        "postgres",
-                        "sqlite"
-                    ],
+                "type": {
                     "type": "string"
                 },
                 "url": {
@@ -977,7 +1099,7 @@
                 }
             },
             "required": [
-                "db",
+                "type",
                 "url"
             ],
             "type": "object"
@@ -1148,6 +1270,9 @@
                 },
                 {
                     "$ref": "#/definitions/DateTime"
+                },
+                {
+                    "$ref": "#/definitions/LongText"
                 }
             ]
         },
@@ -1639,6 +1764,7 @@
                 "type": {
                     "enum": [
                         "AcademicCap",
+                        "ArrowTrendingUp",
                         "Banknotes",
                         "ChartBarSquare",
                         "ChatBubbleBottomCenterText",
@@ -1649,10 +1775,15 @@
                         "ComputerDesktop",
                         "DevicePhoneMobile",
                         "FaceSmile",
+                        "Gift",
                         "Home",
                         "MagnifyingGlass",
                         "RectangleStack",
+                        "RocketLaunch",
                         "Scale",
+                        "User",
+                        "UserCircle",
+                        "UserPlus",
                         "Users"
                     ],
                     "type": "string"
@@ -1690,6 +1821,14 @@
         "Image": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "alt": {
                     "type": "string"
                 },
@@ -1697,6 +1836,26 @@
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
                     "type": "string"
                 },
                 "src": {
@@ -1712,6 +1871,14 @@
         "ImageBlockRef": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "alt": {
                     "type": "string"
                 },
@@ -1728,6 +1895,26 @@
                 "id": {
                     "type": "string"
                 },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
                 "src": {
                     "type": "string"
                 }
@@ -1741,6 +1928,14 @@
         "ImageComponent": {
             "additionalProperties": false,
             "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
                 "alt": {
                     "type": "string"
                 },
@@ -1752,6 +1947,26 @@
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
                     "type": "string"
                 },
                 "src": {
@@ -1810,6 +2025,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
@@ -1874,6 +2090,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
@@ -1936,6 +2153,7 @@
                         "submit",
                         "tel",
                         "text",
+                        "textarea",
                         "time",
                         "url",
                         "week"
@@ -2263,6 +2481,23 @@
             ],
             "type": "object"
         },
+        "LongText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "LongText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
         "Mailer": {
             "additionalProperties": false,
             "properties": {
@@ -2562,8 +2797,13 @@
         "Paragraph": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2573,6 +2813,7 @@
                 },
                 "size": {
                     "enum": [
+                        "2xl",
                         "lg",
                         "md",
                         "sm",
@@ -2593,11 +2834,16 @@
         "ParagraphBlockRef": {
             "additionalProperties": false,
             "properties": {
-                "blockRef": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
                     "type": "string"
                 },
-                "center": {
-                    "type": "boolean"
+                "blockRef": {
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2611,6 +2857,7 @@
                 },
                 "size": {
                     "enum": [
+                        "2xl",
                         "lg",
                         "md",
                         "sm",
@@ -2632,8 +2879,13 @@
         "ParagraphComponent": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -2647,6 +2899,7 @@
                 },
                 "size": {
                     "enum": [
+                        "2xl",
                         "lg",
                         "md",
                         "sm",
@@ -3163,11 +3416,16 @@
         "TitleBlockRef": {
             "additionalProperties": false,
             "properties": {
-                "blockRef": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
                     "type": "string"
                 },
-                "center": {
-                    "type": "boolean"
+                "blockRef": {
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -3203,8 +3461,13 @@
         "TitleComponent": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -3240,8 +3503,13 @@
         "Title_1": {
             "additionalProperties": false,
             "properties": {
-                "center": {
-                    "type": "boolean"
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
                 },
                 "className": {
                     "type": "string"
@@ -3282,6 +3550,7 @@
         "Type": {
             "enum": [
                 "AcademicCap",
+                "ArrowTrendingUp",
                 "Banknotes",
                 "ChartBarSquare",
                 "ChatBubbleBottomCenterText",
@@ -3292,10 +3561,15 @@
                 "ComputerDesktop",
                 "DevicePhoneMobile",
                 "FaceSmile",
+                "Gift",
                 "Home",
                 "MagnifyingGlass",
                 "RectangleStack",
+                "RocketLaunch",
                 "Scale",
+                "User",
+                "UserCircle",
+                "UserPlus",
                 "Users"
             ],
             "type": "string"

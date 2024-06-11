@@ -6,14 +6,13 @@ import type { Mapper } from './Mapper'
 import { PageMapper, type Params as PageParams } from './page/PageMapper'
 import { TableMapper, type Params as TableParams } from './table/TableMapper'
 import { AutomationMapper, type Params as AutomationParams } from './automation/AutomationMapper'
-import type { Database } from '@domain/services/Database'
+import type { Database, Config as DatabaseConfig } from '@domain/services/Database'
 import type { Table } from '@domain/engine/table/Table'
 import type { Page } from '@domain/engine/page/Page'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 import type { Automation } from '@domain/engine/automation/Automation'
 import type { Queue } from '@domain/services/Queue'
-import type { Database as DatabaseConfig } from '../configs/Database'
 import type { Mailer as MailerConfig } from '../configs/Mailer'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
@@ -128,11 +127,11 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     let automation: AutomationParams | undefined
     const databaseConfig: DatabaseConfig = {
       url: config.database?.url ?? ':memory:',
-      db: config.database?.db ?? 'sqlite',
+      type: config.database?.type === 'postgres' ? 'postgres' : 'sqlite',
     }
     const mailerConfig: MailerConfig = {
       host:
-        config.mailer?.host ?? (databaseConfig.db === 'sqlite' ? databaseConfig.url : ':memory:'),
+        config.mailer?.host ?? (databaseConfig.type === 'sqlite' ? databaseConfig.url : ':memory:'),
       port: config.mailer?.port ?? '0',
       user: config.mailer?.user ?? '_sqlite',
       pass: config.mailer?.pass ?? '_sqlite',

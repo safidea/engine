@@ -11,15 +11,15 @@ export class RealtimeDriver implements Driver {
   emitter: EventEmitter
 
   constructor(public params: Params) {
-    const { db, url } = params.database.params
-    if (db === 'postgres') {
+    const { type, url } = params.database.params
+    if (type === 'postgres') {
       const { Client } = pg
       this.client = new Client({
         connectionString: url,
       })
-    } else if (db === 'sqlite') {
+    } else if (type === 'sqlite') {
       this.client = new SqliteClient(params.database)
-    } else throw new Error(`Database ${db} not supported`)
+    } else throw new Error(`Database ${type} not supported`)
     this.emitter = new EventEmitter()
   }
 
@@ -90,26 +90,24 @@ export class RealtimeDriver implements Driver {
           DO $$
           DECLARE
               trigger_name text;
+              table_name text := '${table}';
           BEGIN
-              -- Specify your table name here
-              DECLARE r RECORD := ROW('${table}');
-          
               -- Check and create trigger for AFTER INSERT
-              trigger_name := r.table_name || '_after_insert';
+              trigger_name := table_name || '_after_insert';
               IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
-                  EXECUTE format('CREATE TRIGGER %I AFTER INSERT ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, r.table_name);
+                  EXECUTE format('CREATE TRIGGER %I AFTER INSERT ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
               END IF;
           
               -- Check and create trigger for AFTER UPDATE
-              trigger_name := r.table_name || '_after_update';
+              trigger_name := table_name || '_after_update';
               IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
-                  EXECUTE format('CREATE TRIGGER %I AFTER UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, r.table_name);
+                  EXECUTE format('CREATE TRIGGER %I AFTER UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
               END IF;
           
               -- Check and create trigger for AFTER DELETE
-              trigger_name := r.table_name || '_after_delete';
+              trigger_name := table_name || '_after_delete';
               IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
-                  EXECUTE format('CREATE TRIGGER %I AFTER DELETE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, r.table_name);
+                  EXECUTE format('CREATE TRIGGER %I AFTER DELETE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
               END IF;
           END $$;
         `)

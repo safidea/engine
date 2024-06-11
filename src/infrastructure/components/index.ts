@@ -21,6 +21,7 @@ import { List } from './application/List'
 import { Heading } from './application/Heading'
 import { Modal } from './application/Modal'
 import { Menu } from './base/Menu'
+import { Container } from './base/Container'
 
 export const components: ReactComponents = {
   Html,
@@ -45,4 +46,5 @@ export const components: ReactComponents = {
   Heading,
   Modal,
   Menu,
+  Container,
 }

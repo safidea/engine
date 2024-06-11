@@ -1,22 +1,23 @@
 import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
+import { Container } from '../base/Container'
 
 export const Logos = ({ id, className = '', Title, Paragraph, Images }: Props['Logos']) => {
   const gridColumn = getGridColumns(Images.length)
   return (
-    <section id={id} className={classNames('bg-white dark:bg-gray-900', className)}>
-      <div className="py-8 lg:py-16 mx-auto max-w-screen-xl px-4">
-        {Title ? <Title center={true} className={Paragraph ? 'mb-4' : 'mb-8'} /> : null}
-        {Paragraph ? <Paragraph center={true} className="mb-8" /> : null}
-        <div className={classNames(`mx-auto grid grid-cols-2 gap-8 sm:gap-12`, gridColumn)}>
-          {Images.map((Image, index) => (
-            <div key={index} className="flex justify-center items-center">
-              <Image />
-            </div>
-          ))}
-        </div>
+    <Container id={id} className={className}>
+      <div className="mb-8">
+        {Title ? <Title align="center" /> : null}
+        {Paragraph ? <Paragraph align="center" /> : null}
       </div>
-    </section>
+      <div className={classNames(`mx-auto grid grid-cols-2 gap-8 sm:gap-12`, gridColumn)}>
+        {Images.map((Image, index) => (
+          <div key={index} className="flex justify-center items-center">
+            <Image className="opacity-75 grayscale" />
+          </div>
+        ))}
+      </div>
+    </Container>
   )
 }
 

@@ -1,10 +1,10 @@
+import type { Align, Size } from '@domain/engine/page/component/base/base'
 import type { Base } from './Base'
-import type { Size } from '@domain/engine/page/component/base/Title'
 
 export interface Title extends Base {
   text: string
+  align?: Align
   size?: Size
-  center?: boolean
 }
 
 export interface TitleComponent extends Title {

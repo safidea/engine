@@ -5,11 +5,7 @@
         "Database": {
             "additionalProperties": false,
             "properties": {
-                "db": {
-                    "enum": [
-                        "postgres",
-                        "sqlite"
-                    ],
+                "type": {
                     "type": "string"
                 },
                 "url": {
@@ -17,7 +13,7 @@
                 }
             },
             "required": [
-                "db",
+                "type",
                 "url"
             ],
             "type": "object"
@@ -66,8 +62,28 @@
                 },
                 {
                     "$ref": "#/definitions/DateTime"
+                },
+                {
+                    "$ref": "#/definitions/LongText"
                 }
             ]
+        },
+        "LongText": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "LongText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
         },
         "SingleLineText": {
             "additionalProperties": false,

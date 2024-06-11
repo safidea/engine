@@ -1,9 +1,9 @@
+import type { Align, Size } from '@domain/engine/page/component/base/base'
 import type { Base } from './Base'
-import type { Size } from '@domain/engine/page/component/base/Paragraph'
 
 export interface Paragraph extends Base {
   text: string
-  center?: boolean
+  align?: Align
   size?: Size
 }
 

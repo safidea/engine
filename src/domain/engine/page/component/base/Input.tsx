@@ -24,6 +24,7 @@ export type Type =
   | 'time'
   | 'url'
   | 'week'
+  | 'textarea'
 
 export interface Props extends BaseProps {
   name: string

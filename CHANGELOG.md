@@ -1,3 +1,82 @@
+## [0.8.5](https://github.com/safidea/engine/compare/v0.8.4...v0.8.5) (2024-06-07)
+
+
+### Bug Fixes
+
+* **components:** update none value for container spacing ([4d2b4d1](https://github.com/safidea/engine/commit/4d2b4d17be7f838dcb9d0cbd414ad8cc78820379))
+
+## [0.8.4](https://github.com/safidea/engine/compare/v0.8.3...v0.8.4) (2024-06-07)
+
+
+### Bug Fixes
+
+* **components:** change default container spacing ([de1d543](https://github.com/safidea/engine/commit/de1d543a2680bbc00cb3a5de1c8d8352502545cd))
+
+## [0.8.3](https://github.com/safidea/engine/compare/v0.8.2...v0.8.3) (2024-06-07)
+
+
+### Bug Fixes
+
+* **components:** add container properties for width and spacing ([06888ee](https://github.com/safidea/engine/commit/06888ee06b8e6b5790dff04cc58c9e5901c2a769))
+* **schema:** add missing schemas ([478831c](https://github.com/safidea/engine/commit/478831c70f3353a5aac87429d0fa0888f9863da9))
+
+## [0.8.2](https://github.com/safidea/engine/compare/v0.8.1...v0.8.2) (2024-06-06)
+
+
+### Bug Fixes
+
+* **database:** add green test: should start with a postgres database ([5d5d048](https://github.com/safidea/engine/commit/5d5d0485c33874e2e17aeb30d812a36bbf1a411a))
+
+## [0.8.1](https://github.com/safidea/engine/compare/v0.8.0...v0.8.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* **database:** replace db property by type for better understanding and allow env variable use ([6e3d2b2](https://github.com/safidea/engine/commit/6e3d2b2dc55da5752117b957674cf1e1713af9d8))
+
+# [0.8.0](https://github.com/safidea/engine/compare/v0.7.3...v0.8.0) (2024-06-06)
+
+
+### Features
+
+* **components:** add textarea property to input component ([cec8c05](https://github.com/safidea/engine/commit/cec8c05b721e62dfab5008d14c62d82d29b307f5))
+
+## [0.7.3](https://github.com/safidea/engine/compare/v0.7.2...v0.7.3) (2024-06-05)
+
+
+### Bug Fixes
+
+* **component:** add image size, rounded and align properties ([ef25b9c](https://github.com/safidea/engine/commit/ef25b9c8e50a06873d19cfc96edbd7a610ce6fba))
+
+## [0.7.2](https://github.com/safidea/engine/compare/v0.7.1...v0.7.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* **component:** add new icons ([d376838](https://github.com/safidea/engine/commit/d376838f2b0162e2673e3a25453a6de0773a756b))
+
+## [0.7.1](https://github.com/safidea/engine/compare/v0.7.0...v0.7.1) (2024-06-05)
+
+
+### Bug Fixes
+
+* **component:** add margin bottom to text component ([73c2150](https://github.com/safidea/engine/commit/73c2150062ca127480f23b397b077d9baabac373))
+* **component:** refactor size and align properties for text component ([5520b1b](https://github.com/safidea/engine/commit/5520b1bd461862658e5496190190fadae3f54cd9))
+
+# [0.7.0](https://github.com/safidea/engine/compare/v0.6.6...v0.7.0) (2024-06-04)
+
+
+### Features
+
+* **component:** add container component ([53fdf2b](https://github.com/safidea/engine/commit/53fdf2b59c5514050c06163df11daa721fe63cde))
+
+## [0.6.6](https://github.com/safidea/engine/compare/v0.6.5...v0.6.6) (2024-05-16)
+
+
+### Bug Fixes
+
+* **Component:** add green tests for id customization ([da3361e](https://github.com/safidea/engine/commit/da3361ed4bf9801fbd7ef3d515a471955d5404bb))
+
 ## [0.6.5](https://github.com/safidea/engine/compare/v0.6.4...v0.6.5) (2024-05-15)
 
 

@@ -17,6 +17,12 @@ export type Type =
   | 'Home'
   | 'Users'
   | 'RectangleStack'
+  | 'RocketLaunch'
+  | 'Gift'
+  | 'ArrowTrendingUp'
+  | 'User'
+  | 'UserCircle'
+  | 'UserPlus'
 
 export interface Props extends BaseProps {
   type: Type
