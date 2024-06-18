@@ -14,11 +14,11 @@ export class Link {
   }
 
   get type() {
-    return this.params.type
+    return this.params.type || 'text/css'
   }
 
   get rel() {
-    return this.params.rel
+    return this.params.rel || 'stylesheet'
   }
 
   render = () => {
