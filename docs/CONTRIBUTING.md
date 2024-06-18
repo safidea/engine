@@ -17,7 +17,7 @@ These are just guidelines, not rules, use your best judgment and feel free to pr
 
 You can contribute to Safidea Engine in various ways:
 
-- Fix bugs or contribute to the development of features on which help is wanted: [see our To Do list](https://github.com/orgs/solumy/projects/1)
+- Fix bugs or contribute to the development of features on which help is wanted: [see our To Do list](https://github.com/orgs/safidea/projects/1)
 - Submit Github issues for bugs you (or other users) found ([template](https://github.com/safidea/engine/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=))
 - Give feedback, suggest feature and/or provide value in ongoing discussions in [issues](https://github.com/safidea/engine/issues) and [pull requests](https://github.com/safidea/engine/pulls)
 
@@ -25,7 +25,7 @@ You can contribute to Safidea Engine in various ways:
 
 ## How to contribute to the code base
 
-1. Fork and clone the [@safidea/engine repository](https://github.com/safidea/engine), and make sure it runs properly on your computer
+1. Fork and clone the [@safidea_/engine repository](https://github.com/safidea/engine), and make sure it runs properly on your computer
 2. Inform other contributors that you intend to contribute by posting a comment to the Github issue of your choice. Don't hesitate to ask questions if needed.
 3. Make changes in your local copy of the code, run automated tests, commit, then [submit a Pull Request](https://github.com/safidea/engine/compare)
 4. Wait for your PR to be reviewed and merged into the `main` branch of Safidea Engine's repository
