@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/safidea/engine/compare/v0.9.1...v0.9.2) (2024-06-18)
+
+
+### Bug Fixes
+
+* **head:** add green test: should display a page favicon ([adb600c](https://github.com/safidea/engine/commit/adb600ca3dc4f19219f6f3897ef92cdbfa8235ea))
+
 ## [0.9.1](https://github.com/safidea/engine/compare/v0.9.0...v0.9.1) (2024-06-17)
 
 
