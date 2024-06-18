@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/safidea/engine/compare/v0.9.0...v0.9.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* **head:** add link head pproperties ([8ccf2b1](https://github.com/safidea/engine/commit/8ccf2b11e95738ae081a454e8cb11c54b34cda64))
+
 # [0.9.0](https://github.com/safidea/engine/compare/v0.8.5...v0.9.0) (2024-06-11)
 
 
