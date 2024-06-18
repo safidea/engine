@@ -72,4 +72,42 @@ test.describe('App with pages', () => {
     const title = await page.textContent('h4')
     expect(title).toBe(text)
   })
+
+  test('should display a page favicon', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      features: [
+        {
+          name: 'display title',
+          pages: [
+            {
+              name: 'home',
+              path: '/',
+              head: {
+                links: [
+                  {
+                    rel: 'icon',
+                    href: '/favicon.ico',
+                    type: 'image/x-icon',
+                  },
+                ],
+              },
+              body: [],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    const content = await page.content()
+    expect(content).toContain('<link rel="icon" href="/favicon.ico')
+    expect(content).toContain('" type="image/x-icon">')
+  })
 })

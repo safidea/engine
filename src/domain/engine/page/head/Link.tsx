@@ -1,6 +1,6 @@
 interface Params {
-  rel?: string
   href: string
+  rel?: string
   type?: string
   timestamp: number
 }
@@ -14,11 +14,11 @@ export class Link {
   }
 
   get type() {
-    return this.params.type || 'text/css'
+    return this.params.type
   }
 
   get rel() {
-    return this.params.rel || 'stylesheet'
+    return this.params.rel
   }
 
   render = () => {

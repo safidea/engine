@@ -1,5 +1,5 @@
 export interface Link {
-  rel: string
   href: string
-  type: string
+  rel?: string
+  type?: string
 }

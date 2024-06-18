@@ -1852,6 +1852,12 @@
             "properties": {
                 "href": {
                     "type": "string"
+                },
+                "rel": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
                 }
             },
             "required": [
