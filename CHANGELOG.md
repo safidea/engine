@@ -1,3 +1,10 @@
+## [0.9.3](https://github.com/safidea/engine/compare/v0.9.2...v0.9.3) (2024-06-18)
+
+
+### Bug Fixes
+
+* **head:** add default head link properties ([ccbdc72](https://github.com/safidea/engine/commit/ccbdc72f1fea963d642d3c7cb1fc86e553af89f6))
+
 ## [0.9.2](https://github.com/safidea/engine/compare/v0.9.1...v0.9.2) (2024-06-18)
 
 
