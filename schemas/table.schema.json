@@ -55,16 +55,19 @@
         "Field": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Email"
-                },
-                {
-                    "$ref": "#/definitions/SingleLineText"
-                },
-                {
                     "$ref": "#/definitions/DateTime"
                 },
                 {
+                    "$ref": "#/definitions/Email"
+                },
+                {
                     "$ref": "#/definitions/LongText"
+                },
+                {
+                    "$ref": "#/definitions/Number"
+                },
+                {
+                    "$ref": "#/definitions/SingleLineText"
                 }
             ]
         },
@@ -76,6 +79,23 @@
                 },
                 "type": {
                     "const": "LongText",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "Number": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Number",
                     "type": "string"
                 }
             },

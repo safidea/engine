@@ -4,6 +4,7 @@ import { Email } from '@domain/engine/table/field/Email'
 import { SingleLineText } from '@domain/engine/table/field/SingleLineText'
 import { DateTime } from '@domain/engine/table/field/DateTime'
 import { LongText } from '@domain/engine/table/field/LongText'
+import { Number } from '@domain/engine/table/field/Number'
 
 export class FieldMapper {
   static toDto = (field: Field): FieldDto => {
@@ -17,6 +18,12 @@ export class FieldMapper {
       return {
         name: field.name,
         type: 'timestamp',
+      }
+    }
+    if (field instanceof Number) {
+      return {
+        name: field.name,
+        type: 'numeric',
       }
     }
     throw new Error('Field type not supported')
