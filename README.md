@@ -56,13 +56,13 @@ node index.js
 
 ## Configuration
 
-A configuration is a JSON representation of the application. It contains the pages, the tables, the automations, the roles, etc...
+A configuration is a JSON representation of the application. It contains the features, pages, tables, automations, database, etc...
 
-We will build a details documentation of the configuration in the future.
+You can see the [full JSON schema documentation here](https://json-schema.app/view/%23?url=https%3A%2F%2Fsafidea.com%2Fschemas%2Fapp.schema.json).
 
 ## Templates
 
-You can open our [templates](https://github.com/safidea/templates) to see how to configure the engine et to start from models.
+You can open our [templates](https://github.com/safidea/templates) to see how to configure the engine and to start from models.
 
 ## Contributing
 
