@@ -32,8 +32,7 @@ export interface Spi {
   add: (job: string, data: object, options?: { retry: number }) => Promise<string>
   job: (job: string, callback: (data: object) => Promise<void>) => void
   getById: (id: string) => Promise<Job | undefined>
-  getByName: (name: string) => Promise<Job | undefined>
-  waitFor: (params: WaitForParams) => Promise<Job | undefined>
+  waitFor: (params: WaitForParams) => Promise<boolean>
   waitForAllCompleted: (job: string) => Promise<void>
 }
 
@@ -92,10 +91,6 @@ export class Queue {
 
   getById = async (id: string) => {
     return this.spi.getById(id)
-  }
-
-  getByName = async (name: string) => {
-    return this.spi.getByName(name)
   }
 
   waitFor = async (params: WaitForParams) => {

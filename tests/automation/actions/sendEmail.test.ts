@@ -2,12 +2,14 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 import Mailer from '@tests/mailer'
+import Queue from '@tests/queue'
 
 test.describe('Send email action', () => {
-  test.skip('should send an email', async ({ request }) => {
+  test('should send an email', async ({ request }) => {
     // GIVEN
     const database = new Database()
     const mailer = new Mailer(database)
+    const queue = new Queue(database)
     const config: Config = {
       name: 'App',
       features: [
@@ -37,15 +39,19 @@ test.describe('Send email action', () => {
         },
       ],
       mailer: mailer.config,
+      database: database.config,
     }
     const app = new App()
     const url = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/automation/send-email`)
+    await queue.waitForAllCompleted('send-email')
 
     // THEN
     const emails = await database.table('_emails').list([])
     expect(emails).toHaveLength(1)
+    expect(emails[0].to).toBe('to@test.com')
+    expect(emails[0].from).toBe('from@test.com')
   })
 })

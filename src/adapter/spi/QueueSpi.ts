@@ -10,8 +10,7 @@ export interface Driver {
   add: <D extends object>(job: string, data: D, options?: { retry: number }) => Promise<string>
   job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
   getById: (id: string) => Promise<JobDto | undefined>
-  getByName: (name: string) => Promise<JobDto | undefined>
-  waitFor: (params: WaitForParams) => Promise<JobDto | undefined>
+  waitFor: (params: WaitForParams) => Promise<boolean>
   waitForAllCompleted: (name: string) => Promise<void>
 }
 
@@ -24,12 +23,6 @@ export class QueueSpi implements Spi {
 
   getById = async (id: string) => {
     const jboDto = await this.driver.getById(id)
-    if (!jboDto) return undefined
-    return JobMapper.toEntity(jboDto)
-  }
-
-  getByName = async (name: string) => {
-    const jboDto = await this.driver.getByName(name)
     if (!jboDto) return undefined
     return JobMapper.toEntity(jboDto)
   }
@@ -55,9 +48,7 @@ export class QueueSpi implements Spi {
   }
 
   waitFor = async (params: WaitForParams) => {
-    const jboDto = await this.driver.waitFor(params)
-    if (!jboDto) return undefined
-    return JobMapper.toEntity(jboDto)
+    return this.driver.waitFor(params)
   }
 
   waitForAllCompleted = async (job: string) => {

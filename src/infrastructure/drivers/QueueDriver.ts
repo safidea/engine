@@ -53,7 +53,7 @@ export class QueueDriver implements Driver {
     })
   }
 
-  getById = async (id: string) => {
+  getById = async (id: string): Promise<JobDto | undefined> => {
     const job = await this.boss.getJobById(id)
     if (!job) return undefined
     return {
@@ -65,27 +65,24 @@ export class QueueDriver implements Driver {
     }
   }
 
-  getByName = async (jobName: string) => {
-    const job = await this.boss.fetch(jobName)
-    if (!job) return undefined
-    return this.getById(job.id)
-  }
-
   waitFor = async ({ id, name, state, timeout = 5000 }: WaitForParams) => {
-    const timeoutPromise = new Promise<undefined>((resolve) =>
-      setTimeout(() => resolve(undefined), timeout)
+    const timeoutPromise = new Promise<boolean>((resolve) =>
+      setTimeout(() => resolve(false), timeout)
     )
-    const waiterPromise = new Promise<JobDto>((resolve) => {
+    const waiterPromise = new Promise<boolean>((resolve) => {
       const interval = setInterval(async () => {
-        let job: JobDto | undefined
         if (id) {
-          job = await this.getById(id)
+          const job = await this.getById(id)
+          if (job && job.state === state) {
+            clearInterval(interval)
+            resolve(true)
+          }
         } else if (name) {
-          job = await this.getByName(name)
-        }
-        if (job && job.state === state) {
-          clearInterval(interval)
-          resolve(job)
+          const runningJob = await this.boss.fetch(name)
+          if (!runningJob) {
+            clearInterval(interval)
+            resolve(true)
+          }
         }
       }, 500)
     })
@@ -241,6 +238,7 @@ class SqliteBoss {
       .selectFrom('_jobs')
       .selectAll()
       .where('name', '=', jobName)
+      .where('state', 'in', ['created', 'retry', 'active'])
       .executeTakeFirst()
     return job
   }

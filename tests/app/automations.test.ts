@@ -52,7 +52,8 @@ test.describe('App with automations', () => {
     // THEN
     expect(res.ok()).toBeTruthy()
     const { id } = await res.json()
-    const job = await queue.waitFor({ id, state: 'completed' })
+    await queue.waitFor({ id, state: 'completed' })
+    const job = await queue.getById(id)
     expect(job).toBeDefined()
     expect(job?.state).toBe('completed')
   })
