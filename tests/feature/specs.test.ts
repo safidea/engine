@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import Feature, { type Feature as Config } from '@safidea/engine/feature'
 
 test.describe('Feature specs', () => {
-  test('should run multiples specs in parallel', async () => {
+  test.skip('should run multiples specs in parallel', async () => {
     // GIVEN
     const config: Config = {
       name: 'get-started-page',

@@ -46,7 +46,7 @@ export class RealtimeDriver implements Driver {
           CREATE TRIGGER IF NOT EXISTS after_insert_${table}_trigger
           AFTER INSERT ON ${table}
           BEGIN
-              INSERT INTO _logs (table_name, action, record_id)
+              INSERT INTO _actions (table_name, action, record_id)
               VALUES ('${table}', 'INSERT', NEW.id);
           END;
           
@@ -54,7 +54,7 @@ export class RealtimeDriver implements Driver {
           CREATE TRIGGER IF NOT EXISTS after_update_${table}_trigger
           AFTER UPDATE ON ${table}
           BEGIN
-              INSERT INTO _logs (table_name, action, record_id)
+              INSERT INTO _actions (table_name, action, record_id)
               VALUES ('${table}', 'UPDATE', NEW.id);
           END;
           
@@ -62,7 +62,7 @@ export class RealtimeDriver implements Driver {
           CREATE TRIGGER IF NOT EXISTS after_delete_${table}_trigger
           AFTER DELETE ON ${table}
           BEGIN
-              INSERT INTO _logs (table_name, action, record_id)
+              INSERT INTO _actions (table_name, action, record_id)
               VALUES ('${table}', 'DELETE', OLD.id);
           END;
         `)
@@ -123,7 +123,7 @@ export class SqliteClient {
 
   connect = async () => {
     await this.db.exec(`
-      CREATE TABLE IF NOT EXISTS _logs (
+      CREATE TABLE IF NOT EXISTS _actions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         table_name TEXT,
         action TEXT,
@@ -139,7 +139,7 @@ export class SqliteClient {
 
   on = (_: 'notification', callback: (options: { payload: string }) => void) => {
     this.interval = setInterval(async () => {
-      const logs = await this.db.table('_logs').list([new Is({ field: 'processed', value: 0 })])
+      const logs = await this.db.table('_actions').list([new Is({ field: 'processed', value: 0 })])
       for (const log of logs) {
         const tableName = log.getFieldAsString('table_name')
         const recordId = log.getFieldAsString('record_id')
@@ -155,7 +155,7 @@ export class SqliteClient {
             }),
           })
         await this.db.exec(
-          `UPDATE _logs SET processed = 1 WHERE id = ${log.getFieldAsString('id')}`
+          `UPDATE _actions SET processed = 1 WHERE id = ${log.getFieldAsString('id')}`
         )
       }
     }, 500)

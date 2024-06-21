@@ -3,7 +3,7 @@ import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 import { PostgreSqlContainer } from '@testcontainers/postgresql'
 
-test.describe('Database start', () => {
+test.describe('Database', () => {
   test('should start with a new table', async () => {
     // GIVEN
     const database = new Database()

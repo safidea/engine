@@ -3371,6 +3371,19 @@
             ],
             "type": "object"
         },
+        "Logger": {
+            "additionalProperties": false,
+            "properties": {
+                "store": {
+                    "const": true,
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "store"
+            ],
+            "type": "object"
+        },
         "LogosBlock": {
             "additionalProperties": false,
             "properties": {
@@ -4909,6 +4922,9 @@
                 "type": "object"
             },
             "type": "array"
+        },
+        "logger": {
+            "$ref": "#/definitions/Logger"
         },
         "mailer": {
             "$ref": "#/definitions/Mailer"
