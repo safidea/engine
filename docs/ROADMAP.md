@@ -2,7 +2,12 @@
 
 ## TODO
 
-- [ ] Customize theming
+- [ ] Logger Driver should be able to store logs in database
+- [ ] Add a Reporter Driver for Sentry use
+- [ ] Add testimonials component
+- [ ] Add video component
+- [ ] Add theming customization
+- [ ] Add language detection
 
 ### Ressources
 
