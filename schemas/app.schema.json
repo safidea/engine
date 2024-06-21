@@ -1752,6 +1752,9 @@
                     "$ref": "#/definitions/LongText"
                 },
                 {
+                    "$ref": "#/definitions/Number"
+                },
+                {
                     "$ref": "#/definitions/SingleLineText"
                 }
             ]
@@ -3762,6 +3765,23 @@
                 "component",
                 "paragraph",
                 "title"
+            ],
+            "type": "object"
+        },
+        "Number": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "Number",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
             ],
             "type": "object"
         },

@@ -4,6 +4,7 @@ import { DateTime } from '@domain/engine/table/field/DateTime'
 import { Email } from '@domain/engine/table/field/Email'
 import { LongText } from '@domain/engine/table/field/LongText'
 import { SingleLineText } from '@domain/engine/table/field/SingleLineText'
+import { Number } from '@domain/engine/table/field/Number'
 
 export class FieldMapper {
   static toEntity(config: FieldConfig): Field {
@@ -16,6 +17,8 @@ export class FieldMapper {
         return new DateTime(config)
       case 'LongText':
         return new LongText(config)
+      case 'Number':
+        return new Number(config)
       default:
         throw new Error('Unknown field type')
     }

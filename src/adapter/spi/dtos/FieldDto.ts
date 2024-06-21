@@ -1,4 +1,4 @@
 export interface FieldDto {
   name: string
-  type: 'text' | 'timestamp'
+  type: 'text' | 'timestamp' | 'numeric'
 }
