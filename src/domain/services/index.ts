@@ -1,11 +1,10 @@
+import { Record } from '../entities/record'
 import { Database, type Spi as DatabaseSpi, type Params as DatabaseParams } from './Database'
 import { IdGenerator, type Spi as IdGeneratorSpi } from './IdGenerator'
 import { Logger, type Spi as LoggerSpi, type Params as LoggerParams } from './Logger'
-import { Record } from '../entities/record'
 import { SchemaValidator, type Spi as SchemaValidatorSpi } from './SchemaValidator'
 import { Server, type Spi as ServerSpi, type Params as ServerParams } from './Server'
 import { Ui, type Spi as UiSpi } from './Ui'
-import type { ReactComponents } from '@domain/engine/page/component'
 import { Browser, type Spi as BrowserSpi } from './Browser'
 import { Queue, type Spi as QueueSpi, type Params as QueueParams } from './Queue'
 import { Mailer, type Spi as MailerSpi, type Params as MailerParams } from './Mailer'
@@ -13,11 +12,10 @@ import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCom
 import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
 import { Auth, type Spi as AuthSpi, type Params as AuthParams } from './Auth'
 import { Client, type Spi as ClientSpi } from './Client'
-import type { CustomizedComponents } from '@domain/engine/page/component/Customized'
+import type { ReactComponents } from '@domain/engine/page/component'
 
 export interface Spis {
   components: ReactComponents
-  customized: CustomizedComponents
   server: (params: ServerParams) => ServerSpi
   database: (params: DatabaseParams) => DatabaseSpi
   logger: (params: LoggerParams) => LoggerSpi
@@ -34,12 +32,10 @@ export interface Spis {
 }
 
 export class Services {
-  components: ReactComponents
-  customized: CustomizedComponents
+  constructor(private spis: Spis) {}
 
-  constructor(private spis: Spis) {
-    this.components = this.spis.components
-    this.customized = this.spis.customized
+  get components() {
+    return this.spis.components
   }
 
   logger = (params: LoggerParams) => new Logger(this.spis.logger(params))

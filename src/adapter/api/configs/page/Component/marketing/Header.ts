@@ -1,24 +1,15 @@
-import type { Title } from '../base/Title'
-import type { Button } from '../base/Button'
-import type { Link } from '../base/Link'
+import type { Config as Title } from '../base/Title'
+import type { Config as Button } from '../base/Button'
+import type { Config as Link } from '../base/Link'
+import type { Config as Dropdown } from '../base/Dropdown'
 import type { Base } from '../base/Base'
-import type { Dropdown } from '../base/Dropdown'
 
-export interface Header extends Base {
+export interface Config extends Base {
   title: Title
   links: (Link | Dropdown)[]
   buttons: Button[]
 }
 
-export interface HeaderComponent extends Header {
+export interface Header extends Config {
   component: 'Header'
-}
-
-export interface HeaderBlock extends HeaderComponent {
-  ref: string
-}
-
-export interface HeaderBlockRef extends Partial<Header> {
-  component: 'Header'
-  blockRef: string
 }

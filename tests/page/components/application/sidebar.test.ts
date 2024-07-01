@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as AppConfig } from '@safidea/engine'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import Page, { type Component, type Page as PageConfig } from '@safidea/engine/page'
 import Database from '@tests/database'
 
 test.describe('Sidebar component', () => {
@@ -90,6 +90,23 @@ test.describe('Sidebar component', () => {
 
   test('should display a paragraph when clicking on a link', async ({ page }) => {
     // GIVEN
+    const sidebar = (children: Component[]): Component => ({
+      component: 'Sidebar',
+      title: { text: 'Menu' },
+      links: [
+        {
+          label: 'Home',
+          prefixIcon: { type: 'Home' },
+          href: '/',
+        },
+        {
+          label: 'Leads',
+          prefixIcon: { type: 'Users' },
+          href: '/leads',
+        },
+      ],
+      children,
+    })
     const config: AppConfig = {
       name: 'App',
       features: [
@@ -100,52 +117,25 @@ test.describe('Sidebar component', () => {
               name: 'Page',
               path: '/',
               body: [
-                {
-                  blockRef: 'Sidebar',
-                  component: 'Sidebar',
-                  children: [
-                    {
-                      component: 'Paragraph',
-                      text: 'Home page',
-                    },
-                  ],
-                },
+                sidebar([
+                  {
+                    component: 'Paragraph',
+                    text: 'Home page',
+                  },
+                ]),
               ],
             },
             {
               name: 'Leads',
               path: '/leads',
               body: [
-                {
-                  blockRef: 'Sidebar',
-                  component: 'Sidebar',
-                  children: [
-                    {
-                      component: 'Paragraph',
-                      text: 'Leads page',
-                    },
-                  ],
-                },
+                sidebar([
+                  {
+                    component: 'Paragraph',
+                    text: 'Leads page',
+                  },
+                ]),
               ],
-            },
-          ],
-        },
-      ],
-      blocks: [
-        {
-          ref: 'Sidebar',
-          component: 'Sidebar',
-          title: { text: 'Menu' },
-          links: [
-            {
-              label: 'Home',
-              prefixIcon: { type: 'Home' },
-              href: '/',
-            },
-            {
-              label: 'Leads',
-              prefixIcon: { type: 'Users' },
-              href: '/leads',
             },
           ],
         },

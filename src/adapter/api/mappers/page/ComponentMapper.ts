@@ -1,12 +1,13 @@
-import type {
-  Block,
-  BlockRef as BlockRefConfig,
-  Component as ComponentConfig,
-  ComponentWithBlockRef as ComponentWithBlockRefConfig,
-} from '../../configs/page/Component'
+import type { Component, ReactComponents } from '@domain/engine/page/component'
+import type { Client } from '@domain/services/Client'
+import type { Ui } from '@domain/services/Ui'
+import type { IdGenerator } from '@domain/services/IdGenerator'
+import type { Server } from '@domain/services/Server'
+import type { Realtime } from '@domain/services/Realtime'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+
 import { Hero } from '@domain/engine/page/component/marketing/Hero'
 import { Footer } from '@domain/engine/page/component/marketing/Footer'
-import type { Component, ReactComponents } from '@domain/engine/page/component'
 import { Paragraph } from '@domain/engine/page/component/base/Paragraph'
 import { Form } from '@domain/engine/page/component/application/Form'
 import { List } from '@domain/engine/page/component/application/List'
@@ -15,60 +16,51 @@ import { Cta } from '@domain/engine/page/component/marketing/Cta'
 import { Features } from '@domain/engine/page/component/marketing/Features'
 import { Logos } from '@domain/engine/page/component/marketing/Logos'
 import { NotFound } from '@domain/engine/page/component/marketing/NotFound'
-import type { Ui } from '@domain/services/Ui'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { Server } from '@domain/services/Server'
 import { Link } from '@domain/engine/page/component/base/Link'
 import { Header } from '@domain/engine/page/component/marketing/Header'
 import { Table } from '@domain/engine/page/component/application/Table'
-import type { Realtime } from '@domain/services/Realtime'
 import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
 import { Title } from '@domain/engine/page/component/base/Title'
 import { Container } from '@domain/engine/page/component/base/Container'
-import { InvalidBlock } from '@domain/engine/page/component/base/InvalidBlock'
-import type { Client } from '@domain/services/Client'
 import { Icon } from '@domain/engine/page/component/base/Icon'
 import { Input } from '@domain/engine/page/component/base/Input'
 import { Image } from '@domain/engine/page/component/base/Image'
-import type { Title as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
-import type { Container as ContainerConfig } from '@adapter/api/configs/page/Component/base/Container'
-import type { Paragraph as ParagraphConfig } from '@adapter/api/configs/page/Component/base/Paragraph'
-import type { Button as ButtonConfig } from '@adapter/api/configs/page/Component/base/Button'
-import type { Link as LinkConfig } from '@adapter/api/configs/page/Component/base/Link'
-import type { Icon as IconConfig } from '@adapter/api/configs/page/Component/base/Icon'
-import type { Input as InputConfig } from '@adapter/api/configs/page/Component/base/Input'
-import type { Image as ImageConfig } from '@adapter/api/configs/page/Component/base/Image'
-import type { Sidebar as SidebarConfig } from '@adapter/api/configs/page/Component/application/Sidebar'
-import type { Table as TableConfig } from '@adapter/api/configs/page/Component/application/Table'
-import type { NotFound as NotFoundConfig } from '@adapter/api/configs/page/Component/marketing/NotFound'
-import type { Logos as LogosConfig } from '@adapter/api/configs/page/Component/marketing/Logos'
-import type { Features as FeaturesConfig } from '@adapter/api/configs/page/Component/marketing/Features'
-import type { Cta as CtaConfig } from '@adapter/api/configs/page/Component/marketing/Cta'
-import type { Form as FormConfig } from '@adapter/api/configs/page/Component/application/Form'
-import type { Footer as FooterConfig } from '@adapter/api/configs/page/Component/marketing/Footer'
-import type { Header as HeaderConfig } from '@adapter/api/configs/page/Component/marketing/Header'
-import type { Hero as HeroConfig } from '@adapter/api/configs/page/Component/marketing/Hero'
-import type { List as ListConfig } from '@adapter/api/configs/page/Component/application/List'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import { Heading } from '@domain/engine/page/component/application/Heading'
-import type { Heading as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
-import type { Customized as CustomizedConfig } from '@adapter/api/configs/page/Component/customized'
-import { Customized, type CustomizedComponents } from '@domain/engine/page/component/Customized'
 import { Modal } from '@domain/engine/page/component/application/Modal'
-import type { Modal as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
 import { Dropdown } from '@domain/engine/page/component/base/Dropdown'
-import type { Dropdown as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
+
+import type { Component as ComponentConfig } from '../../configs/page/Component'
+import type { Config as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
+import type { Config as ContainerConfig } from '@adapter/api/configs/page/Component/base/Container'
+import type { Config as ParagraphConfig } from '@adapter/api/configs/page/Component/base/Paragraph'
+import type { Config as ButtonConfig } from '@adapter/api/configs/page/Component/base/Button'
+import type { Config as LinkConfig } from '@adapter/api/configs/page/Component/base/Link'
+import type { Config as IconConfig } from '@adapter/api/configs/page/Component/base/Icon'
+import type { Config as InputConfig } from '@adapter/api/configs/page/Component/base/Input'
+import type { Config as ImageConfig } from '@adapter/api/configs/page/Component/base/Image'
+import type { Config as SidebarConfig } from '@adapter/api/configs/page/Component/application/Sidebar'
+import type { Config as TableConfig } from '@adapter/api/configs/page/Component/application/Table'
+import type { Config as NotFoundConfig } from '@adapter/api/configs/page/Component/marketing/NotFound'
+import type { Config as LogosConfig } from '@adapter/api/configs/page/Component/marketing/Logos'
+import type { Config as FeaturesConfig } from '@adapter/api/configs/page/Component/marketing/Features'
+import type { Config as CtaConfig } from '@adapter/api/configs/page/Component/marketing/Cta'
+import type { Config as FormConfig } from '@adapter/api/configs/page/Component/application/Form'
+import type { Config as FooterConfig } from '@adapter/api/configs/page/Component/marketing/Footer'
+import type { Config as HeaderConfig } from '@adapter/api/configs/page/Component/marketing/Header'
+import type { Config as HeroConfig } from '@adapter/api/configs/page/Component/marketing/Hero'
+import type { Config as ListConfig } from '@adapter/api/configs/page/Component/application/List'
+import type { Config as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
+import type { Config as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
+import type { Config as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
 
 export interface Params {
   components: ReactComponents
-  customized: CustomizedComponents
   server: Server
   ui: Ui
   client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
   templateCompiler: TemplateCompiler
-  blocks?: Block[]
 }
 
 export class ComponentMapper {
@@ -250,7 +242,9 @@ export class ComponentMapper {
   static toHeaderEntity = (config: HeaderConfig, params: Params): Header => {
     const { components } = params
     const title = this.toTitleEntity(config.title, params)
-    const links = config.links.map((link) => "links" in link ? this.toDropdownEntity(link, params) : this.toLinkEntity(link, params))
+    const links = config.links.map((link) =>
+      'links' in link ? this.toDropdownEntity(link, params) : this.toLinkEntity(link, params)
+    )
     const buttons = this.toManyButtonEntities(config.buttons, params)
     return new Header({ ...config, title, links, buttons, Component: components.Header })
   }
@@ -270,11 +264,6 @@ export class ComponentMapper {
     return new Heading({ ...config, title, buttons, Component: components.Heading })
   }
 
-  static toCustomizedEntity = (config: CustomizedConfig, params: Params): Customized => {
-    const { customized } = params
-    return new Customized({ ...config, customized })
-  }
-
   static toModalEntity = (config: ModalConfig, params: Params): Modal => {
     const { components } = params
     const button = this.toButtonEntity(config.button, params)
@@ -290,7 +279,7 @@ export class ComponentMapper {
     return new Dropdown({ ...config, links, Component: components.Dropdown })
   }
 
-  static toEntityFromComponent = (config: ComponentConfig, params: Params): Component => {
+  static toEntity = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
     if (component === 'Header') return this.toHeaderEntity(config, params)
@@ -311,77 +300,13 @@ export class ComponentMapper {
     if (component === 'Icon') return this.toIconEntity(config, params)
     if (component === 'List') return this.toListEntity(config, params)
     if (component === 'Heading') return this.toHeadingEntity(config, params)
-    if (component === 'Customized') return this.toCustomizedEntity(config, params)
     if (component === 'Modal') return this.toModalEntity(config, params)
     if (component === 'Dropdown') return this.toDropdownEntity(config, params)
     if (component === 'Container') return this.toContainerEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 
-  static toEntityFromBlockRef = (config: BlockRefConfig, params: Params): Component => {
-    const { blocks = [] } = params
-    const block = blocks.find((c) => c.ref === config.blockRef)
-    if (!block) {
-      return new InvalidBlock({ message: `Block ${config.blockRef} does not exist` })
-    }
-    if (config.component === 'Title' && block.component === 'Title')
-      return this.toTitleEntity({ ...block, ...config }, params)
-    if (config.component === 'Paragraph' && block.component === 'Paragraph')
-      return this.toParagraphEntity({ ...block, ...config }, params)
-    if (config.component === 'Button' && block.component === 'Button')
-      return this.toButtonEntity({ ...block, ...config }, params)
-    if (config.component === 'Link' && block.component === 'Link')
-      return this.toLinkEntity({ ...block, ...config }, params)
-    if (config.component === 'Icon' && block.component === 'Icon')
-      return this.toIconEntity({ ...block, ...config }, params)
-    if (config.component === 'Input' && block.component === 'Input')
-      return this.toInputEntity({ ...block, ...config }, params)
-    if (config.component === 'Image' && block.component === 'Image')
-      return this.toImageEntity({ ...block, ...config }, params)
-    if (config.component === 'Sidebar' && block.component === 'Sidebar')
-      return this.toSidebarEntity({ ...block, ...config }, params)
-    if (config.component === 'Table' && block.component === 'Table')
-      return this.toTableEntity({ ...block, ...config }, params)
-    if (config.component === 'NotFound' && block.component === 'NotFound')
-      return this.toNotFoundEntity({ ...block, ...config }, params)
-    if (config.component === 'Logos' && block.component === 'Logos')
-      return this.toLogosEntity({ ...block, ...config }, params)
-    if (config.component === 'Features' && block.component === 'Features')
-      return this.toFeaturesEntity({ ...block, ...config }, params)
-    if (config.component === 'CTA' && block.component === 'CTA')
-      return this.toCtaEntity({ ...block, ...config }, params)
-    if (config.component === 'Form' && block.component === 'Form')
-      return this.toFormEntity({ ...block, ...config }, params)
-    if (config.component === 'Footer' && block.component === 'Footer')
-      return this.toFooterEntity({ ...block, ...config }, params)
-    if (config.component === 'Header' && block.component === 'Header')
-      return this.toHeaderEntity({ ...block, ...config }, params)
-    if (config.component === 'Hero' && block.component === 'Hero')
-      return this.toHeroEntity({ ...block, ...config }, params)
-    if (config.component === 'List' && block.component === 'List')
-      return this.toListEntity({ ...block, ...config }, params)
-    if (config.component === 'Heading' && block.component === 'Heading')
-      return this.toHeadingEntity({ ...block, ...config }, params)
-    if (config.component === 'Customized' && block.component === 'Customized')
-      return this.toCustomizedEntity({ ...block, ...config }, params)
-    if (config.component === 'Modal' && block.component === 'Modal')
-      return this.toModalEntity({ ...block, ...config }, params)
-    if (config.component === 'Container' && block.component === 'Container')
-      return this.toContainerEntity({ ...block, ...config }, params)
-    return new InvalidBlock({
-      message: `BlockRef ${config.blockRef} is not a ${block.component} component`,
-    })
-  }
-
-  static toEntity = (config: ComponentWithBlockRefConfig, params: Params): Component => {
-    if ('blockRef' in config) {
-      return this.toEntityFromBlockRef(config, params)
-    } else {
-      return this.toEntityFromComponent(config, params)
-    }
-  }
-
-  static toManyEntities = (configs: ComponentWithBlockRefConfig[], params: Params): Component[] => {
+  static toManyEntities = (configs: ComponentConfig[], params: Params): Component[] => {
     return configs.map((config) => this.toEntity(config, params))
   }
 }

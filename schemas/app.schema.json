@@ -245,379 +245,7 @@
             ],
             "type": "object"
         },
-        "Block": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/ButtonBlock"
-                },
-                {
-                    "$ref": "#/definitions/TitleBlock"
-                },
-                {
-                    "$ref": "#/definitions/ParagraphBlock"
-                },
-                {
-                    "$ref": "#/definitions/InputBlock"
-                },
-                {
-                    "$ref": "#/definitions/FormBlock"
-                },
-                {
-                    "$ref": "#/definitions/CtaBlock"
-                },
-                {
-                    "$ref": "#/definitions/IconBlock"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesBlock"
-                },
-                {
-                    "$ref": "#/definitions/HeroBlock"
-                },
-                {
-                    "$ref": "#/definitions/LinkBlock"
-                },
-                {
-                    "$ref": "#/definitions/FooterBlock"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlock"
-                },
-                {
-                    "$ref": "#/definitions/LogosBlock"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundBlock"
-                },
-                {
-                    "$ref": "#/definitions/DropdownBlock"
-                },
-                {
-                    "$ref": "#/definitions/HeaderBlock"
-                },
-                {
-                    "$ref": "#/definitions/TableBlock"
-                },
-                {
-                    "$ref": "#/definitions/SidebarBlock"
-                },
-                {
-                    "$ref": "#/definitions/ListBlock"
-                },
-                {
-                    "$ref": "#/definitions/HeadingBlock"
-                },
-                {
-                    "$ref": "#/definitions/CustomizedBlock"
-                },
-                {
-                    "$ref": "#/definitions/ModalBlock"
-                },
-                {
-                    "$ref": "#/definitions/ContainerBlock"
-                },
-                {
-                    "$ref": "#/definitions/ColumnsBlock"
-                }
-            ]
-        },
         "Button": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST"
-                    ],
-                    "type": "string"
-                },
-                "onSuccess": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "redirect": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "redirect"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "notification": {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "type": {
-                                            "enum": [
-                                                "error",
-                                                "success"
-                                            ],
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "type"
-                                    ],
-                                    "type": "object"
-                                }
-                            },
-                            "required": [
-                                "notification"
-                            ],
-                            "type": "object"
-                        }
-                    ]
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "reset",
-                        "submit"
-                    ],
-                    "type": "string"
-                },
-                "variant": {
-                    "enum": [
-                        "primary",
-                        "secondary"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "label"
-            ],
-            "type": "object"
-        },
-        "ButtonBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Button",
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST"
-                    ],
-                    "type": "string"
-                },
-                "onSuccess": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "redirect": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "redirect"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "notification": {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "type": {
-                                            "enum": [
-                                                "error",
-                                                "success"
-                                            ],
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "type"
-                                    ],
-                                    "type": "object"
-                                }
-                            },
-                            "required": [
-                                "notification"
-                            ],
-                            "type": "object"
-                        }
-                    ]
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "reset",
-                        "submit"
-                    ],
-                    "type": "string"
-                },
-                "variant": {
-                    "enum": [
-                        "primary",
-                        "secondary"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "label",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "ButtonBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Button",
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST"
-                    ],
-                    "type": "string"
-                },
-                "onSuccess": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "redirect": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "redirect"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "notification": {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "type": {
-                                            "enum": [
-                                                "error",
-                                                "success"
-                                            ],
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "type"
-                                    ],
-                                    "type": "object"
-                                }
-                            },
-                            "required": [
-                                "notification"
-                            ],
-                            "type": "object"
-                        }
-                    ]
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "reset",
-                        "submit"
-                    ],
-                    "type": "string"
-                },
-                "variant": {
-                    "enum": [
-                        "primary",
-                        "secondary"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "ButtonComponent": {
             "additionalProperties": false,
             "properties": {
                 "action": {
@@ -778,66 +406,7 @@
             ],
             "type": "object"
         },
-        "ColumnsBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Columns",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "children",
-                "component",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "ColumnsBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Columns",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "ColumnsComponent": {
+        "Columns": {
             "additionalProperties": false,
             "properties": {
                 "children": {
@@ -866,228 +435,228 @@
         "Component": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/ButtonComponent"
+                    "$ref": "#/definitions/Button"
                 },
                 {
-                    "$ref": "#/definitions/TitleComponent"
+                    "$ref": "#/definitions/Title_1"
                 },
                 {
-                    "$ref": "#/definitions/ParagraphComponent"
+                    "$ref": "#/definitions/Paragraph"
                 },
                 {
-                    "$ref": "#/definitions/InputComponent"
+                    "$ref": "#/definitions/Input"
                 },
                 {
-                    "$ref": "#/definitions/FormComponent"
+                    "$ref": "#/definitions/Form"
                 },
                 {
-                    "$ref": "#/definitions/CtaComponent"
+                    "$ref": "#/definitions/Cta"
                 },
                 {
-                    "$ref": "#/definitions/IconComponent"
+                    "$ref": "#/definitions/Icon"
                 },
                 {
-                    "$ref": "#/definitions/FeaturesComponent"
+                    "$ref": "#/definitions/Features"
                 },
                 {
-                    "$ref": "#/definitions/HeroComponent"
+                    "$ref": "#/definitions/Hero"
                 },
                 {
-                    "$ref": "#/definitions/LinkComponent"
+                    "$ref": "#/definitions/Link_1"
                 },
                 {
-                    "$ref": "#/definitions/FooterComponent"
+                    "$ref": "#/definitions/Footer"
                 },
                 {
-                    "$ref": "#/definitions/ImageComponent"
+                    "$ref": "#/definitions/Image"
                 },
                 {
-                    "$ref": "#/definitions/LogosComponent"
+                    "$ref": "#/definitions/Logos"
                 },
                 {
-                    "$ref": "#/definitions/NotFoundComponent"
+                    "$ref": "#/definitions/NotFound"
                 },
                 {
-                    "$ref": "#/definitions/DropdownComponent"
+                    "$ref": "#/definitions/Dropdown"
                 },
                 {
-                    "$ref": "#/definitions/HeaderComponent"
+                    "$ref": "#/definitions/Header"
                 },
                 {
-                    "$ref": "#/definitions/TableComponent"
+                    "$ref": "#/definitions/Table"
                 },
                 {
-                    "$ref": "#/definitions/SidebarComponent"
+                    "$ref": "#/definitions/Sidebar"
                 },
                 {
-                    "$ref": "#/definitions/ListComponent"
+                    "$ref": "#/definitions/List"
                 },
                 {
-                    "$ref": "#/definitions/HeadingComponent"
+                    "$ref": "#/definitions/Heading"
                 },
                 {
-                    "$ref": "#/definitions/CustomizedComponent"
+                    "$ref": "#/definitions/Modal"
                 },
                 {
-                    "$ref": "#/definitions/ModalComponent"
+                    "$ref": "#/definitions/Container"
                 },
                 {
-                    "$ref": "#/definitions/ContainerComponent"
-                },
-                {
-                    "$ref": "#/definitions/ColumnsComponent"
+                    "$ref": "#/definitions/Columns"
                 }
             ]
         },
-        "ComponentWithBlockRef": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/ButtonComponent"
+        "Config": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
                 },
-                {
-                    "$ref": "#/definitions/ButtonBlockRef"
+                "defaultValue": {
+                    "type": "string"
                 },
-                {
-                    "$ref": "#/definitions/TitleComponent"
+                "id": {
+                    "type": "string"
                 },
-                {
-                    "$ref": "#/definitions/TitleBlockRef"
+                "label": {
+                    "type": "string"
                 },
-                {
-                    "$ref": "#/definitions/ParagraphComponent"
+                "name": {
+                    "type": "string"
                 },
-                {
-                    "$ref": "#/definitions/ParagraphBlockRef"
+                "placeholder": {
+                    "type": "string"
                 },
-                {
-                    "$ref": "#/definitions/InputComponent"
+                "required": {
+                    "type": "boolean"
                 },
-                {
-                    "$ref": "#/definitions/InputBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FormComponent"
-                },
-                {
-                    "$ref": "#/definitions/FormBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/CtaComponent"
-                },
-                {
-                    "$ref": "#/definitions/CtaBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/IconComponent"
-                },
-                {
-                    "$ref": "#/definitions/IconBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesComponent"
-                },
-                {
-                    "$ref": "#/definitions/FeaturesBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeroComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeroBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LinkComponent"
-                },
-                {
-                    "$ref": "#/definitions/LinkBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/FooterComponent"
-                },
-                {
-                    "$ref": "#/definitions/FooterBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ImageComponent"
-                },
-                {
-                    "$ref": "#/definitions/ImageBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/LogosComponent"
-                },
-                {
-                    "$ref": "#/definitions/LogosBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundComponent"
-                },
-                {
-                    "$ref": "#/definitions/NotFoundBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/DropdownComponent"
-                },
-                {
-                    "$ref": "#/definitions/DropdownBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeaderComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeaderBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/TableComponent"
-                },
-                {
-                    "$ref": "#/definitions/TableBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/SidebarComponent"
-                },
-                {
-                    "$ref": "#/definitions/ListComponent"
-                },
-                {
-                    "$ref": "#/definitions/HeadingComponent"
-                },
-                {
-                    "$ref": "#/definitions/CustomizedComponent"
-                },
-                {
-                    "$ref": "#/definitions/ModalComponent"
-                },
-                {
-                    "$ref": "#/definitions/ContainerComponent"
-                },
-                {
-                    "$ref": "#/definitions/ColumnsComponent"
-                },
-                {
-                    "$ref": "#/definitions/SidebarBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ListBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/HeadingBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/CustomizedBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ModalBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ContainerBlockRef"
-                },
-                {
-                    "$ref": "#/definitions/ColumnsBlockRef"
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "textarea",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
                 }
-            ]
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
         },
-        "ContainerBlock": {
+        "Config_1": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST"
+                    ],
+                    "type": "string"
+                },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "type": "object"
+        },
+        "Config_2": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -1098,38 +667,13 @@
                     ],
                     "type": "string"
                 },
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
                 "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Container",
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "ref": {
-                    "type": "string"
-                },
-                "spacing": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "none",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "width": {
+                "size": {
                     "enum": [
                         "2xl",
                         "lg",
@@ -1138,17 +682,18 @@
                         "xl",
                         "xs"
                     ],
+                    "type": "string"
+                },
+                "text": {
                     "type": "string"
                 }
             },
             "required": [
-                "children",
-                "component",
-                "ref"
+                "text"
             ],
             "type": "object"
         },
-        "ContainerBlockRef": {
+        "Config_3": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -1159,38 +704,111 @@
                     ],
                     "type": "string"
                 },
-                "blockRef": {
-                    "type": "string"
-                },
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
                 "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Container",
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "spacing": {
+                "size": {
                     "enum": [
                         "2xl",
                         "lg",
                         "md",
-                        "none",
                         "sm",
                         "xl",
                         "xs"
                     ],
                     "type": "string"
                 },
-                "width": {
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "Config_4": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/Type"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
+        },
+        "Config_5": {
+            "additionalProperties": false,
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Config_4"
+                }
+            },
+            "required": [
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Config_6": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "alt": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
                     "enum": [
                         "2xl",
                         "lg",
@@ -1200,15 +818,43 @@
                         "xs"
                     ],
                     "type": "string"
+                },
+                "src": {
+                    "type": "string"
                 }
             },
             "required": [
-                "blockRef",
-                "component"
+                "alt",
+                "src"
             ],
             "type": "object"
         },
-        "ContainerComponent": {
+        "Config_7": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Config_5"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "label",
+                "links"
+            ],
+            "type": "object"
+        },
+        "Container": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -1297,12 +943,12 @@
             ],
             "type": "object"
         },
-        "CtaBlock": {
+        "Cta": {
             "additionalProperties": false,
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Button"
+                        "$ref": "#/definitions/Config_1"
                     },
                     "type": "array"
                 },
@@ -1317,83 +963,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "buttons",
-                "component",
-                "paragraph",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "CtaBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "CTA",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "CtaComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "CTA",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -1401,91 +974,6 @@
                 "component",
                 "paragraph",
                 "title"
-            ],
-            "type": "object"
-        },
-        "CustomizedBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "component": {
-                    "const": "Customized",
-                    "type": "string"
-                },
-                "customRef": {
-                    "type": "string"
-                },
-                "props": {
-                    "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number"
-                        ]
-                    },
-                    "type": "object"
-                },
-                "ref": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "customRef",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "CustomizedBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Customized",
-                    "type": "string"
-                },
-                "customRef": {
-                    "type": "string"
-                },
-                "props": {
-                    "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number"
-                        ]
-                    },
-                    "type": "object"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "CustomizedComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "component": {
-                    "const": "Customized",
-                    "type": "string"
-                },
-                "customRef": {
-                    "type": "string"
-                },
-                "props": {
-                    "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number"
-                        ]
-                    },
-                    "type": "object"
-                }
-            },
-            "required": [
-                "component",
-                "customRef"
             ],
             "type": "object"
         },
@@ -1528,31 +1016,6 @@
                 "className": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "label",
-                "links"
-            ],
-            "type": "object"
-        },
-        "DropdownBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
                 "component": {
                     "const": "Dropdown",
                     "type": "string"
@@ -1565,73 +1028,7 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                },
-                "ref": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "label",
-                "links",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "DropdownBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Dropdown",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "DropdownComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Dropdown",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
+                        "$ref": "#/definitions/Config_5"
                     },
                     "type": "array"
                 }
@@ -1679,7 +1076,7 @@
             ],
             "type": "object"
         },
-        "FeaturesBlock": {
+        "Features": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -1694,13 +1091,13 @@
                         "additionalProperties": false,
                         "properties": {
                             "icon": {
-                                "$ref": "#/definitions/Icon"
+                                "$ref": "#/definitions/Config_4"
                             },
                             "paragraph": {
-                                "$ref": "#/definitions/Paragraph"
+                                "$ref": "#/definitions/Config_3"
                             },
                             "title": {
-                                "$ref": "#/definitions/Title_1"
+                                "$ref": "#/definitions/Config_2"
                             }
                         },
                         "required": [
@@ -1716,117 +1113,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "component",
-                "features",
-                "paragraph",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "FeaturesBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Features",
-                    "type": "string"
-                },
-                "features": {
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "icon": {
-                                "$ref": "#/definitions/Icon"
-                            },
-                            "paragraph": {
-                                "$ref": "#/definitions/Paragraph"
-                            },
-                            "title": {
-                                "$ref": "#/definitions/Title_1"
-                            }
-                        },
-                        "required": [
-                            "icon",
-                            "paragraph",
-                            "title"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "array"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "FeaturesComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Features",
-                    "type": "string"
-                },
-                "features": {
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "icon": {
-                                "$ref": "#/definitions/Icon"
-                            },
-                            "paragraph": {
-                                "$ref": "#/definitions/Paragraph"
-                            },
-                            "title": {
-                                "$ref": "#/definitions/Title_1"
-                            }
-                        },
-                        "required": [
-                            "icon",
-                            "paragraph",
-                            "title"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "array"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -1882,7 +1172,7 @@
                 }
             ]
         },
-        "FooterBlock": {
+        "Footer": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -1900,95 +1190,15 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Link_1"
+                        "$ref": "#/definitions/Config_5"
                     },
                     "type": "array"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "component",
-                "copyright",
-                "links",
-                "paragraph",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "FooterBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Footer",
-                    "type": "string"
-                },
-                "copyright": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "FooterComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Footer",
-                    "type": "string"
-                },
-                "copyright": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -2000,7 +1210,7 @@
             ],
             "type": "object"
         },
-        "FormBlock": {
+        "Form": {
             "additionalProperties": false,
             "properties": {
                 "action": {
@@ -2008,7 +1218,7 @@
                 },
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Button"
+                        "$ref": "#/definitions/Config_1"
                     },
                     "type": "array"
                 },
@@ -2024,7 +1234,7 @@
                 },
                 "inputs": {
                     "items": {
-                        "$ref": "#/definitions/Input"
+                        "$ref": "#/definitions/Config"
                     },
                     "type": "array"
                 },
@@ -2038,10 +1248,7 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "source": {
                     "type": "string"
@@ -2050,125 +1257,7 @@
                     "type": "string"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "action",
-                "buttons",
-                "component",
-                "inputs",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "FormBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "blockRef": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Form",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "inputs": {
-                    "items": {
-                        "$ref": "#/definitions/Input"
-                    },
-                    "type": "array"
-                },
-                "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST"
-                    ],
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "successMessage": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "FormComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Form",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "inputs": {
-                    "items": {
-                        "$ref": "#/definitions/Input"
-                    },
-                    "type": "array"
-                },
-                "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST"
-                    ],
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "successMessage": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -2206,12 +1295,12 @@
             },
             "type": "object"
         },
-        "HeaderBlock": {
+        "Header": {
             "additionalProperties": false,
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Button"
+                        "$ref": "#/definitions/Config_1"
                     },
                     "type": "array"
                 },
@@ -2229,110 +1318,17 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/definitions/Link_1"
+                                "$ref": "#/definitions/Config_5"
                             },
                             {
-                                "$ref": "#/definitions/Dropdown"
-                            }
-                        ]
-                    },
-                    "type": "array"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "buttons",
-                "component",
-                "links",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "HeaderBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Header",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/Link_1"
-                            },
-                            {
-                                "$ref": "#/definitions/Dropdown"
+                                "$ref": "#/definitions/Config_7"
                             }
                         ]
                     },
                     "type": "array"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "HeaderComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Header",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/Link_1"
-                            },
-                            {
-                                "$ref": "#/definitions/Dropdown"
-                            }
-                        ]
-                    },
-                    "type": "array"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -2343,48 +1339,12 @@
             ],
             "type": "object"
         },
-        "HeadingBlock": {
+        "Heading": {
             "additionalProperties": false,
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Heading",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "component",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "HeadingBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
+                        "$ref": "#/definitions/Config_1"
                     },
                     "type": "array"
                 },
@@ -2399,36 +1359,7 @@
                     "type": "string"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "HeadingComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Heading",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -2437,12 +1368,12 @@
             ],
             "type": "object"
         },
-        "HeroBlock": {
+        "Hero": {
             "additionalProperties": false,
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Button"
+                        "$ref": "#/definitions/Config_1"
                     },
                     "type": "array"
                 },
@@ -2457,83 +1388,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "buttons",
-                "component",
-                "paragraph",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "HeroBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Hero",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "HeroComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Hero",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -2545,101 +1403,6 @@
             "type": "object"
         },
         "Icon": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/Type"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        },
-        "IconBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Icon",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/Type"
-                }
-            },
-            "required": [
-                "component",
-                "ref",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IconBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Icon",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "AcademicCap",
-                        "ArrowTrendingUp",
-                        "Banknotes",
-                        "ChartBarSquare",
-                        "ChatBubbleBottomCenterText",
-                        "ChatBubbleLeftEllipsis",
-                        "Cog",
-                        "Cog6Tooth",
-                        "CommandLine",
-                        "ComputerDesktop",
-                        "DevicePhoneMobile",
-                        "FaceSmile",
-                        "Gift",
-                        "Home",
-                        "MagnifyingGlass",
-                        "RectangleStack",
-                        "RocketLaunch",
-                        "Scale",
-                        "User",
-                        "UserCircle",
-                        "UserPlus",
-                        "Users"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "IconComponent": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -2663,172 +1426,6 @@
             "type": "object"
         },
         "Image": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "alt": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "rounded": {
-                    "enum": [
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl"
-                    ],
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "src": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "alt",
-                "src"
-            ],
-            "type": "object"
-        },
-        "ImageBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "alt": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Image",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "rounded": {
-                    "enum": [
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl"
-                    ],
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "src": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "alt",
-                "component",
-                "ref",
-                "src"
-            ],
-            "type": "object"
-        },
-        "ImageBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "alt": {
-                    "type": "string"
-                },
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Image",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "rounded": {
-                    "enum": [
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl"
-                    ],
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "src": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "ImageComponent": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -2884,197 +1481,6 @@
             "type": "object"
         },
         "Input": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "defaultValue": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "placeholder": {
-                    "type": "string"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "checkbox",
-                        "color",
-                        "date",
-                        "datetime-local",
-                        "email",
-                        "file",
-                        "hidden",
-                        "image",
-                        "month",
-                        "number",
-                        "password",
-                        "radio",
-                        "range",
-                        "reset",
-                        "search",
-                        "submit",
-                        "tel",
-                        "text",
-                        "textarea",
-                        "time",
-                        "url",
-                        "week"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name"
-            ],
-            "type": "object"
-        },
-        "InputBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Input",
-                    "type": "string"
-                },
-                "defaultValue": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "placeholder": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "checkbox",
-                        "color",
-                        "date",
-                        "datetime-local",
-                        "email",
-                        "file",
-                        "hidden",
-                        "image",
-                        "month",
-                        "number",
-                        "password",
-                        "radio",
-                        "range",
-                        "reset",
-                        "search",
-                        "submit",
-                        "tel",
-                        "text",
-                        "textarea",
-                        "time",
-                        "url",
-                        "week"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "name",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "InputBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Input",
-                    "type": "string"
-                },
-                "defaultValue": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "placeholder": {
-                    "type": "string"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "checkbox",
-                        "color",
-                        "date",
-                        "datetime-local",
-                        "email",
-                        "file",
-                        "hidden",
-                        "image",
-                        "month",
-                        "number",
-                        "password",
-                        "radio",
-                        "range",
-                        "reset",
-                        "search",
-                        "submit",
-                        "tel",
-                        "text",
-                        "textarea",
-                        "time",
-                        "url",
-                        "week"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "InputComponent": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -3216,120 +1622,6 @@
             ],
             "type": "object"
         },
-        "LinkBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Link",
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "prefixIcon": {
-                    "$ref": "#/definitions/Icon"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "suffixIcon": {
-                    "$ref": "#/definitions/Icon"
-                }
-            },
-            "required": [
-                "component",
-                "href",
-                "label",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "LinkBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Link",
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "prefixIcon": {
-                    "$ref": "#/definitions/Icon"
-                },
-                "suffixIcon": {
-                    "$ref": "#/definitions/Icon"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "LinkComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Link",
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "prefixIcon": {
-                    "$ref": "#/definitions/Icon"
-                },
-                "suffixIcon": {
-                    "$ref": "#/definitions/Icon"
-                }
-            },
-            "required": [
-                "component",
-                "href",
-                "label"
-            ],
-            "type": "object"
-        },
         "Link_1": {
             "additionalProperties": false,
             "properties": {
@@ -3339,6 +1631,10 @@
                 "className": {
                     "type": "string"
                 },
+                "component": {
+                    "const": "Link",
+                    "type": "string"
+                },
                 "href": {
                     "type": "string"
                 },
@@ -3349,92 +1645,20 @@
                     "type": "string"
                 },
                 "prefixIcon": {
-                    "$ref": "#/definitions/Icon"
+                    "$ref": "#/definitions/Config_4"
                 },
                 "suffixIcon": {
-                    "$ref": "#/definitions/Icon"
+                    "$ref": "#/definitions/Config_4"
                 }
             },
             "required": [
+                "component",
                 "href",
                 "label"
             ],
             "type": "object"
         },
-        "ListBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column_1"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "List",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "open": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "columns",
-                "component",
-                "open",
-                "ref",
-                "source"
-            ],
-            "type": "object"
-        },
-        "ListBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column_1"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "List",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "open": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "ListComponent": {
+        "List": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -3481,7 +1705,7 @@
             ],
             "type": "object"
         },
-        "LogosBlock": {
+        "Logos": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -3496,86 +1720,15 @@
                 },
                 "images": {
                     "items": {
-                        "$ref": "#/definitions/Image"
+                        "$ref": "#/definitions/Config_6"
                     },
                     "type": "array"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "component",
-                "images",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "LogosBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Logos",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    },
-                    "type": "array"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "LogosComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Logos",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    },
-                    "type": "array"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -3648,7 +1801,7 @@
             ],
             "type": "object"
         },
-        "ModalBlock": {
+        "Modal": {
             "additionalProperties": false,
             "properties": {
                 "body": {
@@ -3658,97 +1811,7 @@
                     "type": "array"
                 },
                 "button": {
-                    "$ref": "#/definitions/Button"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Modal",
-                    "type": "string"
-                },
-                "footer": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "header": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "body",
-                "button",
-                "component",
-                "ref"
-            ],
-            "type": "object"
-        },
-        "ModalBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "body": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "button": {
-                    "$ref": "#/definitions/Button"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Modal",
-                    "type": "string"
-                },
-                "footer": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "header": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "ModalComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "body": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "button": {
-                    "$ref": "#/definitions/Button"
+                    "$ref": "#/definitions/Config_1"
                 },
                 "className": {
                     "type": "string"
@@ -3780,11 +1843,11 @@
             ],
             "type": "object"
         },
-        "NotFoundBlock": {
+        "NotFound": {
             "additionalProperties": false,
             "properties": {
                 "button": {
-                    "$ref": "#/definitions/Button"
+                    "$ref": "#/definitions/Config_1"
                 },
                 "className": {
                     "type": "string"
@@ -3797,77 +1860,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "ref": {
-                    "type": "string"
+                    "$ref": "#/definitions/Config_3"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "button",
-                "component",
-                "paragraph",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "NotFoundBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "button": {
-                    "$ref": "#/definitions/Button"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "NotFound",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "NotFoundComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "button": {
-                    "$ref": "#/definitions/Button"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "NotFound",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -3912,7 +1908,7 @@
             "properties": {
                 "body": {
                     "items": {
-                        "$ref": "#/definitions/ComponentWithBlockRef"
+                        "$ref": "#/definitions/Component"
                     },
                     "type": "array"
                 },
@@ -3934,134 +1930,6 @@
             "type": "object"
         },
         "Paragraph": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "text"
-            ],
-            "type": "object"
-        },
-        "ParagraphBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Paragraph",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "ref",
-                "text"
-            ],
-            "type": "object"
-        },
-        "ParagraphBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Paragraph",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "ParagraphComponent": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -4256,7 +2124,7 @@
             },
             "type": "object"
         },
-        "SidebarBlock": {
+        "Sidebar": {
             "additionalProperties": false,
             "properties": {
                 "children": {
@@ -4277,90 +2145,12 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "component",
-                "links",
-                "ref",
-                "title"
-            ],
-            "type": "object"
-        },
-        "SidebarBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Sidebar",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
+                        "$ref": "#/definitions/Config_5"
                     },
                     "type": "array"
                 },
                 "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "SidebarComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "children": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Sidebar",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link_1"
-                    },
-                    "type": "array"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
+                    "$ref": "#/definitions/Config_2"
                 }
             },
             "required": [
@@ -4416,6 +2206,45 @@
         "Table": {
             "additionalProperties": false,
             "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Config_1"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_2"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "source"
+            ],
+            "type": "object"
+        },
+        "Table_1": {
+            "additionalProperties": false,
+            "properties": {
                 "database": {
                     "$ref": "#/definitions/Database"
                 },
@@ -4432,129 +2261,6 @@
             "required": [
                 "fields",
                 "name"
-            ],
-            "type": "object"
-        },
-        "TableBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "Table",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "columns",
-                "component",
-                "ref",
-                "source"
-            ],
-            "type": "object"
-        },
-        "TableBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "blockRef": {
-                    "type": "string"
-                },
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "Table",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "TableComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Button"
-                    },
-                    "type": "array"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "Table",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "title": {
-                    "$ref": "#/definitions/Title_1"
-                }
-            },
-            "required": [
-                "columns",
-                "component",
-                "source"
             ],
             "type": "object"
         },
@@ -4699,139 +2405,6 @@
             ],
             "type": "object"
         },
-        "TitleBlock": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Title",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ref": {
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "ref",
-                "text"
-            ],
-            "type": "object"
-        },
-        "TitleBlockRef": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "blockRef": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Title",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "blockRef",
-                "component"
-            ],
-            "type": "object"
-        },
-        "TitleComponent": {
-            "additionalProperties": false,
-            "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Title",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "text"
-            ],
-            "type": "object"
-        },
         "Title_1": {
             "additionalProperties": false,
             "properties": {
@@ -4846,6 +2419,10 @@
                 "className": {
                     "type": "string"
                 },
+                "component": {
+                    "const": "Title",
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -4865,6 +2442,7 @@
                 }
             },
             "required": [
+                "component",
                 "text"
             ],
             "type": "object"
@@ -4969,12 +2547,6 @@
         "auth": {
             "$ref": "#/definitions/Auth"
         },
-        "blocks": {
-            "items": {
-                "$ref": "#/definitions/Block"
-            },
-            "type": "array"
-        },
         "database": {
             "$ref": "#/definitions/Database"
         },
@@ -5008,7 +2580,7 @@
                     },
                     "tables": {
                         "items": {
-                            "$ref": "#/definitions/Table"
+                            "$ref": "#/definitions/Table_1"
                         },
                         "type": "array"
                     }
@@ -5031,29 +2603,6 @@
         },
         "server": {
             "$ref": "#/definitions/Server"
-        },
-        "translations": {
-            "items": {
-                "additionalProperties": false,
-                "properties": {
-                    "language": {
-                        "const": "EN",
-                        "type": "string"
-                    },
-                    "texts": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array"
-                    }
-                },
-                "required": [
-                    "language",
-                    "texts"
-                ],
-                "type": "object"
-            },
-            "type": "array"
         }
     },
     "required": [

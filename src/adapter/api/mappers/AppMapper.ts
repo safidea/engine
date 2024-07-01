@@ -158,9 +158,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         components,
         idGenerator,
         realtime,
-        blocks: config.blocks ?? [],
         templateCompiler,
-        customized: services.customized,
       }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {

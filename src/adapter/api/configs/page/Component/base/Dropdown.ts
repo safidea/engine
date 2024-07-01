@@ -1,20 +1,11 @@
-import type { Link } from './Link'
+import type { Config as Link } from './Link'
 import type { Base } from './Base'
 
-export interface Dropdown extends Base {
+export interface Config extends Base {
   label: string
   links: Link[]
 }
 
-export interface DropdownComponent extends Dropdown {
+export interface Dropdown extends Config {
   component: 'Dropdown'
-}
-
-export interface DropdownBlock extends DropdownComponent {
-  ref: string
-}
-
-export interface DropdownBlockRef extends Partial<Dropdown> {
-  component: 'Dropdown'
-  blockRef: string
 }

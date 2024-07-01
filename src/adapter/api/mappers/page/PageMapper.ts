@@ -11,9 +11,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
 import type { Ui } from '@domain/services/Ui'
-import type { Block } from '@adapter/api/configs/page/Component'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { CustomizedComponents } from '@domain/engine/page/component/Customized'
 
 export interface Params {
   server: Server
@@ -22,37 +20,23 @@ export interface Params {
   idGenerator: IdGenerator
   newLogger: (location: string) => Logger
   components: ReactComponents
-  customized: CustomizedComponents
   templateCompiler: TemplateCompiler
   realtime?: Realtime
-  blocks?: Block[]
 }
 
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const {
-      server,
-      newLogger,
-      ui,
-      client,
-      components,
-      idGenerator,
-      realtime,
-      blocks,
-      templateCompiler,
-      customized,
-    } = params
+    const { server, newLogger, ui, client, components, idGenerator, realtime, templateCompiler } =
+      params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
-      customized,
       server,
       ui,
       client,
       idGenerator,
       realtime,
-      blocks,
       templateCompiler,
     })
     const head = HeadMapper.toEntity(config.head ?? {}, { client })
@@ -80,7 +64,6 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       components: services.components,
       idGenerator,
       templateCompiler,
-      customized: services.customized,
     })
   }
 

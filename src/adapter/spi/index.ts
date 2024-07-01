@@ -6,7 +6,6 @@ import { LoggerSpi, type Driver as LoggerDriver } from './LoggerSpi'
 import { SchemaValidatorSpi, type Driver as SchemaValidatorDriver } from './SchemaValidatorSpi'
 import { ServerSpi, type Driver as ServerDriver } from './ServerSpi'
 import { UiSpi, type Driver as UiDriver } from './UiSpi'
-import type { ReactComponents } from '@domain/engine/page/component'
 import type { Params as ServerParams } from '@domain/services/Server'
 import type { Params as DatabaseParams } from '@domain/services/Database'
 import type { Params as LoggerParams } from '@domain/services/Logger'
@@ -20,7 +19,7 @@ import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './Te
 import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
 import { AuthSpi, type Driver as AuthDriver } from './AuthSpi'
 import { ClientSpi, type Driver as ClientDriver } from './ClientSpi'
-import type { CustomizedComponents } from '@domain/engine/page/component/Customized'
+import type { ReactComponents } from '@domain/engine/page/component'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -41,7 +40,6 @@ export interface Drivers {
 export interface Params {
   drivers: Drivers
   components: ReactComponents
-  customized?: CustomizedComponents
 }
 
 export class Spis implements ISpis {
@@ -49,10 +47,6 @@ export class Spis implements ISpis {
 
   get components() {
     return this.params.components
-  }
-
-  get customized() {
-    return this.params.customized ?? {}
   }
 
   database = (params: DatabaseParams) => new DatabaseSpi(this.params.drivers.database(params))

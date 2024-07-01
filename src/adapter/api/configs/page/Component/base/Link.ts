@@ -1,23 +1,14 @@
 import type { Base } from './Base'
-import type { Icon } from './Icon'
+import type { Config as IconConfig } from './Icon'
 
-export interface Link extends Base {
+export interface Config extends Base {
   label: string
   href: string
   active?: boolean
-  prefixIcon?: Icon
-  suffixIcon?: Icon
+  prefixIcon?: IconConfig
+  suffixIcon?: IconConfig
 }
 
-export interface LinkComponent extends Link {
+export interface Link extends Config {
   component: 'Link'
-}
-
-export interface LinkBlock extends LinkComponent {
-  ref: string
-}
-
-export interface LinkBlockRef extends Partial<Link> {
-  component: 'Link'
-  blockRef: string
 }

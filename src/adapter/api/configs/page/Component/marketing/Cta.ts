@@ -1,23 +1,14 @@
-import type { Title } from '../base/Title'
-import type { Paragraph } from '../base/Paragraph'
-import type { Button } from '../base/Button'
+import type { Config as Title } from '../base/Title'
+import type { Config as Paragraph } from '../base/Paragraph'
+import type { Config as Button } from '../base/Button'
 import type { Base } from '../base/Base'
 
-export interface Cta extends Base {
+export interface Config extends Base {
   title: Title
   paragraph: Paragraph
   buttons: Button[]
 }
 
-export interface CtaComponent extends Cta {
+export interface Cta extends Config {
   component: 'CTA'
-}
-
-export interface CtaBlock extends CtaComponent {
-  ref: string
-}
-
-export interface CtaBlockRef extends Partial<Cta> {
-  component: 'CTA'
-  blockRef: string
 }

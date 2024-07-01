@@ -14,7 +14,6 @@ import type { Header, Props as HeaderProps } from './marketing/Header'
 import type { Table, Props as TableProps } from './application/Table'
 import type { Sidebar, Props as SidebarProps } from './application/Sidebar'
 import type { Title, Props as TitleProps } from './base/Title'
-import type { InvalidBlock } from './base/InvalidBlock'
 import type { Input, Props as InputProps } from './base/Input'
 import type { Icon, Props as IconProps } from './base/Icon'
 import type { Image, Props as ImageProps } from './base/Image'
@@ -23,7 +22,6 @@ import type { Heading, Props as HeadingProps } from './application/Heading'
 import type { Modal, Props as ModalProps } from './application/Modal'
 import type { Dropdown, Props as DropdownProps } from './base/Dropdown'
 import type { Container, Props as ContainerProps } from './base/Container'
-import type { Customized } from './Customized'
 
 export type Component =
   | Paragraph
@@ -40,13 +38,11 @@ export type Component =
   | Table
   | Sidebar
   | Title
-  | InvalidBlock
   | Input
   | Icon
   | Image
   | List
   | Heading
-  | Customized
   | Modal
   | Dropdown
   | Container

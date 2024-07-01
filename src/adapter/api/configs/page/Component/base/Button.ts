@@ -2,7 +2,7 @@ import type { Type, Variant } from '@domain/engine/page/component/base/Button'
 import type { Method } from '@domain/entities/request'
 import type { Base } from './Base'
 
-export interface Button extends Base {
+export interface Config extends Base {
   label: string
   href?: string
   type?: Type
@@ -21,15 +21,6 @@ export interface Button extends Base {
       }
 }
 
-export interface ButtonComponent extends Button {
+export interface Button extends Config {
   component: 'Button'
-}
-
-export interface ButtonBlock extends ButtonComponent {
-  ref: string
-}
-
-export interface ButtonBlockRef extends Partial<Button> {
-  component: 'Button'
-  blockRef: string
 }

@@ -1,11 +1,11 @@
-import type { ComponentWithBlockRef } from './Component'
+import type { Component } from './Component'
 import type { Head } from './Head'
 
 export interface Page {
   name: string
   path: string
   head?: Head
-  body: ComponentWithBlockRef[]
+  body: Component[]
 }
 
 export type PageSchema = Page
