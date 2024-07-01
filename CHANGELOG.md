@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/safidea/engine/compare/v0.10.0...v0.10.1) (2024-07-01)
+
+
+### Bug Fixes
+
+* **components:** remove block and blockRef feature ([c038530](https://github.com/safidea/engine/commit/c038530a0ba42ea87ed552d0d36887805c35de40))
+
 # [0.10.0](https://github.com/safidea/engine/compare/v0.9.3...v0.10.0) (2024-06-21)
 
 
