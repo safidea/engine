@@ -315,6 +315,9 @@
                 },
                 {
                     "$ref": "#/definitions/ContainerBlock"
+                },
+                {
+                    "$ref": "#/definitions/ColumnsBlock"
                 }
             ]
         },
@@ -775,6 +778,91 @@
             ],
             "type": "object"
         },
+        "ColumnsBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Columns",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ref": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component",
+                "ref"
+            ],
+            "type": "object"
+        },
+        "ColumnsBlockRef": {
+            "additionalProperties": false,
+            "properties": {
+                "blockRef": {
+                    "type": "string"
+                },
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Columns",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "blockRef",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ColumnsComponent": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Columns",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component"
+            ],
+            "type": "object"
+        },
         "Component": {
             "anyOf": [
                 {
@@ -845,6 +933,9 @@
                 },
                 {
                     "$ref": "#/definitions/ContainerComponent"
+                },
+                {
+                    "$ref": "#/definitions/ColumnsComponent"
                 }
             ]
         },
@@ -971,6 +1062,9 @@
                     "$ref": "#/definitions/ContainerComponent"
                 },
                 {
+                    "$ref": "#/definitions/ColumnsComponent"
+                },
+                {
                     "$ref": "#/definitions/SidebarBlockRef"
                 },
                 {
@@ -987,6 +1081,9 @@
                 },
                 {
                     "$ref": "#/definitions/ContainerBlockRef"
+                },
+                {
+                    "$ref": "#/definitions/ColumnsBlockRef"
                 }
             ]
         },

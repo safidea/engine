@@ -21,6 +21,7 @@ import type { CustomizedBlockRef, CustomizedComponent, CustomizedBlock } from '.
 import type { ModalBlock, ModalBlockRef, ModalComponent } from './application/Modal'
 import type { DropdownBlock, DropdownBlockRef, DropdownComponent } from './base/Dropdown'
 import type { ContainerBlock, ContainerBlockRef, ContainerComponent } from './base/Container'
+import type { ColumnsComponent, ColumnsBlockRef, ColumnsBlock } from './base/Columns'
 
 export type Component =
   | ButtonComponent
@@ -46,6 +47,7 @@ export type Component =
   | ModalComponent
   | DropdownComponent
   | ContainerComponent
+  | ColumnsComponent
 
 export type BlockRef =
   | ButtonBlockRef
@@ -71,6 +73,7 @@ export type BlockRef =
   | ModalBlockRef
   | DropdownBlockRef
   | ContainerBlockRef
+  | ColumnsBlockRef
 
 export type Block =
   | ButtonBlock
@@ -96,5 +99,6 @@ export type Block =
   | ModalBlock
   | DropdownBlock
   | ContainerBlock
+  | ColumnsBlock
 
 export type ComponentWithBlockRef = Component | BlockRef
