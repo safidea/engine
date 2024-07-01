@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/safidea/engine/compare/v0.9.3...v0.10.0) (2024-06-21)
+
+
+### Features
+
+* **field:** add green test: should create a record with a number field through a form ([7ea7787](https://github.com/safidea/engine/commit/7ea7787aa83f8796eb6632056d07559f9d2b466b))
+
 ## [0.9.3](https://github.com/safidea/engine/compare/v0.9.2...v0.9.3) (2024-06-18)
 
 
