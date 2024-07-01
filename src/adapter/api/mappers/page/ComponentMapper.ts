@@ -52,6 +52,8 @@ import type { Config as ListConfig } from '@adapter/api/configs/page/Component/a
 import type { Config as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
 import type { Config as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
 import type { Config as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
+import type { Config as ColumnsConfig } from '@adapter/api/configs/page/Component/base/Columns'
+import { Columns } from '@domain/engine/page/component/base/Columns'
 
 export interface Params {
   components: ReactComponents
@@ -279,6 +281,12 @@ export class ComponentMapper {
     return new Dropdown({ ...config, links, Component: components.Dropdown })
   }
 
+  static toColumnsEntity = (config: ColumnsConfig, params: Params): Columns => {
+    const { components } = params
+    const children = config.children.map((child) => this.toEntity(child, params))
+    return new Columns({ ...config, children, Component: components.Columns })
+  }
+
   static toEntity = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -303,6 +311,7 @@ export class ComponentMapper {
     if (component === 'Modal') return this.toModalEntity(config, params)
     if (component === 'Dropdown') return this.toDropdownEntity(config, params)
     if (component === 'Container') return this.toContainerEntity(config, params)
+    if (component === 'Columns') return this.toColumnsEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 

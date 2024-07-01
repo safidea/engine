@@ -13,7 +13,7 @@ export const Container = ({
   <section id={id} className={classNames('bg-white dark:bg-gray-900', className)}>
     <div
       className={classNames(
-        getWithClasses(width),
+        getWidthClasses(width),
         getSpacingClasses(spacing),
         getTextAlignClasses(align)
       )}
@@ -23,7 +23,7 @@ export const Container = ({
   </section>
 )
 
-function getWithClasses(width: Size) {
+function getWidthClasses(width: Size) {
   switch (width) {
     case 'xs':
       return 'w-full'

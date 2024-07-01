@@ -22,6 +22,7 @@ import { Heading } from './application/Heading'
 import { Modal } from './application/Modal'
 import { Dropdown } from './base/Dropdown'
 import { Container } from './base/Container'
+import { Columns } from './base/Columns'
 
 export const components: ReactComponents = {
   Html,
@@ -47,4 +48,5 @@ export const components: ReactComponents = {
   Modal,
   Dropdown,
   Container,
+  Columns,
 }
