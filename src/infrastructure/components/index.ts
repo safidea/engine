@@ -23,6 +23,7 @@ import { Modal } from './application/Modal'
 import { Dropdown } from './base/Dropdown'
 import { Container } from './base/Container'
 import { Columns } from './base/Columns'
+import { Card } from './base/Card'
 
 export const components: ReactComponents = {
   Html,
@@ -49,4 +50,5 @@ export const components: ReactComponents = {
   Dropdown,
   Container,
   Columns,
+  Card,
 }

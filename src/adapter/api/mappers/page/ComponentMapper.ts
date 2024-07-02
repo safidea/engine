@@ -28,6 +28,8 @@ import { Image } from '@domain/engine/page/component/base/Image'
 import { Heading } from '@domain/engine/page/component/application/Heading'
 import { Modal } from '@domain/engine/page/component/application/Modal'
 import { Dropdown } from '@domain/engine/page/component/base/Dropdown'
+import { Columns } from '@domain/engine/page/component/base/Columns'
+import { Card } from '@domain/engine/page/component/base/Card'
 
 import type { Component as ComponentConfig } from '../../configs/page/Component'
 import type { Config as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
@@ -53,7 +55,7 @@ import type { Config as HeadingConfig } from '@adapter/api/configs/page/Componen
 import type { Config as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
 import type { Config as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
 import type { Config as ColumnsConfig } from '@adapter/api/configs/page/Component/base/Columns'
-import { Columns } from '@domain/engine/page/component/base/Columns'
+import type { Config as CardConfig } from '@adapter/api/configs/page/Component/base/Card'
 
 export interface Params {
   components: ReactComponents
@@ -287,6 +289,14 @@ export class ComponentMapper {
     return new Columns({ ...config, children, Component: components.Columns })
   }
 
+  static toCardEntity = (config: CardConfig, params: Params): Card => {
+    const { components } = params
+    const image = this.toImageEntity(config.image, params)
+    const title = this.toTitleEntity(config.title, params)
+    const paragraph = this.toParagraphEntity(config.paragraph, params)
+    return new Card({ ...config, image, title, paragraph, Component: components.Card })
+  }
+
   static toEntity = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -312,6 +322,7 @@ export class ComponentMapper {
     if (component === 'Dropdown') return this.toDropdownEntity(config, params)
     if (component === 'Container') return this.toContainerEntity(config, params)
     if (component === 'Columns') return this.toColumnsEntity(config, params)
+    if (component === 'Card') return this.toCardEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 

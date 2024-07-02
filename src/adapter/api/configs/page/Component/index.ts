@@ -21,6 +21,7 @@ import type { Modal } from './application/Modal'
 import type { Dropdown } from './base/Dropdown'
 import type { Container } from './base/Container'
 import type { Columns } from './base/Columns'
+import type { Card } from './base/Card'
 
 export type Component =
   | Button
@@ -46,3 +47,4 @@ export type Component =
   | Dropdown
   | Container
   | Columns
+  | Card

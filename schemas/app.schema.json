@@ -343,6 +343,40 @@
             ],
             "type": "object"
         },
+        "Card": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Card",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image": {
+                    "$ref": "#/definitions/Config_6"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_3"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_2"
+                }
+            },
+            "required": [
+                "component",
+                "image",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
         "Click": {
             "additionalProperties": false,
             "properties": {
@@ -502,6 +536,9 @@
                 },
                 {
                     "$ref": "#/definitions/Columns"
+                },
+                {
+                    "$ref": "#/definitions/Card"
                 }
             ]
         },

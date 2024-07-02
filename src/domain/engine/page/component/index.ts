@@ -23,6 +23,7 @@ import type { Modal, Props as ModalProps } from './application/Modal'
 import type { Dropdown, Props as DropdownProps } from './base/Dropdown'
 import type { Container, Props as ContainerProps } from './base/Container'
 import type { Columns, Props as ColumnsProps } from './base/Columns'
+import type { Card, Props as CardProps } from './base/Card'
 
 export type Component =
   | Paragraph
@@ -48,6 +49,7 @@ export type Component =
   | Dropdown
   | Container
   | Columns
+  | Card
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -74,6 +76,7 @@ export interface ReactComponents {
   Dropdown: ReactComponent<DropdownProps>
   Container: ReactComponent<ContainerProps>
   Columns: ReactComponent<ColumnsProps>
+  Card: ReactComponent<CardProps>
 }
 
 export interface Props {
@@ -101,4 +104,5 @@ export interface Props {
   Dropdown: DropdownProps
   Container: ContainerProps
   Columns: ColumnsProps
+  Card: CardProps
 }
