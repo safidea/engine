@@ -291,7 +291,7 @@ export class ComponentMapper {
 
   static toCardEntity = (config: CardConfig, params: Params): Card => {
     const { components } = params
-    const image = this.toImageEntity(config.image, params)
+    const image = config.image ? this.toImageEntity(config.image, params) : undefined
     const title = this.toTitleEntity(config.title, params)
     const paragraph = this.toParagraphEntity(config.paragraph, params)
     return new Card({ ...config, image, title, paragraph, Component: components.Card })

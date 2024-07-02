@@ -128,7 +128,6 @@
             },
             "required": [
                 "component",
-                "image",
                 "paragraph",
                 "title"
             ],

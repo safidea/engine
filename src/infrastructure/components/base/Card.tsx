@@ -10,7 +10,7 @@ export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Prop
         className
       )}
     >
-      <Image className="rounded-t-lg w-full object-cover h-96 mb-0" />
+      {Image ? <Image className="rounded-t-lg w-full object-cover h-96 mb-0" /> : null}
       <div className="p-5">
         <Title />
         <Paragraph className="mb-0" />
@@ -19,9 +19,9 @@ export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Prop
   )
   if (href)
     return (
-      <a href={href} id={id} className={className}>
+      <a href={href} id={id} className={classNames('mb-4', className)}>
         <Layout />
       </a>
     )
-  return <Layout id={id} className={className} />
+  return <Layout id={id} className={classNames('mb-4', className)} />
 }

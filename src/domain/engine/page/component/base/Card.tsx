@@ -8,7 +8,7 @@ import type { Props as ImageProps } from '../base/Image'
 import type { ConfigError } from '@domain/entities/error/Config'
 
 export interface Props extends BaseProps {
-  Image: React.FC<Partial<ImageProps>>
+  Image?: React.FC<Partial<ImageProps>>
   Title: React.FC<Partial<TitleProps>>
   Paragraph: React.FC<Partial<ParagraphProps>>
   href?: string
@@ -16,7 +16,7 @@ export interface Props extends BaseProps {
 
 interface Params extends BaseProps {
   href?: string
-  image: Image
+  image?: Image
   title: Title
   paragraph: Paragraph
   Component: ReactComponent<Props>
@@ -27,14 +27,14 @@ export class Card implements Base<Props> {
 
   init = async () => {
     const { title, paragraph, image } = this.params
-    await Promise.all([title.init(), paragraph.init(), image.init()])
+    await Promise.all([title.init(), paragraph.init(), image?.init()])
   }
 
   render = async () => {
     const { Component, title, paragraph, image, id, className, href } = this.params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
-    const Image = await image.render()
+    const Image = await image?.render()
     return (props?: Partial<Props>) => (
       <Component {...{ id, className, Title, Paragraph, Image, href, ...props }} />
     )
@@ -45,7 +45,7 @@ export class Card implements Base<Props> {
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     errors.push(...paragraph.validateConfig())
-    errors.push(...image.validateConfig())
+    if (image) errors.push(...image.validateConfig())
     return errors
   }
 }

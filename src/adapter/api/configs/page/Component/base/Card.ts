@@ -4,7 +4,7 @@ import type { Config as Title } from './Title'
 import type { Config as Paragraph } from './Paragraph'
 
 export interface Config extends Base {
-  image: Image
+  image?: Image
   title: Title
   paragraph: Paragraph
   href?: string

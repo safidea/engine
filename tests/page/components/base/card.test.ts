@@ -11,6 +11,34 @@ test.describe('Card component', () => {
       body: [
         {
           component: 'Card',
+          title: {
+            text: 'First post',
+          },
+          paragraph: {
+            text: 'This is a post.',
+          },
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    await expect(page.getByText('First post')).toBeVisible()
+    await expect(page.getByText('This is a post.')).toBeVisible()
+  })
+
+  test('should render a card with image', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Card',
           image: {
             src: 'https://via.placeholder.com/150',
             alt: 'First post',
@@ -31,8 +59,7 @@ test.describe('Card component', () => {
     await page.setContent(html)
 
     // THEN
-    await expect(page.getByText('First post')).toBeVisible()
-    await expect(page.getByText('This is a post.')).toBeVisible()
+    await expect(page.getByAltText('First post')).toBeVisible()
   })
 
   test('should open a page when click on a card', async ({ page }) => {
