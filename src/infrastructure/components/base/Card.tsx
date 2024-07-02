@@ -10,7 +10,7 @@ export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Prop
         className
       )}
     >
-      {Image ? <Image className="rounded-t-lg w-full object-cover h-96 mb-0" /> : null}
+      {Image ? <Image className="rounded-t-lg w-full h-64 object-cover mb-0" /> : null}
       <div className="p-5">
         <Title />
         <Paragraph className="mb-0" />

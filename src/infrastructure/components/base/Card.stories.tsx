@@ -21,7 +21,7 @@ export const Default: Story = {
         {...props}
       />
     ),
-    Image: (props) => <Image src="https://via.placeholder.com/500" alt="image" {...props} />,
+    Image: (props) => <Image src="https://picsum.photos/200/300" alt="image" {...props} />,
   },
 }
 
@@ -34,7 +34,7 @@ export const WithLink: Story = {
         {...props}
       />
     ),
-    Image: (props) => <Image src="https://via.placeholder.com/500" alt="image" {...props} />,
+    Image: (props) => <Image src="https://picsum.photos/200/300" alt="image" {...props} />,
     href: '#',
   },
 }
