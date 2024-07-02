@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/safidea/engine/compare/v0.10.1...v0.11.0) (2024-07-01)
+
+
+### Features
+
+* **components:** add Columns component ([ac9c149](https://github.com/safidea/engine/commit/ac9c14987c339b809c078590951892eb575ed971))
+
 ## [0.10.1](https://github.com/safidea/engine/compare/v0.10.0...v0.10.1) (2024-07-01)
 
 
