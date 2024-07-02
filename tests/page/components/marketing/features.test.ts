@@ -18,17 +18,17 @@ test.describe('Features component', () => {
             {
               title: { text: 'Feature 1' },
               paragraph: { text: 'Description 1' },
-              icon: { type: 'ChartBarSquare' },
+              icon: { name: 'ChartBarSquare' },
             },
             {
               title: { text: 'Feature 2' },
               paragraph: { text: 'Description 2' },
-              icon: { type: 'Scale' },
+              icon: { name: 'Scale' },
             },
             {
               title: { text: 'Feature 3' },
               paragraph: { text: 'Description 3' },
-              icon: { type: 'Cog6Tooth' },
+              icon: { name: 'Cog6Tooth' },
             },
           ],
         },
@@ -76,17 +76,17 @@ test.describe('Features component', () => {
             {
               title: { text: 'Feature 1' },
               paragraph: { text: 'Description 1' },
-              icon: { type: 'ChartBarSquare' },
+              icon: { name: 'ChartBarSquare' },
             },
             {
               title: { text: 'Feature 2' },
               paragraph: { text: 'Description 2' },
-              icon: { type: 'Scale' },
+              icon: { name: 'Scale' },
             },
             {
               title: { text: 'Feature 3' },
               paragraph: { text: 'Description 3' },
-              icon: { type: 'Cog6Tooth' },
+              icon: { name: 'Cog6Tooth' },
             },
           ],
         },

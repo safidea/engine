@@ -29,7 +29,7 @@ export const WithBeforeIcon: Story = {
   args: {
     label: 'This is a link with a before icon',
     href: '/',
-    PrefixIcon: (props) => <Icon type="Home" {...props} />,
+    PrefixIcon: (props) => <Icon name="Home" {...props} />,
   },
 }
 
@@ -37,6 +37,6 @@ export const WithAfterIcon: Story = {
   args: {
     label: 'This is a link with an after icon',
     href: '/',
-    SuffixIcon: (props) => <Icon type="Home" {...props} />,
+    SuffixIcon: (props) => <Icon name="Home" {...props} />,
   },
 }

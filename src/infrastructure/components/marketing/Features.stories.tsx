@@ -33,7 +33,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon type="ChartBarSquare" {...props} />,
+        Icon: (props) => <Icon name="ChartBarSquare" {...props} />,
       },
       {
         Title: (props) => <Title text="Sales" {...props} />,
@@ -43,7 +43,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon type="Banknotes" {...props} />,
+        Icon: (props) => <Icon name="Banknotes" {...props} />,
       },
       {
         Title: (props) => <Title text="Customer Success" {...props} />,
@@ -53,7 +53,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon type="ChatBubbleLeftEllipsis" {...props} />,
+        Icon: (props) => <Icon name="ChatBubbleLeftEllipsis" {...props} />,
       },
       {
         Title: (props) => <Title text="Product" {...props} />,
@@ -63,7 +63,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon type="ComputerDesktop" {...props} />,
+        Icon: (props) => <Icon name="ComputerDesktop" {...props} />,
       },
     ],
   },

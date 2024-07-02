@@ -57,12 +57,12 @@ test.describe('Sidebar component', () => {
                   links: [
                     {
                       label: 'Home',
-                      prefixIcon: { type: 'Home' },
+                      prefixIcon: { name: 'Home' },
                       href: '/',
                     },
                     {
                       label: 'Leads',
-                      prefixIcon: { type: 'Users' },
+                      prefixIcon: { name: 'Users' },
                       href: '/leads',
                     },
                   ],
@@ -96,12 +96,12 @@ test.describe('Sidebar component', () => {
       links: [
         {
           label: 'Home',
-          prefixIcon: { type: 'Home' },
+          prefixIcon: { name: 'Home' },
           href: '/',
         },
         {
           label: 'Leads',
-          prefixIcon: { type: 'Users' },
+          prefixIcon: { name: 'Users' },
           href: '/leads',
         },
       ],
