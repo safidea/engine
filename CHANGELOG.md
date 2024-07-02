@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/safidea/engine/compare/v0.12.0...v0.12.1) (2024-07-02)
+
+
+### Bug Fixes
+
+* **card:** add green test 'should render a card with image' ([78e4458](https://github.com/safidea/engine/commit/78e4458d70e8bdb191827e1c531ff1751a177d66))
+
 # [0.12.0](https://github.com/safidea/engine/compare/v0.11.0...v0.12.0) (2024-07-02)
 
 
