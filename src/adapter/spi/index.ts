@@ -1,4 +1,5 @@
 import type { Spis as ISpis } from '@domain/services'
+import type { ReactComponents } from '@domain/engine/page/component'
 import { BrowserSpi, type Driver as BrowserDriver } from './BrowserSpi'
 import { DatabaseSpi, type Driver as DatabaseDriver } from './DatabaseSpi'
 import { IdGeneratorSpi, type Driver as IdGeneratorDriver } from './IdGeneratorSpi'
@@ -19,7 +20,7 @@ import { TemplateCompilerSpi, type Driver as TemplateCompilerDriver } from './Te
 import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
 import { AuthSpi, type Driver as AuthDriver } from './AuthSpi'
 import { ClientSpi, type Driver as ClientDriver } from './ClientSpi'
-import type { ReactComponents } from '@domain/engine/page/component'
+import { MarkdownParserSpi, type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -35,6 +36,7 @@ export interface Drivers {
   ui: () => UiDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
+  markdownParser: () => MarkdownParserDriver
 }
 
 export interface Params {
@@ -74,4 +76,6 @@ export class Spis implements ISpis {
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
 
   templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
+
+  markdownParser = () => new MarkdownParserSpi(this.params.drivers.markdownParser())
 }

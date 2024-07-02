@@ -1,4 +1,5 @@
 import { Record } from '../entities/record'
+import type { ReactComponents } from '@domain/engine/page/component'
 import { Database, type Spi as DatabaseSpi, type Params as DatabaseParams } from './Database'
 import { IdGenerator, type Spi as IdGeneratorSpi } from './IdGenerator'
 import { Logger, type Spi as LoggerSpi, type Params as LoggerParams } from './Logger'
@@ -12,7 +13,7 @@ import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCom
 import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
 import { Auth, type Spi as AuthSpi, type Params as AuthParams } from './Auth'
 import { Client, type Spi as ClientSpi } from './Client'
-import type { ReactComponents } from '@domain/engine/page/component'
+import { MarkdownParser, type Spi as MarkdownParserSpi } from './MarkdownParser'
 
 export interface Spis {
   components: ReactComponents
@@ -29,6 +30,7 @@ export interface Spis {
   client: () => ClientSpi
   browser: () => BrowserSpi
   templateCompiler: () => TemplateCompilerSpi
+  markdownParser: () => MarkdownParserSpi
 }
 
 export class Services {
@@ -66,4 +68,6 @@ export class Services {
 
   record = () =>
     new Record({ idGenerator: this.idGenerator(), templateCompiler: this.templateCompiler() })
+
+  markdownParser = () => new MarkdownParser(this.spis.markdownParser())
 }

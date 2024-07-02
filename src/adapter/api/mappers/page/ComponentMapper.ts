@@ -5,6 +5,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Server } from '@domain/services/Server'
 import type { Realtime } from '@domain/services/Realtime'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { MarkdownParser } from '@domain/services/MarkdownParser'
 
 import { Hero } from '@domain/engine/page/component/marketing/Hero'
 import { Footer } from '@domain/engine/page/component/marketing/Footer'
@@ -71,6 +72,7 @@ export interface Params {
   idGenerator: IdGenerator
   realtime?: Realtime
   templateCompiler: TemplateCompiler
+  markdownParser: MarkdownParser
 }
 
 export class ComponentMapper {
@@ -312,7 +314,8 @@ export class ComponentMapper {
   }
 
   static toMarkdownEntity = (config: MarkdownConfig, params: Params): Markdown => {
-    return new Markdown({ ...config, Component: params.components.Markdown })
+    const { markdownParser } = params
+    return new Markdown({ ...config, markdownParser, Component: params.components.Markdown })
   }
 
   static toEntity = (config: ComponentConfig, params: Params): Component => {

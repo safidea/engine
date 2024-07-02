@@ -12,6 +12,7 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
 import type { Ui } from '@domain/services/Ui'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { MarkdownParser } from '@domain/services/MarkdownParser'
 
 export interface Params {
   server: Server
@@ -22,13 +23,23 @@ export interface Params {
   components: ReactComponents
   templateCompiler: TemplateCompiler
   realtime?: Realtime
+  markdownParser: MarkdownParser
 }
 
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
-    const { server, newLogger, ui, client, components, idGenerator, realtime, templateCompiler } =
-      params
+    const {
+      server,
+      newLogger,
+      ui,
+      client,
+      components,
+      idGenerator,
+      realtime,
+      templateCompiler,
+      markdownParser,
+    } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
@@ -38,6 +49,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       idGenerator,
       realtime,
       templateCompiler,
+      markdownParser,
     })
     const head = HeadMapper.toEntity(config.head ?? {}, { client })
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
@@ -55,6 +67,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
     })
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
+    const markdownParser = services.markdownParser()
     const newLogger = (location: string) => services.logger({ location })
     return this.toEntity(config, {
       server,
@@ -64,6 +77,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       components: services.components,
       idGenerator,
       templateCompiler,
+      markdownParser,
     })
   }
 

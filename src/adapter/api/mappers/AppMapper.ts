@@ -118,6 +118,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const record = services.record()
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
+    const markdownParser = services.markdownParser()
     const newLogger = (location: string) => services.logger({ location })
     let queue: Queue | undefined
     let mailer: Mailer | undefined
@@ -159,6 +160,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         idGenerator,
         realtime,
         templateCompiler,
+        markdownParser
       }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {

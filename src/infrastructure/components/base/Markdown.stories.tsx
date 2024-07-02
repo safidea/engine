@@ -11,6 +11,13 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    content: '# Markdown\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl.',
+    Content: (
+      <div>
+        # Markdown
+        <br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam
+        ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl.
+      </div>
+    ),
   },
 }

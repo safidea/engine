@@ -1,11 +1,14 @@
+import type { MarkdownParser } from '@domain/services/MarkdownParser'
 import type { ReactComponent, Base, BaseProps } from './base'
 
 export interface Props extends BaseProps {
-  content: string
+  Content: React.ReactNode
 }
 
-interface Params extends Props {
+interface Params extends BaseProps {
+  content: string
   Component: ReactComponent<Props>
+  markdownParser: MarkdownParser
 }
 
 export class Markdown implements Base<Props> {
@@ -14,8 +17,9 @@ export class Markdown implements Base<Props> {
   init = async () => {}
 
   render = async () => {
-    const { Component, ...defaultProps } = this.params
-    return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
+    const { markdownParser, Component, content, ...defaultProps } = this.params
+    const Content = await markdownParser.parseToComponent(content)
+    return (props?: Partial<Props>) => <Component {...{ ...defaultProps, Content, ...props }} />
   }
 
   validateConfig = () => {

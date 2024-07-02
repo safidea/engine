@@ -19,6 +19,9 @@ const externals: string[] = [
   'handlebars',
   'uuid',
   'nanoid',
+  'html-react-parser',
+  'dompurify',
+  'marked',
 ]
 
 const entrypoints: string[] = [
