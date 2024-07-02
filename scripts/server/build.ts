@@ -22,6 +22,7 @@ const externals: string[] = [
   'html-react-parser',
   'dompurify',
   'marked',
+  'jsdom',
 ]
 
 const entrypoints: string[] = [
