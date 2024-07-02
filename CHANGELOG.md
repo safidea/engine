@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/safidea/engine/compare/v0.12.1...v0.13.0) (2024-07-02)
+
+
+### Features
+
+* **component:** add green test 'should render a divider' ([6b523bb](https://github.com/safidea/engine/commit/6b523bb4f4bd0b46c11017e7652aff76e608baf6))
+
 ## [0.12.1](https://github.com/safidea/engine/compare/v0.12.0...v0.12.1) (2024-07-02)
 
 ### Bug Fixes
