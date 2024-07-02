@@ -1,3 +1,10 @@
+# [0.14.0](https://github.com/safidea/engine/compare/v0.13.1...v0.14.0) (2024-07-02)
+
+
+### Features
+
+* **component:** add green test 'should render a spacer' ([ff8d294](https://github.com/safidea/engine/commit/ff8d294f36d2519c69be4c025803817d70532a2e))
+
 ## [0.13.1](https://github.com/safidea/engine/compare/v0.13.0...v0.13.1) (2024-07-02)
 
 
