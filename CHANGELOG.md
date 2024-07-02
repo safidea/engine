@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/safidea/engine/compare/v0.11.0...v0.12.0) (2024-07-02)
+
+
+### Features
+
+* **component:** add green test 'should render a card' ([5cc0b67](https://github.com/safidea/engine/commit/5cc0b67fe6c5cf8de8c2bfa16bf5cd9995ac04c9))
+
 # [0.11.0](https://github.com/safidea/engine/compare/v0.10.1...v0.11.0) (2024-07-01)
 
 
