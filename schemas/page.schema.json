@@ -266,6 +266,9 @@
                 },
                 {
                     "$ref": "#/definitions/Spacer"
+                },
+                {
+                    "$ref": "#/definitions/Markdown"
                 }
             ]
         },
@@ -1297,6 +1300,29 @@
             "required": [
                 "component",
                 "images"
+            ],
+            "type": "object"
+        },
+        "Markdown": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Markdown",
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "content"
             ],
             "type": "object"
         },

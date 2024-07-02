@@ -24,6 +24,7 @@ import type { Columns } from './base/Columns'
 import type { Card } from './base/Card'
 import type { Divider } from './base/Divider'
 import type { Spacer } from './base/Spacer'
+import type { Markdown } from './base/Markdown'
 
 export type Component =
   | Button
@@ -52,3 +53,4 @@ export type Component =
   | Card
   | Divider
   | Spacer
+  | Markdown
