@@ -1,3 +1,10 @@
+## [0.13.1](https://github.com/safidea/engine/compare/v0.13.0...v0.13.1) (2024-07-02)
+
+
+### Bug Fixes
+
+* **icon:** add all availables names ([005a45a](https://github.com/safidea/engine/commit/005a45a23ca12d435919c9bc2ea831916262a2e3))
+
 # [0.13.0](https://github.com/safidea/engine/compare/v0.12.1...v0.13.0) (2024-07-02)
 
 
