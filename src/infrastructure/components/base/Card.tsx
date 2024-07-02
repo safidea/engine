@@ -2,11 +2,13 @@ import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
 export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Props['Card']) => {
+  const mainClasses = classNames('mb-4', className)
   const Layout = ({ id, className = '' }: { id?: string; className?: string }) => (
     <div
       id={id}
       className={classNames(
-        'max-w-sm bg-white border border-gray-200 hover:bg-gray-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700',
+        'max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700',
+        href ? 'hover:bg-gray-100' : '',
         className
       )}
     >
@@ -19,9 +21,9 @@ export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Prop
   )
   if (href)
     return (
-      <a href={href} id={id} className={classNames('mb-4', className)}>
+      <a href={href} id={id} className={mainClasses}>
         <Layout />
       </a>
     )
-  return <Layout id={id} className={classNames('mb-4', className)} />
+  return <Layout id={id} className={mainClasses} />
 }

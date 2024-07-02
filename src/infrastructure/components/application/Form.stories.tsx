@@ -73,6 +73,9 @@ export const Success: Story = {
 export const WithDeleteButton: Story = {
   args: {
     ...Default.args,
-    Buttons: [(props) => <Button type="submit" label="Delete Message" variant="secondary" {...props} />, (props) => <Button type="submit" label="Submit" {...props} />],
+    Buttons: [
+      (props) => <Button type="submit" label="Delete Message" variant="secondary" {...props} />,
+      (props) => <Button type="submit" label="Submit" {...props} />,
+    ],
   },
 }

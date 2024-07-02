@@ -24,6 +24,7 @@ import { Dropdown } from './base/Dropdown'
 import { Container } from './base/Container'
 import { Columns } from './base/Columns'
 import { Card } from './base/Card'
+import { Divider } from './base/Divider'
 
 export const components: ReactComponents = {
   Html,
@@ -51,4 +52,5 @@ export const components: ReactComponents = {
   Container,
   Columns,
   Card,
+  Divider,
 }

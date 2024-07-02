@@ -1,4 +1,4 @@
-import { Base, type Params } from "./base";
+import { Base, type Params } from './base'
 
 export class Delete extends Base {
   constructor(params: Params) {

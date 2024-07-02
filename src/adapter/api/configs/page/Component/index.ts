@@ -22,6 +22,7 @@ import type { Dropdown } from './base/Dropdown'
 import type { Container } from './base/Container'
 import type { Columns } from './base/Columns'
 import type { Card } from './base/Card'
+import type { Divider } from './base/Divider'
 
 export type Component =
   | Button
@@ -48,3 +49,4 @@ export type Component =
   | Container
   | Columns
   | Card
+  | Divider

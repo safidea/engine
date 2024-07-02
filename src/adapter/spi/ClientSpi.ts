@@ -1,6 +1,12 @@
 import type { Meta as MetaConfig } from '@adapter/api/configs/page/Head/Meta'
 import { Meta } from '@domain/engine/page/head/Meta'
-import type { ActionProps, FrameProps, Spi, StreamProps, StreamSourceProps } from '@domain/services/Client'
+import type {
+  ActionProps,
+  FrameProps,
+  Spi,
+  StreamProps,
+  StreamSourceProps,
+} from '@domain/services/Client'
 
 export interface Driver {
   metas: MetaConfig[]

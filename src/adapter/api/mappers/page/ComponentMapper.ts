@@ -30,6 +30,7 @@ import { Modal } from '@domain/engine/page/component/application/Modal'
 import { Dropdown } from '@domain/engine/page/component/base/Dropdown'
 import { Columns } from '@domain/engine/page/component/base/Columns'
 import { Card } from '@domain/engine/page/component/base/Card'
+import { Divider } from '@domain/engine/page/component/base/Divider'
 
 import type { Component as ComponentConfig } from '../../configs/page/Component'
 import type { Config as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
@@ -56,6 +57,7 @@ import type { Config as ModalConfig } from '@adapter/api/configs/page/Component/
 import type { Config as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
 import type { Config as ColumnsConfig } from '@adapter/api/configs/page/Component/base/Columns'
 import type { Config as CardConfig } from '@adapter/api/configs/page/Component/base/Card'
+import type { Config as DividerConfig } from '@adapter/api/configs/page/Component/base/Divider'
 
 export interface Params {
   components: ReactComponents
@@ -297,6 +299,10 @@ export class ComponentMapper {
     return new Card({ ...config, image, title, paragraph, Component: components.Card })
   }
 
+  static toDividerEntity = (config: DividerConfig, params: Params): Divider => {
+    return new Divider({ ...config, Component: params.components.Divider })
+  }
+
   static toEntity = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -323,6 +329,7 @@ export class ComponentMapper {
     if (component === 'Container') return this.toContainerEntity(config, params)
     if (component === 'Columns') return this.toColumnsEntity(config, params)
     if (component === 'Card') return this.toCardEntity(config, params)
+    if (component === 'Divider') return this.toDividerEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 

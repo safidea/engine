@@ -11,8 +11,8 @@ test.describe('Logger', () => {
       features: [],
       database: database.config,
       logger: {
-        store: true
-      }
+        store: true,
+      },
     }
 
     // WHEN

@@ -35,7 +35,6 @@
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "dev": "nodemon",
     "prebuild": "bunx puppeteer browsers install chrome",
     "build:server": "bun run scripts/server/build.ts",
     "build:client": "bun run scripts/client/build.ts",
@@ -54,8 +53,6 @@
     "pretest": "bunx playwright install --with-deps",
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui",
-    "app:request": "DEBUG=engine:* node --env-file apps/request/.env apps/request/index.js",
-    "app:request:test": "DEBUG=engine:* node --env-file apps/request/.env apps/request/tests.js",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

@@ -24,6 +24,7 @@ import type { Dropdown, Props as DropdownProps } from './base/Dropdown'
 import type { Container, Props as ContainerProps } from './base/Container'
 import type { Columns, Props as ColumnsProps } from './base/Columns'
 import type { Card, Props as CardProps } from './base/Card'
+import type { Divider, Props as DividerProps } from './base/Divider'
 
 export type Component =
   | Paragraph
@@ -50,6 +51,7 @@ export type Component =
   | Container
   | Columns
   | Card
+  | Divider
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -77,6 +79,7 @@ export interface ReactComponents {
   Container: ReactComponent<ContainerProps>
   Columns: ReactComponent<ColumnsProps>
   Card: ReactComponent<CardProps>
+  Divider: ReactComponent<DividerProps>
 }
 
 export interface Props {
@@ -105,4 +108,5 @@ export interface Props {
   Container: ContainerProps
   Columns: ColumnsProps
   Card: CardProps
+  Divider: DividerProps
 }

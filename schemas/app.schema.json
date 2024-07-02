@@ -538,6 +538,9 @@
                 },
                 {
                     "$ref": "#/definitions/Card"
+                },
+                {
+                    "$ref": "#/definitions/Divider"
                 }
             ]
         },
@@ -1043,6 +1046,25 @@
             "required": [
                 "name",
                 "type"
+            ],
+            "type": "object"
+        },
+        "Divider": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Divider",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component"
             ],
             "type": "object"
         },
