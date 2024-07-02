@@ -263,6 +263,9 @@
                 },
                 {
                     "$ref": "#/definitions/Divider"
+                },
+                {
+                    "$ref": "#/definitions/Spacer"
                 }
             ]
         },
@@ -1776,6 +1779,36 @@
                 "component",
                 "links",
                 "title"
+            ],
+            "type": "object"
+        },
+        "Spacer": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Spacer",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component"
             ],
             "type": "object"
         },

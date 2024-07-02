@@ -23,6 +23,7 @@ import type { Container } from './base/Container'
 import type { Columns } from './base/Columns'
 import type { Card } from './base/Card'
 import type { Divider } from './base/Divider'
+import type { Spacer } from './base/Spacer'
 
 export type Component =
   | Button
@@ -50,3 +51,4 @@ export type Component =
   | Columns
   | Card
   | Divider
+  | Spacer

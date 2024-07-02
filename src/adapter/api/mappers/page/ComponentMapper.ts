@@ -31,6 +31,7 @@ import { Dropdown } from '@domain/engine/page/component/base/Dropdown'
 import { Columns } from '@domain/engine/page/component/base/Columns'
 import { Card } from '@domain/engine/page/component/base/Card'
 import { Divider } from '@domain/engine/page/component/base/Divider'
+import { Spacer } from '@domain/engine/page/component/base/Spacer'
 
 import type { Component as ComponentConfig } from '../../configs/page/Component'
 import type { Config as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
@@ -58,6 +59,7 @@ import type { Config as DropdownConfig } from '@adapter/api/configs/page/Compone
 import type { Config as ColumnsConfig } from '@adapter/api/configs/page/Component/base/Columns'
 import type { Config as CardConfig } from '@adapter/api/configs/page/Component/base/Card'
 import type { Config as DividerConfig } from '@adapter/api/configs/page/Component/base/Divider'
+import type { Config as SpacerConfig } from '@adapter/api/configs/page/Component/base/Spacer'
 
 export interface Params {
   components: ReactComponents
@@ -303,6 +305,10 @@ export class ComponentMapper {
     return new Divider({ ...config, Component: params.components.Divider })
   }
 
+  static toSpacerEntity = (config: SpacerConfig, params: Params): Spacer => {
+    return new Spacer({ ...config, Component: params.components.Spacer })
+  }
+
   static toEntity = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -330,6 +336,7 @@ export class ComponentMapper {
     if (component === 'Columns') return this.toColumnsEntity(config, params)
     if (component === 'Card') return this.toCardEntity(config, params)
     if (component === 'Divider') return this.toDividerEntity(config, params)
+    if (component === 'Spacer') return this.toSpacerEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 

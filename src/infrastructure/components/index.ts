@@ -25,6 +25,7 @@ import { Container } from './base/Container'
 import { Columns } from './base/Columns'
 import { Card } from './base/Card'
 import { Divider } from './base/Divider'
+import { Spacer } from './base/Spacer'
 
 export const components: ReactComponents = {
   Html,
@@ -53,4 +54,5 @@ export const components: ReactComponents = {
   Columns,
   Card,
   Divider,
+  Spacer,
 }

@@ -25,6 +25,7 @@ import type { Container, Props as ContainerProps } from './base/Container'
 import type { Columns, Props as ColumnsProps } from './base/Columns'
 import type { Card, Props as CardProps } from './base/Card'
 import type { Divider, Props as DividerProps } from './base/Divider'
+import type { Spacer, Props as SpacerProps } from './base/Spacer'
 
 export type Component =
   | Paragraph
@@ -52,6 +53,7 @@ export type Component =
   | Columns
   | Card
   | Divider
+  | Spacer
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -80,6 +82,7 @@ export interface ReactComponents {
   Columns: ReactComponent<ColumnsProps>
   Card: ReactComponent<CardProps>
   Divider: ReactComponent<DividerProps>
+  Spacer: ReactComponent<SpacerProps>
 }
 
 export interface Props {
@@ -109,4 +112,5 @@ export interface Props {
   Columns: ColumnsProps
   Card: CardProps
   Divider: DividerProps
+  Spacer: SpacerProps
 }
