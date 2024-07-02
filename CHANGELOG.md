@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/safidea/engine/compare/v0.14.0...v0.15.0) (2024-07-02)
+
+
+### Features
+
+* **component:** add green test 'should render a markdown content' ([e7c3b47](https://github.com/safidea/engine/commit/e7c3b47631fe30fbef316f2e85c42df0929e19ab))
+
 # [0.14.0](https://github.com/safidea/engine/compare/v0.13.1...v0.14.0) (2024-07-02)
 
 
