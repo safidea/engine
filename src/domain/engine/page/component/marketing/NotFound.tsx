@@ -1,11 +1,11 @@
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Button } from '../base/Button'
-import type { Paragraph } from '../base/Paragraph'
-import type { Title } from '../base/Title'
+import type { Paragraph } from '../content/Paragraph'
+import type { Title } from '../content/Title'
 import type { Base, BaseProps, ReactComponent } from '../base/base'
 import type { Props as ButtonProps } from '../base/Button'
-import type { Props as ParagraphProps } from '../base/Paragraph'
-import type { Props as TitleProps } from '../base/Title'
+import type { Props as ParagraphProps } from '../content/Paragraph'
+import type { Props as TitleProps } from '../content/Title'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {

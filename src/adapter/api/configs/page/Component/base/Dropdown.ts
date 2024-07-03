@@ -1,4 +1,4 @@
-import type { Config as Link } from './Link'
+import type { Config as Link } from '../content/Link'
 import type { Base } from './Base'
 
 export interface Config extends Base {

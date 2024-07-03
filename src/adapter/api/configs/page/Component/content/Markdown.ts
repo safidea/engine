@@ -1,4 +1,4 @@
-import type { Base } from './Base'
+import type { Base } from '../base/Base'
 
 export interface Config extends Base {
   content: string

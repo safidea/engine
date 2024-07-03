@@ -1,5 +1,5 @@
 import type { Size } from '@domain/engine/page/component/base/base'
-import type { Base } from './Base'
+import type { Base } from '../base/Base'
 
 export interface Config extends Base {
   size?: Size

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Footer } from './Footer'
-import { Title } from '../base/Title'
-import { Paragraph } from '../base/Paragraph'
-import { Link } from '../base/Link'
+import { Title } from '../content/Title'
+import { Paragraph } from '../content/Paragraph'
+import { Link } from '../content/Link'
 
 const meta = {
   title: 'Marketing/Footer',

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Hero } from './Hero'
-import { Title } from '../base/Title'
+import { Title } from '../content/Title'
 import { Button } from '../base/Button'
-import { Paragraph } from '../base/Paragraph'
+import { Paragraph } from '../content/Paragraph'
 
 const meta = {
   title: 'Marketing/Hero',

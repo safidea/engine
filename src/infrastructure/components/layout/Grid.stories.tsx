@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Grid } from './Grid'
-import { Title } from '../base/Title'
-import type { Props as TitleProps } from '@domain/engine/page/component/base/Title'
+import { Title } from '../content/Title'
+import type { Props as TitleProps } from '@domain/engine/page/component/content/Title'
 
 const meta = {
   title: 'Layout/Grid',

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Dropdown } from './Dropdown'
-import { Link } from './Link'
+import { Link } from '../content/Link'
 
 const meta = {
   title: 'Base/Dropdown',

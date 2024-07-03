@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Image } from './Image'
 
 const meta = {
-  title: 'Base/Image',
+  title: 'Content/Image',
   component: Image,
 } satisfies Meta<typeof Image>
 

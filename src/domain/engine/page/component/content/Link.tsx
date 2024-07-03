@@ -1,6 +1,6 @@
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Icon } from './Icon'
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { ReactComponent, Base, BaseProps } from '../base/base'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {

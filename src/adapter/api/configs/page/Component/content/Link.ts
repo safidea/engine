@@ -1,4 +1,4 @@
-import type { Base } from './Base'
+import type { Base } from '../base/Base'
 import type { Config as IconConfig } from './Icon'
 
 export interface Config extends Base {

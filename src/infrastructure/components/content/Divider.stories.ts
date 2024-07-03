@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Divider } from './Divider'
 
 const meta = {
-  title: 'Base/Divider',
+  title: 'Content/Divider',
   component: Divider,
 } satisfies Meta<typeof Divider>
 

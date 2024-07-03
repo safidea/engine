@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Header } from './Header'
-import { Title } from '../base/Title'
-import { Link } from '../base/Link'
+import { Title } from '../content/Title'
+import { Link } from '../content/Link'
 import { Button } from '../base/Button'
 
 const meta = {

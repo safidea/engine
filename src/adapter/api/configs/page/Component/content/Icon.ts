@@ -1,5 +1,5 @@
-import type { Name } from '@domain/engine/page/component/base/Icon'
-import type { Base } from './Base'
+import type { Name } from '@domain/engine/page/component/content/Icon'
+import type { Base } from '../base/Base'
 
 export interface Config extends Base {
   name: Name

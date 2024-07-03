@@ -1,8 +1,8 @@
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Button } from '../base/Button'
-import type { Title } from '../base/Title'
+import type { Title } from '../content/Title'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
-import type { Props as TitleProps } from '../base/Title'
+import type { Props as TitleProps } from '../content/Title'
 import type { Props as ButtonProps } from '../base/Button'
 import type { State } from '../../State'
 

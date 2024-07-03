@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Card } from './Card'
-import { Title } from './Title'
-import { Image } from './Image'
-import { Paragraph } from './Paragraph'
+import { Title } from '../content/Title'
+import { Image } from '../content/Image'
+import { Paragraph } from '../content/Paragraph'
 
 const meta = {
   title: 'Base/Card',

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Features } from './Features'
-import { Title } from '../base/Title'
-import { Paragraph } from '../base/Paragraph'
-import { Icon } from '../base/Icon'
+import { Title } from '../content/Title'
+import { Paragraph } from '../content/Paragraph'
+import { Icon } from '../content/Icon'
 
 const meta = {
   title: 'Marketing/Features',

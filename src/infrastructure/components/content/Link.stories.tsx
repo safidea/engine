@@ -3,7 +3,7 @@ import { Link } from './Link'
 import { Icon } from './Icon'
 
 const meta = {
-  title: 'Base/Link',
+  title: 'Content/Link',
   component: Link,
 } satisfies Meta<typeof Link>
 

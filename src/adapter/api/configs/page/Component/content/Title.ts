@@ -1,5 +1,5 @@
 import type { Align, Size } from '@domain/engine/page/component/base/base'
-import type { Base } from './Base'
+import type { Base } from '../base/Base'
 
 export interface Config extends Base {
   text: string
@@ -7,6 +7,6 @@ export interface Config extends Base {
   size?: Size
 }
 
-export interface Paragraph extends Config {
-  component: 'Paragraph'
+export interface Title extends Config {
+  component: 'Title'
 }

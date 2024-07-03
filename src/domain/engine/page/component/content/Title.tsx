@@ -1,12 +1,17 @@
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { ReactComponent, Base, BaseProps, Align, Size } from '../base/base'
 
-export interface Props extends BaseProps {}
+export interface Props extends BaseProps {
+  text: string
+  size?: Size
+  align?: Align
+  heading?: number
+}
 
 interface Params extends Props {
   Component: ReactComponent<Props>
 }
 
-export class Divider implements Base<Props> {
+export class Title implements Base<Props> {
   constructor(private params: Params) {}
 
   init = async () => {}

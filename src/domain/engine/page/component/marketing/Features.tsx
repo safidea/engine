@@ -1,11 +1,11 @@
 import type { ConfigError } from '@domain/entities/error/Config'
-import type { Icon } from '../base/Icon'
-import type { Paragraph } from '../base/Paragraph'
-import type { Title } from '../base/Title'
+import type { Icon } from '../content/Icon'
+import type { Paragraph } from '../content/Paragraph'
+import type { Title } from '../content/Title'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
-import type { Props as TitleProps } from '../base/Title'
-import type { Props as IconProps } from '../base/Icon'
-import type { Props as ParagraphProps } from '../base/Paragraph'
+import type { Props as TitleProps } from '../content/Title'
+import type { Props as IconProps } from '../content/Icon'
+import type { Props as ParagraphProps } from '../content/Paragraph'
 
 export interface Props extends BaseProps {
   Title: React.FC<Partial<TitleProps>>

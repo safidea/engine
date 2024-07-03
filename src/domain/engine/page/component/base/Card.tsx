@@ -1,10 +1,10 @@
-import type { Paragraph } from '../base/Paragraph'
-import type { Title } from '../base/Title'
-import type { Image } from '../base/Image'
+import type { Paragraph } from '../content/Paragraph'
+import type { Title } from '../content/Title'
+import type { Image } from '../content/Image'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
-import type { Props as TitleProps } from '../base/Title'
-import type { Props as ParagraphProps } from '../base/Paragraph'
-import type { Props as ImageProps } from '../base/Image'
+import type { Props as TitleProps } from '../content/Title'
+import type { Props as ParagraphProps } from '../content/Paragraph'
+import type { Props as ImageProps } from '../content/Image'
 import type { ConfigError } from '@domain/entities/error/Config'
 
 export interface Props extends BaseProps {

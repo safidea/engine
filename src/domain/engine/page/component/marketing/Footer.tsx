@@ -1,11 +1,11 @@
 import type React from 'react'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
-import type { Title } from '../base/Title'
-import type { Paragraph } from '../base/Paragraph'
-import type { Link } from '../base/Link'
-import type { Props as TitleProps } from '../base/Title'
-import type { Props as ParagraphProps } from '../base/Paragraph'
-import type { Props as LinkProps } from '../base/Link'
+import type { Title } from '../content/Title'
+import type { Paragraph } from '../content/Paragraph'
+import type { Link } from '../content/Link'
+import type { Props as TitleProps } from '../content/Title'
+import type { Props as ParagraphProps } from '../content/Paragraph'
+import type { Props as LinkProps } from '../content/Link'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {

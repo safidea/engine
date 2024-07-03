@@ -1,7 +1,7 @@
 import type { Base } from './Base'
-import type { Config as Image } from './Image'
-import type { Config as Title } from './Title'
-import type { Config as Paragraph } from './Paragraph'
+import type { Config as Image } from '../content/Image'
+import type { Config as Title } from '../content/Title'
+import type { Config as Paragraph } from '../content/Paragraph'
 
 export interface Config extends Base {
   image?: Image

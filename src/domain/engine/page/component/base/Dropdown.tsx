@@ -1,6 +1,6 @@
 import type { ReactComponent, Base, BaseProps } from './base'
 import type { State } from '../../State'
-import type { Link, Props as LinkProps } from './Link'
+import type { Link, Props as LinkProps } from '../content/Link'
 import type { ConfigError } from '@domain/entities/error/Config'
 
 export interface Props extends BaseProps {

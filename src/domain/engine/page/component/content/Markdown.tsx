@@ -1,5 +1,5 @@
 import type { MarkdownParser } from '@domain/services/MarkdownParser'
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { ReactComponent, Base, BaseProps } from '../base/base'
 
 export interface Props extends BaseProps {
   Content: React.ReactNode

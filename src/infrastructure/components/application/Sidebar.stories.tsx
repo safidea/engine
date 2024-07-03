@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Sidebar } from './Sidebar'
 import { Table } from './Table'
 import { Button } from '../base/Button'
-import { Title } from '../base/Title'
-import { Link } from '../base/Link'
+import { Title } from '../content/Title'
+import { Link } from '../content/Link'
 
 const meta = {
   title: 'Application/Sidebar',

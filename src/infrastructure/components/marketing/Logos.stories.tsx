@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Logos } from './Logos'
-import { Title } from '../base/Title'
-import { Image } from '../base/Image'
+import { Title } from '../content/Title'
+import { Image } from '../content/Image'
 
 const meta = {
   title: 'Marketing/Logos',

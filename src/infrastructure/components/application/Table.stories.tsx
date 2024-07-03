@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Table } from './Table'
 import { Button } from '../base/Button'
-import { Title } from '../base/Title'
+import { Title } from '../content/Title'
 
 const meta = {
   title: 'Application/Table',

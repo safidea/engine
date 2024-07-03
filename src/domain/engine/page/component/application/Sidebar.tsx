@@ -1,10 +1,10 @@
 import type { Base, ReactComponent, BaseProps } from '../base/base'
-import type { Link } from '../base/Link'
+import type { Link } from '../content/Link'
 import type { Component } from '..'
-import type { Title } from '../base/Title'
+import type { Title } from '../content/Title'
 import type { ConfigError } from '@domain/entities/error/Config'
-import type { Props as TitleProps } from '../base/Title'
-import type { Props as LinkProps } from '../base/Link'
+import type { Props as TitleProps } from '../content/Title'
+import type { Props as LinkProps } from '../content/Link'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {
