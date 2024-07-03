@@ -1,3 +1,10 @@
+## [0.15.1](https://github.com/safidea/engine/compare/v0.15.0...v0.15.1) (2024-07-02)
+
+
+### Bug Fixes
+
+* **build:** add jsdom in externals ([f759793](https://github.com/safidea/engine/commit/f7597934c08d165f0fcd5712bcca9108413a996b))
+
 # [0.15.0](https://github.com/safidea/engine/compare/v0.14.0...v0.15.0) (2024-07-02)
 
 
