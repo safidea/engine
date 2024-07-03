@@ -20,6 +20,10 @@ export class MarkdownParserDriver implements Driver {
           const { Title } = components
           return ui.renderToHtml(<Title text={token.text} heading={token.depth} />)
         },
+        paragraph(token: Tokens.Paragraph): string {
+          const { Paragraph } = components
+          return ui.renderToHtml(<Paragraph text={token.text} />)
+        },
       },
     })
   }
