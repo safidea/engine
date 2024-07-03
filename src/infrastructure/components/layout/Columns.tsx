@@ -1,10 +1,10 @@
 import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
-export const Columns = ({ id, className = '', columnsNumber, Components }: Props['Columns']) => (
+export const Columns = ({ id, className = '', columns, Components }: Props['Columns']) => (
   <div
     id={id}
-    className={classNames(getColumnsClasses(columnsNumber), className)}
+    className={classNames(getColumnsClasses(columns), className)}
     data-component="Columns"
   >
     {Components.map((Component, index) => (
@@ -13,8 +13,8 @@ export const Columns = ({ id, className = '', columnsNumber, Components }: Props
   </div>
 )
 
-function getColumnsClasses(columnsNumber: number) {
-  switch (columnsNumber) {
+function getColumnsClasses(columns: number) {
+  switch (columns) {
     case 1:
       return 'columns-1'
     case 2:

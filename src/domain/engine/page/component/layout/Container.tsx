@@ -1,4 +1,4 @@
-import type { ReactComponent, Base, BaseProps, Align, Size, SizeWithNone } from './base'
+import type { ReactComponent, Base, BaseProps, Align, Size, SizeWithNone } from '../base/base'
 import type { Component } from '..'
 import type { State } from '../../State'
 

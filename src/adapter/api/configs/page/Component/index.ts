@@ -19,12 +19,13 @@ import type { List } from './application/List'
 import type { Heading } from './application/Heading'
 import type { Modal } from './application/Modal'
 import type { Dropdown } from './base/Dropdown'
-import type { Container } from './base/Container'
-import type { Columns } from './base/Columns'
+import type { Container } from './layout/Container'
+import type { Columns } from './layout/Columns'
 import type { Card } from './base/Card'
 import type { Divider } from './base/Divider'
 import type { Spacer } from './base/Spacer'
 import type { Markdown } from './base/Markdown'
+import type { Grid } from './layout/Grid'
 
 export type Component =
   | Button
@@ -54,3 +55,4 @@ export type Component =
   | Divider
   | Spacer
   | Markdown
+  | Grid

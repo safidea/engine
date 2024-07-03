@@ -1,5 +1,5 @@
 import type { Props } from '@domain/engine/page/component'
-import { Container } from '../base/Container'
+import { Container } from '../layout/Container'
 
 export const Features = ({ id, className = '', Title, Paragraph, Features }: Props['Features']) => (
   <Container id={id} className={className} data-component="Features">

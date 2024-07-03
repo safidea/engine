@@ -1,6 +1,6 @@
 import type { Align, Size, SizeWithNone } from '@domain/engine/page/component/base/base'
 import type { Component } from '..'
-import type { Base } from './Base'
+import type { Base } from '../base/Base'
 
 export interface Config extends Base {
   children: Component[]

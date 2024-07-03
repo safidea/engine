@@ -21,12 +21,13 @@ import { List } from './application/List'
 import { Heading } from './application/Heading'
 import { Modal } from './application/Modal'
 import { Dropdown } from './base/Dropdown'
-import { Container } from './base/Container'
-import { Columns } from './base/Columns'
+import { Container } from './layout/Container'
+import { Columns } from './layout/Columns'
 import { Card } from './base/Card'
 import { Divider } from './base/Divider'
 import { Spacer } from './base/Spacer'
 import { Markdown } from './base/Markdown'
+import { Grid } from './layout/Grid'
 
 export const components: ReactComponents = {
   Html,
@@ -57,4 +58,5 @@ export const components: ReactComponents = {
   Divider,
   Spacer,
   Markdown,
+  Grid,
 }

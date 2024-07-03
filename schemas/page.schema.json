@@ -269,6 +269,9 @@
                 },
                 {
                     "$ref": "#/definitions/Markdown"
+                },
+                {
+                    "$ref": "#/definitions/Grid"
                 }
             ]
         },
@@ -905,6 +908,36 @@
                 "buttons",
                 "component",
                 "inputs"
+            ],
+            "type": "object"
+        },
+        "Grid": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/Component"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "columns": {
+                    "type": "number"
+                },
+                "component": {
+                    "const": "Grid",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "columns",
+                "component"
             ],
             "type": "object"
         },

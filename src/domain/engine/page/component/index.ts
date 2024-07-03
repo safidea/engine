@@ -21,12 +21,13 @@ import type { List, Props as ListProps } from './application/List'
 import type { Heading, Props as HeadingProps } from './application/Heading'
 import type { Modal, Props as ModalProps } from './application/Modal'
 import type { Dropdown, Props as DropdownProps } from './base/Dropdown'
-import type { Container, Props as ContainerProps } from './base/Container'
-import type { Columns, Props as ColumnsProps } from './base/Columns'
+import type { Container, Props as ContainerProps } from './layout/Container'
+import type { Columns, Props as ColumnsProps } from './layout/Columns'
 import type { Card, Props as CardProps } from './base/Card'
 import type { Divider, Props as DividerProps } from './base/Divider'
 import type { Spacer, Props as SpacerProps } from './base/Spacer'
 import type { Markdown, Props as MarkdownProps } from './base/Markdown'
+import type { Grid, Props as GridProps } from './layout/Grid'
 
 export type Component =
   | Paragraph
@@ -56,6 +57,7 @@ export type Component =
   | Divider
   | Spacer
   | Markdown
+  | Grid
 
 export interface ReactComponents {
   Html: ReactComponent<HtmlProps>
@@ -86,6 +88,7 @@ export interface ReactComponents {
   Divider: ReactComponent<DividerProps>
   Spacer: ReactComponent<SpacerProps>
   Markdown: ReactComponent<MarkdownProps>
+  Grid: ReactComponent<GridProps>
 }
 
 export interface Props {
@@ -117,4 +120,5 @@ export interface Props {
   Divider: DividerProps
   Spacer: SpacerProps
   Markdown: MarkdownProps
+  Grid: GridProps
 }

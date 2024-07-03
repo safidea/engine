@@ -1,6 +1,6 @@
 import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
-import { Container } from '../base/Container'
+import { Container } from '../layout/Container'
 
 export const Logos = ({ id, className = '', Title, Paragraph, Images }: Props['Logos']) => {
   const gridColumn = getGridColumns(Images.length)

@@ -1,45 +1,49 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Columns } from './Columns'
-import { Title } from './Title'
+import { Grid } from './Grid'
+import { Title } from '../base/Title'
 import type { Props as TitleProps } from '@domain/engine/page/component/base/Title'
 
 const meta = {
-  title: 'Base/Columns',
-  component: Columns,
+  title: 'Layout/Grid',
+  component: Grid,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Columns>
+} satisfies Meta<typeof Grid>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const One: Story = {
   args: {
-    columnsNumber: 1,
+    columns: 3,
     Components: [
       (props: Partial<TitleProps>) => <Title text="First column" align="center" {...props} />,
-    ],
-  },
-}
-
-export const Two: Story = {
-  args: {
-    columnsNumber: 2,
-    Components: [
-      (props: Partial<TitleProps>) => <Title text="First column" align="center" {...props} />,
-      (props: Partial<TitleProps>) => <Title text="Second column" align="center" {...props} />,
     ],
   },
 }
 
 export const Three: Story = {
   args: {
-    columnsNumber: 3,
+    columns: 3,
     Components: [
       (props: Partial<TitleProps>) => <Title text="First column" align="center" {...props} />,
       (props: Partial<TitleProps>) => <Title text="Second column" align="center" {...props} />,
       (props: Partial<TitleProps>) => <Title text="Third column" align="center" {...props} />,
+    ],
+  },
+}
+
+export const Six: Story = {
+  args: {
+    columns: 3,
+    Components: [
+      (props: Partial<TitleProps>) => <Title text="First column" align="center" {...props} />,
+      (props: Partial<TitleProps>) => <Title text="Second column" align="center" {...props} />,
+      (props: Partial<TitleProps>) => <Title text="Third column" align="center" {...props} />,
+      (props: Partial<TitleProps>) => <Title text="Fourth column" align="center" {...props} />,
+      (props: Partial<TitleProps>) => <Title text="Fifth column" align="center" {...props} />,
+      (props: Partial<TitleProps>) => <Title text="Sixth column" align="center" {...props} />,
     ],
   },
 }

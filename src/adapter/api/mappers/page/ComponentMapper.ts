@@ -22,22 +22,23 @@ import { Header } from '@domain/engine/page/component/marketing/Header'
 import { Table } from '@domain/engine/page/component/application/Table'
 import { Sidebar } from '@domain/engine/page/component/application/Sidebar'
 import { Title } from '@domain/engine/page/component/base/Title'
-import { Container } from '@domain/engine/page/component/base/Container'
+import { Container } from '@domain/engine/page/component/layout/Container'
 import { Icon } from '@domain/engine/page/component/base/Icon'
 import { Input } from '@domain/engine/page/component/base/Input'
 import { Image } from '@domain/engine/page/component/base/Image'
 import { Heading } from '@domain/engine/page/component/application/Heading'
 import { Modal } from '@domain/engine/page/component/application/Modal'
 import { Dropdown } from '@domain/engine/page/component/base/Dropdown'
-import { Columns } from '@domain/engine/page/component/base/Columns'
+import { Columns } from '@domain/engine/page/component/layout/Columns'
 import { Card } from '@domain/engine/page/component/base/Card'
 import { Divider } from '@domain/engine/page/component/base/Divider'
 import { Spacer } from '@domain/engine/page/component/base/Spacer'
 import { Markdown } from '@domain/engine/page/component/base/Markdown'
+import { Grid } from '@domain/engine/page/component/layout/Grid'
 
 import type { Component as ComponentConfig } from '../../configs/page/Component'
 import type { Config as TitleConfig } from '@adapter/api/configs/page/Component/base/Title'
-import type { Config as ContainerConfig } from '@adapter/api/configs/page/Component/base/Container'
+import type { Config as ContainerConfig } from '@adapter/api/configs/page/Component/layout/Container'
 import type { Config as ParagraphConfig } from '@adapter/api/configs/page/Component/base/Paragraph'
 import type { Config as ButtonConfig } from '@adapter/api/configs/page/Component/base/Button'
 import type { Config as LinkConfig } from '@adapter/api/configs/page/Component/base/Link'
@@ -58,11 +59,12 @@ import type { Config as ListConfig } from '@adapter/api/configs/page/Component/a
 import type { Config as HeadingConfig } from '@adapter/api/configs/page/Component/application/Heading'
 import type { Config as ModalConfig } from '@adapter/api/configs/page/Component/application/Modal'
 import type { Config as DropdownConfig } from '@adapter/api/configs/page/Component/base/Dropdown'
-import type { Config as ColumnsConfig } from '@adapter/api/configs/page/Component/base/Columns'
+import type { Config as ColumnsConfig } from '@adapter/api/configs/page/Component/layout/Columns'
 import type { Config as CardConfig } from '@adapter/api/configs/page/Component/base/Card'
 import type { Config as DividerConfig } from '@adapter/api/configs/page/Component/base/Divider'
 import type { Config as SpacerConfig } from '@adapter/api/configs/page/Component/base/Spacer'
 import type { Config as MarkdownConfig } from '@adapter/api/configs/page/Component/base/Markdown'
+import type { Config as GridConfig } from '@adapter/api/configs/page/Component/layout/Grid'
 
 export interface Params {
   components: ReactComponents
@@ -318,6 +320,12 @@ export class ComponentMapper {
     return new Markdown({ ...config, markdownParser, Component: params.components.Markdown })
   }
 
+  static toGridEntity = (config: GridConfig, params: Params): Grid => {
+    const { components } = params
+    const children = config.children.map((child) => this.toEntity(child, params))
+    return new Grid({ ...config, children, Component: components.Grid })
+  }
+
   static toEntity = (config: ComponentConfig, params: Params): Component => {
     const { component } = config
     if (component === 'Hero') return this.toHeroEntity(config, params)
@@ -347,6 +355,7 @@ export class ComponentMapper {
     if (component === 'Divider') return this.toDividerEntity(config, params)
     if (component === 'Spacer') return this.toSpacerEntity(config, params)
     if (component === 'Markdown') return this.toMarkdownEntity(config, params)
+    if (component === 'Grid') return this.toGridEntity(config, params)
     throw new Error(`Component ${component} is not supported`)
   }
 

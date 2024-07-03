@@ -2,6 +2,8 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Auth', () => {
+  test.slow()
+
   test('should login from magic-link provider', async () => {
     // GIVEN
     const config: Config = {

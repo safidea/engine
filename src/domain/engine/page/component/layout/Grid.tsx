@@ -1,18 +1,19 @@
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { ReactComponent, Base, BaseProps } from '../base/base'
 import type { Component } from '..'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {
   Components: React.FC<BaseProps>[]
-  columnsNumber: number
+  columns: number
 }
 
 interface Params {
+  columns: number
   children: Component[]
   Component: ReactComponent<Props>
 }
 
-export class Columns implements Base<Props> {
+export class Grid implements Base<Props> {
   constructor(private params: Params) {}
 
   init = async () => {
@@ -27,7 +28,6 @@ export class Columns implements Base<Props> {
       <Component
         {...{
           ...defaultProps,
-          columnsNumber: components.length,
           Components: components,
           ...props,
         }}
