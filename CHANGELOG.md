@@ -1,3 +1,10 @@
+## [0.16.1](https://github.com/safidea/engine/compare/v0.16.0...v0.16.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* **Markdown:** add green test 'should render a markdown with a Link component' ([baba80c](https://github.com/safidea/engine/commit/baba80c35d889a5a4609a45b908e287fdb712b12))
+
 # [0.16.0](https://github.com/safidea/engine/compare/v0.15.3...v0.16.0) (2024-07-03)
 
 
