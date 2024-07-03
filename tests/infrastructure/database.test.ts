@@ -5,6 +5,8 @@ import { PostgreSqlContainer } from '@testcontainers/postgresql'
 
 test.describe('Database', () => {
   test('should start with a new table', async () => {
+    test.setTimeout(30000)
+
     // GIVEN
     const database = new Database()
     const config: Config = {

@@ -32,6 +32,8 @@ test.describe('Card component', () => {
   })
 
   test('should render a card with image', async ({ page }) => {
+    test.slow()
+
     // GIVEN
     const config: PageConfig = {
       name: 'Page',
@@ -40,7 +42,7 @@ test.describe('Card component', () => {
         {
           component: 'Card',
           image: {
-            src: 'https://via.placeholder.com/150',
+            src: 'https://picsum.photos/200/300',
             alt: 'First post',
           },
           title: {
@@ -63,6 +65,8 @@ test.describe('Card component', () => {
   })
 
   test('should open a page when click on a card', async ({ page }) => {
+    test.slow()
+
     // GIVEN
     const config: AppConfig = {
       name: 'Card',
@@ -77,7 +81,7 @@ test.describe('Card component', () => {
                 {
                   component: 'Card',
                   image: {
-                    src: 'https://via.placeholder.com/150',
+                    src: 'https://picsum.photos/200/300',
                     alt: 'First post',
                   },
                   title: {
@@ -106,6 +110,8 @@ test.describe('Card component', () => {
   })
 
   test('should display the card id', async ({ page }) => {
+    test.slow()
+
     // GIVEN
     const config: PageConfig = {
       name: 'Page',
@@ -115,7 +121,7 @@ test.describe('Card component', () => {
           component: 'Card',
           id: 'my-card',
           image: {
-            src: 'https://source.unsplash.com/random',
+            src: 'https://picsum.photos/200/300',
             alt: 'First post',
           },
           title: {

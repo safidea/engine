@@ -10,6 +10,14 @@ export class MarkdownParserDriver implements Driver {
   constructor() {
     const window = new JSDOM('').window
     this.DOMPurify = DOMPurify(window)
+    /*marked.use({
+      breaks: true,
+      renderer: {
+        heading(token: Tokens.Heading): string {
+          return `<h${token.depth}>${token.text}</h${token.depth}>`
+        },
+      },
+    })*/
   }
 
   parseToComponent = async (content: string) => {

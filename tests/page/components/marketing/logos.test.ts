@@ -3,19 +3,21 @@ import Page, { type Page as Config } from '@safidea/engine/page'
 
 test.describe('Logos component', () => {
   test('should render logos', async ({ page }) => {
+    test.slow()
+
     // GIVEN
     const title = 'This is a title'
     const logos = [
       {
-        src: 'https://via.placeholder.com/150',
+        src: 'https://picsum.photos/200/300',
         alt: 'logo-1',
       },
       {
-        src: 'https://via.placeholder.com/150',
+        src: 'https://picsum.photos/200/300',
         alt: 'logo-2',
       },
       {
-        src: 'https://via.placeholder.com/150',
+        src: 'https://picsum.photos/200/300',
         alt: 'logo-3',
       },
     ]
@@ -48,6 +50,8 @@ test.describe('Logos component', () => {
   })
 
   test('should display the logos id', async ({ page }) => {
+    test.slow()
+
     // GIVEN
     const config: Config = {
       name: 'Page',
@@ -60,15 +64,15 @@ test.describe('Logos component', () => {
           paragraph: { text: 'This is a description' },
           images: [
             {
-              src: 'https://via.placeholder.com/150',
+              src: 'https://picsum.photos/200/300',
               alt: 'logo-1',
             },
             {
-              src: 'https://via.placeholder.com/150',
+              src: 'https://picsum.photos/200/300',
               alt: 'logo-2',
             },
             {
-              src: 'https://via.placeholder.com/150',
+              src: 'https://picsum.photos/200/300',
               alt: 'logo-3',
             },
           ],

@@ -12,17 +12,41 @@ export const Title = ({ size = 'md', text, align = 'left', className = '' }: Pro
   )
   switch (size) {
     case 'xs':
-      return <h6 className={classes}>{text}</h6>
+      return (
+        <h6 className={classes} data-component="Title">
+          {text}
+        </h6>
+      )
     case 'sm':
-      return <h5 className={classes}>{text}</h5>
+      return (
+        <h5 className={classes} data-component="Title">
+          {text}
+        </h5>
+      )
     case 'md':
-      return <h4 className={classes}>{text}</h4>
+      return (
+        <h4 className={classes} data-component="Title">
+          {text}
+        </h4>
+      )
     case 'lg':
-      return <h3 className={classes}>{text}</h3>
+      return (
+        <h3 className={classes} data-component="Title">
+          {text}
+        </h3>
+      )
     case 'xl':
-      return <h2 className={classes}>{text}</h2>
+      return (
+        <h2 className={classes} data-component="Title">
+          {text}
+        </h2>
+      )
     case '2xl':
-      return <h1 className={classes}>{text}</h1>
+      return (
+        <h1 className={classes} data-component="Title">
+          {text}
+        </h1>
+      )
   }
 }
 
