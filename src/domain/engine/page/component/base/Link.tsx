@@ -26,10 +26,10 @@ export class Link implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { Component, prefixIcon, suffixIcon, ...defaultProps } = this.params
+    const { Component, prefixIcon, suffixIcon, active: isActive, ...defaultProps } = this.params
     const PrefixIcon = prefixIcon ? await prefixIcon.render() : undefined
     const SuffixIcon = suffixIcon ? await suffixIcon.render() : undefined
-    const active = state.isActiveLink(defaultProps.href)
+    const active = isActive !== undefined ? isActive : state.isActiveLink(defaultProps.href)
     return (props?: Partial<Props>) => (
       <Component {...{ PrefixIcon, SuffixIcon, ...defaultProps, active, ...props }} />
     )

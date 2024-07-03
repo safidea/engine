@@ -65,6 +65,110 @@ test.describe('Link component', () => {
     expect(await link.getAttribute('href')).toBe(href)
   })
 
+  test('should display an active link', async ({ page }) => {
+    // GIVEN
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'display link',
+          pages: [
+            {
+              name: 'link',
+              path: '/',
+              body: [
+                {
+                  component: 'Link',
+                  label: 'Hello world!',
+                  active: true,
+                  href: '/about',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    const link = page.getByRole('link', { name: 'Hello world!' })
+    expect(await link.getAttribute('data-active')).toBe('true')
+  })
+
+  test('should display an inactive link in the link path page', async ({ page }) => {
+    // GIVEN
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'display link',
+          pages: [
+            {
+              name: 'link',
+              path: '/about',
+              body: [
+                {
+                  component: 'Link',
+                  label: 'Hello world!',
+                  active: false,
+                  href: '/',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url + '/about')
+
+    // THEN
+    const link = page.getByRole('link', { name: 'Hello world!' })
+    expect(await link.getAttribute('data-active')).toBe('false')
+  })
+
+  test('should display an active link in the link path page', async ({ page }) => {
+    // GIVEN
+    const config: AppConfig = {
+      name: 'App',
+      features: [
+        {
+          name: 'display link',
+          pages: [
+            {
+              name: 'link',
+              path: '/about/me',
+              body: [
+                {
+                  component: 'Link',
+                  label: 'Hello world!',
+                  href: '/about',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url + '/about/me')
+
+    // THEN
+    const link = page.getByRole('link', { name: 'Hello world!' })
+    expect(await link.getAttribute('data-active')).toBe('true')
+  })
+
   test('should display the link id', async ({ page }) => {
     // GIVEN
     const config: PageConfig = {
