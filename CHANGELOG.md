@@ -1,3 +1,10 @@
+## [0.15.2](https://github.com/safidea/engine/compare/v0.15.1...v0.15.2) (2024-07-03)
+
+
+### Bug Fixes
+
+* **Link:** add green test 'should display an active link' ([c1677d3](https://github.com/safidea/engine/commit/c1677d3511b17e07790dda996330c7d8ef056761))
+
 ## [0.15.1](https://github.com/safidea/engine/compare/v0.15.0...v0.15.1) (2024-07-02)
 
 
