@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/safidea/engine/compare/v0.15.3...v0.16.0) (2024-07-03)
+
+
+### Features
+
+* **components:** add green test 'should render grid component' ([bd4ae98](https://github.com/safidea/engine/commit/bd4ae9859b35dfed34045f80b10a541341b7d4b1))
+
 ## [0.15.3](https://github.com/safidea/engine/compare/v0.15.2...v0.15.3) (2024-07-03)
 
 
