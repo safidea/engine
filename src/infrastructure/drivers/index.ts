@@ -6,6 +6,7 @@ import type { Params as QueueParams } from '@domain/services/Queue'
 import type { Params as MailerParams } from '@domain/services/Mailer'
 import type { Params as RealtimeParams } from '@domain/services/Realtime'
 import type { Params as AuthParams } from '@domain/services/Auth'
+import type { Params as MarkdownParserParams } from '@domain/services/MarkdownParser'
 import { SchemaValidatorDriver } from './SchemaValidatorDriver'
 import { BrowserDriver } from './BrowserDriver'
 import { ServerDriver } from './ServerDriver'
@@ -29,11 +30,11 @@ export const drivers: Drivers = {
   mailer: (params: MailerParams) => new MailerDriver(params),
   realtime: (params: RealtimeParams) => new RealtimeDriver(params),
   auth: (params: AuthParams) => new AuthDriver(params),
+  markdownParser: (params: MarkdownParserParams) => new MarkdownParserDriver(params),
   templateCompiler: () => new TemplateCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),
   ui: () => new UiDriver(),
   client: () => new ClientDriver(),
   idGenerator: () => new IdGeneratorDriver(),
-  markdownParser: () => new MarkdownParserDriver(),
 }

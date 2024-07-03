@@ -1,23 +1,27 @@
 import type { Driver } from '@adapter/spi/MarkdownParserSpi'
+import type { Params } from '@domain/services/MarkdownParser'
 import parse from 'html-react-parser'
 import { JSDOM } from 'jsdom'
 import DOMPurify, { type DOMPurifyI } from 'dompurify'
-import { marked } from 'marked'
+import { marked, type Tokens } from 'marked'
 
 export class MarkdownParserDriver implements Driver {
   private DOMPurify: DOMPurifyI
 
-  constructor() {
+  constructor(params: Params) {
     const window = new JSDOM('').window
     this.DOMPurify = DOMPurify(window)
-    /*marked.use({
+    const { components, ui } = params
+    marked.use({
       breaks: true,
+      useNewRenderer: true,
       renderer: {
         heading(token: Tokens.Heading): string {
-          return `<h${token.depth}>${token.text}</h${token.depth}>`
+          const { Title } = components
+          return ui.renderToHtml(<Title text={token.text} heading={token.depth} />)
         },
       },
-    })*/
+    })
   }
 
   parseToComponent = async (content: string) => {

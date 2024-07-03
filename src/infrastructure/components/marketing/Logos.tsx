@@ -5,7 +5,7 @@ import { Container } from '../base/Container'
 export const Logos = ({ id, className = '', Title, Paragraph, Images }: Props['Logos']) => {
   const gridColumn = getGridColumns(Images.length)
   return (
-    <Container id={id} className={className}>
+    <Container id={id} className={className} data-component="Logos">
       <div className="mb-8">
         {Title ? <Title align="center" /> : null}
         {Paragraph ? <Paragraph align="center" /> : null}

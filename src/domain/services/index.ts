@@ -13,7 +13,11 @@ import { TemplateCompiler, type Spi as TemplateCompilerSpi } from './TemplateCom
 import { Realtime, type Spi as RealtimeSpi, type Params as RealtimeParams } from './Realtime'
 import { Auth, type Spi as AuthSpi, type Params as AuthParams } from './Auth'
 import { Client, type Spi as ClientSpi } from './Client'
-import { MarkdownParser, type Spi as MarkdownParserSpi } from './MarkdownParser'
+import {
+  MarkdownParser,
+  type Spi as MarkdownParserSpi,
+  type Params as MarkdownParserParams,
+} from './MarkdownParser'
 
 export interface Spis {
   components: ReactComponents
@@ -24,13 +28,13 @@ export interface Spis {
   mailer: (params: MailerParams) => MailerSpi
   realtime: (params: RealtimeParams) => RealtimeSpi
   auth: (params: AuthParams) => AuthSpi
+  markdownParser: (params: MarkdownParserParams) => MarkdownParserSpi
   idGenerator: () => IdGeneratorSpi
   schemaValidator: () => SchemaValidatorSpi
   ui: () => UiSpi
   client: () => ClientSpi
   browser: () => BrowserSpi
   templateCompiler: () => TemplateCompilerSpi
-  markdownParser: () => MarkdownParserSpi
 }
 
 export class Services {
@@ -54,6 +58,8 @@ export class Services {
 
   auth = (params: AuthParams) => new Auth(this.spis.auth(params))
 
+  markdownParser = (params: MarkdownParserParams) => new MarkdownParser(this.spis.markdownParser(params))
+
   schemaValidator = () => new SchemaValidator(this.spis.schemaValidator())
 
   ui = () => new Ui(this.spis.ui())
@@ -68,6 +74,4 @@ export class Services {
 
   record = () =>
     new Record({ idGenerator: this.idGenerator(), templateCompiler: this.templateCompiler() })
-
-  markdownParser = () => new MarkdownParser(this.spis.markdownParser())
 }

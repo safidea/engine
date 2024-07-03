@@ -23,6 +23,7 @@ export const Paragraph = ({
         getTextAlignClasses(align),
         className
       )}
+       data-component="Paragraph"
     >
       {text}
     </p>

@@ -1,7 +1,7 @@
 import type { Props } from '@domain/engine/page/component'
 
 export const Modal = ({ id, className = '', Button, header, body, footer }: Props['Modal']) => (
-  <div id={id} data-controller="modal" className={className}>
+  <div id={id} data-controller="modal" className={className} data-component="Modal">
     <Button data-action="click->modal#open" />
     <div
       tabIndex={-1}

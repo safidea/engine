@@ -21,6 +21,7 @@ import { RealtimeSpi, type Driver as RealtimeDriver } from './RealtimeSpi'
 import { AuthSpi, type Driver as AuthDriver } from './AuthSpi'
 import { ClientSpi, type Driver as ClientDriver } from './ClientSpi'
 import { MarkdownParserSpi, type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
+import type { Params as MarkdownParserParams } from '@domain/services/MarkdownParser'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -30,13 +31,13 @@ export interface Drivers {
   mailer: (params: MailerParams) => MailerDriver
   realtime: (params: RealtimeParams) => RealtimeDriver
   auth: (params: AuthParams) => AuthDriver
+  markdownParser: (params: MarkdownParserParams) => MarkdownParserDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
-  markdownParser: () => MarkdownParserDriver
 }
 
 export interface Params {
@@ -65,6 +66,9 @@ export class Spis implements ISpis {
 
   auth = (params: AuthParams) => new AuthSpi(this.params.drivers.auth(params))
 
+  markdownParser = (params: MarkdownParserParams) =>
+    new MarkdownParserSpi(this.params.drivers.markdownParser(params))
+
   schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
 
   ui = () => new UiSpi(this.params.drivers.ui())
@@ -76,6 +80,4 @@ export class Spis implements ISpis {
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
 
   templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
-
-  markdownParser = () => new MarkdownParserSpi(this.params.drivers.markdownParser())
 }

@@ -2,7 +2,7 @@ import type { Props } from '@domain/engine/page/component'
 import { Container } from '../base/Container'
 
 export const Features = ({ id, className = '', Title, Paragraph, Features }: Props['Features']) => (
-  <Container id={id} className={className}>
+  <Container id={id} className={className} data-component="Features">
     <div className="max-w-screen-md lg:mb-16">
       <Title />
       <Paragraph size="lg" />

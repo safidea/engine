@@ -2,7 +2,11 @@ import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
 export const Columns = ({ id, className = '', columnsNumber, Components }: Props['Columns']) => (
-  <div id={id} className={classNames(getColumnsClasses(columnsNumber), className)}>
+  <div
+    id={id}
+    className={classNames(getColumnsClasses(columnsNumber), className)}
+    data-component="Columns"
+  >
     {Components.map((Component, index) => (
       <Component key={index} className="w-full" />
     ))}

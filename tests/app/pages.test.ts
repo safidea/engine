@@ -38,7 +38,6 @@ test.describe('App with pages', () => {
 
   test('should display a title in a production env', async ({ page }) => {
     // GIVEN
-    const text = 'Hello world!'
     const config: Config = {
       name: 'App',
       features: [
@@ -51,7 +50,7 @@ test.describe('App with pages', () => {
               body: [
                 {
                   component: 'Title',
-                  text,
+                  text: 'Hello world!',
                 },
               ],
             },
@@ -69,8 +68,8 @@ test.describe('App with pages', () => {
     await page.goto(url)
 
     // THEN
-    const title = await page.textContent('h4')
-    expect(title).toBe(text)
+    const title = page.getByRole('heading', { name: 'Hello world!' })
+    expect(await title.getAttribute('data-component')).toBe('Title')
   })
 
   test('should display a page favicon', async ({ page }) => {

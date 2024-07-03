@@ -4,6 +4,7 @@ export interface Props extends BaseProps {
   text: string
   size?: Size
   align?: Align
+  heading?: number
 }
 
 interface Params extends Props {

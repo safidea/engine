@@ -9,8 +9,13 @@ export const Container = ({
   spacing = 'lg',
   width = 'xl',
   children,
+  ['data-component']: dataComponent = 'Container',
 }: Props['Container']) => (
-  <section id={id} className={classNames('bg-white dark:bg-gray-900', className)}>
+  <section
+    id={id}
+    className={classNames('bg-white dark:bg-gray-900', className)}
+    data-component={dataComponent}
+  >
     <div
       className={classNames(
         getWidthClasses(width),

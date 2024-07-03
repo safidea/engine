@@ -2,7 +2,13 @@ import type { Props } from '@domain/engine/page/component'
 import { classNames, getTextAlignClasses } from '../utils'
 import type { Size } from '@domain/engine/page/component/base/base'
 
-export const Title = ({ size = 'md', text, align = 'left', className = '' }: Props['Title']) => {
+export const Title = ({
+  size = 'md',
+  text,
+  align = 'left',
+  className = '',
+  heading = getDefaultHeading(size),
+}: Props['Title']) => {
   const classes = classNames(
     'font-bold text-gray-900',
     getTextSizeClasses(size),
@@ -10,43 +16,37 @@ export const Title = ({ size = 'md', text, align = 'left', className = '' }: Pro
     getTextAlignClasses(align),
     className
   )
+  const props = { className: classes, ['data-component']: 'Title' }
+  switch (heading) {
+    case 1:
+      return <h1 {...props}>{text}</h1>
+    case 2:
+      return <h2 {...props}>{text}</h2>
+    case 3:
+      return <h3 {...props}>{text}</h3>
+    case 4:
+      return <h4 {...props}>{text}</h4>
+    case 5:
+      return <h5 {...props}>{text}</h5>
+    default:
+      return <h6 {...props}>{text}</h6>
+  }
+}
+
+function getDefaultHeading(size: Size) {
   switch (size) {
     case 'xs':
-      return (
-        <h6 className={classes} data-component="Title">
-          {text}
-        </h6>
-      )
+      return 6
     case 'sm':
-      return (
-        <h5 className={classes} data-component="Title">
-          {text}
-        </h5>
-      )
+      return 6
     case 'md':
-      return (
-        <h4 className={classes} data-component="Title">
-          {text}
-        </h4>
-      )
+      return 3
     case 'lg':
-      return (
-        <h3 className={classes} data-component="Title">
-          {text}
-        </h3>
-      )
+      return 3
     case 'xl':
-      return (
-        <h2 className={classes} data-component="Title">
-          {text}
-        </h2>
-      )
+      return 2
     case '2xl':
-      return (
-        <h1 className={classes} data-component="Title">
-          {text}
-        </h1>
-      )
+      return 1
   }
 }
 

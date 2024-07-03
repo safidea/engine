@@ -35,8 +35,7 @@ test.describe('Sidebar component', () => {
     await page.goto(url)
 
     // THEN
-    const titleContent = await page.textContent('h4')
-    expect(titleContent).toContain('Menu')
+    await expect(page.locator('[data-component="Title"]')).toBeVisible()
   })
 
   test('should display a list of links with icons', async ({ page }) => {

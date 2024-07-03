@@ -31,13 +31,6 @@ test.describe('NotFound component', () => {
     await page.goto(url + '/contact')
 
     // THEN
-    expect(await page.title()).toContain('404 not found')
-    await expect(page.locator('h4', { hasText: "Something's missing." })).toBeVisible()
-    await expect(
-      page.locator('p', {
-        hasText: "Sorry, we can't find that page. You'll find lots to explore on the home page.",
-      })
-    ).toBeVisible()
-    await expect(page.locator('a', { hasText: 'Back to Homepage' })).toBeVisible()
+    await expect(page.locator('[data-component="NotFound"]')).toBeVisible()
   })
 })

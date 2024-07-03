@@ -3,7 +3,12 @@ import { classNames } from '../utils'
 
 export const Dropdown = ({ id, className = '', label, Links }: Props['Dropdown']) => {
   return (
-    <div id={id} data-controller="dropdown" className={classNames('relative w-fit', className)}>
+    <div
+      id={id}
+      data-controller="dropdown"
+      className={classNames('relative w-fit', className)}
+      data-component="Dropdown"
+    >
       <button
         data-action="mouseover->dropdown#show"
         className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"

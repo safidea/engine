@@ -9,7 +9,11 @@ export const Footer = ({
   Links,
   copyright,
 }: Props['Footer']) => (
-  <footer id={id} className={classNames('p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800', className)}>
+  <footer
+    id={id}
+    className={classNames('p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800', className)}
+    data-component="Footer"
+  >
     <div className="mx-auto max-w-screen-xl text-center">
       <Title size="sm" className="flex justify-center items-center" />
       <Paragraph align="center" />

@@ -11,7 +11,7 @@ export const Image = ({
   className = '',
 }: Props['Image']) => {
   return (
-    <div className={classNames('flex', getImageAlignClasses(align))}>
+    <div className={classNames('flex', getImageAlignClasses(align))} data-component="Image">
       <img
         className={classNames(
           'col-span-2 object-contain',

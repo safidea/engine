@@ -7,6 +7,7 @@ export interface BaseProps {
   id?: string
   key?: string | number
   className?: string
+  'data-component'?: string
   // TODO: replace this infrastructure dependency by domain dependency
   'data-action'?: string
 }

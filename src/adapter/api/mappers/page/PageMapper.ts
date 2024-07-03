@@ -67,7 +67,10 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
     })
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
-    const markdownParser = services.markdownParser()
+    const markdownParser = services.markdownParser({
+      components: services.components,
+      ui,
+    })
     const newLogger = (location: string) => services.logger({ location })
     return this.toEntity(config, {
       server,

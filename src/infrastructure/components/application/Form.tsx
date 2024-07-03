@@ -13,7 +13,7 @@ export const Form = ({
   method,
   formId,
 }: Props['Form']) => (
-  <section id={id} className={classNames('bg-white dark:bg-gray-900', className)}>
+  <section id={id} className={classNames('bg-white dark:bg-gray-900', className)} data-component="Form">
     <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
       {Title && <Title className="mb-4" />}
       {Paragraph && <Paragraph className="mb-8" />}

@@ -2,7 +2,11 @@ import type { Props } from '@domain/engine/page/component'
 import { classNames } from '../utils'
 
 export const Table = ({ id, className = '', Title, Buttons, columns, rows }: Props['Table']) => (
-  <section id={id} className={classNames('dark:bg-gray-800 relative overflow-hidden', className)}>
+  <section
+    id={id}
+    className={classNames('dark:bg-gray-800 relative overflow-hidden', className)}
+    data-component="Table"
+  >
     {Buttons || Title ? (
       <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
         {Title && (

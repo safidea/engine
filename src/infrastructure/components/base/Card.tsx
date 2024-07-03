@@ -11,6 +11,7 @@ export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Prop
         href ? 'hover:bg-gray-100' : '',
         className
       )}
+      data-component="Card"
     >
       {Image ? <Image className="rounded-t-lg w-full h-64 object-cover mb-0" /> : null}
       <div className="p-5">

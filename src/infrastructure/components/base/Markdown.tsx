@@ -3,7 +3,7 @@ import { classNames } from '../utils'
 
 export const Markdown = ({ id, Content, className = '' }: Props['Markdown']) => {
   return (
-    <p id={id} className={classNames(className)}>
+    <p id={id} className={classNames(className)} data-component="Markdown">
       {Content}
     </p>
   )
