@@ -212,6 +212,72 @@ test.describe('Markdown component', () => {
     await expect(page.locator('[data-component="Paragraph"]')).toBeVisible()
   })
 
+  test('should render a markdown with a Divider component', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Markdown',
+          content: 'This is a paragraph.\n\n---\n\nThis is another paragraph.',
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    await expect(page.locator('[data-component="Divider"]')).toBeVisible()
+  })
+
+  test('should render a markdown with a Link component', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Markdown',
+          content: 'This is [a link](https://example.com).',
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    await expect(page.locator('[data-component="Link"]')).toBeVisible()
+  })
+
+  test('should render a markdown with a Image component', async ({ page }) => {
+    // GIVEN
+    const config: PageConfig = {
+      name: 'Page',
+      path: '/',
+      body: [
+        {
+          component: 'Markdown',
+          content: 'This is an ![image](https://picsum.photos/200/300 "Image")',
+        },
+      ],
+    }
+
+    // WHEN
+    const pageEngine = new Page()
+    const html = await pageEngine.getHtml(config)
+    await page.setContent(html)
+
+    // THEN
+    await expect(page.locator('[data-component="Image"]')).toBeVisible()
+  })
+
   test('should display the markdown id', async ({ page }) => {
     // GIVEN
     const config: PageConfig = {

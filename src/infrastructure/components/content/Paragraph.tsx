@@ -12,6 +12,7 @@ export const Paragraph = ({
   align = 'left',
   size = 'md',
   className = '',
+  children,
 }: Props['Paragraph']) => {
   return (
     <p
@@ -23,9 +24,9 @@ export const Paragraph = ({
         getTextAlignClasses(align),
         className
       )}
-       data-component="Paragraph"
+      data-component="Paragraph"
     >
-      {text}
+      {children ?? text}
     </p>
   )
 }

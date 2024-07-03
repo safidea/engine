@@ -1,7 +1,8 @@
 import type { ReactComponent, Base, BaseProps, Align, Size } from '../base/base'
 
 export interface Props extends BaseProps {
-  text: string
+  text?: string
+  children?: React.ReactNode
   align?: Align
   size?: Size
 }
