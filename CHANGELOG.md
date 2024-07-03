@@ -1,3 +1,11 @@
+## [0.15.3](https://github.com/safidea/engine/compare/v0.15.2...v0.15.3) (2024-07-03)
+
+
+### Bug Fixes
+
+* **Markdown:** add green test 'should render a markdown with a Paragraph component' ([33fd674](https://github.com/safidea/engine/commit/33fd6740b8c754d7f5d125f7c5ba9ca8cf05e453))
+* **Markdown:** add green test 'should render a markdown with a Title component' ([82756cf](https://github.com/safidea/engine/commit/82756cfc14b2fffdd225a69782fb3bfa8e90db4c))
+
 ## [0.15.2](https://github.com/safidea/engine/compare/v0.15.1...v0.15.2) (2024-07-03)
 
 
