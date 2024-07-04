@@ -72,4 +72,44 @@ test.describe('Theme', () => {
     // THEN
     expect(fileContent).toContain('"Open Sans", sans-serif')
   })
+
+  test('should render a Paragraph with a custom font', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Theme',
+      features: [
+        {
+          name: 'theme',
+          pages: [
+            {
+              name: 'theme',
+              path: '/',
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'Hello world!',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      theme: {
+        fontFamily: {
+          sans: ['"Open Sans"', 'sans-serif'],
+        },
+      },
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
+      return window.getComputedStyle(element).fontFamily
+    })
+    expect(fontFamily).toContain('"Open Sans", sans-serif')
+  })
 })
