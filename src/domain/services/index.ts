@@ -18,6 +18,7 @@ import {
   type Spi as MarkdownParserSpi,
   type Params as MarkdownParserParams,
 } from './MarkdownParser'
+import { Theme, type Spi as ThemeSpi } from './Theme'
 
 export interface Spis {
   components: ReactComponents
@@ -35,6 +36,7 @@ export interface Spis {
   client: () => ClientSpi
   browser: () => BrowserSpi
   templateCompiler: () => TemplateCompilerSpi
+  theme: () => ThemeSpi
 }
 
 export class Services {
@@ -58,7 +60,8 @@ export class Services {
 
   auth = (params: AuthParams) => new Auth(this.spis.auth(params))
 
-  markdownParser = (params: MarkdownParserParams) => new MarkdownParser(this.spis.markdownParser(params))
+  markdownParser = (params: MarkdownParserParams) =>
+    new MarkdownParser(this.spis.markdownParser(params))
 
   schemaValidator = () => new SchemaValidator(this.spis.schemaValidator())
 
@@ -74,4 +77,6 @@ export class Services {
 
   record = () =>
     new Record({ idGenerator: this.idGenerator(), templateCompiler: this.templateCompiler() })
+
+  theme = () => new Theme(this.spis.theme())
 }

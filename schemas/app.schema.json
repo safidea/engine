@@ -2850,12 +2850,6 @@
                                 "type": "string"
                             },
                             "type": "array"
-                        },
-                        "serif": {
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
                         }
                     },
                     "type": "object"

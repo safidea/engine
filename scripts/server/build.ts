@@ -23,6 +23,9 @@ const externals: string[] = [
   'dompurify',
   'marked',
   'jsdom',
+  'postcss',
+  'autoprefixer',
+  'tailwindcss',
 ]
 
 const entrypoints: string[] = [

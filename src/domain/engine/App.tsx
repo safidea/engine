@@ -10,6 +10,7 @@ import type { ConfigError } from '@domain/entities/error/Config'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
+import type { Theme } from '@domain/services/Theme'
 
 interface Params {
   name: string
@@ -23,6 +24,7 @@ interface Params {
   mailer?: Mailer
   realtime?: Realtime
   auth?: Auth
+  theme?: Theme
 }
 
 export class App implements Base {
@@ -51,12 +53,13 @@ export class App implements Base {
 
   start = async ({ isTest = false } = {}): Promise<string> => {
     await this.validateConfig()
-    const { server, database, queue, mailer, realtime, auth } = this.params
+    const { server, database, queue, mailer, realtime, auth, theme } = this.params
     if (database) await database.migrate(this.params.tables)
     if (queue) await queue.start()
     if (mailer) await mailer.verify()
     if (realtime) await realtime.connect(this.params.tables)
     if (auth) await auth.connect()
+    if (theme) await theme.build()
     const url = await server.start()
     if (!isTest && server.env === 'production') {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))

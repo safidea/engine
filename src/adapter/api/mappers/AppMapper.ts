@@ -17,6 +17,7 @@ import type { Mailer as MailerConfig } from '../configs/Mailer'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
+import type { Theme } from '@domain/services/Theme'
 
 export interface Params {
   table?: TableParams
@@ -29,6 +30,7 @@ export interface Params {
   mailer?: Mailer
   realtime?: Realtime
   auth?: Auth
+  theme?: Theme
 }
 
 interface Private {
@@ -38,7 +40,7 @@ interface Private {
 export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
-    const { server, newLogger, database, queue, mailer, realtime, auth } = params
+    const { server, newLogger, database, queue, mailer, realtime, auth, theme } = params
     const tables: Table[] = []
     const pages: Page[] = []
     const automations: Automation[] = []
@@ -97,6 +99,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       mailer,
       realtime,
       auth,
+      theme,
     })
   }
 
@@ -118,6 +121,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const record = services.record()
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
+    const theme = services.theme()
     const markdownParser = services.markdownParser({
       components,
       ui,
@@ -214,6 +218,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       mailer,
       realtime,
       auth,
+      theme,
     })
   }
 

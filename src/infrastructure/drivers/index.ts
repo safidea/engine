@@ -21,6 +21,7 @@ import { RealtimeDriver } from './RealtimeDriver'
 import { AuthDriver } from './AuthDriver'
 import { ClientDriver } from './ClientDriver'
 import { MarkdownParserDriver } from './MarkdownParserDriver'
+import { ThemeDriver } from './ThemeDriver'
 
 export const drivers: Drivers = {
   server: (params: ServerParams) => new ServerDriver(params),
@@ -37,4 +38,5 @@ export const drivers: Drivers = {
   ui: () => new UiDriver(),
   client: () => new ClientDriver(),
   idGenerator: () => new IdGeneratorDriver(),
+  theme: () => new ThemeDriver(),
 }

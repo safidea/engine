@@ -63,6 +63,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.4",
     "ajv": "^8.16.0",
+    "autoprefixer": "^10.4.19",
     "better-sqlite3": "^9.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -75,20 +76,22 @@
     "jsdom": "^24.1.0",
     "jsonwebtoken": "^9.0.2",
     "kysely": "^0.27.3",
-    "marked": "^13.0.1",
+    "marked": "^13.0.2",
     "nanoid": "^5.0.7",
     "nodemailer": "^6.9.14",
     "pg": "^8.12.0",
     "pg-boss": "^9.0.3",
+    "postcss": "^8.4.39",
     "puppeteer": "^22.12.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "storybook": "^8.1.11",
+    "tailwindcss": "^3.4.4",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.0",
-    "@playwright/test": "^1.45.0",
+    "@playwright/test": "^1.45.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^12.0.0",
     "@semantic-release/exec": "^6.0.3",
@@ -104,7 +107,7 @@
     "@storybook/react": "^8.1.11",
     "@storybook/react-vite": "^8.1.11",
     "@storybook/test": "^8.1.11",
-    "@testcontainers/postgresql": "^10.10.0",
+    "@testcontainers/postgresql": "^10.10.1",
     "@types/better-sqlite3": "^7.6.11",
     "@types/bun": "latest",
     "@types/cookie-parser": "^1.4.7",
@@ -134,14 +137,13 @@
     "nodemon": "^3.1.4",
     "prettier": "^3.3.2",
     "semantic-release": "^23.1.1",
-    "tailwindcss": "^3.4.4",
     "typescript-json-schema": "^0.62.0"
   },
   "peerDependencies": {
     "typescript": "^5.1.6"
   },
   "engines": {
-    "bun": "1.1.17",
+    "bun": "1.1.18",
     "node": "20.11.1",
     "npm": "10.2.4"
   },

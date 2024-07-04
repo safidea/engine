@@ -22,11 +22,11 @@ export class HeadMapper {
     const metas = metasConfigs.map((meta) => new Meta(meta))
     metas.push(...client.metas)
     const indexJs = new Script({ src: '/index.js', timestamp })
+    const outputCss = new Link({ href: '/output.css', timestamp })
     const scripts = [
       indexJs,
       ...scriptsConfigs.map((script) => new Script({ ...script, timestamp })),
     ]
-    const outputCss = new Link({ href: '/output.css', timestamp })
     const links = [outputCss, ...linksConfigs.map((link) => new Link({ ...link, timestamp }))]
     return new Head({
       title,

@@ -28,8 +28,8 @@ export class ServerDriver implements Driver {
     this.express.use(cookieParser())
     this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: true }))
-    this.express.use(express.static(join(dirname, 'public')))
     this.express.use(express.static(join(process.cwd(), 'public')))
+    this.express.use(express.static(join(dirname, 'public')))
   }
 
   get = async (path: string, handler: (getDto: GetDto) => Promise<Response>) => {
@@ -95,6 +95,7 @@ export class ServerDriver implements Driver {
       return this.baseUrl
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         return this.start(++retry)
       }
       throw err

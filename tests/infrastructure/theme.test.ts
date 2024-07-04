@@ -26,7 +26,6 @@ test.describe('Theme', () => {
       theme: {
         fontFamily: {
           sans: ['"Open Sans"', 'sans-serif'],
-          serif: ['"Merriweather"', 'serif'],
         },
       },
     }
@@ -35,11 +34,11 @@ test.describe('Theme', () => {
 
     // WHEN
     await page.goto(url)
+
+    // THEN
     const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
-
-    // THEN
     console.log(fontFamily)
     expect(fontFamily).toContain('"Open Sans", sans-serif')
   })
