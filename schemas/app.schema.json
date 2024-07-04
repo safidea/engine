@@ -170,52 +170,6 @@
             ],
             "type": "object"
         },
-        "Auth": {
-            "additionalProperties": false,
-            "properties": {
-                "confirmEmail": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "html": {
-                            "type": "string"
-                        },
-                        "subject": {
-                            "type": "string"
-                        },
-                        "text": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "html",
-                        "subject",
-                        "text"
-                    ],
-                    "type": "object"
-                },
-                "redirectOnLogin": {
-                    "type": "string"
-                },
-                "redirectOnLogout": {
-                    "type": "string"
-                },
-                "secret": {
-                    "type": "string"
-                },
-                "strategy": {
-                    "const": "magic-link",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "confirmEmail",
-                "redirectOnLogin",
-                "redirectOnLogout",
-                "secret",
-                "strategy"
-            ],
-            "type": "object"
-        },
         "Automation": {
             "additionalProperties": false,
             "properties": {
@@ -226,10 +180,10 @@
                     "type": "array"
                 },
                 "database": {
-                    "$ref": "#/definitions/Database"
+                    "$ref": "#/definitions/Config_8"
                 },
                 "mailer": {
-                    "$ref": "#/definitions/Mailer"
+                    "$ref": "#/definitions/Config_9"
                 },
                 "name": {
                     "type": "string"
@@ -704,6 +658,101 @@
             ],
             "type": "object"
         },
+        "Config_10": {
+            "additionalProperties": false,
+            "properties": {
+                "confirmEmail": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "html": {
+                            "type": "string"
+                        },
+                        "subject": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "html",
+                        "subject",
+                        "text"
+                    ],
+                    "type": "object"
+                },
+                "redirectOnLogin": {
+                    "type": "string"
+                },
+                "redirectOnLogout": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "strategy": {
+                    "const": "magic-link",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "confirmEmail",
+                "redirectOnLogin",
+                "redirectOnLogout",
+                "secret",
+                "strategy"
+            ],
+            "type": "object"
+        },
+        "Config_11": {
+            "additionalProperties": false,
+            "properties": {
+                "env": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "sslCert": {
+                    "type": "string"
+                },
+                "sslKey": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Config_12": {
+            "additionalProperties": false,
+            "properties": {
+                "store": {
+                    "const": true,
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "store"
+            ],
+            "type": "object"
+        },
+        "Config_13": {
+            "additionalProperties": false,
+            "properties": {
+                "fontFamily": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "sans": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "Config_2": {
             "additionalProperties": false,
             "properties": {
@@ -902,6 +951,57 @@
             ],
             "type": "object"
         },
+        "Config_8": {
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "url"
+            ],
+            "type": "object"
+        },
+        "Config_9": {
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
         "Container": {
             "additionalProperties": false,
             "properties": {
@@ -1022,22 +1122,6 @@
                 "component",
                 "paragraph",
                 "title"
-            ],
-            "type": "object"
-        },
-        "Database": {
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "type",
-                "url"
             ],
             "type": "object"
         },
@@ -1789,19 +1873,6 @@
             ],
             "type": "object"
         },
-        "Logger": {
-            "additionalProperties": false,
-            "properties": {
-                "store": {
-                    "const": true,
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "store"
-            ],
-            "type": "object"
-        },
         "Logos": {
             "additionalProperties": false,
             "properties": {
@@ -1848,37 +1919,6 @@
             "required": [
                 "name",
                 "type"
-            ],
-            "type": "object"
-        },
-        "Mailer": {
-            "additionalProperties": false,
-            "properties": {
-                "from": {
-                    "type": "string"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "pass": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "secure": {
-                    "type": "boolean"
-                },
-                "user": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "from",
-                "host",
-                "pass",
-                "port",
-                "user"
             ],
             "type": "object"
         },
@@ -2522,24 +2562,6 @@
             ],
             "type": "object"
         },
-        "Server": {
-            "additionalProperties": false,
-            "properties": {
-                "env": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "sslCert": {
-                    "type": "string"
-                },
-                "sslKey": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "Sidebar": {
             "additionalProperties": false,
             "properties": {
@@ -2692,7 +2714,7 @@
             "additionalProperties": false,
             "properties": {
                 "database": {
-                    "$ref": "#/definitions/Database"
+                    "$ref": "#/definitions/Config_8"
                 },
                 "fields": {
                     "items": {
@@ -2839,24 +2861,6 @@
             ],
             "type": "object"
         },
-        "Theme": {
-            "additionalProperties": false,
-            "properties": {
-                "fontFamily": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "sans": {
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "type": "object"
-                }
-            },
-            "type": "object"
-        },
         "Title": {
             "additionalProperties": false,
             "properties": {
@@ -2982,17 +2986,17 @@
     },
     "properties": {
         "auth": {
-            "$ref": "#/definitions/Auth"
+            "$ref": "#/definitions/Config_10"
         },
         "database": {
-            "$ref": "#/definitions/Database"
+            "$ref": "#/definitions/Config_8"
         },
         "features": {
             "items": {
                 "additionalProperties": false,
                 "properties": {
                     "auth": {
-                        "$ref": "#/definitions/Auth"
+                        "$ref": "#/definitions/Config_10"
                     },
                     "automations": {
                         "items": {
@@ -3030,19 +3034,19 @@
             "type": "array"
         },
         "logger": {
-            "$ref": "#/definitions/Logger"
+            "$ref": "#/definitions/Config_12"
         },
         "mailer": {
-            "$ref": "#/definitions/Mailer"
+            "$ref": "#/definitions/Config_9"
         },
         "name": {
             "type": "string"
         },
         "server": {
-            "$ref": "#/definitions/Server"
+            "$ref": "#/definitions/Config_11"
         },
         "theme": {
-            "$ref": "#/definitions/Theme"
+            "$ref": "#/definitions/Config_13"
         }
     },
     "required": [

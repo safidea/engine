@@ -170,52 +170,6 @@
             ],
             "type": "object"
         },
-        "Auth": {
-            "additionalProperties": false,
-            "properties": {
-                "confirmEmail": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "html": {
-                            "type": "string"
-                        },
-                        "subject": {
-                            "type": "string"
-                        },
-                        "text": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "html",
-                        "subject",
-                        "text"
-                    ],
-                    "type": "object"
-                },
-                "redirectOnLogin": {
-                    "type": "string"
-                },
-                "redirectOnLogout": {
-                    "type": "string"
-                },
-                "secret": {
-                    "type": "string"
-                },
-                "strategy": {
-                    "const": "magic-link",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "confirmEmail",
-                "redirectOnLogin",
-                "redirectOnLogout",
-                "secret",
-                "strategy"
-            ],
-            "type": "object"
-        },
         "Automation": {
             "additionalProperties": false,
             "properties": {
@@ -226,10 +180,10 @@
                     "type": "array"
                 },
                 "database": {
-                    "$ref": "#/definitions/Database"
+                    "$ref": "#/definitions/Config_8"
                 },
                 "mailer": {
-                    "$ref": "#/definitions/Mailer"
+                    "$ref": "#/definitions/Config_9"
                 },
                 "name": {
                     "type": "string"
@@ -704,6 +658,52 @@
             ],
             "type": "object"
         },
+        "Config_10": {
+            "additionalProperties": false,
+            "properties": {
+                "confirmEmail": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "html": {
+                            "type": "string"
+                        },
+                        "subject": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "html",
+                        "subject",
+                        "text"
+                    ],
+                    "type": "object"
+                },
+                "redirectOnLogin": {
+                    "type": "string"
+                },
+                "redirectOnLogout": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "strategy": {
+                    "const": "magic-link",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "confirmEmail",
+                "redirectOnLogin",
+                "redirectOnLogout",
+                "secret",
+                "strategy"
+            ],
+            "type": "object"
+        },
         "Config_2": {
             "additionalProperties": false,
             "properties": {
@@ -902,6 +902,57 @@
             ],
             "type": "object"
         },
+        "Config_8": {
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "url"
+            ],
+            "type": "object"
+        },
+        "Config_9": {
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
         "Container": {
             "additionalProperties": false,
             "properties": {
@@ -1022,22 +1073,6 @@
                 "component",
                 "paragraph",
                 "title"
-            ],
-            "type": "object"
-        },
-        "Database": {
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "type",
-                "url"
             ],
             "type": "object"
         },
@@ -1838,37 +1873,6 @@
             ],
             "type": "object"
         },
-        "Mailer": {
-            "additionalProperties": false,
-            "properties": {
-                "from": {
-                    "type": "string"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "pass": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "secure": {
-                    "type": "boolean"
-                },
-                "user": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "from",
-                "host",
-                "pass",
-                "port",
-                "user"
-            ],
-            "type": "object"
-        },
         "Markdown": {
             "additionalProperties": false,
             "properties": {
@@ -2661,7 +2665,7 @@
             "additionalProperties": false,
             "properties": {
                 "database": {
-                    "$ref": "#/definitions/Database"
+                    "$ref": "#/definitions/Config_8"
                 },
                 "fields": {
                     "items": {
@@ -2933,7 +2937,7 @@
     },
     "properties": {
         "auth": {
-            "$ref": "#/definitions/Auth"
+            "$ref": "#/definitions/Config_10"
         },
         "automations": {
             "items": {

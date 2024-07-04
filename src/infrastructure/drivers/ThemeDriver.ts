@@ -1,9 +1,13 @@
-import fs from 'fs-extra'
+import type { Driver } from '@adapter/spi/ThemeSpi'
+import type { Params } from '@domain/services/Theme'
 import postcss from 'postcss'
 import tailwindcss, { type Config } from 'tailwindcss'
 
-export class ThemeDriver {
+export class ThemeDriver implements Driver{
+  constructor(private params: Params) {}
+
   async build() {
+    const config = this.params
     const tailwindConfig: Config = {
       darkMode: 'class',
       content: ['./src/infrastructure/components/**/*.{ts,tsx}'],
@@ -44,7 +48,7 @@ export class ThemeDriver {
           'Segoe UI Symbol',
           'Noto Color Emoji',
         ],
-        sans: [
+        sans: config.fontFamily?.sans ?? [
           'Inter',
           'ui-sans-serif',
           'system-ui',
@@ -73,14 +77,11 @@ export class ThemeDriver {
     `
 
     // Process the CSS with PostCSS and Tailwind
-    const result = await postcss([tailwindcss(tailwindConfig), require('autoprefixer')])
-      .process(inputCss, { from: undefined })
-      .then((result) => result.css)
+    const { css } = await postcss([tailwindcss(tailwindConfig), require('autoprefixer')]).process(
+      inputCss,
+      { from: undefined }
+    )
 
-    // Write the output CSS to a file
-    await fs.ensureDir('./public')
-    await fs.writeFile('./public/output.css', result)
-
-    console.log('CSS generated with the provided theme')
+    return css
   }
 }

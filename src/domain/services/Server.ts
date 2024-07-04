@@ -6,11 +6,14 @@ import { Json } from '../entities/response/Json'
 import type { Patch } from '@domain/entities/request/Patch'
 import type { Delete } from '@domain/entities/request/Delete'
 
-export interface Params {
+export interface Config {
   port?: string
   sslCert?: string
   sslKey?: string
   env?: string
+}
+
+export interface Params extends Config {
   logger: Logger
 }
 

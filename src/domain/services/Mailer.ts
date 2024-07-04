@@ -4,13 +4,16 @@ import type { ToSend } from '../entities/email/ToSend'
 import type { Logger } from './Logger'
 import { Is } from '@domain/entities/filter/Is'
 
-export interface Params {
+export interface Config {
   host: string
   port: string
   user: string
   pass: string
   from: string
   secure?: boolean
+}
+
+export interface Params extends Config {
   logger: Logger
 }
 

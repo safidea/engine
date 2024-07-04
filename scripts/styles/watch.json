@@ -1,6 +1,0 @@
-{
-  "watch": ["src/infrastructure/components"],
-  "ext": "ts,tsx",
-  "ignore": ["dist/", "node_modules/"],
-  "exec": "DEBUG=* bun run build:styles"
-}

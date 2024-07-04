@@ -2,10 +2,14 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
-        "Database": {
+        "Config": {
             "additionalProperties": false,
             "properties": {
                 "type": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
                     "type": "string"
                 },
                 "url": {
@@ -125,7 +129,7 @@
     },
     "properties": {
         "database": {
-            "$ref": "#/definitions/Database"
+            "$ref": "#/definitions/Config"
         },
         "fields": {
             "items": {

@@ -1,6 +1,5 @@
 import { test as base, expect } from '@playwright/test'
 import Logger from '@tests/logger'
-import { nanoid } from 'nanoid'
 
 export const test = base.extend({
   page: async ({ page }, use) => {
@@ -14,9 +13,5 @@ export const test = base.extend({
     await use(page)
   },
 })
-
-export const rootFolder = () => {
-  return process.cwd() + 'tmp/' + nanoid()
-}
 
 export { expect }

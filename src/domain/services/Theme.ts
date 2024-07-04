@@ -1,11 +1,19 @@
+export interface Config {
+  fontFamily?: {
+    sans?: string[]
+  }
+}
+
+export interface Params extends Config {}
+
 export interface Spi {
-  build: () => Promise<void>
+  build: () => Promise<string>
 }
 
 export class Theme {
   constructor(private spi: Spi) {}
 
   async build() {
-    await this.spi.build()
+    return this.spi.build()
   }
 }

@@ -1,13 +1,13 @@
 import type { Spi } from '@domain/services/Theme'
 
 export interface Driver {
-  build: () => Promise<void>
+  build: () => Promise<string>
 }
 
 export class ThemeSpi implements Spi {
   constructor(private driver: Driver) {}
 
   build = async () => {
-    await this.driver.build()
+    return this.driver.build()
   }
 }

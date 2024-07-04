@@ -13,6 +13,7 @@ import type { Params as LoggerParams } from '@domain/services/Logger'
 import type { Params as QueueParams } from '@domain/services/Queue'
 import type { Params as RealtimeParams } from '@domain/services/Realtime'
 import type { Params as AuthParams } from '@domain/services/Auth'
+import type { Params as ThemeParams } from '@domain/services/Theme'
 import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
 import type { Params as MailerParams } from '@domain/services/Mailer'
 import { MailerSpi, type Driver as MailerDriver } from './MailerSpi'
@@ -33,13 +34,13 @@ export interface Drivers {
   realtime: (params: RealtimeParams) => RealtimeDriver
   auth: (params: AuthParams) => AuthDriver
   markdownParser: (params: MarkdownParserParams) => MarkdownParserDriver
+  theme: (params: ThemeParams) => ThemeDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
   ui: () => UiDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
-  theme: () => ThemeDriver
 }
 
 export interface Params {
@@ -71,6 +72,8 @@ export class Spis implements ISpis {
   markdownParser = (params: MarkdownParserParams) =>
     new MarkdownParserSpi(this.params.drivers.markdownParser(params))
 
+  theme = (params: ThemeParams) => new ThemeSpi(this.params.drivers.theme(params))
+
   schemaValidator = () => new SchemaValidatorSpi(this.params.drivers.schemaValidator())
 
   ui = () => new UiSpi(this.params.drivers.ui())
@@ -82,6 +85,4 @@ export class Spis implements ISpis {
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
 
   templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
-
-  theme = () => new ThemeSpi(this.params.drivers.theme())
 }

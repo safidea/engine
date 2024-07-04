@@ -1,5 +1,5 @@
-import type { Database } from '../Database'
-import type { Mailer } from '../Mailer'
+import type { Config as Mailer } from '@domain/services/Mailer'
+import type { Config as Database } from '@domain/services/Database'
 import type { Action } from './action'
 import type { Trigger } from './trigger'
 

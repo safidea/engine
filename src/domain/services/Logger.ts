@@ -1,3 +1,7 @@
+export interface Config {
+  store: true
+}
+
 export interface Params {
   location: string
 }

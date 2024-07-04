@@ -12,6 +12,57 @@
                 }
             ]
         },
+        "Config": {
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
+        "Config_1": {
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "enum": [
+                        "postgres",
+                        "sqlite"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "url"
+            ],
+            "type": "object"
+        },
         "CreateRecord": {
             "additionalProperties": false,
             "properties": {
@@ -41,53 +92,6 @@
                 "fields",
                 "name",
                 "table"
-            ],
-            "type": "object"
-        },
-        "Database": {
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "type",
-                "url"
-            ],
-            "type": "object"
-        },
-        "Mailer": {
-            "additionalProperties": false,
-            "properties": {
-                "from": {
-                    "type": "string"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "pass": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "secure": {
-                    "type": "boolean"
-                },
-                "user": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "from",
-                "host",
-                "pass",
-                "port",
-                "user"
             ],
             "type": "object"
         },
@@ -186,10 +190,10 @@
             "type": "array"
         },
         "database": {
-            "$ref": "#/definitions/Database"
+            "$ref": "#/definitions/Config_1"
         },
         "mailer": {
-            "$ref": "#/definitions/Mailer"
+            "$ref": "#/definitions/Config"
         },
         "name": {
             "type": "string"

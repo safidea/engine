@@ -9,17 +9,20 @@ import { Json } from '@domain/entities/response/Json'
 import type { Get } from '@domain/entities/request/Get'
 import { Redirect } from '@domain/entities/response/Redirect'
 
-export interface Params {
+export interface Config {
   redirectOnLogin: string
   redirectOnLogout: string
   strategy: 'magic-link'
-  from: string
   confirmEmail: {
     subject: string
     text: string
     html: string
   }
   secret: string
+}
+
+export interface Params extends Config {
+  from: string
   database: Database
   server: Server
   mailer: Mailer
