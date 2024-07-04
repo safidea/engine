@@ -1,16 +1,20 @@
 import type { Driver } from '@adapter/spi/ThemeSpi'
 import type { Params } from '@domain/services/Theme'
+import { join } from 'path'
 import postcss from 'postcss'
 import tailwindcss, { type Config } from 'tailwindcss'
 
-export class ThemeDriver implements Driver{
+const dirname = new URL('.', import.meta.url).pathname
+
+export class ThemeDriver implements Driver {
   constructor(private params: Params) {}
 
   async build() {
     const config = this.params
+
     const tailwindConfig: Config = {
       darkMode: 'class',
-      content: ['./src/infrastructure/components/**/*.{ts,tsx}'],
+      content: [join(dirname, '*.js')],
       theme: {
         extend: {
           colors: {
@@ -29,44 +33,26 @@ export class ThemeDriver implements Driver{
             },
           },
         },
+        fontFamily: {
+          sans: config.fontFamily?.sans ?? [
+            'Inter',
+            'ui-sans-serif',
+            'system-ui',
+            '-apple-system',
+            'system-ui',
+            'Segoe UI',
+            'Roboto',
+            'Helvetica Neue',
+            'Arial',
+            'Noto Sans',
+            'sans-serif',
+            'Apple Color Emoji',
+            'Segoe UI Emoji',
+            'Segoe UI Symbol',
+            'Noto Color Emoji',
+          ],
+        },
       },
-      fontFamily: {
-        body: [
-          'Inter',
-          'ui-sans-serif',
-          'system-ui',
-          '-apple-system',
-          'system-ui',
-          'Segoe UI',
-          'Roboto',
-          'Helvetica Neue',
-          'Arial',
-          'Noto Sans',
-          'sans-serif',
-          'Apple Color Emoji',
-          'Segoe UI Emoji',
-          'Segoe UI Symbol',
-          'Noto Color Emoji',
-        ],
-        sans: config.fontFamily?.sans ?? [
-          'Inter',
-          'ui-sans-serif',
-          'system-ui',
-          '-apple-system',
-          'system-ui',
-          'Segoe UI',
-          'Roboto',
-          'Helvetica Neue',
-          'Arial',
-          'Noto Sans',
-          'sans-serif',
-          'Apple Color Emoji',
-          'Segoe UI Emoji',
-          'Segoe UI Symbol',
-          'Noto Color Emoji',
-        ],
-      },
-      plugins: [],
     }
 
     // Define the input CSS with Tailwind directives

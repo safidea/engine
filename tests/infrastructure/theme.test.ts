@@ -35,7 +35,7 @@ test.describe('Theme', () => {
     expect(fileContent).toContain('tailwindcss')
   })
 
-  test.skip('should build the css file with a custom theme', async ({ page }) => {
+  test('should build the css file with a custom font', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
@@ -69,13 +69,7 @@ test.describe('Theme', () => {
     await page.goto(url + '/output.css')
     const fileContent = await page.evaluate(() => document.body.innerText)
 
-    // Log the file content to the console
-    console.log(fileContent)
     // THEN
-    const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
-      return window.getComputedStyle(element).fontFamily
-    })
-    console.log(fontFamily)
-    expect(fontFamily).toContain('"Open Sans", sans-serif')
+    expect(fileContent).toContain('"Open Sans", sans-serif')
   })
 })
