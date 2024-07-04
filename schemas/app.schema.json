@@ -2839,6 +2839,30 @@
             ],
             "type": "object"
         },
+        "Theme": {
+            "additionalProperties": false,
+            "properties": {
+                "fontFamily": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "sans": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "serif": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "Title": {
             "additionalProperties": false,
             "properties": {
@@ -3022,6 +3046,9 @@
         },
         "server": {
             "$ref": "#/definitions/Server"
+        },
+        "theme": {
+            "$ref": "#/definitions/Theme"
         }
     },
     "required": [

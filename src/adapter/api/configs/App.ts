@@ -4,6 +4,7 @@ import type { Feature } from './Feature'
 import type { Mailer } from './Mailer'
 import type { Server } from './Server'
 import type { Logger } from './Logger'
+import type { Theme } from './Theme'
 
 export interface App {
   name: string
@@ -13,6 +14,7 @@ export interface App {
   mailer?: Mailer
   auth?: Auth
   logger?: Logger
+  theme?: Theme
 }
 
 export type AppSchema = App
