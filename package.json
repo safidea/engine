@@ -41,6 +41,7 @@
     "build:types": "bun run scripts/types/build.ts",
     "build:schemas": "bun run scripts/schemas/build.ts",
     "build:utils": "bun run scripts/utils/build.ts",
+    "build:css": "bunx tailwindcss -i ./.storybook/input.css -o ./dist/output.css",
     "build": "concurrently \"npm run build:client\" \"npm run build:server\" \"npm run build:types\" \"npm run build:utils\"",
     "watch:server": "nodemon --config scripts/server/watch.json",
     "watch:client": "nodemon --config scripts/client/watch.json",
@@ -52,7 +53,7 @@
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui",
     "prepare": "husky install",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "bun run build:css && storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release"
   },

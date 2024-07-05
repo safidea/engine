@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react'
 
-import '../dist/public/output.css'
+import '../dist/output.css'
 import '../dist/public/index.js'
 
 const preview: Preview = {
