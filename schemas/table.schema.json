@@ -6,10 +6,6 @@
             "additionalProperties": false,
             "properties": {
                 "type": {
-                    "enum": [
-                        "postgres",
-                        "sqlite"
-                    ],
                     "type": "string"
                 },
                 "url": {

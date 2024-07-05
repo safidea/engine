@@ -6,6 +6,44 @@ import { PostgreSqlContainer } from '@testcontainers/postgresql'
 test.describe('Database', () => {
   test.slow()
 
+  test('should throw an error if database type is not valid', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'Database',
+      features: [
+        {
+          name: 'start',
+          tables: [
+            {
+              name: 'users',
+              fields: [
+                {
+                  name: 'email',
+                  type: 'SingleLineText',
+                },
+                {
+                  name: 'password',
+                  type: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      database: {
+        url: 'https://example.com',
+        type: 'invalid',
+      },
+    }
+    const app = new App()
+
+    // WHEN
+    const call = async () => await app.start(config)
+
+    // THEN
+    await expect(call()).rejects.toThrow('Database invalid not supported')
+  })
+
   test('should start with a new table', async () => {
     // GIVEN
     const database = new Database()

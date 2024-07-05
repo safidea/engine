@@ -142,9 +142,12 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
+    const { type: databaseType, url: databaseUrl } = config.database ?? {}
+    if (databaseType && databaseType !== 'sqlite' && databaseType !== 'postgres')
+      throw new Error(`Database ${config.database?.type} not supported`)
     const databaseConfig: DatabaseConfig = {
-      url: config.database?.url ?? ':memory:',
-      type: config.database?.type === 'postgres' ? 'postgres' : 'sqlite',
+      url: databaseUrl ?? ':memory:',
+      type: databaseType === 'postgres' ? 'postgres' : 'sqlite',
     }
     const mailerConfig: MailerConfig = {
       host:
