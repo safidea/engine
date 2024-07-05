@@ -1,3 +1,10 @@
+## [0.17.4](https://github.com/safidea/engine/compare/v0.17.3...v0.17.4) (2024-07-05)
+
+
+### Bug Fixes
+
+* **database:** add green test 'should throw an error if database type is not valid' ([19cf404](https://github.com/safidea/engine/commit/19cf40401482741ab888b27b6206623a6411b0be))
+
 ## [0.17.3](https://github.com/safidea/engine/compare/v0.17.2...v0.17.3) (2024-07-05)
 
 
