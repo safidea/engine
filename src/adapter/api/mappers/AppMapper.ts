@@ -120,6 +120,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const record = services.record()
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
+    const iconLibrary = services.iconLibrary()
     const theme = services.theme({
       ...(config.theme ?? {}),
     })
@@ -169,6 +170,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         realtime,
         templateCompiler,
         markdownParser,
+        iconLibrary,
       }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {

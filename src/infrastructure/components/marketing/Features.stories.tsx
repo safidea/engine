@@ -3,6 +3,13 @@ import { Features } from './Features'
 import { Title } from '../content/Title'
 import { Paragraph } from '../content/Paragraph'
 import { Icon } from '../content/Icon'
+import type { BaseProps } from '@domain/engine/page/component/base/base'
+import {
+  BanknotesIcon,
+  ChartBarSquareIcon,
+  ChatBubbleLeftEllipsisIcon,
+  ComputerDesktopIcon,
+} from '@heroicons/react/24/outline'
 
 const meta = {
   title: 'Marketing/Features',
@@ -33,7 +40,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon name="ChartBarSquare" {...props} />,
+        Icon: () => <Icon Icon={(props: BaseProps) => <ChartBarSquareIcon {...props} />} />,
       },
       {
         Title: (props) => <Title text="Sales" {...props} />,
@@ -43,7 +50,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon name="Banknotes" {...props} />,
+        Icon: () => <Icon Icon={(props: BaseProps) => <BanknotesIcon {...props} />} />,
       },
       {
         Title: (props) => <Title text="Customer Success" {...props} />,
@@ -53,7 +60,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon name="ChatBubbleLeftEllipsis" {...props} />,
+        Icon: () => <Icon Icon={(props: BaseProps) => <ChatBubbleLeftEllipsisIcon {...props} />} />,
       },
       {
         Title: (props) => <Title text="Product" {...props} />,
@@ -63,7 +70,7 @@ export const Default: Story = {
             {...props}
           />
         ),
-        Icon: (props) => <Icon name="ComputerDesktop" {...props} />,
+        Icon: () => <Icon Icon={(props: BaseProps) => <ComputerDesktopIcon {...props} />} />,
       },
     ],
   },

@@ -65,6 +65,7 @@ import type { Config as DividerConfig } from '@adapter/api/configs/page/Componen
 import type { Config as SpacerConfig } from '@adapter/api/configs/page/Component/content/Spacer'
 import type { Config as MarkdownConfig } from '@adapter/api/configs/page/Component/content/Markdown'
 import type { Config as GridConfig } from '@adapter/api/configs/page/Component/layout/Grid'
+import type { IconLibrary } from '@domain/services/IconLibrary'
 
 export interface Params {
   components: ReactComponents
@@ -75,6 +76,7 @@ export interface Params {
   realtime?: Realtime
   templateCompiler: TemplateCompiler
   markdownParser: MarkdownParser
+  iconLibrary: IconLibrary
 }
 
 export class ComponentMapper {
@@ -109,7 +111,8 @@ export class ComponentMapper {
   }
 
   static toIconEntity = (config: IconConfig, params: Params): Icon => {
-    return new Icon({ ...config, Component: params.components.Icon })
+    const { iconLibrary } = params
+    return new Icon({ ...config, iconLibrary, Component: params.components.Icon })
   }
 
   static toLinkEntity = (config: LinkConfig, params: Params): Link => {

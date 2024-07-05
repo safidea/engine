@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Icon } from './Icon'
+import { HomeIcon } from '@heroicons/react/24/outline'
+import type { BaseProps } from '@domain/engine/page/component/base/base'
 
 const meta = {
   title: 'Content/Icon',
@@ -11,6 +13,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    name: 'Home',
+    Icon: (props: BaseProps) => <HomeIcon {...props} />,
   },
 }

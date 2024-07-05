@@ -24,6 +24,7 @@ import { ClientSpi, type Driver as ClientDriver } from './ClientSpi'
 import { MarkdownParserSpi, type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
 import { ThemeSpi, type Driver as ThemeDriver } from './ThemeSpi'
 import type { Params as MarkdownParserParams } from '@domain/services/MarkdownParser'
+import { IconLibrarySpi, type Driver as IconLibraryDriver } from './IconLibrarySpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -41,6 +42,7 @@ export interface Drivers {
   ui: () => UiDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
+  iconLibrary: () => IconLibraryDriver
 }
 
 export interface Params {
@@ -85,4 +87,6 @@ export class Spis implements ISpis {
   idGenerator = () => new IdGeneratorSpi(this.params.drivers.idGenerator())
 
   templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
+
+  iconLibrary = () => new IconLibrarySpi(this.params.drivers.iconLibrary())
 }

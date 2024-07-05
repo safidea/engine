@@ -19,6 +19,7 @@ import {
   type Params as MarkdownParserParams,
 } from './MarkdownParser'
 import { Theme, type Params as ThemeParams, type Spi as ThemeSpi } from './Theme'
+import { IconLibrary, type Spi as IconLibrarySpi } from './IconLibrary'
 
 export interface Spis {
   components: ReactComponents
@@ -37,6 +38,7 @@ export interface Spis {
   client: () => ClientSpi
   browser: () => BrowserSpi
   templateCompiler: () => TemplateCompilerSpi
+  iconLibrary: () => IconLibrarySpi
 }
 
 export class Services {
@@ -76,6 +78,8 @@ export class Services {
   idGenerator = () => new IdGenerator(this.spis.idGenerator())
 
   templateCompiler = () => new TemplateCompiler(this.spis.templateCompiler())
+
+  iconLibrary = () => new IconLibrary(this.spis.iconLibrary())
 
   record = () =>
     new Record({ idGenerator: this.idGenerator(), templateCompiler: this.templateCompiler() })

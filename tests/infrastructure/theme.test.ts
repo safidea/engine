@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Theme', () => {
-  test('should return a css file', async ({ page }) => {
+  test('should load the output css file', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
@@ -67,9 +67,9 @@ test.describe('Theme', () => {
 
     // WHEN
     await page.goto(url + '/output.css')
-    const fileContent = await page.evaluate(() => document.body.innerText)
 
     // THEN
+    const fileContent = await page.evaluate(() => document.body.innerText)
     expect(fileContent).toContain('"Open Sans", sans-serif')
   })
 

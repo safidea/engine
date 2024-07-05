@@ -23,6 +23,7 @@ import { ClientDriver } from './ClientDriver'
 import { MarkdownParserDriver } from './MarkdownParserDriver'
 import { ThemeDriver } from './ThemeDriver'
 import type { Params } from '@domain/services/Theme'
+import { IconLibraryDriver } from './IconLibraryDriver'
 
 export const drivers: Drivers = {
   server: (params: ServerParams) => new ServerDriver(params),
@@ -40,4 +41,5 @@ export const drivers: Drivers = {
   client: () => new ClientDriver(),
   idGenerator: () => new IdGeneratorDriver(),
   theme: (params: Params) => new ThemeDriver(params),
+  iconLibrary: () => new IconLibraryDriver(),
 }
