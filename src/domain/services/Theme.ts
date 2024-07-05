@@ -17,12 +17,12 @@ export interface Spi {
 export class Theme {
   constructor(private spi: Spi) {}
 
-  fonts(): (Serif | SansSerif)[] {
+  fonts = (): string[] => {
     const { sans = [], serif = [] } = this.spi.params.fontFamily || {}
-    return [...sans, ...serif]
+    return [...sans, ...serif].map((f) => f.replace(' ', ''))
   }
 
-  async build() {
+  build = async () => {
     return this.spi.build()
   }
 }

@@ -1,6 +1,4 @@
-export type Name = SansSerif | Serif;
-
-export type SansSerif = 
+export type SansSerif =
   | 'Roboto'
   | 'Open Sans'
   | 'Lato'
@@ -34,9 +32,9 @@ export type SansSerif =
   | 'Varela Round'
   | 'Lexend Deca'
   | 'Public Sans'
-  | 'Space Grotesk';
+  | 'Space Grotesk'
 
-export type Serif = 
+export type Serif =
   | 'Roboto Slab'
   | 'Merriweather'
   | 'Lora'
@@ -63,4 +61,4 @@ export type Serif =
   | 'Inknut Antiqua'
   | 'Gentium Basic'
   | 'Maitree'
-  | 'Spectral';
+  | 'Spectral'
