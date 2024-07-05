@@ -14,7 +14,6 @@ import type { Ui } from '@domain/services/Ui'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { MarkdownParser } from '@domain/services/MarkdownParser'
 import type { IconLibrary } from '@domain/services/IconLibrary'
-import type { Theme } from '@domain/services/Theme'
 
 export interface Params {
   server: Server
@@ -27,7 +26,6 @@ export interface Params {
   realtime?: Realtime
   markdownParser: MarkdownParser
   iconLibrary: IconLibrary
-  theme: Theme
 }
 
 export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
@@ -44,7 +42,6 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       templateCompiler,
       markdownParser,
       iconLibrary,
-      theme,
     } = params
     const logger = newLogger(`page:${config.name}`)
     const body = ComponentMapper.toManyEntities(config.body, {
@@ -58,7 +55,7 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       markdownParser,
       iconLibrary,
     })
-    const head = HeadMapper.toEntity(config.head ?? {}, { client, theme })
+    const head = HeadMapper.toEntity(config.head ?? {}, { client })
     return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
   }
 
@@ -79,7 +76,6 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       ui,
     })
     const iconLibrary = services.iconLibrary()
-    const theme = services.theme({})
     const newLogger = (location: string) => services.logger({ location })
     return this.toEntity(config, {
       server,
@@ -91,7 +87,6 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
       templateCompiler,
       markdownParser,
       iconLibrary,
-      theme,
     })
   }
 

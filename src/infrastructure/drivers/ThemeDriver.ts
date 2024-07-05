@@ -9,7 +9,7 @@ const dirname = new URL('.', import.meta.url).pathname
 export class ThemeDriver implements Driver {
   constructor(public params: Params) {}
 
-  async build() {
+  build = async (fontsCss: string[]) => {
     const { fontFamily } = this.params
     const theme: Config['theme'] = {}
 
@@ -30,11 +30,19 @@ export class ThemeDriver implements Driver {
     }
 
     // Define the input CSS with Tailwind directives
-    const inputCss = `
+    let inputCss = `
     @tailwind base;
     @tailwind components;
     @tailwind utilities;
     `
+
+    if (fontsCss.length > 0) {
+      inputCss += `
+      @layer base {
+        ${fontsCss.join('\n\n')}
+      }
+      `
+    }
 
     // Process the CSS with PostCSS and Tailwind
     const { css } = await postcss([tailwindcss(tailwindConfig), require('autoprefixer')]).process(

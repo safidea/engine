@@ -15,10 +15,6 @@ export interface Spi {
 export class FontLibrary {
   constructor(private spi: Spi) {}
 
-  fontsPath = (names: string[]): string[] => {
-    return names.map((name) => `/fonts/${name}`)
-  }
-
   extractTypeFromUrl = (url: string): Type => {
     const type = url.split('.').pop()
     if (!type) throw new Error(`Failed to parse font type: ${url}`)

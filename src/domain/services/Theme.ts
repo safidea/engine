@@ -1,4 +1,7 @@
 import type { SansSerif, Serif } from '@domain/libraries/Font'
+import type { Server } from './Server'
+import type { FontLibrary } from './FontLibrary'
+import { Css } from '@domain/entities/response/Css'
 
 export interface Config {
   fontFamily?: {
@@ -7,22 +10,31 @@ export interface Config {
   }
 }
 
-export interface Params extends Config {}
+export interface Params extends Config {
+  server: Server
+  fontLibrary: FontLibrary
+}
 
 export interface Spi {
   params: Params
-  build: () => Promise<string>
+  build: (fontsCss: string[]) => Promise<string>
 }
 
 export class Theme {
   constructor(private spi: Spi) {}
 
-  encodedFonts = (): string[] => {
-    const { sans = [], serif = [] } = this.spi.params.fontFamily || {}
-    return [...sans, ...serif].map((f) => encodeURIComponent(f))
-  }
-
-  build = async () => {
-    return this.spi.build()
+  init = async () => {
+    const { server, fontLibrary, fontFamily = {} } = this.spi.params
+    const { sans = [], serif = [] } = fontFamily
+    const fonts = [...sans, ...serif].map((f) => encodeURIComponent(f))
+    const fontsCss = []
+    if (fonts.length > 0) {
+      for (const font of fonts) {
+        const css = await fontLibrary.loadCss(font)
+        fontsCss.push(css)
+      }
+    }
+    const css = await this.spi.build(fontsCss)
+    await server.get('/output.css', async () => new Css(css))
   }
 }
