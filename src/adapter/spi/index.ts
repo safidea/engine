@@ -25,6 +25,7 @@ import { MarkdownParserSpi, type Driver as MarkdownParserDriver } from './Markdo
 import { ThemeSpi, type Driver as ThemeDriver } from './ThemeSpi'
 import type { Params as MarkdownParserParams } from '@domain/services/MarkdownParser'
 import { IconLibrarySpi, type Driver as IconLibraryDriver } from './IconLibrarySpi'
+import { FontLibrarySpi, type Driver as FontLibraryDriver } from './FontLibrarySpi'
 
 export interface Drivers {
   server: (params: ServerParams) => ServerDriver
@@ -43,6 +44,7 @@ export interface Drivers {
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
   iconLibrary: () => IconLibraryDriver
+  fontLibrary: () => FontLibraryDriver
 }
 
 export interface Params {
@@ -89,4 +91,6 @@ export class Spis implements ISpis {
   templateCompiler = () => new TemplateCompilerSpi(this.params.drivers.templateCompiler())
 
   iconLibrary = () => new IconLibrarySpi(this.params.drivers.iconLibrary())
+
+  fontLibrary = () => new FontLibrarySpi(this.params.drivers.fontLibrary())
 }

@@ -17,6 +17,7 @@ import type { Mailer, Config as MailerConfig } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
+import type { FontLibrary } from '@domain/services/FontLibrary'
 
 export interface Params {
   table?: TableParams
@@ -30,6 +31,7 @@ export interface Params {
   realtime?: Realtime
   auth?: Auth
   theme: Theme
+  fontLibrary: FontLibrary
 }
 
 interface Private {
@@ -39,7 +41,8 @@ interface Private {
 export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
     const { name, features } = config
-    const { server, newLogger, database, queue, mailer, realtime, auth, theme } = params
+    const { server, newLogger, database, queue, mailer, realtime, auth, theme, fontLibrary } =
+      params
     const tables: Table[] = []
     const pages: Page[] = []
     const automations: Automation[] = []
@@ -99,6 +102,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       realtime,
       auth,
       theme,
+      fontLibrary,
     })
   }
 
@@ -121,6 +125,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
     const iconLibrary = services.iconLibrary()
+    const fontLibrary = services.fontLibrary()
     const theme = services.theme({
       ...(config.theme ?? {}),
     })
@@ -171,6 +176,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         templateCompiler,
         markdownParser,
         iconLibrary,
+        theme,
       }
     }
     if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
@@ -222,6 +228,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       realtime,
       auth,
       theme,
+      fontLibrary,
     })
   }
 

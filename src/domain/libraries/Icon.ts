@@ -1,4 +1,4 @@
-export type IconName =
+export type Name =
   | 'AcademicCap'
   | 'AdjustmentsHorizontal'
   | 'AdjustmentsVertical'

@@ -25,7 +25,7 @@ test.describe('Font Library', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['"Open Sans"', 'sans-serif'],
+          sans: ['Open Sans'],
         },
       },
     }

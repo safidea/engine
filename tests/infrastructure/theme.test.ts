@@ -58,7 +58,7 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['"Open Sans"', 'sans-serif'],
+          sans: ['Open Sans'],
         },
       },
     }
@@ -96,7 +96,7 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['"Open Sans"', 'sans-serif'],
+          sans: ['Open Sans'],
         },
       },
     }

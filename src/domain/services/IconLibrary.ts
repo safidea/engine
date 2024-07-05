@@ -1,18 +1,18 @@
-import type { IconName } from '@domain/libraries/Icon'
+import type { Name } from '@domain/libraries/Icon'
 
 export interface Spi {
-  outline: (name: IconName) => React.FC
-  solid: (name: IconName) => React.FC
+  outline: (name: Name) => React.FC
+  solid: (name: Name) => React.FC
 }
 
 export class IconLibrary {
   constructor(private spi: Spi) {}
 
-  outline(name: IconName) {
+  outline = (name: Name) => {
     return this.spi.outline(name)
   }
 
-  solid(name: IconName) {
+  solid = (name: Name) => {
     return this.spi.solid(name)
   }
 }

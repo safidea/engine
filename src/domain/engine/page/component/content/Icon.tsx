@@ -1,13 +1,13 @@
 import type { IconLibrary } from '@domain/services/IconLibrary'
 import type { ReactComponent, Base, BaseProps } from '../base/base'
-import type { IconName } from '@domain/libraries/Icon'
+import type { Name } from '@domain/libraries/Icon'
 
 export interface Props extends BaseProps {
   Icon: React.FC<BaseProps>
 }
 
 interface Params extends BaseProps {
-  name: IconName
+  name: Name
   Component: ReactComponent<Props>
   iconLibrary: IconLibrary
 }

@@ -12,6 +12,7 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
 import { Css } from '@domain/entities/response/Css'
+import type { FontLibrary } from '@domain/services/FontLibrary'
 
 interface Params {
   name: string
@@ -21,6 +22,7 @@ interface Params {
   logger: Logger
   server: Server
   theme: Theme
+  fontLibrary: FontLibrary
   database?: Database
   queue?: Queue
   mailer?: Mailer
@@ -36,9 +38,16 @@ export class App implements Base {
   }
 
   init = async () => {
-    const { tables, pages, automations, theme, server } = this.params
+    const { tables, pages, automations, theme, server, fontLibrary } = this.params
     const css = await theme.build()
     await server.get('/output.css', async () => new Css(css))
+    const fonts = theme.fonts()
+    if (fonts.length > 0) {
+      for (const font of fonts) {
+        const css = await fontLibrary.load(font)
+        await server.get(`/fonts/${font}.css`, async () => new Css(css))
+      }
+    }
     for (const table of tables) await table.init()
     for (const automation of automations) await automation.init()
     for (const page of pages) await page.init()
