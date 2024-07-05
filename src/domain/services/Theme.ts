@@ -17,9 +17,9 @@ export interface Spi {
 export class Theme {
   constructor(private spi: Spi) {}
 
-  fonts = (): string[] => {
+  encodedFonts = (): string[] => {
     const { sans = [], serif = [] } = this.spi.params.fontFamily || {}
-    return [...sans, ...serif].map((f) => f.replace(' ', ''))
+    return [...sans, ...serif].map((f) => encodeURIComponent(f))
   }
 
   build = async () => {

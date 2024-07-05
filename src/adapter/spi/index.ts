@@ -14,6 +14,7 @@ import type { Params as QueueParams } from '@domain/services/Queue'
 import type { Params as RealtimeParams } from '@domain/services/Realtime'
 import type { Params as AuthParams } from '@domain/services/Auth'
 import type { Params as ThemeParams } from '@domain/services/Theme'
+import type { Params as FontLibraryParams } from '@domain/services/FontLibrary'
 import { QueueSpi, type Driver as QueueDriver } from './QueueSpi'
 import type { Params as MailerParams } from '@domain/services/Mailer'
 import { MailerSpi, type Driver as MailerDriver } from './MailerSpi'
@@ -44,7 +45,7 @@ export interface Drivers {
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
   iconLibrary: () => IconLibraryDriver
-  fontLibrary: () => FontLibraryDriver
+  fontLibrary: (params: FontLibraryParams) => FontLibraryDriver
 }
 
 export interface Params {
@@ -92,5 +93,6 @@ export class Spis implements ISpis {
 
   iconLibrary = () => new IconLibrarySpi(this.params.drivers.iconLibrary())
 
-  fontLibrary = () => new FontLibrarySpi(this.params.drivers.fontLibrary())
+  fontLibrary = (params: FontLibraryParams) =>
+    new FontLibrarySpi(this.params.drivers.fontLibrary(params))
 }

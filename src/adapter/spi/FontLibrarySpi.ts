@@ -1,13 +1,18 @@
-import type { Spi } from '@domain/services/FontLibrary'
+import type { Params, Spi } from '@domain/services/FontLibrary'
 
 export interface Driver {
-  load: (name: string) => Promise<string>
+  params: Params
+  loadCss: (name: string) => Promise<string>
 }
 
 export class FontLibrarySpi implements Spi {
   constructor(private driver: Driver) {}
 
-  load = async (name: string) => {
-    return this.driver.load(name)
+  get params() {
+    return this.driver.params
+  }
+
+  loadCss = async (name: string) => {
+    return this.driver.loadCss(name)
   }
 }

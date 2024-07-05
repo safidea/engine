@@ -41,10 +41,10 @@ export class App implements Base {
     const { tables, pages, automations, theme, server, fontLibrary } = this.params
     const css = await theme.build()
     await server.get('/output.css', async () => new Css(css))
-    const fonts = theme.fonts()
+    const fonts = theme.encodedFonts()
     if (fonts.length > 0) {
       for (const font of fonts) {
-        const css = await fontLibrary.load(font)
+        const css = await fontLibrary.loadCss(font)
         await server.get(`/fonts/${font}.css`, async () => new Css(css))
       }
     }

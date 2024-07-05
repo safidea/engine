@@ -7,6 +7,8 @@ import type { Params as MailerParams } from '@domain/services/Mailer'
 import type { Params as RealtimeParams } from '@domain/services/Realtime'
 import type { Params as AuthParams } from '@domain/services/Auth'
 import type { Params as MarkdownParserParams } from '@domain/services/MarkdownParser'
+import type { Params as ThemeParams } from '@domain/services/Theme'
+import type { Params as FontLibraryParams } from '@domain/services/FontLibrary'
 import { SchemaValidatorDriver } from './SchemaValidatorDriver'
 import { BrowserDriver } from './BrowserDriver'
 import { ServerDriver } from './ServerDriver'
@@ -22,7 +24,6 @@ import { AuthDriver } from './AuthDriver'
 import { ClientDriver } from './ClientDriver'
 import { MarkdownParserDriver } from './MarkdownParserDriver'
 import { ThemeDriver } from './ThemeDriver'
-import type { Params } from '@domain/services/Theme'
 import { IconLibraryDriver } from './IconLibraryDriver'
 import { FontLibraryDriver } from './FontLibraryDriver'
 
@@ -41,7 +42,7 @@ export const drivers: Drivers = {
   ui: () => new UiDriver(),
   client: () => new ClientDriver(),
   idGenerator: () => new IdGeneratorDriver(),
-  theme: (params: Params) => new ThemeDriver(params),
+  theme: (params: ThemeParams) => new ThemeDriver(params),
   iconLibrary: () => new IconLibraryDriver(),
-  fontLibrary: () => new FontLibraryDriver(),
+  fontLibrary: (params: FontLibraryParams) => new FontLibraryDriver(params),
 }

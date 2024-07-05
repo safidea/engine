@@ -1,8 +1,8 @@
 import { Base } from './base'
 
 export class Redirect extends Base {
-  constructor(body: string) {
-    super({ body, status: 302 })
+  constructor(url: string) {
+    super({ url, status: 302 })
   }
 }
 

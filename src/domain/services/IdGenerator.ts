@@ -3,17 +3,23 @@ export interface Spi {
 }
 
 export class IdGenerator {
+  private alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
   constructor(private spi: Spi) {}
 
   forRecord = () => {
-    return this.spi.generate(24, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    return this.spi.generate(24, this.alphabet)
   }
 
   forComponent = () => {
-    return this.spi.generate(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    return this.spi.generate(12, this.alphabet)
   }
 
   forListener = () => {
-    return this.spi.generate(12, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    return this.spi.generate(12, this.alphabet)
+  }
+
+  forPath = () => {
+    return this.spi.generate(8, this.alphabet)
   }
 }

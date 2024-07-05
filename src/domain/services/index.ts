@@ -20,7 +20,11 @@ import {
 } from './MarkdownParser'
 import { Theme, type Params as ThemeParams, type Spi as ThemeSpi } from './Theme'
 import { IconLibrary, type Spi as IconLibrarySpi } from './IconLibrary'
-import { FontLibrary, type Spi as FontLibrarySpi } from './FontLibrary'
+import {
+  FontLibrary,
+  type Spi as FontLibrarySpi,
+  type Params as FontLibraryParams,
+} from './FontLibrary'
 
 export interface Spis {
   components: ReactComponents
@@ -40,7 +44,7 @@ export interface Spis {
   browser: () => BrowserSpi
   templateCompiler: () => TemplateCompilerSpi
   iconLibrary: () => IconLibrarySpi
-  fontLibrary: () => FontLibrarySpi
+  fontLibrary: (params: FontLibraryParams) => FontLibrarySpi
 }
 
 export class Services {
@@ -83,7 +87,7 @@ export class Services {
 
   iconLibrary = () => new IconLibrary(this.spis.iconLibrary())
 
-  fontLibrary = () => new FontLibrary(this.spis.fontLibrary())
+  fontLibrary = (params: FontLibraryParams) => new FontLibrary(this.spis.fontLibrary(params))
 
   record = () =>
     new Record({ idGenerator: this.idGenerator(), templateCompiler: this.templateCompiler() })

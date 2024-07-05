@@ -121,7 +121,7 @@ export class ServerDriver implements Driver {
   }
 
   private returnResponse = (res: express.Response, req: express.Request, response: Response) => {
-    const { status, headers, body } = response
+    const { status, headers, body, url } = response
     if (response instanceof Stream) {
       res.status(status).set(headers)
       response.onEvent = (event: string) => {
@@ -131,7 +131,7 @@ export class ServerDriver implements Driver {
       req.socket.on('close', () => response.close())
     } else if (response instanceof Redirect) {
       // https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission
-      res.redirect(303, body)
+      res.redirect(303, url)
     } else {
       res.status(status).set(headers).send(body)
     }

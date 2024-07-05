@@ -125,7 +125,10 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
     const idGenerator = services.idGenerator()
     const templateCompiler = services.templateCompiler()
     const iconLibrary = services.iconLibrary()
-    const fontLibrary = services.fontLibrary()
+    const fontLibrary = services.fontLibrary({
+      server,
+      idGenerator,
+    })
     const theme = services.theme({
       ...(config.theme ?? {}),
     })

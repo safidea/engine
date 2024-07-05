@@ -21,7 +21,7 @@ export class HeadMapper {
       scripts: scriptsConfigs = [],
     } = config
     const timestamp = +new Date()
-    const fonts = theme.fonts()
+    const fonts = theme.encodedFonts()
     if (fonts.length > 0) {
       fonts.forEach((font) => {
         linksConfigs.unshift({ href: `/fonts/${font}.css` })
