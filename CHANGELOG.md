@@ -1,3 +1,10 @@
+## [0.17.1](https://github.com/safidea/engine/compare/v0.17.0...v0.17.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **theme:** refactor font css building in the output.css ([757fd32](https://github.com/safidea/engine/commit/757fd32c2cf7818a6ef728c9674492de6be7fbe6))
+
 # [0.17.0](https://github.com/safidea/engine/compare/v0.16.1...v0.17.0) (2024-07-05)
 
 
