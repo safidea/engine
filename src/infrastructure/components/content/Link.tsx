@@ -1,5 +1,5 @@
 import type { Props } from '@domain/engine/page/component'
-import { classNames } from '../utils'
+import { classNames, getFontClasses } from '../utils'
 
 export const Link = ({
   id,
@@ -9,6 +9,7 @@ export const Link = ({
   PrefixIcon,
   SuffixIcon,
   active,
+  font,
 }: Props['Link']) => {
   const labelClass = classNames(PrefixIcon ? 'ml-3' : '', SuffixIcon ? 'mr-3' : '')
   const iconClass =
@@ -21,7 +22,7 @@ export const Link = ({
     <a
       id={id}
       href={href}
-      className={classNames(linkClass, className)}
+      className={classNames(linkClass, getFontClasses(font), className)}
       data-active={active}
       data-component="Link"
     >

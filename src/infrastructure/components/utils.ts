@@ -63,7 +63,7 @@ export function getRoundedClasses(roundedSize: RoundedSize) {
   }
 }
 
-export function getFontClasses(font: Font) {
+export function getFontClasses(font?: Font) {
   switch (font) {
     case 'sans':
       return 'font-sans'
@@ -71,5 +71,7 @@ export function getFontClasses(font: Font) {
       return 'font-serif'
     case 'mono':
       return 'font-mono'
+    default:
+      return ''
   }
 }

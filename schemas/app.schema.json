@@ -773,6 +773,14 @@
                 "className": {
                     "type": "string"
                 },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -866,6 +874,14 @@
                     "type": "boolean"
                 },
                 "className": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
                     "type": "string"
                 },
                 "href": {
@@ -1830,6 +1846,14 @@
                     "const": "Link",
                     "type": "string"
                 },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
                 "href": {
                     "type": "string"
                 },
@@ -1947,6 +1971,14 @@
                     "type": "string"
                 },
                 "content": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
                     "type": "string"
                 },
                 "id": {
@@ -2982,6 +3014,14 @@
                 },
                 "component": {
                     "const": "Title",
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
                     "type": "string"
                 },
                 "id": {

@@ -14,7 +14,7 @@ export const Paragraph = ({
   size = 'md',
   className = '',
   children,
-  font = 'sans',
+  font,
 }: Props['Paragraph']) => {
   return (
     <p

@@ -1,5 +1,5 @@
 import type { Props } from '@domain/engine/page/component'
-import { classNames, getTextAlignClasses } from '../utils'
+import { classNames, getFontClasses, getTextAlignClasses } from '../utils'
 import type { Size } from '@domain/engine/page/component/base/base'
 
 export const Title = ({
@@ -8,9 +8,11 @@ export const Title = ({
   align = 'left',
   className = '',
   heading = getDefaultHeading(size),
+  font,
 }: Props['Title']) => {
   const classes = classNames(
     'font-bold text-gray-900',
+    getFontClasses(font),
     getTextSizeClasses(size),
     getMarginBottomClasses(size, className),
     getTextAlignClasses(align),

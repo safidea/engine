@@ -1,6 +1,6 @@
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { Icon } from './Icon'
-import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { ReactComponent, Base, BaseProps, Font } from '../base/base'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {
@@ -9,6 +9,7 @@ export interface Props extends BaseProps {
   active?: boolean
   PrefixIcon?: React.FC<BaseProps>
   SuffixIcon?: React.FC<BaseProps>
+  font?: Font
 }
 
 interface Params extends Omit<Props, 'PrefixIcon' | 'SuffixIcon'> {
