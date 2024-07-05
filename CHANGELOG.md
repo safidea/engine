@@ -1,3 +1,10 @@
+## [0.17.2](https://github.com/safidea/engine/compare/v0.17.1...v0.17.2) (2024-07-05)
+
+
+### Bug Fixes
+
+* **theme:** can use font serif in Paragraph ([241d1e4](https://github.com/safidea/engine/commit/241d1e46bcc3223f1c39dc3cce99811b42423d4d))
+
 ## [0.17.1](https://github.com/safidea/engine/compare/v0.17.0...v0.17.1) (2024-07-05)
 
 
