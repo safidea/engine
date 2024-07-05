@@ -60,7 +60,7 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
+          sans: 'Open Sans',
         },
       },
     }
@@ -98,7 +98,7 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
+          sans: 'Open Sans',
         },
       },
     }
@@ -139,8 +139,8 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
-          serif: ['Merriweather'],
+          sans: 'Open Sans',
+          serif: 'Merriweather',
         },
       },
     }
@@ -181,8 +181,8 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
-          serif: ['Merriweather'],
+          sans: 'Open Sans',
+          serif: 'Merriweather',
         },
       },
     }
@@ -223,8 +223,8 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
-          serif: ['Merriweather'],
+          sans: 'Open Sans',
+          serif: 'Merriweather',
         },
       },
     }
@@ -265,8 +265,8 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
-          serif: ['Merriweather'],
+          sans: 'Open Sans',
+          serif: 'Merriweather',
         },
       },
     }
@@ -307,8 +307,8 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
-          serif: ['Merriweather'],
+          sans: 'Open Sans',
+          serif: 'Merriweather',
         },
       },
     }
@@ -349,8 +349,8 @@ test.describe('Theme', () => {
       ],
       theme: {
         fontFamily: {
-          sans: ['Open Sans'],
-          serif: ['Merriweather'],
+          sans: 'Open Sans',
+          serif: 'Merriweather',
         },
       },
     }

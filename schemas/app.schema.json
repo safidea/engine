@@ -742,16 +742,75 @@
                     "additionalProperties": false,
                     "properties": {
                         "sans": {
-                            "items": {
-                                "$ref": "#/definitions/SansSerif"
-                            },
-                            "type": "array"
+                            "enum": [
+                                "Asap",
+                                "Barlow",
+                                "Catamaran",
+                                "Exo 2",
+                                "Fira Sans",
+                                "Heebo",
+                                "Hind",
+                                "IBM Plex Sans",
+                                "Inter",
+                                "Josefin Sans",
+                                "Karla",
+                                "Lato",
+                                "Lexend Deca",
+                                "Manrope",
+                                "Merriweather Sans",
+                                "Montserrat",
+                                "Mukta",
+                                "Mulish",
+                                "Noto Sans",
+                                "Nunito Sans",
+                                "Open Sans",
+                                "PT Sans",
+                                "Poppins",
+                                "Public Sans",
+                                "Questrial",
+                                "Raleway",
+                                "Roboto",
+                                "Rubik",
+                                "Source Sans Pro",
+                                "Space Grotesk",
+                                "Titillium Web",
+                                "Ubuntu",
+                                "Varela Round",
+                                "Work Sans"
+                            ],
+                            "type": "string"
                         },
                         "serif": {
-                            "items": {
-                                "$ref": "#/definitions/Serif"
-                            },
-                            "type": "array"
+                            "enum": [
+                                "Alegreya",
+                                "Bitter",
+                                "Bree Serif",
+                                "Cardo",
+                                "Cormorant",
+                                "Cormorant Garamond",
+                                "Crimson Text",
+                                "Domine",
+                                "EB Garamond",
+                                "Faustina",
+                                "Frank Ruhl Libre",
+                                "Gentium Basic",
+                                "Inknut Antiqua",
+                                "Libre Baskerville",
+                                "Lora",
+                                "Lusitana",
+                                "Maitree",
+                                "Merriweather",
+                                "Neuton",
+                                "Noto Serif",
+                                "PT Serif",
+                                "Playfair Display",
+                                "Roboto Slab",
+                                "Slabo 27px",
+                                "Spectral",
+                                "Tinos",
+                                "Zilla Slab"
+                            ],
+                            "type": "string"
                         }
                     },
                     "type": "object"
@@ -2556,45 +2615,6 @@
                 }
             ]
         },
-        "SansSerif": {
-            "enum": [
-                "Asap",
-                "Barlow",
-                "Catamaran",
-                "Exo 2",
-                "Fira Sans",
-                "Heebo",
-                "Hind",
-                "IBM Plex Sans",
-                "Inter",
-                "Josefin Sans",
-                "Karla",
-                "Lato",
-                "Lexend Deca",
-                "Manrope",
-                "Merriweather Sans",
-                "Montserrat",
-                "Mukta",
-                "Mulish",
-                "Noto Sans",
-                "Nunito Sans",
-                "Open Sans",
-                "PT Sans",
-                "Poppins",
-                "Public Sans",
-                "Questrial",
-                "Raleway",
-                "Roboto",
-                "Rubik",
-                "Source Sans Pro",
-                "Space Grotesk",
-                "Titillium Web",
-                "Ubuntu",
-                "Varela Round",
-                "Work Sans"
-            ],
-            "type": "string"
-        },
         "Script": {
             "additionalProperties": false,
             "properties": {
@@ -2650,38 +2670,6 @@
                 "to"
             ],
             "type": "object"
-        },
-        "Serif": {
-            "enum": [
-                "Alegreya",
-                "Bitter",
-                "Bree Serif",
-                "Cardo",
-                "Cormorant",
-                "Cormorant Garamond",
-                "Crimson Text",
-                "Domine",
-                "EB Garamond",
-                "Faustina",
-                "Frank Ruhl Libre",
-                "Gentium Basic",
-                "Inknut Antiqua",
-                "Libre Baskerville",
-                "Lora",
-                "Lusitana",
-                "Maitree",
-                "Merriweather",
-                "Neuton",
-                "Noto Serif",
-                "PT Serif",
-                "Playfair Display",
-                "Roboto Slab",
-                "Slabo 27px",
-                "Spectral",
-                "Tinos",
-                "Zilla Slab"
-            ],
-            "type": "string"
         },
         "Sidebar": {
             "additionalProperties": false,

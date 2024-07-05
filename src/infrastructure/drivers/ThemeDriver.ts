@@ -16,11 +16,10 @@ export class ThemeDriver implements Driver {
     if (fontFamily) {
       theme.fontFamily = {}
       if (fontFamily.sans) {
-        theme.fontFamily.sans = fontFamily.sans.map((font) => `"${font}", sans-serif`)
+        const sans = fontFamily.sans.search(' ') === -1 ? fontFamily.sans : `"${fontFamily.sans}"`
+        theme.fontFamily.sans = [sans, 'sans-serif']
       }
-      if (fontFamily.serif) {
-        theme.fontFamily.serif = fontFamily.serif.map((font) => `"${font}", serif`)
-      }
+      if (fontFamily.serif) theme.fontFamily.serif = [fontFamily.serif, 'serif']
     }
 
     const tailwindConfig: Config = {
@@ -39,7 +38,7 @@ export class ThemeDriver implements Driver {
     if (fontsCss.length > 0) {
       inputCss += `
       @layer base {
-        ${fontsCss.join('\n\n')}
+        ${fontsCss.join('\n')}
       }
       `
     }

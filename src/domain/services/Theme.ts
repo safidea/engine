@@ -5,8 +5,8 @@ import { Css } from '@domain/entities/response/Css'
 
 export interface Config {
   fontFamily?: {
-    sans?: SansSerif[]
-    serif?: Serif[]
+    sans?: SansSerif
+    serif?: Serif
   }
 }
 
@@ -25,8 +25,11 @@ export class Theme {
 
   init = async () => {
     const { server, fontLibrary, fontFamily = {} } = this.spi.params
-    const { sans = [], serif = [] } = fontFamily
-    const fonts = [...sans, ...serif].map((f) => encodeURIComponent(f))
+    const { sans, serif } = fontFamily
+    let fonts: string[] = []
+    if (sans) fonts.push(sans)
+    if (serif) fonts.push(serif)
+    fonts = fonts.map((f) => encodeURIComponent(f))
     const fontsCss = []
     if (fonts.length > 0) {
       for (const font of fonts) {
