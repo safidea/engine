@@ -1,4 +1,4 @@
-import type { Align, RoundedSize, Size } from '@domain/engine/page/component/base/base'
+import type { Align, Font, RoundedSize, Size } from '@domain/engine/page/component/base/base'
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -60,5 +60,16 @@ export function getRoundedClasses(roundedSize: RoundedSize) {
       return 'rounded-lg'
     case 'xl':
       return 'rounded-full'
+  }
+}
+
+export function getFontClasses(font: Font) {
+  switch (font) {
+    case 'sans':
+      return 'font-sans'
+    case 'serif':
+      return 'font-serif'
+    case 'mono':
+      return 'font-mono'
   }
 }

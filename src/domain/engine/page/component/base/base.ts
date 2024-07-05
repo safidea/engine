@@ -22,3 +22,4 @@ export type Align = 'left' | 'center' | 'right'
 export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type RoundedSize = 'sm' | 'md' | 'lg' | 'xl'
 export type SizeWithNone = 'none' | Size
+export type Font = 'sans' | 'serif' | 'mono'

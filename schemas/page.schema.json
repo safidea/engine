@@ -477,6 +477,14 @@
                 "className": {
                     "type": "string"
                 },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1760,6 +1768,14 @@
                 },
                 "component": {
                     "const": "Paragraph",
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
                     "type": "string"
                 },
                 "id": {
