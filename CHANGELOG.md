@@ -1,3 +1,10 @@
+## [0.17.3](https://github.com/safidea/engine/compare/v0.17.2...v0.17.3) (2024-07-05)
+
+
+### Bug Fixes
+
+* **theme:** add green test 'should render a Markdown Link with a font serif' ([861fc6e](https://github.com/safidea/engine/commit/861fc6e4bdd30024579a246ad60d274fc53c3b9b))
+
 ## [0.17.2](https://github.com/safidea/engine/compare/v0.17.1...v0.17.2) (2024-07-05)
 
 
