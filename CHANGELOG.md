@@ -1,3 +1,10 @@
+# [0.17.0](https://github.com/safidea/engine/compare/v0.16.1...v0.17.0) (2024-07-05)
+
+
+### Features
+
+* **theme:** add green test 'should load a font file' ([a42bb76](https://github.com/safidea/engine/commit/a42bb762a05f309ed895f460258c3280cf3b47eb))
+
 ## [0.16.1](https://github.com/safidea/engine/compare/v0.16.0...v0.16.1) (2024-07-03)
 
 
