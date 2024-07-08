@@ -12,7 +12,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Left: Story = {
+export const Default: Story = {
   args: {
     children: <div>Container with left aligned text</div>,
   },

@@ -1,12 +1,13 @@
-import type { Align, Size, SizeWithNone } from '@domain/engine/page/component/base/base'
 import type { Component } from '..'
 import type { Base } from '../base/Base'
 
 export interface Config extends Base {
   children: Component[]
-  align?: Align
-  width?: Size
-  spacing?: SizeWithNone
+  center?: boolean
+  breakpoint?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  padding?:
+    | string
+    | { DEFAULT?: string; sm?: string; md?: string; lg?: string; xl?: string; '2xl'?: string }
 }
 
 export interface Container extends Config {

@@ -976,13 +976,19 @@
         "Container": {
             "additionalProperties": false,
             "properties": {
-                "align": {
+                "breakpoint": {
                     "enum": [
-                        "center",
-                        "left",
-                        "right"
+                        "2xl",
+                        "lg",
+                        "md",
+                        "none",
+                        "sm",
+                        "xl"
                     ],
                     "type": "string"
+                },
+                "center": {
+                    "type": "boolean"
                 },
                 "children": {
                     "items": {
@@ -1000,28 +1006,36 @@
                 "id": {
                     "type": "string"
                 },
-                "spacing": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "none",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "width": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
+                "padding": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "2xl": {
+                                    "type": "string"
+                                },
+                                "DEFAULT": {
+                                    "type": "string"
+                                },
+                                "lg": {
+                                    "type": "string"
+                                },
+                                "md": {
+                                    "type": "string"
+                                },
+                                "sm": {
+                                    "type": "string"
+                                },
+                                "xl": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
                 }
             },
             "required": [

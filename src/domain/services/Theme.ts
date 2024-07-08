@@ -8,6 +8,19 @@ export interface Config {
     sans?: SansSerif
     serif?: Serif
   }
+  container?: {
+    center?: boolean
+    padding?:
+      | string
+      | {
+          DEFAULT?: string
+          sm?: string
+          md?: string
+          lg?: string
+          xl?: string
+          '2xl'?: string
+        }
+  }
 }
 
 export interface Params extends Config {
