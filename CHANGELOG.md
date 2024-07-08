@@ -1,3 +1,10 @@
+## [0.17.5](https://github.com/safidea/engine/compare/v0.17.4...v0.17.5) (2024-07-05)
+
+
+### Bug Fixes
+
+* **theme:** remove array font for only font name ([3ec70bf](https://github.com/safidea/engine/commit/3ec70bfae4094709abf72190459fceaa64a32c1f))
+
 ## [0.17.4](https://github.com/safidea/engine/compare/v0.17.3...v0.17.4) (2024-07-05)
 
 
