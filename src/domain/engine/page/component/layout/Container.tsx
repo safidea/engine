@@ -1,12 +1,12 @@
-import type { ReactComponent, Base, BaseProps, Align, SizeWithNone } from '../base/base'
+import type { ReactComponent, Base, BaseProps, SizeWithNone, Breakpoint } from '../base/base'
 import type { Component } from '..'
 import type { State } from '../../State'
 
 export interface Props extends BaseProps {
-  align?: Align
   children: React.ReactNode
+  center?: boolean
+  breakpoint?: Breakpoint
   spacing?: SizeWithNone
-  breakpoint?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 }
 
 interface Params extends Omit<Props, 'children'> {

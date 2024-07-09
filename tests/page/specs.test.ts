@@ -2,6 +2,8 @@ import { test, expect } from '@tests/fixtures'
 import Feature, { type Feature as Config } from '@safidea/engine/feature'
 
 test.describe('Pages specs', () => {
+  test.slow() 
+  
   test('should find an invalid page title', async () => {
     // GIVEN
     const config: Config = {

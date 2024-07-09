@@ -23,3 +23,5 @@ export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type RoundedSize = 'sm' | 'md' | 'lg' | 'xl'
 export type SizeWithNone = 'none' | Size
 export type Font = 'sans' | 'serif' | 'mono'
+
+export type Breakpoint = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'

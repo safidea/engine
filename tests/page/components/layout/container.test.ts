@@ -394,7 +394,305 @@ test.describe('Container', () => {
     })
   })
 
-  test.describe('Center', () => {})
+  test.describe('Center', () => {
+    test('should render a non centered container', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 1800,
+        height: 1200,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('0px')
+      expect(style.marginRight).toBe('0px')
+    })
+
+    test('should render a centered container', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    center: true,
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 1800,
+        height: 1200,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('132px')
+      expect(style.marginRight).toBe('132px')
+    })
+
+    test('should render a container with a small breakpoint', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    center: true,
+                    breakpoint: 'sm',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 700,
+        height: 500,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('30px')
+      expect(style.marginRight).toBe('30px')
+    })
+
+    test('should render a container with a medium breakpoint', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    center: true,
+                    breakpoint: 'md',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 800,
+        height: 500,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('16px')
+      expect(style.marginRight).toBe('16px')
+    })
+
+    test('should render a container with a large breakpoint', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    center: true,
+                    breakpoint: 'lg',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 1200,
+        height: 500,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('88px')
+      expect(style.marginRight).toBe('88px')
+    })
+
+    test('should render a container with a extra large breakpoint', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    center: true,
+                    breakpoint: 'xl',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 1400,
+        height: 900,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('60px')
+      expect(style.marginRight).toBe('60px')
+    })
+
+    test('should render a container with a 2 extra large breakpoint', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    center: true,
+                    breakpoint: '2xl',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.setViewportSize({
+        width: 1800,
+        height: 1200,
+      })
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.marginLeft).toBe('132px')
+      expect(style.marginRight).toBe('132px')
+    })
+  })
 
   test.describe('Padding', () => {})
 })

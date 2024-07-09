@@ -1,7 +1,9 @@
 import type { Align, Font, RoundedSize, Size } from '@domain/engine/page/component/base/base'
 
-export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+export function classNames(...classes: (string | undefined)[]) {
+  const filtered = classes.filter(Boolean)
+  if (filtered.length === 0) return undefined
+  return filtered.join(' ')
 }
 
 export function getTextAlignClasses(align: Align) {
