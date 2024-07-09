@@ -1,3 +1,10 @@
+## [0.17.6](https://github.com/safidea/engine/compare/v0.17.5...v0.17.6) (2024-07-09)
+
+
+### Bug Fixes
+
+* **theme:** add dynamic css generation based on generated html ([a242406](https://github.com/safidea/engine/commit/a2424062aedf575b7989725600edee233dcaa2f2))
+
 ## [0.17.5](https://github.com/safidea/engine/compare/v0.17.4...v0.17.5) (2024-07-05)
 
 
