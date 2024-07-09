@@ -1,4 +1,4 @@
-import type { Breakpoint } from '@domain/engine/page/component/base/base'
+import type { Breakpoint, Padding } from '@domain/engine/page/component/base/base'
 import type { Component } from '..'
 import type { Base } from '../base/Base'
 
@@ -6,9 +6,7 @@ export interface Config extends Base {
   children: Component[]
   center?: boolean
   breakpoint?: Breakpoint
-  padding?:
-    | string
-    | { DEFAULT?: string; sm?: string; md?: string; lg?: string; xl?: string; '2xl'?: string }
+  padding?: Padding
 }
 
 export interface Container extends Config {

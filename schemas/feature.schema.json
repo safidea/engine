@@ -1007,35 +1007,44 @@
                     "type": "string"
                 },
                 "padding": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "2xl": {
-                                    "type": "string"
-                                },
-                                "DEFAULT": {
-                                    "type": "string"
-                                },
-                                "lg": {
-                                    "type": "string"
-                                },
-                                "md": {
-                                    "type": "string"
-                                },
-                                "sm": {
-                                    "type": "string"
-                                },
-                                "xl": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ]
+                    "enum": [
+                        "0",
+                        "0.5",
+                        "1",
+                        "1.5",
+                        "10",
+                        "11",
+                        "12",
+                        "14",
+                        "16",
+                        "2",
+                        "2.5",
+                        "20",
+                        "24",
+                        "28",
+                        "3",
+                        "3.5",
+                        "32",
+                        "36",
+                        "4",
+                        "40",
+                        "44",
+                        "48",
+                        "5",
+                        "52",
+                        "56",
+                        "6",
+                        "60",
+                        "64",
+                        "7",
+                        "72",
+                        "8",
+                        "80",
+                        "9",
+                        "96",
+                        "px"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [

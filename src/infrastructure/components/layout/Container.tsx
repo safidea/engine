@@ -1,46 +1,43 @@
 import type { Props } from '@domain/engine/page/component'
-import { classNames } from '../utils'
+import { center, classNames, padding } from '../utils'
 
 export const Container = ({
   id,
   className,
   breakpoint,
-  center,
+  center: isCentered,
+  padding: paddingSize,
   children,
   ['data-component']: dataComponent = 'Container',
 }: Props['Container']) => {
-  let classes = ''
+  const classes = []
   switch (breakpoint) {
     case 'none':
-      classes += 'w-full'
+      classes.push('w-full')
       break
     case 'sm':
-      classes += 'sm:container'
-      if (center === true) classes += ' sm:mx-auto'
+      classes.push('sm:container')
       break
     case 'md':
-      classes += 'md:container'
-      if (center === true) classes += ' md:mx-auto'
+      classes.push('md:container')
       break
     case 'lg':
-      classes += 'lg:container'
-      if (center === true) classes += ' lg:mx-auto'
+      classes.push('lg:container')
       break
     case 'xl':
-      classes += 'xl:container'
-      if (center === true) classes += ' xl:mx-auto'
+      classes.push('xl:container')
       break
     case '2xl':
-      classes += '2xl:container'
-      if (center === true) classes += ' 2xl:mx-auto'
+      classes.push('2xl:container')
       break
     default:
-      classes += 'container'
-      if (center === true) classes += ' mx-auto'
+      classes.push('container')
       break
   }
+  if (isCentered === true) classes.push(center({ breakpoint, dimension: 'x' }))
+  if (paddingSize) classes.push(padding({ size: paddingSize, dimension: 'x', breakpoint }))
   return (
-    <div id={id} className={classNames(classes, className)} data-component={dataComponent}>
+    <div id={id} className={classNames(...classes, className)} data-component={dataComponent}>
       {children}
     </div>
   )

@@ -1,4 +1,4 @@
-import type { ReactComponent, Base, BaseProps, SizeWithNone, Breakpoint } from '../base/base'
+import type { ReactComponent, Base, BaseProps, Breakpoint, Padding } from '../base/base'
 import type { Component } from '..'
 import type { State } from '../../State'
 
@@ -6,7 +6,7 @@ export interface Props extends BaseProps {
   children: React.ReactNode
   center?: boolean
   breakpoint?: Breakpoint
-  spacing?: SizeWithNone
+  padding?: Padding
 }
 
 interface Params extends Omit<Props, 'children'> {

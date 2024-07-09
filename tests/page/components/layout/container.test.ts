@@ -694,5 +694,80 @@ test.describe('Container', () => {
     })
   })
 
-  test.describe('Padding', () => {})
+  test.describe('Padding', () => {
+    test('should render a container without horizontal padding', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.paddingLeft).toBe('0px')
+      expect(style.paddingRight).toBe('0px')
+    })
+
+    test('should render a container with horizontal padding', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    padding: '4',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.paddingLeft).toBe('16px')
+      expect(style.paddingRight).toBe('16px')
+    })
+  })
 })
