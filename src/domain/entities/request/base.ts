@@ -1,6 +1,6 @@
 export type Params = {
   path: string
-  baseUrl: string
+  baseUrl?: string
   headers?: { [key: string]: string }
   query?: { [key: string]: string }
   params?: { [key: string]: string }
@@ -14,7 +14,7 @@ export class Base {
   }
 
   get baseUrl() {
-    return this._params.baseUrl
+    return this._params.baseUrl || ''
   }
 
   get headers() {

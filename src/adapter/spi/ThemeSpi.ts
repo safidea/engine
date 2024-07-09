@@ -2,7 +2,7 @@ import type { Params, Spi } from '@domain/services/Theme'
 
 export interface Driver {
   params: Params
-  build: (fontsCss: string[]) => Promise<string>
+  build: (htmlContents: string[], fontsCss: string[]) => Promise<string>
 }
 
 export class ThemeSpi implements Spi {
@@ -12,7 +12,7 @@ export class ThemeSpi implements Spi {
     return this.driver.params
   }
 
-  build = async (fontsCss: string[]) => {
-    return this.driver.build(fontsCss)
+  build = async (htmlContents: string[], fontsCss: string[]) => {
+    return this.driver.build(htmlContents, fontsCss)
   }
 }

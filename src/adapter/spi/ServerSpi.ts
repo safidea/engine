@@ -9,7 +9,7 @@ import type { Delete } from '@domain/entities/request/Delete'
 
 export interface Driver {
   params: Params
-  baseUrl: string
+  baseUrl?: string
   start(): Promise<string>
   stop(): Promise<void>
   get(path: string, handler: (request: GetDto) => Promise<Response>): Promise<void>

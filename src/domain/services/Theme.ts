@@ -30,13 +30,13 @@ export interface Params extends Config {
 
 export interface Spi {
   params: Params
-  build: (fontsCss: string[]) => Promise<string>
+  build: (htmlContents: string[], fontsCss: string[]) => Promise<string>
 }
 
 export class Theme {
   constructor(private spi: Spi) {}
 
-  init = async () => {
+  init = async (htmlContents: string[]) => {
     const { server, fontLibrary, fontFamily = {} } = this.spi.params
     const { sans, serif } = fontFamily
     let fonts: string[] = []
@@ -50,7 +50,7 @@ export class Theme {
         fontsCss.push(css)
       }
     }
-    const css = await this.spi.build(fontsCss)
+    const css = await this.spi.build(htmlContents, fontsCss)
     await server.get('/output.css', async () => new Css(css))
   }
 }

@@ -11,6 +11,8 @@ import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
+import { Get } from '@domain/entities/request/Get'
+import { State } from './page/State'
 
 interface Params {
   name: string
@@ -35,8 +37,14 @@ export class App implements Base {
   }
 
   init = async () => {
-    const { tables, pages, automations, theme } = this.params
-    await theme.init()
+    const { tables, pages, automations, theme, server } = this.params
+    const htmlContents = await Promise.all(
+      pages.map((page) =>
+        page.html(new State(new Get({ path: page.path, baseUrl: server.baseUrl })))
+      )
+    )
+    await server.init()
+    await theme.init(htmlContents)
     for (const table of tables) await table.init()
     for (const automation of automations) await automation.init()
     for (const page of pages) await page.init()

@@ -1,15 +1,15 @@
 import type { Driver } from '@adapter/spi/ThemeSpi'
 import type { Params } from '@domain/services/Theme'
-import { join } from 'path'
 import postcss from 'postcss'
 import tailwindcss, { type Config } from 'tailwindcss'
-
-const dirname = new URL('.', import.meta.url).pathname
+import type { RawFile } from 'tailwindcss/types/config'
 
 export class ThemeDriver implements Driver {
   constructor(public params: Params) {}
 
-  build = async (fontsCss: string[]) => {
+  build = async (htmlContents: string[], fontsCss: string[]) => {
+    if (htmlContents.length === 0) return '/* There is no css generated */'
+
     const { fontFamily } = this.params
     const theme: Config['theme'] = {}
 
@@ -22,9 +22,11 @@ export class ThemeDriver implements Driver {
       if (fontFamily.serif) theme.fontFamily.serif = [fontFamily.serif, 'serif']
     }
 
+    const rawFiles: RawFile[] = htmlContents.map((raw): RawFile => ({ raw, extension: 'html' }))
+
     const tailwindConfig: Config = {
       darkMode: 'class',
-      content: [join(dirname, '*.js')],
+      content: rawFiles,
       theme,
     }
 

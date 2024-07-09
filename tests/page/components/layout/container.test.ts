@@ -732,7 +732,7 @@ test.describe('Container', () => {
       expect(style.paddingRight).toBe('0px')
     })
 
-    test('should render a container with horizontal padding', async ({ page }) => {
+    test('should render a container with horizontal padding of 4', async ({ page }) => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
@@ -768,6 +768,44 @@ test.describe('Container', () => {
       )
       expect(style.paddingLeft).toBe('16px')
       expect(style.paddingRight).toBe('16px')
+    })
+
+    test('should render a container with horizontal padding of 20', async ({ page }) => {
+      // GIVEN
+      const config: AppConfig = {
+        name: 'Container',
+        features: [
+          {
+            name: 'Container',
+            pages: [
+              {
+                name: 'Page',
+                path: '/',
+                body: [
+                  {
+                    component: 'Container',
+                    padding: '20',
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await page.goto(url)
+
+      // THEN
+      const style = await page.evaluate(
+        (selector) => getComputedStyle(document.querySelector(selector)!),
+        'div[data-component="Container"]'
+      )
+      expect(style.paddingLeft).toBe('80px')
+      expect(style.paddingRight).toBe('80px')
     })
   })
 })

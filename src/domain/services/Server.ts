@@ -19,7 +19,7 @@ export interface Params extends Config {
 
 export interface Spi {
   params: Params
-  baseUrl: string
+  baseUrl?: string
   start: () => Promise<string>
   stop: () => Promise<void>
   get: (path: string, handler: (request: Get) => Promise<Response>) => Promise<void>
@@ -101,7 +101,6 @@ export class Server {
   }
 
   start = async () => {
-    await this.init()
     const { params, start } = this.spi
     const { logger } = params
     logger.log(`starting server...`)

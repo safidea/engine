@@ -15,13 +15,12 @@ import { Stream } from '@domain/entities/response/Stream'
 const dirname = new URL('.', import.meta.url).pathname
 
 export class ServerDriver implements Driver {
-  public baseUrl: string
   private express: Express
   private server?: HttpServer
+  public baseUrl?: string
 
   constructor(public params: Params) {
-    const { port, env } = params
-    this.baseUrl = `http://localhost:${port}`
+    const { env } = params
     this.express = express()
     this.express.use(cors())
     if (env === 'production') this.express.use(helmet())

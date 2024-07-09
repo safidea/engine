@@ -61,3 +61,4 @@ export type Padding =
   | '72'
   | '80'
   | '96'
+export type Dimension = 'x' | 'y' | 't' | 'b' | 'l' | 'r'

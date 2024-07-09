@@ -74,7 +74,7 @@ export class Form implements Base<Props> {
 
   getData = async (state: State) => {
     const { server } = this.params
-    if (this.source) {
+    if (this.source && server.baseUrl) {
       const filledSource = state.fillTemplate(this.source)
       const url = filledSource.startsWith('/api/table/')
         ? server.baseUrl + filledSource
