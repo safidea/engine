@@ -1,17 +1,17 @@
 import { Spis } from '@adapter/spi'
 import { Services } from '@domain/services'
-import type { Mapper } from './mappers/Mapper'
-import type { Base as BaseEngine } from '@domain/engine/base'
+import type { BaseMapper } from './mappers/BaseMapper'
+import type { Base as BaseEngine } from '@domain/engine/Base'
 import type { Params as SpisParams } from '@adapter/spi'
 import type { ConfigError } from '@domain/entities/error/Config'
 import type { SchemaError } from '@domain/entities/error/Schema'
 
-export class Base<Config, Engine extends BaseEngine, Params> {
+export class BaseApi<Config, Engine extends BaseEngine, Params> {
   protected services: Services
 
   constructor(
     params: SpisParams,
-    protected mapper: Mapper<Config, Engine, Params>,
+    protected mapper: BaseMapper<Config, Engine, Params>,
     private schema: string
   ) {
     this.services = new Services(new Spis(params))

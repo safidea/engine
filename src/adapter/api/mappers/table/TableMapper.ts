@@ -1,7 +1,7 @@
 import { Table } from '@domain/engine/table/Table'
 import { Services } from '@domain/services'
 import type { Table as TableConfig } from '../../configs/table/Table'
-import type { Mapper } from '../Mapper'
+import type { BaseMapper } from '../BaseMapper'
 import { FieldMapper } from './FieldMapper'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
@@ -15,7 +15,7 @@ export interface Params {
   record: Record
 }
 
-export const TableMapper: Mapper<TableConfig, Table, Params> = class TableMapper {
+export const TableMapper: BaseMapper<TableConfig, Table, Params> = class TableMapper {
   static toEntity = (config: TableConfig, params: Params) => {
     const { name } = config
     const { server, database, newLogger, record } = params

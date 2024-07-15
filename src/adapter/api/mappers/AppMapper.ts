@@ -1,7 +1,7 @@
 import { App } from '@domain/engine/App'
 import { Services } from '@domain/services'
 import type { App as AppConfig } from '../configs/App'
-import type { Mapper } from './Mapper'
+import type { BaseMapper } from './BaseMapper'
 import { PageMapper, type Params as PageParams } from './page/PageMapper'
 import { TableMapper, type Params as TableParams } from './table/TableMapper'
 import { AutomationMapper, type Params as AutomationParams } from './automation/AutomationMapper'
@@ -30,7 +30,7 @@ export interface Params {
   auth?: Auth
 }
 
-export const AppMapper: Mapper<AppConfig, App, Params> = class AppMapper {
+export const AppMapper: BaseMapper<AppConfig, App, Params> = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
     const { name } = config
     const { server, newLogger, database, queue, mailer, realtime, auth, theme } = params

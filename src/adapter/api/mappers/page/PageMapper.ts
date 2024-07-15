@@ -3,7 +3,7 @@ import { Services } from '@domain/services'
 import type { Page as PageConfig } from '../../configs/page/Page'
 import { ComponentMapper } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
-import type { Mapper } from '../Mapper'
+import type { BaseMapper } from '../BaseMapper'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
 import type { ReactComponents } from '@domain/engine/page/component'
@@ -28,7 +28,7 @@ export interface Params {
   iconLibrary: IconLibrary
 }
 
-export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
+export const PageMapper: BaseMapper<PageConfig, Page, Params> = class PageMapper {
   static toEntity = (config: PageConfig, params: Params): Page => {
     const { name, path } = config
     const {

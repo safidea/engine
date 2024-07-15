@@ -1,11 +1,11 @@
 import { AppMapper, type Params as AppParams } from './mappers/AppMapper'
 import type { App } from '@domain/engine/App'
 import type { Params as SpisParams } from '@adapter/spi'
-import { Base } from './base'
+import { BaseApi } from './BaseApi'
 import type { App as Config } from './configs/App'
 import type { TestError } from '@domain/entities/error/Test'
 
-export class AppApi extends Base<Config, App, AppParams> {
+export class AppApi extends BaseApi<Config, App, AppParams> {
   private app?: App
 
   constructor(params: SpisParams) {

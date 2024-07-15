@@ -1,7 +1,7 @@
 import { Spec } from '@domain/engine/spec/Spec'
 import { Services } from '@domain/services'
 import type { Spec as SpecConfig } from '../../configs/spec/Spec'
-import type { Mapper } from '../Mapper'
+import type { BaseMapper } from '../BaseMapper'
 import { ActionMapper } from './ActionMapper'
 import { ResultMapper } from './ResultMapper'
 import type { Logger } from '@domain/services/Logger'
@@ -12,7 +12,7 @@ export interface Params {
   newBrowser: () => Browser
 }
 
-export const SpecMapper: Mapper<SpecConfig, Spec, Params> = class SpecMapper {
+export const SpecMapper: BaseMapper<SpecConfig, Spec, Params> = class SpecMapper {
   static toEntity = (config: SpecConfig, params: Params) => {
     const { newLogger, newBrowser } = params
     const logger = newLogger(`spec:${config.name}`)

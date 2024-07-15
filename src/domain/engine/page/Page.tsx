@@ -1,5 +1,5 @@
 import type { Server } from '@domain/services/Server'
-import type { Base } from '../base'
+import type { Base } from '../Base'
 import type { Component } from './component'
 import type { Logger } from '@domain/services/Logger'
 import type { Head } from './head'

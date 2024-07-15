@@ -1,5 +1,5 @@
 import type { Logger } from '@domain/services/Logger'
-import type { Base } from '../base'
+import type { Base } from '../Base'
 import type { Action } from './action'
 import type { Trigger } from './trigger'
 import type { Queue } from '@domain/services/Queue'

@@ -1,6 +1,6 @@
 import type { Browser } from '@domain/services/Browser'
 import type { Logger } from '@domain/services/Logger'
-import type { Base } from '../base'
+import type { Base } from '../Base'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { Action } from './action'
 import type { Result } from './result'

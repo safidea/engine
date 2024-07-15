@@ -8,7 +8,7 @@ import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Automation as AutomationConfig } from '../../configs/automation/Automation'
-import type { Mapper } from '../Mapper'
+import type { BaseMapper } from '../BaseMapper'
 import { ActionMapper } from './ActionMapper'
 import { TriggerMapper } from './TriggerMapper'
 import type { Realtime } from '@domain/services/Realtime'
@@ -24,7 +24,7 @@ export interface Params {
   mailer?: Mailer
 }
 
-export const AutomationMapper: Mapper<AutomationConfig, Automation, Params> =
+export const AutomationMapper: BaseMapper<AutomationConfig, Automation, Params> =
   class AutomationMapper {
     static toEntity = (config: AutomationConfig, params: Params) => {
       const { name } = config
