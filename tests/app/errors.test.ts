@@ -10,6 +10,6 @@ test.describe('App schema errors', () => {
     const errors = new App().getSchemaErrors(config)
 
     // THEN
-    expect(errors).toHaveLength(2)
+    expect(errors).toHaveLength(1)
   })
 })

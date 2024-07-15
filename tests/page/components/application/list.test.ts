@@ -7,25 +7,20 @@ test.describe('List component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'List',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'List',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                    },
-                  ],
-                  open: '/{{name}}',
+                  name: 'name',
                 },
               ],
+              open: '/{{name}}',
             },
           ],
         },
@@ -49,36 +44,31 @@ test.describe('List component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'List',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                    },
-                  ],
-                  open: '/{{name}}',
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'List',
+              source: '/api/table/leads',
+              columns: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
                 },
               ],
+              open: '/{{name}}',
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -101,36 +91,31 @@ test.describe('List component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'List',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                    },
-                  ],
-                  open: '/request/{{ row.id }}',
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'List',
+              source: '/api/table/leads',
+              columns: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
                 },
               ],
+              open: '/request/{{ row.id }}',
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -154,36 +139,31 @@ test.describe('List component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'List',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                    },
-                  ],
-                  open: '/{{name}}',
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'List',
+              source: '/api/table/leads',
+              columns: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
                 },
               ],
+              open: '/{{name}}',
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -208,37 +188,32 @@ test.describe('List component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'List',
-                  id: 'my-list',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                    },
-                  ],
-                  open: '/{{name}}',
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'List',
+              id: 'my-list',
+              source: '/api/table/leads',
+              columns: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
                 },
               ],
+              open: '/{{name}}',
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },

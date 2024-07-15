@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Feature as Config } from '@safidea/engine/feature'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Tables specs', () => {
   test('should not find a created row', async () => {
@@ -27,8 +27,8 @@ test.describe('Tables specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -63,8 +63,8 @@ test.describe('Tables specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

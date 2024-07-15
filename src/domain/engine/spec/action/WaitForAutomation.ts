@@ -12,11 +12,10 @@ export class WaitForAutomation extends BaseWithApp {
   }
 
   executeWithApp = async (app: App) => {
-    const { waitForAutomation, logger, feature, spec } = this.params
+    const { waitForAutomation, logger, spec } = this.params
     if (!app.queue) {
       throw new TestError({
         code: 'NO_QUEUE',
-        feature,
         spec,
       })
     }
@@ -27,7 +26,6 @@ export class WaitForAutomation extends BaseWithApp {
         reject(
           new TestError({
             code: 'WAIT_FOR_AUTOMATION_TIMEOUT',
-            feature,
             spec,
           })
         )

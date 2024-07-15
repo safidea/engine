@@ -8,18 +8,13 @@ test.describe('Long text field', () => {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     const config: Config = {
       name: 'App',
-      features: [
+      tables: [
         {
-          name: 'Feature',
-          tables: [
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'description',
-                  type: 'LongText',
-                },
-              ],
+              name: 'description',
+              type: 'LongText',
             },
           ],
         },

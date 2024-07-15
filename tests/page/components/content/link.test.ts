@@ -35,20 +35,15 @@ test.describe('Link component', () => {
     const href = '/about'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display link',
-          pages: [
+          name: 'link',
+          path: '/',
+          body: [
             {
-              name: 'link',
-              path: '/',
-              body: [
-                {
-                  component: 'Link',
-                  label,
-                  href,
-                },
-              ],
+              component: 'Link',
+              label,
+              href,
             },
           ],
         },
@@ -69,21 +64,16 @@ test.describe('Link component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display link',
-          pages: [
+          name: 'link',
+          path: '/',
+          body: [
             {
-              name: 'link',
-              path: '/',
-              body: [
-                {
-                  component: 'Link',
-                  label: 'Hello world!',
-                  active: true,
-                  href: '/about',
-                },
-              ],
+              component: 'Link',
+              label: 'Hello world!',
+              active: true,
+              href: '/about',
             },
           ],
         },
@@ -104,21 +94,16 @@ test.describe('Link component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display link',
-          pages: [
+          name: 'link',
+          path: '/about',
+          body: [
             {
-              name: 'link',
-              path: '/about',
-              body: [
-                {
-                  component: 'Link',
-                  label: 'Hello world!',
-                  active: false,
-                  href: '/',
-                },
-              ],
+              component: 'Link',
+              label: 'Hello world!',
+              active: false,
+              href: '/',
             },
           ],
         },
@@ -139,20 +124,15 @@ test.describe('Link component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display link',
-          pages: [
+          name: 'link',
+          path: '/about/me',
+          body: [
             {
-              name: 'link',
-              path: '/about/me',
-              body: [
-                {
-                  component: 'Link',
-                  label: 'Hello world!',
-                  href: '/about',
-                },
-              ],
+              component: 'Link',
+              label: 'Hello world!',
+              href: '/about',
             },
           ],
         },

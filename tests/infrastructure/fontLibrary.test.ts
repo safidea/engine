@@ -6,19 +6,14 @@ test.describe('Font Library', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },

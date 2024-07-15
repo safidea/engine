@@ -7,18 +7,13 @@ test.describe('App with tables', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      tables: [
         {
-          name: 'Feature',
-          tables: [
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -45,18 +40,13 @@ test.describe('App with tables', () => {
     const database = new Database()
     const config: Config = {
       name: 'leads backend',
-      features: [
+      tables: [
         {
-          name: 'leads table',
-          tables: [
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -88,18 +78,13 @@ test.describe('App with tables', () => {
     const database = new Database()
     const config: Config = {
       name: 'leads backend',
-      features: [
+      tables: [
         {
-          name: 'leads table',
-          tables: [
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },

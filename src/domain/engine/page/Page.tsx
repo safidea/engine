@@ -26,10 +26,10 @@ export class Page implements Base {
 
   init = async () => {
     const { server, body } = this.params
+    await Promise.all(body.map((component) => component.init()))
     if (this.path === '/404') {
       await server.notFound(this.get)
     } else {
-      await Promise.all(body.map((component) => component.init()))
       await server.get(this.path, this.get)
     }
   }

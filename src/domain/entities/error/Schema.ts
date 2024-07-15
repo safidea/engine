@@ -8,9 +8,19 @@ export interface Params {
 }
 
 export class SchemaError {
-  constructor(private params: Params) {}
+  public keyword: string
+  public instancePath: string
+  public schemaPath: string
+  public params: object
+  public propertyName?: string
+  public message?: string
 
-  get message() {
-    return this.params.message
+  constructor(params: Params) {
+    this.message = params.message
+    this.keyword = params.keyword
+    this.instancePath = params.instancePath
+    this.schemaPath = params.schemaPath
+    this.params = params.params
+    this.propertyName = params.propertyName
   }
 }

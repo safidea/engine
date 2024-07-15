@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Feature as Config } from '@safidea/engine/feature'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Automations specs', () => {
   test('should wait for an automation', async () => {
@@ -61,8 +61,8 @@ test.describe('Automations specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -117,8 +117,8 @@ test.describe('Automations specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

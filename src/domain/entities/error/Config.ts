@@ -3,9 +3,9 @@ export interface Params {
 }
 
 export class ConfigError {
-  constructor(private params: Params) {}
+  public message: string
 
-  get message() {
-    return this.params.message
+  constructor(params: Params) {
+    this.message = params.message
   }
 }

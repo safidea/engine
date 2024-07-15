@@ -6,20 +6,15 @@ test.describe('WebhookCalled trigger', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      automations: [
         {
-          name: 'Feature',
-          automations: [
-            {
-              name: 'Send email',
-              trigger: {
-                event: 'WebhookCalled',
-                method: 'POST',
-                path: 'send-email',
-              },
-              actions: [],
-            },
-          ],
+          name: 'Send email',
+          trigger: {
+            event: 'WebhookCalled',
+            method: 'POST',
+            path: 'send-email',
+          },
+          actions: [],
         },
       ],
     }

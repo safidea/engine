@@ -12,28 +12,23 @@ test.describe('Send email action', () => {
     const queue = new Queue(database)
     const config: Config = {
       name: 'App',
-      features: [
+      automations: [
         {
           name: 'send-email',
-          automations: [
+          trigger: {
+            event: 'WebhookCalled',
+            path: 'send-email',
+            method: 'POST',
+          },
+          actions: [
             {
+              action: 'SendEmail',
               name: 'send-email',
-              trigger: {
-                event: 'WebhookCalled',
-                path: 'send-email',
-                method: 'POST',
-              },
-              actions: [
-                {
-                  action: 'SendEmail',
-                  name: 'send-email',
-                  to: 'to@test.com',
-                  from: 'from@test.com',
-                  subject: 'Welcome',
-                  text: 'Hello world',
-                  html: 'Hello world',
-                },
-              ],
+              to: 'to@test.com',
+              from: 'from@test.com',
+              subject: 'Welcome',
+              text: 'Hello world',
+              html: 'Hello world',
             },
           ],
         },

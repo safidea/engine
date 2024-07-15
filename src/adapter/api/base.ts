@@ -48,23 +48,11 @@ export class Base<Config, Engine extends BaseEngine, Params> {
     return engine.validateConfig()
   }
 
-  protected validateOrThrow = async (
-    config: unknown
-  ): Promise<{ config: Config; engine: Engine }> => {
+  protected validateOrThrow = async (config: unknown): Promise<Engine> => {
     const configWithEnv = this.getConfigWithEnv(config)
     const engine = this.mapper.toEntityFromServices(configWithEnv, this.services)
     const errors = await engine.validateConfig()
-    if (errors.length > 0) throw new Error('Invalid config: ' + errors[0].message)
-    return { config: configWithEnv, engine }
-  }
-
-  protected validateConfigOrThrow = async (config: unknown): Promise<Config> => {
-    const { config: validatedConfig } = await this.validateOrThrow(config)
-    return validatedConfig
-  }
-
-  protected validateEngineOrThrow = async (config: unknown): Promise<Engine> => {
-    const { engine } = await this.validateOrThrow(config)
+    if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
     return engine
   }
 

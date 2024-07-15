@@ -8,19 +8,14 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -41,19 +36,14 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -79,19 +69,14 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -119,20 +104,15 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                  font: 'serif',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
+              font: 'serif',
             },
           ],
         },
@@ -161,20 +141,15 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                  font: 'serif',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
+              font: 'serif',
             },
           ],
         },
@@ -203,20 +178,15 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Title',
-                  text: 'Hello world!',
-                  font: 'serif',
-                },
-              ],
+              component: 'Title',
+              text: 'Hello world!',
+              font: 'serif',
             },
           ],
         },
@@ -245,20 +215,15 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Markdown',
-                  content: '# Hello world! \n This is a markdown text.',
-                  font: 'serif',
-                },
-              ],
+              component: 'Markdown',
+              content: '# Hello world! \n This is a markdown text.',
+              font: 'serif',
             },
           ],
         },
@@ -287,20 +252,15 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Markdown',
-                  content: '# Hello world! \n This is a markdown text.',
-                  font: 'serif',
-                },
-              ],
+              component: 'Markdown',
+              content: '# Hello world! \n This is a markdown text.',
+              font: 'serif',
             },
           ],
         },
@@ -329,20 +289,15 @@ test.describe('Theme', () => {
     // GIVEN
     const config: Config = {
       name: 'Theme',
-      features: [
+      pages: [
         {
           name: 'theme',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'theme',
-              path: '/',
-              body: [
-                {
-                  component: 'Markdown',
-                  content: '# Hello world! \n [This is a link.](https://example.com)',
-                  font: 'serif',
-                },
-              ],
+              component: 'Markdown',
+              content: '# Hello world! \n [This is a link.](https://example.com)',
+              font: 'serif',
             },
           ],
         },

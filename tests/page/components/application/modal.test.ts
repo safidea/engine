@@ -7,37 +7,32 @@ test.describe('Modal component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
+              component: 'Modal',
+              button: {
+                label: 'Open Modal',
+              },
+              header: [
+                {
+                  component: 'Title',
+                  text: 'Modal Title',
+                },
+              ],
               body: [
                 {
-                  component: 'Modal',
-                  button: {
-                    label: 'Open Modal',
-                  },
-                  header: [
-                    {
-                      component: 'Title',
-                      text: 'Modal Title',
-                    },
-                  ],
-                  body: [
-                    {
-                      component: 'Paragraph',
-                      text: 'Modal Paragraph',
-                    },
-                  ],
-                  footer: [
-                    {
-                      component: 'Button',
-                      label: 'Save',
-                    },
-                  ],
+                  component: 'Paragraph',
+                  text: 'Modal Paragraph',
+                },
+              ],
+              footer: [
+                {
+                  component: 'Button',
+                  label: 'Save',
                 },
               ],
             },

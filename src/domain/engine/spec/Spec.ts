@@ -24,7 +24,6 @@ interface Params {
   then: Result[]
   newBrowser: () => Browser
   logger: Logger
-  feature: string
 }
 
 export class Spec implements Base {
@@ -41,7 +40,7 @@ export class Spec implements Base {
   }
 
   async test(app: App): Promise<TestError | undefined> {
-    const { when, then, newBrowser, logger, feature } = this.params
+    const { when, then, newBrowser, logger } = this.params
     let browser: Browser | undefined
     let page: BrowserPage | undefined
     try {
@@ -57,20 +56,18 @@ export class Spec implements Base {
         } else {
           throw new TestError({
             code: 'OPEN_ACTION_REQUIRED',
-            feature,
             spec: this.name,
           })
         }
       }
       if (then.find((result) => result instanceof ResultWithDatabase)) {
-        if (!app.database)
-          throw new TestError({ code: 'DATABASE_REQUIRED', feature, spec: this.name })
+        if (!app.database) throw new TestError({ code: 'DATABASE_REQUIRED', spec: this.name })
       }
       if (
         when.find((action) => action instanceof ActionWithPageAndMailer) ||
         then.find((result) => result instanceof ResultWithMailer)
       ) {
-        if (!app.mailer) throw new TestError({ code: 'MAILER_REQUIRED', feature, spec: this.name })
+        if (!app.mailer) throw new TestError({ code: 'MAILER_REQUIRED', spec: this.name })
       }
       for (const action of when) {
         if (action instanceof ActionWithPage) {

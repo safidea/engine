@@ -1,31 +1,20 @@
 export interface Params {
   code: string
-  feature: string
   spec: string
   expected?: string | number | boolean | object
   received?: string | number | boolean | object
 }
 
 export class TestError {
-  constructor(private params: Params) {}
+  public code: string
+  public spec: string
+  public expected?: string | number | boolean | object
+  public received?: string | number | boolean | object
 
-  get code() {
-    return this.params.code
-  }
-
-  get feature() {
-    return this.params.feature
-  }
-
-  get spec() {
-    return this.params.spec
-  }
-
-  get expected() {
-    return this.params.expected
-  }
-
-  get received() {
-    return this.params.received
+  constructor(params: Params) {
+    this.code = params.code
+    this.spec = params.spec
+    this.expected = params.expected
+    this.received = params.received
   }
 }

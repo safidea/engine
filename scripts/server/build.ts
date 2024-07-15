@@ -30,7 +30,6 @@ const externals: string[] = [
 
 const entrypoints: string[] = [
   'index.ts',
-  'feature.ts',
   'page.ts',
   'spec.ts',
   'table.ts',

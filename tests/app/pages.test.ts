@@ -7,19 +7,14 @@ test.describe('App with pages', () => {
     const text = 'Hello world!'
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display paragraph',
-          pages: [
+          name: 'paragraph',
+          path: '/',
+          body: [
             {
-              name: 'paragraph',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text,
-                },
-              ],
+              component: 'Paragraph',
+              text,
             },
           ],
         },
@@ -40,19 +35,14 @@ test.describe('App with pages', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display title',
-          pages: [
+          name: 'home',
+          path: '/',
+          body: [
             {
-              name: 'home',
-              path: '/',
-              body: [
-                {
-                  component: 'Title',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Title',
+              text: 'Hello world!',
             },
           ],
         },
@@ -76,25 +66,20 @@ test.describe('App with pages', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display title',
-          pages: [
-            {
-              name: 'home',
-              path: '/',
-              head: {
-                links: [
-                  {
-                    rel: 'icon',
-                    href: '/favicon.ico',
-                    type: 'image/x-icon',
-                  },
-                ],
+          name: 'home',
+          path: '/',
+          head: {
+            links: [
+              {
+                rel: 'icon',
+                href: '/favicon.ico',
+                type: 'image/x-icon',
               },
-              body: [],
-            },
-          ],
+            ],
+          },
+          body: [],
         },
       ],
     }

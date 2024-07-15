@@ -12,13 +12,12 @@ export class Title extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { title, logger, feature, spec } = this.params
+    const { title, logger, spec } = this.params
     logger.log(`checking if page title is "${title}"`)
     const pageTitle = await page.getTitle()
     if (pageTitle !== title) {
       throw new TestError({
         code: 'INVALID_TITLE',
-        feature,
         spec,
         expected: title,
         received: pageTitle,

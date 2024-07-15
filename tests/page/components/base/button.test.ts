@@ -59,37 +59,32 @@ test.describe('Button component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/:id',
+          body: [
             {
-              name: 'Page',
-              path: '/:id',
-              body: [
-                {
-                  component: 'Button',
-                  type: 'submit',
-                  label: 'Delete Request',
-                  action: '/api/table/leads/{{ params.id }}',
-                  method: 'DELETE',
-                },
-              ],
+              component: 'Button',
+              type: 'submit',
+              label: 'Delete Request',
+              action: '/api/table/leads/{{ params.id }}',
+              method: 'DELETE',
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-                {
-                  name: 'email',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -117,50 +112,45 @@ test.describe('Button component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Leads',
+          path: '/leads',
+          body: [
             {
-              name: 'Leads',
-              path: '/leads',
-              body: [
-                {
-                  component: 'Title',
-                  text: 'My leads',
-                },
-              ],
-            },
-            {
-              name: 'Page',
-              path: '/:id',
-              body: [
-                {
-                  component: 'Button',
-                  type: 'submit',
-                  label: 'Delete lead',
-                  action: '/api/table/leads/{{ params.id }}',
-                  method: 'DELETE',
-                  onSuccess: {
-                    redirect: '/leads',
-                  },
-                },
-              ],
+              component: 'Title',
+              text: 'My leads',
             },
           ],
-          tables: [
+        },
+        {
+          name: 'Page',
+          path: '/:id',
+          body: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-                {
-                  name: 'email',
-                  type: 'SingleLineText',
-                },
-              ],
+              component: 'Button',
+              type: 'submit',
+              label: 'Delete lead',
+              action: '/api/table/leads/{{ params.id }}',
+              method: 'DELETE',
+              onSuccess: {
+                redirect: '/leads',
+              },
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },

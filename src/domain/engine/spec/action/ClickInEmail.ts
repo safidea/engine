@@ -16,7 +16,7 @@ export class ClickInEmail extends BaseWithPageAndMailer {
   }
 
   executeWithPageAndMailer = async (page: BrowserPage, mailer: Mailer) => {
-    const { click, mailbox, find, logger, feature, spec } = this.params
+    const { click, mailbox, find, logger, spec } = this.params
     logger.log(
       `clicking "${click}" in email matching ${JSON.stringify(find)} in mailbox "${mailbox}"`
     )
@@ -24,7 +24,6 @@ export class ClickInEmail extends BaseWithPageAndMailer {
     if (!email) {
       throw new TestError({
         code: 'EMAIL_NOT_FOUND',
-        feature,
         spec,
         expected: find,
       })
@@ -33,7 +32,6 @@ export class ClickInEmail extends BaseWithPageAndMailer {
     if (!path) {
       throw new TestError({
         code: 'LINK_IN_EMAIL_NOT_FOUND',
-        feature,
         spec,
         expected: click,
       })
@@ -42,7 +40,6 @@ export class ClickInEmail extends BaseWithPageAndMailer {
     if (!success) {
       throw new TestError({
         code: 'PAGE_NOT_FOUND',
-        feature,
         spec,
         expected: path,
       })

@@ -35,22 +35,17 @@ test.describe('Container', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display container',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Container',
+              children: [
                 {
-                  component: 'Container',
-                  children: [
-                    {
-                      component: 'Paragraph',
-                      text: 'Hello world',
-                    },
-                  ],
+                  component: 'Paragraph',
+                  text: 'Hello world',
                 },
               ],
             },
@@ -104,19 +99,14 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                children: [],
               },
             ],
           },
@@ -145,20 +135,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    breakpoint: 'none',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                breakpoint: 'none',
+                children: [],
               },
             ],
           },
@@ -187,20 +172,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    breakpoint: 'sm',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                breakpoint: 'sm',
+                children: [],
               },
             ],
           },
@@ -229,20 +209,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    breakpoint: 'md',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                breakpoint: 'md',
+                children: [],
               },
             ],
           },
@@ -271,20 +246,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    breakpoint: 'lg',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                breakpoint: 'lg',
+                children: [],
               },
             ],
           },
@@ -313,20 +283,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    breakpoint: 'xl',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                breakpoint: 'xl',
+                children: [],
               },
             ],
           },
@@ -355,20 +320,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    breakpoint: '2xl',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                breakpoint: '2xl',
+                children: [],
               },
             ],
           },
@@ -399,19 +359,14 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                children: [],
               },
             ],
           },
@@ -440,20 +395,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    center: true,
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                center: true,
+                children: [],
               },
             ],
           },
@@ -482,21 +432,16 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    center: true,
-                    breakpoint: 'sm',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                center: true,
+                breakpoint: 'sm',
+                children: [],
               },
             ],
           },
@@ -525,21 +470,16 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    center: true,
-                    breakpoint: 'md',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                center: true,
+                breakpoint: 'md',
+                children: [],
               },
             ],
           },
@@ -568,21 +508,16 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    center: true,
-                    breakpoint: 'lg',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                center: true,
+                breakpoint: 'lg',
+                children: [],
               },
             ],
           },
@@ -611,21 +546,16 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    center: true,
-                    breakpoint: 'xl',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                center: true,
+                breakpoint: 'xl',
+                children: [],
               },
             ],
           },
@@ -654,21 +584,16 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    center: true,
-                    breakpoint: '2xl',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                center: true,
+                breakpoint: '2xl',
+                children: [],
               },
             ],
           },
@@ -699,19 +624,14 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                children: [],
               },
             ],
           },
@@ -736,20 +656,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    padding: '4',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                padding: '4',
+                children: [],
               },
             ],
           },
@@ -774,20 +689,15 @@ test.describe('Container', () => {
       // GIVEN
       const config: AppConfig = {
         name: 'Container',
-        features: [
+        pages: [
           {
-            name: 'Container',
-            pages: [
+            name: 'Page',
+            path: '/',
+            body: [
               {
-                name: 'Page',
-                path: '/',
-                body: [
-                  {
-                    component: 'Container',
-                    padding: '20',
-                    children: [],
-                  },
-                ],
+                component: 'Container',
+                padding: '20',
+                children: [],
               },
             ],
           },

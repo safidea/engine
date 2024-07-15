@@ -12,13 +12,12 @@ export class Open extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { open, logger, feature, spec } = this.params
+    const { open, logger, spec } = this.params
     logger.log(`opening "${open}"`)
     const success = await page.open(open)
     if (!success) {
       throw new TestError({
         code: 'PAGE_NOT_FOUND',
-        feature,
         spec,
         expected: open,
       })

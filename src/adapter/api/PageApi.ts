@@ -16,7 +16,7 @@ export class PageApi extends Base<Config, Page, Params> {
     config: unknown,
     request: GetDto = { path: '/', baseUrl: 'http://localhost:3000' }
   ): Promise<string> => {
-    const page = await this.validateEngineOrThrow(config)
+    const page = await this.validateOrThrow(config)
     const get = RequestMapper.toGetService(request)
     const state = new State(get)
     return page.html(state)

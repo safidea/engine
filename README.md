@@ -25,20 +25,15 @@ import App from '@safidea_/engine'
 
 const app = new App()
 const url = await app.start({
-  name: 'Hello world website',
-  features: [
+  name: 'Website',
+  pages: [
     {
-      name: 'website',
-      pages: [
+      name: 'Home',
+      path: '/',
+      body: [
         {
-          name: 'home',
-          path: '/',
-          body: [
-            {
-              component: 'Title',
-              text: 'Hello world!',
-            },
-          ],
+          component: 'Title',
+          text: 'Hello world!',
         },
       ],
     },
@@ -56,7 +51,7 @@ node index.js
 
 ## Configuration
 
-A configuration is a JSON representation of the application. It contains the features, pages, tables, automations, database, etc...
+A configuration is a JSON representation of the application. It contains the specs, pages, tables, automations, database, etc...
 
 You can see the [full JSON schema documentation here](https://json-schema.app/view/%23?url=https%3A%2F%2Fsafidea.com%2Fschemas%2Fapp.schema.json).
 

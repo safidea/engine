@@ -12,7 +12,7 @@ export class Post extends BaseWithRequest {
   }
 
   executeWithRequest = async (baseUrl: string) => {
-    const { post, body, logger, feature, spec } = this.params
+    const { post, body, logger, spec } = this.params
     logger.log(`posting "${JSON.stringify(body)}" to "${post}"`)
     const res = await fetch(`${baseUrl}${post}`, {
       method: 'POST',
@@ -24,7 +24,6 @@ export class Post extends BaseWithRequest {
     if (!res.ok) {
       throw new TestError({
         code: 'POST_REQUEST_ERROR',
-        feature,
         spec,
         expected: 200,
         received: res.status,

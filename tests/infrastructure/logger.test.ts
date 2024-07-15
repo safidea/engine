@@ -8,7 +8,6 @@ test.describe('Logger', () => {
     const database = new Database()
     const config: Config = {
       name: 'Logs',
-      features: [],
       database: database.config,
       logger: {
         store: true,

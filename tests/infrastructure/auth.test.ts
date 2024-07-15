@@ -8,76 +8,71 @@ test.describe('Auth', () => {
     // GIVEN
     const config: Config = {
       name: 'Request',
-      features: [
+      specs: [
         {
-          name: 'login',
-          specs: [
+          name: 'should submit the login form',
+          when: [
             {
-              name: 'should submit the login form',
-              when: [
+              open: '/login',
+            },
+            {
+              fill: 'email',
+              value: 'test@test.com',
+            },
+            {
+              click: 'Send magic link',
+            },
+            {
+              waitForText: 'Your email has been sent.',
+            },
+            {
+              mailbox: 'test@test.com',
+              find: [
                 {
-                  open: '/login',
-                },
-                {
-                  fill: 'email',
-                  value: 'test@test.com',
-                },
-                {
-                  click: 'Send magic link',
-                },
-                {
-                  waitForText: 'Your email has been sent.',
-                },
-                {
-                  mailbox: 'test@test.com',
-                  find: [
-                    {
-                      field: 'subject',
-                      operator: 'is',
-                      value: 'Confirm your email',
-                    },
-                  ],
-                  click: 'Confirm my email',
+                  field: 'subject',
+                  operator: 'is',
+                  value: 'Confirm your email',
                 },
               ],
-              then: [
-                {
-                  url: '/dashboard',
-                },
-              ],
+              click: 'Confirm my email',
             },
           ],
-          pages: [
+          then: [
             {
-              name: 'login',
-              path: '/login',
-              head: {
-                title: 'Login',
-              },
-              body: [
+              url: '/dashboard',
+            },
+          ],
+        },
+      ],
+      pages: [
+        {
+          name: 'login',
+          path: '/login',
+          head: {
+            title: 'Login',
+          },
+          body: [
+            {
+              component: 'Form',
+              action: '/api/auth/login',
+              method: 'POST',
+              title: { text: 'Login' },
+              inputs: [
                 {
-                  component: 'Form',
-                  action: '/api/auth/login',
-                  method: 'POST',
-                  title: { text: 'Login' },
-                  inputs: [
-                    {
-                      name: 'email',
-                      label: 'Email',
-                      type: 'email',
-                      required: true,
-                      placeholder: 'My email',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Send magic link',
-                    },
-                  ],
-                  successMessage: 'Your email has been sent.',
+                  name: 'email',
+                  label: 'Email',
+                  type: 'email',
+                  required: true,
+                  placeholder: 'My email',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Send magic link',
+                },
+              ],
+              successMessage: 'Your email has been sent.',
             },
           ],
         },

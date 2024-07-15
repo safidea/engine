@@ -5,7 +5,6 @@ import type { Mailer } from '@domain/services/Mailer'
 
 export interface BaseParams {
   logger: Logger
-  feature: string
   spec: string
 }
 

@@ -1,94 +1,49 @@
 import { App } from '@domain/engine/App'
 import { Services } from '@domain/services'
 import type { App as AppConfig } from '../configs/App'
-import type { Feature as FeatureConfig } from '../configs/Feature'
 import type { Mapper } from './Mapper'
 import { PageMapper, type Params as PageParams } from './page/PageMapper'
 import { TableMapper, type Params as TableParams } from './table/TableMapper'
 import { AutomationMapper, type Params as AutomationParams } from './automation/AutomationMapper'
+import { SpecMapper, type Params as SpecParams } from './spec/SpecMapper'
 import type { Database, Config as DatabaseConfig } from '@domain/services/Database'
-import type { Table } from '@domain/engine/table/Table'
-import type { Page } from '@domain/engine/page/Page'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
-import type { Automation } from '@domain/engine/automation/Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { Mailer, Config as MailerConfig } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
-import type {} from '@domain/services/FontLibrary'
 
 export interface Params {
+  spec?: SpecParams
   table?: TableParams
   page?: PageParams
   automation?: AutomationParams
   newLogger: (location: string) => Logger
   server: Server
+  theme: Theme
   database?: Database
   queue?: Queue
   mailer?: Mailer
   realtime?: Realtime
   auth?: Auth
-  theme: Theme
 }
 
-interface Private {
-  featureToEntityFromServices: (featureConfig: FeatureConfig, services: Services) => App
-}
-
-export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapper {
+export const AppMapper: Mapper<AppConfig, App, Params> = class AppMapper {
   static toEntity = (config: AppConfig, params: Params) => {
-    const { name, features } = config
+    const { name } = config
     const { server, newLogger, database, queue, mailer, realtime, auth, theme } = params
-    const tables: Table[] = []
-    const pages: Page[] = []
-    const automations: Automation[] = []
-    for (const feature of features) {
-      if (params.table && feature.tables && feature.tables.length > 0) {
-        tables.push(...TableMapper.toManyEntities(feature.tables, params.table))
-      }
-    }
-    for (const feature of features) {
-      if (params.automation && feature.automations && feature.automations.length > 0) {
-        automations.push(...AutomationMapper.toManyEntities(feature.automations, params.automation))
-      }
-    }
-    for (const feature of features) {
-      if (params.page && feature.pages && feature.pages.length > 0) {
-        pages.push(...PageMapper.toManyEntities(feature.pages, params.page))
-      }
-    }
+    const tables = params.table ? TableMapper.toManyEntities(config.tables ?? [], params.table) : []
+    const pages = params.page ? PageMapper.toManyEntities(config.pages ?? [], params.page) : []
+    const automations = params.automation
+      ? AutomationMapper.toManyEntities(config.automations ?? [], params.automation)
+      : []
+    const specs = params.spec ? SpecMapper.toManyEntities(config.specs ?? [], params.spec) : []
     const logger = newLogger(`app:${name}`)
-    if (params.page && !pages.find((page) => page.path === '/404')) {
-      pages.push(
-        PageMapper.toEntity(
-          {
-            name: 'not found',
-            path: '/404',
-            head: {
-              title: '404 not found',
-            },
-            body: [
-              {
-                component: 'NotFound',
-                title: { text: "Something's missing." },
-                paragraph: {
-                  text: "Sorry, we can't find that page. You'll find lots to explore on the home page.",
-                },
-                button: {
-                  label: 'Back to Homepage',
-                  href: '/',
-                },
-              },
-            ],
-          },
-          params.page
-        )
-      )
-    }
     return new App({
       name,
+      specs,
       tables,
       pages,
       automations,
@@ -136,12 +91,14 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       ui,
     })
     const newLogger = (location: string) => services.logger({ location })
-    let queue: Queue | undefined
-    let mailer: Mailer | undefined
-    let auth: Auth | undefined
+    const newBrowser = () => services.browser()
     let table: TableParams | undefined
     let page: PageParams | undefined
     let automation: AutomationParams | undefined
+    let spec: SpecParams | undefined
+    let queue: Queue | undefined
+    let mailer: Mailer | undefined
+    let auth: Auth | undefined
     const { type: databaseType, url: databaseUrl } = config.database ?? {}
     if (databaseType && databaseType !== 'sqlite' && databaseType !== 'postgres')
       throw new Error(`Database ${config.database?.type} not supported`)
@@ -166,10 +123,11 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       database,
       idGenerator,
     })
-    if (config.features.some((feature) => feature.tables && feature.tables.length > 0)) {
-      table = { newLogger, server, database, record }
+    if (config.specs && config.specs.length > 0) {
+      spec = { newLogger, newBrowser }
     }
-    if (config.features.some((feature) => feature.pages && feature.pages.length > 0)) {
+    if (config.tables && config.tables.length > 0) table = { newLogger, server, database, record }
+    if (config.pages && config.pages.length > 0)
       page = {
         server,
         newLogger,
@@ -182,8 +140,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
         markdownParser,
         iconLibrary,
       }
-    }
-    if (config.features.some((feature) => feature.automations && feature.automations.length > 0)) {
+    if (config.automations && config.automations.length > 0) {
       queue = services.queue({
         logger: services.logger({ location: `queue` }),
         database,
@@ -221,6 +178,7 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       })
     }
     return this.toEntity(config, {
+      spec,
       table,
       page,
       newLogger,
@@ -233,15 +191,6 @@ export const AppMapper: Mapper<AppConfig, App, Params> & Private = class AppMapp
       auth,
       theme,
     })
-  }
-
-  static featureToEntityFromServices = (featureConfig: FeatureConfig, services: Services) => {
-    const appConfig: AppConfig = {
-      name: 'feature: ' + featureConfig.name,
-      features: [featureConfig],
-      auth: featureConfig.auth,
-    }
-    return this.toEntityFromServices(appConfig, services)
   }
 
   static toManyEntitiesFromServices = (configs: AppConfig[], services: Services) => {

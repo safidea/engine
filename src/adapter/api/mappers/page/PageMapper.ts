@@ -60,6 +60,28 @@ export const PageMapper: Mapper<PageConfig, Page, Params> = class PageMapper {
   }
 
   static toManyEntities = (configs: PageConfig[], params: Params) => {
+    if (!configs.find((config) => config.path === '/404')) {
+      configs.push({
+        name: 'not found',
+        path: '/404',
+        head: {
+          title: '404 not found',
+        },
+        body: [
+          {
+            component: 'NotFound',
+            title: { text: "Something's missing." },
+            paragraph: {
+              text: "Sorry, we can't find that page. You'll find lots to explore on the home page.",
+            },
+            button: {
+              label: 'Back to Homepage',
+              href: '/',
+            },
+          },
+        ],
+      })
+    }
     return configs.map((config) => this.toEntity(config, params))
   }
 

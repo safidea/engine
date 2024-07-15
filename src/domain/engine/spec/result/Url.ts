@@ -12,7 +12,7 @@ export class Url extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { url, logger, feature, spec } = this.params
+    const { url, logger, spec } = this.params
     logger.log(`checking if page url is "${url}"`)
     const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
     let attempts = 0
@@ -27,7 +27,6 @@ export class Url extends BaseWithPage {
     }
     throw new TestError({
       code: 'INVALID_URL',
-      feature,
       spec,
       expected: url,
       received: pageUrl,

@@ -8,21 +8,16 @@ test.describe('Sidebar component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Sidebar',
-                  title: { text: 'Menu' },
-                  links: [],
-                  children: [],
-                },
-              ],
+              component: 'Sidebar',
+              title: { text: 'Menu' },
+              links: [],
+              children: [],
             },
           ],
         },
@@ -42,32 +37,27 @@ test.describe('Sidebar component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Sidebar',
+              title: { text: 'Menu' },
+              links: [
                 {
-                  component: 'Sidebar',
-                  title: { text: 'Menu' },
-                  links: [
-                    {
-                      label: 'Home',
-                      prefixIcon: { name: 'Home' },
-                      href: '/',
-                    },
-                    {
-                      label: 'Leads',
-                      prefixIcon: { name: 'Users' },
-                      href: '/leads',
-                    },
-                  ],
-                  children: [],
+                  label: 'Home',
+                  prefixIcon: { name: 'Home' },
+                  href: '/',
+                },
+                {
+                  label: 'Leads',
+                  prefixIcon: { name: 'Users' },
+                  href: '/leads',
                 },
               ],
+              children: [],
             },
           ],
         },
@@ -108,34 +98,29 @@ test.describe('Sidebar component', () => {
     })
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
-            {
-              name: 'Page',
-              path: '/',
-              body: [
-                sidebar([
-                  {
-                    component: 'Paragraph',
-                    text: 'Home page',
-                  },
-                ]),
-              ],
-            },
-            {
-              name: 'Leads',
-              path: '/leads',
-              body: [
-                sidebar([
-                  {
-                    component: 'Paragraph',
-                    text: 'Leads page',
-                  },
-                ]),
-              ],
-            },
+          name: 'Page',
+          path: '/',
+          body: [
+            sidebar([
+              {
+                component: 'Paragraph',
+                text: 'Home page',
+              },
+            ]),
+          ],
+        },
+        {
+          name: 'Leads',
+          path: '/leads',
+          body: [
+            sidebar([
+              {
+                component: 'Paragraph',
+                text: 'Leads page',
+              },
+            ]),
           ],
         },
       ],
@@ -156,43 +141,38 @@ test.describe('Sidebar component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Sidebar',
+              title: { text: 'Menu' },
+              links: [],
+              children: [
                 {
-                  component: 'Sidebar',
-                  title: { text: 'Menu' },
-                  links: [],
-                  children: [
+                  component: 'Table',
+                  source: '/api/table/leads',
+                  columns: [
                     {
-                      component: 'Table',
-                      source: '/api/table/leads',
-                      columns: [
-                        {
-                          name: 'name',
-                          label: 'Name',
-                        },
-                      ],
+                      name: 'name',
+                      label: 'Name',
                     },
                   ],
                 },
               ],
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },

@@ -13,14 +13,13 @@ export class InputText extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { input, value, logger, feature, spec } = this.params
+    const { input, value, logger, spec } = this.params
     logger.log(`checking if input "${input}" with value "${value}" exist`)
     const inputElement = await page.getByAttribute('name', input, { tag: 'input' })
     const attributeValue = await inputElement?.getInputValue()
     if (attributeValue !== value) {
       throw new TestError({
         code: 'INPUT_NOT_FOUND',
-        feature,
         spec,
         expected: value,
         received: attributeValue,

@@ -32,19 +32,14 @@ test.describe('Paragraph component', () => {
     const text = 'Hello world!'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display paragraph',
-          pages: [
+          name: 'paragraph',
+          path: '/',
+          body: [
             {
-              name: 'paragraph',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text,
-                },
-              ],
+              component: 'Paragraph',
+              text,
             },
           ],
         },

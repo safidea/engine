@@ -12,13 +12,12 @@ export class Click extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { click, logger, feature, spec } = this.params
+    const { click, logger, spec } = this.params
     logger.log(`clicking "${click}"`)
     const success = await page.click(click)
     if (!success) {
       throw new TestError({
         code: 'BUTTON_NOT_FOUND',
-        feature,
         spec,
         expected: click,
       })

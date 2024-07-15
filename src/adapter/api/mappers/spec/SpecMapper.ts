@@ -8,24 +8,22 @@ import type { Logger } from '@domain/services/Logger'
 import type { Browser } from '@domain/services/Browser'
 
 export interface Params {
-  feature: string
   newLogger: (location: string) => Logger
   newBrowser: () => Browser
 }
 
 export const SpecMapper: Mapper<SpecConfig, Spec, Params> = class SpecMapper {
   static toEntity = (config: SpecConfig, params: Params) => {
-    const { feature, newLogger, newBrowser } = params
+    const { newLogger, newBrowser } = params
     const logger = newLogger(`spec:${config.name}`)
-    const when = ActionMapper.toManyEntities(config.when, { logger, feature, spec: config.name })
-    const then = ResultMapper.toManyEntities(config.then, { logger, feature, spec: config.name })
+    const when = ActionMapper.toManyEntities(config.when, { logger, spec: config.name })
+    const then = ResultMapper.toManyEntities(config.then, { logger, spec: config.name })
     return new Spec({
       name: config.name,
       when,
       then,
       newBrowser,
       logger,
-      feature,
     })
   }
 
@@ -36,8 +34,7 @@ export const SpecMapper: Mapper<SpecConfig, Spec, Params> = class SpecMapper {
   static toEntityFromServices = (config: SpecConfig, services: Services) => {
     const newBrowser = () => services.browser()
     const newLogger = (location: string) => services.logger({ location })
-    const feature = 'current'
-    return this.toEntity(config, { feature, newLogger, newBrowser })
+    return this.toEntity(config, { newLogger, newBrowser })
   }
 
   static toManyEntitiesFromServices = (configs: SpecConfig[], services: Services) => {

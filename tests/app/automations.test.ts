@@ -12,28 +12,23 @@ test.describe('App with automations', () => {
     const mailer = new Mailer(database)
     const config: Config = {
       name: 'App',
-      features: [
+      automations: [
         {
-          name: 'Feature',
-          automations: [
+          name: 'Send email',
+          trigger: {
+            event: 'WebhookCalled',
+            method: 'POST',
+            path: 'send-email',
+          },
+          actions: [
             {
-              name: 'Send email',
-              trigger: {
-                event: 'WebhookCalled',
-                method: 'POST',
-                path: 'send-email',
-              },
-              actions: [
-                {
-                  name: 'send-email',
-                  action: 'SendEmail',
-                  from: 'noreply@test.com',
-                  to: '{{ trigger.body.email }}',
-                  subject: 'New lead',
-                  text: 'A new lead has been created!',
-                  html: '<p>A new lead has been created!</p>',
-                },
-              ],
+              name: 'send-email',
+              action: 'SendEmail',
+              from: 'noreply@test.com',
+              to: '{{ trigger.body.email }}',
+              subject: 'New lead',
+              text: 'A new lead has been created!',
+              html: '<p>A new lead has been created!</p>',
             },
           ],
         },
@@ -65,28 +60,23 @@ test.describe('App with automations', () => {
     const mailer = new Mailer(database)
     const config: Config = {
       name: 'App',
-      features: [
+      automations: [
         {
-          name: 'Feature',
-          automations: [
+          name: 'Send email',
+          trigger: {
+            event: 'WebhookCalled',
+            method: 'POST',
+            path: 'send-email',
+          },
+          actions: [
             {
-              name: 'Send email',
-              trigger: {
-                event: 'WebhookCalled',
-                method: 'POST',
-                path: 'send-email',
-              },
-              actions: [
-                {
-                  name: 'send-email',
-                  action: 'SendEmail',
-                  from: 'noreply@test.com',
-                  to: '{{ trigger.body.email }}',
-                  subject: 'New lead',
-                  text: 'A new lead has been created!',
-                  html: '<p>A new lead has been created!</p>',
-                },
-              ],
+              name: 'send-email',
+              action: 'SendEmail',
+              from: 'noreply@test.com',
+              to: '{{ trigger.body.email }}',
+              subject: 'New lead',
+              text: 'A new lead has been created!',
+              html: '<p>A new lead has been created!</p>',
             },
           ],
         },

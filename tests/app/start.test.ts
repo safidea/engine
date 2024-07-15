@@ -6,19 +6,14 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -37,26 +32,21 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      specs: [
         {
-          name: 'Feature',
-          specs: [
+          name: 'display invalid text',
+          when: [{ open: '/' }],
+          then: [{ text: 'Hello world!' }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'Hello world!' }],
-            },
-          ],
-          pages: [
-            {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -77,19 +67,14 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -109,19 +94,14 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -141,19 +121,14 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -175,19 +150,14 @@ test.describe('App api', () => {
     process.env.PORT = '5432'
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },
@@ -207,23 +177,18 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
                 },
               ],
             },
@@ -244,23 +209,18 @@ test.describe('App api', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
                 },
               ],
             },

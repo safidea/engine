@@ -47,54 +47,49 @@ test.describe('Form component', () => {
     const successMessage = 'Your lead has been created successfully!'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Form',
-                  title: { text: 'This is a title' },
-                  paragraph: { text: 'This is a description' },
-                  action: '/api/table/leads',
-                  method: 'POST',
-                  inputs: [
-                    {
-                      name: 'name',
-                      label: 'Your name',
-                    },
-                    {
-                      name: 'email',
-                      label: 'Your email',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Save',
-                    },
-                  ],
-                  successMessage,
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'Form',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              action: '/api/table/leads',
+              method: 'POST',
+              inputs: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
+                  label: 'Your name',
                 },
                 {
                   name: 'email',
-                  type: 'SingleLineText',
+                  label: 'Your email',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Save',
+                },
+              ],
+              successMessage,
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -124,54 +119,49 @@ test.describe('Form component', () => {
     const successMessage = 'Your lead has been created successfully!'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Form',
-                  title: { text: 'This is a title' },
-                  paragraph: { text: 'This is a description' },
-                  action: '/api/table/leads',
-                  method: 'POST',
-                  inputs: [
-                    {
-                      name: 'name',
-                      label: 'Your name',
-                    },
-                    {
-                      name: 'email',
-                      label: 'Your email',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Save',
-                    },
-                  ],
-                  successMessage,
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'Form',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              action: '/api/table/leads',
+              method: 'POST',
+              inputs: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
+                  label: 'Your name',
                 },
                 {
                   name: 'email',
-                  type: 'SingleLineText',
+                  label: 'Your email',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Save',
+                },
+              ],
+              successMessage,
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -197,55 +187,50 @@ test.describe('Form component', () => {
     const successMessage = 'Your lead has been updated successfully!'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/:id',
+          body: [
             {
-              name: 'Page',
-              path: '/:id',
-              body: [
-                {
-                  component: 'Form',
-                  title: { text: 'This is a title' },
-                  paragraph: { text: 'This is a description' },
-                  action: '/api/table/leads/{{ params.id }}',
-                  source: '/api/table/leads/{{ params.id }}',
-                  method: 'PATCH',
-                  inputs: [
-                    {
-                      name: 'name',
-                      label: 'Your name',
-                    },
-                    {
-                      name: 'email',
-                      label: 'Your email',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Update',
-                    },
-                  ],
-                  successMessage,
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'Form',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              action: '/api/table/leads/{{ params.id }}',
+              source: '/api/table/leads/{{ params.id }}',
+              method: 'PATCH',
+              inputs: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
+                  label: 'Your name',
                 },
                 {
                   name: 'email',
-                  type: 'SingleLineText',
+                  label: 'Your email',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Update',
+                },
+              ],
+              successMessage,
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -276,55 +261,50 @@ test.describe('Form component', () => {
     const successMessage = 'Your lead has been updated successfully!'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/:id',
+          body: [
             {
-              name: 'Page',
-              path: '/:id',
-              body: [
-                {
-                  component: 'Form',
-                  title: { text: 'This is a title' },
-                  paragraph: { text: 'This is a description' },
-                  action: '/api/table/leads/{{ params.id }}',
-                  source: '/api/table/leads/{{ params.id }}',
-                  method: 'PATCH',
-                  inputs: [
-                    {
-                      name: 'name',
-                      label: 'Your name',
-                    },
-                    {
-                      name: 'email',
-                      label: 'Your email',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Update',
-                    },
-                  ],
-                  successMessage,
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'Form',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              action: '/api/table/leads/{{ params.id }}',
+              source: '/api/table/leads/{{ params.id }}',
+              method: 'PATCH',
+              inputs: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
+                  label: 'Your name',
                 },
                 {
                   name: 'email',
-                  type: 'SingleLineText',
+                  label: 'Your email',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Update',
+                },
+              ],
+              successMessage,
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -357,61 +337,56 @@ test.describe('Form component', () => {
     const successMessage = 'Your lead has been updated successfully!'
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/:id',
+          body: [
             {
-              name: 'Page',
-              path: '/:id',
-              body: [
-                {
-                  component: 'Form',
-                  title: { text: 'This is a title' },
-                  paragraph: { text: 'This is a description' },
-                  action: '/api/table/leads/{{ params.id }}',
-                  source: '/api/table/leads/{{ params.id }}',
-                  method: 'PATCH',
-                  inputs: [
-                    {
-                      name: 'name',
-                      label: 'Your name',
-                    },
-                    {
-                      name: 'email',
-                      label: 'Your email',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Delete Request',
-                      action: '/api/table/leads/{{ params.id }}',
-                      method: 'DELETE',
-                    },
-                    {
-                      type: 'submit',
-                      label: 'Update',
-                    },
-                  ],
-                  successMessage,
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
+              component: 'Form',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              action: '/api/table/leads/{{ params.id }}',
+              source: '/api/table/leads/{{ params.id }}',
+              method: 'PATCH',
+              inputs: [
                 {
                   name: 'name',
-                  type: 'SingleLineText',
+                  label: 'Your name',
                 },
                 {
                   name: 'email',
-                  type: 'SingleLineText',
+                  label: 'Your email',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Delete Request',
+                  action: '/api/table/leads/{{ params.id }}',
+                  method: 'DELETE',
+                },
+                {
+                  type: 'submit',
+                  label: 'Update',
+                },
+              ],
+              successMessage,
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },

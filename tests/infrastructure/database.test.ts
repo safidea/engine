@@ -10,22 +10,17 @@ test.describe('Database', () => {
     // GIVEN
     const config: Config = {
       name: 'Database',
-      features: [
+      tables: [
         {
-          name: 'start',
-          tables: [
+          name: 'users',
+          fields: [
             {
-              name: 'users',
-              fields: [
-                {
-                  name: 'email',
-                  type: 'SingleLineText',
-                },
-                {
-                  name: 'password',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'email',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'password',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -49,22 +44,17 @@ test.describe('Database', () => {
     const database = new Database()
     const config: Config = {
       name: 'Database',
-      features: [
+      tables: [
         {
-          name: 'start',
-          tables: [
+          name: 'users',
+          fields: [
             {
-              name: 'users',
-              fields: [
-                {
-                  name: 'email',
-                  type: 'SingleLineText',
-                },
-                {
-                  name: 'password',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'email',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'password',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -85,22 +75,17 @@ test.describe('Database', () => {
     const database = new Database()
     const config: Config = {
       name: 'Database',
-      features: [
+      tables: [
         {
-          name: 'start',
-          tables: [
+          name: 'users',
+          fields: [
             {
-              name: 'users',
-              fields: [
-                {
-                  name: 'email',
-                  type: 'SingleLineText',
-                },
-                {
-                  name: 'password',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'email',
+              type: 'SingleLineText',
+            },
+            {
+              name: 'password',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -128,18 +113,13 @@ test.describe('Database', () => {
     const database = new Database('postgres', postgresContainer.getConnectionUri())
     const config: Config = {
       name: 'Database',
-      features: [
+      tables: [
         {
-          name: 'start',
-          tables: [
+          name: 'users',
+          fields: [
             {
-              name: 'users',
-              fields: [
-                {
-                  name: 'email',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'email',
+              type: 'SingleLineText',
             },
           ],
         },

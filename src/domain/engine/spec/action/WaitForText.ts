@@ -13,13 +13,12 @@ export class WaitForText extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { waitForText, timeout, logger, feature, spec } = this.params
+    const { waitForText, timeout, logger, spec } = this.params
     logger.log(`waiting for text "${waitForText}"`)
     const success = await page.waitForText(waitForText, { timeout })
     if (!success) {
       throw new TestError({
         code: 'TEXT_NOT_FOUND',
-        feature,
         spec,
         expected: waitForText,
       })

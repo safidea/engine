@@ -8,46 +8,41 @@ test.describe('Number text field', () => {
     const database = new Database()
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Scores',
-          pages: [
+          name: 'Add a score',
+          path: '/',
+          body: [
             {
-              name: 'Add a score',
-              path: '/',
-              body: [
-                {
-                  component: 'Form',
-                  title: { text: 'This is a title' },
-                  paragraph: { text: 'This is a description' },
-                  action: '/api/table/scores',
-                  inputs: [
-                    {
-                      name: 'score',
-                      label: 'Score',
-                      type: 'number',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      type: 'submit',
-                      label: 'Save',
-                    },
-                  ],
-                  successMessage: 'Your score has been saved',
-                },
-              ],
-            },
-          ],
-          tables: [
-            {
-              name: 'scores',
-              fields: [
+              component: 'Form',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              action: '/api/table/scores',
+              inputs: [
                 {
                   name: 'score',
-                  type: 'Number',
+                  label: 'Score',
+                  type: 'number',
                 },
               ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Save',
+                },
+              ],
+              successMessage: 'Your score has been saved',
+            },
+          ],
+        },
+      ],
+      tables: [
+        {
+          name: 'scores',
+          fields: [
+            {
+              name: 'score',
+              type: 'Number',
             },
           ],
         },

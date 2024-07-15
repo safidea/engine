@@ -13,14 +13,13 @@ export class Text extends BaseWithPage {
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { tag, text, logger, feature, spec } = this.params
+    const { tag, text, logger, spec } = this.params
     const textMessage = `checking if text "${text}" exist`
     logger.log(tag ? `${textMessage} in tag "${tag}"` : textMessage)
     const textElement = await page.getByText(text, { tag })
     if (!textElement) {
       throw new TestError({
         code: 'TEXT_NOT_FOUND',
-        feature,
         spec,
         expected: text,
       })

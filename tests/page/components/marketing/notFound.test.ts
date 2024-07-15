@@ -6,19 +6,14 @@ test.describe('NotFound component', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Home',
+          path: '/',
+          body: [
             {
-              name: 'Home',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'Hello world!',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'Hello world!',
             },
           ],
         },

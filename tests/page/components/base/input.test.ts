@@ -38,19 +38,14 @@ test.describe('Input component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'display input',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Input',
-                  name: 'name',
-                },
-              ],
+              component: 'Input',
+              name: 'name',
             },
           ],
         },

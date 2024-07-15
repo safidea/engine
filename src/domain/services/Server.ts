@@ -46,8 +46,9 @@ export class Server {
     return this.spi.params.env || 'development'
   }
 
-  init = async () => {
+  init = async (callback: () => Promise<void>) => {
     await this.get('/health', async () => new Json({ success: true }))
+    await callback()
     if (this.notFoundHandler) await this.notFoundHandler()
   }
 

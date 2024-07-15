@@ -13,9 +13,12 @@ import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
 import { Get } from '@domain/entities/request/Get'
 import { State } from './page/State'
+import type { TestError } from '@domain/entities/error/Test'
+import type { Spec } from './spec/Spec'
 
 interface Params {
   name: string
+  specs: Spec[]
   tables: Table[]
   pages: Page[]
   automations: Automation[]
@@ -38,16 +41,17 @@ export class App implements Base {
 
   init = async () => {
     const { tables, pages, automations, theme, server } = this.params
-    const htmlContents = await Promise.all(
-      pages.map((page) =>
-        page.html(new State(new Get({ path: page.path, baseUrl: server.baseUrl })))
+    await server.init(async () => {
+      const htmlContents = await Promise.all(
+        pages.map((page) =>
+          page.html(new State(new Get({ path: page.path, baseUrl: server.baseUrl })))
+        )
       )
-    )
-    await server.init()
-    await theme.init(htmlContents)
-    for (const table of tables) await table.init()
-    for (const automation of automations) await automation.init()
-    for (const page of pages) await page.init()
+      await theme.init(htmlContents)
+      for (const table of tables) await table.init()
+      for (const automation of automations) await automation.init()
+      for (const page of pages) await page.init()
+    })
   }
 
   validateConfig = async () => {
@@ -60,8 +64,17 @@ export class App implements Base {
     return Promise.all(errors).then((errors) => errors.flat())
   }
 
+  test = async (): Promise<TestError[]> => {
+    const { logger, specs } = this.params
+    const errors: TestError[] = []
+    logger.log(`start testing specs`)
+    const results = await Promise.all(specs.map(async (spec) => spec.test(new App(this.params))))
+    for (const result of results) if (result) errors.push(result)
+    logger.log(`finish testing specs with ${errors.length} error(s)`)
+    return errors
+  }
+
   start = async ({ isTest = false } = {}): Promise<string> => {
-    await this.validateConfig()
     const { server, database, queue, mailer, realtime, auth } = this.params
     if (database) await database.migrate(this.params.tables)
     if (queue) await queue.start()

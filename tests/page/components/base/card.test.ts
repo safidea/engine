@@ -70,29 +70,24 @@ test.describe('Card component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'Card',
-      features: [
+      pages: [
         {
           name: 'Card',
-          pages: [
+          path: '/',
+          body: [
             {
-              name: 'Card',
-              path: '/',
-              body: [
-                {
-                  component: 'Card',
-                  image: {
-                    src: 'https://picsum.photos/200/300',
-                    alt: 'First post',
-                  },
-                  title: {
-                    text: 'First post',
-                  },
-                  paragraph: {
-                    text: 'This is a post.',
-                  },
-                  href: 'https://example.com',
-                },
-              ],
+              component: 'Card',
+              image: {
+                src: 'https://picsum.photos/200/300',
+                alt: 'First post',
+              },
+              title: {
+                text: 'First post',
+              },
+              paragraph: {
+                text: 'This is a post.',
+              },
+              href: 'https://example.com',
             },
           ],
         },

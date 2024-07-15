@@ -7,23 +7,18 @@ test.describe('Table component', () => {
     // GIVEN
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
                 },
               ],
             },
@@ -49,36 +44,31 @@ test.describe('Table component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
                 },
               ],
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -101,42 +91,37 @@ test.describe('Table component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      label: 'Add row',
-                      href: '/add',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
+                },
+              ],
+              buttons: [
+                {
+                  label: 'Add row',
+                  href: '/add',
                 },
               ],
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -159,42 +144,37 @@ test.describe('Table component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
-                  buttons: [
-                    {
-                      label: 'Add row',
-                      href: '/add',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
+                },
+              ],
+              buttons: [
+                {
+                  label: 'Add row',
+                  href: '/add',
                 },
               ],
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -219,37 +199,32 @@ test.describe('Table component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              title: { text: 'Leads' },
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  title: { text: 'Leads' },
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
                 },
               ],
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
@@ -271,38 +246,33 @@ test.describe('Table component', () => {
     const database = new Database()
     const config: AppConfig = {
       name: 'App',
-      features: [
+      pages: [
         {
-          name: 'Feature',
-          pages: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'Page',
-              path: '/',
-              body: [
+              component: 'Table',
+              id: 'my-table',
+              title: { text: 'Leads' },
+              source: '/api/table/leads',
+              columns: [
                 {
-                  component: 'Table',
-                  id: 'my-table',
-                  title: { text: 'Leads' },
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
+                  name: 'name',
+                  label: 'Name',
                 },
               ],
             },
           ],
-          tables: [
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },

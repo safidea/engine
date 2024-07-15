@@ -661,6 +661,24 @@
         "Config_10": {
             "additionalProperties": false,
             "properties": {
+                "env": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "sslCert": {
+                    "type": "string"
+                },
+                "sslKey": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Config_11": {
+            "additionalProperties": false,
+            "properties": {
                 "confirmEmail": {
                     "additionalProperties": false,
                     "properties": {
@@ -702,24 +720,6 @@
                 "secret",
                 "strategy"
             ],
-            "type": "object"
-        },
-        "Config_11": {
-            "additionalProperties": false,
-            "properties": {
-                "env": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "sslCert": {
-                    "type": "string"
-                },
-                "sslKey": {
-                    "type": "string"
-                }
-            },
             "type": "object"
         },
         "Config_12": {
@@ -3166,52 +3166,16 @@
     },
     "properties": {
         "auth": {
-            "$ref": "#/definitions/Config_10"
+            "$ref": "#/definitions/Config_11"
+        },
+        "automations": {
+            "items": {
+                "$ref": "#/definitions/Automation"
+            },
+            "type": "array"
         },
         "database": {
             "$ref": "#/definitions/Config_8"
-        },
-        "features": {
-            "items": {
-                "additionalProperties": false,
-                "properties": {
-                    "auth": {
-                        "$ref": "#/definitions/Config_10"
-                    },
-                    "automations": {
-                        "items": {
-                            "$ref": "#/definitions/Automation"
-                        },
-                        "type": "array"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "pages": {
-                        "items": {
-                            "$ref": "#/definitions/Page"
-                        },
-                        "type": "array"
-                    },
-                    "specs": {
-                        "items": {
-                            "$ref": "#/definitions/Spec"
-                        },
-                        "type": "array"
-                    },
-                    "tables": {
-                        "items": {
-                            "$ref": "#/definitions/Table_1"
-                        },
-                        "type": "array"
-                    }
-                },
-                "required": [
-                    "name"
-                ],
-                "type": "object"
-            },
-            "type": "array"
         },
         "logger": {
             "$ref": "#/definitions/Config_12"
@@ -3222,15 +3186,32 @@
         "name": {
             "type": "string"
         },
+        "pages": {
+            "items": {
+                "$ref": "#/definitions/Page"
+            },
+            "type": "array"
+        },
         "server": {
-            "$ref": "#/definitions/Config_11"
+            "$ref": "#/definitions/Config_10"
+        },
+        "specs": {
+            "items": {
+                "$ref": "#/definitions/Spec"
+            },
+            "type": "array"
+        },
+        "tables": {
+            "items": {
+                "$ref": "#/definitions/Table_1"
+            },
+            "type": "array"
         },
         "theme": {
             "$ref": "#/definitions/Config_13"
         }
     },
     "required": [
-        "features",
         "name"
     ],
     "type": "object"

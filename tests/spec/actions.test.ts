@@ -1,9 +1,9 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Feature as Config } from '@safidea/engine/feature'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Spec actions', () => {
-  test.slow() 
-  
+  test.slow()
+
   test('should click on a link in a email', async () => {
     // GIVEN
     const config: Config = {
@@ -96,10 +96,10 @@ test.describe('Spec actions', () => {
         },
       ],
     }
-    const feature = new Feature()
+    const app = new App()
 
     // WHEN
-    const errors = await feature.test(config)
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

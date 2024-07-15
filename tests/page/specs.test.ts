@@ -1,9 +1,9 @@
 import { test, expect } from '@tests/fixtures'
-import Feature, { type Feature as Config } from '@safidea/engine/feature'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Pages specs', () => {
-  test.slow() 
-  
+  test.slow()
+
   test('should find an invalid page title', async () => {
     // GIVEN
     const config: Config = {
@@ -26,8 +26,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -59,8 +59,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -92,8 +92,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -128,8 +128,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -161,8 +161,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -197,8 +197,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -231,8 +231,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -268,8 +268,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -316,8 +316,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(1)
@@ -368,8 +368,8 @@ test.describe('Pages specs', () => {
     }
 
     // WHEN
-    const feature = new Feature()
-    const errors = await feature.test(config)
+    const app = new App()
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)
@@ -433,10 +433,10 @@ test.describe('Pages specs', () => {
         },
       ],
     }
-    const feature = new Feature()
+    const app = new App()
 
     // WHEN
-    const errors = await feature.test(config)
+    const errors = await app.test(config)
 
     // THEN
     expect(errors).toHaveLength(0)

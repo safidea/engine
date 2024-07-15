@@ -3,31 +3,26 @@ import App, { type App as Config } from '@safidea/engine'
 
 test.describe('App specs', () => {
   test.slow()
-  
+
   test('should succeed to test a spec', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      specs: [
         {
-          name: 'Feature',
-          specs: [
+          name: 'display invalid text',
+          when: [{ open: '/' }],
+          then: [{ text: 'valid' }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'valid' }],
-            },
-          ],
-          pages: [
-            {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'valid',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'valid',
             },
           ],
         },
@@ -46,26 +41,21 @@ test.describe('App specs', () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      features: [
+      specs: [
         {
-          name: 'Feature',
-          specs: [
+          name: 'display invalid text',
+          when: [{ open: '/' }],
+          then: [{ text: 'invalid' }],
+        },
+      ],
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'display invalid text',
-              when: [{ open: '/' }],
-              then: [{ text: 'invalid' }],
-            },
-          ],
-          pages: [
-            {
-              name: 'Page',
-              path: '/',
-              body: [
-                {
-                  component: 'Paragraph',
-                  text: 'valid',
-                },
-              ],
+              component: 'Paragraph',
+              text: 'valid',
             },
           ],
         },

@@ -10,28 +10,23 @@ test.describe('RecordCreated trigger', () => {
     const queue = new Queue(database)
     const config: Config = {
       name: 'App',
-      features: [
+      automations: [
         {
-          name: 'Feature',
-          automations: [
+          name: 'Send email',
+          trigger: {
+            event: 'RecordCreated',
+            table: 'leads',
+          },
+          actions: [],
+        },
+      ],
+      tables: [
+        {
+          name: 'leads',
+          fields: [
             {
-              name: 'Send email',
-              trigger: {
-                event: 'RecordCreated',
-                table: 'leads',
-              },
-              actions: [],
-            },
-          ],
-          tables: [
-            {
-              name: 'leads',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'SingleLineText',
-                },
-              ],
+              name: 'name',
+              type: 'SingleLineText',
             },
           ],
         },
