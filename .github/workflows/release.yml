@@ -2,15 +2,16 @@ name: Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   test:
+    name: Run Tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         bun-version: [1.x]
@@ -24,21 +25,24 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ matrix.bun-version }}-${{ matrix.node-version }}-cache
+          restore-keys: |
+            ${{ runner.os }}-bun-${{ matrix.bun-version }}-${{ matrix.node-version }}-
       - run: bun install
       - run: bun run lint
       - run: bun run build
         env:
           NODE_ENV: production
       - run: bun run test
-    
+
   release:
+    name: Create Release
     needs: test
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        bun-version: [1.x]
-        node-version: ['20.15.1']
 
     permissions:
       contents: write
@@ -48,10 +52,17 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20.15.1'
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-latest-${{ matrix.node-version }}-cache
+          restore-keys: |
+            ${{ runner.os }}-bun-latest-${{ matrix.node-version }}-
       - run: bun install
       - run: bun run build
         env:
