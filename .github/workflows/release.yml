@@ -15,13 +15,9 @@ jobs:
     strategy:
       matrix:
         bun-version: [1.x]
-        node-version: ['20.15.1']
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -43,9 +39,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.15.1'
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
