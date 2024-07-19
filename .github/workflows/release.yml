@@ -22,16 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.bun
-          key: ${{ runner.os }}-bun-${{ matrix.bun-version }}-${{ matrix.node-version }}-cache
-          restore-keys: |
-            ${{ runner.os }}-bun-${{ matrix.bun-version }}-${{ matrix.node-version }}-
       - run: bun install
       - run: bun run lint
       - run: bun run build
@@ -53,16 +46,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20.15.1'
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.bun
-          key: ${{ runner.os }}-bun-latest-${{ matrix.node-version }}-cache
-          restore-keys: |
-            ${{ runner.os }}-bun-latest-${{ matrix.node-version }}-
       - run: bun install
       - run: bun run build
         env:
