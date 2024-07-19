@@ -22,4 +22,8 @@ export class IdGenerator {
   forPath = () => {
     return this.spi.generate(8, this.alphabet)
   }
+
+  forBrowser = () => {
+    return this.spi.generate(8, this.alphabet)
+  }
 }

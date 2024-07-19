@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 
 export const Modal = ({ id, className = '', Button, header, body, footer }: Props['Modal']) => (
   <div id={id} data-controller="modal" className={className} data-component="Modal">

@@ -14,7 +14,7 @@ test.describe('Long text field', () => {
           fields: [
             {
               name: 'description',
-              type: 'LongText',
+              field: 'LongText',
             },
           ],
         },

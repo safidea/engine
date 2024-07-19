@@ -1,11 +1,10 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as AppConfig } from '@safidea/engine'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Modal component', () => {
   test('should open a modal', async ({ page }) => {
     // GIVEN
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -55,30 +54,35 @@ test.describe('Modal component', () => {
 
   test('should display the modal id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Modal',
-          id: 'my-modal',
-          button: {
-            label: 'Open Modal',
-          },
+          name: 'Page',
+          path: '/',
           body: [
             {
-              component: 'Paragraph',
-              text: 'Modal Paragraph',
+              component: 'Modal',
+              id: 'my-modal',
+              button: {
+                label: 'Open Modal',
+              },
+              body: [
+                {
+                  component: 'Paragraph',
+                  text: 'Modal Paragraph',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const modal = page.locator('#my-modal')

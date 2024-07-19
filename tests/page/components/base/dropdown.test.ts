@@ -1,35 +1,40 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Dropdown component', () => {
   test('should render a dropdown', async ({ page }) => {
     // GIVEN
     const label = 'This is a dropdown.'
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Dropdown',
-          label,
-          links: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'link 1',
-              href: '/about',
-            },
-            {
-              label: 'link 2',
-              href: '/about',
+              component: 'Dropdown',
+              label,
+              links: [
+                {
+                  label: 'link 1',
+                  href: '/about',
+                },
+                {
+                  label: 'link 2',
+                  href: '/about',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
     await page.getByText(label).hover()
 
     // THEN
@@ -40,32 +45,37 @@ test.describe('Dropdown component', () => {
 
   test('should display the dropdown id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Dropdown',
-          label: 'hello world',
-          id: 'my-dropdown',
-          links: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'link 1',
-              href: '/about',
-            },
-            {
-              label: 'link 2',
-              href: '/about',
+              component: 'Dropdown',
+              label: 'hello world',
+              id: 'my-dropdown',
+              links: [
+                {
+                  label: 'link 1',
+                  href: '/about',
+                },
+                {
+                  label: 'link 2',
+                  href: '/about',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const menu = page.locator('#my-dropdown')

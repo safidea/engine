@@ -1,4 +1,4 @@
-import type { Table } from '@domain/engine/table/Table'
+import type { Table } from '@domain/entities/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 
@@ -7,54 +7,55 @@ export interface Config {
   type: string
 }
 
-export interface Params extends Config {
+export interface Services {
   logger: Logger
 }
 
 export interface Spi {
-  params: Params
   table: (name: string) => DatabaseTableSpi
   disconnect: () => Promise<void>
   exec: (query: string) => Promise<unknown>
 }
 
 export class Database {
-  constructor(private spi: Spi) {}
+  private log: (message: string) => void
 
-  get params() {
-    return this.spi.params
+  constructor(
+    private spi: Spi,
+    private services: Services,
+    public config: Config
+  ) {
+    this.log = services.logger.init('database')
   }
 
   table = (name: string): DatabaseTable => {
-    return new DatabaseTable(this.spi, name)
+    return new DatabaseTable(this.spi, this.services, { name })
   }
 
   disconnect = async () => {
-    const { params, disconnect } = this.spi
-    const { logger } = params
-    logger.log(`disconnecting database...`)
+    const { disconnect } = this.spi
+    this.log(`disconnecting database...`)
     await disconnect()
   }
 
   migrate = async (tables: Table[]) => {
-    const { logger } = this.spi.params
-    logger.log(`migrating database...`)
+    this.log(`migrating database...`)
     for (const table of tables) {
       const tableDb = this.table(table.name)
       if (await tableDb.exists()) {
         for (const field of table.fields) {
           const fieldExists = await tableDb.fieldExists(field.name)
           if (!fieldExists) {
-            logger.log(`adding field ${field.name} to table ${table.name}`)
+            this.log(`adding field ${field.name} to table ${table.name}`)
             await tableDb.addField(field)
           }
         }
       } else {
-        logger.log(`creating table ${table.name}`)
+        this.log(`creating table ${table.name}`)
         await tableDb.create(table.fields)
       }
     }
-    logger.log(`database migrated`)
+    this.log(`database migrated`)
   }
 
   exec = async (query: string) => {

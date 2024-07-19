@@ -1,9 +1,18 @@
-import type { ToCreate } from '../entities/record/ToCreate'
+import type { ToCreate } from '../entities/Record/ToCreate'
 import type { Spi as DatabaseSpi } from './Database'
-import type { Filter } from '../entities/filter'
-import type { Persisted } from '../entities/record/Persisted'
-import type { Field } from '@domain/engine/table/field'
-import type { ToUpdate } from '@domain/entities/record/ToUpdate'
+import type { Filter } from '../entities/Filter'
+import type { Persisted } from '../entities/Record/Persisted'
+import type { Field } from '@domain/entities/Field'
+import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
+import type { Logger } from '@domain/services/Logger'
+
+export interface Config {
+  name: string
+}
+
+export interface Services {
+  logger: Logger
+}
 
 export interface Spi {
   insert: (toCreateRecord: ToCreate) => Promise<Persisted>
@@ -19,33 +28,33 @@ export interface Spi {
 }
 
 export class DatabaseTable {
+  private log: (message: string) => void
   private table: Spi
 
   constructor(
-    private spi: DatabaseSpi,
-    private name: string
+    spi: DatabaseSpi,
+    private services: Services,
+    private config: Config
   ) {
-    this.table = spi.table(name)
+    this.log = services.logger.init('table')
+    this.table = spi.table(config.name)
   }
 
   insert = async (toCreateRecord: ToCreate) => {
-    const { logger } = this.spi.params
     const persistedRecord = await this.table.insert(toCreateRecord)
-    logger.log(`inserted in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+    this.log(`inserted in ${this.config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
 
   update = async (toUpdateRecord: ToUpdate) => {
-    const { logger } = this.spi.params
     const persistedRecord = await this.table.update(toUpdateRecord)
-    logger.log(`updated in ${this.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+    this.log(`updated in ${this.config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
 
   delete = async (filters: Filter[]) => {
-    const { logger } = this.spi.params
     await this.table.delete(filters)
-    logger.log(`deleting in ${this.name} ${filters[0].field} ${filters[0].value}`)
+    this.log(`deleting in ${this.config.name} ${filters[0].field} ${filters[0].value}`)
   }
 
   read = async (filters: Filter[]) => {

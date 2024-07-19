@@ -1,13 +1,12 @@
-import type { Params, Spi } from '@domain/services/Mailer'
+import type { Spi } from '@domain/services/Mailer'
 import type { SentDto, ToSendDto } from './dtos/EmailDto'
 import { EmailMapper } from './mappers/EmailMapper'
-import type { ToSend } from '@domain/entities/email/ToSend'
+import type { ToSend } from '@domain/entities/Email/ToSend'
 import type { FilterDto } from './dtos/FilterDto'
-import type { Filter } from '@domain/entities/filter'
+import type { Filter } from '@domain/entities/Filter'
 import { FilterMapper } from './mappers/FilterMapper'
 
 export interface Driver {
-  params: Params
   verify: () => Promise<void>
   close: () => Promise<void>
   send: (email: ToSendDto) => Promise<SentDto>
@@ -16,10 +15,6 @@ export interface Driver {
 
 export class MailerSpi implements Spi {
   constructor(private driver: Driver) {}
-
-  get params() {
-    return this.driver.params
-  }
 
   verify = async () => {
     await this.driver.verify()

@@ -1,14 +1,13 @@
-import type { Get } from '@domain/entities/request/Get'
-import type { Post } from '@domain/entities/request/Post'
-import type { Response } from '@domain/entities/response'
-import type { Params, Spi } from '@domain/services/Server'
+import type { Get } from '@domain/entities/Request/Get'
+import type { Post } from '@domain/entities/Request/Post'
+import type { Response } from '@domain/entities/Response'
+import type { Spi } from '@domain/services/Server'
 import type { DeleteDto, GetDto, PatchDto, PostDto } from './dtos/RequestDto'
 import { RequestMapper } from './mappers/RequestMapper'
-import type { Patch } from '@domain/entities/request/Patch'
-import type { Delete } from '@domain/entities/request/Delete'
+import type { Patch } from '@domain/entities/Request/Patch'
+import type { Delete } from '@domain/entities/Request/Delete'
 
 export interface Driver {
-  params: Params
   baseUrl?: string
   start(): Promise<string>
   stop(): Promise<void>
@@ -21,10 +20,6 @@ export interface Driver {
 
 export class ServerSpi implements Spi {
   constructor(private driver: Driver) {}
-
-  get params() {
-    return this.driver.params
-  }
 
   get baseUrl() {
     return this.driver.baseUrl

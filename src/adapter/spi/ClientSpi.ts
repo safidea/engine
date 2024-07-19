@@ -1,5 +1,5 @@
-import type { Meta as MetaConfig } from '@adapter/api/configs/page/Head/Meta'
-import { Meta } from '@domain/engine/page/head/Meta'
+import type { Meta as MetaConfig } from '@adapter/api/configs/Head/Meta'
+import { Meta } from '@domain/entities/Head/Meta'
 import type {
   ActionProps,
   FrameProps,

@@ -1,10 +1,10 @@
-import type { Field } from '@domain/engine/table/field'
+import type { Field } from '@domain/entities/Field'
 import type { FieldDto } from '../dtos/FieldDto'
-import { Email } from '@domain/engine/table/field/Email'
-import { SingleLineText } from '@domain/engine/table/field/SingleLineText'
-import { DateTime } from '@domain/engine/table/field/DateTime'
-import { LongText } from '@domain/engine/table/field/LongText'
-import { Number } from '@domain/engine/table/field/Number'
+import { Email } from '@domain/entities/Field/Email'
+import { SingleLineText } from '@domain/entities/Field/SingleLineText'
+import { DateTime } from '@domain/entities/Field/DateTime'
+import { LongText } from '@domain/entities/Field/LongText'
+import { Number } from '@domain/entities/Field/Number'
 
 export class FieldMapper {
   static toDto = (field: Field): FieldDto => {

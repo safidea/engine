@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 import { classNames } from '../utils'
 
 export const Card = ({ id, className = '', Title, Paragraph, Image, href }: Props['Card']) => {

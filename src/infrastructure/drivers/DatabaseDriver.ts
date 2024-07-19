@@ -3,15 +3,15 @@ import SQLite from 'better-sqlite3'
 import pg from 'pg'
 import { Kysely, PostgresDialect, SqliteDialect } from 'kysely'
 import { DatabaseTableDriver, type Schema } from './DatabaseTableDriver'
-import type { Params } from '@domain/services/Database'
+import type { Config } from '@domain/services/Database'
 
 export class DatabaseDriver implements Driver {
   private kysely: Kysely<Schema>
   private database: SQLite.Database | pg.Pool
   exec: (query: string) => Promise<unknown>
 
-  constructor(public params: Params) {
-    const { type, url } = params
+  constructor(config: Config) {
+    const { type, url } = config
     if (type === 'sqlite') {
       const database = new SQLite(url)
       database.pragma('journal_mode = WAL')
@@ -25,7 +25,7 @@ export class DatabaseDriver implements Driver {
       const dialect = new PostgresDialect({ pool })
       this.kysely = new Kysely<Schema>({ dialect })
       this.database = pool
-    } else throw new Error(`Database ${type} not supported`)
+    } else throw new Error(`DatabaseDriver: database "${type}" not supported`)
   }
 
   disconnect = async (): Promise<void> => {

@@ -16,7 +16,7 @@ test.describe('App with automations', () => {
         {
           name: 'Send email',
           trigger: {
-            event: 'WebhookCalled',
+            trigger: 'WebhookCalled',
             method: 'POST',
             path: 'send-email',
           },
@@ -64,7 +64,7 @@ test.describe('App with automations', () => {
         {
           name: 'Send email',
           trigger: {
-            event: 'WebhookCalled',
+            trigger: 'WebhookCalled',
             method: 'POST',
             path: 'send-email',
           },

@@ -1,11 +1,11 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as AppConfig, ConfigError } from '@safidea/engine'
+import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('Table component', () => {
   test('should return an error config if source is not valid table endpoint', async () => {
     // GIVEN
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -29,20 +29,16 @@ test.describe('Table component', () => {
     const app = new App()
 
     // WHEN
-    const errors = await app.getConfigErrors(config)
+    const call = () => app.start(config)
 
     // THEN
-    expect(errors).toContainEqual(
-      new ConfigError({
-        message: 'Table source /api/table/leads does not have a GET handler',
-      })
-    )
+    await expect(call).rejects.toThrow('Table source /api/table/leads does not have a GET handler')
   })
 
   test('should display a row in a table', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -68,7 +64,7 @@ test.describe('Table component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -89,7 +85,7 @@ test.describe('Table component', () => {
   test('should open an add row page', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -121,7 +117,7 @@ test.describe('Table component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -142,7 +138,7 @@ test.describe('Table component', () => {
   test('should display a new row in realtime', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -174,7 +170,7 @@ test.describe('Table component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -197,7 +193,7 @@ test.describe('Table component', () => {
   test('should display a title for a table', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -224,7 +220,7 @@ test.describe('Table component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -244,7 +240,7 @@ test.describe('Table component', () => {
   test('should display the table id', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -272,7 +268,7 @@ test.describe('Table component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },

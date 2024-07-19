@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 import { center, classNames, padding } from '../utils'
 
 export const Container = ({

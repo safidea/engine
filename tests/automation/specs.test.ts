@@ -1,20 +1,21 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Automations specs', () => {
+test.describe('Automations tests', () => {
   test('should wait for an automation', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'create a row',
           when: [
-            { post: '/api/automation/new-lead', body: { name: 'John' } },
-            { waitForAutomation: 'New lead' },
+            { event: 'Post', path: '/api/automation/new-lead', body: { name: 'John' } },
+            { event: 'WaitForAutomation', automation: 'New lead' },
           ],
           then: [
             {
+              expect: 'Record',
               table: 'leads',
               find: [
                 {
@@ -31,7 +32,7 @@ test.describe('Automations specs', () => {
         {
           name: 'New lead',
           trigger: {
-            event: 'WebhookCalled',
+            trigger: 'WebhookCalled',
             method: 'POST',
             path: 'new-lead',
           },
@@ -53,7 +54,7 @@ test.describe('Automations specs', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -62,25 +63,26 @@ test.describe('Automations specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should find an email in mailbox', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'send an email',
           when: [
-            { post: '/api/automation/send-email', body: { email: 'test@test.com' } },
-            { waitForAutomation: 'send-email' },
+            { event: 'Post', path: '/api/automation/send-email', body: { email: 'test@test.com' } },
+            { event: 'WaitForAutomation', automation: 'send-email' },
           ],
           then: [
             {
+              expect: 'Email',
               mailbox: 'test@test.com',
               find: [
                 {
@@ -97,7 +99,7 @@ test.describe('Automations specs', () => {
         {
           name: 'send-email',
           trigger: {
-            event: 'WebhookCalled',
+            trigger: 'WebhookCalled',
             method: 'POST',
             path: 'send-email',
           },
@@ -118,9 +120,9 @@ test.describe('Automations specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 })

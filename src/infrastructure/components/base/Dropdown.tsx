@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 import { classNames } from '../utils'
 
 export const Dropdown = ({ id, className = '', label, Links }: Props['Dropdown']) => {

@@ -1,38 +1,42 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
-//import App, { type App as AppConfig } from '@safidea/engine'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Columns component', () => {
   test('should render 3 columns', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Columns',
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Paragraph',
-              text: 'Column 1',
-            },
-            {
-              component: 'Paragraph',
-              text: 'Column 2',
-            },
-            {
-              component: 'Paragraph',
-              text: 'Column 3',
+              component: 'Columns',
+              children: [
+                {
+                  component: 'Paragraph',
+                  text: 'Column 1',
+                },
+                {
+                  component: 'Paragraph',
+                  text: 'Column 2',
+                },
+                {
+                  component: 'Paragraph',
+                  text: 'Column 3',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.getByText('Column 1')).toBeVisible()
@@ -42,35 +46,40 @@ test.describe('Columns component', () => {
 
   test('should display the columns id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Columns',
-          id: 'my-columns',
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Paragraph',
-              text: 'Column 1',
-            },
-            {
-              component: 'Paragraph',
-              text: 'Column 2',
-            },
-            {
-              component: 'Paragraph',
-              text: 'Column 3',
+              component: 'Columns',
+              id: 'my-columns',
+              children: [
+                {
+                  component: 'Paragraph',
+                  text: 'Column 1',
+                },
+                {
+                  component: 'Paragraph',
+                  text: 'Column 2',
+                },
+                {
+                  component: 'Paragraph',
+                  text: 'Column 3',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const button = page.locator('#my-columns')

@@ -13,7 +13,7 @@ test.describe('App with tables', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -46,7 +46,7 @@ test.describe('App with tables', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -84,7 +84,7 @@ test.describe('App with tables', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },

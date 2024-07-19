@@ -1,4 +1,4 @@
-import { SchemaError } from '@domain/entities/error/Schema'
+import { SchemaError } from '@domain/entities/Error/Schema'
 import type { SchemaErrorDto } from '../dtos/ErrorDto'
 
 export class ErrorMapper {

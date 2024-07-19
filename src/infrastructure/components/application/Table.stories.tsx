@@ -53,7 +53,7 @@ export const Default: Story = {
 export const WithAddButton: Story = {
   args: {
     ...Default.args,
-    Buttons: [(props) => <Button href="/add" label="Add" {...props} />],
+    Buttons: [(props) => <Button variant="primary" href="/add" label="Add" {...props} />],
   },
 }
 

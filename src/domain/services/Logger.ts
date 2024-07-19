@@ -2,19 +2,14 @@ export interface Config {
   store: true
 }
 
-export interface Params {
-  location: string
-}
-
 export interface Spi {
-  params: Params
-  log: (message: string) => void
+  init: (location: string) => (message: string) => void
 }
 
 export class Logger {
   constructor(private spi: Spi) {}
 
-  log = (message: string) => {
-    this.spi.log(message)
+  init = (location: string) => {
+    return this.spi.init(location)
   }
 }

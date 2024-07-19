@@ -1,5 +1,5 @@
 import type { Driver } from '@adapter/spi/QueueSpi'
-import type { Params, WaitForParams } from '@domain/services/Queue'
+import type { Config, WaitForParams } from '@domain/services/Queue'
 import SQLite from 'better-sqlite3'
 import PgBoss from 'pg-boss'
 import { v4 as uuidv4 } from 'uuid'
@@ -10,8 +10,8 @@ import { Kysely, SqliteDialect } from 'kysely'
 export class QueueDriver implements Driver {
   private boss: PgBoss | SqliteBoss
 
-  constructor(public params: Params) {
-    const { type, url } = params.database.params
+  constructor(config: Config) {
+    const { type, url } = config
     if (type === 'sqlite') {
       this.boss = new SqliteBoss(url)
     } else if (type === 'postgres') {

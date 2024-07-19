@@ -1,13 +1,13 @@
 import type { Database } from './Database'
 import type { Server } from './Server'
 import type { Logger } from './Logger'
-import type { Post } from '@domain/entities/request/Post'
+import type { Post } from '@domain/entities/Request/Post'
 import type { Mailer } from './Mailer'
-import { ToSend } from '../entities/email/ToSend'
+import { ToSend } from '../entities/Email/ToSend'
 import type { TemplateCompiler } from './TemplateCompiler'
-import { Json } from '@domain/entities/response/Json'
-import type { Get } from '@domain/entities/request/Get'
-import { Redirect } from '@domain/entities/response/Redirect'
+import { Json } from '@domain/entities/Response/Json'
+import type { Get } from '@domain/entities/Request/Get'
+import { Redirect } from '@domain/entities/Response/Redirect'
 
 export interface Config {
   redirectOnLogin: string
@@ -19,10 +19,10 @@ export interface Config {
     html: string
   }
   secret: string
+  from: string
 }
 
-export interface Params extends Config {
-  from: string
+export interface Services {
   database: Database
   server: Server
   mailer: Mailer
@@ -39,18 +39,24 @@ export interface SignOptions {
 }
 
 export interface Spi {
-  params: Params
   sign: (payload: Payload, options?: SignOptions) => Promise<string>
   verify: (token: string) => Promise<boolean>
   decode: (token: string) => Promise<Payload>
 }
 
 export class Auth {
+  private log: (message: string) => void
   loginPath = '/api/auth/login'
   verifyMagicLinkPath = '/api/auth/verify-magic-link'
 
-  constructor(private spi: Spi) {
-    const { server, strategy } = spi.params
+  constructor(
+    private spi: Spi,
+    private services: Services,
+    public config: Config
+  ) {
+    const { server, logger } = services
+    const { strategy } = config
+    this.log = logger.init('auth')
     if (strategy === 'magic-link') {
       server.post(this.loginPath, this.sendMagicLink)
       server.get(this.verifyMagicLinkPath, this.verifyMagicLink)
@@ -60,17 +66,16 @@ export class Auth {
   }
 
   connect = async () => {
-    const { logger } = this.spi.params
-    logger.log('connecting to auth...')
+    this.log('connecting to auth...')
   }
 
   disconnect = async () => {
-    const { logger } = this.spi.params
-    logger.log('disconnecting from auth...')
+    this.log('disconnecting from auth...')
   }
 
   sendMagicLink = async (request: Post) => {
-    const { mailer, confirmEmail, templateCompiler, from } = this.spi.params
+    const { mailer, templateCompiler } = this.services
+    const { confirmEmail, from } = this.config
     const email = request.getFromBodyStringOrThrow('email')
     const token = await this.spi.sign({ email }, { expiresIn: '1h' })
     const link = `${request.baseUrl}${this.verifyMagicLinkPath}?token=${token}`
@@ -80,7 +85,7 @@ export class Auth {
   }
 
   verifyMagicLink = async (request: Get) => {
-    const { redirectOnLogin, redirectOnLogout } = this.spi.params
+    const { redirectOnLogin, redirectOnLogout } = this.config
     const token = request.getQueryOrThrow('token')
     const isValid = await this.spi.verify(token)
     if (isValid) {

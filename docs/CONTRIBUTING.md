@@ -53,7 +53,7 @@ More generally, make sure to follow these three principles:
 ## Project Structure
 
 - **scripts** Utilities for production build
-- **specs** End-to-End tests
+- **tests** End-to-End tests
 - **src** Source code following the Clean Architecture patterns
 - **test** Utilities for e2e, integration and unit tests
 

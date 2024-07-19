@@ -1,4 +1,4 @@
-import type { SchemaError } from '@domain/entities/error/Schema'
+import type { SchemaError } from '@domain/entities/Error/Schema'
 
 export interface Spi {
   validateSchema(json: unknown, name: string): SchemaError[]

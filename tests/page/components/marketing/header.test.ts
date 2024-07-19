@@ -1,44 +1,49 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as Config } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Header component', () => {
   test('should render a header', async ({ page }) => {
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Header',
-          title: { text: 'This is a title' },
-          links: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Home',
-              href: '/',
-            },
-            {
-              label: 'About',
-              href: '/about',
-            },
-            {
-              label: 'Contact',
-              href: '/contact',
-            },
-          ],
-          buttons: [
-            {
-              label: 'Click me',
-              href: '/',
+              component: 'Header',
+              title: { text: 'This is a title' },
+              links: [
+                {
+                  label: 'Home',
+                  href: '/',
+                },
+                {
+                  label: 'About',
+                  href: '/about',
+                },
+                {
+                  label: 'Contact',
+                  href: '/contact',
+                },
+              ],
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: '/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.getByText('This is a title')).toBeVisible()
@@ -51,49 +56,54 @@ test.describe('Header component', () => {
   test('should render a header with a dropdown', async ({ page }) => {
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Header',
-          title: { text: 'This is a title' },
-          links: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Home',
-              href: '/',
-            },
-            {
-              label: 'About',
+              component: 'Header',
+              title: { text: 'This is a title' },
               links: [
                 {
-                  label: 'Our culture',
-                  href: '/our-culture',
+                  label: 'Home',
+                  href: '/',
                 },
                 {
-                  label: 'Our team',
-                  href: '/our-team',
+                  label: 'About',
+                  links: [
+                    {
+                      label: 'Our culture',
+                      href: '/our-culture',
+                    },
+                    {
+                      label: 'Our team',
+                      href: '/our-team',
+                    },
+                  ],
+                },
+                {
+                  label: 'Contact',
+                  href: '/contact',
                 },
               ],
-            },
-            {
-              label: 'Contact',
-              href: '/contact',
-            },
-          ],
-          buttons: [
-            {
-              label: 'Click me',
-              href: '/',
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: '/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
     await page.getByText('About').hover()
 
     // THEN
@@ -105,40 +115,45 @@ test.describe('Header component', () => {
   test('should redirect when clicking on a link', async ({ page }) => {
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Header',
-          title: { text: 'This is a title' },
-          links: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Home',
-              href: '/',
-            },
-            {
-              label: 'About',
-              href: '/about',
-            },
-            {
-              label: 'Contact',
-              href: '/contact',
-            },
-          ],
-          buttons: [
-            {
-              label: 'Click me',
-              href: 'https://example.com/',
+              component: 'Header',
+              title: { text: 'This is a title' },
+              links: [
+                {
+                  label: 'Home',
+                  href: '/',
+                },
+                {
+                  label: 'About',
+                  href: '/about',
+                },
+                {
+                  label: 'Contact',
+                  href: '/contact',
+                },
+              ],
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: 'https://example.com/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
     await page.getByText('Click me').click()
 
     // THEN
@@ -148,41 +163,46 @@ test.describe('Header component', () => {
   test('should display the header id', async ({ page }) => {
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Header',
-          id: 'my-header',
-          title: { text: 'This is a title' },
-          links: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Home',
-              href: '/',
-            },
-            {
-              label: 'About',
-              href: '/about',
-            },
-            {
-              label: 'Contact',
-              href: '/contact',
-            },
-          ],
-          buttons: [
-            {
-              label: 'Click me',
-              href: 'https://example.com/',
+              component: 'Header',
+              id: 'my-header',
+              title: { text: 'This is a title' },
+              links: [
+                {
+                  label: 'Home',
+                  href: '/',
+                },
+                {
+                  label: 'About',
+                  href: '/about',
+                },
+                {
+                  label: 'Contact',
+                  href: '/contact',
+                },
+              ],
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: 'https://example.com/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const header = page.locator('#my-header')

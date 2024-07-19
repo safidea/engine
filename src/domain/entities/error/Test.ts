@@ -1,20 +1,24 @@
 export interface Params {
   code: string
-  spec: string
+  name?: string
   expected?: string | number | boolean | object
   received?: string | number | boolean | object
 }
 
 export class TestError {
   public code: string
-  public spec: string
+  public name?: string
   public expected?: string | number | boolean | object
   public received?: string | number | boolean | object
 
   constructor(params: Params) {
     this.code = params.code
-    this.spec = params.spec
+    this.name = params.name
     this.expected = params.expected
     this.received = params.received
+  }
+
+  setName = (name: string) => {
+    this.name = name
   }
 }

@@ -1,8 +1,8 @@
-import { Delete } from '@domain/entities/request/Delete'
+import { Delete } from '@domain/entities/Request/Delete'
 import type { DeleteDto, GetDto, PatchDto, PostDto } from '../dtos/RequestDto'
-import { Get } from '@domain/entities/request/Get'
-import { Patch } from '@domain/entities/request/Patch'
-import { Post } from '@domain/entities/request/Post'
+import { Get } from '@domain/entities/Request/Get'
+import { Patch } from '@domain/entities/Request/Patch'
+import { Post } from '@domain/entities/Request/Post'
 
 export class RequestMapper {
   static toGetService = (dto: GetDto): Get => {

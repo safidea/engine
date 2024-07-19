@@ -14,7 +14,7 @@ test.describe('RecordCreated trigger', () => {
         {
           name: 'Send email',
           trigger: {
-            event: 'RecordCreated',
+            trigger: 'RecordCreated',
             table: 'leads',
           },
           actions: [],
@@ -26,7 +26,7 @@ test.describe('RecordCreated trigger', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },

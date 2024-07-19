@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as Config } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Hero component', () => {
   test('should render a hero', async ({ page }) => {
@@ -11,22 +11,27 @@ test.describe('Hero component', () => {
       href: '/',
     }
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Hero',
-          title: { text: title },
-          paragraph: { text: description },
-          buttons: [primaryButton],
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Hero',
+              title: { text: title },
+              paragraph: { text: description },
+              buttons: [primaryButton],
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const titleContent = await page.textContent('h1')
@@ -48,22 +53,27 @@ test.describe('Hero component', () => {
       href: 'https://example.com/',
     }
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Hero',
-          title: { text: title },
-          paragraph: { text: description },
-          buttons: [primaryButton],
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Hero',
+              title: { text: title },
+              paragraph: { text: description },
+              buttons: [primaryButton],
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
     await page.click('a')
 
     // THEN
@@ -73,28 +83,33 @@ test.describe('Hero component', () => {
   test('should display the hero id', async ({ page }) => {
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Hero',
-          id: 'my-hero',
-          title: { text: 'This is a title' },
-          paragraph: { text: 'This is a description' },
-          buttons: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Click me',
-              href: '/',
+              component: 'Hero',
+              id: 'my-hero',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: '/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const hero = page.locator('#my-hero')

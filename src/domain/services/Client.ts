@@ -1,4 +1,4 @@
-import type { Meta } from '@domain/engine/page/head/Meta'
+import type { Meta } from '@domain/entities/Head/Meta'
 
 export interface BaseProps {
   navigation?: 'replace' | 'advance'

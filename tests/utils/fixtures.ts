@@ -3,12 +3,13 @@ import Logger from '@tests/logger'
 
 export const test = base.extend({
   page: async ({ page }, use) => {
-    const logger = new Logger('browser')
+    const logger = new Logger()
+    const log = logger.init('[test]:browser')
     page.on('pageerror', async (exception) => {
-      logger.log(exception.message)
+      log(exception.message)
     })
     page.on('console', async (msg) => {
-      logger.log(msg.text())
+      log(msg.text())
     })
     await use(page)
   },

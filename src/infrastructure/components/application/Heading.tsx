@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 import { classNames } from '../utils'
 
 export const Heading = ({ id, className = '', Title, Buttons }: Props['Heading']) => (

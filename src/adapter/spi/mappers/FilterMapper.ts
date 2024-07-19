@@ -1,8 +1,7 @@
-import type { Filter } from '@domain/entities/filter'
+import type { Filter } from '@domain/entities/Filter'
 import type { FilterDto } from '../dtos/FilterDto'
-import { IsAnyOf } from '@domain/entities/filter/IsAnyOf'
-import { Is } from '@domain/entities/filter/Is'
-import { type Filter as FilterConfig } from '@adapter/api/configs/filter'
+import { IsAnyOf } from '@domain/entities/Filter/IsAnyOf'
+import { Is } from '@domain/entities/Filter/Is'
 
 export class FilterMapper {
   static toEntity = (dto: FilterDto): Filter => {
@@ -16,19 +15,6 @@ export class FilterMapper {
 
   static toManyEntities = (dtos: FilterDto[]): Filter[] => {
     return dtos.map(this.toEntity)
-  }
-
-  static toEntityFromConfig = (filter: FilterConfig): Filter => {
-    switch (filter.operator) {
-      case 'isAnyOf':
-        return new IsAnyOf(filter)
-      case 'is':
-        return new Is(filter)
-    }
-  }
-
-  static toManyEntitiesFromConfig = (filters: FilterConfig[]): Filter[] => {
-    return filters.map(this.toEntityFromConfig)
   }
 
   static toDto = (filter: Filter): FilterDto => {

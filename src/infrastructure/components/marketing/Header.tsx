@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 
 export const Header = ({ id, className, Title, Links, Buttons }: Props['Header']) => (
   <header id={id} className={className} data-component="Header">

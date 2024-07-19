@@ -1,12 +1,10 @@
 import type { Driver } from '@adapter/spi/LoggerSpi'
-import type { Params } from '@domain/services/Logger'
 import debug from 'debug'
 
 export class LoggerDriver implements Driver {
-  public log: (message: string) => void
-
-  constructor(public params: Params) {
-    this.log = debug(`engine:${this.slugify(params.location)}`)
+  init = (location: string) => {
+    const log = debug(`engine:${this.slugify(location)}`)
+    return (message: string) => log(message)
   }
 
   private slugify = (text: string) => {

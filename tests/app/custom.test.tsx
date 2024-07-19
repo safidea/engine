@@ -1,25 +1,30 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
 import { components } from '@tests/components'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Custom App', () => {
   test('should render a custom paragraph component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Paragraph',
-          text: 'world',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Paragraph',
+              text: 'world',
+            },
+          ],
         },
       ],
     }
+    const app = new App({ components: { Paragraph: components.Paragraph } })
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page({ components: { Paragraph: components.Paragraph } })
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const paragraphContent = await page.textContent('p')

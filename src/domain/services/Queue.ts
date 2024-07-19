@@ -1,9 +1,12 @@
 import type { Logger } from './Logger'
-import type { Job } from '../entities/job'
-import type { Database } from './Database'
+import type { Job } from '../entities/Job'
 
-export interface Params {
-  database: Database
+export interface Config {
+  url: string
+  type: string
+}
+
+export interface Services {
   logger: Logger
 }
 
@@ -25,7 +28,6 @@ export interface WaitForParams {
 }
 
 export interface Spi {
-  params: Params
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
   stop: () => Promise<void>
@@ -37,33 +39,36 @@ export interface Spi {
 }
 
 export class Queue {
+  private log: (message: string) => void
   private jobs: {
     name: string
     callback: (data: object) => Promise<void>
   }[] = []
 
-  constructor(private spi: Spi) {}
+  constructor(
+    private spi: Spi,
+    services: Services
+  ) {
+    this.log = services.logger.init('queue')
+  }
 
   onError = () => {
-    const { logger } = this.spi.params
     return this.spi.onError((error: Error) => {
-      logger.log(`queue error: ${error.message}`)
+      this.log(`queue error: ${error.message}`)
     })
   }
 
   start = async () => {
-    const { logger } = this.spi.params
-    logger.log('starting queue...')
+    this.log('starting queue...')
     await this.spi.start()
     for (const { name, callback } of this.jobs) {
       this.spi.job(name, callback)
     }
-    logger.log('queue started')
+    this.log('queue started')
   }
 
   stop = async () => {
-    const { logger } = this.spi.params
-    logger.log('stopping queue...')
+    this.log('stopping queue...')
     await this.spi.stop()
   }
 
@@ -72,19 +77,17 @@ export class Queue {
     data: D,
     options?: { retry: number }
   ): Promise<string> => {
-    const { logger } = this.spi.params
-    logger.log(`add job "${job}" to queue`)
+    this.log(`add job "${job}" to queue`)
     return this.spi.add(job, data, options)
   }
 
   job = (name: string, initCallback: (data: object) => Promise<void>) => {
-    const { logger } = this.spi.params
     this.jobs.push({
       name,
       callback: async (data: object) => {
-        logger.log(`job "${name}" started`)
+        this.log(`job "${name}" started`)
         await initCallback(data)
-        logger.log(`job "${name}" finished`)
+        this.log(`job "${name}" finished`)
       },
     })
   }
@@ -94,14 +97,12 @@ export class Queue {
   }
 
   waitFor = async (params: WaitForParams) => {
-    const { logger } = this.spi.params
-    logger.log(`waiting for job "${params.id ?? params.name}"...`)
+    this.log(`waiting for job "${params.id ?? params.name}"...`)
     return this.spi.waitFor(params)
   }
 
   waitForAllCompleted = async (job: string) => {
-    const { logger } = this.spi.params
-    logger.log(`waiting for all jobs "${job}"...`)
+    this.log(`waiting for all jobs "${job}"...`)
     return this.spi.waitForAllCompleted(job)
   }
 }

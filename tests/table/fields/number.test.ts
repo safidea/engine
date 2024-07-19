@@ -42,7 +42,7 @@ test.describe('Number text field', () => {
           fields: [
             {
               name: 'score',
-              type: 'Number',
+              field: 'Number',
             },
           ],
         },

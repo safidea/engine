@@ -58,7 +58,7 @@ export const Default: Story = {
         />
       ),
     ],
-    Buttons: [(props) => <Button type="submit" label="Submit" {...props} />],
+    Buttons: [(props) => <Button type="submit" label="Submit" variant="primary" {...props} />],
     formId: 'contact-form',
   },
 }
@@ -75,7 +75,7 @@ export const WithDeleteButton: Story = {
     ...Default.args,
     Buttons: [
       (props) => <Button type="submit" label="Delete Message" variant="secondary" {...props} />,
-      (props) => <Button type="submit" label="Submit" {...props} />,
+      (props) => <Button type="submit" label="Submit" variant="primary" {...props} />,
     ],
   },
 }

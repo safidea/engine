@@ -1,4 +1,4 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 
 export const NotFound = ({ Title, Paragraph, Button }: Props['NotFound']) => (
   <section className="bg-white dark:bg-gray-900" data-component="NotFound">

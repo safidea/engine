@@ -1,14 +1,14 @@
-import type { ToCreate } from '@domain/entities/record/ToCreate'
+import type { ToCreate } from '@domain/entities/Record/ToCreate'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
 import { FilterMapper } from './mappers/FilterMapper'
-import type { Filter } from '@domain/entities/filter'
+import type { Filter } from '@domain/entities/Filter'
 import type { FieldDto } from './dtos/FieldDto'
 import type { FilterDto } from './dtos/FilterDto'
 import type { Spi } from '@domain/services/DatabaseTable'
 import type { PersistedDto, ToCreateDto, ToUpdateDto } from './dtos/RecordDto'
-import type { Field } from '@domain/engine/table/field'
+import type { Field } from '@domain/entities/Field'
 import { FieldMapper } from './mappers/FieldMapper'
-import type { ToUpdate } from '@domain/entities/record/ToUpdate'
+import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 
 export interface Driver {
   exists: () => Promise<boolean>

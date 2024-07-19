@@ -1,7 +1,6 @@
-import type { Params, Payload, Spi, SignOptions } from '@domain/services/Auth'
+import type { Payload, Spi, SignOptions } from '@domain/services/Auth'
 
 export interface Driver {
-  params: Params
   sign: (payload: Payload, options?: SignOptions) => Promise<string>
   verify: (token: string) => Promise<boolean>
   decode: (token: string) => Promise<Payload>
@@ -9,10 +8,6 @@ export interface Driver {
 
 export class AuthSpi implements Spi {
   constructor(private driver: Driver) {}
-
-  get params() {
-    return this.driver.params
-  }
 
   sign = async (payload: Payload) => {
     return this.driver.sign(payload)

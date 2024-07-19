@@ -48,7 +48,7 @@ export const WithTable: Story = {
     children: (
       <Table
         Title={(props) => <Title text="Leads" {...props} />}
-        Buttons={[(props) => <Button label="Add row" {...props} />]}
+        Buttons={[(props) => <Button label="Add row" variant="primary" {...props} />]}
         columns={[{ name: 'email', label: 'Email' }]}
         rows={[{ email: 'test@test.com' }]}
       />

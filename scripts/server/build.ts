@@ -28,13 +28,7 @@ const externals: string[] = [
   'tailwindcss',
 ]
 
-const entrypoints: string[] = [
-  'index.ts',
-  'page.ts',
-  'spec.ts',
-  'table.ts',
-  'automation.ts',
-]
+const entrypoints: string[] = ['index.ts']
 
 await deleteFilesRecursively('dist', '.js', ['public'])
 

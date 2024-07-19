@@ -1,18 +1,24 @@
+import type { Spi } from '@domain/services/Browser'
 import type { Driver as BrowserPageDriver } from './BrowserPageSpi'
 
 export interface Driver {
-  launch: (baseUrl: string) => Promise<BrowserPageDriver>
-  close: () => Promise<void>
+  launch: (id: string) => Promise<void>
+  newPage: (id: string, baseUrl: string) => Promise<BrowserPageDriver>
+  close: (id: string) => Promise<void>
 }
 
-export class BrowserSpi {
+export class BrowserSpi implements Spi {
   constructor(private driver: Driver) {}
 
-  launch = async (baseUrl: string) => {
-    return this.driver.launch(baseUrl)
+  launch = async (id: string) => {
+    return this.driver.launch(id)
   }
 
-  close = async () => {
-    return this.driver.close()
+  newPage = async (id: string, baseUrl: string) => {
+    return this.driver.newPage(id, baseUrl)
+  }
+
+  close = async (id: string) => {
+    return this.driver.close(id)
   }
 }

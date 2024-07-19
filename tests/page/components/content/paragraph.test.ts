@@ -1,26 +1,30 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
-import App, { type App as AppConfig } from '@safidea/engine'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Paragraph component', () => {
   test('should render a paragraph', async ({ page }) => {
     // GIVEN
     const text = 'This is a paragraph.'
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Paragraph',
-          text,
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Paragraph',
+              text,
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const paragraphContent = await page.textContent('p')
@@ -30,7 +34,7 @@ test.describe('Paragraph component', () => {
   test('should display a paragraph in app page', async ({ page }) => {
     // GIVEN
     const text = 'Hello world!'
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -58,22 +62,27 @@ test.describe('Paragraph component', () => {
 
   test('should display the paragraph id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Paragraph',
-          text: 'hello world',
-          id: 'my-paragraph',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Paragraph',
+              text: 'hello world',
+              id: 'my-paragraph',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const paragraph = page.getByText('hello world')

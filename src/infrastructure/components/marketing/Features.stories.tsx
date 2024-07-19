@@ -3,7 +3,7 @@ import { Features } from './Features'
 import { Title } from '../content/Title'
 import { Paragraph } from '../content/Paragraph'
 import { Icon } from '../content/Icon'
-import type { BaseProps } from '@domain/engine/page/component/base/base'
+import type { BaseProps } from '@domain/entities/Component/base/base'
 import {
   BanknotesIcon,
   ChartBarSquareIcon,

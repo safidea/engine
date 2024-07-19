@@ -1,12 +1,15 @@
-import type { Persisted } from '@domain/entities/record/Persisted'
+import type { Persisted } from '@domain/entities/Record/Persisted'
 import type { Logger } from './Logger'
-import type { Table } from '@domain/engine/table/Table'
-import type { Database } from './Database'
+import type { Table } from '@domain/entities/Table'
 import type { IdGenerator } from './IdGenerator'
 
-export interface Params {
+export interface Config {
+  type: string
+  url: string
+}
+
+export interface Services {
   logger: Logger
-  database: Database
   idGenerator: IdGenerator
 }
 
@@ -26,40 +29,37 @@ interface Listener {
 }
 
 export interface Spi {
-  params: Params
   connect: (tables: Table[]) => Promise<void>
   disconnect: () => Promise<void>
   onEvent: (callback: (event: Event) => Promise<void>) => void
 }
 
 export class Realtime {
+  private log: (message: string) => void
   private listeners: Listener[]
 
-  constructor(private spi: Spi) {
+  constructor(
+    private spi: Spi,
+    private services: Services
+  ) {
+    this.log = services.logger.init('realtime')
     spi.onEvent(this.executeEvent)
     this.listeners = []
   }
 
-  get params() {
-    return this.spi.params
-  }
-
   connect = async (tables: Table[]) => {
-    const { logger } = this.spi.params
-    logger.log('connecting to realtime...')
+    this.log('connecting to realtime...')
     await this.spi.connect(tables)
-    logger.log('connected to realtime')
+    this.log('connected to realtime')
   }
 
   disconnect = async () => {
-    const { logger } = this.spi.params
-    logger.log('disconnecting from realtime...')
+    this.log('disconnecting from realtime...')
     await this.spi.disconnect()
   }
 
   private executeEvent = async (event: Event) => {
-    const { logger } = this.spi.params
-    logger.log(
+    this.log(
       `received event on table "${event.table}" with action "${event.action}" for record "${event.record.id}"`
     )
     const { action, table, record } = event
@@ -72,7 +72,7 @@ export class Realtime {
   }
 
   onInsert = (table: string, callback: (record: Persisted) => Promise<void>) => {
-    const { logger, idGenerator } = this.spi.params
+    const { idGenerator } = this.services
     const id = idGenerator.forListener()
     this.listeners.push({
       action: 'INSERT',
@@ -80,13 +80,12 @@ export class Realtime {
       callback,
       id,
     })
-    logger.log(`subscribed to insert events with id "${id}" on table "${table}"`)
+    this.log(`subscribed to insert events with id "${id}" on table "${table}"`)
     return id
   }
 
   removeListener = (id: string) => {
-    const { logger } = this.spi.params
     this.listeners = this.listeners.filter((l) => l.id !== id)
-    logger.log(`unsubscribing from insert events with id "${id}"`)
+    this.log(`unsubscribing from insert events with id "${id}"`)
   }
 }

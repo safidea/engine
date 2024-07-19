@@ -5,31 +5,6 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/Click"
-                },
-                {
-                    "$ref": "#/definitions/ClickInEmail"
-                },
-                {
-                    "$ref": "#/definitions/Fill"
-                },
-                {
-                    "$ref": "#/definitions/Open"
-                },
-                {
-                    "$ref": "#/definitions/Post"
-                },
-                {
-                    "$ref": "#/definitions/WaitForAutomation"
-                },
-                {
-                    "$ref": "#/definitions/WaitForText"
-                }
-            ]
-        },
-        "Action_1": {
-            "anyOf": [
-                {
                     "$ref": "#/definitions/CreateRecord"
                 },
                 {
@@ -41,6 +16,10 @@
             "additionalProperties": false,
             "properties": {
                 "attribute": {
+                    "type": "string"
+                },
+                "expect": {
+                    "const": "Attribute",
                     "type": "string"
                 },
                 "tag": {
@@ -166,6 +145,7 @@
             },
             "required": [
                 "attribute",
+                "expect",
                 "value"
             ],
             "type": "object"
@@ -175,15 +155,9 @@
             "properties": {
                 "actions": {
                     "items": {
-                        "$ref": "#/definitions/Action_1"
+                        "$ref": "#/definitions/Action"
                     },
                     "type": "array"
-                },
-                "database": {
-                    "$ref": "#/definitions/Config_8"
-                },
-                "mailer": {
-                    "$ref": "#/definitions/Config_9"
                 },
                 "name": {
                     "type": "string"
@@ -333,19 +307,25 @@
         "Click": {
             "additionalProperties": false,
             "properties": {
-                "click": {
+                "event": {
+                    "const": "Click",
+                    "type": "string"
+                },
+                "text": {
                     "type": "string"
                 }
             },
             "required": [
-                "click"
+                "event",
+                "text"
             ],
             "type": "object"
         },
         "ClickInEmail": {
             "additionalProperties": false,
             "properties": {
-                "click": {
+                "event": {
+                    "const": "ClickInEmail",
                     "type": "string"
                 },
                 "find": {
@@ -356,12 +336,16 @@
                 },
                 "mailbox": {
                     "type": "string"
+                },
+                "text": {
+                    "type": "string"
                 }
             },
             "required": [
-                "click",
+                "event",
                 "find",
-                "mailbox"
+                "mailbox",
+                "text"
             ],
             "type": "object"
         },
@@ -661,19 +645,32 @@
         "Config_10": {
             "additionalProperties": false,
             "properties": {
-                "env": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
                     "type": "string"
                 },
                 "port": {
                     "type": "string"
                 },
-                "sslCert": {
-                    "type": "string"
+                "secure": {
+                    "type": "boolean"
                 },
-                "sslKey": {
+                "user": {
                     "type": "string"
                 }
             },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
             "type": "object"
         },
         "Config_11": {
@@ -699,6 +696,9 @@
                     ],
                     "type": "object"
                 },
+                "from": {
+                    "type": "string"
+                },
                 "redirectOnLogin": {
                     "type": "string"
                 },
@@ -715,6 +715,7 @@
             },
             "required": [
                 "confirmEmail",
+                "from",
                 "redirectOnLogin",
                 "redirectOnLogout",
                 "secret",
@@ -1083,6 +1084,24 @@
         "Config_8": {
             "additionalProperties": false,
             "properties": {
+                "env": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "sslCert": {
+                    "type": "string"
+                },
+                "sslKey": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Config_9": {
+            "additionalProperties": false,
+            "properties": {
                 "type": {
                     "type": "string"
                 },
@@ -1093,37 +1112,6 @@
             "required": [
                 "type",
                 "url"
-            ],
-            "type": "object"
-        },
-        "Config_9": {
-            "additionalProperties": false,
-            "properties": {
-                "from": {
-                    "type": "string"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "pass": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "secure": {
-                    "type": "boolean"
-                },
-                "user": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "from",
-                "host",
-                "pass",
-                "port",
-                "user"
             ],
             "type": "object"
         },
@@ -1276,17 +1264,17 @@
         "DateTime": {
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "field": {
+                    "const": "DateTime",
                     "type": "string"
                 },
-                "type": {
-                    "const": "DateTime",
+                "name": {
                     "type": "string"
                 }
             },
             "required": [
-                "name",
-                "type"
+                "field",
+                "name"
             ],
             "type": "object"
         },
@@ -1342,6 +1330,10 @@
         "Email": {
             "additionalProperties": false,
             "properties": {
+                "expect": {
+                    "const": "Email",
+                    "type": "string"
+                },
                 "find": {
                     "items": {
                         "$ref": "#/definitions/Filter"
@@ -1353,6 +1345,7 @@
                 }
             },
             "required": [
+                "expect",
                 "find",
                 "mailbox"
             ],
@@ -1361,19 +1354,69 @@
         "Email_1": {
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "field": {
+                    "const": "Email",
                     "type": "string"
                 },
-                "type": {
-                    "const": "Email",
+                "name": {
                     "type": "string"
                 }
             },
             "required": [
-                "name",
-                "type"
+                "field",
+                "name"
             ],
             "type": "object"
+        },
+        "Event": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Click"
+                },
+                {
+                    "$ref": "#/definitions/ClickInEmail"
+                },
+                {
+                    "$ref": "#/definitions/Fill"
+                },
+                {
+                    "$ref": "#/definitions/Open"
+                },
+                {
+                    "$ref": "#/definitions/Post"
+                },
+                {
+                    "$ref": "#/definitions/WaitForAutomation"
+                },
+                {
+                    "$ref": "#/definitions/WaitForText"
+                }
+            ]
+        },
+        "Expect": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Attribute"
+                },
+                {
+                    "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/InputText"
+                },
+                {
+                    "$ref": "#/definitions/Record"
+                },
+                {
+                    "$ref": "#/definitions/Text"
+                },
+                {
+                    "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/Url"
+                }
+            ]
         },
         "Features": {
             "additionalProperties": false,
@@ -1448,7 +1491,11 @@
         "Fill": {
             "additionalProperties": false,
             "properties": {
-                "fill": {
+                "event": {
+                    "const": "Fill",
+                    "type": "string"
+                },
+                "input": {
                     "type": "string"
                 },
                 "value": {
@@ -1456,7 +1503,8 @@
                 }
             },
             "required": [
-                "fill",
+                "event",
+                "input",
                 "value"
             ],
             "type": "object"
@@ -1875,6 +1923,10 @@
         "InputText": {
             "additionalProperties": false,
             "properties": {
+                "expect": {
+                    "const": "InputText",
+                    "type": "string"
+                },
                 "input": {
                     "type": "string"
                 },
@@ -1883,6 +1935,7 @@
                 }
             },
             "required": [
+                "expect",
                 "input",
                 "value"
             ],
@@ -2064,17 +2117,17 @@
         "LongText": {
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "field": {
+                    "const": "LongText",
                     "type": "string"
                 },
-                "type": {
-                    "const": "LongText",
+                "name": {
                     "type": "string"
                 }
             },
             "required": [
-                "name",
-                "type"
+                "field",
+                "name"
             ],
             "type": "object"
         },
@@ -2497,29 +2550,34 @@
         "Number": {
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "field": {
+                    "const": "Number",
                     "type": "string"
                 },
-                "type": {
-                    "const": "Number",
+                "name": {
                     "type": "string"
                 }
             },
             "required": [
-                "name",
-                "type"
+                "field",
+                "name"
             ],
             "type": "object"
         },
         "Open": {
             "additionalProperties": false,
             "properties": {
-                "open": {
+                "event": {
+                    "const": "Open",
+                    "type": "string"
+                },
+                "url": {
                     "type": "string"
                 }
             },
             "required": [
-                "open"
+                "event",
+                "url"
             ],
             "type": "object"
         },
@@ -2607,19 +2665,28 @@
                     "properties": {},
                     "type": "object"
                 },
-                "post": {
+                "event": {
+                    "const": "Post",
+                    "type": "string"
+                },
+                "path": {
                     "type": "string"
                 }
             },
             "required": [
                 "body",
-                "post"
+                "event",
+                "path"
             ],
             "type": "object"
         },
         "Record": {
             "additionalProperties": false,
             "properties": {
+                "expect": {
+                    "const": "Record",
+                    "type": "string"
+                },
                 "find": {
                     "items": {
                         "$ref": "#/definitions/Filter"
@@ -2631,6 +2698,7 @@
                 }
             },
             "required": [
+                "expect",
                 "find",
                 "table"
             ],
@@ -2639,44 +2707,19 @@
         "RecordCreated": {
             "additionalProperties": false,
             "properties": {
-                "event": {
-                    "const": "RecordCreated",
+                "table": {
                     "type": "string"
                 },
-                "table": {
+                "trigger": {
+                    "const": "RecordCreated",
                     "type": "string"
                 }
             },
             "required": [
-                "event",
-                "table"
+                "table",
+                "trigger"
             ],
             "type": "object"
-        },
-        "Result": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
-                    "$ref": "#/definitions/Record"
-                },
-                {
-                    "$ref": "#/definitions/Text"
-                },
-                {
-                    "$ref": "#/definitions/Title"
-                },
-                {
-                    "$ref": "#/definitions/Url"
-                }
-            ]
         },
         "Script": {
             "additionalProperties": false,
@@ -2773,17 +2816,17 @@
         "SingleLineText": {
             "additionalProperties": false,
             "properties": {
-                "name": {
+                "field": {
+                    "const": "SingleLineText",
                     "type": "string"
                 },
-                "type": {
-                    "const": "SingleLineText",
+                "name": {
                     "type": "string"
                 }
             },
             "required": [
-                "name",
-                "type"
+                "field",
+                "name"
             ],
             "type": "object"
         },
@@ -2814,32 +2857,6 @@
             },
             "required": [
                 "component"
-            ],
-            "type": "object"
-        },
-        "Spec": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "then": {
-                    "items": {
-                        "$ref": "#/definitions/Result"
-                    },
-                    "type": "array"
-                },
-                "when": {
-                    "items": {
-                        "$ref": "#/definitions/Action"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "name",
-                "then",
-                "when"
             ],
             "type": "object"
         },
@@ -2885,9 +2902,6 @@
         "Table_1": {
             "additionalProperties": false,
             "properties": {
-                "database": {
-                    "$ref": "#/definitions/Config_8"
-                },
                 "fields": {
                     "items": {
                         "$ref": "#/definitions/Field"
@@ -2904,9 +2918,39 @@
             ],
             "type": "object"
         },
+        "Test": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/Expect"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/Event"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
         "Text": {
             "additionalProperties": false,
             "properties": {
+                "expect": {
+                    "const": "Text",
+                    "type": "string"
+                },
                 "tag": {
                     "enum": [
                         "a",
@@ -3029,6 +3073,7 @@
                 }
             },
             "required": [
+                "expect",
                 "text"
             ],
             "type": "object"
@@ -3036,11 +3081,16 @@
         "Title": {
             "additionalProperties": false,
             "properties": {
+                "expect": {
+                    "const": "Title",
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 }
             },
             "required": [
+                "expect",
                 "title"
             ],
             "type": "object"
@@ -3108,11 +3158,16 @@
         "Url": {
             "additionalProperties": false,
             "properties": {
+                "expect": {
+                    "const": "Url",
+                    "type": "string"
+                },
                 "url": {
                     "type": "string"
                 }
             },
             "required": [
+                "expect",
                 "url"
             ],
             "type": "object"
@@ -3120,46 +3175,56 @@
         "WaitForAutomation": {
             "additionalProperties": false,
             "properties": {
-                "waitForAutomation": {
+                "automation": {
+                    "type": "string"
+                },
+                "event": {
+                    "const": "WaitForAutomation",
                     "type": "string"
                 }
             },
             "required": [
-                "waitForAutomation"
+                "automation",
+                "event"
             ],
             "type": "object"
         },
         "WaitForText": {
             "additionalProperties": false,
             "properties": {
-                "waitForText": {
+                "event": {
+                    "const": "WaitForText",
+                    "type": "string"
+                },
+                "text": {
                     "type": "string"
                 }
             },
             "required": [
-                "waitForText"
+                "event",
+                "text"
             ],
             "type": "object"
         },
         "WebhookCalled": {
             "additionalProperties": false,
             "properties": {
-                "event": {
-                    "const": "WebhookCalled",
-                    "type": "string"
-                },
                 "method": {
                     "const": "POST",
                     "type": "string"
                 },
                 "path": {
                     "type": "string"
+                },
+                "trigger": {
+                    "const": "WebhookCalled",
+                    "type": "string"
                 }
             },
             "required": [
-                "event",
                 "method",
-                "path"
+                "path",
+                "trigger"
             ],
             "type": "object"
         }
@@ -3175,13 +3240,13 @@
             "type": "array"
         },
         "database": {
-            "$ref": "#/definitions/Config_8"
+            "$ref": "#/definitions/Config_9"
         },
         "logger": {
             "$ref": "#/definitions/Config_12"
         },
         "mailer": {
-            "$ref": "#/definitions/Config_9"
+            "$ref": "#/definitions/Config_10"
         },
         "name": {
             "type": "string"
@@ -3193,17 +3258,17 @@
             "type": "array"
         },
         "server": {
-            "$ref": "#/definitions/Config_10"
-        },
-        "specs": {
-            "items": {
-                "$ref": "#/definitions/Spec"
-            },
-            "type": "array"
+            "$ref": "#/definitions/Config_8"
         },
         "tables": {
             "items": {
                 "$ref": "#/definitions/Table_1"
+            },
+            "type": "array"
+        },
+        "tests": {
+            "items": {
+                "$ref": "#/definitions/Test"
             },
             "type": "array"
         },

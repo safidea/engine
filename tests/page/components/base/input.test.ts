@@ -1,31 +1,35 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
-import App, { type App as AppConfig } from '@safidea/engine'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Input component', () => {
   test('should render a textarea input', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Container',
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Input',
-              type: 'textarea',
-              name: 'description',
+              component: 'Container',
+              children: [
+                {
+                  component: 'Input',
+                  type: 'textarea',
+                  name: 'description',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const input = page.getByRole('textbox')
@@ -36,7 +40,7 @@ test.describe('Input component', () => {
 
   test('should display a input in app page', async ({ page }) => {
     // GIVEN
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -64,22 +68,27 @@ test.describe('Input component', () => {
 
   test('should display the input id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Input',
-          name: 'name',
-          id: 'my-input',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Input',
+              name: 'name',
+              id: 'my-input',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const input = page.getByRole('textbox')

@@ -1,8 +1,8 @@
-import type { Filter } from '@domain/entities/filter'
-import type { Sent } from '../entities/email/Sent'
-import type { ToSend } from '../entities/email/ToSend'
+import type { Filter } from '@domain/entities/Filter'
+import type { Sent } from '../entities/Email/Sent'
+import type { ToSend } from '../entities/Email/ToSend'
 import type { Logger } from './Logger'
-import { Is } from '@domain/entities/filter/Is'
+import { Is } from '@domain/entities/Filter/Is'
 
 export interface Config {
   host: string
@@ -13,12 +13,11 @@ export interface Config {
   secure?: boolean
 }
 
-export interface Params extends Config {
+export interface Services {
   logger: Logger
 }
 
 export interface Spi {
-  params: Params
   verify: () => Promise<void>
   close: () => Promise<void>
   send: (email: ToSend) => Promise<Sent>
@@ -26,31 +25,34 @@ export interface Spi {
 }
 
 export class Mailer {
-  constructor(private spi: Spi) {}
+  private log: (message: string) => void
+
+  constructor(
+    private spi: Spi,
+    services: Services
+  ) {
+    this.log = services.logger.init('mailer')
+  }
 
   verify = async (): Promise<void> => {
-    const { logger } = this.spi.params
-    logger.log(`verifying mailer connection...`)
+    this.log(`verifying mailer connection...`)
     await this.spi.verify()
-    logger.log(`mailer connection verified`)
+    this.log(`mailer connection verified`)
   }
 
   close = async (): Promise<void> => {
-    const { logger } = this.spi.params
-    logger.log(`closing mailer connection...`)
+    this.log(`closing mailer connection...`)
     await this.spi.close()
   }
 
   send = async (emailToSend: ToSend): Promise<Sent> => {
-    const { logger } = this.spi.params
-    logger.log(`sending email to: ${emailToSend.data.to}`)
+    this.log(`sending email to: ${emailToSend.data.to}`)
     return this.spi.send(emailToSend)
   }
 
   find = async (mailbox: string, filters: Filter[] = []): Promise<Sent | undefined> => {
-    const { logger } = this.spi.params
     filters.push(new Is({ field: 'to', value: mailbox }))
-    logger.log(`finding email in mailbox "${mailbox}" matching: ${JSON.stringify(filters)}`)
+    this.log(`finding email in mailbox "${mailbox}" matching: ${JSON.stringify(filters)}`)
     return this.spi.find(filters)
   }
 }

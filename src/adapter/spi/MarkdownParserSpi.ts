@@ -1,7 +1,8 @@
-import type { Spi } from '@domain/services/MarkdownParser'
+import type { Spi, Renderer } from '@domain/services/MarkdownParser'
 
 export interface Driver {
   parseToComponent: (content: string) => Promise<React.ReactNode>
+  configRenderer: (render: Renderer) => void
 }
 
 export class MarkdownParserSpi implements Spi {
@@ -9,5 +10,9 @@ export class MarkdownParserSpi implements Spi {
 
   parseToComponent = async (content: string) => {
     return this.driver.parseToComponent(content)
+  }
+
+  configRenderer = (renderer: Renderer) => {
+    this.driver.configRenderer(renderer)
   }
 }

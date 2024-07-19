@@ -1,24 +1,29 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Markdown component', () => {
   test('should render a markdown component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '# This is a markdown content.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '# This is a markdown content.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Markdown"]')).toBeVisible()
@@ -26,21 +31,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '# This is a title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '# This is a title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Title"]')).toBeVisible()
@@ -48,21 +58,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title heading 1 component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '# This is a h1 title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '# This is a h1 title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const title = page.getByRole('heading', { name: 'This is a h1 title.' })
@@ -72,21 +87,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title heading 2 component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '## This is a h2 title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '## This is a h2 title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const title = page.getByRole('heading', { name: 'This is a h2 title.' })
@@ -96,21 +116,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title heading 3 component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '### This is a h3 title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '### This is a h3 title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const title = page.getByRole('heading', { name: 'This is a h3 title.' })
@@ -120,21 +145,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title heading 4 component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '#### This is a h4 title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '#### This is a h4 title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const title = page.getByRole('heading', { name: 'This is a h4 title.' })
@@ -144,21 +174,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title heading 5 component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '##### This is a h5 title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '##### This is a h5 title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const title = page.getByRole('heading', { name: 'This is a h5 title.' })
@@ -168,21 +203,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Title heading 6 component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '###### This is a h6 title.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '###### This is a h6 title.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const title = page.getByRole('heading', { name: 'This is a h6 title.' })
@@ -192,21 +232,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Paragraph component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: 'This is a paragraph.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: 'This is a paragraph.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Paragraph"]')).toBeVisible()
@@ -214,21 +259,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Divider component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: 'This is a paragraph.\n\n---\n\nThis is another paragraph.',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: 'This is a paragraph.\n\n---\n\nThis is another paragraph.',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Divider"]')).toBeVisible()
@@ -236,21 +286,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Link component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: 'This is [a link](https://example.com).',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: 'This is [a link](https://example.com).',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Link"]')).toBeVisible()
@@ -258,21 +313,26 @@ test.describe('Markdown component', () => {
 
   test('should render a markdown with a Image component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: 'This is an ![image](https://picsum.photos/200/300 "Image")',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: 'This is an ![image](https://picsum.photos/200/300 "Image")',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Image"]')).toBeVisible()
@@ -280,22 +340,27 @@ test.describe('Markdown component', () => {
 
   test('should display the markdown id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Markdown',
-          content: '# hello world',
-          id: 'my-markdown',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Markdown',
+              content: '# hello world',
+              id: 'my-markdown',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     expect(page.locator('#my-markdown')).toBeDefined()

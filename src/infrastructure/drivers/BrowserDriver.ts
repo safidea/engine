@@ -3,17 +3,29 @@ import puppeteer, { Browser as PuppeteerBrowser } from 'puppeteer'
 import { BrowserPageDriver } from './BrowserPageDriver'
 
 export class BrowserDriver implements Driver {
-  browser?: PuppeteerBrowser
+  private browsers: { id: string; browser: PuppeteerBrowser }[] = []
 
-  constructor() {}
+  private getBrowser = (id: string) => {
+    const browser = this.browsers.find((b) => b.id === id)?.browser
+    if (!browser) {
+      throw new Error(`Browser with id ${id} not found`)
+    }
+    return browser
+  }
 
-  launch = async (baseUrl: string) => {
-    this.browser = await puppeteer.launch()
-    const page = await this.browser.newPage()
+  launch = async (id: string) => {
+    const browser = await puppeteer.launch()
+    this.browsers.push({ id, browser })
+  }
+
+  newPage = async (id: string, baseUrl: string) => {
+    const browser = this.getBrowser(id)
+    const page = await browser.newPage()
     return new BrowserPageDriver(page, baseUrl)
   }
 
-  close = async () => {
-    await this.browser?.close()
+  close = async (id: string) => {
+    const browser = this.getBrowser(id)
+    await browser.close()
   }
 }

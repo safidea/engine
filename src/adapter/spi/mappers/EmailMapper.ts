@@ -1,6 +1,6 @@
-import type { ToSend } from '@domain/entities/email/ToSend'
+import type { ToSend } from '@domain/entities/Email/ToSend'
 import type { SentDto, ToSendDto } from '../dtos/EmailDto'
-import { Sent } from '@domain/entities/email/Sent'
+import { Sent } from '@domain/entities/Email/Sent'
 
 export class EmailMapper {
   static toToSendDto = (toSend: ToSend): ToSendDto => {

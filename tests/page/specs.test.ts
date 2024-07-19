@@ -1,18 +1,18 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Pages specs', () => {
+test.describe('Pages tests', () => {
   test.slow()
 
   test('should find an invalid page title', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ title: 'Title invalid' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Title', title: 'Title invalid' }],
         },
       ],
       pages: [
@@ -27,25 +27,21 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(1)
-    const [{ expected, received, code }] = errors
-    expect(code).toBe('INVALID_TITLE')
-    expect(expected).toBe('Title invalid')
-    expect(received).toBe('Title')
+    await expect(call).rejects.toThrow('Title invalid')
   })
 
   test('should find a page title', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ title: 'Title' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Title', title: 'Title' }],
         },
       ],
       pages: [
@@ -60,21 +56,21 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should not find a text', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'invalid' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'invalid' }],
         },
       ],
       pages: [
@@ -93,24 +89,21 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(1)
-    const [{ expected, code }] = errors
-    expect(code).toBe('TEXT_NOT_FOUND')
-    expect(expected).toBe('invalid')
+    await expect(call).rejects.toThrow('TEXT_NOT_FOUND')
   })
 
   test('should find a text', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'valid' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'valid' }],
         },
       ],
       pages: [
@@ -129,21 +122,21 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should not find a text in a specific tag', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'valid', tag: 'h1' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'valid', tag: 'h1' }],
         },
       ],
       pages: [
@@ -162,24 +155,21 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(1)
-    const [{ expected, code }] = errors
-    expect(code).toBe('TEXT_NOT_FOUND')
-    expect(expected).toBe('valid')
+    await expect(call).rejects.toThrow('TEXT_NOT_FOUND')
   })
 
   test('should find a text in a specific tag', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'valid', tag: 'p' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'valid', tag: 'p' }],
         },
       ],
       pages: [
@@ -198,21 +188,21 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should not find an attribute in a specific tag', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ tag: 'a', attribute: 'href', value: '/' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Attribute', tag: 'a', attribute: 'href', value: '/' }],
         },
       ],
       pages: [
@@ -232,24 +222,23 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(1)
-    const [{ expected, code }] = errors
-    expect(code).toBe('ATTRIBUTE_NOT_FOUND')
-    expect(expected).toBe('/')
+    await expect(call).rejects.toThrow('ATTRIBUTE_NOT_FOUND')
   })
 
   test('should find a text of an attribute in a specific tag', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ tag: 'a', attribute: 'href', value: 'https://example.com/' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [
+            { expect: 'Attribute', tag: 'a', attribute: 'href', value: 'https://example.com/' },
+          ],
         },
       ],
       pages: [
@@ -269,21 +258,24 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should not find an input with a specific value', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }, { fill: 'name', value: 'john' }],
-          then: [{ input: 'name', value: 'doe' }],
+          when: [
+            { event: 'Open', url: '/' },
+            { event: 'Fill', input: 'name', value: 'john' },
+          ],
+          then: [{ expect: 'InputText', input: 'name', value: 'doe' }],
         },
       ],
       pages: [
@@ -317,25 +309,24 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(1)
-    const [{ expected, received, code }] = errors
-    expect(code).toBe('INPUT_NOT_FOUND')
-    expect(expected).toBe('doe')
-    expect(received).toBe('john')
+    await expect(call).rejects.toThrow('INPUT_NOT_FOUND')
   })
 
   test('should find an input with a specific value', async () => {
     // GIVEN
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }, { fill: 'name', value: 'john' }],
-          then: [{ input: 'name', value: 'john' }],
+          when: [
+            { event: 'Open', url: '/' },
+            { event: 'Fill', input: 'name', value: 'john' },
+          ],
+          then: [{ expect: 'InputText', input: 'name', value: 'john' }],
         },
       ],
       pages: [
@@ -369,10 +360,10 @@ test.describe('Pages specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should submit a form into database', async () => {
@@ -380,16 +371,22 @@ test.describe('Pages specs', () => {
     const successMessage = 'Form submitted'
     const config: Config = {
       name: 'Feature',
-      specs: [
+      tests: [
         {
           name: 'submit form to database',
           when: [
-            { open: '/' },
-            { fill: 'name', value: 'john' },
-            { click: 'Submit' },
-            { waitForText: successMessage },
+            { event: 'Open', url: '/' },
+            { event: 'Fill', input: 'name', value: 'john' },
+            { event: 'Click', text: 'Submit' },
+            { event: 'WaitForText', text: successMessage },
           ],
-          then: [{ table: 'leads', find: [{ field: 'name', operator: 'is', value: 'john' }] }],
+          then: [
+            {
+              expect: 'Record',
+              table: 'leads',
+              find: [{ field: 'name', operator: 'is', value: 'john' }],
+            },
+          ],
         },
       ],
       pages: [
@@ -427,7 +424,7 @@ test.describe('Pages specs', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -436,9 +433,9 @@ test.describe('Pages specs', () => {
     const app = new App()
 
     // WHEN
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 })

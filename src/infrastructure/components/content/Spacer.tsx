@@ -1,9 +1,15 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 import { classNames } from '../utils'
-import type { Size } from '@domain/engine/page/component/base/base'
+import type { Size } from '@domain/entities/Component/base/base'
 
 export const Spacer = ({ id, className = '', size = 'md' }: Props['Spacer']) => {
-  return <div id={id} className={classNames(getSizeClasses(size), className)} data-component="Spacer"></div>
+  return (
+    <div
+      id={id}
+      className={classNames(getSizeClasses(size), className)}
+      data-component="Spacer"
+    ></div>
+  )
 }
 
 export function getSizeClasses(size: Size) {

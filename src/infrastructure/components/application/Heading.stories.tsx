@@ -19,7 +19,7 @@ export const Default: Story = {
     Title: (props) => <Title text="Request" {...props} />,
     Buttons: [
       (props) => <Button label="Log in" href="#" variant="secondary" {...props} />,
-      (props) => <Button label="Sign up" href="#" {...props} />,
+      (props) => <Button label="Sign up" href="#" variant="primary" {...props} />,
     ],
   },
 }

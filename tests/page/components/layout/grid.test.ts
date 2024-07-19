@@ -1,38 +1,43 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Grid component', () => {
   test('should render grid component', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Grid',
-          columns: 3,
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Title',
-              text: 'Column 1',
-            },
-            {
-              component: 'Title',
-              text: 'Column 2',
-            },
-            {
-              component: 'Title',
-              text: 'Column 3',
+              component: 'Grid',
+              columns: 3,
+              children: [
+                {
+                  component: 'Title',
+                  text: 'Column 1',
+                },
+                {
+                  component: 'Title',
+                  text: 'Column 2',
+                },
+                {
+                  component: 'Title',
+                  text: 'Column 3',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Grid"]')).toBeVisible()
@@ -40,36 +45,41 @@ test.describe('Grid component', () => {
 
   test('should display the grid id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Grid',
-          id: 'my-grid',
-          columns: 3,
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Paragraph',
-              text: 'Column 1',
-            },
-            {
-              component: 'Paragraph',
-              text: 'Column 2',
-            },
-            {
-              component: 'Paragraph',
-              text: 'Column 3',
+              component: 'Grid',
+              id: 'my-grid',
+              columns: 3,
+              children: [
+                {
+                  component: 'Paragraph',
+                  text: 'Column 1',
+                },
+                {
+                  component: 'Paragraph',
+                  text: 'Column 2',
+                },
+                {
+                  component: 'Paragraph',
+                  text: 'Column 3',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('#my-grid')).toBeVisible()

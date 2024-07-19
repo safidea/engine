@@ -1,44 +1,58 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Spacer component', () => {
-  test('should render a spacer', async () => {
+  test('should render a spacer', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Spacer',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Spacer',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
+    await page.goto(url)
+    const html = await page.content()
 
     // THEN
     expect(html).toContain('<div')
     expect(html).toContain('></div>')
   })
 
-  test('should render a spacer with lg size', async () => {
+  test('should render a spacer with lg size', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Spacer',
-          size: 'lg',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Spacer',
+              size: 'lg',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
+    await page.goto(url)
+    const html = await page.content()
 
     // THEN
     expect(html).toContain('mt-12')
@@ -46,21 +60,26 @@ test.describe('Spacer component', () => {
 
   test('should display the spacer id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Spacer',
-          id: 'my-spacer',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Spacer',
+              id: 'my-spacer',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     expect(page.locator('#my-spacer')).toBeDefined()

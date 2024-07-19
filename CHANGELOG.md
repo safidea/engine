@@ -1,115 +1,99 @@
 ## [0.17.6](https://github.com/safidea/engine/compare/v0.17.5...v0.17.6) (2024-07-09)
 
-
 ### Bug Fixes
 
-* **theme:** add dynamic css generation based on generated html ([a242406](https://github.com/safidea/engine/commit/a2424062aedf575b7989725600edee233dcaa2f2))
+- **theme:** add dynamic css generation based on generated html ([a242406](https://github.com/safidea/engine/commit/a2424062aedf575b7989725600edee233dcaa2f2))
 
 ## [0.17.5](https://github.com/safidea/engine/compare/v0.17.4...v0.17.5) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **theme:** remove array font for only font name ([3ec70bf](https://github.com/safidea/engine/commit/3ec70bfae4094709abf72190459fceaa64a32c1f))
+- **theme:** remove array font for only font name ([3ec70bf](https://github.com/safidea/engine/commit/3ec70bfae4094709abf72190459fceaa64a32c1f))
 
 ## [0.17.4](https://github.com/safidea/engine/compare/v0.17.3...v0.17.4) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **database:** add green test 'should throw an error if database type is not valid' ([19cf404](https://github.com/safidea/engine/commit/19cf40401482741ab888b27b6206623a6411b0be))
+- **database:** add green test 'should throw an error if database type is not valid' ([19cf404](https://github.com/safidea/engine/commit/19cf40401482741ab888b27b6206623a6411b0be))
 
 ## [0.17.3](https://github.com/safidea/engine/compare/v0.17.2...v0.17.3) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **theme:** add green test 'should render a Markdown Link with a font serif' ([861fc6e](https://github.com/safidea/engine/commit/861fc6e4bdd30024579a246ad60d274fc53c3b9b))
+- **theme:** add green test 'should render a Markdown Link with a font serif' ([861fc6e](https://github.com/safidea/engine/commit/861fc6e4bdd30024579a246ad60d274fc53c3b9b))
 
 ## [0.17.2](https://github.com/safidea/engine/compare/v0.17.1...v0.17.2) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **theme:** can use font serif in Paragraph ([241d1e4](https://github.com/safidea/engine/commit/241d1e46bcc3223f1c39dc3cce99811b42423d4d))
+- **theme:** can use font serif in Paragraph ([241d1e4](https://github.com/safidea/engine/commit/241d1e46bcc3223f1c39dc3cce99811b42423d4d))
 
 ## [0.17.1](https://github.com/safidea/engine/compare/v0.17.0...v0.17.1) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **theme:** refactor font css building in the output.css ([757fd32](https://github.com/safidea/engine/commit/757fd32c2cf7818a6ef728c9674492de6be7fbe6))
+- **theme:** refactor font css building in the output.css ([757fd32](https://github.com/safidea/engine/commit/757fd32c2cf7818a6ef728c9674492de6be7fbe6))
 
 # [0.17.0](https://github.com/safidea/engine/compare/v0.16.1...v0.17.0) (2024-07-05)
 
-
 ### Features
 
-* **theme:** add green test 'should load a font file' ([a42bb76](https://github.com/safidea/engine/commit/a42bb762a05f309ed895f460258c3280cf3b47eb))
+- **theme:** add green test 'should load a font file' ([a42bb76](https://github.com/safidea/engine/commit/a42bb762a05f309ed895f460258c3280cf3b47eb))
 
 ## [0.16.1](https://github.com/safidea/engine/compare/v0.16.0...v0.16.1) (2024-07-03)
 
-
 ### Bug Fixes
 
-* **Markdown:** add green test 'should render a markdown with a Link component' ([baba80c](https://github.com/safidea/engine/commit/baba80c35d889a5a4609a45b908e287fdb712b12))
+- **Markdown:** add green test 'should render a markdown with a Link component' ([baba80c](https://github.com/safidea/engine/commit/baba80c35d889a5a4609a45b908e287fdb712b12))
 
 # [0.16.0](https://github.com/safidea/engine/compare/v0.15.3...v0.16.0) (2024-07-03)
 
-
 ### Features
 
-* **components:** add green test 'should render grid component' ([bd4ae98](https://github.com/safidea/engine/commit/bd4ae9859b35dfed34045f80b10a541341b7d4b1))
+- **components:** add green test 'should render grid component' ([bd4ae98](https://github.com/safidea/engine/commit/bd4ae9859b35dfed34045f80b10a541341b7d4b1))
 
 ## [0.15.3](https://github.com/safidea/engine/compare/v0.15.2...v0.15.3) (2024-07-03)
 
-
 ### Bug Fixes
 
-* **Markdown:** add green test 'should render a markdown with a Paragraph component' ([33fd674](https://github.com/safidea/engine/commit/33fd6740b8c754d7f5d125f7c5ba9ca8cf05e453))
-* **Markdown:** add green test 'should render a markdown with a Title component' ([82756cf](https://github.com/safidea/engine/commit/82756cfc14b2fffdd225a69782fb3bfa8e90db4c))
+- **Markdown:** add green test 'should render a markdown with a Paragraph component' ([33fd674](https://github.com/safidea/engine/commit/33fd6740b8c754d7f5d125f7c5ba9ca8cf05e453))
+- **Markdown:** add green test 'should render a markdown with a Title component' ([82756cf](https://github.com/safidea/engine/commit/82756cfc14b2fffdd225a69782fb3bfa8e90db4c))
 
 ## [0.15.2](https://github.com/safidea/engine/compare/v0.15.1...v0.15.2) (2024-07-03)
 
-
 ### Bug Fixes
 
-* **Link:** add green test 'should display an active link' ([c1677d3](https://github.com/safidea/engine/commit/c1677d3511b17e07790dda996330c7d8ef056761))
+- **Link:** add green test 'should display an active link' ([c1677d3](https://github.com/safidea/engine/commit/c1677d3511b17e07790dda996330c7d8ef056761))
 
 ## [0.15.1](https://github.com/safidea/engine/compare/v0.15.0...v0.15.1) (2024-07-02)
 
-
 ### Bug Fixes
 
-* **build:** add jsdom in externals ([f759793](https://github.com/safidea/engine/commit/f7597934c08d165f0fcd5712bcca9108413a996b))
+- **build:** add jsdom in externals ([f759793](https://github.com/safidea/engine/commit/f7597934c08d165f0fcd5712bcca9108413a996b))
 
 # [0.15.0](https://github.com/safidea/engine/compare/v0.14.0...v0.15.0) (2024-07-02)
 
-
 ### Features
 
-* **component:** add green test 'should render a markdown content' ([e7c3b47](https://github.com/safidea/engine/commit/e7c3b47631fe30fbef316f2e85c42df0929e19ab))
+- **component:** add green test 'should render a markdown content' ([e7c3b47](https://github.com/safidea/engine/commit/e7c3b47631fe30fbef316f2e85c42df0929e19ab))
 
 # [0.14.0](https://github.com/safidea/engine/compare/v0.13.1...v0.14.0) (2024-07-02)
 
-
 ### Features
 
-* **component:** add green test 'should render a spacer' ([ff8d294](https://github.com/safidea/engine/commit/ff8d294f36d2519c69be4c025803817d70532a2e))
+- **component:** add green test 'should render a spacer' ([ff8d294](https://github.com/safidea/engine/commit/ff8d294f36d2519c69be4c025803817d70532a2e))
 
 ## [0.13.1](https://github.com/safidea/engine/compare/v0.13.0...v0.13.1) (2024-07-02)
 
-
 ### Bug Fixes
 
-* **icon:** add all availables names ([005a45a](https://github.com/safidea/engine/commit/005a45a23ca12d435919c9bc2ea831916262a2e3))
+- **icon:** add all availables names ([005a45a](https://github.com/safidea/engine/commit/005a45a23ca12d435919c9bc2ea831916262a2e3))
 
 # [0.13.0](https://github.com/safidea/engine/compare/v0.12.1...v0.13.0) (2024-07-02)
 
-
 ### Features
 
-* **component:** add green test 'should render a divider' ([6b523bb](https://github.com/safidea/engine/commit/6b523bb4f4bd0b46c11017e7652aff76e608baf6))
+- **component:** add green test 'should render a divider' ([6b523bb](https://github.com/safidea/engine/commit/6b523bb4f4bd0b46c11017e7652aff76e608baf6))
 
 ## [0.12.1](https://github.com/safidea/engine/compare/v0.12.0...v0.12.1) (2024-07-02)
 
@@ -325,6 +309,6 @@
 - **ci:** build command is now working ([7945e2b](https://github.com/safidea/engine/commit/7945e2b5c3166cc9041b19583b7b428ad7b0d032))
 - **ci:** reset paths files to apis ([c7d0573](https://github.com/safidea/engine/commit/c7d057338fd82fd9a093875e8b267b3f04114f85))
 - **engine:** merge v2 to main ([613bbe4](https://github.com/safidea/engine/commit/613bbe4cd4d231a9feb84987bb60d0a944b0af53))
-- **examples:** add parallel specs test execution ([14a66d0](https://github.com/safidea/engine/commit/14a66d074cc2ee4064f020f21f5761b06c4f9f94))
+- **examples:** add parallel tests test execution ([14a66d0](https://github.com/safidea/engine/commit/14a66d074cc2ee4064f020f21f5761b06c4f9f94))
 - **package.json:** add exports ([22637af](https://github.com/safidea/engine/commit/22637af398c6ac449f602a21a26a31f2114433f9))
 - **package:** update bun version ([736d016](https://github.com/safidea/engine/commit/736d0165a543bb1fdffca02d8ce86d14a923fa13))

@@ -1,6 +1,6 @@
-import type { Props } from '@domain/engine/page/component'
+import type { Props } from '@domain/entities/Component'
 import { classNames, getFontClasses, getTextAlignClasses } from '../utils'
-import type { Size } from '@domain/engine/page/component/base/base'
+import type { Size } from '@domain/entities/Component/base/base'
 
 export const Title = ({
   size = 'md',

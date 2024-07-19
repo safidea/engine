@@ -24,6 +24,6 @@ export const Default: Story = {
         {...props}
       />
     ),
-    Buttons: [(props) => <Button label="Get started" href="#" {...props} />],
+    Buttons: [(props) => <Button label="Get started" href="#" variant="primary" {...props} />],
   },
 }

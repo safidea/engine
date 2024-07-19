@@ -1,29 +1,24 @@
 import Logger from './logger'
-import Database from './database'
 import { MailerDriver } from '@infrastructure/drivers/MailerDriver'
+import type { Config } from '@domain/services/Mailer'
+import Database from './database'
 
 export default class extends MailerDriver {
+  public config: Config
+
   constructor({ url }: Database) {
-    const logger = new Logger('mailer')
-    logger.log(`creating mailbox...`)
-    super({
+    const logger = new Logger()
+    const log = logger.init('[test]:mailer')
+    log(`creating mailbox...`)
+    const config = {
       host: url,
       port: '0',
       user: '_sqlite',
       pass: '_sqlite',
-      logger,
       from: 'noreply@localhost',
-    })
-    logger.log(`mailbox created`)
-  }
-
-  get config() {
-    return {
-      host: this.params.host,
-      port: this.params.port,
-      user: this.params.user,
-      pass: this.params.pass,
-      from: this.params.from,
     }
+    super(config)
+    this.config = config
+    log(`mailbox created`)
   }
 }

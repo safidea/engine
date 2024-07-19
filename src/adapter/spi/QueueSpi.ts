@@ -1,9 +1,8 @@
-import type { Params, Spi, WaitForParams } from '@domain/services/Queue'
+import type { Spi, WaitForParams } from '@domain/services/Queue'
 import type { JobDto } from './dtos/JobDto'
 import { JobMapper } from './mappers/JobMapper'
 
 export interface Driver {
-  params: Params
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
   stop: () => Promise<void>
@@ -16,10 +15,6 @@ export interface Driver {
 
 export class QueueSpi implements Spi {
   constructor(private driver: Driver) {}
-
-  get params() {
-    return this.driver.params
-  }
 
   getById = async (id: string) => {
     const jboDto = await this.driver.getById(id)

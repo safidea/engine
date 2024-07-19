@@ -1,30 +1,34 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
-import App, { type App as AppConfig } from '@safidea/engine'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Container', () => {
   test('should render a container', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Container',
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Paragraph',
-              text: 'Hello world',
+              component: 'Container',
+              children: [
+                {
+                  component: 'Paragraph',
+                  text: 'Hello world',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const container = page.getByText('Hello world')
@@ -33,7 +37,7 @@ test.describe('Container', () => {
 
   test('should render a container in app page', async ({ page }) => {
     // GIVEN
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -66,27 +70,32 @@ test.describe('Container', () => {
 
   test('should render the container id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Container',
-          children: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              component: 'Paragraph',
-              text: 'Hello world',
-              id: 'my-paragraph',
+              component: 'Container',
+              children: [
+                {
+                  component: 'Paragraph',
+                  text: 'Hello world',
+                  id: 'my-paragraph',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const container = page.getByText('Hello world')
@@ -97,7 +106,7 @@ test.describe('Container', () => {
   test.describe('Breakpoint', () => {
     test('should render a container with default breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -133,7 +142,7 @@ test.describe('Container', () => {
 
     test('should render a container with no breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -170,7 +179,7 @@ test.describe('Container', () => {
 
     test('should render a container with a small breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -207,7 +216,7 @@ test.describe('Container', () => {
 
     test('should render a container with a medium breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -244,7 +253,7 @@ test.describe('Container', () => {
 
     test('should render a container with a large breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -281,7 +290,7 @@ test.describe('Container', () => {
 
     test('should render a container with a extra large breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -318,7 +327,7 @@ test.describe('Container', () => {
 
     test('should render a container with a 2 extra large breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -357,7 +366,7 @@ test.describe('Container', () => {
   test.describe('Center', () => {
     test('should render a non centered container', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -393,7 +402,7 @@ test.describe('Container', () => {
 
     test('should render a centered container', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -430,7 +439,7 @@ test.describe('Container', () => {
 
     test('should render a container with a small breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -468,7 +477,7 @@ test.describe('Container', () => {
 
     test('should render a container with a medium breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -506,7 +515,7 @@ test.describe('Container', () => {
 
     test('should render a container with a large breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -544,7 +553,7 @@ test.describe('Container', () => {
 
     test('should render a container with a extra large breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -582,7 +591,7 @@ test.describe('Container', () => {
 
     test('should render a container with a 2 extra large breakpoint', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -622,7 +631,7 @@ test.describe('Container', () => {
   test.describe('Padding', () => {
     test('should render a container without horizontal padding', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -654,7 +663,7 @@ test.describe('Container', () => {
 
     test('should render a container with horizontal padding of 4', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {
@@ -687,7 +696,7 @@ test.describe('Container', () => {
 
     test('should render a container with horizontal padding of 20', async ({ page }) => {
       // GIVEN
-      const config: AppConfig = {
+      const config: Config = {
         name: 'Container',
         pages: [
           {

@@ -1,23 +1,28 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Divider component', () => {
   test('should render a divider', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Divider',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Divider',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Divider"]')).toBeVisible()
@@ -25,21 +30,26 @@ test.describe('Divider component', () => {
 
   test('should display the divider id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Divider',
-          id: 'my-divider',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Divider',
+              id: 'my-divider',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     expect(page.locator('#my-divider')).toBeDefined()

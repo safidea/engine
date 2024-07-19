@@ -1,19 +1,21 @@
-import { Font, type Type } from '@domain/entities/response/Font'
+import { Font, type Type } from '@domain/entities/Response/Font'
 import type { IdGenerator } from './IdGenerator'
 import type { Server } from './Server'
 
-export interface Params {
+export interface Services {
   server: Server
   idGenerator: IdGenerator
 }
 
 export interface Spi {
-  params: Params
   loadCss: (name: string) => Promise<string>
 }
 
 export class FontLibrary {
-  constructor(private spi: Spi) {}
+  constructor(
+    private spi: Spi,
+    private services: Services
+  ) {}
 
   extractTypeFromUrl = (url: string): Type => {
     const type = url.split('.').pop()
@@ -23,7 +25,7 @@ export class FontLibrary {
   }
 
   loadCss = async (name: string): Promise<string> => {
-    const { server, idGenerator } = this.spi.params
+    const { server, idGenerator } = this.services
     let css = await this.spi.loadCss(name)
     const urlRegex = /url\((https:\/\/[^)]+)\)/g
     let match

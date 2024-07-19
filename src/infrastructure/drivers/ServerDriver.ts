@@ -7,10 +7,10 @@ import net from 'net'
 import { join } from 'path'
 import type { Driver } from '@adapter/spi/ServerSpi'
 import type { DeleteDto, GetDto, PatchDto, PostDto } from '@adapter/spi/dtos/RequestDto'
-import type { Params } from '@domain/services/Server'
-import type { Response } from '@domain/entities/response'
-import { Redirect } from '@domain/entities/response/Redirect'
-import { Stream } from '@domain/entities/response/Stream'
+import type { Config } from '@domain/services/Server'
+import type { Response } from '@domain/entities/Response'
+import { Redirect } from '@domain/entities/Response/Redirect'
+import { Stream } from '@domain/entities/Response/Stream'
 
 const dirname = new URL('.', import.meta.url).pathname
 
@@ -19,8 +19,8 @@ export class ServerDriver implements Driver {
   private server?: HttpServer
   public baseUrl?: string
 
-  constructor(public params: Params) {
-    const { env } = params
+  constructor(private config: Config) {
+    const { env } = config
     this.express = express()
     this.express.use(cors())
     if (env === 'production') this.express.use(helmet())
@@ -106,7 +106,7 @@ export class ServerDriver implements Driver {
   }
 
   private getPort = async () => {
-    if (this.params.port) return Number(this.params.port)
+    if (this.config.port) return Number(this.config.port)
     const port: number = await new Promise((resolve, reject) => {
       const srv = net.createServer()
       srv.listen(0, function () {

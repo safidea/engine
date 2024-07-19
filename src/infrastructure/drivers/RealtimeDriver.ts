@@ -1,24 +1,23 @@
 import type { Driver } from '@adapter/spi/RealtimeSpi'
-import type { Params } from '@domain/services/Realtime'
 import pg from 'pg'
 import EventEmitter from 'events'
-import type { Database } from '@domain/services/Database'
-import { Is } from '@domain/entities/filter/Is'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
+import type { Config } from '@domain/services/Realtime'
+import { DatabaseDriver } from './DatabaseDriver'
 
 export class RealtimeDriver implements Driver {
   private client: pg.Client | SqliteClient
   emitter: EventEmitter
 
-  constructor(public params: Params) {
-    const { type, url } = params.database.params
+  constructor(config: Config) {
+    const { type, url } = config
     if (type === 'postgres') {
       const { Client } = pg
       this.client = new Client({
         connectionString: url,
       })
     } else if (type === 'sqlite') {
-      this.client = new SqliteClient(params.database)
+      this.client = new SqliteClient(config)
     } else throw new Error(`Database ${type} not supported`)
     this.emitter = new EventEmitter()
   }
@@ -117,9 +116,12 @@ export class RealtimeDriver implements Driver {
 }
 
 export class SqliteClient {
+  private db: DatabaseDriver
   private interval?: Timer
 
-  constructor(private db: Database) {}
+  constructor(config: Config) {
+    this.db = new DatabaseDriver(config)
+  }
 
   connect = async () => {
     await this.db.exec(`
@@ -139,24 +141,24 @@ export class SqliteClient {
 
   on = (_: 'notification', callback: (options: { payload: string }) => void) => {
     this.interval = setInterval(async () => {
-      const logs = await this.db.table('_actions').list([new Is({ field: 'processed', value: 0 })])
+      const logs = await this.db
+        .table('_actions')
+        .list([{ field: 'processed', operator: '=', value: 0 }])
       for (const log of logs) {
-        const tableName = log.getFieldAsString('table_name')
-        const recordId = log.getFieldAsString('record_id')
+        const tableName = String(log.table_name)
+        const recordId = String(log.record_id)
         const record = await this.db
           .table(tableName)
-          .read([new Is({ field: 'id', value: recordId })])
+          .read([{ field: 'id', operator: '=', value: recordId }])
         if (record)
           callback({
             payload: JSON.stringify({
-              action: log.getFieldAsString('action'),
+              action: String(log.action),
               table: tableName,
               record: record.data,
             }),
           })
-        await this.db.exec(
-          `UPDATE _actions SET processed = 1 WHERE id = ${log.getFieldAsString('id')}`
-        )
+        await this.db.exec(`UPDATE _actions SET processed = 1 WHERE id = ${log.id}`)
       }
     }, 500)
   }

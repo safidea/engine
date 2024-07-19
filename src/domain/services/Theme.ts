@@ -1,7 +1,7 @@
 import type { SansSerif, Serif } from '@domain/libraries/Font'
 import type { Server } from './Server'
 import type { FontLibrary } from './FontLibrary'
-import { Css } from '@domain/entities/response/Css'
+import { Css } from '@domain/entities/Response/Css'
 
 export interface Config {
   fontFamily?: {
@@ -23,21 +23,25 @@ export interface Config {
   }
 }
 
-export interface Params extends Config {
+export interface Services {
   server: Server
   fontLibrary: FontLibrary
 }
 
 export interface Spi {
-  params: Params
   build: (htmlContents: string[], fontsCss: string[]) => Promise<string>
 }
 
 export class Theme {
-  constructor(private spi: Spi) {}
+  constructor(
+    private spi: Spi,
+    private services: Services,
+    private config: Config
+  ) {}
 
   init = async (htmlContents: string[]) => {
-    const { server, fontLibrary, fontFamily = {} } = this.spi.params
+    const { server, fontLibrary } = this.services
+    const { fontFamily = {} } = this.config
     const { sans, serif } = fontFamily
     let fonts: string[] = []
     if (sans) fonts.push(sans)

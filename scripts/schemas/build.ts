@@ -3,7 +3,7 @@ import { capitalize, exec, log } from '../helpers'
 
 log(`Start building schemas...`)
 
-const schemas = ['app', 'page', 'spec', 'table', 'automation']
+const schemas = ['app']
 
 await fs.ensureDir('schemas')
 await fs.emptyDir('schemas')

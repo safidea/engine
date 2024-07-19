@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as Config } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Logos component', () => {
   test('should render logos', async ({ page }) => {
@@ -7,34 +7,39 @@ test.describe('Logos component', () => {
 
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Logos',
-          title: { text: 'This is a title' },
-          images: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              src: 'https://picsum.photos/200/300',
-              alt: 'logo-1',
-            },
-            {
-              src: 'https://picsum.photos/200/300',
-              alt: 'logo-2',
-            },
-            {
-              src: 'https://picsum.photos/200/300',
-              alt: 'logo-3',
+              component: 'Logos',
+              title: { text: 'This is a title' },
+              images: [
+                {
+                  src: 'https://picsum.photos/200/300',
+                  alt: 'logo-1',
+                },
+                {
+                  src: 'https://picsum.photos/200/300',
+                  alt: 'logo-2',
+                },
+                {
+                  src: 'https://picsum.photos/200/300',
+                  alt: 'logo-3',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Logos"]')).toBeVisible()
@@ -45,36 +50,41 @@ test.describe('Logos component', () => {
 
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Logos',
-          id: 'my-logos',
-          title: { text: 'This is a title' },
-          paragraph: { text: 'This is a description' },
-          images: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              src: 'https://picsum.photos/200/300',
-              alt: 'logo-1',
-            },
-            {
-              src: 'https://picsum.photos/200/300',
-              alt: 'logo-2',
-            },
-            {
-              src: 'https://picsum.photos/200/300',
-              alt: 'logo-3',
+              component: 'Logos',
+              id: 'my-logos',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              images: [
+                {
+                  src: 'https://picsum.photos/200/300',
+                  alt: 'logo-1',
+                },
+                {
+                  src: 'https://picsum.photos/200/300',
+                  alt: 'logo-2',
+                },
+                {
+                  src: 'https://picsum.photos/200/300',
+                  alt: 'logo-3',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const logos = page.locator('#my-logos')

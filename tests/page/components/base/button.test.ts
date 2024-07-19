@@ -1,27 +1,31 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as AppConfig } from '@safidea/engine'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('Button component', () => {
   test('should render a button', async ({ page }) => {
     // GIVEN
     const label = 'Button'
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Button',
-          label,
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Button',
+              label,
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const buttonContent = await page.textContent('button')
@@ -32,22 +36,27 @@ test.describe('Button component', () => {
     // GIVEN
     const label = 'Button'
     const href = 'https://example.com/'
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Button',
-          label,
-          href,
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Button',
+              label,
+              href,
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const button = page.locator('a', { hasText: label })
@@ -57,7 +66,7 @@ test.describe('Button component', () => {
   test('should delete a row when clicked', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -80,11 +89,11 @@ test.describe('Button component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -110,7 +119,7 @@ test.describe('Button component', () => {
   test('should redirect after deleting a row successfully when clicked', async ({ page }) => {
     // GIVEN
     const database = new Database()
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -146,11 +155,11 @@ test.describe('Button component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -173,22 +182,27 @@ test.describe('Button component', () => {
 
   test('should display the button id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Button',
-          label: 'hello world',
-          id: 'my-button',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Button',
+              label: 'hello world',
+              id: 'my-button',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const button = page.getByText('hello world')

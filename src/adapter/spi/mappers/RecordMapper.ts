@@ -1,7 +1,7 @@
-import { Persisted } from '@domain/entities/record/Persisted'
-import type { ToCreate } from '@domain/entities/record/ToCreate'
+import { Persisted } from '@domain/entities/Record/Persisted'
+import type { ToCreate } from '@domain/entities/Record/ToCreate'
 import type { PersistedDto, ToCreateDto, ToUpdateDto } from '../dtos/RecordDto'
-import type { ToUpdate } from '@domain/entities/record/ToUpdate'
+import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 
 export class RecordMapper {
   static toCreateDto = (toCreateRecord: ToCreate): ToCreateDto => {

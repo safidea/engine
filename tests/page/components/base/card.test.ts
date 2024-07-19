@@ -1,30 +1,34 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
-import App, { type App as AppConfig } from '@safidea/engine'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Card component', () => {
   test('should render a card', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Card',
-          title: {
-            text: 'First post',
-          },
-          paragraph: {
-            text: 'This is a post.',
-          },
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Card',
+              title: {
+                text: 'First post',
+              },
+              paragraph: {
+                text: 'This is a post.',
+              },
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.getByText('First post')).toBeVisible()
@@ -35,30 +39,35 @@ test.describe('Card component', () => {
     test.slow()
 
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Card',
-          image: {
-            src: 'https://picsum.photos/200/300',
-            alt: 'First post',
-          },
-          title: {
-            text: 'First post',
-          },
-          paragraph: {
-            text: 'This is a post.',
-          },
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Card',
+              image: {
+                src: 'https://picsum.photos/200/300',
+                alt: 'First post',
+              },
+              title: {
+                text: 'First post',
+              },
+              paragraph: {
+                text: 'This is a post.',
+              },
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.getByAltText('First post')).toBeVisible()
@@ -68,7 +77,7 @@ test.describe('Card component', () => {
     test.slow()
 
     // GIVEN
-    const config: AppConfig = {
+    const config: Config = {
       name: 'Card',
       pages: [
         {
@@ -108,32 +117,37 @@ test.describe('Card component', () => {
     test.slow()
 
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Card',
-          id: 'my-card',
-          image: {
-            src: 'https://picsum.photos/200/300',
-            alt: 'First post',
-          },
-          title: {
-            text: 'First post',
-          },
-          paragraph: {
-            text: 'This is my first post.',
-          },
-          href: '/posts/1',
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Card',
+              id: 'my-card',
+              image: {
+                src: 'https://picsum.photos/200/300',
+                alt: 'First post',
+              },
+              title: {
+                text: 'First post',
+              },
+              paragraph: {
+                text: 'This is my first post.',
+              },
+              href: '/posts/1',
+            },
+          ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const button = page.locator('#my-card')

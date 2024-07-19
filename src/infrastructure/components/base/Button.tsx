@@ -1,13 +1,13 @@
-import type { Variant } from '@domain/engine/page/component/base/Button'
-import type { Props } from '@domain/engine/page/component'
+import type { Variant } from '@domain/entities/Component/base/Button'
+import type { Props } from '@domain/entities/Component'
 import { classNames } from '../utils'
 
 export const Button = ({
   id,
   label,
   href,
-  variant = 'primary',
-  className = '',
+  variant,
+  className,
   actionClientProps = {},
   type,
   action,

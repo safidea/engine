@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    Button: (props) => <Button label="Open modal" {...props} />,
+    Button: (props) => <Button label="Open modal" variant="primary" {...props} />,
     header: <p>Static modal</p>,
     body: (
       <p>

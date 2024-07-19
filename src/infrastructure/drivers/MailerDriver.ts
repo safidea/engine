@@ -1,7 +1,7 @@
 import type { Driver } from '@adapter/spi/MailerSpi'
 import type { SentDto, ToSendDto } from '@adapter/spi/dtos/EmailDto'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
-import type { Params } from '@domain/services/Mailer'
+import type { Config } from '@domain/services/Mailer'
 import { v4 as uuidv4 } from 'uuid'
 import nodemailer, { type Transporter } from 'nodemailer'
 import SQLite from 'better-sqlite3'
@@ -10,8 +10,8 @@ import { SqliteDialect, Kysely } from 'kysely'
 export class MailerDriver implements Driver {
   private transporter: Transporter | SqliteTransporter
 
-  constructor(public params: Params) {
-    const { host, port, user, pass, secure } = params
+  constructor(config: Config) {
+    const { host, port, user, pass, secure } = config
     if (user === '_sqlite' && pass === '_sqlite') {
       this.transporter = new SqliteTransporter(host)
     } else {

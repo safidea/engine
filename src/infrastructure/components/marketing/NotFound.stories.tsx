@@ -24,6 +24,6 @@ export const Default: Story = {
         {...props}
       />
     ),
-    Button: (props) => <Button label="Go to home page" {...props} />,
+    Button: (props) => <Button label="Go to home page" variant="primary" {...props} />,
   },
 }

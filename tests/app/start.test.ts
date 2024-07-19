@@ -28,15 +28,15 @@ test.describe('App api', () => {
     expect(url).toBeDefined()
   })
 
-  test('should start an app after testing specs', async () => {
+  test('should start an app after testing tests', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'Hello world!' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'Hello world!' }],
         },
       ],
       pages: [
@@ -55,11 +55,11 @@ test.describe('App api', () => {
     const app = new App()
 
     // WHEN
-    const errors = await app.test(config)
+    const call = () => app.test(config)
     const url = await app.start(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
     expect(url).toBeDefined()
   })
 

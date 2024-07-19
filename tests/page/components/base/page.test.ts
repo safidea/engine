@@ -1,21 +1,26 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as Config } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Page component', () => {
   test('should render a title', async ({ page }) => {
     // GIVEN
     const title = 'This is a title'
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      head: { title },
-      body: [],
+      name: 'App',
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          head: { title },
+          body: [],
+        },
+      ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const pageTitle = await page.title()
@@ -26,23 +31,28 @@ test.describe('Page component', () => {
     // GIVEN
     const description = 'This is a description'
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      head: {
-        metas: [
-          {
-            name: 'description',
-            content: description,
+      name: 'App',
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          head: {
+            metas: [
+              {
+                name: 'description',
+                content: description,
+              },
+            ],
           },
-        ],
-      },
-      body: [],
+          body: [],
+        },
+      ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const descriptionElement = page.locator('meta[name="description"]')

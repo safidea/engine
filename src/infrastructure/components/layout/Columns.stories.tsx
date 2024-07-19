@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Columns } from './Columns'
 import { Title } from '../content/Title'
-import type { Props as TitleProps } from '@domain/engine/page/component/content/Title'
+import type { Props as TitleProps } from '@domain/entities/Component/content/Title'
 
 const meta = {
   title: 'Layout/Columns',

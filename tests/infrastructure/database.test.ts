@@ -16,11 +16,11 @@ test.describe('Database', () => {
           fields: [
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'password',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -50,11 +50,11 @@ test.describe('Database', () => {
           fields: [
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'password',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -81,11 +81,11 @@ test.describe('Database', () => {
           fields: [
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'password',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -119,7 +119,7 @@ test.describe('Database', () => {
           fields: [
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },

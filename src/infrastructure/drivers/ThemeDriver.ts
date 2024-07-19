@@ -1,17 +1,17 @@
 import type { Driver } from '@adapter/spi/ThemeSpi'
-import type { Params } from '@domain/services/Theme'
+import type { Config } from '@domain/services/Theme'
 import postcss from 'postcss'
-import tailwindcss, { type Config } from 'tailwindcss'
+import tailwindcss, { type Config as Tailwindcss } from 'tailwindcss'
 import type { RawFile } from 'tailwindcss/types/config'
 
 export class ThemeDriver implements Driver {
-  constructor(public params: Params) {}
+  constructor(private config: Config) {}
 
   build = async (htmlContents: string[], fontsCss: string[]) => {
     if (htmlContents.length === 0) return '/* There is no css generated */'
 
-    const { fontFamily } = this.params
-    const theme: Config['theme'] = {}
+    const { fontFamily } = this.config
+    const theme: Tailwindcss['theme'] = {}
 
     if (fontFamily) {
       theme.fontFamily = {}
@@ -24,7 +24,7 @@ export class ThemeDriver implements Driver {
 
     const rawFiles: RawFile[] = htmlContents.map((raw): RawFile => ({ raw, extension: 'html' }))
 
-    const tailwindConfig: Config = {
+    const tailwindConfig: Tailwindcss = {
       darkMode: 'class',
       content: rawFiles,
       theme,

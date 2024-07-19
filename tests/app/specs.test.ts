@@ -1,18 +1,18 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('App specs', () => {
+test.describe('App tests', () => {
   test.slow()
 
   test('should succeed to test a spec', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'valid' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'valid' }],
         },
       ],
       pages: [
@@ -31,21 +31,21 @@ test.describe('App specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 
   test('should failed to test a spec', async () => {
     // GIVEN
     const config: Config = {
       name: 'App',
-      specs: [
+      tests: [
         {
           name: 'display invalid text',
-          when: [{ open: '/' }],
-          then: [{ text: 'invalid' }],
+          when: [{ event: 'Open', url: '/' }],
+          then: [{ expect: 'Text', text: 'invalid' }],
         },
       ],
       pages: [
@@ -64,10 +64,9 @@ test.describe('App specs', () => {
 
     // WHEN
     const app = new App()
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(1)
-    expect(errors[0].code).toBe('TEXT_NOT_FOUND')
+    await expect(call).resolves.toThrowError('TEXT_NOT_FOUND')
   })
 })

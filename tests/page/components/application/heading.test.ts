@@ -1,30 +1,35 @@
 import { test, expect } from '@tests/fixtures'
-import Page, { type Page as Config } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Heading component', () => {
   test('should render a heading', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'Page',
-      path: '/',
-      body: [
+      pages: [
         {
-          component: 'Heading',
-          title: { text: 'This is a title' },
-          buttons: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Click me',
-              href: '/',
+              component: 'Heading',
+              title: { text: 'This is a title' },
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: '/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.getByText('This is a title')).toBeVisible()
@@ -35,25 +40,30 @@ test.describe('Heading component', () => {
     // GIVEN
     const config: Config = {
       name: 'Page',
-      path: '/',
-      body: [
+      pages: [
         {
-          component: 'Heading',
-          title: { text: 'This is a title' },
-          buttons: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Click me',
-              href: 'https://example.com/',
+              component: 'Heading',
+              title: { text: 'This is a title' },
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: 'https://example.com/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
     await page.getByText('Click me').click()
 
     // THEN
@@ -63,27 +73,32 @@ test.describe('Heading component', () => {
   test('should display the heading id', async ({ page }) => {
     // GIVEN
     const config: Config = {
-      name: 'Page',
-      path: '/',
-      body: [
+      name: 'App',
+      pages: [
         {
-          component: 'Heading',
-          id: 'my-heading',
-          title: { text: 'This is a title' },
-          buttons: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              label: 'Click me',
-              href: 'https://example.com/',
+              component: 'Heading',
+              id: 'my-heading',
+              title: { text: 'This is a title' },
+              buttons: [
+                {
+                  label: 'Click me',
+                  href: 'https://example.com/',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const heading = page.locator('#my-heading')

@@ -8,24 +8,29 @@ test.describe('Auth', () => {
     // GIVEN
     const config: Config = {
       name: 'Request',
-      specs: [
+      tests: [
         {
           name: 'should submit the login form',
           when: [
             {
-              open: '/login',
+              event: 'Open',
+              url: '/login',
             },
             {
-              fill: 'email',
+              event: 'Fill',
+              input: 'email',
               value: 'test@test.com',
             },
             {
-              click: 'Send magic link',
+              event: 'Click',
+              text: 'Send magic link',
             },
             {
-              waitForText: 'Your email has been sent.',
+              event: 'WaitForText',
+              text: 'Your email has been sent.',
             },
             {
+              event: 'ClickInEmail',
               mailbox: 'test@test.com',
               find: [
                 {
@@ -34,11 +39,12 @@ test.describe('Auth', () => {
                   value: 'Confirm your email',
                 },
               ],
-              click: 'Confirm my email',
+              text: 'Confirm my email',
             },
           ],
           then: [
             {
+              expect: 'Url',
               url: '/dashboard',
             },
           ],
@@ -87,14 +93,15 @@ test.describe('Auth', () => {
           html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.',
         },
         secret: 'secret',
+        from: 'noreply@safidea.com',
       },
     }
     const app = new App()
 
     // WHEN
-    const errors = await app.test(config)
+    const call = () => app.test(config)
 
     // THEN
-    expect(errors).toHaveLength(0)
+    await expect(call).resolves.toBeUndefined()
   })
 })

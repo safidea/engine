@@ -1,41 +1,45 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as AppConfig } from '@safidea/engine'
-import Page, { type Page as PageConfig } from '@safidea/engine/page'
+import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('Form component', () => {
   test('should display a form', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
+    const config: Config = {
       name: 'Page',
-      path: '/',
-      body: [
+      pages: [
         {
-          component: 'Form',
-          action: '#',
-          title: { text: 'This is a title' },
-          paragraph: { text: 'This is a description' },
-          inputs: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'email',
-              label: 'Your email',
-              placeholder: '',
-            },
-          ],
-          buttons: [
-            {
-              type: 'submit',
-              label: 'Save',
+              component: 'Form',
+              action: '#',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              inputs: [
+                {
+                  name: 'email',
+                  label: 'Your email',
+                  placeholder: '',
+                },
+              ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Save',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     await expect(page.locator('[data-component="Form"]')).toBeVisible()
@@ -45,7 +49,7 @@ test.describe('Form component', () => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been created successfully!'
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -85,11 +89,11 @@ test.describe('Form component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -117,7 +121,7 @@ test.describe('Form component', () => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been created successfully!'
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -157,11 +161,11 @@ test.describe('Form component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -185,7 +189,7 @@ test.describe('Form component', () => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -226,11 +230,11 @@ test.describe('Form component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -259,7 +263,7 @@ test.describe('Form component', () => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -300,11 +304,11 @@ test.describe('Form component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -335,7 +339,7 @@ test.describe('Form component', () => {
     // GIVEN
     const database = new Database()
     const successMessage = 'Your lead has been updated successfully!'
-    const config: AppConfig = {
+    const config: Config = {
       name: 'App',
       pages: [
         {
@@ -382,11 +386,11 @@ test.describe('Form component', () => {
           fields: [
             {
               name: 'name',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
             {
               name: 'email',
-              type: 'SingleLineText',
+              field: 'SingleLineText',
             },
           ],
         },
@@ -410,37 +414,42 @@ test.describe('Form component', () => {
 
   test('should display the form id', async ({ page }) => {
     // GIVEN
-    const config: PageConfig = {
-      name: 'Page',
-      path: '/',
-      body: [
+    const config: Config = {
+      name: 'App',
+      pages: [
         {
-          component: 'Form',
-          id: 'my-form',
-          action: '#',
-          title: { text: 'This is a title' },
-          paragraph: { text: 'This is a description' },
-          inputs: [
+          name: 'Page',
+          path: '/',
+          body: [
             {
-              name: 'email',
-              label: 'Your email',
-              placeholder: '',
-            },
-          ],
-          buttons: [
-            {
-              type: 'submit',
-              label: 'Save',
+              component: 'Form',
+              id: 'my-form',
+              action: '#',
+              title: { text: 'This is a title' },
+              paragraph: { text: 'This is a description' },
+              inputs: [
+                {
+                  name: 'email',
+                  label: 'Your email',
+                  placeholder: '',
+                },
+              ],
+              buttons: [
+                {
+                  type: 'submit',
+                  label: 'Save',
+                },
+              ],
             },
           ],
         },
       ],
     }
+    const app = new App()
+    const url = await app.start(config)
 
     // WHEN
-    const pageEngine = new Page()
-    const html = await pageEngine.getHtml(config)
-    await page.setContent(html)
+    await page.goto(url)
 
     // THEN
     const form = page.locator('#my-form')

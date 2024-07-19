@@ -1,4 +1,4 @@
-import type { Context } from '@domain/engine/automation/Context'
+import type { Context } from '@domain/entities/Automation/Context'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Template } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
