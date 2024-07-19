@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         bun-version: [1.x]
-        node-version: ['20.11.1']
+        node-version: ['20.15.1']
 
     steps:
       - uses: actions/checkout@v3
@@ -38,7 +38,7 @@ jobs:
     strategy:
       matrix:
         bun-version: [1.x]
-        node-version: ['20.11.1']
+        node-version: ['20.15.1']
 
     permissions:
       contents: write
