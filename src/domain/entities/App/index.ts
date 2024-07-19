@@ -56,7 +56,7 @@ export class App {
     return this.params.mailer
   }
 
-  init = async () => {
+  init = async (): Promise<void> => {
     const { tables, pages, automations, theme, server } = this.params
     await server.init(async () => {
       if (theme) {
@@ -71,7 +71,7 @@ export class App {
     })
   }
 
-  validateConfig = async () => {
+  validateConfig = async (): Promise<ConfigError[]> => {
     await this.init()
     const { tables, pages, automations } = this.params
     const errors: Promise<ConfigError[]>[] = []
@@ -82,11 +82,14 @@ export class App {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    const { server, database, queue, mailer, realtime, auth } = this.params
-    if (database) await database.migrate(this.params.tables)
+    const { tables, server, database, queue, mailer, realtime, auth } = this.params
+    if (database) {
+      await database.connect()
+      await database.migrate(tables)
+    }
     if (queue) await queue.start()
     if (mailer) await mailer.verify()
-    if (realtime) await realtime.connect(this.params.tables)
+    if (realtime) await realtime.setup(tables)
     if (auth) await auth.connect()
     const url = await server.start()
     if (!isTest && server.env === 'production') {
@@ -97,10 +100,9 @@ export class App {
   }
 
   stop = async (): Promise<void> => {
-    const { server, database, queue, mailer, realtime, auth } = this.params
+    const { server, database, queue, mailer, auth } = this.params
     await server.stop(async () => {
       if (auth) await auth.disconnect()
-      if (realtime) await realtime.disconnect()
       if (mailer) await mailer.close()
       if (queue) await queue.stop()
       if (database) await database.disconnect()

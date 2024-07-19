@@ -5,9 +5,11 @@ import Logger from './logger'
 import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
 
 export default class extends DatabaseDriver {
+  public url: string
+
   constructor(
     public type: 'sqlite' | 'postgres' = 'sqlite',
-    public url = ':memory:'
+    url?: string
   ) {
     const logger = new Logger()
     const log = logger.init('[test]:database')
@@ -22,6 +24,7 @@ export default class extends DatabaseDriver {
     }
     log(`connecting to ${type} database at ${url}`)
     super({ url, type })
+    this.url = url
   }
 
   get config() {

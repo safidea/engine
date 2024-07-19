@@ -5,6 +5,7 @@ import type { Persisted } from '../entities/Record/Persisted'
 import type { Field } from '@domain/entities/Field'
 import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 import type { Logger } from '@domain/services/Logger'
+import { Is } from '@domain/entities/Filter/Is'
 
 export interface Config {
   name: string
@@ -59,6 +60,10 @@ export class DatabaseTable {
 
   read = async (filters: Filter[]) => {
     return this.table.read(filters)
+  }
+
+  readById = async (id: string) => {
+    return this.table.read([new Is({ field: 'id', value: id })])
   }
 
   list = async (filters: Filter[]) => {

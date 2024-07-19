@@ -41,18 +41,20 @@ export class Test {
     return []
   }
 
-  async run(app: App): Promise<TestError | undefined> {
+  run = async (app: App): Promise<void> => {
     const { when, then, browser } = this.params
     let browserId: string | undefined
     let page: BrowserPage | undefined
     try {
+      this.log('start')
+      await app.init()
       const baseUrl = await app.start({ isTest: true })
       if (
         when.find((event) => event instanceof EventWithPage) ||
         when.find((event) => event instanceof EventWithPageAndMailer) ||
-        then.find((result) => result instanceof ExpectWithPage)
+        then.find((expect) => expect instanceof ExpectWithPage)
       ) {
-        if (when.find((action) => action instanceof Open)) {
+        if (when.find((event) => event instanceof Open)) {
           browserId = await browser.launch()
           page = await browser.newPage(browserId, baseUrl)
         } else {
@@ -62,48 +64,48 @@ export class Test {
           })
         }
       }
-      if (then.find((result) => result instanceof ExpectWithDatabase)) {
+      if (then.find((expect) => expect instanceof ExpectWithDatabase)) {
         if (!app.database) throw new TestError({ code: 'DATABASE_REQUIRED', name: this.name })
       }
       if (
-        when.find((action) => action instanceof EventWithPageAndMailer) ||
-        then.find((result) => result instanceof ExpectWithMailer)
+        when.find((event) => event instanceof EventWithPageAndMailer) ||
+        then.find((expect) => expect instanceof ExpectWithMailer)
       ) {
         if (!app.mailer) throw new TestError({ code: 'MAILER_REQUIRED', name: this.name })
       }
-      for (const action of when) {
-        if (action instanceof EventWithPage) {
-          if (page) await action.executeWithPage(page)
-        } else if (action instanceof EventWithPageAndMailer) {
-          if (page && app.mailer) await action.executeWithPageAndMailer(page, app.mailer)
-        } else if (action instanceof EventWithRequest) {
-          await action.executeWithRequest(baseUrl)
+      for (const event of when) {
+        if (event instanceof EventWithPage) {
+          if (page) await event.executeWithPage(page)
+        } else if (event instanceof EventWithPageAndMailer) {
+          if (page && app.mailer) await event.executeWithPageAndMailer(page, app.mailer)
+        } else if (event instanceof EventWithRequest) {
+          await event.executeWithRequest(baseUrl)
         } else {
-          await action.executeWithApp(app)
+          await event.executeWithApp(app)
         }
       }
-      for (const result of then) {
-        if (result instanceof ExpectWithPage) {
-          if (page) await result.executeWithPage(page)
-        } else if (result instanceof ExpectWithDatabase) {
-          if (app.database) await result.executeWithDatabase(app.database)
-        } else if (result instanceof ExpectWithMailer) {
-          if (app.mailer) await result.executeWithMailer(app.mailer)
+      for (const expect of then) {
+        if (expect instanceof ExpectWithPage) {
+          if (page) await expect.executeWithPage(page)
+        } else if (expect instanceof ExpectWithDatabase) {
+          if (app.database) await expect.executeWithDatabase(app.database)
+        } else if (expect instanceof ExpectWithMailer) {
+          if (app.mailer) await expect.executeWithMailer(app.mailer)
         }
       }
-      if (browserId) await browser.close(browserId)
-      await app.stop()
       this.log('passed')
-    } catch (error) {
-      const html = page ? await page.getHtml() : ''
       if (browserId) await browser.close(browserId)
       await app.stop()
+    } catch (error) {
       if (error instanceof TestError) {
         this.log('failed: ' + error.code)
+        const html = page ? await page.getHtml() : ''
         if (html) this.log('html: ' + html)
         error.setName(this.name)
-        return error
-      } else throw error
+      }
+      if (browserId) await browser.close(browserId)
+      await app.stop()
+      throw error
     }
   }
 }

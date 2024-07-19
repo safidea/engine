@@ -66,7 +66,7 @@ test.describe('Automations tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should find an email in mailbox', async () => {
@@ -123,6 +123,6 @@ test.describe('Automations tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 })

@@ -1,21 +1,23 @@
 import type { Driver } from '@adapter/spi/QueueSpi'
 import type { Config, WaitForParams } from '@domain/services/Queue'
-import SQLite from 'better-sqlite3'
 import PgBoss from 'pg-boss'
 import { v4 as uuidv4 } from 'uuid'
 import { EventEmitter } from 'events'
 import type { JobDto } from '@adapter/spi/dtos/JobDto'
-import { Kysely, SqliteDialect } from 'kysely'
 
 export class QueueDriver implements Driver {
   private boss: PgBoss | SqliteBoss
 
-  constructor(config: Config) {
-    const { type, url } = config
+  constructor({ type, query, exec }: Config) {
     if (type === 'sqlite') {
-      this.boss = new SqliteBoss(url)
+      this.boss = new SqliteBoss(query, exec)
     } else if (type === 'postgres') {
-      this.boss = new PgBoss(url)
+      this.boss = new PgBoss({
+        db: {
+          executeSql: async (text, values) => query(text, values),
+        },
+        schema: 'queue',
+      })
     } else {
       throw new Error(`Database ${type} not supported`)
     }
@@ -102,7 +104,7 @@ export class QueueDriver implements Driver {
   }
 }
 
-interface SqliteBossTable {
+interface SqliteBossJob {
   id: string
   name: string
   data: string
@@ -110,20 +112,14 @@ interface SqliteBossTable {
   retrycount: number
 }
 
-interface SqliteBossSchema {
-  _jobs: SqliteBossTable
-}
-
 class SqliteBoss {
-  private db: Kysely<SqliteBossSchema>
   private intervalsQueues: Timer[] = []
   private emitter: EventEmitter
 
-  constructor(url: string) {
-    const dialect = new SqliteDialect({
-      database: new SQLite(url),
-    })
-    this.db = new Kysely<SqliteBossSchema>({ dialect })
+  constructor(
+    private query: Config['query'],
+    private exec: Config['exec']
+  ) {
     this.emitter = new EventEmitter()
   }
 
@@ -132,20 +128,20 @@ class SqliteBoss {
   }
 
   start = async (): Promise<void> => {
-    await this.db.schema
-      .createTable('_jobs')
-      .ifNotExists()
-      .addColumn('id', 'text', (col) => col.primaryKey())
-      .addColumn('name', 'text')
-      .addColumn('data', 'text')
-      .addColumn('state', 'text')
-      .addColumn('retrycount', 'integer')
-      .execute()
+    const createTableQuery = `
+      CREATE TABLE IF NOT EXISTS _jobs (
+        id TEXT PRIMARY KEY,
+        name TEXT,
+        data TEXT,
+        state TEXT,
+        retrycount INTEGER
+      )
+    `
+    await this.exec(createTableQuery)
   }
 
   stop = async (): Promise<void> => {
     this.intervalsQueues.forEach((interval) => clearInterval(interval))
-    await this.db.destroy()
     setTimeout(() => this.emitter.emit('stopped'), 100)
   }
 
@@ -156,67 +152,55 @@ class SqliteBoss {
   ): Promise<string> => {
     const { retryLimit = 0 } = option || {}
     const id = uuidv4()
-    await this.db
-      .insertInto('_jobs')
-      .values({
-        id,
-        name: job,
-        data: JSON.stringify(data),
-        state: 'created',
-        retrycount: retryLimit,
-      })
-      .execute()
+    const insertQuery = `
+      INSERT INTO _jobs (id, name, data, state, retrycount)
+      VALUES (?, ?, ?, 'created', ?)
+    `
+    await this.query(insertQuery, [id, job, JSON.stringify(data), retryLimit])
     return id
   }
 
   work = <D>(jobName: string, callback: (job: PgBoss.Job<D>) => Promise<void>): void => {
     const interval = setInterval(async () => {
-      const job = await this.db
-        .selectFrom('_jobs')
-        .selectAll()
-        .where('name', '=', jobName)
-        .where('state', 'in', ['created', 'retry'])
-        .limit(1)
-        .executeTakeFirst()
+      const selectQuery = `
+        SELECT * FROM _jobs
+        WHERE name = ? AND state IN ('created', 'retry')
+        LIMIT 1
+      `
+      const {
+        rows: [job],
+      } = await this.query<SqliteBossJob>(selectQuery, [jobName])
       if (job) {
         try {
-          await this.db
-            .updateTable('_jobs')
-            .set({
-              state: 'active',
-              retrycount: job.retrycount,
-            })
-            .where('id', '=', job.id)
-            .execute()
+          const updateActiveQuery = `
+            UPDATE _jobs
+            SET state = 'active', retrycount = ?
+            WHERE id = ?
+          `
+          await this.query(updateActiveQuery, [job.retrycount, job.id])
           const data = JSON.parse(job.data)
           await callback({ id: job.id, name: job.name, data })
-          await this.db
-            .updateTable('_jobs')
-            .set({
-              state: 'completed',
-              retrycount: 0,
-            })
-            .where('id', '=', job.id)
-            .execute()
+          const updateCompletedQuery = `
+            UPDATE _jobs
+            SET state = 'completed', retrycount = 0
+            WHERE id = ?
+          `
+          await this.query(updateCompletedQuery, [job.id])
         } catch (error) {
           if (job.retrycount > 0) {
-            await this.db
-              .updateTable('_jobs')
-              .set({
-                state: 'retry',
-                retrycount: job.retrycount - 1,
-              })
-              .where('id', '=', job.id)
-              .execute()
+            const updateRetryQuery = `
+              UPDATE _jobs
+              SET state = 'retry', retrycount = ?
+              WHERE id = ?
+            `
+            await this.query(updateRetryQuery, [job.retrycount - 1, job.id])
           } else {
-            await this.db
-              .updateTable('_jobs')
-              .set({
-                state: 'failed',
-                retrycount: 0,
-              })
-              .where('id', '=', job.id)
-              .execute()
+            const updateFailedQuery = `
+              UPDATE _jobs
+              SET state = 'failed', retrycount = 0
+              WHERE id = ?
+            `
+            await this.query(updateFailedQuery, [job.id])
           }
         }
       }
@@ -225,21 +209,24 @@ class SqliteBoss {
   }
 
   getJobById = async (id: string) => {
-    const job = await this.db
-      .selectFrom('_jobs')
-      .selectAll()
-      .where('id', '=', id)
-      .executeTakeFirst()
+    const selectQuery = `
+      SELECT * FROM _jobs
+      WHERE id = ?
+    `
+    const {
+      rows: [job],
+    } = await this.query<SqliteBossJob>(selectQuery, [id])
     return job
   }
 
   fetch = async (jobName: string) => {
-    const job = await this.db
-      .selectFrom('_jobs')
-      .selectAll()
-      .where('name', '=', jobName)
-      .where('state', 'in', ['created', 'retry', 'active'])
-      .executeTakeFirst()
+    const selectQuery = `
+      SELECT * FROM _jobs
+      WHERE name = ? AND state IN ('created', 'retry', 'active')
+    `
+    const {
+      rows: [job],
+    } = await this.query<SqliteBossJob>(selectQuery, [jobName])
     return job
   }
 }

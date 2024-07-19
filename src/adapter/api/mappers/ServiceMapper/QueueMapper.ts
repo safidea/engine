@@ -13,7 +13,7 @@ interface Ressources {
 export class QueueMapper {
   static toService(ressources: Ressources): Queue {
     const { drivers, database, ...services } = ressources
-    const driver = drivers.queue(database.config)
+    const driver = drivers.queue(database)
     const spi = new QueueSpi(driver)
     return new Queue(spi, services)
   }

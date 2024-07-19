@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 bun run lint
-# bun run test
+bun run test

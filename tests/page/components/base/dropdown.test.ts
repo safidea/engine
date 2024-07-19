@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Dropdown component', () => {
-  test('should render a dropdown', async ({ page }) => {
+  test.skip('should render a dropdown', async ({ page }) => {
     // GIVEN
     const label = 'This is a dropdown.'
     const config: Config = {

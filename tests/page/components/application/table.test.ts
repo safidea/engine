@@ -32,7 +32,9 @@ test.describe('Table component', () => {
     const call = () => app.start(config)
 
     // THEN
-    await expect(call).rejects.toThrow('Table source /api/table/leads does not have a GET handler')
+    await expect(call()).rejects.toThrow(
+      'Table source /api/table/leads does not have a GET handler'
+    )
   })
 
   test('should display a row in a table', async ({ page }) => {

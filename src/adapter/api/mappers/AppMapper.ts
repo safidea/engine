@@ -47,7 +47,7 @@ export class AppMapper {
       config.auth ?? {}
     )
     const queue = QueueMapper.toService({ drivers, logger, database })
-    const realtime = RealtimeMapper.toService({ drivers, database, logger, idGenerator })
+    const realtime = RealtimeMapper.toService({ database, logger, idGenerator })
     const tables = TableMapper.toManyEntities(config.tables ?? [], {
       logger,
       database,

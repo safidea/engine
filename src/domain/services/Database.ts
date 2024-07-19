@@ -1,6 +1,7 @@
 import type { Table } from '@domain/entities/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
+import type { RealtimePostgresEvent, RealtimeSqliteEvent } from './Realtime'
 
 export interface Config {
   url: string
@@ -11,31 +12,50 @@ export interface Services {
   logger: Logger
 }
 
+export type Event = RealtimePostgresEvent | RealtimeSqliteEvent
+
 export interface Spi {
   table: (name: string) => DatabaseTableSpi
+  connect: () => Promise<void>
   disconnect: () => Promise<void>
   exec: (query: string) => Promise<unknown>
+  query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
+  on: (event: 'notification', callback: (event: Event) => void) => void
 }
 
 export class Database {
+  public type: 'sqlite' | 'postgres'
   private log: (message: string) => void
 
   constructor(
     private spi: Spi,
     private services: Services,
-    public config: Config
+    config: Config
   ) {
-    this.log = services.logger.init('database')
+    const { logger } = services
+    const { type } = config
+    if (type !== 'sqlite' && type !== 'postgres')
+      throw new Error(`Database type "${type}" is required`)
+    this.type = type
+    this.log = logger.init('database')
   }
 
   table = (name: string): DatabaseTable => {
     return new DatabaseTable(this.spi, this.services, { name })
   }
 
+  connect = async () => {
+    this.log(`connecting database...`)
+    await this.spi.connect()
+  }
+
   disconnect = async () => {
-    const { disconnect } = this.spi
     this.log(`disconnecting database...`)
-    await disconnect()
+    await this.spi.disconnect()
+  }
+
+  on = (event: 'notification', callback: (event: Event) => void) => {
+    this.spi.on(event, callback)
   }
 
   migrate = async (tables: Table[]) => {
@@ -60,5 +80,9 @@ export class Database {
 
   exec = async (query: string) => {
     await this.spi.exec(query)
+  }
+
+  query = async <T>(text: string, values: (string | number)[]) => {
+    return this.spi.query<T>(text, values)
   }
 }

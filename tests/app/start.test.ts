@@ -59,7 +59,7 @@ test.describe('App api', () => {
     const url = await app.start(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
     expect(url).toBeDefined()
   })
 
@@ -202,7 +202,9 @@ test.describe('App api', () => {
     const call = async () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('Table source /api/table/leads does not have a GET handler')
+    await expect(call()).rejects.toThrow(
+      'Table source /api/table/leads does not have a GET handler'
+    )
   })
 
   test('should display a config error on start', async () => {
@@ -234,6 +236,8 @@ test.describe('App api', () => {
     const call = async () => app.start(config)
 
     // THEN
-    await expect(call).rejects.toThrow('Table source /api/table/leads does not have a GET handler')
+    await expect(call()).rejects.toThrow(
+      'Table source /api/table/leads does not have a GET handler'
+    )
   })
 })

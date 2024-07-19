@@ -32,7 +32,7 @@ test.describe('List component', () => {
     const call = () => app.start(config)
 
     // THEN
-    await expect(call).rejects.toContain(
+    await expect(call()).rejects.toThrow(
       'Table source /api/table/leads does not have a GET handler'
     )
   })

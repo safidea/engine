@@ -2,6 +2,7 @@ import type { Persisted } from '@domain/entities/Record/Persisted'
 import type { Logger } from './Logger'
 import type { Table } from '@domain/entities/Table'
 import type { IdGenerator } from './IdGenerator'
+import type { Database, Event as DatabaseEvent } from './Database'
 
 export interface Config {
   type: string
@@ -11,14 +12,24 @@ export interface Config {
 export interface Services {
   logger: Logger
   idGenerator: IdGenerator
+  database: Database
 }
 
-type Action = 'INSERT' | 'UPDATE' | 'DELETE'
+export type Action = 'INSERT' | 'UPDATE' | 'DELETE'
 
-export interface Event {
+interface RealtimeEvent {
   action: Action
   table: string
+}
+
+export interface RealtimePostgresEvent extends RealtimeEvent {
+  type: 'PostgresRealtime'
   record: Persisted
+}
+
+export interface RealtimeSqliteEvent extends RealtimeEvent {
+  type: 'SqliteRealtime'
+  record_id: string
 }
 
 interface Listener {
@@ -28,47 +39,25 @@ interface Listener {
   callback: (record: Persisted) => Promise<void>
 }
 
-export interface Spi {
-  connect: (tables: Table[]) => Promise<void>
-  disconnect: () => Promise<void>
-  onEvent: (callback: (event: Event) => Promise<void>) => void
-}
-
 export class Realtime {
+  private db: Database
   private log: (message: string) => void
   private listeners: Listener[]
 
-  constructor(
-    private spi: Spi,
-    private services: Services
-  ) {
-    this.log = services.logger.init('realtime')
-    spi.onEvent(this.executeEvent)
+  constructor(private services: Services) {
+    const { logger, database } = services
+    this.db = database
+    this.log = logger.init('realtime')
     this.listeners = []
   }
 
-  connect = async (tables: Table[]) => {
-    this.log('connecting to realtime...')
-    await this.spi.connect(tables)
-    this.log('connected to realtime')
-  }
-
-  disconnect = async () => {
-    this.log('disconnecting from realtime...')
-    await this.spi.disconnect()
-  }
-
-  private executeEvent = async (event: Event) => {
-    this.log(
-      `received event on table "${event.table}" with action "${event.action}" for record "${event.record.id}"`
-    )
-    const { action, table, record } = event
-    const listeners = this.listeners.filter((l) => l.table === table && l.action === action)
-    const promises = []
-    for (const listener of listeners) {
-      promises.push(listener.callback(record))
+  setup = async (tables: Table[]) => {
+    this.log('setup realtime...')
+    this.db.on('notification', this.onEvent)
+    await this.setupTriggers(tables)
+    if (this.db.type === 'postgres') {
+      await this.db.exec(`LISTEN realtime`)
     }
-    await Promise.all(promises)
   }
 
   onInsert = (table: string, callback: (record: Persisted) => Promise<void>) => {
@@ -87,5 +76,103 @@ export class Realtime {
   removeListener = (id: string) => {
     this.listeners = this.listeners.filter((l) => l.id !== id)
     this.log(`unsubscribing from insert events with id "${id}"`)
+  }
+
+  private onEvent = async (event: DatabaseEvent) => {
+    const { action, table, type } = event
+    let record: Persisted
+    if (type === 'PostgresRealtime') {
+      record = event.record
+    } else if (type === 'SqliteRealtime') {
+      const result = await this.db.table(table).readById(event.record_id)
+      if (!result) return
+      record = result
+    } else {
+      return
+    }
+    this.log(`received event on table "${table}" with action "${action}" for record "${record.id}"`)
+    const listeners = this.listeners.filter((l) => l.table === table && l.action === action)
+    const promises = []
+    for (const listener of listeners) {
+      promises.push(listener.callback(record))
+    }
+    await Promise.all(promises)
+  }
+
+  private setupTriggers = async (tables: Table[]) => {
+    if (this.db.type === 'sqlite') {
+      for (const { name: table } of tables) {
+        await this.db.exec(`
+          -- Trigger for INSERT
+          CREATE TRIGGER IF NOT EXISTS after_insert_${table}_trigger
+          AFTER INSERT ON ${table}
+          BEGIN
+              INSERT INTO _notifications (payload)
+              VALUES (json_object('type', 'SqliteRealtime', 'table', '${table}', 'action', 'INSERT', 'record_id', NEW.id));
+          END;
+          
+          -- Trigger for UPDATE
+          CREATE TRIGGER IF NOT EXISTS after_update_${table}_trigger
+          AFTER UPDATE ON ${table}
+          BEGIN
+              INSERT INTO _notifications (payload)
+              VALUES (json_object('type', 'SqliteRealtime', 'table', '${table}', 'action', 'UPDATE', 'record_id', NEW.id));
+          END;
+          
+          -- Trigger for DELETE
+          CREATE TRIGGER IF NOT EXISTS after_delete_${table}_trigger
+          AFTER DELETE ON ${table}
+          BEGIN
+              INSERT INTO _notifications (payload)
+              VALUES (json_object('type', 'SqliteRealtime', 'table', '${table}', 'action', 'DELETE', 'record_id', OLD.id));
+          END;
+        `)
+      }
+    } else if (this.db.type === 'postgres') {
+      await this.db.exec(`
+        CREATE OR REPLACE FUNCTION notify_trigger_func() RETURNS trigger AS $$
+        BEGIN
+          IF TG_OP = 'INSERT' THEN
+            PERFORM pg_notify('realtime', json_build_object('type', 'PostgresRealtime', 'table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(NEW))::text);
+            RETURN NEW;
+          ELSIF TG_OP = 'UPDATE' THEN
+            PERFORM pg_notify('realtime', json_build_object('type', 'PostgresRealtime', 'table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(NEW))::text);
+            RETURN NEW;
+          ELSIF TG_OP = 'DELETE' THEN
+            PERFORM pg_notify('realtime', json_build_object('type', 'PostgresRealtime', 'table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(OLD))::text);
+            RETURN OLD;
+          END IF;
+          RETURN NULL;
+        END;
+        $$ LANGUAGE plpgsql;
+      `)
+      for (const { name: table } of tables) {
+        await this.db.exec(`
+          DO $$
+          DECLARE
+              trigger_name text;
+              table_name text := '${table}';
+          BEGIN
+              -- Check and create trigger for AFTER INSERT
+              trigger_name := table_name || '_after_insert';
+              IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
+                  EXECUTE format('CREATE TRIGGER %I AFTER INSERT ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
+              END IF;
+          
+              -- Check and create trigger for AFTER UPDATE
+              trigger_name := table_name || '_after_update';
+              IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
+                  EXECUTE format('CREATE TRIGGER %I AFTER UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
+              END IF;
+          
+              -- Check and create trigger for AFTER DELETE
+              trigger_name := table_name || '_after_delete';
+              IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
+                  EXECUTE format('CREATE TRIGGER %I AFTER DELETE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
+              END IF;
+          END $$;
+        `)
+      }
+    }
   }
 }

@@ -7,6 +7,8 @@ import nodemailer, { type Transporter } from 'nodemailer'
 import SQLite from 'better-sqlite3'
 import { SqliteDialect, Kysely } from 'kysely'
 
+// TODO: ne pas créer de nouvelle connection à la base de donnée mais utiliser l'existante (perf Postgres + debug SQlite)
+
 export class MailerDriver implements Driver {
   private transporter: Transporter | SqliteTransporter
 

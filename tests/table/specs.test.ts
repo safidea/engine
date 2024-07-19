@@ -37,7 +37,7 @@ test.describe('Tables tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('RECORD_NOT_FOUND')
+    await expect(call()).rejects.toThrow('RECORD_NOT_FOUND')
   })
 
   test('should find a created row', async () => {
@@ -75,6 +75,6 @@ test.describe('Tables tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 })

@@ -28,13 +28,13 @@ test.describe('App tests', () => {
         },
       ],
     }
+    const app = new App()
 
     // WHEN
-    const app = new App()
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should failed to test a spec', async () => {
@@ -61,12 +61,12 @@ test.describe('App tests', () => {
         },
       ],
     }
+    const app = new App()
 
     // WHEN
-    const app = new App()
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toThrowError('TEXT_NOT_FOUND')
+    await expect(call()).rejects.toThrowError('TEXT_NOT_FOUND')
   })
 })

@@ -22,7 +22,7 @@ export class AppApi {
   constructor(private ressources: Ressources) {
     this.schemaValidator = SchemaValidatorMapper.toService(ressources)
     this.log = (message: string) => {
-      if (process.env.TESTING !== 'true') {
+      if (process.env.TESTING !== 'true' || process.env.DEBUG) {
         console.log(message)
       }
     }
@@ -33,25 +33,27 @@ export class AppApi {
     this.app = await this.validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], this.ressources)
-    for (const test of tests) {
+    this.log(`🔄 Start running tests`)
+    for (let i = 1; i <= tests.length; i++) {
+      const test = tests[i - 1]
       try {
         const app = AppMapper.toEntity(this.ressources, validatedConfig)
         await test.run(app)
-        this.log(`✅ ${test.name}`)
+        this.log(`✅ ${i} > ${test.name}`)
       } catch (error) {
-        this.log(`❌ ${test.name}`)
+        this.log(`❌ ${i} > ${test.name}`)
         if (error instanceof TestError) errors.push(error)
         else throw error
       }
     }
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-    this.log(`✨ All tests passed for app "${this.app.name}"`)
+    this.log(`✨ All tests passed`)
   }
 
   start = async (config: unknown): Promise<string> => {
     this.app = await this.validateOrThrow(config)
     const url = await this.app.start()
-    this.log(`App "${this.app.name}" started at ${url}`)
+    this.log(`✨ App "${this.app.name}" started at ${url}`)
     return url
   }
 
@@ -72,6 +74,7 @@ export class AppApi {
       const errors = this.schemaValidator.validate(config, 'app')
       throw new Error(JSON.stringify(errors, null, 2))
     }
+    this.log('✅ Config schema is valid')
     return config
   }
 
@@ -81,14 +84,11 @@ export class AppApi {
   }
 
   private validateConfigOrThrow = async (config: Config): Promise<App> => {
-    try {
-      const app = AppMapper.toEntity(this.ressources, config)
-      const errors = await app.validateConfig()
-      if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-      return app
-    } catch (error) {
-      throw new Error(JSON.stringify([error], null, 2))
-    }
+    const app = AppMapper.toEntity(this.ressources, config)
+    const errors = await app.validateConfig()
+    if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
+    this.log('✅ Config dependancies are valids')
+    return app
   }
 
   private validateOrThrow = async (config: unknown): Promise<App> => {

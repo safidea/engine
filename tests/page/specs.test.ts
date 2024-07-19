@@ -30,7 +30,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('Title invalid')
+    await expect(call()).rejects.toThrow('Title invalid')
   })
 
   test('should find a page title', async () => {
@@ -59,7 +59,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should not find a text', async () => {
@@ -92,7 +92,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('TEXT_NOT_FOUND')
+    await expect(call()).rejects.toThrow('TEXT_NOT_FOUND')
   })
 
   test('should find a text', async () => {
@@ -125,7 +125,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should not find a text in a specific tag', async () => {
@@ -158,7 +158,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('TEXT_NOT_FOUND')
+    await expect(call()).rejects.toThrow('TEXT_NOT_FOUND')
   })
 
   test('should find a text in a specific tag', async () => {
@@ -191,7 +191,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should not find an attribute in a specific tag', async () => {
@@ -225,7 +225,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('ATTRIBUTE_NOT_FOUND')
+    await expect(call()).rejects.toThrow('ATTRIBUTE_NOT_FOUND')
   })
 
   test('should find a text of an attribute in a specific tag', async () => {
@@ -261,7 +261,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should not find an input with a specific value', async () => {
@@ -312,7 +312,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).rejects.toThrow('INPUT_NOT_FOUND')
+    await expect(call()).rejects.toThrow('INPUT_NOT_FOUND')
   })
 
   test('should find an input with a specific value', async () => {
@@ -363,7 +363,7 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 
   test('should submit a form into database', async () => {
@@ -436,6 +436,6 @@ test.describe('Pages tests', () => {
     const call = () => app.test(config)
 
     // THEN
-    await expect(call).resolves.toBeUndefined()
+    await expect(call()).resolves.toBeUndefined()
   })
 })

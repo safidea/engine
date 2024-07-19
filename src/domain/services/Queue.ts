@@ -2,8 +2,9 @@ import type { Logger } from './Logger'
 import type { Job } from '../entities/Job'
 
 export interface Config {
-  url: string
-  type: string
+  type: 'sqlite' | 'postgres'
+  query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
+  exec: (query: string) => Promise<void>
 }
 
 export interface Services {

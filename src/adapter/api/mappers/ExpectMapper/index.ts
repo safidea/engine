@@ -16,13 +16,13 @@ interface Services {
 export class ExpectMapper {
   static toEntity = (config: Config, services: Services): Expect => {
     const { expect } = config
-    if (expect === 'Title') TitleMapper.toEntity(config, services)
-    if (expect === 'Text') TextMapper.toEntity(config, services)
-    if (expect === 'Url') UrlMapper.toEntity(config, services)
-    if (expect === 'Attribute') AttributeMapper.toEntity(config, services)
-    if (expect === 'InputText') InputTextMapper.toEntity(config, services)
-    if (expect === 'Record') RecordMapper.toEntity(config, services)
-    if (expect === 'Email') EmailMapper.toEntity(config, services)
+    if (expect === 'Title') return TitleMapper.toEntity(config, services)
+    if (expect === 'Text') return TextMapper.toEntity(config, services)
+    if (expect === 'Url') return UrlMapper.toEntity(config, services)
+    if (expect === 'Attribute') return AttributeMapper.toEntity(config, services)
+    if (expect === 'InputText') return InputTextMapper.toEntity(config, services)
+    if (expect === 'Record') return RecordMapper.toEntity(config, services)
+    if (expect === 'Email') return EmailMapper.toEntity(config, services)
     throw new Error(`ExpectMapper: expect "${expect}" not found`)
   }
 

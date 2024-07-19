@@ -11,6 +11,6 @@ test.describe('App schema errors', () => {
     const call = () => app.start(config)
 
     // THEN
-    await expect(call).rejects.toThrowError("must have required property 'name'")
+    await expect(call()).rejects.toThrowError("must have required property 'name'")
   })
 })

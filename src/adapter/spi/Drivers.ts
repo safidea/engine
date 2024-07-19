@@ -8,14 +8,12 @@ import { type Driver as UiDriver } from './UiSpi'
 import type { Config as ServerConfig } from '@domain/services/Server'
 import type { Config as DatabaseConfig } from '@domain/services/Database'
 import type { Config as QueueConfig } from '@domain/services/Queue'
-import type { Config as RealtimeConfig } from '@domain/services/Realtime'
 import type { Config as AuthConfig } from '@domain/services/Auth'
 import type { Config as ThemeConfig } from '@domain/services/Theme'
 import { type Driver as QueueDriver } from './QueueSpi'
 import type { Config as MailerConfig } from '@domain/services/Mailer'
 import { type Driver as MailerDriver } from './MailerSpi'
 import { type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
-import { type Driver as RealtimeDriver } from './RealtimeSpi'
 import { type Driver as AuthDriver } from './AuthSpi'
 import { type Driver as ClientDriver } from './ClientSpi'
 import { type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
@@ -29,7 +27,6 @@ export interface Drivers {
   database: (config: DatabaseConfig) => DatabaseDriver
   queue: (config: QueueConfig) => QueueDriver
   mailer: (config: MailerConfig) => MailerDriver
-  realtime: (config: RealtimeConfig) => RealtimeDriver
   auth: (config: AuthConfig) => AuthDriver
   markdownParser: () => MarkdownParserDriver
   theme: (config: ThemeConfig) => ThemeDriver

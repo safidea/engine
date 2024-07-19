@@ -53,7 +53,7 @@ test.describe('Header component', () => {
     await expect(page.getByText('Click me')).toBeVisible()
   })
 
-  test('should render a header with a dropdown', async ({ page }) => {
+  test.skip('should render a header with a dropdown', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',

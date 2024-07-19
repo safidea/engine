@@ -36,7 +36,7 @@ test.describe('Database', () => {
     const call = async () => await app.start(config)
 
     // THEN
-    await expect(call()).rejects.toThrow('Database invalid not supported')
+    await expect(call()).rejects.toThrow('DatabaseDriver: database "invalid" not supported')
   })
 
   test('should start with a new table', async () => {
