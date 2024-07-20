@@ -1,3 +1,10 @@
+## [0.18.1](https://github.com/safidea/engine/compare/v0.18.0...v0.18.1) (2024-07-20)
+
+
+### Bug Fixes
+
+* **types:** export all configs types ([35f38b0](https://github.com/safidea/engine/commit/35f38b0f450d44ee26413e567ba73406c358d764))
+
 # [0.18.0](https://github.com/safidea/engine/compare/v0.17.6...v0.18.0) (2024-07-20)
 
 
