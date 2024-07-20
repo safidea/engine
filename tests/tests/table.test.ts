@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Tables tests', () => {
+test.describe('Table tests', () => {
   test('should not find a created row', async () => {
     // GIVEN
     const config: Config = {

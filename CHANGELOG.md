@@ -1,26 +1,23 @@
 ## [0.18.1](https://github.com/safidea/engine/compare/v0.18.0...v0.18.1) (2024-07-20)
 
-
 ### Bug Fixes
 
-* **types:** export all configs types ([35f38b0](https://github.com/safidea/engine/commit/35f38b0f450d44ee26413e567ba73406c358d764))
+- **types:** export all configs types ([35f38b0](https://github.com/safidea/engine/commit/35f38b0f450d44ee26413e567ba73406c358d764))
 
 # [0.18.0](https://github.com/safidea/engine/compare/v0.17.6...v0.18.0) (2024-07-20)
 
-
 ### Bug Fixes
 
-* **ci:** remove node github actions ([6518073](https://github.com/safidea/engine/commit/6518073c3fbaf319b6d72f9ea96b6e72cb1fbc36))
-* **ci:** update bun setup in github actions ([875d742](https://github.com/safidea/engine/commit/875d742dda07f85d86a60639200d00f67aef48ad))
-* **ci:** update checkout in github actions ([023375f](https://github.com/safidea/engine/commit/023375fa0fd3d5291d489cf031666ff4bb91bd7e))
-* **ci:** update node version ([4a588f0](https://github.com/safidea/engine/commit/4a588f0cb4cf39784163551ac7174aa7e7a62363))
-* **ci:** update release github actions ([24743f1](https://github.com/safidea/engine/commit/24743f13ef454e72495090df55a1ad896a81b729))
-
+- **ci:** remove node github actions ([6518073](https://github.com/safidea/engine/commit/6518073c3fbaf319b6d72f9ea96b6e72cb1fbc36))
+- **ci:** update bun setup in github actions ([875d742](https://github.com/safidea/engine/commit/875d742dda07f85d86a60639200d00f67aef48ad))
+- **ci:** update checkout in github actions ([023375f](https://github.com/safidea/engine/commit/023375fa0fd3d5291d489cf031666ff4bb91bd7e))
+- **ci:** update node version ([4a588f0](https://github.com/safidea/engine/commit/4a588f0cb4cf39784163551ac7174aa7e7a62363))
+- **ci:** update release github actions ([24743f1](https://github.com/safidea/engine/commit/24743f13ef454e72495090df55a1ad896a81b729))
 
 ### Features
 
-* **app:** refactor with green tests > new schema ([b67e2c1](https://github.com/safidea/engine/commit/b67e2c17396718d3a7b9760a3edefbc9fa928e06))
-* **app:** remove features config properties ([d482f09](https://github.com/safidea/engine/commit/d482f0976dc029e28948c39b7d6e5b72335b5c43))
+- **app:** refactor with green tests > new schema ([b67e2c1](https://github.com/safidea/engine/commit/b67e2c17396718d3a7b9760a3edefbc9fa928e06))
+- **app:** remove features config properties ([d482f09](https://github.com/safidea/engine/commit/d482f0976dc029e28948c39b7d6e5b72335b5c43))
 
 ## [0.17.6](https://github.com/safidea/engine/compare/v0.17.5...v0.17.6) (2024-07-09)
 

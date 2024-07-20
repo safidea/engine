@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('App tests', () => {
+test.describe('Test', () => {
   test.slow()
 
   test('should succeed to test a text', async () => {

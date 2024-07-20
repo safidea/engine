@@ -1,7 +1,20 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
+import { components } from '@tests/components'
 
-test.describe('App api', () => {
+test.describe('App', () => {
+  test('should throw an error if config is empty', async () => {
+    // GIVEN
+    const config = {}
+    const app = new App()
+
+    // WHEN
+    const call = () => app.start(config)
+
+    // THEN
+    await expect(call()).rejects.toThrowError("must have required property 'name'")
+  })
+
   test('should start an app', async () => {
     // GIVEN
     const config: Config = {
@@ -29,6 +42,8 @@ test.describe('App api', () => {
   })
 
   test('should start an app after testing tests', async () => {
+    test.slow()
+
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -239,5 +254,33 @@ test.describe('App api', () => {
     await expect(call()).rejects.toThrow(
       'Table source /api/table/leads does not have a GET handler'
     )
+  })
+
+  test('should render a custom paragraph component', async ({ page }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      pages: [
+        {
+          name: 'Page',
+          path: '/',
+          body: [
+            {
+              component: 'Paragraph',
+              text: 'world',
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App({ components: { Paragraph: components.Paragraph } })
+    const url = await app.start(config)
+
+    // WHEN
+    await page.goto(url)
+
+    // THEN
+    const paragraphContent = await page.textContent('p')
+    expect(paragraphContent).toContain('Hello world')
   })
 })

@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Pages tests', () => {
+test.describe('Page tests', () => {
   test.slow()
 
   test('should find an invalid page title', async () => {

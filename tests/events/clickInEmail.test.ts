@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Test events', () => {
+test.describe('ClickInEmail event', () => {
   test.slow()
 
   test('should click on a link in a email', async () => {

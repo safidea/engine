@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Automations tests', () => {
+test.describe('Automation tests', () => {
   test('should wait for an automation', async () => {
     // GIVEN
     const config: Config = {

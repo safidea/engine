@@ -11,8 +11,7 @@ interface Ressources {
 export class DatabaseMapper {
   static toService(ressources: Ressources, config: Partial<Config>): Database {
     const { drivers, ...services } = ressources
-    const { url = `:memory:`, type = 'sqlite' } =
-      config
+    const { url = `:memory:`, type = 'sqlite' } = config
     const driver = drivers.database({ url, type })
     const spi = new DatabaseSpi(driver)
     return new Database(spi, services, { url, type })
