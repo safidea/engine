@@ -29,7 +29,7 @@ export class AppApi {
   }
 
   test = async (config: unknown): Promise<void> => {
-    const validatedConfig = this.validateSchemaOrThrow(config)
+    const validatedConfig = this.getConfigWithEnv(config)
     this.app = await this.validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], this.ressources)
