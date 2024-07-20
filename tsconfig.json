@@ -24,6 +24,6 @@
       "@tests/*": ["tests/__utils__/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "tests", ".storybook", "scripts", "playwright.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

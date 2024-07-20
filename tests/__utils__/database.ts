@@ -3,12 +3,17 @@ import { join } from 'path'
 import fs from 'fs-extra'
 import Logger from './logger'
 import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
+//import { PostgreSqlContainer } from '@testcontainers/postgresql'
+
+export type DatabaseType = 'sqlite' | 'postgres'
+
+export const databases: DatabaseType[] = ['sqlite', 'postgres']
 
 export default class extends DatabaseDriver {
   public url: string
 
   constructor(
-    public type: 'sqlite' | 'postgres' = 'sqlite',
+    public type: DatabaseType = 'sqlite',
     url?: string
   ) {
     const logger = new Logger()
