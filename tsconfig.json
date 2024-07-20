@@ -24,5 +24,6 @@
       "@tests/*": ["tests/utils/*"]
     }
   },
+  "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

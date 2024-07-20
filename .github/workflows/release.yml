@@ -24,7 +24,7 @@ jobs:
       - name: Check TypeScript version
         run: bunx tsc --version
       - name: TypeScript Check
-        run: npx tsc --noEmit --pretty
+        run: bunx tsc --noEmit --pretty --project tsconfig.json
       - run: bun run lint
       - run: bun run build
         env:
