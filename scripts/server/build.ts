@@ -2,6 +2,8 @@ import { deleteFilesRecursively, log, onBunErrors } from '../helpers'
 
 log('Start building server...')
 
+console.log(process.env)
+
 const externals: string[] = [
   'ajv',
   'fs-extra',
@@ -26,6 +28,10 @@ const externals: string[] = [
   'postcss',
   'autoprefixer',
   'tailwindcss',
+  'jsonwebtoken',
+  'react',
+  'react-dom',
+  '@heroicons/react',
 ]
 
 const entrypoints: string[] = ['index.ts']
@@ -36,8 +42,8 @@ const { success, logs } = await Bun.build({
   target: 'node',
   entrypoints: entrypoints.map((entry) => 'src/' + entry),
   outdir: 'dist',
-  splitting: true,
   external: externals,
+  minify: process.env.NODE_ENV === 'production',
 })
 if (!success) onBunErrors('js', logs)
 

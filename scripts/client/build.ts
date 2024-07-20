@@ -8,6 +8,7 @@ const { success, logs } = await Bun.build({
   target: 'browser',
   entrypoints: ['src/infrastructure/client/index.ts'],
   outdir: 'dist/public',
+  minify: process.env.NODE_ENV === 'production',
 })
 if (!success) onBunErrors('js', logs)
 
