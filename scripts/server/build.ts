@@ -1,9 +1,6 @@
 import { deleteFilesRecursively, log, onBunErrors } from '../helpers'
-import fs from 'fs-extra'
 
 log('Start building server...')
-
-console.log(fs.readJSONSync('tsconfig.json'))
 
 const externals: string[] = [
   'ajv',
