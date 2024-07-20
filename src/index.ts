@@ -17,6 +17,7 @@ export type { Filter } from '@adapter/api/configs/Filter'
 export type { Event } from '@adapter/api/configs/Event'
 export type { Expect } from '@adapter/api/configs/Expect'
 export type { Test } from '@adapter/api/configs/Test'
+export type { Database } from '@adapter/api/configs/Services/Database'
 
 export type ReactComponents = Partial<AllReactComponents>
 export type Drivers = Partial<AllDrivers>

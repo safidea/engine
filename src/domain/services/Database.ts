@@ -1,7 +1,7 @@
 import type { Table } from '@domain/entities/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
-import type { RealtimePostgresEvent, RealtimeSqliteEvent } from './Realtime'
+import type { PostgresRealtimeNotificationEvent, SqliteRealtimeNotificationEvent } from './Realtime'
 
 export interface Config {
   url: string
@@ -12,7 +12,11 @@ export interface Services {
   logger: Logger
 }
 
-export type Event = RealtimePostgresEvent | RealtimeSqliteEvent
+export type EventType = 'notification' | 'error'
+
+export type ErrorEvent = { message: string }
+
+export type NotificationEvent = PostgresRealtimeNotificationEvent | SqliteRealtimeNotificationEvent
 
 export interface Spi {
   table: (name: string) => DatabaseTableSpi
@@ -20,7 +24,8 @@ export interface Spi {
   disconnect: () => Promise<void>
   exec: (query: string) => Promise<unknown>
   query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
-  on: (event: 'notification', callback: (event: Event) => void) => void
+  onError: (callback: (error: ErrorEvent) => void) => void
+  onNotification: (callback: (notification: NotificationEvent) => void) => void
 }
 
 export class Database {
@@ -50,12 +55,22 @@ export class Database {
   }
 
   disconnect = async () => {
-    this.log(`disconnecting database...`)
-    await this.spi.disconnect()
+    try {
+      this.log(`disconnecting database...`)
+      await this.spi.disconnect()
+    } catch (error) {
+      if (error instanceof Error) this.log(`error disconnecting database: ${error.message}`)
+    }
   }
 
-  on = (event: 'notification', callback: (event: Event) => void) => {
-    this.spi.on(event, callback)
+  onError = (callback: (error: ErrorEvent) => void) => {
+    this.log(`listening for database errors...`)
+    this.spi.onError(callback)
+  }
+
+  onNotification = (callback: (notification: NotificationEvent) => void) => {
+    this.log(`listening for database notifications...`)
+    this.spi.onNotification(callback)
   }
 
   migrate = async (tables: Table[]) => {
@@ -79,10 +94,19 @@ export class Database {
   }
 
   exec = async (query: string) => {
-    await this.spi.exec(query)
+    try {
+      await this.spi.exec(query)
+    } catch (error) {
+      if (error instanceof Error) this.log(`error executing query: ${error.message}`)
+    }
   }
 
   query = async <T>(text: string, values: (string | number)[]) => {
-    return this.spi.query<T>(text, values)
+    try {
+      return this.spi.query<T>(text, values)
+    } catch (error) {
+      if (error instanceof Error) this.log(`error querying database: ${error.message}`)
+      return { rows: [], rowCount: 0 }
+    }
   }
 }

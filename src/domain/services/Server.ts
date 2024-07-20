@@ -112,14 +112,18 @@ export class Server {
   }
 
   stop = async (callback: () => Promise<void>) => {
-    const { stop } = this.spi
     this.log(`closing server...`)
     this.isShuttingDown = true
-    await callback()
     this.isListening = false
-    await stop()
-    this.isShuttingDown = false
-    this.log('server closed')
+    try {
+      await callback()
+    } catch (error) {
+      if (error instanceof Error) this.log(`error stopping app: ${error.message}`)
+    } finally {
+      await this.spi.stop()
+      this.isShuttingDown = false
+      this.log('server closed')
+    }
   }
 
   hasGetHandler = (path: string) => {

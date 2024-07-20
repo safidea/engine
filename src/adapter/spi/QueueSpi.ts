@@ -5,12 +5,11 @@ import { JobMapper } from './mappers/JobMapper'
 export interface Driver {
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
-  stop: () => Promise<void>
+  stop: (options: { graceful: boolean }) => Promise<void>
   add: <D extends object>(job: string, data: D, options?: { retry: number }) => Promise<string>
-  job: <D extends object>(job: string, callback: (data: D) => Promise<void>) => void
+  job: <D extends object>(job: string, callback: (id: string, data: D) => Promise<void>) => void
   getById: (id: string) => Promise<JobDto | undefined>
   waitFor: (params: WaitForParams) => Promise<boolean>
-  waitForAllCompleted: (name: string) => Promise<void>
 }
 
 export class QueueSpi implements Spi {
@@ -30,23 +29,19 @@ export class QueueSpi implements Spi {
     return this.driver.start()
   }
 
-  stop = async () => {
-    return this.driver.stop()
+  stop = async (options: { graceful: boolean }) => {
+    return this.driver.stop(options)
   }
 
   onError = (callback: (error: Error) => void) => {
     return this.driver.onError(callback)
   }
 
-  job = <D extends object>(job: string, callback: (data: D) => Promise<void>) => {
+  job = <D extends object>(job: string, callback: (id: string, data: D) => Promise<void>) => {
     return this.driver.job(job, callback)
   }
 
   waitFor = async (params: WaitForParams) => {
     return this.driver.waitFor(params)
-  }
-
-  waitForAllCompleted = async (job: string) => {
-    return this.driver.waitForAllCompleted(job)
   }
 }

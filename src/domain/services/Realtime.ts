@@ -2,7 +2,7 @@ import type { Persisted } from '@domain/entities/Record/Persisted'
 import type { Logger } from './Logger'
 import type { Table } from '@domain/entities/Table'
 import type { IdGenerator } from './IdGenerator'
-import type { Database, Event as DatabaseEvent } from './Database'
+import type { Database, NotificationEvent } from './Database'
 
 export interface Config {
   type: string
@@ -22,12 +22,12 @@ interface RealtimeEvent {
   table: string
 }
 
-export interface RealtimePostgresEvent extends RealtimeEvent {
+export interface PostgresRealtimeNotificationEvent extends RealtimeEvent {
   type: 'PostgresRealtime'
   record: Persisted
 }
 
-export interface RealtimeSqliteEvent extends RealtimeEvent {
+export interface SqliteRealtimeNotificationEvent extends RealtimeEvent {
   type: 'SqliteRealtime'
   record_id: string
 }
@@ -53,7 +53,7 @@ export class Realtime {
 
   setup = async (tables: Table[]) => {
     this.log('setup realtime...')
-    this.db.on('notification', this.onEvent)
+    this.db.onNotification(this.onEvent)
     await this.setupTriggers(tables)
     if (this.db.type === 'postgres') {
       await this.db.exec(`LISTEN realtime`)
@@ -78,7 +78,7 @@ export class Realtime {
     this.log(`unsubscribing from insert events with id "${id}"`)
   }
 
-  private onEvent = async (event: DatabaseEvent) => {
+  private onEvent = async (event: NotificationEvent) => {
     const { action, table, type } = event
     let record: Persisted
     if (type === 'PostgresRealtime') {

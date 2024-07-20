@@ -136,58 +136,60 @@ test.describe('Sidebar component', () => {
     await expect(page.getByText('Leads page')).toBeVisible()
   })
 
-  test('should display a table with a row', async ({ page }) => {
-    // GIVEN
-    const database = new Database()
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Sidebar',
-              title: { text: 'Menu' },
-              links: [],
-              children: [
-                {
-                  component: 'Table',
-                  source: '/api/table/leads',
-                  columns: [
-                    {
-                      name: 'name',
-                      label: 'Name',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-      database: database.config,
-    }
-    const app = new App()
-    const url = await app.start(config)
-    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+  Database.each(test, (dbConfig) => {
+    test('should display a table with a row', async ({ page }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        pages: [
+          {
+            name: 'Page',
+            path: '/',
+            body: [
+              {
+                component: 'Sidebar',
+                title: { text: 'Menu' },
+                links: [],
+                children: [
+                  {
+                    component: 'Table',
+                    source: '/api/table/leads',
+                    columns: [
+                      {
+                        name: 'name',
+                        label: 'Name',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
-    // WHEN
-    await page.goto(url)
+      // WHEN
+      await page.goto(url)
 
-    // THEN
-    await expect(page.getByText('John')).toBeVisible()
+      // THEN
+      await expect(page.getByText('John')).toBeVisible()
+    })
   })
 
   test('should display the sidebar id', async ({ page }) => {

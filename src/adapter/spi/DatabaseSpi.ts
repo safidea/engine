@@ -1,5 +1,5 @@
 import { DatabaseTableSpi, type Driver as DatabaseTableDriver } from './DatabaseTableSpi'
-import type { Event, Spi } from '@domain/services/Database'
+import type { ErrorEvent, EventType, NotificationEvent, Spi } from '@domain/services/Database'
 import type { EventDto } from './dtos/EventDto'
 import { EventMapper } from './mappers/EventMapper'
 
@@ -9,7 +9,7 @@ export interface Driver {
   table: (name: string) => DatabaseTableDriver
   exec: (query: string) => Promise<void>
   query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
-  on: (event: 'notification', callback: (payload: string) => void) => void
+  on: (event: EventType, callback: (eventDto: EventDto) => void) => void
 }
 
 export class DatabaseSpi implements Spi {
@@ -36,11 +36,23 @@ export class DatabaseSpi implements Spi {
     return this.driver.query<T>(text, values)
   }
 
-  on = (event: 'notification', callback: (event: Event) => void) => {
-    this.driver.on(event, (payload: string) => {
-      const eventDto = JSON.parse(payload) as EventDto
-      const event = EventMapper.toEntity(eventDto)
-      callback(event)
+  onError = (callback: (error: ErrorEvent) => void) => {
+    this.driver.on('error', (eventDto: EventDto) => {
+      const { event } = eventDto
+      if (event === 'error') {
+        const error = EventMapper.toErrorEntity(eventDto)
+        callback(error)
+      }
+    })
+  }
+
+  onNotification = (callback: (notification: NotificationEvent) => void) => {
+    this.driver.on('notification', (eventDto: EventDto) => {
+      const { event } = eventDto
+      if (event === 'notification') {
+        const notification = EventMapper.toNotificationEntity(eventDto)
+        callback(notification)
+      }
     })
   }
 }

@@ -28,12 +28,16 @@ interface Params {
   auth?: Auth
 }
 
+type Status = 'ready' | 'starting' | 'running' | 'stopping'
+
 export class App {
+  private status: Status
   private log: (message: string) => void
 
   constructor(private params: Params) {
     const { logger } = params
     this.log = logger.init('app')
+    this.status = 'ready'
   }
 
   get name() {
@@ -54,6 +58,11 @@ export class App {
 
   get mailer() {
     return this.params.mailer
+  }
+
+  setStatus = (status: Status) => {
+    this.log(`status: ${status}`)
+    this.status = status
   }
 
   init = async (): Promise<void> => {
@@ -82,10 +91,19 @@ export class App {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
+    if (this.status !== 'ready')
+      throw new Error(`App is not ready, current status is ${this.status}`)
+    this.setStatus('starting')
     const { tables, server, database, queue, mailer, realtime, auth } = this.params
     if (database) {
       await database.connect()
       await database.migrate(tables)
+      database.onError(async (error) => {
+        if (this.status === 'running') {
+          this.log(`database error: ${error.message}`)
+          await this.stop({ graceful: false })
+        }
+      })
     }
     if (queue) await queue.start()
     if (mailer) await mailer.verify()
@@ -95,23 +113,32 @@ export class App {
     if (!isTest && server.env === 'production') {
       process.on('SIGTERM', () => this.onClose('SIGTERM'))
       process.on('SIGINT', () => this.onClose('SIGINT'))
+      process.on('uncaughtException', (err: Error) => {
+        this.log(`uncaught exception: ${err.message}`)
+        this.onClose('UNCAUGHT_EXCEPTION')
+      })
     }
+    this.setStatus('running')
     return url
   }
 
-  stop = async (): Promise<void> => {
+  stop = async (options?: { graceful?: boolean }): Promise<void> => {
+    if (this.status !== 'running') return
+    const { graceful = true } = options || {}
+    this.setStatus('stopping')
     const { server, database, queue, mailer, auth } = this.params
     await server.stop(async () => {
       if (auth) await auth.disconnect()
       if (mailer) await mailer.close()
-      if (queue) await queue.stop()
+      if (queue) await queue.stop({ graceful })
       if (database) await database.disconnect()
     })
+    this.setStatus('ready')
   }
 
-  private onClose = async (signal: 'SIGTERM' | 'SIGINT') => {
+  private onClose = async (signal: 'SIGTERM' | 'SIGINT' | 'UNCAUGHT_EXCEPTION') => {
     this.log(`received ${signal}`)
     await this.stop()
-    process.exit(0)
+    process.exit(1)
   }
 }

@@ -31,19 +31,18 @@ export interface WaitForParams {
 export interface Spi {
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
-  stop: () => Promise<void>
+  stop: (options: { graceful: boolean }) => Promise<void>
   add: (job: string, data: object, options?: { retry: number }) => Promise<string>
-  job: (job: string, callback: (data: object) => Promise<void>) => void
+  job: (job: string, callback: (id: string, data: object) => Promise<void>) => void
   getById: (id: string) => Promise<Job | undefined>
   waitFor: (params: WaitForParams) => Promise<boolean>
-  waitForAllCompleted: (job: string) => Promise<void>
 }
 
 export class Queue {
   private log: (message: string) => void
   private jobs: {
     name: string
-    callback: (data: object) => Promise<void>
+    callback: (id: string, data: object) => Promise<void>
   }[] = []
 
   constructor(
@@ -54,7 +53,7 @@ export class Queue {
   }
 
   onError = () => {
-    return this.spi.onError((error: Error) => {
+    this.spi.onError((error: Error) => {
       this.log(`queue error: ${error.message}`)
     })
   }
@@ -68,9 +67,13 @@ export class Queue {
     this.log('queue started')
   }
 
-  stop = async () => {
-    this.log('stopping queue...')
-    await this.spi.stop()
+  stop = async (options: { graceful: boolean }) => {
+    try {
+      this.log('stopping queue...')
+      await this.spi.stop(options)
+    } catch (error) {
+      if (error instanceof Error) this.log(`error stopping queue: ${error.message}`)
+    }
   }
 
   add = async <D extends object>(
@@ -85,10 +88,10 @@ export class Queue {
   job = (name: string, initCallback: (data: object) => Promise<void>) => {
     this.jobs.push({
       name,
-      callback: async (data: object) => {
-        this.log(`job "${name}" started`)
+      callback: async (id: string, data: object) => {
+        this.log(`job "${name}" with id ${id} started`)
         await initCallback(data)
-        this.log(`job "${name}" finished`)
+        this.log(`job "${name}" with id ${id} finished`)
       },
     })
   }
@@ -100,10 +103,5 @@ export class Queue {
   waitFor = async (params: WaitForParams) => {
     this.log(`waiting for job "${params.id ?? params.name}"...`)
     return this.spi.waitFor(params)
-  }
-
-  waitForAllCompleted = async (job: string) => {
-    this.log(`waiting for all jobs "${job}"...`)
-    return this.spi.waitForAllCompleted(job)
   }
 }

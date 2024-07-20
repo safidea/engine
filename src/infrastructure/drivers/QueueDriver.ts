@@ -7,6 +7,7 @@ import type { JobDto } from '@adapter/spi/dtos/JobDto'
 
 export class QueueDriver implements Driver {
   private boss: PgBoss | SqliteBoss
+  private jobIds: { job: string; id: string }[] = []
 
   constructor({ type, query, exec }: Config) {
     if (type === 'sqlite') {
@@ -31,11 +32,12 @@ export class QueueDriver implements Driver {
     await this.boss.start()
   }
 
-  stop = async () => {
-    await this.boss.stop({ graceful: true, destroy: true })
-    await new Promise((resolve) => {
-      this.boss.on('stopped', () => resolve(true))
-    })
+  stop = async ({ graceful }: { graceful: boolean }) => {
+    await this.boss.stop({ graceful })
+    if (graceful)
+      await new Promise((resolve) => {
+        this.boss.on('stopped', () => resolve(null))
+      })
   }
 
   add = async <D extends object>(job: string, data: D, options?: { retry: number }) => {
@@ -46,12 +48,17 @@ export class QueueDriver implements Driver {
     if (!id) {
       throw new Error('Failed to send job')
     }
+    this.jobIds.push({ job, id })
     return id
   }
 
-  job = <D extends object>(job: string, callback: (data: D) => Promise<void>) => {
-    this.boss.work(job, async (job: PgBoss.Job<D>) => {
-      await callback(job.data)
+  job = <D extends object>(name: string, callback: (id: string, data: D) => Promise<void>) => {
+    this.boss.work(name, async (job: PgBoss.Job<D>) => {
+      await callback(job.id, job.data)
+      const jobIndex = this.jobIds.findIndex(({ id }) => id === job.id)
+      if (jobIndex !== -1) {
+        this.jobIds.splice(jobIndex, 1)
+      }
     })
   }
 
@@ -89,18 +96,6 @@ export class QueueDriver implements Driver {
       }, 500)
     })
     return Promise.race([waiterPromise, timeoutPromise])
-  }
-
-  waitForAllCompleted = async (name: string) => {
-    let isCompleted = false
-    while (!isCompleted) {
-      const job = await this.boss.fetch(name)
-      if (!job) {
-        isCompleted = true
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-      }
-    }
   }
 }
 
@@ -216,17 +211,19 @@ class SqliteBoss {
     const {
       rows: [job],
     } = await this.query<SqliteBossJob>(selectQuery, [id])
+    job.data = JSON.parse(job.data)
     return job
   }
 
-  fetch = async (jobName: string) => {
+  fetch = async (name: string) => {
     const selectQuery = `
       SELECT * FROM _jobs
-      WHERE name = ? AND state IN ('created', 'retry', 'active')
+      WHERE name = ? AND state IN ('created', 'retry')
+      LIMIT 1
     `
     const {
       rows: [job],
-    } = await this.query<SqliteBossJob>(selectQuery, [jobName])
+    } = await this.query<SqliteBossJob>(selectQuery, [name])
     return job
   }
 }

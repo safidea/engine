@@ -2,51 +2,52 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 import Mailer from '@tests/mailer'
-import Queue from '@tests/queue'
 
 test.describe('Send email action', () => {
-  test('should send an email', async ({ request }) => {
-    // GIVEN
-    const database = new Database()
-    const mailer = new Mailer(database)
-    const queue = new Queue(database)
-    const config: Config = {
-      name: 'App',
-      automations: [
-        {
-          name: 'send-email',
-          trigger: {
-            trigger: 'WebhookCalled',
-            path: 'send-email',
-            method: 'POST',
-          },
-          actions: [
-            {
-              action: 'SendEmail',
-              name: 'send-email',
-              to: 'to@test.com',
-              from: 'from@test.com',
-              subject: 'Welcome',
-              text: 'Hello world',
-              html: 'Hello world',
+  test.slow()
+
+  Database.each(test, (dbConfig) => {
+    test('should send an email', async ({ request }) => {
+      // GIVEN
+      const mailer = new Mailer()
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'send-email',
+            trigger: {
+              trigger: 'WebhookCalled',
+              path: 'send-email',
+              method: 'POST',
             },
-          ],
-        },
-      ],
-      mailer: mailer.config,
-      database: database.config,
-    }
-    const app = new App()
-    const url = await app.start(config)
+            actions: [
+              {
+                action: 'SendEmail',
+                name: 'send-email',
+                to: 'to@test.com',
+                from: 'from@test.com',
+                subject: 'Welcome',
+                text: 'Hello world',
+                html: 'Hello world',
+              },
+            ],
+          },
+        ],
+        mailer: mailer.config,
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
 
-    // WHEN
-    await request.post(`${url}/api/automation/send-email`)
-    await queue.waitForAllCompleted('send-email')
+      // WHEN
+      await request.post(`${url}/api/automation/send-email`)
 
-    // THEN
-    const emails = await database.table('_emails').list([])
-    expect(emails).toHaveLength(1)
-    expect(emails[0].to).toBe('to@test.com')
-    expect(emails[0].from).toBe('from@test.com')
+      // THEN
+      const email = await mailer.waitForEmail([
+        { field: 'to', operator: '=', value: 'to@test.com' },
+      ])
+      expect(email.to).toBe('to@test.com')
+      expect(email.from).toBe('from@test.com')
+    })
   })
 })

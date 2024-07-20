@@ -3,7 +3,8 @@ import SQLite from 'better-sqlite3'
 import pg from 'pg'
 import { Kysely, PostgresDialect, SqliteDialect } from 'kysely'
 import { DatabaseTableDriver, type Schema } from './DatabaseTableDriver'
-import type { Config } from '@domain/services/Database'
+import type { Config, EventType } from '@domain/services/Database'
+import type { EventDto, EventNotificationDto } from '@adapter/spi/dtos/EventDto'
 
 interface Notification {
   id: number
@@ -14,9 +15,9 @@ interface Notification {
 export class DatabaseDriver implements Driver {
   private kysely: Kysely<Schema>
   private db: SQLite.Database | pg.Pool
-  private client?: pg.Client
+  private client?: pg.PoolClient
   private interval?: Timer
-  private onNotification: ((payload: string) => void)[] = []
+  private onNotification: ((event: EventNotificationDto) => void)[] = []
 
   constructor(config: Config) {
     const { type, url } = config
@@ -27,16 +28,21 @@ export class DatabaseDriver implements Driver {
       this.kysely = new Kysely<Schema>({ dialect })
       this.db = db
     } else if (type === 'postgres') {
+      const NUMERIC_OID = 1700
       const pool = new pg.Pool({ connectionString: url })
+      pool.on('error', () => {})
+      pool.on('connect', (client) => {
+        client.on('error', () => {})
+        client.setTypeParser(NUMERIC_OID, (value) => parseFloat(value))
+      })
       const dialect = new PostgresDialect({ pool })
-      this.client = new pg.Client({ connectionString: url })
       this.kysely = new Kysely<Schema>({ dialect })
       this.db = pool
     } else throw new Error(`DatabaseDriver: database "${type}" not supported`)
   }
 
   connect = async (): Promise<void> => {
-    if (this.client) await this.client.connect()
+    if (this.db instanceof pg.Pool) this.client = await this.db.connect()
     else if (this.db instanceof SQLite) {
       const { db } = this
       db.exec(`
@@ -52,7 +58,7 @@ export class DatabaseDriver implements Driver {
           .all() as Notification[]
         for (const { payload, id } of notifications) {
           db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run([id])
-          this.onNotification.map((callback) => callback(payload))
+          this.onNotification.map((callback) => callback({ payload, event: 'notification' }))
         }
       }
       this.interval = setInterval(emitNotification, 500)
@@ -61,12 +67,13 @@ export class DatabaseDriver implements Driver {
 
   disconnect = async (): Promise<void> => {
     if (this.interval) clearInterval(this.interval)
-    if (this.client) await this.client.end()
+    if (this.client) this.client.release()
     await this.kysely.destroy()
   }
 
   exec = async (query: string): Promise<void> => {
     if (this.db instanceof SQLite) this.db.exec(query)
+    else if (this.client && query.includes('LISTEN')) await this.client.query(query)
     else if (this.db instanceof pg.Pool) await this.db.query(query)
   }
 
@@ -94,15 +101,25 @@ export class DatabaseDriver implements Driver {
     return new DatabaseTableDriver(name, this.kysely, this.db)
   }
 
-  on = (event: 'notification', callback: (payload: string) => void) => {
+  on = (event: EventType, callback: (eventDto: EventDto) => void) => {
     if (this.client) {
-      this.client.on(event, (msg) => {
-        if (msg.payload) callback(msg.payload)
-      })
-    } else if (this.db instanceof SQLite) {
-      if (event === 'notification') {
-        this.onNotification.push(callback)
-      }
+      if (event === 'notification')
+        this.client.on('notification', ({ payload }) => {
+          callback({ payload, event: 'notification' })
+        })
+      if (event === 'error')
+        this.client.on('error', ({ message }) => {
+          callback({ message, event: 'error' })
+        })
+    }
+    if (this.db instanceof pg.Pool) {
+      if (event === 'error')
+        this.db.on('error', ({ message }) => {
+          callback({ message, event: 'error' })
+        })
+    }
+    if (this.db instanceof SQLite) {
+      if (event === 'notification') this.onNotification.push(callback)
     }
   }
 }

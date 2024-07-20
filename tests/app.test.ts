@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
-import { components } from '@tests/components'
+import { components } from '@tests/dist/components'
 
 test.describe('App', () => {
   test('should throw an error if config is empty', async () => {

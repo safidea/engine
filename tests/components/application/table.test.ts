@@ -37,56 +37,112 @@ test.describe('Table component', () => {
     )
   })
 
-  test('should display a row in a table', async ({ page }) => {
-    // GIVEN
-    const database = new Database()
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Table',
-              source: '/api/table/leads',
-              columns: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-      database: database.config,
-    }
-    const app = new App()
-    const url = await app.start(config)
-    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+  Database.each(test, (dbConfig) => {
+    test('should display a row in a table', async ({ page }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        pages: [
+          {
+            name: 'Page',
+            path: '/',
+            body: [
+              {
+                component: 'Table',
+                source: '/api/table/leads',
+                columns: [
+                  {
+                    name: 'name',
+                    label: 'Name',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
-    // WHEN
-    await page.goto(url)
+      // WHEN
+      await page.goto(url)
 
-    // THEN
-    await expect(page.getByText('John')).toBeVisible()
+      // THEN
+      await expect(page.getByText('John')).toBeVisible()
+    })
+
+    test('should display a new row in realtime', async ({ page }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        pages: [
+          {
+            name: 'Page',
+            path: '/',
+            body: [
+              {
+                component: 'Table',
+                source: '/api/table/leads',
+                columns: [
+                  {
+                    name: 'name',
+                    label: 'Name',
+                  },
+                ],
+                buttons: [
+                  {
+                    label: 'Add row',
+                    href: '/add',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+
+      // WHEN
+      await page.goto(url)
+      await page.getByText('John').waitFor({ state: 'visible' })
+      await database.table('leads').insert({ id: '2', name: 'Doe', created_at: new Date() })
+
+      // THEN
+      await expect(page.getByText('Doe')).toBeVisible()
+    })
   })
 
   test('should open an add row page', async ({ page }) => {
     // GIVEN
-    const database = new Database()
     const config: Config = {
       name: 'App',
       pages: [
@@ -124,7 +180,6 @@ test.describe('Table component', () => {
           ],
         },
       ],
-      database: database.config,
     }
     const app = new App()
     const url = await app.start(config)
@@ -137,64 +192,8 @@ test.describe('Table component', () => {
     await expect(page.waitForURL('**/add')).resolves.toBeUndefined()
   })
 
-  test('should display a new row in realtime', async ({ page }) => {
-    // GIVEN
-    const database = new Database()
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Table',
-              source: '/api/table/leads',
-              columns: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                },
-              ],
-              buttons: [
-                {
-                  label: 'Add row',
-                  href: '/add',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-      database: database.config,
-    }
-    const app = new App()
-    const url = await app.start(config)
-    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
-
-    // WHEN
-    await page.goto(url)
-    await page.getByText('John').waitFor({ state: 'visible' })
-    await database.table('leads').insert({ id: '2', name: 'Doe', created_at: new Date() })
-
-    // THEN
-    await expect(page.getByText('Doe')).toBeVisible()
-  })
-
   test('should display a title for a table', async ({ page }) => {
     // GIVEN
-    const database = new Database()
     const config: Config = {
       name: 'App',
       pages: [
@@ -227,7 +226,6 @@ test.describe('Table component', () => {
           ],
         },
       ],
-      database: database.config,
     }
     const app = new App()
     const url = await app.start(config)
@@ -241,7 +239,6 @@ test.describe('Table component', () => {
 
   test('should display the table id', async ({ page }) => {
     // GIVEN
-    const database = new Database()
     const config: Config = {
       name: 'App',
       pages: [
@@ -275,7 +272,6 @@ test.describe('Table component', () => {
           ],
         },
       ],
-      database: database.config,
     }
     const app = new App()
     const url = await app.start(config)

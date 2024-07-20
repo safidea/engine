@@ -87,6 +87,22 @@ export class DatabaseTableDriver implements Driver {
     await this.kysely.schema.dropTable(this.name).execute()
   }
 
+  preparePersisted = (persistedRecord: PersistedDto) => {
+    if (this.db instanceof SQLite) {
+      for (const key in persistedRecord) {
+        const value = persistedRecord[key]
+        if (value instanceof Date) {
+          persistedRecord[key] = new Date(value)
+        }
+      }
+    }
+    return persistedRecord
+  }
+
+  prepareManyPersisted = (persistedRecords: PersistedDto[]) => {
+    return persistedRecords.map(this.preparePersisted)
+  }
+
   insert = async (recordtoCreateDto: ToCreateDto): Promise<PersistedDto> => {
     if (this.db instanceof SQLite) {
       for (const key in recordtoCreateDto) {
@@ -101,15 +117,7 @@ export class DatabaseTableDriver implements Driver {
       .values(recordtoCreateDto)
       .returningAll()
       .executeTakeFirstOrThrow()
-    if (this.db instanceof SQLite) {
-      for (const key in persistedRecord) {
-        const value = persistedRecord[key]
-        if (value instanceof Date) {
-          persistedRecord[key] = new Date(value)
-        }
-      }
-    }
-    return persistedRecord as PersistedDto
+    return this.preparePersisted(persistedRecord as PersistedDto)
   }
 
   insertMany = async (recordtoCreateDtos: ToCreateDto[]): Promise<PersistedDto[]> => {
@@ -128,17 +136,7 @@ export class DatabaseTableDriver implements Driver {
       .values(recordtoCreateDtos)
       .returningAll()
       .execute()
-    if (this.db instanceof SQLite) {
-      for (const persistedRecord of persistedRecords) {
-        for (const key in persistedRecord) {
-          const value = persistedRecord[key]
-          if (value instanceof Date) {
-            persistedRecord[key] = new Date(value)
-          }
-        }
-      }
-    }
-    return persistedRecords as PersistedDto[]
+    return this.prepareManyPersisted(persistedRecords as PersistedDto[])
   }
 
   update = async (record: ToUpdateDto): Promise<PersistedDto> => {
@@ -164,7 +162,7 @@ export class DatabaseTableDriver implements Driver {
         }
       }
     }
-    return persistedRecord as PersistedDto
+    return this.preparePersisted(persistedRecord as PersistedDto)
   }
 
   delete = async (filters: FilterDto[]): Promise<void> => {
@@ -181,7 +179,7 @@ export class DatabaseTableDriver implements Driver {
       query = query.where(filter.field, filter.operator, filter.value)
     }
     const record = await query.executeTakeFirst()
-    return record as PersistedDto | undefined
+    return record ? this.preparePersisted(record as PersistedDto) : undefined
   }
 
   list = async (filters: FilterDto[]): Promise<PersistedDto[]> => {
@@ -190,6 +188,6 @@ export class DatabaseTableDriver implements Driver {
       query = query.where(filter.field, filter.operator, filter.value)
     }
     const records = await query.execute()
-    return records as PersistedDto[]
+    return this.prepareManyPersisted(records as PersistedDto[])
   }
 }

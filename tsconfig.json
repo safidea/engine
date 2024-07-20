@@ -20,8 +20,8 @@
       "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
       "@safidea/engine": ["dist/index"],
-      "@tests/components": ["tests/__utils__/dist/components"],
-      "@tests/*": ["tests/__utils__/*"]
+      "@tests/components": ["tests/__helpers__/dist/components"],
+      "@tests/*": ["tests/__helpers__/*"]
     }
   },
   "include": ["src", "tests", ".storybook", "scripts", "playwright.config.ts"],

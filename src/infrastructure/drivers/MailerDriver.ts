@@ -48,7 +48,7 @@ export class MailerDriver implements Driver {
     }
   }
 
-  find = async (filters: FilterDto[]) => {
+  find = async (filters: FilterDto[]): Promise<SentDto | undefined> => {
     if (this.transporter instanceof SqliteTransporter) {
       return this.transporter.find(filters)
     }
@@ -66,7 +66,7 @@ interface SqliteTransporterTable {
 }
 
 interface SqliteTransporterSchema {
-  _emails: SqliteTransporterTable
+  emails: SqliteTransporterTable
 }
 
 class SqliteTransporter {
@@ -81,7 +81,7 @@ class SqliteTransporter {
 
   verify = async () => {
     await this.db.schema
-      .createTable('_emails')
+      .createTable('emails')
       .ifNotExists()
       .addColumn('id', 'text', (col) => col.primaryKey())
       .addColumn('to', 'text')
@@ -101,7 +101,7 @@ class SqliteTransporter {
     const { to, from, subject, text, html } = toSendDto
     const id = uuidv4()
     await this.db
-      .insertInto('_emails')
+      .insertInto('emails')
       .values({
         id,
         to,
@@ -117,7 +117,7 @@ class SqliteTransporter {
   }
 
   find = async (filters: FilterDto[]): Promise<SentDto | undefined> => {
-    let query = this.db.selectFrom('_emails').selectAll()
+    let query = this.db.selectFrom('emails').selectAll()
     for (const filter of filters) {
       query = query.where(
         filter.field as keyof SqliteTransporterTable,

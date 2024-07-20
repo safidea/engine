@@ -125,11 +125,11 @@ export class List implements Base<Props> {
 
   render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { client, Component, columns } = this.params
+    const { client, Component, columns, ...defaultProps } = this.params
     return (props?: Partial<Props>) => (
       <>
         <client.Frame id={this.id} src={withSource ? this.path : ''}>
-          <Component {...{ columns, rows: [], ...props }} />
+          <Component {...{ ...defaultProps, columns, rows: [], ...props }} />
         </client.Frame>
         {this.stream ? <client.StreamSource src={this.stream.path} /> : null}
       </>
