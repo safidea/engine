@@ -21,8 +21,6 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
-      - name: TypeScript Check
-        run: bunx tsc --showConfig
       - run: bun run lint
       - run: bun run build
         env:
