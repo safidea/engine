@@ -1,3 +1,10 @@
+## [0.18.2](https://github.com/safidea/engine/compare/v0.18.1...v0.18.2) (2024-07-20)
+
+
+### Bug Fixes
+
+* **test:** add green test: should run a test with env variables ([43db9a6](https://github.com/safidea/engine/commit/43db9a62a5218c3a955f0da97133aa875bdf48cf))
+
 ## [0.18.1](https://github.com/safidea/engine/compare/v0.18.0...v0.18.1) (2024-07-20)
 
 ### Bug Fixes
