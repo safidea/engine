@@ -16,12 +16,12 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@infrastructure/*": ["./src/infrastructure/*"],
-      "@adapter/*": ["./src/adapter/*"],
-      "@domain/*": ["./src/domain/*"],
-      "@safidea/engine": ["./dist/index"],
-      "@tests/components": ["./tests/utils/dist/components"],
-      "@tests/*": ["./tests/utils/*"]
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@adapter/*": ["src/adapter/*"],
+      "@domain/*": ["src/domain/*"],
+      "@safidea/engine": ["dist/index"],
+      "@tests/components": ["tests/utils/dist/components"],
+      "@tests/*": ["tests/utils/*"]
     }
   },
   "include": ["src", "tests"],
