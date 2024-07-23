@@ -1,7 +1,9 @@
-import { PostgreSqlContainer } from '@testcontainers/postgresql'
+import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql'
+
+export let container: StartedPostgreSqlContainer
 
 async function globalSetup() {
-  const container = await new PostgreSqlContainer().start()
+  container = await new PostgreSqlContainer().start()
   process.env.TEST_POSTGRES_URL = container.getConnectionUri()
 }
 
