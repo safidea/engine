@@ -8,12 +8,9 @@ import type { Test } from './fixtures'
 import pg from 'pg'
 import { customAlphabet } from 'nanoid'
 
-async function checkDatabaseAvailability(connectionURI: string): Promise<boolean> {
-  const client = new pg.Client({ connectionString: connectionURI })
+async function checkDatabaseAvailability(client: pg.Client): Promise<boolean> {
   try {
-    await client.connect()
     await client.query('SELECT 1')
-    await client.end()
     return true
   } catch (err) {
     return false
@@ -24,18 +21,18 @@ async function createDatabase(connectionURI: string, dbName: string): Promise<st
   const client = new pg.Client({ connectionString: connectionURI })
   await client.connect()
   await client.query(`CREATE DATABASE ${dbName}`)
-  await client.end()
   const newConnectionURI = connectionURI.replace(/\/[^/]+$/, `/${dbName}`)
   let attempts = 0
   const maxAttempts = 5
   const delay = 1000 // 1 second delay between attempts
   while (attempts < maxAttempts) {
-    if (await checkDatabaseAvailability(newConnectionURI)) {
+    if (await checkDatabaseAvailability(client)) {
       break
     }
     attempts++
     await new Promise((resolve) => setTimeout(resolve, delay))
   }
+  await client.end()
   if (attempts === maxAttempts) {
     throw new Error(`Database ${dbName} is not available after ${maxAttempts} attempts`)
   }
@@ -87,11 +84,12 @@ export default class Database extends DatabaseDriver {
           callback(config)
         } else if (type === 'postgres') {
           const dbName = `test_db_${customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)()}`
-          test.beforeEach(async ({ postgresUrl }) => {
+          const postgresUrl = process.env.TEST_POSTGRES_URL || ''
+          test.beforeEach(async () => {
             config.url = await createDatabase(postgresUrl, dbName)
             log(`start "${type}" database at ${config.url}`)
           })
-          test.afterEach(async ({ postgresUrl }) => {
+          test.afterEach(async () => {
             log(`stop "${type}" database at ${config.url}`)
             await dropDatabase(postgresUrl, dbName)
           })
