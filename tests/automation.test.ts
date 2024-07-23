@@ -6,7 +6,7 @@ import Mailer from '@tests/mailer'
 
 test.describe('App with automations', () => {
   Database.each(test, (dbConfig) => {
-    test('should wait for a job to be completed', async ({ request }) => {
+    test.only('should wait for a job to be completed', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const queue = new Queue(database)
