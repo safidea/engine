@@ -1,10 +1,10 @@
 [
   {
     "code": "<!-- Legend Indicator -->\n<div class=\"flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6\">\n  <div class=\"inline-flex items-center\">\n    <span class=\"size-2.5 inline-block bg-blue-600 rounded-sm me-2\"></span>\n    <span class=\"text-[13px] text-gray-600 dark:text-neutral-400\">\n      Income\n    </span>\n  </div>\n  <div class=\"inline-flex items-center\">\n    <span class=\"size-2.5 inline-block bg-purple-600 rounded-sm me-2\"></span>\n    <span class=\"text-[13px] text-gray-600 dark:text-neutral-400\">\n      Outcome\n    </span>\n  </div>\n</div>\n<!-- End Legend Indicator -->\n\n<div id=\"hs-curved-area-charts\"></div>",
-    "name": "curved-area-charts"
+    "type": "curved-area-charts"
   },
   {
     "code": "<!-- Legend Indicator -->\n<div class=\"flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6\">\n  <div class=\"inline-flex items-center\">\n    <span class=\"size-2.5 inline-block bg-blue-600 rounded-sm me-2\"></span>\n    <span class=\"text-[13px] text-gray-600 dark:text-neutral-400\">\n      Income\n    </span>\n  </div>\n  <div class=\"inline-flex items-center\">\n    <span class=\"size-2.5 inline-block bg-cyan-500 rounded-sm me-2\"></span>\n    <span class=\"text-[13px] text-gray-600 dark:text-neutral-400\">\n      Outcome\n    </span>\n  </div>\n  <div class=\"inline-flex items-center\">\n    <span class=\"size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700\"></span>\n    <span class=\"text-[13px] text-gray-600 dark:text-neutral-400\">\n      Others\n    </span>\n  </div>\n</div>\n<!-- End Legend Indicator -->\n\n<!-- Apex Lines Chart -->\n<div id=\"hs-curved-line-charts\"></div>",
-    "name": "curved-line-charts"
+    "type": "curved-line-charts"
   }
 ]

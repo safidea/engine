@@ -1,14 +1,14 @@
 [
   {
     "code": "<!-- Full-width fluid until the `md` breakpoint, then lock to container -->\n<div class=\"md:container md:mx-auto\">\n  <!-- ... -->\n</div>",
-    "name": "responsive-variants"
+    "type": "responsive-variants"
   },
   {
     "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    container: {\n      center: true,\n    },\n  },\n}",
-    "name": "centering-by-default"
+    "type": "centering-by-default"
   },
   {
     "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    container: {\n      padding: '2rem',\n    },\n  },\n}",
-    "name": "adding-horizontal-padding"
+    "type": "adding-horizontal-padding"
   }
 ]

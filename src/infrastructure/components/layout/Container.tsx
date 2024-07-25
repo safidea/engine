@@ -11,29 +11,9 @@ export const Container = ({
   ['data-component']: dataComponent = 'Container',
 }: Props['Container']) => {
   const classes = []
-  switch (breakpoint) {
-    case 'none':
-      classes.push('w-full')
-      break
-    case 'sm':
-      classes.push('sm:container')
-      break
-    case 'md':
-      classes.push('md:container')
-      break
-    case 'lg':
-      classes.push('lg:container')
-      break
-    case 'xl':
-      classes.push('xl:container')
-      break
-    case '2xl':
-      classes.push('2xl:container')
-      break
-    default:
-      classes.push('container')
-      break
-  }
+  if (breakpoint === 'none') classes.push('w-full')
+  else if (breakpoint) classes.push(breakpoint + ':container')
+  else classes.push('container')
   if (isCentered === true) classes.push(center({ breakpoint, dimension: 'x' }))
   if (paddingSize) classes.push(padding({ size: paddingSize, dimension: 'x', breakpoint }))
   return (

@@ -1,6 +1,6 @@
 [
   {
     "code": "<label for=\"hs-color-input\" class=\"block text-sm font-medium mb-2 dark:text-white\">Color picker</label>\n<input type=\"color\" class=\"p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700\" id=\"hs-color-input\" value=\"#2563eb\" title=\"Choose your color\">",
-    "name": "basic-usage-example"
+    "type": "basic-usage-example"
   }
 ]

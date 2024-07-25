@@ -1,14 +1,14 @@
 [
   {
     "code": "<p class=\"h-4 bg-gray-200 rounded-full dark:bg-neutral-700\" style=\"width: 40%;\"></p>\n\n<ul class=\"mt-5 space-y-3\">\n  <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n  <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n  <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n  <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n</ul>",
-    "name": "example"
+    "type": "example"
   },
   {
     "code": "<div class=\"flex\">\n  <div class=\"shrink-0\">\n    <span class=\"size-12 block bg-gray-200 rounded-full dark:bg-neutral-700\"></span>\n  </div>\n\n  <div class=\"ms-4 mt-2 w-full\">\n    <p class=\"h-4 bg-gray-200 rounded-full dark:bg-neutral-700\" style=\"width: 40%;\"></p>\n\n    <ul class=\"mt-5 space-y-3\">\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n    </ul>\n  </div>\n</div>",
-    "name": "complex-combination"
+    "type": "complex-combination"
   },
   {
     "code": "<div class=\"flex animate-pulse\">\n  <div class=\"shrink-0\">\n    <span class=\"size-12 block bg-gray-200 rounded-full dark:bg-neutral-700\"></span>\n  </div>\n\n  <div class=\"ms-4 mt-2 w-full\">\n    <p class=\"h-4 bg-gray-200 rounded-full dark:bg-neutral-700\" style=\"width: 40%;\"></p>\n\n    <ul class=\"mt-5 space-y-3\">\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n      <li class=\"w-full h-4 bg-gray-200 rounded-full dark:bg-neutral-700\"></li>\n    </ul>\n  </div>\n</div>",
-    "name": "active-animation"
+    "type": "active-animation"
   }
 ]
