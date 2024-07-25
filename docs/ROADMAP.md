@@ -10,7 +10,7 @@
 - [ ] Add video component
 - [ ] Add theming customization
 - [ ] Add language detection
-- [ ] Be able to run all tests on PostgresSQL
+- [x] Be able to run all tests on PostgresSQL
 
 ### Ressources
 
