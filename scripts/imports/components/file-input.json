@@ -1,14 +1,14 @@
 [
   {
     "code": "<form class=\"max-w-sm\">\n  <label for=\"file-input\" class=\"sr-only\">Choose file</label>\n  <input type=\"file\" name=\"file-input\" id=\"file-input\" class=\"block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400\n    file:bg-gray-50 file:border-0\n    file:me-4\n    file:py-3 file:px-4\n    dark:file:bg-neutral-700 dark:file:text-neutral-400\">\n</form>",
-    "type": "basic-usage-example"
+    "style": "basic-usage-example"
   },
   {
     "code": "<div class=\"max-w-sm space-y-3\">\n  <form>\n    <label for=\"small-file-input\" class=\"sr-only\">Choose file</label>\n    <input type=\"file\" name=\"small-file-input\" id=\"small-file-input\" class=\"block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400\n      file:bg-gray-50 file:border-0\n      file:me-4\n      file:py-2 file:px-4\n      dark:file:bg-neutral-700 dark:file:text-neutral-400\">\n  </form>\n\n  <form>\n    <label for=\"file-input-medium\" class=\"sr-only\">Choose file</label>\n    <input type=\"file\" name=\"file-input-medium\" id=\"file-input-medium\" class=\"block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400\n      file:bg-gray-50 file:border-0\n      file:me-4\n      file:py-3 file:px-4\n      dark:file:bg-neutral-700 dark:file:text-neutral-400\">\n  </form>\n\n  <form>\n    <label for=\"large-file-input\" class=\"sr-only\">Choose file</label>\n    <input type=\"file\" name=\"large-file-input\" id=\"large-file-input\" class=\"block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400\n      file:bg-gray-50 file:border-0\n      file:me-4\n      file:py-3 file:px-4 file:sm:py-5\n      dark:file:bg-neutral-700 dark:file:text-neutral-400\">\n  </form>\n</div>",
-    "type": "sizes"
+    "style": "sizes"
   },
   {
     "code": "<div class=\"max-w-sm\">\n  <form>\n    <label class=\"block\">\n      <span class=\"sr-only\">Choose profile photo</span>\n      <input type=\"file\" class=\"block w-full text-sm text-gray-500\n        file:me-4 file:py-2 file:px-4\n        file:rounded-lg file:border-0\n        file:text-sm file:font-semibold\n        file:bg-blue-600 file:text-white\n        hover:file:bg-blue-700\n        file:disabled:opacity-50 file:disabled:pointer-events-none\n        dark:text-neutral-500\n        dark:file:bg-blue-500\n        dark:hover:file:bg-blue-400\n      \">\n    </label>\n  </form>\n</div>",
-    "type": "file-input-buttons"
+    "style": "file-input-buttons"
   }
 ]
