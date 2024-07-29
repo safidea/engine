@@ -2,10 +2,11 @@ import type { Get } from '@domain/entities/Request/Get'
 import type { Post } from '@domain/entities/Request/Post'
 import type { Response } from '@domain/entities/Response'
 import type { Spi } from '@domain/services/Server'
-import type { DeleteDto, GetDto, PatchDto, PostDto } from './dtos/RequestDto'
+import type { DeleteDto, GetDto, PatchDto, PostDto, RequestDto } from './dtos/RequestDto'
 import { RequestMapper } from './mappers/RequestMapper'
 import type { Patch } from '@domain/entities/Request/Patch'
 import type { Delete } from '@domain/entities/Request/Delete'
+import type { Request } from '@domain/entities/Request'
 
 export interface Driver {
   baseUrl?: string
@@ -15,7 +16,7 @@ export interface Driver {
   post(path: string, handler: (request: PostDto) => Promise<Response>): Promise<void>
   patch(path: string, handler: (request: PatchDto) => Promise<Response>): Promise<void>
   delete(path: string, handler: (request: DeleteDto) => Promise<Response>): Promise<void>
-  notFound(handler: (request: GetDto) => Promise<Response>): Promise<void>
+  notFound(handler: (request: RequestDto) => Promise<Response>): Promise<void>
 }
 
 export class ServerSpi implements Spi {
@@ -53,9 +54,9 @@ export class ServerSpi implements Spi {
     })
   }
 
-  notFound = async (handler: (request: Get) => Promise<Response>) => {
-    await this.driver.notFound(async (getDto) => {
-      const request = RequestMapper.toGetService(getDto)
+  notFound = async (handler: (request: Request) => Promise<Response>) => {
+    await this.driver.notFound(async (requestDto) => {
+      const request = RequestMapper.toService(requestDto)
       return handler(request)
     })
   }

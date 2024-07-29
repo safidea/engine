@@ -5,6 +5,7 @@ import type { Response } from '../entities/Response'
 import { Json } from '../entities/Response/Json'
 import type { Patch } from '@domain/entities/Request/Patch'
 import type { Delete } from '@domain/entities/Request/Delete'
+import type { Request } from '@domain/entities/Request'
 
 export interface Config {
   port?: string
@@ -25,7 +26,7 @@ export interface Spi {
   post: (path: string, handler: (request: Post) => Promise<Response>) => Promise<void>
   patch: (path: string, handler: (request: Patch) => Promise<Response>) => Promise<void>
   delete: (path: string, handler: (request: Delete) => Promise<Response>) => Promise<void>
-  notFound: (handler: (request: Get) => Promise<Response>) => Promise<void>
+  notFound: (handler: (request: Request) => Promise<Response>) => Promise<void>
 }
 
 export class Server {
@@ -92,11 +93,15 @@ export class Server {
     this.log(`add DELETE handler ${path}`)
   }
 
-  notFound = async (handler: (request: Get) => Promise<Response>) => {
+  notFound = async (pageHandler: (get: Get) => Promise<Response>) => {
     this.notFoundHandler = async () => {
-      await this.spi.notFound(async (request: Get) => {
+      await this.spi.notFound(async (request: Request) => {
         this.log(`404 ${request.path}`)
-        return handler(request)
+        if (request.path.startsWith('/api/table/')) {
+          const table = request.path.split('/').pop()
+          return new Json({ error: `Table "${table}" not found` }, 404)
+        }
+        return pageHandler(request)
       })
       this.log(`add 404 handler`)
     }

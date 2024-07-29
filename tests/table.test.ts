@@ -3,6 +3,36 @@ import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('App with tables', () => {
+  test('should return an error if table does not exist', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      tables: [
+        {
+          name: 'leads',
+          fields: [
+            {
+              name: 'name',
+              field: 'SingleLineText',
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const res = await request.post(`${url}/api/table/unknown`, {
+      data: { name: 'John' },
+    })
+
+    // THEN
+    expect(res.ok()).toBeFalsy()
+    const { error } = await res.json()
+    expect(error).toBe('Table "unknown" not found')
+  })
+
   test('should get a created record when posting on table api', async ({ request }) => {
     // GIVEN
     const config: Config = {

@@ -1,12 +1,13 @@
 import { Base } from './base'
 
 export class Json extends Base {
-  constructor(json: object) {
+  constructor(json: object, status?: number) {
     super({
       body: JSON.stringify(json),
       headers: {
         'Content-Type': 'application/json',
       },
+      status,
     })
   }
 }

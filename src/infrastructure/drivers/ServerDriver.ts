@@ -6,7 +6,7 @@ import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
 import type { Driver } from '@adapter/spi/ServerSpi'
-import type { DeleteDto, GetDto, PatchDto, PostDto } from '@adapter/spi/dtos/RequestDto'
+import type { DeleteDto, GetDto, PatchDto, PostDto, RequestDto } from '@adapter/spi/dtos/RequestDto'
 import type { Config } from '@domain/services/Server'
 import type { Response } from '@domain/entities/Response'
 import { Redirect } from '@domain/entities/Response/Redirect'
@@ -33,7 +33,7 @@ export class ServerDriver implements Driver {
 
   get = async (path: string, handler: (getDto: GetDto) => Promise<Response>) => {
     this.express.get(path, async (req, res) => {
-      const getDto: GetDto = this.getRequestDto(req)
+      const getDto: GetDto = { ...this.getRequestDto(req), method: 'GET' }
       const response = await handler(getDto)
       this.returnResponse(res, req, response)
     })
@@ -44,6 +44,7 @@ export class ServerDriver implements Driver {
       const postDto: PostDto = {
         ...this.getRequestDto(req),
         body: req.body,
+        method: 'POST',
       }
       const response = await handler(postDto)
       this.returnResponse(res, req, response)
@@ -55,6 +56,7 @@ export class ServerDriver implements Driver {
       const patchDto: PatchDto = {
         ...this.getRequestDto(req),
         body: req.body,
+        method: 'PATCH',
       }
       const response = await handler(patchDto)
       this.returnResponse(res, req, response)
@@ -63,16 +65,35 @@ export class ServerDriver implements Driver {
 
   delete = async (path: string, handler: (deleteDto: DeleteDto) => Promise<Response>) => {
     this.express.delete(path, async (req, res) => {
-      const deleteDto: DeleteDto = this.getRequestDto(req)
+      const deleteDto: DeleteDto = { ...this.getRequestDto(req), method: 'DELETE' }
       const response = await handler(deleteDto)
       this.returnResponse(res, req, response)
     })
   }
 
-  notFound = async (handler: (getDto: GetDto) => Promise<Response>) => {
+  notFound = async (handler: (requestDto: RequestDto) => Promise<Response>) => {
     this.express.use(async (req, res) => {
-      const getDto: GetDto = this.getRequestDto(req)
-      const response = await handler(getDto)
+      let requestDto: RequestDto
+      if (req.method === 'GET') {
+        requestDto = { ...this.getRequestDto(req), method: 'GET' }
+      } else if (req.method === 'POST') {
+        requestDto = {
+          ...this.getRequestDto(req),
+          body: req.body,
+          method: 'POST',
+        }
+      } else if (req.method === 'PATCH') {
+        requestDto = {
+          ...this.getRequestDto(req),
+          body: req.body,
+          method: 'PATCH',
+        }
+      } else if (req.method === 'DELETE') {
+        requestDto = { ...this.getRequestDto(req), method: 'DELETE' }
+      } else {
+        throw new Error(`Unknown method ${req.method}`)
+      }
+      const response = await handler(requestDto)
       this.returnResponse(res, req, { ...response, status: 404 })
     })
   }
@@ -136,7 +157,7 @@ export class ServerDriver implements Driver {
     }
   }
 
-  private getRequestDto = (req: express.Request): GetDto => {
+  private getRequestDto = (req: express.Request): Omit<RequestDto, 'method'> => {
     const query: { [key: string]: string } = {}
     Object.keys(req.query).forEach((key) => {
       const value = req.query[key]
