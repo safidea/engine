@@ -13,7 +13,6 @@ const externals: string[] = [
   'cookie-parser',
   'better-sqlite3',
   'pg',
-  'kysely',
   'nodemailer',
   'pg-boss',
   'handlebars',

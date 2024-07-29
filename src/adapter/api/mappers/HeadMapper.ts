@@ -20,7 +20,7 @@ export class HeadMapper {
     } = config
     const timestamp = +new Date()
     linksConfigs.unshift({ href: '/output.css' })
-    scriptsConfigs.unshift({ src: '/index.js' })
+    scriptsConfigs.unshift({ src: '/index.js', type: 'module' })
     const scripts = scriptsConfigs.map((script) => new Script({ ...script, timestamp }))
     const links = linksConfigs.map((link) => new Link({ ...link, timestamp }))
     const metas = metasConfigs.map((meta) => new Meta(meta))

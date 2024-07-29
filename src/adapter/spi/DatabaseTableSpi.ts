@@ -22,6 +22,7 @@ export interface Driver {
   update: (record: ToUpdateDto) => Promise<PersistedDto>
   delete: (filters: FilterDto[]) => Promise<void>
   read: (filters: FilterDto[]) => Promise<PersistedDto | undefined>
+  readById: (id: string) => Promise<PersistedDto | undefined>
   list: (filters: FilterDto[]) => Promise<PersistedDto[]>
 }
 
@@ -48,6 +49,12 @@ export class DatabaseTableSpi implements Spi {
   read = async (filters: Filter[]) => {
     const filterDtos = FilterMapper.toManyDtos(filters)
     const persistedRecordDto = await this.driver.read(filterDtos)
+    if (!persistedRecordDto) return undefined
+    return RecordMapper.toPersistedEntity(persistedRecordDto)
+  }
+
+  readById = async (id: string) => {
+    const persistedRecordDto = await this.driver.readById(id)
     if (!persistedRecordDto) return undefined
     return RecordMapper.toPersistedEntity(persistedRecordDto)
   }

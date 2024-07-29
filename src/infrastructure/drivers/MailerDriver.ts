@@ -5,9 +5,6 @@ import type { Config } from '@domain/services/Mailer'
 import { v4 as uuidv4 } from 'uuid'
 import nodemailer, { type Transporter } from 'nodemailer'
 import SQLite from 'better-sqlite3'
-import { SqliteDialect, Kysely } from 'kysely'
-
-// TODO: ne pas créer de nouvelle connection à la base de donnée mais utiliser l'existante (perf Postgres + debug SQlite)
 
 export class MailerDriver implements Driver {
   private transporter: Transporter | SqliteTransporter
@@ -56,76 +53,63 @@ export class MailerDriver implements Driver {
   }
 }
 
-interface SqliteTransporterTable {
-  id: string
-  to: string
-  from: string
-  subject: string
-  text: string
-  html: string
-}
-
-interface SqliteTransporterSchema {
-  emails: SqliteTransporterTable
-}
-
 class SqliteTransporter {
-  private db: Kysely<SqliteTransporterSchema>
+  private db: SQLite.Database
 
   constructor(url: string) {
-    const dialect = new SqliteDialect({
-      database: new SQLite(url),
-    })
-    this.db = new Kysely<SqliteTransporterSchema>({ dialect })
+    this.db = new SQLite(url)
   }
 
   verify = async () => {
-    await this.db.schema
-      .createTable('emails')
-      .ifNotExists()
-      .addColumn('id', 'text', (col) => col.primaryKey())
-      .addColumn('to', 'text')
-      .addColumn('from', 'text')
-      .addColumn('subject', 'text')
-      .addColumn('text', 'text')
-      .addColumn('html', 'text')
-      .execute()
+    this.db.exec(`
+      CREATE TABLE IF NOT EXISTS emails (
+        id TEXT PRIMARY KEY,
+        "to" TEXT,
+        "from" TEXT,
+        subject TEXT,
+        text TEXT,
+        html TEXT
+      );
+    `)
     return true
   }
 
   close = async () => {
-    await this.db.destroy()
+    this.db.close()
   }
 
   sendMail = async (toSendDto: ToSendDto) => {
     const { to, from, subject, text, html } = toSendDto
     const id = uuidv4()
-    await this.db
-      .insertInto('emails')
-      .values({
-        id,
-        to,
-        from,
-        subject,
-        text,
-        html,
-      })
-      .execute()
+    const stmt = this.db.prepare(`
+      INSERT INTO emails (id, "to", "from", subject, text, html) VALUES (?, ?, ?, ?, ?, ?)
+    `)
+    stmt.run(id, to, from, subject, text, html)
     return {
       messageId: id,
     }
   }
 
   find = async (filters: FilterDto[]): Promise<SentDto | undefined> => {
-    let query = this.db.selectFrom('emails').selectAll()
-    for (const filter of filters) {
-      query = query.where(
-        filter.field as keyof SqliteTransporterTable,
-        filter.operator,
-        String(filter.value)
-      )
-    }
-    const email = await query.executeTakeFirst()
-    return email
+    let query = `SELECT * FROM emails WHERE `
+    const conditions: string[] = []
+    const values: (string | number)[] = []
+
+    filters.forEach((filter) => {
+      if (Array.isArray(filter.value)) {
+        conditions.push(
+          `"${filter.field}" ${filter.operator} (${filter.value.map(() => '?').join(', ')})`
+        )
+        values.push(...filter.value)
+      } else {
+        conditions.push(`"${filter.field}" ${filter.operator} ?`)
+        values.push(filter.value)
+      }
+    })
+
+    query += conditions.join(' AND ')
+    const stmt = this.db.prepare(query)
+    const email = stmt.get(...values)
+    return email as SentDto | undefined
   }
 }

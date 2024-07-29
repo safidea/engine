@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import Database from '@tests/database'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Number text field', () => {
+test.describe('Number field', () => {
   Database.each(test, (dbConfig) => {
     test('should create a record with a number field through a form', async ({ request }) => {
       // GIVEN

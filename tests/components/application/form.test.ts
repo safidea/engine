@@ -148,6 +148,7 @@ test.describe('Form component', () => {
                   {
                     type: 'submit',
                     label: 'Save',
+                    variant: 'secondary',
                   },
                 ],
                 successMessage,

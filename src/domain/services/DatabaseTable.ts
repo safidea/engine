@@ -5,7 +5,6 @@ import type { Persisted } from '../entities/Record/Persisted'
 import type { Field } from '@domain/entities/Field'
 import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 import type { Logger } from '@domain/services/Logger'
-import { Is } from '@domain/entities/Filter/Is'
 
 export interface Config {
   name: string
@@ -20,6 +19,7 @@ export interface Spi {
   update: (toUpdateRecord: ToUpdate) => Promise<Persisted>
   delete: (filters: Filter[]) => Promise<void>
   read: (filters: Filter[]) => Promise<Persisted | undefined>
+  readById: (id: string) => Promise<Persisted | undefined>
   list: (filters: Filter[]) => Promise<Persisted[]>
   exists: () => Promise<boolean>
   create: (fields: Field[]) => Promise<void>
@@ -34,7 +34,7 @@ export class DatabaseTable {
 
   constructor(
     spi: DatabaseSpi,
-    private services: Services,
+    services: Services,
     private config: Config
   ) {
     this.log = services.logger.init('table')
@@ -63,7 +63,7 @@ export class DatabaseTable {
   }
 
   readById = async (id: string) => {
-    return this.table.read([new Is({ field: 'id', value: id })])
+    return this.table.readById(id)
   }
 
   list = async (filters: Filter[]) => {

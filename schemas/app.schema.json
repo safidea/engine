@@ -1485,6 +1485,9 @@
                 },
                 {
                     "$ref": "#/definitions/SingleLineText"
+                },
+                {
+                    "$ref": "#/definitions/Formula"
                 }
             ]
         },
@@ -1612,6 +1615,31 @@
                 "buttons",
                 "component",
                 "inputs"
+            ],
+            "type": "object"
+        },
+        "Formula": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Formula",
+                    "type": "string"
+                },
+                "formula": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "output": {
+                    "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
+                }
+            },
+            "required": [
+                "field",
+                "formula",
+                "name",
+                "output"
             ],
             "type": "object"
         },
@@ -2561,6 +2589,24 @@
             "required": [
                 "field",
                 "name"
+            ],
+            "type": "object"
+        },
+        "Omit<DateTime|LongText|Number|SingleLineText,\"name\">": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "enum": [
+                        "DateTime",
+                        "LongText",
+                        "Number",
+                        "SingleLineText"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field"
             ],
             "type": "object"
         },
