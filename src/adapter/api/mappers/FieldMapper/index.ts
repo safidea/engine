@@ -5,6 +5,7 @@ import { LongTextMapper } from './LongTextMapper'
 import { DateTimeMapper } from './DateTimeMapper'
 import { NumberMapper } from './NumberMapper'
 import { EmailMapper } from './EmailMapper'
+import { FormulaMapper } from './FormulaMapper'
 
 export class FieldMapper {
   static toEntity(config: Config): Field {
@@ -14,6 +15,7 @@ export class FieldMapper {
     if (field === 'DateTime') return DateTimeMapper.toEntity(config)
     if (field === 'Email') return EmailMapper.toEntity(config)
     if (field === 'Number') return NumberMapper.toEntity(config)
+    if (field === 'Formula') return FormulaMapper.toEntity(config)
     throw new Error(`FieldMapper: type ${field} not found`)
   }
 

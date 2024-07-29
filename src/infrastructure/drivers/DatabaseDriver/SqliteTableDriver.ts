@@ -17,8 +17,16 @@ export class SqliteTableDriver implements Driver {
     return result.length > 0
   }
 
+  private buildColumnQuery = (field: FieldDto) => {
+    let query = `"${field.name}" ${field.type}`
+    if (field.formula) {
+      query += ` GENERATED ALWAYS AS (${field.formula}) STORED`
+    }
+    return query
+  }
+
   create = async (fields: FieldDto[]) => {
-    const columns = fields.map(({ name, type }) => `"${name}" ${type}`).join(', ')
+    const columns = fields.map(this.buildColumnQuery).join(', ')
     const query = `CREATE TABLE ${this.name} (${columns})`
     this.db.exec(query)
   }
@@ -29,7 +37,7 @@ export class SqliteTableDriver implements Driver {
   }
 
   addField = async (field: FieldDto) => {
-    const query = `ALTER TABLE ${this.name} ADD COLUMN ${field.name} ${field.type}`
+    const query = `ALTER TABLE ${this.name} ADD COLUMN ${this.buildColumnQuery(field)}`
     this.db.exec(query)
   }
 
@@ -146,7 +154,7 @@ export class SqliteTableDriver implements Driver {
   read = async (filters: FilterDto[]): Promise<PersistedDto | undefined> => {
     const conditions = filters.map((filter) => `${filter.field} ${filter.operator} ?`).join(' AND ')
     const values = filters.map((filter) => filter.value)
-    const query = `SELECT * FROM ${this.name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+    const query = `SELECT * FROM ${this.name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
     const record = this.db.prepare(query).get(values) as PersistedDto | undefined
     return record ? this.postprocess(record) : undefined
   }

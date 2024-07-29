@@ -18,8 +18,16 @@ export class PostgresTableDriver implements Driver {
     return result.rows.length > 0
   }
 
+  private buildColumnQuery = (field: FieldDto) => {
+    let query = `"${field.name}" ${field.type}`
+    if (field.formula) {
+      query += ` GENERATED ALWAYS AS (${field.formula}) STORED`
+    }
+    return query
+  }
+
   create = async (fields: FieldDto[]) => {
-    const columns = fields.map(({ name, type }) => `"${name}" ${type}`).join(', ')
+    const columns = fields.map(this.buildColumnQuery).join(', ')
     const query = `CREATE TABLE ${this.name} (${columns})`
     await this.db.query(query)
   }
@@ -33,7 +41,7 @@ export class PostgresTableDriver implements Driver {
   }
 
   addField = async (field: FieldDto) => {
-    const query = `ALTER TABLE ${this.name} ADD COLUMN ${field.name} ${field.type}`
+    const query = `ALTER TABLE ${this.name} ADD COLUMN ${this.buildColumnQuery(field)}`
     await this.db.query(query)
   }
 
@@ -97,7 +105,7 @@ export class PostgresTableDriver implements Driver {
       .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
       .join(' AND ')
     const values = filters.map((filter) => filter.value)
-    const query = `SELECT * FROM ${this.name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+    const query = `SELECT * FROM ${this.name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
     const result = await this.db.query<PersistedDto>(query, values)
     return result.rows[0]
   }
