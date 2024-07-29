@@ -1,3 +1,10 @@
+## [0.19.2](https://github.com/safidea/engine/compare/v0.19.1...v0.19.2) (2024-07-29)
+
+
+### Bug Fixes
+
+* **Table:** add green test: should migrate a table with an updated formula field + refactor private variables with _ ([f4eeb1a](https://github.com/safidea/engine/commit/f4eeb1a859bf6b855b24cc913bc5fdd8a30c0a46))
+
 ## [0.19.1](https://github.com/safidea/engine/compare/v0.19.0...v0.19.1) (2024-07-29)
 
 
