@@ -4,9 +4,7 @@ import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Formula field', () => {
   Database.each(test, (dbConfig) => {
-    test('should create a record with a formula field with an number output', async ({
-      request,
-    }) => {
+    test('should create a record with a formula field as a number', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -49,7 +47,7 @@ test.describe('Formula field', () => {
       expect(record.total).toBe(15)
     })
 
-    test('should create a record with a formula field with an text output', async ({ request }) => {
+    test('should create a record with a formula field as a text', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',

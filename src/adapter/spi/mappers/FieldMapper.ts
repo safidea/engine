@@ -6,6 +6,7 @@ import { DateTime } from '@domain/entities/Field/DateTime'
 import { LongText } from '@domain/entities/Field/LongText'
 import { Number } from '@domain/entities/Field/Number'
 import { Formula } from '@domain/entities/Field/Formula'
+import { SingleSelect } from '@domain/entities/Field/SingleSelect'
 
 export class FieldMapper {
   static toDto = (field: Field): FieldDto => {
@@ -32,6 +33,13 @@ export class FieldMapper {
         name: field.name,
         type: FieldMapper.toDto(field.output).type,
         formula: field.formula,
+      }
+    }
+    if (field instanceof SingleSelect) {
+      return {
+        name: field.name,
+        type: 'text',
+        options: field.options,
       }
     }
     throw new Error('Field type not supported')

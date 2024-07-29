@@ -4,7 +4,7 @@ import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Number field', () => {
   Database.each(test, (dbConfig) => {
-    test('should create a record with a number field through a form', async ({ request }) => {
+    test('should create a record with a number field', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {

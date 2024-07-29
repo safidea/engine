@@ -1488,6 +1488,9 @@
                 },
                 {
                     "$ref": "#/definitions/Formula"
+                },
+                {
+                    "$ref": "#/definitions/SingleSelect"
                 }
             ]
         },
@@ -2873,6 +2876,30 @@
             "required": [
                 "field",
                 "name"
+            ],
+            "type": "object"
+        },
+        "SingleSelect": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleSelect",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "options": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "options"
             ],
             "type": "object"
         },

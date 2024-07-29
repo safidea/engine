@@ -22,6 +22,9 @@ export class SqliteTableDriver implements Driver {
     if (field.formula) {
       query += ` GENERATED ALWAYS AS (${field.formula}) STORED`
     }
+    if (field.options) {
+      query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
+    }
     return query
   }
 
