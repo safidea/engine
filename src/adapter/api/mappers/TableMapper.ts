@@ -6,6 +6,7 @@ import type { Logger } from '@domain/services/Logger'
 import type { Database } from '@domain/services/Database'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { SchemaValidator } from '@domain/services/SchemaValidator'
 
 export interface Services {
   logger: Logger
@@ -13,18 +14,20 @@ export interface Services {
   database: Database
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
+  schemaValidator: SchemaValidator
 }
 
 export class TableMapper {
   static toEntity = (config: Config, services: Services) => {
     const { name } = config
-    const { server, database, logger, idGenerator, templateCompiler } = services
+    const { server, database, logger, idGenerator, templateCompiler, schemaValidator } = services
     const fields = FieldMapper.toManyEntities(config.fields)
     if (!fields.find((field) => field.name === 'id')) {
       fields.unshift(
         FieldMapper.toEntity({
           name: 'id',
           field: 'SingleLineText',
+          required: true,
         })
       )
     }
@@ -33,6 +36,7 @@ export class TableMapper {
         FieldMapper.toEntity({
           name: 'created_at',
           field: 'DateTime',
+          required: true,
         })
       )
     }
@@ -44,7 +48,16 @@ export class TableMapper {
         })
       )
     }
-    return new Table({ name, fields, server, database, logger, idGenerator, templateCompiler })
+    return new Table({
+      name,
+      fields,
+      server,
+      database,
+      logger,
+      idGenerator,
+      templateCompiler,
+      schemaValidator,
+    })
   }
 
   static toManyEntities = (configs: Config[], services: Services) => {

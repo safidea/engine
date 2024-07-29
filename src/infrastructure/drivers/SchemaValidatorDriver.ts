@@ -2,6 +2,7 @@ import Ajv from 'ajv'
 import fs from 'fs-extra'
 import { join } from 'path'
 import type { Driver } from '@adapter/spi/SchemaValidatorSpi'
+import type { JSONSchema } from '@domain/services/SchemaValidator'
 
 const dirname = new URL('.', import.meta.url).pathname
 
@@ -12,7 +13,7 @@ export class SchemaValidatorDriver implements Driver {
     this.ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
   }
 
-  getSchemaPath = (schema: string) => {
+  getSchemaFilePath = (schema: string) => {
     let schemaPath = join(dirname + '../schemas/', schema + '.schema.json')
     if (!fs.existsSync(schemaPath)) {
       schemaPath = join(process.cwd(), 'schemas/', schema + '.schema.json')
@@ -23,10 +24,14 @@ export class SchemaValidatorDriver implements Driver {
     return schemaPath
   }
 
-  validateSchema = (data: unknown, schema: string) => {
-    const schemaPath = this.getSchemaPath(schema)
+  validateFromFile = (data: unknown, schema: string) => {
+    const schemaPath = this.getSchemaFilePath(schema)
     const schemaJson = fs.readJSONSync(schemaPath)
-    const validate = this.ajv.compile(schemaJson)
+    return this.validate(data, schemaJson)
+  }
+
+  validate = (data: unknown, schema: JSONSchema) => {
+    const validate = this.ajv.compile(schema)
     if (validate(data)) return []
     return (validate.errors || []).map((error) => ({
       instancePath: error.instancePath,

@@ -62,7 +62,7 @@ export class AppApi {
   }
 
   private getSchemaErrors = (config: unknown): SchemaError[] => {
-    return this.schemaValidator.validate(config, 'app')
+    return this.schemaValidator.validateFromFile(config, 'app')
   }
 
   private isConfig = (config: unknown): config is Config => {
@@ -71,7 +71,7 @@ export class AppApi {
 
   private validateSchemaOrThrow = (config: unknown): Config => {
     if (!this.isConfig(config)) {
-      const errors = this.schemaValidator.validate(config, 'app')
+      const errors = this.schemaValidator.validateFromFile(config, 'app')
       throw new Error(JSON.stringify(errors, null, 2))
     }
     this.log('✅ Config schema is valid')

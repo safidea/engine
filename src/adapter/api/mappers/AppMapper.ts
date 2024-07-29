@@ -20,6 +20,7 @@ import { MailerMapper } from './ServiceMapper/MailerMapper'
 import { DatabaseMapper } from './ServiceMapper/DatabaseMapper'
 import { QueueMapper } from './ServiceMapper/QueueMapper'
 import { RealtimeMapper } from './ServiceMapper/RealtimeMapper'
+import { SchemaValidatorMapper } from './ServiceMapper/SchemaValidatorMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -35,6 +36,7 @@ export class AppMapper {
     const ui = UiMapper.toService({ drivers })
     const client = ClientMapper.toService({ drivers })
     const idGenerator = IdGeneratorMapper.toService({ drivers })
+    const schemaValidator = SchemaValidatorMapper.toService({ drivers })
     const templateCompiler = TemplateCompilerMapper.toService({ drivers })
     const iconLibrary = IconLibraryMapper.toService({ drivers })
     const fontLibrary = FontLibraryMapper.toService({ drivers, server, idGenerator })
@@ -54,6 +56,7 @@ export class AppMapper {
       server,
       idGenerator,
       templateCompiler,
+      schemaValidator,
     })
     const pages = PageMapper.toManyEntities(config.pages ?? [], {
       logger,

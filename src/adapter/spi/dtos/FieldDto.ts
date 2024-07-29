@@ -3,4 +3,5 @@ export interface FieldDto {
   type: 'text' | 'timestamp' | 'numeric' | 'enum'
   formula?: string
   options?: string[]
+  required?: boolean
 }

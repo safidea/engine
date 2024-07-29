@@ -14,18 +14,21 @@ export class FieldMapper {
       return {
         name: field.name,
         type: 'text',
+        required: field.required,
       }
     }
     if (field instanceof DateTime) {
       return {
         name: field.name,
         type: 'timestamp',
+        required: field.required,
       }
     }
     if (field instanceof Number) {
       return {
         name: field.name,
         type: 'numeric',
+        required: field.required,
       }
     }
     if (field instanceof Formula) {
@@ -33,6 +36,7 @@ export class FieldMapper {
         name: field.name,
         type: FieldMapper.toDto(field.output).type,
         formula: field.formula,
+        required: field.required,
       }
     }
     if (field instanceof SingleSelect) {
@@ -40,6 +44,7 @@ export class FieldMapper {
         name: field.name,
         type: 'text',
         options: field.options,
+        required: field.required,
       }
     }
     throw new Error('Field type not supported')

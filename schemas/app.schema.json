@@ -1270,6 +1270,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -1360,6 +1363,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -1636,6 +1642,9 @@
                 },
                 "output": {
                     "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -2154,6 +2163,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -2587,6 +2599,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -2606,6 +2621,9 @@
                         "SingleLineText"
                     ],
                     "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -2871,6 +2889,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -2894,6 +2915,9 @@
                         "type": "string"
                     },
                     "type": "array"
+                },
+                "required": {
+                    "type": "boolean"
                 }
             },
             "required": [

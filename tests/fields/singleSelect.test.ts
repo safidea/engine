@@ -34,7 +34,7 @@ test.describe('Single select field', () => {
       expect(record.color).toBe('Red')
     })
 
-    test.skip('should not create a record with a wrong value in a single select field', async ({
+    test('should not create a record with a wrong value in a single select field', async ({
       request,
     }) => {
       // GIVEN
@@ -58,12 +58,18 @@ test.describe('Single select field', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { record } = await request
-        .post(`${url}/api/table/cars`, { data: { color: 'Red' } })
+      const { error } = await request
+        .post(`${url}/api/table/cars`, { data: { color: 'Yellow' } })
         .then((res) => res.json())
 
       // THEN
-      expect(record.color).toBe('Red')
+      expect(error).toStrictEqual({
+        instancePath: '/color',
+        keyword: 'enum',
+        message: 'must be equal to one of the allowed values',
+        params: { allowedValues: ['Red', 'Blue', 'Green'] },
+        schemaPath: '#/properties/color/enum',
+      })
     })
   })
 })

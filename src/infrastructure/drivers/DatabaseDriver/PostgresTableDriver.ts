@@ -26,6 +26,9 @@ export class PostgresTableDriver implements Driver {
     if (field.options) {
       query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
     }
+    if (field.required) {
+      query += ' NOT NULL'
+    }
     return query
   }
 
