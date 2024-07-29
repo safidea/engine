@@ -1,3 +1,10 @@
+## [0.19.1](https://github.com/safidea/engine/compare/v0.19.0...v0.19.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* **Table:** add green test: should migrate a table with a new field ([72e36f7](https://github.com/safidea/engine/commit/72e36f7528c1700ac8f4af2cd4f32c45c2f38d9d))
+
 # [0.19.0](https://github.com/safidea/engine/compare/v0.18.3...v0.19.0) (2024-07-29)
 
 
