@@ -6,9 +6,9 @@ export interface Driver {
 }
 
 export class TemplateCompilerSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   compile = (text: string) => {
-    return new TemplateSpi(this.driver.compile(text))
+    return new TemplateSpi(this._driver.compile(text))
   }
 }

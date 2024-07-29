@@ -51,8 +51,8 @@ export class Table implements Base<Props> {
     table: string
   }
 
-  constructor(private params: Params) {
-    const { source, idGenerator } = params
+  constructor(private _params: Params) {
+    const { source, idGenerator } = _params
     this.id = idGenerator.forComponent()
     this.path = `/api/component/table/${this.id}`
     if (source.startsWith('/api/table/')) {
@@ -64,7 +64,7 @@ export class Table implements Base<Props> {
   }
 
   init = async () => {
-    const { server, buttons = [], title } = this.params
+    const { server, buttons = [], title } = this._params
     await Promise.all([
       server.get(this.path, this.getData),
       this.stream ? server.get(this.stream.path, this.streamData) : undefined,
@@ -75,7 +75,7 @@ export class Table implements Base<Props> {
 
   getData = async (request: Get) => {
     const state = new State(request)
-    const { source, server } = this.params
+    const { source, server } = this._params
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
@@ -87,7 +87,7 @@ export class Table implements Base<Props> {
 
   streamData = async (request: Get) => {
     const state = new State(request)
-    const { realtime, source, server } = this.params
+    const { realtime, source, server } = this._params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
@@ -101,13 +101,13 @@ export class Table implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui, id, className } = this.params
+    const { ui, id, className } = this._params
     const Component = await this.render(state, { withSource: false })
     return ui.renderToHtml(<Component {...props} id={id} className={className} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { ui, client, title, columns, buttons = [], id, className } = this.params
+    const { ui, client, title, columns, buttons = [], id, className } = this._params
     const Component = await this.render(state, { withSource: false })
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
@@ -120,7 +120,7 @@ export class Table implements Base<Props> {
 
   render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { client, Component, title, columns, buttons = [] } = this.params
+    const { client, Component, title, columns, buttons = [] } = this._params
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
     return (props?: Partial<Props>) => (
@@ -134,7 +134,7 @@ export class Table implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { source, buttons, server, title } = this.params
+    const { source, buttons, server, title } = this._params
     const errors = []
     if (source.startsWith('/api/table/')) {
       if (!server.hasGetHandler(source)) {

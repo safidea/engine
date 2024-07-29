@@ -7,17 +7,17 @@ interface Params extends BaseParams {
 }
 
 export class Post extends BaseWithRequest {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('event:post')
+    const { logger } = _params
+    this._log = logger.init('event:post')
   }
 
   executeWithRequest = async (baseUrl: string) => {
-    const { path, body } = this.params
-    this.log(`posting "${JSON.stringify(body)}" to path "${path}"`)
+    const { path, body } = this._params
+    this._log(`posting "${JSON.stringify(body)}" to path "${path}"`)
     const res = await fetch(`${baseUrl}${path}`, {
       method: 'POST',
       headers: {

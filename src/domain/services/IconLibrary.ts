@@ -6,13 +6,13 @@ export interface Spi {
 }
 
 export class IconLibrary {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   outline = (name: Name) => {
-    return this.spi.outline(name)
+    return this._spi.outline(name)
   }
 
   solid = (name: Name) => {
-    return this.spi.solid(name)
+    return this._spi.solid(name)
   }
 }

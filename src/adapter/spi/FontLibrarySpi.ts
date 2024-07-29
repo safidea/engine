@@ -5,9 +5,9 @@ export interface Driver {
 }
 
 export class FontLibrarySpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   loadCss = async (name: string) => {
-    return this.driver.loadCss(name)
+    return this._driver.loadCss(name)
   }
 }

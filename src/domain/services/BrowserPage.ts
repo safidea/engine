@@ -20,35 +20,35 @@ export interface Spi {
 }
 
 export class BrowserPage {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   open = async (path: string) => {
-    return this.spi.open(path)
+    return this._spi.open(path)
   }
 
   type = async (name: string, value: string) => {
-    return this.spi.type(name, value)
+    return this._spi.type(name, value)
   }
 
   click = async (text: string) => {
-    return this.spi.click(text)
+    return this._spi.click(text)
   }
 
   waitForText = async (text: string, options?: { timeout?: number }) => {
     const { timeout = 5000 } = options ?? {}
-    return this.spi.waitForText(text, { timeout })
+    return this._spi.waitForText(text, { timeout })
   }
 
   getTitle = async () => {
-    return this.spi.getTitle()
+    return this._spi.getTitle()
   }
 
   getUrl = async () => {
-    return this.spi.getUrl()
+    return this._spi.getUrl()
   }
 
   getByText = async (text: string, options?: { tag: string | undefined }) => {
-    const element = await this.spi.getByText(text, options)
+    const element = await this._spi.getByText(text, options)
     if (element) return new BrowserElement(element)
   }
 
@@ -57,11 +57,11 @@ export class BrowserPage {
     value: string,
     options?: { tag: string | undefined }
   ) => {
-    const element = await this.spi.getByAttribute(attribute, value, options)
+    const element = await this._spi.getByAttribute(attribute, value, options)
     if (element) return new BrowserElement(element)
   }
 
   getHtml = async () => {
-    return this.spi.getHtml()
+    return this._spi.getHtml()
   }
 }

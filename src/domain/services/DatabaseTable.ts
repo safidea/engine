@@ -26,67 +26,72 @@ export interface Spi {
   fieldExists: (name: string) => Promise<boolean>
   addField: (field: Field) => Promise<void>
   alterField: (field: Field) => Promise<void>
+  dropField: (name: string) => Promise<void>
 }
 
 export class DatabaseTable {
-  private log: (message: string) => void
-  private table: Spi
+  private _log: (message: string) => void
+  private _table: Spi
 
   constructor(
     spi: DatabaseSpi,
     services: Services,
-    private config: Config
+    private _config: Config
   ) {
-    this.log = services.logger.init('table')
-    this.table = spi.table(config.name)
+    this._log = services.logger.init('table')
+    this._table = spi.table(_config.name)
   }
 
   insert = async (toCreateRecord: ToCreate) => {
-    const persistedRecord = await this.table.insert(toCreateRecord)
-    this.log(`inserted in ${this.config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+    const persistedRecord = await this._table.insert(toCreateRecord)
+    this._log(`inserted in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
 
   update = async (toUpdateRecord: ToUpdate) => {
-    const persistedRecord = await this.table.update(toUpdateRecord)
-    this.log(`updated in ${this.config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+    const persistedRecord = await this._table.update(toUpdateRecord)
+    this._log(`updated in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
 
   delete = async (filters: Filter[]) => {
-    await this.table.delete(filters)
-    this.log(`deleting in ${this.config.name} ${filters[0].field} ${filters[0].value}`)
+    await this._table.delete(filters)
+    this._log(`deleting in ${this._config.name} ${filters[0].field} ${filters[0].value}`)
   }
 
   read = async (filters: Filter[]) => {
-    return this.table.read(filters)
+    return this._table.read(filters)
   }
 
   readById = async (id: string) => {
-    return this.table.readById(id)
+    return this._table.readById(id)
   }
 
   list = async (filters: Filter[]) => {
-    return this.table.list(filters)
+    return this._table.list(filters)
   }
 
   exists = async () => {
-    return this.table.exists()
+    return this._table.exists()
   }
 
   create = async (fields: Field[]) => {
-    await this.table.create(fields)
+    await this._table.create(fields)
   }
 
   fieldExists = async (name: string) => {
-    return this.table.fieldExists(name)
+    return this._table.fieldExists(name)
   }
 
   addField = async (field: Field) => {
-    await this.table.addField(field)
+    await this._table.addField(field)
   }
 
   alterField = async (field: Field) => {
-    await this.table.alterField(field)
+    await this._table.alterField(field)
+  }
+
+  dropField = async (name: string) => {
+    await this._table.dropField(name)
   }
 }

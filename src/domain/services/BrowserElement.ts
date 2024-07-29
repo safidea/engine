@@ -4,13 +4,13 @@ export interface Spi {
 }
 
 export class BrowserElement {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   getAttribute = async (attribute: string) => {
-    return this.spi.getAttribute(attribute)
+    return this._spi.getAttribute(attribute)
   }
 
   getInputValue = async () => {
-    return this.spi.getInputValue()
+    return this._spi.getInputValue()
   }
 }

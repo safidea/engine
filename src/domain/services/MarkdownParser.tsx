@@ -26,10 +26,10 @@ export interface Spi {
 
 export class MarkdownParser {
   constructor(
-    private spi: Spi,
-    private services: Services
+    private _spi: Spi,
+    private _services: Services
   ) {
-    this.spi.configRenderer({
+    this._spi.configRenderer({
       title: this.renderTitle,
       paragraph: this.renderParagraph,
       hr: this.renderDivider,
@@ -39,35 +39,35 @@ export class MarkdownParser {
   }
 
   parseToComponent = async (content: string) => {
-    return this.spi.parseToComponent(content)
+    return this._spi.parseToComponent(content)
   }
 
   renderTitle = (props: TitleProps): string => {
-    const { components, ui } = this.services
+    const { components, ui } = this._services
     const { Title } = components
     return ui.renderToHtml(<Title {...props} />)
   }
 
   renderParagraph = (props: ParagraphProps): string => {
-    const { components, ui } = this.services
+    const { components, ui } = this._services
     const { Paragraph } = components
     return ui.renderToHtml(<Paragraph {...props} />)
   }
 
   renderDivider = (props: DividerProps): string => {
-    const { components, ui } = this.services
+    const { components, ui } = this._services
     const { Divider } = components
     return ui.renderToHtml(<Divider {...props} />)
   }
 
   renderLink = (props: LinkProps): string => {
-    const { components, ui } = this.services
+    const { components, ui } = this._services
     const { Link } = components
     return ui.renderToHtml(<Link {...props} />)
   }
 
   renderImage = (props: ImageProps): string => {
-    const { components, ui } = this.services
+    const { components, ui } = this._services
     const { Image } = components
     return ui.renderToHtml(<Image {...props} />)
   }

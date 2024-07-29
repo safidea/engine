@@ -13,12 +13,12 @@ interface Params extends Props {
 }
 
 export class Image implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {}
 
   render = async () => {
-    const { Component, ...defaultProps } = this.params
+    const { Component, ...defaultProps } = this._params
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
   }
 

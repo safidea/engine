@@ -5,7 +5,7 @@ export interface Driver {
 }
 
 export class LoggerSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
-  init = (location: string) => this.driver.init(location)
+  init = (location: string) => this._driver.init(location)
 }

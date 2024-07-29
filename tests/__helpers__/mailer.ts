@@ -10,7 +10,7 @@ import type { SentDto } from '@adapter/spi/dtos/EmailDto'
 
 export default class extends MailerDriver {
   public config: Config
-  private database: DatabaseDriver
+  private _database: DatabaseDriver
 
   constructor() {
     const logger = new Logger()
@@ -27,12 +27,12 @@ export default class extends MailerDriver {
     }
     super(config)
     this.config = config
-    this.database = new DatabaseDriver({ url: host, type: 'sqlite' })
+    this._database = new DatabaseDriver({ url: host, type: 'sqlite' })
     log(`mailbox created`)
   }
 
   get emails() {
-    return this.database.table('emails')
+    return this._database.table('emails')
   }
 
   waitForEmail = async (filters: FilterDto[]): Promise<SentDto> => {

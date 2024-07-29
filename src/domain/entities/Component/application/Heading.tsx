@@ -18,15 +18,15 @@ interface Params extends BaseProps {
 }
 
 export class Heading implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, buttons } = this.params
+    const { title, buttons } = this._params
     await Promise.all([title.init(), ...(buttons?.map((button) => button.init()) ?? [])])
   }
 
   render = async (state: State) => {
-    const { id, className, title, buttons = [], Component } = this.params
+    const { id, className, title, buttons = [], Component } = this._params
     const Title = await title.render()
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     return (props?: Partial<Props>) => (
@@ -35,7 +35,7 @@ export class Heading implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, buttons = [] } = this.params
+    const { title, buttons = [] } = this._params
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     buttons.forEach((button) => {

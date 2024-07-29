@@ -15,21 +15,21 @@ interface Params extends Omit<Props, 'Links'> {
 }
 
 export class Dropdown implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { links } = this.params
+    const { links } = this._params
     await Promise.all(links.map((link) => link.init()))
   }
 
   render = async (state: State) => {
-    const { Component, links, ...defaultProps } = this.params
+    const { Component, links, ...defaultProps } = this._params
     const Links = await Promise.all(links.map((link) => link.render(state)))
     return (props?: Partial<Props>) => <Component {...{ Links, ...defaultProps, ...props }} />
   }
 
   validateConfig = () => {
-    const { links } = this.params
+    const { links } = this._params
     const errors: ConfigError[] = []
     links.forEach((link) => {
       errors.push(...link.validateConfig())

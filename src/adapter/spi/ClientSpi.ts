@@ -17,17 +17,17 @@ export interface Driver {
 }
 
 export class ClientSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   get metas() {
-    return this.driver.metas.map((meta) => new Meta(meta))
+    return this._driver.metas.map((meta) => new Meta(meta))
   }
 
-  Frame = (props: FrameProps) => this.driver.Frame(props)
+  Frame = (props: FrameProps) => this._driver.Frame(props)
 
-  Stream = (props: StreamProps) => this.driver.Stream(props)
+  Stream = (props: StreamProps) => this._driver.Stream(props)
 
-  StreamSource = (props: StreamSourceProps) => this.driver.StreamSource(props)
+  StreamSource = (props: StreamSourceProps) => this._driver.StreamSource(props)
 
-  getActionProps = (options?: ActionProps) => this.driver.getActionProps(options)
+  getActionProps = (options?: ActionProps) => this._driver.getActionProps(options)
 }

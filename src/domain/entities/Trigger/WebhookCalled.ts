@@ -16,26 +16,26 @@ interface Services {
 
 export class WebhookCalled {
   constructor(
-    private config: Config,
-    private services: Services
+    private _config: Config,
+    private _services: Services
   ) {}
 
   get path() {
-    const { path } = this.config
+    const { path } = this._config
     return `/api/automation/${path}`
   }
 
   init = async () => {
-    const { server } = this.services
-    const { method } = this.config
+    const { server } = this._services
+    const { method } = this._config
     if (method === 'POST') {
       await server.post(this.path, this.post)
     }
   }
 
   post = async (request: Post) => {
-    const { queue } = this.services
-    const { automation } = this.config
+    const { queue } = this._services
+    const { automation } = this._config
     const result = {
       path: request.path,
       baseUrl: request.baseUrl,

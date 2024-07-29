@@ -15,13 +15,13 @@ interface Ressources {
 }
 
 export class AppApi {
-  private log: (message: string) => void
-  private schemaValidator: SchemaValidator
-  private app?: App
+  private _log: (message: string) => void
+  private _schemaValidator: SchemaValidator
+  private _app?: App
 
   constructor(private ressources: Ressources) {
-    this.schemaValidator = SchemaValidatorMapper.toService(ressources)
-    this.log = (message: string) => {
+    this._schemaValidator = SchemaValidatorMapper.toService(ressources)
+    this._log = (message: string) => {
       if (process.env.TESTING !== 'true' || process.env.DEBUG) {
         console.log(message)
       }
@@ -29,87 +29,88 @@ export class AppApi {
   }
 
   test = async (config: unknown): Promise<void> => {
-    const validatedConfig = this.getConfigWithEnv(config)
-    this.app = await this.validateConfigOrThrow(validatedConfig)
+    const validatedConfig = this._getConfigWithEnv(config)
+    delete validatedConfig.server?.port
+    this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], this.ressources)
-    this.log(`🔄 Start running tests`)
+    this._log(`🔄 Start running tests`)
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
       try {
         const app = AppMapper.toEntity(this.ressources, validatedConfig)
         await test.run(app)
-        this.log(`✅ ${i} > ${test.name}`)
+        this._log(`✅ ${i} > ${test.name}`)
       } catch (error) {
-        this.log(`❌ ${i} > ${test.name}`)
+        this._log(`❌ ${i} > ${test.name}`)
         if (error instanceof TestError) errors.push(error)
         else throw error
       }
     }
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-    this.log(`✨ All tests passed`)
+    this._log(`✨ All tests passed`)
   }
 
   start = async (config: unknown): Promise<string> => {
-    this.app = await this.validateOrThrow(config)
-    const url = await this.app.start()
-    this.log(`✨ App "${this.app.name}" started at ${url}`)
+    this._app = await this._validateOrThrow(config)
+    const url = await this._app.start()
+    this._log(`✨ App "${this._app.name}" started at ${url}`)
     return url
   }
 
   stop = async (): Promise<void> => {
-    if (this.app) await this.app.stop()
+    if (this._app) await this._app.stop()
   }
 
-  private getSchemaErrors = (config: unknown): SchemaError[] => {
-    return this.schemaValidator.validateFromFile(config, 'app')
+  private _getSchemaErrors = (config: unknown): SchemaError[] => {
+    return this._schemaValidator.validateFromFile(config, 'app')
   }
 
-  private isConfig = (config: unknown): config is Config => {
-    return this.getSchemaErrors(config).length === 0
+  private _isConfig = (config: unknown): config is Config => {
+    return this._getSchemaErrors(config).length === 0
   }
 
-  private validateSchemaOrThrow = (config: unknown): Config => {
-    if (!this.isConfig(config)) {
-      const errors = this.schemaValidator.validateFromFile(config, 'app')
+  private _validateSchemaOrThrow = (config: unknown): Config => {
+    if (!this._isConfig(config)) {
+      const errors = this._schemaValidator.validateFromFile(config, 'app')
       throw new Error(JSON.stringify(errors, null, 2))
     }
-    this.log('✅ Config schema is valid')
-    return config
+    this._log('✅ Config schema is valid')
+    return { ...config }
   }
 
-  private getConfigWithEnv = (config: unknown): Config => {
-    const configWithValidatedSchema = this.validateSchemaOrThrow(config)
-    return this.replaceEnvVariablesDeep(configWithValidatedSchema)
+  private _getConfigWithEnv = (config: unknown): Config => {
+    const configWithValidatedSchema = this._validateSchemaOrThrow(config)
+    return this._replaceEnvVariablesDeep(configWithValidatedSchema)
   }
 
-  private validateConfigOrThrow = async (config: Config): Promise<App> => {
+  private _validateConfigOrThrow = async (config: Config): Promise<App> => {
     const app = AppMapper.toEntity(this.ressources, config)
     const errors = await app.validateConfig()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-    this.log('✅ Config dependancies are valids')
+    this._log('✅ Config dependancies are valids')
     return app
   }
 
-  private validateOrThrow = async (config: unknown): Promise<App> => {
-    const configWithEnv = this.getConfigWithEnv(config)
-    return this.validateConfigOrThrow(configWithEnv)
+  private _validateOrThrow = async (config: unknown): Promise<App> => {
+    const configWithEnv = this._getConfigWithEnv(config)
+    return this._validateConfigOrThrow(configWithEnv)
   }
 
-  private isObject = (value: unknown): value is Record<string, unknown> => {
+  private _isObject = (value: unknown): value is Record<string, unknown> => {
     return typeof value === 'object' && value !== null && !Array.isArray(value)
   }
 
-  private isString = (value: unknown): value is string => {
+  private _isString = (value: unknown): value is string => {
     return typeof value === 'string'
   }
 
-  private replaceEnvVariablesDeep = <T>(obj: T): T => {
+  private _replaceEnvVariablesDeep = <T>(obj: T): T => {
     const walk = (node: unknown) => {
-      if (!this.isObject(node)) return
+      if (!this._isObject(node)) return
       Object.keys(node).forEach((key) => {
         const value = node[key]
-        if (this.isString(value) && value.startsWith('$')) {
+        if (this._isString(value) && value.startsWith('$')) {
           const envVar = value.substring(1) // Remove the leading $
           const envValue = process.env[envVar]
           if (envValue !== undefined) {
@@ -119,7 +120,7 @@ export class AppApi {
           }
         } else if (Array.isArray(value)) {
           value.forEach((item, index) => {
-            if (this.isString(item) && item.startsWith('$')) {
+            if (this._isString(item) && item.startsWith('$')) {
               const envVar = item.substring(1) // Remove the leading $
               const envValue = process.env[envVar]
               if (envValue !== undefined) {
@@ -127,11 +128,11 @@ export class AppApi {
               } else {
                 console.warn(`Environment variable ${envVar} not found`)
               }
-            } else if (this.isObject(item)) {
+            } else if (this._isObject(item)) {
               walk(item)
             }
           })
-        } else if (this.isObject(value)) {
+        } else if (this._isObject(value)) {
           walk(value)
         }
       })

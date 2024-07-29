@@ -7,17 +7,17 @@ interface Params extends BaseParams {
 }
 
 export class Title extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('expect:title')
+    const { logger } = _params
+    this._log = logger.init('expect:title')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { title } = this.params
-    this.log(`checking if page title is "${title}"`)
+    const { title } = this._params
+    this._log(`checking if page title is "${title}"`)
     const pageTitle = await page.getTitle()
     if (pageTitle !== title) {
       throw new TestError({

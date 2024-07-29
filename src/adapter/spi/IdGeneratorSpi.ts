@@ -5,7 +5,7 @@ export interface Driver {
 }
 
 export class IdGeneratorSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
-  generate = (length: number, chars: string): string => this.driver.generate(length, chars)
+  generate = (length: number, chars: string): string => this._driver.generate(length, chars)
 }

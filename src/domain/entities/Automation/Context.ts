@@ -1,13 +1,13 @@
 import type { Template } from '@domain/services/Template'
 
 export class Context {
-  private data = {}
+  private _data = {}
 
   constructor(trigger: object) {
-    this.data = { trigger }
+    this._data = { trigger }
   }
 
   fillTemplate = (template: Template): string => {
-    return template.fill(this.data)
+    return template.fill(this._data)
   }
 }

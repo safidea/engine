@@ -23,15 +23,15 @@ interface Params extends BaseProps {
 }
 
 export class Card implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, paragraph, image } = this.params
+    const { title, paragraph, image } = this._params
     await Promise.all([title.init(), paragraph.init(), image?.init()])
   }
 
   render = async () => {
-    const { Component, title, paragraph, image, id, className, href } = this.params
+    const { Component, title, paragraph, image, id, className, href } = this._params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Image = await image?.render()
@@ -41,7 +41,7 @@ export class Card implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, paragraph, image } = this.params
+    const { title, paragraph, image } = this._params
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     errors.push(...paragraph.validateConfig())

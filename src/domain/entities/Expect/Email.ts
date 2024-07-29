@@ -9,17 +9,17 @@ interface Params extends BaseParams {
 }
 
 export class Email extends BaseWithMailer {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
-    super(params.mailbox)
-    const { logger } = params
-    this.log = logger.init('expect:email')
+  constructor(private _params: Params) {
+    super(_params.mailbox)
+    const { logger } = _params
+    this._log = logger.init('expect:email')
   }
 
   executeWithMailer = async (mailer: Mailer) => {
-    const { mailbox, find } = this.params
-    this.log(`checking if mailbox "${mailbox}" has an email matching "${JSON.stringify(find)}"`)
+    const { mailbox, find } = this._params
+    this._log(`checking if mailbox "${mailbox}" has an email matching "${JSON.stringify(find)}"`)
     const email = await mailer.find(mailbox, find)
     if (!email) {
       const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})

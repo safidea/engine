@@ -5,41 +5,41 @@ import { SqliteDriver } from './SqliteDriver'
 import { PostgresDriver } from './PostgresDriver'
 
 export class DatabaseDriver implements Driver {
-  private db: SqliteDriver | PostgresDriver
+  private _db: SqliteDriver | PostgresDriver
 
   constructor(config: Config) {
     const { type } = config
     if (type === 'sqlite') {
-      this.db = new SqliteDriver(config)
+      this._db = new SqliteDriver(config)
     } else if (type === 'postgres') {
-      this.db = new PostgresDriver(config)
+      this._db = new PostgresDriver(config)
     } else throw new Error(`DatabaseDriver: database "${type}" not supported`)
   }
 
   connect = async (): Promise<void> => {
-    await this.db.connect()
+    await this._db.connect()
   }
 
   disconnect = async (): Promise<void> => {
-    await this.db.disconnect()
+    await this._db.disconnect()
   }
 
   exec = async (query: string): Promise<void> => {
-    await this.db.exec(query)
+    await this._db.exec(query)
   }
 
   query = async <T>(
     text: string,
     values: (string | number)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
-    return this.db.query(text, values)
+    return this._db.query(text, values)
   }
 
   table = (name: string) => {
-    return this.db.table(name)
+    return this._db.table(name)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {
-    this.db.on(event, callback)
+    this._db.on(event, callback)
   }
 }

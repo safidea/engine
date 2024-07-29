@@ -7,9 +7,9 @@ export interface Spi {
 }
 
 export class Logger {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   init = (location: string) => {
-    return this.spi.init(location)
+    return this._spi.init(location)
   }
 }

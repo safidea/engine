@@ -14,19 +14,19 @@ interface Services {
 
 export class RecordCreated {
   constructor(
-    private config: Config,
-    private services: Services
+    private _config: Config,
+    private _services: Services
   ) {}
 
   init = async () => {
-    const { realtime } = this.services
-    const { table } = this.config
+    const { realtime } = this._services
+    const { table } = this._config
     realtime.onInsert(table, this.onInsert)
   }
 
   onInsert = async (record: Persisted) => {
-    const { queue } = this.services
-    const { automation } = this.config
+    const { queue } = this._services
+    const { automation } = this._config
     await queue.add(automation, record.data)
   }
 }

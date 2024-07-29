@@ -7,14 +7,14 @@ import nodemailer, { type Transporter } from 'nodemailer'
 import SQLite from 'better-sqlite3'
 
 export class MailerDriver implements Driver {
-  private transporter: Transporter | SqliteTransporter
+  private _transporter: Transporter | SqliteTransporter
 
   constructor(config: Config) {
     const { host, port, user, pass, secure } = config
     if (user === '_sqlite' && pass === '_sqlite') {
-      this.transporter = new SqliteTransporter(host)
+      this._transporter = new SqliteTransporter(host)
     } else {
-      this.transporter = nodemailer.createTransport({
+      this._transporter = nodemailer.createTransport({
         host,
         port: Number(port),
         secure,
@@ -30,15 +30,15 @@ export class MailerDriver implements Driver {
   }
 
   verify = async () => {
-    await this.transporter.verify()
+    await this._transporter.verify()
   }
 
   close = async () => {
-    await this.transporter.close()
+    await this._transporter.close()
   }
 
   send = async (toSendDto: ToSendDto) => {
-    const info = await this.transporter.sendMail(toSendDto)
+    const info = await this._transporter.sendMail(toSendDto)
     return {
       id: info.messageId,
       ...toSendDto,
@@ -46,22 +46,22 @@ export class MailerDriver implements Driver {
   }
 
   find = async (filters: FilterDto[]): Promise<SentDto | undefined> => {
-    if (this.transporter instanceof SqliteTransporter) {
-      return this.transporter.find(filters)
+    if (this._transporter instanceof SqliteTransporter) {
+      return this._transporter.find(filters)
     }
     throw new Error('not implemented')
   }
 }
 
 class SqliteTransporter {
-  private db: SQLite.Database
+  private _db: SQLite.Database
 
   constructor(url: string) {
-    this.db = new SQLite(url)
+    this._db = new SQLite(url)
   }
 
   verify = async () => {
-    this.db.exec(`
+    this._db.exec(`
       CREATE TABLE IF NOT EXISTS emails (
         id TEXT PRIMARY KEY,
         "to" TEXT,
@@ -75,13 +75,13 @@ class SqliteTransporter {
   }
 
   close = async () => {
-    this.db.close()
+    this._db.close()
   }
 
   sendMail = async (toSendDto: ToSendDto) => {
     const { to, from, subject, text, html } = toSendDto
     const id = uuidv4()
-    const stmt = this.db.prepare(`
+    const stmt = this._db.prepare(`
       INSERT INTO emails (id, "to", "from", subject, text, html) VALUES (?, ?, ?, ?, ?, ?)
     `)
     stmt.run(id, to, from, subject, text, html)
@@ -108,7 +108,7 @@ class SqliteTransporter {
     })
 
     query += conditions.join(' AND ')
-    const stmt = this.db.prepare(query)
+    const stmt = this._db.prepare(query)
     const email = stmt.get(...values)
     return email as SentDto | undefined
   }

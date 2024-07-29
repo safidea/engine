@@ -1,9 +1,9 @@
 import type { Driver } from '@adapter/spi/TemplateSpi'
 
 export class TemplateDriver implements Driver {
-  constructor(private template: HandlebarsTemplateDelegate) {}
+  constructor(private _template: HandlebarsTemplateDelegate) {}
 
   fill = (data: { [key: string]: unknown }) => {
-    return this.template(data)
+    return this._template(data)
   }
 }

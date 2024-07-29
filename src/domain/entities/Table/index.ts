@@ -40,21 +40,21 @@ export class Table {
   fields: Field[]
   path: string
   recordPath: string
-  private database: DatabaseTable
-  private validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
+  private _database: DatabaseTable
+  private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
 
-  constructor(private params: Params) {
-    const { database, schemaValidator, name, fields } = params
+  constructor(private _params: Params) {
+    const { database, schemaValidator, name, fields } = _params
     this.name = name
     this.fields = fields
     this.path = `/api/table/${this.name}`
     this.recordPath = `${this.path}/:id`
-    this.database = database.table(this.name)
-    this.validateData = schemaValidator.validate
+    this._database = database.table(this.name)
+    this._validateData = schemaValidator.validate
   }
 
   init = async () => {
-    const { server } = this.params
+    const { server } = this._params
     await Promise.all([
       server.post(this.path, this.post),
       server.get(this.path, this.getAll),
@@ -68,12 +68,57 @@ export class Table {
     return []
   }
 
-  get record() {
-    const { idGenerator, templateCompiler } = this.params
+  post = async (request: Post) => {
+    const { body } = request
+    const schema = this._getSchema()
+    if (this._validateDataType<ToCreateData>(body, schema)) {
+      const toCreateRecord = this._record.create(body)
+      const persistedRecord = await this._database.insert(toCreateRecord)
+      return new Json({ record: persistedRecord.data })
+    }
+    const [error] = this._validateData(body, schema)
+    return new Json({ error }, 400)
+  }
+
+  patch = async (request: Patch) => {
+    const { body } = request
+    const schema = this._getSchema({ required: false })
+    if (this._validateDataType<ToUpdateData>(body, schema)) {
+      const id = request.getParamOrThrow('id')
+      const toUpdateRecord = this._record.update({ ...body, id })
+      const persistedRecord = await this._database.update(toUpdateRecord)
+      return new Json({ record: persistedRecord.data })
+    }
+    const [error] = this._validateData(body, schema)
+    return new Json({ error }, 400)
+  }
+
+  get = async (request: Get) => {
+    const id = request.getParamOrThrow('id')
+    const record = await this._database.readById(id)
+    if (!record) {
+      return new Json({ record: null })
+    }
+    return new Json({ record: record.data })
+  }
+
+  getAll = async () => {
+    const records = await this._database.list([])
+    return new Json({ records: records.map((record) => record.data) })
+  }
+
+  delete = async (request: Delete) => {
+    const id = request.getParamOrThrow('id')
+    await this._database.delete([new Is({ field: 'id', value: id })])
+    return new Json({ id })
+  }
+
+  private get _record() {
+    const { idGenerator, templateCompiler } = this._params
     return new Record({ idGenerator, templateCompiler })
   }
 
-  getSchema = (options?: { required: boolean }): JSONSchema => {
+  private _getSchema = (options?: { required: boolean }): JSONSchema => {
     const { required = true } = options || {}
     const schema: JSONSchema = {
       type: 'object',
@@ -107,52 +152,7 @@ export class Table {
     return schema
   }
 
-  validateDataType = <T>(data: unknown, schema: JSONSchema): data is T => {
-    return this.validateData(data, schema).length === 0
-  }
-
-  post = async (request: Post) => {
-    const { body } = request
-    const schema = this.getSchema()
-    if (this.validateDataType<ToCreateData>(body, schema)) {
-      const toCreateRecord = this.record.create(body)
-      const persistedRecord = await this.database.insert(toCreateRecord)
-      return new Json({ record: persistedRecord.data })
-    }
-    const [error] = this.validateData(body, schema)
-    return new Json({ error }, 400)
-  }
-
-  patch = async (request: Patch) => {
-    const { body } = request
-    const schema = this.getSchema({ required: false })
-    if (this.validateDataType<ToUpdateData>(body, schema)) {
-      const id = request.getParamOrThrow('id')
-      const toUpdateRecord = this.record.update({ ...body, id })
-      const persistedRecord = await this.database.update(toUpdateRecord)
-      return new Json({ record: persistedRecord.data })
-    }
-    const [error] = this.validateData(body, schema)
-    return new Json({ error }, 400)
-  }
-
-  get = async (request: Get) => {
-    const id = request.getParamOrThrow('id')
-    const record = await this.database.readById(id)
-    if (!record) {
-      return new Json({ record: null })
-    }
-    return new Json({ record: record.data })
-  }
-
-  getAll = async () => {
-    const records = await this.database.list([])
-    return new Json({ records: records.map((record) => record.data) })
-  }
-
-  delete = async (request: Delete) => {
-    const id = request.getParamOrThrow('id')
-    await this.database.delete([new Is({ field: 'id', value: id })])
-    return new Json({ id })
+  private _validateDataType = <T>(data: unknown, schema: JSONSchema): data is T => {
+    return this._validateData(data, schema).length === 0
   }
 }

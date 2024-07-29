@@ -22,15 +22,15 @@ interface Params extends BaseProps {
 }
 
 export class Hero implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, paragraph, buttons } = this.params
+    const { title, paragraph, buttons } = this._params
     await Promise.all([title.init(), paragraph.init(), ...buttons.map((button) => button.init())])
   }
 
   render = async (state: State) => {
-    const { Component, title, paragraph, buttons, id, className } = this.params
+    const { Component, title, paragraph, buttons, id, className } = this._params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
@@ -40,7 +40,7 @@ export class Hero implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, paragraph, buttons } = this.params
+    const { title, paragraph, buttons } = this._params
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     errors.push(...paragraph.validateConfig())

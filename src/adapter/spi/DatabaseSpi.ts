@@ -13,31 +13,31 @@ export interface Driver {
 }
 
 export class DatabaseSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   table = (name: string) => {
-    const databaseTableDriver = this.driver.table(name)
+    const databaseTableDriver = this._driver.table(name)
     return new DatabaseTableSpi(databaseTableDriver)
   }
 
   connect = async () => {
-    await this.driver.connect()
+    await this._driver.connect()
   }
 
   disconnect = async () => {
-    await this.driver.disconnect()
+    await this._driver.disconnect()
   }
 
   exec = async (query: string) => {
-    await this.driver.exec(query)
+    await this._driver.exec(query)
   }
 
   query = async <T>(text: string, values: (string | number)[]) => {
-    return this.driver.query<T>(text, values)
+    return this._driver.query<T>(text, values)
   }
 
   onError = (callback: (error: ErrorEvent) => void) => {
-    this.driver.on('error', (eventDto: EventDto) => {
+    this._driver.on('error', (eventDto: EventDto) => {
       const { event } = eventDto
       if (event === 'error') {
         const error = EventMapper.toErrorEntity(eventDto)
@@ -47,7 +47,7 @@ export class DatabaseSpi implements Spi {
   }
 
   onNotification = (callback: (notification: NotificationEvent) => void) => {
-    this.driver.on('notification', (eventDto: EventDto) => {
+    this._driver.on('notification', (eventDto: EventDto) => {
       const { event } = eventDto
       if (event === 'notification') {
         const notification = EventMapper.toNotificationEntity(eventDto)

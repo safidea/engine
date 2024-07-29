@@ -8,18 +8,18 @@ interface Params extends BaseParams {
 }
 
 export class Text extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('expect:text')
+    const { logger } = _params
+    this._log = logger.init('expect:text')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { tag, text } = this.params
+    const { tag, text } = this._params
     const textMessage = `checking if text "${text}" exist`
-    this.log(tag ? `${textMessage} in tag "${tag}"` : textMessage)
+    this._log(tag ? `${textMessage} in tag "${tag}"` : textMessage)
     const textElement = await page.getByText(text, { tag })
     if (!textElement) {
       throw new TestError({

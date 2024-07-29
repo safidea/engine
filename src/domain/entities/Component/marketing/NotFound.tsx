@@ -22,15 +22,15 @@ interface Params {
 }
 
 export class NotFound implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, paragraph, button } = this.params
+    const { title, paragraph, button } = this._params
     await Promise.all([title.init(), paragraph.init(), button.init()])
   }
 
   render = async (state: State) => {
-    const { Component, title, paragraph, button } = this.params
+    const { Component, title, paragraph, button } = this._params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Button = await button.render(state)
@@ -38,7 +38,7 @@ export class NotFound implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, paragraph, button } = this.params
+    const { title, paragraph, button } = this._params
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     errors.push(...paragraph.validateConfig())

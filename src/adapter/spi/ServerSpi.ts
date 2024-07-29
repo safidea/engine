@@ -20,52 +20,52 @@ export interface Driver {
 }
 
 export class ServerSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   get baseUrl() {
-    return this.driver.baseUrl
+    return this._driver.baseUrl
   }
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
-    await this.driver.get(path, async (getDto) => {
+    await this._driver.get(path, async (getDto) => {
       const request = RequestMapper.toGetService(getDto)
       return handler(request)
     })
   }
 
   post = async (path: string, handler: (request: Post) => Promise<Response>) => {
-    await this.driver.post(path, async (postDto) => {
+    await this._driver.post(path, async (postDto) => {
       const request = RequestMapper.toPostService(postDto)
       return handler(request)
     })
   }
 
   patch = async (path: string, handler: (request: Patch) => Promise<Response>) => {
-    await this.driver.patch(path, async (patchDto) => {
+    await this._driver.patch(path, async (patchDto) => {
       const request = RequestMapper.toPatchService(patchDto)
       return handler(request)
     })
   }
 
   delete = async (path: string, handler: (request: Delete) => Promise<Response>) => {
-    await this.driver.delete(path, async (deleteDto) => {
+    await this._driver.delete(path, async (deleteDto) => {
       const request = RequestMapper.toDeleteService(deleteDto)
       return handler(request)
     })
   }
 
   notFound = async (handler: (request: Request) => Promise<Response>) => {
-    await this.driver.notFound(async (requestDto) => {
+    await this._driver.notFound(async (requestDto) => {
       const request = RequestMapper.toService(requestDto)
       return handler(request)
     })
   }
 
   start = async () => {
-    return this.driver.start()
+    return this._driver.start()
   }
 
   stop = async () => {
-    await this.driver.stop()
+    await this._driver.stop()
   }
 }

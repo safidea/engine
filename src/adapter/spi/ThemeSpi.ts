@@ -5,9 +5,9 @@ export interface Driver {
 }
 
 export class ThemeSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   build = async (htmlContents: string[], fontsCss: string[]) => {
-    return this.driver.build(htmlContents, fontsCss)
+    return this._driver.build(htmlContents, fontsCss)
   }
 }

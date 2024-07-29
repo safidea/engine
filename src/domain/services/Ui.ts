@@ -3,10 +3,10 @@ export interface Spi {
 }
 
 export class Ui {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   renderToHtml = (component: JSX.Element): string => {
-    const html = this.spi.render(component)
+    const html = this._spi.render(component)
     return html.replace(/<!--.*?-->/gs, '')
   }
 }

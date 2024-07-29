@@ -40,58 +40,60 @@ interface Listener {
 }
 
 export class Realtime {
-  private db: Database
-  private log: (message: string) => void
-  private listeners: Listener[]
+  private _db: Database
+  private _log: (message: string) => void
+  private _listeners: Listener[]
 
-  constructor(private services: Services) {
-    const { logger, database } = services
-    this.db = database
-    this.log = logger.init('realtime')
-    this.listeners = []
+  constructor(private _services: Services) {
+    const { logger, database } = _services
+    this._db = database
+    this._log = logger.init('realtime')
+    this._listeners = []
   }
 
   setup = async (tables: Table[]) => {
-    this.log('setup realtime...')
-    this.db.onNotification(this.onEvent)
-    await this.setupTriggers(tables)
-    if (this.db.type === 'postgres') {
-      await this.db.exec(`LISTEN realtime`)
+    this._log('setup realtime...')
+    this._db.onNotification(this._onEvent)
+    await this._setupTriggers(tables)
+    if (this._db.type === 'postgres') {
+      await this._db.exec(`LISTEN realtime`)
     }
   }
 
   onInsert = (table: string, callback: (record: Persisted) => Promise<void>) => {
-    const { idGenerator } = this.services
+    const { idGenerator } = this._services
     const id = idGenerator.forListener()
-    this.listeners.push({
+    this._listeners.push({
       action: 'INSERT',
       table,
       callback,
       id,
     })
-    this.log(`subscribed to insert events with id "${id}" on table "${table}"`)
+    this._log(`subscribed to insert events with id "${id}" on table "${table}"`)
     return id
   }
 
   removeListener = (id: string) => {
-    this.listeners = this.listeners.filter((l) => l.id !== id)
-    this.log(`unsubscribing from insert events with id "${id}"`)
+    this._listeners = this._listeners.filter((l) => l.id !== id)
+    this._log(`unsubscribing from insert events with id "${id}"`)
   }
 
-  private onEvent = async (event: NotificationEvent) => {
+  private _onEvent = async (event: NotificationEvent) => {
     const { action, table, type } = event
     let record: Persisted
     if (type === 'PostgresRealtime') {
       record = event.record
     } else if (type === 'SqliteRealtime') {
-      const result = await this.db.table(table).readById(event.record_id)
+      const result = await this._db.table(table).readById(event.record_id)
       if (!result) return
       record = result
     } else {
       return
     }
-    this.log(`received event on table "${table}" with action "${action}" for record "${record.id}"`)
-    const listeners = this.listeners.filter((l) => l.table === table && l.action === action)
+    this._log(
+      `received event on table "${table}" with action "${action}" for record "${record.id}"`
+    )
+    const listeners = this._listeners.filter((l) => l.table === table && l.action === action)
     const promises = []
     for (const listener of listeners) {
       promises.push(listener.callback(record))
@@ -99,10 +101,10 @@ export class Realtime {
     await Promise.all(promises)
   }
 
-  private setupTriggers = async (tables: Table[]) => {
-    if (this.db.type === 'sqlite') {
+  private _setupTriggers = async (tables: Table[]) => {
+    if (this._db.type === 'sqlite') {
       for (const { name: table } of tables) {
-        await this.db.exec(`
+        await this._db.exec(`
           -- Trigger for INSERT
           CREATE TRIGGER IF NOT EXISTS after_insert_${table}_trigger
           AFTER INSERT ON ${table}
@@ -128,8 +130,8 @@ export class Realtime {
           END;
         `)
       }
-    } else if (this.db.type === 'postgres') {
-      await this.db.exec(`
+    } else if (this._db.type === 'postgres') {
+      await this._db.exec(`
         CREATE OR REPLACE FUNCTION notify_trigger_func() RETURNS trigger AS $$
         BEGIN
           IF TG_OP = 'INSERT' THEN
@@ -147,7 +149,7 @@ export class Realtime {
         $$ LANGUAGE plpgsql;
       `)
       for (const { name: table } of tables) {
-        await this.db.exec(`
+        await this._db.exec(`
           DO $$
           DECLARE
               trigger_name text;

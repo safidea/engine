@@ -89,5 +89,102 @@ test.describe('Formula field', () => {
       // THEN
       expect(record.full_name).toBe('John Doe')
     })
+
+    test('should migrate a table with a new formula field', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'message',
+                field: 'Formula',
+                formula: "'Hello ' || name",
+                output: {
+                  field: 'SingleLineText',
+                },
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await database.table('leads').create([
+        {
+          name: 'name',
+          type: 'text',
+        },
+      ])
+
+      // WHEN
+      const url = await app.start(config)
+      const { record } = await request
+        .post(url + '/api/table/leads', {
+          data: { name: 'John' },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(record.message).toBe('Hello John')
+    })
+
+    test('should migrate a table with an updated formula field', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'message',
+                field: 'Formula',
+                formula: "'Hello ' || name || '!'",
+                output: {
+                  field: 'SingleLineText',
+                },
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await database.table('leads').create([
+        {
+          name: 'name',
+          type: 'text',
+        },
+        {
+          name: 'message',
+          type: 'text',
+          formula: "'Hello ' || name",
+        },
+      ])
+
+      // WHEN
+      const url = await app.start(config)
+      const { record } = await request
+        .post(url + '/api/table/leads', {
+          data: { name: 'John' },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(record.message).toBe('Hello John!')
+    })
   })
 })

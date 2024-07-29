@@ -5,7 +5,7 @@ export interface Driver {
 }
 
 export class UiSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
-  render = (component: JSX.Element) => this.driver.render(component)
+  render = (component: JSX.Element) => this._driver.render(component)
 }

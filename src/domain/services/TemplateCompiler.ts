@@ -6,9 +6,9 @@ export interface Spi {
 }
 
 export class TemplateCompiler {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   compile = (text: string): Template => {
-    return new Template(this.spi.compile(text))
+    return new Template(this._spi.compile(text))
   }
 }

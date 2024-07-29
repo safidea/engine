@@ -34,14 +34,14 @@ export interface Spi {
 
 export class Theme {
   constructor(
-    private spi: Spi,
-    private services: Services,
-    private config: Config
+    private _spi: Spi,
+    private _services: Services,
+    private _config: Config
   ) {}
 
   init = async (htmlContents: string[]) => {
-    const { server, fontLibrary } = this.services
-    const { fontFamily = {} } = this.config
+    const { server, fontLibrary } = this._services
+    const { fontFamily = {} } = this._config
     const { sans, serif } = fontFamily
     let fonts: string[] = []
     if (sans) fonts.push(sans)
@@ -54,7 +54,7 @@ export class Theme {
         fontsCss.push(css)
       }
     }
-    const css = await this.spi.build(htmlContents, fontsCss)
+    const css = await this._spi.build(htmlContents, fontsCss)
     await server.get('/output.css', async () => new Css(css))
   }
 }

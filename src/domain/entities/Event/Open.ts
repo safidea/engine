@@ -7,17 +7,17 @@ interface Params extends BaseParams {
 }
 
 export class Open extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('event:open')
+    const { logger } = _params
+    this._log = logger.init('event:open')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { url } = this.params
-    this.log(`opening url "${url}"`)
+    const { url } = this._params
+    this._log(`opening url "${url}"`)
     const success = await page.open(url)
     if (!success) {
       throw new TestError({

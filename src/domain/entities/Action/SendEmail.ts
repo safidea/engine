@@ -9,12 +9,12 @@ interface Params extends BaseParams {
 }
 
 export class SendEmail extends Base implements Interface {
-  constructor(private params: Params) {
-    super(params)
+  constructor(private _params: Params) {
+    super(_params)
   }
 
   execute = async (context: Context) => {
-    const { emailToSend, mailer } = this.params
+    const { emailToSend, mailer } = this._params
     const emailToSendFilled = emailToSend.fillWithContext(context)
     await mailer.send(emailToSendFilled)
   }

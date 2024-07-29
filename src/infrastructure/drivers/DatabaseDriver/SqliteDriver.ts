@@ -11,19 +11,19 @@ interface Notification {
 }
 
 export class SqliteDriver implements Driver {
-  private db: SQLite.Database
-  private interval?: Timer
-  private onNotification: ((event: EventNotificationDto) => void)[] = []
+  private _db: SQLite.Database
+  private _interval?: Timer
+  private _onNotification: ((event: EventNotificationDto) => void)[] = []
 
   constructor(config: Config) {
     const { url } = config
     const db = new SQLite(url)
     db.pragma('journal_mode = WAL')
-    this.db = db
+    this._db = db
   }
 
   connect = async (): Promise<void> => {
-    this.db.exec(`
+    this._db.exec(`
       CREATE TABLE IF NOT EXISTS _notifications (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         payload TEXT,
@@ -31,31 +31,31 @@ export class SqliteDriver implements Driver {
       );
     `)
     const emitNotification = () => {
-      const notifications = this.db
+      const notifications = this._db
         .prepare('SELECT * FROM _notifications WHERE processed = 0')
         .all() as Notification[]
       for (const { payload, id } of notifications) {
-        this.db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run([id])
-        this.onNotification.map((callback) => callback({ payload, event: 'notification' }))
+        this._db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run([id])
+        this._onNotification.map((callback) => callback({ payload, event: 'notification' }))
       }
     }
-    this.interval = setInterval(emitNotification, 500)
+    this._interval = setInterval(emitNotification, 500)
   }
 
   disconnect = async (): Promise<void> => {
-    if (this.interval) clearInterval(this.interval)
-    this.db.close()
+    if (this._interval) clearInterval(this._interval)
+    this._db.close()
   }
 
   exec = async (query: string): Promise<void> => {
-    this.db.exec(query)
+    this._db.exec(query)
   }
 
   query = async <T>(
     text: string,
     values: (string | number)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
-    const stmt = this.db.prepare(text)
+    const stmt = this._db.prepare(text)
     const isSelect = text.trim().toUpperCase().startsWith('SELECT')
     if (isSelect) {
       const rows = stmt.all(values) as T[]
@@ -67,10 +67,10 @@ export class SqliteDriver implements Driver {
   }
 
   table = (name: string) => {
-    return new SqliteTableDriver(name, this.db)
+    return new SqliteTableDriver(name, this._db)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {
-    if (event === 'notification') this.onNotification.push(callback)
+    if (event === 'notification') this._onNotification.push(callback)
   }
 }

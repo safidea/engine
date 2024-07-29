@@ -1,7 +1,7 @@
 import { Base } from './base'
 
 export class Stream extends Base {
-  private interval: Timer
+  private _interval: Timer
   public onEvent?: (event: string) => void
   public onClose?: () => void
 
@@ -13,7 +13,7 @@ export class Stream extends Base {
         Connection: 'keep-alive',
       },
     })
-    this.interval = setInterval(() => {
+    this._interval = setInterval(() => {
       if (this.onEvent) this.onEvent(`event: ping\ndata: {}\n\n`)
     }, 55000)
   }
@@ -23,7 +23,7 @@ export class Stream extends Base {
   }
 
   close = () => {
-    clearInterval(this.interval)
+    clearInterval(this._interval)
     if (this.onClose) this.onClose()
   }
 }

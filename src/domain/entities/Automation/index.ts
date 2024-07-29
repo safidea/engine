@@ -14,20 +14,20 @@ interface Params {
 }
 
 export class Automation {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
-    const { queue, logger } = params
-    this.log = logger.init('automation')
+  constructor(private _params: Params) {
+    const { queue, logger } = _params
+    this._log = logger.init('automation')
     queue.job(this.name, this.job)
   }
 
   get name() {
-    return this.params.name
+    return this._params.name
   }
 
   init = async () => {
-    const { trigger } = this.params
+    const { trigger } = this._params
     await trigger.init()
   }
 
@@ -36,12 +36,12 @@ export class Automation {
   }
 
   job = async (data: object) => {
-    const { actions } = this.params
+    const { actions } = this._params
     const context = new Context(data)
     for (const action of actions) {
-      this.log(`running action: ${action.name}`)
+      this._log(`running action: ${action.name}`)
       await action.execute(context)
-      this.log(`completed action: ${action.name}`)
+      this._log(`completed action: ${action.name}`)
     }
   }
 }

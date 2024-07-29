@@ -5,9 +5,9 @@ import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { PostgresTableDriver } from './PostgresTableDriver'
 
 export class PostgresDriver implements Driver {
-  private db: pg.Pool
-  private client?: pg.PoolClient
-  private interval?: Timer
+  private _db: pg.Pool
+  private _client?: pg.PoolClient
+  private _interval?: Timer
 
   constructor(config: Config) {
     const { url } = config
@@ -18,48 +18,48 @@ export class PostgresDriver implements Driver {
       client.on('error', () => {})
       client.setTypeParser(NUMERIC_OID, (value) => parseFloat(value))
     })
-    this.db = pool
+    this._db = pool
   }
 
   connect = async (): Promise<void> => {
-    this.client = await this.db.connect()
+    this._client = await this._db.connect()
   }
 
   disconnect = async (): Promise<void> => {
-    if (this.interval) clearInterval(this.interval)
-    if (this.client) this.client.release()
-    await this.db.end()
+    if (this._interval) clearInterval(this._interval)
+    if (this._client) this._client.release()
+    await this._db.end()
   }
 
   exec = async (query: string): Promise<void> => {
-    if (this.client && query.includes('LISTEN')) await this.client.query(query)
-    else await this.db.query(query)
+    if (this._client && query.includes('LISTEN')) await this._client.query(query)
+    else await this._db.query(query)
   }
 
   query = async <T>(
     text: string,
     values: (string | number)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
-    const { rows, rowCount } = await this.db.query(text, values)
+    const { rows, rowCount } = await this._db.query(text, values)
     return { rows, rowCount: rowCount || 0 }
   }
 
   table = (name: string) => {
-    return new PostgresTableDriver(name, this.db)
+    return new PostgresTableDriver(name, this._db)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {
-    if (this.client) {
+    if (this._client) {
       if (event === 'notification')
-        this.client.on('notification', ({ payload }) => {
+        this._client.on('notification', ({ payload }) => {
           callback({ payload, event: 'notification' })
         })
       if (event === 'error')
-        this.client.on('error', ({ message }) => {
+        this._client.on('error', ({ message }) => {
           callback({ message, event: 'error' })
         })
     }
-    this.db.on('error', ({ message }) => {
+    this._db.on('error', ({ message }) => {
       callback({ message, event: 'error' })
     })
   }

@@ -13,8 +13,8 @@ export interface Spi {
 
 export class FontLibrary {
   constructor(
-    private spi: Spi,
-    private services: Services
+    private _spi: Spi,
+    private _services: Services
   ) {}
 
   extractTypeFromUrl = (url: string): Type => {
@@ -25,8 +25,8 @@ export class FontLibrary {
   }
 
   loadCss = async (name: string): Promise<string> => {
-    const { server, idGenerator } = this.services
-    let css = await this.spi.loadCss(name)
+    const { server, idGenerator } = this._services
+    let css = await this._spi.loadCss(name)
     const urlRegex = /url\((https:\/\/[^)]+)\)/g
     let match
     while ((match = urlRegex.exec(css)) !== null) {

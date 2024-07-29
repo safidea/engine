@@ -7,10 +7,10 @@ import type { JSONSchema } from '@domain/services/SchemaValidator'
 const dirname = new URL('.', import.meta.url).pathname
 
 export class SchemaValidatorDriver implements Driver {
-  private ajv: Ajv
+  private _ajv: Ajv
 
   constructor() {
-    this.ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
+    this._ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
   }
 
   getSchemaFilePath = (schema: string) => {
@@ -31,7 +31,7 @@ export class SchemaValidatorDriver implements Driver {
   }
 
   validate = (data: unknown, schema: JSONSchema) => {
-    const validate = this.ajv.compile(schema)
+    const validate = this._ajv.compile(schema)
     if (validate(data)) return []
     return (validate.errors || []).map((error) => ({
       instancePath: error.instancePath,

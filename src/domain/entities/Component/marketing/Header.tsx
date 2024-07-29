@@ -24,10 +24,10 @@ interface Params extends BaseProps {
 }
 
 export class Header implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, links, buttons } = this.params
+    const { title, links, buttons } = this._params
     await Promise.all([
       title.init(),
       ...(links?.map((link) => link.init()) ?? []),
@@ -36,7 +36,7 @@ export class Header implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { id, className, title, links = [], buttons = [], Component } = this.params
+    const { id, className, title, links = [], buttons = [], Component } = this._params
     const Title = await title.render()
     const Links = await Promise.all(links.map((link) => link.render(state)))
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
@@ -46,7 +46,7 @@ export class Header implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, links = [], buttons = [] } = this.params
+    const { title, links = [], buttons = [] } = this._params
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     links.forEach((link) => {

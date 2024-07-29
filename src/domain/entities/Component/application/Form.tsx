@@ -48,23 +48,23 @@ interface Params
 }
 
 export class Form implements Base<Props> {
-  private id: string
-  private path: string
-  private action: Template
-  private source?: Template
+  private _id: string
+  private _path: string
+  private _action: Template
+  private _source?: Template
 
-  constructor(private params: Params) {
-    const { action, source, idGenerator, templateCompiler } = params
-    this.id = idGenerator.forComponent()
-    this.path = `/api/component/form/${this.id}`
-    this.action = templateCompiler.compile(action)
-    if (source) this.source = templateCompiler.compile(source)
+  constructor(private _params: Params) {
+    const { action, source, idGenerator, templateCompiler } = _params
+    this._id = idGenerator.forComponent()
+    this._path = `/api/component/form/${this._id}`
+    this._action = templateCompiler.compile(action)
+    if (source) this._source = templateCompiler.compile(source)
   }
 
   init = async () => {
-    const { server, title, paragraph, inputs, buttons } = this.params
+    const { server, title, paragraph, inputs, buttons } = this._params
     await Promise.all([
-      server.post(this.path, this.post),
+      server.post(this._path, this.post),
       title?.init(),
       paragraph?.init(),
       ...inputs.map((input) => input.init()),
@@ -73,9 +73,9 @@ export class Form implements Base<Props> {
   }
 
   getData = async (state: State) => {
-    const { server } = this.params
-    if (this.source && server.baseUrl) {
-      const filledSource = state.fillTemplate(this.source)
+    const { server } = this._params
+    if (this._source && server.baseUrl) {
+      const filledSource = state.fillTemplate(this._source)
       const url = filledSource.startsWith('/api/table/')
         ? server.baseUrl + filledSource
         : filledSource
@@ -87,8 +87,8 @@ export class Form implements Base<Props> {
 
   post = async (request: Post): Promise<Response> => {
     const state = new State(request)
-    const { method = 'POST', successMessage, server } = this.params
-    const filledAction = state.fillTemplate(this.action)
+    const { method = 'POST', successMessage, server } = this._params
+    const filledAction = state.fillTemplate(this._action)
     const url = filledAction.startsWith('/') ? server.baseUrl + filledAction : filledAction
     const result = await fetch(url, {
       method,
@@ -108,13 +108,13 @@ export class Form implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui } = this.params
+    const { ui } = this._params
     const Component = await this.render(state)
     return ui.renderToHtml(<Component {...props} />)
   }
 
   render = async (state: State) => {
-    const { client, Component, title, paragraph, inputs, buttons, id, className } = this.params
+    const { client, Component, title, paragraph, inputs, buttons, id, className } = this._params
     const record = await this.getData(state)
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
@@ -122,9 +122,9 @@ export class Form implements Base<Props> {
     const Inputs = await Promise.all(
       inputs.map((input) => input.render(state, { defaultValue: record[input.name] }))
     )
-    const action = state.addQueryToPath(this.path)
+    const action = state.addQueryToPath(this._path)
     return (props?: Partial<Props>) => (
-      <client.Frame id={this.id}>
+      <client.Frame id={this._id}>
         <Component
           {...{
             id,
@@ -135,7 +135,7 @@ export class Form implements Base<Props> {
             Paragraph,
             Inputs,
             Buttons,
-            formId: 'form-' + this.id,
+            formId: 'form-' + this._id,
             ...props,
           }}
         />
@@ -144,7 +144,7 @@ export class Form implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, paragraph, inputs, buttons } = this.params
+    const { title, paragraph, inputs, buttons } = this._params
     const errors: ConfigError[] = []
     if (title) errors.push(...title.validateConfig())
     if (paragraph) errors.push(...paragraph.validateConfig())

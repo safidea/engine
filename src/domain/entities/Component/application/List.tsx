@@ -51,11 +51,11 @@ export class List implements Base<Props> {
   }
   private open: Template
 
-  constructor(private params: Params) {
-    const { source, idGenerator, templateCompiler } = params
+  constructor(private _params: Params) {
+    const { source, idGenerator, templateCompiler } = _params
     this.id = idGenerator.forComponent()
     this.path = `/api/component/list/${this.id}`
-    this.open = templateCompiler.compile(params.open)
+    this.open = templateCompiler.compile(_params.open)
     if (source.startsWith('/api/table/')) {
       this.stream = {
         path: this.path + '/stream',
@@ -65,7 +65,7 @@ export class List implements Base<Props> {
   }
 
   init = async () => {
-    const { server } = this.params
+    const { server } = this._params
     await Promise.all([
       server.get(this.path, this.getData),
       this.stream ? server.get(this.stream.path, this.streamData) : undefined,
@@ -80,7 +80,7 @@ export class List implements Base<Props> {
 
   getData = async (request: Get) => {
     const state = new State(request)
-    const { source, server } = this.params
+    const { source, server } = this._params
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
@@ -92,7 +92,7 @@ export class List implements Base<Props> {
 
   streamData = async (request: Get) => {
     const state = new State(request)
-    const { realtime, source, server } = this.params
+    const { realtime, source, server } = this._params
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
@@ -106,14 +106,14 @@ export class List implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui, client } = this.params
+    const { ui, client } = this._params
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return ui.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { ui, client, columns, id, className } = this.params
+    const { ui, client, columns, id, className } = this._params
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return ui.renderToHtml(
@@ -125,7 +125,7 @@ export class List implements Base<Props> {
 
   render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { client, Component, columns, ...defaultProps } = this.params
+    const { client, Component, columns, ...defaultProps } = this._params
     return (props?: Partial<Props>) => (
       <>
         <client.Frame id={this.id} src={withSource ? this.path : ''}>
@@ -137,7 +137,7 @@ export class List implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { source, server } = this.params
+    const { source, server } = this._params
     const errors = []
     if (source.startsWith('/api/table/')) {
       if (!server.hasGetHandler(source)) {

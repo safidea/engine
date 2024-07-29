@@ -7,17 +7,17 @@ interface Params extends BaseParams {
 }
 
 export class Click extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('event:click')
+    const { logger } = _params
+    this._log = logger.init('event:click')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { text } = this.params
-    this.log(`clicking on text "${text}"`)
+    const { text } = this._params
+    this._log(`clicking on text "${text}"`)
     const success = await page.click(text)
     if (!success) {
       throw new TestError({

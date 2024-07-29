@@ -7,13 +7,13 @@ export interface Driver {
 }
 
 export class IconLibrarySpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   outline = (name: Name) => {
-    return this.driver.outline(name)
+    return this._driver.outline(name)
   }
 
   solid = (name: Name) => {
-    return this.driver.solid(name)
+    return this._driver.solid(name)
   }
 }

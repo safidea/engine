@@ -13,35 +13,35 @@ export interface Driver {
 }
 
 export class QueueSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   getById = async (id: string) => {
-    const jboDto = await this.driver.getById(id)
+    const jboDto = await this._driver.getById(id)
     if (!jboDto) return undefined
     return JobMapper.toEntity(jboDto)
   }
 
   add = async <D extends object>(job: string, data: D, options?: { retry: number }) => {
-    return this.driver.add(job, data, options)
+    return this._driver.add(job, data, options)
   }
 
   start = async () => {
-    return this.driver.start()
+    return this._driver.start()
   }
 
   stop = async (options: { graceful: boolean }) => {
-    return this.driver.stop(options)
+    return this._driver.stop(options)
   }
 
   onError = (callback: (error: Error) => void) => {
-    return this.driver.onError(callback)
+    return this._driver.onError(callback)
   }
 
   job = <D extends object>(job: string, callback: (id: string, data: D) => Promise<void>) => {
-    return this.driver.job(job, callback)
+    return this._driver.job(job, callback)
   }
 
   waitFor = async (params: WaitForParams) => {
-    return this.driver.waitFor(params)
+    return this._driver.waitFor(params)
   }
 }

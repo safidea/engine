@@ -7,22 +7,22 @@ interface Params extends BaseParams {
 }
 
 export class WaitForAutomation extends BaseWithApp {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('event:wait-for-automation')
+    const { logger } = _params
+    this._log = logger.init('event:wait-for-automation')
   }
 
   executeWithApp = async (app: App) => {
-    const { automation } = this.params
+    const { automation } = this._params
     if (!app.queue) {
       throw new TestError({
         code: 'NO_QUEUE',
       })
     }
-    this.log(`waiting for automation "${automation}"`)
+    this._log(`waiting for automation "${automation}"`)
     const timeoutPromise = new Promise((_, reject) => {
       const timeout = setTimeout(() => {
         clearTimeout(timeout)

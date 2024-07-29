@@ -29,10 +29,10 @@ interface Params extends BaseProps {
 }
 
 export class Features implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, paragraph, features } = this.params
+    const { title, paragraph, features } = this._params
     await Promise.all([
       title.init(),
       paragraph.init(),
@@ -45,7 +45,7 @@ export class Features implements Base<Props> {
   }
 
   render = async () => {
-    const { Component, title, paragraph, features, id, className } = this.params
+    const { Component, title, paragraph, features, id, className } = this._params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Features = await Promise.all(
@@ -61,7 +61,7 @@ export class Features implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, paragraph, features } = this.params
+    const { title, paragraph, features } = this._params
     const errors: ConfigError[] = []
     errors.push(...title.validateConfig())
     errors.push(...paragraph.validateConfig())

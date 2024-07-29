@@ -17,13 +17,13 @@ export interface Spi {
 }
 
 export class SchemaValidator {
-  constructor(public spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   validateFromFile = (json: unknown, schemaFileName: string) => {
-    return this.spi.validateFromFile(json, schemaFileName)
+    return this._spi.validateFromFile(json, schemaFileName)
   }
 
   validate = (json: unknown, schema: JSONSchema) => {
-    return this.spi.validate(json, schema)
+    return this._spi.validate(json, schema)
   }
 }

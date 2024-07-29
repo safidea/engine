@@ -21,10 +21,10 @@ interface Params extends BaseProps {
 }
 
 export class Sidebar implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { children, title, links } = this.params
+    const { children, title, links } = this._params
     await Promise.all([
       ...children.map((child) => child.init()),
       ...links.map((link) => link.init()),
@@ -33,10 +33,10 @@ export class Sidebar implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { Component, id, className } = this.params
-    const children = await Promise.all(this.params.children.map((child) => child.render(state)))
-    const Links = await Promise.all(this.params.links.map((link) => link.render(state)))
-    const Title = this.params.title ? await this.params.title.render() : undefined
+    const { Component, id, className } = this._params
+    const children = await Promise.all(this._params.children.map((child) => child.render(state)))
+    const Links = await Promise.all(this._params.links.map((link) => link.render(state)))
+    const Title = this._params.title ? await this._params.title.render() : undefined
     return (props?: Partial<Props>) => (
       <Component
         {...{
@@ -52,7 +52,7 @@ export class Sidebar implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { children, title, links } = this.params
+    const { children, title, links } = this._params
     const errors: ConfigError[] = []
     if (title) {
       errors.push(...title.validateConfig())

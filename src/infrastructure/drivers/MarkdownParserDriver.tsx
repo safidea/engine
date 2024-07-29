@@ -6,11 +6,11 @@ import DOMPurify, { type DOMPurifyI } from 'dompurify'
 import { marked, type Tokens } from 'marked'
 
 export class MarkdownParserDriver implements Driver {
-  private DOMPurify: DOMPurifyI
+  private _DOMPurify: DOMPurifyI
 
   constructor() {
     const window = new JSDOM('').window
-    this.DOMPurify = DOMPurify(window)
+    this._DOMPurify = DOMPurify(window)
   }
 
   configRenderer = (renderer: Renderer) => {
@@ -50,7 +50,7 @@ export class MarkdownParserDriver implements Driver {
 
   parseToComponent = async (content: string) => {
     const html = await marked.parse(content)
-    const cleanHtml = this.DOMPurify.sanitize(html)
+    const cleanHtml = this._DOMPurify.sanitize(html)
     return parse(cleanHtml)
   }
 }

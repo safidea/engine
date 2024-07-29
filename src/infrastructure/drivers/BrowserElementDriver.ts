@@ -3,19 +3,19 @@ import type { ElementHandle, Page } from 'puppeteer'
 
 export class BrowserElementDriver implements Driver {
   constructor(
-    private page: Page,
-    private element: ElementHandle<globalThis.Node>
+    private _page: Page,
+    private _element: ElementHandle<globalThis.Node>
   ) {}
 
   getAttribute = async (attribute: string) => {
-    return this.page.evaluate(
+    return this._page.evaluate(
       (el, attr) => (el as HTMLElement).getAttribute(attr) ?? undefined,
-      this.element,
+      this._element,
       attribute
     )
   }
 
   getInputValue = async () => {
-    return this.page.evaluate((el) => (el as HTMLInputElement).value ?? undefined, this.element)
+    return this._page.evaluate((el) => (el as HTMLInputElement).value ?? undefined, this._element)
   }
 }

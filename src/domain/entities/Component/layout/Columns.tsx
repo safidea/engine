@@ -13,16 +13,16 @@ interface Params {
 }
 
 export class Columns implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { children } = this.params
+    const { children } = this._params
     await Promise.all(children.map((child) => child.init()))
   }
 
   render = async (state: State) => {
-    const { Component, ...defaultProps } = this.params
-    const components = await Promise.all(this.params.children.map((child) => child.render(state)))
+    const { Component, ...defaultProps } = this._params
+    const components = await Promise.all(this._params.children.map((child) => child.render(state)))
     return (props?: Partial<Props>) => (
       <Component
         {...{

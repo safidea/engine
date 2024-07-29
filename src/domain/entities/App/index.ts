@@ -31,42 +31,34 @@ interface Params {
 type Status = 'ready' | 'starting' | 'running' | 'stopping'
 
 export class App {
-  private status: Status
-  private log: (message: string) => void
+  public name: string
+  public database?: Database
+  public queue?: Queue
+  public mailer?: Mailer
+  private _status: Status
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
-    const { logger } = params
-    this.log = logger.init('app')
-    this.status = 'ready'
-  }
-
-  get name() {
-    return this.params.name
+  constructor(private _params: Params) {
+    const { logger } = _params
+    this._log = logger.init('app')
+    this._status = 'ready'
+    this.name = _params.name
+    this.database = _params.database
+    this.queue = _params.queue
+    this.mailer = _params.mailer
   }
 
   get running() {
-    return this.params.server.isListening
-  }
-
-  get database() {
-    return this.params.database
-  }
-
-  get queue() {
-    return this.params.queue
-  }
-
-  get mailer() {
-    return this.params.mailer
+    return this._params.server.isListening
   }
 
   setStatus = (status: Status) => {
-    this.log(`status: ${status}`)
-    this.status = status
+    this._log(`status: ${status}`)
+    this._status = status
   }
 
   init = async (): Promise<void> => {
-    const { tables, pages, automations, theme, server } = this.params
+    const { tables, pages, automations, theme, server } = this._params
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
@@ -82,7 +74,7 @@ export class App {
 
   validateConfig = async (): Promise<ConfigError[]> => {
     await this.init()
-    const { tables, pages, automations } = this.params
+    const { tables, pages, automations } = this._params
     const errors: Promise<ConfigError[]>[] = []
     errors.push(...tables.map((table) => table.validateConfig()))
     errors.push(...pages.map((page) => page.validateConfig()))
@@ -91,16 +83,16 @@ export class App {
   }
 
   start = async ({ isTest = false } = {}): Promise<string> => {
-    if (this.status !== 'ready')
-      throw new Error(`App is not ready, current status is ${this.status}`)
+    if (this._status !== 'ready')
+      throw new Error(`App is not ready, current status is ${this._status}`)
     this.setStatus('starting')
-    const { tables, server, database, queue, mailer, realtime, auth } = this.params
+    const { tables, server, database, queue, mailer, realtime, auth } = this._params
     if (database) {
       await database.connect()
       await database.migrate(tables)
       database.onError(async (error) => {
-        if (this.status === 'running') {
-          this.log(`database error: ${error.message}`)
+        if (this._status === 'running') {
+          this._log(`database error: ${error.message}`)
           await this.stop({ graceful: false })
         }
       })
@@ -111,11 +103,11 @@ export class App {
     if (auth) await auth.connect()
     const url = await server.start()
     if (!isTest && server.env === 'production') {
-      process.on('SIGTERM', () => this.onClose('SIGTERM'))
-      process.on('SIGINT', () => this.onClose('SIGINT'))
+      process.on('SIGTERM', () => this._onClose('SIGTERM'))
+      process.on('SIGINT', () => this._onClose('SIGINT'))
       process.on('uncaughtException', (err: Error) => {
-        this.log(`uncaught exception: ${err.message}`)
-        this.onClose('UNCAUGHT_EXCEPTION')
+        this._log(`uncaught exception: ${err.message}`)
+        this._onClose('UNCAUGHT_EXCEPTION')
       })
     }
     this.setStatus('running')
@@ -123,10 +115,10 @@ export class App {
   }
 
   stop = async (options?: { graceful?: boolean }): Promise<void> => {
-    if (this.status !== 'running') return
+    if (this._status !== 'running') return
     const { graceful = true } = options || {}
     this.setStatus('stopping')
-    const { server, database, queue, mailer, auth } = this.params
+    const { server, database, queue, mailer, auth } = this._params
     await server.stop(async () => {
       if (auth) await auth.disconnect()
       if (mailer) await mailer.close()
@@ -136,8 +128,8 @@ export class App {
     this.setStatus('ready')
   }
 
-  private onClose = async (signal: 'SIGTERM' | 'SIGINT' | 'UNCAUGHT_EXCEPTION') => {
-    this.log(`received ${signal}`)
+  private _onClose = async (signal: 'SIGTERM' | 'SIGINT' | 'UNCAUGHT_EXCEPTION') => {
+    this._log(`received ${signal}`)
     await this.stop()
     process.exit(1)
   }

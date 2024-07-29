@@ -14,12 +14,12 @@ interface Params extends BaseProps {
 }
 
 export class Markdown implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {}
 
   render = async () => {
-    const { markdownParser, Component, content, ...defaultProps } = this.params
+    const { markdownParser, Component, content, ...defaultProps } = this._params
     const Content = await markdownParser.parseToComponent(content)
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, Content, ...props }} />
   }

@@ -39,40 +39,40 @@ export interface Spi {
 }
 
 export class Queue {
-  private log: (message: string) => void
-  private jobs: {
+  private _log: (message: string) => void
+  private _jobs: {
     name: string
     callback: (id: string, data: object) => Promise<void>
   }[] = []
 
   constructor(
-    private spi: Spi,
+    private _spi: Spi,
     services: Services
   ) {
-    this.log = services.logger.init('queue')
+    this._log = services.logger.init('queue')
   }
 
   onError = () => {
-    this.spi.onError((error: Error) => {
-      this.log(`queue error: ${error.message}`)
+    this._spi.onError((error: Error) => {
+      this._log(`queue error: ${error.message}`)
     })
   }
 
   start = async () => {
-    this.log('starting queue...')
-    await this.spi.start()
-    for (const { name, callback } of this.jobs) {
-      this.spi.job(name, callback)
+    this._log('starting queue...')
+    await this._spi.start()
+    for (const { name, callback } of this._jobs) {
+      this._spi.job(name, callback)
     }
-    this.log('queue started')
+    this._log('queue started')
   }
 
   stop = async (options: { graceful: boolean }) => {
     try {
-      this.log('stopping queue...')
-      await this.spi.stop(options)
+      this._log('stopping queue...')
+      await this._spi.stop(options)
     } catch (error) {
-      if (error instanceof Error) this.log(`error stopping queue: ${error.message}`)
+      if (error instanceof Error) this._log(`error stopping queue: ${error.message}`)
     }
   }
 
@@ -81,27 +81,27 @@ export class Queue {
     data: D,
     options?: { retry: number }
   ): Promise<string> => {
-    this.log(`add job "${job}" to queue`)
-    return this.spi.add(job, data, options)
+    this._log(`add job "${job}" to queue`)
+    return this._spi.add(job, data, options)
   }
 
   job = (name: string, initCallback: (data: object) => Promise<void>) => {
-    this.jobs.push({
+    this._jobs.push({
       name,
       callback: async (id: string, data: object) => {
-        this.log(`job "${name}" with id ${id} started`)
+        this._log(`job "${name}" with id ${id} started`)
         await initCallback(data)
-        this.log(`job "${name}" with id ${id} finished`)
+        this._log(`job "${name}" with id ${id} finished`)
       },
     })
   }
 
   getById = async (id: string) => {
-    return this.spi.getById(id)
+    return this._spi.getById(id)
   }
 
   waitFor = async (params: WaitForParams) => {
-    this.log(`waiting for job "${params.id ?? params.name}"...`)
-    return this.spi.waitFor(params)
+    this._log(`waiting for job "${params.id ?? params.name}"...`)
+    return this._spi.waitFor(params)
   }
 }

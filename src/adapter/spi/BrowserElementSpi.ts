@@ -6,13 +6,13 @@ export interface Driver {
 }
 
 export class BrowserElementSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   getAttribute = async (attribute: string) => {
-    return this.driver.getAttribute(attribute)
+    return this._driver.getAttribute(attribute)
   }
 
   getInputValue = async () => {
-    return this.driver.getInputValue()
+    return this._driver.getInputValue()
   }
 }

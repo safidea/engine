@@ -14,25 +14,25 @@ export interface Driver {
 }
 
 export class MailerSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   verify = async () => {
-    await this.driver.verify()
+    await this._driver.verify()
   }
 
   close = async () => {
-    await this.driver.close()
+    await this._driver.close()
   }
 
   send = async (emailToSend: ToSend) => {
     const emailToSendDto = EmailMapper.toToSendDto(emailToSend)
-    const emailSent = await this.driver.send(emailToSendDto)
+    const emailSent = await this._driver.send(emailToSendDto)
     return EmailMapper.toSentEntity(emailSent)
   }
 
   find = async (filters: Filter[]) => {
     const filtersDto = filters.map((filter) => FilterMapper.toDto(filter))
-    const emailSent = await this.driver.find(filtersDto)
+    const emailSent = await this._driver.find(filtersDto)
     return emailSent ? EmailMapper.toSentEntity(emailSent) : undefined
   }
 }

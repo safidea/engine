@@ -21,14 +21,14 @@ export interface Params {
 
 export class ToCreate {
   public data: Data
-  private templates: TemplateKey[]
+  private _templates: TemplateKey[]
 
   constructor(
     data: Partial<Data>,
-    private params: Params
+    private _params: Params
   ) {
-    const { idGenerator, templateCompiler } = params
-    this.templates = Object.keys(data).reduce((acc: TemplateKey[], key) => {
+    const { idGenerator, templateCompiler } = _params
+    this._templates = Object.keys(data).reduce((acc: TemplateKey[], key) => {
       const value = data[key]
       if (typeof value === 'string') {
         acc.push({ key, template: templateCompiler.compile(value) })
@@ -45,11 +45,11 @@ export class ToCreate {
   fillWithContext(context: Context): ToCreate {
     const data = {
       ...this.data,
-      ...this.templates.reduce((acc: { [key: string]: string }, { key, template }) => {
+      ...this._templates.reduce((acc: { [key: string]: string }, { key, template }) => {
         acc[key] = context.fillTemplate(template)
         return acc
       }, {}),
     }
-    return new ToCreate(data, this.params)
+    return new ToCreate(data, this._params)
   }
 }

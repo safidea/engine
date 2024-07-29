@@ -6,13 +6,13 @@ export interface Driver {
 }
 
 export class MarkdownParserSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   parseToComponent = async (content: string) => {
-    return this.driver.parseToComponent(content)
+    return this._driver.parseToComponent(content)
   }
 
   configRenderer = (renderer: Renderer) => {
-    this.driver.configRenderer(renderer)
+    this._driver.configRenderer(renderer)
   }
 }

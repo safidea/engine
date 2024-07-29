@@ -18,41 +18,41 @@ export interface Driver {
 }
 
 export class BrowserPageSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   open = async (url: string) => {
-    return this.driver.open(url)
+    return this._driver.open(url)
   }
 
   type = async (inputName: string, value: string) => {
-    return this.driver.type(inputName, value)
+    return this._driver.type(inputName, value)
   }
 
   click = async (text: string) => {
-    return this.driver.click(text)
+    return this._driver.click(text)
   }
 
   waitForText = async (text: string, options: { timeout: number }) => {
-    return this.driver.waitForText(text, options)
+    return this._driver.waitForText(text, options)
   }
 
   getTitle = async () => {
-    return this.driver.getTitle()
+    return this._driver.getTitle()
   }
 
   getUrl = async () => {
-    return this.driver.getUrl()
+    return this._driver.getUrl()
   }
 
   getByText = async (text: string, options?: { tag?: string }) => {
-    return this.driver.getByText(text, options)
+    return this._driver.getByText(text, options)
   }
 
   getByAttribute = async (attribute: string, value: string, options?: { tag?: string }) => {
-    return this.driver.getByAttribute(attribute, value, options)
+    return this._driver.getByAttribute(attribute, value, options)
   }
 
   getHtml = async () => {
-    return this.driver.getHtml()
+    return this._driver.getHtml()
   }
 }

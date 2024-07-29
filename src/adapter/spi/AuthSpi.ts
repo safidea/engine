@@ -7,17 +7,17 @@ export interface Driver {
 }
 
 export class AuthSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   sign = async (payload: Payload) => {
-    return this.driver.sign(payload)
+    return this._driver.sign(payload)
   }
 
   verify = async (token: string) => {
-    return this.driver.verify(token)
+    return this._driver.verify(token)
   }
 
   decode = async (token: string) => {
-    return this.driver.decode(token)
+    return this._driver.decode(token)
   }
 }

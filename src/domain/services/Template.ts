@@ -3,9 +3,9 @@ export interface Spi {
 }
 
 export class Template {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   fill = (data: Record<string, unknown>): string => {
-    return this.spi.fill(data)
+    return this._spi.fill(data)
   }
 }

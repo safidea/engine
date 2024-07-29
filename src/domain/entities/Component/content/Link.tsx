@@ -19,15 +19,15 @@ interface Params extends Omit<Props, 'PrefixIcon' | 'SuffixIcon'> {
 }
 
 export class Link implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { prefixIcon, suffixIcon } = this.params
+    const { prefixIcon, suffixIcon } = this._params
     await Promise.all([prefixIcon?.init(), suffixIcon?.init()])
   }
 
   render = async (state: State) => {
-    const { Component, prefixIcon, suffixIcon, active: isActive, ...defaultProps } = this.params
+    const { Component, prefixIcon, suffixIcon, active: isActive, ...defaultProps } = this._params
     const PrefixIcon = prefixIcon ? await prefixIcon.render() : undefined
     const SuffixIcon = suffixIcon ? await suffixIcon.render() : undefined
     const active = isActive !== undefined ? isActive : state.isActiveLink(defaultProps.href)
@@ -37,7 +37,7 @@ export class Link implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { prefixIcon, suffixIcon } = this.params
+    const { prefixIcon, suffixIcon } = this._params
     const errors: ConfigError[] = []
     if (prefixIcon) {
       errors.push(...prefixIcon.validateConfig())

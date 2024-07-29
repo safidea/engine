@@ -8,17 +8,17 @@ interface Params extends BaseParams {
 }
 
 export class WaitForText extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('event:wait-for-text')
+    const { logger } = _params
+    this._log = logger.init('event:wait-for-text')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { text, timeout } = this.params
-    this.log(`waiting for text "${text}"`)
+    const { text, timeout } = this._params
+    this._log(`waiting for text "${text}"`)
     const success = await page.waitForText(text, { timeout })
     if (!success) {
       throw new TestError({

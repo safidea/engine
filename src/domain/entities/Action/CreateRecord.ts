@@ -10,12 +10,12 @@ interface Params extends BaseParams {
 }
 
 export class CreateRecord extends Base implements Interface {
-  constructor(private params: Params) {
-    super(params)
+  constructor(private _params: Params) {
+    super(_params)
   }
 
   execute = async (context: Context) => {
-    const { table, recordToCreate, database } = this.params
+    const { table, recordToCreate, database } = this._params
     const recordToCreateFilled = recordToCreate.fillWithContext(context)
     await database.table(table).insert(recordToCreateFilled)
   }

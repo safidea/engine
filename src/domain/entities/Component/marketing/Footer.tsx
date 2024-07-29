@@ -24,15 +24,15 @@ export interface Params extends BaseProps {
 }
 
 export class Footer implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, paragraph, links } = this.params
+    const { title, paragraph, links } = this._params
     await Promise.all([title.init(), paragraph.init(), ...links.map((link) => link.init())])
   }
 
   render = async (state: State) => {
-    const { id, className, title, paragraph, links, copyright, Component } = this.params
+    const { id, className, title, paragraph, links, copyright, Component } = this._params
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Links = await Promise.all(links.map((link) => link.render(state)))

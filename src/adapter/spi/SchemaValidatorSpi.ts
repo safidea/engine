@@ -8,15 +8,15 @@ export interface Driver {
 }
 
 export class SchemaValidatorSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   validateFromFile = (json: unknown, schemaFileName: string) => {
-    const errors = this.driver.validateFromFile(json, schemaFileName)
+    const errors = this._driver.validateFromFile(json, schemaFileName)
     return ErrorMapper.toManySchemaEntities(errors)
   }
 
   validate = (json: unknown, schema: JSONSchema) => {
-    const errors = this.driver.validate(json, schema)
+    const errors = this._driver.validate(json, schema)
     return ErrorMapper.toManySchemaEntities(errors)
   }
 }

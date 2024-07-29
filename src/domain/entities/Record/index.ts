@@ -5,10 +5,10 @@ import { ToUpdate, type Data as ToUpdateData } from './ToUpdate'
 export type RecordParams = ToCreateParams
 
 export class Record {
-  constructor(private params: RecordParams) {}
+  constructor(private _params: RecordParams) {}
 
   create = (data: ToCreateData) => {
-    return new ToCreate(data, this.params)
+    return new ToCreate(data, this._params)
   }
 
   update = (data: ToUpdateData) => {

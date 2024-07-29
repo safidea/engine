@@ -21,10 +21,17 @@ interface Params {
 }
 
 export class Page {
-  constructor(private params: Params) {}
+  public name: string
+  public path: string
+
+  constructor(private _params: Params) {
+    const { name, path } = _params
+    this.name = name
+    this.path = path
+  }
 
   init = async () => {
-    const { server, body } = this.params
+    const { server, body } = this._params
     await Promise.all(body.map((component) => component.init()))
     if (this.path === '/404') {
       await server.notFound(this.get)
@@ -34,16 +41,8 @@ export class Page {
   }
 
   validateConfig = async () => {
-    const { body } = this.params
+    const { body } = this._params
     return Promise.all(body.flatMap((component) => component.validateConfig()))
-  }
-
-  get name() {
-    return this.params.name
-  }
-
-  get path() {
-    return this.params.path
   }
 
   get = async (request: Get) => {
@@ -52,13 +51,13 @@ export class Page {
   }
 
   html = async (state: State) => {
-    const { ui } = this.params
+    const { ui } = this._params
     return ui.renderToHtml(await this.render(state))
   }
 
   render = async (state: State) => {
-    const { body, head } = this.params
-    const { Html } = this.params
+    const { body, head } = this._params
+    const { Html } = this._params
     const components = await Promise.all(body.map((component) => component.render(state)))
     return (
       <Html

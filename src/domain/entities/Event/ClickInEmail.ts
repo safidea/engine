@@ -11,17 +11,17 @@ interface Params extends BaseParams {
 }
 
 export class ClickInEmail extends BaseWithPageAndMailer {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('event:click-in-email')
+    const { logger } = _params
+    this._log = logger.init('event:click-in-email')
   }
 
   executeWithPageAndMailer = async (page: BrowserPage, mailer: Mailer) => {
-    const { text, mailbox, find } = this.params
-    this.log(
+    const { text, mailbox, find } = this._params
+    this._log(
       `clicking on text "${text}" in email matching ${JSON.stringify(find)} in mailbox "${mailbox}"`
     )
     const email = await mailer.find(mailbox, find)

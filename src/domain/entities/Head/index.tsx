@@ -11,10 +11,10 @@ interface Params {
 }
 
 export class Head {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   render = () => {
-    const { title, metas, links, scripts } = this.params
+    const { title, metas, links, scripts } = this._params
     const tags = []
     if (title) tags.push(<title key="title">{title}</title>)
     tags.push(...metas.map((meta) => <meta.render key={meta.name} />))

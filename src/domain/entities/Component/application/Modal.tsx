@@ -20,10 +20,10 @@ interface Params extends BaseProps {
 }
 
 export class Modal implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { button, header = [], body, footer = [] } = this.params
+    const { button, header = [], body, footer = [] } = this._params
     await Promise.all([
       button.init(),
       ...header.map((child) => child.init()),
@@ -41,7 +41,7 @@ export class Modal implements Base<Props> {
       footer: footerParam,
       id,
       className,
-    } = this.params
+    } = this._params
     const Button = await button.render(state)
     const header = headerParam
       ? await Promise.all(headerParam.map((child) => child.render(state)))
@@ -66,7 +66,7 @@ export class Modal implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { button, header = [], body, footer = [] } = this.params
+    const { button, header = [], body, footer = [] } = this._params
     const errors: ConfigError[] = []
     errors.push(...button.validateConfig())
     header.forEach((child) => {

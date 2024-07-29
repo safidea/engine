@@ -13,23 +13,23 @@ export interface Spi {
 
 export class Browser {
   constructor(
-    private spi: Spi,
-    private services: Services
+    private _spi: Spi,
+    private _services: Services
   ) {}
 
   launch = async () => {
-    const { idGenerator } = this.services
+    const { idGenerator } = this._services
     const id = idGenerator.forBrowser()
-    await this.spi.launch(id)
+    await this._spi.launch(id)
     return id
   }
 
   newPage = async (id: string, baseUrl: string) => {
-    const page = await this.spi.newPage(id, baseUrl)
+    const page = await this._spi.newPage(id, baseUrl)
     return new BrowserPage(page)
   }
 
   close = async (id: string) => {
-    await this.spi.close(id)
+    await this._spi.close(id)
   }
 }

@@ -45,22 +45,22 @@ export class Button implements Base<Props> {
   private path: string
   private action?: Template
 
-  constructor(private params: Params) {
-    const { action, templateCompiler, idGenerator } = params
+  constructor(private _params: Params) {
+    const { action, templateCompiler, idGenerator } = _params
     this.id = idGenerator.forComponent()
     this.path = `/api/component/button/${this.id}`
     if (action) this.action = templateCompiler.compile(action)
   }
 
   init = async () => {
-    const { server } = this.params
+    const { server } = this._params
     if (this.action) await server.post(this.path, this.post)
   }
 
   post = async (request: Post): Promise<Response> => {
     if (!this.action) throw new Error('Button has no action')
     const state = new State(request)
-    const { method = 'POST', server, onSuccess } = this.params
+    const { method = 'POST', server, onSuccess } = this._params
     const filledAction = state.fillTemplate(this.action)
     const url = filledAction.startsWith('/') ? server.baseUrl + filledAction : filledAction
     const result = await fetch(url, {
@@ -78,13 +78,13 @@ export class Button implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui } = this.params
+    const { ui } = this._params
     const Component = await this.render(state)
     return ui.renderToHtml(<Component {...props} />)
   }
 
   render = async (state: State) => {
-    const { id, className, label, href, variant, Component, client } = this.params
+    const { id, className, label, href, variant, Component, client } = this._params
     const action = this.action ? state.addQueryToPath(this.path) : undefined
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return (props?: Partial<Props>) => (

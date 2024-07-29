@@ -8,17 +8,17 @@ export interface Driver {
 }
 
 export class BrowserSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   launch = async (id: string) => {
-    return this.driver.launch(id)
+    return this._driver.launch(id)
   }
 
   newPage = async (id: string, baseUrl: string) => {
-    return this.driver.newPage(id, baseUrl)
+    return this._driver.newPage(id, baseUrl)
   }
 
   close = async (id: string) => {
-    return this.driver.close(id)
+    return this._driver.close(id)
   }
 }

@@ -23,9 +23,9 @@ export class ToSend {
 
   constructor(
     public data: Data,
-    private params: Params
+    private _params: Params
   ) {
-    const { templateCompiler } = params
+    const { templateCompiler } = _params
     this.from = templateCompiler.compile(data.from)
     this.to = templateCompiler.compile(data.to)
     this.subject = templateCompiler.compile(data.subject)
@@ -41,7 +41,7 @@ export class ToSend {
       text: this.text.fill(data),
       html: this.html.fill(data),
     }
-    return new ToSend(filledData, this.params)
+    return new ToSend(filledData, this._params)
   }
 
   fillWithContext = (context: Context): ToSend => {
@@ -52,6 +52,6 @@ export class ToSend {
       text: context.fillTemplate(this.text),
       html: context.fillTemplate(this.html),
     }
-    return new ToSend(data, this.params)
+    return new ToSend(data, this._params)
   }
 }

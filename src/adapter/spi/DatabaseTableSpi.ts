@@ -27,64 +27,68 @@ export interface Driver {
 }
 
 export class DatabaseTableSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   insert = async (toCreateRecord: ToCreate) => {
     const toCreateRecordDto = RecordMapper.toCreateDto(toCreateRecord)
-    const persistedRecordDto = await this.driver.insert(toCreateRecordDto)
+    const persistedRecordDto = await this._driver.insert(toCreateRecordDto)
     return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
   update = async (toUpdateRecord: ToUpdate) => {
     const toUpdateRecordDto = RecordMapper.toUpdateDto(toUpdateRecord)
-    const persistedRecordDto = await this.driver.update(toUpdateRecordDto)
+    const persistedRecordDto = await this._driver.update(toUpdateRecordDto)
     return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
   delete = async (filters: Filter[]) => {
     const filterDtos = FilterMapper.toManyDtos(filters)
-    await this.driver.delete(filterDtos)
+    await this._driver.delete(filterDtos)
   }
 
   read = async (filters: Filter[]) => {
     const filterDtos = FilterMapper.toManyDtos(filters)
-    const persistedRecordDto = await this.driver.read(filterDtos)
+    const persistedRecordDto = await this._driver.read(filterDtos)
     if (!persistedRecordDto) return undefined
     return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
   readById = async (id: string) => {
-    const persistedRecordDto = await this.driver.readById(id)
+    const persistedRecordDto = await this._driver.readById(id)
     if (!persistedRecordDto) return undefined
     return RecordMapper.toPersistedEntity(persistedRecordDto)
   }
 
   list = async (filters: Filter[]) => {
     const filterDtos = FilterMapper.toManyDtos(filters)
-    const persistedRecordsDtos = await this.driver.list(filterDtos)
+    const persistedRecordsDtos = await this._driver.list(filterDtos)
     return RecordMapper.toManyPersistedEntity(persistedRecordsDtos)
   }
 
   exists = async () => {
-    return this.driver.exists()
+    return this._driver.exists()
   }
 
   create = async (fields: Field[]) => {
     const fieldsDto = FieldMapper.toManyDto(fields)
-    await this.driver.create(fieldsDto)
+    await this._driver.create(fieldsDto)
   }
 
   fieldExists = async (name: string) => {
-    return this.driver.fieldExists(name)
+    return this._driver.fieldExists(name)
   }
 
   addField = async (field: Field) => {
     const fieldDto = FieldMapper.toDto(field)
-    await this.driver.addField(fieldDto)
+    await this._driver.addField(fieldDto)
   }
 
   alterField = async (field: Field) => {
     const fieldDto = FieldMapper.toDto(field)
-    await this.driver.alterField(fieldDto)
+    await this._driver.alterField(fieldDto)
+  }
+
+  dropField = async (name: string) => {
+    await this._driver.dropField(name)
   }
 }

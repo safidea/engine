@@ -21,15 +21,15 @@ interface Params extends BaseProps {
 }
 
 export class Logos implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {
-    const { title, paragraph, images } = this.params
+    const { title, paragraph, images } = this._params
     await Promise.all([title?.init(), paragraph?.init(), ...images.map((image) => image.init())])
   }
 
   render = async () => {
-    const { Component, title, paragraph, images, id, className } = this.params
+    const { Component, title, paragraph, images, id, className } = this._params
     const Title = title ? await title.render() : undefined
     const Paragraph = paragraph ? await paragraph.render() : undefined
     const Images = await Promise.all(images.map((image) => image.render()))
@@ -39,7 +39,7 @@ export class Logos implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { title, paragraph, images } = this.params
+    const { title, paragraph, images } = this._params
     const errors: ConfigError[] = []
     if (title) errors.push(...title.validateConfig())
     if (paragraph) errors.push(...paragraph.validateConfig())

@@ -5,14 +5,14 @@ interface Params {
 }
 
 export class Script {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   get src() {
-    const { src, timestamp } = this.params
+    const { src, timestamp } = this._params
     return src.includes('?') ? `${src}&t=${timestamp}` : `${src}?t=${timestamp}`
   }
 
   render = () => {
-    return <script src={this.params.src} type={this.params.type} />
+    return <script src={this._params.src} type={this._params.type} />
   }
 }

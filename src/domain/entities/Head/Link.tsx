@@ -6,19 +6,19 @@ interface Params {
 }
 
 export class Link {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   get href() {
-    const { href, timestamp } = this.params
+    const { href, timestamp } = this._params
     return href.includes('?') ? `${href}&t=${timestamp}` : `${href}?t=${timestamp}`
   }
 
   get type() {
-    return this.params.type || 'text/css'
+    return this._params.type || 'text/css'
   }
 
   get rel() {
-    return this.params.rel || 'stylesheet'
+    return this._params.rel || 'stylesheet'
   }
 
   render = () => {

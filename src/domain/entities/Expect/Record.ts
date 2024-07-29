@@ -9,17 +9,17 @@ interface Params extends BaseParams {
 }
 
 export class Record extends BaseWithDatabase {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('expect:record')
+    const { logger } = _params
+    this._log = logger.init('expect:record')
   }
 
   executeWithDatabase = async (database: Database) => {
-    const { table, find } = this.params
-    this.log(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
+    const { table, find } = this._params
+    this._log(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
     const tableRow = await database.table(table).read(find)
     if (!tableRow) {
       const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})

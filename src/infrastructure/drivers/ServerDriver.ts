@@ -15,94 +15,94 @@ import { Stream } from '@domain/entities/Response/Stream'
 const dirname = new URL('.', import.meta.url).pathname
 
 export class ServerDriver implements Driver {
-  private express: Express
-  private server?: HttpServer
   public baseUrl?: string
+  private _express: Express
+  private _server?: HttpServer
 
-  constructor(private config: Config) {
-    const { env } = config
-    this.express = express()
-    this.express.use(cors())
-    if (env === 'production') this.express.use(helmet())
-    this.express.use(cookieParser())
-    this.express.use(express.json())
-    this.express.use(express.urlencoded({ extended: true }))
-    this.express.use(express.static(join(process.cwd(), 'public')))
-    this.express.use(express.static(join(dirname, 'public')))
+  constructor(private _config: Config) {
+    const { env } = _config
+    this._express = express()
+    this._express.use(cors())
+    if (env === 'production') this._express.use(helmet())
+    this._express.use(cookieParser())
+    this._express.use(express.json())
+    this._express.use(express.urlencoded({ extended: true }))
+    this._express.use(express.static(join(process.cwd(), 'public')))
+    this._express.use(express.static(join(dirname, 'public')))
   }
 
   get = async (path: string, handler: (getDto: GetDto) => Promise<Response>) => {
-    this.express.get(path, async (req, res) => {
-      const getDto: GetDto = { ...this.getRequestDto(req), method: 'GET' }
+    this._express.get(path, async (req, res) => {
+      const getDto: GetDto = { ...this._getRequestDto(req), method: 'GET' }
       const response = await handler(getDto)
-      this.returnResponse(res, req, response)
+      this._returnResponse(res, req, response)
     })
   }
 
   post = async (path: string, handler: (postDto: PostDto) => Promise<Response>) => {
-    this.express.post(path, async (req, res) => {
+    this._express.post(path, async (req, res) => {
       const postDto: PostDto = {
-        ...this.getRequestDto(req),
+        ...this._getRequestDto(req),
         body: req.body,
         method: 'POST',
       }
       const response = await handler(postDto)
-      this.returnResponse(res, req, response)
+      this._returnResponse(res, req, response)
     })
   }
 
   patch = async (path: string, handler: (patchDto: PatchDto) => Promise<Response>) => {
-    this.express.patch(path, async (req, res) => {
+    this._express.patch(path, async (req, res) => {
       const patchDto: PatchDto = {
-        ...this.getRequestDto(req),
+        ...this._getRequestDto(req),
         body: req.body,
         method: 'PATCH',
       }
       const response = await handler(patchDto)
-      this.returnResponse(res, req, response)
+      this._returnResponse(res, req, response)
     })
   }
 
   delete = async (path: string, handler: (deleteDto: DeleteDto) => Promise<Response>) => {
-    this.express.delete(path, async (req, res) => {
-      const deleteDto: DeleteDto = { ...this.getRequestDto(req), method: 'DELETE' }
+    this._express.delete(path, async (req, res) => {
+      const deleteDto: DeleteDto = { ...this._getRequestDto(req), method: 'DELETE' }
       const response = await handler(deleteDto)
-      this.returnResponse(res, req, response)
+      this._returnResponse(res, req, response)
     })
   }
 
   notFound = async (handler: (requestDto: RequestDto) => Promise<Response>) => {
-    this.express.use(async (req, res) => {
+    this._express.use(async (req, res) => {
       let requestDto: RequestDto
       if (req.method === 'GET') {
-        requestDto = { ...this.getRequestDto(req), method: 'GET' }
+        requestDto = { ...this._getRequestDto(req), method: 'GET' }
       } else if (req.method === 'POST') {
         requestDto = {
-          ...this.getRequestDto(req),
+          ...this._getRequestDto(req),
           body: req.body,
           method: 'POST',
         }
       } else if (req.method === 'PATCH') {
         requestDto = {
-          ...this.getRequestDto(req),
+          ...this._getRequestDto(req),
           body: req.body,
           method: 'PATCH',
         }
       } else if (req.method === 'DELETE') {
-        requestDto = { ...this.getRequestDto(req), method: 'DELETE' }
+        requestDto = { ...this._getRequestDto(req), method: 'DELETE' }
       } else {
         throw new Error(`Unknown method ${req.method}`)
       }
       const response = await handler(requestDto)
-      this.returnResponse(res, req, { ...response, status: 404 })
+      this._returnResponse(res, req, { ...response, status: 404 })
     })
   }
 
   start = async (retry = 0): Promise<string> => {
     try {
-      const port = await this.getPort()
+      const port = await this._getPort()
       const options = { port }
-      const server = http.createServer(this.express)
+      const server = http.createServer(this._express)
       await new Promise((resolve, reject) => {
         try {
           server.listen(options, () => resolve(null))
@@ -110,7 +110,7 @@ export class ServerDriver implements Driver {
           reject(err)
         }
       })
-      this.server = server
+      this._server = server
       this.baseUrl = `http://localhost:${port}`
       return this.baseUrl
     } catch (err) {
@@ -123,11 +123,11 @@ export class ServerDriver implements Driver {
   }
 
   stop = async () => {
-    if (this.server) this.server.close()
+    if (this._server) this._server.close()
   }
 
-  private getPort = async () => {
-    if (this.config.port) return Number(this.config.port)
+  private _getPort = async () => {
+    if (this._config.port) return Number(this._config.port)
     const port: number = await new Promise((resolve, reject) => {
       const srv = net.createServer()
       srv.listen(0, function () {
@@ -140,7 +140,7 @@ export class ServerDriver implements Driver {
     return port
   }
 
-  private returnResponse = (res: express.Response, req: express.Request, response: Response) => {
+  private _returnResponse = (res: express.Response, req: express.Request, response: Response) => {
     const { status, headers, body, url } = response
     if (response instanceof Stream) {
       res.status(status).set(headers)
@@ -157,7 +157,7 @@ export class ServerDriver implements Driver {
     }
   }
 
-  private getRequestDto = (req: express.Request): Omit<RequestDto, 'method'> => {
+  private _getRequestDto = (req: express.Request): Omit<RequestDto, 'method'> => {
     const query: { [key: string]: string } = {}
     Object.keys(req.query).forEach((key) => {
       const value = req.query[key]

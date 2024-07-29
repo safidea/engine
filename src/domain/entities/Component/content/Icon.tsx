@@ -13,12 +13,12 @@ interface Params extends BaseProps {
 }
 
 export class Icon implements Base<Props> {
-  constructor(private params: Params) {}
+  constructor(private _params: Params) {}
 
   init = async () => {}
 
   render = async () => {
-    const { Component, iconLibrary, name, ...defaultProps } = this.params
+    const { Component, iconLibrary, name, ...defaultProps } = this._params
     const Icon = iconLibrary.outline(name)
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, Icon, ...props }} />
   }

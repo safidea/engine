@@ -7,17 +7,17 @@ interface Params extends BaseParams {
 }
 
 export class Url extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('expect:url')
+    const { logger } = _params
+    this._log = logger.init('expect:url')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { url } = this.params
-    this.log(`checking if page url is "${url}"`)
+    const { url } = this._params
+    this._log(`checking if page url is "${url}"`)
     const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
     let attempts = 0
     let pageUrl: string | undefined

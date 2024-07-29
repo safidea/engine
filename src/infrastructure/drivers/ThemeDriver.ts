@@ -5,12 +5,12 @@ import tailwindcss, { type Config as Tailwindcss } from 'tailwindcss'
 import type { RawFile } from 'tailwindcss/types/config'
 
 export class ThemeDriver implements Driver {
-  constructor(private config: Config) {}
+  constructor(private _config: Config) {}
 
   build = async (htmlContents: string[], fontsCss: string[]) => {
     if (htmlContents.length === 0) return '/* There is no css generated */'
 
-    const { fontFamily } = this.config
+    const { fontFamily } = this._config
     const theme: Tailwindcss['theme'] = {}
 
     if (fontFamily) {

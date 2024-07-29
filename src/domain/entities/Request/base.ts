@@ -7,26 +7,18 @@ export type Params = {
 }
 
 export class Base {
-  constructor(private _params: Params) {}
+  public path: string
+  public baseUrl: string
+  public headers?: { [key: string]: string }
+  public query: { [key: string]: string }
+  public params: { [key: string]: string }
 
-  get path() {
-    return this._params.path
-  }
-
-  get baseUrl() {
-    return this._params.baseUrl || ''
-  }
-
-  get headers() {
-    return this._params.headers || {}
-  }
-
-  get query() {
-    return this._params.query || {}
-  }
-
-  get params() {
-    return this._params.params || {}
+  constructor(params: Params) {
+    this.path = params.path
+    this.baseUrl = params.baseUrl || ''
+    this.headers = params.headers || {}
+    this.query = params.query || {}
+    this.params = params.params || {}
   }
 
   getQuery = (key: string): string | undefined => {

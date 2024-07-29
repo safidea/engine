@@ -27,12 +27,12 @@ interface Params {
 
 export class Test {
   public name: string
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
-    const { name, logger } = params
+  constructor(private _params: Params) {
+    const { name, logger } = _params
     this.name = name
-    this.log = logger.init('test:' + this.name)
+    this._log = logger.init('test:' + this.name)
   }
 
   init = async () => {}
@@ -42,11 +42,11 @@ export class Test {
   }
 
   run = async (app: App): Promise<void> => {
-    const { when, then, browser } = this.params
+    const { when, then, browser } = this._params
     let browserId: string | undefined
     let page: BrowserPage | undefined
     try {
-      this.log('start')
+      this._log('start')
       await app.init()
       const baseUrl = await app.start({ isTest: true })
       if (
@@ -93,14 +93,14 @@ export class Test {
           if (app.mailer) await expect.executeWithMailer(app.mailer)
         }
       }
-      this.log('passed')
+      this._log('passed')
       if (browserId) await browser.close(browserId)
       await app.stop()
     } catch (error) {
       if (error instanceof TestError) {
-        this.log('failed: ' + error.code)
+        this._log('failed: ' + error.code)
         const html = page ? await page.getHtml() : ''
-        if (html) this.log('html: ' + html)
+        if (html) this._log('html: ' + html)
         error.setName(this.name)
       }
       if (browserId) await browser.close(browserId)

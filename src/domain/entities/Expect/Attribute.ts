@@ -9,18 +9,18 @@ interface Params extends BaseParams {
 }
 
 export class Attribute extends BaseWithPage {
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
-  constructor(private params: Params) {
+  constructor(private _params: Params) {
     super()
-    const { logger } = params
-    this.log = logger.init('expect:attribute')
+    const { logger } = _params
+    this._log = logger.init('expect:attribute')
   }
 
   executeWithPage = async (page: BrowserPage) => {
-    const { tag, attribute, value } = this.params
+    const { tag, attribute, value } = this._params
     const attributeMessage = `checking if attribute "${attribute}" with value "${value}" exist`
-    this.log(tag ? `${attributeMessage} in tag "${tag}"` : attributeMessage)
+    this._log(tag ? `${attributeMessage} in tag "${tag}"` : attributeMessage)
     const element = await page.getByAttribute(attribute, value, { tag })
     if (!element) {
       throw new TestError({

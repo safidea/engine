@@ -2,6 +2,7 @@ import type { Table } from '@domain/entities/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 import type { PostgresRealtimeNotificationEvent, SqliteRealtimeNotificationEvent } from './Realtime'
+import { Formula } from '@domain/entities/Field/Formula'
 
 export interface Config {
   url: string
@@ -30,82 +31,97 @@ export interface Spi {
 
 export class Database {
   public type: 'sqlite' | 'postgres'
-  private log: (message: string) => void
+  private _log: (message: string) => void
 
   constructor(
-    private spi: Spi,
-    private services: Services,
+    private _spi: Spi,
+    private _services: Services,
     config: Config
   ) {
-    const { logger } = services
+    const { logger } = _services
     const { type } = config
     if (type !== 'sqlite' && type !== 'postgres')
       throw new Error(`Database type "${type}" is required`)
     this.type = type
-    this.log = logger.init('database')
+    this._log = logger.init('database')
   }
 
   table = (name: string): DatabaseTable => {
-    return new DatabaseTable(this.spi, this.services, { name })
+    return new DatabaseTable(this._spi, this._services, { name })
   }
 
   connect = async () => {
-    this.log(`connecting database...`)
-    await this.spi.connect()
+    this._log(`connecting database...`)
+    await this._spi.connect()
   }
 
   disconnect = async () => {
     try {
-      this.log(`disconnecting database...`)
-      await this.spi.disconnect()
+      this._log(`disconnecting database...`)
+      await this._spi.disconnect()
     } catch (error) {
-      if (error instanceof Error) this.log(`error disconnecting database: ${error.message}`)
+      if (error instanceof Error) this._log(`error disconnecting database: ${error.message}`)
     }
   }
 
   onError = (callback: (error: ErrorEvent) => void) => {
-    this.log(`listening for database errors...`)
-    this.spi.onError(callback)
+    this._log(`listening for database errors...`)
+    this._spi.onError(callback)
   }
 
   onNotification = (callback: (notification: NotificationEvent) => void) => {
-    this.log(`listening for database notifications...`)
-    this.spi.onNotification(callback)
+    this._log(`listening for database notifications...`)
+    this._spi.onNotification(callback)
   }
 
   migrate = async (tables: Table[]) => {
-    this.log(`migrating database...`)
+    this._log(`migrating database...`)
     for (const table of tables) {
       const tableDb = this.table(table.name)
-      if (await tableDb.exists()) {
-        for (const field of table.fields) {
+      const exists = await tableDb.exists()
+      if (exists) {
+        this._log(`table "${table.name}" exists`)
+        const dynamicFields = table.fields.filter((field) => field instanceof Formula)
+        const staticFields = table.fields.filter((field) => !(field instanceof Formula))
+        for (const field of dynamicFields) {
+          this._log(`dropping dynamic field "${field.name}" from table ${table.name}`)
+          if (await tableDb.fieldExists(field.name)) await tableDb.dropField(field.name)
+        }
+        for (const field of staticFields) {
           const fieldExists = await tableDb.fieldExists(field.name)
           if (!fieldExists) {
-            this.log(`adding field ${field.name} to table ${table.name}`)
+            this._log(`adding field "${field.name}" to table ${table.name}`)
             await tableDb.addField(field)
+          } else {
+            this._log(`altering field "${field.name}" in table ${table.name}`)
+            await tableDb.alterField(field)
           }
         }
+        for (const field of dynamicFields) {
+          this._log(`adding dynamic field "${field.name}" to table ${table.name}`)
+          await tableDb.addField(field)
+        }
       } else {
-        this.log(`creating table ${table.name}`)
+        this._log(`creating table "${table.name}"`)
         await tableDb.create(table.fields)
       }
     }
-    this.log(`database migrated`)
+    this._log(`database migrated`)
   }
 
   exec = async (query: string) => {
     try {
-      await this.spi.exec(query)
+      await this._spi.exec(query)
     } catch (error) {
-      if (error instanceof Error) this.log(`error executing query: ${error.message}`)
+      if (error instanceof Error) this._log(`error executing query: ${error.message}`)
     }
   }
 
   query = async <T>(text: string, values: (string | number)[]) => {
     try {
-      return this.spi.query<T>(text, values)
+      return this._spi.query<T>(text, values)
     } catch (error) {
-      if (error instanceof Error) this.log(`error querying database: ${error.message}`)
+      if (error instanceof Error) this._log(`error querying database: ${error.message}`)
       return { rows: [], rowCount: 0 }
     }
   }

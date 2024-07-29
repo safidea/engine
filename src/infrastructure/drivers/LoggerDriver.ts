@@ -3,11 +3,11 @@ import debug from 'debug'
 
 export class LoggerDriver implements Driver {
   init = (location: string) => {
-    const log = debug(`engine:${this.slugify(location)}`)
+    const log = debug(`engine:${this._slugify(location)}`)
     return (message: string) => log(message)
   }
 
-  private slugify = (text: string) => {
+  private _slugify = (text: string) => {
     return text
       .toString()
       .normalize('NFD')

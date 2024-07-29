@@ -35,25 +35,25 @@ export interface Spi {
 }
 
 export class Client {
-  constructor(private spi: Spi) {}
+  constructor(private _spi: Spi) {}
 
   get metas() {
-    return this.spi.metas
+    return this._spi.metas
   }
 
   Frame = (props: FrameProps): JSX.Element => {
-    return this.spi.Frame(props)
+    return this._spi.Frame(props)
   }
 
   Stream = (props: StreamProps): JSX.Element => {
-    return this.spi.Stream(props)
+    return this._spi.Stream(props)
   }
 
   StreamSource = (props: StreamSourceProps): JSX.Element => {
-    return this.spi.StreamSource(props)
+    return this._spi.StreamSource(props)
   }
 
   getActionProps = (options?: ActionProps) => {
-    return this.spi.getActionProps(options)
+    return this._spi.getActionProps(options)
   }
 }

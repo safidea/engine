@@ -5,9 +5,9 @@ export interface Driver {
 }
 
 export class TemplateSpi implements Spi {
-  constructor(private driver: Driver) {}
+  constructor(private _driver: Driver) {}
 
   fill = (data: Record<string, unknown>): string => {
-    return this.driver.fill(data)
+    return this._driver.fill(data)
   }
 }

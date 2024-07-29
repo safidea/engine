@@ -135,8 +135,9 @@ test.describe('App with tables', () => {
       expect(record!.id).toHaveLength(24)
     })
 
-    test('should migrate a table with a new field', async () => {
+    test('should start an app with a existing table in database', async () => {
       // GIVEN
+      const database = new Database(dbConfig)
       const config: Config = {
         name: 'leads backend',
         tables: [
@@ -153,9 +154,86 @@ test.describe('App with tables', () => {
         database: dbConfig,
       }
       const app = new App()
-      await app.start(config)
+      await database.table('leads').create([
+        {
+          name: 'name',
+          type: 'text',
+        },
+      ])
 
       // WHEN
+      const call = () => app.start(config)
+
+      // THEN
+      await expect(call()).resolves.toBeDefined()
+    })
+
+    test('should migrate a table with a new field', async () => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'email',
+                field: 'Email',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await database.table('leads').create([
+        {
+          name: 'name',
+          type: 'text',
+        },
+      ])
+
+      // WHEN
+      const call = () => app.start(config)
+
+      // THEN
+      await expect(call()).resolves.toBeDefined()
+    })
+
+    test('should migrate a table with existing records', async () => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'email',
+                field: 'Email',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await app.start(config)
+      await database.table('leads').insertMany([
+        { id: '1', name: 'John', created_at: new Date() },
+        { id: '2', name: 'Paul', created_at: new Date() },
+        { id: '3', name: 'Ringo', created_at: new Date() },
+      ])
       const newConfig: Config = {
         name: 'leads backend',
         tables: [
@@ -175,10 +253,15 @@ test.describe('App with tables', () => {
         ],
         database: dbConfig,
       }
-      const call = () => app.start(newConfig)
+
+      // WHEN
+      await app.start(newConfig)
 
       // THEN
-      await expect(call()).resolves.toBeDefined()
+      const records = await database.table('leads').list([])
+      expect(records).toHaveLength(3)
+      expect(records[0].email).toBeNull()
+      expect(records[0].name).toBe('John')
     })
   })
 })

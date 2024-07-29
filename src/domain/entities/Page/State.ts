@@ -5,15 +5,15 @@ import type { Params } from '@domain/entities/Request/base'
 import type { Template } from '@domain/services/Template'
 
 export class State {
-  private data: Partial<Params> = {}
+  private _data: Partial<Params> = {}
 
   constructor(request: Get | Post | Patch) {
     const state = request.getQuery('state')
     if (state) {
-      this.data = JSON.parse(Buffer.from(state, 'base64').toString('utf-8'))
+      this._data = JSON.parse(Buffer.from(state, 'base64').toString('utf-8'))
     } else {
       const { path, baseUrl, query, params, headers } = request
-      this.data = {
+      this._data = {
         path,
         baseUrl,
         query,
@@ -24,13 +24,13 @@ export class State {
   }
 
   getQuery = (): string => {
-    const stringified = JSON.stringify(this.data)
+    const stringified = JSON.stringify(this._data)
     const base64 = Buffer.from(stringified).toString('base64')
     return `state=${base64}`
   }
 
   fillTemplate = (template: Template): string => {
-    return template.fill(this.data)
+    return template.fill(this._data)
   }
 
   addQueryToPath = (path: string): string => {
@@ -42,7 +42,7 @@ export class State {
   }
 
   isActiveLink = (href: string): boolean => {
-    if (!this.data.path) return false
-    return this.data.path === href
+    if (!this._data.path) return false
+    return this._data.path === href
   }
 }
