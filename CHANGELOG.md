@@ -1,3 +1,15 @@
+# [0.19.0](https://github.com/safidea/engine/compare/v0.18.3...v0.19.0) (2024-07-29)
+
+
+### Bug Fixes
+
+* **SingleSelect:** add green test: should not create a record with a wrong value in a single select field ([23eb8cf](https://github.com/safidea/engine/commit/23eb8cf17c69dfd40a1cd604983acebf3a81a7b7))
+
+
+### Features
+
+* **Formula:** add green test: should create a record with a formula field with an number output ([c2a0170](https://github.com/safidea/engine/commit/c2a0170c55e26ac3d442c525030b78e5365668b0))
+
 ## [0.18.3](https://github.com/safidea/engine/compare/v0.18.2...v0.18.3) (2024-07-20)
 
 
