@@ -1,6 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import { components } from '@tests/dist/components'
+import Database from '@tests/database'
 
 test.describe('App', () => {
   test('should throw an error if config is empty', async () => {
@@ -41,41 +42,55 @@ test.describe('App', () => {
     expect(url).toBeDefined()
   })
 
-  test('should start an app after testing tests', async () => {
-    test.slow()
+  Database.each(test, (database) => {
+    test('should start an app after testing tests', async () => {
+      test.slow()
 
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      tests: [
-        {
-          name: 'display invalid text',
-          when: [{ event: 'Open', url: '/' }],
-          then: [{ expect: 'Text', text: 'Hello world!' }],
-        },
-      ],
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Paragraph',
-              text: 'Hello world!',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        tests: [
+          {
+            name: 'display invalid text',
+            when: [{ event: 'Open', url: '/' }],
+            then: [{ expect: 'Text', text: 'Hello world!' }],
+          },
+        ],
+        pages: [
+          {
+            name: 'Page',
+            path: '/',
+            body: [
+              {
+                component: 'Paragraph',
+                text: 'Hello world!',
+              },
+            ],
+          },
+        ],
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database,
+      }
+      const app = new App()
 
-    // WHEN
-    const call = () => app.test(config)
-    const url = await app.start(config)
+      // WHEN
+      const callTest = () => app.test(config)
+      const callStart = () => app.start(config)
 
-    // THEN
-    await expect(call()).resolves.toBeUndefined()
-    expect(url).toBeDefined()
+      // THEN
+      await expect(callTest()).resolves.toBeUndefined()
+      await expect(callStart()).resolves.toBeDefined()
+    })
   })
 
   test('should start an app on a dedicated PORT', async () => {

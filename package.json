@@ -47,10 +47,10 @@
     "pretest": "bunx playwright install --with-deps",
     "test": "bunx playwright test",
     "test:ui": "bunx playwright test --ui",
-    "prepare": "husky install",
     "storybook": "bun run build:css && storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "prepare": "husky"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
@@ -99,7 +99,7 @@
     "@storybook/react": "^8.2.6",
     "@storybook/react-vite": "^8.2.6",
     "@storybook/test": "^8.2.6",
-    "@testcontainers/postgresql": "^10.10.4",
+    "@testcontainers/postgresql": "^10.11.0",
     "@types/better-sqlite3": "^7.6.11",
     "@types/bun": "latest",
     "@types/cookie-parser": "^1.4.7",
@@ -123,13 +123,13 @@
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "husky": "^9.1.3",
+    "husky": "^9.1.4",
     "nodemon": "^3.1.4",
     "openai": "^4.53.2",
     "prettier": "^3.3.3",
     "semantic-release": "^24.0.0",
     "storybook": "^8.2.6",
-    "typescript-eslint": "^7.17.0",
+    "typescript-eslint": "^7.18.0",
     "typescript-json-schema": "^0.64.0",
     "xml2js": "^0.6.2"
   },

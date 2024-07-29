@@ -134,5 +134,51 @@ test.describe('App with tables', () => {
       expect(record).toBeDefined()
       expect(record!.id).toHaveLength(24)
     })
+
+    test('should migrate a table with a new field', async () => {
+      // GIVEN
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await app.start(config)
+
+      // WHEN
+      const newConfig: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'email',
+                field: 'Email',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const call = () => app.start(newConfig)
+
+      // THEN
+      await expect(call()).resolves.toBeDefined()
+    })
   })
 })

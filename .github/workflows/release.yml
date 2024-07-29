@@ -12,6 +12,9 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
+    env:
+      NODE_ENV: production
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,8 +26,6 @@ jobs:
       - run: bun install
       - run: bun run lint
       - run: bun run build
-        env:
-          NODE_ENV: production
       - run: bun run test
 
   release:
@@ -36,6 +37,9 @@ jobs:
       contents: write
       id-token: write
 
+    env:
+      NODE_ENV: production
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -46,8 +50,6 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run build
-        env:
-          NODE_ENV: production
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
