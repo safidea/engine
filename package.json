@@ -112,7 +112,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mailparser": "^3.4.4",
-    "@types/node": "^20.14.13",
+    "@types/node": "^22.0.0",
     "@types/nodemon": "^1.19.6",
     "@types/pg": "^8.11.6",
     "@types/react-dom": "^18.3.0",
