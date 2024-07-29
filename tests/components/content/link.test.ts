@@ -136,7 +136,7 @@ test.describe('Link component', () => {
             {
               component: 'Link',
               label: 'Hello world!',
-              href: '/about',
+              href: '/about/me',
             },
           ],
         },

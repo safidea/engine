@@ -43,6 +43,6 @@ export class State {
 
   isActiveLink = (href: string): boolean => {
     if (!this.data.path) return false
-    return this.data.path.includes(href)
+    return this.data.path === href
   }
 }
