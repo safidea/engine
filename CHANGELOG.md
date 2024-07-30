@@ -1,3 +1,10 @@
+## [0.19.4](https://github.com/safidea/engine/compare/v0.19.3...v0.19.4) (2024-07-30)
+
+
+### Bug Fixes
+
+* **Formula:** add green test: should create a record with a number formula field referencing another number formula field ([59e035d](https://github.com/safidea/engine/commit/59e035d4aa76990e086ef847831d9611b48c37a0))
+
 ## [0.19.3](https://github.com/safidea/engine/compare/v0.19.2...v0.19.3) (2024-07-30)
 
 
