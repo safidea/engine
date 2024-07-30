@@ -5,28 +5,32 @@ import { CreateRecordMapper } from './CreateRecordMapper'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Mailer } from '@domain/services/Mailer'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Database } from '@domain/services/Database'
+import type { Table } from '@domain/entities/Table'
 
 interface Services {
-  database: Database
   mailer: Mailer
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
 }
 
+interface Entities {
+  tables: Table[]
+}
+
 export class ActionMapper {
-  static toEntity(config: Config, services: Services): Action {
+  static toEntity(config: Config, services: Services, entities: Entities): Action {
     const { action } = config
-    const { idGenerator, database, mailer, templateCompiler } = services
+    const { idGenerator, mailer, templateCompiler } = services
+    const { tables } = entities
     if (action === 'CreateRecord')
-      return CreateRecordMapper.toEntity(config, { database, idGenerator, templateCompiler })
+      return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })
 
     if (action === 'SendEmail')
       return SendEmailMapper.toEntity(config, { mailer, templateCompiler })
     throw new Error(`ActionMapper: Action ${action} not supported`)
   }
 
-  static toManyEntities(configs: Config[], services: Services): Action[] {
-    return configs.map((config) => this.toEntity(config, services))
+  static toManyEntities(configs: Config[], services: Services, entities: Entities): Action[] {
+    return configs.map((config) => this.toEntity(config, services, entities))
   }
 }

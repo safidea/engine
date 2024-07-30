@@ -8,6 +8,7 @@ import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import { SchemaValidatorMapper } from './mappers/ServiceMapper/SchemaValidatorMapper'
 import { TestError } from '@domain/entities/Error/Test'
 import { TestMapper } from './mappers/TestMapper'
+import { BrowserMapper } from './mappers/ServiceMapper/BrowserMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -29,17 +30,23 @@ export class AppApi {
   }
 
   test = async (config: unknown): Promise<void> => {
+    const { drivers } = this.ressources
     const validatedConfig = this._getConfigWithEnv(config)
     delete validatedConfig.server?.port
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], this.ressources)
+    const browser = BrowserMapper.toService({ drivers })
     this._log(`🔄 Start running tests`)
+    await browser.launch()
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
       try {
         const app = AppMapper.toEntity(this.ressources, validatedConfig)
-        await test.run(app)
+        await app.init()
+        const baseUrl = await app.start({ isTest: true })
+        const page = await browser.newPage(baseUrl)
+        await test.run(app, page)
         this._log(`✅ ${i} > ${test.name}`)
       } catch (error) {
         this._log(`❌ ${i} > ${test.name}`)
@@ -47,6 +54,7 @@ export class AppApi {
         else throw error
       }
     }
+    await browser.close()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
     this._log(`✨ All tests passed`)
   }

@@ -7,6 +7,7 @@ import type { Config } from '@domain/services/Database'
 import type { Test } from './fixtures'
 import pg from 'pg'
 import { customAlphabet } from 'nanoid'
+import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 async function checkDatabaseAvailability(client: pg.Client): Promise<boolean> {
   try {
@@ -63,6 +64,24 @@ export default class Database extends DatabaseDriver {
       throw new Error(`unsupported database type: ${config.type}`)
     this.url = config.url
     this.type = config.type
+  }
+
+  table(name: string, fields: FieldDto[] = []) {
+    return super.table(name, [
+      {
+        name: 'id',
+        type: 'TEXT',
+      },
+      {
+        name: 'name',
+        type: 'TEXT',
+      },
+      {
+        name: 'created_at',
+        type: 'TIMESTAMP',
+      },
+      ...fields,
+    ])
   }
 
   static each(test: Test, callback: (config: Config) => void) {

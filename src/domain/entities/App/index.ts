@@ -52,9 +52,19 @@ export class App {
     return this._params.server.isListening
   }
 
+  get baseUrl() {
+    return this._params.server.baseUrl
+  }
+
   setStatus = (status: Status) => {
     this._log(`status: ${status}`)
     this._status = status
+  }
+
+  getTable = (name: string): Table => {
+    const table = this._params.tables.find((table) => table.name === name)
+    if (!table) throw new Error(`Table "${name}" not found`)
+    return table
   }
 
   init = async (): Promise<void> => {

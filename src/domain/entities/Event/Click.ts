@@ -1,21 +1,21 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { BaseWithPage, type BaseParams } from './base'
+import { type Base, type BaseParams } from './base'
 import { TestError } from '@domain/entities/Error/Test'
+import type { App } from '../App'
 
 interface Params extends BaseParams {
   text: string
 }
 
-export class Click extends BaseWithPage {
+export class Click implements Base {
   private _log: (message: string) => void
 
   constructor(private _params: Params) {
-    super()
     const { logger } = _params
     this._log = logger.init('event:click')
   }
 
-  executeWithPage = async (page: BrowserPage) => {
+  execute = async (_app: App, page: BrowserPage) => {
     const { text } = this._params
     this._log(`clicking on text "${text}"`)
     const success = await page.click(text)

@@ -1,8 +1,8 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { BaseWithPageAndMailer, type BaseParams } from './base'
+import { type Base, type BaseParams } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { Mailer } from '@domain/services/Mailer'
 import type { Filter } from '@domain/entities/Filter'
+import type { App } from '../App'
 
 interface Params extends BaseParams {
   text: string
@@ -10,21 +10,20 @@ interface Params extends BaseParams {
   find: Filter[]
 }
 
-export class ClickInEmail extends BaseWithPageAndMailer {
+export class ClickInEmail implements Base {
   private _log: (message: string) => void
 
   constructor(private _params: Params) {
-    super()
     const { logger } = _params
     this._log = logger.init('event:click-in-email')
   }
 
-  executeWithPageAndMailer = async (page: BrowserPage, mailer: Mailer) => {
+  execute = async (app: App, page: BrowserPage) => {
     const { text, mailbox, find } = this._params
     this._log(
       `clicking on text "${text}" in email matching ${JSON.stringify(find)} in mailbox "${mailbox}"`
     )
-    const email = await mailer.find(mailbox, find)
+    const email = await app.mailer?.find(mailbox, find)
     if (!email) {
       throw new TestError({
         code: 'EMAIL_NOT_FOUND',

@@ -6,17 +6,12 @@ export class EventMapper {
   static toNotificationEntity = (dto: EventNotificationDto): NotificationEvent => {
     if (dto.payload) {
       const notification: NotificationDto = JSON.parse(dto.payload)
-      const { type } = notification
-      if (type === 'PostgresRealtime') {
-        return {
-          ...notification,
-          record: RecordMapper.toPersistedEntity(notification.record),
-        }
+      const record = RecordMapper.toPersistedEntity(notification.record)
+      if (!record.data) throw new Error(`EventMapper: missing data in notification event`)
+      return {
+        ...notification,
+        record,
       }
-      if (type === 'SqliteRealtime') {
-        return notification
-      }
-      throw new Error(`EventMapper: unknown event notification type: ${type}`)
     } else {
       throw new Error(`EventMapper: missing payload in notification event`)
     }

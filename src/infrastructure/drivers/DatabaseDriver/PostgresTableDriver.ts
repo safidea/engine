@@ -7,6 +7,7 @@ import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/R
 export class PostgresTableDriver implements Driver {
   constructor(
     private _name: string,
+    private _fields: FieldDto[],
     private _db: pg.Pool
   ) {}
 
@@ -18,16 +19,16 @@ export class PostgresTableDriver implements Driver {
     return result.rows.length > 0
   }
 
-  create = async (fields: FieldDto[]) => {
-    const tableColumns = this._buildColumnsQuery(fields)
+  create = async () => {
+    const tableColumns = this._buildColumnsQuery(this._fields)
     const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
     await this._db.query(tableQuery)
-    await this._createView(fields)
+    await this._createView()
   }
 
-  migrate = async (fields: FieldDto[]) => {
+  migrate = async () => {
     const existingColumns = await this._getExistingColumns()
-    const staticFields = fields.filter((field) => !field.formula)
+    const staticFields = this._fields.filter((field) => !field.formula)
     const fieldsToAdd = staticFields.filter((field) => !existingColumns.includes(field.name))
     const fieldsToAlter = staticFields.filter((field) => existingColumns.includes(field.name))
     const dropViewQuery = `DROP VIEW IF EXISTS ${this._name}_view`
@@ -44,7 +45,7 @@ export class PostgresTableDriver implements Driver {
       const query = `ALTER TABLE ${this._name} ALTER COLUMN ${field.name} TYPE ${field.type}`
       await this._db.query(query)
     }
-    await this._createView(fields)
+    await this._createView()
   }
 
   insert = async (recordtoCreateDto: ToCreateDto) => {
@@ -59,15 +60,9 @@ export class PostgresTableDriver implements Driver {
     }
   }
 
-  insertMany = async (recordtoCreateDtos: ToCreateDto[]) => {
+  insertMany = async (records: ToCreateDto[]) => {
     try {
-      const keys = Object.keys(recordtoCreateDtos[0])
-      const values = recordtoCreateDtos.map(Object.values).flat()
-      const placeholders = recordtoCreateDtos
-        .map((_, i) => `(${keys.map((_, j) => `$${i * keys.length + j + 1}`).join(', ')})`)
-        .join(', ')
-      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES ${placeholders} RETURNING *`
-      await this._db.query(query, values)
+      for (const record of records) await this.insert(record)
     } catch (e) {
       this._throwError(e)
     }
@@ -81,6 +76,14 @@ export class PostgresTableDriver implements Driver {
       const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
       values.push(record.id)
       await this._db.query(query, values)
+    } catch (e) {
+      this._throwError(e)
+    }
+  }
+
+  updateMany = async (records: ToUpdateDto[]) => {
+    try {
+      for (const record of records) await this.update(record)
     } catch (e) {
       this._throwError(e)
     }
@@ -147,11 +150,11 @@ export class PostgresTableDriver implements Driver {
     return columns.join(', ')
   }
 
-  private _createView = async (fields: FieldDto[]) => {
-    const columns = fields
+  private _createView = async () => {
+    const columns = this._fields
       .map((field) => {
         if (field.formula) {
-          const expandedFormula = fields.reduce((acc, f) => {
+          const expandedFormula = this._fields.reduce((acc, f) => {
             const regex = new RegExp(`\\b${f.name}\\b`, 'g')
             return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
           }, field.formula)

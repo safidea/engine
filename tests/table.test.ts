@@ -54,16 +54,7 @@ test.describe('App with tables', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database.table('leads').create([
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
-      ])
+      await database.table('leads').create()
 
       // WHEN
       const call = () => app.start(config)
@@ -95,16 +86,7 @@ test.describe('App with tables', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database.table('leads').create([
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
-      ])
+      await database.table('leads').create()
 
       // WHEN
       const call = () => app.start(config)

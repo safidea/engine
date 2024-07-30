@@ -70,16 +70,19 @@ export class AppMapper {
       components,
       templateCompiler,
     })
-    const automations = AutomationMapper.toManyEntities(config.automations ?? [], {
-      logger,
-      database,
-      queue,
-      realtime,
-      server,
-      idGenerator,
-      templateCompiler,
-      mailer,
-    })
+    const automations = AutomationMapper.toManyEntities(
+      config.automations ?? [],
+      {
+        logger,
+        queue,
+        realtime,
+        server,
+        idGenerator,
+        templateCompiler,
+        mailer,
+      },
+      { tables }
+    )
     return new App({
       name,
       tables,

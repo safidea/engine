@@ -41,7 +41,7 @@ export class Table {
   fields: Field[]
   path: string
   recordPath: string
-  private _database: DatabaseTable
+  db: DatabaseTable
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
 
   constructor(private _params: Params) {
@@ -50,7 +50,7 @@ export class Table {
     this.fields = fields
     this.path = `/api/table/${this.name}`
     this.recordPath = `${this.path}/:id`
-    this._database = database.table(this.name)
+    this.db = database.table(this.name, this.fields)
     this._validateData = schemaValidator.validate
   }
 
@@ -70,14 +70,18 @@ export class Table {
   }
 
   dependancies = () => {
-    return this.fields
-      .filter((field) => field instanceof SingleLinkedRecord)
-      .map((field) => field.table)
+    const dependancies: string[] = []
+    for (const field of this.fields) {
+      if (field instanceof SingleLinkedRecord) {
+        dependancies.push(field.table)
+      }
+    }
+    return dependancies
   }
 
   get = async (request: Get) => {
     const id = request.getParamOrThrow('id')
-    const record = await this._database.readById(id)
+    const record = await this.db.readById(id)
     if (!record) {
       return new Json({ record: null })
     }
@@ -85,7 +89,7 @@ export class Table {
   }
 
   getAll = async () => {
-    const records = await this._database.list([])
+    const records = await this.db.list([])
     return new Json({ records: records.map((record) => record.data) })
   }
 
@@ -95,7 +99,7 @@ export class Table {
       const schema = this._getSchema()
       if (this._validateDataType<ToCreateData>(body, schema)) {
         const toCreateRecord = this._record.create(body)
-        const persistedRecord = await this._database.insert(toCreateRecord)
+        const persistedRecord = await this.db.insert(toCreateRecord)
         return new Json({ record: persistedRecord.data })
       }
       const [error] = this._validateData(body, schema)
@@ -115,7 +119,7 @@ export class Table {
       if (this._validateDataType<ToUpdateData>(body, schema)) {
         const id = request.getParamOrThrow('id')
         const toUpdateRecord = this._record.update({ ...body, id })
-        const persistedRecord = await this._database.update(toUpdateRecord)
+        const persistedRecord = await this.db.update(toUpdateRecord)
         return new Json({ record: persistedRecord.data })
       }
       const [error] = this._validateData(body, schema)
@@ -131,7 +135,7 @@ export class Table {
   delete = async (request: Delete) => {
     try {
       const id = request.getParamOrThrow('id')
-      await this._database.delete([new Is({ field: 'id', value: id })])
+      await this.db.delete([new Is({ field: 'id', value: id })])
       return new Json({ id })
     } catch (error) {
       if (error instanceof Error) {

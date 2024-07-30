@@ -3,6 +3,7 @@ import type { Config, EventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { SqliteDriver } from './SqliteDriver'
 import { PostgresDriver } from './PostgresDriver'
+import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 export class DatabaseDriver implements Driver {
   private _db: SqliteDriver | PostgresDriver
@@ -35,11 +36,15 @@ export class DatabaseDriver implements Driver {
     return this._db.query(text, values)
   }
 
-  table = (name: string) => {
-    return this._db.table(name)
+  table(name: string, fields: FieldDto[]) {
+    return this._db.table(name, fields)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {
     this._db.on(event, callback)
+  }
+
+  setupTriggers = async (tables: string[]) => {
+    await this._db.setupTriggers(tables)
   }
 }

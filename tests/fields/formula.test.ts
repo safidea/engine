@@ -117,16 +117,7 @@ test.describe('Formula field', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database.table('leads').create([
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
-      ])
+      await database.table('leads').create()
 
       // WHEN
       const url = await app.start(config)
@@ -167,21 +158,15 @@ test.describe('Formula field', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database.table('leads').create([
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
-        {
-          name: 'message',
-          type: 'text',
-          formula: "'Hello ' || name",
-        },
-      ])
+      await database
+        .table('leads', [
+          {
+            name: 'message',
+            type: 'TEXT',
+            formula: "'Hello ' || name",
+          },
+        ])
+        .create()
 
       // WHEN
       const url = await app.start(config)

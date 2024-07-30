@@ -5,9 +5,11 @@ import type { Persisted } from '../entities/Record/Persisted'
 import type { Field } from '@domain/entities/Field'
 import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 import type { Logger } from '@domain/services/Logger'
+import { IsAnyOf } from '@domain/entities/Filter/IsAnyOf'
 
 export interface Config {
   name: string
+  fields: Field[]
 }
 
 export interface Services {
@@ -16,11 +18,12 @@ export interface Services {
 
 export interface Spi {
   exists: () => Promise<boolean>
-  create: (fields: Field[]) => Promise<void>
-  migrate: (columns: Field[]) => Promise<void>
+  create: () => Promise<void>
+  migrate: () => Promise<void>
   insert: (toCreateRecord: ToCreate) => Promise<void>
   insertMany: (toCreateRecords: ToCreate[]) => Promise<void>
   update: (toUpdateRecord: ToUpdate) => Promise<void>
+  updateMany: (toUpdateRecords: ToUpdate[]) => Promise<void>
   delete: (filters: Filter[]) => Promise<void>
   read: (filters: Filter[]) => Promise<Persisted | undefined>
   readById: (id: string) => Promise<Persisted | undefined>
@@ -37,21 +40,21 @@ export class DatabaseTable {
     private _config: Config
   ) {
     this._log = services.logger.init('table')
-    this._table = spi.table(_config.name)
+    this._table = spi.table(_config.name, _config.fields)
   }
 
   exists = async () => {
     return this._table.exists()
   }
 
-  create = async (fields: Field[]) => {
+  create = async () => {
     this._log(`creating ${this._config.name}...`)
-    await this._table.create(fields)
+    await this._table.create()
   }
 
-  migrate = async (fields: Field[]) => {
+  migrate = async () => {
     this._log(`migrating ${this._config.name}...`)
-    await this._table.migrate(fields)
+    await this._table.migrate()
   }
 
   insert = async (toCreateRecord: ToCreate) => {
@@ -61,11 +64,41 @@ export class DatabaseTable {
     return persistedRecord
   }
 
+  insertMany = async (toCreateRecords: ToCreate[]) => {
+    await this._table.insertMany(toCreateRecords)
+    const persistedRecords = await this.list([
+      new IsAnyOf({ field: 'id', value: toCreateRecords.map((r) => r.id) }),
+    ])
+    this._log(
+      `inserted in ${this._config.name} ${JSON.stringify(
+        persistedRecords.map((r) => r.data),
+        null,
+        2
+      )}`
+    )
+    return persistedRecords
+  }
+
   update = async (toUpdateRecord: ToUpdate) => {
     await this._table.update(toUpdateRecord)
     const persistedRecord = await this.readByIdOrThrow(toUpdateRecord.id)
     this._log(`updated in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
+  }
+
+  updateMany = async (toUpdateRecords: ToUpdate[]) => {
+    await this._table.updateMany(toUpdateRecords)
+    const persistedRecords = await this.list([
+      new IsAnyOf({ field: 'id', value: toUpdateRecords.map((r) => r.id) }),
+    ])
+    this._log(
+      `updated in ${this._config.name} ${JSON.stringify(
+        persistedRecords.map((r) => r.data),
+        null,
+        2
+      )}`
+    )
+    return persistedRecords
   }
 
   delete = async (filters: Filter[]) => {

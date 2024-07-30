@@ -2,6 +2,7 @@ import type { DateTime } from './DateTime'
 import type { Email } from './Email'
 import type { Formula } from './Formula'
 import type { LongText } from './LongText'
+import type { MultipleLinkedRecord } from './MultipleLinkedRecord'
 import type { Number as Number_ } from './Number'
 import type { SingleLineText } from './SingleLineText'
 import type { SingleLinkedRecord } from './SingleLinkedRecord'
@@ -16,3 +17,4 @@ export type Field =
   | Formula
   | SingleSelect
   | SingleLinkedRecord
+  | MultipleLinkedRecord

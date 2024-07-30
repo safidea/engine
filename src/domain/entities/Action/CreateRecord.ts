@@ -1,12 +1,11 @@
-import type { Database } from '@domain/services/Database'
 import { Base, type Params as BaseParams, type Interface } from './base'
 import type { ToCreate } from '@domain/entities/Record/ToCreate'
 import type { Context } from '../Automation/Context'
+import type { Table } from '../Table'
 
 interface Params extends BaseParams {
-  table: string
   recordToCreate: ToCreate
-  database: Database
+  table: Table
 }
 
 export class CreateRecord extends Base implements Interface {
@@ -15,8 +14,8 @@ export class CreateRecord extends Base implements Interface {
   }
 
   execute = async (context: Context) => {
-    const { table, recordToCreate, database } = this._params
+    const { recordToCreate, table } = this._params
     const recordToCreateFilled = recordToCreate.fillWithContext(context)
-    await database.table(table).insert(recordToCreateFilled)
+    await table.db.insert(recordToCreateFilled)
   }
 }

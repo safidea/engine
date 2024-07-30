@@ -3,6 +3,7 @@ import type { Driver } from '@adapter/spi/DatabaseSpi'
 import type { Config, EventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { PostgresTableDriver } from './PostgresTableDriver'
+import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 export class PostgresDriver implements Driver {
   private _db: pg.Pool
@@ -44,8 +45,8 @@ export class PostgresDriver implements Driver {
     return { rows, rowCount: rowCount || 0 }
   }
 
-  table = (name: string) => {
-    return new PostgresTableDriver(name, this._db)
+  table = (name: string, fields: FieldDto[]) => {
+    return new PostgresTableDriver(name, fields, this._db)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {
@@ -62,5 +63,52 @@ export class PostgresDriver implements Driver {
     this._db.on('error', ({ message }) => {
       callback({ message, event: 'error' })
     })
+  }
+
+  setupTriggers = async (tables: string[]) => {
+    await this._db.query(`
+      CREATE OR REPLACE FUNCTION notify_trigger_func() RETURNS trigger AS $$
+      BEGIN
+        IF TG_OP = 'INSERT' THEN
+          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(NEW))::text);
+          RETURN NEW;
+        ELSIF TG_OP = 'UPDATE' THEN
+          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(NEW))::text);
+          RETURN NEW;
+        ELSIF TG_OP = 'DELETE' THEN
+          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(OLD))::text);
+          RETURN OLD;
+        END IF;
+        RETURN NULL;
+      END;
+      $$ LANGUAGE plpgsql;
+    `)
+    for (const table of tables) {
+      await this._db.query(`
+        DO $$
+        DECLARE
+            trigger_name text;
+            table_name text := '${table}';
+        BEGIN
+            -- Check and create trigger for AFTER INSERT
+            trigger_name := table_name || '_after_insert';
+            IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
+                EXECUTE format('CREATE TRIGGER %I AFTER INSERT ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
+            END IF;
+        
+            -- Check and create trigger for AFTER UPDATE
+            trigger_name := table_name || '_after_update';
+            IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
+                EXECUTE format('CREATE TRIGGER %I AFTER UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
+            END IF;
+        
+            -- Check and create trigger for AFTER DELETE
+            trigger_name := table_name || '_after_delete';
+            IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = trigger_name) THEN
+                EXECUTE format('CREATE TRIGGER %I AFTER DELETE ON %I FOR EACH ROW EXECUTE FUNCTION notify_trigger_func();', trigger_name, table_name);
+            END IF;
+        END $$;
+      `)
+    }
   }
 }

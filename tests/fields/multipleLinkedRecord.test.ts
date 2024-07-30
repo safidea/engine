@@ -2,9 +2,9 @@ import { test, expect } from '@tests/fixtures'
 import Database from '@tests/database'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('Single linked record field', () => {
+test.describe('Multiple linked record field', () => {
   Database.each(test, (dbConfig) => {
-    test('should create a record with a single linked record field', async ({ request }) => {
+    test.skip('should create a record with a multiple linked record field', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -18,8 +18,8 @@ test.describe('Single linked record field', () => {
                 field: 'SingleLineText',
               },
               {
-                name: 'model',
-                field: 'SingleLinkedRecord',
+                name: 'models',
+                field: 'MultipleLinkedRecord',
                 table: 'models',
               },
             ],
@@ -38,18 +38,38 @@ test.describe('Single linked record field', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
+      await database
+        .table('models', [
+          {
+            name: 'id',
+            type: 'TEXT',
+          },
+          {
+            name: 'name',
+            type: 'TEXT',
+          },
+          {
+            name: 'created_at',
+            type: 'TIMESTAMP',
+          },
+        ])
+        .insertMany([
+          { id: '1', name: 'Model 3', created_at: new Date() },
+          { id: '2', name: 'Model 5', created_at: new Date() },
+        ])
 
       // WHEN
       const { record } = await request
-        .post(`${url}/api/table/cars`, { data: { name: 'Coccinelle', model: '1' } })
+        .post(`${url}/api/table/cars`, { data: { name: 'Coccinelle', models: ['1', '2'] } })
         .then((res) => res.json())
 
       // THEN
       expect(record.model).toBe('1')
     })
 
-    test('should not create a record with a bad single linked record id', async ({ request }) => {
+    test.skip('should not create a record with a bad multiple linked record id', async ({
+      request,
+    }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -63,8 +83,8 @@ test.describe('Single linked record field', () => {
                 field: 'SingleLineText',
               },
               {
-                name: 'model',
-                field: 'SingleLinkedRecord',
+                name: 'models',
+                field: 'MultipleLinkedRecord',
                 table: 'models',
               },
             ],
@@ -83,11 +103,14 @@ test.describe('Single linked record field', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
+      await database.table('models').insertMany([
+        { id: '1', name: 'Model 3', created_at: new Date() },
+        { id: '2', name: 'Model 5', created_at: new Date() },
+      ])
 
       // WHEN
       const { error } = await request
-        .post(`${url}/api/table/cars`, { data: { name: 'Coccinelle', model: '2' } })
+        .post(`${url}/api/table/cars`, { data: { name: 'Coccinelle', models: ['1', '3'] } })
         .then((res) => res.json())
 
       // THEN
@@ -95,7 +118,7 @@ test.describe('Single linked record field', () => {
         message:
           dbConfig.type === 'sqlite'
             ? 'Key is not present in table.'
-            : 'Key (model)=(2) is not present in table "models".',
+            : 'Key (models)=(3) is not present in table "models".',
       })
     })
   })

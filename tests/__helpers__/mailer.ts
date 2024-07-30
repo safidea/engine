@@ -32,7 +32,36 @@ export default class extends MailerDriver {
   }
 
   get emails() {
-    return this._database.table('emails')
+    return this._database.table('emails', [
+      {
+        name: 'id',
+        type: 'TEXT',
+      },
+      {
+        name: 'from',
+        type: 'TEXT',
+      },
+      {
+        name: 'to',
+        type: 'TEXT',
+      },
+      {
+        name: 'subject',
+        type: 'TEXT',
+      },
+      {
+        name: 'text',
+        type: 'TEXT',
+      },
+      {
+        name: 'html',
+        type: 'TEXT',
+      },
+      {
+        name: 'created_at',
+        type: 'TIMESTAMP',
+      },
+    ])
   }
 
   waitForEmail = async (filters: FilterDto[]): Promise<SentDto> => {

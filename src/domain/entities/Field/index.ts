@@ -6,6 +6,7 @@ import type { Number as Number_ } from './Number'
 import type { Formula } from './Formula'
 import type { SingleSelect } from './SingleSelect'
 import type { SingleLinkedRecord } from './SingleLinkedRecord'
+import type { MultipleLinkedRecord } from './MultipleLinkedRecord'
 
 export type Field =
   | Email
@@ -16,3 +17,4 @@ export type Field =
   | Formula
   | SingleSelect
   | SingleLinkedRecord
+  | MultipleLinkedRecord

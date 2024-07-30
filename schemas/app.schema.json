@@ -1496,6 +1496,9 @@
                     "$ref": "#/definitions/Formula"
                 },
                 {
+                    "$ref": "#/definitions/MultipleLinkedRecord"
+                },
+                {
                     "$ref": "#/definitions/SingleLinkedRecord"
                 },
                 {
@@ -2263,6 +2266,30 @@
                 "body",
                 "button",
                 "component"
+            ],
+            "type": "object"
+        },
+        "MultipleLinkedRecord": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "MultipleLinkedRecord",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "table"
             ],
             "type": "object"
         },

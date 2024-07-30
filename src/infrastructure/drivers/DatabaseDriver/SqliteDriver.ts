@@ -3,6 +3,7 @@ import type { Driver } from '@adapter/spi/DatabaseSpi'
 import type { Config, EventType } from '@domain/services/Database'
 import type { EventDto, EventNotificationDto } from '@adapter/spi/dtos/EventDto'
 import { SqliteTableDriver } from './SqliteTableDriver'
+import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 interface Notification {
   id: number
@@ -37,7 +38,13 @@ export class SqliteDriver implements Driver {
         .all() as Notification[]
       for (const { payload, id } of notifications) {
         this._db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run([id])
-        this._onNotification.map((callback) => callback({ payload, event: 'notification' }))
+        const { record_id, table, action } = JSON.parse(payload)
+        const record = this._db
+          .prepare(`SELECT * FROM ${table}_view WHERE id = ?`)
+          .get(record_id) || { id: record_id }
+        this._onNotification.map((callback) =>
+          callback({ payload: JSON.stringify({ record, table, action }), event: 'notification' })
+        )
       }
     }
     this._interval = setInterval(emitNotification, 500)
@@ -67,11 +74,41 @@ export class SqliteDriver implements Driver {
     }
   }
 
-  table = (name: string) => {
-    return new SqliteTableDriver(name, this._db)
+  table = (name: string, fields: FieldDto[]) => {
+    return new SqliteTableDriver(name, fields, this._db)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {
     if (event === 'notification') this._onNotification.push(callback)
+  }
+
+  setupTriggers = async (tables: string[]) => {
+    for (const table of tables) {
+      this._db.exec(`
+        -- Trigger for INSERT
+        CREATE TRIGGER IF NOT EXISTS after_insert_${table}_trigger
+        AFTER INSERT ON ${table}
+        BEGIN
+            INSERT INTO _notifications (payload)
+            VALUES (json_object('table', '${table}', 'action', 'INSERT', 'record_id', NEW.id));
+        END;
+        
+        -- Trigger for UPDATE
+        CREATE TRIGGER IF NOT EXISTS after_update_${table}_trigger
+        AFTER UPDATE ON ${table}
+        BEGIN
+            INSERT INTO _notifications (payload)
+            VALUES (json_object('table', '${table}', 'action', 'UPDATE', 'record_id', NEW.id));
+        END;
+        
+        -- Trigger for DELETE
+        CREATE TRIGGER IF NOT EXISTS after_delete_${table}_trigger
+        AFTER DELETE ON ${table}
+        BEGIN
+            INSERT INTO _notifications (payload)
+            VALUES (json_object('table', '${table}', 'action', 'DELETE', 'record_id', OLD.id));
+        END;
+      `)
+    }
   }
 }

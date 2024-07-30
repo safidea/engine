@@ -1,7 +1,8 @@
 import type { Table } from '@domain/entities/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
-import type { PostgresRealtimeNotificationEvent, SqliteRealtimeNotificationEvent } from './Realtime'
+import type { RealtimeEvent } from './Realtime'
+import type { Field } from '@domain/entities/Field'
 
 export interface Config {
   url: string
@@ -16,16 +17,17 @@ export type EventType = 'notification' | 'error'
 
 export type ErrorEvent = { message: string }
 
-export type NotificationEvent = PostgresRealtimeNotificationEvent | SqliteRealtimeNotificationEvent
+export type NotificationEvent = RealtimeEvent
 
 export interface Spi {
-  table: (name: string) => DatabaseTableSpi
+  table: (name: string, fields: Field[]) => DatabaseTableSpi
   connect: () => Promise<void>
   disconnect: () => Promise<void>
   exec: (query: string) => Promise<unknown>
   query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
   onError: (callback: (error: ErrorEvent) => void) => void
   onNotification: (callback: (notification: NotificationEvent) => void) => void
+  setupTriggers: (tables: string[]) => Promise<void>
 }
 
 export class Database {
@@ -45,8 +47,8 @@ export class Database {
     this._log = logger.init('database')
   }
 
-  table = (name: string): DatabaseTable => {
-    return new DatabaseTable(this._spi, this._services, { name })
+  table = (name: string, fields: Field[]): DatabaseTable => {
+    return new DatabaseTable(this._spi, this._services, { name, fields })
   }
 
   connect = async () => {
@@ -101,12 +103,12 @@ export class Database {
       visit(table, visited, stack)
     }
     for (const table of sortedTables) {
-      const tableDb = this.table(table.name)
+      const tableDb = this.table(table.name, table.fields)
       const exists = await tableDb.exists()
       if (exists) {
-        await tableDb.migrate(table.fields)
+        await tableDb.migrate()
       } else {
-        await tableDb.create(table.fields)
+        await tableDb.create()
       }
     }
 
@@ -128,5 +130,10 @@ export class Database {
       if (error instanceof Error) this._log(`error querying database: ${error.message}`)
       return { rows: [], rowCount: 0 }
     }
+  }
+
+  setupTriggers = async (tables: string[]) => {
+    this._log(`setting up database triggers...`)
+    await this._spi.setupTriggers(tables)
   }
 }
