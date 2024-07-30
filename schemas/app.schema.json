@@ -1496,6 +1496,9 @@
                     "$ref": "#/definitions/Formula"
                 },
                 {
+                    "$ref": "#/definitions/SingleLinkedRecord"
+                },
+                {
                     "$ref": "#/definitions/SingleSelect"
                 }
             ]
@@ -2897,6 +2900,30 @@
             "required": [
                 "field",
                 "name"
+            ],
+            "type": "object"
+        },
+        "SingleLinkedRecord": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleLinkedRecord",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "table"
             ],
             "type": "object"
         },
