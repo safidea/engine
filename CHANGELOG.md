@@ -1,3 +1,10 @@
+# [0.21.0](https://github.com/safidea/engine/compare/v0.20.0...v0.21.0) (2024-07-30)
+
+
+### Features
+
+* **MultipleLinkedRecord:** add green test: should create a record with a multiple linked record field ([7b61530](https://github.com/safidea/engine/commit/7b615307f96d16fc15967aec0aac01b5296e3f2a))
+
 # [0.20.0](https://github.com/safidea/engine/compare/v0.19.4...v0.20.0) (2024-07-30)
 
 
