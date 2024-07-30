@@ -71,6 +71,7 @@ export default class Database extends DatabaseDriver {
       {
         name: 'id',
         type: 'TEXT',
+        required: true,
       },
       {
         name: 'name',
@@ -78,6 +79,11 @@ export default class Database extends DatabaseDriver {
       },
       {
         name: 'created_at',
+        type: 'TIMESTAMP',
+        required: true,
+      },
+      {
+        name: 'updated_at',
         type: 'TIMESTAMP',
       },
       ...fields,

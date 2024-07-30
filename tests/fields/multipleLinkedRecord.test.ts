@@ -4,7 +4,7 @@ import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Multiple linked record field', () => {
   Database.each(test, (dbConfig) => {
-    test.skip('should create a record with a multiple linked record field', async ({ request }) => {
+    test('should create a record with a multiple linked record field', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -38,25 +38,10 @@ test.describe('Multiple linked record field', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      await database
-        .table('models', [
-          {
-            name: 'id',
-            type: 'TEXT',
-          },
-          {
-            name: 'name',
-            type: 'TEXT',
-          },
-          {
-            name: 'created_at',
-            type: 'TIMESTAMP',
-          },
-        ])
-        .insertMany([
-          { id: '1', name: 'Model 3', created_at: new Date() },
-          { id: '2', name: 'Model 5', created_at: new Date() },
-        ])
+      await database.table('models').insertMany([
+        { id: '1', name: 'Model 3', created_at: new Date() },
+        { id: '2', name: 'Model 5', created_at: new Date() },
+      ])
 
       // WHEN
       const { record } = await request
@@ -64,12 +49,10 @@ test.describe('Multiple linked record field', () => {
         .then((res) => res.json())
 
       // THEN
-      expect(record.model).toBe('1')
+      expect(record.models).toStrictEqual(['1', '2'])
     })
 
-    test.skip('should not create a record with a bad multiple linked record id', async ({
-      request,
-    }) => {
+    test('should not create a record with a bad multiple linked record id', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -118,7 +101,7 @@ test.describe('Multiple linked record field', () => {
         message:
           dbConfig.type === 'sqlite'
             ? 'Key is not present in table.'
-            : 'Key (models)=(3) is not present in table "models".',
+            : 'Key (models_id)=(3) is not present in table "models".',
       })
     })
   })

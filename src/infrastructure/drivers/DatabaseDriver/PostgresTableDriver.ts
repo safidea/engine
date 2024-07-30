@@ -3,6 +3,7 @@ import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
+import type { DataType } from '@domain/entities/Record/ToCreate'
 
 export class PostgresTableDriver implements Driver {
   constructor(
@@ -23,6 +24,7 @@ export class PostgresTableDriver implements Driver {
     const tableColumns = this._buildColumnsQuery(this._fields)
     const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
     await this._db.query(tableQuery)
+    await this._createManyToManyTables()
     await this._createView()
   }
 
@@ -45,16 +47,21 @@ export class PostgresTableDriver implements Driver {
       const query = `ALTER TABLE ${this._name} ALTER COLUMN ${field.name} TYPE ${field.type}`
       await this._db.query(query)
     }
+    await this._createManyToManyTables()
     await this._createView()
   }
 
-  insert = async (recordtoCreateDto: ToCreateDto) => {
+  insert = async (record: ToCreateDto) => {
     try {
-      const keys = Object.keys(recordtoCreateDto)
-      const values = Object.values(recordtoCreateDto)
+      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const keys = Object.keys(staticFields)
+      const values = Object.values(staticFields)
       const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ')
       const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders}) RETURNING *`
       await this._db.query(query, values)
+      if (manyToManyFields) {
+        await this._insertManyToManyFields(record.id, manyToManyFields)
+      }
     } catch (e) {
       this._throwError(e)
     }
@@ -70,12 +77,16 @@ export class PostgresTableDriver implements Driver {
 
   update = async (record: ToUpdateDto) => {
     try {
-      const keys = Object.keys(record)
-      const values = Object.values(record)
+      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const keys = Object.keys(staticFields)
+      const values = Object.values(staticFields)
       const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
       const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
       values.push(record.id)
       await this._db.query(query, values)
+      if (manyToManyFields) {
+        await this._updateManyToManyFields(record.id, manyToManyFields)
+      }
     } catch (e) {
       this._throwError(e)
     }
@@ -132,7 +143,7 @@ export class PostgresTableDriver implements Driver {
     const columns = []
     const references = []
     for (const field of fields) {
-      if (field.formula) continue
+      if (field.formula || (field.type === 'TEXT[]' && field.table)) continue
       let query = `"${field.name}" ${field.type}`
       if (field.name === 'id') {
         query += ' PRIMARY KEY'
@@ -150,6 +161,75 @@ export class PostgresTableDriver implements Driver {
     return columns.join(', ')
   }
 
+  private _getManyToManyTableName = (tableName: string) => {
+    return [this._name, tableName].sort().join('_')
+  }
+
+  private _createManyToManyTables = async () => {
+    for (const field of this._fields) {
+      if (field.type === 'TEXT[]' && field.table) {
+        const manyToManyTableName = this._getManyToManyTableName(field.table)
+        const query = `
+          CREATE TABLE IF NOT EXISTS ${manyToManyTableName} (
+            "${this._name}_id" TEXT NOT NULL,
+            "${field.table}_id" TEXT NOT NULL,
+            FOREIGN KEY ("${this._name}_id") REFERENCES ${this._name}(id),
+            FOREIGN KEY ("${field.table}_id") REFERENCES ${field.table}(id)
+          )
+        `
+        await this._db.query(query)
+      }
+    }
+  }
+
+  private _splitFields = (record: ToCreateDto | ToUpdateDto) => {
+    const staticFields: { [key: string]: DataType } = {}
+    const manyToManyFields: { [key: string]: string[] } = {}
+    for (const [key, value] of Object.entries(record)) {
+      const field = this._fields.find((f) => f.name === key)
+      if (field?.type === 'TEXT[]' && field.table && Array.isArray(value)) {
+        manyToManyFields[key] = value
+      } else {
+        staticFields[key] = value
+      }
+    }
+    return { staticFields, manyToManyFields }
+  }
+
+  private _insertManyToManyFields = async (
+    recordId: string,
+    manyToManyFields: { [key: string]: string[] }
+  ) => {
+    for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
+      const field = this._fields.find((f) => f.name === fieldName)
+      const tableName = field?.table
+      if (!tableName) throw new Error('Table name not found.')
+      const manyToManyTableName = this._getManyToManyTableName(tableName)
+      for (const id of ids) {
+        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES ($1, $2)`
+        await this._db.query(query, [recordId, id])
+      }
+    }
+  }
+
+  private _updateManyToManyFields = async (
+    recordId: string,
+    manyToManyFields: { [key: string]: string[] }
+  ) => {
+    for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
+      const field = this._fields.find((f) => f.name === fieldName)
+      const tableName = field?.table
+      if (!tableName) throw new Error('Table name not found.')
+      const manyToManyTableName = this._getManyToManyTableName(tableName)
+      const deleteQuery = `DELETE FROM ${manyToManyTableName} WHERE "${this._name}_id" = $1`
+      await this._db.query(deleteQuery, [recordId])
+      for (const id of ids) {
+        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES ($1, $2)`
+        await this._db.query(query, [recordId, id])
+      }
+    }
+  }
+
   private _createView = async () => {
     const columns = this._fields
       .map((field) => {
@@ -159,6 +239,8 @@ export class PostgresTableDriver implements Driver {
             return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
           }, field.formula)
           return `CAST(${expandedFormula} AS ${field.type.toUpperCase()}) AS "${field.name}"`
+        } else if (field.type === 'TEXT[]' && field.table) {
+          return `(SELECT ARRAY_AGG("${field.table}_id") FROM ${this._getManyToManyTableName(field.table)} WHERE "${this._name}_id" = ${this._name}.id) AS "${field.name}"`
         } else {
           return `"${field.name}"`
         }

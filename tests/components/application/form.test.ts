@@ -113,7 +113,12 @@ test.describe('Form component', () => {
 
       // THEN
       const lead = await database
-        .table('leads')
+        .table('leads', [
+          {
+            name: 'email',
+            type: 'TEXT',
+          },
+        ])
         .read([{ field: 'email', operator: '=', value: 'test@test.com' }])
       expect(lead).toBeDefined()
     })
@@ -255,7 +260,14 @@ test.describe('Form component', () => {
       await page.getByText(successMessage).waitFor({ state: 'visible' })
 
       // THEN
-      const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
+      const lead = await database
+        .table('leads', [
+          {
+            name: 'email',
+            type: 'TEXT',
+          },
+        ])
+        .read([{ field: 'id', operator: '=', value: '1' }])
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test@test.com')
     })
@@ -320,7 +332,13 @@ test.describe('Form component', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      await database.table('leads').insertMany([
+      const leads = database.table('leads', [
+        {
+          name: 'email',
+          type: 'TEXT',
+        },
+      ])
+      await leads.insertMany([
         { id: '1', name: 'John 1', email: 'test1@test.com', created_at: new Date() },
         { id: '2', name: 'John 2', email: 'test2@test.com', created_at: new Date() },
         { id: '3', name: 'John 3', email: 'test3@test.com', created_at: new Date() },
@@ -333,7 +351,7 @@ test.describe('Form component', () => {
       await page.getByText(successMessage).waitFor({ state: 'visible' })
 
       // THEN
-      const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '2' }])
+      const lead = await leads.read([{ field: 'id', operator: '=', value: '2' }])
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test2@test.com')
     })
@@ -410,9 +428,18 @@ test.describe('Form component', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      await database
-        .table('leads')
-        .insert({ id: '1', name: 'John 1', email: 'test1@test.com', created_at: new Date() })
+      const leads = database.table('leads', [
+        {
+          name: 'email',
+          type: 'TEXT',
+        },
+      ])
+      await leads.insert({
+        id: '1',
+        name: 'John 1',
+        email: 'test1@test.com',
+        created_at: new Date(),
+      })
 
       // WHEN
       await page.goto(url + '/1')
@@ -420,7 +447,7 @@ test.describe('Form component', () => {
       await page.waitForURL(url + '/')
 
       // THEN
-      const lead = await database.table('leads').read([{ field: 'id', operator: '=', value: '1' }])
+      const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
       expect(lead).toBeUndefined()
     })
   })

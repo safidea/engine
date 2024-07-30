@@ -3,10 +3,12 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Template } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
+export type DataType = string | number | boolean | Date | undefined | string[]
+
 export interface Data {
   id: string
   created_at: Date
-  [key: string]: string | number | boolean | Date | undefined
+  [key: string]: DataType
 }
 
 interface TemplateKey {

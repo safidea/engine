@@ -3,6 +3,7 @@ import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
+import type { DataType } from '@domain/entities/Record/ToCreate'
 
 interface ColumnInfo {
   name: string
@@ -64,11 +65,15 @@ export class SqliteTableDriver implements Driver {
 
   insert = async (record: ToCreateDto) => {
     try {
-      const keys = Object.keys(record)
-      const values = this._preprocess(Object.values(record))
+      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const keys = Object.keys(staticFields)
+      const values = this._preprocess(Object.values(staticFields))
       const placeholders = keys.map(() => `?`).join(', ')
       const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders})`
       this._db.prepare(query).run(values)
+      if (manyToManyFields) {
+        await this._insertManyToManyFields(record.id, manyToManyFields)
+      }
     } catch (e) {
       this._throwError(e)
     }
@@ -84,11 +89,15 @@ export class SqliteTableDriver implements Driver {
 
   update = async (record: ToUpdateDto) => {
     try {
-      const keys = Object.keys(record)
-      const values = this._preprocess(Object.values(record))
+      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const keys = Object.keys(staticFields)
+      const values = this._preprocess(Object.values(staticFields))
       const setString = keys.map((key) => `${key} = ?`).join(', ')
       const query = `UPDATE ${this._name} SET ${setString} WHERE id = ${record.id}`
       this._db.prepare(query).run(values)
+      if (manyToManyFields) {
+        await this._updateManyToManyFields(record.id, manyToManyFields)
+      }
     } catch (e) {
       this._throwError(e)
     }
@@ -166,17 +175,64 @@ export class SqliteTableDriver implements Driver {
   private _createManyToManyTables = async () => {
     for (const field of this._fields) {
       if (field.type === 'TEXT[]' && field.table) {
-        // TODO: Add a check to see if the table exists
         const manyToManyTableName = this._getManyToManyTableName(field.table)
         const query = `
           CREATE TABLE IF NOT EXISTS ${manyToManyTableName} (
-            "${this._name}_id" INTEGER NOT NULL,
-            "${field.table}_id" INTEGER NOT NULL,
+            "${this._name}_id" TEXT NOT NULL,
+            "${field.table}_id" TEXT NOT NULL,
             FOREIGN KEY ("${this._name}_id") REFERENCES ${this._name}(id),
             FOREIGN KEY ("${field.table}_id") REFERENCES ${field.table}(id)
           )
         `
         this._db.exec(query)
+      }
+    }
+  }
+
+  private _splitFields = (record: ToCreateDto | ToUpdateDto) => {
+    const staticFields: { [key: string]: DataType } = {}
+    const manyToManyFields: { [key: string]: string[] } = {}
+    for (const [key, value] of Object.entries(record)) {
+      const field = this._fields.find((f) => f.name === key)
+      if (field?.type === 'TEXT[]' && field.table && Array.isArray(value)) {
+        manyToManyFields[key] = value
+      } else {
+        staticFields[key] = value
+      }
+    }
+    return { staticFields, manyToManyFields }
+  }
+
+  private _insertManyToManyFields = async (
+    recordId: string,
+    manyToManyFields: { [key: string]: string[] }
+  ) => {
+    for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
+      const field = this._fields.find((f) => f.name === fieldName)
+      const tableName = field?.table
+      if (!tableName) throw new Error('Table name not found.')
+      const manyToManyTableName = this._getManyToManyTableName(tableName)
+      for (const id of ids) {
+        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES (?, ?)`
+        this._db.prepare(query).run([recordId, id])
+      }
+    }
+  }
+
+  private _updateManyToManyFields = async (
+    recordId: string,
+    manyToManyFields: { [key: string]: string[] }
+  ) => {
+    for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
+      const field = this._fields.find((f) => f.name === fieldName)
+      const tableName = field?.table
+      if (!tableName) throw new Error('Table name not found.')
+      const manyToManyTableName = this._getManyToManyTableName(tableName)
+      const deleteQuery = `DELETE FROM ${manyToManyTableName} WHERE "${this._name}_id" = ?`
+      this._db.prepare(deleteQuery).run([recordId])
+      for (const id of ids) {
+        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES (?, ?)`
+        this._db.prepare(query).run([recordId, id])
       }
     }
   }
@@ -206,7 +262,7 @@ export class SqliteTableDriver implements Driver {
     this._db.exec(query)
   }
 
-  private _preprocess = (values: (string | number | Date | boolean | undefined)[]) => {
+  private _preprocess = (values: DataType[]) => {
     return values.map((value) => {
       if (value instanceof Date) {
         return value.getTime()
@@ -218,8 +274,12 @@ export class SqliteTableDriver implements Driver {
   private _postprocess = (persistedRecord: PersistedDto): PersistedDto => {
     return Object.keys(persistedRecord).reduce((acc: PersistedDto, key) => {
       const value = persistedRecord[key]
-      if (value instanceof Date) {
-        acc[key] = new Date(value)
+      const field = this._fields.find((f) => f.name === key)
+      if (!field) throw new Error('Field not found.')
+      if (field.type === 'TIMESTAMP') {
+        acc[key] = new Date(Number(value))
+      } else if (field.type === 'TEXT[]' && typeof value === 'string') {
+        acc[key] = value.split(',')
       }
       return acc
     }, persistedRecord)

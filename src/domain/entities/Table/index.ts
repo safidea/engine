@@ -24,6 +24,7 @@ import { Email } from '../Field/Email'
 import { Number } from '../Field/Number'
 import { DateTime } from '../Field/DateTime'
 import { SingleLinkedRecord } from '../Field/SingleLinkedRecord'
+import { MultipleLinkedRecord } from '../Field/MultipleLinkedRecord'
 
 interface Params {
   name: string
@@ -72,11 +73,11 @@ export class Table {
   dependancies = () => {
     const dependancies: string[] = []
     for (const field of this.fields) {
-      if (field instanceof SingleLinkedRecord) {
+      if (field instanceof SingleLinkedRecord || field instanceof MultipleLinkedRecord) {
         dependancies.push(field.table)
       }
     }
-    return dependancies
+    return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
   get = async (request: Get) => {
@@ -167,6 +168,7 @@ export class Table {
         }
       }
       if (
+        field instanceof SingleLinkedRecord ||
         field instanceof SingleLineText ||
         field instanceof LongText ||
         field instanceof Email ||
@@ -176,6 +178,9 @@ export class Table {
       }
       if (field instanceof Number) {
         schema.properties[field.name] = { type: 'number' }
+      }
+      if (field instanceof MultipleLinkedRecord) {
+        schema.properties[field.name] = { type: 'array', items: { type: 'string' } }
       }
       if (required && field.required) {
         schema.required.push(field.name)

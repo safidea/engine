@@ -1,4 +1,4 @@
-import type { Data as ToCreateData } from './ToCreate'
+import type { DataType, Data as ToCreateData } from './ToCreate'
 
 export interface Data extends ToCreateData {
   updated_at?: Date
@@ -11,7 +11,7 @@ export class Persisted {
     return this.data.id
   }
 
-  getField = (key: string): string | number | boolean | Date | undefined => {
+  getField = (key: string): DataType => {
     if (!(key in this.data)) throw new Error(`Field "${key}" not found in record`)
     return this.data[key]
   }

@@ -30,7 +30,7 @@ test.describe('Number field', () => {
 
       // THEN
       const record = await database
-        .table('scores')
+        .table('scores', [{ name: 'score', type: 'NUMERIC' }])
         .read([{ field: 'score', operator: '=', value: 3 }])
       expect(record?.score).toBe(3)
     })

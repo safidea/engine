@@ -86,7 +86,7 @@ test.describe('App with tables', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database.table('leads').create()
+      await database.table('leads', [{ name: 'email', type: 'TEXT' }]).create()
 
       // WHEN
       const call = () => app.start(config)
@@ -119,7 +119,8 @@ test.describe('App with tables', () => {
       }
       const app = new App()
       await app.start(config)
-      await database.table('leads').insertMany([
+      const leads = database.table('leads', [{ name: 'email', type: 'TEXT' }])
+      await leads.insertMany([
         { id: '1', name: 'John', created_at: new Date() },
         { id: '2', name: 'Paul', created_at: new Date() },
         { id: '3', name: 'Ringo', created_at: new Date() },
@@ -148,7 +149,7 @@ test.describe('App with tables', () => {
       await app.start(newConfig)
 
       // THEN
-      const records = await database.table('leads').list([])
+      const records = await leads.list([])
       expect(records).toHaveLength(3)
       expect(records[0].email).toBeNull()
       expect(records[0].name).toBe('John')
