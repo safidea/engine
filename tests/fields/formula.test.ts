@@ -187,7 +187,7 @@ test.describe('Formula field', () => {
       expect(record.message).toBe('Hello John!')
     })
 
-    test('should create a record with a formula field referencing another formula field', async ({
+    test('should create a record with a text formula field referencing another text formula field', async ({
       request,
     }) => {
       // GIVEN
@@ -238,6 +238,59 @@ test.describe('Formula field', () => {
 
       // THEN
       expect(record.message).toBe('Hello John Doe!')
+    })
+
+    test('should create a record with a number formula field referencing another number formula field', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'unit_price',
+                field: 'Number',
+              },
+              {
+                name: 'quantity',
+                field: 'Number',
+              },
+              {
+                name: 'total',
+                field: 'Formula',
+                formula: 'unit_price * quantity',
+                output: {
+                  field: 'Number',
+                },
+              },
+              {
+                name: 'total_with_vat',
+                field: 'Formula',
+                formula: 'total * 1.2',
+                output: {
+                  field: 'Number',
+                },
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      const { record } = await request
+        .post(url + '/api/table/leads', {
+          data: { unit_price: 10, quantity: 5 },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(record.total_with_vat).toBe(60)
     })
   })
 })

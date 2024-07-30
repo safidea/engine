@@ -136,7 +136,7 @@ export class SqliteTableDriver implements Driver {
             const regex = new RegExp(`\\b${f.name}\\b`, 'g')
             return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
           }, field.formula)
-          return `${expandedFormula} AS "${field.name}"`
+          return `CAST(${expandedFormula} AS ${field.type.toUpperCase()}) AS "${field.name}"`
         } else {
           return `"${field.name}"`
         }
