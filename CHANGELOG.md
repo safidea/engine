@@ -1,3 +1,15 @@
+# [0.20.0](https://github.com/safidea/engine/compare/v0.19.4...v0.20.0) (2024-07-30)
+
+
+### Bug Fixes
+
+* **SingleLinkedRecord:** add green test: should not create a record with a bad single linked record id ([d29a5e2](https://github.com/safidea/engine/commit/d29a5e2523dab397e1f9f5c059b9cc9d0e858cb0))
+
+
+### Features
+
+* **SingleLinkedRecord:** add green test: should create a record with a single linked record field ([3d669f5](https://github.com/safidea/engine/commit/3d669f54eff3b13de95422a2f2ac1b8c7ae39820))
+
 ## [0.19.4](https://github.com/safidea/engine/compare/v0.19.3...v0.19.4) (2024-07-30)
 
 
