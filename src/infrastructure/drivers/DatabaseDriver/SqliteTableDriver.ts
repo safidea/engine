@@ -1,4 +1,4 @@
-import SQLite from 'better-sqlite3'
+import SQLite, { SqliteError } from 'better-sqlite3'
 import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
@@ -60,34 +60,52 @@ export class SqliteTableDriver implements Driver {
   }
 
   insert = async (record: ToCreateDto) => {
-    const keys = Object.keys(record)
-    const values = this._preprocess(Object.values(record))
-    const placeholders = keys.map(() => `?`).join(', ')
-    const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders})`
-    this._db.prepare(query).run(values)
+    try {
+      const keys = Object.keys(record)
+      const values = this._preprocess(Object.values(record))
+      const placeholders = keys.map(() => `?`).join(', ')
+      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders})`
+      this._db.prepare(query).run(values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   insertMany = async (records: ToCreateDto[]) => {
-    const keys = Object.keys(records[0])
-    const values = this._preprocess(records.map(Object.values).flat())
-    const placeholders = records.map(() => `(${keys.map(() => `?`).join(', ')})`).join(', ')
-    const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES ${placeholders}`
-    this._db.prepare(query).run(values)
+    try {
+      const keys = Object.keys(records[0])
+      const values = this._preprocess(records.map(Object.values).flat())
+      const placeholders = records.map(() => `(${keys.map(() => `?`).join(', ')})`).join(', ')
+      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES ${placeholders}`
+      this._db.prepare(query).run(values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   update = async (record: ToUpdateDto) => {
-    const keys = Object.keys(record)
-    const values = this._preprocess(Object.values(record))
-    const setString = keys.map((key) => `${key} = ?`).join(', ')
-    const query = `UPDATE ${this._name} SET ${setString} WHERE id = ${record.id}`
-    this._db.prepare(query).run(values)
+    try {
+      const keys = Object.keys(record)
+      const values = this._preprocess(Object.values(record))
+      const setString = keys.map((key) => `${key} = ?`).join(', ')
+      const query = `UPDATE ${this._name} SET ${setString} WHERE id = ${record.id}`
+      this._db.prepare(query).run(values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   delete = async (filters: FilterDto[]) => {
-    const conditions = filters.map((filter) => `${filter.field} ${filter.operator} ?`).join(' AND ')
-    const values = filters.map((filter) => filter.value)
-    const query = `DELETE FROM ${this._name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
-    this._db.prepare(query).run(values)
+    try {
+      const conditions = filters
+        .map((filter) => `${filter.field} ${filter.operator} ?`)
+        .join(' AND ')
+      const values = filters.map((filter) => filter.value)
+      const query = `DELETE FROM ${this._name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+      this._db.prepare(query).run(values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   read = async (filters: FilterDto[]) => {
@@ -174,5 +192,15 @@ export class SqliteTableDriver implements Driver {
       }
       return acc
     }, persistedRecord)
+  }
+
+  private _throwError = (error: unknown) => {
+    if (error instanceof SqliteError) {
+      if (error.code === 'SQLITE_CONSTRAINT_FOREIGNKEY') {
+        throw new Error('Key is not present in table.')
+      }
+    }
+    console.error(error)
+    throw error
   }
 }

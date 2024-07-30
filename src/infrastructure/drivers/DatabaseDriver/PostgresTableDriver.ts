@@ -19,10 +19,7 @@ export class PostgresTableDriver implements Driver {
   }
 
   create = async (fields: FieldDto[]) => {
-    const tableColumns = fields
-      .map(this._buildColumnQuery)
-      .filter((q) => !!q)
-      .join(', ')
+    const tableColumns = this._buildColumnsQuery(fields)
     const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
     await this._db.query(tableQuery)
     await this._createView(fields)
@@ -36,8 +33,12 @@ export class PostgresTableDriver implements Driver {
     const dropViewQuery = `DROP VIEW IF EXISTS ${this._name}_view`
     await this._db.query(dropViewQuery)
     for (const field of fieldsToAdd) {
-      const query = `ALTER TABLE ${this._name} ADD COLUMN ${this._buildColumnQuery(field)}`
-      await this._db.query(query)
+      const [column, reference] = this._buildColumnsQuery([field]).split(',')
+      const query = `ALTER TABLE ${this._name} ADD COLUMN ${column}`
+      this._db.query(query)
+      if (reference) {
+        this._db.query(`ALTER TABLE ${this._name} ADD CONSTRAINT fk_${field.name} ${reference}`)
+      }
     }
     for (const field of fieldsToAlter) {
       const query = `ALTER TABLE ${this._name} ALTER COLUMN ${field.name} TYPE ${field.type}`
@@ -47,39 +48,55 @@ export class PostgresTableDriver implements Driver {
   }
 
   insert = async (recordtoCreateDto: ToCreateDto) => {
-    const keys = Object.keys(recordtoCreateDto)
-    const values = Object.values(recordtoCreateDto)
-    const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ')
-    const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders}) RETURNING *`
-    await this._db.query(query, values)
+    try {
+      const keys = Object.keys(recordtoCreateDto)
+      const values = Object.values(recordtoCreateDto)
+      const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ')
+      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders}) RETURNING *`
+      await this._db.query(query, values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   insertMany = async (recordtoCreateDtos: ToCreateDto[]) => {
-    const keys = Object.keys(recordtoCreateDtos[0])
-    const values = recordtoCreateDtos.map(Object.values).flat()
-    const placeholders = recordtoCreateDtos
-      .map((_, i) => `(${keys.map((_, j) => `$${i * keys.length + j + 1}`).join(', ')})`)
-      .join(', ')
-    const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES ${placeholders} RETURNING *`
-    await this._db.query(query, values)
+    try {
+      const keys = Object.keys(recordtoCreateDtos[0])
+      const values = recordtoCreateDtos.map(Object.values).flat()
+      const placeholders = recordtoCreateDtos
+        .map((_, i) => `(${keys.map((_, j) => `$${i * keys.length + j + 1}`).join(', ')})`)
+        .join(', ')
+      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES ${placeholders} RETURNING *`
+      await this._db.query(query, values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   update = async (record: ToUpdateDto) => {
-    const keys = Object.keys(record)
-    const values = Object.values(record)
-    const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
-    const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
-    values.push(record.id)
-    await this._db.query(query, values)
+    try {
+      const keys = Object.keys(record)
+      const values = Object.values(record)
+      const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
+      const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
+      values.push(record.id)
+      await this._db.query(query, values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   delete = async (filters: FilterDto[]) => {
-    const conditions = filters
-      .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
-      .join(' AND ')
-    const values = filters.map((filter) => filter.value)
-    const query = `DELETE FROM ${this._name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
-    await this._db.query(query, values)
+    try {
+      const conditions = filters
+        .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
+        .join(' AND ')
+      const values = filters.map((filter) => filter.value)
+      const query = `DELETE FROM ${this._name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+      await this._db.query(query, values)
+    } catch (e) {
+      this._throwError(e)
+    }
   }
 
   read = async (filters: FilterDto[]) => {
@@ -108,18 +125,26 @@ export class PostgresTableDriver implements Driver {
     return result.rows
   }
 
-  private _buildColumnQuery = (field: FieldDto): string | undefined => {
-    if (field.formula) return
-    let query = `"${field.name}" ${field.type}`
-    if (field.name === 'id') {
-      query += ' PRIMARY KEY'
-    } else if (field.options) {
-      query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
+  private _buildColumnsQuery = (fields: FieldDto[]) => {
+    const columns = []
+    const references = []
+    for (const field of fields) {
+      if (field.formula) continue
+      let query = `"${field.name}" ${field.type}`
+      if (field.name === 'id') {
+        query += ' PRIMARY KEY'
+      } else if (field.options) {
+        query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
+      } else if (field.table) {
+        references.push(`FOREIGN KEY ("${field.name}") REFERENCES ${field.table}(id)`)
+      }
+      if (field.required) {
+        query += ' NOT NULL'
+      }
+      columns.push(query)
     }
-    if (field.required) {
-      query += ' NOT NULL'
-    }
-    return query
+    columns.push(...references)
+    return columns.join(', ')
   }
 
   private _createView = async (fields: FieldDto[]) => {
@@ -146,5 +171,22 @@ export class PostgresTableDriver implements Driver {
       [this._name]
     )
     return result.rows.map((row) => row.column_name)
+  }
+
+  private _throwError = (error: unknown) => {
+    if (
+      error &&
+      typeof error === 'object' &&
+      'code' in error &&
+      'detail' in error &&
+      typeof error.code === 'string' &&
+      typeof error.detail === 'string'
+    ) {
+      if (error.code === '23503') {
+        throw new Error(error.detail)
+      }
+    }
+    console.error(error)
+    throw error
   }
 }

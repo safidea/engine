@@ -49,7 +49,7 @@ test.describe('Single linked record field', () => {
       expect(record.model).toBe('1')
     })
 
-    test.skip('should not create a record with a bad single linked record id', async ({
+    test('should not create a record with a bad single linked record id', async ({
       request,
     }) => {
       // GIVEN
@@ -94,11 +94,10 @@ test.describe('Single linked record field', () => {
 
       // THEN
       expect(error).toStrictEqual({
-        instancePath: '/color',
-        keyword: 'enum',
-        message: 'must be equal to one of the allowed values',
-        params: { allowedValues: ['Red', 'Blue', 'Green'] },
-        schemaPath: '#/properties/color/enum',
+        message:
+          dbConfig.type === 'sqlite'
+            ? 'Key is not present in table.'
+            : 'Key (model)=(2) is not present in table "models".',
       })
     })
   })

@@ -19,6 +19,7 @@ export class SqliteDriver implements Driver {
     const { url } = config
     const db = new SQLite(url)
     db.pragma('journal_mode = WAL')
+    db.exec('PRAGMA foreign_keys = ON')
     this._db = db
   }
 

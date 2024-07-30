@@ -75,31 +75,6 @@ export class Table {
       .map((field) => field.table)
   }
 
-  post = async (request: Post) => {
-    const { body } = request
-    const schema = this._getSchema()
-    if (this._validateDataType<ToCreateData>(body, schema)) {
-      const toCreateRecord = this._record.create(body)
-      const persistedRecord = await this._database.insert(toCreateRecord)
-      return new Json({ record: persistedRecord.data })
-    }
-    const [error] = this._validateData(body, schema)
-    return new Json({ error }, 400)
-  }
-
-  patch = async (request: Patch) => {
-    const { body } = request
-    const schema = this._getSchema({ required: false })
-    if (this._validateDataType<ToUpdateData>(body, schema)) {
-      const id = request.getParamOrThrow('id')
-      const toUpdateRecord = this._record.update({ ...body, id })
-      const persistedRecord = await this._database.update(toUpdateRecord)
-      return new Json({ record: persistedRecord.data })
-    }
-    const [error] = this._validateData(body, schema)
-    return new Json({ error }, 400)
-  }
-
   get = async (request: Get) => {
     const id = request.getParamOrThrow('id')
     const record = await this._database.readById(id)
@@ -114,10 +89,56 @@ export class Table {
     return new Json({ records: records.map((record) => record.data) })
   }
 
+  post = async (request: Post) => {
+    try {
+      const { body } = request
+      const schema = this._getSchema()
+      if (this._validateDataType<ToCreateData>(body, schema)) {
+        const toCreateRecord = this._record.create(body)
+        const persistedRecord = await this._database.insert(toCreateRecord)
+        return new Json({ record: persistedRecord.data })
+      }
+      const [error] = this._validateData(body, schema)
+      return new Json({ error }, 400)
+    } catch (error) {
+      if (error instanceof Error) {
+        return new Json({ error: { message: error.message } }, 400)
+      }
+      return new Json({ error: { message: 'Unknown error' } }, 500)
+    }
+  }
+
+  patch = async (request: Patch) => {
+    try {
+      const { body } = request
+      const schema = this._getSchema({ required: false })
+      if (this._validateDataType<ToUpdateData>(body, schema)) {
+        const id = request.getParamOrThrow('id')
+        const toUpdateRecord = this._record.update({ ...body, id })
+        const persistedRecord = await this._database.update(toUpdateRecord)
+        return new Json({ record: persistedRecord.data })
+      }
+      const [error] = this._validateData(body, schema)
+      return new Json({ error }, 400)
+    } catch (error) {
+      if (error instanceof Error) {
+        return new Json({ error: { message: error.message } }, 400)
+      }
+      return new Json({ error: { message: 'Unknown error' } }, 500)
+    }
+  }
+
   delete = async (request: Delete) => {
-    const id = request.getParamOrThrow('id')
-    await this._database.delete([new Is({ field: 'id', value: id })])
-    return new Json({ id })
+    try {
+      const id = request.getParamOrThrow('id')
+      await this._database.delete([new Is({ field: 'id', value: id })])
+      return new Json({ id })
+    } catch (error) {
+      if (error instanceof Error) {
+        return new Json({ error: { message: error.message } }, 400)
+      }
+      return new Json({ error: { message: 'Unknown error' } }, 500)
+    }
   }
 
   private get _record() {
