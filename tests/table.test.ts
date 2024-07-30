@@ -3,80 +3,22 @@ import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('App with tables', () => {
-  test('should return an error if table does not exist', async ({ request }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    const res = await request.post(`${url}/api/table/unknown`, {
-      data: { name: 'John' },
-    })
-
-    // THEN
-    expect(res.ok()).toBeFalsy()
-    const { error } = await res.json()
-    expect(error).toBe('Table "unknown" not found')
-  })
-
-  test('should get a created record when posting on table api', async ({ request }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    const res = await request.post(`${url}/api/table/leads`, {
-      data: { name: 'John' },
-    })
-
-    // THEN
-    expect(res.ok()).toBeTruthy()
-    const { record } = await res.json()
-    expect(record).toBeDefined()
-    expect(record.id).toBeDefined()
-    expect(record.name).toBe('John')
-  })
-
   Database.each(test, (dbConfig) => {
-    test('should create a record in database when posting on table api', async ({ request }) => {
+    test('should start an app with a new table', async () => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
-        name: 'leads backend',
+        name: 'Database',
         tables: [
           {
-            name: 'leads',
+            name: 'users',
             fields: [
               {
-                name: 'name',
+                name: 'email',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'password',
                 field: 'SingleLineText',
               },
             ],
@@ -84,58 +26,16 @@ test.describe('App with tables', () => {
         ],
         database: dbConfig,
       }
-      const app = new App()
-      const url = await app.start(config)
 
       // WHEN
-      await request.post(`${url}/api/table/leads`, {
-        data: { name: 'John' },
-      })
-
-      // THEN
-      const record = await database
-        .table('leads')
-        .read([{ field: 'name', operator: '=', value: 'John' }])
-      expect(record).toBeDefined()
-      expect(record!.id).toBeDefined()
-      expect(record!.name).toBe('John')
-    })
-
-    test('should create a record with an id with a length of 24', async ({ request }) => {
-      // GIVEN
-      const database = new Database(dbConfig)
-      const config: Config = {
-        name: 'leads backend',
-        tables: [
-          {
-            name: 'leads',
-            fields: [
-              {
-                name: 'name',
-                field: 'SingleLineText',
-              },
-            ],
-          },
-        ],
-        database: dbConfig,
-      }
       const app = new App()
-      const url = await app.start(config)
-
-      // WHEN
-      await request.post(`${url}/api/table/leads`, {
-        data: { name: 'John' },
-      })
+      await app.start(config)
 
       // THEN
-      const record = await database
-        .table('leads')
-        .read([{ field: 'name', operator: '=', value: 'John' }])
-      expect(record).toBeDefined()
-      expect(record!.id).toHaveLength(24)
+      await expect(database.table('users').exists()).resolves.toBe(true)
     })
 
-    test('should start an app with a existing table in database', async () => {
+    test('should start an app with a existing table', async () => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -262,6 +162,138 @@ test.describe('App with tables', () => {
       expect(records).toHaveLength(3)
       expect(records[0].email).toBeNull()
       expect(records[0].name).toBe('John')
+    })
+
+    test('should return an error if table does not exist', async ({ request }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      const res = await request.post(`${url}/api/table/unknown`, {
+        data: { name: 'John' },
+      })
+
+      // THEN
+      expect(res.ok()).toBeFalsy()
+      const { error } = await res.json()
+      expect(error).toBe('Table "unknown" not found')
+    })
+
+    test('should get a created record when posting on table api', async ({ request }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      const res = await request.post(`${url}/api/table/leads`, {
+        data: { name: 'John' },
+      })
+
+      // THEN
+      expect(res.ok()).toBeTruthy()
+      const { record } = await res.json()
+      expect(record).toBeDefined()
+      expect(record.id).toBeDefined()
+      expect(record.name).toBe('John')
+    })
+
+    test('should create a record in database when posting on table api', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await request.post(`${url}/api/table/leads`, {
+        data: { name: 'John' },
+      })
+
+      // THEN
+      const record = await database
+        .table('leads')
+        .read([{ field: 'name', operator: '=', value: 'John' }])
+      expect(record).toBeDefined()
+      expect(record!.id).toBeDefined()
+      expect(record!.name).toBe('John')
+    })
+
+    test('should create a record with an id with a length of 24', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await request.post(`${url}/api/table/leads`, {
+        data: { name: 'John' },
+      })
+
+      // THEN
+      const record = await database
+        .table('leads')
+        .read([{ field: 'name', operator: '=', value: 'John' }])
+      expect(record).toBeDefined()
+      expect(record!.id).toHaveLength(24)
     })
   })
 })

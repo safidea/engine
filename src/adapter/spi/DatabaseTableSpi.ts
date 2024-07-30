@@ -13,13 +13,10 @@ import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 export interface Driver {
   exists: () => Promise<boolean>
   create: (columns: FieldDto[]) => Promise<void>
-  fieldExists: (name: string) => Promise<boolean>
-  addField: (column: FieldDto) => Promise<void>
-  alterField: (column: FieldDto) => Promise<void>
-  dropField: (name: string) => Promise<void>
-  drop: () => Promise<void>
-  insert: (record: ToCreateDto) => Promise<PersistedDto>
-  update: (record: ToUpdateDto) => Promise<PersistedDto>
+  migrate: (columns: FieldDto[]) => Promise<void>
+  insert: (record: ToCreateDto) => Promise<void>
+  insertMany: (records: ToCreateDto[]) => Promise<void>
+  update: (record: ToUpdateDto) => Promise<void>
   delete: (filters: FilterDto[]) => Promise<void>
   read: (filters: FilterDto[]) => Promise<PersistedDto | undefined>
   readById: (id: string) => Promise<PersistedDto | undefined>
@@ -29,16 +26,33 @@ export interface Driver {
 export class DatabaseTableSpi implements Spi {
   constructor(private _driver: Driver) {}
 
+  exists = async () => {
+    return this._driver.exists()
+  }
+
+  create = async (fields: Field[]) => {
+    const fieldsDto = FieldMapper.toManyDto(fields)
+    await this._driver.create(fieldsDto)
+  }
+
+  migrate = async (fields: Field[]) => {
+    const fieldsDto = FieldMapper.toManyDto(fields)
+    await this._driver.migrate(fieldsDto)
+  }
+
   insert = async (toCreateRecord: ToCreate) => {
     const toCreateRecordDto = RecordMapper.toCreateDto(toCreateRecord)
-    const persistedRecordDto = await this._driver.insert(toCreateRecordDto)
-    return RecordMapper.toPersistedEntity(persistedRecordDto)
+    await this._driver.insert(toCreateRecordDto)
+  }
+
+  insertMany = async (toCreateRecords: ToCreate[]) => {
+    const toCreateRecordDtos = toCreateRecords.map(RecordMapper.toCreateDto)
+    await this._driver.insertMany(toCreateRecordDtos)
   }
 
   update = async (toUpdateRecord: ToUpdate) => {
     const toUpdateRecordDto = RecordMapper.toUpdateDto(toUpdateRecord)
-    const persistedRecordDto = await this._driver.update(toUpdateRecordDto)
-    return RecordMapper.toPersistedEntity(persistedRecordDto)
+    await this._driver.update(toUpdateRecordDto)
   }
 
   delete = async (filters: Filter[]) => {
@@ -63,32 +77,5 @@ export class DatabaseTableSpi implements Spi {
     const filterDtos = FilterMapper.toManyDtos(filters)
     const persistedRecordsDtos = await this._driver.list(filterDtos)
     return RecordMapper.toManyPersistedEntity(persistedRecordsDtos)
-  }
-
-  exists = async () => {
-    return this._driver.exists()
-  }
-
-  create = async (fields: Field[]) => {
-    const fieldsDto = FieldMapper.toManyDto(fields)
-    await this._driver.create(fieldsDto)
-  }
-
-  fieldExists = async (name: string) => {
-    return this._driver.fieldExists(name)
-  }
-
-  addField = async (field: Field) => {
-    const fieldDto = FieldMapper.toDto(field)
-    await this._driver.addField(fieldDto)
-  }
-
-  alterField = async (field: Field) => {
-    const fieldDto = FieldMapper.toDto(field)
-    await this._driver.alterField(fieldDto)
-  }
-
-  dropField = async (name: string) => {
-    await this._driver.dropField(name)
   }
 }

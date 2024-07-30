@@ -42,6 +42,10 @@ export class ToCreate {
     }
   }
 
+  get id(): string {
+    return this.data.id
+  }
+
   fillWithContext(context: Context): ToCreate {
     const data = {
       ...this.data,

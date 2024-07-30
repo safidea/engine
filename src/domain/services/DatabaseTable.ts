@@ -15,18 +15,16 @@ export interface Services {
 }
 
 export interface Spi {
-  insert: (toCreateRecord: ToCreate) => Promise<Persisted>
-  update: (toUpdateRecord: ToUpdate) => Promise<Persisted>
+  exists: () => Promise<boolean>
+  create: (fields: Field[]) => Promise<void>
+  migrate: (columns: Field[]) => Promise<void>
+  insert: (toCreateRecord: ToCreate) => Promise<void>
+  insertMany: (toCreateRecords: ToCreate[]) => Promise<void>
+  update: (toUpdateRecord: ToUpdate) => Promise<void>
   delete: (filters: Filter[]) => Promise<void>
   read: (filters: Filter[]) => Promise<Persisted | undefined>
   readById: (id: string) => Promise<Persisted | undefined>
   list: (filters: Filter[]) => Promise<Persisted[]>
-  exists: () => Promise<boolean>
-  create: (fields: Field[]) => Promise<void>
-  fieldExists: (name: string) => Promise<boolean>
-  addField: (field: Field) => Promise<void>
-  alterField: (field: Field) => Promise<void>
-  dropField: (name: string) => Promise<void>
 }
 
 export class DatabaseTable {
@@ -42,14 +40,30 @@ export class DatabaseTable {
     this._table = spi.table(_config.name)
   }
 
+  exists = async () => {
+    return this._table.exists()
+  }
+
+  create = async (fields: Field[]) => {
+    this._log(`creating ${this._config.name}...`)
+    await this._table.create(fields)
+  }
+
+  migrate = async (fields: Field[]) => {
+    this._log(`migrating ${this._config.name}...`)
+    await this._table.migrate(fields)
+  }
+
   insert = async (toCreateRecord: ToCreate) => {
-    const persistedRecord = await this._table.insert(toCreateRecord)
+    await this._table.insert(toCreateRecord)
+    const persistedRecord = await this.readByIdOrThrow(toCreateRecord.id)
     this._log(`inserted in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
 
   update = async (toUpdateRecord: ToUpdate) => {
-    const persistedRecord = await this._table.update(toUpdateRecord)
+    await this._table.update(toUpdateRecord)
+    const persistedRecord = await this.readByIdOrThrow(toUpdateRecord.id)
     this._log(`updated in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
     return persistedRecord
   }
@@ -67,31 +81,14 @@ export class DatabaseTable {
     return this._table.readById(id)
   }
 
+  readByIdOrThrow = async (id: string) => {
+    const record = await this.readById(id)
+    if (!record)
+      throw new Error(`DatabaseTable: record "${id}" not found in table "${this._config.name}"`)
+    return record
+  }
+
   list = async (filters: Filter[]) => {
     return this._table.list(filters)
-  }
-
-  exists = async () => {
-    return this._table.exists()
-  }
-
-  create = async (fields: Field[]) => {
-    await this._table.create(fields)
-  }
-
-  fieldExists = async (name: string) => {
-    return this._table.fieldExists(name)
-  }
-
-  addField = async (field: Field) => {
-    await this._table.addField(field)
-  }
-
-  alterField = async (field: Field) => {
-    await this._table.alterField(field)
-  }
-
-  dropField = async (name: string) => {
-    await this._table.dropField(name)
   }
 }

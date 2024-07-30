@@ -13,4 +13,8 @@ export class ToUpdate {
       updated_at: new Date(),
     }
   }
+
+  get id() {
+    return this.data.id
+  }
 }

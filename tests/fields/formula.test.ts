@@ -186,5 +186,58 @@ test.describe('Formula field', () => {
       // THEN
       expect(record.message).toBe('Hello John!')
     })
+
+    test('should create a record with a formula field referencing another formula field', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'first_name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'last_name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'full_name',
+                field: 'Formula',
+                formula: "first_name || ' ' || last_name",
+                output: {
+                  field: 'SingleLineText',
+                },
+              },
+              {
+                name: 'message',
+                field: 'Formula',
+                formula: "'Hello ' || full_name || '!'",
+                output: {
+                  field: 'SingleLineText',
+                },
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      const { record } = await request
+        .post(url + '/api/table/leads', {
+          data: { first_name: 'John', last_name: 'Doe' },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(record.message).toBe('Hello John Doe!')
+    })
   })
 })

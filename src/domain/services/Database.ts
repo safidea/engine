@@ -2,7 +2,6 @@ import type { Table } from '@domain/entities/Table'
 import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 import type { PostgresRealtimeNotificationEvent, SqliteRealtimeNotificationEvent } from './Realtime'
-import { Formula } from '@domain/entities/Field/Formula'
 
 export interface Config {
   url: string
@@ -80,29 +79,8 @@ export class Database {
       const tableDb = this.table(table.name)
       const exists = await tableDb.exists()
       if (exists) {
-        this._log(`table "${table.name}" exists`)
-        const dynamicFields = table.fields.filter((field) => field instanceof Formula)
-        const staticFields = table.fields.filter((field) => !(field instanceof Formula))
-        for (const field of dynamicFields) {
-          this._log(`dropping dynamic field "${field.name}" from table ${table.name}`)
-          if (await tableDb.fieldExists(field.name)) await tableDb.dropField(field.name)
-        }
-        for (const field of staticFields) {
-          const fieldExists = await tableDb.fieldExists(field.name)
-          if (!fieldExists) {
-            this._log(`adding field "${field.name}" to table ${table.name}`)
-            await tableDb.addField(field)
-          } else {
-            this._log(`altering field "${field.name}" in table ${table.name}`)
-            await tableDb.alterField(field)
-          }
-        }
-        for (const field of dynamicFields) {
-          this._log(`adding dynamic field "${field.name}" to table ${table.name}`)
-          await tableDb.addField(field)
-        }
+        await tableDb.migrate(table.fields)
       } else {
-        this._log(`creating table "${table.name}"`)
         await tableDb.create(table.fields)
       }
     }
