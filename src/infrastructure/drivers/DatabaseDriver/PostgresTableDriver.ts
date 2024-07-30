@@ -111,7 +111,9 @@ export class PostgresTableDriver implements Driver {
   private _buildColumnQuery = (field: FieldDto): string | undefined => {
     if (field.formula) return
     let query = `"${field.name}" ${field.type}`
-    if (field.options) {
+    if (field.name === 'id') {
+      query += ' PRIMARY KEY'
+    } else if (field.options) {
       query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
     }
     if (field.required) {

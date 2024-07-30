@@ -7,6 +7,7 @@ import { NumberMapper } from './NumberMapper'
 import { EmailMapper } from './EmailMapper'
 import { FormulaMapper } from './FormulaMapper'
 import { SingleSelectMapper } from './SingleSelectMapper'
+import { SingleLinkedRecordMapper } from './SingleLinkedRecordMapper'
 
 export class FieldMapper {
   static toEntity(config: Config): Field {
@@ -18,6 +19,7 @@ export class FieldMapper {
     if (field === 'Number') return NumberMapper.toEntity(config)
     if (field === 'Formula') return FormulaMapper.toEntity(config)
     if (field === 'SingleSelect') return SingleSelectMapper.toEntity(config)
+    if (field === 'SingleLinkedRecord') return SingleLinkedRecordMapper.toEntity(config)
     throw new Error(`FieldMapper: type ${field} not found`)
   }
 

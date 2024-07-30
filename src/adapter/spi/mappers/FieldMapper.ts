@@ -7,6 +7,7 @@ import { LongText } from '@domain/entities/Field/LongText'
 import { Number } from '@domain/entities/Field/Number'
 import { Formula } from '@domain/entities/Field/Formula'
 import { SingleSelect } from '@domain/entities/Field/SingleSelect'
+import { SingleLinkedRecord } from '@domain/entities/Field/SingleLinkedRecord'
 
 export class FieldMapper {
   static toDto = (field: Field): FieldDto => {
@@ -44,6 +45,14 @@ export class FieldMapper {
         name: field.name,
         type: 'text',
         options: field.options,
+        required: field.required,
+      }
+    }
+    if (field instanceof SingleLinkedRecord) {
+      return {
+        name: field.name,
+        type: 'text',
+        table: field.table,
         required: field.required,
       }
     }

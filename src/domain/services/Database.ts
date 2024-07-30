@@ -75,7 +75,32 @@ export class Database {
 
   migrate = async (tables: Table[]) => {
     this._log(`migrating database...`)
+    const sortedTables: Table[] = []
+    const tableMap = new Map<string, Table>(tables.map((table) => [table.name, table]))
+    const visit = (table: Table, visited: Set<string>, stack: Set<string>) => {
+      if (stack.has(table.name)) {
+        throw new Error(`Circular dependency detected: ${table.name}`)
+      }
+      if (!visited.has(table.name)) {
+        stack.add(table.name)
+        for (const dep of table.dependancies()) {
+          if (tableMap.has(dep)) {
+            visit(tableMap.get(dep)!, visited, stack)
+          } else {
+            throw new Error(`Dependency not found: ${dep}`)
+          }
+        }
+        stack.delete(table.name)
+        visited.add(table.name)
+        sortedTables.push(table)
+      }
+    }
+    const visited = new Set<string>()
+    const stack = new Set<string>()
     for (const table of tables) {
+      visit(table, visited, stack)
+    }
+    for (const table of sortedTables) {
       const tableDb = this.table(table.name)
       const exists = await tableDb.exists()
       if (exists) {
@@ -84,6 +109,7 @@ export class Database {
         await tableDb.create(table.fields)
       }
     }
+
     this._log(`database migrated`)
   }
 

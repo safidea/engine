@@ -90,7 +90,7 @@ test.describe('Formula field', () => {
       expect(record.full_name).toBe('John Doe')
     })
 
-    test('should migrate a table with a new formula field', async ({ request }) => {
+    test.only('should migrate a table with a new formula field', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -118,6 +118,10 @@ test.describe('Formula field', () => {
       }
       const app = new App()
       await database.table('leads').create([
+        {
+          name: 'id',
+          type: 'text',
+        },
         {
           name: 'name',
           type: 'text',

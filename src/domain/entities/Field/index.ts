@@ -5,5 +5,14 @@ import type { SingleLineText } from './SingleLineText'
 import type { Number as Number_ } from './Number'
 import type { Formula } from './Formula'
 import type { SingleSelect } from './SingleSelect'
+import type { SingleLinkedRecord } from './SingleLinkedRecord'
 
-export type Field = Email | SingleLineText | LongText | DateTime | Number_ | Formula | SingleSelect
+export type Field =
+  | Email
+  | SingleLineText
+  | LongText
+  | DateTime
+  | Number_
+  | Formula
+  | SingleSelect
+  | SingleLinkedRecord

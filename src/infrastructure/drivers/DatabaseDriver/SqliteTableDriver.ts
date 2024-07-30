@@ -24,10 +24,7 @@ export class SqliteTableDriver implements Driver {
   }
 
   create = async (fields: FieldDto[]) => {
-    const tableColumns = fields
-      .map(this._buildColumnQuery)
-      .filter((q) => !!q)
-      .join(', ')
+    const tableColumns = this._buildColumnsQuery(fields)
     const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
     this._db.exec(tableQuery)
     await this._createView(fields)
@@ -41,12 +38,16 @@ export class SqliteTableDriver implements Driver {
     const dropViewQuery = `DROP VIEW IF EXISTS ${this._name}_view`
     this._db.exec(dropViewQuery)
     for (const field of fieldsToAdd) {
-      const query = `ALTER TABLE ${this._name} ADD COLUMN ${this._buildColumnQuery(field)}`
+      const [column, reference] = this._buildColumnsQuery([field]).split(',')
+      const query = `ALTER TABLE ${this._name} ADD COLUMN ${column}`
       this._db.exec(query)
+      if (reference) {
+        this._db.exec(`ALTER TABLE ${this._name} ADD CONSTRAINT fk_${field.name} ${reference}`)
+      }
     }
     if (fieldsToAlter.length > 0) {
       const tempTableName = `${this._name}_temp`
-      const newSchema = staticFields.map((field) => this._buildColumnQuery(field)).join(', ')
+      const newSchema = this._buildColumnsQuery(staticFields)
       this._db.exec(`CREATE TABLE ${tempTableName} (${newSchema})`)
       const columnsToCopy = staticFields.map((field) => field.name).join(', ')
       this._db.exec(
@@ -111,16 +112,26 @@ export class SqliteTableDriver implements Driver {
     return records.map(this._postprocess)
   }
 
-  private _buildColumnQuery = (field: FieldDto): string | undefined => {
-    if (field.formula) return
-    let query = `"${field.name}" ${field.type}`
-    if (field.options) {
-      query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
+  private _buildColumnsQuery = (fields: FieldDto[]) => {
+    const columns = []
+    const references = []
+    for (const field of fields) {
+      if (field.formula) continue
+      let query = `"${field.name}" ${field.type}`
+      if (field.name === 'id') {
+        query += ' PRIMARY KEY'
+      } else if (field.options) {
+        query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
+      } else if (field.table) {
+        references.push(`FOREIGN KEY ("${field.name}") REFERENCES ${field.table}(id)`)
+      }
+      if (field.required) {
+        query += ' NOT NULL'
+      }
+      columns.push(query)
     }
-    if (field.required) {
-      query += ' NOT NULL'
-    }
-    return query
+    columns.push(...references)
+    return columns.join(', ')
   }
 
   private _getExistingColumns = async (): Promise<string[]> => {

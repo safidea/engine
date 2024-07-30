@@ -23,6 +23,7 @@ import { LongText } from '../Field/LongText'
 import { Email } from '../Field/Email'
 import { Number } from '../Field/Number'
 import { DateTime } from '../Field/DateTime'
+import { SingleLinkedRecord } from '../Field/SingleLinkedRecord'
 
 interface Params {
   name: string
@@ -66,6 +67,12 @@ export class Table {
 
   validateConfig = async (): Promise<ConfigError[]> => {
     return []
+  }
+
+  dependancies = () => {
+    return this.fields
+      .filter((field) => field instanceof SingleLinkedRecord)
+      .map((field) => field.table)
   }
 
   post = async (request: Post) => {
