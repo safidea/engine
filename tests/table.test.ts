@@ -56,6 +56,10 @@ test.describe('App with tables', () => {
       const app = new App()
       await database.table('leads').create([
         {
+          name: 'id',
+          type: 'text',
+        },
+        {
           name: 'name',
           type: 'text',
         },
@@ -92,6 +96,10 @@ test.describe('App with tables', () => {
       }
       const app = new App()
       await database.table('leads').create([
+        {
+          name: 'id',
+          type: 'text',
+        },
         {
           name: 'name',
           type: 'text',

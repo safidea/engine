@@ -49,7 +49,7 @@ test.describe('Single linked record field', () => {
       expect(record.model).toBe('1')
     })
 
-    test.skip('should note create a record with a bad single linked record id', async ({
+    test.skip('should not create a record with a bad single linked record id', async ({
       request,
     }) => {
       // GIVEN
