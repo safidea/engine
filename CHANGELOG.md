@@ -1,3 +1,10 @@
+## [0.22.2](https://github.com/safidea/engine/compare/v0.22.1...v0.22.2) (2024-07-31)
+
+
+### Bug Fixes
+
+* **Rollup:** add green test: should create a record with multiple rollup fields ([9e4a1cb](https://github.com/safidea/engine/commit/9e4a1cb4bb0ec375241ac8b4770f167eaa3ed47c))
+
 ## [0.22.1](https://github.com/safidea/engine/compare/v0.22.0...v0.22.1) (2024-07-31)
 
 
