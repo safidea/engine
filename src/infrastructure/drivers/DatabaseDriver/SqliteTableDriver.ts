@@ -261,7 +261,9 @@ export class SqliteTableDriver implements Driver {
         if (field.formula) {
           if (field.table && field.tableField) {
             const values = `${field.table}_view.${field.tableField}`
-            const formula = field.formula.replace(/\bvalues\b/g, values)
+            const formula = field.formula
+              .replace(/\bvalues\b/g, values)
+              .replace(/\bCONCAT\b/g, 'GROUP_CONCAT')
             const manyToManyTableName = this._getManyToManyTableName(field.table)
             joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
             joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
