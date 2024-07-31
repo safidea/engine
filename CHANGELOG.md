@@ -1,3 +1,10 @@
+## [0.22.3](https://github.com/safidea/engine/compare/v0.22.2...v0.22.3) (2024-07-31)
+
+
+### Bug Fixes
+
+* **Rollup:** add green test: should migrate an existing table with multiple rollup fields ([aee5d32](https://github.com/safidea/engine/commit/aee5d32e505a52ed3ae536ed33027a77355e6110))
+
 ## [0.22.2](https://github.com/safidea/engine/compare/v0.22.1...v0.22.2) (2024-07-31)
 
 
