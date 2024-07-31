@@ -30,7 +30,6 @@ export class SqliteTableDriver implements Driver {
     const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
     this._db.exec(tableQuery)
     await this._createManyToManyTables()
-    await this._createView()
   }
 
   migrate = async () => {
@@ -46,8 +45,6 @@ export class SqliteTableDriver implements Driver {
         existingColumn.type !== field.type || existingColumn.required !== (field.required ? 1 : 0)
       )
     })
-    const dropViewQuery = `DROP VIEW IF EXISTS ${this._name}_view`
-    this._db.exec(dropViewQuery)
     for (const field of fieldsToAdd) {
       const [column, reference] = this._buildColumnsQuery([field]).split(',')
       const query = `ALTER TABLE ${this._name} ADD COLUMN ${column}`
@@ -68,7 +65,44 @@ export class SqliteTableDriver implements Driver {
       this._db.exec(`ALTER TABLE ${tempTableName} RENAME TO ${this._name}`)
     }
     await this._createManyToManyTables()
-    await this._createView()
+  }
+
+  dropView = async () => {
+    const query = `DROP VIEW IF EXISTS ${this._name}_view`
+    this._db.exec(query)
+  }
+
+  createView = async () => {
+    let joins = ''
+    const columns = this._fields
+      .map((field) => {
+        if (field.formula) {
+          if (field.table && field.tableField) {
+            const values = `${field.table}_view.${field.tableField}`
+            const formula = this._convertFormula(field.formula, values)
+            const manyToManyTableName = this._getManyToManyTableName(field.table)
+            if (!joins.includes(manyToManyTableName)) {
+              joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
+              joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
+            }
+            return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
+          } else {
+            const expandedFormula = this._fields.reduce((acc, f) => {
+              const regex = new RegExp(`\\b${f.name}\\b`, 'g')
+              return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
+            }, field.formula)
+            return `CAST(${expandedFormula} AS ${field.type}) AS "${field.name}"`
+          }
+        } else if (field.type === 'TEXT[]' && field.table) {
+          return `(SELECT GROUP_CONCAT("${field.table}_id") FROM ${this._getManyToManyTableName(field.table)} WHERE "${this._name}_id" = ${this._name}.id) AS "${field.name}"`
+        } else {
+          return `${this._name}.${field.name} AS "${field.name}"`
+        }
+      })
+      .join(', ')
+    let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
+    if (joins) query += joins + ` GROUP BY ${this._name}.id`
+    this._db.exec(query)
   }
 
   insert = async (record: ToCreateDto) => {
@@ -251,39 +285,6 @@ export class SqliteTableDriver implements Driver {
 
   private _getExistingColumns = (): ColumnInfo[] => {
     return this._db.prepare(`PRAGMA table_info(${this._name})`).all() as ColumnInfo[]
-  }
-
-  private _createView = async () => {
-    let joins = ''
-    const columns = this._fields
-      .map((field) => {
-        if (field.formula) {
-          if (field.table && field.tableField) {
-            const values = `${field.table}_view.${field.tableField}`
-            const formula = this._convertFormula(field.formula, values)
-            const manyToManyTableName = this._getManyToManyTableName(field.table)
-            if (!joins.includes(manyToManyTableName)) {
-              joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
-              joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
-            }
-            return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
-          } else {
-            const expandedFormula = this._fields.reduce((acc, f) => {
-              const regex = new RegExp(`\\b${f.name}\\b`, 'g')
-              return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
-            }, field.formula)
-            return `CAST(${expandedFormula} AS ${field.type}) AS "${field.name}"`
-          }
-        } else if (field.type === 'TEXT[]' && field.table) {
-          return `(SELECT GROUP_CONCAT("${field.table}_id") FROM ${this._getManyToManyTableName(field.table)} WHERE "${this._name}_id" = ${this._name}.id) AS "${field.name}"`
-        } else {
-          return `${this._name}.${field.name} AS "${field.name}"`
-        }
-      })
-      .join(', ')
-    let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
-    if (joins) query += joins + ` GROUP BY ${this._name}.id`
-    this._db.exec(query)
   }
 
   private _convertFormula = (formula: string, values: string) => {

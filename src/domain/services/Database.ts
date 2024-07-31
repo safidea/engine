@@ -102,6 +102,9 @@ export class Database {
     for (const table of tables) {
       visit(table, visited, stack)
     }
+    for (const table of [...sortedTables].reverse()) {
+      await this.table(table.name, table.fields).dropView()
+    }
     for (const table of sortedTables) {
       const tableDb = this.table(table.name, table.fields)
       const exists = await tableDb.exists()
@@ -110,6 +113,9 @@ export class Database {
       } else {
         await tableDb.create()
       }
+    }
+    for (const table of sortedTables) {
+      await this.table(table.name, table.fields).createView()
     }
 
     this._log(`database migrated`)

@@ -10,7 +10,9 @@ import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
 export interface Driver {
   exists: () => Promise<boolean>
   create: () => Promise<void>
+  dropView: () => Promise<void>
   migrate: () => Promise<void>
+  createView: () => Promise<void>
   insert: (record: ToCreateDto) => Promise<void>
   insertMany: (records: ToCreateDto[]) => Promise<void>
   update: (record: ToUpdateDto) => Promise<void>
@@ -32,8 +34,16 @@ export class DatabaseTableSpi implements Spi {
     await this._driver.create()
   }
 
+  dropView = async () => {
+    await this._driver.dropView()
+  }
+
   migrate = async () => {
     await this._driver.migrate()
+  }
+
+  createView = async () => {
+    await this._driver.createView()
   }
 
   insert = async (toCreateRecord: ToCreate) => {

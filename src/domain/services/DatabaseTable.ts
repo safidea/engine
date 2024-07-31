@@ -19,7 +19,9 @@ export interface Services {
 export interface Spi {
   exists: () => Promise<boolean>
   create: () => Promise<void>
+  dropView: () => Promise<void>
   migrate: () => Promise<void>
+  createView: () => Promise<void>
   insert: (toCreateRecord: ToCreate) => Promise<void>
   insertMany: (toCreateRecords: ToCreate[]) => Promise<void>
   update: (toUpdateRecord: ToUpdate) => Promise<void>
@@ -52,9 +54,19 @@ export class DatabaseTable {
     await this._table.create()
   }
 
+  dropView = async () => {
+    this._log(`dropping view ${this._config.name}...`)
+    await this._table.dropView()
+  }
+
   migrate = async () => {
     this._log(`migrating ${this._config.name}...`)
     await this._table.migrate()
+  }
+
+  createView = async () => {
+    this._log(`creating view ${this._config.name}...`)
+    await this._table.createView()
   }
 
   insert = async (toCreateRecord: ToCreate) => {

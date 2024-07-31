@@ -380,5 +380,138 @@ test.describe('Rollup field', () => {
       // THEN
       expect(record.names).toBe('Jane, John')
     })
+
+    test('should migrate an existing table with multiple rollup fields', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        tables: [
+          {
+            name: 'items',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'price',
+                field: 'Number',
+              },
+              {
+                name: 'quantity',
+                field: 'Number',
+              },
+              {
+                name: 'total',
+                field: 'Formula',
+                formula: 'price * quantity',
+                output: {
+                  field: 'Number',
+                },
+              },
+              {
+                name: 'total_vat',
+                field: 'Formula',
+                formula: 'total * 0.2',
+                output: {
+                  field: 'Number',
+                },
+              },
+            ],
+          },
+          {
+            name: 'invoices',
+            fields: [
+              {
+                name: 'items',
+                field: 'MultipleLinkedRecord',
+                table: 'items',
+              },
+              {
+                name: 'total',
+                field: 'Rollup',
+                multipleLinkedRecord: 'items',
+                linkedRecordField: 'total',
+                formula: 'SUM(values)',
+                output: {
+                  field: 'Number',
+                },
+              },
+              {
+                name: 'total_vat',
+                field: 'Rollup',
+                multipleLinkedRecord: 'items',
+                linkedRecordField: 'total_vat',
+                formula: 'SUM(values)',
+                output: {
+                  field: 'Number',
+                },
+              },
+              {
+                name: 'names',
+                field: 'Rollup',
+                multipleLinkedRecord: 'items',
+                linkedRecordField: 'name',
+                formula: 'CONCAT(values)',
+                output: {
+                  field: 'SingleLineText',
+                },
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const items = database.table('items', [
+        { name: 'price', type: 'NUMERIC' },
+        { name: 'quantity', type: 'NUMERIC' },
+        { name: 'total', type: 'NUMERIC', formula: 'price * quantity' },
+        { name: 'total_vat', type: 'NUMERIC', formula: 'total * 0.2' },
+      ])
+      await items.create()
+      await items.insertMany([
+        { id: '1', name: 'item 1', price: 3, quantity: 5, created_at: new Date() },
+        { id: '2', name: 'item 2', price: 5, quantity: 2, created_at: new Date() },
+      ])
+      await database
+        .table('invoices', [
+          { name: 'items', type: 'TEXT[]', table: 'items' },
+          {
+            name: 'total',
+            type: 'NUMERIC',
+            formula: 'SUM(values)',
+            table: 'items',
+            tableField: 'total',
+          },
+          {
+            name: 'total_vat',
+            type: 'NUMERIC',
+            formula: 'SUM(values)',
+            table: 'items',
+            tableField: 'total_vat',
+          },
+          {
+            name: 'names',
+            type: 'TEXT',
+            formula: 'CONCAT(values)',
+            table: 'items',
+            tableField: 'name',
+          },
+        ])
+        .create()
+
+      // WHEN
+      const url = await app.start(config)
+      const { record } = await request
+        .post(url + '/api/table/invoices', {
+          data: { items: ['1', '2'] },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(record.total_vat).toBe(5)
+    })
   })
 })
