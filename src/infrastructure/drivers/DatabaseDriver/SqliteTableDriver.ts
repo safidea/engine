@@ -8,7 +8,7 @@ import type { DataType } from '@domain/entities/Record/ToCreate'
 interface ColumnInfo {
   name: string
   type: string
-  notnull: number
+  required: number
 }
 
 export class SqliteTableDriver implements Driver {
@@ -34,10 +34,18 @@ export class SqliteTableDriver implements Driver {
   }
 
   migrate = async () => {
-    const existingColumns = await this._getExistingColumns()
-    const staticFields = this._fields.filter((field) => !field.formula)
-    const fieldsToAdd = staticFields.filter((field) => !existingColumns.includes(field.name))
-    const fieldsToAlter = staticFields.filter((field) => existingColumns.includes(field.name))
+    const existingColumns = this._getExistingColumns()
+    const staticFields = this._fields.filter((field) => !this._isViewField(field))
+    const fieldsToAdd = staticFields.filter(
+      (field) => !existingColumns.some((column) => column.name === field.name)
+    )
+    const fieldsToAlter = staticFields.filter((field) => {
+      const existingColumn = existingColumns.find((column) => column.name === field.name)
+      if (!existingColumn) return false
+      return (
+        existingColumn.type !== field.type || existingColumn.required !== (field.required ? 1 : 0)
+      )
+    })
     const dropViewQuery = `DROP VIEW IF EXISTS ${this._name}_view`
     this._db.exec(dropViewQuery)
     for (const field of fieldsToAdd) {
@@ -150,7 +158,7 @@ export class SqliteTableDriver implements Driver {
     const columns = []
     const references = []
     for (const field of fields) {
-      if (field.formula || (field.type === 'TEXT[]' && field.table)) continue
+      if (this._isViewField(field)) continue
       let query = `"${field.name}" ${field.type}`
       if (field.name === 'id') {
         query += ' PRIMARY KEY'
@@ -187,6 +195,10 @@ export class SqliteTableDriver implements Driver {
         this._db.exec(query)
       }
     }
+  }
+
+  private _isViewField = (field: FieldDto) => {
+    return field.formula || (field.type === 'TEXT[]' && field.table)
   }
 
   private _splitFields = (record: ToCreateDto | ToUpdateDto) => {
@@ -237,9 +249,8 @@ export class SqliteTableDriver implements Driver {
     }
   }
 
-  private _getExistingColumns = async (): Promise<string[]> => {
-    const fields = this._db.prepare(`PRAGMA table_info(${this._name})`).all() as ColumnInfo[]
-    return fields.map((field) => field.name)
+  private _getExistingColumns = (): ColumnInfo[] => {
+    return this._db.prepare(`PRAGMA table_info(${this._name})`).all() as ColumnInfo[]
   }
 
   private _createView = async () => {

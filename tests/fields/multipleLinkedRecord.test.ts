@@ -104,5 +104,47 @@ test.describe('Multiple linked record field', () => {
             : 'Key (models_id)=(3) is not present in table "models".',
       })
     })
+
+    test('should restart an app with a multiple linked record field', async () => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        tables: [
+          {
+            name: 'cars',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'models',
+                field: 'MultipleLinkedRecord',
+                table: 'models',
+              },
+            ],
+          },
+          {
+            name: 'models',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await app.start(config)
+      await app.stop()
+
+      // WHEN
+      const call = () => app.start(config)
+
+      // THEN
+      await expect(call()).resolves.not.toThrow()
+    })
   })
 })

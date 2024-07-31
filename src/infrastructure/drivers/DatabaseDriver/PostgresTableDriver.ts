@@ -5,6 +5,12 @@ import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
 import type { DataType } from '@domain/entities/Record/ToCreate'
 
+interface ColumnInfo {
+  name: string
+  type: string
+  notnull: number
+}
+
 export class PostgresTableDriver implements Driver {
   constructor(
     private _name: string,
@@ -30,9 +36,17 @@ export class PostgresTableDriver implements Driver {
 
   migrate = async () => {
     const existingColumns = await this._getExistingColumns()
-    const staticFields = this._fields.filter((field) => !field.formula)
-    const fieldsToAdd = staticFields.filter((field) => !existingColumns.includes(field.name))
-    const fieldsToAlter = staticFields.filter((field) => existingColumns.includes(field.name))
+    const staticFields = this._fields.filter((field) => !this._isViewField(field))
+    const fieldsToAdd = staticFields.filter(
+      (field) => !existingColumns.some((column) => column.name === field.name)
+    )
+    const fieldsToAlter = staticFields.filter((field) => {
+      const existingColumn = existingColumns.find((column) => column.name === field.name)
+      if (!existingColumn) return false
+      return (
+        existingColumn.type !== field.type || existingColumn.notnull !== (field.required ? 1 : 0)
+      )
+    })
     const dropViewQuery = `DROP VIEW IF EXISTS ${this._name}_view`
     await this._db.query(dropViewQuery)
     for (const field of fieldsToAdd) {
@@ -143,7 +157,7 @@ export class PostgresTableDriver implements Driver {
     const columns = []
     const references = []
     for (const field of fields) {
-      if (field.formula || (field.type === 'TEXT[]' && field.table)) continue
+      if (this._isViewField(field)) continue
       let query = `"${field.name}" ${field.type}`
       if (field.name === 'id') {
         query += ' PRIMARY KEY'
@@ -230,6 +244,10 @@ export class PostgresTableDriver implements Driver {
     }
   }
 
+  private _isViewField = (field: FieldDto) => {
+    return field.formula || (field.type === 'TEXT[]' && field.table)
+  }
+
   private _createView = async () => {
     const columns = this._fields
       .map((field) => {
@@ -250,12 +268,12 @@ export class PostgresTableDriver implements Driver {
     await this._db.query(query)
   }
 
-  private _getExistingColumns = async (): Promise<string[]> => {
+  private _getExistingColumns = async (): Promise<ColumnInfo[]> => {
     const result = await this._db.query(
-      `SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name = $1`,
+      `SELECT column_name as name, data_type as type, is_nullable as notnull FROM information_schema.columns WHERE table_schema = 'public' AND table_name = $1`,
       [this._name]
     )
-    return result.rows.map((row) => row.column_name)
+    return result.rows
   }
 
   private _throwError = (error: unknown) => {
