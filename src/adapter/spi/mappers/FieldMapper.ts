@@ -9,60 +9,67 @@ import { Formula } from '@domain/entities/Field/Formula'
 import { SingleSelect } from '@domain/entities/Field/SingleSelect'
 import { SingleLinkedRecord } from '@domain/entities/Field/SingleLinkedRecord'
 import { MultipleLinkedRecord } from '@domain/entities/Field/MultipleLinkedRecord'
+import { Rollup } from '@domain/entities/Field/Rollup'
 
 export class FieldMapper {
   static toDto = (field: Field): FieldDto => {
+    const fieldDto = {
+      name: field.name,
+      required: field.required,
+    }
     if (field instanceof Email || field instanceof SingleLineText || field instanceof LongText) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: 'TEXT',
-        required: field.required,
       }
     }
     if (field instanceof DateTime) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: 'TIMESTAMP',
-        required: field.required,
       }
     }
     if (field instanceof Number) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: 'NUMERIC',
-        required: field.required,
       }
     }
     if (field instanceof Formula) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: FieldMapper.toDto(field.output).type,
         formula: field.formula,
-        required: field.required,
+      }
+    }
+    if (field instanceof Rollup) {
+      return {
+        ...fieldDto,
+        type: FieldMapper.toDto(field.output).type,
+        formula: field.formula,
+        table: field.table,
+        tableField: field.linkedRecordField,
       }
     }
     if (field instanceof SingleSelect) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: 'TEXT',
         options: field.options,
-        required: field.required,
       }
     }
     if (field instanceof SingleLinkedRecord) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: 'TEXT',
         table: field.table,
-        required: field.required,
       }
     }
     if (field instanceof MultipleLinkedRecord) {
       return {
-        name: field.name,
+        ...fieldDto,
         type: 'TEXT[]',
         table: field.table,
-        required: field.required,
       }
     }
     throw new Error('Field type not supported')

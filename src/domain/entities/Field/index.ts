@@ -7,6 +7,7 @@ import type { Formula } from './Formula'
 import type { SingleSelect } from './SingleSelect'
 import type { SingleLinkedRecord } from './SingleLinkedRecord'
 import type { MultipleLinkedRecord } from './MultipleLinkedRecord'
+import type { Rollup } from './Rollup'
 
 export type Field =
   | Email
@@ -18,3 +19,4 @@ export type Field =
   | SingleSelect
   | SingleLinkedRecord
   | MultipleLinkedRecord
+  | Rollup

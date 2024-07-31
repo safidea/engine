@@ -7,6 +7,8 @@ import type { Database } from '@domain/services/Database'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
+import { SingleLineTextMapper } from './FieldMapper/SingleLineTextMapper'
+import { DateTimeMapper } from './FieldMapper/DateTimeMapper'
 
 export interface Services {
   logger: Logger
@@ -24,7 +26,7 @@ export class TableMapper {
     const fields = FieldMapper.toManyEntities(config.fields)
     if (!fields.find((field) => field.name === 'id')) {
       fields.unshift(
-        FieldMapper.toEntity({
+        SingleLineTextMapper.toEntity({
           name: 'id',
           field: 'SingleLineText',
           required: true,
@@ -33,7 +35,7 @@ export class TableMapper {
     }
     if (!fields.find((field) => field.name === 'created_at')) {
       fields.push(
-        FieldMapper.toEntity({
+        DateTimeMapper.toEntity({
           name: 'created_at',
           field: 'DateTime',
           required: true,
@@ -42,7 +44,7 @@ export class TableMapper {
     }
     if (!fields.find((field) => field.name === 'updated_at')) {
       fields.push(
-        FieldMapper.toEntity({
+        DateTimeMapper.toEntity({
           name: 'updated_at',
           field: 'DateTime',
         })

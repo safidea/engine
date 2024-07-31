@@ -5,4 +5,5 @@ export interface FieldDto {
   options?: string[]
   required?: boolean
   table?: string
+  tableField?: string
 }

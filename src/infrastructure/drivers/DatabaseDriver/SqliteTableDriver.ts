@@ -254,22 +254,36 @@ export class SqliteTableDriver implements Driver {
   }
 
   private _createView = async () => {
+    let joins = ''
+    let groups = ''
     const columns = this._fields
       .map((field) => {
         if (field.formula) {
-          const expandedFormula = this._fields.reduce((acc, f) => {
-            const regex = new RegExp(`\\b${f.name}\\b`, 'g')
-            return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
-          }, field.formula)
-          return `CAST(${expandedFormula} AS ${field.type.toUpperCase()}) AS "${field.name}"`
+          if (field.table && field.tableField) {
+            const values = `${field.table}_view.${field.tableField}`
+            const formula = field.formula.replace(/\bvalues\b/g, values)
+            const manyToManyTableName = this._getManyToManyTableName(field.table)
+            joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
+            joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
+            groups += ` GROUP BY ${this._name}.id`
+            return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
+          } else {
+            const expandedFormula = this._fields.reduce((acc, f) => {
+              const regex = new RegExp(`\\b${f.name}\\b`, 'g')
+              return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
+            }, field.formula)
+            return `CAST(${expandedFormula} AS ${field.type}) AS "${field.name}"`
+          }
         } else if (field.type === 'TEXT[]' && field.table) {
           return `(SELECT GROUP_CONCAT("${field.table}_id") FROM ${this._getManyToManyTableName(field.table)} WHERE "${this._name}_id" = ${this._name}.id) AS "${field.name}"`
         } else {
-          return `"${field.name}"`
+          return `${this._name}.${field.name} AS "${field.name}"`
         }
       })
       .join(', ')
-    const query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
+    let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
+    if (joins) query += joins
+    if (groups) query += groups
     this._db.exec(query)
   }
 
@@ -287,6 +301,7 @@ export class SqliteTableDriver implements Driver {
       const value = persistedRecord[key]
       const field = this._fields.find((f) => f.name === key)
       if (!field) throw new Error('Field not found.')
+      if (!value) return acc
       if (field.type === 'TIMESTAMP') {
         acc[key] = new Date(Number(value))
       } else if (field.type === 'TEXT[]' && typeof value === 'string') {

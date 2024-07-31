@@ -1499,6 +1499,9 @@
                     "$ref": "#/definitions/MultipleLinkedRecord"
                 },
                 {
+                    "$ref": "#/definitions/Rollup"
+                },
+                {
                     "$ref": "#/definitions/SingleLinkedRecord"
                 },
                 {
@@ -2815,6 +2818,42 @@
             "required": [
                 "table",
                 "trigger"
+            ],
+            "type": "object"
+        },
+        "Rollup": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Rollup",
+                    "type": "string"
+                },
+                "formula": {
+                    "type": "string"
+                },
+                "linkedRecordField": {
+                    "type": "string"
+                },
+                "multipleLinkedRecord": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "output": {
+                    "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "formula",
+                "linkedRecordField",
+                "multipleLinkedRecord",
+                "name",
+                "output"
             ],
             "type": "object"
         },
