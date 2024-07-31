@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/safidea/engine/compare/v0.21.1...v0.22.0) (2024-07-31)
+
+
+### Features
+
+* **Rollup:** add green test: should create a record with a rollup field as a number ([d5cab5e](https://github.com/safidea/engine/commit/d5cab5e1d351b2ec8526156a9cf6bb8de219c848))
+
 ## [0.21.1](https://github.com/safidea/engine/compare/v0.21.0...v0.21.1) (2024-07-31)
 
 
