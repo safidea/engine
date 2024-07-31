@@ -250,19 +250,17 @@ export class PostgresTableDriver implements Driver {
 
   private _createView = async () => {
     let joins = ''
-    let groups = ''
     const columns = this._fields
       .map((field) => {
         if (field.formula) {
           if (field.table && field.tableField) {
             const values = `${field.table}_view.${field.tableField}`
-            const formula = field.formula
-              .replace(/\bvalues\b/g, values)
-              .replace(/\bCONCAT\b/g, 'STRING_AGG')
+            const formula = this._convertFormula(field.formula, values)
             const manyToManyTableName = this._getManyToManyTableName(field.table)
-            joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
-            joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
-            groups += ` GROUP BY ${this._name}.id`
+            if (!joins.includes(manyToManyTableName)) {
+              joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
+              joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
+            }
             return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
           } else {
             const expandedFormula = this._fields.reduce((acc, f) => {
@@ -279,9 +277,19 @@ export class PostgresTableDriver implements Driver {
       })
       .join(', ')
     let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
-    if (joins) query += joins
-    if (groups) query += groups
+    if (joins) query += joins + ` GROUP BY ${this._name}.id`
     await this._db.query(query)
+  }
+
+  private _convertFormula(formula: string, values: string) {
+    const patterns = [
+      { pattern: /CONCAT\(values\)/g, replacement: "STRING_AGG(values, ',')" },
+      { pattern: /CONCAT\(values, '([^']*)'\)/g, replacement: "STRING_AGG(values, '$1')" },
+    ]
+    patterns.forEach(({ pattern, replacement }) => {
+      formula = formula.replace(pattern, replacement)
+    })
+    return formula.replace(/\bvalues\b/g, values)
   }
 
   private _getExistingColumns = async (): Promise<ColumnInfo[]> => {
