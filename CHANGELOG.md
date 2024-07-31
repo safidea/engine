@@ -1,3 +1,10 @@
+## [0.21.1](https://github.com/safidea/engine/compare/v0.21.0...v0.21.1) (2024-07-31)
+
+
+### Bug Fixes
+
+* **MultipleLinkedRecord:** add green test: should restart an app with a multiple linked record field ([393b65d](https://github.com/safidea/engine/commit/393b65d95d1ae11f73b832d55163dc9d89929aac))
+
 # [0.21.0](https://github.com/safidea/engine/compare/v0.20.0...v0.21.0) (2024-07-30)
 
 
