@@ -16,6 +16,7 @@ export class FieldMapper {
     const fieldDto = {
       name: field.name,
       required: field.required,
+      onMigration: field.onMigration,
     }
     if (field instanceof Email || field instanceof SingleLineText || field instanceof LongText) {
       return {

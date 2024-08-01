@@ -6,4 +6,7 @@ export interface FieldDto {
   required?: boolean
   table?: string
   tableField?: string
+  onMigration?: {
+    replace?: string
+  }
 }

@@ -36,13 +36,24 @@ export class SqliteTableDriver implements Driver {
     const existingColumns = this._getExistingColumns()
     const staticFields = this._fields.filter((field) => !this._isViewField(field))
     const fieldsToAdd = staticFields.filter(
-      (field) => !existingColumns.some((column) => column.name === field.name)
+      (field) =>
+        !existingColumns.some(
+          (column) =>
+            column.name === field.name ||
+            (field.onMigration && field.onMigration.replace === column.name)
+        )
     )
     const fieldsToAlter = staticFields.filter((field) => {
-      const existingColumn = existingColumns.find((column) => column.name === field.name)
+      const existingColumn = existingColumns.find(
+        (column) =>
+          column.name === field.name ||
+          (field.onMigration && field.onMigration.replace === column.name)
+      )
       if (!existingColumn) return false
       return (
-        existingColumn.type !== field.type || existingColumn.required !== (field.required ? 1 : 0)
+        existingColumn.type !== field.type ||
+        existingColumn.required !== (field.required ? 1 : 0) ||
+        (field.onMigration && field.onMigration.replace)
       )
     })
     for (const field of fieldsToAdd) {
@@ -54,6 +65,17 @@ export class SqliteTableDriver implements Driver {
       }
     }
     if (fieldsToAlter.length > 0) {
+      for (const field of fieldsToAlter) {
+        if (field.onMigration && field.onMigration.replace) {
+          const existingColumnWithNewName = existingColumns.find(
+            (column) => column.name === field.name
+          )
+          if (!existingColumnWithNewName) {
+            const renameQuery = `ALTER TABLE ${this._name} RENAME COLUMN ${field.onMigration.replace} TO ${field.name}`
+            this._db.exec(renameQuery)
+          }
+        }
+      }
       const tempTableName = `${this._name}_temp`
       const newSchema = this._buildColumnsQuery(staticFields)
       this._db.exec(`CREATE TABLE ${tempTableName} (${newSchema})`)

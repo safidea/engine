@@ -1271,6 +1271,15 @@
                 "name": {
                     "type": "string"
                 },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "required": {
                     "type": "boolean"
                 }
@@ -1363,6 +1372,15 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "required": {
                     "type": "boolean"
@@ -1648,6 +1666,15 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "output": {
                     "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
@@ -2173,6 +2200,15 @@
                 "name": {
                     "type": "string"
                 },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "required": {
                     "type": "boolean"
                 }
@@ -2281,6 +2317,15 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "required": {
                     "type": "boolean"
@@ -2633,6 +2678,15 @@
                 "name": {
                     "type": "string"
                 },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "required": {
                     "type": "boolean"
                 }
@@ -2654,6 +2708,15 @@
                         "SingleLineText"
                     ],
                     "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "required": {
                     "type": "boolean"
@@ -2840,6 +2903,15 @@
                 "name": {
                     "type": "string"
                 },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "output": {
                     "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
                 },
@@ -2959,6 +3031,15 @@
                 "name": {
                     "type": "string"
                 },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "required": {
                     "type": "boolean"
                 }
@@ -2978,6 +3059,15 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "required": {
                     "type": "boolean"
@@ -3002,6 +3092,15 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "options": {
                     "items": {

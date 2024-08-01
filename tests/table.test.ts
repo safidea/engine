@@ -95,7 +95,7 @@ test.describe('App with tables', () => {
       await expect(call()).resolves.toBeDefined()
     })
 
-    test.skip('should migrate a table with a renamed field', async () => {
+    test('should migrate a table with a renamed field', async () => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -111,6 +111,9 @@ test.describe('App with tables', () => {
               {
                 name: 'email',
                 field: 'Email',
+                onMigration: {
+                  replace: 'email_address',
+                },
               },
             ],
           },
@@ -118,13 +121,64 @@ test.describe('App with tables', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database.table('leads', [{ name: 'email', type: 'TEXT' }]).create()
+      const leads = database.table('leads', [{ name: 'email_address', type: 'TEXT' }])
+      await leads.create()
+      await leads.insert({
+        id: '1',
+        name: 'test',
+        email_address: 'test@test.com',
+        created_at: new Date(),
+      })
+
+      // WHEN
+      await app.start(config)
+
+      // THEN
+      const lead = await database.table('leads', [{ name: 'email', type: 'TEXT' }]).readById('1')
+      expect(lead?.email).toBe('test@test.com')
+      expect(lead?.email_address).toBeUndefined()
+    })
+
+    test('should migrate a table with a renamed field that has already be renamed', async () => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'email',
+                field: 'Email',
+                onMigration: {
+                  replace: 'email_address',
+                },
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const leads = database.table('leads', [{ name: 'email', type: 'TEXT' }])
+      await leads.create()
+      await leads.insert({
+        id: '1',
+        name: 'test',
+        email: 'test@test.com',
+        created_at: new Date(),
+      })
 
       // WHEN
       const call = () => app.start(config)
 
       // THEN
-      await expect(call()).resolves.toBeDefined()
+      await expect(call()).resolves.not.toThrow()
     })
 
     test('should migrate a table with existing records', async () => {
