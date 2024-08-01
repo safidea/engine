@@ -8,7 +8,13 @@
                     "$ref": "#/definitions/CreateRecord"
                 },
                 {
+                    "$ref": "#/definitions/RunJavascriptCode"
+                },
+                {
                     "$ref": "#/definitions/SendEmail"
+                },
+                {
+                    "$ref": "#/definitions/WebhookResponse"
                 }
             ]
         },
@@ -2929,6 +2935,38 @@
             ],
             "type": "object"
         },
+        "RunJavascriptCode": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "RunJavascriptCode",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "inputs": {
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "code",
+                "inputs",
+                "name"
+            ],
+            "type": "object"
+        },
         "Script": {
             "additionalProperties": false,
             "properties": {
@@ -3508,12 +3546,43 @@
                 "trigger": {
                     "const": "WebhookCalled",
                     "type": "string"
+                },
+                "waitForWebhookResponse": {
+                    "type": "boolean"
                 }
             },
             "required": [
                 "method",
                 "path",
                 "trigger"
+            ],
+            "type": "object"
+        },
+        "WebhookResponse": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "WebhookResponse",
+                    "type": "string"
+                },
+                "body": {
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "body",
+                "name"
             ],
             "type": "object"
         }

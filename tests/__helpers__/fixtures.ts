@@ -28,4 +28,6 @@ export const test: Test = base.extend({
   },
 })
 
-export { expect }
+const js = String.raw
+
+export { expect, js }
