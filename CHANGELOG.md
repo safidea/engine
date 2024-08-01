@@ -1,3 +1,10 @@
+## [0.22.5](https://github.com/safidea/engine/compare/v0.22.4...v0.22.5) (2024-08-01)
+
+
+### Bug Fixes
+
+* **Sqlite:** add drop temp table if exist ([f504c42](https://github.com/safidea/engine/commit/f504c42d7f8cb2330450375119c4b153c3ccb840))
+
 ## [0.22.4](https://github.com/safidea/engine/compare/v0.22.3...v0.22.4) (2024-08-01)
 
 
