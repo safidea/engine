@@ -12,11 +12,40 @@
                 },
                 {
                     "$ref": "#/definitions/SendEmail"
-                },
-                {
-                    "$ref": "#/definitions/WebhookResponse"
                 }
             ]
+        },
+        "ApiCalled": {
+            "additionalProperties": false,
+            "properties": {
+                "input": {
+                    "$ref": "#/definitions/JSONSchema"
+                },
+                "output": {
+                    "additionalProperties": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean"
+                        ]
+                    },
+                    "type": "object"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "trigger": {
+                    "const": "ApiCalled",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input",
+                "output",
+                "path",
+                "trigger"
+            ],
+            "type": "object"
         },
         "Attribute": {
             "additionalProperties": false,
@@ -2068,6 +2097,49 @@
             ],
             "type": "object"
         },
+        "JSONSchema": {
+            "additionalProperties": false,
+            "properties": {
+                "enum": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "items": {
+                    "$ref": "#/definitions/JSONSchema"
+                },
+                "properties": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "$ref": "#/definitions/JSONSchemaType"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
+        },
+        "JSONSchemaType": {
+            "enum": [
+                "array",
+                "boolean",
+                "number",
+                "object",
+                "string"
+            ],
+            "type": "string"
+        },
         "Link": {
             "additionalProperties": false,
             "properties": {
@@ -2945,7 +3017,7 @@
                 "code": {
                     "type": "string"
                 },
-                "inputs": {
+                "input": {
                     "additionalProperties": {
                         "type": [
                             "string",
@@ -2962,7 +3034,7 @@
             "required": [
                 "action",
                 "code",
-                "inputs",
+                "input",
                 "name"
             ],
             "type": "object"
@@ -3475,6 +3547,9 @@
         "Trigger": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/ApiCalled"
+                },
+                {
                     "$ref": "#/definitions/RecordCreated"
                 },
                 {
@@ -3536,53 +3611,17 @@
         "WebhookCalled": {
             "additionalProperties": false,
             "properties": {
-                "method": {
-                    "const": "POST",
-                    "type": "string"
-                },
                 "path": {
                     "type": "string"
                 },
                 "trigger": {
                     "const": "WebhookCalled",
                     "type": "string"
-                },
-                "waitForWebhookResponse": {
-                    "type": "boolean"
                 }
             },
             "required": [
-                "method",
                 "path",
                 "trigger"
-            ],
-            "type": "object"
-        },
-        "WebhookResponse": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "WebhookResponse",
-                    "type": "string"
-                },
-                "body": {
-                    "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number",
-                            "boolean"
-                        ]
-                    },
-                    "type": "object"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "body",
-                "name"
             ],
             "type": "object"
         }

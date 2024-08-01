@@ -10,6 +10,7 @@ import { ActionMapper } from './ActionMapper'
 import { TriggerMapper } from './TriggerMapper'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Table } from '@domain/entities/Table'
+import type { SchemaValidator } from '@domain/services/SchemaValidator'
 
 export interface Services {
   logger: Logger
@@ -19,6 +20,7 @@ export interface Services {
   templateCompiler: TemplateCompiler
   realtime: Realtime
   mailer: Mailer
+  schemaValidator: SchemaValidator
 }
 
 export interface Entities {
@@ -27,13 +29,23 @@ export interface Entities {
 
 export class AutomationMapper {
   static toEntity = (config: Config, services: Services, entities: Entities) => {
-    const { logger, server, queue, mailer, idGenerator, templateCompiler, realtime } = services
+    const {
+      logger,
+      server,
+      queue,
+      mailer,
+      idGenerator,
+      templateCompiler,
+      realtime,
+      schemaValidator,
+    } = services
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
       {
         server,
         queue,
         realtime,
+        schemaValidator,
       }
     )
     const actions = ActionMapper.toManyEntities(

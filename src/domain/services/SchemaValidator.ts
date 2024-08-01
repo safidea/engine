@@ -4,16 +4,12 @@ type JSONSchemaType = 'string' | 'number' | 'boolean' | 'array' | 'object'
 
 export interface JSONSchema {
   type: JSONSchemaType
-  properties: {
-    [key: string]: {
-      type: JSONSchemaType
-      enum?: string[]
-      items?: {
-        type: JSONSchemaType
-      }
-    }
+  properties?: {
+    [key: string]: JSONSchema
   }
-  required: string[]
+  enum?: string[]
+  items?: JSONSchema
+  required?: string[]
 }
 
 export interface Spi {

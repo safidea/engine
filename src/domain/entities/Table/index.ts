@@ -158,32 +158,34 @@ export class Table {
       properties: {},
       required: [],
     }
-    for (const field of this.fields) {
-      if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at')
-        continue
-      if (field instanceof SingleSelect) {
-        schema.properties[field.name] = {
-          type: 'string',
-          enum: field.options,
+    if (schema.properties && schema.required) {
+      for (const field of this.fields) {
+        if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at')
+          continue
+        if (field instanceof SingleSelect) {
+          schema.properties[field.name] = {
+            type: 'string',
+            enum: field.options,
+          }
         }
-      }
-      if (
-        field instanceof SingleLinkedRecord ||
-        field instanceof SingleLineText ||
-        field instanceof LongText ||
-        field instanceof Email ||
-        field instanceof DateTime
-      ) {
-        schema.properties[field.name] = { type: 'string' }
-      }
-      if (field instanceof Number) {
-        schema.properties[field.name] = { type: 'number' }
-      }
-      if (field instanceof MultipleLinkedRecord) {
-        schema.properties[field.name] = { type: 'array', items: { type: 'string' } }
-      }
-      if (required && field.required) {
-        schema.required.push(field.name)
+        if (
+          field instanceof SingleLinkedRecord ||
+          field instanceof SingleLineText ||
+          field instanceof LongText ||
+          field instanceof Email ||
+          field instanceof DateTime
+        ) {
+          schema.properties[field.name] = { type: 'string' }
+        }
+        if (field instanceof Number) {
+          schema.properties[field.name] = { type: 'number' }
+        }
+        if (field instanceof MultipleLinkedRecord) {
+          schema.properties[field.name] = { type: 'array', items: { type: 'string' } }
+        }
+        if (required && field.required) {
+          schema.required.push(field.name)
+        }
       }
     }
     return schema

@@ -36,8 +36,12 @@ export class Automation {
   }
 
   job = async (data: object) => {
-    const { actions } = this._params
     const context = new Context(data)
+    await this.run(context)
+  }
+
+  run = async (context: Context) => {
+    const { actions } = this._params
     for (const action of actions) {
       this._log(`running action: ${action.name}`)
       await action.execute(context)

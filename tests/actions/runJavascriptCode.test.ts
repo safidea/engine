@@ -2,7 +2,7 @@ import { test, expect, js } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Run javascript code action', () => {
-  test.skip('should run a javascript code in a webhook automation', async ({ request }) => {
+  test.skip('should run a javascript code', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -10,30 +10,31 @@ test.describe('Run javascript code action', () => {
         {
           name: 'addNumbers',
           trigger: {
-            trigger: 'WebhookCalled',
-            path: 'runJavascriptCode',
-            method: 'POST',
-            waitForWebhookResponse: true,
+            trigger: 'ApiCalled',
+            path: 'add-numbers',
+            input: {
+              type: 'object',
+              properties: {
+                numberOne: { type: 'number' },
+                numberTwo: { type: 'number' },
+              },
+            },
+            output: {
+              sum: '{{runJavascriptCode.result}}',
+            },
           },
           actions: [
             {
               action: 'RunJavascriptCode',
               name: 'runJavascriptCode',
-              inputs: {
+              input: {
                 numberOne: '{{trigger.numberOne}}',
                 numberTwo: '{{trigger.numberTwo}}',
               },
               code: js`
-                  const { numberOne, numberTwo } = inputs
+                  const { numberOne, numberTwo } = input
                   return Number(numberOne) + Number(numberTwo)
                 `,
-            },
-            {
-              action: 'WebhookResponse',
-              name: 'webhookResponse',
-              body: {
-                result: '{{runJavascriptCode.result}}',
-              },
             },
           ],
         },
@@ -44,7 +45,7 @@ test.describe('Run javascript code action', () => {
 
     // WHEN
     const { response } = await request
-      .post(`${url}/api/automation/addNumbers`, {
+      .post(`${url}/api/automation/add-numbers`, {
         data: {
           numberOne: 1,
           numberTwo: 2,

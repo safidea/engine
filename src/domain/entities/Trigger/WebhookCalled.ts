@@ -6,7 +6,6 @@ import type { Post } from '@domain/entities/Request/Post'
 interface Config {
   automation: string
   path: string
-  method: 'POST'
 }
 
 interface Services {
@@ -27,10 +26,7 @@ export class WebhookCalled {
 
   init = async () => {
     const { server } = this._services
-    const { method } = this._config
-    if (method === 'POST') {
-      await server.post(this.path, this.post)
-    }
+    await server.post(this.path, this.post)
   }
 
   post = async (request: Post) => {

@@ -80,6 +80,7 @@ export class AppMapper {
         idGenerator,
         templateCompiler,
         mailer,
+        schemaValidator,
       },
       { tables }
     )

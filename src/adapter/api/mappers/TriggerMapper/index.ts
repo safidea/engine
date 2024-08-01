@@ -5,6 +5,8 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Server } from '@domain/services/Server'
 import { RecordCreatedMapper } from './RecordCreated'
 import { WebhookCalledMapper } from './WebhookCalled'
+import { ApiCalledMapper } from './ApiCalled'
+import type { SchemaValidator } from '@domain/services/SchemaValidator'
 
 type MapperConfig = Config & {
   automation: string
@@ -14,6 +16,7 @@ interface Services {
   server: Server
   queue: Queue
   realtime: Realtime
+  schemaValidator: SchemaValidator
 }
 
 export class TriggerMapper {
@@ -21,6 +24,7 @@ export class TriggerMapper {
     const { trigger } = config
     if (trigger === 'RecordCreated') return RecordCreatedMapper.toEntity(config, services)
     if (trigger === 'WebhookCalled') return WebhookCalledMapper.toEntity(config, services)
+    if (trigger === 'ApiCalled') return ApiCalledMapper.toEntity(config, services)
     throw new Error(`TriggerMapper: trigger ${trigger} not found`)
   }
 

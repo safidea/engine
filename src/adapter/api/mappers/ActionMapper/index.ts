@@ -6,6 +6,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Mailer } from '@domain/services/Mailer'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Table } from '@domain/entities/Table'
+import { RunJavascriptCodeMapper } from './RunJavascriptCodeMapper'
 
 interface Services {
   mailer: Mailer
@@ -24,9 +25,9 @@ export class ActionMapper {
     const { tables } = entities
     if (action === 'CreateRecord')
       return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })
-
     if (action === 'SendEmail')
       return SendEmailMapper.toEntity(config, { mailer, templateCompiler })
+    if (action === 'RunJavascriptCode') return RunJavascriptCodeMapper.toEntity(config)
     throw new Error(`ActionMapper: Action ${action} not supported`)
   }
 
