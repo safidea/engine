@@ -1,3 +1,11 @@
+## [0.22.4](https://github.com/safidea/engine/compare/v0.22.3...v0.22.4) (2024-08-01)
+
+
+### Bug Fixes
+
+* **SingleLinkedRecord:** add green test: should migrate a table with existing single linked record dependancies ([aaf4fc2](https://github.com/safidea/engine/commit/aaf4fc206e99fbb695c176e577ff3c34b7eb0fb9))
+* **Table:** add green test: should migrate a table with a renamed field that has already be renamed ([f792dd6](https://github.com/safidea/engine/commit/f792dd60c59acfe015e2637fcb1b50317eae466f))
+
 ## [0.22.3](https://github.com/safidea/engine/compare/v0.22.2...v0.22.3) (2024-07-31)
 
 
