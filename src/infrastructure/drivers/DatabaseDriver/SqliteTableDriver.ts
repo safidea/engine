@@ -65,6 +65,10 @@ export class SqliteTableDriver implements Driver {
       }
     }
     if (fieldsToAlter.length > 0) {
+      const tempTableName = `${this._name}_temp`
+      const newSchema = this._buildColumnsQuery(staticFields)
+      this._db.exec(`DROP TABLE IF EXISTS ${tempTableName}`)
+      this._db.exec(`CREATE TABLE ${tempTableName} (${newSchema})`)
       for (const field of fieldsToAlter) {
         if (field.onMigration && field.onMigration.replace) {
           const existingColumnWithNewName = existingColumns.find(
@@ -76,14 +80,11 @@ export class SqliteTableDriver implements Driver {
           }
         }
       }
-      const tempTableName = `${this._name}_temp`
-      const newSchema = this._buildColumnsQuery(staticFields)
-      this._db.exec(`CREATE TABLE ${tempTableName} (${newSchema})`)
       const columnsToCopy = staticFields.map((field) => field.name).join(', ')
+      this._db.exec(`PRAGMA foreign_keys = OFF`)
       this._db.exec(
         `INSERT INTO ${tempTableName} (${columnsToCopy}) SELECT ${columnsToCopy} FROM ${this._name}`
       )
-      this._db.exec(`PRAGMA foreign_keys = OFF`)
       this._db.exec(`DROP TABLE ${this._name}`)
       this._db.exec(`ALTER TABLE ${tempTableName} RENAME TO ${this._name}`)
       this._db.exec(`PRAGMA foreign_keys = ON`)
