@@ -95,6 +95,38 @@ test.describe('App with tables', () => {
       await expect(call()).resolves.toBeDefined()
     })
 
+    test.skip('should migrate a table with a renamed field', async () => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'email',
+                field: 'Email',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await database.table('leads', [{ name: 'email', type: 'TEXT' }]).create()
+
+      // WHEN
+      const call = () => app.start(config)
+
+      // THEN
+      await expect(call()).resolves.toBeDefined()
+    })
+
     test('should migrate a table with existing records', async () => {
       // GIVEN
       const database = new Database(dbConfig)

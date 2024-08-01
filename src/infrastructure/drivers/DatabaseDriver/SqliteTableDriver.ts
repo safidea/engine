@@ -61,8 +61,10 @@ export class SqliteTableDriver implements Driver {
       this._db.exec(
         `INSERT INTO ${tempTableName} (${columnsToCopy}) SELECT ${columnsToCopy} FROM ${this._name}`
       )
+      this._db.exec(`PRAGMA foreign_keys = OFF`)
       this._db.exec(`DROP TABLE ${this._name}`)
       this._db.exec(`ALTER TABLE ${tempTableName} RENAME TO ${this._name}`)
+      this._db.exec(`PRAGMA foreign_keys = ON`)
     }
     await this._createManyToManyTables()
   }

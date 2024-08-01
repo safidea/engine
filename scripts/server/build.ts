@@ -40,7 +40,6 @@ const { success, logs } = await Bun.build({
   entrypoints: entrypoints.map((entry) => 'src/' + entry),
   outdir: 'dist',
   external: externals,
-  minify: process.env.NODE_ENV === 'production',
 })
 if (!success) onBunErrors('js', logs)
 

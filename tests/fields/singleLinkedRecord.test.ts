@@ -49,7 +49,7 @@ test.describe('Single linked record field', () => {
       expect(record.model).toBe('1')
     })
 
-    test('should not create a record with a bad single linked record id', async ({ request }) => {
+    test('should migrate a table with existing single linked record dependancies', async () => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -82,21 +82,32 @@ test.describe('Single linked record field', () => {
         database: dbConfig,
       }
       const app = new App()
-      const url = await app.start(config)
-      await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
+      const models = database.table('models')
+      await models.create()
+      await models.insertMany([
+        { id: '1', name: 'Model 3', created_at: new Date() },
+        { id: '2', name: 'Model 4', created_at: new Date() },
+        { id: '3', name: 'Model 5', created_at: new Date() },
+      ])
+      const cars = database.table('cars', [
+        {
+          name: 'model',
+          type: 'TEXT',
+          table: 'models',
+        },
+      ])
+      await cars.create()
+      await cars.insertMany([
+        { id: '1', name: 'Coccinelle', model: '1', created_at: new Date() },
+        { id: '2', name: 'Golf', model: '2', created_at: new Date() },
+        { id: '3', name: 'Polo', model: '3', created_at: new Date() },
+      ])
 
       // WHEN
-      const { error } = await request
-        .post(`${url}/api/table/cars`, { data: { name: 'Coccinelle', model: '2' } })
-        .then((res) => res.json())
+      const call = () => app.start(config)
 
       // THEN
-      expect(error).toStrictEqual({
-        message:
-          dbConfig.type === 'sqlite'
-            ? 'Key is not present in table.'
-            : 'Key (model)=(2) is not present in table "models".',
-      })
+      await expect(call()).resolves.not.toThrow()
     })
   })
 })
