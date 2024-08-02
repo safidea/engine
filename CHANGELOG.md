@@ -1,3 +1,16 @@
+# [0.23.0](https://github.com/safidea/engine/compare/v0.22.5...v0.23.0) (2024-08-02)
+
+
+### Bug Fixes
+
+* **RunJavascriptCode:** add green test: should run a javascript code with a database insert ([1f2d699](https://github.com/safidea/engine/commit/1f2d699ceba0440c719c1e23fb360817d2b11faa))
+* **RunJavascriptCode:** add green test: should run a javascript code with a database list with filters ([e7d29b5](https://github.com/safidea/engine/commit/e7d29b55696ee9d2ddd47f74ffb034e59e78c504))
+
+
+### Features
+
+* **RunJavascriptCode:** add green test: should run a javascript code ([d5074ff](https://github.com/safidea/engine/commit/d5074ff52879d722a047eb951721dec6910f7fcd))
+
 ## [0.22.5](https://github.com/safidea/engine/compare/v0.22.4...v0.22.5) (2024-08-01)
 
 
