@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/safidea/engine/compare/v0.23.0...v0.24.0) (2024-08-02)
+
+
+### Features
+
+* **ApiCalled:** add green test: should start an automation from api call ([f8aa49d](https://github.com/safidea/engine/commit/f8aa49d1f29cf8d6fd569a00d62a9be24ce4fedd))
+
 # [0.23.0](https://github.com/safidea/engine/compare/v0.22.5...v0.23.0) (2024-08-02)
 
 
