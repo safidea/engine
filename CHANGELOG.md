@@ -1,3 +1,11 @@
+## [0.24.1](https://github.com/safidea/engine/compare/v0.24.0...v0.24.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* **RunJavascriptCode:** add green test: should run a javascript code with a database list with isAnyOf filter ([e8ccccc](https://github.com/safidea/engine/commit/e8ccccccb1a0e4b9325108fa1177ef431f363bea))
+* **SingleLinkedRecord:** add green test: should migrate a table after edit SingleTextField to SingleLinkedRecord ([c7e0c32](https://github.com/safidea/engine/commit/c7e0c32fee86497390c795b8fd2676741e8be122))
+
 # [0.24.0](https://github.com/safidea/engine/compare/v0.23.0...v0.24.0) (2024-08-02)
 
 
