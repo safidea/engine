@@ -20,6 +20,7 @@ import { type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
 import { type Driver as ThemeDriver } from './ThemeSpi'
 import { type Driver as IconLibraryDriver } from './IconLibrarySpi'
 import { type Driver as FontLibraryDriver } from './FontLibrarySpi'
+import type { CodeCompilerDriver } from '@infrastructure/drivers/CodeCompilerDriver'
 
 export interface Drivers {
   server: (config: ServerConfig) => ServerDriver
@@ -36,6 +37,7 @@ export interface Drivers {
   ui: () => UiDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
+  codeCompiler: () => CodeCompilerDriver
   iconLibrary: () => IconLibraryDriver
   fontLibrary: () => FontLibraryDriver
 }

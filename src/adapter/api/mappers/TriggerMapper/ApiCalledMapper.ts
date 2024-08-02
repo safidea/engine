@@ -4,24 +4,22 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Server } from '@domain/services/Server'
 import { ApiCalled } from '@domain/entities/Trigger/ApiCalled'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
-
-interface MapperConfig extends Config {
-  automation: string
-}
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Services {
   queue: Queue
   realtime: Realtime
   server: Server
   schemaValidator: SchemaValidator
+  templateCompiler: TemplateCompiler
 }
 
 export class ApiCalledMapper {
-  static toEntity = (config: MapperConfig, services: Services): ApiCalled => {
+  static toEntity = (config: Config, services: Services): ApiCalled => {
     return new ApiCalled(config, services)
   }
 
-  static toManyEntities = (configs: MapperConfig[], services: Services): ApiCalled[] => {
+  static toManyEntities = (configs: Config[], services: Services): ApiCalled[] => {
     return configs.map((config) => this.toEntity(config, services))
   }
 }

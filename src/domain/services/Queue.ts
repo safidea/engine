@@ -1,5 +1,6 @@
 import type { Logger } from './Logger'
 import type { Job } from '../entities/Job'
+import type { Context } from '@domain/entities/Automation/Context'
 
 export interface Config {
   type: 'sqlite' | 'postgres'
@@ -85,7 +86,7 @@ export class Queue {
     return this._spi.add(job, data, options)
   }
 
-  job = (name: string, initCallback: (data: object) => Promise<void>) => {
+  job = (name: string, initCallback: (data: object) => Promise<Context>) => {
     this._jobs.push({
       name,
       callback: async (id: string, data: object) => {

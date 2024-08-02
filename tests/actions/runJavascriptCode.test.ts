@@ -2,7 +2,7 @@ import { test, expect, js } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Run javascript code action', () => {
-  test.skip('should run a javascript code', async ({ request }) => {
+  test('should run a javascript code', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -13,14 +13,14 @@ test.describe('Run javascript code action', () => {
             trigger: 'ApiCalled',
             path: 'add-numbers',
             input: {
-              type: 'object',
-              properties: {
-                numberOne: { type: 'number' },
-                numberTwo: { type: 'number' },
-              },
+              numberOne: { type: 'number' },
+              numberTwo: { type: 'number' },
             },
             output: {
-              sum: '{{runJavascriptCode.result}}',
+              sum: {
+                value: '{{runJavascriptCode.result}}',
+                type: 'number',
+              },
             },
           },
           actions: [
@@ -28,12 +28,18 @@ test.describe('Run javascript code action', () => {
               action: 'RunJavascriptCode',
               name: 'runJavascriptCode',
               input: {
-                numberOne: '{{trigger.numberOne}}',
-                numberTwo: '{{trigger.numberTwo}}',
+                numberOne: {
+                  value: '{{trigger.body.numberOne}}',
+                  type: 'number',
+                },
+                numberTwo: {
+                  value: '{{trigger.body.numberTwo}}',
+                  type: 'number',
+                },
               },
               code: js`
-                  const { numberOne, numberTwo } = input
-                  return Number(numberOne) + Number(numberTwo)
+                  const { numberOne, numberTwo } = inputData
+                  return { result: numberOne + numberTwo }
                 `,
             },
           ],
@@ -54,6 +60,6 @@ test.describe('Run javascript code action', () => {
       .then((res) => res.json())
 
     // THEN
-    expect(response.result).toBe(3)
+    expect(response.sum).toBe(3)
   })
 })

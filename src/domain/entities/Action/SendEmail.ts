@@ -16,6 +16,7 @@ export class SendEmail extends Base implements Interface {
   execute = async (context: Context) => {
     const { emailToSend, mailer } = this._params
     const emailToSendFilled = emailToSend.fillWithContext(context)
-    await mailer.send(emailToSendFilled)
+    const emaileSent = await mailer.send(emailToSendFilled)
+    context.set(this.name, emaileSent)
   }
 }

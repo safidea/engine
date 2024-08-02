@@ -52,7 +52,7 @@ export class ToCreate {
     const data = {
       ...this.data,
       ...this._templates.reduce((acc: { [key: string]: string }, { key, template }) => {
-        acc[key] = context.fillTemplate(template)
+        acc[key] = context.fillTemplateAsString(template)
         return acc
       }, {}),
     }

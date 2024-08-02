@@ -3,10 +3,11 @@ import type { Trigger } from '@domain/entities/Trigger'
 import type { Queue } from '@domain/services/Queue'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Server } from '@domain/services/Server'
-import { RecordCreatedMapper } from './RecordCreated'
-import { WebhookCalledMapper } from './WebhookCalled'
-import { ApiCalledMapper } from './ApiCalled'
+import { RecordCreatedMapper } from './RecordCreatedMapper'
+import { WebhookCalledMapper } from './WebhookCalledMapper'
+import { ApiCalledMapper } from './ApiCalledMapper'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 type MapperConfig = Config & {
   automation: string
@@ -17,6 +18,7 @@ interface Services {
   queue: Queue
   realtime: Realtime
   schemaValidator: SchemaValidator
+  templateCompiler: TemplateCompiler
 }
 
 export class TriggerMapper {

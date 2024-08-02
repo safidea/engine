@@ -21,6 +21,7 @@ import { DatabaseMapper } from './ServiceMapper/DatabaseMapper'
 import { QueueMapper } from './ServiceMapper/QueueMapper'
 import { RealtimeMapper } from './ServiceMapper/RealtimeMapper'
 import { SchemaValidatorMapper } from './ServiceMapper/SchemaValidatorMapper'
+import { CodeCompilerMapper } from './ServiceMapper/CodeCompilerMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -38,6 +39,7 @@ export class AppMapper {
     const idGenerator = IdGeneratorMapper.toService({ drivers })
     const schemaValidator = SchemaValidatorMapper.toService({ drivers })
     const templateCompiler = TemplateCompilerMapper.toService({ drivers })
+    const codeCompiler = CodeCompilerMapper.toService({ drivers })
     const iconLibrary = IconLibraryMapper.toService({ drivers })
     const fontLibrary = FontLibraryMapper.toService({ drivers, server, idGenerator })
     const markdownParser = MarkdownParserMapper.toService({ drivers, components, ui })
@@ -81,6 +83,7 @@ export class AppMapper {
         templateCompiler,
         mailer,
         schemaValidator,
+        codeCompiler,
       },
       { tables }
     )

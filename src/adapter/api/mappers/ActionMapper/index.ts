@@ -7,11 +7,13 @@ import type { Mailer } from '@domain/services/Mailer'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Table } from '@domain/entities/Table'
 import { RunJavascriptCodeMapper } from './RunJavascriptCodeMapper'
+import type { CodeCompiler } from '@domain/services/CodeCompiler'
 
 interface Services {
   mailer: Mailer
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
+  codeCompiler: CodeCompiler
 }
 
 interface Entities {
@@ -21,13 +23,14 @@ interface Entities {
 export class ActionMapper {
   static toEntity(config: Config, services: Services, entities: Entities): Action {
     const { action } = config
-    const { idGenerator, mailer, templateCompiler } = services
+    const { idGenerator, mailer, templateCompiler, codeCompiler } = services
     const { tables } = entities
     if (action === 'CreateRecord')
       return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })
     if (action === 'SendEmail')
       return SendEmailMapper.toEntity(config, { mailer, templateCompiler })
-    if (action === 'RunJavascriptCode') return RunJavascriptCodeMapper.toEntity(config)
+    if (action === 'RunJavascriptCode')
+      return RunJavascriptCodeMapper.toEntity(config, { templateCompiler, codeCompiler })
     throw new Error(`ActionMapper: Action ${action} not supported`)
   }
 

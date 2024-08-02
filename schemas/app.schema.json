@@ -19,15 +19,24 @@
             "additionalProperties": false,
             "properties": {
                 "input": {
-                    "$ref": "#/definitions/JSONSchema"
+                    "$ref": "#/definitions/{[key:string]:JSONSchema;}"
                 },
                 "output": {
                     "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number",
-                            "boolean"
-                        ]
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
                     },
                     "type": "object"
                 },
@@ -2110,10 +2119,7 @@
                     "$ref": "#/definitions/JSONSchema"
                 },
                 "properties": {
-                    "additionalProperties": {
-                        "$ref": "#/definitions/JSONSchema"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/{[key:string]:JSONSchema;}"
                 },
                 "required": {
                     "items": {
@@ -2822,6 +2828,16 @@
             ],
             "type": "object"
         },
+        "OutputParser": {
+            "enum": [
+                "array",
+                "boolean",
+                "number",
+                "object",
+                "string"
+            ],
+            "type": "string"
+        },
         "Page": {
             "additionalProperties": false,
             "properties": {
@@ -3019,11 +3035,20 @@
                 },
                 "input": {
                     "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number",
-                            "boolean"
-                        ]
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
                     },
                     "type": "object"
                 },
@@ -3623,6 +3648,12 @@
                 "path",
                 "trigger"
             ],
+            "type": "object"
+        },
+        "{[key:string]:JSONSchema;}": {
+            "additionalProperties": {
+                "$ref": "#/definitions/JSONSchema"
+            },
             "type": "object"
         }
     },

@@ -30,7 +30,7 @@ export class State {
   }
 
   fillTemplate = (template: Template): string => {
-    return template.fill(this._data)
+    return template.fillAsString(this._data)
   }
 
   addQueryToPath = (path: string): string => {

@@ -1,39 +1,47 @@
-import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import { Json } from '@domain/entities/Response/Json'
 import type { Post } from '@domain/entities/Request/Post'
 import type { JSONSchema, SchemaValidator } from '@domain/services/SchemaValidator'
 import type { SchemaError } from '../Error/Schema'
+import { Context } from '../Automation/Context'
+import type { Base } from './base'
+import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Config {
-  automation: string
   path: string
-  input: JSONSchema
-  output: { [key: string]: string | number | boolean }
+  input: Required<Pick<JSONSchema, 'properties'>>['properties']
+  output: {
+    [key: string]: {
+      value: string
+      type: OutputParser
+    }
+  }
 }
-
-type Input =
-  | string
-  | number
-  | boolean
-  | { [key: string]: Input }
-  | (string | number | boolean | { [key: string]: Input })[]
 
 interface Services {
   server: Server
-  queue: Queue
   schemaValidator: SchemaValidator
+  templateCompiler: TemplateCompiler
 }
 
-export class ApiCalled {
+export class ApiCalled implements Base {
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
+  private _output: { [key: string]: Template }
 
   constructor(
     private _config: Config,
     private _services: Services
   ) {
-    const { schemaValidator } = this._services
+    const { schemaValidator, templateCompiler } = this._services
     this._validateData = schemaValidator.validate
+    this._output = Object.entries(this._config.output).reduce(
+      (acc: { [key: string]: Template }, [key, { value, type }]) => {
+        acc[key] = templateCompiler.compile(value, type)
+        return acc
+      },
+      {}
+    )
   }
 
   get path() {
@@ -41,28 +49,27 @@ export class ApiCalled {
     return `/api/automation/${path}`
   }
 
-  init = async () => {
+  init = async (run: (triggerData: object) => Promise<Context>) => {
     const { server } = this._services
-    await server.post(this.path, this.post)
+    await server.post(this.path, (request: Post) => this.post(request, run))
   }
 
-  post = async (request: Post) => {
-    const { queue } = this._services
-    const { automation, input } = this._config
+  post = async (request: Post, run: (data: object) => Promise<Context>) => {
+    const { input } = this._config
     const { body, path, baseUrl, headers, query, params } = request
-    if (this._validateDataType<Input>(body, input)) {
-      const jobId = await queue.add(automation, {
-        path,
-        baseUrl,
-        body,
-        headers,
-        query,
-        params,
-      })
-      //const context = await queue.waitFor({ id: jobId, state: 'completed' })
-      return new Json({ success: true, id: jobId })
+    const schema: JSONSchema = { type: 'object', properties: input, required: Object.keys(input) }
+    if (this._validateDataType<object>(body, schema)) {
+      const context = await run({ body, path, baseUrl, headers, query, params })
+      const response = Object.entries(this._output).reduce(
+        (acc: { [key: string]: OutputFormat }, [key, value]) => {
+          acc[key] = context.fillTemplate(value)
+          return acc
+        },
+        {}
+      )
+      return new Json({ success: true, response })
     }
-    const [error] = this._validateData(body, input)
+    const [error] = this._validateData(body, schema)
     return new Json({ error }, 400)
   }
 

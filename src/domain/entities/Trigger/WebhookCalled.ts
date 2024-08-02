@@ -2,6 +2,8 @@ import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import { Json } from '@domain/entities/Response/Json'
 import type { Post } from '@domain/entities/Request/Post'
+import type { Base } from './base'
+import type { Context } from '../Automation/Context'
 
 interface Config {
   automation: string
@@ -13,7 +15,7 @@ interface Services {
   queue: Queue
 }
 
-export class WebhookCalled {
+export class WebhookCalled implements Base {
   constructor(
     private _config: Config,
     private _services: Services
@@ -24,9 +26,11 @@ export class WebhookCalled {
     return `/api/automation/${path}`
   }
 
-  init = async () => {
-    const { server } = this._services
+  init = async (run: (triggerData: object) => Promise<Context>) => {
+    const { automation } = this._config
+    const { server, queue } = this._services
     await server.post(this.path, this.post)
+    queue.job(automation, run)
   }
 
   post = async (request: Post) => {

@@ -35,22 +35,22 @@ export class ToSend {
 
   fill = (data: Record<string, unknown>): ToSend => {
     const filledData = {
-      from: this.from.fill(data),
-      to: this.to.fill(data),
-      subject: this.subject.fill(data),
-      text: this.text.fill(data),
-      html: this.html.fill(data),
+      from: this.from.fillAsString(data),
+      to: this.to.fillAsString(data),
+      subject: this.subject.fillAsString(data),
+      text: this.text.fillAsString(data),
+      html: this.html.fillAsString(data),
     }
     return new ToSend(filledData, this._params)
   }
 
   fillWithContext = (context: Context): ToSend => {
     const data = {
-      from: context.fillTemplate(this.from),
-      to: context.fillTemplate(this.to),
-      subject: context.fillTemplate(this.subject),
-      text: context.fillTemplate(this.text),
-      html: context.fillTemplate(this.html),
+      from: context.fillTemplateAsString(this.from),
+      to: context.fillTemplateAsString(this.to),
+      subject: context.fillTemplateAsString(this.subject),
+      text: context.fillTemplateAsString(this.text),
+      html: context.fillTemplateAsString(this.html),
     }
     return new ToSend(data, this._params)
   }

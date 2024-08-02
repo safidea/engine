@@ -16,6 +16,7 @@ export class CreateRecord extends Base implements Interface {
   execute = async (context: Context) => {
     const { recordToCreate, table } = this._params
     const recordToCreateFilled = recordToCreate.fillWithContext(context)
-    await table.db.insert(recordToCreateFilled)
+    const recordPersisted = await table.db.insert(recordToCreateFilled)
+    context.set(this.name, recordPersisted)
   }
 }

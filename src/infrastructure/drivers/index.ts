@@ -21,6 +21,7 @@ import { MarkdownParserDriver } from './MarkdownParserDriver'
 import { ThemeDriver } from './ThemeDriver'
 import { IconLibraryDriver } from './IconLibraryDriver'
 import { FontLibraryDriver } from './FontLibraryDriver'
+import { CodeCompilerDriver } from './CodeCompilerDriver'
 
 export const drivers: Drivers = {
   server: (config: ServerConfig) => new ServerDriver(config),
@@ -31,6 +32,7 @@ export const drivers: Drivers = {
   auth: (config: AuthConfig) => new AuthDriver(config),
   markdownParser: () => new MarkdownParserDriver(),
   templateCompiler: () => new TemplateCompilerDriver(),
+  codeCompiler: () => new CodeCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),
   ui: () => new UiDriver(),
