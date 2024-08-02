@@ -1,3 +1,10 @@
+## [0.24.2](https://github.com/safidea/engine/compare/v0.24.1...v0.24.2) (2024-08-02)
+
+
+### Bug Fixes
+
+* **Table:** add green test: should create a record with an a date field ([560fdf1](https://github.com/safidea/engine/commit/560fdf1099cf553faa6fcd25eeb46a960a8ef520))
+
 ## [0.24.1](https://github.com/safidea/engine/compare/v0.24.0...v0.24.1) (2024-08-02)
 
 
