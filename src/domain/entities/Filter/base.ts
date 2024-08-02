@@ -1,4 +1,8 @@
-export type BaseProps = {
+export type BaseConfig = {
+  field: string
+}
+
+export type BaseParams = {
   field: string
 }
 

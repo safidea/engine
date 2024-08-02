@@ -1,7 +1,7 @@
 import type { Logger } from '@domain/services/Logger'
 import type { Record as Config } from '@adapter/api/configs/Expect/Record'
 import { Record } from '@domain/entities/Expect/Record'
-import { FilterMapper } from '../FilterMapper'
+import { FilterMapper } from '@domain/entities/Filter'
 
 interface Services {
   logger: Logger

@@ -26,6 +26,7 @@ import { Number } from '../Field/Number'
 import { DateTime } from '../Field/DateTime'
 import { SingleLinkedRecord } from '../Field/SingleLinkedRecord'
 import { MultipleLinkedRecord } from '../Field/MultipleLinkedRecord'
+import { FilterMapper, schema as filtersSchema, type Config as FilterConfig } from '../Filter'
 
 interface Params {
   name: string
@@ -97,9 +98,23 @@ export class Table {
     return new Json({ record })
   }
 
+  list = async (
+    filtersConfig: unknown = []
+  ): Promise<
+    { records: PersistedData[]; error?: undefined } | { records?: undefined; error: SchemaError }
+  > => {
+    if (this._validateDataType<FilterConfig[]>(filtersConfig, filtersSchema)) {
+      const filters = FilterMapper.toManyEntities(filtersConfig)
+      const records = await this.db.list(filters)
+      return { records: records.map((record) => record.data) }
+    }
+    const [error] = this._validateData(filtersConfig, filtersSchema)
+    return { error }
+  }
+
   getAll = async () => {
-    const records = await this.db.list([])
-    return new Json({ records: records.map((record) => record.data) })
+    const { records, error } = await this.list()
+    return new Json({ records, error }, error ? 400 : 200)
   }
 
   insert = async (
@@ -107,7 +122,7 @@ export class Table {
   ): Promise<
     { record: PersistedData; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
-    const schema = this._getSchema()
+    const schema = this._getRecordSchema()
     if (this._validateDataType<ToCreateData>(data, schema)) {
       const toCreateRecord = this.record.create(data)
       const persistedRecord = await this.db.insert(toCreateRecord)
@@ -136,7 +151,7 @@ export class Table {
   ): Promise<
     { record: PersistedData; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
-    const schema = this._getSchema({ required: false })
+    const schema = this._getRecordSchema({ required: false })
     if (this._validateDataType<ToUpdateData>(data, schema)) {
       const toUpdateRecord = this.record.update({ ...data, id })
       const persistedRecord = await this.db.update(toUpdateRecord)
@@ -173,7 +188,7 @@ export class Table {
     }
   }
 
-  private _getSchema = (options?: { required: boolean }): JSONSchema => {
+  private _getRecordSchema = (options?: { required: boolean }): JSONSchema => {
     const { required = true } = options || {}
     const schema: JSONSchema = {
       type: 'object',

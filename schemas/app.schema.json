@@ -331,13 +331,13 @@
                     "type": "string"
                 },
                 "image": {
-                    "$ref": "#/definitions/Config_6"
+                    "$ref": "#/definitions/Config_9"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -373,7 +373,7 @@
                 },
                 "find": {
                     "items": {
-                        "$ref": "#/definitions/Filter"
+                        "$ref": "#/definitions/Config"
                     },
                     "type": "array"
                 },
@@ -535,73 +535,43 @@
             ]
         },
         "Config": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Config_1"
                 },
-                "defaultValue": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "placeholder": {
-                    "type": "string"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "checkbox",
-                        "color",
-                        "date",
-                        "datetime-local",
-                        "email",
-                        "file",
-                        "hidden",
-                        "image",
-                        "month",
-                        "number",
-                        "password",
-                        "radio",
-                        "range",
-                        "reset",
-                        "search",
-                        "submit",
-                        "tel",
-                        "text",
-                        "textarea",
-                        "time",
-                        "url",
-                        "week"
-                    ],
-                    "type": "string"
+                {
+                    "$ref": "#/definitions/Config_2"
                 }
-            },
-            "required": [
-                "name"
-            ],
-            "type": "object"
+            ]
         },
         "Config_1": {
             "additionalProperties": false,
             "properties": {
-                "action": {
+                "field": {
                     "type": "string"
                 },
+                "operator": {
+                    "const": "isAnyOf",
+                    "type": "string"
+                },
+                "value": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Config_10": {
+            "additionalProperties": false,
+            "properties": {
                 "className": {
-                    "type": "string"
-                },
-                "href": {
                     "type": "string"
                 },
                 "id": {
@@ -610,82 +580,54 @@
                 "label": {
                     "type": "string"
                 },
-                "method": {
-                    "enum": [
-                        "DELETE",
-                        "GET",
-                        "PATCH",
-                        "POST"
-                    ],
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Config_8"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "label",
+                "links"
+            ],
+            "type": "object"
+        },
+        "Config_11": {
+            "additionalProperties": false,
+            "properties": {
+                "env": {
                     "type": "string"
                 },
-                "onSuccess": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "redirect": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "redirect"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "notification": {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "type": {
-                                            "enum": [
-                                                "error",
-                                                "success"
-                                            ],
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "type"
-                                    ],
-                                    "type": "object"
-                                }
-                            },
-                            "required": [
-                                "notification"
-                            ],
-                            "type": "object"
-                        }
-                    ]
+                "port": {
+                    "type": "string"
                 },
+                "sslCert": {
+                    "type": "string"
+                },
+                "sslKey": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Config_12": {
+            "additionalProperties": false,
+            "properties": {
                 "type": {
-                    "enum": [
-                        "button",
-                        "reset",
-                        "submit"
-                    ],
                     "type": "string"
                 },
-                "variant": {
-                    "enum": [
-                        "primary",
-                        "secondary"
-                    ],
+                "url": {
                     "type": "string"
                 }
             },
             "required": [
-                "label"
+                "type",
+                "url"
             ],
             "type": "object"
         },
-        "Config_10": {
+        "Config_13": {
             "additionalProperties": false,
             "properties": {
                 "from": {
@@ -716,7 +658,7 @@
             ],
             "type": "object"
         },
-        "Config_11": {
+        "Config_14": {
             "additionalProperties": false,
             "properties": {
                 "confirmEmail": {
@@ -766,7 +708,7 @@
             ],
             "type": "object"
         },
-        "Config_12": {
+        "Config_15": {
             "additionalProperties": false,
             "properties": {
                 "store": {
@@ -779,7 +721,7 @@
             ],
             "type": "object"
         },
-        "Config_13": {
+        "Config_16": {
             "additionalProperties": false,
             "properties": {
                 "container": {
@@ -905,49 +847,179 @@
         "Config_2": {
             "additionalProperties": false,
             "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
+                "field": {
                     "type": "string"
                 },
+                "operator": {
+                    "const": "is",
+                    "type": "string"
+                },
+                "value": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Config_3": {
+            "additionalProperties": false,
+            "properties": {
                 "className": {
                     "type": "string"
                 },
-                "font": {
-                    "enum": [
-                        "mono",
-                        "sans",
-                        "serif"
-                    ],
+                "defaultValue": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
+                "label": {
                     "type": "string"
                 },
-                "text": {
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "textarea",
+                        "time",
+                        "url",
+                        "week"
+                    ],
                     "type": "string"
                 }
             },
             "required": [
-                "text"
+                "name"
             ],
             "type": "object"
         },
-        "Config_3": {
+        "Config_4": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST"
+                    ],
+                    "type": "string"
+                },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "type": "object"
+        },
+        "Config_5": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -992,7 +1064,52 @@
             ],
             "type": "object"
         },
-        "Config_4": {
+        "Config_6": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "Config_7": {
             "additionalProperties": false,
             "properties": {
                 "className": {
@@ -1010,7 +1127,7 @@
             ],
             "type": "object"
         },
-        "Config_5": {
+        "Config_8": {
             "additionalProperties": false,
             "properties": {
                 "active": {
@@ -1037,10 +1154,10 @@
                     "type": "string"
                 },
                 "prefixIcon": {
-                    "$ref": "#/definitions/Config_4"
+                    "$ref": "#/definitions/Config_7"
                 },
                 "suffixIcon": {
-                    "$ref": "#/definitions/Config_4"
+                    "$ref": "#/definitions/Config_7"
                 }
             },
             "required": [
@@ -1049,7 +1166,7 @@
             ],
             "type": "object"
         },
-        "Config_6": {
+        "Config_9": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -1096,65 +1213,6 @@
             "required": [
                 "alt",
                 "src"
-            ],
-            "type": "object"
-        },
-        "Config_7": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Config_5"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "label",
-                "links"
-            ],
-            "type": "object"
-        },
-        "Config_8": {
-            "additionalProperties": false,
-            "properties": {
-                "env": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "sslCert": {
-                    "type": "string"
-                },
-                "sslKey": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Config_9": {
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "type",
-                "url"
             ],
             "type": "object"
         },
@@ -1275,7 +1333,7 @@
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Config_1"
+                        "$ref": "#/definitions/Config_4"
                     },
                     "type": "array"
                 },
@@ -1290,10 +1348,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -1370,7 +1428,7 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Config_5"
+                        "$ref": "#/definitions/Config_8"
                     },
                     "type": "array"
                 }
@@ -1391,7 +1449,7 @@
                 },
                 "find": {
                     "items": {
-                        "$ref": "#/definitions/Filter"
+                        "$ref": "#/definitions/Config"
                     },
                     "type": "array"
                 },
@@ -1500,13 +1558,13 @@
                         "additionalProperties": false,
                         "properties": {
                             "icon": {
-                                "$ref": "#/definitions/Config_4"
+                                "$ref": "#/definitions/Config_7"
                             },
                             "paragraph": {
-                                "$ref": "#/definitions/Config_3"
+                                "$ref": "#/definitions/Config_6"
                             },
                             "title": {
-                                "$ref": "#/definitions/Config_2"
+                                "$ref": "#/definitions/Config_5"
                             }
                         },
                         "required": [
@@ -1522,10 +1580,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -1591,16 +1649,6 @@
             ],
             "type": "object"
         },
-        "Filter": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/Is"
-                },
-                {
-                    "$ref": "#/definitions/IsAnyOf"
-                }
-            ]
-        },
         "Footer": {
             "additionalProperties": false,
             "properties": {
@@ -1619,15 +1667,15 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Config_5"
+                        "$ref": "#/definitions/Config_8"
                     },
                     "type": "array"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -1647,7 +1695,7 @@
                 },
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Config_1"
+                        "$ref": "#/definitions/Config_4"
                     },
                     "type": "array"
                 },
@@ -1663,7 +1711,7 @@
                 },
                 "inputs": {
                     "items": {
-                        "$ref": "#/definitions/Config"
+                        "$ref": "#/definitions/Config_3"
                     },
                     "type": "array"
                 },
@@ -1677,7 +1725,7 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "source": {
                     "type": "string"
@@ -1686,7 +1734,7 @@
                     "type": "string"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -1796,7 +1844,7 @@
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Config_1"
+                        "$ref": "#/definitions/Config_4"
                     },
                     "type": "array"
                 },
@@ -1814,17 +1862,17 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/definitions/Config_5"
+                                "$ref": "#/definitions/Config_8"
                             },
                             {
-                                "$ref": "#/definitions/Config_7"
+                                "$ref": "#/definitions/Config_10"
                             }
                         ]
                     },
                     "type": "array"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -1840,7 +1888,7 @@
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Config_1"
+                        "$ref": "#/definitions/Config_4"
                     },
                     "type": "array"
                 },
@@ -1855,7 +1903,7 @@
                     "type": "string"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -1869,7 +1917,7 @@
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Config_1"
+                        "$ref": "#/definitions/Config_4"
                     },
                     "type": "array"
                 },
@@ -1884,10 +1932,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -2060,54 +2108,12 @@
             ],
             "type": "object"
         },
-        "Is": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "is",
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "field",
-                "operator",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IsAnyOf": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "isAnyOf",
-                    "type": "string"
-                },
-                "value": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "field",
-                "operator",
-                "value"
-            ],
-            "type": "object"
-        },
         "JSONSchema": {
             "additionalProperties": false,
             "properties": {
+                "additionalProperties": {
+                    "type": "boolean"
+                },
                 "enum": {
                     "items": {
                         "type": "string"
@@ -2116,6 +2122,12 @@
                 },
                 "items": {
                     "$ref": "#/definitions/JSONSchema"
+                },
+                "oneOf": {
+                    "items": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "array"
                 },
                 "properties": {
                     "$ref": "#/definitions/{[key:string]:JSONSchema;}"
@@ -2127,23 +2139,17 @@
                     "type": "array"
                 },
                 "type": {
-                    "$ref": "#/definitions/JSONSchemaType"
+                    "enum": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "object",
+                        "string"
+                    ],
+                    "type": "string"
                 }
             },
-            "required": [
-                "type"
-            ],
             "type": "object"
-        },
-        "JSONSchemaType": {
-            "enum": [
-                "array",
-                "boolean",
-                "number",
-                "object",
-                "string"
-            ],
-            "type": "string"
         },
         "Link": {
             "additionalProperties": false,
@@ -2194,10 +2200,10 @@
                     "type": "string"
                 },
                 "prefixIcon": {
-                    "$ref": "#/definitions/Config_4"
+                    "$ref": "#/definitions/Config_7"
                 },
                 "suffixIcon": {
-                    "$ref": "#/definitions/Config_4"
+                    "$ref": "#/definitions/Config_7"
                 }
             },
             "required": [
@@ -2256,15 +2262,15 @@
                 },
                 "images": {
                     "items": {
-                        "$ref": "#/definitions/Config_6"
+                        "$ref": "#/definitions/Config_9"
                     },
                     "type": "array"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -2359,7 +2365,7 @@
                     "type": "array"
                 },
                 "button": {
-                    "$ref": "#/definitions/Config_1"
+                    "$ref": "#/definitions/Config_4"
                 },
                 "className": {
                     "type": "string"
@@ -2724,7 +2730,7 @@
             "additionalProperties": false,
             "properties": {
                 "button": {
-                    "$ref": "#/definitions/Config_1"
+                    "$ref": "#/definitions/Config_4"
                 },
                 "className": {
                     "type": "string"
@@ -2737,10 +2743,10 @@
                     "type": "string"
                 },
                 "paragraph": {
-                    "$ref": "#/definitions/Config_3"
+                    "$ref": "#/definitions/Config_6"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -2945,7 +2951,7 @@
                 },
                 "find": {
                     "items": {
-                        "$ref": "#/definitions/Filter"
+                        "$ref": "#/definitions/Config"
                     },
                     "type": "array"
                 },
@@ -3139,12 +3145,12 @@
                 },
                 "links": {
                     "items": {
-                        "$ref": "#/definitions/Config_5"
+                        "$ref": "#/definitions/Config_8"
                     },
                     "type": "array"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -3287,7 +3293,7 @@
             "properties": {
                 "buttons": {
                     "items": {
-                        "$ref": "#/definitions/Config_1"
+                        "$ref": "#/definitions/Config_4"
                     },
                     "type": "array"
                 },
@@ -3311,7 +3317,7 @@
                     "type": "string"
                 },
                 "title": {
-                    "$ref": "#/definitions/Config_2"
+                    "$ref": "#/definitions/Config_5"
                 }
             },
             "required": [
@@ -3657,7 +3663,7 @@
     },
     "properties": {
         "auth": {
-            "$ref": "#/definitions/Config_11"
+            "$ref": "#/definitions/Config_14"
         },
         "automations": {
             "items": {
@@ -3666,13 +3672,13 @@
             "type": "array"
         },
         "database": {
-            "$ref": "#/definitions/Config_9"
-        },
-        "logger": {
             "$ref": "#/definitions/Config_12"
         },
+        "logger": {
+            "$ref": "#/definitions/Config_15"
+        },
         "mailer": {
-            "$ref": "#/definitions/Config_10"
+            "$ref": "#/definitions/Config_13"
         },
         "name": {
             "type": "string"
@@ -3684,7 +3690,7 @@
             "type": "array"
         },
         "server": {
-            "$ref": "#/definitions/Config_8"
+            "$ref": "#/definitions/Config_11"
         },
         "tables": {
             "items": {
@@ -3699,7 +3705,7 @@
             "type": "array"
         },
         "theme": {
-            "$ref": "#/definitions/Config_13"
+            "$ref": "#/definitions/Config_16"
         }
     },
     "required": [

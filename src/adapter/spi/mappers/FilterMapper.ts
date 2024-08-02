@@ -30,7 +30,7 @@ export class FilterMapper {
         operator: '=',
       }
     }
-    throw new Error('Filter not supported')
+    throw new Error('Filter operator not supported')
   }
 
   static toManyDtos = (filters: Filter[]): FilterDto[] => {

@@ -3,13 +3,15 @@ import type { SchemaError } from '@domain/entities/Error/Schema'
 type JSONSchemaType = 'string' | 'number' | 'boolean' | 'array' | 'object'
 
 export interface JSONSchema {
-  type: JSONSchemaType
+  type?: JSONSchemaType
   properties?: {
     [key: string]: JSONSchema
   }
   enum?: string[]
   items?: JSONSchema
   required?: string[]
+  additionalProperties?: boolean
+  oneOf?: JSONSchema[]
 }
 
 export interface Spi {

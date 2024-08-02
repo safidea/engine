@@ -84,9 +84,9 @@ export class ApiCalled implements Base {
       return new Json({ success: true, response })
     } catch (error) {
       if (error instanceof Error) {
-        return new Json({ error: { message: error.message } }, 400)
+        return new Json({ error: error.message }, 400)
       }
-      return new Json({ error: { message: 'Unknown error' } }, 500)
+      return new Json({ error: 'Unknown error' }, 500)
     }
   }
 

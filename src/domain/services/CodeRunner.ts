@@ -38,18 +38,30 @@ export class CodeRunner {
         return {
           insert: async (data: unknown) => {
             const { record, error } = await table.insert(data)
-            if (error) throw new Error(`CodeRunner: table(${name}).insert: ${error}`)
+            if (error)
+              throw new Error(
+                `CodeRunner: table(${name}).insert: ${JSON.stringify(error, null, 2)}`
+              )
             return record
           },
           update: async (id: string, data: unknown) => {
             const { record, error } = await table.update(id, data)
-            if (error) throw new Error(`CodeRunner: table(${name}).update: ${error}`)
+            if (error)
+              throw new Error(
+                `CodeRunner: table(${name}).update: ${JSON.stringify(error, null, 2)}`
+              )
             return record
           },
           read: async (id: string) => {
             const record = await table.read(id)
             if (!record) throw new Error(`CodeRunner: table(${name}).read: Record not found`)
             return record
+          },
+          list: async (filters: unknown) => {
+            const { records, error } = await table.list(filters)
+            if (error)
+              throw new Error(`CodeRunner: table(${name}).list: ${JSON.stringify(error, null, 2)}`)
+            return records
           },
         }
       },

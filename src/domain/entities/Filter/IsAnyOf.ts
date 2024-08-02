@@ -1,13 +1,30 @@
-import { Base, type BaseProps } from './base'
+import type { JSONSchema } from '@domain/services/SchemaValidator'
+import { Base, type BaseParams, type BaseConfig } from './base'
 
-type IsAnyOfProps = BaseProps & {
+export type Config = BaseConfig & {
+  operator: 'isAnyOf'
   value: string[]
+}
+
+export type Params = BaseParams & {
+  value: string[]
+}
+
+export const isAnyOfSchema: JSONSchema = {
+  type: 'object',
+  properties: {
+    field: { type: 'string' },
+    operator: { type: 'string', enum: ['isAnyOf'] },
+    value: { type: 'array', items: { type: 'string' } },
+  },
+  required: ['field', 'operator', 'value'],
+  additionalProperties: false,
 }
 
 export class IsAnyOf extends Base {
   readonly value: string[]
 
-  constructor(props: IsAnyOfProps) {
+  constructor(props: Params) {
     super(props)
     this.value = props.value
   }

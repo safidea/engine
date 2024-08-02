@@ -1,7 +1,7 @@
 import { ClickInEmail } from '@domain/entities/Event/ClickInEmail'
 import type { ClickInEmail as Config } from '@adapter/api/configs/Event/ClickInEmail'
 import type { Logger } from '@domain/services/Logger'
-import { FilterMapper } from '../FilterMapper'
+import { FilterMapper } from '@domain/entities/Filter'
 
 interface Services {
   logger: Logger

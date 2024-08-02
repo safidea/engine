@@ -1,7 +1,7 @@
 import type { Logger } from '@domain/services/Logger'
 import type { Email as Config } from '@adapter/api/configs/Expect/Email'
 import { Email } from '@domain/entities/Expect/Email'
-import { FilterMapper } from '../FilterMapper'
+import { FilterMapper } from '@domain/entities/Filter'
 
 interface Services {
   logger: Logger
