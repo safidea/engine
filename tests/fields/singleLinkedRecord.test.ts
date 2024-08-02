@@ -143,16 +143,16 @@ test.describe('Single linked record field', () => {
         database: dbConfig,
       }
       const app = new App()
-      await database
-        .table('cars', [
-          {
-            name: 'model',
-            type: 'TEXT',
-          },
-        ])
-        .create()
-      await database.table('models').create()
-      await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
+      const cars = database.table('cars', [
+        {
+          name: 'model',
+          type: 'TEXT',
+        },
+      ])
+      await cars.create()
+      const models = database.table('models')
+      await models.create()
+      await models.insert({ id: '1', name: 'Model 3', created_at: new Date() })
 
       // WHEN
       const call = () => app.start(config)
@@ -160,7 +160,7 @@ test.describe('Single linked record field', () => {
       // THEN
       await expect(call()).resolves.not.toThrow()
       await expect(
-        database.table('cars').insert({
+        cars.insert({
           id: '1',
           name: 'Coccinelle',
           model: '1',

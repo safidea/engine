@@ -59,7 +59,7 @@ export class Table {
 
   get record() {
     const { idGenerator, templateCompiler } = this._params
-    return new Record({ idGenerator, templateCompiler })
+    return new Record({ idGenerator, templateCompiler, fields: this.fields })
   }
 
   init = async () => {

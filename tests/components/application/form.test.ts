@@ -249,9 +249,13 @@ test.describe('Form component', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      await database
-        .table('leads')
-        .insert({ id: '1', name: 'John', email: 'test@test.com', created_at: new Date() })
+      const leads = database.table('leads', [
+        {
+          name: 'email',
+          type: 'TEXT',
+        },
+      ])
+      await leads.insert({ id: '1', name: 'John', email: 'test@test.com', created_at: new Date() })
 
       // WHEN
       await page.goto(url + '/1')
@@ -260,14 +264,7 @@ test.describe('Form component', () => {
       await page.getByText(successMessage).waitFor({ state: 'visible' })
 
       // THEN
-      const lead = await database
-        .table('leads', [
-          {
-            name: 'email',
-            type: 'TEXT',
-          },
-        ])
-        .read([{ field: 'id', operator: '=', value: '1' }])
+      const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test@test.com')
     })

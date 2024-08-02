@@ -133,8 +133,9 @@ export class SqliteTableDriver implements Driver {
   insert = async (record: ToCreateDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
-      const keys = Object.keys(staticFields)
-      const values = this._preprocess(Object.values(staticFields))
+      const preprocessedFields = this._preprocess(staticFields)
+      const keys = Object.keys(preprocessedFields)
+      const values = Object.values(preprocessedFields)
       const placeholders = keys.map(() => `?`).join(', ')
       const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders})`
       this._db.prepare(query).run(values)
@@ -157,8 +158,9 @@ export class SqliteTableDriver implements Driver {
   update = async (record: ToUpdateDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
-      const keys = Object.keys(staticFields)
-      const values = this._preprocess(Object.values(staticFields))
+      const preprocessedFields = this._preprocess(staticFields)
+      const keys = Object.keys(preprocessedFields)
+      const values = Object.values(preprocessedFields)
       const setString = keys.map((key) => `${key} = ?`).join(', ')
       const query = `UPDATE ${this._name} SET ${setString} WHERE id = ${record.id}`
       this._db.prepare(query).run(values)
@@ -329,13 +331,26 @@ export class SqliteTableDriver implements Driver {
     return formula.replace(/\bCONCAT\b/g, 'GROUP_CONCAT').replace(/\bvalues\b/g, values)
   }
 
-  private _preprocess = (values: DataType[]) => {
-    return values.map((value) => {
-      if (value instanceof Date) {
-        return value.getTime()
-      }
-      return value
-    })
+  private _preprocess = (record: { [key: string]: DataType }) => {
+    return Object.keys(record).reduce(
+      (
+        acc: {
+          [key: string]: DataType
+        },
+        key
+      ) => {
+        const value = record[key]
+        const field = this._fields.find((f) => f.name === key)
+        if (!field) throw new Error('Field not found.')
+        if (!value) return acc
+        if (field.type === 'TIMESTAMP') {
+          if (value instanceof Date) acc[key] = value.getTime()
+          else acc[key] = new Date(String(value)).getTime()
+        }
+        return acc
+      },
+      record
+    )
   }
 
   private _postprocess = (persistedRecord: PersistedDto): PersistedDto => {

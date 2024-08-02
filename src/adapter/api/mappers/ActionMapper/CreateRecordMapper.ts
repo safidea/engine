@@ -26,7 +26,11 @@ export class CreateRecordMapper {
     const table = tables.find((table) => table.name === config.table)
     if (!table)
       throw new ConfigError({ message: `CreateRecordMapper: Table ${config.table} not found` })
-    const recordToCreate = new ToCreate(config.fields, { idGenerator, templateCompiler })
+    const recordToCreate = new ToCreate(config.fields, {
+      idGenerator,
+      templateCompiler,
+      fields: table.fields,
+    })
     return new CreateRecord({ ...config, recordToCreate, table })
   }
 }

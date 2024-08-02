@@ -372,5 +372,37 @@ test.describe('App with tables', () => {
       expect(record).toBeDefined()
       expect(record!.id).toHaveLength(24)
     })
+
+    test('should create a record with an a date field', async ({ request }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'leads backend',
+        tables: [
+          {
+            name: 'leads',
+            fields: [
+              {
+                name: 'today',
+                field: 'DateTime',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const today = new Date().toISOString()
+
+      // WHEN
+      const { record } = await request
+        .post(`${url}/api/table/leads`, {
+          data: { today },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(record?.today).toBe(today)
+    })
   })
 })
