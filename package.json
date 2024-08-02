@@ -45,7 +45,7 @@
     "watch:tests": "nodemon --config scripts/tests/watch.json",
     "watch": "concurrently \"bun run watch:schemas\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\" \"bun run watch:tests\"",
     "pretest": "bunx playwright install --with-deps",
-    "test": "bunx playwright test",
+    "test": "NODE_OPTIONS=--no-deprecation bunx playwright test",
     "test:ui": "bunx playwright test --ui",
     "storybook": "bun run build:css && storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -112,7 +112,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mailparser": "^3.4.4",
-    "@types/node": "^22.0.2",
+    "@types/node": "^22.1.0",
     "@types/nodemon": "^1.19.6",
     "@types/pg": "^8.11.6",
     "@types/react-dom": "^18.3.0",
@@ -125,7 +125,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.4",
     "nodemon": "^3.1.4",
-    "openai": "^4.53.2",
+    "openai": "^4.54.0",
     "prettier": "^3.3.3",
     "semantic-release": "^24.0.0",
     "storybook": "^8.2.7",
@@ -137,9 +137,9 @@
     "typescript": "^5.5.3"
   },
   "engines": {
-    "bun": "1.1.20",
-    "node": "20.15.1",
-    "npm": "10.7.0"
+    "bun": "1.1.21",
+    "node": "22.5.1",
+    "npm": "10.8.2"
   },
   "directories": {
     "doc": "docs",

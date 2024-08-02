@@ -109,5 +109,64 @@ test.describe('Single linked record field', () => {
       // THEN
       await expect(call()).resolves.not.toThrow()
     })
+
+    test('should migrate a table after edit SingleTextField to SingleLinkedRecord', async () => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        tables: [
+          {
+            name: 'cars',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+              {
+                name: 'model',
+                field: 'SingleLinkedRecord',
+                table: 'models',
+              },
+            ],
+          },
+          {
+            name: 'models',
+            fields: [
+              {
+                name: 'name',
+                field: 'SingleLineText',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      await database
+        .table('cars', [
+          {
+            name: 'model',
+            type: 'TEXT',
+          },
+        ])
+        .create()
+      await database.table('models').create()
+      await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
+
+      // WHEN
+      const call = () => app.start(config)
+
+      // THEN
+      await expect(call()).resolves.not.toThrow()
+      await expect(
+        database.table('cars').insert({
+          id: '1',
+          name: 'Coccinelle',
+          model: '1',
+          created_at: new Date(),
+        })
+      ).resolves.not.toThrow()
+    })
   })
 })

@@ -10,6 +10,7 @@ export interface Modules {
     insert: (data: unknown) => Promise<PersistedData>
     update: (id: string, data: unknown) => Promise<PersistedData>
     read: (id: string) => Promise<PersistedData | undefined>
+    list: (filters: unknown) => Promise<PersistedData[]>
   }
 }
 
