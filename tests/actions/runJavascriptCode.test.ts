@@ -312,7 +312,9 @@ test.describe('Run javascript code action', () => {
       expect(response.users[2].name).toBe('John Connor')
     })
 
-    test('should run a javascript code with a database list with filters', async ({ request }) => {
+    test('should run a javascript code with a database list with is filter', async ({
+      request,
+    }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -355,16 +357,66 @@ test.describe('Run javascript code action', () => {
 
       // WHEN
       const { response } = await request
-        .post(`${url}/api/automation/list-users`, {
-          data: {
-            id: '1',
-          },
-        })
+        .post(`${url}/api/automation/list-users`)
         .then((res) => res.json())
 
       // THEN
       expect(response.users).toHaveLength(1)
       expect(response.users[0].name).toBe('John Wick')
+    })
+
+    test('should run a javascript code with a database list with isAnyOf filter', async ({
+      request,
+    }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        tables: [{ name: 'users', fields: [{ name: 'name', field: 'SingleLineText' }] }],
+        automations: [
+          {
+            name: 'listUsers',
+            trigger: {
+              trigger: 'ApiCalled',
+              path: 'list-users',
+              output: {
+                users: {
+                  value: '{{runJavascriptCode.users}}',
+                  type: 'array',
+                },
+              },
+            },
+            actions: [
+              {
+                action: 'RunJavascriptCode',
+                name: 'runJavascriptCode',
+                code: js`
+                  const users = await table('users').list([{ field: 'id', operator: 'isAnyOf', value: ['3', '2'] }])
+                  return { users }
+                `,
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      await database.table('users').insertMany([
+        { id: '1', name: 'John Doe', created_at: new Date() },
+        { id: '2', name: 'John Wick', created_at: new Date() },
+        { id: '3', name: 'John Connor', created_at: new Date() },
+      ])
+
+      // WHEN
+      const { response } = await request
+        .post(`${url}/api/automation/list-users`)
+        .then((res) => res.json())
+
+      // THEN
+      expect(response.users).toHaveLength(2)
+      expect(response.users[0].name).toBe('John Wick')
+      expect(response.users[1].name).toBe('John Connor')
     })
   })
 })

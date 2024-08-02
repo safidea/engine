@@ -206,8 +206,21 @@ export class SqliteTableDriver implements Driver {
   }
 
   list = async (filters: FilterDto[]) => {
-    const conditions = filters.map((filter) => `${filter.field} ${filter.operator} ?`).join(' AND ')
-    const values = filters.map((filter) => filter.value)
+    const conditions = filters
+      .map((filter) => {
+        if (filter.operator === 'in') {
+          const placeholders = filter.value.map(() => '?').join(',')
+          return `${filter.field} ${filter.operator} (${placeholders})`
+        } else {
+          return `${filter.field} ${filter.operator} ?`
+        }
+      })
+      .join(' AND ')
+    const values = filters.reduce((acc: (string | number)[], filter) => {
+      if (filter.operator === 'in') acc.push(...filter.value)
+      else acc.push(filter.value)
+      return acc
+    }, [])
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
     const records = this._db.prepare(query).all(values) as PersistedDto[]
     return records.map(this._postprocess)

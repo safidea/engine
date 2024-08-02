@@ -198,10 +198,22 @@ export class PostgresTableDriver implements Driver {
   }
 
   list = async (filters: FilterDto[]) => {
+    let index = 1
     const conditions = filters
-      .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
+      .map((filter) => {
+        if (filter.operator === 'in') {
+          const placeholders = filter.value.map(() => `$${index++}`).join(',')
+          return `${filter.field} ${filter.operator} (${placeholders})`
+        } else {
+          return `${filter.field} ${filter.operator} $${index++}`
+        }
+      })
       .join(' AND ')
-    const values = filters.map((filter) => filter.value)
+    const values = filters.reduce((acc: (string | number)[], filter) => {
+      if (filter.operator === 'in') acc.push(...filter.value)
+      else acc.push(filter.value)
+      return acc
+    }, [])
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
     const result = await this._db.query<PersistedDto>(query, values)
     return result.rows
