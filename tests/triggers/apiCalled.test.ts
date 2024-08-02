@@ -1,17 +1,17 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
-test.describe('WebhookCalled trigger', () => {
-  test('should start an automation from webhook call', async ({ request }) => {
+test.describe('ApiCalled trigger', () => {
+  test('should start an automation from api call', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
       automations: [
         {
-          name: 'Send email',
+          name: 'ApiCalled',
           trigger: {
-            trigger: 'WebhookCalled',
-            path: 'send-email',
+            trigger: 'ApiCalled',
+            path: 'run-api',
           },
           actions: [],
         },
@@ -21,14 +21,11 @@ test.describe('WebhookCalled trigger', () => {
     const url = await app.start(config)
 
     // WHEN
-    const res = await request.post(`${url}/api/automation/send-email`, {
-      data: { email: 'test@test.com' },
-    })
+    const res = await request.post(`${url}/api/automation/run-api`)
 
     // THEN
     expect(res.ok()).toBeTruthy()
-    const { success, id } = await res.json()
+    const { success } = await res.json()
     expect(success).toBeTruthy()
-    expect(id).toBeDefined()
   })
 })

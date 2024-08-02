@@ -5,7 +5,7 @@ export interface ApiCalled {
   trigger: 'ApiCalled'
   path: string
   input?: Required<Pick<JSONSchema, 'properties'>>['properties']
-  output: {
+  output?: {
     [key: string]: {
       value: string
       type: OutputParser

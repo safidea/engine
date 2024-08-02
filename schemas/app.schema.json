@@ -49,7 +49,6 @@
                 }
             },
             "required": [
-                "output",
                 "path",
                 "trigger"
             ],

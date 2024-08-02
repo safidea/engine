@@ -11,7 +11,7 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 interface Config {
   path: string
   input?: Required<Pick<JSONSchema, 'properties'>>['properties']
-  output: {
+  output?: {
     [key: string]: {
       value: string
       type: OutputParser
@@ -27,21 +27,21 @@ interface Services {
 
 export class ApiCalled implements Base {
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
-  private _output: { [key: string]: Template }
+  private _output?: { [key: string]: Template }
 
   constructor(
     private _config: Config,
     private _services: Services
   ) {
+    const { output } = this._config
     const { schemaValidator, templateCompiler } = this._services
     this._validateData = schemaValidator.validate
-    this._output = Object.entries(this._config.output).reduce(
-      (acc: { [key: string]: Template }, [key, { value, type }]) => {
+    this._output =
+      output &&
+      Object.entries(output).reduce((acc: { [key: string]: Template }, [key, { value, type }]) => {
         acc[key] = templateCompiler.compile(value, type)
         return acc
-      },
-      {}
-    )
+      }, {})
   }
 
   get path() {
@@ -74,14 +74,17 @@ export class ApiCalled implements Base {
           return new Json({ error }, 400)
         }
       }
-      const response = Object.entries(this._output).reduce(
-        (acc: { [key: string]: OutputFormat }, [key, value]) => {
-          acc[key] = context.fillTemplate(value)
-          return acc
-        },
-        {}
-      )
-      return new Json({ success: true, response })
+      if (this._output) {
+        const response = Object.entries(this._output).reduce(
+          (acc: { [key: string]: OutputFormat }, [key, value]) => {
+            acc[key] = context.fillTemplate(value)
+            return acc
+          },
+          {}
+        )
+        return new Json({ success: true, response })
+      }
+      return new Json({ success: true })
     } catch (error) {
       if (error instanceof Error) {
         return new Json({ error: error.message }, 400)
