@@ -10,7 +10,7 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Config {
   path: string
-  input: Required<Pick<JSONSchema, 'properties'>>['properties']
+  input?: Required<Pick<JSONSchema, 'properties'>>['properties']
   output: {
     [key: string]: {
       value: string
@@ -55,11 +55,25 @@ export class ApiCalled implements Base {
   }
 
   post = async (request: Post, run: (data: object) => Promise<Context>) => {
-    const { input } = this._config
-    const { body, path, baseUrl, headers, query, params } = request
-    const schema: JSONSchema = { type: 'object', properties: input, required: Object.keys(input) }
-    if (this._validateDataType<object>(body, schema)) {
-      const context = await run({ body, path, baseUrl, headers, query, params })
+    try {
+      const { input } = this._config
+      const { body, path, baseUrl, headers, query, params } = request
+      let context: Context
+      if (!input) {
+        context = await run({ path, baseUrl, headers, query, params })
+      } else {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: input,
+          required: Object.keys(input),
+        }
+        if (this._validateDataType<object>(body, schema)) {
+          context = await run({ body, path, baseUrl, headers, query, params })
+        } else {
+          const [error] = this._validateData(body, schema)
+          return new Json({ error }, 400)
+        }
+      }
       const response = Object.entries(this._output).reduce(
         (acc: { [key: string]: OutputFormat }, [key, value]) => {
           acc[key] = context.fillTemplate(value)
@@ -68,9 +82,12 @@ export class ApiCalled implements Base {
         {}
       )
       return new Json({ success: true, response })
+    } catch (error) {
+      if (error instanceof Error) {
+        return new Json({ error: { message: error.message } }, 400)
+      }
+      return new Json({ error: { message: 'Unknown error' } }, 500)
     }
-    const [error] = this._validateData(body, schema)
-    return new Json({ error }, 400)
   }
 
   private _validateDataType = <T>(data: unknown, schema: JSONSchema): data is T => {

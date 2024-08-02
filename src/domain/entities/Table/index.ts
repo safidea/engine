@@ -6,6 +6,7 @@ import type { Field } from '../Field'
 import { Record } from '@domain/entities/Record'
 import type { Data as ToCreateData } from '@domain/entities/Record/ToCreate'
 import type { Data as ToUpdateData } from '@domain/entities/Record/ToUpdate'
+import type { Data as PersistedData } from '@domain/entities/Record/Persisted'
 import { Json } from '@domain/entities/Response/Json'
 import type { Post } from '@domain/entities/Request/Post'
 import type { Patch } from '@domain/entities/Request/Patch'
@@ -55,6 +56,11 @@ export class Table {
     this._validateData = schemaValidator.validate
   }
 
+  get record() {
+    const { idGenerator, templateCompiler } = this._params
+    return new Record({ idGenerator, templateCompiler })
+  }
+
   init = async () => {
     const { server } = this._params
     await Promise.all([
@@ -80,13 +86,15 @@ export class Table {
     return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
+  read = async (id: string): Promise<PersistedData | undefined> => {
+    const record = await this.db.readById(id)
+    return record ? { ...record.data, id: record.id } : undefined
+  }
+
   get = async (request: Get) => {
     const id = request.getParamOrThrow('id')
-    const record = await this.db.readById(id)
-    if (!record) {
-      return new Json({ record: null })
-    }
-    return new Json({ record: record.data })
+    const record = await this.read(id)
+    return new Json({ record })
   }
 
   getAll = async () => {
@@ -94,17 +102,26 @@ export class Table {
     return new Json({ records: records.map((record) => record.data) })
   }
 
+  insert = async (
+    data: unknown
+  ): Promise<
+    { record: PersistedData; error?: undefined } | { record?: undefined; error: SchemaError }
+  > => {
+    const schema = this._getSchema()
+    if (this._validateDataType<ToCreateData>(data, schema)) {
+      const toCreateRecord = this.record.create(data)
+      const persistedRecord = await this.db.insert(toCreateRecord)
+      return { record: persistedRecord.data }
+    }
+    const [error] = this._validateData(data, schema)
+    return { error }
+  }
+
   post = async (request: Post) => {
     try {
       const { body } = request
-      const schema = this._getSchema()
-      if (this._validateDataType<ToCreateData>(body, schema)) {
-        const toCreateRecord = this._record.create(body)
-        const persistedRecord = await this.db.insert(toCreateRecord)
-        return new Json({ record: persistedRecord.data })
-      }
-      const [error] = this._validateData(body, schema)
-      return new Json({ error }, 400)
+      const { record, error } = await this.insert(body)
+      return new Json({ record, error }, error ? 400 : 201)
     } catch (error) {
       if (error instanceof Error) {
         return new Json({ error: { message: error.message } }, 400)
@@ -113,18 +130,28 @@ export class Table {
     }
   }
 
+  update = async (
+    id: string,
+    data: unknown
+  ): Promise<
+    { record: PersistedData; error?: undefined } | { record?: undefined; error: SchemaError }
+  > => {
+    const schema = this._getSchema({ required: false })
+    if (this._validateDataType<ToUpdateData>(data, schema)) {
+      const toUpdateRecord = this.record.update({ ...data, id })
+      const persistedRecord = await this.db.update(toUpdateRecord)
+      return { record: persistedRecord.data }
+    }
+    const [error] = this._validateData(data, schema)
+    return { error }
+  }
+
   patch = async (request: Patch) => {
     try {
       const { body } = request
-      const schema = this._getSchema({ required: false })
-      if (this._validateDataType<ToUpdateData>(body, schema)) {
-        const id = request.getParamOrThrow('id')
-        const toUpdateRecord = this._record.update({ ...body, id })
-        const persistedRecord = await this.db.update(toUpdateRecord)
-        return new Json({ record: persistedRecord.data })
-      }
-      const [error] = this._validateData(body, schema)
-      return new Json({ error }, 400)
+      const id = request.getParamOrThrow('id')
+      const { record, error } = await this.update(id, body)
+      return new Json({ record, error }, error ? 400 : 204)
     } catch (error) {
       if (error instanceof Error) {
         return new Json({ error: { message: error.message } }, 400)
@@ -144,11 +171,6 @@ export class Table {
       }
       return new Json({ error: { message: 'Unknown error' } }, 500)
     }
-  }
-
-  private get _record() {
-    const { idGenerator, templateCompiler } = this._params
-    return new Record({ idGenerator, templateCompiler })
   }
 
   private _getSchema = (options?: { required: boolean }): JSONSchema => {

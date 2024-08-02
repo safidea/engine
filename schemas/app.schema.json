@@ -49,7 +49,6 @@
                 }
             },
             "required": [
-                "input",
                 "output",
                 "path",
                 "trigger"
@@ -3059,7 +3058,6 @@
             "required": [
                 "action",
                 "code",
-                "input",
                 "name"
             ],
             "type": "object"

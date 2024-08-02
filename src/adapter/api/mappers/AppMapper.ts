@@ -39,7 +39,6 @@ export class AppMapper {
     const idGenerator = IdGeneratorMapper.toService({ drivers })
     const schemaValidator = SchemaValidatorMapper.toService({ drivers })
     const templateCompiler = TemplateCompilerMapper.toService({ drivers })
-    const codeCompiler = CodeCompilerMapper.toService({ drivers })
     const iconLibrary = IconLibraryMapper.toService({ drivers })
     const fontLibrary = FontLibraryMapper.toService({ drivers, server, idGenerator })
     const markdownParser = MarkdownParserMapper.toService({ drivers, components, ui })
@@ -72,6 +71,7 @@ export class AppMapper {
       components,
       templateCompiler,
     })
+    const codeCompiler = CodeCompilerMapper.toService({ drivers, tables })
     const automations = AutomationMapper.toManyEntities(
       config.automations ?? [],
       {

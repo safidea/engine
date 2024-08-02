@@ -6,7 +6,7 @@ import { Template, type OutputFormat, type OutputParser } from '@domain/services
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Params extends BaseParams {
-  input: {
+  input?: {
     [key: string]: {
       type: OutputParser
       value: string
@@ -23,9 +23,9 @@ export class RunJavascriptCode extends Base implements Interface {
 
   constructor(params: Params) {
     super(params)
-    const { codeCompiler, templateCompiler, code } = params
+    const { codeCompiler, templateCompiler, code, input } = params
     this._codeRunner = codeCompiler.compile(code)
-    this._input = Object.entries(params.input).reduce(
+    this._input = Object.entries(input ?? {}).reduce(
       (acc: { [key: string]: Template }, [key, { value, type }]) => {
         acc[key] = templateCompiler.compile(value, type)
         return acc
@@ -42,7 +42,15 @@ export class RunJavascriptCode extends Base implements Interface {
       },
       {}
     )
-    const result = await this._codeRunner.run(data)
-    context.set(this.name, result)
+    try {
+      const result = await this._codeRunner.run(data)
+      context.set(this.name, result)
+    } catch (error) {
+      if (error && typeof error === 'object' && 'message' in error) {
+        throw new Error(`RunJavascriptCode: ${error.message}`)
+      }
+      console.error(error)
+      throw new Error(`RunJavascriptCode: unknown error`)
+    }
   }
 }

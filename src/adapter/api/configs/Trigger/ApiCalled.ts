@@ -4,7 +4,7 @@ import type { OutputParser } from '@domain/services/Template'
 export interface ApiCalled {
   trigger: 'ApiCalled'
   path: string
-  input: Required<Pick<JSONSchema, 'properties'>>['properties']
+  input?: Required<Pick<JSONSchema, 'properties'>>['properties']
   output: {
     [key: string]: {
       value: string

@@ -3,7 +3,7 @@ import type { Base } from './base'
 
 export interface RunJavascriptCode extends Base {
   action: 'RunJavascriptCode'
-  input: {
+  input?: {
     [key: string]: {
       type: OutputParser
       value: string

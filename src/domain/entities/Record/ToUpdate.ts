@@ -1,6 +1,5 @@
 export interface Data {
   id: string
-  updated_at: Date
   [key: string]: string | number | boolean | Date | undefined
 }
 

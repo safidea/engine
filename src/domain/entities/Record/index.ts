@@ -7,11 +7,11 @@ export type RecordParams = ToCreateParams
 export class Record {
   constructor(private _params: RecordParams) {}
 
-  create = (data: ToCreateData) => {
+  create = (data: Partial<ToCreateData>) => {
     return new ToCreate(data, this._params)
   }
 
-  update = (data: ToUpdateData) => {
+  update = (data: Pick<ToUpdateData, 'id'> & Partial<ToUpdateData>) => {
     return new ToUpdate(data)
   }
 
