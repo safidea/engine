@@ -1,3 +1,10 @@
+# [0.25.0](https://github.com/safidea/engine/compare/v0.24.2...v0.25.0) (2024-08-03)
+
+
+### Features
+
+* **CreatePdf:** add green test: should create a PDF url ([b67d763](https://github.com/safidea/engine/commit/b67d76313113cb36a9dc1a68e7657327f42bae24))
+
 ## [0.24.2](https://github.com/safidea/engine/compare/v0.24.1...v0.24.2) (2024-08-02)
 
 
