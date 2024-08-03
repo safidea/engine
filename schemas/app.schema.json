@@ -5,6 +5,9 @@
         "Action": {
             "anyOf": [
                 {
+                    "$ref": "#/definitions/CreatePdf"
+                },
+                {
                     "$ref": "#/definitions/CreateRecord"
                 },
                 {
@@ -1292,6 +1295,46 @@
             "required": [
                 "children",
                 "component"
+            ],
+            "type": "object"
+        },
+        "CreatePdf": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreatePdf",
+                    "type": "string"
+                },
+                "input": {
+                    "additionalProperties": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "template": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "name",
+                "template"
             ],
             "type": "object"
         },
