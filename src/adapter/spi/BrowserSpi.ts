@@ -3,7 +3,7 @@ import type { Driver as BrowserPageDriver } from './BrowserPageSpi'
 
 export interface Driver {
   launch: () => Promise<void>
-  newPage: (baseUrl: string) => Promise<BrowserPageDriver>
+  newPage: (baseUrl?: string) => Promise<BrowserPageDriver>
   close: () => Promise<void>
 }
 
@@ -14,7 +14,7 @@ export class BrowserSpi implements Spi {
     return this._driver.launch()
   }
 
-  newPage = async (baseUrl: string) => {
+  newPage = async (baseUrl?: string) => {
     return this._driver.newPage(baseUrl)
   }
 

@@ -6,10 +6,11 @@ export class BrowserDriver implements Driver {
   private _browser?: PuppeteerBrowser
 
   launch = async () => {
+    if (this._browser) return
     this._browser = await puppeteer.launch()
   }
 
-  newPage = async (baseUrl: string) => {
+  newPage = async (baseUrl?: string) => {
     if (!this._browser) throw new Error('Browser not launched')
     const page = await this._browser.newPage()
     return new BrowserPageDriver(page, baseUrl)

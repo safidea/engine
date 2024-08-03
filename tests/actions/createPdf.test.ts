@@ -1,8 +1,9 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
+import { isValidBase64PDF } from '@tests/browser'
 
 test.describe('Create PDF action', () => {
-  test.skip('should create a PDF url', async ({ request }) => {
+  test('should create a PDF url', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -14,7 +15,7 @@ test.describe('Create PDF action', () => {
             path: 'create-pdf',
             output: {
               url: {
-                value: '{{createPdf.url}}',
+                value: '{{{createPdf.url}}}',
                 type: 'string',
               },
             },
@@ -44,6 +45,6 @@ test.describe('Create PDF action', () => {
       .then((res) => res.json())
 
     // THEN
-    expect(response.url).toBeDefined()
+    expect(isValidBase64PDF(response.url)).toBe(true)
   })
 })

@@ -12,6 +12,7 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Table } from '@domain/entities/Table'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import type { CodeCompiler } from '@domain/services/CodeCompiler'
+import type { Browser } from '@domain/services/Browser'
 
 export interface Services {
   logger: Logger
@@ -23,6 +24,7 @@ export interface Services {
   mailer: Mailer
   schemaValidator: SchemaValidator
   codeCompiler: CodeCompiler
+  browser: Browser
 }
 
 export interface Entities {
@@ -41,6 +43,7 @@ export class AutomationMapper {
       realtime,
       schemaValidator,
       codeCompiler,
+      browser,
     } = services
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
@@ -59,6 +62,7 @@ export class AutomationMapper {
         idGenerator,
         templateCompiler,
         codeCompiler,
+        browser,
       },
       entities
     )

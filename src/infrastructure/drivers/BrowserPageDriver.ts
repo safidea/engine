@@ -5,7 +5,7 @@ import { BrowserElementDriver } from './BrowserElementDriver'
 export class BrowserPageDriver implements Driver {
   constructor(
     private _page: Page,
-    private _baseUrl: string
+    private _baseUrl?: string
   ) {
     _page.setDefaultTimeout(5000)
   }
@@ -78,5 +78,10 @@ export class BrowserPageDriver implements Driver {
 
   getHtml = async () => {
     return this._page.content()
+  }
+
+  createPdf = async (html: string) => {
+    await this._page.setContent(html)
+    return this._page.pdf({ format: 'A4', printBackground: true })
   }
 }
