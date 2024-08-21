@@ -1,5 +1,5 @@
-import type { SendEmail as SendEmailConfig } from '@adapter/api/configs/Action/SendEmail'
-import { SendEmail } from '@domain/entities/Action/SendEmail'
+import type { SendEmail as SendEmailConfig } from '@adapter/api/configs/Action/mailer/SendEmail'
+import { SendEmail } from '@domain/entities/Action/mailer/SendEmail'
 import { ToSend } from '@domain/entities/Email/ToSend'
 import type { Mailer } from '@domain/services/Mailer'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'

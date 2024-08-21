@@ -1,7 +1,7 @@
-import { Base, type Params as BaseParams, type Interface } from './base'
+import { Base, type Params as BaseParams, type Interface } from '../base'
 import type { ToCreate } from '@domain/entities/Record/ToCreate'
-import type { Context } from '../Automation/Context'
-import type { Table } from '../Table'
+import type { Context } from '../../Automation/Context'
+import type { Table } from '../../Table'
 
 interface Params extends BaseParams {
   recordToCreate: ToCreate

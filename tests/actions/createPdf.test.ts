@@ -22,6 +22,7 @@ test.describe.skip('Create PDF action', () => {
           },
           actions: [
             {
+              service: 'Document',
               action: 'CreatePdf',
               name: 'createPdf',
               input: {
@@ -67,6 +68,7 @@ test.describe.skip('Create PDF action', () => {
           },
           actions: [
             {
+              service: 'Document',
               action: 'CreatePdf',
               name: 'createPdf',
               input: {

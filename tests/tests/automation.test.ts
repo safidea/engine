@@ -38,6 +38,7 @@ test.describe('Automation tests', () => {
           actions: [
             {
               name: 'create-lead',
+              service: 'Database',
               action: 'CreateRecord',
               table: 'leads',
               fields: {
@@ -104,6 +105,7 @@ test.describe('Automation tests', () => {
           actions: [
             {
               name: 'send-email',
+              service: 'Mailer',
               action: 'SendEmail',
               to: '{{ trigger.body.email }}',
               from: 'noreply@test.com',

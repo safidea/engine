@@ -1,5 +1,5 @@
-import type { CreateRecord as CreateRecordConfig } from '@adapter/api/configs/Action/CreateRecord'
-import { CreateRecord } from '@domain/entities/Action/CreateRecord'
+import type { CreateRecord as CreateRecordConfig } from '@adapter/api/configs/Action/database/CreateRecord'
+import { CreateRecord } from '@domain/entities/Action/database/CreateRecord'
 import { ConfigError } from '@domain/entities/Error/Config'
 import { ToCreate } from '@domain/entities/Record/ToCreate'
 import type { Table } from '@domain/entities/Table'

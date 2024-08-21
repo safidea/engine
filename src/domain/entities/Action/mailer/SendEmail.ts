@@ -1,7 +1,7 @@
 import type { ToSend } from '@domain/entities/Email/ToSend'
-import { Base, type Params as BaseParams, type Interface } from './base'
+import { Base, type Params as BaseParams, type Interface } from '../base'
 import type { Mailer } from '@domain/services/Mailer'
-import type { Context } from '../Automation/Context'
+import type { Context } from '../../Automation/Context'
 
 interface Params extends BaseParams {
   emailToSend: ToSend

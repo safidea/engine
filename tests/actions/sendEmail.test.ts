@@ -21,6 +21,7 @@ test.describe('Send email action', () => {
             },
             actions: [
               {
+                service: 'Mailer',
                 action: 'SendEmail',
                 name: 'send-email',
                 to: 'to@test.com',

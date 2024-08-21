@@ -23,6 +23,7 @@ test.describe('App with automations', () => {
             actions: [
               {
                 name: 'send-email',
+                service: 'Mailer',
                 action: 'SendEmail',
                 from: 'noreply@test.com',
                 to: '{{ trigger.body.email }}',
@@ -70,6 +71,7 @@ test.describe('App with automations', () => {
             actions: [
               {
                 name: 'send-email',
+                service: 'Mailer',
                 action: 'SendEmail',
                 from: 'noreply@test.com',
                 to: '{{ trigger.body.email }}',

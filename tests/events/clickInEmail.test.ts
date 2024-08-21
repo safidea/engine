@@ -90,6 +90,7 @@ test.describe('ClickInEmail event', () => {
           },
           actions: [
             {
+              service: 'Mailer',
               action: 'SendEmail',
               name: 'send-email',
               to: '{{ trigger.body.email }}',

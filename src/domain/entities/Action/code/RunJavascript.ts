@@ -1,5 +1,5 @@
-import { Base, type Params as BaseParams, type Interface } from './base'
-import type { Context } from '../Automation/Context'
+import { Base, type Params as BaseParams, type Interface } from '../base'
+import type { Context } from '../../Automation/Context'
 import type { CodeRunner } from '@domain/services/CodeRunner'
 import type { CodeCompiler } from '@domain/services/CodeCompiler'
 import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
@@ -17,7 +17,7 @@ interface Params extends BaseParams {
   templateCompiler: TemplateCompiler
 }
 
-export class RunJavascriptCode extends Base implements Interface {
+export class RunJavascript extends Base implements Interface {
   private _codeRunner: CodeRunner
   private _input: { [key: string]: Template }
 

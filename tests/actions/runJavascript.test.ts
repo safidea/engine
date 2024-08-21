@@ -26,7 +26,8 @@ test.describe('Run javascript code action', () => {
           },
           actions: [
             {
-              action: 'RunJavascriptCode',
+              service: 'Code',
+              action: 'RunJavascript',
               name: 'runJavascriptCode',
               input: {
                 numberOne: {
@@ -89,7 +90,8 @@ test.describe('Run javascript code action', () => {
             },
             actions: [
               {
-                action: 'RunJavascriptCode',
+                service: 'Code',
+                action: 'RunJavascript',
                 name: 'runJavascriptCode',
                 input: {
                   name: {
@@ -151,7 +153,8 @@ test.describe('Run javascript code action', () => {
             },
             actions: [
               {
-                action: 'RunJavascriptCode',
+                service: 'Code',
+                action: 'RunJavascript',
                 name: 'runJavascriptCode',
                 input: {
                   id: {
@@ -218,7 +221,8 @@ test.describe('Run javascript code action', () => {
             },
             actions: [
               {
-                action: 'RunJavascriptCode',
+                service: 'Code',
+                action: 'RunJavascript',
                 name: 'runJavascriptCode',
                 input: {
                   id: {
@@ -275,7 +279,8 @@ test.describe('Run javascript code action', () => {
             },
             actions: [
               {
-                action: 'RunJavascriptCode',
+                service: 'Code',
+                action: 'RunJavascript',
                 name: 'runJavascriptCode',
                 code: js`
                   const { id } = inputData
@@ -335,7 +340,8 @@ test.describe('Run javascript code action', () => {
             },
             actions: [
               {
-                action: 'RunJavascriptCode',
+                service: 'Code',
+                action: 'RunJavascript',
                 name: 'runJavascriptCode',
                 code: js`
                   const users = await table('users').list([{ field: 'id', operator: 'is', value: '2' }])
@@ -388,7 +394,8 @@ test.describe('Run javascript code action', () => {
             },
             actions: [
               {
-                action: 'RunJavascriptCode',
+                service: 'Code',
+                action: 'RunJavascript',
                 name: 'runJavascriptCode',
                 code: js`
                   const users = await table('users').list([{ field: 'id', operator: 'isAnyOf', value: ['3', '2'] }])
