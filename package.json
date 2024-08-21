@@ -49,8 +49,7 @@
     "test:ui": "bunx playwright test --ui",
     "storybook": "bun run build:css && storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "semantic-release": "semantic-release",
-    "prepare": "husky"
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
@@ -80,7 +79,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.10",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -125,15 +125,13 @@
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "husky": "^9.1.5",
     "nodemon": "^3.1.4",
     "openai": "^4.56.0",
     "prettier": "^3.3.3",
     "semantic-release": "^24.1.0",
     "storybook": "^8.2.9",
     "typescript-eslint": "^7.18.0",
-    "typescript-json-schema": "^0.64.0",
-    "xml2js": "^0.6.2"
+    "typescript-json-schema": "^0.64.0"
   },
   "peerDependencies": {
     "typescript": "^5.5.3"
