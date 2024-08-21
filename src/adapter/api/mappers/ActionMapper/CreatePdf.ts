@@ -1,4 +1,4 @@
-import type { CreatePdf as Config } from '@adapter/api/configs/Action/CreatePdf'
+/*import type { CreatePdf as Config } from '@adapter/api/configs/Action/CreatePdf'
 import { CreatePdf } from '@domain/entities/Action/CreatePdf'
 import type { Browser } from '@domain/services/Browser'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
@@ -14,3 +14,4 @@ export class CreatePdfMapper {
     return new CreatePdf({ ...config, browser, templateCompiler })
   }
 }
+*/

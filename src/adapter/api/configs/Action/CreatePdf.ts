@@ -9,5 +9,5 @@ export interface CreatePdf extends Base {
       value: string
     }
   }
-  template: string
+  templatePath: string
 }

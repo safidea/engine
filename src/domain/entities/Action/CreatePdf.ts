@@ -1,4 +1,4 @@
-import { Base, type Params as BaseParams, type Interface } from './base'
+/*import { Base, type Params as BaseParams, type Interface } from './base'
 import type { Context } from '../Automation/Context'
 import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
@@ -11,9 +11,10 @@ interface Params extends BaseParams {
       value: string
     }
   }
-  template: string
+  templatePath: string
   templateCompiler: TemplateCompiler
   browser: Browser
+  fileSystem: FileSystem
 }
 
 export class CreatePdf extends Base implements Interface {
@@ -23,9 +24,10 @@ export class CreatePdf extends Base implements Interface {
 
   constructor(params: Params) {
     super(params)
-    const { browser, templateCompiler, template, input } = params
+    const { browser, templateCompiler, templatePath, fileSystem, input } = params
     this._browser = browser
-    this._template = templateCompiler.compile(template)
+    const templateContent = fileSystem.read(templatePath)
+    this._template = templateCompiler.compile(templateContent)
     this._input = Object.entries(input ?? {}).reduce(
       (acc: { [key: string]: Template }, [key, { value, type }]) => {
         acc[key] = templateCompiler.compile(value, type)
@@ -60,3 +62,4 @@ export class CreatePdf extends Base implements Interface {
     }
   }
 }
+*/

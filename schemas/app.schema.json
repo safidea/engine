@@ -1327,14 +1327,14 @@
                 "name": {
                     "type": "string"
                 },
-                "template": {
+                "templatePath": {
                     "type": "string"
                 }
             },
             "required": [
                 "action",
                 "name",
-                "template"
+                "templatePath"
             ],
             "type": "object"
         },
