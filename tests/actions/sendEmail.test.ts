@@ -7,7 +7,7 @@ test.describe('Send email action', () => {
   test.slow()
 
   Database.each(test, (dbConfig) => {
-    test.only('should send an email', async ({ request }) => {
+    test('should send an email', async ({ request }) => {
       // GIVEN
       const mailer = new Mailer()
       const config: Config = {
