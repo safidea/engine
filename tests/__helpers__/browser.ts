@@ -7,7 +7,8 @@ export function isValidBase64PDF(base64: string): boolean {
   try {
     atob(base64Content)
     return true
-  } catch (e) {
+  } catch (err) {
+    console.log(err)
     return false
   }
 }

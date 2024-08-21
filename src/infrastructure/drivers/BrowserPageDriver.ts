@@ -16,6 +16,7 @@ export class BrowserPageDriver implements Driver {
       await this._page.goto(url)
       return true
     } catch (error) {
+      console.error(error)
       return false
     }
   }
@@ -44,6 +45,7 @@ export class BrowserPageDriver implements Driver {
       await this._page.waitForSelector(`::-p-text(${text})`, { timeout })
       return true
     } catch (error) {
+      console.error(error)
       return false
     }
   }

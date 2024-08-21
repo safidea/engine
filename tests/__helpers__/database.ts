@@ -14,6 +14,7 @@ async function checkDatabaseAvailability(client: pg.Client): Promise<boolean> {
     await client.query('SELECT 1')
     return true
   } catch (err) {
+    console.log(err)
     return false
   }
 }

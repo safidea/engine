@@ -1,6 +1,6 @@
 import type { ReactComponent, Base, BaseProps } from '../base/base'
 
-export interface Props extends BaseProps {}
+export type Props = BaseProps
 
 interface Params extends Props {
   Component: ReactComponent<Props>

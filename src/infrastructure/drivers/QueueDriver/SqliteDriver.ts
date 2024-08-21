@@ -94,6 +94,7 @@ export class SqliteDriver implements Driver {
             this._jobIds.splice(jobIndex, 1)
           }
         } catch (error) {
+          console.error(error)
           if (job.retryCount > 0) {
             const updateRetryQuery = `
               UPDATE _jobs
