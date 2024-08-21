@@ -1,167 +1,143 @@
 # [0.25.0](https://github.com/safidea/engine/compare/v0.24.2...v0.25.0) (2024-08-03)
 
-
 ### Features
 
-* **CreatePdf:** add green test: should create a PDF url ([b67d763](https://github.com/safidea/engine/commit/b67d76313113cb36a9dc1a68e7657327f42bae24))
+- **CreatePdf:** add green test: should create a PDF url ([b67d763](https://github.com/safidea/engine/commit/b67d76313113cb36a9dc1a68e7657327f42bae24))
 
 ## [0.24.2](https://github.com/safidea/engine/compare/v0.24.1...v0.24.2) (2024-08-02)
 
-
 ### Bug Fixes
 
-* **Table:** add green test: should create a record with an a date field ([560fdf1](https://github.com/safidea/engine/commit/560fdf1099cf553faa6fcd25eeb46a960a8ef520))
+- **Table:** add green test: should create a record with an a date field ([560fdf1](https://github.com/safidea/engine/commit/560fdf1099cf553faa6fcd25eeb46a960a8ef520))
 
 ## [0.24.1](https://github.com/safidea/engine/compare/v0.24.0...v0.24.1) (2024-08-02)
 
-
 ### Bug Fixes
 
-* **RunJavascriptCode:** add green test: should run a javascript code with a database list with isAnyOf filter ([e8ccccc](https://github.com/safidea/engine/commit/e8ccccccb1a0e4b9325108fa1177ef431f363bea))
-* **SingleLinkedRecord:** add green test: should migrate a table after edit SingleTextField to SingleLinkedRecord ([c7e0c32](https://github.com/safidea/engine/commit/c7e0c32fee86497390c795b8fd2676741e8be122))
+- **RunJavascriptCode:** add green test: should run a javascript code with a database list with isAnyOf filter ([e8ccccc](https://github.com/safidea/engine/commit/e8ccccccb1a0e4b9325108fa1177ef431f363bea))
+- **SingleLinkedRecord:** add green test: should migrate a table after edit SingleTextField to SingleLinkedRecord ([c7e0c32](https://github.com/safidea/engine/commit/c7e0c32fee86497390c795b8fd2676741e8be122))
 
 # [0.24.0](https://github.com/safidea/engine/compare/v0.23.0...v0.24.0) (2024-08-02)
 
-
 ### Features
 
-* **ApiCalled:** add green test: should start an automation from api call ([f8aa49d](https://github.com/safidea/engine/commit/f8aa49d1f29cf8d6fd569a00d62a9be24ce4fedd))
+- **ApiCalled:** add green test: should start an automation from api call ([f8aa49d](https://github.com/safidea/engine/commit/f8aa49d1f29cf8d6fd569a00d62a9be24ce4fedd))
 
 # [0.23.0](https://github.com/safidea/engine/compare/v0.22.5...v0.23.0) (2024-08-02)
 
-
 ### Bug Fixes
 
-* **RunJavascriptCode:** add green test: should run a javascript code with a database insert ([1f2d699](https://github.com/safidea/engine/commit/1f2d699ceba0440c719c1e23fb360817d2b11faa))
-* **RunJavascriptCode:** add green test: should run a javascript code with a database list with filters ([e7d29b5](https://github.com/safidea/engine/commit/e7d29b55696ee9d2ddd47f74ffb034e59e78c504))
-
+- **RunJavascriptCode:** add green test: should run a javascript code with a database insert ([1f2d699](https://github.com/safidea/engine/commit/1f2d699ceba0440c719c1e23fb360817d2b11faa))
+- **RunJavascriptCode:** add green test: should run a javascript code with a database list with filters ([e7d29b5](https://github.com/safidea/engine/commit/e7d29b55696ee9d2ddd47f74ffb034e59e78c504))
 
 ### Features
 
-* **RunJavascriptCode:** add green test: should run a javascript code ([d5074ff](https://github.com/safidea/engine/commit/d5074ff52879d722a047eb951721dec6910f7fcd))
+- **RunJavascriptCode:** add green test: should run a javascript code ([d5074ff](https://github.com/safidea/engine/commit/d5074ff52879d722a047eb951721dec6910f7fcd))
 
 ## [0.22.5](https://github.com/safidea/engine/compare/v0.22.4...v0.22.5) (2024-08-01)
 
-
 ### Bug Fixes
 
-* **Sqlite:** add drop temp table if exist ([f504c42](https://github.com/safidea/engine/commit/f504c42d7f8cb2330450375119c4b153c3ccb840))
+- **Sqlite:** add drop temp table if exist ([f504c42](https://github.com/safidea/engine/commit/f504c42d7f8cb2330450375119c4b153c3ccb840))
 
 ## [0.22.4](https://github.com/safidea/engine/compare/v0.22.3...v0.22.4) (2024-08-01)
 
-
 ### Bug Fixes
 
-* **SingleLinkedRecord:** add green test: should migrate a table with existing single linked record dependancies ([aaf4fc2](https://github.com/safidea/engine/commit/aaf4fc206e99fbb695c176e577ff3c34b7eb0fb9))
-* **Table:** add green test: should migrate a table with a renamed field that has already be renamed ([f792dd6](https://github.com/safidea/engine/commit/f792dd60c59acfe015e2637fcb1b50317eae466f))
+- **SingleLinkedRecord:** add green test: should migrate a table with existing single linked record dependancies ([aaf4fc2](https://github.com/safidea/engine/commit/aaf4fc206e99fbb695c176e577ff3c34b7eb0fb9))
+- **Table:** add green test: should migrate a table with a renamed field that has already be renamed ([f792dd6](https://github.com/safidea/engine/commit/f792dd60c59acfe015e2637fcb1b50317eae466f))
 
 ## [0.22.3](https://github.com/safidea/engine/compare/v0.22.2...v0.22.3) (2024-07-31)
 
-
 ### Bug Fixes
 
-* **Rollup:** add green test: should migrate an existing table with multiple rollup fields ([aee5d32](https://github.com/safidea/engine/commit/aee5d32e505a52ed3ae536ed33027a77355e6110))
+- **Rollup:** add green test: should migrate an existing table with multiple rollup fields ([aee5d32](https://github.com/safidea/engine/commit/aee5d32e505a52ed3ae536ed33027a77355e6110))
 
 ## [0.22.2](https://github.com/safidea/engine/compare/v0.22.1...v0.22.2) (2024-07-31)
 
-
 ### Bug Fixes
 
-* **Rollup:** add green test: should create a record with multiple rollup fields ([9e4a1cb](https://github.com/safidea/engine/commit/9e4a1cb4bb0ec375241ac8b4770f167eaa3ed47c))
+- **Rollup:** add green test: should create a record with multiple rollup fields ([9e4a1cb](https://github.com/safidea/engine/commit/9e4a1cb4bb0ec375241ac8b4770f167eaa3ed47c))
 
 ## [0.22.1](https://github.com/safidea/engine/compare/v0.22.0...v0.22.1) (2024-07-31)
 
-
 ### Bug Fixes
 
-* **Rollup:** add green test: should create a record with a rollup field as a text ([bbf9b15](https://github.com/safidea/engine/commit/bbf9b15b4061dbd20b2d3c472a189f9579a47d7d))
+- **Rollup:** add green test: should create a record with a rollup field as a text ([bbf9b15](https://github.com/safidea/engine/commit/bbf9b15b4061dbd20b2d3c472a189f9579a47d7d))
 
 # [0.22.0](https://github.com/safidea/engine/compare/v0.21.1...v0.22.0) (2024-07-31)
 
-
 ### Features
 
-* **Rollup:** add green test: should create a record with a rollup field as a number ([d5cab5e](https://github.com/safidea/engine/commit/d5cab5e1d351b2ec8526156a9cf6bb8de219c848))
+- **Rollup:** add green test: should create a record with a rollup field as a number ([d5cab5e](https://github.com/safidea/engine/commit/d5cab5e1d351b2ec8526156a9cf6bb8de219c848))
 
 ## [0.21.1](https://github.com/safidea/engine/compare/v0.21.0...v0.21.1) (2024-07-31)
 
-
 ### Bug Fixes
 
-* **MultipleLinkedRecord:** add green test: should restart an app with a multiple linked record field ([393b65d](https://github.com/safidea/engine/commit/393b65d95d1ae11f73b832d55163dc9d89929aac))
+- **MultipleLinkedRecord:** add green test: should restart an app with a multiple linked record field ([393b65d](https://github.com/safidea/engine/commit/393b65d95d1ae11f73b832d55163dc9d89929aac))
 
 # [0.21.0](https://github.com/safidea/engine/compare/v0.20.0...v0.21.0) (2024-07-30)
 
-
 ### Features
 
-* **MultipleLinkedRecord:** add green test: should create a record with a multiple linked record field ([7b61530](https://github.com/safidea/engine/commit/7b615307f96d16fc15967aec0aac01b5296e3f2a))
+- **MultipleLinkedRecord:** add green test: should create a record with a multiple linked record field ([7b61530](https://github.com/safidea/engine/commit/7b615307f96d16fc15967aec0aac01b5296e3f2a))
 
 # [0.20.0](https://github.com/safidea/engine/compare/v0.19.4...v0.20.0) (2024-07-30)
 
-
 ### Bug Fixes
 
-* **SingleLinkedRecord:** add green test: should not create a record with a bad single linked record id ([d29a5e2](https://github.com/safidea/engine/commit/d29a5e2523dab397e1f9f5c059b9cc9d0e858cb0))
-
+- **SingleLinkedRecord:** add green test: should not create a record with a bad single linked record id ([d29a5e2](https://github.com/safidea/engine/commit/d29a5e2523dab397e1f9f5c059b9cc9d0e858cb0))
 
 ### Features
 
-* **SingleLinkedRecord:** add green test: should create a record with a single linked record field ([3d669f5](https://github.com/safidea/engine/commit/3d669f54eff3b13de95422a2f2ac1b8c7ae39820))
+- **SingleLinkedRecord:** add green test: should create a record with a single linked record field ([3d669f5](https://github.com/safidea/engine/commit/3d669f54eff3b13de95422a2f2ac1b8c7ae39820))
 
 ## [0.19.4](https://github.com/safidea/engine/compare/v0.19.3...v0.19.4) (2024-07-30)
 
-
 ### Bug Fixes
 
-* **Formula:** add green test: should create a record with a number formula field referencing another number formula field ([59e035d](https://github.com/safidea/engine/commit/59e035d4aa76990e086ef847831d9611b48c37a0))
+- **Formula:** add green test: should create a record with a number formula field referencing another number formula field ([59e035d](https://github.com/safidea/engine/commit/59e035d4aa76990e086ef847831d9611b48c37a0))
 
 ## [0.19.3](https://github.com/safidea/engine/compare/v0.19.2...v0.19.3) (2024-07-30)
 
-
 ### Bug Fixes
 
-* **Formula:** add green test: should create a record with a formula field referencing another formula field ([8dd5816](https://github.com/safidea/engine/commit/8dd58168951f6fbd01deb8dbd06e7fb1c2a1114a))
+- **Formula:** add green test: should create a record with a formula field referencing another formula field ([8dd5816](https://github.com/safidea/engine/commit/8dd58168951f6fbd01deb8dbd06e7fb1c2a1114a))
 
 ## [0.19.2](https://github.com/safidea/engine/compare/v0.19.1...v0.19.2) (2024-07-29)
 
-
 ### Bug Fixes
 
-* **Table:** add green test: should migrate a table with an updated formula field + refactor private variables with _ ([f4eeb1a](https://github.com/safidea/engine/commit/f4eeb1a859bf6b855b24cc913bc5fdd8a30c0a46))
+- **Table:** add green test: should migrate a table with an updated formula field + refactor private variables with \_ ([f4eeb1a](https://github.com/safidea/engine/commit/f4eeb1a859bf6b855b24cc913bc5fdd8a30c0a46))
 
 ## [0.19.1](https://github.com/safidea/engine/compare/v0.19.0...v0.19.1) (2024-07-29)
 
-
 ### Bug Fixes
 
-* **Table:** add green test: should migrate a table with a new field ([72e36f7](https://github.com/safidea/engine/commit/72e36f7528c1700ac8f4af2cd4f32c45c2f38d9d))
+- **Table:** add green test: should migrate a table with a new field ([72e36f7](https://github.com/safidea/engine/commit/72e36f7528c1700ac8f4af2cd4f32c45c2f38d9d))
 
 # [0.19.0](https://github.com/safidea/engine/compare/v0.18.3...v0.19.0) (2024-07-29)
 
-
 ### Bug Fixes
 
-* **SingleSelect:** add green test: should not create a record with a wrong value in a single select field ([23eb8cf](https://github.com/safidea/engine/commit/23eb8cf17c69dfd40a1cd604983acebf3a81a7b7))
-
+- **SingleSelect:** add green test: should not create a record with a wrong value in a single select field ([23eb8cf](https://github.com/safidea/engine/commit/23eb8cf17c69dfd40a1cd604983acebf3a81a7b7))
 
 ### Features
 
-* **Formula:** add green test: should create a record with a formula field with an number output ([c2a0170](https://github.com/safidea/engine/commit/c2a0170c55e26ac3d442c525030b78e5365668b0))
+- **Formula:** add green test: should create a record with a formula field with an number output ([c2a0170](https://github.com/safidea/engine/commit/c2a0170c55e26ac3d442c525030b78e5365668b0))
 
 ## [0.18.3](https://github.com/safidea/engine/compare/v0.18.2...v0.18.3) (2024-07-20)
 
-
 ### Bug Fixes
 
-* **postgres:** add postgres tests ([05c9a71](https://github.com/safidea/engine/commit/05c9a71f47c139d57f1ea0b1099d9e15a7ee8241))
+- **postgres:** add postgres tests ([05c9a71](https://github.com/safidea/engine/commit/05c9a71f47c139d57f1ea0b1099d9e15a7ee8241))
 
 ## [0.18.2](https://github.com/safidea/engine/compare/v0.18.1...v0.18.2) (2024-07-20)
 
-
 ### Bug Fixes
 
-* **test:** add green test: should run a test with env variables ([43db9a6](https://github.com/safidea/engine/commit/43db9a62a5218c3a955f0da97133aa875bdf48cf))
+- **test:** add green test: should run a test with env variables ([43db9a6](https://github.com/safidea/engine/commit/43db9a62a5218c3a955f0da97133aa875bdf48cf))
 
 ## [0.18.1](https://github.com/safidea/engine/compare/v0.18.0...v0.18.1) (2024-07-20)
 
