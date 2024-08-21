@@ -1,5 +1,4 @@
 import type { Logger } from './Logger'
-import type { Job } from '../entities/Job'
 import type { Context } from '@domain/entities/Automation/Context'
 
 export interface Config {
@@ -22,21 +21,13 @@ export type State =
   | 'failed'
   | 'archive'
 
-export interface WaitForParams {
-  id?: string
-  name?: string
-  state: State
-  timeout?: number
-}
-
 export interface Spi {
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
   stop: (options: { graceful: boolean }) => Promise<void>
-  add: (job: string, data: object, options?: { retry: number }) => Promise<string>
-  job: (job: string, callback: (id: string, data: object) => Promise<void>) => void
-  getById: (id: string) => Promise<Job | undefined>
-  waitFor: (params: WaitForParams) => Promise<boolean>
+  add: (job: string, data: object, options?: { retry: number }) => Promise<void>
+  job: (job: string, callback: (id: string, data: object) => Promise<void>) => Promise<void>
+  waitForEmpty: (name: string, timeout: number) => Promise<boolean>
 }
 
 export class Queue {
@@ -63,7 +54,7 @@ export class Queue {
     this._log('starting queue...')
     await this._spi.start()
     for (const { name, callback } of this._jobs) {
-      this._spi.job(name, callback)
+      await this._spi.job(name, callback)
     }
     this._log('queue started')
   }
@@ -81,9 +72,9 @@ export class Queue {
     job: string,
     data: D,
     options?: { retry: number }
-  ): Promise<string> => {
+  ): Promise<void> => {
     this._log(`add job "${job}" to queue`)
-    return this._spi.add(job, data, options)
+    await this._spi.add(job, data, options)
   }
 
   job = (name: string, initCallback: (data: object) => Promise<Context>) => {
@@ -97,12 +88,8 @@ export class Queue {
     })
   }
 
-  getById = async (id: string) => {
-    return this._spi.getById(id)
-  }
-
-  waitFor = async (params: WaitForParams) => {
-    this._log(`waiting for job "${params.id ?? params.name}"...`)
-    return this._spi.waitFor(params)
+  waitForEmpty = async (name: string, timeout = 5000) => {
+    this._log(`waiting for empty queue "${name}"...`)
+    return this._spi.waitForEmpty(name, timeout)
   }
 }

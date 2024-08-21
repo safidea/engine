@@ -16,7 +16,6 @@ export class MarkdownParserDriver implements Driver {
   configRenderer = (renderer: Renderer) => {
     marked.use({
       breaks: true,
-      useNewRenderer: true,
       renderer: {
         heading(token: Tokens.Heading): string {
           return renderer.title({ text: token.text, heading: token.depth })

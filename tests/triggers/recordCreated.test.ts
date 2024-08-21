@@ -41,8 +41,7 @@ test.describe('RecordCreated trigger', () => {
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
       // THEN
-      const job = await queue.waitFor({ name: 'Send email', state: 'created' })
-      expect(job).toBeDefined()
+      await expect(queue.waitForEmpty('Send email', 5000)).resolves.toBeTruthy()
     })
   })
 })

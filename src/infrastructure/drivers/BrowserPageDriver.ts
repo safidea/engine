@@ -80,7 +80,7 @@ export class BrowserPageDriver implements Driver {
     return this._page.content()
   }
 
-  createPdf = async (html: string) => {
+  createPdfFromHtml = async (html: string) => {
     await this._page.setContent(html)
     return this._page.pdf({ format: 'A4', printBackground: true })
   }

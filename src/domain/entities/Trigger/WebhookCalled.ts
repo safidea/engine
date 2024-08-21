@@ -44,7 +44,7 @@ export class WebhookCalled implements Base {
       query: request.query,
       params: request.params,
     }
-    const jobId = await queue.add(automation, result)
-    return new Json({ success: true, id: jobId })
+    await queue.add(automation, result)
+    return new Json({ success: true })
   }
 }

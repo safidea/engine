@@ -17,7 +17,7 @@ export interface Spi {
     options?: { tag: string | undefined }
   ) => Promise<BrowserElementSpi | undefined>
   getHtml: () => Promise<string>
-  createPdf: (html: string) => Promise<Buffer>
+  createPdfFromHtml: (html: string) => Promise<Uint8Array>
 }
 
 export class BrowserPage {
@@ -66,7 +66,7 @@ export class BrowserPage {
     return this._spi.getHtml()
   }
 
-  createPdf = async (html: string) => {
-    return this._spi.createPdf(html)
+  createPdfFromHtml = async (html: string) => {
+    return this._spi.createPdfFromHtml(html)
   }
 }

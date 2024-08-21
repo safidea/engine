@@ -41,17 +41,12 @@ test.describe('App with automations', () => {
       const url = await app.start(config)
 
       // WHEN
-      const res = await request.post(`${url}/api/automation/send-email`, {
+      await request.post(`${url}/api/automation/send-email`, {
         data: { email: 'test@test.com' },
       })
 
       // THEN
-      expect(res.ok()).toBeTruthy()
-      const { id } = await res.json()
-      await queue.waitFor({ id, state: 'completed' })
-      const job = await queue.getById(id)
-      expect(job).toBeDefined()
-      expect(job?.state).toBe('completed')
+      await expect(queue.waitForEmpty('send-email', 5000)).resolves.toBeTruthy()
     })
 
     test('should send an email from a webhook call', async ({ request }) => {
@@ -89,14 +84,12 @@ test.describe('App with automations', () => {
       const url = await app.start(config)
 
       // WHEN
-      const res = await request.post(`${url}/api/automation/send-email`, {
+      await request.post(`${url}/api/automation/send-email`, {
         data: { email: 'test@test.com' },
       })
 
       // THEN
-      expect(res.ok()).toBeTruthy()
-      const { id } = await res.json()
-      await queue.waitFor({ id, state: 'completed' })
+      await queue.waitForEmpty('send-email', 5000)
       const email = await mailer.find([{ field: 'subject', operator: '=', value: 'New lead' }])
       expect(email).toBeDefined()
       expect(email?.to).toBe('test@test.com')

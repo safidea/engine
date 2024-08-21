@@ -47,10 +47,10 @@ export class RunJavascript extends Base implements Interface {
       context.set(this.name, result)
     } catch (error) {
       if (error && typeof error === 'object' && 'message' in error) {
-        throw new Error(`RunJavascriptCode: ${error.message}`)
+        throw new Error(`RunJavascript: ${error.message}`)
       }
       console.error(error)
-      throw new Error(`RunJavascriptCode: unknown error`)
+      throw new Error(`RunJavascript: unknown error`)
     }
   }
 }

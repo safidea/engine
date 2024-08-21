@@ -15,7 +15,7 @@ export interface Driver {
     options?: { tag?: string }
   ): Promise<BrowserElementDriver | undefined>
   getHtml(): Promise<string>
-  createPdf: (html: string) => Promise<Buffer>
+  createPdfFromHtml: (html: string) => Promise<Uint8Array>
 }
 
 export class BrowserPageSpi implements Spi {
@@ -57,7 +57,7 @@ export class BrowserPageSpi implements Spi {
     return this._driver.getHtml()
   }
 
-  createPdf = async (html: string) => {
-    return this._driver.createPdf(html)
+  createPdfFromHtml = async (html: string) => {
+    return this._driver.createPdfFromHtml(html)
   }
 }

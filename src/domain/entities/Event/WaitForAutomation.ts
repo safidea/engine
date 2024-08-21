@@ -33,9 +33,6 @@ export class WaitForAutomation implements Base {
         )
       }, 5000)
     })
-    await Promise.race([
-      app.queue.waitFor({ name: automation, state: 'completed' }),
-      timeoutPromise,
-    ])
+    await Promise.race([app.queue.waitForEmpty(automation), timeoutPromise])
   }
 }
