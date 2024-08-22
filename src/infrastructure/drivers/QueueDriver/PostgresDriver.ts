@@ -24,10 +24,6 @@ export class PostgresDriver implements Driver {
 
   stop = async ({ graceful }: { graceful: boolean }) => {
     await this._queue.stop({ graceful })
-    if (graceful)
-      await new Promise((resolve) => {
-        this._queue.on('stopped', () => resolve(null))
-      })
   }
 
   add = async <D extends object>(name: string, data: D, options?: { retry: number }) => {

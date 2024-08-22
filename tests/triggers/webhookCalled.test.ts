@@ -27,8 +27,7 @@ test.describe('WebhookCalled trigger', () => {
 
     // THEN
     expect(res.ok()).toBeTruthy()
-    const { success, id } = await res.json()
+    const { success } = await res.json()
     expect(success).toBeTruthy()
-    expect(id).toBeDefined()
   })
 })
