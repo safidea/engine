@@ -5,7 +5,7 @@ import { ParagraphMapper } from '../content/ParagraphMapper'
 import { ButtonMapper } from '../base/ButtonMapper'
 import type { ReactComponents } from '@domain/entities/Component'
 import type { Client } from '@domain/services/Client'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Server } from '@domain/services/Server'
 import type { IdGenerator } from '@domain/services/IdGenerator'
@@ -13,7 +13,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 interface Services {
   components: ReactComponents
   client: Client
-  ui: Ui
+  react: React
   templateCompiler: TemplateCompiler
   server: Server
   idGenerator: IdGenerator

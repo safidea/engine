@@ -8,7 +8,7 @@ import type { ReactComponents } from '@domain/entities/Component'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { MarkdownParser } from '@domain/services/MarkdownParser'
 import type { IconLibrary } from '@domain/services/IconLibrary'
@@ -16,7 +16,7 @@ import type { IconLibrary } from '@domain/services/IconLibrary'
 export interface Services {
   server: Server
   client: Client
-  ui: Ui
+  react: React
   idGenerator: IdGenerator
   logger: Logger
   components: ReactComponents
@@ -32,7 +32,7 @@ export class PageMapper {
     const {
       server,
       logger,
-      ui,
+      react,
       client,
       components,
       idGenerator,
@@ -44,7 +44,7 @@ export class PageMapper {
     const body = ComponentMapper.toManyEntities(config.body, {
       components,
       server,
-      ui,
+      react,
       client,
       idGenerator,
       realtime,
@@ -53,7 +53,7 @@ export class PageMapper {
       iconLibrary,
     })
     const head = HeadMapper.toEntity(config.head ?? {}, { client })
-    return new Page({ name, path, head, body, server, logger, ui, Html: components.Html })
+    return new Page({ name, path, head, body, server, logger, react, Html: components.Html })
   }
 
   static toManyEntities = (configs: Config[], services: Services) => {

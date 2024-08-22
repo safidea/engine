@@ -1,6 +1,6 @@
 import type { Component, ReactComponents } from '@domain/entities/Component'
 import type { Client } from '@domain/services/Client'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Server } from '@domain/services/Server'
 import type { Realtime } from '@domain/services/Realtime'
@@ -40,7 +40,7 @@ import { GridMapper } from './layout/GridMapper'
 export interface Services {
   components: ReactComponents
   server: Server
-  ui: Ui
+  react: React
   client: Client
   idGenerator: IdGenerator
   realtime: Realtime

@@ -1,10 +1,11 @@
+import type { Exec, Query } from './Database'
 import type { Logger } from './Logger'
 import type { Context } from '@domain/entities/Automation/Context'
 
 export interface Config {
   type: 'sqlite' | 'postgres'
-  query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
-  exec: (query: string) => Promise<void>
+  query: Query
+  exec: Exec
 }
 
 export interface Services {

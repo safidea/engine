@@ -5,13 +5,16 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/CreatePdf"
+                    "$ref": "#/definitions/CreatePdfFromTemplate"
                 },
                 {
                     "$ref": "#/definitions/CreateRecord"
                 },
                 {
                     "$ref": "#/definitions/RunJavascript"
+                },
+                {
+                    "$ref": "#/definitions/CreatePdfFromHtmlTemplate"
                 },
                 {
                     "$ref": "#/definitions/SendEmail"
@@ -1298,11 +1301,60 @@
             ],
             "type": "object"
         },
-        "CreatePdf": {
+        "CreatePdfFromHtmlTemplate": {
             "additionalProperties": false,
             "properties": {
                 "action": {
-                    "const": "CreatePdf",
+                    "const": "CreatePdfFromHtmlTemplate",
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "additionalProperties": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Browser",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fileName",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
+        "CreatePdfFromTemplate": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreatePdfFromTemplate",
                     "type": "string"
                 },
                 "input": {

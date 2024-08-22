@@ -10,6 +10,7 @@ import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
+import type { Storage } from '@domain/services/Storage'
 import { Get } from '@domain/entities/Request/Get'
 import { State } from '../Page/State'
 
@@ -26,6 +27,7 @@ interface Params {
   mailer?: Mailer
   realtime?: Realtime
   auth?: Auth
+  storage?: Storage
 }
 
 type Status = 'ready' | 'starting' | 'running' | 'stopping'
@@ -33,6 +35,7 @@ type Status = 'ready' | 'starting' | 'running' | 'stopping'
 export class App {
   public name: string
   public database?: Database
+  public storage?: Storage
   public queue?: Queue
   public mailer?: Mailer
   private _status: Status
@@ -45,6 +48,7 @@ export class App {
     this.name = _params.name
     this.database = _params.database
     this.queue = _params.queue
+    this.storage = _params.storage
     this.mailer = _params.mailer
   }
 
@@ -96,7 +100,7 @@ export class App {
     if (this._status !== 'ready')
       throw new Error(`App is not ready, current status is ${this._status}`)
     this.setStatus('starting')
-    const { tables, server, database, queue, mailer, realtime, auth } = this._params
+    const { tables, server, database, queue, storage, mailer, realtime, auth } = this._params
     if (database) {
       await database.connect()
       await database.migrate(tables)
@@ -108,6 +112,7 @@ export class App {
       })
     }
     if (queue) await queue.start()
+    if (storage) await storage.start()
     if (mailer) await mailer.verify()
     if (realtime) await realtime.setup(tables)
     if (auth) await auth.connect()

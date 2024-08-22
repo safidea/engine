@@ -31,7 +31,7 @@ export class DatabaseDriver implements Driver {
 
   query = async <T>(
     text: string,
-    values: (string | number)[]
+    values: (string | number | Buffer | Date)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
     return this._db.query(text, values)
   }

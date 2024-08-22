@@ -11,6 +11,10 @@ export class IdGenerator {
     return this._spi.generate(24, this.alphabet)
   }
 
+  forFile = () => {
+    return this._spi.generate(24, this.alphabet)
+  }
+
   forComponent = () => {
     return this._spi.generate(12, this.alphabet)
   }

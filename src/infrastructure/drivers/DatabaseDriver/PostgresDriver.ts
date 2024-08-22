@@ -39,7 +39,7 @@ export class PostgresDriver implements Driver {
 
   query = async <T>(
     text: string,
-    values: (string | number)[]
+    values: (string | number | Buffer | Date)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
     const { rows, rowCount } = await this._db.query(text, values)
     return { rows, rowCount: rowCount || 0 }

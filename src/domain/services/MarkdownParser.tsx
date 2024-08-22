@@ -1,5 +1,5 @@
 import type { ReactComponents } from '@domain/entities/Component'
-import type { Ui } from './Ui'
+import type { React } from './React'
 import type { Props as TitleProps } from '@domain/entities/Component/content/Title'
 import type { Props as ParagraphProps } from '@domain/entities/Component/content/Paragraph'
 import type { Props as DividerProps } from '@domain/entities/Component/content/Divider'
@@ -8,7 +8,7 @@ import type { Props as ImageProps } from '@domain/entities/Component/content/Ima
 
 export interface Services {
   components: ReactComponents
-  ui: Ui
+  react: React
 }
 
 export interface Renderer {
@@ -43,32 +43,32 @@ export class MarkdownParser {
   }
 
   renderTitle = (props: TitleProps): string => {
-    const { components, ui } = this._services
+    const { components, react } = this._services
     const { Title } = components
-    return ui.renderToHtml(<Title {...props} />)
+    return react.renderToHtml(<Title {...props} />)
   }
 
   renderParagraph = (props: ParagraphProps): string => {
-    const { components, ui } = this._services
+    const { components, react } = this._services
     const { Paragraph } = components
-    return ui.renderToHtml(<Paragraph {...props} />)
+    return react.renderToHtml(<Paragraph {...props} />)
   }
 
   renderDivider = (props: DividerProps): string => {
-    const { components, ui } = this._services
+    const { components, react } = this._services
     const { Divider } = components
-    return ui.renderToHtml(<Divider {...props} />)
+    return react.renderToHtml(<Divider {...props} />)
   }
 
   renderLink = (props: LinkProps): string => {
-    const { components, ui } = this._services
+    const { components, react } = this._services
     const { Link } = components
-    return ui.renderToHtml(<Link {...props} />)
+    return react.renderToHtml(<Link {...props} />)
   }
 
   renderImage = (props: ImageProps): string => {
-    const { components, ui } = this._services
+    const { components, react } = this._services
     const { Image } = components
-    return ui.renderToHtml(<Image {...props} />)
+    return react.renderToHtml(<Image {...props} />)
   }
 }

@@ -2,7 +2,7 @@ export interface Spi {
   render: (component: JSX.Element) => string
 }
 
-export class Ui {
+export class React {
   constructor(private _spi: Spi) {}
 
   renderToHtml = (component: JSX.Element): string => {

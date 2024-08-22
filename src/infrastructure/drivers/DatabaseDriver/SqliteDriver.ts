@@ -61,7 +61,7 @@ export class SqliteDriver implements Driver {
 
   query = async <T>(
     text: string,
-    values: (string | number)[]
+    values: (string | number | Buffer | Date)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
     const stmt = this._db.prepare(text)
     const isSelect = text.trim().toUpperCase().startsWith('SELECT')

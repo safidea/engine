@@ -10,7 +10,7 @@ import type { Post } from '@domain/entities/Request/Post'
 import { Html } from '@domain/entities/Response/Html'
 import type { Response } from '@domain/entities/Response'
 import { Redirect } from '@domain/entities/Response/Redirect'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 
 export type Variant = 'primary' | 'secondary'
 export type Type = 'button' | 'submit' | 'reset'
@@ -37,7 +37,7 @@ interface Params extends Omit<Props, 'actionClientProps' | 'formId'> {
   client: Client
   idGenerator: IdGenerator
   server: Server
-  ui: Ui
+  react: React
 }
 
 export class Button implements Base<Props> {
@@ -78,9 +78,9 @@ export class Button implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui } = this._params
+    const { react } = this._params
     const Component = await this.render(state)
-    return ui.renderToHtml(<Component {...props} />)
+    return react.renderToHtml(<Component {...props} />)
   }
 
   render = async (state: State) => {

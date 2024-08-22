@@ -3,7 +3,7 @@ import type { Config } from '@adapter/api/configs/Component/application/List'
 import type { IconLibrary } from '@domain/services/IconLibrary'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { Server } from '@domain/services/Server'
 import type { Client } from '@domain/services/Client'
 import type { ReactComponents } from '@domain/entities/Component'
@@ -14,7 +14,7 @@ interface Services {
   iconLibrary: IconLibrary
   client: Client
   server: Server
-  ui: Ui
+  react: React
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
   realtime: Realtime
@@ -22,12 +22,12 @@ interface Services {
 
 export class ListMapper {
   static toEntity = (config: Config, services: Services): List => {
-    const { server, ui, client, idGenerator, realtime, components, templateCompiler } = services
+    const { server, react, client, idGenerator, realtime, components, templateCompiler } = services
     return new List({
       ...config,
       Component: components.List,
       server,
-      ui,
+      react,
       client,
       idGenerator,
       realtime,

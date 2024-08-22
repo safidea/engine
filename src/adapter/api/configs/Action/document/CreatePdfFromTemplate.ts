@@ -1,9 +1,9 @@
 import type { OutputParser } from '@domain/services/Template'
 import type { Base } from '../base'
 
-export interface CreatePdf extends Base {
+export interface CreatePdfFromTemplate extends Base {
   service: 'Document'
-  action: 'CreatePdf'
+  action: 'CreatePdfFromTemplate'
   input?: {
     [key: string]: {
       type: OutputParser

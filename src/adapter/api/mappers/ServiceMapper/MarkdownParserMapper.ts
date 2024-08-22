@@ -2,11 +2,11 @@ import type { Drivers } from '@adapter/spi/Drivers'
 import { MarkdownParserSpi } from '@adapter/spi/MarkdownParserSpi'
 import type { ReactComponents } from '@domain/entities/Component'
 import { MarkdownParser } from '@domain/services/MarkdownParser'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 
 interface Ressources {
   drivers: Drivers
-  ui: Ui
+  react: React
   components: ReactComponents
 }
 

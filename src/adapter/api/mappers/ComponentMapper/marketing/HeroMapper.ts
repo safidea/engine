@@ -6,7 +6,7 @@ import type { IconLibrary } from '@domain/services/IconLibrary'
 import { ButtonMapper } from '../base/ButtonMapper'
 import type { Client } from '@domain/services/Client'
 import type { Server } from '@domain/services/Server'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import { ParagraphMapper } from '../content/ParagraphMapper'
@@ -16,7 +16,7 @@ interface Services {
   iconLibrary: IconLibrary
   client: Client
   server: Server
-  ui: Ui
+  react: React
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
 }

@@ -1,6 +1,6 @@
 import type { Server } from '@domain/services/Server'
 import type { Base, BaseProps, ReactComponent } from '../base/base'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import { Html } from '@domain/entities/Response/Html'
 import { ConfigError } from '@domain/entities/Error/Config'
@@ -37,7 +37,7 @@ interface Params extends BaseProps {
   buttons?: Button[]
   Component: ReactComponent<Props>
   server: Server
-  ui: Ui
+  react: React
   client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
@@ -101,17 +101,17 @@ export class Table implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui, id, className } = this._params
+    const { react, id, className } = this._params
     const Component = await this.render(state, { withSource: false })
-    return ui.renderToHtml(<Component {...props} id={id} className={className} />)
+    return react.renderToHtml(<Component {...props} id={id} className={className} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { ui, client, title, columns, buttons = [], id, className } = this._params
+    const { react, client, title, columns, buttons = [], id, className } = this._params
     const Component = await this.render(state, { withSource: false })
     const Buttons = await Promise.all(buttons.map((button) => button.render(state)))
     const Title = title ? await title.render() : undefined
-    return ui.renderToHtml(
+    return react.renderToHtml(
       <client.Stream action="replace" target={this.id}>
         <Component {...{ id, className, Title, columns, Buttons, ...props }} />
       </client.Stream>

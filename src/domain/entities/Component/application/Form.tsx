@@ -4,7 +4,7 @@ import type { Post } from '@domain/entities/Request/Post'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Response } from '@domain/entities/Response'
 import { Html } from '@domain/entities/Response/Html'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { Client } from '@domain/services/Client'
 import type { Method } from '@domain/entities/Request'
 import type { Title } from '../content/Title'
@@ -42,7 +42,7 @@ interface Params
   Component: ReactComponent<Props>
   server: Server
   idGenerator: IdGenerator
-  ui: Ui
+  react: React
   client: Client
   templateCompiler: TemplateCompiler
 }
@@ -108,9 +108,9 @@ export class Form implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui } = this._params
+    const { react } = this._params
     const Component = await this.render(state)
-    return ui.renderToHtml(<Component {...props} />)
+    return react.renderToHtml(<Component {...props} />)
   }
 
   render = async (state: State) => {

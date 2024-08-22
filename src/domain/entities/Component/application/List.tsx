@@ -1,6 +1,6 @@
 import type { Server } from '@domain/services/Server'
 import type { Base, BaseProps, ReactComponent } from '../base/base'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import { Html } from '@domain/entities/Response/Html'
 import { ConfigError } from '@domain/entities/Error/Config'
@@ -35,7 +35,7 @@ interface Params extends BaseProps {
   open: string
   Component: ReactComponent<Props>
   server: Server
-  ui: Ui
+  react: React
   client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
@@ -106,17 +106,17 @@ export class List implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { ui, client } = this._params
+    const { react, client } = this._params
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
-    return ui.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
+    return react.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { ui, client, columns, id, className } = this._params
+    const { react, client, columns, id, className } = this._params
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
-    return ui.renderToHtml(
+    return react.renderToHtml(
       <client.Stream action="replace" target={this.id}>
         <Component {...{ id, className, columns, ...props, actionClientProps }} />
       </client.Stream>

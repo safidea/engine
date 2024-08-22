@@ -19,12 +19,18 @@ export type ErrorEvent = { message: string }
 
 export type NotificationEvent = RealtimeEvent
 
+export type Query = <T>(
+  text: string,
+  values: (string | number | Buffer | Date)[]
+) => Promise<{ rows: T[]; rowCount: number }>
+export type Exec = (query: string) => Promise<void>
+
 export interface Spi {
   table: (name: string, fields: Field[]) => DatabaseTableSpi
   connect: () => Promise<void>
   disconnect: () => Promise<void>
-  exec: (query: string) => Promise<unknown>
-  query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
+  exec: Exec
+  query: Query
   onError: (callback: (error: ErrorEvent) => void) => void
   onNotification: (callback: (notification: NotificationEvent) => void) => void
   setupTriggers: (tables: string[]) => Promise<void>
@@ -129,7 +135,7 @@ export class Database {
     }
   }
 
-  query = async <T>(text: string, values: (string | number)[]) => {
+  query = async <T>(text: string, values: (string | number | Buffer | Date)[]) => {
     try {
       return this._spi.query<T>(text, values)
     } catch (error) {

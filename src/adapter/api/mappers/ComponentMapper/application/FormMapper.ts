@@ -7,7 +7,7 @@ import type { Config } from '@adapter/api/configs/Component/application/Form'
 import type { IconLibrary } from '@domain/services/IconLibrary'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { Server } from '@domain/services/Server'
 import type { Client } from '@domain/services/Client'
 import type { ReactComponents } from '@domain/entities/Component'
@@ -17,14 +17,14 @@ interface Services {
   iconLibrary: IconLibrary
   client: Client
   server: Server
-  ui: Ui
+  react: React
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
 }
 
 export class FormMapper {
   static toEntity = (config: Config, params: Services): Form => {
-    const { components, server, ui, client, idGenerator, templateCompiler } = params
+    const { components, server, react, client, idGenerator, templateCompiler } = params
     const title = config.title ? TitleMapper.toEntity(config.title, params) : undefined
     const paragraph = config.paragraph
       ? ParagraphMapper.toEntity(config.paragraph, params)
@@ -39,7 +39,7 @@ export class FormMapper {
       buttons,
       Component: components.Form,
       server,
-      ui,
+      react,
       idGenerator,
       client,
       templateCompiler,

@@ -124,7 +124,7 @@ export class Table {
   > => {
     const schema = this._getRecordSchema()
     if (this._validateDataType<ToCreateData>(data, schema)) {
-      const toCreateRecord = this.record.create(data)
+      const toCreateRecord = this.record.toCreate(data)
       const persistedRecord = await this.db.insert(toCreateRecord)
       return { record: persistedRecord.data }
     }
@@ -153,7 +153,7 @@ export class Table {
   > => {
     const schema = this._getRecordSchema({ required: false })
     if (this._validateDataType<ToUpdateData>(data, schema)) {
-      const toUpdateRecord = this.record.update({ ...data, id })
+      const toUpdateRecord = this.record.toUpdate({ ...data, id })
       const persistedRecord = await this.db.update(toUpdateRecord)
       return { record: persistedRecord.data }
     }

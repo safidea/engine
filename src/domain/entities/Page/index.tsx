@@ -3,7 +3,7 @@ import type { Component } from '../Component'
 import type { Logger } from '@domain/services/Logger'
 import type { Head } from '../Head'
 import { Html as HtmlResponse } from '@domain/entities/Response/Html'
-import type { Ui } from '@domain/services/Ui'
+import type { React } from '@domain/services/React'
 import type { HtmlProps } from '../Component/base/Html'
 import type { ReactComponent } from '../Component/base/base'
 import { State } from './State'
@@ -16,7 +16,7 @@ interface Params {
   body: Component[]
   server: Server
   logger: Logger
-  ui: Ui
+  react: React
   Html: ReactComponent<HtmlProps>
 }
 
@@ -51,8 +51,8 @@ export class Page {
   }
 
   html = async (state: State) => {
-    const { ui } = this._params
-    return ui.renderToHtml(await this.render(state))
+    const { react } = this._params
+    return react.renderToHtml(await this.render(state))
   }
 
   render = async (state: State) => {

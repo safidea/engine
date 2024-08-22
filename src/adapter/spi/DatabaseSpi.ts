@@ -1,5 +1,12 @@
 import { DatabaseTableSpi, type Driver as DatabaseTableDriver } from './DatabaseTableSpi'
-import type { ErrorEvent, EventType, NotificationEvent, Spi } from '@domain/services/Database'
+import type {
+  ErrorEvent,
+  EventType,
+  Exec,
+  NotificationEvent,
+  Query,
+  Spi,
+} from '@domain/services/Database'
 import type { EventDto } from './dtos/EventDto'
 import { EventMapper } from './mappers/EventMapper'
 import type { FieldDto } from './dtos/FieldDto'
@@ -10,8 +17,8 @@ export interface Driver {
   connect: () => Promise<void>
   disconnect: () => Promise<void>
   table: (name: string, fields: FieldDto[]) => DatabaseTableDriver
-  exec: (query: string) => Promise<void>
-  query: <T>(text: string, values: (string | number)[]) => Promise<{ rows: T[]; rowCount: number }>
+  exec: Exec
+  query: Query
   on: (event: EventType, callback: (eventDto: EventDto) => void) => void
   setupTriggers: (tables: string[]) => Promise<void>
 }
@@ -37,7 +44,7 @@ export class DatabaseSpi implements Spi {
     await this._driver.exec(query)
   }
 
-  query = async <T>(text: string, values: (string | number)[]) => {
+  query = async <T>(text: string, values: (string | number | Buffer | Date)[]) => {
     return this._driver.query<T>(text, values)
   }
 

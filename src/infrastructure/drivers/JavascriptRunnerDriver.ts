@@ -1,5 +1,5 @@
-import type { Driver } from '@adapter/spi/CodeRunnerSpi'
-import type { Modules } from '@domain/services/CodeRunner'
+import type { Driver } from '@adapter/spi/JavascriptRunnerSpi'
+import type { Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
 
 export class JavascriptRunnerDriver implements Driver {
