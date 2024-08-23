@@ -2,6 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Storage from '@tests/storage'
 import Database from '@tests/database'
+import pdf from 'pdf-parse-new'
 
 test.describe('Create PDF from HTML template action', () => {
   Database.each(test, (dbConfig) => {
@@ -53,8 +54,8 @@ test.describe('Create PDF from HTML template action', () => {
 
       // THEN
       const file = await storage.readById(response.fileId)
-      expect(file).toBeDefined()
-      expect(file?.name).toBe('JohnDoe.pdf')
+      const { text } = await pdf(file?.file_data ?? Buffer.from(''))
+      expect(text).toContain('John Doe')
     })
   })
 })
