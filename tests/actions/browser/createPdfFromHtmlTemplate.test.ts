@@ -18,6 +18,11 @@ test.describe('Create PDF from HTML template action', () => {
             trigger: {
               trigger: 'ApiCalled',
               path: 'create-pdf',
+              input: {
+                name: {
+                  type: 'string',
+                },
+              },
               output: {
                 fileId: {
                   value: '{{createPdf.fileId}}',
@@ -32,7 +37,7 @@ test.describe('Create PDF from HTML template action', () => {
                 name: 'createPdf',
                 input: {
                   name: {
-                    value: 'John Doe',
+                    value: '{{trigger.body.name}}',
                     type: 'string',
                   },
                 },
@@ -49,7 +54,11 @@ test.describe('Create PDF from HTML template action', () => {
 
       // WHEN
       const { response } = await request
-        .post(`${url}/api/automation/create-pdf`)
+        .post(`${url}/api/automation/create-pdf`, {
+          data: {
+            name: 'John Doe',
+          },
+        })
         .then((res) => res.json())
 
       // THEN

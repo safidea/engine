@@ -2,6 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Storage from '@tests/storage'
 import Database from '@tests/database'
+import mammoth from 'mammoth'
 
 test.describe('Create document from template action', () => {
   Database.each(test, (dbConfig) => {
@@ -17,6 +18,11 @@ test.describe('Create document from template action', () => {
             trigger: {
               trigger: 'ApiCalled',
               path: 'create-document',
+              input: {
+                name: {
+                  type: 'string',
+                },
+              },
               output: {
                 fileId: {
                   value: '{{createDocument.fileId}}',
@@ -31,7 +37,7 @@ test.describe('Create document from template action', () => {
                 name: 'createDocument',
                 input: {
                   name: {
-                    value: 'John Doe',
+                    value: '{{trigger.body.name}}',
                     type: 'string',
                   },
                 },
@@ -48,13 +54,17 @@ test.describe('Create document from template action', () => {
 
       // WHEN
       const { response } = await request
-        .post(`${url}/api/automation/create-document`)
+        .post(`${url}/api/automation/create-document`, {
+          data: {
+            name: 'John Doe',
+          },
+        })
         .then((res) => res.json())
 
       // THEN
       const file = await storage.readById(response.fileId)
-      expect(file).toBeDefined()
-      expect(file?.name).toBe('output.docx')
+      const { value } = await mammoth.extractRawText({ buffer: file?.file_data ?? Buffer.from('') })
+      expect(value).toContain('John Doe')
     })
   })
 })
