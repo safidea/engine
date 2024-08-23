@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/safidea/engine/compare/v0.25.0...v0.26.0) (2024-08-23)
+
+
+### Features
+
+* **Document:** add green test: should create a document from a .docx file ([acc134a](https://github.com/safidea/engine/commit/acc134a4235c942ceb098484eb0a822e43e6ee1d))
+
 # [0.25.0](https://github.com/safidea/engine/compare/v0.24.2...v0.25.0) (2024-08-03)
 
 ### Features
