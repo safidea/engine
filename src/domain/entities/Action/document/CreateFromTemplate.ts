@@ -2,9 +2,10 @@ import { Base, type Params as BaseParams, type Interface } from '../base'
 import type { Context } from '../../Automation/Context'
 import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { FileSystem } from '@domain/services/FileSystem'
 import type { File } from '@domain/entities/File'
 import type { Storage } from '@domain/services/Storage'
+import { ConfigError } from '@domain/entities/Error/Config'
+import type { Zip } from '@domain/services/Zip'
 
 interface Params extends BaseParams {
   input?: {
@@ -16,7 +17,7 @@ interface Params extends BaseParams {
   templatePath: string
   templateCompiler: TemplateCompiler
   fileName: string
-  fileSystem: FileSystem
+  zip: Zip
   file: File
   storage: Storage
 }
@@ -27,8 +28,10 @@ export class CreateFromTemplate extends Base implements Interface {
 
   constructor(private _params: Params) {
     super(_params)
-    const { templateCompiler, templatePath, fileSystem, input } = _params
-    const templateContent = fileSystem.readText(templatePath)
+    const { templateCompiler, templatePath, input, zip } = _params
+    if (!templatePath.endsWith('.docx'))
+      throw new ConfigError({ message: 'CreateFromTemplate: templatePath must be a .docx file' })
+    const templateContent = zip.readDocx(templatePath)
     this._template = templateCompiler.compile(templateContent)
     this._input = Object.entries(input ?? {}).reduce(
       (acc: { [key: string]: Template }, [key, { value, type }]) => {
@@ -40,7 +43,7 @@ export class CreateFromTemplate extends Base implements Interface {
   }
 
   execute = async (context: Context) => {
-    const { file, storage, fileName } = this._params
+    const { file, storage, fileName, zip, templatePath } = this._params
     const data = Object.entries(this._input).reduce(
       (acc: { [key: string]: OutputFormat }, [key, value]) => {
         acc[key] = context.fillTemplate(value)
@@ -49,17 +52,17 @@ export class CreateFromTemplate extends Base implements Interface {
       {}
     )
     try {
-      const template = this._template.fillAsString(data)
-      const file_data = Buffer.from(template)
-      const toSaveFile = file.toSave({ name: fileName, file_data })
+      const document = this._template.fillAsString(data)
+      const fileData = zip.updateDocx(templatePath, document)
+      const toSaveFile = file.toSave({ name: fileName, file_data: fileData })
       await storage.save(toSaveFile)
       context.set(this.name, { fileId: toSaveFile.id })
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`CreatePdf: ${error.message}`)
+        throw new Error(`CreateFromTemplate: ${error.message}`)
       }
       console.error(error)
-      throw new Error(`CreatePdf: unknown error`)
+      throw new Error(`CreateFromTemplate: unknown error`)
     }
   }
 }

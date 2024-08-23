@@ -1,9 +1,7 @@
 import type { Server } from '@domain/services/Server'
-import type { Data as ToCreatedData } from './ToSave'
+import type { Data as ToSaveData } from './ToSave'
 
-export interface Data extends Omit<ToCreatedData, 'filePath'> {
-  binary_data: Buffer
-}
+export type Data = ToSaveData
 
 export interface Params {
   server: Server

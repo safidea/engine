@@ -13,7 +13,7 @@ export class SqliteDriver implements Driver {
       CREATE TABLE IF NOT EXISTS _files (
         id TEXT PRIMARY KEY,
         name TEXT,
-        binary_data BLOB,
+        file_data BLOB,
         created_at TIMESTAMP
       )
     `
@@ -23,10 +23,12 @@ export class SqliteDriver implements Driver {
   save = async (data: ToSaveDto) => {
     const { id, name, file_data, created_at } = data
     const createAt = created_at.getTime()
-    await this._query(
-      `INSERT INTO _files (id, name, binary_data, created_at) VALUES (?, ?, ?, ?)`,
-      [id, name, file_data, createAt]
-    )
+    await this._query(`INSERT INTO _files (id, name, file_data, created_at) VALUES (?, ?, ?, ?)`, [
+      id,
+      name,
+      file_data,
+      createAt,
+    ])
   }
 
   readById = async (id: string) => {

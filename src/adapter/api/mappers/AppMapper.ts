@@ -25,6 +25,7 @@ import { JavascriptCompilerMapper } from './ServiceMapper/JavascriptCompilerMapp
 import { BrowserMapper } from './ServiceMapper/BrowserMapper'
 import { FileSystemMapper } from './ServiceMapper/FileSystemMapper'
 import { StorageMapper } from './ServiceMapper/StorageMapper'
+import { ZipMapper } from './ServiceMapper/ZipMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -40,6 +41,7 @@ export class AppMapper {
     const react = ReactMapper.toService({ drivers })
     const idGenerator = IdGeneratorMapper.toService({ drivers })
     const fileSystem = FileSystemMapper.toService({ drivers })
+    const zip = ZipMapper.toService({ drivers })
     const client = ClientMapper.toService({ drivers })
     const schemaValidator = SchemaValidatorMapper.toService({ drivers })
     const templateCompiler = TemplateCompilerMapper.toService({ drivers })
@@ -93,6 +95,7 @@ export class AppMapper {
         browser,
         fileSystem,
         storage,
+        zip,
       },
       { tables }
     )

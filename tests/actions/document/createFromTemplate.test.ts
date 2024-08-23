@@ -5,7 +5,7 @@ import Database from '@tests/database'
 
 test.describe('Create document from template action', () => {
   Database.each(test, (dbConfig) => {
-    test.skip('should create a document from a .docx file', async ({ request }) => {
+    test('should create a document from a .docx file', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const storage = new Storage(database)
@@ -36,7 +36,7 @@ test.describe('Create document from template action', () => {
                   },
                 },
                 templatePath: './tests/__helpers__/docs/template.docx',
-                fileName: 'output.pdf',
+                fileName: 'output.docx',
               },
             ],
           },
@@ -47,15 +47,14 @@ test.describe('Create document from template action', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { response, error } = await request
+      const { response } = await request
         .post(`${url}/api/automation/create-document`)
         .then((res) => res.json())
 
       // THEN
-      console.log(error)
       const file = await storage.readById(response.fileId)
       expect(file).toBeDefined()
-      expect(file?.name).toBe('output.pdf')
+      expect(file?.name).toBe('output.docx')
     })
   })
 })

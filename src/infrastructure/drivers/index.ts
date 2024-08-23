@@ -26,6 +26,7 @@ import { IconLibraryDriver } from './IconLibraryDriver'
 import { FontLibraryDriver } from './FontLibraryDriver'
 import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
+import { ZipDriver } from './ZipDriver'
 
 export const drivers: Drivers = {
   server: (config: ServerConfig) => new ServerDriver(config),
@@ -47,4 +48,5 @@ export const drivers: Drivers = {
   iconLibrary: () => new IconLibraryDriver(),
   fontLibrary: () => new FontLibraryDriver(),
   fileSystem: () => new FileSystemDriver(),
+  zip: () => new ZipDriver(),
 }

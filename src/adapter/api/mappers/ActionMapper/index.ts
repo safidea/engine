@@ -15,6 +15,7 @@ import { File } from '@domain/entities/File'
 import type { Storage } from '@domain/services/Storage'
 import type { Server } from '@domain/services/Server'
 import { CreateFromTemplateMapper } from './document/CreateFromTemplateMapper'
+import type { Zip } from '@domain/services/Zip'
 
 interface Services {
   mailer: Mailer
@@ -25,6 +26,7 @@ interface Services {
   fileSystem: FileSystem
   storage: Storage
   server: Server
+  zip: Zip
 }
 
 interface Entities {
@@ -43,6 +45,7 @@ export class ActionMapper {
       fileSystem,
       storage,
       server,
+      zip,
     } = services
     const { tables } = entities
     const file = new File({ idGenerator, server })
@@ -72,7 +75,7 @@ export class ActionMapper {
       if (action === 'CreateFromTemplate')
         return CreateFromTemplateMapper.toEntity(config, {
           templateCompiler,
-          fileSystem,
+          zip,
           file,
           storage,
         })
