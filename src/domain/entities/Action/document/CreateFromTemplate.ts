@@ -54,9 +54,11 @@ export class CreateFromTemplate extends Base implements Interface {
     try {
       const document = this._template.fillAsString(data)
       const fileData = zip.updateDocx(templatePath, document)
-      const toSaveFile = file.toSave({ name: fileName, file_data: fileData })
-      await storage.save(toSaveFile)
-      context.set(this.name, { fileId: toSaveFile.id })
+      const fileToSave = file
+        .toSave({ name: fileName, file_data: fileData })
+        .fillWithContext(context)
+      await storage.save(fileToSave)
+      context.set(this.name, { fileId: fileToSave.id })
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`CreateFromTemplate: ${error.message}`)

@@ -66,5 +66,71 @@ test.describe('Create document from template action', () => {
       const { value } = await mammoth.extractRawText({ buffer: file?.file_data ?? Buffer.from('') })
       expect(value).toContain('John Doe')
     })
+
+    test('should create a document from a .docx file with a custom filename', async ({
+      request,
+    }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const storage = new Storage(database)
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'createDocument',
+            trigger: {
+              trigger: 'ApiCalled',
+              path: 'create-document',
+              input: {
+                name: {
+                  type: 'string',
+                },
+                filename: {
+                  type: 'string',
+                },
+              },
+              output: {
+                fileId: {
+                  value: '{{createDocument.fileId}}',
+                  type: 'string',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Document',
+                action: 'CreateFromTemplate',
+                name: 'createDocument',
+                input: {
+                  name: {
+                    value: '{{trigger.body.name}}',
+                    type: 'string',
+                  },
+                },
+                templatePath: './tests/__helpers__/docs/template.docx',
+                fileName: '{{trigger.body.filename}}',
+              },
+            ],
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      const { response } = await request
+        .post(`${url}/api/automation/create-document`, {
+          data: {
+            name: 'John Doe',
+            filename: 'output.docx',
+          },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      const file = await storage.readById(response.fileId)
+      expect(file?.name).toBe('output.docx')
+    })
   })
 })

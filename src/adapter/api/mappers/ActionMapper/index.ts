@@ -48,7 +48,7 @@ export class ActionMapper {
       zip,
     } = services
     const { tables } = entities
-    const file = new File({ idGenerator, server })
+    const file = new File({ idGenerator, server, templateCompiler })
     if (service === 'Database') {
       if (action === 'CreateRecord')
         return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })

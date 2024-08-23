@@ -57,9 +57,9 @@ export class CreatePdfFromHtmlTemplate extends Base implements Interface {
       const uint8Array = await page.createPdfFromHtml(template)
       await browser.close()
       const file_data = Buffer.from(uint8Array)
-      const toSaveFile = file.toSave({ name: fileName, file_data })
-      await storage.save(toSaveFile)
-      context.set(this.name, { fileId: toSaveFile.id })
+      const fileToSave = file.toSave({ name: fileName, file_data }).fillWithContext(context)
+      await storage.save(fileToSave)
+      context.set(this.name, { fileId: fileToSave.id })
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`CreatePdfFromHtmlTemplate: ${error.message}`)
