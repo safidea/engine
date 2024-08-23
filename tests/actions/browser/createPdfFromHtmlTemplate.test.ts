@@ -48,6 +48,11 @@ test.describe('Create PDF from HTML template action', () => {
             ],
           },
         ],
+        buckets: [
+          {
+            name: 'messages',
+          },
+        ],
         database: dbConfig,
       }
       const app = new App()
@@ -111,6 +116,11 @@ test.describe('Create PDF from HTML template action', () => {
                 bucket: 'messages',
               },
             ],
+          },
+        ],
+        buckets: [
+          {
+            name: 'messages',
           },
         ],
         database: dbConfig,

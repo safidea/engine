@@ -48,6 +48,11 @@ test.describe('Create document from template action', () => {
             ],
           },
         ],
+        buckets: [
+          {
+            name: 'messages',
+          },
+        ],
         database: dbConfig,
       }
       const app = new App()
@@ -113,6 +118,11 @@ test.describe('Create document from template action', () => {
                 bucket: 'messages',
               },
             ],
+          },
+        ],
+        buckets: [
+          {
+            name: 'messages',
           },
         ],
         database: dbConfig,
