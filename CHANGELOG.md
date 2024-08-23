@@ -1,3 +1,16 @@
+# [0.27.0](https://github.com/safidea/engine/compare/v0.26.0...v0.27.0) (2024-08-23)
+
+
+### Bug Fixes
+
+* **Bucket:** add green test: should get a docx file from a bucket ([f3801dc](https://github.com/safidea/engine/commit/f3801dc1e7ed4476a51f38b329bde9eaad77994d))
+* **Document:** add green test: should create a document from a .docx file with a custom filename ([aa7a9cb](https://github.com/safidea/engine/commit/aa7a9cb4d0fddd23f91e2a526656bfbe1e5141fe))
+
+
+### Features
+
+* **Bucket:** add green test: should start an app with a bucket ([9ac7e21](https://github.com/safidea/engine/commit/9ac7e2152910bf30b316af729d3506bdbd846372))
+
 # [0.26.0](https://github.com/safidea/engine/compare/v0.25.0...v0.26.0) (2024-08-23)
 
 
