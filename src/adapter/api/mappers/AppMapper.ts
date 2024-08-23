@@ -39,7 +39,7 @@ export class AppMapper {
     const server = ServerMapper.toService({ drivers, logger }, config.server ?? {})
     const react = ReactMapper.toService({ drivers })
     const idGenerator = IdGeneratorMapper.toService({ drivers })
-    const fileSystem = FileSystemMapper.toService({ drivers, idGenerator })
+    const fileSystem = FileSystemMapper.toService({ drivers })
     const client = ClientMapper.toService({ drivers })
     const schemaValidator = SchemaValidatorMapper.toService({ drivers })
     const templateCompiler = TemplateCompilerMapper.toService({ drivers })

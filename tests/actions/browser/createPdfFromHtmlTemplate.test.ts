@@ -19,7 +19,7 @@ test.describe('Create PDF from HTML template action', () => {
               path: 'create-pdf',
               output: {
                 fileId: {
-                  value: '{{{createPdf.fileId}}}',
+                  value: '{{createPdf.fileId}}',
                   type: 'string',
                 },
               },

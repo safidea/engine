@@ -1,8 +1,10 @@
-/*import { Base, type Params as BaseParams, type Interface } from './base'
-import type { Context } from '../Automation/Context'
+import { Base, type Params as BaseParams, type Interface } from '../base'
+import type { Context } from '../../Automation/Context'
 import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Browser } from '@domain/services/Browser'
+import type { FileSystem } from '@domain/services/FileSystem'
+import type { File } from '@domain/entities/File'
+import type { Storage } from '@domain/services/Storage'
 
 interface Params extends BaseParams {
   input?: {
@@ -13,20 +15,20 @@ interface Params extends BaseParams {
   }
   templatePath: string
   templateCompiler: TemplateCompiler
-  browser: Browser
+  fileName: string
   fileSystem: FileSystem
+  file: File
+  storage: Storage
 }
 
-export class CreatePdf extends Base implements Interface {
-  private _browser: Browser
+export class CreateFromTemplate extends Base implements Interface {
   private _template: Template
   private _input: { [key: string]: Template }
 
-  constructor(params: Params) {
-    super(params)
-    const { browser, templateCompiler, templatePath, fileSystem, input } = params
-    this._browser = browser
-    const templateContent = fileSystem.read(templatePath)
+  constructor(private _params: Params) {
+    super(_params)
+    const { templateCompiler, templatePath, fileSystem, input } = _params
+    const templateContent = fileSystem.readText(templatePath)
     this._template = templateCompiler.compile(templateContent)
     this._input = Object.entries(input ?? {}).reduce(
       (acc: { [key: string]: Template }, [key, { value, type }]) => {
@@ -38,6 +40,7 @@ export class CreatePdf extends Base implements Interface {
   }
 
   execute = async (context: Context) => {
+    const { file, storage, fileName } = this._params
     const data = Object.entries(this._input).reduce(
       (acc: { [key: string]: OutputFormat }, [key, value]) => {
         acc[key] = context.fillTemplate(value)
@@ -47,12 +50,10 @@ export class CreatePdf extends Base implements Interface {
     )
     try {
       const template = this._template.fillAsString(data)
-      await this._browser.launch()
-      const page = await this._browser.newPage()
-      const buffer = await page.createPdf(template)
-      await this._browser.close()
-      const url = `data:application/pdf;base64,${buffer.toString('base64')}`
-      context.set(this.name, { url })
+      const file_data = Buffer.from(template)
+      const toSaveFile = file.toSave({ name: fileName, file_data })
+      await storage.save(toSaveFile)
+      context.set(this.name, { fileId: toSaveFile.id })
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`CreatePdf: ${error.message}`)
@@ -62,4 +63,3 @@ export class CreatePdf extends Base implements Interface {
     }
   }
 }
-*/

@@ -3,9 +3,9 @@ import App, { type App as Config } from '@safidea/engine'
 import Storage from '@tests/storage'
 import Database from '@tests/database'
 
-test.describe.skip('Create PDF action', () => {
+test.describe('Create document from template action', () => {
   Database.each(test, (dbConfig) => {
-    test('should create a PDF from a .docx template', async ({ request }) => {
+    test.skip('should create a document from a .docx file', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const storage = new Storage(database)
@@ -13,13 +13,13 @@ test.describe.skip('Create PDF action', () => {
         name: 'App',
         automations: [
           {
-            name: 'createPDF',
+            name: 'createDocument',
             trigger: {
               trigger: 'ApiCalled',
-              path: 'create-pdf',
+              path: 'create-document',
               output: {
-                url: {
-                  value: '{{{createPdf.url}}}',
+                fileId: {
+                  value: '{{createDocument.fileId}}',
                   type: 'string',
                 },
               },
@@ -27,15 +27,16 @@ test.describe.skip('Create PDF action', () => {
             actions: [
               {
                 service: 'Document',
-                action: 'CreatePdfFromTemplate',
-                name: 'createPdf',
+                action: 'CreateFromTemplate',
+                name: 'createDocument',
                 input: {
                   name: {
                     value: 'John Doe',
                     type: 'string',
                   },
                 },
-                templatePath: 'docs/template.docx',
+                templatePath: './tests/__helpers__/docs/template.docx',
+                fileName: 'output.pdf',
               },
             ],
           },
@@ -46,13 +47,15 @@ test.describe.skip('Create PDF action', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { response } = await request
-        .post(`${url}/api/automation/create-pdf`)
+      const { response, error } = await request
+        .post(`${url}/api/automation/create-document`)
         .then((res) => res.json())
 
       // THEN
+      console.log(error)
       const file = await storage.readById(response.fileId)
       expect(file).toBeDefined()
+      expect(file?.name).toBe('output.pdf')
     })
   })
 })

@@ -1,4 +1,4 @@
-import type { CreatePdfFromTemplate } from './document/CreatePdfFromTemplate'
+import type { CreateFromTemplate } from './document/CreateFromTemplate'
 import type { CreateRecord } from './database/CreateRecord'
 import type { RunJavascript } from './code/RunJavascript'
 import type { CreatePdfFromHtmlTemplate } from './browser/CreatePdfFromHtmlTemplate'
@@ -8,5 +8,5 @@ export type Action =
   | CreateRecord
   | SendEmail
   | RunJavascript
-  | CreatePdfFromTemplate
+  | CreateFromTemplate
   | CreatePdfFromHtmlTemplate

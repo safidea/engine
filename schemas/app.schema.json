@@ -5,7 +5,7 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/CreatePdfFromTemplate"
+                    "$ref": "#/definitions/CreateFromTemplate"
                 },
                 {
                     "$ref": "#/definitions/CreateRecord"
@@ -1301,6 +1301,55 @@
             ],
             "type": "object"
         },
+        "CreateFromTemplate": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateFromTemplate",
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "additionalProperties": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Document",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fileName",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
         "CreatePdfFromHtmlTemplate": {
             "additionalProperties": false,
             "properties": {
@@ -1344,51 +1393,6 @@
             "required": [
                 "action",
                 "fileName",
-                "name",
-                "service",
-                "templatePath"
-            ],
-            "type": "object"
-        },
-        "CreatePdfFromTemplate": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreatePdfFromTemplate",
-                    "type": "string"
-                },
-                "input": {
-                    "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "object"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Document",
-                    "type": "string"
-                },
-                "templatePath": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
                 "name",
                 "service",
                 "templatePath"

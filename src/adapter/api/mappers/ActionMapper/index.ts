@@ -14,6 +14,7 @@ import type { FileSystem } from '@domain/services/FileSystem'
 import { File } from '@domain/entities/File'
 import type { Storage } from '@domain/services/Storage'
 import type { Server } from '@domain/services/Server'
+import { CreateFromTemplateMapper } from './document/CreateFromTemplateMapper'
 
 interface Services {
   mailer: Mailer
@@ -61,6 +62,15 @@ export class ActionMapper {
       if (action === 'CreatePdfFromHtmlTemplate')
         return CreatePdfFromHtmlTemplateMapper.toEntity(config, {
           browser,
+          templateCompiler,
+          fileSystem,
+          file,
+          storage,
+        })
+    }
+    if (service === 'Document') {
+      if (action === 'CreateFromTemplate')
+        return CreateFromTemplateMapper.toEntity(config, {
           templateCompiler,
           fileSystem,
           file,
