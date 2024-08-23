@@ -11,11 +11,9 @@ import type { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
 import { CreatePdfFromHtmlTemplateMapper } from './browser/CreatePdfFromHtmlTemplateMapper'
 import type { Browser } from '@domain/services/Browser'
 import type { FileSystem } from '@domain/services/FileSystem'
-import { File } from '@domain/entities/File'
-import type { Storage } from '@domain/services/Storage'
-import type { Server } from '@domain/services/Server'
 import { CreateFromTemplateMapper } from './document/CreateFromTemplateMapper'
 import type { Zip } from '@domain/services/Zip'
+import type { Bucket } from '@domain/entities/Bucket'
 
 interface Services {
   mailer: Mailer
@@ -24,31 +22,20 @@ interface Services {
   javascriptCompiler: JavascriptCompiler
   browser: Browser
   fileSystem: FileSystem
-  storage: Storage
-  server: Server
   zip: Zip
 }
 
 interface Entities {
   tables: Table[]
+  buckets: Bucket[]
 }
 
 export class ActionMapper {
   static toEntity(config: Config, services: Services, entities: Entities): Action {
     const { action, service } = config
-    const {
-      idGenerator,
-      mailer,
-      templateCompiler,
-      javascriptCompiler,
-      browser,
-      fileSystem,
-      storage,
-      server,
-      zip,
-    } = services
-    const { tables } = entities
-    const file = new File({ idGenerator, server, templateCompiler })
+    const { idGenerator, mailer, templateCompiler, javascriptCompiler, browser, fileSystem, zip } =
+      services
+    const { tables, buckets } = entities
     if (service === 'Database') {
       if (action === 'CreateRecord')
         return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })
@@ -63,22 +50,26 @@ export class ActionMapper {
     }
     if (service === 'Browser') {
       if (action === 'CreatePdfFromHtmlTemplate')
-        return CreatePdfFromHtmlTemplateMapper.toEntity(config, {
-          browser,
-          templateCompiler,
-          fileSystem,
-          file,
-          storage,
-        })
+        return CreatePdfFromHtmlTemplateMapper.toEntity(
+          config,
+          {
+            browser,
+            templateCompiler,
+            fileSystem,
+          },
+          { buckets }
+        )
     }
     if (service === 'Document') {
       if (action === 'CreateFromTemplate')
-        return CreateFromTemplateMapper.toEntity(config, {
-          templateCompiler,
-          zip,
-          file,
-          storage,
-        })
+        return CreateFromTemplateMapper.toEntity(
+          config,
+          {
+            templateCompiler,
+            zip,
+          },
+          { buckets }
+        )
     }
     throw new Error(`ActionMapper: Action ${action} not supported`)
   }

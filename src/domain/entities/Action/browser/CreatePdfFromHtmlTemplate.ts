@@ -4,8 +4,7 @@ import { Template, type OutputFormat, type OutputParser } from '@domain/services
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Browser } from '@domain/services/Browser'
 import type { FileSystem } from '@domain/services/FileSystem'
-import type { File } from '@domain/entities/File'
-import type { Storage } from '@domain/services/Storage'
+import type { Bucket } from '@domain/entities/Bucket'
 
 interface Params extends BaseParams {
   input?: {
@@ -16,11 +15,10 @@ interface Params extends BaseParams {
   }
   templatePath: string
   fileName: string
+  bucket: Bucket
   templateCompiler: TemplateCompiler
   browser: Browser
   fileSystem: FileSystem
-  file: File
-  storage: Storage
 }
 
 export class CreatePdfFromHtmlTemplate extends Base implements Interface {
@@ -42,7 +40,7 @@ export class CreatePdfFromHtmlTemplate extends Base implements Interface {
   }
 
   execute = async (context: Context) => {
-    const { browser, file, storage, fileName } = this._params
+    const { browser, bucket, fileName } = this._params
     const data = Object.entries(this._input).reduce(
       (acc: { [key: string]: OutputFormat }, [key, value]) => {
         acc[key] = context.fillTemplate(value)
@@ -57,8 +55,8 @@ export class CreatePdfFromHtmlTemplate extends Base implements Interface {
       const uint8Array = await page.createPdfFromHtml(template)
       await browser.close()
       const file_data = Buffer.from(uint8Array)
-      const fileToSave = file.toSave({ name: fileName, file_data }).fillWithContext(context)
-      await storage.save(fileToSave)
+      const fileToSave = bucket.file.toSave({ name: fileName, file_data }).fillWithContext(context)
+      await bucket.storage.save(fileToSave)
       context.set(this.name, { fileId: fileToSave.id })
     } catch (error) {
       if (error instanceof Error) {

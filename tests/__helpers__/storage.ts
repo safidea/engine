@@ -8,6 +8,6 @@ export default class extends StorageDriver {
     const log = logger.init('[test]:storage')
     log(`connecting storage to database...`)
     super(database)
-    log(`queue connected to database`)
+    log(`storage connected to database`)
   }
 }

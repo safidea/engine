@@ -1,6 +1,6 @@
-import { type PersistedDto, type ToSaveDto } from '@adapter/spi/dtos/FileDto'
 import type { Config } from '@domain/services/Storage'
 import type { Driver } from '@adapter/spi/StorageSpi'
+import { SqliteBucketDriver } from './SqliteBucketDriver'
 
 export class SqliteDriver implements Driver {
   constructor(
@@ -8,34 +8,9 @@ export class SqliteDriver implements Driver {
     private _exec: Config['exec']
   ) {}
 
-  start = async (): Promise<void> => {
-    const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS _files (
-        id TEXT PRIMARY KEY,
-        name TEXT,
-        file_data BLOB,
-        created_at TIMESTAMP
-      )
-    `
-    await this._exec(createTableQuery)
-  }
+  connect = async () => {}
 
-  save = async (data: ToSaveDto) => {
-    const { id, name, file_data, created_at } = data
-    const createAt = created_at.getTime()
-    await this._query(`INSERT INTO _files (id, name, file_data, created_at) VALUES (?, ?, ?, ?)`, [
-      id,
-      name,
-      file_data,
-      createAt,
-    ])
-  }
-
-  readById = async (id: string) => {
-    const result = await this._query<PersistedDto>('SELECT * FROM _files WHERE id = ?', [id])
-    const file = result.rows[0]
-    if (!file) return
-    const created_at = new Date(file.created_at)
-    return { ...file, created_at }
+  bucket = (name: string) => {
+    return new SqliteBucketDriver(name, this._query, this._exec)
   }
 }

@@ -43,6 +43,7 @@ test.describe('Create document from template action', () => {
                 },
                 templatePath: './tests/__helpers__/docs/template.docx',
                 fileName: 'output.docx',
+                bucket: 'messages',
               },
             ],
           },
@@ -62,7 +63,7 @@ test.describe('Create document from template action', () => {
         .then((res) => res.json())
 
       // THEN
-      const file = await storage.readById(response.fileId)
+      const file = await storage.bucket('messages').readById(response.fileId)
       const { value } = await mammoth.extractRawText({ buffer: file?.file_data ?? Buffer.from('') })
       expect(value).toContain('John Doe')
     })
@@ -109,6 +110,7 @@ test.describe('Create document from template action', () => {
                 },
                 templatePath: './tests/__helpers__/docs/template.docx',
                 fileName: '{{trigger.body.filename}}',
+                bucket: 'messages',
               },
             ],
           },
@@ -129,7 +131,7 @@ test.describe('Create document from template action', () => {
         .then((res) => res.json())
 
       // THEN
-      const file = await storage.readById(response.fileId)
+      const file = await storage.bucket('messages').readById(response.fileId)
       expect(file?.name).toBe('output.docx')
     })
   })

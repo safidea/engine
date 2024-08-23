@@ -12,4 +12,5 @@ export interface CreateFromTemplate extends Base {
   }
   templatePath: string
   fileName: string
+  bucket: string
 }

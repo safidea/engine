@@ -12,4 +12,5 @@ export interface CreatePdfFromHtmlTemplate extends Base {
   }
   templatePath: string
   fileName: string
+  bucket: string
 }

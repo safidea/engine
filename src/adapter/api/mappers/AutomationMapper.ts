@@ -16,6 +16,7 @@ import type { Browser } from '@domain/services/Browser'
 import type { FileSystem } from '@domain/services/FileSystem'
 import type { Storage } from '@domain/services/Storage'
 import type { Zip } from '@domain/services/Zip'
+import type { Bucket } from '@domain/entities/Bucket'
 
 export interface Services {
   logger: Logger
@@ -35,6 +36,7 @@ export interface Services {
 
 export interface Entities {
   tables: Table[]
+  buckets: Bucket[]
 }
 
 export class AutomationMapper {
@@ -51,7 +53,6 @@ export class AutomationMapper {
       javascriptCompiler,
       browser,
       fileSystem,
-      storage,
       zip,
     } = services
     const trigger = TriggerMapper.toEntity(
@@ -73,8 +74,6 @@ export class AutomationMapper {
         javascriptCompiler,
         browser,
         fileSystem,
-        storage,
-        server,
         zip,
       },
       entities

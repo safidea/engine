@@ -26,6 +26,7 @@ import { BrowserMapper } from './ServiceMapper/BrowserMapper'
 import { FileSystemMapper } from './ServiceMapper/FileSystemMapper'
 import { StorageMapper } from './ServiceMapper/StorageMapper'
 import { ZipMapper } from './ServiceMapper/ZipMapper'
+import { BucketMapper } from './BucketMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -59,8 +60,13 @@ export class AppMapper {
     const queue = QueueMapper.toService({ drivers, logger, database })
     const realtime = RealtimeMapper.toService({ database, logger, idGenerator })
     const storage = StorageMapper.toService({ drivers, logger, server, database })
+    const buckets = BucketMapper.toManyEntities(config.buckets ?? [], {
+      server,
+      storage,
+      idGenerator,
+      templateCompiler,
+    })
     const tables = TableMapper.toManyEntities(config.tables ?? [], {
-      logger,
       database,
       server,
       idGenerator,
@@ -97,13 +103,14 @@ export class AppMapper {
         storage,
         zip,
       },
-      { tables }
+      { tables, buckets }
     )
     return new App({
       name,
       tables,
       pages,
       automations,
+      buckets,
       server,
       logger,
       database,

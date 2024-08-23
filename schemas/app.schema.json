@@ -221,6 +221,18 @@
             ],
             "type": "object"
         },
+        "Bucket": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
         "Button": {
             "additionalProperties": false,
             "properties": {
@@ -1308,6 +1320,9 @@
                     "const": "CreateFromTemplate",
                     "type": "string"
                 },
+                "bucket": {
+                    "type": "string"
+                },
                 "fileName": {
                     "type": "string"
                 },
@@ -1343,6 +1358,7 @@
             },
             "required": [
                 "action",
+                "bucket",
                 "fileName",
                 "name",
                 "service",
@@ -1355,6 +1371,9 @@
             "properties": {
                 "action": {
                     "const": "CreatePdfFromHtmlTemplate",
+                    "type": "string"
+                },
+                "bucket": {
                     "type": "string"
                 },
                 "fileName": {
@@ -1392,6 +1411,7 @@
             },
             "required": [
                 "action",
+                "bucket",
                 "fileName",
                 "name",
                 "service",
@@ -3786,6 +3806,12 @@
         "automations": {
             "items": {
                 "$ref": "#/definitions/Automation"
+            },
+            "type": "array"
+        },
+        "buckets": {
+            "items": {
+                "$ref": "#/definitions/Bucket"
             },
             "type": "array"
         },

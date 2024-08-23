@@ -1,7 +1,6 @@
 import type { DatabaseTable } from '@domain/services/DatabaseTable'
 import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
-import type { Logger } from '@domain/services/Logger'
 import type { Field } from '../Field'
 import { Record } from '@domain/entities/Record'
 import type { Data as ToCreateData } from '@domain/entities/Record/ToCreate'
@@ -33,7 +32,6 @@ interface Params {
   fields: Field[]
   server: Server
   database: Database
-  logger: Logger
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
   schemaValidator: SchemaValidator
@@ -87,14 +85,14 @@ export class Table {
     return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
-  read = async (id: string): Promise<PersistedData | undefined> => {
+  readById = async (id: string): Promise<PersistedData | undefined> => {
     const record = await this.db.readById(id)
     return record ? { ...record.data, id: record.id } : undefined
   }
 
   get = async (request: Get) => {
     const id = request.getParamOrThrow('id')
-    const record = await this.read(id)
+    const record = await this.readById(id)
     return new Json({ record })
   }
 

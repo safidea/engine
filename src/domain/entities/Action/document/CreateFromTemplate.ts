@@ -2,10 +2,9 @@ import { Base, type Params as BaseParams, type Interface } from '../base'
 import type { Context } from '../../Automation/Context'
 import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { File } from '@domain/entities/File'
-import type { Storage } from '@domain/services/Storage'
 import { ConfigError } from '@domain/entities/Error/Config'
 import type { Zip } from '@domain/services/Zip'
+import type { Bucket } from '@domain/entities/Bucket'
 
 interface Params extends BaseParams {
   input?: {
@@ -17,9 +16,8 @@ interface Params extends BaseParams {
   templatePath: string
   templateCompiler: TemplateCompiler
   fileName: string
+  bucket: Bucket
   zip: Zip
-  file: File
-  storage: Storage
 }
 
 export class CreateFromTemplate extends Base implements Interface {
@@ -43,7 +41,7 @@ export class CreateFromTemplate extends Base implements Interface {
   }
 
   execute = async (context: Context) => {
-    const { file, storage, fileName, zip, templatePath } = this._params
+    const { fileName, zip, templatePath, bucket } = this._params
     const data = Object.entries(this._input).reduce(
       (acc: { [key: string]: OutputFormat }, [key, value]) => {
         acc[key] = context.fillTemplate(value)
@@ -54,10 +52,10 @@ export class CreateFromTemplate extends Base implements Interface {
     try {
       const document = this._template.fillAsString(data)
       const fileData = zip.updateDocx(templatePath, document)
-      const fileToSave = file
+      const fileToSave = bucket.file
         .toSave({ name: fileName, file_data: fileData })
         .fillWithContext(context)
-      await storage.save(fileToSave)
+      await bucket.storage.save(fileToSave)
       context.set(this.name, { fileId: fileToSave.id })
     } catch (error) {
       if (error instanceof Error) {

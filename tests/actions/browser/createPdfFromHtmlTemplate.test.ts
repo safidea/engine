@@ -43,6 +43,7 @@ test.describe('Create PDF from HTML template action', () => {
                 },
                 templatePath: './tests/__helpers__/docs/template.html',
                 fileName: 'JohnDoe.pdf',
+                bucket: 'messages',
               },
             ],
           },
@@ -62,7 +63,7 @@ test.describe('Create PDF from HTML template action', () => {
         .then((res) => res.json())
 
       // THEN
-      const file = await storage.readById(response.fileId)
+      const file = await storage.bucket('messages').readById(response.fileId)
       const { text } = await pdf(file?.file_data ?? Buffer.from(''))
       expect(text).toContain('John Doe')
     })
@@ -107,6 +108,7 @@ test.describe('Create PDF from HTML template action', () => {
                 },
                 templatePath: './tests/__helpers__/docs/template.html',
                 fileName: '{{trigger.body.filename}}',
+                bucket: 'messages',
               },
             ],
           },
@@ -127,7 +129,7 @@ test.describe('Create PDF from HTML template action', () => {
         .then((res) => res.json())
 
       // THEN
-      const file = await storage.readById(response.fileId)
+      const file = await storage.bucket('messages').readById(response.fileId)
       expect(file?.name).toBe('JohnDoe.pdf')
     })
   })

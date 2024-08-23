@@ -1,7 +1,8 @@
-import type { Persisted } from '@domain/entities/File/Persisted'
+import type { Bucket } from '@domain/entities/Bucket'
 import type { Logger } from './Logger'
-import type { ToSave } from '@domain/entities/File/ToSave'
+import { StorageBucket } from './StorageBucket'
 import type { Exec, Query } from './Database'
+import type { StorageBucketSpi } from '@adapter/spi/StorageBucketSpi'
 
 export interface Config {
   type: 'sqlite' | 'postgres'
@@ -14,9 +15,8 @@ export interface Services {
 }
 
 export interface Spi {
-  start: () => Promise<void>
-  save: (data: ToSave) => Promise<void>
-  readById: (id: string) => Promise<Persisted | undefined>
+  connect: () => Promise<void>
+  bucket: (name: string) => StorageBucketSpi
 }
 
 export class Storage {
@@ -24,31 +24,29 @@ export class Storage {
 
   constructor(
     private _spi: Spi,
-    services: Services
+    private _services: Services
   ) {
-    this._log = services.logger.init('storage')
+    const { logger } = _services
+    this._log = logger.init('storage')
   }
 
-  start = async () => {
-    this._log('starting storage...')
-    await this._spi.start()
-    this._log('storage started')
+  connect = () => {
+    return this._spi.connect()
   }
 
-  save = async (toSaveFile: ToSave) => {
-    await this._spi.save(toSaveFile)
-    const persistedFile = await this.readByIdOrThrow(toSaveFile.id)
-    this._log(`save file ${toSaveFile.data.name}`)
-    return persistedFile
+  bucket = (name: string) => {
+    return new StorageBucket(this._spi, this._services, { name })
   }
 
-  readById = async (id: string) => {
-    return this._spi.readById(id)
-  }
-
-  readByIdOrThrow = async (id: string) => {
-    const file = await this.readById(id)
-    if (!file) throw new Error(`file not found: ${id}`)
-    return file
+  migrate = async (buckets: Bucket[]) => {
+    this._log(`migrating storage...`)
+    for (const bucket of buckets) {
+      const bucketStorage = this.bucket(bucket.name)
+      const exists = await bucketStorage.exists()
+      if (!exists) {
+        await bucketStorage.create()
+      }
+    }
+    this._log(`storage migrated`)
   }
 }

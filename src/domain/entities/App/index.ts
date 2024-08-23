@@ -3,6 +3,7 @@ import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { Table } from '../Table'
 import type { Page } from '../Page'
+import type { Bucket } from '../Bucket'
 import type { Automation } from '../Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { ConfigError } from '@domain/entities/Error/Config'
@@ -19,6 +20,7 @@ interface Params {
   tables: Table[]
   pages: Page[]
   automations: Automation[]
+  buckets: Bucket[]
   logger: Logger
   server: Server
   theme?: Theme
@@ -72,7 +74,7 @@ export class App {
   }
 
   init = async (): Promise<void> => {
-    const { tables, pages, automations, theme, server } = this._params
+    const { tables, pages, automations, buckets, theme, server } = this._params
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
@@ -83,14 +85,16 @@ export class App {
       for (const table of tables) await table.init()
       for (const automation of automations) await automation.init()
       for (const page of pages) await page.init()
+      for (const bucket of buckets) await bucket.init()
     })
   }
 
   validateConfig = async (): Promise<ConfigError[]> => {
     await this.init()
-    const { tables, pages, automations } = this._params
+    const { tables, pages, automations, buckets } = this._params
     const errors: Promise<ConfigError[]>[] = []
     errors.push(...tables.map((table) => table.validateConfig()))
+    errors.push(...buckets.map((bucket) => bucket.validateConfig()))
     errors.push(...pages.map((page) => page.validateConfig()))
     errors.push(...automations.map((automation) => automation.validateConfig()))
     return Promise.all(errors).then((errors) => errors.flat())
@@ -100,7 +104,8 @@ export class App {
     if (this._status !== 'ready')
       throw new Error(`App is not ready, current status is ${this._status}`)
     this.setStatus('starting')
-    const { tables, server, database, queue, storage, mailer, realtime, auth } = this._params
+    const { tables, buckets, server, database, queue, storage, mailer, realtime, auth } =
+      this._params
     if (database) {
       await database.connect()
       await database.migrate(tables)
@@ -112,7 +117,10 @@ export class App {
       })
     }
     if (queue) await queue.start()
-    if (storage) await storage.start()
+    if (storage) {
+      await storage.connect()
+      await storage.migrate(buckets)
+    }
     if (mailer) await mailer.verify()
     if (realtime) await realtime.setup(tables)
     if (auth) await auth.connect()

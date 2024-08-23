@@ -1,4 +1,3 @@
-import type { PersistedDto, ToSaveDto } from '@adapter/spi/dtos/FileDto'
 import { PostgresDriver } from './PostgresDriver'
 import { SqliteDriver } from './SqliteDriver'
 import type { Config } from '@domain/services/Storage'
@@ -17,15 +16,11 @@ export class StorageDriver implements Driver {
     }
   }
 
-  start = async (): Promise<void> => {
-    return this._storage.start()
+  connect = async () => {
+    await this._storage.connect()
   }
 
-  save = async (data: ToSaveDto): Promise<void> => {
-    return this._storage.save(data)
-  }
-
-  readById = async (id: string): Promise<PersistedDto | undefined> => {
-    return this._storage.readById(id)
+  bucket = (name: string) => {
+    return this._storage.bucket(name)
   }
 }

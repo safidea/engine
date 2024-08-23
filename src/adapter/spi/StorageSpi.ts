@@ -1,13 +1,10 @@
 import type { Server } from '@domain/services/Server'
 import type { Spi } from '@domain/services/Storage'
-import type { PersistedDto, ToSaveDto } from './dtos/FileDto'
-import type { ToSave } from '@domain/entities/File/ToSave'
-import { FileMapper } from './mappers/FileMapper'
+import { StorageBucketSpi, type Driver as StorageBucketDriver } from './StorageBucketSpi'
 
 export interface Driver {
-  start: () => Promise<void>
-  save: (data: ToSaveDto) => Promise<void>
-  readById: (id: string) => Promise<PersistedDto | undefined>
+  connect: () => Promise<void>
+  bucket: (name: string) => StorageBucketDriver
 }
 
 export interface Services {
@@ -20,19 +17,12 @@ export class StorageSpi implements Spi {
     private _services: Services
   ) {}
 
-  start = async () => {
-    await this._driver.start()
+  connect = () => {
+    return this._driver.connect()
   }
 
-  save = async (data: ToSave) => {
-    const toSaveDto = FileMapper.toSaveDto(data)
-    await this._driver.save(toSaveDto)
-  }
-
-  readById = async (id: string) => {
-    const { server } = this._services
-    const persistedDto = await this._driver.readById(id)
-    if (!persistedDto) return
-    return FileMapper.toPersistedEntity(persistedDto, { server })
+  bucket = (name: string) => {
+    const storageBucketDriver = this._driver.bucket(name)
+    return new StorageBucketSpi(storageBucketDriver, this._services)
   }
 }

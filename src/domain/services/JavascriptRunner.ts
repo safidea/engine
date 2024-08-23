@@ -54,7 +54,7 @@ export class JavascriptRunner {
             return record
           },
           read: async (id: string) => {
-            const record = await table.read(id)
+            const record = await table.readById(id)
             if (!record) throw new Error(`JavascriptRunner: table(${name}).read: Record not found`)
             return record
           },
