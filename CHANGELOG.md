@@ -1,3 +1,10 @@
+## [0.27.1](https://github.com/safidea/engine/compare/v0.27.0...v0.27.1) (2024-08-24)
+
+
+### Bug Fixes
+
+* **Action:** add green test: should read a record in database ([612ed76](https://github.com/safidea/engine/commit/612ed761499f4df237b672a4592a30ebd2d67b44))
+
 # [0.27.0](https://github.com/safidea/engine/compare/v0.26.0...v0.27.0) (2024-08-23)
 
 
