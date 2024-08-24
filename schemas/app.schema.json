@@ -8,6 +8,9 @@
                     "$ref": "#/definitions/CreateFromTemplate"
                 },
                 {
+                    "$ref": "#/definitions/CreateFromTemplate_1"
+                },
+                {
                     "$ref": "#/definitions/CreateRecord"
                 },
                 {
@@ -1353,6 +1356,59 @@
                 },
                 "service": {
                     "const": "Document",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
+        "CreateFromTemplate_1": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateFromTemplate",
+                    "type": "string"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "additionalProperties": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
                     "type": "string"
                 },
                 "templatePath": {

@@ -1,4 +1,5 @@
-import type { CreateFromTemplate } from './document/CreateFromTemplate'
+import type { CreateFromTemplate as CreateDocxFromTemplate } from './document/CreateFromTemplate'
+import type { CreateFromTemplate as CreateXlsxFromTemplate } from './spreadsheet/CreateFromTemplate'
 import type { CreateRecord } from './database/CreateRecord'
 import type { RunJavascript } from './code/RunJavascript'
 import type { CreatePdfFromHtmlTemplate } from './browser/CreatePdfFromHtmlTemplate'
@@ -10,5 +11,6 @@ export type Action =
   | ReadRecord
   | SendEmail
   | RunJavascript
-  | CreateFromTemplate
+  | CreateDocxFromTemplate
+  | CreateXlsxFromTemplate
   | CreatePdfFromHtmlTemplate
