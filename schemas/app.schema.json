@@ -18,6 +18,9 @@
                 },
                 {
                     "$ref": "#/definitions/SendEmail"
+                },
+                {
+                    "$ref": "#/definitions/ReadRecord"
                 }
             ]
         },
@@ -3067,6 +3070,36 @@
                 "body",
                 "event",
                 "path"
+            ],
+            "type": "object"
+        },
+        "ReadRecord": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "ReadRecord",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "id",
+                "name",
+                "service",
+                "table"
             ],
             "type": "object"
         },

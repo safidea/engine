@@ -14,6 +14,7 @@ import type { FileSystem } from '@domain/services/FileSystem'
 import { CreateFromTemplateMapper } from './document/CreateFromTemplateMapper'
 import type { Zip } from '@domain/services/Zip'
 import type { Bucket } from '@domain/entities/Bucket'
+import { ReadRecordMapper } from './database/ReadRecordMapper'
 
 interface Services {
   mailer: Mailer
@@ -39,6 +40,8 @@ export class ActionMapper {
     if (service === 'Database') {
       if (action === 'CreateRecord')
         return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })
+      if (action === 'ReadRecord')
+        return ReadRecordMapper.toEntity(config, { templateCompiler }, { tables })
     }
     if (service === 'Mailer') {
       if (action === 'SendEmail')
