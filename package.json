@@ -132,7 +132,7 @@
     "semantic-release": "^24.1.0",
     "storybook": "^8.2.9",
     "typescript-eslint": "^8.3.0",
-    "typescript-json-schema": "^0.64.0"
+    "typescript-json-schema": "^0.65.1"
   },
   "peerDependencies": {
     "typescript": "^5.5.3"
