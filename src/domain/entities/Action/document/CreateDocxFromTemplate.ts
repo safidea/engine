@@ -28,7 +28,9 @@ export class CreateDocxFromTemplate extends Base implements Interface {
     super(_params)
     const { templateCompiler, templatePath, input, zip } = _params
     if (!templatePath.endsWith('.docx'))
-      throw new ConfigError({ message: 'CreateFromTemplate: templatePath must be a .docx file' })
+      throw new ConfigError({
+        message: 'CreateDocxFromTemplate: templatePath must be a .docx file',
+      })
     const templateContent = zip.readDocx(templatePath)
     this._template = templateCompiler.compile(templateContent)
     this._input = Object.entries(input ?? {}).reduce(
@@ -59,10 +61,10 @@ export class CreateDocxFromTemplate extends Base implements Interface {
       context.set(this.name, { fileId: fileToSave.id })
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`CreateFromTemplate: ${error.message}`)
+        throw new Error(`CreateDocxFromTemplate: ${error.message}`)
       }
       console.error(error)
-      throw new Error(`CreateFromTemplate: unknown error`)
+      throw new Error(`CreateDocxFromTemplate: unknown error`)
     }
   }
 }

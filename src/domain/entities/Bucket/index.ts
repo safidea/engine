@@ -9,6 +9,7 @@ import type { StorageBucket } from '@domain/services/StorageBucket'
 import { File } from '@domain/entities/File'
 import { Json } from '../Response/Json'
 import { Docx } from '../Response/Docx'
+import { Xlsx } from '../Response/Xlsx'
 
 interface Params {
   name: string
@@ -56,6 +57,7 @@ export class Bucket {
     const file = await this.readById(id)
     if (!file) return new Json({ status: 404, data: { message: 'file not found' } })
     if (file.name.includes('.docx')) return new Docx(file.name, file.file_data)
+    if (file.name.includes('.xlsx')) return new Xlsx(file.name, file.file_data)
     return new Json({
       status: 404,
       data: { message: `can not return a ${file.name.split('.').pop()} file` },

@@ -2,6 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 import Storage from '@tests/storage'
+import Excel from '@tests/excel'
 import fs from 'fs-extra'
 import mammoth from 'mammoth'
 
@@ -29,7 +30,7 @@ test.describe('App with buckets', () => {
       await expect(storage.bucket('invoices').exists()).resolves.toBe(true)
     })
 
-    test('should get a docx file from a bucket', async ({ request }) => {
+    test('should get a .docx file from a bucket', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const storage = new Storage(database)
@@ -57,6 +58,38 @@ test.describe('App with buckets', () => {
       // THEN
       const { value } = await mammoth.extractRawText({ buffer: file })
       expect(value).toContain('Hello')
+    })
+
+    test('should get a .xlsx file from a bucket', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const storage = new Storage(database)
+      const excel = new Excel()
+      const config: Config = {
+        name: 'Database',
+        buckets: [
+          {
+            name: 'invoices',
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      await storage.bucket('invoices').save({
+        id: '1',
+        name: 'invoice-1.xlsx',
+        file_data: fs.readFileSync('./tests/__helpers__/docs/template.xlsx'),
+        created_at: new Date(),
+      })
+
+      // WHEN
+      const file = await request.get(url + '/api/bucket/invoices/1').then((res) => res.body())
+
+      // THEN
+      const workbook = await excel.workbookFromBuffer(file)
+      const cell = workbook.readTextCells().find(({ value }) => value.includes('Hello'))
+      expect(cell).toBeDefined()
     })
   })
 })

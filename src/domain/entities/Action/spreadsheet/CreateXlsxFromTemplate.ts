@@ -35,7 +35,9 @@ export class CreateXlsxFromTemplate extends Base implements Interface {
     super(_params)
     const { templateCompiler, templatePath, input } = _params
     if (!templatePath.endsWith('.xlsx'))
-      throw new ConfigError({ message: 'CreateFromTemplate: templatePath must be a .xlsx file' })
+      throw new ConfigError({
+        message: 'CreateXlsxFromTemplate: templatePath must be a .xlsx file',
+      })
     this._input = Object.entries(input ?? {}).reduce(
       (acc: { [key: string]: Template }, [key, { value, type }]) => {
         acc[key] = templateCompiler.compile(value, type)
@@ -89,10 +91,10 @@ export class CreateXlsxFromTemplate extends Base implements Interface {
       context.set(this.name, { fileId: fileToSave.id })
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`CreateFromTemplate: ${error.message}`)
+        throw new Error(`CreateXlsxFromTemplate: ${error.message}`)
       }
       console.error(error)
-      throw new Error(`CreateFromTemplate: unknown error`)
+      throw new Error(`CreateXlsxFromTemplate: unknown error`)
     }
   }
 }

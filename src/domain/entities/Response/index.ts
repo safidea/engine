@@ -5,8 +5,9 @@ import { type Html, isHtml } from './Html'
 import { type Json, isJson } from './Json'
 import { type Redirect, isRedirect } from './Redirect'
 import { type Stream, isStream } from './Stream'
+import { type Xlsx, isXlsx } from './Xlsx'
 
-export type Response = Json | Html | Redirect | Stream | Css | Font | Docx
+export type Response = Json | Html | Redirect | Stream | Css | Font | Docx | Xlsx
 
 export function isResponse(value: unknown): value is Response {
   return (
@@ -16,6 +17,7 @@ export function isResponse(value: unknown): value is Response {
     isStream(value) ||
     isCss(value) ||
     isFont(value) ||
-    isDocx(value)
+    isDocx(value) ||
+    isXlsx(value)
   )
 }
