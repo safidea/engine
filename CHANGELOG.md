@@ -1,3 +1,10 @@
+# [0.28.0](https://github.com/safidea/engine/compare/v0.27.1...v0.28.0) (2024-08-27)
+
+
+### Features
+
+* **Spreadsheet:** add green test: should create a .xlsx file from a template ([fb876cf](https://github.com/safidea/engine/commit/fb876cf1a436cafa9f3c29016928c99735c40ff7))
+
 ## [0.27.1](https://github.com/safidea/engine/compare/v0.27.0...v0.27.1) (2024-08-24)
 
 
