@@ -17,6 +17,7 @@ import type { FileSystem } from '@domain/services/FileSystem'
 import type { Storage } from '@domain/services/Storage'
 import type { Zip } from '@domain/services/Zip'
 import type { Bucket } from '@domain/entities/Bucket'
+import type { Excel } from '@domain/services/Excel'
 
 export interface Services {
   logger: Logger
@@ -32,6 +33,7 @@ export interface Services {
   fileSystem: FileSystem
   storage: Storage
   zip: Zip
+  excel: Excel
 }
 
 export interface Entities {
@@ -54,6 +56,7 @@ export class AutomationMapper {
       browser,
       fileSystem,
       zip,
+      excel,
     } = services
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
@@ -75,6 +78,7 @@ export class AutomationMapper {
         browser,
         fileSystem,
         zip,
+        excel,
       },
       entities
     )

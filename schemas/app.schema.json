@@ -5,10 +5,10 @@
         "Action": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/CreateFromTemplate"
+                    "$ref": "#/definitions/CreateDocxFromTemplate"
                 },
                 {
-                    "$ref": "#/definitions/CreateFromTemplate_1"
+                    "$ref": "#/definitions/CreateXlsxFromTemplate"
                 },
                 {
                     "$ref": "#/definitions/CreateRecord"
@@ -1319,11 +1319,11 @@
             ],
             "type": "object"
         },
-        "CreateFromTemplate": {
+        "CreateDocxFromTemplate": {
             "additionalProperties": false,
             "properties": {
                 "action": {
-                    "const": "CreateFromTemplate",
+                    "const": "CreateDocxFromTemplate",
                     "type": "string"
                 },
                 "bucket": {
@@ -1356,59 +1356,6 @@
                 },
                 "service": {
                     "const": "Document",
-                    "type": "string"
-                },
-                "templatePath": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "bucket",
-                "fileName",
-                "name",
-                "service",
-                "templatePath"
-            ],
-            "type": "object"
-        },
-        "CreateFromTemplate_1": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreateFromTemplate",
-                    "type": "string"
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "fileName": {
-                    "type": "string"
-                },
-                "input": {
-                    "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "object"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Spreadsheet",
                     "type": "string"
                 },
                 "templatePath": {
@@ -1512,6 +1459,59 @@
                 "name",
                 "service",
                 "table"
+            ],
+            "type": "object"
+        },
+        "CreateXlsxFromTemplate": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateXlsxFromTemplate",
+                    "type": "string"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "additionalProperties": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "$ref": "#/definitions/OutputParser"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "name",
+                "service",
+                "templatePath"
             ],
             "type": "object"
         },

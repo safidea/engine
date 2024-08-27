@@ -26,6 +26,9 @@ export class Automation {
   init = async () => {
     const { trigger } = this._params
     await trigger.init(this.run)
+    for (const action of this._params.actions) {
+      await action.init()
+    }
   }
 
   validateConfig = async (): Promise<ConfigError[]> => {

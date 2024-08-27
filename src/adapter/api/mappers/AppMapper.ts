@@ -27,6 +27,7 @@ import { FileSystemMapper } from './ServiceMapper/FileSystemMapper'
 import { StorageMapper } from './ServiceMapper/StorageMapper'
 import { ZipMapper } from './ServiceMapper/ZipMapper'
 import { BucketMapper } from './BucketMapper'
+import { ExcelMapper } from './ServiceMapper/ExcelMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -43,6 +44,7 @@ export class AppMapper {
     const idGenerator = IdGeneratorMapper.toService({ drivers })
     const fileSystem = FileSystemMapper.toService({ drivers })
     const zip = ZipMapper.toService({ drivers })
+    const excel = ExcelMapper.toService({ drivers })
     const client = ClientMapper.toService({ drivers })
     const schemaValidator = SchemaValidatorMapper.toService({ drivers })
     const templateCompiler = TemplateCompilerMapper.toService({ drivers })
@@ -102,6 +104,7 @@ export class AppMapper {
         fileSystem,
         storage,
         zip,
+        excel,
       },
       { tables, buckets }
     )

@@ -1,5 +1,5 @@
-import type { CreateFromTemplate as Config } from '@adapter/api/configs/Action/document/CreateFromTemplate'
-import { CreateFromTemplate } from '@domain/entities/Action/document/CreateFromTemplate'
+import type { CreateDocxFromTemplate as Config } from '@adapter/api/configs/Action/document/CreateDocxFromTemplate'
+import { CreateDocxFromTemplate } from '@domain/entities/Action/document/CreateDocxFromTemplate'
 import type { Bucket } from '@domain/entities/Bucket'
 import { ConfigError } from '@domain/entities/Error/Config'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
@@ -14,19 +14,19 @@ interface Entities {
   buckets: Bucket[]
 }
 
-export class CreateFromTemplateMapper {
+export class CreateDocxFromTemplateMapper {
   static toEntity = (
     config: Config,
     services: Services,
     entities: Entities
-  ): CreateFromTemplate => {
+  ): CreateDocxFromTemplate => {
     const { templateCompiler, zip } = services
     const { buckets } = entities
     const bucket = buckets.find((bucket) => bucket.name === config.bucket)
     if (!bucket)
       throw new ConfigError({
-        message: `CreateFromTemplateMapper: Bucket ${config.bucket} not found`,
+        message: `CreateDocxFromTemplateMapper: Bucket ${config.bucket} not found`,
       })
-    return new CreateFromTemplate({ ...config, templateCompiler, zip, bucket })
+    return new CreateDocxFromTemplate({ ...config, templateCompiler, zip, bucket })
   }
 }

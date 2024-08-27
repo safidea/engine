@@ -2,14 +2,15 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Storage from '@tests/storage'
 import Database from '@tests/database'
-import mammoth from 'mammoth'
+import Excel from '@tests/excel'
 
-test.describe('Create spreadsheet from template action', () => {
+test.describe('Create .xlsx from template action', () => {
   Database.each(test, (dbConfig) => {
-    test.skip('should create a spreadsheet from a .xlsx file', async ({ request }) => {
+    test('should create a .xlsx file from a template', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const storage = new Storage(database)
+      const excel = new Excel()
       const config: Config = {
         name: 'App',
         automations: [
@@ -33,7 +34,7 @@ test.describe('Create spreadsheet from template action', () => {
             actions: [
               {
                 service: 'Spreadsheet',
-                action: 'CreateFromTemplate',
+                action: 'CreateXlsxFromTemplate',
                 name: 'createSpreadsheet',
                 input: {
                   name: {
@@ -69,8 +70,9 @@ test.describe('Create spreadsheet from template action', () => {
 
       // THEN
       const file = await storage.bucket('messages').readById(response.fileId)
-      const { value } = await mammoth.extractRawText({ buffer: file?.file_data ?? Buffer.from('') })
-      expect(value).toContain('John Doe')
+      const workbook = await excel.workbookFromBuffer(file?.file_data ?? Buffer.from(''))
+      const cell = workbook.readTextCells().find(({ value }) => value.includes('John Doe'))
+      expect(cell).toBeDefined()
     })
   })
 })

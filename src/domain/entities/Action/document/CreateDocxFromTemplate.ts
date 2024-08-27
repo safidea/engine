@@ -20,7 +20,7 @@ interface Params extends BaseParams {
   zip: Zip
 }
 
-export class CreateFromTemplate extends Base implements Interface {
+export class CreateDocxFromTemplate extends Base implements Interface {
   private _template: Template
   private _input: { [key: string]: Template }
 

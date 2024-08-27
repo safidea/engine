@@ -11,10 +11,12 @@ import type { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
 import { CreatePdfFromHtmlTemplateMapper } from './browser/CreatePdfFromHtmlTemplateMapper'
 import type { Browser } from '@domain/services/Browser'
 import type { FileSystem } from '@domain/services/FileSystem'
-import { CreateFromTemplateMapper } from './document/CreateFromTemplateMapper'
+import { CreateDocxFromTemplateMapper } from './document/CreateDocxFromTemplateMapper'
+import { CreateXlsxFromTemplateMapper } from './spreadsheet/CreateXlsxFromTemplateMapper'
 import type { Zip } from '@domain/services/Zip'
 import type { Bucket } from '@domain/entities/Bucket'
 import { ReadRecordMapper } from './database/ReadRecordMapper'
+import type { Excel } from '@domain/services/Excel'
 
 interface Services {
   mailer: Mailer
@@ -24,6 +26,7 @@ interface Services {
   browser: Browser
   fileSystem: FileSystem
   zip: Zip
+  excel: Excel
 }
 
 interface Entities {
@@ -34,8 +37,16 @@ interface Entities {
 export class ActionMapper {
   static toEntity(config: Config, services: Services, entities: Entities): Action {
     const { action, service } = config
-    const { idGenerator, mailer, templateCompiler, javascriptCompiler, browser, fileSystem, zip } =
-      services
+    const {
+      idGenerator,
+      mailer,
+      templateCompiler,
+      javascriptCompiler,
+      browser,
+      fileSystem,
+      zip,
+      excel,
+    } = services
     const { tables, buckets } = entities
     if (service === 'Database') {
       if (action === 'CreateRecord')
@@ -64,12 +75,23 @@ export class ActionMapper {
         )
     }
     if (service === 'Document') {
-      if (action === 'CreateFromTemplate')
-        return CreateFromTemplateMapper.toEntity(
+      if (action === 'CreateDocxFromTemplate')
+        return CreateDocxFromTemplateMapper.toEntity(
           config,
           {
             templateCompiler,
             zip,
+          },
+          { buckets }
+        )
+    }
+    if (service === 'Spreadsheet') {
+      if (action === 'CreateXlsxFromTemplate')
+        return CreateXlsxFromTemplateMapper.toEntity(
+          config,
+          {
+            templateCompiler,
+            excel,
           },
           { buckets }
         )

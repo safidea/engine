@@ -27,6 +27,7 @@ import { FontLibraryDriver } from './FontLibraryDriver'
 import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
 import { ZipDriver } from './ZipDriver'
+import { ExcelDriver } from './ExcelDriver'
 
 export const drivers: Drivers = {
   server: (config: ServerConfig) => new ServerDriver(config),
@@ -49,4 +50,5 @@ export const drivers: Drivers = {
   fontLibrary: () => new FontLibraryDriver(),
   fileSystem: () => new FileSystemDriver(),
   zip: () => new ZipDriver(),
+  excel: () => new ExcelDriver(),
 }

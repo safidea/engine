@@ -1,5 +1,5 @@
-import type { CreateFromTemplate as CreateDocxFromTemplate } from './document/CreateFromTemplate'
-import type { CreateFromTemplate as CreateXlsxFromTemplate } from './spreadsheet/CreateFromTemplate'
+import type { CreateDocxFromTemplate } from './document/CreateDocxFromTemplate'
+import type { CreateXlsxFromTemplate } from './spreadsheet/CreateXlsxFromTemplate'
 import type { CreateRecord } from './database/CreateRecord'
 import type { RunJavascript } from './code/RunJavascript'
 import type { CreatePdfFromHtmlTemplate } from './browser/CreatePdfFromHtmlTemplate'

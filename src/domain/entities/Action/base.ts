@@ -5,6 +5,7 @@ export interface Params {
 }
 
 export interface Interface {
+  init: () => Promise<void>
   execute(context: Context): Promise<void>
 }
 
@@ -14,4 +15,6 @@ export class Base {
   constructor(params: Params) {
     this.name = params.name
   }
+
+  init = async () => {}
 }

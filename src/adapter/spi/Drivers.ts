@@ -18,6 +18,7 @@ import { type Driver as JavascriptCompilerDriver } from './JavascriptCompilerSpi
 import { type Driver as FileSystemDriver } from './FileSystemSpi'
 import { type Driver as StorageDriver } from './StorageSpi'
 import { type Driver as ZipDriver } from './ZipSpi'
+import { type Driver as ExcelDriver } from './ExcelSpi'
 
 import { type Config as ServerConfig } from '@domain/services/Server'
 import { type Config as DatabaseConfig } from '@domain/services/Database'
@@ -48,4 +49,5 @@ export interface Drivers {
   fontLibrary: () => FontLibraryDriver
   fileSystem: () => FileSystemDriver
   zip: () => ZipDriver
+  excel: () => ExcelDriver
 }

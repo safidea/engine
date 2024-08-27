@@ -4,9 +4,9 @@ import Storage from '@tests/storage'
 import Database from '@tests/database'
 import mammoth from 'mammoth'
 
-test.describe('Create document from template action', () => {
+test.describe('Create .docx from template action', () => {
   Database.each(test, (dbConfig) => {
-    test('should create a document from a .docx file', async ({ request }) => {
+    test('should create a .docx file from a template', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const storage = new Storage(database)
@@ -33,7 +33,7 @@ test.describe('Create document from template action', () => {
             actions: [
               {
                 service: 'Document',
-                action: 'CreateFromTemplate',
+                action: 'CreateDocxFromTemplate',
                 name: 'createDocument',
                 input: {
                   name: {
@@ -73,7 +73,7 @@ test.describe('Create document from template action', () => {
       expect(value).toContain('John Doe')
     })
 
-    test('should create a document from a .docx file with a custom filename', async ({
+    test('should create  a .docx file from a template with a custom filename', async ({
       request,
     }) => {
       // GIVEN
@@ -105,7 +105,7 @@ test.describe('Create document from template action', () => {
             actions: [
               {
                 service: 'Document',
-                action: 'CreateFromTemplate',
+                action: 'CreateDocxFromTemplate',
                 name: 'createDocument',
                 input: {
                   name: {
