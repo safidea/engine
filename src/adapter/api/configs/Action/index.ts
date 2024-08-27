@@ -5,6 +5,7 @@ import type { RunJavascript } from './code/RunJavascript'
 import type { CreatePdfFromHtmlTemplate } from './browser/CreatePdfFromHtmlTemplate'
 import type { SendEmail } from './mailer/SendEmail'
 import type { ReadRecord } from './database/ReadRecord'
+import type { CreateHtmlFromXlsx } from './spreadsheet/CreateHtmlFromXlsx'
 
 export type Action =
   | CreateRecord
@@ -13,4 +14,5 @@ export type Action =
   | RunJavascript
   | CreateDocxFromTemplate
   | CreateXlsxFromTemplate
+  | CreateHtmlFromXlsx
   | CreatePdfFromHtmlTemplate

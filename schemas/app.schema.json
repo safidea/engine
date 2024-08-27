@@ -24,6 +24,9 @@
                 },
                 {
                     "$ref": "#/definitions/ReadRecord"
+                },
+                {
+                    "$ref": "#/definitions/CreateHtmlFromXlsx"
                 }
             ]
         },
@@ -1369,6 +1372,44 @@
                 "name",
                 "service",
                 "templatePath"
+            ],
+            "type": "object"
+        },
+        "CreateHtmlFromXlsx": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateHtmlFromXlsx",
+                    "type": "string"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
+                    "type": "string"
+                },
+                "spreadsheetBucket": {
+                    "type": "string"
+                },
+                "spreadsheetFileId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "name",
+                "service",
+                "spreadsheetBucket",
+                "spreadsheetFileId"
             ],
             "type": "object"
         },
