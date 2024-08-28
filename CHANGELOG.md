@@ -1,3 +1,10 @@
+## [0.28.1](https://github.com/safidea/engine/compare/v0.28.0...v0.28.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* **Bucket:** add green test: should get a .xlsx file from a bucket ([261ab8b](https://github.com/safidea/engine/commit/261ab8b16221e4e46d53764e60d681cabf009959))
+
 # [0.28.0](https://github.com/safidea/engine/compare/v0.27.1...v0.28.0) (2024-08-27)
 
 
