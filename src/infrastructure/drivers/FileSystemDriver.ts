@@ -3,6 +3,10 @@ import fs from 'fs-extra'
 import AdmZip from 'adm-zip'
 
 export class FileSystemDriver implements Driver {
+  exists = (path: string) => {
+    return fs.existsSync(path)
+  }
+
   read = (path: string) => {
     if (!fs.existsSync(path)) throw new Error('File not found')
     if (path.includes('.docx')) {
@@ -14,7 +18,7 @@ export class FileSystemDriver implements Driver {
     return fs.readFileSync(path)
   }
 
-  update(path: string, content: string) {
+  update = (path: string, content: string) => {
     if (path.includes('.docx')) {
       const zip = new AdmZip(path)
       zip.updateFile('word/document.xml', Buffer.from(content, 'utf8'))
