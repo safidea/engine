@@ -3,7 +3,7 @@ import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 import Storage from '@tests/storage'
 import SpreadsheetLoader from '@tests/spreadsheetLoader'
-import { readPdfText } from 'pdf-text-reader'
+import { PdfReader } from 'pdfreader'
 
 test.describe('Create .pdf from .xlsx', () => {
   Database.each(test, (dbConfig) => {
@@ -75,7 +75,13 @@ test.describe('Create .pdf from .xlsx', () => {
 
       // THEN
       const file = await storage.bucket('documents').readById(response.fileId)
-      const text = await readPdfText({ data: new Uint8Array(file?.data ?? Buffer.from('')) })
+      let text = ''
+      await new Promise((resolve) =>
+        new PdfReader().parseBuffer(file?.data ?? Buffer.from(''), (err, item) => {
+          if (item) text += item.text
+          else resolve(true)
+        })
+      )
       expect(text).toContain('Hello')
     })
   })
