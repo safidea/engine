@@ -1,54 +1,82 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
+import Database from '@tests/database'
+import Storage from '@tests/storage'
+import SpreadsheetLoader from '@tests/spreadsheetLoader'
+import { readPdfText } from 'pdf-text-reader'
 
-test.describe('Convert .xlsx to .html', () => {
-  test.skip('should convert a .xlsx to a .html', async ({ request }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      automations: [
-        {
-          name: 'createHtml',
-          trigger: {
-            event: 'ApiCalled',
-            path: 'create-html',
-            input: {
-              spreadsheetFileId: {
-                type: 'string',
+test.describe('Create .pdf from .xlsx', () => {
+  Database.each(test, (dbConfig) => {
+    test('should create a .pdf from .xlsx', async ({ request }) => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const storage = new Storage(database)
+      const spreadsheetLoader = new SpreadsheetLoader()
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'createHtml',
+            trigger: {
+              event: 'ApiCalled',
+              path: 'create-pdf',
+              input: {
+                spreadsheetFileId: {
+                  type: 'string',
+                },
+              },
+              output: {
+                fileId: {
+                  value: '{{createPdf.file.id}}',
+                  type: 'string',
+                },
               },
             },
-            output: {
-              file: {
-                value: '{{createHtml.file}}',
-                type: 'object',
+            actions: [
+              {
+                service: 'Spreadsheet',
+                action: 'CreatePdfFromXlsx',
+                name: 'createPdf',
+                xlsxBucket: 'documents',
+                xlsxFileId: '{{trigger.body.spreadsheetFileId}}',
+                pdfFileName: 'output.pdf',
+                pdfBucket: 'documents',
               },
-            },
+            ],
           },
-          actions: [
-            {
-              service: 'Spreadsheet',
-              action: 'CreatePdfFromXlsx',
-              name: 'createHtml',
-              xlsxBucket: 'documents',
-              xlsxFileId: '{{trigger.body.spreadsheetFileId}}',
-              pdfFileName: 'output.pdf',
-              pdfBucket: 'documents',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
+        ],
+        buckets: [
+          {
+            name: 'documents',
+          },
+        ],
+        database: dbConfig,
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const spreadsheet = await spreadsheetLoader.fromXlsxFile(
+        './tests/__helpers__/docs/template.xlsx'
+      )
+      await storage.bucket('documents').save({
+        id: '1',
+        name: 'input.xlsx',
+        data: await spreadsheet.toBuffer(),
+        created_at: new Date(),
+      })
 
-    // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/create-html`)
-      .then((res) => res.json())
+      // WHEN
+      const { response } = await request
+        .post(`${url}/api/automation/create-pdf`, {
+          data: {
+            spreadsheetFileId: '1',
+          },
+        })
+        .then((res) => res.json())
 
-    // THEN
-    const html = response.file?.data.toString()
-    expect(html).toContain('<!DOCTYPE html>')
-    expect(html).toContain('Hello')
+      // THEN
+      const file = await storage.bucket('documents').readById(response.fileId)
+      const text = await readPdfText({ data: new Uint8Array(file?.data ?? Buffer.from('')) })
+      expect(text).toContain('Hello')
+    })
   })
 })
