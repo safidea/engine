@@ -10,7 +10,6 @@ interface Services {
 
 export class RunJavascriptMapper {
   static toEntity = (config: Config, services: Services): RunJavascript => {
-    const { javascriptCompiler, templateCompiler } = services
-    return new RunJavascript({ ...config, javascriptCompiler, templateCompiler })
+    return new RunJavascript(config, services)
   }
 }

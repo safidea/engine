@@ -1,16 +1,6 @@
-import type { OutputParser } from '@domain/services/Template'
-import type { Base } from '../base'
+import type { Config } from '@domain/entities/Action/spreadsheet/CreateXlsxFromTemplate'
 
-export interface CreateXlsxFromTemplate extends Base {
+export interface CreateXlsxFromTemplate extends Config {
   service: 'Spreadsheet'
   action: 'CreateXlsxFromTemplate'
-  input?: {
-    [key: string]: {
-      type: OutputParser
-      value: string
-    }
-  }
-  templatePath: string
-  fileName: string
-  bucket: string
 }

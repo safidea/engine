@@ -1,11 +1,6 @@
-import type { Base } from '../base'
+import type { Config } from '@domain/entities/Action/mailer/SendEmail'
 
-export interface SendEmail extends Base {
+export interface SendEmail extends Config {
   service: 'Mailer'
   action: 'SendEmail'
-  from: string
-  to: string
-  subject: string
-  text: string
-  html: string
 }

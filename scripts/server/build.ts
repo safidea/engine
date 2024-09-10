@@ -29,6 +29,8 @@ const externals: string[] = [
   'react',
   'react-dom',
   '@heroicons/react',
+  'exceljs',
+  'adm-zip',
 ]
 
 const entrypoints: string[] = ['index.ts']

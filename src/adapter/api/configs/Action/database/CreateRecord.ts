@@ -1,8 +1,6 @@
-import type { Base } from '../base'
+import type { Config } from '@domain/entities/Action/database/CreateRecord'
 
-export interface CreateRecord extends Base {
+export interface CreateRecord extends Config {
   service: 'Database'
   action: 'CreateRecord'
-  table: string
-  fields: { [key: string]: string | number | boolean }
 }

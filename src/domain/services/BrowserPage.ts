@@ -1,6 +1,8 @@
 import { BrowserElement, type Spi as BrowserElementSpi } from './BrowserElement'
 
 export interface Spi {
+  close: () => Promise<void>
+  new: (path: string) => Promise<void>
   open: (path: string) => Promise<boolean>
   type: (inputName: string, value: string) => Promise<boolean>
   click: (text: string) => Promise<boolean>
@@ -22,6 +24,14 @@ export interface Spi {
 
 export class BrowserPage {
   constructor(private _spi: Spi) {}
+
+  close = async () => {
+    await this._spi.close()
+  }
+
+  new = async (path: string) => {
+    return this._spi.new(path)
+  }
 
   open = async (path: string) => {
     return this._spi.open(path)

@@ -1,13 +1,13 @@
-import type { ToSend } from '@domain/entities/Email/ToSend'
-import type { SentDto, ToSendDto } from '../dtos/EmailDto'
-import { Sent } from '@domain/entities/Email/Sent'
+import type { CreatedEmail } from '@domain/entities/Email/Created'
+import { SentEmail } from '@domain/entities/Email/Sent'
+import type { EmailDto } from '../dtos/EmailDto'
 
 export class EmailMapper {
-  static toToSendDto = (toSend: ToSend): ToSendDto => {
-    return toSend.data
+  static toDto = (email: CreatedEmail): EmailDto => {
+    return email.toJson()
   }
 
-  static toSentEntity = (sent: SentDto): Sent => {
-    return new Sent(sent)
+  static toSentEntity = (sent: EmailDto): SentEmail => {
+    return new SentEmail(sent)
   }
 }

@@ -1,7 +1,7 @@
-import type { Data as PersistedData } from '@domain/entities/Record/Persisted'
-import type { Data as ToCreateData } from '@domain/entities/Record/ToCreate'
-import type { Data as ToUpdateData } from '@domain/entities/Record/ToUpdate'
+import type { CreatedRecordFields } from '@domain/entities/Record/Created'
+import type { PersistedRecordFields } from '@domain/entities/Record/Persisted'
+import type { UpdatedRecordFields } from '@domain/entities/Record/Updated'
 
-export type ToCreateDto = ToCreateData
-export type ToUpdateDto = ToUpdateData
-export type PersistedDto = PersistedData
+export type CreatedRecordDto = CreatedRecordFields
+export type UpdatedRecordDto = UpdatedRecordFields
+export type PersistedRecordDto = PersistedRecordFields

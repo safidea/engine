@@ -10,7 +10,7 @@ test.describe('Convert .xlsx to .html', () => {
         {
           name: 'createHtml',
           trigger: {
-            trigger: 'ApiCalled',
+            event: 'ApiCalled',
             path: 'create-html',
             input: {
               spreadsheetFileId: {
@@ -18,21 +18,21 @@ test.describe('Convert .xlsx to .html', () => {
               },
             },
             output: {
-              fileId: {
-                value: '{{createHtml.fileId}}',
-                type: 'string',
+              file: {
+                value: '{{createHtml.file}}',
+                type: 'object',
               },
             },
           },
           actions: [
             {
               service: 'Spreadsheet',
-              action: 'CreateHtmlFromXlsx',
+              action: 'CreatePdfFromXlsx',
               name: 'createHtml',
-              spreadsheetBucket: 'documents',
-              spreadsheetFileId: '{{trigger.body.spreadsheetFileId}}',
-              fileName: 'output.html',
-              bucket: 'documents',
+              xlsxBucket: 'documents',
+              xlsxFileId: '{{trigger.body.spreadsheetFileId}}',
+              pdfFileName: 'output.pdf',
+              pdfBucket: 'documents',
             },
           ],
         },
@@ -47,7 +47,7 @@ test.describe('Convert .xlsx to .html', () => {
       .then((res) => res.json())
 
     // THEN
-    const html = response.file?.file_data.toString()
+    const html = response.file?.data.toString()
     expect(html).toContain('<!DOCTYPE html>')
     expect(html).toContain('Hello')
   })

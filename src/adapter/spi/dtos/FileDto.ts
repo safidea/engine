@@ -1,5 +1,3 @@
-import type { Data as PersistedData } from '@domain/entities/File/Persisted'
-import type { Data as ToSaveData } from '@domain/entities/File/ToSave'
+import type { FileFields } from '@domain/entities/File/base'
 
-export type ToSaveDto = ToSaveData
-export type PersistedDto = PersistedData
+export type FileDto = FileFields

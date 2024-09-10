@@ -39,9 +39,17 @@ export class Automation {
     const context = new Context(triggerData)
     const { actions } = this._params
     for (const action of actions) {
-      this._log(`running action: ${action.name}`)
-      await action.execute(context)
-      this._log(`completed action: ${action.name}`)
+      try {
+        this._log(`running action: ${action.name}`)
+        await action.execute(context)
+        this._log(`completed action: ${action.name}`)
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`${action.name}: ${error.message}`)
+        }
+        console.error(error)
+        throw new Error(`${action.name}: unknown error`)
+      }
     }
     return context
   }

@@ -53,7 +53,7 @@ export class PostgresDriver implements Driver {
     if (this._client) {
       if (event === 'notification')
         this._client.on('notification', ({ payload }) => {
-          callback({ payload, event: 'notification' })
+          if (payload) callback({ notification: JSON.parse(payload), event: 'notification' })
         })
       if (event === 'error')
         this._client.on('error', ({ message }) => {
@@ -70,13 +70,13 @@ export class PostgresDriver implements Driver {
       CREATE OR REPLACE FUNCTION notify_trigger_func() RETURNS trigger AS $$
       BEGIN
         IF TG_OP = 'INSERT' THEN
-          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(NEW))::text);
+          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record_id', NEW.id)::text);
           RETURN NEW;
         ELSIF TG_OP = 'UPDATE' THEN
-          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(NEW))::text);
+          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record_id', NEW.id)::text);
           RETURN NEW;
         ELSIF TG_OP = 'DELETE' THEN
-          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record', row_to_json(OLD))::text);
+          PERFORM pg_notify('realtime', json_build_object('table', TG_TABLE_NAME, 'action', TG_OP, 'record_id', OLD.id)::text);
           RETURN OLD;
         END IF;
         RETURN NULL;

@@ -1,4 +1,3 @@
-import type { Server } from '@domain/services/Server'
 import type { Spi } from '@domain/services/Storage'
 import { StorageBucketSpi, type Driver as StorageBucketDriver } from './StorageBucketSpi'
 
@@ -7,15 +6,8 @@ export interface Driver {
   bucket: (name: string) => StorageBucketDriver
 }
 
-export interface Services {
-  server: Server
-}
-
 export class StorageSpi implements Spi {
-  constructor(
-    private _driver: Driver,
-    private _services: Services
-  ) {}
+  constructor(private _driver: Driver) {}
 
   connect = () => {
     return this._driver.connect()
@@ -23,6 +15,6 @@ export class StorageSpi implements Spi {
 
   bucket = (name: string) => {
     const storageBucketDriver = this._driver.bucket(name)
-    return new StorageBucketSpi(storageBucketDriver, this._services)
+    return new StorageBucketSpi(storageBucketDriver)
   }
 }

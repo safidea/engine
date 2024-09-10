@@ -1,16 +1,6 @@
-import type { OutputParser } from '@domain/services/Template'
-import type { Base } from '../base'
+import type { Config } from '@domain/entities/Action/document/CreateDocxFromTemplate'
 
-export interface CreateDocxFromTemplate extends Base {
+export interface CreateDocxFromTemplate extends Config {
   service: 'Document'
   action: 'CreateDocxFromTemplate'
-  input?: {
-    [key: string]: {
-      type: OutputParser
-      value: string
-    }
-  }
-  templatePath: string
-  fileName: string
-  bucket: string
 }

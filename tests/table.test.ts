@@ -373,7 +373,7 @@ test.describe('App with tables', () => {
       expect(record!.id).toHaveLength(24)
     })
 
-    test('should create a record with an a date field', async ({ request }) => {
+    test('should create a record with a date field', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'leads backend',

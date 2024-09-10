@@ -4,22 +4,17 @@ import type { Post } from '@domain/entities/Request/Post'
 import type { JSONSchema, SchemaValidator } from '@domain/services/SchemaValidator'
 import type { SchemaError } from '../Error/Schema'
 import { Context } from '../Automation/Context'
-import type { Base } from './base'
-import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
+import type { Base, BaseConfig } from './base'
+import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
-interface Config {
+export interface Config extends BaseConfig {
   path: string
-  input?: Required<Pick<JSONSchema, 'properties'>>['properties']
-  output?: {
-    [key: string]: {
-      value: string
-      type: OutputParser
-    }
-  }
+  input?: { [key: string]: JSONSchema }
+  output?: InputValues
 }
 
-interface Services {
+export interface Services {
   server: Server
   schemaValidator: SchemaValidator
   templateCompiler: TemplateCompiler
@@ -76,7 +71,7 @@ export class ApiCalled implements Base {
       }
       if (this._output) {
         const response = Object.entries(this._output).reduce(
-          (acc: { [key: string]: OutputFormat }, [key, value]) => {
+          (acc: { [key: string]: OutputValue }, [key, value]) => {
             acc[key] = context.fillTemplate(value)
             return acc
           },

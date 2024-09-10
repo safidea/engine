@@ -14,6 +14,8 @@ export class RollupMapper {
     )
     if (!multipleLinkedRecordField || multipleLinkedRecordField.field !== 'MultipleLinkedRecord') {
       throw new ConfigError({
+        entity: 'Field',
+        name: config.name,
         message: `RollupMapper: Field ${config.multipleLinkedRecord} not found`,
       })
     }

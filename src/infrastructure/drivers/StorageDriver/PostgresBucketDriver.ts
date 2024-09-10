@@ -1,6 +1,6 @@
-import { type PersistedDto, type ToSaveDto } from '@adapter/spi/dtos/FileDto'
 import type { Config } from '@domain/services/Storage'
 import type { Driver } from '@adapter/spi/StorageBucketSpi'
+import type { FileDto } from '@adapter/spi/dtos/FileDto'
 
 export class PostgresBucketDriver implements Driver {
   private _nameWithSchema: string
@@ -26,23 +26,23 @@ export class PostgresBucketDriver implements Driver {
       CREATE TABLE ${this._nameWithSchema} (
         id TEXT PRIMARY KEY,
         name TEXT,
-        file_data BYTEA,
+        data BYTEA,
         created_at TIMESTAMP
       )
     `
     await this._exec(createTableQuery)
   }
 
-  save = async (data: ToSaveDto) => {
-    const { id, name, file_data, created_at } = data
+  save = async (fields: FileDto) => {
+    const { id, name, data, created_at } = fields
     await this._query(
-      `INSERT INTO ${this._nameWithSchema} (id, name, file_data, created_at) VALUES ($1, $2, $3, $4)`,
-      [id, name, file_data, created_at]
+      `INSERT INTO ${this._nameWithSchema} (id, name, data, created_at) VALUES ($1, $2, $3, $4)`,
+      [id, name, data, created_at]
     )
   }
 
   readById = async (id: string) => {
-    const result = await this._query<PersistedDto>(
+    const result = await this._query<FileDto>(
       `SELECT * FROM ${this._nameWithSchema} WHERE id = $1`,
       [id]
     )

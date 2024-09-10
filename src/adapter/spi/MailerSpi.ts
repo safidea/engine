@@ -1,16 +1,16 @@
 import type { Spi } from '@domain/services/Mailer'
-import type { SentDto, ToSendDto } from './dtos/EmailDto'
 import { EmailMapper } from './mappers/EmailMapper'
-import type { ToSend } from '@domain/entities/Email/ToSend'
 import type { FilterDto } from './dtos/FilterDto'
 import type { Filter } from '@domain/entities/Filter'
 import { FilterMapper } from './mappers/FilterMapper'
+import type { CreatedEmail } from '@domain/entities/Email/Created'
+import type { EmailDto } from './dtos/EmailDto'
 
 export interface Driver {
   verify: () => Promise<void>
   close: () => Promise<void>
-  send: (email: ToSendDto) => Promise<SentDto>
-  find: (filters: FilterDto[]) => Promise<SentDto | undefined>
+  send: (email: EmailDto) => Promise<void>
+  find: (filters: FilterDto[]) => Promise<EmailDto | undefined>
 }
 
 export class MailerSpi implements Spi {
@@ -24,10 +24,9 @@ export class MailerSpi implements Spi {
     await this._driver.close()
   }
 
-  send = async (emailToSend: ToSend) => {
-    const emailToSendDto = EmailMapper.toToSendDto(emailToSend)
-    const emailSent = await this._driver.send(emailToSendDto)
-    return EmailMapper.toSentEntity(emailSent)
+  send = async (createdEmail: CreatedEmail) => {
+    const emailDto = EmailMapper.toDto(createdEmail)
+    await this._driver.send(emailDto)
   }
 
   find = async (filters: Filter[]) => {

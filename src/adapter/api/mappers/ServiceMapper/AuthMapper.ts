@@ -6,6 +6,7 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Database } from '@domain/services/Database'
 import type { Server } from '@domain/services/Server'
 import type { Logger } from '@domain/services/Logger'
+import type { IdGenerator } from '@domain/services/IdGenerator'
 
 interface Ressources {
   drivers: Drivers
@@ -14,6 +15,7 @@ interface Ressources {
   server: Server
   mailer: Mailer
   templateCompiler: TemplateCompiler
+  idGenerator: IdGenerator
 }
 
 export class AuthMapper {
@@ -24,29 +26,27 @@ export class AuthMapper {
       redirectOnLogout = '/',
       strategy = 'magic-link',
       confirmEmail: {
+        from = 'noreply@safidea.com',
         subject = 'Please confirm your email',
         text = 'Please confirm your email',
         html = 'Please confirm your email',
       } = {},
-      from = 'noreply@safidea.com',
       secret = 'secret',
     } = config
     const driver = drivers.auth({
       secret,
-      from,
       redirectOnLogin,
       redirectOnLogout,
       strategy,
-      confirmEmail: { subject, text, html },
+      confirmEmail: { subject, text, html, from },
     })
     const spi = new AuthSpi(driver)
     return new Auth(spi, services, {
       secret,
-      from,
       redirectOnLogin,
       redirectOnLogout,
       strategy,
-      confirmEmail: { subject, text, html },
+      confirmEmail: { subject, text, html, from },
     })
   }
 }

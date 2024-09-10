@@ -17,8 +17,8 @@ import { type Driver as FontLibraryDriver } from './FontLibrarySpi'
 import { type Driver as JavascriptCompilerDriver } from './JavascriptCompilerSpi'
 import { type Driver as FileSystemDriver } from './FileSystemSpi'
 import { type Driver as StorageDriver } from './StorageSpi'
-import { type Driver as ZipDriver } from './ZipSpi'
-import { type Driver as ExcelDriver } from './ExcelSpi'
+import { type Driver as SpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
+import { type Driver as DocumentLoaderDriver } from './DocumentLoaderSpi'
 
 import { type Config as ServerConfig } from '@domain/services/Server'
 import { type Config as DatabaseConfig } from '@domain/services/Database'
@@ -48,6 +48,6 @@ export interface Drivers {
   iconLibrary: () => IconLibraryDriver
   fontLibrary: () => FontLibraryDriver
   fileSystem: () => FileSystemDriver
-  zip: () => ZipDriver
-  excel: () => ExcelDriver
+  spreadsheetLoader: () => SpreadsheetLoaderDriver
+  documentLoader: () => DocumentLoaderDriver
 }

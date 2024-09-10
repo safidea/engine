@@ -2,8 +2,12 @@ import pg from 'pg'
 import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
-import type { DataType } from '@domain/entities/Record/ToCreate'
+import type {
+  CreatedRecordDto,
+  PersistedRecordDto,
+  UpdatedRecordDto,
+} from '@adapter/spi/dtos/RecordDto'
+import type { BaseRecordFields, RecordFieldType } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
   name: string
@@ -119,9 +123,14 @@ export class PostgresTableDriver implements Driver {
     await this._db.query(query)
   }
 
-  insert = async (record: ToCreateDto) => {
+  insert = async (record: CreatedRecordDto) => {
     try {
-      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const { created_at, ...rest } = record
+      const preprocessedFields = this._preprocess(rest)
+      const { staticFields, manyToManyFields } = this._splitFields({
+        created_at,
+        ...preprocessedFields,
+      })
       const keys = Object.keys(staticFields)
       const values = Object.values(staticFields)
       const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ')
@@ -135,7 +144,7 @@ export class PostgresTableDriver implements Driver {
     }
   }
 
-  insertMany = async (records: ToCreateDto[]) => {
+  insertMany = async (records: CreatedRecordDto[]) => {
     try {
       for (const record of records) await this.insert(record)
     } catch (e) {
@@ -143,9 +152,14 @@ export class PostgresTableDriver implements Driver {
     }
   }
 
-  update = async (record: ToUpdateDto) => {
+  update = async (record: UpdatedRecordDto) => {
     try {
-      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const { updated_at, ...rest } = record
+      const preprocessedFields = this._preprocess(rest)
+      const { staticFields, manyToManyFields } = this._splitFields({
+        updated_at,
+        ...preprocessedFields,
+      })
       const keys = Object.keys(staticFields)
       const values = Object.values(staticFields)
       const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
@@ -160,7 +174,7 @@ export class PostgresTableDriver implements Driver {
     }
   }
 
-  updateMany = async (records: ToUpdateDto[]) => {
+  updateMany = async (records: UpdatedRecordDto[]) => {
     try {
       for (const record of records) await this.update(record)
     } catch (e) {
@@ -187,13 +201,13 @@ export class PostgresTableDriver implements Driver {
       .join(' AND ')
     const values = filters.map((filter) => filter.value)
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
-    const result = await this._db.query<PersistedDto>(query, values)
+    const result = await this._db.query<PersistedRecordDto>(query, values)
     return result.rows[0]
   }
 
   readById = async (id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = $1`
-    const result = await this._db.query<PersistedDto>(query, [id])
+    const result = await this._db.query<PersistedRecordDto>(query, [id])
     return result.rows[0]
   }
 
@@ -215,7 +229,7 @@ export class PostgresTableDriver implements Driver {
       return acc
     }, [])
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
-    const result = await this._db.query<PersistedDto>(query, values)
+    const result = await this._db.query<PersistedRecordDto>(query, values)
     return result.rows
   }
 
@@ -262,8 +276,8 @@ export class PostgresTableDriver implements Driver {
     }
   }
 
-  private _splitFields = (record: ToCreateDto | ToUpdateDto) => {
-    const staticFields: { [key: string]: DataType } = {}
+  private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
+    const staticFields: { [key: string]: RecordFieldType } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
       const field = this._fields.find((f) => f.name === key)
@@ -331,6 +345,20 @@ export class PostgresTableDriver implements Driver {
       [this._name]
     )
     return result.rows
+  }
+
+  private _preprocess = (record: BaseRecordFields): BaseRecordFields => {
+    return Object.keys(record).reduce((acc: BaseRecordFields, key) => {
+      const value = record[key]
+      const field = this._fields.find((f) => f.name === key)
+      if (!field) throw new Error('Field not found.')
+      if (!value) return acc
+      if (field.type === 'TIMESTAMP') {
+        if (value instanceof Date) acc[key] = value
+        else acc[key] = new Date(String(value))
+      }
+      return acc
+    }, record)
   }
 
   private _throwError = (error: unknown) => {

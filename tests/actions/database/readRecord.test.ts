@@ -13,7 +13,7 @@ test.describe('Read record action', () => {
           {
             name: 'readRecord',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'read-record',
               input: {
                 recordId: {

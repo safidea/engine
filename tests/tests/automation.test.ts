@@ -32,7 +32,7 @@ test.describe('Automation tests', () => {
         {
           name: 'New lead',
           trigger: {
-            trigger: 'WebhookCalled',
+            event: 'WebhookCalled',
             path: 'new-lead',
           },
           actions: [
@@ -99,7 +99,7 @@ test.describe('Automation tests', () => {
         {
           name: 'send-email',
           trigger: {
-            trigger: 'WebhookCalled',
+            event: 'WebhookCalled',
             path: 'send-email',
           },
           actions: [

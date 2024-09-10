@@ -1,14 +1,5 @@
-import type { JSONSchema } from '@domain/services/SchemaValidator'
-import type { OutputParser } from '@domain/services/Template'
+import type { Config } from '@domain/entities/Trigger/ApiCalled'
 
-export interface ApiCalled {
-  trigger: 'ApiCalled'
-  path: string
-  input?: Required<Pick<JSONSchema, 'properties'>>['properties']
-  output?: {
-    [key: string]: {
-      value: string
-      type: OutputParser
-    }
-  }
+export interface ApiCalled extends Omit<Config, 'automation'> {
+  event: 'ApiCalled'
 }

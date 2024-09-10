@@ -16,7 +16,7 @@ test.describe('Create .docx from template action', () => {
           {
             name: 'createDocument',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'create-document',
               input: {
                 name: {
@@ -25,7 +25,7 @@ test.describe('Create .docx from template action', () => {
               },
               output: {
                 fileId: {
-                  value: '{{createDocument.fileId}}',
+                  value: '{{createDocument.file.id}}',
                   type: 'string',
                 },
               },
@@ -69,7 +69,7 @@ test.describe('Create .docx from template action', () => {
 
       // THEN
       const file = await storage.bucket('messages').readById(response.fileId)
-      const { value } = await mammoth.extractRawText({ buffer: file?.file_data ?? Buffer.from('') })
+      const { value } = await mammoth.extractRawText({ buffer: file?.data ?? Buffer.from('') })
       expect(value).toContain('John Doe')
     })
 
@@ -85,7 +85,7 @@ test.describe('Create .docx from template action', () => {
           {
             name: 'createDocument',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'create-document',
               input: {
                 name: {
@@ -97,7 +97,7 @@ test.describe('Create .docx from template action', () => {
               },
               output: {
                 fileId: {
-                  value: '{{createDocument.fileId}}',
+                  value: '{{createDocument.file.id}}',
                   type: 'string',
                 },
               },

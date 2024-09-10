@@ -38,14 +38,14 @@ export class AppApi {
     const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], this.ressources)
     const browser = BrowserMapper.toService({ drivers })
     this._log(`🔄 Start running tests`)
-    await browser.launch()
+    const page = await browser.launch()
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
       try {
         const app = AppMapper.toEntity(this.ressources, validatedConfig)
         await app.init()
         const baseUrl = await app.start({ isTest: true })
-        const page = await browser.newPage(baseUrl)
+        await page.new(baseUrl)
         await test.run(app, page)
         this._log(`✅ ${i} > ${test.name}`)
       } catch (error) {
@@ -54,7 +54,7 @@ export class AppApi {
         else throw error
       }
     }
-    await browser.close()
+    await page.close()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
     this._log(`✨ All tests passed`)
   }

@@ -1,4 +1,4 @@
-import type { Sent } from './Sent'
-import type { ToSend } from './ToSend'
+import type { SentEmail } from './Sent'
+import type { CreatedEmail } from './Created'
 
-export type Email = ToSend | Sent
+export type Email = CreatedEmail | SentEmail

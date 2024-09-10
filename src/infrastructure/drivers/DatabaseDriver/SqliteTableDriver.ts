@@ -2,8 +2,12 @@ import SQLite, { SqliteError } from 'better-sqlite3'
 import type { Driver } from '@adapter/spi/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type { PersistedDto, ToCreateDto, ToUpdateDto } from '@adapter/spi/dtos/RecordDto'
-import type { DataType } from '@domain/entities/Record/ToCreate'
+import type {
+  CreatedRecordDto,
+  PersistedRecordDto,
+  UpdatedRecordDto,
+} from '@adapter/spi/dtos/RecordDto'
+import type { RecordFieldType } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
   name: string
@@ -130,7 +134,7 @@ export class SqliteTableDriver implements Driver {
     this._db.exec(query)
   }
 
-  insert = async (record: ToCreateDto) => {
+  insert = async (record: CreatedRecordDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
       const preprocessedFields = this._preprocess(staticFields)
@@ -147,7 +151,7 @@ export class SqliteTableDriver implements Driver {
     }
   }
 
-  insertMany = async (records: ToCreateDto[]) => {
+  insertMany = async (records: CreatedRecordDto[]) => {
     try {
       for (const record of records) await this.insert(record)
     } catch (e) {
@@ -155,7 +159,7 @@ export class SqliteTableDriver implements Driver {
     }
   }
 
-  update = async (record: ToUpdateDto) => {
+  update = async (record: UpdatedRecordDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
       const preprocessedFields = this._preprocess(staticFields)
@@ -172,7 +176,7 @@ export class SqliteTableDriver implements Driver {
     }
   }
 
-  updateMany = async (records: ToUpdateDto[]) => {
+  updateMany = async (records: UpdatedRecordDto[]) => {
     try {
       for (const record of records) await this.update(record)
     } catch (e) {
@@ -197,13 +201,13 @@ export class SqliteTableDriver implements Driver {
     const conditions = filters.map((filter) => `${filter.field} ${filter.operator} ?`).join(' AND ')
     const values = filters.map((filter) => filter.value)
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
-    const record = this._db.prepare(query).get(values) as PersistedDto | undefined
+    const record = this._db.prepare(query).get(values) as PersistedRecordDto | undefined
     return record ? this._postprocess(record) : undefined
   }
 
   readById = async (id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = ?`
-    const record = this._db.prepare(query).get([id]) as PersistedDto | undefined
+    const record = this._db.prepare(query).get([id]) as PersistedRecordDto | undefined
     return record ? this._postprocess(record) : undefined
   }
 
@@ -224,7 +228,7 @@ export class SqliteTableDriver implements Driver {
       return acc
     }, [])
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
-    const records = this._db.prepare(query).all(values) as PersistedDto[]
+    const records = this._db.prepare(query).all(values) as PersistedRecordDto[]
     return records.map(this._postprocess)
   }
 
@@ -275,8 +279,8 @@ export class SqliteTableDriver implements Driver {
     return field.formula || (field.type === 'TEXT[]' && field.table)
   }
 
-  private _splitFields = (record: ToCreateDto | ToUpdateDto) => {
-    const staticFields: { [key: string]: DataType } = {}
+  private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
+    const staticFields: { [key: string]: RecordFieldType } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
       const field = this._fields.find((f) => f.name === key)
@@ -331,11 +335,11 @@ export class SqliteTableDriver implements Driver {
     return formula.replace(/\bCONCAT\b/g, 'GROUP_CONCAT').replace(/\bvalues\b/g, values)
   }
 
-  private _preprocess = (record: { [key: string]: DataType }) => {
+  private _preprocess = (record: { [key: string]: RecordFieldType }) => {
     return Object.keys(record).reduce(
       (
         acc: {
-          [key: string]: DataType
+          [key: string]: RecordFieldType
         },
         key
       ) => {
@@ -353,8 +357,8 @@ export class SqliteTableDriver implements Driver {
     )
   }
 
-  private _postprocess = (persistedRecord: PersistedDto): PersistedDto => {
-    return Object.keys(persistedRecord).reduce((acc: PersistedDto, key) => {
+  private _postprocess = (persistedRecord: PersistedRecordDto): PersistedRecordDto => {
+    return Object.keys(persistedRecord).reduce((acc: PersistedRecordDto, key) => {
       const value = persistedRecord[key]
       const field = this._fields.find((f) => f.name === key)
       if (!field) throw new Error('Field not found.')

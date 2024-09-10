@@ -23,11 +23,11 @@ interface Services {
 
 export class TriggerMapper {
   static toEntity(config: MapperConfig, services: Services): Trigger {
-    const { trigger } = config
-    if (trigger === 'RecordCreated') return RecordCreatedMapper.toEntity(config, services)
-    if (trigger === 'WebhookCalled') return WebhookCalledMapper.toEntity(config, services)
-    if (trigger === 'ApiCalled') return ApiCalledMapper.toEntity(config, services)
-    throw new Error(`TriggerMapper: trigger ${trigger} not found`)
+    const { event } = config
+    if (event === 'RecordCreated') return RecordCreatedMapper.toEntity(config, services)
+    if (event === 'WebhookCalled') return WebhookCalledMapper.toEntity(config, services)
+    if (event === 'ApiCalled') return ApiCalledMapper.toEntity(config, services)
+    throw new Error(`TriggerMapper: trigger ${event} not found`)
   }
 
   static toManyEntities(configs: MapperConfig[], services: Services): Trigger[] {

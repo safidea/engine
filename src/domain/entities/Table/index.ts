@@ -2,10 +2,6 @@ import type { DatabaseTable } from '@domain/services/DatabaseTable'
 import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { Field } from '../Field'
-import { Record } from '@domain/entities/Record'
-import type { Data as ToCreateData } from '@domain/entities/Record/ToCreate'
-import type { Data as ToUpdateData } from '@domain/entities/Record/ToUpdate'
-import type { Data as PersistedData } from '@domain/entities/Record/Persisted'
 import { Json } from '@domain/entities/Response/Json'
 import type { Post } from '@domain/entities/Request/Post'
 import type { Patch } from '@domain/entities/Request/Patch'
@@ -26,6 +22,9 @@ import { DateTime } from '../Field/DateTime'
 import { SingleLinkedRecord } from '../Field/SingleLinkedRecord'
 import { MultipleLinkedRecord } from '../Field/MultipleLinkedRecord'
 import { FilterMapper, schema as filtersSchema, type Config as FilterConfig } from '../Filter'
+import { CreatedRecord } from '../Record/Created'
+import { UpdatedRecord } from '../Record/Updated'
+import type { BaseRecordFields, RecordJson } from '../Record/base'
 
 interface Params {
   name: string
@@ -55,11 +54,6 @@ export class Table {
     this._validateData = schemaValidator.validate
   }
 
-  get record() {
-    const { idGenerator, templateCompiler } = this._params
-    return new Record({ idGenerator, templateCompiler, fields: this.fields })
-  }
-
   init = async () => {
     const { server } = this._params
     await Promise.all([
@@ -85,9 +79,9 @@ export class Table {
     return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
-  readById = async (id: string): Promise<PersistedData | undefined> => {
+  readById = async (id: string): Promise<RecordJson | undefined> => {
     const record = await this.db.readById(id)
-    return record ? { ...record.data, id: record.id } : undefined
+    return record ? record.toJson() : undefined
   }
 
   get = async (request: Get) => {
@@ -99,12 +93,12 @@ export class Table {
   list = async (
     filtersConfig: unknown = []
   ): Promise<
-    { records: PersistedData[]; error?: undefined } | { records?: undefined; error: SchemaError }
+    { records: RecordJson[]; error?: undefined } | { records?: undefined; error: SchemaError }
   > => {
     if (this._validateDataType<FilterConfig[]>(filtersConfig, filtersSchema)) {
       const filters = FilterMapper.toManyEntities(filtersConfig)
       const records = await this.db.list(filters)
-      return { records: records.map((record) => record.data) }
+      return { records: records.map((record) => record.toJson()) }
     }
     const [error] = this._validateData(filtersConfig, filtersSchema)
     return { error }
@@ -118,13 +112,13 @@ export class Table {
   insert = async (
     data: unknown
   ): Promise<
-    { record: PersistedData; error?: undefined } | { record?: undefined; error: SchemaError }
+    { record: RecordJson; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema()
-    if (this._validateDataType<ToCreateData>(data, schema)) {
-      const toCreateRecord = this.record.toCreate(data)
+    if (this._validateDataType<BaseRecordFields>(data, schema)) {
+      const toCreateRecord = new CreatedRecord(data, { idGenerator: this._params.idGenerator })
       const persistedRecord = await this.db.insert(toCreateRecord)
-      return { record: persistedRecord.data }
+      return { record: persistedRecord.toJson() }
     }
     const [error] = this._validateData(data, schema)
     return { error }
@@ -147,13 +141,13 @@ export class Table {
     id: string,
     data: unknown
   ): Promise<
-    { record: PersistedData; error?: undefined } | { record?: undefined; error: SchemaError }
+    { record: RecordJson; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema({ required: false })
-    if (this._validateDataType<ToUpdateData>(data, schema)) {
-      const toUpdateRecord = this.record.toUpdate({ ...data, id })
-      const persistedRecord = await this.db.update(toUpdateRecord)
-      return { record: persistedRecord.data }
+    if (this._validateDataType<Omit<BaseRecordFields, 'id'>>(data, schema)) {
+      const updatedRecord = new UpdatedRecord({ id, ...data })
+      const persistedRecord = await this.db.update(updatedRecord)
+      return { record: persistedRecord.toJson() }
     }
     const [error] = this._validateData(data, schema)
     return { error }

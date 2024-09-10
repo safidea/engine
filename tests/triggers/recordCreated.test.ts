@@ -15,7 +15,7 @@ test.describe('RecordCreated trigger', () => {
           {
             name: 'Send email',
             trigger: {
-              trigger: 'RecordCreated',
+              event: 'RecordCreated',
               table: 'leads',
             },
             actions: [],

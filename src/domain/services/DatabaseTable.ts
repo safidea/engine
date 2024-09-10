@@ -1,9 +1,9 @@
-import type { ToCreate } from '../entities/Record/ToCreate'
+import type { CreatedRecord } from '../entities/Record/Created'
 import type { Spi as DatabaseSpi } from './Database'
 import type { Filter } from '../entities/Filter'
-import type { Persisted } from '../entities/Record/Persisted'
+import type { PersistedRecord } from '../entities/Record/Persisted'
 import type { Field } from '@domain/entities/Field'
-import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
+import type { UpdatedRecord } from '@domain/entities/Record/Updated'
 import type { Logger } from '@domain/services/Logger'
 import { IsAnyOf } from '@domain/entities/Filter/IsAnyOf'
 
@@ -22,14 +22,14 @@ export interface Spi {
   dropView: () => Promise<void>
   migrate: () => Promise<void>
   createView: () => Promise<void>
-  insert: (toCreateRecord: ToCreate) => Promise<void>
-  insertMany: (toCreateRecords: ToCreate[]) => Promise<void>
-  update: (toUpdateRecord: ToUpdate) => Promise<void>
-  updateMany: (toUpdateRecords: ToUpdate[]) => Promise<void>
+  insert: (recordCreated: CreatedRecord) => Promise<void>
+  insertMany: (createdRecords: CreatedRecord[]) => Promise<void>
+  update: (updatedRecord: UpdatedRecord) => Promise<void>
+  updateMany: (updatedRecords: UpdatedRecord[]) => Promise<void>
   delete: (filters: Filter[]) => Promise<void>
-  read: (filters: Filter[]) => Promise<Persisted | undefined>
-  readById: (id: string) => Promise<Persisted | undefined>
-  list: (filters: Filter[]) => Promise<Persisted[]>
+  read: (filters: Filter[]) => Promise<PersistedRecord | undefined>
+  readById: (id: string) => Promise<PersistedRecord | undefined>
+  list: (filters: Filter[]) => Promise<PersistedRecord[]>
 }
 
 export class DatabaseTable {
@@ -69,21 +69,23 @@ export class DatabaseTable {
     await this._table.createView()
   }
 
-  insert = async (toCreateRecord: ToCreate) => {
-    await this._table.insert(toCreateRecord)
-    const persistedRecord = await this.readByIdOrThrow(toCreateRecord.id)
-    this._log(`inserted in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+  insert = async (RecordCreatedRecord: CreatedRecord) => {
+    await this._table.insert(RecordCreatedRecord)
+    const persistedRecord = await this.readByIdOrThrow(RecordCreatedRecord.id)
+    this._log(
+      `inserted in ${this._config.name} ${JSON.stringify(persistedRecord.toJson(), null, 2)}`
+    )
     return persistedRecord
   }
 
-  insertMany = async (toCreateRecords: ToCreate[]) => {
-    await this._table.insertMany(toCreateRecords)
+  insertMany = async (createdRecords: CreatedRecord[]) => {
+    await this._table.insertMany(createdRecords)
     const persistedRecords = await this.list([
-      new IsAnyOf({ field: 'id', value: toCreateRecords.map((r) => r.id) }),
+      new IsAnyOf({ field: 'id', value: createdRecords.map((r) => r.id) }),
     ])
     this._log(
       `inserted in ${this._config.name} ${JSON.stringify(
-        persistedRecords.map((r) => r.data),
+        persistedRecords.map((r) => r.toJson()),
         null,
         2
       )}`
@@ -91,21 +93,23 @@ export class DatabaseTable {
     return persistedRecords
   }
 
-  update = async (toUpdateRecord: ToUpdate) => {
-    await this._table.update(toUpdateRecord)
-    const persistedRecord = await this.readByIdOrThrow(toUpdateRecord.id)
-    this._log(`updated in ${this._config.name} ${JSON.stringify(persistedRecord.data, null, 2)}`)
+  update = async (updatedRecord: UpdatedRecord) => {
+    await this._table.update(updatedRecord)
+    const persistedRecord = await this.readByIdOrThrow(updatedRecord.id)
+    this._log(
+      `updated in ${this._config.name} ${JSON.stringify(persistedRecord.toJson(), null, 2)}`
+    )
     return persistedRecord
   }
 
-  updateMany = async (toUpdateRecords: ToUpdate[]) => {
-    await this._table.updateMany(toUpdateRecords)
+  updateMany = async (updatedRecords: UpdatedRecord[]) => {
+    await this._table.updateMany(updatedRecords)
     const persistedRecords = await this.list([
-      new IsAnyOf({ field: 'id', value: toUpdateRecords.map((r) => r.id) }),
+      new IsAnyOf({ field: 'id', value: updatedRecords.map((r) => r.id) }),
     ])
     this._log(
       `updated in ${this._config.name} ${JSON.stringify(
-        persistedRecords.map((r) => r.data),
+        persistedRecords.map((r) => r.toJson()),
         null,
         2
       )}`

@@ -1,70 +1,71 @@
-import { Base, type Params as BaseParams, type Interface } from '../base'
+import { Base, type BaseConfig } from '../base'
 import type { Context } from '../../Automation/Context'
-import { Template, type OutputFormat, type OutputParser } from '@domain/services/Template'
+import { Template, type InputValues } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import { ConfigError } from '@domain/entities/Error/Config'
-import type { Zip } from '@domain/services/Zip'
 import type { Bucket } from '@domain/entities/Bucket'
+import type { DocumentLoader } from '@domain/services/DocumentLoader'
+import type { Document } from '@domain/services/Document'
+import { CreatedFile } from '@domain/entities/File/Created'
+import type { IdGenerator } from '@domain/services/IdGenerator'
+import type { FileSystem } from '@domain/services/FileSystem'
 
-interface Params extends BaseParams {
-  input?: {
-    [key: string]: {
-      type: OutputParser
-      value: string
-    }
-  }
+export interface Config extends BaseConfig {
+  input: InputValues
   templatePath: string
-  templateCompiler: TemplateCompiler
   fileName: string
-  bucket: Bucket
-  zip: Zip
+  bucket: string
 }
 
-export class CreateDocxFromTemplate extends Base implements Interface {
-  private _template: Template
+export interface Services {
+  documentLoader: DocumentLoader
+  templateCompiler: TemplateCompiler
+  idGenerator: IdGenerator
+  fileSystem: FileSystem
+}
+
+export interface Entities {
+  buckets: Bucket[]
+}
+
+export class CreateDocxFromTemplate extends Base {
+  private _bucket: Bucket
+  private _document?: Document
+  private _fileName: Template
   private _input: { [key: string]: Template }
 
-  constructor(private _params: Params) {
-    super(_params)
-    const { templateCompiler, templatePath, input, zip } = _params
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    entities: Entities
+  ) {
+    super(_config)
+    const { input, templatePath, fileName, bucket: bucketName } = _config
+    const { templateCompiler, fileSystem } = _services
+    const { buckets } = entities
     if (!templatePath.endsWith('.docx'))
-      throw new ConfigError({
-        message: 'CreateDocxFromTemplate: templatePath must be a .docx file',
-      })
-    const templateContent = zip.readDocx(templatePath)
-    this._template = templateCompiler.compile(templateContent)
-    this._input = Object.entries(input ?? {}).reduce(
-      (acc: { [key: string]: Template }, [key, { value, type }]) => {
-        acc[key] = templateCompiler.compile(value, type)
-        return acc
-      },
-      {}
-    )
+      this._throwConfigError(`templatePath "${templatePath}" must be a .docx file`)
+    if (!fileSystem.exists(templatePath))
+      this._throwConfigError(`templatePath "${templatePath}" does not exist`)
+    this._bucket = this._findBucketByName(bucketName, buckets)
+    this._input = templateCompiler.compileObjectWithType(input)
+    this._fileName = templateCompiler.compile(fileName)
+  }
+
+  init = async () => {
+    const { templatePath } = this._config
+    const { documentLoader } = this._services
+    this._document = await documentLoader.fromDocxFile(templatePath)
   }
 
   execute = async (context: Context) => {
-    const { fileName, zip, templatePath, bucket } = this._params
-    const data = Object.entries(this._input).reduce(
-      (acc: { [key: string]: OutputFormat }, [key, value]) => {
-        acc[key] = context.fillTemplate(value)
-        return acc
-      },
-      {}
-    )
-    try {
-      const document = this._template.fillAsString(data)
-      const fileData = zip.updateDocx(templatePath, document)
-      const fileToSave = bucket.file
-        .toSave({ name: fileName, file_data: fileData })
-        .fillWithContext(context)
-      await bucket.storage.save(fileToSave)
-      context.set(this.name, { fileId: fileToSave.id })
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`CreateDocxFromTemplate: ${error.message}`)
-      }
-      console.error(error)
-      throw new Error(`CreateDocxFromTemplate: unknown error`)
-    }
+    const { idGenerator } = this._services
+    if (!this._document) throw new Error('document not initialized')
+    this._document.fill(context.fillObjectTemplate(this._input))
+    const data = this._document.toBuffer()
+    const fileName = context.fillTemplateAsString(this._fileName)
+    const name = fileName.includes('.docx') ? fileName : `${fileName}.docx`
+    const file = new CreatedFile({ name, data }, { idGenerator })
+    await this._bucket.storage.save(file)
+    context.set(this.name, { file: file.toJson() })
   }
 }

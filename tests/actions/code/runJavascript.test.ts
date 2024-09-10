@@ -11,7 +11,7 @@ test.describe('Run javascript code action', () => {
         {
           name: 'addNumbers',
           trigger: {
-            trigger: 'ApiCalled',
+            event: 'ApiCalled',
             path: 'add-numbers',
             input: {
               numberOne: { type: 'number' },
@@ -76,7 +76,7 @@ test.describe('Run javascript code action', () => {
           {
             name: 'createUser',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'create-user',
               input: {
                 name: { type: 'string' },
@@ -138,7 +138,7 @@ test.describe('Run javascript code action', () => {
           {
             name: 'updateUser',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'update-user',
               input: {
                 id: { type: 'string' },
@@ -207,7 +207,7 @@ test.describe('Run javascript code action', () => {
           {
             name: 'readUser',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'read-user',
               input: {
                 id: { type: 'string' },
@@ -268,7 +268,7 @@ test.describe('Run javascript code action', () => {
           {
             name: 'listUsers',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'list-users',
               output: {
                 users: {
@@ -329,7 +329,7 @@ test.describe('Run javascript code action', () => {
           {
             name: 'listUsers',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'list-users',
               output: {
                 users: {
@@ -383,7 +383,7 @@ test.describe('Run javascript code action', () => {
           {
             name: 'listUsers',
             trigger: {
-              trigger: 'ApiCalled',
+              event: 'ApiCalled',
               path: 'list-users',
               output: {
                 users: {

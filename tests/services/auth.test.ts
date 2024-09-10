@@ -88,12 +88,12 @@ test.describe('Auth', () => {
         redirectOnLogout: '/login',
         strategy: 'magic-link',
         confirmEmail: {
+          from: 'noreply@safidea.com',
           subject: 'Confirm your email',
           text: 'Click on the link to confirm your email: {{{ link }}}.',
           html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.',
         },
         secret: 'secret',
-        from: 'noreply@safidea.com',
       },
     }
     const app = new App()

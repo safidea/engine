@@ -8,15 +8,15 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Table } from '@domain/entities/Table'
 import { RunJavascriptMapper } from './code/RunJavascriptMapper'
 import type { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
-import { CreatePdfFromHtmlTemplateMapper } from './browser/CreatePdfFromHtmlTemplateMapper'
 import type { Browser } from '@domain/services/Browser'
-import type { FileSystem } from '@domain/services/FileSystem'
 import { CreateDocxFromTemplateMapper } from './document/CreateDocxFromTemplateMapper'
 import { CreateXlsxFromTemplateMapper } from './spreadsheet/CreateXlsxFromTemplateMapper'
-import type { Zip } from '@domain/services/Zip'
 import type { Bucket } from '@domain/entities/Bucket'
 import { ReadRecordMapper } from './database/ReadRecordMapper'
-import type { Excel } from '@domain/services/Excel'
+import { CreatePdfFromXlsxMapper } from './spreadsheet/CreatePdfFromXlsxMapper'
+import type { SpreadsheetLoader } from '@domain/services/SpreadsheetLoader'
+import type { DocumentLoader } from '@domain/services/DocumentLoader'
+import type { FileSystem } from '@domain/services/FileSystem'
 
 interface Services {
   mailer: Mailer
@@ -24,9 +24,9 @@ interface Services {
   templateCompiler: TemplateCompiler
   javascriptCompiler: JavascriptCompiler
   browser: Browser
+  spreadsheetLoader: SpreadsheetLoader
+  documentLoader: DocumentLoader
   fileSystem: FileSystem
-  zip: Zip
-  excel: Excel
 }
 
 interface Entities {
@@ -43,9 +43,9 @@ export class ActionMapper {
       templateCompiler,
       javascriptCompiler,
       browser,
+      documentLoader,
+      spreadsheetLoader,
       fileSystem,
-      zip,
-      excel,
     } = services
     const { tables, buckets } = entities
     if (service === 'Database') {
@@ -56,23 +56,11 @@ export class ActionMapper {
     }
     if (service === 'Mailer') {
       if (action === 'SendEmail')
-        return SendEmailMapper.toEntity(config, { mailer, templateCompiler })
+        return SendEmailMapper.toEntity(config, { mailer, templateCompiler, idGenerator })
     }
     if (service === 'Code') {
       if (action === 'RunJavascript')
         return RunJavascriptMapper.toEntity(config, { templateCompiler, javascriptCompiler })
-    }
-    if (service === 'Browser') {
-      if (action === 'CreatePdfFromHtmlTemplate')
-        return CreatePdfFromHtmlTemplateMapper.toEntity(
-          config,
-          {
-            browser,
-            templateCompiler,
-            fileSystem,
-          },
-          { buckets }
-        )
     }
     if (service === 'Document') {
       if (action === 'CreateDocxFromTemplate')
@@ -80,7 +68,9 @@ export class ActionMapper {
           config,
           {
             templateCompiler,
-            zip,
+            documentLoader,
+            idGenerator,
+            fileSystem,
           },
           { buckets }
         )
@@ -91,7 +81,20 @@ export class ActionMapper {
           config,
           {
             templateCompiler,
-            excel,
+            spreadsheetLoader,
+            idGenerator,
+            fileSystem,
+          },
+          { buckets }
+        )
+      if (action === 'CreatePdfFromXlsx')
+        return CreatePdfFromXlsxMapper.toEntity(
+          config,
+          {
+            templateCompiler,
+            spreadsheetLoader,
+            browser,
+            idGenerator,
           },
           { buckets }
         )

@@ -1,6 +1,6 @@
-import type { Persisted } from '@domain/entities/File/Persisted'
+import type { PersistedFile } from '@domain/entities/File/Persisted'
 import type { Logger } from './Logger'
-import type { ToSave } from '@domain/entities/File/ToSave'
+import type { CreatedFile } from '@domain/entities/File/Created'
 import type { Spi as StorageSpi } from '@domain/services/Storage'
 
 export interface Config {
@@ -14,8 +14,8 @@ export interface Services {
 export interface Spi {
   exists: () => Promise<boolean>
   create: () => Promise<void>
-  save: (data: ToSave) => Promise<void>
-  readById: (id: string) => Promise<Persisted | undefined>
+  save: (data: CreatedFile) => Promise<void>
+  readById: (id: string) => Promise<PersistedFile | undefined>
 }
 
 export class StorageBucket {
@@ -40,10 +40,10 @@ export class StorageBucket {
     await this._bucket.create()
   }
 
-  save = async (toSaveFile: ToSave) => {
+  save = async (toSaveFile: CreatedFile) => {
     await this._bucket.save(toSaveFile)
     const persistedFile = await this.readByIdOrThrow(toSaveFile.id)
-    this._log(`save file ${toSaveFile.data.name}`)
+    this._log(`save file ${toSaveFile.name}`)
     return persistedFile
   }
 

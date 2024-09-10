@@ -17,7 +17,7 @@ test.describe('App with automations', () => {
           {
             name: 'Send email',
             trigger: {
-              trigger: 'WebhookCalled',
+              event: 'WebhookCalled',
               path: 'send-email',
             },
             actions: [

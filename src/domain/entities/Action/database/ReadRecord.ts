@@ -1,28 +1,38 @@
-import { Base, type Params as BaseParams, type Interface } from '../base'
+import { Base, type BaseConfig } from '../base'
 import type { Context } from '../../Automation/Context'
 import type { Table } from '../../Table'
 import type { Template } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
-interface Params extends BaseParams {
-  table: Table
+export interface Config extends BaseConfig {
   id: string
+  table: string
+}
+
+export interface Services {
   templateCompiler: TemplateCompiler
 }
 
-export class ReadRecord extends Base implements Interface {
-  private _id: Template
+export interface Entities {
+  tables: Table[]
+}
 
-  constructor(private _params: Params) {
-    super(_params)
-    const { templateCompiler } = _params
-    this._id = templateCompiler.compile(_params.id)
+export class ReadRecord extends Base {
+  private _id: Template
+  private _table: Table
+
+  constructor(config: Config, services: Services, entities: Entities) {
+    super(config)
+    const { table: tableName } = config
+    const { tables } = entities
+    const { templateCompiler } = services
+    this._table = this._findTableByName(tableName, tables)
+    this._id = templateCompiler.compile(config.id)
   }
 
   execute = async (context: Context) => {
-    const { table } = this._params
-    const id = context.fillTemplate(this._id).toString()
-    const recordPersisted = await table.db.readById(id)
-    context.set(this.name, recordPersisted?.data ?? {})
+    const id = context.fillTemplateAsString(this._id)
+    const recordPersisted = await this._table.db.readById(id)
+    context.set(this.name, recordPersisted?.toJson() ?? {})
   }
 }

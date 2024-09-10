@@ -1,22 +1,22 @@
-import { Persisted } from '@domain/entities/Record/Persisted'
-import { ToCreate } from '@domain/entities/Record/ToCreate'
-import type { PersistedDto, ToCreateDto, ToUpdateDto } from '../dtos/RecordDto'
-import type { ToUpdate } from '@domain/entities/Record/ToUpdate'
+import type { CreatedRecord } from '@domain/entities/Record/Created'
+import type { CreatedRecordDto, PersistedRecordDto, UpdatedRecordDto } from '../dtos/RecordDto'
+import type { UpdatedRecord } from '@domain/entities/Record/Updated'
+import { PersistedRecord } from '@domain/entities/Record/Persisted'
 
 export class RecordMapper {
-  static toCreateDto = (toCreateRecord: ToCreate): ToCreateDto => {
-    return toCreateRecord.data
+  static toCreateDto = (createdRecord: CreatedRecord): CreatedRecordDto => {
+    return createdRecord.fields
   }
 
-  static toUpdateDto = (toUpdateRecord: ToUpdate): ToUpdateDto => {
-    return toUpdateRecord.data
+  static toUpdateDto = (updatedRecord: UpdatedRecord): UpdatedRecordDto => {
+    return updatedRecord.fields
   }
 
-  static toPersistedEntity = (record: PersistedDto) => {
-    return new Persisted(record)
+  static toPersistedEntity = (record: PersistedRecordDto) => {
+    return new PersistedRecord(record)
   }
 
-  static toManyPersistedEntity = (records: PersistedDto[]) => {
-    return records.map((record) => new Persisted(record))
+  static toManyPersistedEntity = (records: PersistedRecordDto[]) => {
+    return records.map((record) => new PersistedRecord(record))
   }
 }

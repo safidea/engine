@@ -1,5 +1,5 @@
 import type { Table } from '@domain/entities/Table'
-import type { Data as PersistedData } from '@domain/entities/Record/Persisted'
+import type { RecordJson } from '@domain/entities/Record/base'
 
 export interface Spi {
   run: (data: object, modules: Modules) => Promise<object>
@@ -7,10 +7,10 @@ export interface Spi {
 
 export interface Modules {
   table: (name: string) => {
-    insert: (data: unknown) => Promise<PersistedData>
-    update: (id: string, data: unknown) => Promise<PersistedData>
-    read: (id: string) => Promise<PersistedData | undefined>
-    list: (filters: unknown) => Promise<PersistedData[]>
+    insert: (data: unknown) => Promise<RecordJson>
+    update: (id: string, data: unknown) => Promise<RecordJson>
+    read: (id: string) => Promise<RecordJson | undefined>
+    list: (filters: unknown) => Promise<RecordJson[]>
   }
 }
 

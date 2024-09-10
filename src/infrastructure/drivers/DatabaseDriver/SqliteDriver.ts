@@ -39,11 +39,8 @@ export class SqliteDriver implements Driver {
       for (const { payload, id } of notifications) {
         this._db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run([id])
         const { record_id, table, action } = JSON.parse(payload)
-        const record = this._db
-          .prepare(`SELECT * FROM ${table}_view WHERE id = ?`)
-          .get(record_id) || { id: record_id }
         this._onNotification.map((callback) =>
-          callback({ payload: JSON.stringify({ record, table, action }), event: 'notification' })
+          callback({ notification: { record_id, table, action }, event: 'notification' })
         )
       }
     }

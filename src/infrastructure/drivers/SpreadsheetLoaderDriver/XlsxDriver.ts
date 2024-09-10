@@ -1,9 +1,26 @@
-import type { Driver } from '@adapter/spi/ExcelWorkbookSpi'
-import type { Cell } from '@domain/services/ExcelWorkbook'
-import type ExcelJS from 'exceljs'
+import type { Driver } from '@adapter/spi/SpreadsheetSpi'
+import type { Cell } from '@domain/services/Spreadsheet'
+import ExcelJS from 'exceljs'
+import fs from 'fs-extra'
 
-export class ExcelWorkbookDriver implements Driver {
-  constructor(private _workbook: ExcelJS.Workbook) {}
+export class XlsxDriver implements Driver {
+  private _workbook: ExcelJS.Workbook
+
+  constructor() {
+    this._workbook = new ExcelJS.Workbook()
+  }
+
+  loadFile = async (path: string) => {
+    if (!fs.existsSync(path)) throw new Error('File not found')
+    if (!path.endsWith('.xlsx')) throw new Error('File must be a .xlsx')
+    await this._workbook.xlsx.readFile(path)
+  }
+
+  loadBuffer = async (buffer: Buffer) => {
+    // eslint-disable-next-line
+    // @ts-ignore
+    await this._workbook.xlsx.load(buffer)
+  }
 
   readTextCells = () => {
     const cells: Cell[] = []
@@ -62,7 +79,7 @@ export class ExcelWorkbookDriver implements Driver {
     })
   }
 
-  buffer = async () => {
+  toBuffer = async () => {
     const buffer = await this._workbook.xlsx.writeBuffer()
     return Buffer.from(buffer)
   }

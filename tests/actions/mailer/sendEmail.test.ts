@@ -16,7 +16,7 @@ test.describe('Send email action', () => {
           {
             name: 'send-email',
             trigger: {
-              trigger: 'WebhookCalled',
+              event: 'WebhookCalled',
               path: 'send-email',
             },
             actions: [

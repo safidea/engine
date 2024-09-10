@@ -2,7 +2,9 @@ import type { Driver as BrowserElementDriver } from './BrowserElementSpi'
 import type { Spi } from '@domain/services/BrowserPage'
 
 export interface Driver {
-  open(url: string): Promise<boolean>
+  close: () => Promise<void>
+  new: (path: string) => Promise<void>
+  open(path: string): Promise<boolean>
   type(inputName: string, value: string): Promise<boolean>
   click(text: string): Promise<boolean>
   waitForText(text: string, options: { timeout: number }): Promise<boolean>
@@ -21,8 +23,16 @@ export interface Driver {
 export class BrowserPageSpi implements Spi {
   constructor(private _driver: Driver) {}
 
-  open = async (url: string) => {
-    return this._driver.open(url)
+  close = async () => {
+    return this._driver.close()
+  }
+
+  new = async (path: string) => {
+    return this._driver.new(path)
+  }
+
+  open = async (path: string) => {
+    return this._driver.open(path)
   }
 
   type = async (inputName: string, value: string) => {

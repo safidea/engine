@@ -15,9 +15,9 @@ import type { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
 import type { Browser } from '@domain/services/Browser'
 import type { FileSystem } from '@domain/services/FileSystem'
 import type { Storage } from '@domain/services/Storage'
-import type { Zip } from '@domain/services/Zip'
 import type { Bucket } from '@domain/entities/Bucket'
-import type { Excel } from '@domain/services/Excel'
+import type { SpreadsheetLoader } from '@domain/services/SpreadsheetLoader'
+import type { DocumentLoader } from '@domain/services/DocumentLoader'
 
 export interface Services {
   logger: Logger
@@ -32,8 +32,8 @@ export interface Services {
   browser: Browser
   fileSystem: FileSystem
   storage: Storage
-  zip: Zip
-  excel: Excel
+  spreadsheetLoader: SpreadsheetLoader
+  documentLoader: DocumentLoader
 }
 
 export interface Entities {
@@ -55,8 +55,8 @@ export class AutomationMapper {
       javascriptCompiler,
       browser,
       fileSystem,
-      zip,
-      excel,
+      spreadsheetLoader,
+      documentLoader,
     } = services
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
@@ -77,8 +77,8 @@ export class AutomationMapper {
         javascriptCompiler,
         browser,
         fileSystem,
-        zip,
-        excel,
+        spreadsheetLoader,
+        documentLoader,
       },
       entities
     )

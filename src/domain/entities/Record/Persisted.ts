@@ -1,22 +1,27 @@
-import type { DataType, Data as ToCreateData } from './ToCreate'
+import { Base, type BaseRecordFields, type RecordJson } from './base'
 
-export interface Data extends ToCreateData {
+export interface PersistedRecordFields extends BaseRecordFields {
+  created_at: Date
   updated_at?: Date
 }
 
-export class Persisted {
-  constructor(public data: Data) {}
+export type Config = PersistedRecordFields
 
-  get id(): string {
-    return this.data.id
+export class PersistedRecord extends Base {
+  readonly fields: PersistedRecordFields
+
+  constructor(config: Config) {
+    super(config)
+    this.fields = config
   }
 
-  getField = (key: string): DataType => {
-    if (!(key in this.data)) throw new Error(`Field "${key}" not found in record`)
-    return this.data[key]
-  }
-
-  getFieldAsString = (key: string): string => {
-    return String(this.getField(key) ?? '')
+  toJson(): RecordJson {
+    const { created_at, updated_at } = this.fields
+    const json = {
+      ...super.toJson(),
+      created_at: created_at.toISOString(),
+    }
+    if (updated_at) json.updated_at = updated_at.toISOString()
+    return json
   }
 }

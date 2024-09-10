@@ -1,43 +1,37 @@
 ## [0.28.1](https://github.com/safidea/engine/compare/v0.28.0...v0.28.1) (2024-08-27)
 
-
 ### Bug Fixes
 
-* **Bucket:** add green test: should get a .xlsx file from a bucket ([261ab8b](https://github.com/safidea/engine/commit/261ab8b16221e4e46d53764e60d681cabf009959))
+- **Bucket:** add green test: should get a .xlsx file from a bucket ([261ab8b](https://github.com/safidea/engine/commit/261ab8b16221e4e46d53764e60d681cabf009959))
 
 # [0.28.0](https://github.com/safidea/engine/compare/v0.27.1...v0.28.0) (2024-08-27)
 
-
 ### Features
 
-* **Spreadsheet:** add green test: should create a .xlsx file from a template ([fb876cf](https://github.com/safidea/engine/commit/fb876cf1a436cafa9f3c29016928c99735c40ff7))
+- **Spreadsheet:** add green test: should create a .xlsx file from a template ([fb876cf](https://github.com/safidea/engine/commit/fb876cf1a436cafa9f3c29016928c99735c40ff7))
 
 ## [0.27.1](https://github.com/safidea/engine/compare/v0.27.0...v0.27.1) (2024-08-24)
 
-
 ### Bug Fixes
 
-* **Action:** add green test: should read a record in database ([612ed76](https://github.com/safidea/engine/commit/612ed761499f4df237b672a4592a30ebd2d67b44))
+- **Action:** add green test: should read a record in database ([612ed76](https://github.com/safidea/engine/commit/612ed761499f4df237b672a4592a30ebd2d67b44))
 
 # [0.27.0](https://github.com/safidea/engine/compare/v0.26.0...v0.27.0) (2024-08-23)
 
-
 ### Bug Fixes
 
-* **Bucket:** add green test: should get a docx file from a bucket ([f3801dc](https://github.com/safidea/engine/commit/f3801dc1e7ed4476a51f38b329bde9eaad77994d))
-* **Document:** add green test: should create a document from a .docx file with a custom filename ([aa7a9cb](https://github.com/safidea/engine/commit/aa7a9cb4d0fddd23f91e2a526656bfbe1e5141fe))
-
+- **Bucket:** add green test: should get a docx file from a bucket ([f3801dc](https://github.com/safidea/engine/commit/f3801dc1e7ed4476a51f38b329bde9eaad77994d))
+- **Document:** add green test: should create a document from a .docx file with a custom filename ([aa7a9cb](https://github.com/safidea/engine/commit/aa7a9cb4d0fddd23f91e2a526656bfbe1e5141fe))
 
 ### Features
 
-* **Bucket:** add green test: should start an app with a bucket ([9ac7e21](https://github.com/safidea/engine/commit/9ac7e2152910bf30b316af729d3506bdbd846372))
+- **Bucket:** add green test: should start an app with a bucket ([9ac7e21](https://github.com/safidea/engine/commit/9ac7e2152910bf30b316af729d3506bdbd846372))
 
 # [0.26.0](https://github.com/safidea/engine/compare/v0.25.0...v0.26.0) (2024-08-23)
 
-
 ### Features
 
-* **Document:** add green test: should create a document from a .docx file ([acc134a](https://github.com/safidea/engine/commit/acc134a4235c942ceb098484eb0a822e43e6ee1d))
+- **Document:** add green test: should create a document from a .docx file ([acc134a](https://github.com/safidea/engine/commit/acc134a4235c942ceb098484eb0a822e43e6ee1d))
 
 # [0.25.0](https://github.com/safidea/engine/compare/v0.24.2...v0.25.0) (2024-08-03)
 

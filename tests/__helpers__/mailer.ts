@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
-import type { SentDto } from '@adapter/spi/dtos/EmailDto'
+import type { EmailDto } from '@adapter/spi/dtos/EmailDto'
 
 export default class extends MailerDriver {
   public config: Config
@@ -64,8 +64,8 @@ export default class extends MailerDriver {
     ])
   }
 
-  waitForEmail = async (filters: FilterDto[]): Promise<SentDto> => {
-    let email: SentDto | undefined
+  waitForEmail = async (filters: FilterDto[]): Promise<EmailDto> => {
+    let email: EmailDto | undefined
     while (!email) {
       email = await this.find(filters)
       await new Promise((resolve) => setTimeout(resolve, 500))

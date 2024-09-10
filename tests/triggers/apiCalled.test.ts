@@ -10,7 +10,7 @@ test.describe('ApiCalled trigger', () => {
         {
           name: 'ApiCalled',
           trigger: {
-            trigger: 'ApiCalled',
+            event: 'ApiCalled',
             path: 'run-api',
           },
           actions: [],

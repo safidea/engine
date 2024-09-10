@@ -1,10 +1,10 @@
 import type { Driver } from '@adapter/spi/MailerSpi'
-import type { SentDto, ToSendDto } from '@adapter/spi/dtos/EmailDto'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { Config } from '@domain/services/Mailer'
 import { v4 as uuidv4 } from 'uuid'
 import nodemailer, { type Transporter } from 'nodemailer'
 import SQLite from 'better-sqlite3'
+import type { EmailDto } from '@adapter/spi/dtos/EmailDto'
 
 export class MailerDriver implements Driver {
   private _transporter: Transporter | SqliteTransporter
@@ -37,15 +37,11 @@ export class MailerDriver implements Driver {
     await this._transporter.close()
   }
 
-  send = async (toSendDto: ToSendDto) => {
-    const info = await this._transporter.sendMail(toSendDto)
-    return {
-      id: info.messageId,
-      ...toSendDto,
-    }
+  send = async (toSendDto: EmailDto) => {
+    await this._transporter.sendMail(toSendDto)
   }
 
-  find = async (filters: FilterDto[]): Promise<SentDto | undefined> => {
+  find = async (filters: FilterDto[]): Promise<EmailDto | undefined> => {
     if (this._transporter instanceof SqliteTransporter) {
       return this._transporter.find(filters)
     }
@@ -78,7 +74,7 @@ class SqliteTransporter {
     this._db.close()
   }
 
-  sendMail = async (toSendDto: ToSendDto) => {
+  sendMail = async (toSendDto: EmailDto) => {
     const { to, from, subject, text, html } = toSendDto
     const id = uuidv4()
     const stmt = this._db.prepare(`
@@ -90,7 +86,7 @@ class SqliteTransporter {
     }
   }
 
-  find = async (filters: FilterDto[]): Promise<SentDto | undefined> => {
+  find = async (filters: FilterDto[]): Promise<EmailDto | undefined> => {
     let query = `SELECT * FROM emails WHERE `
     const conditions: string[] = []
     const values: (string | number)[] = []
@@ -110,6 +106,6 @@ class SqliteTransporter {
     query += conditions.join(' AND ')
     const stmt = this._db.prepare(query)
     const email = stmt.get(...values)
-    return email as SentDto | undefined
+    return email as EmailDto | undefined
   }
 }

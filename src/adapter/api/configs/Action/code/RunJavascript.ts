@@ -1,14 +1,6 @@
-import type { OutputParser } from '@domain/services/Template'
-import type { Base } from '../base'
+import type { Config } from '@domain/entities/Action/code/RunJavascript'
 
-export interface RunJavascript extends Base {
+export interface RunJavascript extends Config {
   service: 'Code'
   action: 'RunJavascript'
-  input?: {
-    [key: string]: {
-      type: OutputParser
-      value: string
-    }
-  }
-  code: string
 }

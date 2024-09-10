@@ -1,4 +1,5 @@
-export interface WebhookCalled {
-  trigger: 'WebhookCalled'
-  path: string
+import type { Config } from '@domain/entities/Trigger/WebhookCalled'
+
+export interface WebhookCalled extends Omit<Config, 'automation'> {
+  event: 'WebhookCalled'
 }

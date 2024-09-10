@@ -1,5 +1,3 @@
-import type { Data as ToSendData } from '@domain/entities/Email/ToSend'
-import type { Data as SentData } from '@domain/entities/Email/Sent'
+import type { EmailFields } from '@domain/entities/Email/base'
 
-export type ToSendDto = ToSendData
-export type SentDto = SentData
+export type EmailDto = EmailFields

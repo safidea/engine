@@ -1,13 +1,24 @@
 import type { Driver } from '@adapter/spi/BrowserPageSpi'
-import type { Page } from 'puppeteer'
+import type { Page, Browser } from 'puppeteer'
 import { BrowserElementDriver } from './BrowserElementDriver'
 
 export class BrowserPageDriver implements Driver {
   constructor(
+    private _browser: Browser,
     private _page: Page,
     private _baseUrl?: string
   ) {
     _page.setDefaultTimeout(5000)
+  }
+
+  close = async () => {
+    await this._browser.close()
+  }
+
+  new = async (baseUrl: string) => {
+    await this._page.close()
+    this._page = await this._browser.newPage()
+    this._baseUrl = baseUrl
   }
 
   open = async (path: string) => {

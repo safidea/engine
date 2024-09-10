@@ -139,11 +139,21 @@ export class Table implements Base<Props> {
     if (source.startsWith('/api/table/')) {
       if (!server.hasGetHandler(source)) {
         errors.push(
-          new ConfigError({ message: `Table source ${source} does not have a GET handler` })
+          new ConfigError({
+            entity: 'Component',
+            name: this.id,
+            message: `Table source ${source} does not have a GET handler`,
+          })
         )
       }
     } else {
-      errors.push(new ConfigError({ message: 'Table source must start with /api/table/' }))
+      errors.push(
+        new ConfigError({
+          entity: 'Component',
+          name: this.id,
+          message: 'Table source must start with /api/table/',
+        })
+      )
     }
     if (buttons) {
       buttons.forEach((button) => {

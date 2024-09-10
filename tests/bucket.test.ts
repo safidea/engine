@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 import Storage from '@tests/storage'
-import Excel from '@tests/excel'
+import SpreadsheetLoader from '@tests/spreadsheetLoader'
 import fs from 'fs-extra'
 import mammoth from 'mammoth'
 
@@ -48,7 +48,7 @@ test.describe('App with buckets', () => {
       await storage.bucket('invoices').save({
         id: '1',
         name: 'invoice-1.docx',
-        file_data: fs.readFileSync('./tests/__helpers__/docs/template.docx'),
+        data: fs.readFileSync('./tests/__helpers__/docs/template.docx'),
         created_at: new Date(),
       })
 
@@ -64,7 +64,7 @@ test.describe('App with buckets', () => {
       // GIVEN
       const database = new Database(dbConfig)
       const storage = new Storage(database)
-      const excel = new Excel()
+      const spreadsheetLoader = new SpreadsheetLoader()
       const config: Config = {
         name: 'Database',
         buckets: [
@@ -79,7 +79,7 @@ test.describe('App with buckets', () => {
       await storage.bucket('invoices').save({
         id: '1',
         name: 'invoice-1.xlsx',
-        file_data: fs.readFileSync('./tests/__helpers__/docs/template.xlsx'),
+        data: fs.readFileSync('./tests/__helpers__/docs/template.xlsx'),
         created_at: new Date(),
       })
 
@@ -87,7 +87,7 @@ test.describe('App with buckets', () => {
       const file = await request.get(url + '/api/bucket/invoices/1').then((res) => res.body())
 
       // THEN
-      const workbook = await excel.workbookFromBuffer(file)
+      const workbook = await spreadsheetLoader.fromXlsxBuffer(file)
       const cell = workbook.readTextCells().find(({ value }) => value.includes('Hello'))
       expect(cell).toBeDefined()
     })

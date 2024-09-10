@@ -1,13 +1,11 @@
-import type { Data as ToSendData } from './ToSend'
+import { Base, type EmailFields } from './base'
 
-export interface Data extends ToSendData {
-  id: string
-}
-
-export class Sent {
-  constructor(public data: Data) {}
+export class SentEmail extends Base {
+  constructor(fields: EmailFields) {
+    super(fields)
+  }
 
   findLink = (text: string) => {
-    return this.data.html.match(new RegExp(`href="([^"]+)"[^>]*>${text}`))?.[1]
+    return this.html.match(new RegExp(`href="([^"]+)"[^>]*>${text}`))?.[1]
   }
 }

@@ -122,7 +122,7 @@ export class App {
       await storage.migrate(buckets)
     }
     if (mailer) await mailer.verify()
-    if (realtime) await realtime.setup(tables)
+    if (realtime) await realtime.setup()
     if (auth) await auth.connect()
     const url = await server.start()
     if (!isTest && server.env === 'production') {

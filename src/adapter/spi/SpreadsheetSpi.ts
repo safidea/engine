@@ -1,12 +1,12 @@
-import type { Spi, Cell } from '@domain/services/ExcelWorkbook'
+import type { Spi, Cell } from '@domain/services/Spreadsheet'
 
 export interface Driver {
   readTextCells: () => Cell[]
   writeCells: (cells: Cell[]) => void
-  buffer: () => Promise<Buffer>
+  toBuffer: () => Promise<Buffer>
 }
 
-export class ExcelWorkbookSpi implements Spi {
+export class SpreadsheetSpi implements Spi {
   constructor(private _driver: Driver) {}
 
   readTextCells = (): Cell[] => {
@@ -17,7 +17,7 @@ export class ExcelWorkbookSpi implements Spi {
     this._driver.writeCells(cells)
   }
 
-  buffer = async (): Promise<Buffer> => {
-    return this._driver.buffer()
+  toBuffer = async (): Promise<Buffer> => {
+    return this._driver.toBuffer()
   }
 }

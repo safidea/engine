@@ -17,55 +17,39 @@
                     "$ref": "#/definitions/RunJavascript"
                 },
                 {
-                    "$ref": "#/definitions/CreatePdfFromHtmlTemplate"
-                },
-                {
                     "$ref": "#/definitions/SendEmail"
                 },
                 {
                     "$ref": "#/definitions/ReadRecord"
                 },
                 {
-                    "$ref": "#/definitions/CreateHtmlFromXlsx"
+                    "$ref": "#/definitions/CreatePdfFromXlsx"
                 }
             ]
         },
         "ApiCalled": {
             "additionalProperties": false,
             "properties": {
-                "input": {
-                    "$ref": "#/definitions/{[key:string]:JSONSchema;}"
+                "event": {
+                    "const": "ApiCalled",
+                    "type": "string"
                 },
-                "output": {
+                "input": {
                     "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
+                        "$ref": "#/definitions/JSONSchema"
                     },
                     "type": "object"
                 },
-                "path": {
-                    "type": "string"
+                "output": {
+                    "$ref": "#/definitions/InputValues"
                 },
-                "trigger": {
-                    "const": "ApiCalled",
+                "path": {
                     "type": "string"
                 }
             },
             "required": [
-                "path",
-                "trigger"
+                "event",
+                "path"
             ],
             "type": "object"
         },
@@ -690,6 +674,9 @@
                 "confirmEmail": {
                     "additionalProperties": false,
                     "properties": {
+                        "from": {
+                            "type": "string"
+                        },
                         "html": {
                             "type": "string"
                         },
@@ -701,14 +688,12 @@
                         }
                     },
                     "required": [
+                        "from",
                         "html",
                         "subject",
                         "text"
                     ],
                     "type": "object"
-                },
-                "from": {
-                    "type": "string"
                 },
                 "redirectOnLogin": {
                     "type": "string"
@@ -726,7 +711,6 @@
             },
             "required": [
                 "confirmEmail",
-                "from",
                 "redirectOnLogin",
                 "redirectOnLogout",
                 "secret",
@@ -1336,23 +1320,7 @@
                     "type": "string"
                 },
                 "input": {
-                    "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/InputValues"
                 },
                 "name": {
                     "type": "string"
@@ -1369,100 +1337,48 @@
                 "action",
                 "bucket",
                 "fileName",
+                "input",
                 "name",
                 "service",
                 "templatePath"
             ],
             "type": "object"
         },
-        "CreateHtmlFromXlsx": {
+        "CreatePdfFromXlsx": {
             "additionalProperties": false,
             "properties": {
                 "action": {
-                    "const": "CreateHtmlFromXlsx",
-                    "type": "string"
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "fileName": {
+                    "const": "CreatePdfFromXlsx",
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "pdfBucket": {
+                    "type": "string"
+                },
+                "pdfFileName": {
                     "type": "string"
                 },
                 "service": {
                     "const": "Spreadsheet",
                     "type": "string"
                 },
-                "spreadsheetBucket": {
+                "xlsxBucket": {
                     "type": "string"
                 },
-                "spreadsheetFileId": {
+                "xlsxFileId": {
                     "type": "string"
                 }
             },
             "required": [
                 "action",
-                "bucket",
-                "fileName",
                 "name",
+                "pdfBucket",
+                "pdfFileName",
                 "service",
-                "spreadsheetBucket",
-                "spreadsheetFileId"
-            ],
-            "type": "object"
-        },
-        "CreatePdfFromHtmlTemplate": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreatePdfFromHtmlTemplate",
-                    "type": "string"
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "fileName": {
-                    "type": "string"
-                },
-                "input": {
-                    "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "object"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Browser",
-                    "type": "string"
-                },
-                "templatePath": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "bucket",
-                "fileName",
-                "name",
-                "service",
-                "templatePath"
+                "xlsxBucket",
+                "xlsxFileId"
             ],
             "type": "object"
         },
@@ -1475,11 +1391,7 @@
                 },
                 "fields": {
                     "additionalProperties": {
-                        "type": [
-                            "string",
-                            "number",
-                            "boolean"
-                        ]
+                        "type": "string"
                     },
                     "type": "object"
                 },
@@ -1517,23 +1429,7 @@
                     "type": "string"
                 },
                 "input": {
-                    "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/InputValues"
                 },
                 "name": {
                     "type": "string"
@@ -2336,6 +2232,34 @@
             ],
             "type": "object"
         },
+        "InputValue": {
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "enum": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "object",
+                        "string"
+                    ],
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "type": "object"
+        },
+        "InputValues": {
+            "additionalProperties": {
+                "$ref": "#/definitions/InputValue"
+            },
+            "type": "object"
+        },
         "JSONSchema": {
             "additionalProperties": false,
             "properties": {
@@ -2358,7 +2282,10 @@
                     "type": "array"
                 },
                 "properties": {
-                    "$ref": "#/definitions/{[key:string]:JSONSchema;}"
+                    "additionalProperties": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "object"
                 },
                 "required": {
                     "items": {
@@ -3061,16 +2988,6 @@
             ],
             "type": "object"
         },
-        "OutputParser": {
-            "enum": [
-                "array",
-                "boolean",
-                "number",
-                "object",
-                "string"
-            ],
-            "type": "string"
-        },
         "Page": {
             "additionalProperties": false,
             "properties": {
@@ -3227,17 +3144,17 @@
         "RecordCreated": {
             "additionalProperties": false,
             "properties": {
-                "table": {
+                "event": {
+                    "const": "RecordCreated",
                     "type": "string"
                 },
-                "trigger": {
-                    "const": "RecordCreated",
+                "table": {
                     "type": "string"
                 }
             },
             "required": [
-                "table",
-                "trigger"
+                "event",
+                "table"
             ],
             "type": "object"
         },
@@ -3297,23 +3214,7 @@
                     "type": "string"
                 },
                 "input": {
-                    "additionalProperties": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "type": {
-                                "$ref": "#/definitions/OutputParser"
-                            },
-                            "value": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "type",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/InputValues"
                 },
                 "name": {
                     "type": "string"
@@ -3908,24 +3809,18 @@
         "WebhookCalled": {
             "additionalProperties": false,
             "properties": {
-                "path": {
+                "event": {
+                    "const": "WebhookCalled",
                     "type": "string"
                 },
-                "trigger": {
-                    "const": "WebhookCalled",
+                "path": {
                     "type": "string"
                 }
             },
             "required": [
-                "path",
-                "trigger"
+                "event",
+                "path"
             ],
-            "type": "object"
-        },
-        "{[key:string]:JSONSchema;}": {
-            "additionalProperties": {
-                "$ref": "#/definitions/JSONSchema"
-            },
             "type": "object"
         }
     },
