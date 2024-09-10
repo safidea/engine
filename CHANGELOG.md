@@ -1,3 +1,15 @@
+# [0.29.0](https://github.com/safidea/engine/compare/v0.28.1...v0.29.0) (2024-09-10)
+
+
+### Bug Fixes
+
+* **Spreadsheet:** update green test: should create a .pdf from .xlsx ([1ff894a](https://github.com/safidea/engine/commit/1ff894a2405f2684405011d43355ad923691a125))
+
+
+### Features
+
+* **Spreadsheet:** add green test: should create a .pdf from .xlsx ([931aafd](https://github.com/safidea/engine/commit/931aafde9d442ac5378b20ca5b714e2ee39e7d2c))
+
 ## [0.28.1](https://github.com/safidea/engine/compare/v0.28.0...v0.28.1) (2024-08-27)
 
 ### Bug Fixes
