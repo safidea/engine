@@ -25,15 +25,23 @@ import { FilterMapper, schema as filtersSchema, type Config as FilterConfig } fr
 import { CreatedRecord } from '../Record/Created'
 import { UpdatedRecord } from '../Record/Updated'
 import type { BaseRecordFields, RecordJson } from '../Record/base'
+import type { Monitor } from '@domain/services/Monitor'
 
-interface Params {
+interface Config {
   name: string
-  fields: Field[]
+}
+
+interface Services {
   server: Server
   database: Database
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
   schemaValidator: SchemaValidator
+  monitor: Monitor
+}
+
+interface Entites {
+  fields: Field[]
 }
 
 export class Table {
@@ -44,8 +52,14 @@ export class Table {
   db: DatabaseTable
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
 
-  constructor(private _params: Params) {
-    const { database, schemaValidator, name, fields } = _params
+  constructor(
+    config: Config,
+    private _services: Services,
+    entities: Entites
+  ) {
+    const { name } = config
+    const { database, schemaValidator } = _services
+    const { fields } = entities
     this.name = name
     this.fields = fields
     this.path = `/api/table/${this.name}`
@@ -55,7 +69,7 @@ export class Table {
   }
 
   init = async () => {
-    const { server } = this._params
+    const { server } = this._services
     await Promise.all([
       server.post(this.path, this.post),
       server.get(this.path, this.getAll),
@@ -116,7 +130,7 @@ export class Table {
   > => {
     const schema = this._getRecordSchema()
     if (this._validateDataType<BaseRecordFields>(data, schema)) {
-      const toCreateRecord = new CreatedRecord(data, { idGenerator: this._params.idGenerator })
+      const toCreateRecord = new CreatedRecord(data, { idGenerator: this._services.idGenerator })
       const persistedRecord = await this.db.insert(toCreateRecord)
       return { record: persistedRecord.toJson() }
     }
@@ -131,6 +145,7 @@ export class Table {
       return new Json({ record, error }, error ? 400 : 201)
     } catch (error) {
       if (error instanceof Error) {
+        this._services.monitor.captureException(error)
         return new Json({ error: { message: error.message } }, 400)
       }
       return new Json({ error: { message: 'Unknown error' } }, 500)
@@ -161,6 +176,7 @@ export class Table {
       return new Json({ record, error }, error ? 400 : 204)
     } catch (error) {
       if (error instanceof Error) {
+        this._services.monitor.captureException(error)
         return new Json({ error: { message: error.message } }, 400)
       }
       return new Json({ error: { message: 'Unknown error' } }, 500)

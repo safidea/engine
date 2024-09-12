@@ -19,6 +19,7 @@ export interface Spi {
 }
 
 export class StorageBucket {
+  private readonly _name: string
   private _log: (message: string) => void
   private _bucket: Spi
 
@@ -27,8 +28,10 @@ export class StorageBucket {
     services: Services,
     private _config: Config
   ) {
+    const { name } = _config
     this._log = services.logger.init('bucket')
-    this._bucket = spi.bucket(_config.name)
+    this._bucket = spi.bucket(name)
+    this._name = name
   }
 
   exists = async () => {
@@ -36,18 +39,19 @@ export class StorageBucket {
   }
 
   create = async () => {
-    this._log(`creating ${this._config.name}...`)
+    this._log(`creating ${this._name}...`)
     await this._bucket.create()
   }
 
-  save = async (toSaveFile: CreatedFile) => {
-    await this._bucket.save(toSaveFile)
-    const persistedFile = await this.readByIdOrThrow(toSaveFile.id)
-    this._log(`save file ${toSaveFile.name}`)
+  save = async (createdFile: CreatedFile) => {
+    this._log(`saving file in ${this._name} ${JSON.stringify(createdFile.toJson())}`)
+    await this._bucket.save(createdFile)
+    const persistedFile = await this.readByIdOrThrow(createdFile.id)
     return persistedFile
   }
 
   readById = async (id: string) => {
+    this._log(`reading file in ${this._name} ${id}`)
     return this._bucket.readById(id)
   }
 

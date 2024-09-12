@@ -2,7 +2,7 @@ import SQLite from 'better-sqlite3'
 import type { Driver } from '@adapter/spi/DatabaseSpi'
 import type { Config, EventType } from '@domain/services/Database'
 import type { EventDto, EventNotificationDto } from '@adapter/spi/dtos/EventDto'
-import { SqliteTableDriver } from './SqliteTableDriver'
+import { SQLiteTableDriver } from './SQLiteTableDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 interface Notification {
@@ -11,7 +11,7 @@ interface Notification {
   processed: number
 }
 
-export class SqliteDriver implements Driver {
+export class SQLiteDriver implements Driver {
   private _db: SQLite.Database
   private _interval?: Timer
   private _onNotification: ((event: EventNotificationDto) => void)[] = []
@@ -72,7 +72,7 @@ export class SqliteDriver implements Driver {
   }
 
   table = (name: string, fields: FieldDto[]) => {
-    return new SqliteTableDriver(name, fields, this._db)
+    return new SQLiteTableDriver(name, fields, this._db)
   }
 
   on = (event: EventType, callback: (eventDto: EventDto) => void) => {

@@ -18,6 +18,7 @@ import type { Storage } from '@domain/services/Storage'
 import type { Bucket } from '@domain/entities/Bucket'
 import type { SpreadsheetLoader } from '@domain/services/SpreadsheetLoader'
 import type { DocumentLoader } from '@domain/services/DocumentLoader'
+import type { Monitor } from '@domain/services/Monitor'
 
 export interface Services {
   logger: Logger
@@ -34,6 +35,7 @@ export interface Services {
   storage: Storage
   spreadsheetLoader: SpreadsheetLoader
   documentLoader: DocumentLoader
+  monitor: Monitor
 }
 
 export interface Entities {
@@ -57,6 +59,7 @@ export class AutomationMapper {
       fileSystem,
       spreadsheetLoader,
       documentLoader,
+      monitor,
     } = services
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
@@ -66,6 +69,7 @@ export class AutomationMapper {
         realtime,
         schemaValidator,
         templateCompiler,
+        monitor,
       }
     )
     const actions = ActionMapper.toManyEntities(
@@ -82,7 +86,7 @@ export class AutomationMapper {
       },
       entities
     )
-    return new Automation({ ...config, trigger, actions, logger })
+    return new Automation(config, { logger, monitor }, { trigger, actions })
   }
 
   static toManyEntities = (configs: Config[], services: Services, entities: Entities) => {

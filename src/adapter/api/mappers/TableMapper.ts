@@ -8,6 +8,7 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import { SingleLineTextMapper } from './FieldMapper/SingleLineTextMapper'
 import { DateTimeMapper } from './FieldMapper/DateTimeMapper'
+import type { Monitor } from '@domain/services/Monitor'
 
 export interface Services {
   server: Server
@@ -15,12 +16,13 @@ export interface Services {
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
   schemaValidator: SchemaValidator
+  monitor: Monitor
 }
 
 export class TableMapper {
   static toEntity = (config: Config, services: Services) => {
     const { name } = config
-    const { server, database, idGenerator, templateCompiler, schemaValidator } = services
+    const { server, database, idGenerator, templateCompiler, schemaValidator, monitor } = services
     const fields = FieldMapper.toManyEntities(config.fields)
     if (!fields.find((field) => field.name === 'id')) {
       fields.unshift(
@@ -48,15 +50,20 @@ export class TableMapper {
         })
       )
     }
-    return new Table({
-      name,
-      fields,
-      server,
-      database,
-      idGenerator,
-      templateCompiler,
-      schemaValidator,
-    })
+    return new Table(
+      {
+        name,
+      },
+      {
+        server,
+        database,
+        idGenerator,
+        templateCompiler,
+        schemaValidator,
+        monitor,
+      },
+      { fields }
+    )
   }
 
   static toManyEntities = (configs: Config[], services: Services) => {

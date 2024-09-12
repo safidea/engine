@@ -1,11 +1,11 @@
 import type { Bucket } from '@domain/entities/Bucket'
 import type { Logger } from './Logger'
 import { StorageBucket } from './StorageBucket'
-import type { Exec, Query } from './Database'
+import type { Driver, Exec, Query } from './Database'
 import type { StorageBucketSpi } from '@adapter/spi/StorageBucketSpi'
 
 export interface Config {
-  type: 'sqlite' | 'postgres'
+  driver: Driver
   query: Query
   exec: Exec
 }
@@ -31,6 +31,7 @@ export class Storage {
   }
 
   connect = () => {
+    this._log(`connecting...`)
     return this._spi.connect()
   }
 

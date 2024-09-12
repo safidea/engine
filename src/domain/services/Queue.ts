@@ -1,15 +1,17 @@
-import type { Exec, Query } from './Database'
+import type { Exec, Query, Driver } from './Database'
 import type { Logger } from './Logger'
 import type { Context } from '@domain/entities/Automation/Context'
+import type { Monitor } from './Monitor'
 
 export interface Config {
-  type: 'sqlite' | 'postgres'
+  driver: Driver
   query: Query
   exec: Exec
 }
 
 export interface Services {
   logger: Logger
+  monitor: Monitor
 }
 
 export type State =
@@ -40,9 +42,9 @@ export class Queue {
 
   constructor(
     private _spi: Spi,
-    services: Services
+    private _services: Services
   ) {
-    this._log = services.logger.init('queue')
+    this._log = _services.logger.init('queue')
   }
 
   onError = () => {
@@ -65,7 +67,10 @@ export class Queue {
       this._log('stopping queue...')
       await this._spi.stop(options)
     } catch (error) {
-      if (error instanceof Error) this._log(`error stopping queue: ${error.message}`)
+      if (error instanceof Error) {
+        this._services.monitor.captureException(error)
+        this._log(`error stopping queue: ${error.message}`)
+      }
     }
   }
 

@@ -1,20 +1,20 @@
 import type { Driver } from '@adapter/spi/DatabaseSpi'
 import type { Config, EventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
-import { SqliteDriver } from './SqliteDriver'
-import { PostgresDriver } from './PostgresDriver'
+import { SQLiteDriver } from './SQLiteDriver'
+import { PostgreSQLDriver } from './PostgreSQLDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 export class DatabaseDriver implements Driver {
-  private _db: SqliteDriver | PostgresDriver
+  private _db: SQLiteDriver | PostgreSQLDriver
 
   constructor(config: Config) {
-    const { type } = config
-    if (type === 'sqlite') {
-      this._db = new SqliteDriver(config)
-    } else if (type === 'postgres') {
-      this._db = new PostgresDriver(config)
-    } else throw new Error(`DatabaseDriver: database "${type}" not supported`)
+    const { driver } = config
+    if (driver === 'SQLite') {
+      this._db = new SQLiteDriver(config)
+    } else if (driver === 'PostgreSQL') {
+      this._db = new PostgreSQLDriver(config)
+    } else throw new Error(`DatabaseDriver: database "${driver}" not supported`)
   }
 
   connect = async (): Promise<void> => {

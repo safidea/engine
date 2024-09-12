@@ -8,6 +8,7 @@ import { WebhookCalledMapper } from './WebhookCalledMapper'
 import { ApiCalledMapper } from './ApiCalledMapper'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { Monitor } from '@domain/services/Monitor'
 
 type MapperConfig = Config & {
   automation: string
@@ -19,6 +20,7 @@ interface Services {
   realtime: Realtime
   schemaValidator: SchemaValidator
   templateCompiler: TemplateCompiler
+  monitor: Monitor
 }
 
 export class TriggerMapper {

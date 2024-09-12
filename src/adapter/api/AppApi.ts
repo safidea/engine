@@ -35,7 +35,7 @@ export class AppApi {
     delete validatedConfig.server?.port
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
-    const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], this.ressources)
+    const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], { drivers })
     const browser = BrowserMapper.toService({ drivers })
     this._log(`🔄 Start running tests`)
     const page = await browser.launch()

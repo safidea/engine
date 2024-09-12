@@ -609,6 +609,13 @@
                 "env": {
                     "type": "string"
                 },
+                "monitor": {
+                    "enum": [
+                        "Console",
+                        "Sentry"
+                    ],
+                    "type": "string"
+                },
                 "port": {
                     "type": "string"
                 },
@@ -624,7 +631,7 @@
         "Config_12": {
             "additionalProperties": false,
             "properties": {
-                "type": {
+                "driver": {
                     "type": "string"
                 },
                 "url": {
@@ -632,7 +639,7 @@
                 }
             },
             "required": [
-                "type",
+                "driver",
                 "url"
             ],
             "type": "object"
@@ -1223,6 +1230,19 @@
             "required": [
                 "alt",
                 "src"
+            ],
+            "type": "object"
+        },
+        "ConsoleConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver"
             ],
             "type": "object"
         },
@@ -3293,6 +3313,23 @@
             ],
             "type": "object"
         },
+        "SentryConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Sentry",
+                    "type": "string"
+                },
+                "dsn": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "dsn"
+            ],
+            "type": "object"
+        },
         "Sidebar": {
             "additionalProperties": false,
             "properties": {
@@ -3848,6 +3885,16 @@
         },
         "mailer": {
             "$ref": "#/definitions/Config_13"
+        },
+        "monitor": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/SentryConfig"
+                },
+                {
+                    "$ref": "#/definitions/ConsoleConfig"
+                }
+            ]
         },
         "name": {
             "type": "string"

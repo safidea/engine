@@ -25,7 +25,7 @@ test.describe('Database', async () => {
       ],
       database: {
         url: 'https://example.com',
-        type: 'invalid',
+        driver: 'invalid',
       },
     }
     const app = new App()

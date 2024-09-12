@@ -3,14 +3,18 @@ import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 import type { RealtimeEvent } from './Realtime'
 import type { Field } from '@domain/entities/Field'
+import type { Monitor } from './Monitor'
+
+export type Driver = 'PostgreSQL' | 'SQLite'
 
 export interface Config {
+  driver: string
   url: string
-  type: string
 }
 
 export interface Services {
   logger: Logger
+  monitor: Monitor
 }
 
 export type EventType = 'notification' | 'error'
@@ -37,7 +41,7 @@ export interface Spi {
 }
 
 export class Database {
-  public type: 'sqlite' | 'postgres'
+  public driver: Driver
   private _log: (message: string) => void
 
   constructor(
@@ -46,10 +50,10 @@ export class Database {
     config: Config
   ) {
     const { logger } = _services
-    const { type } = config
-    if (type !== 'sqlite' && type !== 'postgres')
-      throw new Error(`Database type "${type}" is required`)
-    this.type = type
+    const { driver } = config
+    if (driver !== 'SQLite' && driver !== 'PostgreSQL')
+      throw new Error(`Database type "${driver}" is required`)
+    this.driver = driver
     this._log = logger.init('database')
   }
 
@@ -67,7 +71,10 @@ export class Database {
       this._log(`disconnecting database...`)
       await this._spi.disconnect()
     } catch (error) {
-      if (error instanceof Error) this._log(`error disconnecting database: ${error.message}`)
+      if (error instanceof Error) {
+        this._services.monitor.captureException(error)
+        this._log(`error disconnecting database: ${error.message}`)
+      }
     }
   }
 
@@ -131,7 +138,10 @@ export class Database {
     try {
       await this._spi.exec(query)
     } catch (error) {
-      if (error instanceof Error) this._log(`error executing query: ${error.message}`)
+      if (error instanceof Error) {
+        this._services.monitor.captureException(error)
+        this._log(`error executing query: ${error.message}`)
+      }
     }
   }
 
@@ -139,7 +149,10 @@ export class Database {
     try {
       return this._spi.query<T>(text, values)
     } catch (error) {
-      if (error instanceof Error) this._log(`error querying database: ${error.message}`)
+      if (error instanceof Error) {
+        this._services.monitor.captureException(error)
+        this._log(`error querying database: ${error.message}`)
+      }
       return { rows: [], rowCount: 0 }
     }
   }

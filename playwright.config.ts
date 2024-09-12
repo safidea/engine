@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 import { join } from 'path'
+import 'dotenv/config'
 
 process.env.TESTING = 'true'
 

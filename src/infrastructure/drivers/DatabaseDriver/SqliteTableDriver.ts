@@ -15,7 +15,7 @@ interface ColumnInfo {
   required: number
 }
 
-export class SqliteTableDriver implements Driver {
+export class SQLiteTableDriver implements Driver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],

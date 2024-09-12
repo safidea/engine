@@ -3,30 +3,42 @@ import type { Action } from '../Action'
 import type { Trigger } from '../Trigger'
 import { Context } from './Context'
 import type { ConfigError } from '@domain/entities/Error/Config'
+import type { Monitor } from '@domain/services/Monitor'
 
-interface Params {
+interface Config {
   name: string
+}
+
+interface Services {
+  logger: Logger
+  monitor: Monitor
+}
+
+interface Entities {
   actions: Action[]
   trigger: Trigger
-  logger: Logger
 }
 
 export class Automation {
   private _log: (message: string) => void
 
-  constructor(private _params: Params) {
-    const { logger } = _params
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {
+    const { logger } = _services
     this._log = logger.init('automation')
   }
 
   get name() {
-    return this._params.name
+    return this._config.name
   }
 
   init = async () => {
-    const { trigger } = this._params
+    const { trigger, actions } = this._entities
     await trigger.init(this.run)
-    for (const action of this._params.actions) {
+    for (const action of actions) {
       await action.init()
     }
   }
@@ -37,7 +49,7 @@ export class Automation {
 
   run = async (triggerData: object) => {
     const context = new Context(triggerData)
-    const { actions } = this._params
+    const { actions } = this._entities
     for (const action of actions) {
       try {
         this._log(`running action: ${action.name}`)
@@ -45,10 +57,10 @@ export class Automation {
         this._log(`completed action: ${action.name}`)
       } catch (error) {
         if (error instanceof Error) {
+          this._services.monitor.captureException(error)
           throw new Error(`${action.name}: ${error.message}`)
         }
-        console.error(error)
-        throw new Error(`${action.name}: unknown error`)
+        throw error
       }
     }
     return context

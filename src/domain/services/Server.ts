@@ -6,16 +6,19 @@ import { Json } from '../entities/Response/Json'
 import type { Patch } from '@domain/entities/Request/Patch'
 import type { Delete } from '@domain/entities/Request/Delete'
 import type { Request } from '@domain/entities/Request'
+import type { Monitor, Driver as MonitorDriver } from './Monitor'
 
 export interface Config {
   port?: string
   sslCert?: string
   sslKey?: string
   env?: string
+  monitor?: MonitorDriver
 }
 
 export interface Services {
   logger: Logger
+  monitor: Monitor
 }
 
 export interface Spi {
@@ -39,10 +42,10 @@ export class Server {
 
   constructor(
     private _spi: Spi,
-    services: Services,
+    private _services: Services,
     private _config: Config
   ) {
-    this._log = services.logger.init('server')
+    this._log = _services.logger.init('server')
   }
 
   get baseUrl() {
@@ -123,7 +126,10 @@ export class Server {
     try {
       await callback()
     } catch (error) {
-      if (error instanceof Error) this._log(`error stopping app: ${error.message}`)
+      if (error instanceof Error) {
+        this._services.monitor.captureException(error)
+        this._log(`error stopping app: ${error.message}`)
+      }
     } finally {
       await this._spi.stop()
       this.isShuttingDown = false

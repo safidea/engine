@@ -33,6 +33,7 @@ export interface Spi {
 }
 
 export class DatabaseTable {
+  private readonly _name: string
   private _log: (message: string) => void
   private _table: Spi
 
@@ -41,8 +42,10 @@ export class DatabaseTable {
     services: Services,
     private _config: Config
   ) {
+    const { name, fields } = _config
     this._log = services.logger.init('table')
-    this._table = spi.table(_config.name, _config.fields)
+    this._table = spi.table(name, fields)
+    this._name = name
   }
 
   exists = async () => {
@@ -50,94 +53,88 @@ export class DatabaseTable {
   }
 
   create = async () => {
-    this._log(`creating ${this._config.name}...`)
+    this._log(`creating "${this._name}"...`)
     await this._table.create()
   }
 
   dropView = async () => {
-    this._log(`dropping view ${this._config.name}...`)
+    this._log(`dropping view "${this._name}"...`)
     await this._table.dropView()
   }
 
   migrate = async () => {
-    this._log(`migrating ${this._config.name}...`)
+    this._log(`migrating "${this._name}"...`)
     await this._table.migrate()
   }
 
   createView = async () => {
-    this._log(`creating view ${this._config.name}...`)
+    this._log(`creating view "${this._name}"...`)
     await this._table.createView()
   }
 
-  insert = async (RecordCreatedRecord: CreatedRecord) => {
-    await this._table.insert(RecordCreatedRecord)
-    const persistedRecord = await this.readByIdOrThrow(RecordCreatedRecord.id)
+  insert = async (createdRecord: CreatedRecord) => {
     this._log(
-      `inserted in ${this._config.name} ${JSON.stringify(persistedRecord.toJson(), null, 2)}`
+      `inserting record in "${this._name}" ${JSON.stringify(createdRecord.toJson(), null, 2)}`
     )
-    return persistedRecord
+    await this._table.insert(createdRecord)
+    return this.readByIdOrThrow(createdRecord.id)
   }
 
   insertMany = async (createdRecords: CreatedRecord[]) => {
-    await this._table.insertMany(createdRecords)
-    const persistedRecords = await this.list([
-      new IsAnyOf({ field: 'id', value: createdRecords.map((r) => r.id) }),
-    ])
     this._log(
-      `inserted in ${this._config.name} ${JSON.stringify(
-        persistedRecords.map((r) => r.toJson()),
+      `inserting records in "${this._name}" ${JSON.stringify(
+        createdRecords.map((r) => r.toJson()),
         null,
         2
       )}`
     )
-    return persistedRecords
+    await this._table.insertMany(createdRecords)
+    return this.list([new IsAnyOf({ field: 'id', value: createdRecords.map((r) => r.id) })])
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
-    await this._table.update(updatedRecord)
-    const persistedRecord = await this.readByIdOrThrow(updatedRecord.id)
     this._log(
-      `updated in ${this._config.name} ${JSON.stringify(persistedRecord.toJson(), null, 2)}`
+      `updating record in "${this._name}" ${JSON.stringify(updatedRecord.toJson(), null, 2)}`
     )
-    return persistedRecord
+    await this._table.update(updatedRecord)
+    return this.readByIdOrThrow(updatedRecord.id)
   }
 
   updateMany = async (updatedRecords: UpdatedRecord[]) => {
-    await this._table.updateMany(updatedRecords)
-    const persistedRecords = await this.list([
-      new IsAnyOf({ field: 'id', value: updatedRecords.map((r) => r.id) }),
-    ])
     this._log(
-      `updated in ${this._config.name} ${JSON.stringify(
-        persistedRecords.map((r) => r.toJson()),
+      `updating records in "${this._name}" ${JSON.stringify(
+        updatedRecords.map((r) => r.toJson()),
         null,
         2
       )}`
     )
-    return persistedRecords
+    await this._table.updateMany(updatedRecords)
+    return this.list([new IsAnyOf({ field: 'id', value: updatedRecords.map((r) => r.id) })])
   }
 
   delete = async (filters: Filter[]) => {
+    this._log(`deleting record in ${this._name} ${JSON.stringify(filters, null, 2)}`)
     await this._table.delete(filters)
-    this._log(`deleting in ${this._config.name} ${filters[0].field} ${filters[0].value}`)
   }
 
   read = async (filters: Filter[]) => {
+    this._log(`reading record in ${this._name} ${JSON.stringify(filters, null, 2)}`)
     return this._table.read(filters)
   }
 
   readById = async (id: string) => {
+    this._log(`reading record in ${this._name} ${id}`)
     return this._table.readById(id)
   }
 
   readByIdOrThrow = async (id: string) => {
     const record = await this.readById(id)
-    if (!record)
-      throw new Error(`DatabaseTable: record "${id}" not found in table "${this._config.name}"`)
+    if (!record) throw new Error(`DatabaseTable: record "${id}" not found in table "${this._name}"`)
     return record
   }
 
   list = async (filters: Filter[]) => {
+    this._log(`listing records in ${this._name} ${JSON.stringify(filters, null, 2)}`)
     return this._table.list(filters)
   }
 }

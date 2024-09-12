@@ -6,6 +6,7 @@ import type { Config as MailerConfig } from '@domain/services/Mailer'
 import type { Config as AuthConfig } from '@domain/services/Auth'
 import type { Config as ThemeConfig } from '@domain/services/Theme'
 import type { Config as StorageConfig } from '@domain/services/Storage'
+import type { Config as MonitorConfig } from '@domain/services/Monitor'
 
 import { StorageDriver } from './StorageDriver'
 import { SchemaValidatorDriver } from './SchemaValidatorDriver'
@@ -28,6 +29,7 @@ import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
 import { SpreadsheetLoaderDriver } from './SpreadsheetLoaderDriver'
 import { DocumentLoaderDriver } from './DocumentLoaderDriver'
+import { MonitorDriver } from './MonitorDriver'
 
 export const drivers: Drivers = {
   server: (config: ServerConfig) => new ServerDriver(config),
@@ -37,6 +39,7 @@ export const drivers: Drivers = {
   mailer: (config: MailerConfig) => new MailerDriver(config),
   auth: (config: AuthConfig) => new AuthDriver(config),
   theme: (config: ThemeConfig) => new ThemeDriver(config),
+  monitor: (config: MonitorConfig) => new MonitorDriver(config),
   logger: () => new LoggerDriver(),
   markdownParser: () => new MarkdownParserDriver(),
   templateCompiler: () => new TemplateCompilerDriver(),

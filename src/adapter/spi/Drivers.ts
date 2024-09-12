@@ -19,6 +19,7 @@ import { type Driver as FileSystemDriver } from './FileSystemSpi'
 import { type Driver as StorageDriver } from './StorageSpi'
 import { type Driver as SpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
 import { type Driver as DocumentLoaderDriver } from './DocumentLoaderSpi'
+import { type Driver as MonitorDriver } from './MonitorSpi'
 
 import { type Config as ServerConfig } from '@domain/services/Server'
 import { type Config as DatabaseConfig } from '@domain/services/Database'
@@ -27,6 +28,7 @@ import { type Config as AuthConfig } from '@domain/services/Auth'
 import { type Config as ThemeConfig } from '@domain/services/Theme'
 import { type Config as MailerConfig } from '@domain/services/Mailer'
 import { type Config as StorageConfig } from '@domain/services/Storage'
+import { type Config as MonitorConfig } from '@domain/services/Monitor'
 
 export interface Drivers {
   server: (config: ServerConfig) => ServerDriver
@@ -37,6 +39,7 @@ export interface Drivers {
   auth: (config: AuthConfig) => AuthDriver
   markdownParser: () => MarkdownParserDriver
   theme: (config: ThemeConfig) => ThemeDriver
+  monitor: (config: MonitorConfig) => MonitorDriver
   logger: () => LoggerDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver

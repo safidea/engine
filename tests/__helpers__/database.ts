@@ -3,7 +3,7 @@ import { join } from 'path'
 import fs from 'fs-extra'
 import Logger from './logger'
 import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
-import type { Config } from '@domain/services/Database'
+import type { Config, Driver } from '@domain/services/Database'
 import type { Test } from './fixtures'
 import pg from 'pg'
 import { customAlphabet } from 'nanoid'
@@ -57,14 +57,14 @@ async function dropDatabase(connectionURI: string, dbName: string): Promise<void
 
 export default class Database extends DatabaseDriver {
   public url: string
-  public type: 'sqlite' | 'postgres'
+  public driver: Driver
 
   constructor(config: Config) {
     super(config)
-    if (config.type !== 'sqlite' && config.type !== 'postgres')
-      throw new Error(`unsupported database type: ${config.type}`)
+    if (config.driver !== 'SQLite' && config.driver !== 'PostgreSQL')
+      throw new Error(`unsupported database type: ${config.driver}`)
     this.url = config.url
-    this.type = config.type
+    this.driver = config.driver
   }
 
   table(name: string, fields: FieldDto[] = []) {
@@ -94,34 +94,34 @@ export default class Database extends DatabaseDriver {
   static each(test: Test, callback: (config: Config) => void) {
     const logger = new Logger()
     const log = logger.init('[test]:database')
-    for (const type of ['sqlite', 'postgres']) {
-      const config: Config = { url: '', type }
-      test.describe(`with "${type}" database`, () => {
-        if (type === 'sqlite') {
+    for (const driver of ['SQLite', 'PostgreSQL']) {
+      const config: Config = { url: '', driver }
+      test.describe(`with "${driver}" database`, () => {
+        if (driver === 'SQLite') {
           test.beforeEach(async () => {
             config.url = join(process.cwd(), 'tmp', `database-${nanoid()}.db`)
             await fs.ensureFile(config.url)
-            log(`start "${type}" database at ${config.url}`)
+            log(`start "${driver}" database at ${config.url}`)
           })
           test.afterEach(async () => {
-            log(`stop "${type}" database at ${config.url}`)
+            log(`stop "${driver}" database at ${config.url}`)
             await fs.remove(config.url)
           })
           callback(config)
-        } else if (type === 'postgres') {
+        } else if (driver === 'PostgreSQL') {
           const dbName = `test_db_${customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)()}`
           const postgresUrl = process.env.TEST_POSTGRES_URL || ''
           test.beforeEach(async () => {
             config.url = await createDatabase(postgresUrl, dbName)
-            log(`start "${type}" database at ${config.url}`)
+            log(`start "${driver}" database at ${config.url}`)
           })
           test.afterEach(async () => {
-            log(`stop "${type}" database at ${config.url}`)
+            log(`stop "${driver}" database at ${config.url}`)
             await dropDatabase(postgresUrl, dbName)
           })
           callback(config)
         } else {
-          throw new Error(`unsupported database type: ${type}`)
+          throw new Error(`unsupported database type: ${driver}`)
         }
       })
     }

@@ -4,6 +4,7 @@ import type { Auth } from './Auth'
 import type { Mailer } from './Mailer'
 import type { Theme } from './Theme'
 import type { Logger } from './Logger'
+import type { Monitor } from './Monitor'
 
 export type Services = {
   server?: Server
@@ -12,4 +13,5 @@ export type Services = {
   auth?: Auth
   logger?: Logger
   theme?: Theme
+  monitor?: Monitor
 }

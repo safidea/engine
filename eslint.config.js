@@ -14,5 +14,15 @@ export default tseslint.config(
   },
   {
     ignores: ['**/dist/**', 'node_modules'],
+  },
+  {
+    overrides: [
+      {
+        files: ['./tests/**/*.{ts,tsx}'],
+        rules: {
+          '@typescript-eslint/no-explicit-any': 'off', // Allow "any" type in tests
+        },
+      },
+    ],
   }
 )

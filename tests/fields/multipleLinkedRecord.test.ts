@@ -99,7 +99,7 @@ test.describe('Multiple linked record field', () => {
       // THEN
       expect(error).toStrictEqual({
         message:
-          dbConfig.type === 'sqlite'
+          dbConfig.driver === 'SQLite'
             ? 'Key is not present in table.'
             : 'Key (models_id)=(3) is not present in table "models".',
       })

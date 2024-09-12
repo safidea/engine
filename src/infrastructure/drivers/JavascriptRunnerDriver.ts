@@ -8,6 +8,8 @@ export class JavascriptRunnerDriver implements Driver {
   run = async (inputData: object, modules: Modules) => {
     const { table } = modules
     const context = vm.createContext({
+      fetch: global.fetch,
+      Error: global.Error,
       setTimeout: setTimeout,
       console: console,
       inputData,

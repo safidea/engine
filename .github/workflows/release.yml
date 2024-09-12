@@ -14,6 +14,10 @@ jobs:
 
     env:
       NODE_ENV: production
+      TEST_SENTRY_AUTH_TOKEN: ${{ secrets.TEST_SENTRY_AUTH_TOKEN }}
+      TEST_SENTRY_ORGANIZATION: ${{ secrets.GH_TEST_SENTRY_ORGANIZATIONTOKEN }}
+      TEST_SENTRY_PROJECT: ${{ secrets.TEST_SENTRY_PROJECT }}
+      TEST_SENTRY_DSN: ${{ secrets.TEST_SENTRY_DSN }}
 
     steps:
       - uses: actions/checkout@v4

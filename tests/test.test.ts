@@ -73,7 +73,7 @@ test.describe('Test', () => {
   test('should run a test with env variables', async () => {
     // GIVEN
     process.env.DATABASE_URL = ':memory:'
-    process.env.DATABASE_TYPE = 'sqlite'
+    process.env.DATABASE_DRIVER = 'SQLite'
     const config: Config = {
       name: 'App',
       tests: [
@@ -97,7 +97,7 @@ test.describe('Test', () => {
       ],
       database: {
         url: '$DATABASE_URL',
-        type: '$DATABASE_TYPE',
+        driver: '$DATABASE_DRIVER',
       },
     }
     const app = new App()

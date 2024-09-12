@@ -15,7 +15,7 @@ interface ColumnInfo {
   notnull: number
 }
 
-export class PostgresTableDriver implements Driver {
+export class PostgreSQLTableDriver implements Driver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],

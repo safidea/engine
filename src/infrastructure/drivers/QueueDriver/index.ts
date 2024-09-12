@@ -6,13 +6,13 @@ import { PostgresDriver } from './PostgresDriver'
 export class QueueDriver implements Driver {
   private _queue: PostgresDriver | SqliteDriver
 
-  constructor({ type, query, exec }: Config) {
-    if (type === 'sqlite') {
+  constructor({ driver, query, exec }: Config) {
+    if (driver === 'SQLite') {
       this._queue = new SqliteDriver(query, exec)
-    } else if (type === 'postgres') {
+    } else if (driver === 'PostgreSQL') {
       this._queue = new PostgresDriver(query)
     } else {
-      throw new Error(`Database ${type} not supported`)
+      throw new Error(`Database ${driver} not supported`)
     }
   }
 

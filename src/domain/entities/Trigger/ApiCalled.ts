@@ -7,6 +7,7 @@ import { Context } from '../Automation/Context'
 import type { Base, BaseConfig } from './base'
 import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { Monitor } from '@domain/services/Monitor'
 
 export interface Config extends BaseConfig {
   path: string
@@ -18,6 +19,7 @@ export interface Services {
   server: Server
   schemaValidator: SchemaValidator
   templateCompiler: TemplateCompiler
+  monitor: Monitor
 }
 
 export class ApiCalled implements Base {

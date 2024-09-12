@@ -28,6 +28,7 @@ import { StorageMapper } from './ServiceMapper/StorageMapper'
 import { BucketMapper } from './BucketMapper'
 import { SpreadsheetLoaderMapper } from './ServiceMapper/SpreadsheetLoaderMapper'
 import { DocumentLoaderMapper } from './ServiceMapper/DocumentLoaderMapper'
+import { MonitorMapper } from './ServiceMapper/MonitorMapper'
 
 interface Ressources {
   drivers: Drivers
@@ -38,8 +39,9 @@ export class AppMapper {
   static toEntity = (ressources: Ressources, config: Config) => {
     const { name } = config
     const { components, drivers } = ressources
+    const monitor = MonitorMapper.toService({ drivers }, config.monitor ?? { driver: 'Console' })
     const logger = LoggerMapper.toService({ drivers })
-    const server = ServerMapper.toService({ drivers, logger }, config.server ?? {})
+    const server = ServerMapper.toService({ drivers, logger, monitor }, config.server ?? {})
     const react = ReactMapper.toService({ drivers })
     const idGenerator = IdGeneratorMapper.toService({ drivers })
     const fileSystem = FileSystemMapper.toService({ drivers })
@@ -50,7 +52,7 @@ export class AppMapper {
     const iconLibrary = IconLibraryMapper.toService({ drivers })
     const fontLibrary = FontLibraryMapper.toService({ drivers, server, idGenerator })
     const markdownParser = MarkdownParserMapper.toService({ drivers, components, react })
-    const database = DatabaseMapper.toService({ drivers, logger }, config.database ?? {})
+    const database = DatabaseMapper.toService({ drivers, logger, monitor }, config.database ?? {})
     const theme = ThemeMapper.toService({ drivers, server, fontLibrary }, config.theme ?? {})
     const mailer = MailerMapper.toService({ drivers, logger }, config.mailer ?? {})
     const spreadsheetLoader = SpreadsheetLoaderMapper.toService({ drivers, templateCompiler })
@@ -59,7 +61,7 @@ export class AppMapper {
       { drivers, server, mailer, templateCompiler, logger, database, idGenerator },
       config.auth ?? {}
     )
-    const queue = QueueMapper.toService({ drivers, logger, database })
+    const queue = QueueMapper.toService({ drivers, logger, database, monitor })
     const storage = StorageMapper.toService({ drivers, logger, database })
     const buckets = BucketMapper.toManyEntities(config.buckets ?? [], {
       server,
@@ -73,6 +75,7 @@ export class AppMapper {
       idGenerator,
       templateCompiler,
       schemaValidator,
+      monitor,
     })
     const realtime = RealtimeMapper.toService({ database, logger, idGenerator, tables })
     const pages = PageMapper.toManyEntities(config.pages ?? [], {
@@ -105,6 +108,7 @@ export class AppMapper {
         storage,
         spreadsheetLoader,
         documentLoader,
+        monitor,
       },
       { tables, buckets }
     )

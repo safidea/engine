@@ -27,7 +27,7 @@ export default class extends MailerDriver {
     }
     super(config)
     this.config = config
-    this._database = new DatabaseDriver({ url: host, type: 'sqlite' })
+    this._database = new DatabaseDriver({ url: host, driver: 'SQLite' })
     log(`mailbox created`)
   }
 

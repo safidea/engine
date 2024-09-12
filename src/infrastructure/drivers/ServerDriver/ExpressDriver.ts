@@ -2,6 +2,7 @@ import express, { type Express } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
+import * as Sentry from '@sentry/node'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
@@ -14,16 +15,17 @@ import { Stream } from '@domain/entities/Response/Stream'
 
 const dirname = new URL('.', import.meta.url).pathname
 
-export class ServerDriver implements Driver {
+export class ExpressDriver implements Driver {
   public baseUrl?: string
   private _express: Express
   private _server?: HttpServer
 
   constructor(private _config: Config) {
-    const { env } = _config
+    const { env, monitor } = _config
     this._express = express()
-    this._express.use(cors())
+    if (monitor === 'Sentry') this._express.use(Sentry.expressErrorHandler())
     if (env === 'production') this._express.use(helmet())
+    this._express.use(cors())
     this._express.use(cookieParser())
     this._express.use(express.json())
     this._express.use(express.urlencoded({ extended: true }))

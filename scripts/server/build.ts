@@ -31,6 +31,8 @@ const externals: string[] = [
   '@heroicons/react',
   'exceljs',
   'adm-zip',
+  '@sentry/node',
+  '@sentry/profiling-node',
 ]
 
 const entrypoints: string[] = ['index.ts']
