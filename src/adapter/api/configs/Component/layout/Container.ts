@@ -1,4 +1,4 @@
-import type { Breakpoint, Padding } from '@domain/entities/Component/base/base'
+import type { Breakpoint, Padding } from '@domain/entities/Component/base'
 import type { Component } from '..'
 import type { Base } from '../base/Base'
 

@@ -1,19 +1,10 @@
 import type { Server as Config } from '@adapter/api/configs/Services/Server'
 import type { Drivers } from '@adapter/spi/Drivers'
 import { ServerSpi } from '@adapter/spi/ServerSpi'
-import { Logger } from '@domain/services/Logger'
-import type { Monitor } from '@domain/services/Monitor'
-import { Server } from '@domain/services/Server'
-
-interface Ressources {
-  drivers: Drivers
-  logger: Logger
-  monitor: Monitor
-}
+import { Server, type Services } from '@domain/services/Server'
 
 export class ServerMapper {
-  static toService(ressources: Ressources, config: Config) {
-    const { drivers, ...services } = ressources
+  static toService(drivers: Drivers, config: Config, services: Services) {
     const { port, sslCert, sslKey, env = 'development' } = config
     const driver = drivers.server({ port, sslCert, sslKey, env, monitor: services.monitor.driver })
     const spi = new ServerSpi(driver)

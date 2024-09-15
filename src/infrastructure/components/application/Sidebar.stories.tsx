@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Sidebar } from './Sidebar'
-import { Table } from './Table'
-import { Button } from '../base/Button'
+import { Table } from '../list/Table'
 import { Title } from '../content/Title'
 import { Link } from '../content/Link'
 
@@ -46,12 +45,7 @@ export const WithTable: Story = {
       (props) => <Link label="Leads" href="/leads" {...props} />,
     ],
     children: (
-      <Table
-        Title={(props) => <Title text="Leads" {...props} />}
-        Buttons={[(props) => <Button label="Add row" variant="primary" {...props} />]}
-        columns={[{ name: 'email', label: 'Email' }]}
-        rows={[{ email: 'test@test.com' }]}
-      />
+      <Table fields={[{ name: 'email', label: 'Email' }]} rows={[{ email: 'test@test.com' }]} />
     ),
   },
 }

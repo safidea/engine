@@ -1,48 +1,23 @@
-import { Form } from '@domain/entities/Component/application/Form'
+import { Form, type Services } from '@domain/entities/Component/application/Form'
 import { ButtonMapper } from '../base/ButtonMapper'
 import { InputMapper } from '../base/InputMapper'
 import { ParagraphMapper } from '../content/ParagraphMapper'
 import { TitleMapper } from '../content/TitleMapper'
 import type { Config } from '@adapter/api/configs/Component/application/Form'
-import type { IconLibrary } from '@domain/services/IconLibrary'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { React } from '@domain/services/React'
-import type { Server } from '@domain/services/Server'
-import type { Client } from '@domain/services/Client'
-import type { ReactComponents } from '@domain/entities/Component'
-
-interface Services {
-  components: ReactComponents
-  iconLibrary: IconLibrary
-  client: Client
-  server: Server
-  react: React
-  templateCompiler: TemplateCompiler
-  idGenerator: IdGenerator
-}
 
 export class FormMapper {
-  static toEntity = (config: Config, params: Services): Form => {
-    const { components, server, react, client, idGenerator, templateCompiler } = params
-    const title = config.title ? TitleMapper.toEntity(config.title, params) : undefined
+  static toEntity = (config: Config, services: Services): Form => {
+    const title = config.title ? TitleMapper.toEntity(config.title, services) : undefined
     const paragraph = config.paragraph
-      ? ParagraphMapper.toEntity(config.paragraph, params)
+      ? ParagraphMapper.toEntity(config.paragraph, services)
       : undefined
-    const inputs = InputMapper.toManyEntities(config.inputs, params)
-    const buttons = ButtonMapper.toManyEntities(config.buttons, params)
-    return new Form({
-      ...config,
+    const inputs = InputMapper.toManyEntities(config.inputs, services)
+    const buttons = ButtonMapper.toManyEntities(config.buttons, services)
+    return new Form(config, services, {
       title,
       paragraph,
       inputs,
       buttons,
-      Component: components.Form,
-      server,
-      react,
-      idGenerator,
-      client,
-      templateCompiler,
     })
   }
 }

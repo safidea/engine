@@ -1,6 +1,6 @@
 import type { State } from '@domain/entities/Page/State'
 
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { Base, BaseProps, BaseServices } from '../base'
 
 export type Type =
   | 'button'
@@ -36,21 +36,25 @@ export interface Props extends BaseProps {
   defaultValue?: string
 }
 
-interface Params extends Props {
-  Component: ReactComponent<Props>
-}
+export type Config = Props
+
+export type Services = BaseServices
 
 export class Input implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   get name() {
-    return this._params.name
+    return this._config.name
   }
 
   init = async () => {}
 
   render = async (state: State, renderProps?: Partial<Props>) => {
-    const { Component, ...defaultProps } = this._params
+    const { ...defaultProps } = this._config
+    const Component = this._services.client.components.Input
     return (props?: Partial<Props>) => (
       <Component {...{ ...defaultProps, ...renderProps, ...props }} />
     )

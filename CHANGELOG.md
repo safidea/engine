@@ -1,16 +1,14 @@
 # [0.30.0](https://github.com/safidea/engine/compare/v0.29.0...v0.30.0) (2024-09-12)
 
-
 ### Bug Fixes
 
-* **Git:** fix file names ([1e38996](https://github.com/safidea/engine/commit/1e38996d46aa523c35273c3c29bb7ff111481513))
-* **Github:** fix env variable for ci ([f91939b](https://github.com/safidea/engine/commit/f91939ba2adbdd0472231e0f7f1791dcc2f9c2e8))
-* **Linter:** fix eslint config ([cac0c63](https://github.com/safidea/engine/commit/cac0c63ed23f0b33b34e6aa188119f800e8986e5))
-
+- **Git:** fix file names ([1e38996](https://github.com/safidea/engine/commit/1e38996d46aa523c35273c3c29bb7ff111481513))
+- **Github:** fix env variable for ci ([f91939b](https://github.com/safidea/engine/commit/f91939ba2adbdd0472231e0f7f1791dcc2f9c2e8))
+- **Linter:** fix eslint config ([cac0c63](https://github.com/safidea/engine/commit/cac0c63ed23f0b33b34e6aa188119f800e8986e5))
 
 ### Features
 
-* **Monitor:** add green test: should send an error to Sentry ([a022257](https://github.com/safidea/engine/commit/a0222576b3ef35517686831ff15a0458d8985dbe))
+- **Monitor:** add green test: should send an error to Sentry ([a022257](https://github.com/safidea/engine/commit/a0222576b3ef35517686831ff15a0458d8985dbe))
 
 # [0.29.0](https://github.com/safidea/engine/compare/v0.28.1...v0.29.0) (2024-09-10)
 

@@ -1,4 +1,4 @@
-import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { Base, BaseProps, BaseServices } from '../base'
 import type { Component } from '..'
 import type { State } from '@domain/entities/Page/State'
 
@@ -7,22 +7,32 @@ export interface Props extends BaseProps {
   columns: number
 }
 
-interface Params {
+export type Config = BaseProps
+
+export type Services = BaseServices
+
+export interface Entities {
   children: Component[]
-  Component: ReactComponent<Props>
 }
 
 export class Columns implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { children } = this._params
+    const { children } = this._entities
     await Promise.all(children.map((child) => child.init()))
   }
 
   render = async (state: State) => {
-    const { Component, ...defaultProps } = this._params
-    const components = await Promise.all(this._params.children.map((child) => child.render(state)))
+    const { ...defaultProps } = this._config
+    const Component = this._services.client.components.Columns
+    const components = await Promise.all(
+      this._entities.children.map((child) => child.render(state))
+    )
     return (props?: Partial<Props>) => (
       <Component
         {...{

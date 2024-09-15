@@ -1,4 +1,4 @@
-import type { Base, ReactComponent, BaseProps } from '../base/base'
+import type { Base, BaseProps, BaseServices } from '../base'
 import type { Component } from '..'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Button, Props as ButtonProps } from '../base/Button'
@@ -11,19 +11,26 @@ export interface Props extends BaseProps {
   footer?: React.ReactNode
 }
 
-interface Params extends BaseProps {
+export type Config = BaseProps
+
+export type Services = BaseServices
+
+export interface Entities {
   button: Button
   header?: Component[]
   body: Component[]
   footer?: Component[]
-  Component: ReactComponent<Props>
 }
 
 export class Modal implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { button, header = [], body, footer = [] } = this._params
+    const { button, header = [], body, footer = [] } = this._entities
     await Promise.all([
       button.init(),
       ...header.map((child) => child.init()),
@@ -33,15 +40,9 @@ export class Modal implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const {
-      Component,
-      button,
-      header: headerParam,
-      body: bodyParam,
-      footer: footerParam,
-      id,
-      className,
-    } = this._params
+    const { button, header: headerParam, body: bodyParam, footer: footerParam } = this._entities
+    const { id, className } = this._config
+    const { client } = this._services
     const Button = await button.render(state)
     const header = headerParam
       ? await Promise.all(headerParam.map((child) => child.render(state)))
@@ -50,6 +51,7 @@ export class Modal implements Base<Props> {
     const footer = footerParam
       ? await Promise.all(footerParam.map((child) => child.render(state)))
       : undefined
+    const Component = client.components.Modal
     return (props?: Partial<Props>) => (
       <Component
         {...{
@@ -66,7 +68,7 @@ export class Modal implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { button, header = [], body, footer = [] } = this._params
+    const { button, header = [], body, footer = [] } = this._entities
     const errors: ConfigError[] = []
     errors.push(...button.validateConfig())
     header.forEach((child) => {

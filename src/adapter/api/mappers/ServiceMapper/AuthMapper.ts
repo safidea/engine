@@ -1,26 +1,9 @@
 import type { Drivers } from '@adapter/spi/Drivers'
 import { AuthSpi } from '@adapter/spi/AuthSpi'
-import { Auth, type Config } from '@domain/services/Auth'
-import type { Mailer } from '@domain/services/Mailer'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Database } from '@domain/services/Database'
-import type { Server } from '@domain/services/Server'
-import type { Logger } from '@domain/services/Logger'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-
-interface Ressources {
-  drivers: Drivers
-  logger: Logger
-  database: Database
-  server: Server
-  mailer: Mailer
-  templateCompiler: TemplateCompiler
-  idGenerator: IdGenerator
-}
+import { Auth, type Config, type Services } from '@domain/services/Auth'
 
 export class AuthMapper {
-  static toService(ressources: Ressources, config: Partial<Config>): Auth {
-    const { drivers, ...services } = ressources
+  static toService(drivers: Drivers, services: Services, config: Partial<Config>): Auth {
     const {
       redirectOnLogin = '/',
       redirectOnLogout = '/',

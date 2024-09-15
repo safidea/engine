@@ -1,4 +1,10 @@
-import type { ReactComponent, Base, BaseProps, Breakpoint, Padding } from '../base/base'
+import {
+  type Base,
+  type BaseProps,
+  type Breakpoint,
+  type Padding,
+  type BaseServices,
+} from '../base'
 import type { Component } from '..'
 import type { State } from '@domain/entities/Page/State'
 
@@ -9,22 +15,30 @@ export interface Props extends BaseProps {
   padding?: Padding
 }
 
-interface Params extends Omit<Props, 'children'> {
+export type Config = Omit<Props, 'children'>
+
+export type Services = BaseServices
+
+export interface Entities {
   children: Component[]
-  Component: ReactComponent<Props>
 }
 
 export class Container implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { children } = this._params
+    const { children } = this._entities
     await Promise.all(children.map((child) => child.init()))
   }
 
   render = async (state: State) => {
-    const { Component, ...defaultProps } = this._params
-    const children = await Promise.all(this._params.children.map((child) => child.render(state)))
+    const { ...defaultProps } = this._config
+    const Component = this._services.client.components.Container
+    const children = await Promise.all(this._entities.children.map((child) => child.render(state)))
     return (props?: Partial<Props>) => (
       <Component
         {...{

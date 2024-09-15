@@ -1,20 +1,11 @@
 import type { Drivers } from '@adapter/spi/Drivers'
 import { StorageSpi } from '@adapter/spi/StorageSpi'
-import { Storage } from '@domain/services/Storage'
-import type { Logger } from '@domain/services/Logger'
-import type { Database } from '@domain/services/Database'
-
-interface Ressources {
-  drivers: Drivers
-  logger: Logger
-  database: Database
-}
+import { Storage, type Services } from '@domain/services/Storage'
 
 export class StorageMapper {
-  static toService(ressources: Ressources): Storage {
-    const { drivers, database, logger } = ressources
-    const driver = drivers.storage(database)
+  static toService(drivers: Drivers, services: Services): Storage {
+    const driver = drivers.storage(services.database)
     const spi = new StorageSpi(driver)
-    return new Storage(spi, { logger })
+    return new Storage(spi, services)
   }
 }

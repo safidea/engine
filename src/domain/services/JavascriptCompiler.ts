@@ -1,8 +1,13 @@
 import { JavascriptRunner } from './JavascriptRunner'
-import type { Spi as CodeRunnerSpi, Entities } from './JavascriptRunner'
+import type {
+  Spi as JavascriptRunnerSpi,
+  Entities as JavascriptRunnerEntities,
+} from './JavascriptRunner'
+
+export type Entities = JavascriptRunnerEntities
 
 export interface Spi {
-  compile: (code: string) => CodeRunnerSpi
+  compile: (code: string) => JavascriptRunnerSpi
 }
 
 export class JavascriptCompiler {

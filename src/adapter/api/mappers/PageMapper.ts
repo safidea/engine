@@ -1,62 +1,22 @@
-import { Page } from '@domain/entities/Page'
+import { Page, type Services } from '@domain/entities/Page'
 import type { Page as Config } from '@adapter/api/configs/Page'
-import { ComponentMapper } from './ComponentMapper'
+import { ComponentMapper, type ComponentServices, type ComponentEntities } from './ComponentMapper'
 import { HeadMapper } from './HeadMapper'
-import type { Server } from '@domain/services/Server'
-import type { Logger } from '@domain/services/Logger'
-import type { ReactComponents } from '@domain/entities/Component'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { Realtime } from '@domain/services/Realtime'
-import type { Client } from '@domain/services/Client'
-import type { React } from '@domain/services/React'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { MarkdownParser } from '@domain/services/MarkdownParser'
-import type { IconLibrary } from '@domain/services/IconLibrary'
 
-export interface Services {
-  server: Server
-  client: Client
-  react: React
-  idGenerator: IdGenerator
-  logger: Logger
-  components: ReactComponents
-  templateCompiler: TemplateCompiler
-  realtime: Realtime
-  markdownParser: MarkdownParser
-  iconLibrary: IconLibrary
-}
+export type PageServices = ComponentServices & Services
+
+export type PageEntities = ComponentEntities
 
 export class PageMapper {
-  static toEntity = (config: Config, services: Services): Page => {
-    const { name, path } = config
-    const {
-      server,
-      logger,
-      react,
-      client,
-      components,
-      idGenerator,
-      realtime,
-      templateCompiler,
-      markdownParser,
-      iconLibrary,
-    } = services
-    const body = ComponentMapper.toManyEntities(config.body, {
-      components,
-      server,
-      react,
-      client,
-      idGenerator,
-      realtime,
-      templateCompiler,
-      markdownParser,
-      iconLibrary,
-    })
+  static toEntity = (config: Config, services: PageServices, entities: PageEntities): Page => {
+    const { client } = services
+    const body = ComponentMapper.toManyEntities(config.body, services, entities)
     const head = HeadMapper.toEntity(config.head ?? {}, { client })
-    return new Page({ name, path, head, body, server, logger, react, Html: components.Html })
+    return new Page(config, services, { head, body })
   }
 
-  static toManyEntities = (configs: Config[], services: Services) => {
+  static toManyEntities = (configs: Config[], services: PageServices, entities: PageEntities) => {
+    // TODO: Add 404 page if not found in another place
     if (!configs.find((config) => config.path === '/404')) {
       configs.push({
         name: 'not found',
@@ -79,6 +39,6 @@ export class PageMapper {
         ],
       })
     }
-    return configs.map((config) => this.toEntity(config, services))
+    return configs.map((config) => this.toEntity(config, services, entities))
   }
 }

@@ -1,11 +1,18 @@
 import { Container } from '@domain/entities/Component/layout/Container'
 import type { Config } from '@adapter/api/configs/Component/layout/Container'
-import { ComponentMapper, type Services } from '@adapter/api/mappers/ComponentMapper'
+import {
+  ComponentMapper,
+  type ComponentEntities,
+  type ComponentServices,
+} from '@adapter/api/mappers/ComponentMapper'
 
 export class ContainerMapper {
-  static toEntity = (config: Config, services: Services): Container => {
-    const { components } = services
-    const children = ComponentMapper.toManyEntities(config.children, services)
-    return new Container({ ...config, children, Component: components.Container })
+  static toEntity = (
+    config: Config,
+    services: ComponentServices,
+    entities: ComponentEntities
+  ): Container => {
+    const children = ComponentMapper.toManyEntities(config.children, services, entities)
+    return new Container(config, services, { children })
   }
 }

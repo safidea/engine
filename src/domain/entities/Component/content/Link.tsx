@@ -1,6 +1,6 @@
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Icon } from './Icon'
-import type { ReactComponent, Base, BaseProps, Font } from '../base/base'
+import type { Base, BaseProps, Font, BaseServices } from '../base'
 import type { State } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
@@ -12,32 +12,41 @@ export interface Props extends BaseProps {
   font?: Font
 }
 
-interface Params extends Omit<Props, 'PrefixIcon' | 'SuffixIcon'> {
+export type Config = Omit<Props, 'PrefixIcon' | 'SuffixIcon'>
+
+export type Services = BaseServices
+
+export interface Entities {
   prefixIcon?: Icon
   suffixIcon?: Icon
-  Component: ReactComponent<Props>
 }
 
 export class Link implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { prefixIcon, suffixIcon } = this._params
+    const { prefixIcon, suffixIcon } = this._entities
     await Promise.all([prefixIcon?.init(), suffixIcon?.init()])
   }
 
   render = async (state: State) => {
-    const { Component, prefixIcon, suffixIcon, active: isActive, ...defaultProps } = this._params
+    const { active: isActive, ...defaultProps } = this._config
+    const { prefixIcon, suffixIcon } = this._entities
     const PrefixIcon = prefixIcon ? await prefixIcon.render() : undefined
     const SuffixIcon = suffixIcon ? await suffixIcon.render() : undefined
     const active = isActive !== undefined ? isActive : state.isActiveLink(defaultProps.href)
+    const Component = this._services.client.components.Link
     return (props?: Partial<Props>) => (
       <Component {...{ PrefixIcon, SuffixIcon, ...defaultProps, active, ...props }} />
     )
   }
 
   validateConfig = () => {
-    const { prefixIcon, suffixIcon } = this._params
+    const { prefixIcon, suffixIcon } = this._entities
     const errors: ConfigError[] = []
     if (prefixIcon) {
       errors.push(...prefixIcon.validateConfig())

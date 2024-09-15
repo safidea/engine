@@ -1,5 +1,4 @@
-import type React from 'react'
-import type { ReactComponent, Base, BaseProps } from '../base/base'
+import type { Base, BaseProps, BaseServices } from '../base'
 import type { Title } from '../content/Title'
 import type { Paragraph } from '../content/Paragraph'
 import type { Link } from '../content/Link'
@@ -15,27 +14,37 @@ export interface Props extends BaseProps {
   Links: React.FC<Partial<LinkProps>>[]
 }
 
-export interface Params extends BaseProps {
+export interface Config extends BaseProps {
+  copyright: string
+}
+
+export type Services = BaseServices
+
+export interface Entities extends BaseProps {
   title: Title
   paragraph: Paragraph
   links: Link[]
-  copyright: string
-  Component: ReactComponent<Props>
 }
 
 export class Footer implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { title, paragraph, links } = this._params
+    const { title, paragraph, links } = this._entities
     await Promise.all([title.init(), paragraph.init(), ...links.map((link) => link.init())])
   }
 
   render = async (state: State) => {
-    const { id, className, title, paragraph, links, copyright, Component } = this._params
+    const { title, paragraph, links } = this._entities
+    const { id, className, copyright } = this._config
     const Title = await title.render()
     const Paragraph = await paragraph.render()
     const Links = await Promise.all(links.map((link) => link.render(state)))
+    const Component = this._services.client.components.Footer
     return (props?: Partial<Props>) => (
       <Component {...{ id, className, Title, Paragraph, Links, copyright, ...props }} />
     )

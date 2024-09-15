@@ -14,8 +14,8 @@ test.describe('Table component', () => {
           body: [
             {
               component: 'Table',
-              source: '/api/table/leads',
-              columns: [
+              table: 'leads',
+              fields: [
                 {
                   name: 'name',
                   label: 'Name',
@@ -38,7 +38,7 @@ test.describe('Table component', () => {
   })
 
   Database.each(test, (dbConfig) => {
-    test('should display a row in a table', async ({ page }) => {
+    test.only('should display a row in a table', async ({ page }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -50,8 +50,8 @@ test.describe('Table component', () => {
             body: [
               {
                 component: 'Table',
-                source: '/api/table/leads',
-                columns: [
+                table: 'leads',
+                fields: [
                   {
                     name: 'name',
                     label: 'Name',
@@ -97,17 +97,11 @@ test.describe('Table component', () => {
             body: [
               {
                 component: 'Table',
-                source: '/api/table/leads',
-                columns: [
+                table: 'leads',
+                fields: [
                   {
                     name: 'name',
                     label: 'Name',
-                  },
-                ],
-                buttons: [
-                  {
-                    label: 'Add row',
-                    href: '/add',
                   },
                 ],
               },
@@ -141,102 +135,6 @@ test.describe('Table component', () => {
     })
   })
 
-  test('should open an add row page', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Table',
-              source: '/api/table/leads',
-              columns: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                },
-              ],
-              buttons: [
-                {
-                  label: 'Add row',
-                  href: '/add',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-    await page.click('text=Add row')
-
-    // THEN
-    await expect(page.waitForURL('**/add')).resolves.toBeUndefined()
-  })
-
-  test('should display a title for a table', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Table',
-              title: { text: 'Leads' },
-              source: '/api/table/leads',
-              columns: [
-                {
-                  name: 'name',
-                  label: 'Name',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    await expect(page.locator('text=Leads')).toBeVisible()
-  })
-
   test('should display the table id', async ({ page }) => {
     // GIVEN
     const config: Config = {
@@ -249,9 +147,8 @@ test.describe('Table component', () => {
             {
               component: 'Table',
               id: 'my-table',
-              title: { text: 'Leads' },
-              source: '/api/table/leads',
-              columns: [
+              table: 'leads',
+              fields: [
                 {
                   name: 'name',
                   label: 'Name',

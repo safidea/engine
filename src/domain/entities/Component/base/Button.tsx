@@ -1,6 +1,5 @@
 import type { Method } from '@domain/entities/Request'
-import type { ReactComponent, Base, BaseProps } from './base'
-import type { Client } from '@domain/services/Client'
+import type { Base, BaseProps, BaseServices } from '../base'
 import { State } from '@domain/entities/Page/State'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
@@ -10,7 +9,6 @@ import type { Post } from '@domain/entities/Request/Post'
 import { Html } from '@domain/entities/Response/Html'
 import type { Response } from '@domain/entities/Response'
 import { Redirect } from '@domain/entities/Response/Redirect'
-import type { React } from '@domain/services/React'
 
 export type Variant = 'primary' | 'secondary'
 export type Type = 'button' | 'submit' | 'reset'
@@ -26,18 +24,19 @@ export interface Props extends BaseProps {
   formId?: string
 }
 
-interface Params extends Omit<Props, 'actionClientProps' | 'formId'> {
+export interface Config extends Omit<Props, 'actionClientProps' | 'formId' | 'variant'> {
+  variant?: Variant
   onSuccess?:
     | {
         redirect: string
       }
     | { notification: { message: string; type: 'success' | 'error' } }
-  Component: ReactComponent<Props>
-  templateCompiler: TemplateCompiler
-  client: Client
-  idGenerator: IdGenerator
+}
+
+export interface Services extends BaseServices {
   server: Server
-  react: React
+  templateCompiler: TemplateCompiler
+  idGenerator: IdGenerator
 }
 
 export class Button implements Base<Props> {
@@ -45,22 +44,27 @@ export class Button implements Base<Props> {
   private path: string
   private action?: Template
 
-  constructor(private _params: Params) {
-    const { action, templateCompiler, idGenerator } = _params
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {
+    const { templateCompiler, idGenerator } = _services
+    const { action } = _config
     this.id = idGenerator.forComponent()
     this.path = `/api/component/button/${this.id}`
     if (action) this.action = templateCompiler.compile(action)
   }
 
   init = async () => {
-    const { server } = this._params
+    const { server } = this._services
     if (this.action) await server.post(this.path, this.post)
   }
 
   post = async (request: Post): Promise<Response> => {
     if (!this.action) throw new Error('Button has no action')
     const state = new State(request)
-    const { method = 'POST', server, onSuccess } = this._params
+    const { server } = this._services
+    const { method = 'POST', onSuccess } = this._config
     const filledAction = state.fillTemplate(this.action)
     const url = filledAction.startsWith('/') ? server.baseUrl + filledAction : filledAction
     const result = await fetch(url, {
@@ -78,15 +82,17 @@ export class Button implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { react } = this._params
+    const { client } = this._services
     const Component = await this.render(state)
-    return react.renderToHtml(<Component {...props} />)
+    return client.renderToHtml(<Component {...props} />)
   }
 
   render = async (state: State) => {
-    const { id, className, label, href, variant, Component, client } = this._params
+    const { client } = this._services
+    const { id, className, label, href, variant = 'primary' } = this._config
     const action = this.action ? state.addQueryToPath(this.path) : undefined
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
+    const Component = client.components.Button
     return (props?: Partial<Props>) => (
       <client.Frame id={this.id}>
         <Component

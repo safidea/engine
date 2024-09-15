@@ -1,4 +1,4 @@
-import type { ReactComponent, Base, BaseProps } from './base'
+import type { Base, BaseProps, BaseServices } from '../base'
 import type { State } from '@domain/entities/Page/State'
 
 import type { Link, Props as LinkProps } from '../content/Link'
@@ -9,27 +9,38 @@ export interface Props extends BaseProps {
   Links: React.FC<Partial<LinkProps>>[]
 }
 
-interface Params extends Omit<Props, 'Links'> {
+export interface Config extends BaseProps {
+  label: string
+}
+
+export type Services = BaseServices
+
+export interface Entities {
   links: Link[]
-  Component: ReactComponent<Props>
 }
 
 export class Dropdown implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { links } = this._params
+    const { links } = this._entities
     await Promise.all(links.map((link) => link.init()))
   }
 
   render = async (state: State) => {
-    const { Component, links, ...defaultProps } = this._params
+    const { ...defaultProps } = this._config
+    const { links } = this._entities
+    const Component = this._services.client.components.Dropdown
     const Links = await Promise.all(links.map((link) => link.render(state)))
     return (props?: Partial<Props>) => <Component {...{ Links, ...defaultProps, ...props }} />
   }
 
   validateConfig = () => {
-    const { links } = this._params
+    const { links } = this._entities
     const errors: ConfigError[] = []
     links.forEach((link) => {
       errors.push(...link.validateConfig())

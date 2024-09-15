@@ -1,12 +1,10 @@
 import type { Server } from '@domain/services/Server'
-import type { Base, BaseProps, ReactComponent } from '../base/base'
-import type { React } from '@domain/services/React'
+import type { Base, BaseProps, BaseServices } from '../base'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import { Html } from '@domain/entities/Response/Html'
 import { ConfigError } from '@domain/entities/Error/Config'
 import { Stream } from '@domain/entities/Response/Stream'
 import type { Realtime } from '@domain/services/Realtime'
-import type { Client } from '@domain/services/Client'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
 import { State } from '@domain/entities/Page/State'
@@ -29,14 +27,14 @@ export interface Props extends BaseProps {
   actionClientProps?: { [key: string]: string }
 }
 
-interface Params extends BaseProps {
+export interface Config extends BaseProps {
   source: string
-  columns: Column[]
   open: string
-  Component: ReactComponent<Props>
+  columns: Column[]
+}
+
+export interface Services extends BaseServices {
   server: Server
-  react: React
-  client: Client
   idGenerator: IdGenerator
   realtime?: Realtime
   templateCompiler: TemplateCompiler
@@ -51,11 +49,15 @@ export class List implements Base<Props> {
   }
   private open: Template
 
-  constructor(private _params: Params) {
-    const { source, idGenerator, templateCompiler } = _params
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {
+    const { source, open } = _config
+    const { idGenerator, templateCompiler } = _services
     this.id = idGenerator.forComponent()
     this.path = `/api/component/list/${this.id}`
-    this.open = templateCompiler.compile(_params.open)
+    this.open = templateCompiler.compile(open)
     if (source.startsWith('/api/table/')) {
       this.stream = {
         path: this.path + '/stream',
@@ -65,7 +67,7 @@ export class List implements Base<Props> {
   }
 
   init = async () => {
-    const { server } = this._params
+    const { server } = this._services
     await Promise.all([
       server.get(this.path, this.getData),
       this.stream ? server.get(this.stream.path, this.streamData) : undefined,
@@ -80,7 +82,8 @@ export class List implements Base<Props> {
 
   getData = async (request: Get) => {
     const state = new State(request)
-    const { source, server } = this._params
+    const { server } = this._services
+    const { source } = this._config
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
@@ -92,7 +95,8 @@ export class List implements Base<Props> {
 
   streamData = async (request: Get) => {
     const state = new State(request)
-    const { realtime, source, server } = this._params
+    const { realtime, server } = this._services
+    const { source } = this._config
     const stream = new Stream()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
@@ -106,17 +110,18 @@ export class List implements Base<Props> {
   }
 
   html = async (state: State, props?: Partial<Props>) => {
-    const { react, client } = this._params
+    const { client } = this._services
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
-    return react.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
+    return client.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
-    const { react, client, columns, id, className } = this._params
+    const { id, className, columns } = this._config
+    const { client } = this._services
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
-    return react.renderToHtml(
+    return client.renderToHtml(
       <client.Stream action="replace" target={this.id}>
         <Component {...{ id, className, columns, ...props, actionClientProps }} />
       </client.Stream>
@@ -125,11 +130,13 @@ export class List implements Base<Props> {
 
   render = async (state: State, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
-    const { client, Component, columns, ...defaultProps } = this._params
+    const { client } = this._services
+    const { ...defaultProps } = this._config
+    const Component = client.components.List
     return (props?: Partial<Props>) => (
       <>
         <client.Frame id={this.id} src={withSource ? this.path : ''}>
-          <Component {...{ ...defaultProps, columns, rows: [], ...props }} />
+          <Component {...{ ...defaultProps, rows: [], ...props }} />
         </client.Frame>
         {this.stream ? <client.StreamSource src={this.stream.path} /> : null}
       </>
@@ -137,7 +144,8 @@ export class List implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { source, server } = this._params
+    const { server } = this._services
+    const { source } = this._config
     const errors = []
     if (source.startsWith('/api/table/')) {
       if (!server.hasGetHandler(source)) {

@@ -1,16 +1,9 @@
 import type { Drivers } from '@adapter/spi/Drivers'
 import { MailerSpi } from '@adapter/spi/MailerSpi'
-import { Mailer, type Config } from '@domain/services/Mailer'
-import type { Logger } from '@domain/services/Logger'
-
-interface Ressources {
-  drivers: Drivers
-  logger: Logger
-}
+import { Mailer, type Config, type Services } from '@domain/services/Mailer'
 
 export class MailerMapper {
-  static toService(ressources: Ressources, config: Partial<Config>): Mailer {
-    const { drivers, ...services } = ressources
+  static toService(drivers: Drivers, services: Services, config: Partial<Config>): Mailer {
     const {
       host = ':memory:',
       port = '0',

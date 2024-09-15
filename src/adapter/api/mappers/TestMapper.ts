@@ -6,15 +6,10 @@ import type { Drivers } from '@adapter/spi/Drivers'
 import { LoggerMapper } from './ServiceMapper/LoggerMapper'
 import { MonitorMapper } from './ServiceMapper/MonitorMapper'
 
-export interface Ressources {
-  drivers: Drivers
-}
-
 export class TestMapper {
-  static toEntity = (config: TestConfig, ressources: Ressources) => {
-    const { drivers } = ressources
-    const logger = LoggerMapper.toService({ drivers })
-    const monitor = MonitorMapper.toService({ drivers }, { driver: 'Console' })
+  static toEntity = (drivers: Drivers, config: TestConfig) => {
+    const logger = LoggerMapper.toService(drivers)
+    const monitor = MonitorMapper.toService(drivers, { driver: 'Console' })
     const when = EventMapper.toManyEntities(config.when, { logger })
     const then = ExpectMapper.toManyEntities(config.then, { logger })
     return new Test(
@@ -27,7 +22,7 @@ export class TestMapper {
     )
   }
 
-  static toManyEntities = (configs: TestConfig[], ressources: Ressources) => {
-    return configs.map((config) => this.toEntity(config, ressources))
+  static toManyEntities = (drivers: Drivers, configs: TestConfig[]) => {
+    return configs.map((config) => this.toEntity(drivers, config))
   }
 }

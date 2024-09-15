@@ -1,3 +1,4 @@
+import type { ReactComponents } from '@domain/entities/Component'
 import type { Meta } from '@domain/entities/Head/Meta'
 
 export interface BaseProps {
@@ -28,10 +29,12 @@ export interface ActionProps {
 
 export interface Spi {
   metas: Meta[]
+  components: ReactComponents
   Frame: (props: FrameProps) => JSX.Element
   Stream: (props: StreamProps) => JSX.Element
   StreamSource: (props: StreamSourceProps) => JSX.Element
   getActionProps: (options?: ActionProps) => { [key: string]: string }
+  render: (component: JSX.Element) => string
 }
 
 export class Client {
@@ -39,6 +42,14 @@ export class Client {
 
   get metas() {
     return this._spi.metas
+  }
+
+  get components() {
+    return this._spi.components
+  }
+
+  renderToHtml = (component: JSX.Element): string => {
+    return this._spi.render(component)
   }
 
   Frame = (props: FrameProps): JSX.Element => {

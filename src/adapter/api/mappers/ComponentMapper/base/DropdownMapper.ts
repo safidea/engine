@@ -1,18 +1,12 @@
-import { Dropdown } from '@domain/entities/Component/base/Dropdown'
-import { LinkMapper } from '../content/LinkMapper'
-import type { ReactComponents } from '@domain/entities/Component'
+import { Dropdown, type Services } from '@domain/entities/Component/base/Dropdown'
+import { LinkMapper, type LinkServices } from '../content/LinkMapper'
 import type { Config } from '@adapter/api/configs/Component/base/Dropdown'
-import type { IconLibrary } from '@domain/services/IconLibrary'
 
-interface Services {
-  components: ReactComponents
-  iconLibrary: IconLibrary
-}
+export type DropdownServices = Services & LinkServices
 
 export class DropdownMapper {
-  static toEntity = (config: Config, services: Services): Dropdown => {
-    const { components } = services
+  static toEntity = (config: Config, services: DropdownServices): Dropdown => {
     const links = LinkMapper.toManyEntities(config.links, services)
-    return new Dropdown({ ...config, links, Component: components.Dropdown })
+    return new Dropdown(config, services, { links })
   }
 }

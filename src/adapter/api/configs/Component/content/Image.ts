@@ -1,4 +1,4 @@
-import type { Align, RoundedSize, Size } from '@domain/entities/Component/base/base'
+import type { Align, RoundedSize, Size } from '@domain/entities/Component/base'
 import type { Base } from '../base/Base'
 
 export interface Config extends Base {

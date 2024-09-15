@@ -1,14 +1,12 @@
-import type { ReactComponents } from '@domain/entities/Component'
-import type { React } from './React'
 import type { Props as TitleProps } from '@domain/entities/Component/content/Title'
 import type { Props as ParagraphProps } from '@domain/entities/Component/content/Paragraph'
 import type { Props as DividerProps } from '@domain/entities/Component/content/Divider'
 import type { Props as LinkProps } from '@domain/entities/Component/content/Link'
 import type { Props as ImageProps } from '@domain/entities/Component/content/Image'
+import type { Client } from './Client'
 
 export interface Services {
-  components: ReactComponents
-  react: React
+  client: Client
 }
 
 export interface Renderer {
@@ -43,32 +41,32 @@ export class MarkdownParser {
   }
 
   renderTitle = (props: TitleProps): string => {
-    const { components, react } = this._services
-    const { Title } = components
-    return react.renderToHtml(<Title {...props} />)
+    const { client } = this._services
+    const { Title } = client.components
+    return client.renderToHtml(<Title {...props} />)
   }
 
   renderParagraph = (props: ParagraphProps): string => {
-    const { components, react } = this._services
-    const { Paragraph } = components
-    return react.renderToHtml(<Paragraph {...props} />)
+    const { client } = this._services
+    const { Paragraph } = client.components
+    return client.renderToHtml(<Paragraph {...props} />)
   }
 
   renderDivider = (props: DividerProps): string => {
-    const { components, react } = this._services
-    const { Divider } = components
-    return react.renderToHtml(<Divider {...props} />)
+    const { client } = this._services
+    const { Divider } = client.components
+    return client.renderToHtml(<Divider {...props} />)
   }
 
   renderLink = (props: LinkProps): string => {
-    const { components, react } = this._services
-    const { Link } = components
-    return react.renderToHtml(<Link {...props} />)
+    const { client } = this._services
+    const { Link } = client.components
+    return client.renderToHtml(<Link {...props} />)
   }
 
   renderImage = (props: ImageProps): string => {
-    const { components, react } = this._services
-    const { Image } = components
-    return react.renderToHtml(<Image {...props} />)
+    const { client } = this._services
+    const { Image } = client.components
+    return client.renderToHtml(<Image {...props} />)
   }
 }

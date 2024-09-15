@@ -1,6 +1,5 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
-import { components } from '@tests/dist/components'
 import Database from '@tests/database'
 
 test.describe('App', () => {
@@ -214,8 +213,8 @@ test.describe('App', () => {
           body: [
             {
               component: 'Table',
-              source: '/api/table/leads',
-              columns: [
+              table: 'leads',
+              fields: [
                 {
                   name: 'name',
                   label: 'Name',
@@ -232,9 +231,7 @@ test.describe('App', () => {
     const call = async () => app.test(config)
 
     // THEN
-    await expect(call()).rejects.toThrow(
-      'Table source /api/table/leads does not have a GET handler'
-    )
+    await expect(call()).rejects.toThrow('Table "leads" not found')
   })
 
   test('should display a config error on start', async () => {
@@ -248,8 +245,8 @@ test.describe('App', () => {
           body: [
             {
               component: 'Table',
-              source: '/api/table/leads',
-              columns: [
+              table: 'leads',
+              fields: [
                 {
                   name: 'name',
                   label: 'Name',
@@ -266,36 +263,6 @@ test.describe('App', () => {
     const call = async () => app.start(config)
 
     // THEN
-    await expect(call()).rejects.toThrow(
-      'Table source /api/table/leads does not have a GET handler'
-    )
-  })
-
-  test('should render a custom paragraph component', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Paragraph',
-              text: 'world',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App({ components: { Paragraph: components.Paragraph } })
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const paragraphContent = await page.textContent('p')
-    expect(paragraphContent).toContain('Hello world')
+    await expect(call()).rejects.toThrow('Table "leads" not found')
   })
 })

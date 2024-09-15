@@ -5,6 +5,8 @@ import type {
   StreamProps,
   StreamSourceProps,
 } from '@domain/services/Client'
+import { components } from '@infrastructure/components'
+import ReactDOMServer from 'react-dom/server'
 
 export class ClientDriver implements Driver {
   constructor() {}
@@ -20,6 +22,25 @@ export class ClientDriver implements Driver {
         content: 'preserve',
       },
     ]
+  }
+
+  get components() {
+    return components
+  }
+
+  render = (component: JSX.Element) => {
+    return ReactDOMServer.renderToString(component)
+  }
+
+  getActionProps = (options?: ActionProps) => {
+    const { reloadPageFrame = false, redirectPage = false } = options || {}
+    const props: {
+      'data-turbo-frame'?: string
+      'data-turbo-action'?: string
+    } = {}
+    if (reloadPageFrame) props['data-turbo-frame'] = '_top'
+    if (redirectPage) props['data-turbo-action'] = 'replace'
+    return props
   }
 
   Frame = ({ navigation, frameId, children, ...props }: FrameProps) => {
@@ -40,16 +61,5 @@ export class ClientDriver implements Driver {
 
   StreamSource = (props: StreamSourceProps) => {
     return <turbo-stream-source {...props} />
-  }
-
-  getActionProps = (options?: ActionProps) => {
-    const { reloadPageFrame = false, redirectPage = false } = options || {}
-    const props: {
-      'data-turbo-frame'?: string
-      'data-turbo-action'?: string
-    } = {}
-    if (reloadPageFrame) props['data-turbo-frame'] = '_top'
-    if (redirectPage) props['data-turbo-action'] = 'replace'
-    return props
   }
 }

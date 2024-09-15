@@ -3,25 +3,19 @@ import type { App } from '@domain/entities/App'
 import type { App as Config } from './configs/App'
 import type { SchemaError } from '@domain/entities/Error/Schema'
 import type { Drivers } from '@adapter/spi/Drivers'
-import type { ReactComponents } from '@domain/entities/Component'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import { SchemaValidatorMapper } from './mappers/ServiceMapper/SchemaValidatorMapper'
 import { TestError } from '@domain/entities/Error/Test'
 import { TestMapper } from './mappers/TestMapper'
 import { BrowserMapper } from './mappers/ServiceMapper/BrowserMapper'
 
-interface Ressources {
-  drivers: Drivers
-  components: ReactComponents
-}
-
 export class AppApi {
   private _log: (message: string) => void
   private _schemaValidator: SchemaValidator
   private _app?: App
 
-  constructor(private ressources: Ressources) {
-    this._schemaValidator = SchemaValidatorMapper.toService(ressources)
+  constructor(private drivers: Drivers) {
+    this._schemaValidator = SchemaValidatorMapper.toService(drivers)
     this._log = (message: string) => {
       if (process.env.TESTING !== 'true' || process.env.DEBUG) {
         console.log(message)
@@ -30,19 +24,18 @@ export class AppApi {
   }
 
   test = async (config: unknown): Promise<void> => {
-    const { drivers } = this.ressources
     const validatedConfig = this._getConfigWithEnv(config)
     delete validatedConfig.server?.port
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
-    const tests = TestMapper.toManyEntities(validatedConfig.tests ?? [], { drivers })
-    const browser = BrowserMapper.toService({ drivers })
+    const tests = TestMapper.toManyEntities(this.drivers, validatedConfig.tests ?? [])
+    const browser = BrowserMapper.toService(this.drivers)
     this._log(`🔄 Start running tests`)
     const page = await browser.launch()
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
       try {
-        const app = AppMapper.toEntity(this.ressources, validatedConfig)
+        const app = AppMapper.toEntity(this.drivers, validatedConfig)
         await app.init()
         const baseUrl = await app.start({ isTest: true })
         await page.new(baseUrl)
@@ -93,7 +86,7 @@ export class AppApi {
   }
 
   private _validateConfigOrThrow = async (config: Config): Promise<App> => {
-    const app = AppMapper.toEntity(this.ressources, config)
+    const app = AppMapper.toEntity(this.drivers, config)
     const errors = await app.validateConfig()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
     this._log('✅ Config dependancies are valids')

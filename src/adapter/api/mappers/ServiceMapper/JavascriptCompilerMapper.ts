@@ -1,18 +1,11 @@
 import type { Drivers } from '@adapter/spi/Drivers'
 import { JavascriptCompilerSpi } from '@adapter/spi/JavascriptCompilerSpi'
-import { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
-import type { Table } from '@domain/entities/Table'
-
-interface Ressources {
-  drivers: Drivers
-  tables: Table[]
-}
+import { JavascriptCompiler, type Entities } from '@domain/services/JavascriptCompiler'
 
 export class JavascriptCompilerMapper {
-  static toService(ressources: Ressources): JavascriptCompiler {
-    const { drivers, tables } = ressources
+  static toService(drivers: Drivers, entities: Entities): JavascriptCompiler {
     const driver = drivers.javascriptCompiler()
     const spi = new JavascriptCompilerSpi(driver)
-    return new JavascriptCompiler(spi, { tables })
+    return new JavascriptCompiler(spi, entities)
   }
 }

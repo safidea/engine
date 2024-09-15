@@ -6,7 +6,7 @@ import type {
   Padding,
   RoundedSize,
   Size,
-} from '@domain/entities/Component/base/base'
+} from '@domain/entities/Component/base'
 
 export function classNames(...classes: (string | undefined)[]) {
   const filtered = classes.filter(Boolean)

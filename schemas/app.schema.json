@@ -405,22 +405,6 @@
         "Column": {
             "additionalProperties": false,
             "properties": {
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "label",
-                "name"
-            ],
-            "type": "object"
-        },
-        "Column_1": {
-            "additionalProperties": false,
-            "properties": {
                 "name": {
                     "type": "string"
                 }
@@ -1739,6 +1723,22 @@
             "type": "object"
         },
         "Field": {
+            "additionalProperties": false,
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label",
+                "name"
+            ],
+            "type": "object"
+        },
+        "Field_1": {
             "anyOf": [
                 {
                     "$ref": "#/definitions/DateTime"
@@ -2396,7 +2396,7 @@
                 },
                 "columns": {
                     "items": {
-                        "$ref": "#/definitions/Column_1"
+                        "$ref": "#/definitions/Column"
                     },
                     "type": "array"
                 },
@@ -3497,39 +3497,42 @@
         "Table": {
             "additionalProperties": false,
             "properties": {
-                "buttons": {
-                    "items": {
-                        "$ref": "#/definitions/Config_4"
-                    },
-                    "type": "array"
-                },
                 "className": {
                     "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column"
-                    },
-                    "type": "array"
                 },
                 "component": {
                     "const": "Table",
                     "type": "string"
                 },
+                "data-action": {
+                    "type": "string"
+                },
+                "data-component": {
+                    "type": "string"
+                },
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/Field"
+                    },
+                    "type": "array"
+                },
                 "id": {
                     "type": "string"
                 },
-                "source": {
-                    "type": "string"
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
-                "title": {
-                    "$ref": "#/definitions/Config_5"
+                "table": {
+                    "type": "string"
                 }
             },
             "required": [
-                "columns",
                 "component",
-                "source"
+                "fields",
+                "table"
             ],
             "type": "object"
         },
@@ -3538,7 +3541,7 @@
             "properties": {
                 "fields": {
                     "items": {
-                        "$ref": "#/definitions/Field"
+                        "$ref": "#/definitions/Field_1"
                     },
                     "type": "array"
                 },

@@ -45,11 +45,11 @@ interface Entites {
 }
 
 export class Table {
-  name: string
-  fields: Field[]
-  path: string
-  recordPath: string
-  db: DatabaseTable
+  readonly name: string
+  readonly fields: Field[]
+  readonly path: string
+  readonly recordPath: string
+  readonly db: DatabaseTable
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
 
   constructor(

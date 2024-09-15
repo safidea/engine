@@ -1,4 +1,4 @@
-import type { ReactComponent, Base, BaseProps, Align, Size, Font } from '../base/base'
+import type { Base, BaseProps, Align, Size, Font, BaseServices } from '../base'
 
 export interface Props extends BaseProps {
   text: string
@@ -8,17 +8,22 @@ export interface Props extends BaseProps {
   font?: Font
 }
 
-interface Params extends Props {
-  Component: ReactComponent<Props>
-}
+export type Config = Props
+
+export type Services = BaseServices
 
 export class Title implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   init = async () => {}
 
   render = async () => {
-    const { Component, ...defaultProps } = this._params
+    const { ...defaultProps } = this._config
+    const { client } = this._services
+    const Component = client.components.Title
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
   }
 

@@ -4,7 +4,6 @@ import { type Driver as IdGeneratorDriver } from './IdGeneratorSpi'
 import { type Driver as LoggerDriver } from './LoggerSpi'
 import { type Driver as SchemaValidatorDriver } from './SchemaValidatorSpi'
 import { type Driver as ServerDriver } from './ServerSpi'
-import { type Driver as ReactDriver } from './ReactSpi'
 import { type Driver as QueueDriver } from './QueueSpi'
 import { type Driver as MailerDriver } from './MailerSpi'
 import { type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
@@ -44,7 +43,6 @@ export interface Drivers {
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver
-  react: () => ReactDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
   javascriptCompiler: () => JavascriptCompilerDriver

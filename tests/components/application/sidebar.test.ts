@@ -154,8 +154,8 @@ test.describe('Sidebar component', () => {
                 children: [
                   {
                     component: 'Table',
-                    source: '/api/table/leads',
-                    columns: [
+                    table: 'leads',
+                    fields: [
                       {
                         name: 'name',
                         label: 'Name',

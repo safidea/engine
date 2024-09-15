@@ -1,14 +1,8 @@
-import { Paragraph } from '@domain/entities/Component/content/Paragraph'
-import type { ReactComponents } from '@domain/entities/Component'
+import { Paragraph, type Services } from '@domain/entities/Component/content/Paragraph'
 import type { Config } from '@adapter/api/configs/Component/content/Paragraph'
-
-interface Services {
-  components: ReactComponents
-}
 
 export class ParagraphMapper {
   static toEntity = (config: Config, services: Services): Paragraph => {
-    const { components } = services
-    return new Paragraph({ ...config, Component: components.Paragraph })
+    return new Paragraph(config, services)
   }
 }

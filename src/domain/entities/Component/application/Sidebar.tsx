@@ -1,4 +1,4 @@
-import type { Base, ReactComponent, BaseProps } from '../base/base'
+import type { Base, BaseProps, BaseServices } from '../base'
 import type { Link } from '../content/Link'
 import type { Component } from '..'
 import type { Title } from '../content/Title'
@@ -13,18 +13,25 @@ export interface Props extends BaseProps {
   children: React.ReactNode
 }
 
-interface Params extends BaseProps {
+export type Config = BaseProps
+
+export type Services = BaseServices
+
+export interface Entities {
   title?: Title
   links: Link[]
   children: Component[]
-  Component: ReactComponent<Props>
 }
 
 export class Sidebar implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   init = async () => {
-    const { children, title, links } = this._params
+    const { children, title, links } = this._entities
     await Promise.all([
       ...children.map((child) => child.init()),
       ...links.map((link) => link.init()),
@@ -33,10 +40,11 @@ export class Sidebar implements Base<Props> {
   }
 
   render = async (state: State) => {
-    const { Component, id, className } = this._params
-    const children = await Promise.all(this._params.children.map((child) => child.render(state)))
-    const Links = await Promise.all(this._params.links.map((link) => link.render(state)))
-    const Title = this._params.title ? await this._params.title.render() : undefined
+    const { id, className } = this._config
+    const children = await Promise.all(this._entities.children.map((child) => child.render(state)))
+    const Links = await Promise.all(this._entities.links.map((link) => link.render(state)))
+    const Title = this._entities.title ? await this._entities.title.render() : undefined
+    const Component = this._services.client.components.Sidebar
     return (props?: Partial<Props>) => (
       <Component
         {...{
@@ -52,7 +60,7 @@ export class Sidebar implements Base<Props> {
   }
 
   validateConfig = () => {
-    const { children, title, links } = this._params
+    const { children, title, links } = this._entities
     const errors: ConfigError[] = []
     if (title) {
       errors.push(...title.validateConfig())

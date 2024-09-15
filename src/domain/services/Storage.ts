@@ -1,7 +1,7 @@
 import type { Bucket } from '@domain/entities/Bucket'
 import type { Logger } from './Logger'
 import { StorageBucket } from './StorageBucket'
-import type { Driver, Exec, Query } from './Database'
+import type { Database, Driver, Exec, Query } from './Database'
 import type { StorageBucketSpi } from '@adapter/spi/StorageBucketSpi'
 
 export interface Config {
@@ -12,6 +12,7 @@ export interface Config {
 
 export interface Services {
   logger: Logger
+  database: Database
 }
 
 export interface Spi {

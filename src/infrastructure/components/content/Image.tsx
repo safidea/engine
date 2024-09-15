@@ -1,6 +1,6 @@
 import type { Props } from '@domain/entities/Component'
 import { classNames, getMarginBottomClasses, getRoundedClasses } from '../utils'
-import type { Align, Size } from '@domain/entities/Component/base/base'
+import type { Align, Size } from '@domain/entities/Component/base'
 
 export const Image = ({
   src,

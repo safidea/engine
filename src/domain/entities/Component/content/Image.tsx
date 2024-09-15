@@ -1,4 +1,4 @@
-import type { ReactComponent, Base, BaseProps, Size, RoundedSize, Align } from '../base/base'
+import type { Base, BaseProps, Size, RoundedSize, Align, BaseServices } from '../base'
 
 export interface Props extends BaseProps {
   src: string
@@ -8,17 +8,21 @@ export interface Props extends BaseProps {
   align?: Align
 }
 
-interface Params extends Props {
-  Component: ReactComponent<Props>
-}
+export type Config = Props
+
+export type Services = BaseServices
 
 export class Image implements Base<Props> {
-  constructor(private _params: Params) {}
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   init = async () => {}
 
   render = async () => {
-    const { Component, ...defaultProps } = this._params
+    const { ...defaultProps } = this._config
+    const Component = this._services.client.components.Image
     return (props?: Partial<Props>) => <Component {...{ ...defaultProps, ...props }} />
   }
 

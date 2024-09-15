@@ -15,7 +15,6 @@ import { ServerDriver } from './ServerDriver'
 import { LoggerDriver } from './LoggerDriver'
 import { IdGeneratorDriver } from './IdGeneratorDriver'
 import { DatabaseDriver } from './DatabaseDriver'
-import { ReactDriver } from './ReactDriver'
 import { QueueDriver } from './QueueDriver'
 import { MailerDriver } from './MailerDriver'
 import { TemplateCompilerDriver } from './TemplateCompilerDriver'
@@ -46,7 +45,6 @@ export const drivers: Drivers = {
   javascriptCompiler: () => new JavascriptCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),
-  react: () => new ReactDriver(),
   client: () => new ClientDriver(),
   idGenerator: () => new IdGeneratorDriver(),
   iconLibrary: () => new IconLibraryDriver(),

@@ -1,12 +1,10 @@
 import { App } from '@domain/entities/App'
 import type { App as Config } from '@adapter/api/configs/App'
-import type { ReactComponents } from '@domain/entities/Component'
 import type { Drivers } from '@adapter/spi/Drivers'
 import { PageMapper } from './PageMapper'
 import { TableMapper } from './TableMapper'
 import { AutomationMapper } from './AutomationMapper'
 import { ServerMapper } from './ServiceMapper/ServerMapper'
-import { ReactMapper } from './ServiceMapper/ReactMapper'
 import { ClientMapper } from './ServiceMapper/ClientMapper'
 import { IdGeneratorMapper } from './ServiceMapper/IdGeneratorMapper'
 import { TemplateCompilerMapper } from './ServiceMapper/TemplateCompilerMapper'
@@ -30,39 +28,33 @@ import { SpreadsheetLoaderMapper } from './ServiceMapper/SpreadsheetLoaderMapper
 import { DocumentLoaderMapper } from './ServiceMapper/DocumentLoaderMapper'
 import { MonitorMapper } from './ServiceMapper/MonitorMapper'
 
-interface Ressources {
-  drivers: Drivers
-  components: ReactComponents
-}
-
 export class AppMapper {
-  static toEntity = (ressources: Ressources, config: Config) => {
+  static toEntity = (drivers: Drivers, config: Config) => {
     const { name } = config
-    const { components, drivers } = ressources
-    const monitor = MonitorMapper.toService({ drivers }, config.monitor ?? { driver: 'Console' })
-    const logger = LoggerMapper.toService({ drivers })
-    const server = ServerMapper.toService({ drivers, logger, monitor }, config.server ?? {})
-    const react = ReactMapper.toService({ drivers })
-    const idGenerator = IdGeneratorMapper.toService({ drivers })
-    const fileSystem = FileSystemMapper.toService({ drivers })
-    const client = ClientMapper.toService({ drivers })
-    const schemaValidator = SchemaValidatorMapper.toService({ drivers })
-    const templateCompiler = TemplateCompilerMapper.toService({ drivers })
-    const browser = BrowserMapper.toService({ drivers })
-    const iconLibrary = IconLibraryMapper.toService({ drivers })
-    const fontLibrary = FontLibraryMapper.toService({ drivers, server, idGenerator })
-    const markdownParser = MarkdownParserMapper.toService({ drivers, components, react })
-    const database = DatabaseMapper.toService({ drivers, logger, monitor }, config.database ?? {})
-    const theme = ThemeMapper.toService({ drivers, server, fontLibrary }, config.theme ?? {})
-    const mailer = MailerMapper.toService({ drivers, logger }, config.mailer ?? {})
-    const spreadsheetLoader = SpreadsheetLoaderMapper.toService({ drivers, templateCompiler })
-    const documentLoader = DocumentLoaderMapper.toService({ drivers, templateCompiler })
+    const monitor = MonitorMapper.toService(drivers, config.monitor ?? { driver: 'Console' })
+    const logger = LoggerMapper.toService(drivers)
+    const server = ServerMapper.toService(drivers, config.server ?? {}, { logger, monitor })
+    const idGenerator = IdGeneratorMapper.toService(drivers)
+    const fileSystem = FileSystemMapper.toService(drivers)
+    const client = ClientMapper.toService(drivers)
+    const schemaValidator = SchemaValidatorMapper.toService(drivers)
+    const templateCompiler = TemplateCompilerMapper.toService(drivers)
+    const browser = BrowserMapper.toService(drivers)
+    const iconLibrary = IconLibraryMapper.toService(drivers)
+    const fontLibrary = FontLibraryMapper.toService(drivers, { server, idGenerator })
+    const markdownParser = MarkdownParserMapper.toService(drivers, { client })
+    const database = DatabaseMapper.toService(drivers, { logger, monitor }, config.database ?? {})
+    const theme = ThemeMapper.toService(drivers, { server, fontLibrary }, config.theme ?? {})
+    const mailer = MailerMapper.toService(drivers, { logger }, config.mailer ?? {})
+    const spreadsheetLoader = SpreadsheetLoaderMapper.toService(drivers, { templateCompiler })
+    const documentLoader = DocumentLoaderMapper.toService(drivers, { templateCompiler })
     const auth = AuthMapper.toService(
-      { drivers, server, mailer, templateCompiler, logger, database, idGenerator },
+      drivers,
+      { server, mailer, templateCompiler, logger, database, idGenerator },
       config.auth ?? {}
     )
-    const queue = QueueMapper.toService({ drivers, logger, database, monitor })
-    const storage = StorageMapper.toService({ drivers, logger, database })
+    const queue = QueueMapper.toService(drivers, { logger, database, monitor })
+    const storage = StorageMapper.toService(drivers, { logger, database })
     const buckets = BucketMapper.toManyEntities(config.buckets ?? [], {
       server,
       storage,
@@ -77,20 +69,22 @@ export class AppMapper {
       schemaValidator,
       monitor,
     })
-    const realtime = RealtimeMapper.toService({ database, logger, idGenerator, tables })
-    const pages = PageMapper.toManyEntities(config.pages ?? [], {
-      logger,
-      realtime,
-      markdownParser,
-      iconLibrary,
-      client,
-      server,
-      react,
-      idGenerator,
-      components,
-      templateCompiler,
-    })
-    const javascriptCompiler = JavascriptCompilerMapper.toService({ drivers, tables })
+    const realtime = RealtimeMapper.toService({ database, logger, idGenerator }, { tables })
+    const pages = PageMapper.toManyEntities(
+      config.pages ?? [],
+      {
+        logger,
+        realtime,
+        markdownParser,
+        iconLibrary,
+        client,
+        server,
+        idGenerator,
+        templateCompiler,
+      },
+      { tables }
+    )
+    const javascriptCompiler = JavascriptCompilerMapper.toService(drivers, { tables })
     const automations = AutomationMapper.toManyEntities(
       config.automations ?? [],
       {

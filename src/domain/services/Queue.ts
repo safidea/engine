@@ -1,4 +1,4 @@
-import type { Exec, Query, Driver } from './Database'
+import type { Exec, Query, Driver, Database } from './Database'
 import type { Logger } from './Logger'
 import type { Context } from '@domain/entities/Automation/Context'
 import type { Monitor } from './Monitor'
@@ -12,6 +12,7 @@ export interface Config {
 export interface Services {
   logger: Logger
   monitor: Monitor
+  database: Database
 }
 
 export type State =

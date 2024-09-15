@@ -1,5 +1,6 @@
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { State } from '@domain/entities/Page/State'
+import type { Client } from '@domain/services/Client'
 
 export type ReactComponent<T> = (props: T) => JSX.Element
 
@@ -10,6 +11,10 @@ export interface BaseProps {
   'data-component'?: string
   // TODO: replace this infrastructure dependency by domain dependency
   'data-action'?: string
+}
+
+export interface BaseServices {
+  client: Client
 }
 
 export interface Base<P extends BaseProps> {

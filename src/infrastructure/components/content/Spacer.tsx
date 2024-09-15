@@ -1,6 +1,6 @@
 import type { Props } from '@domain/entities/Component'
 import { classNames } from '../utils'
-import type { Size } from '@domain/entities/Component/base/base'
+import type { Size } from '@domain/entities/Component/base'
 
 export const Spacer = ({ id, className = '', size = 'md' }: Props['Spacer']) => {
   return (
