@@ -32,13 +32,11 @@ test.describe('Table component', () => {
     const call = () => app.start(config)
 
     // THEN
-    await expect(call()).rejects.toThrow(
-      'Table source /api/table/leads does not have a GET handler'
-    )
+    await expect(call()).rejects.toThrow('Table "leads" not found')
   })
 
   Database.each(test, (dbConfig) => {
-    test.only('should display a row in a table', async ({ page }) => {
+    test('should display a row in a table', async ({ page }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {

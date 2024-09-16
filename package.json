@@ -44,7 +44,7 @@
     "watch": "concurrently \"bun run watch:schemas\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
     "test": "NODE_OPTIONS=--no-deprecation bunx playwright test",
-    "test:ui": "bunx playwright test --ui",
+    "test:ui": "NODE_OPTIONS=--no-deprecation bunx playwright test --ui",
     "storybook": "bun run build:css && storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release"

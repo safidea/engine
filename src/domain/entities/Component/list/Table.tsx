@@ -101,14 +101,14 @@ export class Table implements Base<Props> {
   html = async (state: State, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state)
-    return client.renderToHtml(<Component {...this._props} {...props} />)
+    return client.renderToHtml(<Component {...props} />)
   }
 
   htmlStream = async (state: State, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state)
     return client.renderToHtml(
-      <client.Stream action="replace" target={this._id}>
+      <client.Stream action="replace" target={this._frameId}>
         <Component {...this._props} {...props} />
       </client.Stream>
     )
@@ -116,9 +116,9 @@ export class Table implements Base<Props> {
 
   render = async (_state: State) => {
     const { client } = this._services
-    return (props?: Partial<Props>) => (
+    return (props: Partial<Props> = {}) => (
       <>
-        <client.Frame id={this._frameId} src={this._path}>
+        <client.Frame id={this._frameId} src={!props.rows ? this._path : ''}>
           <client.components.Table {...this._props} {...props} />
         </client.Frame>
         <client.StreamSource src={this._streamPath} />
