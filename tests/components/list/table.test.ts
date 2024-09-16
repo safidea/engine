@@ -142,7 +142,7 @@ test.describe('Table component', () => {
 
   test.describe('visual regression with threshold', () => {
     Database.SQLite(test, (dbConfig) => {
-      test.only('should display 3 rows', async ({ page }) => {
+      test('should display 3 rows', async ({ page }) => {
         // GIVEN
         const database = new Database(dbConfig)
         const config: Config = {
