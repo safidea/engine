@@ -29,7 +29,7 @@ export interface Services {
 }
 
 export interface Spi {
-  build: (htmlContents: string[], fontsCss: string[]) => Promise<string>
+  build: (htmlContents: string[], fontsCss?: string[]) => Promise<string>
 }
 
 export class Theme {
@@ -38,6 +38,10 @@ export class Theme {
     private _services: Services,
     private _config: Config
   ) {}
+
+  buildCss = async (htmlContents: string[]) => {
+    return this._spi.build(htmlContents)
+  }
 
   init = async (htmlContents: string[]) => {
     const { server, fontLibrary } = this._services

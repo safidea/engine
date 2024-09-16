@@ -7,13 +7,13 @@ import type { RawFile } from 'tailwindcss/types/config'
 export class ThemeDriver implements Driver {
   constructor(private _config: Config) {}
 
-  build = async (htmlContents: string[], fontsCss: string[]) => {
+  build = async (htmlContents: string[], fontsCss: string[] = []) => {
     if (htmlContents.length === 0) return '/* There is no css generated */'
 
     const { fontFamily } = this._config
     const theme: Tailwindcss['theme'] = {}
 
-    if (fontFamily) {
+    if (fontsCss.length > 0 && fontFamily) {
       theme.fontFamily = {}
       if (fontFamily.sans) {
         const sans = fontFamily.sans.search(' ') === -1 ? fontFamily.sans : `"${fontFamily.sans}"`

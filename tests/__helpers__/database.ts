@@ -91,39 +91,45 @@ export default class Database extends DatabaseDriver {
     ])
   }
 
-  static each(test: Test, callback: (config: Config) => void) {
+  static SQLite(test: Test, callback: (config: Config) => void) {
     const logger = new Logger()
-    const log = logger.init('[test]:database')
-    for (const driver of ['SQLite', 'PostgreSQL']) {
-      const config: Config = { url: '', driver }
-      test.describe(`with "${driver}" database`, () => {
-        if (driver === 'SQLite') {
-          test.beforeEach(async () => {
-            config.url = join(process.cwd(), 'tmp', `database-${nanoid()}.db`)
-            await fs.ensureFile(config.url)
-            log(`start "${driver}" database at ${config.url}`)
-          })
-          test.afterEach(async () => {
-            log(`stop "${driver}" database at ${config.url}`)
-            await fs.remove(config.url)
-          })
-          callback(config)
-        } else if (driver === 'PostgreSQL') {
-          const dbName = `test_db_${customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)()}`
-          const postgresUrl = process.env.TEST_POSTGRES_URL || ''
-          test.beforeEach(async () => {
-            config.url = await createDatabase(postgresUrl, dbName)
-            log(`start "${driver}" database at ${config.url}`)
-          })
-          test.afterEach(async () => {
-            log(`stop "${driver}" database at ${config.url}`)
-            await dropDatabase(postgresUrl, dbName)
-          })
-          callback(config)
-        } else {
-          throw new Error(`unsupported database type: ${driver}`)
-        }
+    const log = logger.init('[test]:database:SQLite')
+    test.describe(`with "SQLite" database`, () => {
+      const config: Config = { url: '', driver: 'SQLite' }
+      test.beforeEach(async () => {
+        config.url = join(process.cwd(), 'tmp', `database-${nanoid()}.db`)
+        await fs.ensureFile(config.url)
+        log(`start at ${config.url}`)
       })
-    }
+      test.afterEach(async () => {
+        log(`stop at ${config.url}`)
+        await fs.remove(config.url)
+      })
+      callback(config)
+    })
+  }
+
+  static PostgreSQL(test: Test, callback: (config: Config) => void) {
+    const logger = new Logger()
+    const log = logger.init('[test]:database:PostgreSQL')
+    test.describe(`with "PostgreSQL" database`, () => {
+      const dbName = `test_db_${customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)()}`
+      const postgresUrl = process.env.TEST_POSTGRES_URL || ''
+      const config: Config = { url: '', driver: 'PostgreSQL' }
+      test.beforeEach(async () => {
+        config.url = await createDatabase(postgresUrl, dbName)
+        log(`start at ${config.url}`)
+      })
+      test.afterEach(async () => {
+        log(`stop at ${config.url}`)
+        await dropDatabase(postgresUrl, dbName)
+      })
+      callback(config)
+    })
+  }
+
+  static each(test: Test, callback: (config: Config) => void) {
+    Database.SQLite(test, callback)
+    Database.PostgreSQL(test, callback)
   }
 }

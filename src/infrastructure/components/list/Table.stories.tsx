@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Table } from './Table'
 
 const meta = {
-  title: 'Application/Table',
+  title: 'List/Table',
   component: Table,
   parameters: {
     layout: 'fullscreen',

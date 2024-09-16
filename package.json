@@ -35,7 +35,6 @@
     "build:client": "bun run scripts/client/build.ts",
     "build:types": "bun run scripts/types/build.ts",
     "build:schemas": "bun run scripts/schemas/build.ts",
-    "build:css": "bunx tailwindcss -i ./.storybook/input.css -o ./dist/output.css",
     "build": "bun run build:client && bun run build:server && bun run build:types",
     "watch:server": "nodemon --config scripts/server/watch.json",
     "watch:client": "nodemon --config scripts/client/watch.json",
@@ -45,7 +44,7 @@
     "pretest": "bunx playwright install --with-deps",
     "test": "NODE_OPTIONS=--no-deprecation bunx playwright test",
     "test:ui": "NODE_OPTIONS=--no-deprecation bunx playwright test --ui",
-    "storybook": "bun run build:css && storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release"
   },
