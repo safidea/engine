@@ -188,6 +188,7 @@ test.describe('Table component', () => {
 
         // WHEN
         await page.goto(url)
+        await page.waitForSelector('td')
 
         // THEN
         expect(await page.screenshot()).toMatchSnapshot({
