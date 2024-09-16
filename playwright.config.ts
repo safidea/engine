@@ -10,7 +10,7 @@ process.env.TESTING = 'true'
 export default defineConfig({
   testDir: './tests',
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
-  snapshotDir: './__snapshots__',
+  snapshotDir: './tests/__snapshots__',
   /* Maximum time one test can run for. */
   timeout: 15 * 1000,
   /* Run tests in files in parallel */

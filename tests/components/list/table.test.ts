@@ -140,6 +140,64 @@ test.describe('Table component', () => {
     })
   })
 
+  test.describe('visual regression with threshold', () => {
+    Database.SQLite(test, (dbConfig) => {
+      test.only('should display 3 rows', async ({ page }) => {
+        // GIVEN
+        const database = new Database(dbConfig)
+        const config: Config = {
+          name: 'App',
+          pages: [
+            {
+              name: 'Page',
+              path: '/',
+              body: [
+                {
+                  component: 'Table',
+                  table: 'leads',
+                  fields: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          tables: [
+            {
+              name: 'leads',
+              fields: [
+                {
+                  name: 'name',
+                  field: 'SingleLineText',
+                },
+              ],
+            },
+          ],
+          database: dbConfig,
+        }
+        const app = new App()
+        const url = await app.start(config)
+        await database.table('leads').insertMany([
+          { id: '1', name: 'John', created_at: new Date() },
+          { id: '2', name: 'Doe', created_at: new Date() },
+          { id: '3', name: 'Smith', created_at: new Date() },
+        ])
+
+        // WHEN
+        await page.goto(url)
+
+        // THEN
+        expect(await page.screenshot()).toMatchSnapshot({
+          name: '3rows.png',
+          threshold: 0.2,
+        })
+      })
+    })
+  })
+
   Database.each(test, (dbConfig) => {
     test('should display a row in a table', async ({ page }) => {
       // GIVEN
