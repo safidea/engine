@@ -78,7 +78,7 @@ export class App {
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
-          page.html(new State(new Get({ path: page.path, baseUrl: server.baseUrl })))
+          page.htmlWithSampleProps(new State(new Get({ path: page.path, baseUrl: server.baseUrl })))
         const htmlContents = await Promise.all(pages.map(getHtmlContent))
         await theme.init(htmlContents)
       }

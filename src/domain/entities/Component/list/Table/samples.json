@@ -1,0 +1,22 @@
+{
+  "WITH_ROWS": {
+    "fields": [
+      { "label": "Name", "name": "name" },
+      { "label": "Age", "name": "age" },
+      { "label": "Address", "name": "address" }
+    ],
+    "rows": [
+      { "name": "John Doe", "age": 25, "address": "123 Main St" },
+      { "name": "Jane Doe", "age": 24, "address": "456 Elm St" },
+      { "name": "Joe Doe", "age": 26, "address": "789 Oak St" }
+    ]
+  },
+  "WITHOUT_ROWS": {
+    "fields": [
+      { "label": "Name", "name": "name" },
+      { "label": "Age", "name": "age" },
+      { "label": "Address", "name": "address" }
+    ],
+    "rows": []
+  }
+}

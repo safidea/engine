@@ -63,6 +63,22 @@ export class Page {
     return client.renderToHtml(await this.render(state))
   }
 
+  htmlWithSampleProps = async (state: State) => {
+    const { body } = this._entities
+    const { client } = this._services
+    const html = await Promise.all(
+      body.map(async (component) => {
+        if ('renderWithSamples' in component) {
+          const components = await component.renderWithSamples(state)
+          return components.map((Component) => client.renderToHtml(Component))
+        }
+        const Component = await component.render(state)
+        return client.renderToHtml(<Component />)
+      })
+    )
+    return html.flat().join('')
+  }
+
   render = async (state: State) => {
     const { body, head } = this._entities
     const { components } = this._services.client

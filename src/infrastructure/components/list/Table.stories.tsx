@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Table } from './Table'
+import SAMPLES from './../../../domain/entities/Component/list/Table/samples.json'
 
 const meta = {
   title: 'List/Table',
@@ -12,38 +13,10 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  args: {
-    fields: [
-      {
-        label: 'Name',
-        name: 'name',
-      },
-      {
-        label: 'Age',
-        name: 'age',
-      },
-      {
-        label: 'Address',
-        name: 'address',
-      },
-    ],
-    rows: [
-      {
-        name: 'John Doe',
-        age: 25,
-        address: '123 Main St',
-      },
-      {
-        name: 'Jane Doe',
-        age: 24,
-        address: '456 Elm St',
-      },
-      {
-        name: 'Joe Doe',
-        age: 26,
-        address: '789 Oak St',
-      },
-    ],
-  },
+export const WithoutRows: Story = {
+  args: SAMPLES.WITHOUT_ROWS,
+}
+
+export const WithRows: Story = {
+  args: SAMPLES.WITH_ROWS,
 }

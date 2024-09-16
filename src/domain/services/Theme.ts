@@ -39,10 +39,6 @@ export class Theme {
     private _config: Config
   ) {}
 
-  buildCss = async (htmlContents: string[]) => {
-    return this._spi.build(htmlContents)
-  }
-
   init = async (htmlContents: string[]) => {
     const { server, fontLibrary } = this._services
     const { fontFamily = {} } = this._config

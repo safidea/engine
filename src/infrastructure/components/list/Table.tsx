@@ -30,7 +30,7 @@ export const Table = ({ id, className, fields, rows }: Props['Table']) => (
               <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                 {rows.map((row, index) => (
                   <tr
-                    className="border-b dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-700 divide-x divide-gray-200 dark:divide-neutral-700"
+                    className={`${index === rows.length - 1 ? '' : 'border-b'} dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-700 divide-x divide-gray-200 dark:divide-neutral-700`}
                     key={index}
                   >
                     {fields.map((field, index) => {

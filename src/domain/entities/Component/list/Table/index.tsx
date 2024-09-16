@@ -1,5 +1,5 @@
 import type { Server } from '@domain/services/Server'
-import type { Base, BaseProps } from '../base'
+import type { Base, BaseProps } from '../../base'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import { Html } from '@domain/entities/Response/Html'
 import { ConfigError } from '@domain/entities/Error/Config'
@@ -9,6 +9,7 @@ import type { Client } from '@domain/services/Client'
 import { State } from '@domain/entities/Page/State'
 import type { Get } from '@domain/entities/Request/Get'
 import type { Table as TableEntity } from '@domain/entities/Table'
+import SAMPLES from './samples.json'
 
 export interface Field {
   name: string
@@ -124,6 +125,11 @@ export class Table implements Base<Props> {
         <client.StreamSource src={this._streamPath} />
       </>
     )
+  }
+
+  renderWithSamples = async (_state: State) => {
+    const Component = await this.render(_state)
+    return Object.values(SAMPLES).map((sample, index) => <Component {...sample} key={index} />)
   }
 
   validateConfig = () => {
