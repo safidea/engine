@@ -8,7 +8,6 @@ export const Container = ({
   center: isCentered,
   padding: paddingSize,
   children,
-  ['data-component']: dataComponent = 'Container',
 }: Props['Container']) => {
   const classes = []
   if (breakpoint === 'none') classes.push('w-full')
@@ -17,7 +16,7 @@ export const Container = ({
   if (isCentered === true) classes.push(center({ breakpoint, dimension: 'x' }))
   if (paddingSize) classes.push(padding({ size: paddingSize, dimension: 'x', breakpoint }))
   return (
-    <div id={id} className={classNames(...classes, className)} data-component={dataComponent}>
+    <div id={id} className={classNames(...classes, className)}>
       {children}
     </div>
   )

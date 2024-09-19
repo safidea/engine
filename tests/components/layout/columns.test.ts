@@ -42,9 +42,10 @@ test.describe('Columns component', () => {
     await expect(page.getByText('Column 1')).toBeVisible()
     await expect(page.getByText('Column 2')).toBeVisible()
     await expect(page.getByText('Column 3')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
-  test('should display the columns id', async ({ page }) => {
+  test('should display the columns with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -84,6 +85,7 @@ test.describe('Columns component', () => {
     // THEN
     const button = page.locator('#my-columns')
     await expect(button).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   /*test.describe('Breakpoint', () => {

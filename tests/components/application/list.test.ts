@@ -83,6 +83,7 @@ test.describe('List component', () => {
 
       // THEN
       await expect(page.getByText('John')).toBeVisible()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should open a row page', async ({ page }) => {
@@ -131,6 +132,7 @@ test.describe('List component', () => {
 
       // THEN
       await expect(page.waitForURL('**/request/1')).resolves.toBeUndefined()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should display a new row in realtime', async ({ page }) => {
@@ -180,9 +182,10 @@ test.describe('List component', () => {
 
       // THEN
       await expect(page.getByText('Doe')).toBeVisible()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
-    test('should display the list id', async ({ page }) => {
+    test('should display the list with id', async ({ page }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -230,6 +233,7 @@ test.describe('List component', () => {
       // THEN
       const list = page.locator('#my-list')
       await expect(list).toBeVisible()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
   })
 })

@@ -36,6 +36,7 @@ test.describe('Input component', () => {
     await expect(input).toBeVisible()
     const isTextarea = await input.evaluate((node) => node.tagName.toLowerCase() === 'textarea')
     expect(isTextarea).toBeTruthy()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display a input in app page', async ({ page }) => {
@@ -64,9 +65,10 @@ test.describe('Input component', () => {
     // THEN
     const input = page.getByRole('textbox')
     await expect(input).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
-  test('should display the input id', async ({ page }) => {
+  test('should display the input with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -94,5 +96,6 @@ test.describe('Input component', () => {
     const input = page.getByRole('textbox')
     await expect(input).toHaveAttribute('id')
     expect(await input.getAttribute('id')).toBe('my-input')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

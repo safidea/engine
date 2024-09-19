@@ -28,6 +28,7 @@ test.describe('Spacer component', () => {
     // THEN
     expect(html).toContain('<div')
     expect(html).toContain('></div>')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a spacer with lg size', async ({ page }) => {
@@ -56,9 +57,10 @@ test.describe('Spacer component', () => {
 
     // THEN
     expect(html).toContain('mt-12')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
-  test('should display the spacer id', async ({ page }) => {
+  test('should display the spacer with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -83,5 +85,6 @@ test.describe('Spacer component', () => {
 
     // THEN
     expect(page.locator('#my-spacer')).toBeDefined()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

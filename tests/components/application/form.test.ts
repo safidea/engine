@@ -3,7 +3,7 @@ import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('Form component', () => {
-  test('should display a form', async ({ page }) => {
+  test('should display a form with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'Page',
@@ -14,6 +14,7 @@ test.describe('Form component', () => {
           body: [
             {
               component: 'Form',
+              id: 'my-form',
               action: '#',
               title: { text: 'This is a title' },
               paragraph: { text: 'This is a description' },
@@ -42,7 +43,8 @@ test.describe('Form component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Form"]')).toBeVisible()
+    await expect(page.locator('#my-form')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   Database.each(test, (dbConfig) => {
@@ -121,6 +123,7 @@ test.describe('Form component', () => {
         ])
         .read([{ field: 'email', operator: '=', value: 'test@test.com' }])
       expect(lead).toBeDefined()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should display a success message after submiting a form', async ({ page }) => {
@@ -189,6 +192,7 @@ test.describe('Form component', () => {
 
       // THEN
       await expect(page.getByText(successMessage)).toBeVisible()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should submit a form and update a row in a table', async ({ page }) => {
@@ -267,6 +271,7 @@ test.describe('Form component', () => {
       const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test@test.com')
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should submit a form and update a specific row in a table with rows', async ({
@@ -351,6 +356,7 @@ test.describe('Form component', () => {
       const lead = await leads.read([{ field: 'id', operator: '=', value: '2' }])
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test2@test.com')
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should delete a row from a form button', async ({ page }) => {
@@ -446,50 +452,7 @@ test.describe('Form component', () => {
       // THEN
       const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
       expect(lead).toBeUndefined()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
-  })
-
-  test('should display the form id', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Form',
-              id: 'my-form',
-              action: '#',
-              title: { text: 'This is a title' },
-              paragraph: { text: 'This is a description' },
-              inputs: [
-                {
-                  name: 'email',
-                  label: 'Your email',
-                  placeholder: '',
-                },
-              ],
-              buttons: [
-                {
-                  type: 'submit',
-                  label: 'Save',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const form = page.locator('#my-form')
-    await expect(form).toBeVisible()
   })
 })

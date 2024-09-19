@@ -3,6 +3,7 @@ import { classNames, getFontClasses, getTextAlignClasses } from '../utils'
 import type { Size } from '@domain/entities/Component/base'
 
 export const Title = ({
+  id,
   size = 'md',
   text,
   align = 'left',
@@ -18,7 +19,7 @@ export const Title = ({
     getTextAlignClasses(align),
     className
   )
-  const props = { className: classes, ['data-component']: 'Title' }
+  const props = { id, className: classes }
   switch (heading) {
     case 1:
       return <h1 {...props}>{text}</h1>

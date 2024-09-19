@@ -24,7 +24,6 @@ export const Link = ({
       href={href}
       className={classNames(linkClass, getFontClasses(font), className)}
       data-active={active}
-      data-component="Link"
     >
       {PrefixIcon ? <PrefixIcon className={iconClass} /> : null}
       <span className={labelClass}>{label}</span>

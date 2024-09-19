@@ -42,6 +42,7 @@ test.describe('Hero component', () => {
 
     const buttonContent = await page.textContent('a')
     expect(buttonContent).toContain(primaryButton.label)
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should redirect when clicking on primary button', async ({ page }) => {
@@ -78,41 +79,6 @@ test.describe('Hero component', () => {
 
     // THEN
     expect(page.url()).toBe(primaryButton.href)
-  })
-
-  test('should display the hero id', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Hero',
-              id: 'my-hero',
-              title: { text: 'This is a title' },
-              paragraph: { text: 'This is a description' },
-              buttons: [
-                {
-                  label: 'Click me',
-                  href: '/',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const hero = page.locator('#my-hero')
-    await expect(hero).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

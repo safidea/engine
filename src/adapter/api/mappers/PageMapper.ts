@@ -27,6 +27,7 @@ export class PageMapper {
         body: [
           {
             component: 'NotFound',
+            id: 'not-found',
             title: { text: "Something's missing." },
             paragraph: {
               text: "Sorry, we can't find that page. You'll find lots to explore on the home page.",

@@ -3,7 +3,7 @@ import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
 
 test.describe('Button component', () => {
-  test('should render a button', async ({ page }) => {
+  test('should render a button with id', async ({ page }) => {
     // GIVEN
     const label = 'Button'
     const config: Config = {
@@ -15,6 +15,7 @@ test.describe('Button component', () => {
           body: [
             {
               component: 'Button',
+              id: 'my-button',
               label,
             },
           ],
@@ -28,8 +29,9 @@ test.describe('Button component', () => {
     await page.goto(url)
 
     // THEN
-    const buttonContent = await page.textContent('button')
-    expect(buttonContent).toContain(label)
+    const button = page.locator('button', { hasText: label })
+    expect(await button.getAttribute('id')).toContain('my-button')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a button with a link', async ({ page }) => {
@@ -61,6 +63,7 @@ test.describe('Button component', () => {
     // THEN
     const button = page.locator('a', { hasText: label })
     expect(await button.getAttribute('href')).toContain(href)
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   Database.each(test, (dbConfig) => {
@@ -119,6 +122,7 @@ test.describe('Button component', () => {
       // THEN
       const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
       expect(lead).toBeUndefined()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
 
     test('should redirect after deleting a row successfully when clicked', async ({ page }) => {
@@ -188,36 +192,7 @@ test.describe('Button component', () => {
 
       // THEN
       await expect(page.waitForURL('**/leads')).resolves.toBeUndefined()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
-  })
-
-  test('should display the button id', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Button',
-              label: 'hello world',
-              id: 'my-button',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const button = page.getByText('hello world')
-    await expect(button).toHaveAttribute('id')
-    expect(await button.getAttribute('id')).toBe('my-button')
   })
 })

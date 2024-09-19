@@ -76,6 +76,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Paragraph',
+              id: 'paragraph',
               text: 'Hello world!',
             },
           ],
@@ -94,7 +95,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
+    const fontFamily = await page.$eval('#paragraph', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('"Open Sans", sans-serif')
@@ -111,6 +112,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Paragraph',
+              id: 'paragraph',
               text: 'Hello world!',
               font: 'serif',
             },
@@ -131,7 +133,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
+    const fontFamily = await page.$eval('#paragraph', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('Merriweather, serif')
@@ -148,6 +150,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Paragraph',
+              id: 'paragraph',
               text: 'Hello world!',
               font: 'serif',
             },
@@ -168,7 +171,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
+    const fontFamily = await page.$eval('#paragraph', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('Merriweather, serif')
@@ -185,6 +188,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Title',
+              id: 'title',
               text: 'Hello world!',
               font: 'serif',
             },
@@ -205,7 +209,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Title"]', (element) => {
+    const fontFamily = await page.$eval('#title', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('Merriweather, serif')
@@ -222,7 +226,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Markdown',
-              content: '# Hello world! \n This is a markdown text.',
+              content: 'This is a markdown text.',
               font: 'serif',
             },
           ],
@@ -242,7 +246,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Paragraph"]', (element) => {
+    const fontFamily = await page.$eval('p', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('Merriweather, serif')
@@ -259,7 +263,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Markdown',
-              content: '# Hello world! \n This is a markdown text.',
+              content: '# Hello world!',
               font: 'serif',
             },
           ],
@@ -279,7 +283,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Title"]', (element) => {
+    const fontFamily = await page.$eval('h1', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('Merriweather, serif')
@@ -296,7 +300,7 @@ test.describe('Theme', () => {
           body: [
             {
               component: 'Markdown',
-              content: '# Hello world! \n [This is a link.](https://example.com)',
+              content: '[This is a link.](https://example.com)',
               font: 'serif',
             },
           ],
@@ -316,7 +320,7 @@ test.describe('Theme', () => {
     await page.goto(url)
 
     // THEN
-    const fontFamily = await page.$eval('[data-component="Link"]', (element) => {
+    const fontFamily = await page.$eval('a', (element) => {
       return window.getComputedStyle(element).fontFamily
     })
     expect(fontFamily).toContain('Merriweather, serif')

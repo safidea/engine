@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('NotFound component', () => {
-  test('should render the 404 default page', async ({ page }) => {
+  test('should render the 404 default page with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -26,6 +26,7 @@ test.describe('NotFound component', () => {
     await page.goto(url + '/contact')
 
     // THEN
-    await expect(page.locator('[data-component="NotFound"]')).toBeVisible()
+    await expect(page.locator('#not-found')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

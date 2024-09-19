@@ -27,7 +27,6 @@ export const Paragraph = ({
         getTextAlignClasses(align),
         className
       )}
-      data-component="Paragraph"
     >
       {children ?? text}
     </p>

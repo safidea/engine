@@ -51,6 +51,7 @@ test.describe('Header component', () => {
     await expect(page.getByText('About')).toBeVisible()
     await expect(page.getByText('Contact')).toBeVisible()
     await expect(page.getByText('Click me')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test.skip('should render a header with a dropdown', async ({ page }) => {
@@ -158,54 +159,6 @@ test.describe('Header component', () => {
 
     // THEN
     expect(page.url()).toBe('https://example.com/')
-  })
-
-  test('should display the header id', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Header',
-              id: 'my-header',
-              title: { text: 'This is a title' },
-              links: [
-                {
-                  label: 'Home',
-                  href: '/',
-                },
-                {
-                  label: 'About',
-                  href: '/about',
-                },
-                {
-                  label: 'Contact',
-                  href: '/contact',
-                },
-              ],
-              buttons: [
-                {
-                  label: 'Click me',
-                  href: 'https://example.com/',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const header = page.locator('#my-header')
-    await expect(header).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

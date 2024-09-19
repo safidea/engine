@@ -2,7 +2,7 @@ import type { Props } from '@domain/entities/Component'
 import { Container } from '../layout/Container'
 
 export const Cta = ({ id, className = '', Title, Paragraph, Buttons }: Props['Cta']) => (
-  <Container id={id} className={className} data-component="CTA">
+  <Container id={id} className={className}>
     <div className="max-w-screen-md">
       <Title />
       <Paragraph size="xl" />

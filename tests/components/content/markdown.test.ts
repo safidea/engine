@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Markdown component', () => {
-  test('should render a markdown component', async ({ page }) => {
+  test('should render a markdown component with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -13,6 +13,7 @@ test.describe('Markdown component', () => {
           body: [
             {
               component: 'Markdown',
+              id: 'markdown',
               content: '# This is a markdown content.',
             },
           ],
@@ -26,34 +27,8 @@ test.describe('Markdown component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Markdown"]')).toBeVisible()
-  })
-
-  test('should render a markdown with a Title component', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Markdown',
-              content: '# This is a title.',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    await expect(page.locator('[data-component="Title"]')).toBeVisible()
+    await expect(page.locator('#markdown')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Title heading 1 component', async ({ page }) => {
@@ -83,6 +58,7 @@ test.describe('Markdown component', () => {
     const title = page.getByRole('heading', { name: 'This is a h1 title.' })
     const heading = await title.evaluate((el) => el.tagName)
     expect(heading).toBe('H1')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Title heading 2 component', async ({ page }) => {
@@ -112,6 +88,7 @@ test.describe('Markdown component', () => {
     const title = page.getByRole('heading', { name: 'This is a h2 title.' })
     const heading = await title.evaluate((el) => el.tagName)
     expect(heading).toBe('H2')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Title heading 3 component', async ({ page }) => {
@@ -141,6 +118,7 @@ test.describe('Markdown component', () => {
     const title = page.getByRole('heading', { name: 'This is a h3 title.' })
     const heading = await title.evaluate((el) => el.tagName)
     expect(heading).toBe('H3')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Title heading 4 component', async ({ page }) => {
@@ -170,6 +148,7 @@ test.describe('Markdown component', () => {
     const title = page.getByRole('heading', { name: 'This is a h4 title.' })
     const heading = await title.evaluate((el) => el.tagName)
     expect(heading).toBe('H4')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Title heading 5 component', async ({ page }) => {
@@ -199,6 +178,7 @@ test.describe('Markdown component', () => {
     const title = page.getByRole('heading', { name: 'This is a h5 title.' })
     const heading = await title.evaluate((el) => el.tagName)
     expect(heading).toBe('H5')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Title heading 6 component', async ({ page }) => {
@@ -228,6 +208,7 @@ test.describe('Markdown component', () => {
     const title = page.getByRole('heading', { name: 'This is a h6 title.' })
     const heading = await title.evaluate((el) => el.tagName)
     expect(heading).toBe('H6')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Paragraph component', async ({ page }) => {
@@ -254,7 +235,8 @@ test.describe('Markdown component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Paragraph"]')).toBeVisible()
+    await expect(page.locator('p')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Divider component', async ({ page }) => {
@@ -281,7 +263,8 @@ test.describe('Markdown component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Divider"]')).toBeVisible()
+    await expect(page.locator('hr')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Link component', async ({ page }) => {
@@ -308,7 +291,8 @@ test.describe('Markdown component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Link"]')).toBeVisible()
+    await expect(page.locator('a')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a markdown with a Image component', async ({ page }) => {
@@ -335,34 +319,6 @@ test.describe('Markdown component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Image"]')).toBeVisible()
-  })
-
-  test('should display the markdown id', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Markdown',
-              content: '# hello world',
-              id: 'my-markdown',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    expect(page.locator('#my-markdown')).toBeDefined()
+    await expect(page.locator('img')).toBeVisible()
   })
 })

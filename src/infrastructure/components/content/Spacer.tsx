@@ -3,13 +3,7 @@ import { classNames } from '../utils'
 import type { Size } from '@domain/entities/Component/base'
 
 export const Spacer = ({ id, className = '', size = 'md' }: Props['Spacer']) => {
-  return (
-    <div
-      id={id}
-      className={classNames(getSizeClasses(size), className)}
-      data-component="Spacer"
-    ></div>
-  )
+  return <div id={id} className={classNames(getSizeClasses(size), className)}></div>
 }
 
 export function getSizeClasses(size: Size) {

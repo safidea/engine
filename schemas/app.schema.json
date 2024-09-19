@@ -3507,9 +3507,6 @@
                 "data-action": {
                     "type": "string"
                 },
-                "data-component": {
-                    "type": "string"
-                },
                 "fields": {
                     "items": {
                         "$ref": "#/definitions/Field"

@@ -4,7 +4,7 @@ import Database from '@tests/database'
 import type { Component } from '@adapter/api/configs/Component'
 
 test.describe('Sidebar component', () => {
-  test('should display a title', async ({ page }) => {
+  test('should display a sidebar with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -15,6 +15,7 @@ test.describe('Sidebar component', () => {
           body: [
             {
               component: 'Sidebar',
+              id: 'sidebar',
               title: { text: 'Menu' },
               links: [],
               children: [],
@@ -30,7 +31,9 @@ test.describe('Sidebar component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.locator('[data-component="Title"]')).toBeVisible()
+    const sidebar = await page.$('#sidebar')
+    expect(sidebar).not.toBeNull()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display a list of links with icons', async ({ page }) => {
@@ -75,6 +78,8 @@ test.describe('Sidebar component', () => {
 
     const leadsLink = await page.textContent('a[href="/leads"]')
     expect(leadsLink).toContain('Leads')
+
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display a paragraph when clicking on a link', async ({ page }) => {
@@ -134,6 +139,7 @@ test.describe('Sidebar component', () => {
 
     // THEN
     await expect(page.getByText('Leads page')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   Database.each(test, (dbConfig) => {
@@ -189,36 +195,7 @@ test.describe('Sidebar component', () => {
 
       // THEN
       await expect(page.getByText('John')).toBeVisible()
+      expect(await page.screenshot()).toMatchSnapshot()
     })
-  })
-
-  test('should display the sidebar id', async ({ page }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Sidebar',
-              id: 'my-sidebar',
-              title: { text: 'Menu' },
-              links: [],
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const sidebar = page.locator('#my-sidebar')
-    expect(sidebar).toBeDefined()
   })
 })

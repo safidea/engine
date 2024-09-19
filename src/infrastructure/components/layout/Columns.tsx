@@ -5,7 +5,7 @@ export const Columns = ({ id, className = '', columns, Components }: Props['Colu
   const classes = []
   classes.push('columns-' + columns)
   return (
-    <div id={id} className={classNames(...classes, className)} data-component="Columns">
+    <div id={id} className={classNames(...classes, className)}>
       {Components.map((Component, index) => (
         <Component key={index} className="w-full" />
       ))}

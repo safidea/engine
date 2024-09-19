@@ -43,6 +43,7 @@ test.describe('App with pages', () => {
             {
               component: 'Title',
               text: 'Hello world!',
+              id: 'title',
             },
           ],
         },
@@ -58,8 +59,7 @@ test.describe('App with pages', () => {
     await page.goto(url)
 
     // THEN
-    const title = page.getByRole('heading', { name: 'Hello world!' })
-    expect(await title.getAttribute('data-component')).toBe('Title')
+    await expect(page.locator('#title')).toBeVisible()
   })
 
   test('should display a page favicon', async ({ page }) => {

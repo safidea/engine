@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Card component', () => {
-  test('should render a card', async ({ page }) => {
+  test('should render a card with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -13,6 +13,7 @@ test.describe('Card component', () => {
           body: [
             {
               component: 'Card',
+              id: 'my-card',
               title: {
                 text: 'First post',
               },
@@ -31,8 +32,8 @@ test.describe('Card component', () => {
     await page.goto(url)
 
     // THEN
-    await expect(page.getByText('First post')).toBeVisible()
-    await expect(page.getByText('This is a post.')).toBeVisible()
+    await expect(page.locator('#my-card')).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should render a card with image', async ({ page }) => {
@@ -111,46 +112,6 @@ test.describe('Card component', () => {
 
     // THEN
     await expect(page.waitForURL('https://example.com')).resolves.toBeUndefined()
-  })
-
-  test('should display the card id', async ({ page }) => {
-    test.slow()
-
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Card',
-              id: 'my-card',
-              image: {
-                src: 'https://picsum.photos/200/300',
-                alt: 'First post',
-              },
-              title: {
-                text: 'First post',
-              },
-              paragraph: {
-                text: 'This is my first post.',
-              },
-              href: '/posts/1',
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    await page.goto(url)
-
-    // THEN
-    const button = page.locator('#my-card')
-    await expect(button).toBeVisible()
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

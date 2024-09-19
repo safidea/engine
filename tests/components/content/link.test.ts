@@ -31,6 +31,7 @@ test.describe('Link component', () => {
     // THEN
     const link = page.getByRole('link', { name: label })
     expect(await link.getAttribute('href')).toBe(href)
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display a link in app page', async ({ page }) => {
@@ -62,6 +63,7 @@ test.describe('Link component', () => {
     // THEN
     const link = page.getByRole('link', { name: label })
     expect(await link.getAttribute('href')).toBe(href)
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display an active link', async ({ page }) => {
@@ -92,6 +94,7 @@ test.describe('Link component', () => {
     // THEN
     const link = page.getByRole('link', { name: 'Hello world!' })
     expect(await link.getAttribute('data-active')).toBe('true')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display an inactive link in the link path page', async ({ page }) => {
@@ -122,6 +125,7 @@ test.describe('Link component', () => {
     // THEN
     const link = page.getByRole('link', { name: 'Hello world!' })
     expect(await link.getAttribute('data-active')).toBe('false')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display an active link in the link path page', async ({ page }) => {
@@ -151,9 +155,10 @@ test.describe('Link component', () => {
     // THEN
     const link = page.getByRole('link', { name: 'Hello world!' })
     expect(await link.getAttribute('data-active')).toBe('true')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
-  test('should display the link id', async ({ page }) => {
+  test('should display the link with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -182,5 +187,6 @@ test.describe('Link component', () => {
     const link = page.getByRole('link', { name: 'hello world' })
     await expect(link).toHaveAttribute('id')
     expect(await link.getAttribute('id')).toBe('my-link')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

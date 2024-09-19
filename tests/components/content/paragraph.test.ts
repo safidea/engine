@@ -29,6 +29,7 @@ test.describe('Paragraph component', () => {
     // THEN
     const paragraphContent = await page.textContent('p')
     expect(paragraphContent).toContain(text)
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
   test('should display a paragraph in app page', async ({ page }) => {
@@ -58,9 +59,10 @@ test.describe('Paragraph component', () => {
     // THEN
     const paragraphText = await page.textContent('p')
     expect(paragraphText).toBe(text)
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 
-  test('should display the paragraph id', async ({ page }) => {
+  test('should display the paragraph with id', async ({ page }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -88,5 +90,6 @@ test.describe('Paragraph component', () => {
     const paragraph = page.getByText('hello world')
     await expect(paragraph).toHaveAttribute('id')
     expect(await paragraph.getAttribute('id')).toBe('my-paragraph')
+    expect(await page.screenshot()).toMatchSnapshot()
   })
 })

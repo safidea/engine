@@ -11,7 +11,7 @@ export const Input = ({
   defaultValue,
 }: Props['Input']) => {
   return (
-    <div className={className} data-component="Input">
+    <div className={className}>
       {label ? (
         <label
           htmlFor={name}
