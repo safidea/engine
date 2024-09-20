@@ -1,3 +1,10 @@
+## [0.31.1](https://github.com/safidea/engine/compare/v0.31.0...v0.31.1) (2024-09-20)
+
+
+### Bug Fixes
+
+* **Monitor:** fix env Sentry DSN loading ([7b45d5a](https://github.com/safidea/engine/commit/7b45d5a166cda569a898c01112266a16f5f40da7))
+
 # [0.31.0](https://github.com/safidea/engine/compare/v0.30.0...v0.31.0) (2024-09-20)
 
 
