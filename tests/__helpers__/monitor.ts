@@ -1,7 +1,7 @@
 const authToken = process.env.TEST_SENTRY_AUTH_TOKEN
 const organization = process.env.TEST_SENTRY_ORGANIZATION
 const project = process.env.TEST_SENTRY_PROJECT
-const dsn = process.env.TEST_SENTRY_DSN
+const dsn = process.env.SENTRY_DSN
 
 if (!authToken || !organization || !project || !dsn) {
   throw new Error('Missing Sentry test environment variables')

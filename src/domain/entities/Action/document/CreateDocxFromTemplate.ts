@@ -28,8 +28,8 @@ export interface Entities {
   buckets: Bucket[]
 }
 
-type Input = { data: Record<string, OutputValue>; fileName: string }
-type Output = FileJson
+type Input = { data: { [key: string]: OutputValue }; fileName: string }
+type Output = { file: FileJson }
 
 export class CreateDocxFromTemplate extends Base<Input, Output> {
   private _bucket: Bucket
@@ -71,13 +71,13 @@ export class CreateDocxFromTemplate extends Base<Input, Output> {
 
   protected _process = async (input: Input) => {
     const { idGenerator } = this._services
-    const { fileName } = this._config
+    const { fileName } = input
     if (!this._document) throw new Error('document not initialized')
     this._document.fill(input.data)
     const data = this._document.toBuffer()
     const name = fileName.includes('.docx') ? fileName : `${fileName}.docx`
     const file = new CreatedFile({ name, data }, { idGenerator })
     await this._bucket.storage.save(file)
-    return file.toJson()
+    return { file: file.toJson() }
   }
 }

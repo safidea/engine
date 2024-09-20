@@ -43,7 +43,7 @@ export class Spreadsheet {
     })
   }
 
-  fill = (data: Record<string, unknown>) => {
+  fill = (data: { [key: string]: unknown }) => {
     const cells = this._cells.map((cell) => {
       const filledValue = Array.isArray(cell.value)
         ? cell.value.map((v) => v.fillAsString(data))

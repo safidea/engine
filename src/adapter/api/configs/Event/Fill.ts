@@ -1,5 +1,5 @@
-export interface Fill {
+import type { Config } from '@domain/entities/Event/Fill'
+
+export interface Fill extends Config {
   event: 'Fill'
-  input: string
-  value: string
 }

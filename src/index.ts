@@ -1,5 +1,5 @@
-import { AppApi } from '@adapter/api/AppApi'
 import { drivers } from '@infrastructure/drivers'
+import { AppApi } from '@adapter/api/AppApi'
 import type { Drivers as AllDrivers } from '@adapter/spi/Drivers'
 
 export type { App } from '@adapter/api/configs/App'

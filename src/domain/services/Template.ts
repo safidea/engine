@@ -9,7 +9,7 @@ export interface InputValues {
 }
 
 export interface Spi {
-  fill: (data: Record<string, unknown>) => string
+  fill: (data: { [key: string]: unknown }) => string
 }
 
 export class Template {
@@ -18,7 +18,7 @@ export class Template {
     private _outputType: OutputType = 'string'
   ) {}
 
-  fill = (data: Record<string, unknown>): OutputValue => {
+  fill = (data: { [key: string]: unknown }): OutputValue => {
     const result = this._spi.fill(data)
     switch (this._outputType) {
       case 'string':
@@ -33,7 +33,7 @@ export class Template {
     }
   }
 
-  fillAsString = (data: Record<string, unknown>): string => {
+  fillAsString = (data: { [key: string]: unknown }): string => {
     return this._spi.fill(data)
   }
 }

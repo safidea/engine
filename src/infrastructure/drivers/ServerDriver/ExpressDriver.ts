@@ -21,9 +21,8 @@ export class ExpressDriver implements Driver {
   private _server?: HttpServer
 
   constructor(private _config: Config) {
-    const { env, monitor } = _config
+    const { env } = _config
     this._express = express()
-    if (monitor === 'Sentry') this._express.use(Sentry.expressErrorHandler())
     if (env === 'production') this._express.use(helmet())
     this._express.use(cors())
     this._express.use(cookieParser())
@@ -93,11 +92,16 @@ export class ExpressDriver implements Driver {
       } else if (req.method === 'DELETE') {
         requestDto = { ...this._getRequestDto(req), method: 'DELETE' }
       } else {
-        throw new Error(`Unknown method ${req.method}`)
+        res.status(404).send('Not found')
+        return
       }
       const response = await handler(requestDto)
       this._returnResponse(res, req, { ...response, status: 404 })
     })
+  }
+
+  afterAllRoutes = async () => {
+    if (this._config.monitor === 'Sentry') Sentry.setupExpressErrorHandler(this._express)
   }
 
   start = async (retry = 0): Promise<string> => {

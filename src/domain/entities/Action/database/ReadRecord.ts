@@ -19,7 +19,7 @@ export interface Entities {
 }
 
 type Input = { id: string }
-type Output = RecordJson
+type Output = { record: RecordJson }
 
 export class ReadRecord extends Base<Input, Output> {
   private _id: Template
@@ -40,6 +40,6 @@ export class ReadRecord extends Base<Input, Output> {
 
   protected _process = async (input: Input) => {
     const recordPersisted = await this._table.db.readByIdOrThrow(input.id)
-    return recordPersisted.toJson()
+    return { record: recordPersisted.toJson() }
   }
 }

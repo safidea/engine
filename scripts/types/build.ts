@@ -4,7 +4,6 @@ import fs from 'fs-extra'
 
 log('Start building types...')
 
-const __dirname = new URL('.', import.meta.url).pathname
 const OUTPUT_DIR = path.resolve(process.cwd(), 'dist')
 const ALIAS_MAP = {
   '@domain/': path.resolve(OUTPUT_DIR, 'domain') + '/',
@@ -43,7 +42,7 @@ function processDirectory(directory: string) {
 }
 
 await deleteFilesRecursively('dist', '.d.ts')
-await exec(`tsc --project ${path.join(__dirname, 'tsconfig.json')}`)
+await exec(`tsc --project ${path.join(process.cwd(), 'scripts/types/tsconfig.json')}`)
 processDirectory(OUTPUT_DIR)
 
 log(`✓ Types builded`)

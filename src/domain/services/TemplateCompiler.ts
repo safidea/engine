@@ -12,16 +12,16 @@ export class TemplateCompiler {
     return new Template(this._spi.compile(text), type)
   }
 
-  compileObject = (object: Record<string, string>): Record<string, Template> => {
-    return Object.entries(object).reduce((acc: Record<string, Template>, [key, value]) => {
+  compileObject = (object: { [key: string]: string }): { [key: string]: Template } => {
+    return Object.entries(object).reduce((acc: { [key: string]: Template }, [key, value]) => {
       acc[key] = this.compile(value)
       return acc
     }, {})
   }
 
-  compileObjectWithType = (object: Record<string, InputValue>): Record<string, Template> => {
+  compileObjectWithType = (object: { [key: string]: InputValue }): { [key: string]: Template } => {
     return Object.entries(object).reduce(
-      (acc: Record<string, Template>, [key, { value, type }]) => {
+      (acc: { [key: string]: Template }, [key, { value, type }]) => {
         acc[key] = this.compile(value, type)
         return acc
       },

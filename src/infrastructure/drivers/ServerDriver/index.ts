@@ -35,6 +35,10 @@ export class ServerDriver implements Driver {
     await this._server.notFound(handler)
   }
 
+  afterAllRoutes = async () => {
+    await this._server.afterAllRoutes()
+  }
+
   start = async (retry = 0): Promise<string> => {
     return this._server.start(retry)
   }

@@ -15,7 +15,7 @@ export interface Services extends BaseServices {
   templateCompiler: TemplateCompiler
 }
 
-type Input = Record<string, OutputValue>
+type Input = { [key: string]: OutputValue }
 type Output = object
 
 export class RunJavascript extends Base<Input, Output> {

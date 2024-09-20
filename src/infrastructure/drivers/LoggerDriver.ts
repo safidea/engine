@@ -17,7 +17,14 @@ export class LoggerDriver implements Driver {
     if (driver === 'Console') {
       this._logger = winston.createLogger({
         level,
-        format: winston.format.combine(winston.format.timestamp(), winston.format.prettyPrint()),
+        silent: process.env.TESTING === 'true' && level === 'info',
+        format: winston.format.combine(
+          winston.format.colorize(),
+          winston.format.timestamp(),
+          winston.format.printf(({ timestamp, level, message, ...res }) => {
+            return `${timestamp} [${level}]: ${message} ${Object.keys(res).length ? JSON.stringify(res, null, 2) : ''}`
+          })
+        ),
         transports: [new winston.transports.Console()],
       })
     } else if (driver === 'File') {

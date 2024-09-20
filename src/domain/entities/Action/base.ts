@@ -47,8 +47,8 @@ export class Base<Input extends object, Output extends object> {
       if (error instanceof Error) {
         logger.error(`when executing action "${this.name}"`, error)
         monitor.captureException(error)
-        context.set(this.name, {})
-      } else throw error
+      }
+      throw error
     }
   }
 

@@ -8,7 +8,7 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { RecordJson } from '@domain/entities/Record/base'
 
 export interface Config extends BaseConfig {
-  fields: Record<string, string>
+  fields: { [key: string]: string }
   table: string
 }
 
@@ -21,8 +21,8 @@ export interface Entities {
   tables: Table[]
 }
 
-type Input = Record<string, string>
-type Output = RecordJson
+type Input = { [key: string]: string }
+type Output = { record: RecordJson }
 
 export class CreateRecord extends Base<Input, Output> {
   private _fields: { [key: string]: Template }
@@ -49,6 +49,6 @@ export class CreateRecord extends Base<Input, Output> {
     const { idGenerator } = this._services
     const recordCreated = new CreatedRecord(input, { idGenerator })
     const recordPersisted = await this._table.db.insert(recordCreated)
-    return recordPersisted.toJson()
+    return { record: recordPersisted.toJson() }
   }
 }

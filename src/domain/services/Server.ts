@@ -30,6 +30,7 @@ export interface Spi {
   patch: (path: string, handler: (request: Patch) => Promise<Response>) => Promise<void>
   delete: (path: string, handler: (request: Delete) => Promise<Response>) => Promise<void>
   notFound: (handler: (request: Request) => Promise<Response>) => Promise<void>
+  afterAllRoutes: () => Promise<void>
 }
 
 export class Server {
@@ -54,15 +55,18 @@ export class Server {
   }
 
   init = async (callback: () => Promise<void>) => {
+    const { logger } = this._services
+    logger.debug('initializing server routes...')
     await this.get('/health', async () => new Json({ success: true }))
     await callback()
     if (this.notFoundHandler) await this.notFoundHandler()
+    await this._spi.afterAllRoutes()
   }
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
     const { logger } = this._services
     await this._spi.get(path, async (request: Get) => {
-      logger.http(`GET ${path}`, request)
+      logger.http(`GET ${path}`, request.toJson())
       return handler(request)
     })
     this.getHandlers.push(path)
@@ -72,7 +76,7 @@ export class Server {
   post = async (path: string, handler: (request: Post) => Promise<Response>) => {
     const { logger } = this._services
     await this._spi.post(path, async (request: Post) => {
-      logger.http(`POST ${path}`, request)
+      logger.http(`POST ${path}`, request.toJson())
       return handler(request)
     })
     this.postHandlers.push(path)
@@ -82,7 +86,7 @@ export class Server {
   patch = async (path: string, handler: (request: Patch) => Promise<Response>) => {
     const { logger } = this._services
     await this._spi.patch(path, async (request: Patch) => {
-      logger.http(`PATCH ${path}`, request)
+      logger.http(`PATCH ${path}`, request.toJson())
       return handler(request)
     })
     logger.debug(`add PATCH handler ${path}`)
@@ -91,7 +95,7 @@ export class Server {
   delete = async (path: string, handler: (request: Delete) => Promise<Response>) => {
     const { logger } = this._services
     await this._spi.delete(path, async (request: Delete) => {
-      logger.http(`DELETE ${path}`)
+      logger.http(`DELETE ${path}`, request.toJson())
       return handler(request)
     })
     logger.debug(`add DELETE handler ${path}`)

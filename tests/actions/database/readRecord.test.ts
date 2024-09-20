@@ -22,7 +22,7 @@ test.describe('Read record action', () => {
               },
               output: {
                 record: {
-                  value: '{{record}}',
+                  value: '{{readRecord.record}}',
                   type: 'object',
                 },
               },
@@ -31,7 +31,7 @@ test.describe('Read record action', () => {
               {
                 service: 'Database',
                 action: 'ReadRecord',
-                name: 'record',
+                name: 'readRecord',
                 table: 'records',
                 id: '{{trigger.body.recordId}}',
               },

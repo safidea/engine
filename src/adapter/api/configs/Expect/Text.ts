@@ -1,5 +1,5 @@
-export interface Text {
+import type { Config } from '@domain/entities/Expect/Text'
+
+export interface Text extends Config {
   expect: 'Text'
-  text: string
-  tag?: keyof HTMLElementTagNameMap
 }

@@ -1,15 +1,8 @@
-export interface SentryConfig {
-  driver: 'Sentry'
-  dsn: string
+export type Driver = 'Sentry' | 'Console'
+
+export type Config = {
+  driver: Driver
 }
-
-export interface ConsoleConfig {
-  driver: 'Console'
-}
-
-export type Config = SentryConfig | ConsoleConfig
-
-export type Driver = Config['driver']
 
 export interface Spi {
   captureException: (error: Error) => void

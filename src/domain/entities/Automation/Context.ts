@@ -15,15 +15,15 @@ export class Context {
     return String(template.fill(this._data))
   }
 
-  fillObjectTemplate = (input: Record<string, Template>): Record<string, OutputValue> => {
-    return Object.entries(input).reduce((acc: Record<string, OutputValue>, [key, value]) => {
+  fillObjectTemplate = (input: { [key: string]: Template }): { [key: string]: OutputValue } => {
+    return Object.entries(input).reduce((acc: { [key: string]: OutputValue }, [key, value]) => {
       acc[key] = value.fill(this._data)
       return acc
     }, {})
   }
 
-  fillObjectTemplateAsString = (input: Record<string, Template>): Record<string, string> => {
-    return Object.entries(input).reduce((acc: Record<string, string>, [key, value]) => {
+  fillObjectTemplateAsString = (input: { [key: string]: Template }): { [key: string]: string } => {
+    return Object.entries(input).reduce((acc: { [key: string]: string }, [key, value]) => {
       acc[key] = String(value.fill(this._data))
       return acc
     }, {})

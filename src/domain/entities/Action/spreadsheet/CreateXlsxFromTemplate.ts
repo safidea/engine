@@ -28,8 +28,8 @@ export interface Entities {
   buckets: Bucket[]
 }
 
-type Input = { data: Record<string, OutputValue>; fileName: string }
-type Output = FileJson
+type Input = { data: { [key: string]: OutputValue }; fileName: string }
+type Output = { file: FileJson }
 
 export class CreateXlsxFromTemplate extends Base<Input, Output> {
   private _fileName: Template
@@ -78,6 +78,6 @@ export class CreateXlsxFromTemplate extends Base<Input, Output> {
     const name = fileName.includes('.xlsx') ? fileName : `${fileName}.xlsx`
     const file = new CreatedFile({ name, data }, { idGenerator })
     await this._bucket.storage.save(file)
-    return file.toJson()
+    return { file: file.toJson() }
   }
 }

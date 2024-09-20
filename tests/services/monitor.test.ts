@@ -32,7 +32,6 @@ test.describe('Monitor', () => {
         ],
         monitor: {
           driver: 'Sentry',
-          dsn: '$TEST_SENTRY_DSN',
         },
       }
       const app = new App()

@@ -33,9 +33,10 @@ const externals: string[] = [
   'adm-zip',
   '@sentry/node',
   '@sentry/profiling-node',
+  'winston',
 ]
 
-const entrypoints: string[] = ['index.ts']
+const entrypoints: string[] = ['index.ts', 'instrument.ts']
 
 await deleteFilesRecursively('dist', '.js', ['public'])
 

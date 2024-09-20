@@ -9,6 +9,7 @@ import type { Config as StorageConfig } from '@domain/services/Storage'
 import type { Config as MonitorConfig } from '@domain/services/Monitor'
 import type { Config as LoggerConfig } from '@domain/services/Logger'
 
+import { MonitorDriver } from './MonitorDriver'
 import { StorageDriver } from './StorageDriver'
 import { SchemaValidatorDriver } from './SchemaValidatorDriver'
 import { BrowserDriver } from './BrowserDriver'
@@ -29,7 +30,6 @@ import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
 import { SpreadsheetLoaderDriver } from './SpreadsheetLoaderDriver'
 import { DocumentLoaderDriver } from './DocumentLoaderDriver'
-import { MonitorDriver } from './MonitorDriver'
 
 export const drivers: Drivers = {
   server: (config: ServerConfig) => new ServerDriver(config),

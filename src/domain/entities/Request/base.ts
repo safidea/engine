@@ -48,4 +48,14 @@ export class Base {
     }
     return value
   }
+
+  toJson = () => {
+    return {
+      path: this.path,
+      baseUrl: this.baseUrl,
+      headers: this.headers,
+      query: this.query,
+      params: this.params,
+    }
+  }
 }

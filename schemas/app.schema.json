@@ -1229,19 +1229,6 @@
             ],
             "type": "object"
         },
-        "ConsoleConfig_1": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "Console",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "driver"
-            ],
-            "type": "object"
-        },
         "Container": {
             "additionalProperties": false,
             "properties": {
@@ -1406,7 +1393,10 @@
                     "type": "string"
                 },
                 "fields": {
-                    "$ref": "#/definitions/Record<string,string>"
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
                 },
                 "name": {
                     "type": "string"
@@ -1551,6 +1541,13 @@
             "enum": [
                 "PostgreSQL",
                 "SQLite"
+            ],
+            "type": "string"
+        },
+        "Driver_1": {
+            "enum": [
+                "Console",
+                "Sentry"
             ],
             "type": "string"
         },
@@ -3206,10 +3203,6 @@
             ],
             "type": "object"
         },
-        "Record<string,string>": {
-            "additionalProperties": false,
-            "type": "object"
-        },
         "RecordCreated": {
             "additionalProperties": false,
             "properties": {
@@ -3359,23 +3352,6 @@
                 "subject",
                 "text",
                 "to"
-            ],
-            "type": "object"
-        },
-        "SentryConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "Sentry",
-                    "type": "string"
-                },
-                "dsn": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "driver",
-                "dsn"
             ],
             "type": "object"
         },
@@ -3884,6 +3860,9 @@
                 },
                 "text": {
                     "type": "string"
+                },
+                "timeout": {
+                    "type": "number"
                 }
             },
             "required": [
@@ -3943,14 +3922,16 @@
             "$ref": "#/definitions/Config_13"
         },
         "monitor": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/SentryConfig"
-                },
-                {
-                    "$ref": "#/definitions/ConsoleConfig_1"
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "$ref": "#/definitions/Driver_1"
                 }
-            ]
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
         },
         "name": {
             "type": "string"

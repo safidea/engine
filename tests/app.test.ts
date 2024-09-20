@@ -174,34 +174,6 @@ test.describe('App', () => {
     expect(response.message).toContain('ECONNREFUSED')
   })
 
-  test('should replace env variables in the config', async () => {
-    // GIVEN
-    process.env.PORT = '5432'
-    const config: Config = {
-      name: 'App',
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Paragraph',
-              text: 'Hello world!',
-            },
-          ],
-        },
-      ],
-      server: { port: '$PORT' },
-    }
-    const app = new App()
-
-    // WHEN
-    const url = await app.start(config)
-
-    // THEN
-    expect(url).toContain('5432')
-  })
-
   test('should display a config error on test', async () => {
     // GIVEN
     const config: Config = {

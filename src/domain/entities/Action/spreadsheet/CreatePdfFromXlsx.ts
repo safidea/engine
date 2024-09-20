@@ -31,7 +31,7 @@ type Input = {
   xlsxFileId: string
   pdfFileName: string
 }
-type Output = FileJson
+type Output = { file: FileJson }
 
 export class CreatePdfFromXlsx extends Base<Input, Output> {
   private _xlsxBucket: Bucket
@@ -72,6 +72,6 @@ export class CreatePdfFromXlsx extends Base<Input, Output> {
     const name = pdfFileName.includes('.pdf') ? pdfFileName : `${pdfFileName}.pdf`
     const pdfFile = new CreatedFile({ name, data }, { idGenerator })
     await this._pdfBucket.storage.save(pdfFile)
-    return pdfFile.toJson()
+    return { file: pdfFile.toJson() }
   }
 }

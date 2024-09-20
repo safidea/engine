@@ -23,7 +23,7 @@ export class Document {
     this._template = templateCompiler.compile(content)
   }
 
-  fill = (data: Record<string, OutputValue>) => {
+  fill = (data: { [key: string]: OutputValue }) => {
     const text = this._template.fillAsString(data)
     this._spi.writeText(text)
   }

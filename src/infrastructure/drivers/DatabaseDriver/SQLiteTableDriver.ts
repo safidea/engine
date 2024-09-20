@@ -187,7 +187,7 @@ export class SQLiteTableDriver implements Driver {
   delete = async (id: string) => {
     try {
       const values = [id]
-      const query = `DELETE FROM ${this._name} WHERE id = $1`
+      const query = `DELETE FROM ${this._name} WHERE id = ?`
       this._db.prepare(query).run(values)
     } catch (e) {
       this._throwError(e)

@@ -142,6 +142,12 @@ export class App {
         monitor.captureException(error)
         this._onClose('UNCAUGHT_EXCEPTION')
       })
+      process.on('unhandledRejection', (reason: Error, promise) => {
+        logger.error(`uncaught rejection at: ${promise} 
+          reason: ${reason}`)
+        monitor.captureException(reason)
+        this._onClose('UNCAUGHT_REJECTION')
+      })
     }
     logger.debug(`app started at ${url}`)
     this.setStatus('running')
@@ -154,14 +160,16 @@ export class App {
     this.setStatus('stopping')
     const { server, database, queue, mailer } = this._services
     await server.stop(async () => {
-      if (mailer) await mailer.close()
-      if (queue) await queue.stop({ graceful })
-      if (database) await database.disconnect()
+      await mailer.close()
+      await queue.stop({ graceful })
+      await database.disconnect()
     })
     this.setStatus('ready')
   }
 
-  private _onClose = async (signal: 'SIGTERM' | 'SIGINT' | 'UNCAUGHT_EXCEPTION') => {
+  private _onClose = async (
+    signal: 'SIGTERM' | 'SIGINT' | 'UNCAUGHT_EXCEPTION' | 'UNCAUGHT_REJECTION'
+  ) => {
     this._services.logger.debug(`app received signal ${signal}`)
     await this.stop()
     process.exit(1)

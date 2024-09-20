@@ -1,6 +1,5 @@
-export interface Attribute {
+import type { Config } from '@domain/entities/Expect/Attribute'
+
+export interface Attribute extends Config {
   expect: 'Attribute'
-  attribute: string
-  value: string
-  tag?: keyof HTMLElementTagNameMap
 }

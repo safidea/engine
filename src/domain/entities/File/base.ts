@@ -6,7 +6,6 @@ export interface FileFields {
 }
 
 export interface FileJson extends Omit<FileFields, 'data' | 'created_at'> {
-  data: string
   created_at: string
 }
 
@@ -26,10 +25,10 @@ export class Base {
   }
 
   toJson(): FileJson {
-    const { data, created_at, ...res } = this.fields
+    const { id, name, created_at } = this.fields
     return {
-      ...res,
-      data: data.toString(),
+      id,
+      name,
       created_at: created_at.toISOString(),
     }
   }
