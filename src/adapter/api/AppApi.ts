@@ -17,14 +17,14 @@ export class AppApi {
   constructor(private drivers: Drivers) {
     this._schemaValidator = SchemaValidatorMapper.toService(drivers)
     this._log = (message: string) => {
-      if (process.env.TESTING !== 'true' || process.env.DEBUG) {
+      if (process.env.TESTING !== 'true') {
         console.log(message)
       }
     }
   }
 
   test = async (config: unknown): Promise<void> => {
-    const validatedConfig = this._getConfigWithEnv(config)
+    const validatedConfig = this._validateSchemaOrThrow(config)
     delete validatedConfig.server?.port
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
@@ -80,11 +80,6 @@ export class AppApi {
     return { ...config }
   }
 
-  private _getConfigWithEnv = (config: unknown): Config => {
-    const configWithValidatedSchema = this._validateSchemaOrThrow(config)
-    return this._replaceEnvVariablesDeep(configWithValidatedSchema)
-  }
-
   private _validateConfigOrThrow = async (config: Config): Promise<App> => {
     const app = AppMapper.toEntity(this.drivers, config)
     const errors = await app.validateConfig()
@@ -94,52 +89,7 @@ export class AppApi {
   }
 
   private _validateOrThrow = async (config: unknown): Promise<App> => {
-    const configWithEnv = this._getConfigWithEnv(config)
-    return this._validateConfigOrThrow(configWithEnv)
-  }
-
-  private _isObject = (value: unknown): value is Record<string, unknown> => {
-    return typeof value === 'object' && value !== null && !Array.isArray(value)
-  }
-
-  private _isString = (value: unknown): value is string => {
-    return typeof value === 'string'
-  }
-
-  private _replaceEnvVariablesDeep = <T>(obj: T): T => {
-    const walk = (node: unknown) => {
-      if (!this._isObject(node)) return
-      Object.keys(node).forEach((key) => {
-        const value = node[key]
-        if (this._isString(value) && value.startsWith('$')) {
-          const envVar = value.substring(1) // Remove the leading $
-          const envValue = process.env[envVar]
-          if (envValue !== undefined) {
-            node[key] = envValue
-          } else {
-            console.warn(`Environment variable ${envVar} not found`)
-          }
-        } else if (Array.isArray(value)) {
-          value.forEach((item, index) => {
-            if (this._isString(item) && item.startsWith('$')) {
-              const envVar = item.substring(1) // Remove the leading $
-              const envValue = process.env[envVar]
-              if (envValue !== undefined) {
-                value[index] = envValue
-              } else {
-                console.warn(`Environment variable ${envVar} not found`)
-              }
-            } else if (this._isObject(item)) {
-              walk(item)
-            }
-          })
-        } else if (this._isObject(value)) {
-          walk(value)
-        }
-      })
-    }
-
-    walk(obj)
-    return obj
+    const configWithValidSchema = this._validateSchemaOrThrow(config)
+    return this._validateConfigOrThrow(configWithValidSchema)
   }
 }

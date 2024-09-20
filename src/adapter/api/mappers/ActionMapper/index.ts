@@ -1,38 +1,35 @@
 import type { Action as Config } from '@adapter/api/configs/Action'
 import type { Action } from '@domain/entities/Action'
-import { SendEmailMapper } from './mailer/SendEmailMapper'
-import { CreateRecordMapper } from './database/CreateRecordMapper'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { Mailer } from '@domain/services/Mailer'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { Table } from '@domain/entities/Table'
-import { RunJavascriptMapper } from './code/RunJavascriptMapper'
-import type { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
-import type { Browser } from '@domain/services/Browser'
-import { CreateDocxFromTemplateMapper } from './document/CreateDocxFromTemplateMapper'
-import { CreateXlsxFromTemplateMapper } from './spreadsheet/CreateXlsxFromTemplateMapper'
-import type { Bucket } from '@domain/entities/Bucket'
+import { SendEmailMapper, type SendEmailServices } from './mailer/SendEmailMapper'
+import {
+  CreateRecordMapper,
+  type CreateRecordEntities,
+  type CreateRecordServices,
+} from './database/CreateRecordMapper'
+import { RunJavascriptMapper, type RunJavascriptServices } from './code/RunJavascriptMapper'
+import {
+  CreateDocxFromTemplateMapper,
+  type CreateDocxFromTemplateEntities,
+  type CreateDocxFromTemplateServices,
+} from './document/CreateDocxFromTemplateMapper'
+import {
+  CreateXlsxFromTemplateMapper,
+  type CreateXlsxFromTemplateServices,
+} from './spreadsheet/CreateXlsxFromTemplateMapper'
 import { ReadRecordMapper } from './database/ReadRecordMapper'
-import { CreatePdfFromXlsxMapper } from './spreadsheet/CreatePdfFromXlsxMapper'
-import type { SpreadsheetLoader } from '@domain/services/SpreadsheetLoader'
-import type { DocumentLoader } from '@domain/services/DocumentLoader'
-import type { FileSystem } from '@domain/services/FileSystem'
+import {
+  CreatePdfFromXlsxMapper,
+  type CreatePdfFromXlsxServices,
+} from './spreadsheet/CreatePdfFromXlsxMapper'
 
-interface Services {
-  mailer: Mailer
-  idGenerator: IdGenerator
-  templateCompiler: TemplateCompiler
-  javascriptCompiler: JavascriptCompiler
-  browser: Browser
-  spreadsheetLoader: SpreadsheetLoader
-  documentLoader: DocumentLoader
-  fileSystem: FileSystem
-}
+export type Services = CreateRecordServices &
+  SendEmailServices &
+  RunJavascriptServices &
+  CreateDocxFromTemplateServices &
+  CreateXlsxFromTemplateServices &
+  CreatePdfFromXlsxServices
 
-interface Entities {
-  tables: Table[]
-  buckets: Bucket[]
-}
+export type Entities = CreateRecordEntities & CreateDocxFromTemplateEntities
 
 export class ActionMapper {
   static toEntity(config: Config, services: Services, entities: Entities): Action {
@@ -46,21 +43,38 @@ export class ActionMapper {
       documentLoader,
       spreadsheetLoader,
       fileSystem,
+      logger,
+      monitor,
     } = services
     const { tables, buckets } = entities
     if (service === 'Database') {
       if (action === 'CreateRecord')
-        return CreateRecordMapper.toEntity(config, { idGenerator, templateCompiler }, { tables })
+        return CreateRecordMapper.toEntity(
+          config,
+          { idGenerator, templateCompiler, logger, monitor },
+          { tables }
+        )
       if (action === 'ReadRecord')
-        return ReadRecordMapper.toEntity(config, { templateCompiler }, { tables })
+        return ReadRecordMapper.toEntity(config, { templateCompiler, logger, monitor }, { tables })
     }
     if (service === 'Mailer') {
       if (action === 'SendEmail')
-        return SendEmailMapper.toEntity(config, { mailer, templateCompiler, idGenerator })
+        return SendEmailMapper.toEntity(config, {
+          mailer,
+          templateCompiler,
+          idGenerator,
+          logger,
+          monitor,
+        })
     }
     if (service === 'Code') {
       if (action === 'RunJavascript')
-        return RunJavascriptMapper.toEntity(config, { templateCompiler, javascriptCompiler })
+        return RunJavascriptMapper.toEntity(config, {
+          templateCompiler,
+          javascriptCompiler,
+          logger,
+          monitor,
+        })
     }
     if (service === 'Document') {
       if (action === 'CreateDocxFromTemplate')
@@ -71,6 +85,8 @@ export class ActionMapper {
             documentLoader,
             idGenerator,
             fileSystem,
+            logger,
+            monitor,
           },
           { buckets }
         )
@@ -84,6 +100,8 @@ export class ActionMapper {
             spreadsheetLoader,
             idGenerator,
             fileSystem,
+            logger,
+            monitor,
           },
           { buckets }
         )
@@ -95,6 +113,8 @@ export class ActionMapper {
             spreadsheetLoader,
             browser,
             idGenerator,
+            logger,
+            monitor,
           },
           { buckets }
         )

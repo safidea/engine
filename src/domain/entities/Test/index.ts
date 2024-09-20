@@ -22,7 +22,6 @@ interface Entities {
 
 export class Test {
   public name: string
-  private _log: (message: string) => void
 
   constructor(
     config: Config,
@@ -30,25 +29,27 @@ export class Test {
     private _entities: Entities
   ) {
     const { name } = config
-    const { logger } = _services
     this.name = name
-    this._log = logger.init('test:' + this.name)
   }
 
   run = async (app: App, page: BrowserPage): Promise<void> => {
     const { when, then } = this._entities
+    const { logger } = this._services
     try {
-      this._log('start')
+      logger.debug(`running test "${this.name}"`)
       for (const event of when) await event.execute(app, page)
       for (const expect of then) await expect.execute(app, page)
-      this._log('passed')
+      logger.debug(`test "${this.name}" passed`)
       await app.stop()
     } catch (error) {
       if (error instanceof TestError) {
-        this._log('failed: ' + error.code)
+        logger.error(`test "${this.name}" failed with error: ${error.code}`)
         error.setName(this.name)
       }
-      if (error instanceof Error) this._services.monitor.captureException(error)
+      if (error instanceof Error) {
+        logger.error(`test "${this.name}" failed with error: ${error.message}`)
+        this._services.monitor.captureException(error)
+      }
       await app.stop()
       throw error
     }

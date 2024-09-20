@@ -5,9 +5,8 @@ import Database from './database'
 export default class extends StorageDriver {
   constructor(database: Database) {
     const logger = new Logger()
-    const log = logger.init('[test]:storage')
-    log(`connecting storage to database...`)
+    logger.debug(`connecting test storage to database...`)
     super(database)
-    log(`storage connected to database`)
+    logger.debug(`test storage connected to database`)
   }
 }

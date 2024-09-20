@@ -1,25 +1,31 @@
-import { type Base, type BaseParams } from './base'
+import { type Base, type BaseServices } from './base'
 import type { Filter } from '@domain/entities/Filter'
 import { TestError } from '@domain/entities/Error/Test'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { App } from '../App'
 
-interface Params extends BaseParams {
+export interface Config {
   table: string
+}
+
+export type Services = BaseServices
+
+export interface Entities {
   find: Filter[]
 }
 
 export class Record implements Base {
-  private _log: (message: string) => void
-
-  constructor(private _params: Params) {
-    const { logger } = _params
-    this._log = logger.init('expect:record')
-  }
+  constructor(
+    private _config: Config,
+    private _services: Services,
+    private _entities: Entities
+  ) {}
 
   execute = async (app: App, _page: BrowserPage) => {
-    const { table, find } = this._params
-    this._log(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
+    const { table } = this._config
+    const { find } = this._entities
+    const { logger } = this._services
+    logger.debug(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
     const tableRow = await app.getTable(table).db.read(find)
     if (!tableRow) {
       const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})

@@ -1,6 +1,6 @@
-import { Base, type BaseConfig } from '../base'
+import { Base, type BaseConfig, type BaseServices } from '../base'
 import type { Context } from '../../Automation/Context'
-import { Template, type InputValues } from '@domain/services/Template'
+import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Bucket } from '@domain/entities/Bucket'
 import type { DocumentLoader } from '@domain/services/DocumentLoader'
@@ -8,6 +8,7 @@ import type { Document } from '@domain/services/Document'
 import { CreatedFile } from '@domain/entities/File/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { FileSystem } from '@domain/services/FileSystem'
+import type { FileJson } from '@domain/entities/File/base'
 
 export interface Config extends BaseConfig {
   input: InputValues
@@ -16,7 +17,7 @@ export interface Config extends BaseConfig {
   bucket: string
 }
 
-export interface Services {
+export interface Services extends BaseServices {
   documentLoader: DocumentLoader
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
@@ -27,7 +28,10 @@ export interface Entities {
   buckets: Bucket[]
 }
 
-export class CreateDocxFromTemplate extends Base {
+type Input = { data: Record<string, OutputValue>; fileName: string }
+type Output = FileJson
+
+export class CreateDocxFromTemplate extends Base<Input, Output> {
   private _bucket: Bucket
   private _document?: Document
   private _fileName: Template
@@ -38,7 +42,7 @@ export class CreateDocxFromTemplate extends Base {
     private _services: Services,
     entities: Entities
   ) {
-    super(_config)
+    super(_config, _services)
     const { input, templatePath, fileName, bucket: bucketName } = _config
     const { templateCompiler, fileSystem } = _services
     const { buckets } = entities
@@ -53,19 +57,27 @@ export class CreateDocxFromTemplate extends Base {
 
   init = async () => {
     const { templatePath } = this._config
-    const { documentLoader } = this._services
+    const { documentLoader, logger } = this._services
     this._document = await documentLoader.fromDocxFile(templatePath)
+    logger.debug(`init action "${this.name}"`)
   }
 
-  execute = async (context: Context) => {
+  protected _prepare = async (context: Context) => {
+    return {
+      data: context.fillObjectTemplate(this._input),
+      fileName: context.fillTemplateAsString(this._fileName),
+    }
+  }
+
+  protected _process = async (input: Input) => {
     const { idGenerator } = this._services
+    const { fileName } = this._config
     if (!this._document) throw new Error('document not initialized')
-    this._document.fill(context.fillObjectTemplate(this._input))
+    this._document.fill(input.data)
     const data = this._document.toBuffer()
-    const fileName = context.fillTemplateAsString(this._fileName)
     const name = fileName.includes('.docx') ? fileName : `${fileName}.docx`
     const file = new CreatedFile({ name, data }, { idGenerator })
     await this._bucket.storage.save(file)
-    context.set(this.name, { file: file.toJson() })
+    return file.toJson()
   }
 }

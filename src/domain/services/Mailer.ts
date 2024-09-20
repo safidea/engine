@@ -25,35 +25,32 @@ export interface Spi {
 }
 
 export class Mailer {
-  private _log: (message: string) => void
-
   constructor(
     private _spi: Spi,
-    services: Services
-  ) {
-    this._log = services.logger.init('mailer')
-  }
+    private _services: Services
+  ) {}
 
   verify = async (): Promise<void> => {
-    this._log(`verifying mailer connection...`)
+    const { logger } = this._services
+    logger.debug(`verifying mailer connection...`)
     await this._spi.verify()
-    this._log(`mailer connection verified`)
+    logger.debug(`mailer connection verified`)
   }
 
   close = async (): Promise<void> => {
-    this._log(`closing mailer connection...`)
+    this._services.logger.debug(`closing mailer connection...`)
     await this._spi.close()
   }
 
   send = async (createdEmail: CreatedEmail): Promise<SentEmail> => {
-    this._log(`sending email to: ${createdEmail.to}`)
+    this._services.logger.debug(`sending email...`, createdEmail)
     await this._spi.send(createdEmail)
     return new SentEmail(createdEmail.toJson())
   }
 
   find = async (mailbox: string, filters: Filter[] = []): Promise<SentEmail | undefined> => {
     filters.push(new Is({ field: 'to', value: mailbox }))
-    this._log(`finding email in mailbox "${mailbox}" matching: ${JSON.stringify(filters)}`)
+    this._services.logger.debug(`finding email in mailbox "${mailbox}"...`, filters)
     return this._spi.find(filters)
   }
 }

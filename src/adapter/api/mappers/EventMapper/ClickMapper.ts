@@ -1,15 +1,9 @@
-import { Click } from '@domain/entities/Event/Click'
+import { Click, type Services } from '@domain/entities/Event/Click'
 import type { Click as Config } from '@adapter/api/configs/Event/Click'
-import type { Logger } from '@domain/services/Logger'
-
-interface Services {
-  logger: Logger
-}
 
 export class ClickMapper {
   static toEntity = (config: Config, services: Services): Click => {
-    const { logger } = services
-    return new Click({ ...config, logger })
+    return new Click(config, services)
   }
 
   static toManyEntities = (configs: Config[], services: Services): Click[] => {

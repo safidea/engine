@@ -7,6 +7,7 @@ import type { Config as AuthConfig } from '@domain/services/Auth'
 import type { Config as ThemeConfig } from '@domain/services/Theme'
 import type { Config as StorageConfig } from '@domain/services/Storage'
 import type { Config as MonitorConfig } from '@domain/services/Monitor'
+import type { Config as LoggerConfig } from '@domain/services/Logger'
 
 import { StorageDriver } from './StorageDriver'
 import { SchemaValidatorDriver } from './SchemaValidatorDriver'
@@ -39,7 +40,7 @@ export const drivers: Drivers = {
   auth: (config: AuthConfig) => new AuthDriver(config),
   theme: (config: ThemeConfig) => new ThemeDriver(config),
   monitor: (config: MonitorConfig) => new MonitorDriver(config),
-  logger: () => new LoggerDriver(),
+  logger: (config: LoggerConfig) => new LoggerDriver(config),
   markdownParser: () => new MarkdownParserDriver(),
   templateCompiler: () => new TemplateCompilerDriver(),
   javascriptCompiler: () => new JavascriptCompilerDriver(),

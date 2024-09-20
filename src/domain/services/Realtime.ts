@@ -37,23 +37,21 @@ interface Listener {
 export class Realtime {
   private _db: Database
   private _tables: Table[]
-  private _log: (message: string) => void
   private _listeners: Listener[]
 
   constructor(
     private _services: Services,
     private _entities: Entities
   ) {
-    const { logger, database } = _services
+    const { database } = _services
     const { tables } = _entities
     this._db = database
-    this._log = logger.init('realtime')
     this._listeners = []
     this._tables = tables
   }
 
   setup = async () => {
-    this._log('setup realtime...')
+    this._services.logger.debug('setup realtime...')
     this._db.onNotification(this._onEvent)
     await this._db.setupTriggers(this._tables.map((t) => t.name))
     if (this._db.driver === 'PostgreSQL') {
@@ -70,18 +68,18 @@ export class Realtime {
       callback,
       id,
     })
-    this._log(`subscribed to insert events with id "${id}" on table "${table}"`)
+    this._services.logger.debug(`subscribed to insert events with id "${id}" on table "${table}"`)
     return id
   }
 
   removeListener = (id: string) => {
     this._listeners = this._listeners.filter((l) => l.id !== id)
-    this._log(`unsubscribing from insert events with id "${id}"`)
+    this._services.logger.debug(`unsubscribed from insert events with id "${id}"`)
   }
 
   private _onEvent = async (event: RealtimeEvent) => {
     const { action, table: tableName, recordId } = event
-    this._log(
+    this._services.logger.debug(
       `received event on table "${tableName}" with action "${action}" for record "${recordId}"`
     )
     const table = this._tables.find((t) => t.name === tableName)

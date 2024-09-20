@@ -14,7 +14,7 @@ type MapperConfig = Config & {
   automation: string
 }
 
-interface Services {
+export interface Services {
   server: Server
   queue: Queue
   realtime: Realtime

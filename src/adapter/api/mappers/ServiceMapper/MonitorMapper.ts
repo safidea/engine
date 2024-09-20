@@ -3,7 +3,7 @@ import { MonitorSpi } from '@adapter/spi/MonitorSpi'
 import { Monitor, type Config } from '@domain/services/Monitor'
 
 export class MonitorMapper {
-  static toService(drivers: Drivers, config: Config): Monitor {
+  static toService(drivers: Drivers, config: Config = { driver: 'Console' }): Monitor {
     const driver = drivers.monitor(config)
     const spi = new MonitorSpi(driver)
     return new Monitor(spi, config)

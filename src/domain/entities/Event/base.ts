@@ -2,7 +2,7 @@ import type { App } from '@domain/entities/App'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { Logger } from '@domain/services/Logger'
 
-export interface BaseParams {
+export interface BaseServices {
   logger: Logger
 }
 

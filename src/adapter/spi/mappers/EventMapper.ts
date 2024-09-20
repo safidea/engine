@@ -8,6 +8,6 @@ export class EventMapper {
   }
 
   static toErrorEntity = (dto: EventErrorDto): ErrorEvent => {
-    return { message: dto.message }
+    return new Error(dto.message)
   }
 }

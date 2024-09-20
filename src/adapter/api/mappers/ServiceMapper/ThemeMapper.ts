@@ -1,10 +1,9 @@
 import type { Drivers } from '@adapter/spi/Drivers'
 import { ThemeSpi } from '@adapter/spi/ThemeSpi'
-import { Theme, type Services } from '@domain/services/Theme'
-import type { Theme as Config } from '@adapter/api/configs/Services/Theme'
+import { Theme, type Config, type Services } from '@domain/services/Theme'
 
 export class ThemeMapper {
-  static toService(drivers: Drivers, services: Services, config: Config): Theme {
+  static toService(drivers: Drivers, config: Config = {}, services: Services): Theme {
     const driver = drivers.theme(config)
     const spi = new ThemeSpi(driver)
     return new Theme(spi, services, config)

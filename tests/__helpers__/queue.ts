@@ -5,9 +5,8 @@ import Database from './database'
 export default class extends QueueDriver {
   constructor(database: Database) {
     const logger = new Logger()
-    const log = logger.init('[test]:queue')
-    log(`connecting queue to database...`)
+    logger.debug(`connecting test queue to database...`)
     super(database)
-    log(`queue connected to database`)
+    logger.debug(`test queue connected to database`)
   }
 }

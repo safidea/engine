@@ -14,8 +14,7 @@ export default class extends MailerDriver {
 
   constructor() {
     const logger = new Logger()
-    const log = logger.init('[test]:mailer')
-    log(`creating mailbox...`)
+    logger.debug(`creating test mailbox...`)
     const host = join(process.cwd(), 'tmp', `mailbox-${nanoid()}.db`)
     fs.ensureFileSync(host)
     const config = {
@@ -28,7 +27,7 @@ export default class extends MailerDriver {
     super(config)
     this.config = config
     this._database = new DatabaseDriver({ url: host, driver: 'SQLite' })
-    log(`mailbox created`)
+    logger.debug(`test mailbox created`)
   }
 
   get emails() {

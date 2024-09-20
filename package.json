@@ -80,7 +80,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.11",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "winston": "^3.14.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
@@ -120,7 +121,6 @@
     "@types/react-dom": "^18.3.0",
     "@types/smtp-server": "^3.5.10",
     "concurrently": "^9.0.1",
-    "debug": "^4.3.7",
     "dotenv": "^16.4.5",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",

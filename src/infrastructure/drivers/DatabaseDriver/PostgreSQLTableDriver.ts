@@ -182,13 +182,10 @@ export class PostgreSQLTableDriver implements Driver {
     }
   }
 
-  delete = async (filters: FilterDto[]) => {
+  delete = async (id: string) => {
     try {
-      const conditions = filters
-        .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
-        .join(' AND ')
-      const values = filters.map((filter) => filter.value)
-      const query = `DELETE FROM ${this._name} ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+      const values = [id]
+      const query = `DELETE FROM ${this._name} WHERE id = $1`
       await this._db.query(query, values)
     } catch (e) {
       this._throwError(e)

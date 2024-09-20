@@ -1,23 +1,24 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base, type BaseParams } from './base'
+import { type Base, type BaseServices } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { App } from '../App'
 
-interface Params extends BaseParams {
+export interface Config {
   url: string
 }
 
-export class Open implements Base {
-  private _log: (message: string) => void
+export type Services = BaseServices
 
-  constructor(private _params: Params) {
-    const { logger } = _params
-    this._log = logger.init('event:open')
-  }
+export class Open implements Base {
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   execute = async (_app: App, page: BrowserPage) => {
-    const { url } = this._params
-    this._log(`opening url "${url}"`)
+    const { url } = this._config
+    const { logger } = this._services
+    logger.debug(`opening url "${url}"`)
     const success = await page.open(url)
     if (!success) {
       throw new TestError({

@@ -1,24 +1,25 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base, type BaseParams } from './base'
+import { type Base, type BaseServices } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { App } from '../App'
 
-interface Params extends BaseParams {
+export interface Config {
   input: string
   value: string
 }
 
-export class Fill implements Base {
-  private _log: (message: string) => void
+export type Services = BaseServices
 
-  constructor(private _params: Params) {
-    const { logger } = _params
-    this._log = logger.init('event:fill')
-  }
+export class Fill implements Base {
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   execute = async (_app: App, page: BrowserPage) => {
-    const { input, value } = this._params
-    this._log(`typing "${value}" in input "${input}"`)
+    const { input, value } = this._config
+    const { logger } = this._services
+    logger.debug(`typing "${value}" in input "${input}"`)
     const success = await page.type(input, value)
     if (!success) {
       throw new TestError({

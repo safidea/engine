@@ -1,28 +1,24 @@
 import type { App } from '@domain/entities/App'
-import { type Base, type BaseParams } from './base'
+import { type Base, type BaseServices } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 
-interface Params extends BaseParams {
+export interface Config {
   automation: string
 }
 
-export class WaitForAutomation implements Base {
-  private _log: (message: string) => void
+export type Services = BaseServices
 
-  constructor(private _params: Params) {
-    const { logger } = _params
-    this._log = logger.init('event:wait-for-automation')
-  }
+export class WaitForAutomation implements Base {
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   execute = async (app: App, _page: BrowserPage) => {
-    const { automation } = this._params
-    if (!app.queue) {
-      throw new TestError({
-        code: 'NO_QUEUE',
-      })
-    }
-    this._log(`waiting for automation "${automation}"`)
+    const { automation } = this._config
+    const { logger } = this._services
+    logger.debug(`waiting for automation "${automation}"`)
     const timeoutPromise = new Promise((_, reject) => {
       const timeout = setTimeout(() => {
         clearTimeout(timeout)

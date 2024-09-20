@@ -8,7 +8,7 @@ import { MonitorMapper } from './ServiceMapper/MonitorMapper'
 
 export class TestMapper {
   static toEntity = (drivers: Drivers, config: TestConfig) => {
-    const logger = LoggerMapper.toService(drivers)
+    const logger = LoggerMapper.toService(drivers, { driver: 'Console', level: 'error' })
     const monitor = MonitorMapper.toService(drivers, { driver: 'Console' })
     const when = EventMapper.toManyEntities(config.when, { logger })
     const then = ExpectMapper.toManyEntities(config.then, { logger })

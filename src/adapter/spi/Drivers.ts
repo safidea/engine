@@ -28,6 +28,7 @@ import { type Config as ThemeConfig } from '@domain/services/Theme'
 import { type Config as MailerConfig } from '@domain/services/Mailer'
 import { type Config as StorageConfig } from '@domain/services/Storage'
 import { type Config as MonitorConfig } from '@domain/services/Monitor'
+import { type Config as LoggerConfig } from '@domain/services/Logger'
 
 export interface Drivers {
   server: (config: ServerConfig) => ServerDriver
@@ -39,7 +40,7 @@ export interface Drivers {
   markdownParser: () => MarkdownParserDriver
   theme: (config: ThemeConfig) => ThemeDriver
   monitor: (config: MonitorConfig) => MonitorDriver
-  logger: () => LoggerDriver
+  logger: (config: LoggerConfig) => LoggerDriver
   idGenerator: () => IdGeneratorDriver
   schemaValidator: () => SchemaValidatorDriver
   browser: () => BrowserDriver

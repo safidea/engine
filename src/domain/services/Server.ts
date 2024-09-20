@@ -33,7 +33,6 @@ export interface Spi {
 }
 
 export class Server {
-  private _log: (message: string) => void
   isListening: boolean = false
   isShuttingDown: boolean = false
   getHandlers: string[] = []
@@ -44,9 +43,7 @@ export class Server {
     private _spi: Spi,
     private _services: Services,
     private _config: Config
-  ) {
-    this._log = _services.logger.init('server')
-  }
+  ) {}
 
   get baseUrl() {
     return this._spi.baseUrl
@@ -63,77 +60,84 @@ export class Server {
   }
 
   get = async (path: string, handler: (request: Get) => Promise<Response>) => {
+    const { logger } = this._services
     await this._spi.get(path, async (request: Get) => {
-      this._log(`GET ${path}`)
+      logger.http(`GET ${path}`, request)
       return handler(request)
     })
     this.getHandlers.push(path)
-    this._log(`add GET handler ${path}`)
+    logger.debug(`add GET handler ${path}`)
   }
 
   post = async (path: string, handler: (request: Post) => Promise<Response>) => {
+    const { logger } = this._services
     await this._spi.post(path, async (request: Post) => {
-      this._log(`POST ${path} ${JSON.stringify(request.body, null, 2)}`)
+      logger.http(`POST ${path}`, request)
       return handler(request)
     })
     this.postHandlers.push(path)
-    this._log(`add POST handler ${path}`)
+    logger.debug(`add POST handler ${path}`)
   }
 
   patch = async (path: string, handler: (request: Patch) => Promise<Response>) => {
+    const { logger } = this._services
     await this._spi.patch(path, async (request: Patch) => {
-      this._log(`PATCH ${path} ${JSON.stringify(request.body, null, 2)}`)
+      logger.http(`PATCH ${path}`, request)
       return handler(request)
     })
-    this._log(`add PATCH handler ${path}`)
+    logger.debug(`add PATCH handler ${path}`)
   }
 
   delete = async (path: string, handler: (request: Delete) => Promise<Response>) => {
+    const { logger } = this._services
     await this._spi.delete(path, async (request: Delete) => {
-      this._log(`DELETE ${path}`)
+      logger.http(`DELETE ${path}`)
       return handler(request)
     })
-    this._log(`add DELETE handler ${path}`)
+    logger.debug(`add DELETE handler ${path}`)
   }
 
   notFound = async (pageHandler: (get: Get) => Promise<Response>) => {
+    const { logger } = this._services
     this.notFoundHandler = async () => {
       await this._spi.notFound(async (request: Request) => {
-        this._log(`404 ${request.path}`)
+        logger.http(`404 ${request.path}`)
         if (request.path.startsWith('/api/table/')) {
           const table = request.path.split('/').pop()
           return new Json({ error: `Table "${table}" not found` }, 404)
         }
         return pageHandler(request)
       })
-      this._log(`add 404 handler`)
+      logger.debug(`add 404 handler`)
     }
   }
 
   start = async () => {
+    const { logger } = this._services
     const { start } = this._spi
-    this._log(`starting server...`)
+    logger.debug(`starting server...`)
     const url = await start()
     this.isListening = true
-    this._log(`server listening at ${url}`)
+    logger.debug(`server listening at ${url}`)
     return url
   }
 
   stop = async (callback: () => Promise<void>) => {
-    this._log(`closing server...`)
+    const { logger, monitor } = this._services
+    logger.debug(`closing server...`)
     this.isShuttingDown = true
     this.isListening = false
     try {
       await callback()
     } catch (error) {
       if (error instanceof Error) {
-        this._services.monitor.captureException(error)
-        this._log(`error stopping app: ${error.message}`)
-      }
+        logger.error(`when stopping app: ${error.message}`)
+        monitor.captureException(error)
+      } else throw error
     } finally {
       await this._spi.stop()
       this.isShuttingDown = false
-      this._log('server closed')
+      logger.debug('server closed')
     }
   }
 

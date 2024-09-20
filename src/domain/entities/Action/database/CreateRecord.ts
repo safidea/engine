@@ -1,17 +1,18 @@
-import { Base, type BaseConfig } from '../base'
+import { Base, type BaseConfig, type BaseServices } from '../base'
 import type { Context } from '../../Automation/Context'
 import type { Table } from '../../Table'
 import type { Template } from '@domain/services/Template'
 import { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import { CreatedRecord } from '@domain/entities/Record/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
+import type { RecordJson } from '@domain/entities/Record/base'
 
 export interface Config extends BaseConfig {
-  fields: { [key: string]: string }
+  fields: Record<string, string>
   table: string
 }
 
-export interface Services {
+export interface Services extends BaseServices {
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
 }
@@ -20,7 +21,10 @@ export interface Entities {
   tables: Table[]
 }
 
-export class CreateRecord extends Base {
+type Input = Record<string, string>
+type Output = RecordJson
+
+export class CreateRecord extends Base<Input, Output> {
   private _fields: { [key: string]: Template }
   private _table: Table
 
@@ -29,7 +33,7 @@ export class CreateRecord extends Base {
     private _services: Services,
     entities: Entities
   ) {
-    super(config)
+    super(config, _services)
     const { fields, table: tableName } = config
     const { templateCompiler } = _services
     const { tables } = entities
@@ -37,11 +41,14 @@ export class CreateRecord extends Base {
     this._fields = templateCompiler.compileObject(fields)
   }
 
-  execute = async (context: Context) => {
+  protected _prepare = async (context: Context) => {
+    return context.fillObjectTemplateAsString(this._fields)
+  }
+
+  protected _process = async (input: Input) => {
     const { idGenerator } = this._services
-    const data = context.fillObjectTemplateAsString(this._fields)
-    const recordCreated = new CreatedRecord(data, { idGenerator })
+    const recordCreated = new CreatedRecord(input, { idGenerator })
     const recordPersisted = await this._table.db.insert(recordCreated)
-    context.set(this.name, recordPersisted.toJson())
+    return recordPersisted.toJson()
   }
 }

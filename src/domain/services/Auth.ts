@@ -49,7 +49,6 @@ export interface Spi {
 
 export class Auth {
   private _confirmEmail: { from: string; subject: string; text: Template; html: Template }
-  private _log: (message: string) => void
   private _loginPath = '/api/auth/login'
   private _verifyMagicLinkPath = '/api/auth/verify-magic-link'
 
@@ -58,9 +57,8 @@ export class Auth {
     private _services: Services,
     public config: Config
   ) {
-    const { server, logger, templateCompiler } = _services
+    const { server, templateCompiler } = _services
     const { strategy, confirmEmail } = config
-    this._log = logger.init('auth')
     if (strategy === 'magic-link') {
       server.post(this._loginPath, this.sendMagicLink)
       server.get(this._verifyMagicLinkPath, this.verifyMagicLink)
@@ -73,14 +71,6 @@ export class Auth {
       text: templateCompiler.compile(confirmEmail.text),
       html: templateCompiler.compile(confirmEmail.html),
     }
-  }
-
-  connect = async () => {
-    this._log('connecting to auth...')
-  }
-
-  disconnect = async () => {
-    this._log('disconnecting from auth...')
   }
 
   sendMagicLink = async (request: Post) => {

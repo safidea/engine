@@ -93,16 +93,15 @@ export default class Database extends DatabaseDriver {
 
   static SQLite(test: Test, callback: (config: Config) => void) {
     const logger = new Logger()
-    const log = logger.init('[test]:database:SQLite')
     test.describe(`with "SQLite" database`, () => {
       const config: Config = { url: '', driver: 'SQLite' }
       test.beforeEach(async () => {
         config.url = join(process.cwd(), 'tmp', `database-${nanoid()}.db`)
         await fs.ensureFile(config.url)
-        log(`start at ${config.url}`)
+        logger.debug(`start SQLite test database at ${config.url}`)
       })
       test.afterEach(async () => {
-        log(`stop at ${config.url}`)
+        logger.debug(`stop SQLite test database at ${config.url}`)
         await fs.remove(config.url)
       })
       callback(config)
@@ -111,17 +110,16 @@ export default class Database extends DatabaseDriver {
 
   static PostgreSQL(test: Test, callback: (config: Config) => void) {
     const logger = new Logger()
-    const log = logger.init('[test]:database:PostgreSQL')
     test.describe(`with "PostgreSQL" database`, () => {
       const dbName = `test_db_${customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)()}`
       const postgresUrl = process.env.TEST_POSTGRES_URL || ''
       const config: Config = { url: '', driver: 'PostgreSQL' }
       test.beforeEach(async () => {
         config.url = await createDatabase(postgresUrl, dbName)
-        log(`start at ${config.url}`)
+        logger.debug(`start PostgreSQL test database at ${config.url}`)
       })
       test.afterEach(async () => {
-        log(`stop at ${config.url}`)
+        logger.debug(`stop PostgreSQL test database at ${config.url}`)
         await dropDatabase(postgresUrl, dbName)
       })
       callback(config)

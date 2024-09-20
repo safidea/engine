@@ -1,6 +1,6 @@
-import { Base, type BaseConfig } from '../base'
+import { Base, type BaseConfig, type BaseServices } from '../base'
 import type { Context } from '../../Automation/Context'
-import { Template, type InputValues } from '@domain/services/Template'
+import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Bucket } from '@domain/entities/Bucket'
 import type { Spreadsheet } from '@domain/services/Spreadsheet'
@@ -8,6 +8,7 @@ import type { SpreadsheetLoader } from '@domain/services/SpreadsheetLoader'
 import { CreatedFile } from '@domain/entities/File/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { FileSystem } from '@domain/services/FileSystem'
+import type { FileJson } from '@domain/entities/File/base'
 
 export interface Config extends BaseConfig {
   input?: InputValues
@@ -16,7 +17,7 @@ export interface Config extends BaseConfig {
   bucket: string
 }
 
-export interface Services {
+export interface Services extends BaseServices {
   idGenerator: IdGenerator
   spreadsheetLoader: SpreadsheetLoader
   templateCompiler: TemplateCompiler
@@ -27,7 +28,10 @@ export interface Entities {
   buckets: Bucket[]
 }
 
-export class CreateXlsxFromTemplate extends Base {
+type Input = { data: Record<string, OutputValue>; fileName: string }
+type Output = FileJson
+
+export class CreateXlsxFromTemplate extends Base<Input, Output> {
   private _fileName: Template
   private _spreadsheet?: Spreadsheet
   private _input: { [key: string]: Template }
@@ -38,7 +42,7 @@ export class CreateXlsxFromTemplate extends Base {
     private _services: Services,
     entities: Entities
   ) {
-    super(_config)
+    super(_config, _services)
     const { templatePath, input, fileName, bucket: bucketName } = _config
     const { templateCompiler, fileSystem } = _services
     const { buckets } = entities
@@ -52,20 +56,28 @@ export class CreateXlsxFromTemplate extends Base {
   }
 
   init = async () => {
-    const { spreadsheetLoader } = this._services
+    const { spreadsheetLoader, logger } = this._services
     const { templatePath } = this._config
     this._spreadsheet = await spreadsheetLoader.fromXlsxFile(templatePath)
+    logger.debug(`init action "${this.name}"`)
   }
 
-  execute = async (context: Context) => {
+  protected _prepare = async (context: Context) => {
+    return {
+      data: context.fillObjectTemplate(this._input),
+      fileName: context.fillTemplateAsString(this._fileName),
+    }
+  }
+
+  protected _process = async (input: Input) => {
     const { idGenerator } = this._services
+    const { fileName } = input
     if (!this._spreadsheet) throw new Error('CreateXlsxFromTemplate: workbook not initialized')
-    this._spreadsheet.fill(context.fillObjectTemplate(this._input))
+    this._spreadsheet.fill(input.data)
     const data = await this._spreadsheet.toBuffer()
-    const fileName = context.fillTemplateAsString(this._fileName)
     const name = fileName.includes('.xlsx') ? fileName : `${fileName}.xlsx`
     const file = new CreatedFile({ name, data }, { idGenerator })
     await this._bucket.storage.save(file)
-    context.set(this.name, { file: file.toJson() })
+    return file.toJson()
   }
 }

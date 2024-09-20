@@ -17,12 +17,11 @@ export type Test = TestType<
 export const test: Test = base.extend({
   page: async ({ page }, use) => {
     const logger = new Logger()
-    const log = logger.init('[test]:browser')
     page.on('pageerror', async (exception) => {
-      log(exception.message)
+      logger.debug(`page error: ${exception.message}`)
     })
     page.on('console', async (msg) => {
-      log(msg.text())
+      logger.debug(`page console: ${msg.text()}`)
     })
     await use(page)
   },

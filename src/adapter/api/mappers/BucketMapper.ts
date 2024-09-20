@@ -25,7 +25,7 @@ export class BucketMapper {
     })
   }
 
-  static toManyEntities = (configs: Config[], services: Services) => {
+  static toManyEntities = (configs: Config[] = [], services: Services) => {
     return configs.map((config) => this.toEntity(config, services))
   }
 }

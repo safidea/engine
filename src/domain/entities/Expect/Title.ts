@@ -1,23 +1,24 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base, type BaseParams } from './base'
+import { type Base, type BaseServices } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { App } from '../App'
 
-interface Params extends BaseParams {
+export interface Config {
   title: string
 }
 
-export class Title implements Base {
-  private _log: (message: string) => void
+export type Services = BaseServices
 
-  constructor(private _params: Params) {
-    const { logger } = _params
-    this._log = logger.init('expect:title')
-  }
+export class Title implements Base {
+  constructor(
+    private _config: Config,
+    private _services: Services
+  ) {}
 
   execute = async (_app: App, page: BrowserPage) => {
-    const { title } = this._params
-    this._log(`checking if page title is "${title}"`)
+    const { title } = this._config
+    const { logger } = this._services
+    logger.debug(`checking if page title is "${title}"`)
     const pageTitle = await page.getTitle()
     if (pageTitle !== title) {
       throw new TestError({

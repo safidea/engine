@@ -15,8 +15,11 @@ export class PageMapper {
     return new Page(config, services, { head, body })
   }
 
-  static toManyEntities = (configs: Config[], services: PageServices, entities: PageEntities) => {
-    // TODO: Add 404 page if not found in another place
+  static toManyEntities = (
+    configs: Config[] = [],
+    services: PageServices,
+    entities: PageEntities
+  ) => {
     if (!configs.find((config) => config.path === '/404')) {
       configs.push({
         name: 'not found',

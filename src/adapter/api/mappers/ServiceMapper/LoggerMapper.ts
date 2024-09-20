@@ -1,10 +1,13 @@
 import type { Drivers } from '@adapter/spi/Drivers'
 import { LoggerSpi } from '@adapter/spi/LoggerSpi'
-import { Logger } from '@domain/services/Logger'
+import { Logger, type Config } from '@domain/services/Logger'
 
 export class LoggerMapper {
-  static toService(drivers: Drivers): Logger {
-    const driver = drivers.logger()
+  static toService(
+    drivers: Drivers,
+    config: Config = { driver: 'Console', level: 'info' }
+  ): Logger {
+    const driver = drivers.logger(config)
     const spi = new LoggerSpi(driver)
     return new Logger(spi)
   }

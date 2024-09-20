@@ -1,17 +1,13 @@
 import type { CreateRecord as CreateRecordConfig } from '@adapter/api/configs/Action/database/CreateRecord'
-import { CreateRecord } from '@domain/entities/Action/database/CreateRecord'
-import type { Table } from '@domain/entities/Table'
-import type { IdGenerator } from '@domain/services/IdGenerator'
-import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import {
+  CreateRecord,
+  type Services,
+  type Entities,
+} from '@domain/entities/Action/database/CreateRecord'
 
-interface Services {
-  idGenerator: IdGenerator
-  templateCompiler: TemplateCompiler
-}
+export type CreateRecordServices = Services
 
-interface Entities {
-  tables: Table[]
-}
+export type CreateRecordEntities = Entities
 
 export class CreateRecordMapper {
   static toEntity = (

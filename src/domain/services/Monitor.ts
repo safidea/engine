@@ -5,7 +5,6 @@ export interface SentryConfig {
 
 export interface ConsoleConfig {
   driver: 'Console'
-  dsn?: never
 }
 
 export type Config = SentryConfig | ConsoleConfig

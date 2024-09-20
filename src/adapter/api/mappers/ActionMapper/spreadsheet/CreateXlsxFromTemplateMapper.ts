@@ -5,6 +5,8 @@ import {
   type Services,
 } from '@domain/entities/Action/spreadsheet/CreateXlsxFromTemplate'
 
+export type CreateXlsxFromTemplateServices = Services
+
 export class CreateXlsxFromTemplateMapper {
   static toEntity = (
     config: Config,

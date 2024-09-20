@@ -4,6 +4,13 @@ import { LoggerDriver } from '@infrastructure/drivers/LoggerDriver'
 
 export default class extends Logger {
   constructor() {
-    super(new LoggerSpi(new LoggerDriver()))
+    super(
+      new LoggerSpi(
+        new LoggerDriver({
+          level: 'error',
+          driver: 'Console',
+        })
+      )
+    )
   }
 }

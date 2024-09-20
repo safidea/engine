@@ -6,7 +6,6 @@ import { Json } from '@domain/entities/Response/Json'
 import type { Post } from '@domain/entities/Request/Post'
 import type { Patch } from '@domain/entities/Request/Patch'
 import type { Get } from '@domain/entities/Request/Get'
-import { Is } from '@domain/entities/Filter/Is'
 import type { Delete } from '@domain/entities/Request/Delete'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
@@ -186,7 +185,7 @@ export class Table {
   delete = async (request: Delete) => {
     try {
       const id = request.getParamOrThrow('id')
-      await this.db.delete([new Is({ field: 'id', value: id })])
+      await this.db.delete(id)
       return new Json({ id })
     } catch (error) {
       if (error instanceof Error) {

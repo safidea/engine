@@ -8,7 +8,7 @@ import type { Monitor } from './Monitor'
 export type Driver = 'PostgreSQL' | 'SQLite'
 
 export interface Config {
-  driver: string
+  driver: Driver
   url: string
 }
 
@@ -19,7 +19,7 @@ export interface Services {
 
 export type EventType = 'notification' | 'error'
 
-export type ErrorEvent = { message: string }
+export type ErrorEvent = Error
 
 export type NotificationEvent = RealtimeEvent
 
@@ -42,19 +42,14 @@ export interface Spi {
 
 export class Database {
   public driver: Driver
-  private _log: (message: string) => void
 
   constructor(
     private _spi: Spi,
     private _services: Services,
     config: Config
   ) {
-    const { logger } = _services
     const { driver } = config
-    if (driver !== 'SQLite' && driver !== 'PostgreSQL')
-      throw new Error(`Database type "${driver}" is required`)
     this.driver = driver
-    this._log = logger.init('database')
   }
 
   table = (name: string, fields: Field[]): DatabaseTable => {
@@ -62,34 +57,43 @@ export class Database {
   }
 
   connect = async () => {
-    this._log(`connecting database...`)
+    const { logger } = this._services
+    logger.debug(`connecting database...`)
     await this._spi.connect()
   }
 
   disconnect = async () => {
+    const { logger, monitor } = this._services
     try {
-      this._log(`disconnecting database...`)
+      logger.debug(`disconnecting database...`)
       await this._spi.disconnect()
     } catch (error) {
       if (error instanceof Error) {
-        this._services.monitor.captureException(error)
-        this._log(`error disconnecting database: ${error.message}`)
-      }
+        logger.error(`when trying to disconnect database: ${error.message}`)
+        monitor.captureException(error)
+      } else throw error
     }
   }
 
   onError = (callback: (error: ErrorEvent) => void) => {
-    this._log(`listening for database errors...`)
-    this._spi.onError(callback)
+    const { logger, monitor } = this._services
+    logger.debug(`listening for database error...`)
+    this._spi.onError((error) => {
+      logger.error(`database: ${error.message}`)
+      monitor.captureException(error)
+      callback(error)
+    })
   }
 
   onNotification = (callback: (notification: NotificationEvent) => void) => {
-    this._log(`listening for database notifications...`)
+    const { logger } = this._services
+    logger.debug(`listening for database notifications...`)
     this._spi.onNotification(callback)
   }
 
   migrate = async (tables: Table[]) => {
-    this._log(`migrating database...`)
+    const { logger } = this._services
+    logger.debug(`migrating database...`)
     const sortedTables: Table[] = []
     const tableMap = new Map<string, Table>(tables.map((table) => [table.name, table]))
     const visit = (table: Table, visited: Set<string>, stack: Set<string>) => {
@@ -130,35 +134,35 @@ export class Database {
     for (const table of sortedTables) {
       await this.table(table.name, table.fields).createView()
     }
-
-    this._log(`database migrated`)
   }
 
   exec = async (query: string) => {
+    const { logger, monitor } = this._services
     try {
       await this._spi.exec(query)
     } catch (error) {
       if (error instanceof Error) {
-        this._services.monitor.captureException(error)
-        this._log(`error executing query: ${error.message}`)
-      }
+        logger.error(`when executing database query: ${error.message}`, { query })
+        monitor.captureException(error)
+      } else throw error
     }
   }
 
   query = async <T>(text: string, values: (string | number | Buffer | Date)[]) => {
+    const { logger, monitor } = this._services
     try {
       return this._spi.query<T>(text, values)
     } catch (error) {
       if (error instanceof Error) {
-        this._services.monitor.captureException(error)
-        this._log(`error querying database: ${error.message}`)
-      }
-      return { rows: [], rowCount: 0 }
+        logger.error(`when querying database: ${error.message}`, { text, values })
+        monitor.captureException(error)
+        return { rows: [], rowCount: 0 }
+      } else throw error
     }
   }
 
   setupTriggers = async (tables: string[]) => {
-    this._log(`setting up database triggers...`)
+    this._services.logger.debug(`setting up database triggers...`)
     await this._spi.setupTriggers(tables)
   }
 }

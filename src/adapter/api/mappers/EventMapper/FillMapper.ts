@@ -1,15 +1,9 @@
-import { Fill } from '@domain/entities/Event/Fill'
+import { Fill, type Services } from '@domain/entities/Event/Fill'
 import type { Fill as Config } from '@adapter/api/configs/Event/Fill'
-import type { Logger } from '@domain/services/Logger'
-
-interface Services {
-  logger: Logger
-}
 
 export class FillMapper {
   static toEntity = (config: Config, services: Services): Fill => {
-    const { logger } = services
-    return new Fill({ ...config, logger })
+    return new Fill(config, services)
   }
 
   static toManyEntities = (configs: Config[], services: Services): Fill[] => {

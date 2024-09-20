@@ -616,7 +616,7 @@
             "additionalProperties": false,
             "properties": {
                 "driver": {
-                    "type": "string"
+                    "$ref": "#/definitions/Driver"
                 },
                 "url": {
                     "type": "string"
@@ -710,19 +710,6 @@
             "type": "object"
         },
         "Config_15": {
-            "additionalProperties": false,
-            "properties": {
-                "store": {
-                    "const": true,
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "store"
-            ],
-            "type": "object"
-        },
-        "Config_16": {
             "additionalProperties": false,
             "properties": {
                 "container": {
@@ -1223,6 +1210,31 @@
                 "driver": {
                     "const": "Console",
                     "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
+        },
+        "ConsoleConfig_1": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
                 }
             },
             "required": [
@@ -1394,10 +1406,7 @@
                     "type": "string"
                 },
                 "fields": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/Record<string,string>"
                 },
                 "name": {
                     "type": "string"
@@ -1537,6 +1546,13 @@
                 "component"
             ],
             "type": "object"
+        },
+        "Driver": {
+            "enum": [
+                "PostgreSQL",
+                "SQLite"
+            ],
+            "type": "string"
         },
         "Dropdown": {
             "additionalProperties": false,
@@ -1771,6 +1787,35 @@
                     "$ref": "#/definitions/SingleSelect"
                 }
             ]
+        },
+        "FileConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "File",
+                    "type": "string"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "filename"
+            ],
+            "type": "object"
         },
         "Fill": {
             "additionalProperties": false,
@@ -3161,6 +3206,10 @@
             ],
             "type": "object"
         },
+        "Record<string,string>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "RecordCreated": {
             "additionalProperties": false,
             "properties": {
@@ -3881,7 +3930,14 @@
             "$ref": "#/definitions/Config_12"
         },
         "logger": {
-            "$ref": "#/definitions/Config_15"
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ConsoleConfig"
+                },
+                {
+                    "$ref": "#/definitions/FileConfig"
+                }
+            ]
         },
         "mailer": {
             "$ref": "#/definitions/Config_13"
@@ -3892,7 +3948,7 @@
                     "$ref": "#/definitions/SentryConfig"
                 },
                 {
-                    "$ref": "#/definitions/ConsoleConfig"
+                    "$ref": "#/definitions/ConsoleConfig_1"
                 }
             ]
         },
@@ -3921,7 +3977,7 @@
             "type": "array"
         },
         "theme": {
-            "$ref": "#/definitions/Config_16"
+            "$ref": "#/definitions/Config_15"
         }
     },
     "required": [

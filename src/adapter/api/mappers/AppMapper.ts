@@ -31,9 +31,9 @@ import { MonitorMapper } from './ServiceMapper/MonitorMapper'
 export class AppMapper {
   static toEntity = (drivers: Drivers, config: Config) => {
     const { name } = config
-    const monitor = MonitorMapper.toService(drivers, config.monitor ?? { driver: 'Console' })
-    const logger = LoggerMapper.toService(drivers)
-    const server = ServerMapper.toService(drivers, config.server ?? {}, { logger, monitor })
+    const monitor = MonitorMapper.toService(drivers, config.monitor)
+    const logger = LoggerMapper.toService(drivers, config.logger)
+    const server = ServerMapper.toService(drivers, config.server, { logger, monitor })
     const idGenerator = IdGeneratorMapper.toService(drivers)
     const fileSystem = FileSystemMapper.toService(drivers)
     const client = ClientMapper.toService(drivers)
@@ -43,25 +43,28 @@ export class AppMapper {
     const iconLibrary = IconLibraryMapper.toService(drivers)
     const fontLibrary = FontLibraryMapper.toService(drivers, { server, idGenerator })
     const markdownParser = MarkdownParserMapper.toService(drivers, { client })
-    const database = DatabaseMapper.toService(drivers, { logger, monitor }, config.database ?? {})
-    const theme = ThemeMapper.toService(drivers, { server, fontLibrary }, config.theme ?? {})
-    const mailer = MailerMapper.toService(drivers, { logger }, config.mailer ?? {})
+    const database = DatabaseMapper.toService(drivers, config.database, { logger, monitor })
+    const theme = ThemeMapper.toService(drivers, config.theme, { server, fontLibrary })
+    const mailer = MailerMapper.toService(drivers, config.mailer, { logger })
     const spreadsheetLoader = SpreadsheetLoaderMapper.toService(drivers, { templateCompiler })
     const documentLoader = DocumentLoaderMapper.toService(drivers, { templateCompiler })
-    const auth = AuthMapper.toService(
-      drivers,
-      { server, mailer, templateCompiler, logger, database, idGenerator },
-      config.auth ?? {}
-    )
+    const auth = AuthMapper.toService(drivers, config.auth, {
+      server,
+      mailer,
+      templateCompiler,
+      logger,
+      database,
+      idGenerator,
+    })
     const queue = QueueMapper.toService(drivers, { logger, database, monitor })
     const storage = StorageMapper.toService(drivers, { logger, database })
-    const buckets = BucketMapper.toManyEntities(config.buckets ?? [], {
+    const buckets = BucketMapper.toManyEntities(config.buckets, {
       server,
       storage,
       idGenerator,
       templateCompiler,
     })
-    const tables = TableMapper.toManyEntities(config.tables ?? [], {
+    const tables = TableMapper.toManyEntities(config.tables, {
       database,
       server,
       idGenerator,
@@ -71,7 +74,7 @@ export class AppMapper {
     })
     const realtime = RealtimeMapper.toService({ database, logger, idGenerator }, { tables })
     const pages = PageMapper.toManyEntities(
-      config.pages ?? [],
+      config.pages,
       {
         logger,
         realtime,
@@ -86,7 +89,7 @@ export class AppMapper {
     )
     const javascriptCompiler = JavascriptCompilerMapper.toService(drivers, { tables })
     const automations = AutomationMapper.toManyEntities(
-      config.automations ?? [],
+      config.automations,
       {
         logger,
         queue,
@@ -99,28 +102,34 @@ export class AppMapper {
         javascriptCompiler,
         browser,
         fileSystem,
-        storage,
         spreadsheetLoader,
         documentLoader,
         monitor,
       },
       { tables, buckets }
     )
-    return new App({
-      name,
-      tables,
-      pages,
-      automations,
-      buckets,
-      server,
-      logger,
-      database,
-      queue,
-      mailer,
-      realtime,
-      auth,
-      theme,
-      storage,
-    })
+    return new App(
+      {
+        name,
+      },
+      {
+        server,
+        logger,
+        database,
+        queue,
+        mailer,
+        realtime,
+        auth,
+        theme,
+        storage,
+        monitor,
+      },
+      {
+        tables,
+        pages,
+        automations,
+        buckets,
+      }
+    )
   }
 }

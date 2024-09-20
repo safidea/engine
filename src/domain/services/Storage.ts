@@ -21,18 +21,13 @@ export interface Spi {
 }
 
 export class Storage {
-  private _log: (message: string) => void
-
   constructor(
     private _spi: Spi,
     private _services: Services
-  ) {
-    const { logger } = _services
-    this._log = logger.init('storage')
-  }
+  ) {}
 
   connect = () => {
-    this._log(`connecting...`)
+    this._services.logger.debug(`connecting storage...`)
     return this._spi.connect()
   }
 
@@ -41,7 +36,8 @@ export class Storage {
   }
 
   migrate = async (buckets: Bucket[]) => {
-    this._log(`migrating storage...`)
+    const { logger } = this._services
+    logger.debug(`migrating storage...`)
     for (const bucket of buckets) {
       const bucketStorage = this.bucket(bucket.name)
       const exists = await bucketStorage.exists()
@@ -49,6 +45,5 @@ export class Storage {
         await bucketStorage.create()
       }
     }
-    this._log(`storage migrated`)
   }
 }

@@ -17,7 +17,7 @@ export interface Driver {
   insertMany: (records: CreatedRecordDto[]) => Promise<void>
   update: (record: UpdatedRecordDto) => Promise<void>
   updateMany: (records: UpdatedRecordDto[]) => Promise<void>
-  delete: (filters: FilterDto[]) => Promise<void>
+  delete: (id: string) => Promise<void>
   read: (filters: FilterDto[]) => Promise<PersistedRecordDto | undefined>
   readById: (id: string) => Promise<PersistedRecordDto | undefined>
   list: (filters: FilterDto[]) => Promise<PersistedRecordDto[]>
@@ -66,9 +66,8 @@ export class DatabaseTableSpi implements Spi {
     await this._driver.updateMany(updatedRecordDtos)
   }
 
-  delete = async (filters: Filter[]) => {
-    const filterDtos = FilterMapper.toManyDtos(filters)
-    await this._driver.delete(filterDtos)
+  delete = async (id: string) => {
+    await this._driver.delete(id)
   }
 
   read = async (filters: Filter[]) => {
