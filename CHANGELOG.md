@@ -1,3 +1,19 @@
+# [0.31.0](https://github.com/safidea/engine/compare/v0.30.0...v0.31.0) (2024-09-20)
+
+
+### Bug Fixes
+
+* **CI:** env var ([8a90804](https://github.com/safidea/engine/commit/8a90804ecfe8f4be4f5ee4ebfb4c86bc86537cf4))
+* **CI:** update playwright config ([68e8ecf](https://github.com/safidea/engine/commit/68e8ecf6eeb7bf59cdd04467c3b4ccfdef21fcd6))
+* **CI:** update snapshots ([689ce1d](https://github.com/safidea/engine/commit/689ce1d377f26f94f1f37966a59f13c73970c287))
+* **CI:** update snapshots ext ([87fe387](https://github.com/safidea/engine/commit/87fe3877a6decbd8004c66642ec4417513c1d7d8))
+* **Logger:** fix red tests ([a219cef](https://github.com/safidea/engine/commit/a219cef882b7ad8adf8c8408c2098a90c8fabbd4))
+
+
+### Features
+
+* **Logger:** add green test: should log 'app started' ([13a6764](https://github.com/safidea/engine/commit/13a6764e892a98a6fd8fc2d0a5752b87ebd88ba9))
+
 # [0.30.0](https://github.com/safidea/engine/compare/v0.29.0...v0.30.0) (2024-09-12)
 
 ### Bug Fixes
