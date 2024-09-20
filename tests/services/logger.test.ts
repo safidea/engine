@@ -25,7 +25,12 @@ test.describe('Logger', () => {
         await app.start(config)
 
         // THEN
-        const content = await fs.readFile(filename, 'utf8')
+        let content = ''
+        let i = 0
+        do {
+          if (i++ > 0) await new Promise((resolve) => setTimeout(resolve, 1000))
+          content = await fs.readFile(filename, 'utf8')
+        } while (!content.includes('app started') && i < 10)
         expect(content).toContain('app started')
       })
     })
