@@ -9,6 +9,6 @@ if (dsn) {
     integrations: [nodeProfilingIntegration()],
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
-    environment: process.env.NODE_ENV || 'development',
+    environment: global.process.env.NODE_ENV || 'development',
   })
 }
