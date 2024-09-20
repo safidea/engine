@@ -1,10 +1,11 @@
 import * as Sentry from '@sentry/node'
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
-import { SENTRY_DSN } from './env'
 
-if (SENTRY_DSN) {
+const dsn = process.env.SENTRY_DSN
+
+if (dsn) {
   Sentry.init({
-    dsn: SENTRY_DSN,
+    dsn,
     integrations: [nodeProfilingIntegration()],
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
