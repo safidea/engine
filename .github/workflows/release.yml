@@ -17,7 +17,7 @@ jobs:
       TEST_SENTRY_AUTH_TOKEN: ${{ secrets.TEST_SENTRY_AUTH_TOKEN }}
       TEST_SENTRY_ORGANIZATION: ${{ secrets.TEST_SENTRY_ORGANIZATION }}
       TEST_SENTRY_PROJECT: ${{ secrets.TEST_SENTRY_PROJECT }}
-      TEST_SENTRY_DSN: ${{ secrets.TEST_SENTRY_DSN }}
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
     steps:
       - uses: actions/checkout@v4
