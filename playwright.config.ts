@@ -10,6 +10,7 @@ process.env.TESTING = 'true'
 export default defineConfig({
   testDir: './tests',
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
+  snapshotDir: '__snapshots__',
   snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}{ext}',
   /* Maximum time one test can run for. */
   timeout: 15 * 1000,
@@ -33,7 +34,9 @@ export default defineConfig({
   globalTeardown: join(process.cwd(), 'tests/__helpers__/teardown.ts'),
 
   expect: {
-    toMatchSnapshot: { threshold: 0.2 },
+    toMatchSnapshot: {
+      maxDiffPixelRatio: 0.02,
+    },
   },
 
   /* Configure projects for major browsers */
