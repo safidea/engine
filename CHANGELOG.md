@@ -1,3 +1,10 @@
+## [0.31.2](https://github.com/safidea/engine/compare/v0.31.1...v0.31.2) (2024-09-20)
+
+
+### Bug Fixes
+
+* **Monitor:** fix Sentry environnement loading ([3294ad3](https://github.com/safidea/engine/commit/3294ad3f710b485737133860d693f8cbad8a5c4f))
+
 ## [0.31.1](https://github.com/safidea/engine/compare/v0.31.0...v0.31.1) (2024-09-20)
 
 
