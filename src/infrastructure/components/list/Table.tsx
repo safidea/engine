@@ -28,32 +28,43 @@ export const Table = ({ id, className, fields, rows }: Props['Table']) => (
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                {rows.map((row, index) => (
-                  <tr
-                    className={`${index === rows.length - 1 ? '' : 'border-b'} dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-700 divide-x divide-gray-200 dark:divide-neutral-700`}
-                    key={index}
-                  >
-                    {fields.map((field, index) => {
-                      return (
-                        <td
-                          scope="row"
-                          className={`px-6 py-4 whitespace-nowrap text-sm ${index === 0 ? 'font-medium' : ''} text-gray-800 dark:text-neutral-200`}
-                          key={index}
+                {rows.length > 0 ? (
+                  rows.map((row, index) => (
+                    <tr
+                      className={`${index === rows.length - 1 ? '' : 'border-b'} dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-neutral-700 divide-x divide-gray-200 dark:divide-neutral-700`}
+                      key={index}
+                    >
+                      {fields.map((field, index) => {
+                        return (
+                          <td
+                            scope="row"
+                            className={`px-6 py-4 whitespace-nowrap text-sm ${index === 0 ? 'font-medium' : ''} text-gray-800 dark:text-neutral-200`}
+                            key={index}
+                          >
+                            {row[field.name]}
+                          </td>
+                        )
+                      })}
+                      <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400"
                         >
-                          {row[field.name]}
-                        </td>
-                      )
-                    })}
-                    <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400"
-                      >
-                        Delete
-                      </button>
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr className="dark:border-gray-700">
+                    <td
+                      colSpan={fields.length + 1}
+                      className="px-6 py-4 text-center text-sm font-medium text-gray-800 dark:text-neutral-200"
+                    >
+                      No data available
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

@@ -5,6 +5,13 @@
 - [x] Be able to run all tests on PostgresSQL
 - [x] Logger Driver should be able to store logs in database
 - [x] Add a Reporter Driver for Sentry use
+- [x] Default view for empty table component
+- [ ] Can position a component on a grid
+- [ ] Can set an edit parameter for table component
+- [ ] Can edit a cell in a table component
+- [ ] Infinite scroll for table component
+
+
 - [ ] Add testimonials component
 - [ ] Add video component
 - [ ] Add theming customization
