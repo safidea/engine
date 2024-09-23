@@ -10,7 +10,6 @@
   "license": "BSL 1.1",
   "exports": {
     ".": "./dist/index.js",
-    "./instrument": "./dist/instrument.js",
     "./schemas/*": "./schemas/*"
   },
   "files": [

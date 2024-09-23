@@ -2,15 +2,15 @@
 
 ## TODO
 
-- [ ] Implement Preline library
-
-- [ ] Logger Driver should be able to store logs in database
-- [ ] Add a Reporter Driver for Sentry use
+- [x] Be able to run all tests on PostgresSQL
+- [x] Logger Driver should be able to store logs in database
+- [x] Add a Reporter Driver for Sentry use
 - [ ] Add testimonials component
 - [ ] Add video component
 - [ ] Add theming customization
 - [ ] Add language detection
-- [x] Be able to run all tests on PostgresSQL
+- [ ] Implement Preline library
+
 
 ### Ressources
 

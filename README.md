@@ -6,7 +6,7 @@ Safidea Engine is a API to generate web app, fast and easy. With a configuration
 
 ### Pre-requisites
 
-You should have Node.js 20.11.1 or higher installed on your machine.
+You should have Node.js 22 or higher installed on your machine.
 
 ### Installation
 
