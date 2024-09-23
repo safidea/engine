@@ -43,9 +43,9 @@
     "watch:schemas": "nodemon --config scripts/schemas/watch.json",
     "watch": "concurrently \"bun run watch:schemas\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
-    "test": "NODE_OPTIONS=\"--no-deprecation --import ./dist/instrument.js\" bunx playwright test",
-    "test:ui": "NODE_OPTIONS=\"--no-deprecation --import ./dist/instrument.js\" bunx playwright test --ui",
-    "test:snapshots": "NODE_OPTIONS=\"--no-deprecation --import ./dist/instrument.js\" bunx playwright test --update-snapshots",
+    "test": "NODE_OPTIONS=--no-deprecation bunx playwright test",
+    "test:ui": "NODE_OPTIONS=--no-deprecation bunx playwright test --ui",
+    "test:snapshots": "NODE_OPTIONS=--no-deprecation bunx playwright test --update-snapshots",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "semantic-release": "semantic-release"

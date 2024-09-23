@@ -79,7 +79,7 @@ export class Database {
     const { logger, monitor } = this._services
     logger.debug(`listening for database error...`)
     this._spi.onError((error) => {
-      logger.error(`database: ${error.message}`)
+      logger.error(`on database error : ${error.message}`)
       monitor.captureException(error)
       callback(error)
     })

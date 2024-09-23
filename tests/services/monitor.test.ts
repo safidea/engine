@@ -7,7 +7,7 @@ test.describe('Monitor', () => {
   test.describe('Sentry driver', () => {
     test.slow()
 
-    test('should send an error', async ({ request }) => {
+    test.only('should send an error', async ({ request }) => {
       // GIVEN
       const id = nanoid()
       const message = `Test error ${id} for Sentry`

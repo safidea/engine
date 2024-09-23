@@ -36,7 +36,7 @@ const externals: string[] = [
   'winston',
 ]
 
-const entrypoints: string[] = ['index.ts', 'instrument.ts']
+const entrypoints: string[] = ['index.ts']
 
 await deleteFilesRecursively('dist', '.js', ['public'])
 
