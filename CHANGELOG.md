@@ -1,3 +1,10 @@
+## [0.31.5](https://github.com/safidea/engine/compare/v0.31.4...v0.31.5) (2024-10-04)
+
+
+### Bug Fixes
+
+* **Logger:** update schema config ([141fdf1](https://github.com/safidea/engine/commit/141fdf131a5966eee9997f83a21e37700df39a97))
+
 ## [0.31.4](https://github.com/safidea/engine/compare/v0.31.3...v0.31.4) (2024-10-04)
 
 
