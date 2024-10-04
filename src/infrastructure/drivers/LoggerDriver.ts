@@ -11,11 +11,11 @@ export class LoggerDriver implements Driver {
     private _config: Config,
     childLogger?: Logger
   ) {
-    const { driver } = _config
     if (childLogger) {
       this._logger = childLogger
       return
     }
+    const { driver } = _config
     if (driver === 'Console') {
       const { level } = _config
       this._logger = createLogger({
