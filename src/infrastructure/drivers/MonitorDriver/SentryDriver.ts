@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/node'
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
 
 const dsn = process.env.SENTRY_DSN
-
 if (dsn) {
   Sentry.init({
     dsn,
@@ -16,6 +15,7 @@ if (dsn) {
 
 export class SentryDriver implements Driver {
   constructor() {
+    const dsn = process.env.SENTRY_DSN
     if (!dsn) throw new Error('SENTRY_DSN env is required')
   }
 
