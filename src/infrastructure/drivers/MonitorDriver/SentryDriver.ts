@@ -15,7 +15,6 @@ if (dsn) {
 
 export class SentryDriver implements Driver {
   constructor() {
-    const dsn = process.env.SENTRY_DSN
     if (!dsn) throw new Error('SENTRY_DSN env is required')
   }
 
