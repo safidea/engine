@@ -1,3 +1,11 @@
+## [0.31.7](https://github.com/safidea/engine/compare/v0.31.6...v0.31.7) (2024-10-04)
+
+
+### Bug Fixes
+
+* **env:** add dotenv ([c22113b](https://github.com/safidea/engine/commit/c22113bb378fbd3bb16258cb361662fea72f3cd4))
+* **Monitor:** remove useless code ([1fcac17](https://github.com/safidea/engine/commit/1fcac1705d396262b37c25ea4bfaef78a9d1b8cc))
+
 ## [0.31.6](https://github.com/safidea/engine/compare/v0.31.5...v0.31.6) (2024-10-04)
 
 
