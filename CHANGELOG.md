@@ -1,3 +1,11 @@
+## [0.31.3](https://github.com/safidea/engine/compare/v0.31.2...v0.31.3) (2024-10-04)
+
+
+### Bug Fixes
+
+* **Logger:** add ElasticSearch Logger ([8d1fef4](https://github.com/safidea/engine/commit/8d1fef425a005e63d647da467e66d5f185905451))
+* **Monitor:** update Sentry integration ([782ffdc](https://github.com/safidea/engine/commit/782ffdc6a928be08bc6b925593e286e923fcddb2))
+
 ## [0.31.2](https://github.com/safidea/engine/compare/v0.31.1...v0.31.2) (2024-09-20)
 
 
