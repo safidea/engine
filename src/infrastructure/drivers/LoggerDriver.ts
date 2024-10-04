@@ -38,13 +38,9 @@ export class LoggerDriver implements Driver {
         transports: [new transports.Console(), new transports.File(options)],
       })
     } else if (driver === 'ElasticSearch') {
-      const { level, url, username, password } = _config
+      const { level, url } = _config
       const esClient = new ESClient({
         node: url,
-        auth: {
-          username,
-          password,
-        },
       })
       const esTransportOpts = {
         level,
