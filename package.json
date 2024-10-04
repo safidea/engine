@@ -50,6 +50,7 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.15.0",
     "@heroicons/react": "^2.1.5",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.10",
@@ -81,7 +82,8 @@
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.12",
     "uuid": "^10.0.0",
-    "winston": "^3.14.2"
+    "winston": "^3.14.2",
+    "winston-elasticsearch": "^0.19.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.0",

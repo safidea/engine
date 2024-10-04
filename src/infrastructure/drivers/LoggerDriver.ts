@@ -1,37 +1,60 @@
 import type { Driver } from '@adapter/spi/LoggerSpi'
 import type { Config } from '@domain/services/Logger'
-import winston from 'winston'
+import { createLogger, format, transports, type Logger } from 'winston'
+import { ElasticsearchTransport } from 'winston-elasticsearch'
+import { Client as ESClient } from '@elastic/elasticsearch'
 
 export class LoggerDriver implements Driver {
-  private _logger: winston.Logger
+  private _logger: Logger
 
   constructor(
     private _config: Config,
-    childLogger?: winston.Logger
+    childLogger?: Logger
   ) {
-    const { driver, level = 'info', ...options } = _config
+    const { driver } = _config
     if (childLogger) {
       this._logger = childLogger
       return
     }
     if (driver === 'Console') {
-      this._logger = winston.createLogger({
+      const { level } = _config
+      this._logger = createLogger({
         level,
         silent: process.env.TESTING === 'true' && level === 'info',
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.timestamp(),
-          winston.format.printf(({ timestamp, level, message, ...res }) => {
+        format: format.combine(
+          format.colorize(),
+          format.timestamp(),
+          format.printf(({ timestamp, level, message, ...res }) => {
             return `${timestamp} [${level}]: ${message} ${Object.keys(res).length ? JSON.stringify(res, null, 2) : ''}`
           })
         ),
-        transports: [new winston.transports.Console()],
+        transports: [new transports.Console()],
       })
     } else if (driver === 'File') {
-      this._logger = winston.createLogger({
+      const { level, ...options } = _config
+      this._logger = createLogger({
         level,
-        format: winston.format.json(),
-        transports: [new winston.transports.File(options)],
+        format: format.combine(format.timestamp(), format.json()),
+        transports: [new transports.Console(), new transports.File(options)],
+      })
+    } else if (driver === 'ElasticSearch') {
+      const { level, url, username, password } = _config
+      const esClient = new ESClient({
+        node: url,
+        auth: {
+          username,
+          password,
+        },
+      })
+      const esTransportOpts = {
+        level,
+        client: esClient,
+        indexPrefix: 'safidea-engine',
+      }
+      const esTransport = new ElasticsearchTransport(esTransportOpts)
+      this._logger = createLogger({
+        format: format.combine(format.timestamp(), format.json()),
+        transports: [new transports.Console(), esTransport],
       })
     } else throw new Error(`Logger driver "${driver}" not supported`)
   }

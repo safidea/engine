@@ -5,7 +5,7 @@ import fs from 'fs-extra'
 import { join } from 'path'
 
 test.describe('Logger', () => {
-  test.describe('Console driver', () => {
+  test.describe('File driver', () => {
     test.describe('DEBUG level', () => {
       test('should log "app started"', async () => {
         // GIVEN

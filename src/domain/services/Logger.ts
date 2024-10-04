@@ -2,6 +2,13 @@ interface BaseConfig {
   level?: 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'
 }
 
+export interface ElasticSearchConfig extends BaseConfig {
+  driver: 'ElasticSearch'
+  url: string
+  username: string
+  password: string
+}
+
 export interface ConsoleConfig extends BaseConfig {
   driver: 'Console'
 }
@@ -11,7 +18,7 @@ export interface FileConfig extends BaseConfig {
   filename: string
 }
 
-export type Config = ConsoleConfig | FileConfig
+export type Config = ConsoleConfig | FileConfig | ElasticSearchConfig
 
 export interface Spi {
   child: (metadata: object) => Spi
