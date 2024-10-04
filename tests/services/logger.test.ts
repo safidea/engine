@@ -35,4 +35,24 @@ test.describe('Logger', () => {
       })
     })
   })
+
+  test.describe('ElasticSearch driver', () => {
+    test('should start an app', async () => {
+      // GIVEN
+      const config: Config = {
+        name: 'app',
+        logger: {
+          driver: 'ElasticSearch',
+          url: 'http://localhost:9200',
+        },
+      }
+      const app = new App()
+
+      // WHEN
+      const call = () => app.start(config)
+
+      // THEN
+      await expect(call()).resolves.not.toThrow()
+    })
+  })
 })

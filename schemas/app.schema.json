@@ -1581,6 +1581,35 @@
             ],
             "type": "object"
         },
+        "ElasticSearchConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "ElasticSearch",
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "url"
+            ],
+            "type": "object"
+        },
         "Email": {
             "additionalProperties": false,
             "properties": {
@@ -3910,6 +3939,9 @@
         },
         "logger": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/ElasticSearchConfig"
+                },
                 {
                     "$ref": "#/definitions/ConsoleConfig"
                 },
