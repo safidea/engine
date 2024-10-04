@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { drivers } from '@infrastructure/drivers'
 import { AppApi } from '@adapter/api/AppApi'
 import type { Drivers as AllDrivers } from '@adapter/spi/Drivers'
