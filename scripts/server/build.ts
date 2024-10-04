@@ -34,6 +34,9 @@ const externals: string[] = [
   '@sentry/node',
   '@sentry/profiling-node',
   'winston',
+  'winston-elasticsearch',
+  '@elastic/elasticsearch',
+  'dotenv',
 ]
 
 const entrypoints: string[] = ['index.ts']
