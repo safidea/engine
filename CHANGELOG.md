@@ -1,3 +1,10 @@
+## [0.31.6](https://github.com/safidea/engine/compare/v0.31.5...v0.31.6) (2024-10-04)
+
+
+### Bug Fixes
+
+* **Logger:** SENTRY_DSN loading ([f5f4668](https://github.com/safidea/engine/commit/f5f4668f744a423c0eb392dea7896b5d73c7304e))
+
 ## [0.31.5](https://github.com/safidea/engine/compare/v0.31.4...v0.31.5) (2024-10-04)
 
 
