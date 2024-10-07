@@ -1,3 +1,10 @@
+## [0.31.12](https://github.com/safidea/engine/compare/v0.31.11...v0.31.12) (2024-10-07)
+
+
+### Bug Fixes
+
+* **Logger:** add init log ([8f1781d](https://github.com/safidea/engine/commit/8f1781d7173a14c294e3efca8bf2a5a6cb3ac5eb))
+
 ## [0.31.11](https://github.com/safidea/engine/compare/v0.31.10...v0.31.11) (2024-10-07)
 
 
