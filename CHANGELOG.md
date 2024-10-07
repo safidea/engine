@@ -1,3 +1,10 @@
+## [0.31.16](https://github.com/safidea/engine/compare/v0.31.15...v0.31.16) (2024-10-07)
+
+
+### Bug Fixes
+
+* **JavascriptRunner:** add green test: should run a javascript code with a xml parsed in json ([01ad39d](https://github.com/safidea/engine/commit/01ad39dbad35d9c2fcfa61e5c2b63c42c8952452))
+
 ## [0.31.15](https://github.com/safidea/engine/compare/v0.31.14...v0.31.15) (2024-10-07)
 
 
