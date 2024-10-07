@@ -40,7 +40,7 @@ export class Logger {
 
   init: () => Promise<void> = async () => {
     await this._spi.init()
-    this.info(`init "${this._config.driver}" logger`)
+    this.debug(`init "${this._config.driver}" logger`)
   }
 
   child = (metadata: object) => {

@@ -10,6 +10,7 @@ export class JavascriptRunnerDriver implements Driver {
     const context = vm.createContext({
       fetch: global.fetch,
       Error: global.Error,
+      Buffer: global.Buffer,
       setTimeout: setTimeout,
       console: console,
       inputData,
