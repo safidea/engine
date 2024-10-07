@@ -1,3 +1,10 @@
+## [0.31.15](https://github.com/safidea/engine/compare/v0.31.14...v0.31.15) (2024-10-07)
+
+
+### Bug Fixes
+
+* **JavascriptRunner:** add Buffer module ([b2a2112](https://github.com/safidea/engine/commit/b2a211246d75a11ede77479f086b09067a58d083))
+
 ## [0.31.14](https://github.com/safidea/engine/compare/v0.31.13...v0.31.14) (2024-10-07)
 
 
