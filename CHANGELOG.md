@@ -1,3 +1,11 @@
+## [0.31.9](https://github.com/safidea/engine/compare/v0.31.8...v0.31.9) (2024-10-07)
+
+
+### Bug Fixes
+
+* **Logger:** add green test: should create an ES index if it doesn't exit at start ([2a72b49](https://github.com/safidea/engine/commit/2a72b495e4aa94eab43f2cb92864bb8b54cd29e0))
+* **Logger:** add green test: should start an app with ES config ([eced6c1](https://github.com/safidea/engine/commit/eced6c1e8b9d1239a8e375b33955600323f2cdd5))
+
 ## [0.31.8](https://github.com/safidea/engine/compare/v0.31.7...v0.31.8) (2024-10-04)
 
 
