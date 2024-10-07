@@ -3,8 +3,6 @@ import { join } from 'path'
 import 'dotenv/config'
 
 process.env.TESTING = 'true'
-process.env.NODE_OPTIONS = '--no-warnings'
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 /**
  * See https://playwright.dev/docs/test-configuration.

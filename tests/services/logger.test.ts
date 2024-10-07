@@ -3,16 +3,7 @@ import App, { type App as Config } from '@safidea/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
-import {
-  getElasticSearchHit,
-  esUrl,
-  esUsername,
-  esIndex,
-  esPassword,
-  type Hit,
-  checkElasticSearchIndex,
-  deleteElasticSearchIndex,
-} from '@tests/logger'
+import { elasticSearch, type Hit } from '@tests/logger'
 
 test.describe('Logger', () => {
   test.describe('File driver', () => {
@@ -70,10 +61,10 @@ test.describe('Logger', () => {
         ],
         logger: {
           driver: 'ElasticSearch',
-          url: esUrl!,
-          username: esUsername!,
-          password: esPassword!,
-          index: esIndex!,
+          url: elasticSearch.url,
+          username: elasticSearch.username,
+          password: elasticSearch.password!,
+          index: elasticSearch.index,
         },
       }
       const app = new App()
@@ -85,7 +76,7 @@ test.describe('Logger', () => {
       // THEN
       let hit: Hit | undefined
       do {
-        const hits = await getElasticSearchHit(message)
+        const hits = await elasticSearch.search(message)
         hit = hits.find((hit) => hit._source.message.includes(message))
         if (!hit) await new Promise((resolve) => setTimeout(resolve, 1000))
       } while (!hit)
@@ -101,9 +92,9 @@ test.describe('Logger', () => {
         name: 'app',
         logger: {
           driver: 'ElasticSearch',
-          url: esUrl!,
-          username: esUsername!,
-          password: esPassword!,
+          url: elasticSearch.url,
+          username: elasticSearch.username,
+          password: elasticSearch.password,
           index: index!,
         },
       }
@@ -113,8 +104,8 @@ test.describe('Logger', () => {
       await app.start(config)
 
       // THEN
-      const exists = await checkElasticSearchIndex(index)
-      await deleteElasticSearchIndex(index)
+      const exists = await elasticSearch.checkIndex(index)
+      await elasticSearch.deleteIndex(index)
       expect(exists).toBe(true)
     })
   })
