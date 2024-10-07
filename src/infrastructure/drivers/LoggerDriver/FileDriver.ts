@@ -5,11 +5,13 @@ import type { FileConfig } from '@domain/services/Logger'
 export class FileDriver extends BaseDriver {
   constructor(config: FileConfig) {
     const { level, silent, ...options } = config
+    const fileTransports = []
+    fileTransports.push(new transports.File(options))
+    if (!silent) fileTransports.push(new transports.Console())
     const logger = createLogger({
       level,
-      silent,
       format: format.combine(format.timestamp(), format.json()),
-      transports: [new transports.Console(), new transports.File(options)],
+      transports: fileTransports,
     })
     super(logger)
   }

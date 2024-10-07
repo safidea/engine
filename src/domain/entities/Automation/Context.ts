@@ -1,6 +1,10 @@
 import type { OutputValue, Template } from '@domain/services/Template'
 
+export type ActionContext = { config: { name: string }; input: object; output: object }
+
 export class Context {
+  status: 'succeed' | 'failed' = 'succeed'
+  run: { trigger: object; actions: ActionContext[] }
   private _data: { [key: string]: object }
 
   constructor(
@@ -8,6 +12,7 @@ export class Context {
     trigger: object
   ) {
     this._data = { trigger }
+    this.run = { trigger, actions: [] }
   }
 
   fillTemplate = (template: Template): OutputValue => {
@@ -32,11 +37,13 @@ export class Context {
     }, {})
   }
 
-  set = (key: string, value: object) => {
-    this._data[key] = value
+  addSucceedAction = (action: ActionContext) => {
+    this._data[action.config.name] = action.output
+    this.run.actions.push(action)
   }
 
-  get = (key: string): object => {
-    return this._data[key]
+  addFailedAction = (action: ActionContext) => {
+    this.addSucceedAction(action)
+    this.status = 'failed'
   }
 }

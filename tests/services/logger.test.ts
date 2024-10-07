@@ -33,6 +33,94 @@ test.describe('Logger', () => {
       } while (!content.includes('app started') && i < 10)
       expect(content).toContain('app started')
     })
+
+    test('should log a succeed automation', async ({ request }) => {
+      // GIVEN
+      const filename = join(process.cwd(), 'tmp', `app-${nanoid()}.log`)
+      fs.ensureFileSync(filename)
+      const config: Config = {
+        name: 'app',
+        automations: [
+          {
+            name: 'run',
+            trigger: {
+              event: 'ApiCalled',
+              path: 'run',
+            },
+            actions: [
+              {
+                name: 'run',
+                service: 'Code',
+                action: 'RunJavascript',
+                code: `return { message: 'succeed' }`,
+              },
+            ],
+          },
+        ],
+        logger: {
+          driver: 'File',
+          filename,
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await request.post(`${url}/api/automation/run`)
+
+      // THEN
+      let content = ''
+      let i = 0
+      do {
+        if (i++ > 0) await new Promise((resolve) => setTimeout(resolve, 1000))
+        content = await fs.readFile(filename, 'utf8')
+      } while (!content.includes('run succeed') && i < 10)
+      expect(content).toContain('run succeed')
+    })
+
+    test('should log a failed automation', async ({ request }) => {
+      // GIVEN
+      const filename = join(process.cwd(), 'tmp', `app-${nanoid()}.log`)
+      fs.ensureFileSync(filename)
+      const config: Config = {
+        name: 'app',
+        automations: [
+          {
+            name: 'run',
+            trigger: {
+              event: 'ApiCalled',
+              path: 'run',
+            },
+            actions: [
+              {
+                name: 'run',
+                service: 'Code',
+                action: 'RunJavascript',
+                code: `throw new Error('run failed')`,
+              },
+            ],
+          },
+        ],
+        logger: {
+          driver: 'File',
+          filename,
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      await request.post(`${url}/api/automation/run`)
+
+      // THEN
+      let content = ''
+      let i = 0
+      do {
+        if (i++ > 0) await new Promise((resolve) => setTimeout(resolve, 1000))
+        content = await fs.readFile(filename, 'utf8')
+      } while (!content.includes('run failed') && i < 10)
+      expect(content).toContain('run failed')
+    })
   })
 
   test.describe('ElasticSearch driver', () => {

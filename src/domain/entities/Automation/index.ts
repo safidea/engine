@@ -49,9 +49,10 @@ export class Automation {
     const { logger, idGenerator } = this._services
     const id = idGenerator.forAutomation()
     const context = new Context(id, triggerData)
-    logger.info(`"${this.name}": running automation "${id}"`)
+    logger.debug(`"${this.name}": running automation "${id}"`)
     for (const action of actions) await action.execute(context)
-    logger.info(`"${this.name}": completed automation "${id}"`)
+    logger.debug(`"${this.name}": completed automation "${id}"`)
+    logger.info(`"${this.name}" run ${context.status}`, context.run)
     return context
   }
 }

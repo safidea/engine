@@ -1,5 +1,5 @@
 import type { Monitor } from '@domain/services/Monitor'
-import type { Context } from '../Automation/Context'
+import type { Context, ActionContext } from '../Automation/Context'
 import type { Bucket } from '../Bucket'
 import { ConfigError } from '../Error/Config'
 import type { Table } from '../Table'
@@ -36,15 +36,24 @@ export class Base<Input extends object, Output extends object> {
 
   execute = async (context: Context): Promise<void> => {
     const { logger, monitor } = this._baseServices
+    const actionContext: ActionContext = {
+      config: this._baseConfig,
+      input: {},
+      output: {},
+    }
     try {
-      logger.info(`"${context.id}": executing action "${this.name}"`, this._baseConfig)
+      logger.debug(`"${context.id}": executing action "${this.name}"`, this._baseConfig)
       const input = await this._prepare(context)
-      logger.info(`"${context.id}": input data of action "${this.name}"`, input)
+      actionContext.input = input
+      logger.debug(`"${context.id}": input data of action "${this.name}"`, input)
       const output = await this._process(input)
-      logger.info(`"${context.id}": output data of action "${this.name}"`, output)
-      context.set(this.name, output)
+      actionContext.output = output
+      logger.debug(`"${context.id}": output data of action "${this.name}"`, output)
+      context.addSucceedAction(actionContext)
     } catch (error) {
       if (error instanceof Error) {
+        actionContext.output = { error: error.message }
+        context.addFailedAction(actionContext)
         logger.error(`"${context.id}": when executing action "${this.name}"`, error)
         monitor.captureException(error)
       }
