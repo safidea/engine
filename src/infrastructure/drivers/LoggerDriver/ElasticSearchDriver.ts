@@ -8,13 +8,9 @@ export class ElasticsSearchDriver extends BaseDriver {
   private _client: Client
 
   constructor(private _config: ElasticSearchConfig) {
-    const { level, url, username, password, index, silent } = _config
+    const { level, url, index, silent } = _config
     const client = new Client({
       node: url,
-      auth: {
-        username,
-        password,
-      },
       ssl: { rejectUnauthorized: false },
     })
     const esTransportOpts = {

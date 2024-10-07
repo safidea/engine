@@ -62,8 +62,6 @@ test.describe('Logger', () => {
         logger: {
           driver: 'ElasticSearch',
           url: elasticSearch.url,
-          username: elasticSearch.username,
-          password: elasticSearch.password!,
           index: elasticSearch.index,
         },
       }
@@ -93,9 +91,7 @@ test.describe('Logger', () => {
         logger: {
           driver: 'ElasticSearch',
           url: elasticSearch.url,
-          username: elasticSearch.username,
-          password: elasticSearch.password,
-          index: index!,
+          index,
         },
       }
       const app = new App()

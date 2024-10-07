@@ -1606,25 +1606,17 @@
                     ],
                     "type": "string"
                 },
-                "password": {
-                    "type": "string"
-                },
                 "silent": {
                     "type": "boolean"
                 },
                 "url": {
-                    "type": "string"
-                },
-                "username": {
                     "type": "string"
                 }
             },
             "required": [
                 "driver",
                 "index",
-                "password",
-                "url",
-                "username"
+                "url"
             ],
             "type": "object"
         },

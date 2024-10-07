@@ -14,20 +14,14 @@ export type Hit = { _source: { message: string } }
 class ElasticSearch {
   private _client: Client
   url = process.env.TEST_ELASTICSEARCH_URL!
-  username = process.env.TEST_ELASTICSEARCH_USERNAME!
-  password = process.env.TEST_ELASTICSEARCH_PASSWORD!
   index = process.env.TEST_ELASTICSEARCH_INDEX!
 
   constructor() {
-    if (!this.url || !this.username || !this.password || !this.index) {
+    if (!this.url || !this.index) {
       throw new Error('Missing ElasticSearch test environment variables')
     }
     this._client = new Client({
       node: this.url,
-      auth: {
-        username: this.username,
-        password: this.password,
-      },
       ssl: { rejectUnauthorized: false },
     })
   }
