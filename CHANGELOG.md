@@ -1,3 +1,10 @@
+## [0.31.13](https://github.com/safidea/engine/compare/v0.31.12...v0.31.13) (2024-10-07)
+
+
+### Bug Fixes
+
+* **Logger:** add unique ID for automations runs in logger ([32d5f9c](https://github.com/safidea/engine/commit/32d5f9c9faa4ca5de3bc2ca1bca686b9b689ee9c))
+
 ## [0.31.12](https://github.com/safidea/engine/compare/v0.31.11...v0.31.12) (2024-10-07)
 
 
