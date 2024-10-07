@@ -1,3 +1,10 @@
+## [0.31.11](https://github.com/safidea/engine/compare/v0.31.10...v0.31.11) (2024-10-07)
+
+
+### Bug Fixes
+
+* **Logger:** simplify ElasticSearch config ([7b2cbdc](https://github.com/safidea/engine/commit/7b2cbdc64c6eac8b823e116bbc7135d1c7b54e67))
+
 ## [0.31.10](https://github.com/safidea/engine/compare/v0.31.9...v0.31.10) (2024-10-07)
 
 
