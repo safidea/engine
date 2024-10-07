@@ -426,4 +426,48 @@ test.describe('Run javascript code action', () => {
       expect(response.users[1].name).toBe('John Connor')
     })
   })
+
+  test('should run a javascript code with a xml parsed in json', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'parseXml',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'parse-xml',
+            output: {
+              key: {
+                value: '{{runJavascriptCode.result.key}}',
+                type: 'string',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              code: js`
+                  const xml = '<key>value</key>'
+                  const result = await formater.xmlToJs(xml)
+                  return { result }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/parse-xml`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.key).toBe('value')
+  })
 })

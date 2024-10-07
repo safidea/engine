@@ -1,6 +1,12 @@
 import type { Driver } from '@adapter/spi/JavascriptRunnerSpi'
 import type { Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
+import xml2js from 'xml2js'
+
+// TODO: refactor in anoter Driver
+const formater = {
+  xmlToJs: async (xml: string) => xml2js.parseStringPromise(xml),
+}
 
 export class JavascriptRunnerDriver implements Driver {
   constructor(private _script: vm.Script) {}
@@ -15,6 +21,7 @@ export class JavascriptRunnerDriver implements Driver {
       console: console,
       inputData,
       table,
+      formater,
     })
     return this._script.runInContext(context)
   }
