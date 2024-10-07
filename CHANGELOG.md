@@ -1,3 +1,10 @@
+## [0.31.10](https://github.com/safidea/engine/compare/v0.31.9...v0.31.10) (2024-10-07)
+
+
+### Bug Fixes
+
+* **Logger:** refactor tests helpers ([a178647](https://github.com/safidea/engine/commit/a178647372981a6f2407a27e0bc77eb05c08ba80))
+
 ## [0.31.9](https://github.com/safidea/engine/compare/v0.31.8...v0.31.9) (2024-10-07)
 
 
