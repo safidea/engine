@@ -438,9 +438,9 @@ test.describe('Run javascript code action', () => {
             event: 'ApiCalled',
             path: 'parse-xml',
             output: {
-              key: {
-                value: '{{runJavascriptCode.result.key}}',
-                type: 'string',
+              result: {
+                value: '{{runJavascriptCode.result}}',
+                type: 'object',
               },
             },
           },
@@ -450,8 +450,8 @@ test.describe('Run javascript code action', () => {
               action: 'RunJavascript',
               name: 'runJavascriptCode',
               code: js`
-                  const xml = '<key>value</key>'
-                  const result = await formater.xmlToJs(xml)
+                  const xml = '<result><root><item>Value1</item><item>Value2</item></root><key> value </key></result>'
+                  const { result } = await formater.xmlToJs(xml)
                   return { result }
                 `,
             },
@@ -468,6 +468,9 @@ test.describe('Run javascript code action', () => {
       .then((res) => res.json())
 
     // THEN
-    expect(response.key).toBe('value')
+    expect(response.result).toStrictEqual({
+      key: 'value',
+      root: { item: ['Value1', 'Value2'] },
+    })
   })
 })

@@ -3,9 +3,14 @@ import type { Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
 import xml2js from 'xml2js'
 
+const parser = new xml2js.Parser({
+  trim: true,
+  explicitArray: false,
+})
+
 // TODO: refactor in anoter Driver
 const formater = {
-  xmlToJs: async (xml: string) => xml2js.parseStringPromise(xml),
+  xmlToJs: async (xml: string) => parser.parseStringPromise(xml),
 }
 
 export class JavascriptRunnerDriver implements Driver {
