@@ -1,11 +1,12 @@
 import { Client } from '@elastic/elasticsearch'
 import { LoggerSpi } from '@adapter/spi/LoggerSpi'
-import { Logger } from '@domain/services/Logger'
+import { Logger, type Config } from '@domain/services/Logger'
 import { LoggerDriver } from '@infrastructure/drivers/LoggerDriver'
 
 export default class extends Logger {
   constructor() {
-    super(new LoggerSpi(new LoggerDriver({ driver: 'Console', level: 'error' })))
+    const config: Config = { driver: 'Console', level: 'error' }
+    super(new LoggerSpi(new LoggerDriver(config)), config)
   }
 }
 

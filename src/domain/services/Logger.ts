@@ -33,14 +33,18 @@ export interface Spi {
 }
 
 export class Logger {
-  constructor(private _spi: Spi) {}
+  constructor(
+    private _spi: Spi,
+    private _config: Config
+  ) {}
 
   init: () => Promise<void> = async () => {
     await this._spi.init()
+    this.info(`init "${this._config.driver}" logger`)
   }
 
   child = (metadata: object) => {
-    return new Logger(this._spi.child(metadata))
+    return new Logger(this._spi.child(metadata), this._config)
   }
 
   info = (message: string, metadata: object = {}) => {

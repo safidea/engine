@@ -13,6 +13,6 @@ export class LoggerMapper {
     const configWithDefaults = this.buildConfigWithDefaults(config)
     const driver = drivers.logger(configWithDefaults)
     const spi = new LoggerSpi(driver)
-    return new Logger(spi)
+    return new Logger(spi, configWithDefaults)
   }
 }
