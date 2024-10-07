@@ -3,12 +3,15 @@ import { LoggerSpi } from '@adapter/spi/LoggerSpi'
 import { Logger, type Config } from '@domain/services/Logger'
 
 export class LoggerMapper {
-  static toService(
-    drivers: Drivers,
-    config: Config = { driver: 'Console', level: 'info' }
-  ): Logger {
+  static buildConfigWithDefaults(config: Config = { driver: 'Console' }): Config {
     config.level = config.level ?? 'info'
-    const driver = drivers.logger(config)
+    config.silent = config.silent ?? (process.env.TESTING === 'true' && config.level === 'info')
+    return config
+  }
+
+  static toService(drivers: Drivers, config?: Config): Logger {
+    const configWithDefaults = this.buildConfigWithDefaults(config)
+    const driver = drivers.logger(configWithDefaults)
     const spi = new LoggerSpi(driver)
     return new Logger(spi)
   }

@@ -54,3 +54,32 @@ export async function getElasticSearchHit(message: string): Promise<Hit[]> {
   const data = await response.json()
   return data.hits.hits
 }
+
+export async function checkElasticSearchIndex(index: string): Promise<boolean> {
+  const url = `${esUrl}/${index}`
+  const auth = 'Basic ' + btoa(`${esUsername}:${esPassword}`)
+  const response = await fetch(url, {
+    headers: {
+      Authorization: auth,
+    },
+  })
+
+  return response.ok
+}
+
+export async function deleteElasticSearchIndex(index: string) {
+  const url = `${esUrl}/${index}`
+  const auth = 'Basic ' + btoa(`${esUsername}:${esPassword}`)
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: auth,
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete index from ElasticSearch: ${response.statusText}`)
+  }
+
+  return response
+}

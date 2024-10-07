@@ -10,6 +10,8 @@ import {
   esIndex,
   esPassword,
   type Hit,
+  checkElasticSearchIndex,
+  deleteElasticSearchIndex,
 } from '@tests/logger'
 
 test.describe('Logger', () => {
@@ -43,7 +45,7 @@ test.describe('Logger', () => {
   })
 
   test.describe('ElasticSearch driver', () => {
-    test.only('should start an app', async ({ request }) => {
+    test('should start an app with ES config', async ({ request }) => {
       // GIVEN
       const id = nanoid()
       const message = `Test error ${id} for ElasticSearch`
@@ -89,6 +91,31 @@ test.describe('Logger', () => {
       } while (!hit)
       expect(hit).toBeDefined()
       expect(hit._source.message).toContain(message)
+    })
+
+    test("should create an ES index if it doesn't exit at start", async () => {
+      // GIVEN
+      const id = nanoid()
+      const index = `test_index_${id}`.toLowerCase()
+      const config: Config = {
+        name: 'app',
+        logger: {
+          driver: 'ElasticSearch',
+          url: esUrl!,
+          username: esUsername!,
+          password: esPassword!,
+          index: index!,
+        },
+      }
+      const app = new App()
+
+      // WHEN
+      await app.start(config)
+
+      // THEN
+      const exists = await checkElasticSearchIndex(index)
+      await deleteElasticSearchIndex(index)
+      expect(exists).toBe(true)
     })
   })
 })

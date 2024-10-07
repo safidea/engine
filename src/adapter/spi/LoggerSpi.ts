@@ -1,6 +1,7 @@
 import type { Spi } from '@domain/services/Logger'
 
 export interface Driver {
+  init: () => Promise<void>
   child: (metadata: object) => Spi
   error: (message: string, metadata: object) => void
   warn: (message: string, metadata: object) => void
@@ -13,6 +14,10 @@ export interface Driver {
 
 export class LoggerSpi implements Spi {
   constructor(private _driver: Driver) {}
+
+  init = async () => {
+    await this._driver.init()
+  }
 
   child = (metadata: object) => {
     return new LoggerSpi(this._driver.child(metadata))

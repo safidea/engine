@@ -1,5 +1,6 @@
 interface BaseConfig {
   level?: 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'
+  silent?: boolean
 }
 
 export interface ElasticSearchConfig extends BaseConfig {
@@ -22,6 +23,7 @@ export interface FileConfig extends BaseConfig {
 export type Config = ConsoleConfig | FileConfig | ElasticSearchConfig
 
 export interface Spi {
+  init: () => Promise<void>
   child: (metadata: object) => Spi
   error: (message: string, metadata: object) => void
   warn: (message: string, metadata: object) => void
@@ -34,6 +36,10 @@ export interface Spi {
 
 export class Logger {
   constructor(private _spi: Spi) {}
+
+  init: () => Promise<void> = async () => {
+    await this._spi.init()
+  }
 
   child = (metadata: object) => {
     return new Logger(this._spi.child(metadata))

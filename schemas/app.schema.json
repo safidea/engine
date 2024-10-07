@@ -1222,6 +1222,9 @@
                         "warn"
                     ],
                     "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -1606,6 +1609,9 @@
                 "password": {
                     "type": "string"
                 },
+                "silent": {
+                    "type": "boolean"
+                },
                 "url": {
                     "type": "string"
                 },
@@ -1847,6 +1853,9 @@
                         "warn"
                     ],
                     "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
                 }
             },
             "required": [

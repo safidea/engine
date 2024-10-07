@@ -84,8 +84,9 @@ export class App {
   }
 
   init = async (): Promise<void> => {
-    const { theme, server } = this._services
+    const { theme, server, logger } = this._services
     const { tables, pages, automations, buckets } = this._entities
+    await logger.init()
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
@@ -117,22 +118,18 @@ export class App {
     this.setStatus('starting')
     const { server, database, queue, storage, mailer, realtime, logger, monitor } = this._services
     const { tables, buckets } = this._entities
-    if (database) {
-      await database.connect()
-      await database.migrate(tables)
-      database.onError(async () => {
-        if (this.status === 'running') {
-          await this.stop({ graceful: false })
-        }
-      })
-    }
-    if (queue) await queue.start()
-    if (storage) {
-      await storage.connect()
-      await storage.migrate(buckets)
-    }
-    if (mailer) await mailer.verify()
-    if (realtime) await realtime.setup()
+    await database.connect()
+    await database.migrate(tables)
+    database.onError(async () => {
+      if (this.status === 'running') {
+        await this.stop({ graceful: false })
+      }
+    })
+    await queue.start()
+    await storage.connect()
+    await storage.migrate(buckets)
+    await mailer.verify()
+    await realtime.setup()
     const url = await server.start()
     if (!isTest && server.env === 'production') {
       process.on('SIGTERM', () => this._onClose('SIGTERM'))
