@@ -1588,6 +1588,9 @@
                     "const": "ElasticSearch",
                     "type": "string"
                 },
+                "index": {
+                    "type": "string"
+                },
                 "level": {
                     "enum": [
                         "debug",
@@ -1600,13 +1603,22 @@
                     ],
                     "type": "string"
                 },
+                "password": {
+                    "type": "string"
+                },
                 "url": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             },
             "required": [
                 "driver",
-                "url"
+                "index",
+                "password",
+                "url",
+                "username"
             ],
             "type": "object"
         },

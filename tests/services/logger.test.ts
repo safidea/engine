@@ -3,6 +3,14 @@ import App, { type App as Config } from '@safidea/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
+import {
+  getElasticSearchHit,
+  esUrl,
+  esUsername,
+  esIndex,
+  esPassword,
+  type Hit,
+} from '@tests/logger'
 
 test.describe('Logger', () => {
   test.describe('File driver', () => {
@@ -35,23 +43,52 @@ test.describe('Logger', () => {
   })
 
   test.describe('ElasticSearch driver', () => {
-    test('should start an app', async () => {
+    test.only('should start an app', async ({ request }) => {
       // GIVEN
+      const id = nanoid()
+      const message = `Test error ${id} for ElasticSearch`
       const config: Config = {
         name: 'app',
+        automations: [
+          {
+            name: 'throwError',
+            trigger: {
+              event: 'ApiCalled',
+              path: 'error',
+            },
+            actions: [
+              {
+                name: 'throwError',
+                service: 'Code',
+                action: 'RunJavascript',
+                code: `throw new Error("${message}")`,
+              },
+            ],
+          },
+        ],
         logger: {
           driver: 'ElasticSearch',
-          level: 'debug',
-          url: 'http://localhost:9200',
+          url: esUrl!,
+          username: esUsername!,
+          password: esPassword!,
+          index: esIndex!,
         },
       }
       const app = new App()
+      const url = await app.start(config)
 
       // WHEN
-      const call = () => app.start(config)
+      await request.post(`${url}/api/automation/error`)
 
       // THEN
-      await expect(call()).resolves.not.toThrow()
+      let hit: Hit | undefined
+      do {
+        const hits = await getElasticSearchHit(message)
+        hit = hits.find((hit) => hit._source.message.includes(message))
+        if (!hit) await new Promise((resolve) => setTimeout(resolve, 1000))
+      } while (!hit)
+      expect(hit).toBeDefined()
+      expect(hit._source.message).toContain(message)
     })
   })
 })

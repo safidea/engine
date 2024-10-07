@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
-import { getSentryEvents } from '@tests/monitor'
+import { getSentryEvents, type Event } from '@tests/monitor'
 import { nanoid } from 'nanoid'
 
 test.describe('Monitor', () => {
@@ -12,7 +12,7 @@ test.describe('Monitor', () => {
       const id = nanoid()
       const message = `Test error ${id} for Sentry`
       const config: Config = {
-        name: 'Theme',
+        name: 'Logger',
         automations: [
           {
             name: 'throwError',
@@ -41,14 +41,14 @@ test.describe('Monitor', () => {
       await request.post(`${url}/api/automation/error`)
 
       // THEN
-      let errorEvent
+      let event: Event | undefined
       do {
         const events = await getSentryEvents()
-        errorEvent = events.find((event: { title: string }) => event.title.includes(message))
-        if (!errorEvent) await new Promise((resolve) => setTimeout(resolve, 1000))
-      } while (!errorEvent)
-      expect(errorEvent).toBeDefined()
-      expect(errorEvent.title).toContain(message)
+        event = events.find((event) => event.title.includes(message))
+        if (!event) await new Promise((resolve) => setTimeout(resolve, 1000))
+      } while (!event)
+      expect(event).toBeDefined()
+      expect(event.title).toContain(message)
     })
   })
 })

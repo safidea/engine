@@ -5,6 +5,9 @@ interface BaseConfig {
 export interface ElasticSearchConfig extends BaseConfig {
   driver: 'ElasticSearch'
   url: string
+  username: string
+  password: string
+  index: string
 }
 
 export interface ConsoleConfig extends BaseConfig {

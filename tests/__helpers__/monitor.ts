@@ -7,7 +7,9 @@ if (!authToken || !organization || !project || !dsn) {
   throw new Error('Missing Sentry test environment variables')
 }
 
-export async function getSentryEvents() {
+export type Event = { title: string }
+
+export async function getSentryEvents(): Promise<Event[]> {
   const url = `https://sentry.io/api/0/projects/${organization}/${project}/events/`
 
   const response = await fetch(url, {

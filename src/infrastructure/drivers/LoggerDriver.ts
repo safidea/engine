@@ -2,7 +2,7 @@ import type { Driver } from '@adapter/spi/LoggerSpi'
 import type { Config } from '@domain/services/Logger'
 import { createLogger, format, transports, type Logger } from 'winston'
 import { ElasticsearchTransport } from 'winston-elasticsearch'
-import { Client as ESClient } from '@elastic/elasticsearch'
+import { Client } from '@elastic/elasticsearch'
 
 export class LoggerDriver implements Driver {
   private _logger: Logger
@@ -16,11 +16,12 @@ export class LoggerDriver implements Driver {
       return
     }
     const { driver } = _config
+    const silent = process.env.TESTING === 'true' && _config.level === 'info'
     if (driver === 'Console') {
       const { level } = _config
       this._logger = createLogger({
         level,
-        silent: process.env.TESTING === 'true' && level === 'info',
+        silent,
         format: format.combine(
           format.colorize(),
           format.timestamp(),
@@ -38,19 +39,45 @@ export class LoggerDriver implements Driver {
         transports: [new transports.Console(), new transports.File(options)],
       })
     } else if (driver === 'ElasticSearch') {
-      const { level, url } = _config
-      const esClient = new ESClient({
+      const { level, url, username, password, index } = _config
+      const client = new Client({
         node: url,
+        auth: {
+          username,
+          password,
+        },
+        ssl: { rejectUnauthorized: false },
       })
+      /*client.indices
+        .create({ index })
+        .then(() => {
+          console.log(`Index "${index}" created`)
+        })
+        .catch((error) => {
+          console.error(`Failed to create index "${index}": ${error}`)
+        })*/
+
       const esTransportOpts = {
         level,
-        client: esClient,
-        indexPrefix: 'safidea-engine',
+        client,
+        index,
       }
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const esTransport = new ElasticsearchTransport(esTransportOpts)
+      const esTransports = []
+      esTransports.push(esTransport)
+      if (!silent) esTransports.push(new transports.Console())
       this._logger = createLogger({
         format: format.combine(format.timestamp(), format.json()),
-        transports: [new transports.Console(), esTransport],
+        transports: esTransports,
+      })
+      this._logger.on('error', (error) => {
+        console.error('Error in logger caught', error)
+      })
+      esTransport.on('error', (error) => {
+        console.error('Error in logger caught', error)
       })
     } else throw new Error(`Logger driver "${driver}" not supported`)
   }
