@@ -1,3 +1,10 @@
+## [0.31.8](https://github.com/safidea/engine/compare/v0.31.7...v0.31.8) (2024-10-04)
+
+
+### Bug Fixes
+
+* **Logger:** remove ES from build ([80167f5](https://github.com/safidea/engine/commit/80167f5db27fd5bb67ecd97781ee9ff5999128d4))
+
 ## [0.31.7](https://github.com/safidea/engine/compare/v0.31.6...v0.31.7) (2024-10-04)
 
 
