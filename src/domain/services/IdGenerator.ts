@@ -34,4 +34,8 @@ export class IdGenerator {
   forBrowser = () => {
     return this._spi.generate(8, this.alphabet)
   }
+
+  forAutomation = () => {
+    return this._spi.generate(8, this.alphabet)
+  }
 }

@@ -1,9 +1,12 @@
 import type { OutputValue, Template } from '@domain/services/Template'
 
 export class Context {
-  private _data: { [key: string]: object } = {}
+  private _data: { [key: string]: object }
 
-  constructor(trigger: object) {
+  constructor(
+    public id: string,
+    trigger: object
+  ) {
     this._data = { trigger }
   }
 

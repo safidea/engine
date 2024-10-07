@@ -4,6 +4,7 @@ import type { Trigger } from '../Trigger'
 import { Context } from './Context'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Monitor } from '@domain/services/Monitor'
+import type { IdGenerator } from '@domain/services/IdGenerator'
 
 interface Config {
   name: string
@@ -12,6 +13,7 @@ interface Config {
 interface Services {
   logger: Logger
   monitor: Monitor
+  idGenerator: IdGenerator
 }
 
 interface Entities {
@@ -34,7 +36,7 @@ export class Automation {
     const { trigger, actions } = this._entities
     const { logger } = this._services
     await trigger.init(this.run)
-    logger.debug(`initializing automation: ${this.name}`)
+    logger.debug(`initializing automation "${this.name}"`)
     for (const action of actions) await action.init()
   }
 
@@ -43,12 +45,13 @@ export class Automation {
   }
 
   run = async (triggerData: object) => {
-    const context = new Context(triggerData)
     const { actions } = this._entities
-    const { logger } = this._services
-    logger.debug(`running automation: ${this.name}`)
+    const { logger, idGenerator } = this._services
+    const id = idGenerator.forAutomation()
+    const context = new Context(id, triggerData)
+    logger.info(`"${this.name}": running automation "${id}"`)
     for (const action of actions) await action.execute(context)
-    logger.debug(`completed automation: ${this.name}`)
+    logger.info(`"${this.name}": completed automation "${id}"`)
     return context
   }
 }

@@ -37,15 +37,15 @@ export class Base<Input extends object, Output extends object> {
   execute = async (context: Context): Promise<void> => {
     const { logger, monitor } = this._baseServices
     try {
-      logger.info(`executing action "${this.name}"`, this._baseConfig)
+      logger.info(`"${context.id}": executing action "${this.name}"`, this._baseConfig)
       const input = await this._prepare(context)
-      logger.info(`input data of action "${this.name}"`, input)
+      logger.info(`"${context.id}": input data of action "${this.name}"`, input)
       const output = await this._process(input)
-      logger.info(`output data of action "${this.name}"`, output)
+      logger.info(`"${context.id}": output data of action "${this.name}"`, output)
       context.set(this.name, output)
     } catch (error) {
       if (error instanceof Error) {
-        logger.error(`when executing action "${this.name}"`, error)
+        logger.error(`"${context.id}": when executing action "${this.name}"`, error)
         monitor.captureException(error)
       }
       throw error

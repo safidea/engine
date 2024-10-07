@@ -56,7 +56,7 @@ export class AutomationMapper {
       },
       entities
     )
-    return new Automation(config, { logger, monitor }, { trigger, actions })
+    return new Automation(config, { logger, monitor, idGenerator }, { trigger, actions })
   }
 
   static toManyEntities = (configs: Config[] = [], services: Services, entities: Entities) => {
