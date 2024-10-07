@@ -1,3 +1,10 @@
+## [0.31.14](https://github.com/safidea/engine/compare/v0.31.13...v0.31.14) (2024-10-07)
+
+
+### Bug Fixes
+
+* **Logger:** add green test: should log a succeed automation ([73814f1](https://github.com/safidea/engine/commit/73814f191634e117e4671a557187829acb39bd04))
+
 ## [0.31.13](https://github.com/safidea/engine/compare/v0.31.12...v0.31.13) (2024-10-07)
 
 
