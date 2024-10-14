@@ -560,6 +560,49 @@ test.describe('Run javascript code action', () => {
     expect(response.isArray).toBeTruthy()
   })
 
+  test('should run a javascript code with the native Number class', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getIsNumber',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'is-number',
+            output: {
+              isNumber: {
+                value: '{{runJavascriptCode.isNumber}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              code: js`
+                  const isNumber = Number("1") == 1
+                  return { isNumber }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/is-number`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.isNumber).toBeTruthy()
+  })
+
   test('should run a javascript code with the services.date.format helper', async ({ request }) => {
     // GIVEN
     const config: Config = {
