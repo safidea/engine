@@ -517,6 +517,49 @@ test.describe('Run javascript code action', () => {
     expect(response.timestamp).toBeGreaterThan(0)
   })
 
+  test('should run a javascript code with the native Array class', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getIsArray',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'is-array',
+            output: {
+              isArray: {
+                value: '{{runJavascriptCode.isArray}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              code: js`
+                  const isArray = Array.isArray([1, 2, 3])
+                  return { isArray }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/is-array`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.isArray).toBeTruthy()
+  })
+
   test('should run a javascript code with the services.date.format helper', async ({ request }) => {
     // GIVEN
     const config: Config = {

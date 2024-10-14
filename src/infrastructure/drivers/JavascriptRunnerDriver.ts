@@ -29,6 +29,7 @@ export class JavascriptRunnerDriver implements Driver {
       Error: global.Error,
       Buffer: global.Buffer,
       Date: global.Date,
+      Array: global.Array,
       setTimeout: setTimeout,
       console: console,
       inputData,
