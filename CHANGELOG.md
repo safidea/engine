@@ -1,3 +1,13 @@
+## [0.31.18](https://github.com/safidea/engine/compare/v0.31.17...v0.31.18) (2024-10-14)
+
+
+### Bug Fixes
+
+* **CI:** add sandbox configuration for Puppeteer ([34a5f1e](https://github.com/safidea/engine/commit/34a5f1e1d349cbf62ef9068ff189ea97b5802459))
+* **CI:** add sandbox configuration for Puppeteer ([410dc16](https://github.com/safidea/engine/commit/410dc1671e4fff5c8a2bc378358286244f459f22))
+* **RunJavascript:** add green test: should run a javascript code with the native Date class ([3312ff6](https://github.com/safidea/engine/commit/3312ff6cf0a212529261b7c0f13b166e36e5c07d))
+* **RunJavascript:** add green test: should run a javascript code with the services.date.format helper ([2b540a7](https://github.com/safidea/engine/commit/2b540a7a28d2514836a22754c493c23bc0314160))
+
 ## [0.31.17](https://github.com/safidea/engine/compare/v0.31.16...v0.31.17) (2024-10-07)
 
 
