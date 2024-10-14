@@ -2,6 +2,7 @@ import type { Driver } from '@adapter/spi/JavascriptRunnerSpi'
 import type { Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
 import xml2js from 'xml2js'
+import * as dateFns from 'date-fns'
 
 const parser = new xml2js.Parser({
   trim: true,
@@ -9,8 +10,13 @@ const parser = new xml2js.Parser({
 })
 
 // TODO: refactor in anoter Driver
-const formater = {
-  xmlToJs: async (xml: string) => parser.parseStringPromise(xml),
+const services = {
+  converter: {
+    xmlToJson: async (xml: string): Promise<object> => parser.parseStringPromise(xml),
+  },
+  date: {
+    format: (date: Date, format: string): string => dateFns.format(date, format),
+  },
 }
 
 export class JavascriptRunnerDriver implements Driver {
@@ -27,7 +33,7 @@ export class JavascriptRunnerDriver implements Driver {
       console: console,
       inputData,
       table,
-      formater,
+      services,
     })
     return this._script.runInContext(context)
   }

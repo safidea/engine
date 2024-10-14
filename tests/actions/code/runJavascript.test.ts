@@ -427,7 +427,7 @@ test.describe('Run javascript code action', () => {
     })
   })
 
-  test('should run a javascript code with a xml parsed in json', async ({ request }) => {
+  test('should run a javascript code with services.converter.xmlToJson', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -451,7 +451,7 @@ test.describe('Run javascript code action', () => {
               name: 'runJavascriptCode',
               code: js`
                   const xml = '<result><root><item>Value1</item><item>Value2</item></root><key> value </key></result>'
-                  const { result } = await formater.xmlToJs(xml)
+                  const { result } = await services.converter.xmlToJson(xml)
                   return { result }
                 `,
             },
@@ -497,7 +497,7 @@ test.describe('Run javascript code action', () => {
               action: 'RunJavascript',
               name: 'runJavascriptCode',
               code: js`
-                  const timestamp =  Date.now()
+                  const timestamp = Date.now()
                   return { timestamp }
                 `,
             },
@@ -515,5 +515,48 @@ test.describe('Run javascript code action', () => {
 
     // THEN
     expect(response.timestamp).toBeGreaterThan(0)
+  })
+
+  test('should run a javascript code with the services.date.format helper', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getDate',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'get-date',
+            output: {
+              date: {
+                value: '{{runJavascriptCode.date}}',
+                type: 'string',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              code: js`
+                  const date = services.date.format(new Date(2024, 8, 1), 'yyyy-MM-dd')
+                  return { date }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/get-date`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.date).toBe('2024-09-01')
   })
 })

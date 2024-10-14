@@ -62,6 +62,7 @@
     "better-sqlite3": "^11.3.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "dompurify": "^3.1.7",
     "dotenv": "^16.4.5",
     "exceljs": "^4.4.0",

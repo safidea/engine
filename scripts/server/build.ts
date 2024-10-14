@@ -38,6 +38,7 @@ const externals: string[] = [
   '@elastic/elasticsearch',
   'dotenv',
   'xml2js',
+  'date-fns',
 ]
 
 const entrypoints: string[] = ['index.ts']
