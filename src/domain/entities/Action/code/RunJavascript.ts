@@ -34,6 +34,7 @@ export class RunJavascript extends Base<Input, Output> {
     return context.fillObjectTemplate(this._input)
   }
 
+  // TODO: Hidden credentials from the logs
   protected _process = async (input: Input) => {
     return this._script.run(input)
   }

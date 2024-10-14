@@ -473,4 +473,47 @@ test.describe('Run javascript code action', () => {
       root: { item: ['Value1', 'Value2'] },
     })
   })
+
+  test('should run a javascript code with the native Date class', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getTimestamp',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'get-timestamp',
+            output: {
+              timestamp: {
+                value: '{{runJavascriptCode.timestamp}}',
+                type: 'number',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              code: js`
+                  const timestamp =  Date.now()
+                  return { timestamp }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/get-timestamp`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.timestamp).toBeGreaterThan(0)
+  })
 })
