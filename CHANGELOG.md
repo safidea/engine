@@ -1,3 +1,10 @@
+## [0.31.20](https://github.com/safidea/engine/compare/v0.31.19...v0.31.20) (2024-10-14)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a javascript code with the native Number class ([076abf3](https://github.com/safidea/engine/commit/076abf3b4e895b5049e3156ea0ffd145de8b1ec7))
+
 ## [0.31.19](https://github.com/safidea/engine/compare/v0.31.18...v0.31.19) (2024-10-14)
 
 
