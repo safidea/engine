@@ -1,3 +1,10 @@
+## [0.31.19](https://github.com/safidea/engine/compare/v0.31.18...v0.31.19) (2024-10-14)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a javascript code with the native Array class ([47d59d3](https://github.com/safidea/engine/commit/47d59d370683803167561662e7f11c2fcd1371e2))
+
 ## [0.31.18](https://github.com/safidea/engine/compare/v0.31.17...v0.31.18) (2024-10-14)
 
 
