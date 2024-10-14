@@ -29,6 +29,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - run: sudo sysctl -w kernel.unprivileged_userns_clone=1
       - run: bun install
       - run: bun run lint
       - run: bun run build
