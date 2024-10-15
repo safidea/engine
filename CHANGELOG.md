@@ -1,3 +1,10 @@
+## [0.31.23](https://github.com/safidea/engine/compare/v0.31.22...v0.31.23) (2024-10-15)
+
+
+### Bug Fixes
+
+* **scripts:** Update build.ts ([16f3b20](https://github.com/safidea/engine/commit/16f3b204db61d2ab9c1654a8272074f204812b80))
+
 ## [0.31.22](https://github.com/safidea/engine/compare/v0.31.21...v0.31.22) (2024-10-15)
 
 
