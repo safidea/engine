@@ -3,6 +3,8 @@ import type { Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
 import xml2js from 'xml2js'
 import * as dateFns from 'date-fns'
+import Airtable from 'airtable'
+import { google as Google } from 'googleapis'
 
 const parser = new xml2js.Parser({
   trim: true,
@@ -36,6 +38,8 @@ export class JavascriptRunnerDriver implements Driver {
       inputData,
       table,
       services,
+      Google,
+      Airtable,
     })
     return this._script.runInContext(context)
   }
