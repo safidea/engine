@@ -16,7 +16,7 @@ export class Text implements Base {
     private _services: Services
   ) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { tag, text } = this._config
     const { logger } = this._services
     const textMessage = `checking if text "${text}" exist`

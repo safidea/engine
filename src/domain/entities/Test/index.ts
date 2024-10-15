@@ -37,8 +37,14 @@ export class Test {
     const { logger } = this._services
     try {
       logger.debug(`running test "${this.name}"`)
-      for (const event of when) await event.execute(app, page)
-      for (const expect of then) await expect.execute(app, page)
+      const context: { [key: string]: object } = {}
+      for (const event of when) {
+        const result = await event.execute(app, page)
+        if (result && 'name' in event && event.name) {
+          context[event.name] = result
+        }
+      }
+      for (const expect of then) await expect.execute(app, page, context)
       logger.debug(`test "${this.name}" passed`)
       await app.stop()
     } catch (error) {

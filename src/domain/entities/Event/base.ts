@@ -7,5 +7,5 @@ export interface BaseServices {
 }
 
 export interface Base {
-  execute(app: App, page: BrowserPage): Promise<void>
+  execute(app: App, page: BrowserPage): Promise<void | object>
 }

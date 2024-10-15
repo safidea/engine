@@ -17,7 +17,7 @@ export class Attribute implements Base {
     private _services: Services
   ) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { tag, attribute, value } = this._config
     const { logger } = this._services
     const attributeMessage = `checking if attribute "${attribute}" with value "${value}" exist`

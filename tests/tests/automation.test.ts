@@ -1,4 +1,4 @@
-import { test, expect } from '@tests/fixtures'
+import { test, expect, js } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 
 test.describe('Automation tests', () => {
@@ -124,5 +124,143 @@ test.describe('Automation tests', () => {
 
     // THEN
     await expect(call()).resolves.toBeUndefined()
+  })
+
+  test('should return a success API request', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'Feature',
+      tests: [
+        {
+          name: 'valid a name',
+          when: [
+            {
+              name: 'request',
+              event: 'Post',
+              path: '/api/automation/valid-name',
+              body: { name: 'John' },
+            },
+          ],
+          then: [
+            {
+              expect: 'Equal',
+              value: '{{request.response.isValid}}',
+              expected: 'true',
+            },
+          ],
+        },
+      ],
+      automations: [
+        {
+          name: 'validName',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'valid-name',
+            input: {
+              name: { type: 'string' },
+            },
+            output: {
+              isValid: {
+                value: '{{runJavascriptCode.isValid}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              input: {
+                name: {
+                  value: '{{trigger.body.name}}',
+                  type: 'string',
+                },
+              },
+              code: js`
+                  const isValid = inputData.name === 'John'
+                  return { isValid }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const app = new App()
+    const call = () => app.test(config)
+
+    // THEN
+    await expect(call()).resolves.toBeUndefined()
+  })
+
+  test('should return a failed API request', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'Feature',
+      tests: [
+        {
+          name: 'valid a name',
+          when: [
+            {
+              name: 'request',
+              event: 'Post',
+              path: '/api/automation/valid-name',
+              body: { name: 'John' },
+            },
+          ],
+          then: [
+            {
+              expect: 'Equal',
+              value: '{{request.response.isValid}}',
+              expected: 'true',
+            },
+          ],
+        },
+      ],
+      automations: [
+        {
+          name: 'validName',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'valid-name',
+            input: {
+              name: { type: 'string' },
+            },
+            output: {
+              isValid: {
+                value: '{{runJavascriptCode.isValid}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              input: {
+                name: {
+                  value: '{{trigger.body.name}}',
+                  type: 'string',
+                },
+              },
+              code: js`
+                  const isValid = inputData.name === 'Doe'
+                  return { isValid }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+
+    // WHEN
+    const app = new App()
+    const call = () => app.test(config)
+
+    // THEN
+    await expect(call()).rejects.toThrow('EQUAL_FAILED')
   })
 })

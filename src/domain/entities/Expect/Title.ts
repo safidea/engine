@@ -15,7 +15,7 @@ export class Title implements Base {
     private _services: Services
   ) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { title } = this._config
     const { logger } = this._services
     logger.debug(`checking if page title is "${title}"`)

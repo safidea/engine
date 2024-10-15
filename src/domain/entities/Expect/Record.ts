@@ -21,7 +21,7 @@ export class Record implements Base {
     private _entities: Entities
   ) {}
 
-  execute = async (app: App, _page: BrowserPage) => {
+  execute = async (app: App, _page: BrowserPage, _context?: object) => {
     const { table } = this._config
     const { find } = this._entities
     const { logger } = this._services

@@ -1673,6 +1673,27 @@
             ],
             "type": "object"
         },
+        "Equal": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Equal",
+                    "type": "string"
+                },
+                "expected": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "expected",
+                "value"
+            ],
+            "type": "object"
+        },
         "Event": {
             "anyOf": [
                 {
@@ -1705,6 +1726,9 @@
                 },
                 {
                     "$ref": "#/definitions/Email"
+                },
+                {
+                    "$ref": "#/definitions/Equal"
                 },
                 {
                     "$ref": "#/definitions/InputText"
@@ -3178,6 +3202,9 @@
                 },
                 "event": {
                     "const": "Post",
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 },
                 "path": {

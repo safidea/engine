@@ -8,9 +8,12 @@ import type { Expect as Config } from '@adapter/api/configs/Expect'
 import type { Expect } from '@domain/entities/Expect'
 import { RecordMapper } from './RecordMapper'
 import { EmailMapper } from './EmailMapper'
+import { EqualMapper } from './EqualMapper'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Services {
   logger: Logger
+  templateCompiler: TemplateCompiler
 }
 
 export class ExpectMapper {
@@ -23,6 +26,7 @@ export class ExpectMapper {
     if (expect === 'InputText') return InputTextMapper.toEntity(config, services)
     if (expect === 'Record') return RecordMapper.toEntity(config, services)
     if (expect === 'Email') return EmailMapper.toEntity(config, services)
+    if (expect === 'Equal') return EqualMapper.toEntity(config, services)
     throw new Error(`ExpectMapper: expect "${expect}" not found`)
   }
 

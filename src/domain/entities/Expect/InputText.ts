@@ -16,7 +16,7 @@ export class InputText implements Base {
     private _services: Services
   ) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { input, value } = this._config
     const { logger } = this._services
     logger.debug(`checking if input "${input}" with value "${value}" exist`)

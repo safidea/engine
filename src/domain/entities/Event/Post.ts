@@ -6,6 +6,7 @@ import type { App } from '../App'
 export interface Config {
   path: string
   body: object
+  name?: string
 }
 
 export type Services = BaseServices
@@ -15,6 +16,10 @@ export class Post implements Base {
     private _config: Config,
     private _services: Services
   ) {}
+
+  get name() {
+    return this._config.name
+  }
 
   execute = async (app: App, _page: BrowserPage) => {
     const { path, body } = this._config
@@ -34,5 +39,6 @@ export class Post implements Base {
         received: res.status,
       })
     }
+    return res.json()
   }
 }

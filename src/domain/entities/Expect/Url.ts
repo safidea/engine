@@ -15,7 +15,7 @@ export class Url implements Base {
     private _services: Services
   ) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { url } = this._config
     const { logger } = this._services
     logger.debug(`checking if page url is "${url}"`)
