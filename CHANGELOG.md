@@ -1,3 +1,10 @@
+## [0.31.22](https://github.com/safidea/engine/compare/v0.31.21...v0.31.22) (2024-10-15)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add Google and Airtable ([3ba3834](https://github.com/safidea/engine/commit/3ba383478eabf879704bb8d57cb4e3ef0a739288))
+
 ## [0.31.21](https://github.com/safidea/engine/compare/v0.31.20...v0.31.21) (2024-10-15)
 
 
