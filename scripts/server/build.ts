@@ -39,6 +39,8 @@ const externals: string[] = [
   'dotenv',
   'xml2js',
   'date-fns',
+  'airtable',
+  'googleapis',
 ]
 
 const entrypoints: string[] = ['index.ts']
