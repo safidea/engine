@@ -1,3 +1,10 @@
+## [0.31.21](https://github.com/safidea/engine/compare/v0.31.20...v0.31.21) (2024-10-15)
+
+
+### Bug Fixes
+
+* **Equal:** add green test: should return a success API request ([3a353eb](https://github.com/safidea/engine/commit/3a353ebb5371f5fb8733f9bfec43d85324c96e89))
+
 ## [0.31.20](https://github.com/safidea/engine/compare/v0.31.19...v0.31.20) (2024-10-14)
 
 
