@@ -1,5 +1,5 @@
 {
-  "name": "@safidea_/engine",
+  "name": "@safidea/engine",
   "description": "Generate web app with a configuration file",
   "version": "0.31.25",
   "main": "dist/index.js",
