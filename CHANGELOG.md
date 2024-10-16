@@ -1,3 +1,10 @@
+## [0.31.24](https://github.com/safidea/engine/compare/v0.31.23...v0.31.24) (2024-10-16)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a javascript code with env variable ([1ebba9d](https://github.com/safidea/engine/commit/1ebba9dc5ec621bf85c51945a162f8dc2ebf993f))
+
 ## [0.31.23](https://github.com/safidea/engine/compare/v0.31.22...v0.31.23) (2024-10-15)
 
 
