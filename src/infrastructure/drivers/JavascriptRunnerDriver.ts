@@ -3,7 +3,6 @@ import type { Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
 import xml2js from 'xml2js'
 import * as dateFns from 'date-fns'
-import Airtable from 'airtable'
 import { google as Google } from 'googleapis'
 
 const parser = new xml2js.Parser({
@@ -11,7 +10,7 @@ const parser = new xml2js.Parser({
   explicitArray: false,
 })
 
-// TODO: refactor in anoter Driver
+// TODO: refactor in another Driver
 const services = {
   converter: {
     xmlToJson: async (xml: string): Promise<object> => parser.parseStringPromise(xml),
@@ -22,7 +21,12 @@ const services = {
 }
 
 export class JavascriptRunnerDriver implements Driver {
-  constructor(private _script: vm.Script) {}
+  constructor(
+    private _script: vm.Script,
+    private _env: {
+      [key: string]: string
+    }
+  ) {}
 
   run = async (inputData: object, modules: Modules) => {
     const { table } = modules
@@ -36,10 +40,10 @@ export class JavascriptRunnerDriver implements Driver {
       setTimeout: setTimeout,
       console: console,
       inputData,
+      env: this._env,
       table,
       services,
       Google,
-      Airtable,
     })
     return this._script.runInContext(context)
   }

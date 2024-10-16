@@ -5,10 +5,10 @@ import vm from 'node:vm'
 export class JavascriptCompilerDriver implements Driver {
   constructor() {}
 
-  compile = (code: string) => {
+  compile = (code: string, env: { [key: string]: string }) => {
     const script = new vm.Script(`(async () => {
       ${code}
     })()`)
-    return new JavascriptRunnerDriver(script)
+    return new JavascriptRunnerDriver(script, env)
   }
 }

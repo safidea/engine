@@ -1,6 +1,10 @@
 import type { OutputValue, Template } from '@domain/services/Template'
 
-export type ActionContext = { config: { name: string }; input: object; output: object }
+export type ActionContext = {
+  config: { name: string }
+  input: object
+  output: object
+}
 
 export class Context {
   status: 'succeed' | 'failed' = 'succeed'

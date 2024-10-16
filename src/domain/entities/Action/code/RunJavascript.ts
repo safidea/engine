@@ -8,6 +8,7 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 export interface Config extends BaseConfig {
   input?: InputValues
   code: string
+  env?: { [key: string]: string }
 }
 
 export interface Services extends BaseServices {
@@ -23,10 +24,11 @@ export class RunJavascript extends Base<Input, Output> {
   private _input: { [key: string]: Template }
 
   constructor(config: Config, services: Services) {
-    super(config, services)
+    const { env, ...res } = config
+    super(res, services)
     const { code, input } = config
     const { javascriptCompiler, templateCompiler } = services
-    this._script = javascriptCompiler.compile(code)
+    this._script = javascriptCompiler.compile(code, env ?? {})
     this._input = templateCompiler.compileObjectWithType(input ?? {})
   }
 
@@ -34,7 +36,6 @@ export class RunJavascript extends Base<Input, Output> {
     return context.fillObjectTemplate(this._input)
   }
 
-  // TODO: Hidden credentials from the logs
   protected _process = async (input: Input) => {
     return this._script.run(input)
   }

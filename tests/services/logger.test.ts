@@ -7,7 +7,7 @@ import { elasticSearch, type Hit } from '@tests/logger'
 
 test.describe('Logger', () => {
   test.describe('File driver', () => {
-    test('should log "app started"', async () => {
+    test('should log "started" info', async () => {
       // GIVEN
       const filename = join(process.cwd(), 'tmp', `app-${nanoid()}.log`)
       fs.ensureFileSync(filename)
@@ -15,7 +15,6 @@ test.describe('Logger', () => {
         name: 'app',
         logger: {
           driver: 'File',
-          level: 'debug',
           filename,
         },
       }
@@ -30,8 +29,8 @@ test.describe('Logger', () => {
       do {
         if (i++ > 0) await new Promise((resolve) => setTimeout(resolve, 1000))
         content = await fs.readFile(filename, 'utf8')
-      } while (!content.includes('app started') && i < 10)
-      expect(content).toContain('app started')
+      } while (!content.includes('started') && i < 10)
+      expect(content).toContain('started')
     })
 
     test('should log a succeed automation', async ({ request }) => {

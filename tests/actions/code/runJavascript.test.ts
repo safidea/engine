@@ -1,6 +1,9 @@
 import { test, expect, js } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
 import Database from '@tests/database'
+import { nanoid } from 'nanoid'
+import fs from 'fs-extra'
+import { join } from 'path'
 
 test.describe('Run javascript code action', () => {
   test('should run a javascript code', async ({ request }) => {
@@ -63,6 +66,105 @@ test.describe('Run javascript code action', () => {
 
     // THEN
     expect(response.sum).toBe(3)
+  })
+
+  test('should run a javascript code with env variable', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getEnv',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'get-env',
+            output: {
+              NODE_ENV: {
+                value: '{{runJavascriptCode.NODE_ENV}}',
+                type: 'string',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              env: {
+                NODE_ENV: 'test',
+              },
+              code: js`
+                  const { NODE_ENV } = env
+                  return { NODE_ENV }
+                `,
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/get-env`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.NODE_ENV).toBe('test')
+  })
+
+  test('should run a javascript code with env variable and not showing them in logs', async ({
+    request,
+  }) => {
+    // GIVEN
+    const filename = join(process.cwd(), 'tmp', `app-${nanoid()}.log`)
+    fs.ensureFileSync(filename)
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getEnv',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'get-env',
+            output: {
+              NODE_ENV: {
+                value: '{{runJavascriptCode.NODE_ENV}}',
+                type: 'string',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              env: {
+                NODE_ENV: 'xxx',
+              },
+              code: js`
+                  const { NODE_ENV } = env
+                  return { success: !!NODE_ENV }
+                `,
+            },
+          ],
+        },
+      ],
+      logger: {
+        driver: 'File',
+        filename,
+      },
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    await request.post(`${url}/api/automation/get-env`)
+
+    // THEN
+    const content = await fs.readFile(filename, 'utf8')
+    expect(content).not.toContain('xxx')
   })
 
   Database.each(test, (dbConfig) => {

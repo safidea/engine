@@ -146,7 +146,7 @@ export class App {
         this._onClose('UNCAUGHT_REJECTION')
       })
     }
-    logger.debug(`app started at ${url}`)
+    logger.info(`app "${this.name}" started at ${url}`)
     this.setStatus('running')
     return url
   }

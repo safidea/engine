@@ -3344,6 +3344,12 @@
                 "code": {
                     "type": "string"
                 },
+                "env": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
                 "input": {
                     "$ref": "#/definitions/InputValues"
                 },

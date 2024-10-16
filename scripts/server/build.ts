@@ -39,7 +39,6 @@ const externals: string[] = [
   'dotenv',
   'xml2js',
   'date-fns',
-  'airtable',
   'googleapis',
 ]
 
