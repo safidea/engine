@@ -1,3 +1,10 @@
+## [0.31.25](https://github.com/safidea/engine/compare/v0.31.24...v0.31.25) (2024-10-16)
+
+
+### Bug Fixes
+
+* **Test:** remove logs from tests ([c08b222](https://github.com/safidea/engine/commit/c08b22234fd9104abd2528df9e926c5e5a016529))
+
 ## [0.31.24](https://github.com/safidea/engine/compare/v0.31.23...v0.31.24) (2024-10-16)
 
 
