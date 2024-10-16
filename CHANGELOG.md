@@ -1,3 +1,10 @@
+## [0.31.26](https://github.com/safidea/engine/compare/v0.31.25...v0.31.26) (2024-10-16)
+
+
+### Bug Fixes
+
+* **package:** update name AT LAST ([79dd4b1](https://github.com/safidea/engine/commit/79dd4b11a1694501080cfb304510640555d04ef0))
+
 ## [0.31.25](https://github.com/safidea/engine/compare/v0.31.24...v0.31.25) (2024-10-16)
 
 
