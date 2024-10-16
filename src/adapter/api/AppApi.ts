@@ -26,6 +26,11 @@ export class AppApi {
   test = async (config: unknown): Promise<void> => {
     const validatedConfig = this._validateSchemaOrThrow(config)
     delete validatedConfig.server?.port
+    delete validatedConfig.monitor
+    validatedConfig.logger = {
+      driver: 'Console',
+      silent: !validatedConfig.logger?.level || validatedConfig.logger.level === 'info',
+    }
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(this.drivers, validatedConfig.tests ?? [])
@@ -55,7 +60,6 @@ export class AppApi {
   start = async (config: unknown): Promise<string> => {
     this._app = await this._validateOrThrow(config)
     const url = await this._app.start()
-    this._log(`✨ App "${this._app.name}" started at ${url}`)
     return url
   }
 
