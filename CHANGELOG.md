@@ -1,3 +1,10 @@
+## [0.31.28](https://github.com/safidea/engine/compare/v0.31.27...v0.31.28) (2024-10-17)
+
+
+### Bug Fixes
+
+* **Logger:** can add multiple loggers and monitors instead one ([39ef6d0](https://github.com/safidea/engine/commit/39ef6d0234c79a8fd451c35da38a628ea048f743))
+
 ## [0.31.27](https://github.com/safidea/engine/compare/v0.31.26...v0.31.27) (2024-10-17)
 
 
