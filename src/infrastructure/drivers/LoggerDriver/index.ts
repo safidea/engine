@@ -5,52 +5,50 @@ import { FileDriver } from './FileDriver'
 import { ElasticsSearchDriver } from './ElasticSearchDriver'
 
 export class LoggerDriver implements Driver {
-  private _logger: ConsoleDriver | FileDriver | ElasticsSearchDriver
+  private _loggers: (ConsoleDriver | FileDriver | ElasticsSearchDriver)[] = []
 
   constructor(config: Config) {
-    const { driver } = config
-    if (driver === 'Console') {
-      this._logger = new ConsoleDriver(config)
-    } else if (driver === 'File') {
-      this._logger = new FileDriver(config)
-    } else if (driver === 'ElasticSearch') {
-      this._logger = new ElasticsSearchDriver(config)
-    } else throw new Error(`Logger driver "${driver}" not supported`)
+    for (const logger of config) {
+      const { driver } = logger
+      if (driver === 'Console') {
+        this._loggers.push(new ConsoleDriver(logger))
+      } else if (driver === 'File') {
+        this._loggers.push(new FileDriver(logger))
+      } else if (driver === 'ElasticSearch') {
+        this._loggers.push(new ElasticsSearchDriver(logger))
+      } else throw new Error(`Logger driver "${driver}" not supported`)
+    }
   }
 
   init = async () => {
-    await this._logger.init()
-  }
-
-  child: (metadata: object) => Driver = (metadata) => {
-    return this._logger.child(metadata)
+    await Promise.all(this._loggers.map((l) => l.init()))
   }
 
   error: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.error(message, metadata)
+    this._loggers.map((l) => l.error(message, metadata))
   }
 
   warn: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.warn(message, metadata)
+    this._loggers.map((l) => l.warn(message, metadata))
   }
 
   info: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.info(message, metadata)
+    this._loggers.map((l) => l.info(message, metadata))
   }
 
   http: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.http(message, metadata)
+    this._loggers.map((l) => l.http(message, metadata))
   }
 
   verbose: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.verbose(message, metadata)
+    this._loggers.map((l) => l.verbose(message, metadata))
   }
 
   debug: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.debug(message, metadata)
+    this._loggers.map((l) => l.debug(message, metadata))
   }
 
   silly: (message: string, metadata: object) => void = (message, metadata) => {
-    this._logger.silly(message, metadata)
+    this._loggers.map((l) => l.silly(message, metadata))
   }
 }

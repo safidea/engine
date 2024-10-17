@@ -42,7 +42,7 @@ const externals: string[] = [
   'googleapis',
 ]
 
-const entrypoints: string[] = ['index.ts']
+const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']
 
 await deleteFilesRecursively('dist', '.js', ['public'])
 

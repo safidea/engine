@@ -1,5 +1,5 @@
 import type { ElasticSearchConfig } from '@domain/services/Logger'
-import { createLogger, format, transports } from 'winston'
+import { createLogger, format } from 'winston'
 import { Client } from '@elastic/elasticsearch'
 import { ElasticsearchTransport } from 'winston-elasticsearch'
 import { BaseDriver } from './base'
@@ -26,13 +26,10 @@ export class ElasticsSearchDriver extends BaseDriver {
       console.error('Error in esTransport caught', error)
     })
 
-    const esTransports = []
-    esTransports.push(esTransport)
-    if (!silent) esTransports.push(new transports.Console())
-
     const logger = createLogger({
+      silent,
       format: format.combine(format.timestamp(), format.json()),
-      transports: esTransports,
+      transports: [esTransport],
     })
     super(logger)
     this._client = client

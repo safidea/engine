@@ -10,11 +10,6 @@ export class BaseDriver implements Driver {
 
   init = async () => {}
 
-  child: (metadata: object) => Driver = (metadata) => {
-    const childLogger = this._logger.child(metadata)
-    return new BaseDriver(childLogger)
-  }
-
   error: (message: string, metadata: object) => void = (message, metadata) => {
     this._logger.error(message, metadata)
   }

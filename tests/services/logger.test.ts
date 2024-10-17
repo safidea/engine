@@ -13,10 +13,12 @@ test.describe('Logger', () => {
       fs.ensureFileSync(filename)
       const config: Config = {
         name: 'app',
-        logger: {
-          driver: 'File',
-          filename,
-        },
+        loggers: [
+          {
+            driver: 'File',
+            filename,
+          },
+        ],
       }
       const app = new App()
 
@@ -56,10 +58,12 @@ test.describe('Logger', () => {
             ],
           },
         ],
-        logger: {
-          driver: 'File',
-          filename,
-        },
+        loggers: [
+          {
+            driver: 'File',
+            filename,
+          },
+        ],
       }
       const app = new App()
       const url = await app.start(config)
@@ -100,10 +104,12 @@ test.describe('Logger', () => {
             ],
           },
         ],
-        logger: {
-          driver: 'File',
-          filename,
-        },
+        loggers: [
+          {
+            driver: 'File',
+            filename,
+          },
+        ],
       }
       const app = new App()
       const url = await app.start(config)
@@ -146,11 +152,13 @@ test.describe('Logger', () => {
             ],
           },
         ],
-        logger: {
-          driver: 'ElasticSearch',
-          url: elasticSearch.url,
-          index: elasticSearch.index,
-        },
+        loggers: [
+          {
+            driver: 'ElasticSearch',
+            url: elasticSearch.url,
+            index: elasticSearch.index,
+          },
+        ],
       }
       const app = new App()
       const url = await app.start(config)
@@ -175,11 +183,13 @@ test.describe('Logger', () => {
       const index = `test_index_${id}`.toLowerCase()
       const config: Config = {
         name: 'app',
-        logger: {
-          driver: 'ElasticSearch',
-          url: elasticSearch.url,
-          index,
-        },
+        loggers: [
+          {
+            driver: 'ElasticSearch',
+            url: elasticSearch.url,
+            index,
+          },
+        ],
       }
       const app = new App()
 

@@ -1,5 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type App as Config } from '@safidea/engine'
+import { instrument } from '@safidea/engine/instrument'
 import { getSentryEvents, type Event } from '@tests/monitor'
 import { nanoid } from 'nanoid'
 
@@ -11,6 +12,8 @@ test.describe('Monitor', () => {
       // GIVEN
       const id = nanoid()
       const message = `Test error ${id} for Sentry`
+      const dsn = process.env.SENTRY_DSN
+      if (!dsn) throw new Error('SENTRY_DSN is not defined')
       const config: Config = {
         name: 'Logger',
         automations: [
@@ -30,10 +33,15 @@ test.describe('Monitor', () => {
             ],
           },
         ],
-        monitor: {
-          driver: 'Sentry',
-        },
+        monitors: [
+          {
+            driver: 'Sentry',
+            dsn,
+            environment: 'test',
+          },
+        ],
       }
+      instrument(config)
       const app = new App()
       const url = await app.start(config)
 

@@ -1,5 +1,4 @@
 import { TitleMapper } from './TitleMapper'
-import { Logger } from '@domain/services/Logger'
 import { TextMapper } from './TextMapper'
 import { UrlMapper } from './UrlMapper'
 import { AttributeMapper } from './AttributeMapper'
@@ -12,20 +11,19 @@ import { EqualMapper } from './EqualMapper'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 interface Services {
-  logger: Logger
   templateCompiler: TemplateCompiler
 }
 
 export class ExpectMapper {
   static toEntity = (config: Config, services: Services): Expect => {
     const { expect } = config
-    if (expect === 'Title') return TitleMapper.toEntity(config, services)
-    if (expect === 'Text') return TextMapper.toEntity(config, services)
-    if (expect === 'Url') return UrlMapper.toEntity(config, services)
-    if (expect === 'Attribute') return AttributeMapper.toEntity(config, services)
-    if (expect === 'InputText') return InputTextMapper.toEntity(config, services)
-    if (expect === 'Record') return RecordMapper.toEntity(config, services)
-    if (expect === 'Email') return EmailMapper.toEntity(config, services)
+    if (expect === 'Title') return TitleMapper.toEntity(config)
+    if (expect === 'Text') return TextMapper.toEntity(config)
+    if (expect === 'Url') return UrlMapper.toEntity(config)
+    if (expect === 'Attribute') return AttributeMapper.toEntity(config)
+    if (expect === 'InputText') return InputTextMapper.toEntity(config)
+    if (expect === 'Record') return RecordMapper.toEntity(config)
+    if (expect === 'Email') return EmailMapper.toEntity(config)
     if (expect === 'Equal') return EqualMapper.toEntity(config, services)
     throw new Error(`ExpectMapper: expect "${expect}" not found`)
   }

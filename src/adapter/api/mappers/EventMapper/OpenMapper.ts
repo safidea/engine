@@ -1,12 +1,12 @@
-import { Open, type Services } from '@domain/entities/Event/Open'
+import { Open } from '@domain/entities/Event/Open'
 import type { Open as Config } from '@adapter/api/configs/Event/Open'
 
 export class OpenMapper {
-  static toEntity = (config: Config, services: Services): Open => {
-    return new Open(config, services)
+  static toEntity = (config: Config): Open => {
+    return new Open(config)
   }
 
-  static toManyEntities = (configs: Config[], services: Services): Open[] => {
-    return configs.map((config) => this.toEntity(config, services))
+  static toManyEntities = (configs: Config[]): Open[] => {
+    return configs.map((config) => this.toEntity(config))
   }
 }

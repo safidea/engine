@@ -593,12 +593,15 @@
                 "env": {
                     "type": "string"
                 },
-                "monitor": {
-                    "enum": [
-                        "Console",
-                        "Sentry"
-                    ],
-                    "type": "string"
+                "monitors": {
+                    "items": {
+                        "enum": [
+                            "Console",
+                            "Sentry"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "port": {
                     "type": "string"
@@ -1210,6 +1213,19 @@
                 "driver": {
                     "const": "Console",
                     "type": "string"
+                }
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
+        },
+        "ConsoleConfig_1": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
                 },
                 "level": {
                     "enum": [
@@ -1544,13 +1560,6 @@
             "enum": [
                 "PostgreSQL",
                 "SQLite"
-            ],
-            "type": "string"
-        },
-        "Driver_1": {
-            "enum": [
-                "Console",
-                "Sentry"
             ],
             "type": "string"
         },
@@ -3430,6 +3439,27 @@
             ],
             "type": "object"
         },
+        "SentryConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Sentry",
+                    "type": "string"
+                },
+                "dsn": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "dsn",
+                "environment"
+            ],
+            "type": "object"
+        },
         "Sidebar": {
             "additionalProperties": false,
             "properties": {
@@ -3983,33 +4013,37 @@
         "database": {
             "$ref": "#/definitions/Config_12"
         },
-        "logger": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/ElasticSearchConfig"
-                },
-                {
-                    "$ref": "#/definitions/ConsoleConfig"
-                },
-                {
-                    "$ref": "#/definitions/FileConfig"
-                }
-            ]
+        "loggers": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "#/definitions/ElasticSearchConfig"
+                    },
+                    {
+                        "$ref": "#/definitions/ConsoleConfig_1"
+                    },
+                    {
+                        "$ref": "#/definitions/FileConfig"
+                    }
+                ]
+            },
+            "type": "array"
         },
         "mailer": {
             "$ref": "#/definitions/Config_13"
         },
-        "monitor": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "$ref": "#/definitions/Driver_1"
-                }
+        "monitors": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "#/definitions/SentryConfig"
+                    },
+                    {
+                        "$ref": "#/definitions/ConsoleConfig"
+                    }
+                ]
             },
-            "required": [
-                "driver"
-            ],
-            "type": "object"
+            "type": "array"
         },
         "name": {
             "type": "string"

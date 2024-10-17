@@ -101,7 +101,7 @@ export class ExpressDriver implements Driver {
   }
 
   afterAllRoutes = async () => {
-    if (this._config.monitor === 'Sentry') Sentry.setupExpressErrorHandler(this._express)
+    if (this._config.monitors?.includes('Sentry')) Sentry.setupExpressErrorHandler(this._express)
   }
 
   start = async (retry = 0): Promise<string> => {

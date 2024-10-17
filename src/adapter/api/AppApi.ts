@@ -10,32 +10,21 @@ import { TestMapper } from './mappers/TestMapper'
 import { BrowserMapper } from './mappers/ServiceMapper/BrowserMapper'
 
 export class AppApi {
-  private _log: (message: string) => void
   private _schemaValidator: SchemaValidator
   private _app?: App
 
   constructor(private drivers: Drivers) {
     this._schemaValidator = SchemaValidatorMapper.toService(drivers)
-    this._log = (message: string) => {
-      if (process.env.TESTING !== 'true') {
-        console.log(message)
-      }
-    }
   }
 
   test = async (config: unknown): Promise<void> => {
     const validatedConfig = this._validateSchemaOrThrow(config)
     delete validatedConfig.server?.port
-    delete validatedConfig.monitor
-    validatedConfig.logger = {
-      driver: 'Console',
-      silent: !validatedConfig.logger?.level || validatedConfig.logger.level === 'info',
-    }
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(this.drivers, validatedConfig.tests ?? [])
     const browser = BrowserMapper.toService(this.drivers)
-    this._log(`🔄 Start running tests`)
+    console.info(`🔄 Start running tests`)
     const page = await browser.launch()
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
@@ -45,21 +34,22 @@ export class AppApi {
         const baseUrl = await app.start({ isTest: true })
         await page.new(baseUrl)
         await test.run(app, page)
-        this._log(`✅ ${i} > ${test.name}`)
+        console.info(`✅ ${i} > ${test.name}`)
       } catch (error) {
-        this._log(`❌ ${i} > ${test.name}`)
+        console.info(`❌ ${i} > ${test.name}`)
         if (error instanceof TestError) errors.push(error)
         else throw error
       }
     }
     await page.close()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-    this._log(`✨ All tests passed`)
+    console.info(`✨ All tests passed`)
   }
 
   start = async (config: unknown): Promise<string> => {
     this._app = await this._validateOrThrow(config)
     const url = await this._app.start()
+    console.info(`🚀 App started at ${url}`)
     return url
   }
 
@@ -80,7 +70,7 @@ export class AppApi {
       const errors = this._schemaValidator.validateFromFile(config, 'app')
       throw new Error(JSON.stringify(errors, null, 2))
     }
-    this._log('✅ Config schema is valid')
+    console.info('✅ Config schema is valid')
     return { ...config }
   }
 
@@ -88,7 +78,7 @@ export class AppApi {
     const app = AppMapper.toEntity(this.drivers, config)
     const errors = await app.validateConfig()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-    this._log('✅ Config dependancies are valids')
+    console.info('✅ Config dependancies are valids')
     return app
   }
 

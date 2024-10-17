@@ -18,11 +18,10 @@ export interface FileConfig extends BaseConfig {
   filename: string
 }
 
-export type Config = ConsoleConfig | FileConfig | ElasticSearchConfig
+export type Config = (ConsoleConfig | FileConfig | ElasticSearchConfig)[]
 
 export interface Spi {
   init: () => Promise<void>
-  child: (metadata: object) => Spi
   error: (message: string, metadata: object) => void
   warn: (message: string, metadata: object) => void
   info: (message: string, metadata: object) => void
@@ -40,11 +39,7 @@ export class Logger {
 
   init: () => Promise<void> = async () => {
     await this._spi.init()
-    this.debug(`init "${this._config.driver}" logger`)
-  }
-
-  child = (metadata: object) => {
-    return new Logger(this._spi.child(metadata), this._config)
+    this.debug(`init logger`)
   }
 
   info = (message: string, metadata: object = {}) => {

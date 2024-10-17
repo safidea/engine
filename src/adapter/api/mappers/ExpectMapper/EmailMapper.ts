@@ -1,10 +1,10 @@
 import type { Email as Config } from '@adapter/api/configs/Expect/Email'
-import { Email, type Services } from '@domain/entities/Expect/Email'
+import { Email } from '@domain/entities/Expect/Email'
 import { FilterMapper } from '@domain/entities/Filter'
 
 export class EmailMapper {
-  static toEntity = (config: Config, services: Services): Email => {
+  static toEntity = (config: Config): Email => {
     const find = FilterMapper.toManyEntities(config.find)
-    return new Email(config, services, { find })
+    return new Email(config, { find })
   }
 }

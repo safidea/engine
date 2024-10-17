@@ -13,7 +13,7 @@ export type Services = {
   database?: Database
   mailer?: Mailer
   auth?: Auth
-  logger?: Logger
   theme?: Theme
-  monitor?: Monitor
+  monitors?: Monitor
+  loggers?: Logger
 }

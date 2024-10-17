@@ -20,6 +20,7 @@
       "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
       "@safidea/engine": ["dist/index"],
+      "@safidea/engine/instrument": ["dist/infrastructure/instrument/index"],
       "@tests/components": ["tests/__helpers__/dist/components"],
       "@tests/*": ["tests/__helpers__/*"]
     }

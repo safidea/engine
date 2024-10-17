@@ -29,4 +29,8 @@ export const test: Test = base.extend({
 
 const js = String.raw
 
+console.info = function () {
+  // do nothing
+}
+
 export { expect, js }

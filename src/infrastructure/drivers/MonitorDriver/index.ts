@@ -4,22 +4,24 @@ import { SentryDriver } from './SentryDriver'
 import { ConsoleDriver } from './ConsoleDriver'
 
 export class MonitorDriver implements Driver {
-  private _monitor: SentryDriver | ConsoleDriver
+  private _monitors: (SentryDriver | ConsoleDriver)[] = []
 
   constructor(config: Config) {
-    const { driver } = config
-    if (driver === 'Sentry') {
-      this._monitor = new SentryDriver()
-    } else if (driver === 'Console') {
-      this._monitor = new ConsoleDriver()
-    } else throw new Error(`MonitorDriver: monitor "${driver}" not supported`)
+    for (const monitor of config) {
+      const { driver } = monitor
+      if (driver === 'Sentry') {
+        this._monitors.push(new SentryDriver())
+      } else if (driver === 'Console') {
+        this._monitors.push(new ConsoleDriver())
+      } else throw new Error(`MonitorDriver: monitor "${driver}" not supported`)
+    }
   }
 
   captureException = (error: Error) => {
-    this._monitor.captureException(error)
+    this._monitors.map((m) => m.captureException(error))
   }
 
   captureMessage = (message: string) => {
-    this._monitor.captureMessage(message)
+    this._monitors.map((m) => m.captureMessage(message))
   }
 }

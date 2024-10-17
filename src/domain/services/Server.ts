@@ -6,14 +6,14 @@ import { Json } from '../entities/Response/Json'
 import type { Patch } from '@domain/entities/Request/Patch'
 import type { Delete } from '@domain/entities/Request/Delete'
 import type { Request } from '@domain/entities/Request'
-import type { Monitor, Driver as MonitorDriver } from './Monitor'
+import type { Monitor, Drivers as MonitorDrivers } from './Monitor'
 
 export interface Config {
   port?: string
   sslCert?: string
   sslKey?: string
   env?: string
-  monitor?: MonitorDriver
+  monitors?: MonitorDrivers
 }
 
 export interface Services {

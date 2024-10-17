@@ -151,10 +151,12 @@ test.describe('Run javascript code action', () => {
           ],
         },
       ],
-      logger: {
-        driver: 'File',
-        filename,
-      },
+      loggers: [
+        {
+          driver: 'File',
+          filename,
+        },
+      ],
     }
     const app = new App()
     const url = await app.start(config)

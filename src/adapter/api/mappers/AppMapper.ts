@@ -31,8 +31,8 @@ import { MonitorMapper } from './ServiceMapper/MonitorMapper'
 export class AppMapper {
   static toEntity = (drivers: Drivers, config: Config) => {
     const { name } = config
-    const monitor = MonitorMapper.toService(drivers, config.monitor)
-    const logger = LoggerMapper.toService(drivers, config.logger)
+    const monitor = MonitorMapper.toService(drivers, config.monitors)
+    const logger = LoggerMapper.toService(drivers, config.loggers)
     const server = ServerMapper.toService(drivers, config.server, { logger, monitor })
     const idGenerator = IdGeneratorMapper.toService(drivers)
     const fileSystem = FileSystemMapper.toService(drivers)

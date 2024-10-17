@@ -1,4 +1,4 @@
-import { type Base, type BaseServices } from './base'
+import { type Base } from './base'
 import type { App } from '../App'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { TestError } from '../Error/Test'
@@ -10,7 +10,7 @@ export interface Config {
   expected: string
 }
 
-export interface Services extends BaseServices {
+export interface Services {
   templateCompiler: TemplateCompiler
 }
 
@@ -26,9 +26,7 @@ export class Equal implements Base {
 
   execute = async (_app: App, _page: BrowserPage, context = {}) => {
     const { expected } = this._config
-    const { logger } = this._services
     const parsedValue = this._templateValue.fill(context)
-    logger.debug(`checking if value "${parsedValue}" equals "${expected}"`)
     if (parsedValue !== expected) {
       throw new TestError({
         code: 'EQUAL_FAILED',

@@ -1,4 +1,4 @@
-import { type Base, type BaseServices } from './base'
+import { type Base } from './base'
 import type { Filter } from '@domain/entities/Filter'
 import { TestError } from '@domain/entities/Error/Test'
 import type { BrowserPage } from '@domain/services/BrowserPage'
@@ -8,8 +8,6 @@ export interface Config {
   table: string
 }
 
-export type Services = BaseServices
-
 export interface Entities {
   find: Filter[]
 }
@@ -17,15 +15,12 @@ export interface Entities {
 export class Record implements Base {
   constructor(
     private _config: Config,
-    private _services: Services,
     private _entities: Entities
   ) {}
 
   execute = async (app: App, _page: BrowserPage, _context?: object) => {
     const { table } = this._config
     const { find } = this._entities
-    const { logger } = this._services
-    logger.debug(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
     const tableRow = await app.getTable(table).db.read(find)
     if (!tableRow) {
       const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})

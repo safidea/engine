@@ -1,5 +1,5 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base, type BaseServices } from './base'
+import { type Base } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { App } from '../App'
 
@@ -7,18 +7,11 @@ export interface Config {
   url: string
 }
 
-export type Services = BaseServices
-
 export class Url implements Base {
-  constructor(
-    private _config: Config,
-    private _services: Services
-  ) {}
+  constructor(private _config: Config) {}
 
   execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { url } = this._config
-    const { logger } = this._services
-    logger.debug(`checking if page url is "${url}"`)
     const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
     let attempts = 0
     let pageUrl: string | undefined
