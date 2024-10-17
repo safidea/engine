@@ -1,3 +1,11 @@
+## [0.31.29](https://github.com/safidea/engine/compare/v0.31.28...v0.31.29) (2024-10-17)
+
+
+### Bug Fixes
+
+* **Schema:** add it ([cbd4eff](https://github.com/safidea/engine/commit/cbd4eff95683ce4c924e5642ca939e76e44b3c3f))
+* **Type:** update naming ([19f2741](https://github.com/safidea/engine/commit/19f274139cc65a437172a011b2f7752f64af6ade))
+
 ## [0.31.28](https://github.com/safidea/engine/compare/v0.31.27...v0.31.28) (2024-10-17)
 
 
