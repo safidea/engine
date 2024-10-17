@@ -1,3 +1,12 @@
+## [0.31.30](https://github.com/safidea/engine/compare/v0.31.29...v0.31.30) (2024-10-17)
+
+
+### Bug Fixes
+
+* **CodeCompiler:** add green test: should run a TypeScript code ([6dc2346](https://github.com/safidea/engine/commit/6dc2346e76e080fa80ff2107c80c5d7ef50abac0))
+* **CodeCompiler:** fix red tests ([90b2003](https://github.com/safidea/engine/commit/90b20035d704db9724b092b20b19fb3153a7c0cb))
+* **RunJavascript:** update code string management with function and context ([5816e78](https://github.com/safidea/engine/commit/5816e789b0bbe8cfbb211f4c03366a50dda86475))
+
 ## [0.31.29](https://github.com/safidea/engine/compare/v0.31.28...v0.31.29) (2024-10-17)
 
 
