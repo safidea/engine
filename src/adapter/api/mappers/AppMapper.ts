@@ -19,7 +19,7 @@ import { DatabaseMapper } from './ServiceMapper/DatabaseMapper'
 import { QueueMapper } from './ServiceMapper/QueueMapper'
 import { RealtimeMapper } from './ServiceMapper/RealtimeMapper'
 import { SchemaValidatorMapper } from './ServiceMapper/SchemaValidatorMapper'
-import { JavascriptCompilerMapper } from './ServiceMapper/JavascriptCompilerMapper'
+import { CodeCompilerMapper } from './ServiceMapper/CodeCompilerMapper'
 import { BrowserMapper } from './ServiceMapper/BrowserMapper'
 import { FileSystemMapper } from './ServiceMapper/FileSystemMapper'
 import { StorageMapper } from './ServiceMapper/StorageMapper'
@@ -87,7 +87,11 @@ export class AppMapper {
       },
       { tables }
     )
-    const javascriptCompiler = JavascriptCompilerMapper.toService(drivers, { tables })
+    const javascriptCompiler = CodeCompilerMapper.toService(
+      drivers,
+      { tables },
+      { language: 'JavaScript' }
+    )
     const automations = AutomationMapper.toManyEntities(
       config.automations,
       {

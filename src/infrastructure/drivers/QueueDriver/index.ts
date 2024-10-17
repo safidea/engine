@@ -7,12 +7,15 @@ export class QueueDriver implements Driver {
   private _queue: PostgresDriver | SqliteDriver
 
   constructor({ driver, query, exec }: Config) {
-    if (driver === 'SQLite') {
-      this._queue = new SqliteDriver(query, exec)
-    } else if (driver === 'PostgreSQL') {
-      this._queue = new PostgresDriver(query)
-    } else {
-      throw new Error(`Database ${driver} not supported`)
+    switch (driver) {
+      case 'PostgreSQL':
+        this._queue = new PostgresDriver(query)
+        break
+      case 'SQLite':
+        this._queue = new SqliteDriver(query, exec)
+        break
+      default:
+        throw new Error('Invalid driver')
     }
   }
 

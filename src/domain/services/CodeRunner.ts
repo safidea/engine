@@ -14,7 +14,7 @@ export interface Modules {
   }
 }
 
-export interface FunctionContext {
+export interface CodeContext {
   inputData: object
   env: { [key: string]: string }
   table: Modules['table']
@@ -30,7 +30,7 @@ export interface Entities {
   tables: Table[]
 }
 
-export class JavascriptRunner {
+export class CodeRunner {
   constructor(
     private _spi: Spi,
     private _entities: Entities
@@ -46,14 +46,14 @@ export class JavascriptRunner {
       table: (name: string) => {
         const table = tables.find((table) => table.name === name)
         if (!table) {
-          throw new Error(`JavascriptRunner: Table ${name} not found`)
+          throw new Error(`CodeRunner: Table ${name} not found`)
         }
         return {
           insert: async (data: unknown) => {
             const { record, error } = await table.insert(data)
             if (error)
               throw new Error(
-                `JavascriptRunner: table(${name}).insert: ${JSON.stringify(error, null, 2)}`
+                `CodeRunner: table(${name}).insert: ${JSON.stringify(error, null, 2)}`
               )
             return record
           },
@@ -61,21 +61,19 @@ export class JavascriptRunner {
             const { record, error } = await table.update(id, data)
             if (error)
               throw new Error(
-                `JavascriptRunner: table(${name}).update: ${JSON.stringify(error, null, 2)}`
+                `CodeRunner: table(${name}).update: ${JSON.stringify(error, null, 2)}`
               )
             return record
           },
           read: async (id: string) => {
             const record = await table.readById(id)
-            if (!record) throw new Error(`JavascriptRunner: table(${name}).read: Record not found`)
+            if (!record) throw new Error(`CodeRunner: table(${name}).read: Record not found`)
             return record
           },
           list: async (filters: unknown) => {
             const { records, error } = await table.list(filters)
             if (error)
-              throw new Error(
-                `JavascriptRunner: table(${name}).list: ${JSON.stringify(error, null, 2)}`
-              )
+              throw new Error(`CodeRunner: table(${name}).list: ${JSON.stringify(error, null, 2)}`)
             return records
           },
         }

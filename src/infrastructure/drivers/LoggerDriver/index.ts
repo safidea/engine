@@ -10,13 +10,19 @@ export class LoggerDriver implements Driver {
   constructor(config: Config) {
     for (const logger of config) {
       const { driver } = logger
-      if (driver === 'Console') {
-        this._loggers.push(new ConsoleDriver(logger))
-      } else if (driver === 'File') {
-        this._loggers.push(new FileDriver(logger))
-      } else if (driver === 'ElasticSearch') {
-        this._loggers.push(new ElasticsSearchDriver(logger))
-      } else throw new Error(`Logger driver "${driver}" not supported`)
+      switch (driver) {
+        case 'Console':
+          this._loggers.push(new ConsoleDriver(logger))
+          break
+        case 'File':
+          this._loggers.push(new FileDriver(logger))
+          break
+        case 'ElasticSearch':
+          this._loggers.push(new ElasticsSearchDriver(logger))
+          break
+        default:
+          throw new Error('Invalid driver')
+      }
     }
   }
 

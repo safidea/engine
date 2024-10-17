@@ -9,11 +9,16 @@ export class MonitorDriver implements Driver {
   constructor(config: Config) {
     for (const monitor of config) {
       const { driver } = monitor
-      if (driver === 'Sentry') {
-        this._monitors.push(new SentryDriver())
-      } else if (driver === 'Console') {
-        this._monitors.push(new ConsoleDriver())
-      } else throw new Error(`MonitorDriver: monitor "${driver}" not supported`)
+      switch (driver) {
+        case 'Sentry':
+          this._monitors.push(new SentryDriver())
+          break
+        case 'Console':
+          this._monitors.push(new ConsoleDriver())
+          break
+        default:
+          throw new Error('Invalid driver')
+      }
     }
   }
 

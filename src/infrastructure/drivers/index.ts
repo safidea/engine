@@ -8,6 +8,7 @@ import type { Config as ThemeConfig } from '@domain/services/Theme'
 import type { Config as StorageConfig } from '@domain/services/Storage'
 import type { Config as MonitorConfig } from '@domain/services/Monitor'
 import type { Config as LoggerConfig } from '@domain/services/Logger'
+import type { Config as CodeConfig } from '@domain/services/CodeCompiler'
 
 import { MonitorDriver } from './MonitorDriver'
 import { StorageDriver } from './StorageDriver'
@@ -26,7 +27,7 @@ import { MarkdownParserDriver } from './MarkdownParserDriver'
 import { ThemeDriver } from './ThemeDriver'
 import { IconLibraryDriver } from './IconLibraryDriver'
 import { FontLibraryDriver } from './FontLibraryDriver'
-import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
+import { CodeCompilerDriver } from './CodeCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
 import { SpreadsheetLoaderDriver } from './SpreadsheetLoaderDriver'
 import { DocumentLoaderDriver } from './DocumentLoaderDriver'
@@ -41,9 +42,9 @@ export const drivers: Drivers = {
   theme: (config: ThemeConfig) => new ThemeDriver(config),
   monitor: (config: MonitorConfig) => new MonitorDriver(config),
   logger: (config: LoggerConfig) => new LoggerDriver(config),
+  codeCompiler: (config: CodeConfig) => new CodeCompilerDriver(config),
   markdownParser: () => new MarkdownParserDriver(),
   templateCompiler: () => new TemplateCompilerDriver(),
-  javascriptCompiler: () => new JavascriptCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),
   browser: () => new BrowserDriver(),
   client: () => new ClientDriver(),

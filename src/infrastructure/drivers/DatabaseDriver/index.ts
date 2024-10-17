@@ -10,11 +10,16 @@ export class DatabaseDriver implements Driver {
 
   constructor(config: Config) {
     const { driver } = config
-    if (driver === 'SQLite') {
-      this._db = new SQLiteDriver(config)
-    } else if (driver === 'PostgreSQL') {
-      this._db = new PostgreSQLDriver(config)
-    } else throw new Error(`DatabaseDriver: database "${driver}" not supported`)
+    switch (driver) {
+      case 'SQLite':
+        this._db = new SQLiteDriver(config)
+        break
+      case 'PostgreSQL':
+        this._db = new PostgreSQLDriver(config)
+        break
+      default:
+        throw new Error('Invalid driver')
+    }
   }
 
   connect = async (): Promise<void> => {

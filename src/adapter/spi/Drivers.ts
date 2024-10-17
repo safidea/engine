@@ -13,7 +13,7 @@ import { type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
 import { type Driver as ThemeDriver } from './ThemeSpi'
 import { type Driver as IconLibraryDriver } from './IconLibrarySpi'
 import { type Driver as FontLibraryDriver } from './FontLibrarySpi'
-import { type Driver as JavascriptCompilerDriver } from './JavascriptCompilerSpi'
+import { type Driver as CodeCompilerDriver } from './CodeCompilerSpi'
 import { type Driver as FileSystemDriver } from './FileSystemSpi'
 import { type Driver as StorageDriver } from './StorageSpi'
 import { type Driver as SpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
@@ -29,6 +29,7 @@ import { type Config as MailerConfig } from '@domain/services/Mailer'
 import { type Config as StorageConfig } from '@domain/services/Storage'
 import { type Config as MonitorConfig } from '@domain/services/Monitor'
 import { type Config as LoggerConfig } from '@domain/services/Logger'
+import { type Config as CodeConfig } from '@domain/services/CodeCompiler'
 
 export interface Drivers {
   server: (config: ServerConfig) => ServerDriver
@@ -46,7 +47,7 @@ export interface Drivers {
   browser: () => BrowserDriver
   client: () => ClientDriver
   templateCompiler: () => TemplateCompilerDriver
-  javascriptCompiler: () => JavascriptCompilerDriver
+  codeCompiler: (config: CodeConfig) => CodeCompilerDriver
   iconLibrary: () => IconLibraryDriver
   fontLibrary: () => FontLibraryDriver
   fileSystem: () => FileSystemDriver

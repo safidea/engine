@@ -1,5 +1,5 @@
-import type { Driver } from '@adapter/spi/JavascriptRunnerSpi'
-import type { FunctionContext, Modules } from '@domain/services/JavascriptRunner'
+import type { Driver } from '@adapter/spi/CodeRunnerSpi'
+import type { CodeContext, Modules } from '@domain/services/CodeRunner'
 import vm from 'node:vm'
 
 // Packages
@@ -28,7 +28,7 @@ export class JavascriptRunnerDriver implements Driver {
       setTimeout: setTimeout,
       console: console,
     }
-    const functionContext: FunctionContext = {
+    const codeContext: CodeContext = {
       inputData,
       env: this._env,
       table,
@@ -41,7 +41,7 @@ export class JavascriptRunnerDriver implements Driver {
     }
     const context = vm.createContext({
       ...globalContext,
-      ...functionContext,
+      ...codeContext,
     })
     return this._script.runInContext(context)
   }

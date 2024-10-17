@@ -1,7 +1,7 @@
 import { Base, type BaseConfig, type BaseServices } from '../base'
 import type { Context } from '../../Automation/Context'
-import type { JavascriptRunner } from '@domain/services/JavascriptRunner'
-import type { JavascriptCompiler } from '@domain/services/JavascriptCompiler'
+import type { CodeRunner } from '@domain/services/CodeRunner'
+import type { CodeCompiler } from '@domain/services/CodeCompiler'
 import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
@@ -12,7 +12,7 @@ export interface Config extends BaseConfig {
 }
 
 export interface Services extends BaseServices {
-  javascriptCompiler: JavascriptCompiler
+  javascriptCompiler: CodeCompiler
   templateCompiler: TemplateCompiler
 }
 
@@ -20,7 +20,7 @@ type Input = { [key: string]: OutputValue }
 type Output = object
 
 export class RunJavascript extends Base<Input, Output> {
-  private _script: JavascriptRunner
+  private _script: CodeRunner
   private _input: { [key: string]: Template }
 
   constructor(config: Config, services: Services) {

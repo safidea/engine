@@ -7,12 +7,15 @@ export class StorageDriver implements Driver {
   private _storage: PostgresDriver | SqliteDriver
 
   constructor({ driver, query, exec }: Config) {
-    if (driver === 'SQLite') {
-      this._storage = new SqliteDriver(query, exec)
-    } else if (driver === 'PostgreSQL') {
-      this._storage = new PostgresDriver(query, exec)
-    } else {
-      throw new Error(`Storage ${driver} not supported`)
+    switch (driver) {
+      case 'PostgreSQL':
+        this._storage = new PostgresDriver(query, exec)
+        break
+      case 'SQLite':
+        this._storage = new SqliteDriver(query, exec)
+        break
+      default:
+        throw new Error('Invalid driver')
     }
   }
 
