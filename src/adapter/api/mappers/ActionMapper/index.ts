@@ -21,10 +21,12 @@ import {
   CreatePdfFromXlsxMapper,
   type CreatePdfFromXlsxServices,
 } from './spreadsheet/CreatePdfFromXlsxMapper'
+import { RunTypescriptMapper, type RunTypescriptServices } from './code/RunTypescriptMapper'
 
 export type Services = CreateRecordServices &
   SendEmailServices &
   RunJavascriptServices &
+  RunTypescriptServices &
   CreateDocxFromTemplateServices &
   CreateXlsxFromTemplateServices &
   CreatePdfFromXlsxServices
@@ -39,6 +41,7 @@ export class ActionMapper {
       mailer,
       templateCompiler,
       javascriptCompiler,
+      typescriptCompiler,
       browser,
       documentLoader,
       spreadsheetLoader,
@@ -72,6 +75,13 @@ export class ActionMapper {
         return RunJavascriptMapper.toEntity(config, {
           templateCompiler,
           javascriptCompiler,
+          logger,
+          monitor,
+        })
+      if (action === 'RunTypescript')
+        return RunTypescriptMapper.toEntity(config, {
+          templateCompiler,
+          typescriptCompiler,
           logger,
           monitor,
         })

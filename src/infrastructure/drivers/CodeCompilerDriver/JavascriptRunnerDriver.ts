@@ -28,7 +28,7 @@ export class JavascriptRunnerDriver implements Driver {
       setTimeout: setTimeout,
       console: console,
     }
-    const codeContext: CodeContext = {
+    const codeContext: CodeContext<object> = {
       inputData,
       env: this._env,
       table,

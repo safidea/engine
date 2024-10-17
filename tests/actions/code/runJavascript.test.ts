@@ -5,8 +5,8 @@ import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
 
-test.describe.only('Run javascript code action', () => {
-  test('should run a javascript code', async ({ request }) => {
+test.describe('Run JavaScript code action', () => {
+  test('should run a JavaScript code', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -71,7 +71,7 @@ test.describe.only('Run javascript code action', () => {
     expect(response.sum).toBe(3)
   })
 
-  test('should run a javascript code with env variable', async ({ request }) => {
+  test('should run a JavaScript code with env variable', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -120,7 +120,7 @@ test.describe.only('Run javascript code action', () => {
     expect(response.NODE_ENV).toBe('test')
   })
 
-  test('should run a javascript code with env variable and not showing them in logs', async ({
+  test('should run a JavaScript code with env variable and not showing them in logs', async ({
     request,
   }) => {
     // GIVEN
@@ -179,7 +179,7 @@ test.describe.only('Run javascript code action', () => {
   })
 
   Database.each(test, (dbConfig) => {
-    test('should run a javascript code with a database insert', async ({ request }) => {
+    test('should run a JavaScript code with a database insert', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -244,7 +244,7 @@ test.describe.only('Run javascript code action', () => {
       expect(user?.name).toBe('John')
     })
 
-    test('should run a javascript code with a database update', async ({ request }) => {
+    test('should run a JavaScript code with a database update', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -316,7 +316,7 @@ test.describe.only('Run javascript code action', () => {
       expect(user?.name).toBe('John Doe')
     })
 
-    test('should run a javascript code with a database read', async ({ request }) => {
+    test('should run a JavaScript code with a database read', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -380,7 +380,7 @@ test.describe.only('Run javascript code action', () => {
       expect(response.user.name).toBe('John Doe')
     })
 
-    test('should run a javascript code with a database list', async ({ request }) => {
+    test('should run a JavaScript code with a database list', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {
@@ -441,7 +441,7 @@ test.describe.only('Run javascript code action', () => {
       expect(response.users[2].name).toBe('John Connor')
     })
 
-    test('should run a javascript code with a database list with is filter', async ({
+    test('should run a JavaScript code with a database list with is filter', async ({
       request,
     }) => {
       // GIVEN
@@ -500,7 +500,7 @@ test.describe.only('Run javascript code action', () => {
       expect(response.users[0].name).toBe('John Wick')
     })
 
-    test('should run a javascript code with a database list with isAnyOf filter', async ({
+    test('should run a JavaScript code with a database list with isAnyOf filter', async ({
       request,
     }) => {
       // GIVEN
@@ -561,7 +561,7 @@ test.describe.only('Run javascript code action', () => {
     })
   })
 
-  test('should run a javascript code with the native Date class', async ({ request }) => {
+  test('should run a JavaScript code with the native Date class', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -606,7 +606,7 @@ test.describe.only('Run javascript code action', () => {
     expect(response.timestamp).toBeGreaterThan(0)
   })
 
-  test('should run a javascript code with the native Array class', async ({ request }) => {
+  test('should run a JavaScript code with the native Array class', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -651,7 +651,7 @@ test.describe.only('Run javascript code action', () => {
     expect(response.isArray).toBeTruthy()
   })
 
-  test('should run a javascript code with the native Number class', async ({ request }) => {
+  test('should run a JavaScript code with the native Number class', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -696,7 +696,7 @@ test.describe.only('Run javascript code action', () => {
     expect(response.isNumber).toBeTruthy()
   })
 
-  test('should run a javascript code with the date-fns package', async ({ request }) => {
+  test('should run a JavaScript code with the date-fns package', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -744,7 +744,7 @@ test.describe.only('Run javascript code action', () => {
     expect(response.date).toBe('2024-09-01')
   })
 
-  test('should run a javascript code with xml2js package', async ({ request }) => {
+  test('should run a JavaScript code with xml2js package', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',

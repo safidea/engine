@@ -1,5 +1,6 @@
 import type { CreateRecord } from './database/CreateRecord'
 import type { RunJavascript } from './code/RunJavascript'
+import type { RunTypescript } from './code/RunTypescript'
 import type { SendEmail } from './mailer/SendEmail'
 import type { CreateDocxFromTemplate } from './document/CreateDocxFromTemplate'
 import type { CreateXlsxFromTemplate } from './spreadsheet/CreateXlsxFromTemplate'
@@ -11,6 +12,7 @@ export type Action =
   | ReadRecord
   | SendEmail
   | RunJavascript
+  | RunTypescript
   | CreateDocxFromTemplate
   | CreateXlsxFromTemplate
   | CreatePdfFromXlsx

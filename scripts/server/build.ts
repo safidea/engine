@@ -40,6 +40,8 @@ const externals: string[] = [
   'xml2js',
   'date-fns',
   'googleapis',
+  'airtable',
+  'typescript',
 ]
 
 const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']

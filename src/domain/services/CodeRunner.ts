@@ -14,8 +14,8 @@ export interface Modules {
   }
 }
 
-export interface CodeContext {
-  inputData: object
+export interface CodeContext<I extends object> {
+  inputData: I
   env: { [key: string]: string }
   table: Modules['table']
   packages: {

@@ -1,15 +1,19 @@
 import type { Driver } from '@adapter/spi/CodeCompilerSpi'
 import type { Config } from '@domain/services/CodeCompiler'
 import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
+import { TypescriptCompilerDriver } from './TypescriptCompilerDriver'
 
 export class CodeCompilerDriver implements Driver {
-  private _codeCompiler: JavascriptCompilerDriver
+  private _codeCompiler: JavascriptCompilerDriver | TypescriptCompilerDriver
 
   constructor(config: Config) {
     const { language } = config
     switch (language) {
       case 'JavaScript':
         this._codeCompiler = new JavascriptCompilerDriver()
+        break
+      case 'TypeScript':
+        this._codeCompiler = new TypescriptCompilerDriver()
         break
       default:
         throw new Error('Invalid language')

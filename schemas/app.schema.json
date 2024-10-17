@@ -17,6 +17,9 @@
                     "$ref": "#/definitions/RunJavascript"
                 },
                 {
+                    "$ref": "#/definitions/RunTypescript"
+                },
+                {
                     "$ref": "#/definitions/SendEmail"
                 },
                 {
@@ -3348,6 +3351,41 @@
             "properties": {
                 "action": {
                     "const": "RunJavascript",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "env": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "input": {
+                    "$ref": "#/definitions/InputValues"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "code",
+                "name",
+                "service"
+            ],
+            "type": "object"
+        },
+        "RunTypescript": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "RunTypescript",
                     "type": "string"
                 },
                 "code": {

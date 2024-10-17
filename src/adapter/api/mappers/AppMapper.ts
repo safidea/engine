@@ -92,6 +92,11 @@ export class AppMapper {
       { tables },
       { language: 'JavaScript' }
     )
+    const typescriptCompiler = CodeCompilerMapper.toService(
+      drivers,
+      { tables },
+      { language: 'TypeScript' }
+    )
     const automations = AutomationMapper.toManyEntities(
       config.automations,
       {
@@ -104,6 +109,7 @@ export class AppMapper {
         mailer,
         schemaValidator,
         javascriptCompiler,
+        typescriptCompiler,
         browser,
         fileSystem,
         spreadsheetLoader,
