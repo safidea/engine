@@ -19,9 +19,9 @@ export type {
   Database,
   Mailer,
   Auth,
-  Logger,
+  Loggers,
   Theme,
-  Monitor,
+  Monitors,
   Server,
 } from '@adapter/api/configs/Services'
 
