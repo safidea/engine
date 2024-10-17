@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import Database from '@tests/database'
-import App, { type App as Config } from '@safidea/engine'
+import App, { type Config } from '@safidea/engine'
 
 test.describe('Multiple linked record field', () => {
   Database.each(test, (dbConfig) => {

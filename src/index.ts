@@ -1,8 +1,8 @@
 import { drivers } from '@infrastructure/drivers'
-import { AppApi } from '@adapter/api/AppApi'
+import App from '@adapter/api'
 import type { Drivers as AllDrivers } from '@adapter/spi/Drivers'
 
-export type { App } from '@adapter/api/configs/App'
+export type { Config } from '@adapter/api/configs/Config'
 export type { Table } from '@adapter/api/configs/Table'
 export type { Page } from '@adapter/api/configs/Page'
 export type { Automation } from '@adapter/api/configs/Automation'
@@ -24,10 +24,11 @@ export type {
   Monitors,
   Server,
 } from '@adapter/api/configs/Services'
+export type { FunctionContext } from '@domain/services/JavascriptRunner'
 
 export type Drivers = Partial<AllDrivers>
 
-export default class extends AppApi {
+export default class extends App {
   constructor(options: Drivers = {}) {
     super({ ...drivers, ...options })
   }

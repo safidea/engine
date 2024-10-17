@@ -5,7 +5,7 @@ import type { Automation } from './Automation'
 import type { Services } from './Services'
 import type { Bucket } from './Bucket'
 
-export interface App extends Services {
+export interface Config extends Services {
   name: string
   tests?: Test[]
   pages?: Page[]
@@ -14,4 +14,4 @@ export interface App extends Services {
   automations?: Automation[]
 }
 
-export type AppSchema = App
+export type AppSchema = Config

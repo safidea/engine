@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as Config } from '@safidea/engine'
+import App, { type Config } from '@safidea/engine'
 import { instrument } from '@safidea/engine/instrument'
 import { getSentryEvents, type Event } from '@tests/monitor'
 import { nanoid } from 'nanoid'

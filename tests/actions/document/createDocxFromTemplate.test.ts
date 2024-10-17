@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as Config } from '@safidea/engine'
+import App, { type Config } from '@safidea/engine'
 import Storage from '@tests/storage'
 import Database from '@tests/database'
 import mammoth from 'mammoth'

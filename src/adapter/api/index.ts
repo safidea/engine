@@ -1,6 +1,6 @@
 import { AppMapper } from './mappers/AppMapper'
 import type { App } from '@domain/entities/App'
-import type { App as Config } from './configs/App'
+import type { Config } from './configs/Config'
 import type { SchemaError } from '@domain/entities/Error/Schema'
 import type { Drivers } from '@adapter/spi/Drivers'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
@@ -9,7 +9,7 @@ import { TestError } from '@domain/entities/Error/Test'
 import { TestMapper } from './mappers/TestMapper'
 import { BrowserMapper } from './mappers/ServiceMapper/BrowserMapper'
 
-export class AppApi {
+export default class {
   private _schemaValidator: SchemaValidator
   private _app?: App
 

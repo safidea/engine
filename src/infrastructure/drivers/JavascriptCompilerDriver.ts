@@ -6,9 +6,7 @@ export class JavascriptCompilerDriver implements Driver {
   constructor() {}
 
   compile = (code: string, env: { [key: string]: string }) => {
-    const script = new vm.Script(`(async () => {
-      ${code}
-    })()`)
+    const script = new vm.Script(`(${code})({ inputData, env, table, packages })`)
     return new JavascriptRunnerDriver(script, env)
   }
 }

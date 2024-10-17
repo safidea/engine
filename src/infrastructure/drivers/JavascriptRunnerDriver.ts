@@ -1,24 +1,12 @@
 import type { Driver } from '@adapter/spi/JavascriptRunnerSpi'
-import type { Modules } from '@domain/services/JavascriptRunner'
+import type { FunctionContext, Modules } from '@domain/services/JavascriptRunner'
 import vm from 'node:vm'
+
+// Packages
 import xml2js from 'xml2js'
 import * as dateFns from 'date-fns'
-import { google as Google } from 'googleapis'
-
-const parser = new xml2js.Parser({
-  trim: true,
-  explicitArray: false,
-})
-
-// TODO: refactor in another Driver
-const services = {
-  converter: {
-    xmlToJson: async (xml: string): Promise<object> => parser.parseStringPromise(xml),
-  },
-  date: {
-    format: (date: Date, format: string): string => dateFns.format(date, format),
-  },
-}
+import googleapis from 'googleapis'
+import Airtable from 'airtable'
 
 export class JavascriptRunnerDriver implements Driver {
   constructor(
@@ -30,7 +18,7 @@ export class JavascriptRunnerDriver implements Driver {
 
   run = async (inputData: object, modules: Modules) => {
     const { table } = modules
-    const context = vm.createContext({
+    const globalContext = {
       fetch: global.fetch,
       Error: global.Error,
       Buffer: global.Buffer,
@@ -39,11 +27,21 @@ export class JavascriptRunnerDriver implements Driver {
       Number: global.Number,
       setTimeout: setTimeout,
       console: console,
+    }
+    const functionContext: FunctionContext = {
       inputData,
       env: this._env,
       table,
-      services,
-      Google,
+      packages: {
+        xml2js,
+        dateFns,
+        googleapis,
+        Airtable,
+      },
+    }
+    const context = vm.createContext({
+      ...globalContext,
+      ...functionContext,
     })
     return this._script.runInContext(context)
   }

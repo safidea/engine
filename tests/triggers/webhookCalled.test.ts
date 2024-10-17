@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as Config } from '@safidea/engine'
+import App, { type Config } from '@safidea/engine'
 
 test.describe('WebhookCalled trigger', () => {
   test('should start an automation from webhook call', async ({ request }) => {

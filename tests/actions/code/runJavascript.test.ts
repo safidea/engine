@@ -1,11 +1,11 @@
-import { test, expect, js } from '@tests/fixtures'
-import App, { type App as Config } from '@safidea/engine'
+import { test, expect } from '@tests/fixtures'
+import App, { type Config } from '@safidea/engine'
 import Database from '@tests/database'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
 
-test.describe('Run javascript code action', () => {
+test.describe.only('Run javascript code action', () => {
   test('should run a javascript code', async ({ request }) => {
     // GIVEN
     const config: Config = {
@@ -42,10 +42,13 @@ test.describe('Run javascript code action', () => {
                   type: 'number',
                 },
               },
-              code: js`
-                  const { numberOne, numberTwo } = inputData
-                  return { result: numberOne + numberTwo }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const { inputData } = context
+                const { numberOne, numberTwo } = inputData
+                return { result: numberOne + numberTwo }
+              }),
             },
           ],
         },
@@ -93,10 +96,13 @@ test.describe('Run javascript code action', () => {
               env: {
                 NODE_ENV: 'test',
               },
-              code: js`
-                  const { NODE_ENV } = env
-                  return { NODE_ENV }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const { env } = context
+                const { NODE_ENV } = env
+                return { NODE_ENV }
+              }),
             },
           ],
         },
@@ -143,10 +149,13 @@ test.describe('Run javascript code action', () => {
               env: {
                 NODE_ENV: 'xxx',
               },
-              code: js`
-                  const { NODE_ENV } = env
-                  return { success: !!NODE_ENV }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const { env } = context
+                const { NODE_ENV } = env
+                return { success: !!NODE_ENV }
+              }),
             },
           ],
         },
@@ -203,11 +212,14 @@ test.describe('Run javascript code action', () => {
                     type: 'string',
                   },
                 },
-                code: js`
+                // eslint-disable-next-line
+                // @ts-ignore
+                code: String(async function (context) {
+                  const { inputData, table } = context
                   const { name } = inputData
                   const user = await table('users').insert({ name })
                   return { user }
-                `,
+                }),
               },
             ],
           },
@@ -270,11 +282,14 @@ test.describe('Run javascript code action', () => {
                     type: 'string',
                   },
                 },
-                code: js`
+                // eslint-disable-next-line
+                // @ts-ignore
+                code: String(async function (context) {
+                  const { inputData, table } = context
                   const { name, id } = inputData
                   const user = await table('users').update(id, { name })
                   return { user }
-                `,
+                }),
               },
             ],
           },
@@ -334,11 +349,14 @@ test.describe('Run javascript code action', () => {
                     type: 'string',
                   },
                 },
-                code: js`
+                // eslint-disable-next-line
+                // @ts-ignore
+                code: String(async function (context) {
+                  const { inputData, table } = context
                   const { id } = inputData
                   const user = await table('users').read(id)
                   return { user }
-                `,
+                }),
               },
             ],
           },
@@ -386,11 +404,13 @@ test.describe('Run javascript code action', () => {
                 service: 'Code',
                 action: 'RunJavascript',
                 name: 'runJavascriptCode',
-                code: js`
-                  const { id } = inputData
+                // eslint-disable-next-line
+                // @ts-ignore
+                code: String(async function (context) {
+                  const { table } = context
                   const users = await table('users').list()
                   return { users }
-                `,
+                }),
               },
             ],
           },
@@ -447,10 +467,15 @@ test.describe('Run javascript code action', () => {
                 service: 'Code',
                 action: 'RunJavascript',
                 name: 'runJavascriptCode',
-                code: js`
-                  const users = await table('users').list([{ field: 'id', operator: 'is', value: '2' }])
+                // eslint-disable-next-line
+                // @ts-ignore
+                code: String(async function (context) {
+                  const { table } = context
+                  const users = await table('users').list([
+                    { field: 'id', operator: 'is', value: '2' },
+                  ])
                   return { users }
-                `,
+                }),
               },
             ],
           },
@@ -501,10 +526,15 @@ test.describe('Run javascript code action', () => {
                 service: 'Code',
                 action: 'RunJavascript',
                 name: 'runJavascriptCode',
-                code: js`
-                  const users = await table('users').list([{ field: 'id', operator: 'isAnyOf', value: ['3', '2'] }])
+                // eslint-disable-next-line
+                // @ts-ignore
+                code: String(async function (context) {
+                  const { table } = context
+                  const users = await table('users').list([
+                    { field: 'id', operator: 'isAnyOf', value: ['3', '2'] },
+                  ])
                   return { users }
-                `,
+                }),
               },
             ],
           },
@@ -531,53 +561,6 @@ test.describe('Run javascript code action', () => {
     })
   })
 
-  test('should run a javascript code with services.converter.xmlToJson', async ({ request }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      automations: [
-        {
-          name: 'parseXml',
-          trigger: {
-            event: 'ApiCalled',
-            path: 'parse-xml',
-            output: {
-              result: {
-                value: '{{runJavascriptCode.result}}',
-                type: 'object',
-              },
-            },
-          },
-          actions: [
-            {
-              service: 'Code',
-              action: 'RunJavascript',
-              name: 'runJavascriptCode',
-              code: js`
-                  const xml = '<result><root><item>Value1</item><item>Value2</item></root><key> value </key></result>'
-                  const { result } = await services.converter.xmlToJson(xml)
-                  return { result }
-                `,
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/parse-xml`)
-      .then((res) => res.json())
-
-    // THEN
-    expect(response.result).toStrictEqual({
-      key: 'value',
-      root: { item: ['Value1', 'Value2'] },
-    })
-  })
-
   test('should run a javascript code with the native Date class', async ({ request }) => {
     // GIVEN
     const config: Config = {
@@ -600,10 +583,12 @@ test.describe('Run javascript code action', () => {
               service: 'Code',
               action: 'RunJavascript',
               name: 'runJavascriptCode',
-              code: js`
-                  const timestamp = Date.now()
-                  return { timestamp }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function () {
+                const timestamp = Date.now()
+                return { timestamp }
+              }),
             },
           ],
         },
@@ -643,10 +628,12 @@ test.describe('Run javascript code action', () => {
               service: 'Code',
               action: 'RunJavascript',
               name: 'runJavascriptCode',
-              code: js`
-                  const isArray = Array.isArray([1, 2, 3])
-                  return { isArray }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function () {
+                const isArray = Array.isArray([1, 2, 3])
+                return { isArray }
+              }),
             },
           ],
         },
@@ -686,10 +673,12 @@ test.describe('Run javascript code action', () => {
               service: 'Code',
               action: 'RunJavascript',
               name: 'runJavascriptCode',
-              code: js`
-                  const isNumber = Number("1") == 1
-                  return { isNumber }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function () {
+                const isNumber = Number('1') == 1
+                return { isNumber }
+              }),
             },
           ],
         },
@@ -707,7 +696,7 @@ test.describe('Run javascript code action', () => {
     expect(response.isNumber).toBeTruthy()
   })
 
-  test('should run a javascript code with the services.date.format helper', async ({ request }) => {
+  test('should run a javascript code with the date-fns package', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -729,10 +718,15 @@ test.describe('Run javascript code action', () => {
               service: 'Code',
               action: 'RunJavascript',
               name: 'runJavascriptCode',
-              code: js`
-                  const date = services.date.format(new Date(2024, 8, 1), 'yyyy-MM-dd')
-                  return { date }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const {
+                  packages: { dateFns },
+                } = context
+                const date = dateFns.format(new Date(2024, 8, 1), 'yyyy-MM-dd')
+                return { date }
+              }),
             },
           ],
         },
@@ -748,5 +742,62 @@ test.describe('Run javascript code action', () => {
 
     // THEN
     expect(response.date).toBe('2024-09-01')
+  })
+
+  test('should run a javascript code with xml2js package', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'parseXml',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'parse-xml',
+            output: {
+              result: {
+                value: '{{runJavascriptCode.result}}',
+                type: 'object',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const {
+                  packages: { xml2js },
+                } = context
+                const parser = new xml2js.Parser({
+                  trim: true,
+                  explicitArray: false,
+                })
+                const xml =
+                  '<result><root><item>Value1</item><item>Value2</item></root><key> value </key></result>'
+                const { result } = await parser.parseStringPromise(xml)
+                return { result }
+              }),
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const { response } = await request
+      .post(`${url}/api/automation/parse-xml`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.result).toStrictEqual({
+      key: 'value',
+      root: { item: ['Value1', 'Value2'] },
+    })
   })
 })

@@ -14,6 +14,18 @@ export interface Modules {
   }
 }
 
+export interface FunctionContext {
+  inputData: object
+  env: { [key: string]: string }
+  table: Modules['table']
+  packages: {
+    xml2js: typeof import('xml2js')
+    dateFns: typeof import('date-fns')
+    googleapis: typeof import('googleapis')
+    Airtable: typeof import('airtable')
+  }
+}
+
 export interface Entities {
   tables: Table[]
 }

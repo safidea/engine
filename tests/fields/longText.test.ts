@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type App as Config } from '@safidea/engine'
+import App, { type Config } from '@safidea/engine'
 
 test.describe('Long text field', () => {
   test('should create a record with a long text field', async ({ request }) => {

@@ -1,5 +1,5 @@
-import { test, expect, js } from '@tests/fixtures'
-import App, { type App as Config } from '@safidea/engine'
+import { test, expect } from '@tests/fixtures'
+import App, { type Config } from '@safidea/engine'
 
 test.describe('Automation tests', () => {
   test('should wait for an automation', async () => {
@@ -177,10 +177,13 @@ test.describe('Automation tests', () => {
                   type: 'string',
                 },
               },
-              code: js`
-                  const isValid = inputData.name === 'John'
-                  return { isValid }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const { inputData } = context
+                const isValid = inputData.name === 'John'
+                return { isValid }
+              }),
             },
           ],
         },
@@ -246,10 +249,13 @@ test.describe('Automation tests', () => {
                   type: 'string',
                 },
               },
-              code: js`
-                  const isValid = inputData.name === 'Doe'
-                  return { isValid }
-                `,
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const { inputData } = context
+                const isValid = inputData.name === 'Doe'
+                return { isValid }
+              }),
             },
           ],
         },
