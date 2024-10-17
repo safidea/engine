@@ -1,3 +1,10 @@
+## [0.31.27](https://github.com/safidea/engine/compare/v0.31.26...v0.31.27) (2024-10-17)
+
+
+### Bug Fixes
+
+* **package:** add private: false ([cbe0d14](https://github.com/safidea/engine/commit/cbe0d14183c094126a80c38ba4e2477567f2c961))
+
 ## [0.31.26](https://github.com/safidea/engine/compare/v0.31.25...v0.31.26) (2024-10-16)
 
 
