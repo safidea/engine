@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type CodeContext, type Config } from '@safidea/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
@@ -53,7 +53,9 @@ test.describe('Logger', () => {
                 name: 'run',
                 service: 'Code',
                 action: 'RunJavascript',
-                code: `return { message: 'succeed' }`,
+                code: String(function () {
+                  return { message: 'succeed' }
+                }),
               },
             ],
           },
@@ -99,7 +101,9 @@ test.describe('Logger', () => {
                 name: 'run',
                 service: 'Code',
                 action: 'RunJavascript',
-                code: `throw new Error('run failed')`,
+                code: String(function () {
+                  throw new Error('run failed')
+                }),
               },
             ],
           },
@@ -146,8 +150,17 @@ test.describe('Logger', () => {
               {
                 name: 'throwError',
                 service: 'Code',
-                action: 'RunJavascript',
-                code: `throw new Error("${message}")`,
+                action: 'RunTypescript',
+                input: {
+                  message: {
+                    type: 'string',
+                    value: message,
+                  },
+                },
+                code: String(function (context: CodeContext<{ message: string }>) {
+                  const { inputData } = context
+                  throw new Error(inputData.message)
+                }),
               },
             ],
           },

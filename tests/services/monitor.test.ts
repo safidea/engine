@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type CodeContext, type Config } from '@safidea/engine'
 import { instrument } from '@safidea/engine/instrument'
 import { getSentryEvents, type Event } from '@tests/monitor'
 import { nanoid } from 'nanoid'
@@ -28,7 +28,16 @@ test.describe('Monitor', () => {
                 name: 'throwError',
                 service: 'Code',
                 action: 'RunJavascript',
-                code: `throw new Error("${message}")`,
+                input: {
+                  message: {
+                    type: 'string',
+                    value: message,
+                  },
+                },
+                code: String(function (context: CodeContext<{ message: string }>) {
+                  const { inputData } = context
+                  throw new Error(inputData.message)
+                }),
               },
             ],
           },

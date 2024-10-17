@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type CodeContext, type Config } from '@safidea/engine'
 
 test.describe('ApiCalled trigger', () => {
   test('should start an automation from api call', async ({ request }) => {
@@ -46,7 +46,16 @@ test.describe('ApiCalled trigger', () => {
               name: 'throwError',
               service: 'Code',
               action: 'RunJavascript',
-              code: `throw new Error("${message}")`,
+              input: {
+                message: {
+                  type: 'string',
+                  value: message,
+                },
+              },
+              code: String(function (context: CodeContext<{ message: string }>) {
+                const { inputData } = context
+                throw new Error(inputData.message)
+              }),
             },
           ],
         },
