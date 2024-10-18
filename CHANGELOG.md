@@ -1,3 +1,11 @@
+## [0.31.31](https://github.com/safidea/engine/compare/v0.31.30...v0.31.31) (2024-10-18)
+
+
+### Bug Fixes
+
+* **ApiCalled:** add green test: should return a value ([d11b2c1](https://github.com/safidea/engine/commit/d11b2c12c0ab6f73a79712f18c6bea2080204870))
+* **Exist:** add green test: should return a success exist ([483a0f7](https://github.com/safidea/engine/commit/483a0f720e7ff54041df3d3eebb611eb2ebaee9b))
+
 ## [0.31.30](https://github.com/safidea/engine/compare/v0.31.29...v0.31.30) (2024-10-17)
 
 
