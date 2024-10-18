@@ -690,6 +690,51 @@ test.describe('Run JavaScript code action', () => {
     expect(response.isNumber).toBeTruthy()
   })
 
+  test('should run a JavaScript code with the native Boolean class', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getIsBoolean',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'is-boolean',
+            output: {
+              isBoolean: {
+                value: '{{runJavascriptCode.isBoolean}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function () {
+                const isBoolean = Boolean(1)
+                return { isBoolean }
+              }),
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const response = await request
+      .post(`${url}/api/automation/is-boolean`)
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.isBoolean).toBeTruthy()
+  })
+
   test('should run a JavaScript code with the date-fns package', async ({ request }) => {
     // GIVEN
     const config: Config = {
