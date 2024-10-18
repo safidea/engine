@@ -1,3 +1,10 @@
+## [0.31.32](https://github.com/safidea/engine/compare/v0.31.31...v0.31.32) (2024-10-18)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a JavaScript code with the native Boolean class ([6a7fb95](https://github.com/safidea/engine/commit/6a7fb950143815213268a3cd14b71c008a65bd4f))
+
 ## [0.31.31](https://github.com/safidea/engine/compare/v0.31.30...v0.31.31) (2024-10-18)
 
 
