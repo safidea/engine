@@ -5,7 +5,7 @@ import type { App } from '../App'
 
 export interface Config {
   path: string
-  body: object
+  body?: object
   name?: string
 }
 
@@ -17,7 +17,7 @@ export class Post implements Base {
   }
 
   execute = async (app: App, _page: BrowserPage) => {
-    const { path, body } = this._config
+    const { path, body = {} } = this._config
     const res = await fetch(`${app.baseUrl}${path}`, {
       method: 'POST',
       headers: {
@@ -30,6 +30,7 @@ export class Post implements Base {
         code: 'POST_REQUEST_ERROR',
         expected: 200,
         received: res.status,
+        message: await res.text(),
       })
     }
     return res.json()

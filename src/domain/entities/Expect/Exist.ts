@@ -7,31 +7,24 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface Config {
   value: string
-  equal: string
 }
 
 export interface Services {
   templateCompiler: TemplateCompiler
 }
 
-export class Equal implements Base {
+export class Exist implements Base {
   private _templateValue: Template
 
-  constructor(
-    private _config: Config,
-    services: Services
-  ) {
-    this._templateValue = services.templateCompiler.compile(_config.value)
+  constructor(config: Config, services: Services) {
+    this._templateValue = services.templateCompiler.compile(config.value)
   }
 
   execute = async (_app: App, _page: BrowserPage, context = {}) => {
-    const { equal } = this._config
     const parsedValue = this._templateValue.fill(context)
-    if (parsedValue !== equal) {
+    if (!parsedValue) {
       throw new TestError({
-        code: 'EQUAL_FAILED',
-        received: parsedValue,
-        expected: equal,
+        code: 'EXIST_FAILED',
       })
     }
   }

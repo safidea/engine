@@ -9,6 +9,7 @@ import { RecordMapper } from './RecordMapper'
 import { EmailMapper } from './EmailMapper'
 import { EqualMapper } from './EqualMapper'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import { ExistMapper } from './ExistMapper'
 
 interface Services {
   templateCompiler: TemplateCompiler
@@ -25,6 +26,7 @@ export class ExpectMapper {
     if (expect === 'Record') return RecordMapper.toEntity(config)
     if (expect === 'Email') return EmailMapper.toEntity(config)
     if (expect === 'Equal') return EqualMapper.toEntity(config, services)
+    if (expect === 'Exist') return ExistMapper.toEntity(config, services)
     throw new Error(`ExpectMapper: expect "${expect}" not found`)
   }
 

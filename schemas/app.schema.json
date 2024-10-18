@@ -1688,11 +1688,11 @@
         "Equal": {
             "additionalProperties": false,
             "properties": {
-                "expect": {
-                    "const": "Equal",
+                "equal": {
                     "type": "string"
                 },
-                "expected": {
+                "expect": {
+                    "const": "Equal",
                     "type": "string"
                 },
                 "value": {
@@ -1700,8 +1700,8 @@
                 }
             },
             "required": [
+                "equal",
                 "expect",
-                "expected",
                 "value"
             ],
             "type": "object"
@@ -1731,6 +1731,23 @@
                 }
             ]
         },
+        "Exist": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Exist",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
         "Expect": {
             "anyOf": [
                 {
@@ -1741,6 +1758,9 @@
                 },
                 {
                     "$ref": "#/definitions/Equal"
+                },
+                {
+                    "$ref": "#/definitions/Exist"
                 },
                 {
                     "$ref": "#/definitions/InputText"
@@ -3224,7 +3244,6 @@
                 }
             },
             "required": [
-                "body",
                 "event",
                 "path"
             ],
