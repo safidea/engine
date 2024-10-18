@@ -25,6 +25,7 @@ export class JavascriptRunnerDriver implements Driver {
       Date: global.Date,
       Array: global.Array,
       Number: global.Number,
+      Boolean: global.Boolean,
       setTimeout: setTimeout,
       console: console,
     }
