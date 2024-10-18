@@ -104,17 +104,15 @@ export class ExpressDriver implements Driver {
     if (this._config.monitors?.includes('Sentry')) Sentry.setupExpressErrorHandler(this._express)
   }
 
-  start = async (retry = 0): Promise<string> => {
+  start = async (retry = 0, basePort?: number): Promise<string> => {
+    if (!basePort) basePort = await this._getPort()
     try {
-      const port = await this._getPort()
+      const port = basePort + retry
       const options = { port }
       const server = http.createServer(this._express)
       await new Promise((resolve, reject) => {
-        try {
-          server.listen(options, () => resolve(null))
-        } catch (err) {
-          reject(err)
-        }
+        server.listen(options, () => resolve(null))
+        server.on('error', (err) => reject(err))
       })
       this._server = server
       this.baseUrl = `http://localhost:${port}`
@@ -122,7 +120,7 @@ export class ExpressDriver implements Driver {
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        return this.start(++retry)
+        return this.start(retry + 1, basePort)
       }
       throw err
     }

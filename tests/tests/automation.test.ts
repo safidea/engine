@@ -144,7 +144,7 @@ test.describe('Automation tests', () => {
           then: [
             {
               expect: 'Equal',
-              value: '{{request.response.isValid}}',
+              value: '{{request.isValid}}',
               expected: 'true',
             },
           ],

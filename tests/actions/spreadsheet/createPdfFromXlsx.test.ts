@@ -65,7 +65,7 @@ test.describe('Create .pdf from .xlsx', () => {
       })
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/create-pdf`, {
           data: {
             spreadsheetFileId: '1',

@@ -54,7 +54,7 @@ test.describe('Run TypeScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
+    const response = await request
       .post(`${url}/api/automation/add-numbers`, {
         data: {
           numberOne: 1,

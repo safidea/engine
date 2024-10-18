@@ -79,7 +79,7 @@ export class ApiCalled implements Base {
           },
           {}
         )
-        return new Json({ success: true, response })
+        return new Json(response)
       }
       return new Json({ success: true })
     } catch (error) {

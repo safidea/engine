@@ -60,7 +60,7 @@ test.describe('Fill .xlsx template action', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/create-spreadsheet`, {
           data: {
             name: 'John Doe',

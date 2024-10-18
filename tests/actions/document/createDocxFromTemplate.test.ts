@@ -59,7 +59,7 @@ test.describe('Create .docx from template action', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/create-document`, {
           data: {
             name: 'John Doe',
@@ -131,7 +131,7 @@ test.describe('Create .docx from template action', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/create-document`, {
           data: {
             name: 'John Doe',

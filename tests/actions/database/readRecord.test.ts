@@ -51,7 +51,7 @@ test.describe('Read record action', () => {
       await database.table('records').insert({ id: '1', created_at: new Date() })
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/read-record`, {
           data: { recordId: '1' },
         })

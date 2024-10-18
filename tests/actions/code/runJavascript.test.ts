@@ -58,7 +58,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
+    const response = await request
       .post(`${url}/api/automation/add-numbers`, {
         data: {
           numberOne: 1,
@@ -112,9 +112,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/get-env`)
-      .then((res) => res.json())
+    const response = await request.post(`${url}/api/automation/get-env`).then((res) => res.json())
 
     // THEN
     expect(response.NODE_ENV).toBe('test')
@@ -230,7 +228,7 @@ test.describe('Run JavaScript code action', () => {
       const url = await app.start(config)
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/create-user`, {
           data: {
             name: 'John',
@@ -301,7 +299,7 @@ test.describe('Run JavaScript code action', () => {
       await database.table('users').insert({ id: '1', name: 'John', created_at: new Date() })
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/update-user`, {
           data: {
             id: '1',
@@ -368,7 +366,7 @@ test.describe('Run JavaScript code action', () => {
       await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/read-user`, {
           data: {
             id: '1',
@@ -426,7 +424,7 @@ test.describe('Run JavaScript code action', () => {
       ])
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/list-users`, {
           data: {
             id: '1',
@@ -491,7 +489,7 @@ test.describe('Run JavaScript code action', () => {
       ])
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/list-users`)
         .then((res) => res.json())
 
@@ -550,7 +548,7 @@ test.describe('Run JavaScript code action', () => {
       ])
 
       // WHEN
-      const { response } = await request
+      const response = await request
         .post(`${url}/api/automation/list-users`)
         .then((res) => res.json())
 
@@ -598,7 +596,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
+    const response = await request
       .post(`${url}/api/automation/get-timestamp`)
       .then((res) => res.json())
 
@@ -643,9 +641,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/is-array`)
-      .then((res) => res.json())
+    const response = await request.post(`${url}/api/automation/is-array`).then((res) => res.json())
 
     // THEN
     expect(response.isArray).toBeTruthy()
@@ -688,9 +684,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/is-number`)
-      .then((res) => res.json())
+    const response = await request.post(`${url}/api/automation/is-number`).then((res) => res.json())
 
     // THEN
     expect(response.isNumber).toBeTruthy()
@@ -736,9 +730,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/get-date`)
-      .then((res) => res.json())
+    const response = await request.post(`${url}/api/automation/get-date`).then((res) => res.json())
 
     // THEN
     expect(response.date).toBe('2024-09-01')
@@ -790,9 +782,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const { response } = await request
-      .post(`${url}/api/automation/parse-xml`)
-      .then((res) => res.json())
+    const response = await request.post(`${url}/api/automation/parse-xml`).then((res) => res.json())
 
     // THEN
     expect(response.result).toStrictEqual({
