@@ -735,6 +735,51 @@ test.describe('Run JavaScript code action', () => {
     expect(response.isBoolean).toBeTruthy()
   })
 
+  test('should run a JavaScript code with the native URLSearchParams class', async ({
+    request,
+  }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'getURLSearchParams',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'get-param',
+            output: {
+              param: {
+                value: '{{runJavascriptCode.param}}',
+                type: 'string',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function () {
+                const param = new URLSearchParams('a=1').get('a')
+                return { param }
+              }),
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const response = await request.post(`${url}/api/automation/get-param`).then((res) => res.json())
+
+    // THEN
+    expect(response.param).toBe('1')
+  })
+
   test('should run a JavaScript code with the date-fns package', async ({ request }) => {
     // GIVEN
     const config: Config = {

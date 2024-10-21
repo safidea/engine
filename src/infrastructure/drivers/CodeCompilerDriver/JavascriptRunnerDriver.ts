@@ -26,6 +26,7 @@ export class JavascriptRunnerDriver implements Driver {
       Array: global.Array,
       Number: global.Number,
       Boolean: global.Boolean,
+      URLSearchParams: global.URLSearchParams,
       setTimeout: setTimeout,
       console: console,
     }
