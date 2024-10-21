@@ -1,7 +1,7 @@
 {
   "name": "@safidea/engine",
   "description": "Generate web app with a configuration file",
-  "version": "0.31.31",
+  "version": "0.31.32",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
