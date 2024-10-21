@@ -1,3 +1,10 @@
+## [0.31.33](https://github.com/safidea/engine/compare/v0.31.32...v0.31.33) (2024-10-21)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a JavaScript code with the native URLSearchParams class ([b27c0af](https://github.com/safidea/engine/commit/b27c0afd91482dbf02bb07b18c0934a819769882))
+
 ## [0.31.32](https://github.com/safidea/engine/compare/v0.31.31...v0.31.32) (2024-10-18)
 
 
