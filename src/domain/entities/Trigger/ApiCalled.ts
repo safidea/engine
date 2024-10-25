@@ -11,7 +11,7 @@ import type { Monitor } from '@domain/services/Monitor'
 
 export interface Config extends BaseConfig {
   path: string
-  input?: { [key: string]: JSONSchema }
+  input?: JSONSchema
   output?: InputValues
 }
 
@@ -59,15 +59,10 @@ export class ApiCalled implements Base {
       if (!input) {
         context = await run({ path, baseUrl, headers, query, params })
       } else {
-        const schema: JSONSchema = {
-          type: 'object',
-          properties: input,
-          required: Object.keys(input),
-        }
-        if (this._validateDataType<object>(body, schema)) {
+        if (this._validateDataType<object>(body, input)) {
           context = await run({ body, path, baseUrl, headers, query, params })
         } else {
-          const [error] = this._validateData(body, schema)
+          const [error] = this._validateData(body, input)
           return new Json({ error }, 400)
         }
       }

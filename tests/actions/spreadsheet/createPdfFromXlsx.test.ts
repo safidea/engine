@@ -21,8 +21,11 @@ test.describe('Create .pdf from .xlsx', () => {
               event: 'ApiCalled',
               path: 'create-pdf',
               input: {
-                spreadsheetFileId: {
-                  type: 'string',
+                type: 'object',
+                properties: {
+                  spreadsheetFileId: {
+                    type: 'string',
+                  },
                 },
               },
               output: {

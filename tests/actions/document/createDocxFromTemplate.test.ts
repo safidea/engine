@@ -19,8 +19,11 @@ test.describe('Create .docx from template action', () => {
               event: 'ApiCalled',
               path: 'create-document',
               input: {
-                name: {
-                  type: 'string',
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
                 },
               },
               output: {
@@ -88,11 +91,14 @@ test.describe('Create .docx from template action', () => {
               event: 'ApiCalled',
               path: 'create-document',
               input: {
-                name: {
-                  type: 'string',
-                },
-                filename: {
-                  type: 'string',
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                  filename: {
+                    type: 'string',
+                  },
                 },
               },
               output: {

@@ -114,4 +114,71 @@ test.describe('ApiCalled trigger', () => {
     expect(response.status()).toBe(400)
     expect(error).toContain(message)
   })
+
+  test('should validate an optional input', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Theme',
+      automations: [
+        {
+          name: 'throwError',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'input',
+            input: {
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+          actions: [],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const response = await request.post(`${url}/api/automation/input`)
+
+    // THEN
+    expect(response.status()).toBe(200)
+  })
+
+  test('should not validate an required input', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'Theme',
+      automations: [
+        {
+          name: 'throwError',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'input',
+            input: {
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string',
+                },
+              },
+              required: ['message'],
+            },
+          },
+          actions: [],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const response = await request.post(`${url}/api/automation/input`)
+
+    // THEN
+    expect(response.status()).toBe(400)
+  })
 })

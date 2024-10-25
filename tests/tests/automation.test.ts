@@ -157,7 +157,10 @@ test.describe('Automation tests', () => {
             event: 'ApiCalled',
             path: 'valid-name',
             input: {
-              name: { type: 'string' },
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+              },
             },
             output: {
               isValid: {
@@ -229,7 +232,10 @@ test.describe('Automation tests', () => {
             event: 'ApiCalled',
             path: 'valid-name',
             input: {
-              name: { type: 'string' },
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+              },
             },
             output: {
               isValid: {

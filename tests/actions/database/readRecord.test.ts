@@ -16,8 +16,11 @@ test.describe('Read record action', () => {
               event: 'ApiCalled',
               path: 'read-record',
               input: {
-                recordId: {
-                  type: 'string',
+                type: 'object',
+                properties: {
+                  recordId: {
+                    type: 'string',
+                  },
                 },
               },
               output: {

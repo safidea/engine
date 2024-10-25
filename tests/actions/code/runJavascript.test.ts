@@ -17,8 +17,11 @@ test.describe('Run JavaScript code action', () => {
             event: 'ApiCalled',
             path: 'add-numbers',
             input: {
-              numberOne: { type: 'number' },
-              numberTwo: { type: 'number' },
+              type: 'object',
+              properties: {
+                numberOne: { type: 'number' },
+                numberTwo: { type: 'number' },
+              },
             },
             output: {
               sum: {
@@ -190,7 +193,10 @@ test.describe('Run JavaScript code action', () => {
               event: 'ApiCalled',
               path: 'create-user',
               input: {
-                name: { type: 'string' },
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                },
               },
               output: {
                 user: {
@@ -255,8 +261,11 @@ test.describe('Run JavaScript code action', () => {
               event: 'ApiCalled',
               path: 'update-user',
               input: {
-                id: { type: 'string' },
-                name: { type: 'string' },
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  name: { type: 'string' },
+                },
               },
               output: {
                 user: {
@@ -327,7 +336,10 @@ test.describe('Run JavaScript code action', () => {
               event: 'ApiCalled',
               path: 'read-user',
               input: {
-                id: { type: 'string' },
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                },
               },
               output: {
                 user: {

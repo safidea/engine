@@ -38,10 +38,7 @@
                     "type": "string"
                 },
                 "input": {
-                    "additionalProperties": {
-                        "$ref": "#/definitions/JSONSchema"
-                    },
-                    "type": "object"
+                    "$ref": "#/definitions/JSONSchema"
                 },
                 "output": {
                     "$ref": "#/definitions/InputValues"

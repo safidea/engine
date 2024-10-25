@@ -20,8 +20,11 @@ test.describe('Fill .xlsx template action', () => {
               event: 'ApiCalled',
               path: 'create-spreadsheet',
               input: {
-                name: {
-                  type: 'string',
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
                 },
               },
               output: {
