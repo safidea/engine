@@ -1,3 +1,10 @@
+## [0.31.34](https://github.com/safidea/engine/compare/v0.31.33...v0.31.34) (2024-10-25)
+
+
+### Bug Fixes
+
+* **ApiCalled:** add green test: should validate an optional input ([fa35f95](https://github.com/safidea/engine/commit/fa35f95bb3312f422fc403624e338268019550f7))
+
 ## [0.31.33](https://github.com/safidea/engine/compare/v0.31.32...v0.31.33) (2024-10-21)
 
 
