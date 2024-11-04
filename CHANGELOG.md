@@ -1,3 +1,10 @@
+## [0.31.36](https://github.com/safidea/engine/compare/v0.31.35...v0.31.36) (2024-11-04)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a JavaScript code with crypto package ([d6d697b](https://github.com/safidea/engine/commit/d6d697bbc4868277b8e004f18b9025de4f86e24b))
+
 ## [0.31.35](https://github.com/safidea/engine/compare/v0.31.34...v0.31.35) (2024-11-04)
 
 
