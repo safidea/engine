@@ -937,4 +937,49 @@ test.describe('Run JavaScript code action', () => {
     // THEN
     expect(response.exist).toBeTruthy()
   })
+
+  test('should run a JavaScript code with crypto package', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'crypto',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'crypto',
+            output: {
+              exist: {
+                value: '{{runJavascriptCode.exist}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const {
+                  packages: { crypto },
+                } = context
+                return { exist: !!crypto?.constants }
+              }),
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const response = await request.post(`${url}/api/automation/crypto`).then((res) => res.json())
+
+    // THEN
+    expect(response.exist).toBeTruthy()
+  })
 })

@@ -8,6 +8,7 @@ import * as dateFns from 'date-fns'
 import googleapis from 'googleapis'
 import Airtable from 'airtable'
 import https from 'https'
+import crypto from 'crypto'
 
 export class JavascriptRunnerDriver implements Driver {
   constructor(
@@ -41,6 +42,7 @@ export class JavascriptRunnerDriver implements Driver {
         googleapis,
         Airtable,
         https,
+        crypto,
       },
     }
     const context = vm.createContext({
