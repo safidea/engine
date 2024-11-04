@@ -892,4 +892,49 @@ test.describe('Run JavaScript code action', () => {
       root: { item: ['Value1', 'Value2'] },
     })
   })
+
+  test('should run a JavaScript code with https package', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      automations: [
+        {
+          name: 'https',
+          trigger: {
+            event: 'ApiCalled',
+            path: 'https',
+            output: {
+              exist: {
+                value: '{{runJavascriptCode.exist}}',
+                type: 'boolean',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunJavascript',
+              name: 'runJavascriptCode',
+              // eslint-disable-next-line
+              // @ts-ignore
+              code: String(async function (context) {
+                const {
+                  packages: { https },
+                } = context
+                return { exist: !!https?.globalAgent }
+              }),
+            },
+          ],
+        },
+      ],
+    }
+    const app = new App()
+    const url = await app.start(config)
+
+    // WHEN
+    const response = await request.post(`${url}/api/automation/https`).then((res) => res.json())
+
+    // THEN
+    expect(response.exist).toBeTruthy()
+  })
 })

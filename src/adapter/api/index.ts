@@ -24,7 +24,7 @@ export default class {
     const errors: TestError[] = []
     const tests = TestMapper.toManyEntities(this.drivers, validatedConfig.tests ?? [])
     const browser = BrowserMapper.toService(this.drivers)
-    console.info(`🔄 Start running tests`)
+    console.info(`🔄 Running ${tests.length} tests`)
     const page = await browser.launch()
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
