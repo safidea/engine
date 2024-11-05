@@ -24,6 +24,8 @@ export interface CodeContext<I extends object> {
     googleapis: typeof import('googleapis')
     Airtable: typeof import('airtable')
     axios: typeof import('axios').default
+    https: typeof import('https')
+    crypto: typeof import('crypto')
   }
 }
 
