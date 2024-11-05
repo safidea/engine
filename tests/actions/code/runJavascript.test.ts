@@ -893,16 +893,16 @@ test.describe('Run JavaScript code action', () => {
     })
   })
 
-  test('should run a JavaScript code with https package', async ({ request }) => {
+  test('should run a JavaScript code with axios package', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
       automations: [
         {
-          name: 'https',
+          name: 'axios',
           trigger: {
             event: 'ApiCalled',
-            path: 'https',
+            path: 'axios',
             output: {
               exist: {
                 value: '{{runJavascriptCode.exist}}',
@@ -919,9 +919,9 @@ test.describe('Run JavaScript code action', () => {
               // @ts-ignore
               code: String(async function (context) {
                 const {
-                  packages: { https },
+                  packages: { axios },
                 } = context
-                return { exist: !!https?.globalAgent }
+                return { exist: !!axios?.post }
               }),
             },
           ],
@@ -932,52 +932,7 @@ test.describe('Run JavaScript code action', () => {
     const url = await app.start(config)
 
     // WHEN
-    const response = await request.post(`${url}/api/automation/https`).then((res) => res.json())
-
-    // THEN
-    expect(response.exist).toBeTruthy()
-  })
-
-  test('should run a JavaScript code with crypto package', async ({ request }) => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      automations: [
-        {
-          name: 'crypto',
-          trigger: {
-            event: 'ApiCalled',
-            path: 'crypto',
-            output: {
-              exist: {
-                value: '{{runJavascriptCode.exist}}',
-                type: 'boolean',
-              },
-            },
-          },
-          actions: [
-            {
-              service: 'Code',
-              action: 'RunJavascript',
-              name: 'runJavascriptCode',
-              // eslint-disable-next-line
-              // @ts-ignore
-              code: String(async function (context) {
-                const {
-                  packages: { crypto },
-                } = context
-                return { exist: !!crypto?.constants }
-              }),
-            },
-          ],
-        },
-      ],
-    }
-    const app = new App()
-    const url = await app.start(config)
-
-    // WHEN
-    const response = await request.post(`${url}/api/automation/crypto`).then((res) => res.json())
+    const response = await request.post(`${url}/api/automation/axios`).then((res) => res.json())
 
     // THEN
     expect(response.exist).toBeTruthy()

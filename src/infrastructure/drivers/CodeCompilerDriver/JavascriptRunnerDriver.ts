@@ -7,8 +7,7 @@ import xml2js from 'xml2js'
 import * as dateFns from 'date-fns'
 import googleapis from 'googleapis'
 import Airtable from 'airtable'
-import https from 'https'
-import crypto from 'crypto'
+import axios from 'axios'
 
 export class JavascriptRunnerDriver implements Driver {
   constructor(
@@ -28,6 +27,7 @@ export class JavascriptRunnerDriver implements Driver {
       Array: global.Array,
       Number: global.Number,
       Boolean: global.Boolean,
+      Math: global.Math,
       URLSearchParams: global.URLSearchParams,
       setTimeout: setTimeout,
       console: console,
@@ -41,8 +41,7 @@ export class JavascriptRunnerDriver implements Driver {
         dateFns,
         googleapis,
         Airtable,
-        https,
-        crypto,
+        axios,
       },
     }
     const context = vm.createContext({

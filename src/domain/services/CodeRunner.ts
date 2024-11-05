@@ -23,8 +23,7 @@ export interface CodeContext<I extends object> {
     dateFns: typeof import('date-fns')
     googleapis: typeof import('googleapis')
     Airtable: typeof import('airtable')
-    https: typeof import('https')
-    crypto: typeof import('crypto')
+    axios: typeof import('axios').default
   }
 }
 

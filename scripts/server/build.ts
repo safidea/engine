@@ -42,6 +42,7 @@ const externals: string[] = [
   'googleapis',
   'airtable',
   'typescript',
+  'axios',
 ]
 
 const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']
