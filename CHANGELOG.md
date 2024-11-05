@@ -1,3 +1,10 @@
+## [0.31.38](https://github.com/safidea/engine/compare/v0.31.37...v0.31.38) (2024-11-05)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add removed tests ([6197a4a](https://github.com/safidea/engine/commit/6197a4a449a5e02e580f1dbe6d3e09a8d41b86e0))
+
 ## [0.31.37](https://github.com/safidea/engine/compare/v0.31.36...v0.31.37) (2024-11-05)
 
 
