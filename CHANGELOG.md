@@ -1,3 +1,10 @@
+## [0.31.37](https://github.com/safidea/engine/compare/v0.31.36...v0.31.37) (2024-11-05)
+
+
+### Bug Fixes
+
+* **RunJavascript:** add green test: should run a JavaScript code with axios package ([267759e](https://github.com/safidea/engine/commit/267759eba4232f755aa5db97fdb2143c616ef2ed))
+
 ## [0.31.36](https://github.com/safidea/engine/compare/v0.31.35...v0.31.36) (2024-11-04)
 
 
