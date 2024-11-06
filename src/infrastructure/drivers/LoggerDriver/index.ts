@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/LoggerSpi'
+import type { Driver } from '@adapter/spi/drivers/LoggerSpi'
 import type { Config } from '@domain/services/Logger'
 import { ConsoleDriver } from './ConsoleDriver'
 import { FileDriver } from './FileDriver'

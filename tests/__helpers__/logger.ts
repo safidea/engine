@@ -1,5 +1,5 @@
 import { Client } from '@elastic/elasticsearch'
-import { LoggerSpi } from '@adapter/spi/LoggerSpi'
+import { LoggerSpi } from '@adapter/spi/drivers/LoggerSpi'
 import { Logger, type Config } from '@domain/services/Logger'
 import { LoggerDriver } from '@infrastructure/drivers/LoggerDriver'
 

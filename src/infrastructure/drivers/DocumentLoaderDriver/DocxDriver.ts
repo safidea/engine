@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/DocumentSpi'
+import type { Driver } from '@adapter/spi/drivers/DocumentSpi'
 import fs from 'fs-extra'
 import AdmZip from 'adm-zip'
 

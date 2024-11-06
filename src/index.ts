@@ -1,6 +1,6 @@
 import { drivers } from '@infrastructure/drivers'
 import App from '@adapter/api'
-import type { Drivers as AllDrivers } from '@adapter/spi/Drivers'
+import type { Drivers as AllDrivers } from '@adapter/spi/drivers'
 
 export type { Config } from '@adapter/api/configs/Config'
 export type { Table } from '@adapter/api/configs/Table'

@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { FileSystemSpi } from '@adapter/spi/FileSystemSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { FileSystemSpi } from '@adapter/spi/drivers/FileSystemSpi'
 import { FileSystem } from '@domain/services/FileSystem'
 
 export class FileSystemMapper {

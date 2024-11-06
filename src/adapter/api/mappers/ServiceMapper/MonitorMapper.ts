@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { MonitorSpi } from '@adapter/spi/MonitorSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { MonitorSpi } from '@adapter/spi/drivers/MonitorSpi'
 import { Monitor, type Config } from '@domain/services/Monitor'
 
 export class MonitorMapper {

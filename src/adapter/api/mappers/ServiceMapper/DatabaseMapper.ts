@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { DatabaseSpi } from '@adapter/spi/DatabaseSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { DatabaseSpi } from '@adapter/spi/drivers/DatabaseSpi'
 import { Database, type Config, type Services } from '@domain/services/Database'
 
 export class DatabaseMapper {

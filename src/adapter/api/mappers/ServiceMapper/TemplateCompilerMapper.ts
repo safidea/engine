@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { TemplateCompilerSpi } from '@adapter/spi/TemplateCompilerSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { TemplateCompilerSpi } from '@adapter/spi/drivers/TemplateCompilerSpi'
 import { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export class TemplateCompilerMapper {

@@ -1,4 +1,4 @@
-import type { Drivers } from '@adapter/spi/Drivers'
+import type { Drivers } from '@adapter/spi/drivers'
 import type { Config as ServerConfig } from '@domain/services/Server'
 import type { Config as DatabaseConfig } from '@domain/services/Database'
 import type { Config as QueueConfig } from '@domain/services/Queue'

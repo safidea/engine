@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { DocumentLoaderSpi } from '@adapter/spi/DocumentLoaderSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { DocumentLoaderSpi } from '@adapter/spi/drivers/DocumentLoaderSpi'
 import { DocumentLoader, type Services } from '@domain/services/DocumentLoader'
 
 export class DocumentLoaderMapper {

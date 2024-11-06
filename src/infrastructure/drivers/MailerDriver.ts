@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/MailerSpi'
+import type { Driver } from '@adapter/spi/drivers/MailerSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { Config } from '@domain/services/Mailer'
 import { v4 as uuidv4 } from 'uuid'

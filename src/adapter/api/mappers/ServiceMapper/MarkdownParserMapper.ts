@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { MarkdownParserSpi } from '@adapter/spi/MarkdownParserSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { MarkdownParserSpi } from '@adapter/spi/drivers/MarkdownParserSpi'
 import { MarkdownParser, type Services } from '@domain/services/MarkdownParser'
 
 export class MarkdownParserMapper {

@@ -1,4 +1,4 @@
-import type { TemplateSpi } from '@adapter/spi/TemplateSpi'
+import type { TemplateSpi } from '@adapter/spi/drivers/TemplateSpi'
 import { Template, type InputValue, type OutputType } from './Template'
 
 export interface Spi {

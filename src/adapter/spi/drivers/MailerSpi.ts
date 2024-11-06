@@ -1,10 +1,10 @@
 import type { Spi } from '@domain/services/Mailer'
-import { EmailMapper } from './mappers/EmailMapper'
-import type { FilterDto } from './dtos/FilterDto'
+import { EmailMapper } from '../mappers/EmailMapper'
+import type { FilterDto } from '../dtos/FilterDto'
 import type { Filter } from '@domain/entities/Filter'
-import { FilterMapper } from './mappers/FilterMapper'
+import { FilterMapper } from '../mappers/FilterMapper'
 import type { CreatedEmail } from '@domain/entities/Email/Created'
-import type { EmailDto } from './dtos/EmailDto'
+import type { EmailDto } from '../dtos/EmailDto'
 
 export interface Driver {
   verify: () => Promise<void>

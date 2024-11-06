@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/CodeRunnerSpi'
+import type { Driver } from '@adapter/spi/drivers/CodeRunnerSpi'
 import type { CodeContext, Modules } from '@domain/services/CodeRunner'
 import vm from 'node:vm'
 

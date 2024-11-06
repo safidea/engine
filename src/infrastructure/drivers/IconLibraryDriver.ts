@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/IconLibrarySpi'
+import type { Driver } from '@adapter/spi/drivers/IconLibrarySpi'
 import type { Name } from '@domain/libraries/Icon'
 import * as outline from '@heroicons/react/24/outline'
 import * as solid from '@heroicons/react/24/solid'

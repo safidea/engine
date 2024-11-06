@@ -1,5 +1,5 @@
-import type { Driver } from '@adapter/spi/DocumentLoaderSpi'
-import type { Driver as DocumentDriver } from '@adapter/spi/DocumentSpi'
+import type { Driver } from '@adapter/spi/drivers/DocumentLoaderSpi'
+import type { Driver as DocumentDriver } from '@adapter/spi/drivers/DocumentSpi'
 import { DocxDriver } from './DocxDriver'
 
 export class DocumentLoaderDriver implements Driver {

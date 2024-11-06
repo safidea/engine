@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { ClientSpi } from '@adapter/spi/ClientSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { ClientSpi } from '@adapter/spi/drivers/ClientSpi'
 import { Client } from '@domain/services/Client'
 
 export class ClientMapper {

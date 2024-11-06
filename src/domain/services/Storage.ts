@@ -2,7 +2,7 @@ import type { Bucket } from '@domain/entities/Bucket'
 import type { Logger } from './Logger'
 import { StorageBucket } from './StorageBucket'
 import type { Database, Driver, Exec, Query } from './Database'
-import type { StorageBucketSpi } from '@adapter/spi/StorageBucketSpi'
+import type { StorageBucketSpi } from '@adapter/spi/drivers/StorageBucketSpi'
 
 export interface Config {
   driver: Driver

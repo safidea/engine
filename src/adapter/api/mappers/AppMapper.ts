@@ -1,6 +1,6 @@
 import { App } from '@domain/entities/App'
 import type { Config } from '@adapter/api/configs/Config'
-import type { Drivers } from '@adapter/spi/Drivers'
+import type { Drivers } from '@adapter/spi/drivers'
 import { PageMapper } from './PageMapper'
 import { TableMapper } from './TableMapper'
 import { AutomationMapper } from './AutomationMapper'

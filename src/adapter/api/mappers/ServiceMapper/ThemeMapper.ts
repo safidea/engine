@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { ThemeSpi } from '@adapter/spi/ThemeSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { ThemeSpi } from '@adapter/spi/drivers/ThemeSpi'
 import { Theme, type Config, type Services } from '@domain/services/Theme'
 
 export class ThemeMapper {

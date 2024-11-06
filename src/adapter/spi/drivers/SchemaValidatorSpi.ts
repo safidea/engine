@@ -1,6 +1,6 @@
 import type { JSONSchema, Spi } from '@domain/services/SchemaValidator'
-import type { SchemaErrorDto } from './dtos/ErrorDto'
-import { ErrorMapper } from './mappers/ErrorMapper'
+import type { SchemaErrorDto } from '../dtos/ErrorDto'
+import { ErrorMapper } from '../mappers/ErrorMapper'
 
 export interface Driver {
   validateFromFile(json: unknown, schemaFileName: string): SchemaErrorDto[]

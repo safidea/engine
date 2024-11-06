@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { LoggerSpi } from '@adapter/spi/LoggerSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { LoggerSpi } from '@adapter/spi/drivers/LoggerSpi'
 import { Logger, type Config } from '@domain/services/Logger'
 
 export class LoggerMapper {

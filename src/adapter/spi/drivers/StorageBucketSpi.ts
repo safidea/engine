@@ -1,7 +1,7 @@
 import type { Spi } from '@domain/services/StorageBucket'
-import type { FileDto } from './dtos/FileDto'
+import type { FileDto } from '../dtos/FileDto'
 import type { CreatedFile } from '@domain/entities/File/Created'
-import { FileMapper } from './mappers/FileMapper'
+import { FileMapper } from '../mappers/FileMapper'
 
 export interface Driver {
   exists: () => Promise<boolean>

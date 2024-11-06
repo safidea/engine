@@ -1,11 +1,11 @@
 import type { CreatedRecord } from '@domain/entities/Record/Created'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
-import { FilterMapper } from './mappers/FilterMapper'
+import { FilterMapper } from '../mappers/FilterMapper'
 import type { Filter } from '@domain/entities/Filter'
-import type { FilterDto } from './dtos/FilterDto'
+import type { FilterDto } from '../dtos/FilterDto'
 import type { Spi } from '@domain/services/DatabaseTable'
 import type { UpdatedRecord } from '@domain/entities/Record/Updated'
-import type { CreatedRecordDto, PersistedRecordDto, UpdatedRecordDto } from './dtos/RecordDto'
+import type { CreatedRecordDto, PersistedRecordDto, UpdatedRecordDto } from '../dtos/RecordDto'
 
 export interface Driver {
   exists: () => Promise<boolean>

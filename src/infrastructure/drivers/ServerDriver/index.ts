@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/ServerSpi'
+import type { Driver } from '@adapter/spi/drivers/ServerSpi'
 import type { DeleteDto, GetDto, PatchDto, PostDto, RequestDto } from '@adapter/spi/dtos/RequestDto'
 import type { Config } from '@domain/services/Server'
 import type { Response } from '@domain/entities/Response'

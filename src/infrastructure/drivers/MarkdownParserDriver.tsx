@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/MarkdownParserSpi'
+import type { Driver } from '@adapter/spi/drivers/MarkdownParserSpi'
 import type { Renderer } from '@domain/services/MarkdownParser'
 import parse from 'html-react-parser'
 import { JSDOM } from 'jsdom'

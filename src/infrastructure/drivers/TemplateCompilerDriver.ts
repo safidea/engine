@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/TemplateCompilerSpi'
+import type { Driver } from '@adapter/spi/drivers/TemplateCompilerSpi'
 import Handlebars from 'handlebars'
 import { TemplateDriver } from './TemplateDriver'
 

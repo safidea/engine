@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { IdGeneratorSpi } from '@adapter/spi/IdGeneratorSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { IdGeneratorSpi } from '@adapter/spi/drivers/IdGeneratorSpi'
 import { IdGenerator } from '@domain/services/IdGenerator'
 
 export class IdGeneratorMapper {

@@ -1,5 +1,5 @@
 import type { Config } from '@domain/services/Storage'
-import type { Driver } from '@adapter/spi/StorageBucketSpi'
+import type { Driver } from '@adapter/spi/drivers/StorageBucketSpi'
 import type { FileDto } from '@adapter/spi/dtos/FileDto'
 
 export class SqliteBucketDriver implements Driver {

@@ -1,5 +1,5 @@
 import { JavascriptRunnerDriver } from './JavascriptRunnerDriver'
-import type { Driver } from '@adapter/spi/CodeCompilerSpi'
+import type { Driver } from '@adapter/spi/drivers/CodeCompilerSpi'
 import vm from 'node:vm'
 
 export class JavascriptCompilerDriver implements Driver {

@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { AuthSpi } from '@adapter/spi/AuthSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { AuthSpi } from '@adapter/spi/drivers/AuthSpi'
 import { Auth, type Config, type Services } from '@domain/services/Auth'
 
 export class AuthMapper {

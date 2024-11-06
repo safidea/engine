@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/BrowserSpi'
+import type { Driver } from '@adapter/spi/drivers/BrowserSpi'
 import puppeteer from 'puppeteer'
 import { BrowserPageDriver } from './BrowserPageDriver'
 

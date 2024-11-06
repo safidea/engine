@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/QueueSpi'
+import type { Driver } from '@adapter/spi/drivers/QueueSpi'
 import type { Config } from '@domain/services/Queue'
 import PgBoss from 'pg-boss'
 

@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/SpreadsheetSpi'
+import type { Driver } from '@adapter/spi/drivers/SpreadsheetSpi'
 import type { Cell } from '@domain/services/Spreadsheet'
 import ExcelJS from 'exceljs'
 import fs from 'fs-extra'

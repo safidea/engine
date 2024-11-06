@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/TemplateSpi'
+import type { Driver } from '@adapter/spi/drivers/TemplateSpi'
 
 export class TemplateDriver implements Driver {
   constructor(private _template: HandlebarsTemplateDelegate) {}

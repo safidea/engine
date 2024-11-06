@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/ClientSpi'
+import type { Driver } from '@adapter/spi/drivers/ClientSpi'
 import type {
   ActionProps,
   FrameProps,

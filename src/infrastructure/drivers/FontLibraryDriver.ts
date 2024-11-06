@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/FontLibrarySpi'
+import type { Driver } from '@adapter/spi/drivers/FontLibrarySpi'
 
 export class FontLibraryDriver implements Driver {
   loadCss = async (name: string) => {

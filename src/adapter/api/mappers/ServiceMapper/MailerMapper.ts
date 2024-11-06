@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { MailerSpi } from '@adapter/spi/MailerSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { MailerSpi } from '@adapter/spi/drivers/MailerSpi'
 import { Mailer, type Config, type Services } from '@domain/services/Mailer'
 
 export class MailerMapper {

@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { IconLibrarySpi } from '@adapter/spi/IconLibrarySpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { IconLibrarySpi } from '@adapter/spi/drivers/IconLibrarySpi'
 import { IconLibrary } from '@domain/services/IconLibrary'
 
 export class IconLibraryMapper {

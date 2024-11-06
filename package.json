@@ -44,6 +44,7 @@
     "watch": "concurrently \"bun run watch:schemas\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
     "test": "bunx playwright test",
+    "test:unit": "bunx playwright test tests/unit",
     "test:ui": "bunx playwright test --ui",
     "test:snapshots": "bunx playwright test --update-snapshots",
     "storybook": "storybook dev -p 6006",

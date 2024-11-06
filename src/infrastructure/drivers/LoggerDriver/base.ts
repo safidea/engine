@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/LoggerSpi'
+import type { Driver } from '@adapter/spi/drivers/LoggerSpi'
 import { type Logger } from 'winston'
 
 export class BaseDriver implements Driver {

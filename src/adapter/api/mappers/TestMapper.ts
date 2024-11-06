@@ -2,7 +2,7 @@ import { Test } from '@domain/entities/Test'
 import type { Test as TestConfig } from '@adapter/api/configs/Test'
 import { EventMapper } from './EventMapper'
 import { ExpectMapper } from './ExpectMapper'
-import type { Drivers } from '@adapter/spi/Drivers'
+import type { Drivers } from '@adapter/spi/drivers'
 import { TemplateCompilerMapper } from './ServiceMapper/TemplateCompilerMapper'
 
 export class TestMapper {

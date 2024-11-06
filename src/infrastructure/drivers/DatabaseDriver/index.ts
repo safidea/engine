@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/DatabaseSpi'
+import type { Driver } from '@adapter/spi/drivers/DatabaseSpi'
 import type { Config, EventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { SQLiteDriver } from './SQLiteDriver'

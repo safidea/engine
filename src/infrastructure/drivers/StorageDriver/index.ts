@@ -1,7 +1,7 @@
 import { PostgresDriver } from './PostgresDriver'
 import { SqliteDriver } from './SqliteDriver'
 import type { Config } from '@domain/services/Storage'
-import type { Driver } from '@adapter/spi/StorageSpi'
+import type { Driver } from '@adapter/spi/drivers/StorageSpi'
 
 export class StorageDriver implements Driver {
   private _storage: PostgresDriver | SqliteDriver

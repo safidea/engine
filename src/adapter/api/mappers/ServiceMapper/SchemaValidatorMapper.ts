@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { SchemaValidatorSpi } from '@adapter/spi/SchemaValidatorSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { SchemaValidatorSpi } from '@adapter/spi/drivers/SchemaValidatorSpi'
 import { SchemaValidator } from '@domain/services/SchemaValidator'
 
 export class SchemaValidatorMapper {

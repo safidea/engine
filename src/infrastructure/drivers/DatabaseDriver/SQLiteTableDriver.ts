@@ -1,5 +1,5 @@
 import SQLite, { SqliteError } from 'better-sqlite3'
-import type { Driver } from '@adapter/spi/DatabaseTableSpi'
+import type { Driver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type {

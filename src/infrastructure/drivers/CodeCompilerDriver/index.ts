@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/CodeCompilerSpi'
+import type { Driver } from '@adapter/spi/drivers/CodeCompilerSpi'
 import type { Config } from '@domain/services/CodeCompiler'
 import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
 import { TypescriptCompilerDriver } from './TypescriptCompilerDriver'

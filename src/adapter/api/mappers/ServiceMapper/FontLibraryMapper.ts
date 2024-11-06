@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { FontLibrarySpi } from '@adapter/spi/FontLibrarySpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { FontLibrarySpi } from '@adapter/spi/drivers/FontLibrarySpi'
 import { FontLibrary, type Services } from '@domain/services/FontLibrary'
 
 export class FontLibraryMapper {

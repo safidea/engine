@@ -1,5 +1,5 @@
 import type { Config } from '@domain/services/Monitor'
-import type { Driver } from '@adapter/spi/MonitorSpi'
+import type { Driver } from '@adapter/spi/drivers/MonitorSpi'
 import { SentryDriver } from './SentryDriver'
 import { ConsoleDriver } from './ConsoleDriver'
 

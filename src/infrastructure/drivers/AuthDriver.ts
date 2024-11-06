@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/AuthSpi'
+import type { Driver } from '@adapter/spi/drivers/AuthSpi'
 import type { Config, Payload, SignOptions } from '@domain/services/Auth'
 import jwt from 'jsonwebtoken'
 

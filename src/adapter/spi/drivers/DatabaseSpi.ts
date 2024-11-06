@@ -7,11 +7,11 @@ import type {
   Query,
   Spi,
 } from '@domain/services/Database'
-import type { EventDto } from './dtos/EventDto'
-import { EventMapper } from './mappers/EventMapper'
-import type { FieldDto } from './dtos/FieldDto'
+import type { EventDto } from '../dtos/EventDto'
+import { EventMapper } from '../mappers/EventMapper'
+import type { FieldDto } from '../dtos/FieldDto'
 import type { Field } from '@domain/entities/Field'
-import { FieldMapper } from './mappers/FieldMapper'
+import { FieldMapper } from '../mappers/FieldMapper'
 
 export interface Driver {
   connect: () => Promise<void>

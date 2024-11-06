@@ -1,5 +1,5 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import { BrowserSpi } from '@adapter/spi/BrowserSpi'
+import type { Drivers } from '@adapter/spi/drivers'
+import { BrowserSpi } from '@adapter/spi/drivers/BrowserSpi'
 import { Browser } from '@domain/services/Browser'
 
 export class BrowserMapper {

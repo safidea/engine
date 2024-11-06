@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/QueueSpi'
+import type { Driver } from '@adapter/spi/drivers/QueueSpi'
 import type { Config } from '@domain/services/Queue'
 import type { JobDto } from '@adapter/spi/dtos/JobDto'
 import { v4 as uuidv4 } from 'uuid'

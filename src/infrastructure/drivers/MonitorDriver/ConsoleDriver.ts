@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/MonitorSpi'
+import type { Driver } from '@adapter/spi/drivers/MonitorSpi'
 
 export class ConsoleDriver implements Driver {
   captureException = (error: Error) => {

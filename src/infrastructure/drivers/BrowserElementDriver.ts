@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/BrowserElementSpi'
+import type { Driver } from '@adapter/spi/drivers/BrowserElementSpi'
 import type { ElementHandle, Page } from 'puppeteer'
 
 export class BrowserElementDriver implements Driver {

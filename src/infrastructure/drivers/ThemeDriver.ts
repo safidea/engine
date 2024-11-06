@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/ThemeSpi'
+import type { Driver } from '@adapter/spi/drivers/ThemeSpi'
 import type { Config } from '@domain/services/Theme'
 import postcss from 'postcss'
 import tailwindcss, { type Config as Tailwindcss } from 'tailwindcss'
