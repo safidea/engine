@@ -1,3 +1,10 @@
+# [0.32.0](https://github.com/latechforce/engine/compare/v0.31.38...v0.32.0) (2024-11-06)
+
+
+### Features
+
+* **package:** rename Safidea to La Tech Force ([ffd6227](https://github.com/latechforce/engine/commit/ffd62279daec08af0a4a9f662e398f94e2689b0e))
+
 ## [0.31.38](https://github.com/latechforce/engine/compare/v0.31.37...v0.31.38) (2024-11-05)
 
 
