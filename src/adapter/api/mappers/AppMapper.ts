@@ -115,6 +115,7 @@ export class AppMapper {
         spreadsheetLoader,
         documentLoader,
         monitor,
+        database,
       },
       { tables, buckets }
     )

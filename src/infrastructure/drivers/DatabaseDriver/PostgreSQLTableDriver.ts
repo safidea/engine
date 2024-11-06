@@ -31,8 +31,15 @@ export class PostgreSQLTableDriver implements Driver {
   }
 
   create = async () => {
+    const [schema, table] = this._name.includes('.')
+      ? this._name.split('.')
+      : ['public', this._name]
+    if (schema !== 'public') {
+      const createSchemaQuery = `CREATE SCHEMA IF NOT EXISTS ${schema}`
+      await this._db.query(createSchemaQuery)
+    }
     const tableColumns = this._buildColumnsQuery(this._fields)
-    const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
+    const tableQuery = `CREATE TABLE ${schema}.${table} (${tableColumns})`
     await this._db.query(tableQuery)
     await this._createManyToManyTables()
   }
@@ -164,8 +171,7 @@ export class PostgreSQLTableDriver implements Driver {
       const values = Object.values(staticFields)
       const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
       const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
-      values.push(record.id)
-      await this._db.query(query, values)
+      await this._db.query(query, [...values, record.id])
       if (manyToManyFields) {
         await this._updateManyToManyFields(record.id, manyToManyFields)
       }
@@ -208,7 +214,7 @@ export class PostgreSQLTableDriver implements Driver {
     return result.rows[0]
   }
 
-  list = async (filters: FilterDto[]) => {
+  list = async (filters: FilterDto[] = []) => {
     let index = 1
     const conditions = filters
       .map((filter) => {
@@ -348,9 +354,8 @@ export class PostgreSQLTableDriver implements Driver {
     return Object.keys(record).reduce((acc: BaseRecordFields, key) => {
       const value = record[key]
       const field = this._fields.find((f) => f.name === key)
-      if (!field) throw new Error('Field not found.')
       if (!value) return acc
-      if (field.type === 'TIMESTAMP') {
+      if (field?.type === 'TIMESTAMP') {
         if (value instanceof Date) acc[key] = value
         else acc[key] = new Date(String(value))
       }

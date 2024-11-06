@@ -86,7 +86,7 @@ export class DatabaseTable {
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
-    this._services.logger.info(`insert in table "${this._name}"`, updatedRecord.toJson())
+    this._services.logger.info(`update in table "${this._name}"`, updatedRecord.toJson())
     await this._table.update(updatedRecord)
     return this.readByIdOrThrow(updatedRecord.id)
   }

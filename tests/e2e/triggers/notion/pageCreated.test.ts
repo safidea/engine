@@ -1,45 +1,46 @@
-import { test, expect } from '@tests/fixtures'
+import { test, expect, env } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
 import { testTable } from '@tests/integrations/notion'
+import Database from '@tests/drivers/database'
 
 test.describe('PageCreated trigger', () => {
-  test.skip('should start an automation when a Notion page is created in a table', async () => {
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      automations: [
-        {
-          name: 'Send email',
-          trigger: {
-            service: 'Notion',
-            event: 'PageCreated',
-            tableId: '1369911026ec80b3b739d81a17787121',
-          },
-          actions: [
-            {
-              name: 'Run TypeScript code',
-              service: 'Code',
-              action: 'RunTypescript',
-              code: String(async function () {
-                return { success: true }
-              }),
+  Database.SQLite(test, async (dbConfig) => {
+    test.skip('should start an automation when a Notion page is created in a table', async () => {
+      // GIVEN
+      const database = new Database(dbConfig)
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'page-created',
+            trigger: {
+              integration: 'Notion',
+              event: 'PageCreated',
+              tableId: env.TEST_NOTION_TABLE_ID,
             },
-          ],
+            actions: [],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: env.TEST_NOTION_TOKEN,
+          },
         },
-      ],
-    }
-    const app = new App()
-    await app.start(config)
+        database: dbConfig,
+      }
+      const app = new App()
+      await app.start(config)
 
-    // WHEN
-    const id = await testTable.create({
-      Nom: 'My new page',
+      // WHEN
+      const id = await testTable.create({
+        Nom: 'My new page',
+      })
+      await database.waitForAutomationHistory('page-created')
+
+      // THEN
+      const updatedPage = await testTable.retrieve(id)
+      await testTable.archive(id)
+      expect(updatedPage.properties.Nom).toBe('My new page updated')
     })
-
-    // THEN
-    await new Promise((resolve) => setTimeout(resolve, 5000))
-    const updatedPage = await testTable.retrieve(id)
-    await testTable.archive(id)
-    expect(updatedPage.properties.Nom).toBe('My new page updated')
   })
 })

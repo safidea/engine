@@ -20,7 +20,12 @@ export class SQLiteTableDriver implements Driver {
     private _name: string,
     private _fields: FieldDto[],
     private _db: SQLite.Database
-  ) {}
+  ) {
+    const [schema, table] = this._name.includes('.')
+      ? this._name.split('.')
+      : ['public', this._name]
+    this._name = schema === 'public' ? table : `${schema}_${table}`
+  }
 
   exists = async () => {
     const result = this._db
@@ -166,8 +171,8 @@ export class SQLiteTableDriver implements Driver {
       const keys = Object.keys(preprocessedFields)
       const values = Object.values(preprocessedFields)
       const setString = keys.map((key) => `${key} = ?`).join(', ')
-      const query = `UPDATE ${this._name} SET ${setString} WHERE id = ${record.id}`
-      this._db.prepare(query).run(values)
+      const query = `UPDATE ${this._name} SET ${setString} WHERE id = ?`
+      this._db.prepare(query).run([...values, record.id])
       if (manyToManyFields) {
         await this._updateManyToManyFields(record.id, manyToManyFields)
       }
@@ -208,7 +213,7 @@ export class SQLiteTableDriver implements Driver {
     return record ? this._postprocess(record) : undefined
   }
 
-  list = async (filters: FilterDto[]) => {
+  list = async (filters: FilterDto[] = []) => {
     const conditions = filters
       .map((filter) => {
         if (filter.operator === 'in') {
@@ -342,9 +347,8 @@ export class SQLiteTableDriver implements Driver {
       ) => {
         const value = record[key]
         const field = this._fields.find((f) => f.name === key)
-        if (!field) throw new Error('Field not found.')
         if (!value) return acc
-        if (field.type === 'TIMESTAMP') {
+        if (field?.type === 'TIMESTAMP') {
           if (value instanceof Date) acc[key] = value.getTime()
           else acc[key] = new Date(String(value)).getTime()
         }
@@ -358,11 +362,10 @@ export class SQLiteTableDriver implements Driver {
     return Object.keys(persistedRecord).reduce((acc: PersistedRecordDto, key) => {
       const value = persistedRecord[key]
       const field = this._fields.find((f) => f.name === key)
-      if (!field) throw new Error('Field not found.')
       if (!value) return acc
-      if (field.type === 'TIMESTAMP') {
+      if (field?.type === 'TIMESTAMP') {
         acc[key] = new Date(Number(value))
-      } else if (field.type === 'TEXT[]' && typeof value === 'string') {
+      } else if (field?.type === 'TEXT[]' && typeof value === 'string') {
         acc[key] = value.split(',')
       }
       return acc

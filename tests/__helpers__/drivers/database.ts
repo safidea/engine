@@ -8,6 +8,7 @@ import type { Test } from '../fixtures'
 import pg from 'pg'
 import { customAlphabet } from 'nanoid'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
+import type { PersistedRecordFields } from '@domain/entities/Record/Persisted'
 
 async function checkDatabaseAvailability(client: pg.Client): Promise<boolean> {
   try {
@@ -65,6 +66,22 @@ export default class Database extends DatabaseDriver {
       throw new Error(`unsupported database type: ${config.driver}`)
     this.url = config.url
     this.driver = config.driver
+  }
+
+  waitForAutomationHistory = async (name: string) => {
+    let history: PersistedRecordFields | undefined
+    let attempts = 0
+    do {
+      const rows = await this.table('_automations.histories').list()
+      history = rows.find((row) => row.automation_name === name)
+      if (!history) {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+      }
+    } while (!history && attempts++ < 10)
+    if (!history) {
+      throw new Error(`automation ${name} not found after 10 seconds`)
+    }
+    return history
   }
 
   table(name: string, fields: FieldDto[] = []) {

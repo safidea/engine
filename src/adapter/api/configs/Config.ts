@@ -4,6 +4,7 @@ import type { Table } from './Table'
 import type { Automation } from './Automation'
 import type { Services } from './Services'
 import type { Bucket } from './Bucket'
+import type { Integrations } from './Integrations'
 
 export interface Config extends Services {
   name: string
@@ -12,6 +13,7 @@ export interface Config extends Services {
   tables?: Table[]
   buckets?: Bucket[]
   automations?: Automation[]
+  integrations?: Integrations
 }
 
 export type AppSchema = Config

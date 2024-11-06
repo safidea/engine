@@ -6,8 +6,12 @@ import {
   type Entities as ActionEntities,
 } from './ActionMapper'
 import { TriggerMapper, type Services as TriggerServices } from './TriggerMapper'
+import type { Database } from '@domain/services/Database'
 
-export type Services = ActionServices & TriggerServices
+export type Services = ActionServices &
+  TriggerServices & {
+    database: Database
+  }
 
 export type Entities = ActionEntities
 
@@ -29,6 +33,7 @@ export class AutomationMapper {
       spreadsheetLoader,
       documentLoader,
       monitor,
+      database,
     } = services
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
@@ -58,7 +63,7 @@ export class AutomationMapper {
       },
       entities
     )
-    return new Automation(config, { logger, monitor, idGenerator }, { trigger, actions })
+    return new Automation(config, { logger, monitor, idGenerator, database }, { trigger, actions })
   }
 
   static toManyEntities = (configs: Config[] = [], services: Services, entities: Entities) => {
