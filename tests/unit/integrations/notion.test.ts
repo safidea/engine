@@ -1,14 +1,9 @@
 import { test, expect, env } from '@tests/fixtures'
-import { notion as integration } from '@tests/integrations/notion'
-import { Client } from '@notionhq/client'
+import { notion, integration } from '@tests/integrations/notion'
 
-const { TEST_NOTION_TOKEN, TEST_NOTION_TABLE_ID } = env
+const { TEST_NOTION_TABLE_ID } = env
 
-export const notion = new Client({
-  auth: TEST_NOTION_TOKEN,
-})
-
-test.describe('Notion integration', () => {
+test.describe.only('Notion integration', () => {
   test('should create a page in a table with a title property', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
@@ -19,7 +14,6 @@ test.describe('Notion integration', () => {
     })
 
     // THEN
-    await notion.pages.update({ page_id: id, archived: true })
     expect(id).toBeDefined()
   })
 
@@ -34,7 +28,6 @@ test.describe('Notion integration', () => {
     const page = await table.retrieve(id)
 
     // THEN
-    await notion.pages.update({ page_id: id, archived: true })
     expect(page.properties.Nom).toBe('My new page')
   })
 

@@ -4,7 +4,7 @@ import Database from '@tests/drivers/database'
 
 test.describe('App with automations', () => {
   Database.each(test, (dbConfig) => {
-    test.only('should create an automation history', async ({ request }) => {
+    test('should create an automation history', async ({ request }) => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {

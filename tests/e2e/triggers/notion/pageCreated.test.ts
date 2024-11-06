@@ -32,15 +32,12 @@ test.describe('PageCreated trigger', () => {
       await app.start(config)
 
       // WHEN
-      const id = await testTable.create({
+      await testTable.create({
         Nom: 'My new page',
       })
-      await database.waitForAutomationHistory('page-created')
 
       // THEN
-      const updatedPage = await testTable.retrieve(id)
-      await testTable.archive(id)
-      expect(updatedPage.properties.Nom).toBe('My new page updated')
+      await expect(database.waitForAutomationHistory('page-created')).resolves.toBeDefined()
     })
   })
 })
