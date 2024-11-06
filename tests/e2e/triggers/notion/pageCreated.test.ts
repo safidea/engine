@@ -5,7 +5,7 @@ import Database from '@tests/drivers/database'
 
 test.describe('PageCreated trigger', () => {
   Database.SQLite(test, async (dbConfig) => {
-    test.skip('should start an automation when a Notion page is created in a table', async () => {
+    test.only('should start an automation when a Notion page is created in a table', async () => {
       // GIVEN
       const database = new Database(dbConfig)
       const config: Config = {

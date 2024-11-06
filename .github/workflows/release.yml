@@ -20,7 +20,9 @@ jobs:
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       TEST_ELASTICSEARCH_URL: ${{ secrets.TEST_ELASTICSEARCH_URL }}
       TEST_ELASTICSEARCH_INDEX: ${{ secrets.TEST_ELASTICSEARCH_INDEX }}
-
+      TEST_NOTION_TOKEN: ${{ secrets.TEST_NOTION_TOKEN }}
+      TEST_NOTION_TABLE_ID: ${{ secrets.TEST_NOTION_TABLE_ID }}
+      
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
