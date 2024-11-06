@@ -1,5 +1,5 @@
 {
-  "name": "@safidea/engine",
+  "name": "@latechforce/engine",
   "description": "Generate web app with a configuration file",
   "version": "0.31.37",
   "main": "dist/index.js",
@@ -19,15 +19,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/safidea/engine.git"
+    "url": "git+https://github.com/latechforce/engine.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "bugs": {
-    "url": "https://github.com/safidea/engine/issues"
+    "url": "https://github.com/latechforce/engine/issues"
   },
-  "homepage": "https://github.com/safidea/engine#readme",
+  "homepage": "https://github.com/latechforce/engine#readme",
   "scripts": {
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "bunx eslint . --fix",

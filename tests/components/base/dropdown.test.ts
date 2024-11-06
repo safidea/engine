@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type Config } from '@latechforce/engine'
 
 test.describe('Dropdown component', () => {
   test('should display the dropdown with id', async ({ page }) => {

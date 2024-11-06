@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type CodeContext, type Config } from '@safidea/engine'
+import App, { type CodeContext, type Config } from '@latechforce/engine'
 
 test.describe('ApiCalled trigger', () => {
   test('should run an automation from api call', async ({ request }) => {

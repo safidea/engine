@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type Config } from '@latechforce/engine'
 
 test.describe('Divider component', () => {
   test('should render a divider with id', async ({ page }) => {

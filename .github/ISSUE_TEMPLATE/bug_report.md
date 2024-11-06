@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve Safidea Engine
+about: Create a report to help us improve La Tech Force Engine
 ---
 
 **Describe the bug**

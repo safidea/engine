@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import Database from '@tests/database'
-import App, { type Config } from '@safidea/engine'
+import App, { type Config } from '@latechforce/engine'
 
 test.describe('Single linked record field', () => {
   Database.each(test, (dbConfig) => {

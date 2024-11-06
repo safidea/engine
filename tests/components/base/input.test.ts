@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type Config } from '@latechforce/engine'
 
 test.describe('Input component', () => {
   test('should render a textarea input', async ({ page }) => {

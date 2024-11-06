@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type Config } from '@safidea/engine'
+import App, { type Config } from '@latechforce/engine'
 
 test.describe('Auth', () => {
   test.slow()
@@ -88,7 +88,7 @@ test.describe('Auth', () => {
         redirectOnLogout: '/login',
         strategy: 'magic-link',
         confirmEmail: {
-          from: 'noreply@safidea.com',
+          from: 'noreply@latechforce.com',
           subject: 'Confirm your email',
           text: 'Click on the link to confirm your email: {{{ link }}}.',
           html: 'Click on the link to confirm your email: <a href="{{{ link }}}">Confirm my email</a>.',

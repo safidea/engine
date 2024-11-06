@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type CodeContext, type Config } from '@safidea/engine'
+import App, { type CodeContext, type Config } from '@latechforce/engine'
 
 test.describe('Run TypeScript code action', () => {
   test('should run a TypeScript code', async ({ request }) => {

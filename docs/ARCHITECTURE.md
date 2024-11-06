@@ -1,6 +1,6 @@
 # Architecture
 
-Safidea Engine is sharing the same codebase for the client and the server written in Typescript and React.
+La Tech Force Engine is sharing the same codebase for the client and the server written in Typescript and React.
 
 ## Project Structure
 

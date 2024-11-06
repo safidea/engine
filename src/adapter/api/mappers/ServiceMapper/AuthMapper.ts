@@ -10,7 +10,7 @@ export class AuthMapper {
       redirectOnLogout: '/',
       strategy: 'magic-link',
       confirmEmail: {
-        from: 'noreply@safidea.com',
+        from: 'noreply@latechforce.com',
         subject: 'Please confirm your email',
         text: 'Please confirm your email',
         html: 'Please confirm your email',
