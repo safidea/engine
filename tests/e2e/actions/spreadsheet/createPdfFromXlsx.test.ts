@@ -1,8 +1,8 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@tests/database'
-import Storage from '@tests/storage'
-import SpreadsheetLoader from '@tests/spreadsheetLoader'
+import Database from '@tests/drivers/database'
+import Storage from '@tests/drivers/storage'
+import SpreadsheetLoader from '@tests/drivers/spreadsheetLoader'
 import { PdfReader } from 'pdfreader'
 
 test.describe('Create .pdf from .xlsx', () => {

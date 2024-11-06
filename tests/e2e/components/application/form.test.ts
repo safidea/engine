@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@tests/database'
+import Database from '@tests/drivers/database'
 
 test.describe('Form component', () => {
   test('should display a form with id', async ({ page }) => {

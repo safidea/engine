@@ -1,8 +1,8 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import SpreadsheetLoader from '@tests/spreadsheetLoader'
-import Storage from '@tests/storage'
-import Database from '@tests/database'
+import SpreadsheetLoader from '@tests/drivers/spreadsheetLoader'
+import Storage from '@tests/drivers/storage'
+import Database from '@tests/drivers/database'
 
 test.describe('Fill .xlsx template action', () => {
   Database.each(test, (dbConfig) => {

@@ -3,7 +3,7 @@ import App, { type CodeContext, type Config } from '@latechforce/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
-import { elasticSearch, type Hit } from '@tests/logger'
+import { elasticSearch, type Hit } from '@tests/drivers/logger'
 
 test.describe('Logger', () => {
   test.describe('File driver', () => {

@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@tests/database'
-import Mailer from '@tests/mailer'
+import Database from '@tests/drivers/database'
+import Mailer from '@tests/drivers/mailer'
 
 test.describe('Send email action', () => {
   test.slow()

@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import Database from '@tests/database'
+import Database from '@tests/drivers/database'
 import App, { type Config } from '@latechforce/engine'
 
 test.describe('Number field', () => {

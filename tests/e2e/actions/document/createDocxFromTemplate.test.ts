@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Storage from '@tests/storage'
-import Database from '@tests/database'
+import Storage from '@tests/drivers/storage'
+import Database from '@tests/drivers/database'
 import mammoth from 'mammoth'
 
 test.describe('Create .docx from template action', () => {

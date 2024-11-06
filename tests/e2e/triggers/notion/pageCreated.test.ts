@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import { notion } from '@tests/notion'
+import { testTable } from '@tests/integrations/notion'
 
 test.describe('PageCreated trigger', () => {
   test.skip('should start an automation when a Notion page is created in a table', async () => {
@@ -32,39 +32,14 @@ test.describe('PageCreated trigger', () => {
     await app.start(config)
 
     // WHEN
-    const createdPage = await notion.pages.create({
-      parent: { database_id: '1369911026ec80b3b739d81a17787121' },
-      properties: {
-        Nom: {
-          type: 'title',
-          title: [
-            {
-              type: 'text',
-              text: {
-                content: 'My new page',
-              },
-            },
-          ],
-        },
-      },
+    const id = await testTable.create({
+      Nom: 'My new page',
     })
 
     // THEN
     await new Promise((resolve) => setTimeout(resolve, 5000))
-    const updatedPage = await notion.pages.retrieve({
-      page_id: createdPage.id,
-    })
-    if (
-      !('properties' in updatedPage) ||
-      !('title' in updatedPage.properties.Nom) ||
-      !('text' in updatedPage.properties.Nom.title[0])
-    ) {
-      throw new Error('Page properties are missing')
-    }
-    await notion.pages.update({
-      page_id: updatedPage.id,
-      archived: true,
-    })
-    expect(updatedPage.properties.Nom.title[0].text.content).toBe('My new page updated')
+    const updatedPage = await testTable.retrieve(id)
+    await testTable.archive(id)
+    expect(updatedPage.properties.Nom).toBe('My new page updated')
   })
 })

@@ -1,8 +1,8 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Queue from '@tests/queue'
-import Database from '@tests/database'
-import Mailer from '@tests/mailer'
+import Queue from '@tests/drivers/queue'
+import Database from '@tests/drivers/database'
+import Mailer from '@tests/drivers/mailer'
 
 test.describe('App with automations', () => {
   Database.each(test, (dbConfig) => {

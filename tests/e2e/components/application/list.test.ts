@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@tests/database'
+import Database from '@tests/drivers/database'
 
 test.describe('List component', () => {
   test('should return an error config if source is not valid table endpoint', async () => {

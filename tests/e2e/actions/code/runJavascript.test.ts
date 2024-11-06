@@ -1,6 +1,6 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@tests/database'
+import Database from '@tests/drivers/database'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
