@@ -1,3 +1,10 @@
+## [0.32.1](https://github.com/latechforce/engine/compare/v0.32.0...v0.32.1) (2024-11-06)
+
+
+### Bug Fixes
+
+* **CI:** add Notion env ([8c69b7f](https://github.com/latechforce/engine/commit/8c69b7f83808d8acb7fc1600f09cedad4d7276d9))
+
 # [0.32.0](https://github.com/latechforce/engine/compare/v0.31.38...v0.32.0) (2024-11-06)
 
 
