@@ -16,6 +16,7 @@ test.describe('Create .docx from template action', () => {
           {
             name: 'createDocument',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'create-document',
               input: {
@@ -88,6 +89,7 @@ test.describe('Create .docx from template action', () => {
           {
             name: 'createDocument',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'create-document',
               input: {

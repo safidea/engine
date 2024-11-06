@@ -2,8 +2,8 @@ import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
 import { Json } from '@domain/entities/Response/Json'
 import type { Post } from '@domain/entities/Request/Post'
-import type { Base, BaseConfig } from './base'
-import type { Context } from '../Automation/Context'
+import type { Base, BaseConfig } from '../base'
+import type { Context } from '../../Automation/Context'
 
 export interface Config extends BaseConfig {
   automation: string

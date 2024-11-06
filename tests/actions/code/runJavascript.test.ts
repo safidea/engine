@@ -14,6 +14,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'addNumbers',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'add-numbers',
             input: {
@@ -82,6 +83,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getEnv',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'get-env',
             output: {
@@ -133,6 +135,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getEnv',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'get-env',
             output: {
@@ -190,6 +193,7 @@ test.describe('Run JavaScript code action', () => {
           {
             name: 'createUser',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'create-user',
               input: {
@@ -258,6 +262,7 @@ test.describe('Run JavaScript code action', () => {
           {
             name: 'updateUser',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'update-user',
               input: {
@@ -333,6 +338,7 @@ test.describe('Run JavaScript code action', () => {
           {
             name: 'readUser',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'read-user',
               input: {
@@ -400,6 +406,7 @@ test.describe('Run JavaScript code action', () => {
           {
             name: 'listUsers',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'list-users',
               output: {
@@ -463,6 +470,7 @@ test.describe('Run JavaScript code action', () => {
           {
             name: 'listUsers',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'list-users',
               output: {
@@ -522,6 +530,7 @@ test.describe('Run JavaScript code action', () => {
           {
             name: 'listUsers',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'list-users',
               output: {
@@ -579,6 +588,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getTimestamp',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'get-timestamp',
             output: {
@@ -624,6 +634,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getIsArray',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'is-array',
             output: {
@@ -667,6 +678,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getIsNumber',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'is-number',
             output: {
@@ -710,6 +722,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getIsBoolean',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'is-boolean',
             output: {
@@ -757,6 +770,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getURLSearchParams',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'get-param',
             output: {
@@ -800,6 +814,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'getDate',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'get-date',
             output: {
@@ -846,6 +861,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'parseXml',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'parse-xml',
             output: {
@@ -901,6 +917,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'axios',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'axios',
             output: {
@@ -946,6 +963,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'https',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'https',
             output: {
@@ -991,6 +1009,7 @@ test.describe('Run JavaScript code action', () => {
         {
           name: 'crypto',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'crypto',
             output: {

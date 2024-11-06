@@ -30,6 +30,7 @@ test.describe('Equal expect', () => {
         {
           name: 'validName',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'valid-name',
             input: {
@@ -105,6 +106,7 @@ test.describe('Equal expect', () => {
         {
           name: 'validName',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'valid-name',
             input: {

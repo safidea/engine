@@ -55,6 +55,7 @@
     "@heroicons/react": "^2.1.5",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.12",
+    "@notionhq/client": "^2.2.15",
     "@sentry/node": "^8.36.0",
     "@sentry/profiling-node": "^8.36.0",
     "adm-zip": "^0.5.16",

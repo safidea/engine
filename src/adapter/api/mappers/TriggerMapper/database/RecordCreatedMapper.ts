@@ -1,4 +1,8 @@
-import { RecordCreated, type Config, type Services } from '@domain/entities/Trigger/RecordCreated'
+import {
+  RecordCreated,
+  type Config,
+  type Services,
+} from '@domain/entities/Trigger/database/RecordCreated'
 
 export class RecordCreatedMapper {
   static toEntity = (config: Config, services: Services): RecordCreated => {

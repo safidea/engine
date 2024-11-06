@@ -45,6 +45,7 @@ test.describe('Logger', () => {
           {
             name: 'run',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'run',
             },
@@ -93,6 +94,7 @@ test.describe('Logger', () => {
           {
             name: 'run',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'run',
             },
@@ -143,6 +145,7 @@ test.describe('Logger', () => {
           {
             name: 'throwError',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'error',
             },

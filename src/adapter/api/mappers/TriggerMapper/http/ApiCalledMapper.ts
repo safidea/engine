@@ -1,4 +1,4 @@
-import { ApiCalled, type Config, type Services } from '@domain/entities/Trigger/ApiCalled'
+import { ApiCalled, type Config, type Services } from '@domain/entities/Trigger/http/ApiCalled'
 
 export class ApiCalledMapper {
   static toEntity = (config: Config, services: Services): ApiCalled => {

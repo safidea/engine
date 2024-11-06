@@ -28,6 +28,7 @@ test.describe('Exist expect', () => {
         {
           name: 'exist',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'exist',
             output: {
@@ -87,6 +88,7 @@ test.describe('Exist expect', () => {
         {
           name: 'exist',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'exist',
             output: {

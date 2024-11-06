@@ -20,6 +20,7 @@ test.describe('Monitor', () => {
           {
             name: 'throwError',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'error',
             },

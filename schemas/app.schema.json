@@ -45,11 +45,16 @@
                 },
                 "path": {
                     "type": "string"
+                },
+                "service": {
+                    "const": "Http",
+                    "type": "string"
                 }
             },
             "required": [
                 "event",
-                "path"
+                "path",
+                "service"
             ],
             "type": "object"
         },
@@ -3171,6 +3176,28 @@
             ],
             "type": "object"
         },
+        "PageCreated": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "PageCreated",
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Notion",
+                    "type": "string"
+                },
+                "tableId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "service",
+                "tableId"
+            ],
+            "type": "object"
+        },
         "Paragraph": {
             "additionalProperties": false,
             "properties": {
@@ -3307,12 +3334,17 @@
                     "const": "RecordCreated",
                     "type": "string"
                 },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
                 "table": {
                     "type": "string"
                 }
             },
             "required": [
                 "event",
+                "service",
                 "table"
             ],
             "type": "object"
@@ -3973,6 +4005,9 @@
                 },
                 {
                     "$ref": "#/definitions/WebhookCalled"
+                },
+                {
+                    "$ref": "#/definitions/PageCreated"
                 }
             ]
         },
@@ -4039,11 +4074,16 @@
                 },
                 "path": {
                     "type": "string"
+                },
+                "service": {
+                    "const": "Http",
+                    "type": "string"
                 }
             },
             "required": [
                 "event",
-                "path"
+                "path",
+                "service"
             ],
             "type": "object"
         }

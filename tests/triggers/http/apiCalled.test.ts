@@ -10,6 +10,7 @@ test.describe('ApiCalled trigger', () => {
         {
           name: 'ApiCalled',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'run-api',
           },
@@ -37,6 +38,7 @@ test.describe('ApiCalled trigger', () => {
         {
           name: 'ApiCalled',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'run-api',
             output: {
@@ -80,6 +82,7 @@ test.describe('ApiCalled trigger', () => {
         {
           name: 'throwError',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'error',
           },
@@ -123,6 +126,7 @@ test.describe('ApiCalled trigger', () => {
         {
           name: 'throwError',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'input',
             input: {
@@ -156,6 +160,7 @@ test.describe('ApiCalled trigger', () => {
         {
           name: 'throwError',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'input',
             input: {

@@ -17,6 +17,7 @@ test.describe('Fill .xlsx template action', () => {
           {
             name: 'createSpreadsheet',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'create-spreadsheet',
               input: {

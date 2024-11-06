@@ -32,6 +32,7 @@ test.describe('Automation tests', () => {
         {
           name: 'New lead',
           trigger: {
+            service: 'Http',
             event: 'WebhookCalled',
             path: 'new-lead',
           },
@@ -99,6 +100,7 @@ test.describe('Automation tests', () => {
         {
           name: 'send-email',
           trigger: {
+            service: 'Http',
             event: 'WebhookCalled',
             path: 'send-email',
           },
@@ -154,6 +156,7 @@ test.describe('Automation tests', () => {
         {
           name: 'validName',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'valid-name',
             input: {
@@ -229,6 +232,7 @@ test.describe('Automation tests', () => {
         {
           name: 'validName',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'valid-name',
             input: {

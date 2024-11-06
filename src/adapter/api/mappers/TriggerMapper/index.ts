@@ -3,12 +3,13 @@ import type { Trigger } from '@domain/entities/Trigger'
 import type { Queue } from '@domain/services/Queue'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Server } from '@domain/services/Server'
-import { RecordCreatedMapper } from './RecordCreatedMapper'
-import { WebhookCalledMapper } from './WebhookCalledMapper'
-import { ApiCalledMapper } from './ApiCalledMapper'
+import { RecordCreatedMapper } from './database/RecordCreatedMapper'
+import { WebhookCalledMapper } from './http/WebhookCalledMapper'
+import { ApiCalledMapper } from './http/ApiCalledMapper'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Monitor } from '@domain/services/Monitor'
+import { PageCreatedMapper } from './notion/PageCreatedMapper'
 
 type MapperConfig = Config & {
   automation: string
@@ -29,6 +30,7 @@ export class TriggerMapper {
     if (event === 'RecordCreated') return RecordCreatedMapper.toEntity(config, services)
     if (event === 'WebhookCalled') return WebhookCalledMapper.toEntity(config, services)
     if (event === 'ApiCalled') return ApiCalledMapper.toEntity(config, services)
+    if (event === 'PageCreated') return PageCreatedMapper.toEntity(config, services)
     throw new Error(`TriggerMapper: trigger ${event} not found`)
   }
 

@@ -43,6 +43,7 @@ const externals: string[] = [
   'airtable',
   'typescript',
   'axios',
+  '@notionhq/client',
 ]
 
 const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']

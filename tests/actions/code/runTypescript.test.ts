@@ -10,6 +10,7 @@ test.describe('Run TypeScript code action', () => {
         {
           name: 'addNumbers',
           trigger: {
+            service: 'Http',
             event: 'ApiCalled',
             path: 'add-numbers',
             input: {

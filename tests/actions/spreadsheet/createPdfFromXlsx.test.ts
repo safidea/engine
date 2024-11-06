@@ -18,6 +18,7 @@ test.describe('Create .pdf from .xlsx', () => {
           {
             name: 'createHtml',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'create-pdf',
               input: {

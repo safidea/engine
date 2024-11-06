@@ -1,4 +1,8 @@
-import { WebhookCalled, type Config, type Services } from '@domain/entities/Trigger/WebhookCalled'
+import {
+  WebhookCalled,
+  type Config,
+  type Services,
+} from '@domain/entities/Trigger/http/WebhookCalled'
 
 export class WebhookCalledMapper {
   static toEntity = (config: Config, services: Services): WebhookCalled => {

@@ -5,7 +5,7 @@ import Queue from '@tests/queue'
 
 test.describe('RecordCreated trigger', () => {
   Database.each(test, (dbConfig) => {
-    test('should start an automation', async () => {
+    test('should start an automation when a record is created', async () => {
       // GIVEN
       const database = new Database(dbConfig)
       const queue = new Queue(database)
@@ -15,6 +15,7 @@ test.describe('RecordCreated trigger', () => {
           {
             name: 'Send email',
             trigger: {
+              service: 'Database',
               event: 'RecordCreated',
               table: 'leads',
             },

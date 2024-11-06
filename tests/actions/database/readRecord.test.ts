@@ -13,6 +13,7 @@ test.describe('Read record action', () => {
           {
             name: 'readRecord',
             trigger: {
+              service: 'Http',
               event: 'ApiCalled',
               path: 'read-record',
               input: {

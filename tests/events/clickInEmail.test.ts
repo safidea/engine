@@ -85,6 +85,7 @@ test.describe('ClickInEmail event', () => {
         {
           name: 'send-email',
           trigger: {
+            service: 'Http',
             event: 'WebhookCalled',
             path: 'send-email',
           },
