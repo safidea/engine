@@ -27,9 +27,11 @@ import { BucketMapper } from './BucketMapper'
 import { SpreadsheetLoaderMapper } from './ServiceMapper/SpreadsheetLoaderMapper'
 import { DocumentLoaderMapper } from './ServiceMapper/DocumentLoaderMapper'
 import { MonitorMapper } from './ServiceMapper/MonitorMapper'
+import { NotionMapper } from './IntegrationMapper/NotionMapper'
+import type { Integrations } from '@adapter/spi/integrations'
 
 export class AppMapper {
-  static toEntity = (drivers: Drivers, config: Config) => {
+  static toEntity = (drivers: Drivers, integrations: Integrations, config: Config) => {
     const { name } = config
     const monitor = MonitorMapper.toService(drivers, config.monitors)
     const logger = LoggerMapper.toService(drivers, config.loggers)
@@ -97,6 +99,11 @@ export class AppMapper {
       { tables },
       { language: 'TypeScript' }
     )
+    const notion = NotionMapper.toIntegration(
+      integrations,
+      { idGenerator, logger },
+      config.integrations?.notion
+    )
     const automations = AutomationMapper.toManyEntities(
       config.automations,
       {
@@ -117,7 +124,8 @@ export class AppMapper {
         monitor,
         database,
       },
-      { tables, buckets }
+      { tables, buckets },
+      { notion }
     )
     return new App(
       {
@@ -140,7 +148,8 @@ export class AppMapper {
         pages,
         automations,
         buckets,
-      }
+      },
+      { notion }
     )
   }
 }

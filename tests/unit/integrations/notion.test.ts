@@ -17,6 +17,27 @@ test.describe('Notion integration', () => {
     expect(id).toBeDefined()
   })
 
+  test('should create many pages in a table with a title property', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+
+    // WHEN
+    const ids = await table.createMany([
+      {
+        Nom: 'My new page',
+      },
+      {
+        Nom: 'My new page 2',
+      },
+      {
+        Nom: 'My new page 3',
+      },
+    ])
+
+    // THEN
+    expect(ids).toHaveLength(3)
+  })
+
   test('should retrieve a page in a table', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
@@ -47,5 +68,27 @@ test.describe('Notion integration', () => {
       throw new Error('Page properties are missing')
     }
     expect(page.archived).toBe(true)
+  })
+
+  test('should list pages in a table', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    await table.createMany([
+      {
+        Nom: 'My new page',
+      },
+      {
+        Nom: 'My new page 2',
+      },
+      {
+        Nom: 'My new page 3',
+      },
+    ])
+
+    // WHEN
+    const pages = await table.list()
+
+    // THEN
+    expect(pages).toHaveLength(3)
   })
 })

@@ -5,7 +5,11 @@ import {
   type Services as ActionServices,
   type Entities as ActionEntities,
 } from './ActionMapper'
-import { TriggerMapper, type Services as TriggerServices } from './TriggerMapper'
+import {
+  TriggerMapper,
+  type Services as TriggerServices,
+  type Integrations as TriggerIntegrations,
+} from './TriggerMapper'
 import type { Database } from '@domain/services/Database'
 
 export type Services = ActionServices &
@@ -15,8 +19,15 @@ export type Services = ActionServices &
 
 export type Entities = ActionEntities
 
+export type Integrations = TriggerIntegrations
+
 export class AutomationMapper {
-  static toEntity = (config: Config, services: Services, entities: Entities) => {
+  static toEntity = (
+    config: Config,
+    services: Services,
+    entities: Entities,
+    integrations: Integrations
+  ) => {
     const {
       logger,
       server,
@@ -35,6 +46,7 @@ export class AutomationMapper {
       monitor,
       database,
     } = services
+    const { notion } = integrations
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
       {
@@ -44,6 +56,9 @@ export class AutomationMapper {
         schemaValidator,
         templateCompiler,
         monitor,
+      },
+      {
+        notion,
       }
     )
     const actions = ActionMapper.toManyEntities(
@@ -66,7 +81,12 @@ export class AutomationMapper {
     return new Automation(config, { logger, monitor, idGenerator, database }, { trigger, actions })
   }
 
-  static toManyEntities = (configs: Config[] = [], services: Services, entities: Entities) => {
-    return configs.map((config) => this.toEntity(config, services, entities))
+  static toManyEntities = (
+    configs: Config[] = [],
+    services: Services,
+    entities: Entities,
+    integrations: Integrations
+  ) => {
+    return configs.map((config) => this.toEntity(config, services, entities, integrations))
   }
 }

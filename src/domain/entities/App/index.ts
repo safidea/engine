@@ -15,6 +15,7 @@ import type { Storage } from '@domain/services/Storage'
 import { Get } from '@domain/entities/Request/Get'
 import { State } from '../Page/State'
 import type { Monitor } from '@domain/services/Monitor'
+import type { Notion } from '@domain/integrations/Notion'
 
 export interface Config {
   name: string
@@ -40,6 +41,10 @@ export interface Entities {
   buckets: Bucket[]
 }
 
+export interface Integrations {
+  notion: Notion
+}
+
 type Status = 'ready' | 'starting' | 'running' | 'stopping'
 
 export class App {
@@ -53,7 +58,8 @@ export class App {
   constructor(
     config: Config,
     private _services: Services,
-    private _entities: Entities
+    private _entities: Entities,
+    private _integrations: Integrations
   ) {
     const { name } = config
     const { database, queue, mailer, storage } = _services
@@ -118,6 +124,7 @@ export class App {
     this.setStatus('starting')
     const { server, database, queue, storage, mailer, realtime, logger, monitor } = this._services
     const { tables, buckets } = this._entities
+    const { notion } = this._integrations
     await database.connect()
     await database.migrate(tables)
     database.onError(async () => {
@@ -130,6 +137,7 @@ export class App {
     await storage.migrate(buckets)
     await mailer.verify()
     await realtime.setup()
+    await notion.startPolling()
     const url = await server.start()
     if (!isTest && server.env === 'production') {
       process.on('SIGTERM', () => this._onClose('SIGTERM'))
@@ -156,7 +164,9 @@ export class App {
     const { graceful = true } = options || {}
     this.setStatus('stopping')
     const { server, database, queue, mailer } = this._services
+    const { notion } = this._integrations
     await server.stop(async () => {
+      await notion.stopPolling()
       await mailer.close()
       await queue.stop({ graceful })
       await database.disconnect()

@@ -8,13 +8,17 @@ import { SchemaValidatorMapper } from './mappers/ServiceMapper/SchemaValidatorMa
 import { TestError } from '@domain/entities/Error/Test'
 import { TestMapper } from './mappers/TestMapper'
 import { BrowserMapper } from './mappers/ServiceMapper/BrowserMapper'
+import type { Integrations } from '@adapter/spi/integrations'
 
 export default class {
   private _schemaValidator: SchemaValidator
   private _app?: App
 
-  constructor(private drivers: Drivers) {
-    this._schemaValidator = SchemaValidatorMapper.toService(drivers)
+  constructor(
+    private _drivers: Drivers,
+    private _integrations: Integrations
+  ) {
+    this._schemaValidator = SchemaValidatorMapper.toService(_drivers)
   }
 
   test = async (config: unknown): Promise<void> => {
@@ -22,14 +26,14 @@ export default class {
     delete validatedConfig.server?.port
     this._app = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
-    const tests = TestMapper.toManyEntities(this.drivers, validatedConfig.tests ?? [])
-    const browser = BrowserMapper.toService(this.drivers)
+    const tests = TestMapper.toManyEntities(this._drivers, validatedConfig.tests ?? [])
+    const browser = BrowserMapper.toService(this._drivers)
     console.info(`🔄 Running ${tests.length} tests`)
     const page = await browser.launch()
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
       try {
-        const app = AppMapper.toEntity(this.drivers, validatedConfig)
+        const app = AppMapper.toEntity(this._drivers, this._integrations, validatedConfig)
         await app.init()
         const baseUrl = await app.start({ isTest: true })
         await page.new(baseUrl)
@@ -75,7 +79,7 @@ export default class {
   }
 
   private _validateConfigOrThrow = async (config: Config): Promise<App> => {
-    const app = AppMapper.toEntity(this.drivers, config)
+    const app = AppMapper.toEntity(this._drivers, this._integrations, config)
     const errors = await app.validateConfig()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
     console.info('✅ Config dependancies are valids')

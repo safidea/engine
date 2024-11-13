@@ -41,7 +41,7 @@ export class Realtime {
 
   constructor(
     private _services: Services,
-    private _entities: Entities
+    _entities: Entities
   ) {
     const { database } = _services
     const { tables } = _entities
@@ -60,7 +60,7 @@ export class Realtime {
   }
 
   onInsert = (table: string, callback: (record: PersistedRecord) => Promise<void>) => {
-    const { idGenerator } = this._services
+    const { idGenerator, logger } = this._services
     const id = idGenerator.forListener()
     this._listeners.push({
       action: 'INSERT',
@@ -68,7 +68,7 @@ export class Realtime {
       callback,
       id,
     })
-    this._services.logger.debug(`subscribed to insert events with id "${id}" on table "${table}"`)
+    logger.debug(`subscribed to insert events with id "${id}" on table "${table}"`)
     return id
   }
 

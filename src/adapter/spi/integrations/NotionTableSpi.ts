@@ -1,17 +1,26 @@
+import { type Filter } from '@domain/entities/Filter'
 import type {
   NotionTablePage,
   NotionTablePageProperties,
   Spi,
 } from '@domain/integrations/NotionTable'
+import type { FilterDto } from '../dtos/FilterDto'
+import { FilterMapper } from '../mappers/FilterMapper'
 
 export interface Integration {
+  name: string
   create: (page: NotionTablePageProperties) => Promise<string>
   retrieve: (id: string) => Promise<NotionTablePage>
   archive: (id: string) => Promise<void>
+  list: (filters: FilterDto[]) => Promise<NotionTablePage[]>
 }
 
 export class NotionTableSpi implements Spi {
   constructor(private _integration: Integration) {}
+
+  get name() {
+    return this._integration.name
+  }
 
   create = async (page: NotionTablePageProperties) => {
     return this._integration.create(page)
@@ -23,5 +32,10 @@ export class NotionTableSpi implements Spi {
 
   archive = async (id: string) => {
     return this._integration.archive(id)
+  }
+
+  list = async (filters: Filter[]) => {
+    const filterDtos = FilterMapper.toManyDtos(filters)
+    return this._integration.list(filterDtos)
   }
 }

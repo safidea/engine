@@ -10,6 +10,7 @@ import type { SchemaValidator } from '@domain/services/SchemaValidator'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Monitor } from '@domain/services/Monitor'
 import { PageCreatedMapper } from './notion/PageCreatedMapper'
+import type { Notion } from '@domain/integrations/Notion'
 
 type MapperConfig = Config & {
   automation: string
@@ -24,17 +25,25 @@ export interface Services {
   monitor: Monitor
 }
 
+export interface Integrations {
+  notion: Notion
+}
+
 export class TriggerMapper {
-  static toEntity(config: MapperConfig, services: Services): Trigger {
+  static toEntity(config: MapperConfig, services: Services, integrations: Integrations): Trigger {
     const { event } = config
     if (event === 'RecordCreated') return RecordCreatedMapper.toEntity(config, services)
     if (event === 'WebhookCalled') return WebhookCalledMapper.toEntity(config, services)
     if (event === 'ApiCalled') return ApiCalledMapper.toEntity(config, services)
-    if (event === 'PageCreated') return PageCreatedMapper.toEntity(config, services)
+    if (event === 'PageCreated') return PageCreatedMapper.toEntity(config, services, integrations)
     throw new Error(`TriggerMapper: trigger ${event} not found`)
   }
 
-  static toManyEntities(configs: MapperConfig[], services: Services): Trigger[] {
-    return configs.map((config) => this.toEntity(config, services))
+  static toManyEntities(
+    configs: MapperConfig[],
+    services: Services,
+    integrations: Integrations
+  ): Trigger[] {
+    return configs.map((config) => this.toEntity(config, services, integrations))
   }
 }

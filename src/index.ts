@@ -1,4 +1,5 @@
 import { drivers } from '@infrastructure/drivers'
+import { integrations } from '@infrastructure/integrations'
 import App from '@adapter/api'
 import type { Drivers as AllDrivers } from '@adapter/spi/drivers'
 
@@ -30,6 +31,6 @@ export type Drivers = Partial<AllDrivers>
 
 export default class extends App {
   constructor(options: Drivers = {}) {
-    super({ ...drivers, ...options })
+    super({ ...drivers, ...options }, integrations)
   }
 }

@@ -1,10 +1,11 @@
+import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { Integration } from '@adapter/spi/integrations/NotionTableSpi'
 import type { NotionTablePageProperties } from '@domain/integrations/NotionTable'
 import { Client } from '@notionhq/client'
 import type {
   CreatePageParameters,
   PageObjectResponse,
-  PartialDatabaseObjectResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 
 export interface NotionTablePage {
@@ -14,8 +15,12 @@ export interface NotionTablePage {
 export class NotionTableIntegration implements Integration {
   constructor(
     private _notion: Client,
-    private _database: PartialDatabaseObjectResponse
+    private _database: DatabaseObjectResponse
   ) {}
+
+  get name() {
+    return this._database.title.map((title) => title.plain_text).join('')
+  }
 
   create = async (page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
@@ -26,6 +31,15 @@ export class NotionTableIntegration implements Integration {
       properties,
     })
     return createdPage.id
+  }
+
+  createMany = async (pages: NotionTablePageProperties[]) => {
+    const ids: string[] = []
+    for (const page of pages) {
+      const id = await this.create(page)
+      ids.push(id)
+    }
+    return ids
   }
 
   retrieve = async (id: string) => {
@@ -46,6 +60,25 @@ export class NotionTableIntegration implements Integration {
     await this._notion.pages.update({
       page_id: id,
       archived: true,
+    })
+  }
+
+  list = async (_filters: FilterDto[] = []) => {
+    const pages = await this._notion.databases.query({
+      database_id: this._database.id,
+    })
+    return pages.results.map((page) => {
+      if (page.object !== 'page') {
+        throw new Error('Not a page')
+      }
+      if (!('properties' in page)) {
+        throw new Error('Page does not have properties')
+      }
+      const properties = this._postprocessProperties(page.properties)
+      return {
+        id: page.id,
+        properties,
+      }
     })
   }
 
