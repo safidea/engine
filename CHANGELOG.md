@@ -1,3 +1,11 @@
+## [0.32.2](https://github.com/latechforce/engine/compare/v0.32.1...v0.32.2) (2024-11-14)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should list pages in a table with a IsAfterNumberOfSecondsSinceNow ([537de45](https://github.com/latechforce/engine/commit/537de45c363835921e84318c1212bdf825e6cc1e))
+* **RunTypescript:** fix broken tests ([26cbe86](https://github.com/latechforce/engine/commit/26cbe867c32d1327dc531200fdf5f61067039c94))
+
 ## [0.32.1](https://github.com/latechforce/engine/compare/v0.32.0...v0.32.1) (2024-11-06)
 
 
