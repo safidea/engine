@@ -20,7 +20,7 @@ import { Number } from '../Field/Number'
 import { DateTime } from '../Field/DateTime'
 import { SingleLinkedRecord } from '../Field/SingleLinkedRecord'
 import { MultipleLinkedRecord } from '../Field/MultipleLinkedRecord'
-import { FilterMapper, schema as filtersSchema, type Config as FilterConfig } from '../Filter'
+import { FilterMapper, filterSchema, type FilterConfig } from '../Filter'
 import { CreatedRecord } from '../Record/Created'
 import { UpdatedRecord } from '../Record/Updated'
 import type { BaseRecordFields, RecordJson } from '../Record/base'
@@ -104,16 +104,19 @@ export class Table {
   }
 
   list = async (
-    filtersConfig: unknown = []
+    filterConfig?: unknown
   ): Promise<
     { records: RecordJson[]; error?: undefined } | { records?: undefined; error: SchemaError }
   > => {
-    if (this._validateDataType<FilterConfig[]>(filtersConfig, filtersSchema)) {
-      const filters = FilterMapper.toManyEntities(filtersConfig)
-      const records = await this.db.list(filters)
+    if (!filterConfig) {
+      const records = await this.db.list()
+      return { records: records.map((record) => record.toJson()) }
+    } else if (this._validateDataType<FilterConfig>(filterConfig, filterSchema)) {
+      const filter = FilterMapper.toEntity(filterConfig)
+      const records = await this.db.list(filter)
       return { records: records.map((record) => record.toJson()) }
     }
-    const [error] = this._validateData(filtersConfig, filtersSchema)
+    const [error] = this._validateData(filterConfig, filterSchema)
     return { error }
   }
 

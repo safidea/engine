@@ -4,7 +4,7 @@ import { FilterMapper } from '@domain/entities/Filter'
 
 export class RecordMapper {
   static toEntity = (config: Config): Record => {
-    const find = FilterMapper.toManyEntities(config.find)
+    const find = FilterMapper.toEntity(config.find)
     return new Record(config, { find })
   }
 }

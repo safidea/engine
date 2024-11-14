@@ -44,9 +44,7 @@ test.describe('Send email action', () => {
       await request.post(`${url}/api/automation/send-email`)
 
       // THEN
-      const email = await mailer.waitForEmail([
-        { field: 'to', operator: '=', value: 'to@test.com' },
-      ])
+      const email = await mailer.waitForEmail({ field: 'to', operator: 'Is', value: 'to@test.com' })
       expect(email.to).toBe('to@test.com')
       expect(email.from).toBe('from@test.com')
     })

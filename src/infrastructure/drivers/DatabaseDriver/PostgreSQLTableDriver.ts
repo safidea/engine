@@ -198,12 +198,9 @@ export class PostgreSQLTableDriver implements Driver {
     }
   }
 
-  read = async (filters: FilterDto[]) => {
-    const conditions = filters
-      .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
-      .join(' AND ')
-    const values = filters.map((filter) => filter.value)
-    const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
+  read = async (filter: FilterDto) => {
+    const { conditions, values } = this._convertFilterToConditions(filter)
+    const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
     const result = await this._db.query<PersistedRecordDto>(query, values)
     return result.rows[0]
   }
@@ -214,24 +211,14 @@ export class PostgreSQLTableDriver implements Driver {
     return result.rows[0]
   }
 
-  list = async (filters: FilterDto[] = []) => {
-    let index = 1
-    const conditions = filters
-      .map((filter) => {
-        if (filter.operator === 'in') {
-          const placeholders = filter.value.map(() => `$${index++}`).join(',')
-          return `${filter.field} ${filter.operator} (${placeholders})`
-        } else {
-          return `${filter.field} ${filter.operator} $${index++}`
-        }
-      })
-      .join(' AND ')
-    const values = filters.reduce((acc: (string | number)[], filter) => {
-      if (filter.operator === 'in') acc.push(...filter.value)
-      else acc.push(filter.value)
-      return acc
-    }, [])
-    const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+  list = async (filter?: FilterDto) => {
+    if (!filter) {
+      const query = `SELECT * FROM ${this._name}_view`
+      const result = await this._db.query<PersistedRecordDto>(query)
+      return result.rows
+    }
+    const { conditions, values } = this._convertFilterToConditions(filter)
+    const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
     const result = await this._db.query<PersistedRecordDto>(query, values)
     return result.rows
   }
@@ -361,6 +348,79 @@ export class PostgreSQLTableDriver implements Driver {
       }
       return acc
     }, record)
+  }
+
+  private _convertFilterToConditions = (
+    filter: FilterDto,
+    index = 1
+  ): { conditions: string; values: (string | number)[]; index: number } => {
+    const values: (string | number)[] = []
+    if ('and' in filter) {
+      const conditions = filter.and.map((f) => {
+        const {
+          conditions,
+          values: filterValues,
+          index: filterIndex,
+        } = this._convertFilterToConditions(f, index)
+        index = filterIndex
+        values.push(...filterValues)
+        return `(${conditions})`
+      })
+      return { conditions: conditions.join(' AND '), values, index }
+    } else if ('or' in filter) {
+      const conditions = filter.or.map((f) => {
+        const {
+          conditions,
+          values: filterValues,
+          index: filterIndex,
+        } = this._convertFilterToConditions(f, index)
+        index = filterIndex
+        values.push(...filterValues)
+        return `(${conditions})`
+      })
+      return { conditions: conditions.join(' OR '), values, index }
+    }
+    const { operator } = filter
+    switch (operator) {
+      case 'Is':
+        return {
+          conditions: `"${filter.field}" = $${index}`,
+          values: [filter.value],
+          index: index + 1,
+        }
+      case 'Equals':
+        return {
+          conditions: `"${filter.field}" = $${index}`,
+          values: [filter.value],
+          index: index + 1,
+        }
+      case 'IsAnyOf':
+        return {
+          conditions: `"${filter.field}" IN (${filter.value.map((_, i) => `$${i + index}`).join(', ')})`,
+          values: filter.value,
+          index: index + filter.value.length,
+        }
+      case 'IsAfterNumberOfSecondsSinceNow':
+        return {
+          conditions: `"${filter.field}" > NOW() - INTERVAL '$${index} seconds'`,
+          values: [String(filter.value)],
+          index: index + 1,
+        }
+      case 'IsFalse':
+        return {
+          conditions: `"${filter.field}" is false`,
+          values: [],
+          index,
+        }
+      case 'IsTrue':
+        return {
+          conditions: `"${filter.field}" is true`,
+          values: [],
+          index,
+        }
+      default:
+        throw new Error(`Unsupported operator: ${operator}`)
+    }
   }
 
   private _throwError = (error: unknown) => {

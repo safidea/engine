@@ -63,10 +63,10 @@ export default class extends MailerDriver {
     ])
   }
 
-  waitForEmail = async (filters: FilterDto[]): Promise<EmailDto> => {
+  waitForEmail = async (filter: FilterDto): Promise<EmailDto> => {
     let email: EmailDto | undefined
     while (!email) {
-      email = await this.find(filters)
+      email = await this.find(filter)
       await new Promise((resolve) => setTimeout(resolve, 500))
     }
     return email

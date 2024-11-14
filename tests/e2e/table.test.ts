@@ -235,7 +235,7 @@ test.describe('App with tables', () => {
       await app.start(newConfig)
 
       // THEN
-      const records = await leads.list([])
+      const records = await leads.list()
       expect(records).toHaveLength(3)
       expect(records[0].email).toBeNull()
       expect(records[0].name).toBe('John')
@@ -333,7 +333,7 @@ test.describe('App with tables', () => {
       // THEN
       const record = await database
         .table('leads')
-        .read([{ field: 'name', operator: '=', value: 'John' }])
+        .read({ field: 'name', operator: 'Is', value: 'John' })
       expect(record).toBeDefined()
       expect(record!.id).toBeDefined()
       expect(record!.name).toBe('John')
@@ -368,7 +368,7 @@ test.describe('App with tables', () => {
       // THEN
       const record = await database
         .table('leads')
-        .read([{ field: 'name', operator: '=', value: 'John' }])
+        .read({ field: 'name', operator: 'Is', value: 'John' })
       expect(record).toBeDefined()
       expect(record!.id).toHaveLength(24)
     })

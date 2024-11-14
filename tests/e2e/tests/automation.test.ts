@@ -17,13 +17,11 @@ test.describe('Automation tests', () => {
             {
               expect: 'Record',
               table: 'leads',
-              find: [
-                {
-                  field: 'name',
-                  operator: 'is',
-                  value: 'John',
-                },
-              ],
+              find: {
+                field: 'name',
+                operator: 'Is',
+                value: 'John',
+              },
             },
           ],
         },
@@ -85,13 +83,6 @@ test.describe('Automation tests', () => {
             {
               expect: 'Email',
               mailbox: 'test@test.com',
-              find: [
-                {
-                  field: 'subject',
-                  operator: 'is',
-                  value: 'New email',
-                },
-              ],
             },
           ],
         },

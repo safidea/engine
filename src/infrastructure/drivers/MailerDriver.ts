@@ -41,9 +41,9 @@ export class MailerDriver implements Driver {
     await this._transporter.sendMail(toSendDto)
   }
 
-  find = async (filters: FilterDto[]): Promise<EmailDto | undefined> => {
+  find = async (filter: FilterDto): Promise<EmailDto | undefined> => {
     if (this._transporter instanceof SqliteTransporter) {
-      return this._transporter.find(filters)
+      return this._transporter.find(filter)
     }
     throw new Error('not implemented')
   }
@@ -86,22 +86,21 @@ class SqliteTransporter {
     }
   }
 
-  find = async (filters: FilterDto[]): Promise<EmailDto | undefined> => {
+  find = async (filter: FilterDto): Promise<EmailDto | undefined> => {
     let query = `SELECT * FROM emails WHERE `
     const conditions: string[] = []
     const values: (string | number)[] = []
 
-    filters.forEach((filter) => {
-      if (Array.isArray(filter.value)) {
-        conditions.push(
-          `"${filter.field}" ${filter.operator} (${filter.value.map(() => '?').join(', ')})`
-        )
-        values.push(...filter.value)
-      } else {
-        conditions.push(`"${filter.field}" ${filter.operator} ?`)
-        values.push(filter.value)
+    if ('operator' in filter) {
+      switch (filter.operator) {
+        case 'Is':
+          conditions.push(`"${filter.field}" = ?`)
+          values.push(filter.value)
+          break
+        default:
+          throw new Error(`Unsupported operator: ${filter.operator}`)
       }
-    })
+    }
 
     query += conditions.join(' AND ')
     const stmt = this._db.prepare(query)

@@ -32,13 +32,6 @@ test.describe('Auth', () => {
             {
               event: 'ClickInEmail',
               mailbox: 'test@test.com',
-              find: [
-                {
-                  field: 'subject',
-                  operator: 'is',
-                  value: 'Confirm your email',
-                },
-              ],
               text: 'Confirm my email',
             },
           ],

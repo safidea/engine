@@ -121,7 +121,7 @@ test.describe('Form component', () => {
             type: 'TEXT',
           },
         ])
-        .read([{ field: 'email', operator: '=', value: 'test@test.com' }])
+        .read({ field: 'email', operator: 'Is', value: 'test@test.com' })
       expect(lead).toBeDefined()
       expect(await page.screenshot()).toMatchSnapshot()
     })
@@ -268,7 +268,7 @@ test.describe('Form component', () => {
       await page.getByText(successMessage).waitFor({ state: 'visible' })
 
       // THEN
-      const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
+      const lead = await leads.read({ field: 'id', operator: 'Is', value: '1' })
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test@test.com')
       expect(await page.screenshot()).toMatchSnapshot()
@@ -353,7 +353,7 @@ test.describe('Form component', () => {
       await page.getByText(successMessage).waitFor({ state: 'visible' })
 
       // THEN
-      const lead = await leads.read([{ field: 'id', operator: '=', value: '2' }])
+      const lead = await leads.read({ field: 'id', operator: 'Is', value: '2' })
       expect(lead?.name).toEqual('John Doe')
       expect(lead?.email).toEqual('test2@test.com')
       expect(await page.screenshot()).toMatchSnapshot()
@@ -450,7 +450,7 @@ test.describe('Form component', () => {
       await page.waitForURL(url + '/')
 
       // THEN
-      const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
+      const lead = await leads.read({ field: 'id', operator: 'Is', value: '1' })
       expect(lead).toBeUndefined()
       expect(await page.screenshot()).toMatchSnapshot()
     })

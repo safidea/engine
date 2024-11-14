@@ -9,7 +9,7 @@ export interface Config {
 }
 
 export interface Entities {
-  find: Filter[]
+  find: Filter
 }
 
 export class Record implements Base {
@@ -23,10 +23,9 @@ export class Record implements Base {
     const { find } = this._entities
     const tableRow = await app.getTable(table).db.read(find)
     if (!tableRow) {
-      const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})
       throw new TestError({
         code: 'RECORD_NOT_FOUND',
-        expected: JSON.stringify(expect),
+        expected: JSON.stringify(find),
         received: undefined,
       })
     }

@@ -120,7 +120,7 @@ test.describe('Button component', () => {
       await page.locator('[aria-busy="true"]').waitFor({ state: 'hidden' })
 
       // THEN
-      const lead = await leads.read([{ field: 'id', operator: '=', value: '1' }])
+      const lead = await leads.read({ field: 'id', operator: 'Is', value: '1' })
       expect(lead).toBeUndefined()
       expect(await page.screenshot()).toMatchSnapshot()
     })

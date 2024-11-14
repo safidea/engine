@@ -199,9 +199,8 @@ export class SQLiteTableDriver implements Driver {
     }
   }
 
-  read = async (filters: FilterDto[]) => {
-    const conditions = filters.map((filter) => `${filter.field} ${filter.operator} ?`).join(' AND ')
-    const values = filters.map((filter) => filter.value)
+  read = async (filter: FilterDto) => {
+    const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
     const record = this._db.prepare(query).get(values) as PersistedRecordDto | undefined
     return record ? this._postprocess(record) : undefined
@@ -213,23 +212,14 @@ export class SQLiteTableDriver implements Driver {
     return record ? this._postprocess(record) : undefined
   }
 
-  list = async (filters: FilterDto[] = []) => {
-    const conditions = filters
-      .map((filter) => {
-        if (filter.operator === 'in') {
-          const placeholders = filter.value.map(() => '?').join(',')
-          return `${filter.field} ${filter.operator} (${placeholders})`
-        } else {
-          return `${filter.field} ${filter.operator} ?`
-        }
-      })
-      .join(' AND ')
-    const values = filters.reduce((acc: (string | number)[], filter) => {
-      if (filter.operator === 'in') acc.push(...filter.value)
-      else acc.push(filter.value)
-      return acc
-    }, [])
-    const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+  list = async (filter?: FilterDto) => {
+    if (!filter) {
+      const query = `SELECT * FROM ${this._name}_view`
+      const records = this._db.prepare(query).all() as PersistedRecordDto[]
+      return records.map(this._postprocess)
+    }
+    const { conditions, values } = this._convertFilterToConditions(filter)
+    const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
     const records = this._db.prepare(query).all(values) as PersistedRecordDto[]
     return records.map(this._postprocess)
   }
@@ -370,6 +360,62 @@ export class SQLiteTableDriver implements Driver {
       }
       return acc
     }, persistedRecord)
+  }
+
+  private _convertFilterToConditions = (
+    filter: FilterDto
+  ): { conditions: string; values: (string | number)[] } => {
+    const values: (string | number)[] = []
+    if ('and' in filter) {
+      const conditions = filter.and.map((f) => {
+        const { conditions, values: filterValues } = this._convertFilterToConditions(f)
+        values.push(...filterValues)
+        return `(${conditions})`
+      })
+      return { conditions: conditions.join(' AND '), values }
+    } else if ('or' in filter) {
+      const conditions = filter.or.map((f) => {
+        const { conditions, values: filterValues } = this._convertFilterToConditions(f)
+        values.push(...filterValues)
+        return `(${conditions})`
+      })
+      return { conditions: conditions.join(' OR '), values }
+    }
+    const { operator } = filter
+    switch (operator) {
+      case 'Is':
+        return {
+          conditions: `"${filter.field}" = ?`,
+          values: [filter.value],
+        }
+      case 'Equals':
+        return {
+          conditions: `"${filter.field}" = ?`,
+          values: [filter.value],
+        }
+      case 'IsAnyOf':
+        return {
+          conditions: `"${filter.field}" IN (${filter.value.map(() => '?').join(', ')})`,
+          values: filter.value,
+        }
+      case 'IsAfterNumberOfSecondsSinceNow':
+        return {
+          conditions: `"${filter.field}" > datetime('now', ?)`,
+          values: [`-${filter.value} seconds`],
+        }
+      case 'IsFalse':
+        return {
+          conditions: `"${filter.field}" = 0`,
+          values: [],
+        }
+      case 'IsTrue':
+        return {
+          conditions: `"${filter.field}" = 1`,
+          values: [],
+        }
+      default:
+        throw new Error(`Unsupported operator: ${operator}`)
+    }
   }
 
   private _throwError = (error: unknown) => {

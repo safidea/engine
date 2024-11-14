@@ -1,7 +1,6 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { type Base } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { Filter } from '@domain/entities/Filter'
 import type { App } from '../App'
 
 export interface Config {
@@ -9,24 +8,16 @@ export interface Config {
   mailbox: string
 }
 
-export interface Entities {
-  find: Filter[]
-}
-
 export class ClickInEmail implements Base {
-  constructor(
-    private _config: Config,
-    private _entities: Entities
-  ) {}
+  constructor(private _config: Config) {}
 
   execute = async (app: App, page: BrowserPage) => {
     const { text, mailbox } = this._config
-    const { find } = this._entities
-    const email = await app.mailer?.find(mailbox, find)
+    const email = await app.mailer.find(mailbox)
     if (!email) {
       throw new TestError({
         code: 'EMAIL_NOT_FOUND',
-        expected: find,
+        expected: mailbox,
       })
     }
     const path = email.findLink(text)

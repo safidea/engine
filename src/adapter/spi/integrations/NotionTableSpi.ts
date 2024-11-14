@@ -12,7 +12,7 @@ export interface Integration {
   create: (page: NotionTablePageProperties) => Promise<string>
   retrieve: (id: string) => Promise<NotionTablePage>
   archive: (id: string) => Promise<void>
-  list: (filters: FilterDto[]) => Promise<NotionTablePage[]>
+  list: (filter?: FilterDto) => Promise<NotionTablePage[]>
 }
 
 export class NotionTableSpi implements Spi {
@@ -34,8 +34,7 @@ export class NotionTableSpi implements Spi {
     return this._integration.archive(id)
   }
 
-  list = async (filters: Filter[]) => {
-    const filterDtos = FilterMapper.toManyDtos(filters)
-    return this._integration.list(filterDtos)
+  list = async (filter?: Filter) => {
+    return this._integration.list(filter ? FilterMapper.toDto(filter) : undefined)
   }
 }

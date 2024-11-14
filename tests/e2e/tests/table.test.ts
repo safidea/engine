@@ -14,7 +14,7 @@ test.describe('Table tests', () => {
             {
               expect: 'Record',
               table: 'leads',
-              find: [{ field: 'name', operator: 'is', value: 'John' }],
+              find: { field: 'name', operator: 'Is', value: 'John' },
             },
           ],
         },
@@ -52,7 +52,7 @@ test.describe('Table tests', () => {
             {
               expect: 'Record',
               table: 'leads',
-              find: [{ field: 'name', operator: 'is', value: 'John' }],
+              find: { field: 'name', operator: 'Is', value: 'John' },
             },
           ],
         },

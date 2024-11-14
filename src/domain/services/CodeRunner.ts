@@ -73,8 +73,8 @@ export class CodeRunner {
             if (!record) throw new Error(`CodeRunner: table(${name}).read: Record not found`)
             return record
           },
-          list: async (filters: unknown) => {
-            const { records, error } = await table.list(filters)
+          list: async (filter?: unknown) => {
+            const { records, error } = await table.list(filter)
             if (error)
               throw new Error(`CodeRunner: table(${name}).list: ${JSON.stringify(error, null, 2)}`)
             return records

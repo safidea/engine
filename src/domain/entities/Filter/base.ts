@@ -1,15 +1,28 @@
-export type BaseConfig = {
+import type { JSONSchema } from '@domain/services/SchemaValidator'
+
+export type BaseProps = {
   field: string
 }
 
-export type BaseParams = {
-  field: string
+export function buildFilterSchema(
+  properties: JSONSchema['properties'],
+  required: JSONSchema['required'] = []
+): JSONSchema {
+  return {
+    type: 'object',
+    properties: {
+      field: { type: 'string' },
+      ...properties,
+    },
+    required: ['field', ...required],
+    additionalProperties: false,
+  }
 }
 
 export class Base {
-  readonly field: string
+  constructor(readonly field: string) {}
 
-  constructor({ field }: Base) {
-    this.field = field
+  toConfig(): BaseProps {
+    throw new Error('Method not implemented.')
   }
 }

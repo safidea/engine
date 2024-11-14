@@ -1,15 +1,3 @@
-type Base = {
-  field: string
-}
+import type { FilterConfig } from '@domain/entities/Filter'
 
-type Equal = Base & {
-  operator: '='
-  value: string | number
-}
-
-type In = Base & {
-  operator: 'in'
-  value: string[]
-}
-
-export type FilterDto = Equal | In
+export type FilterDto = FilterConfig

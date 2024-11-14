@@ -1,4 +1,6 @@
 import type { Filter } from '@domain/entities/Filter'
+import { IsAfterNumberOfSecondsSinceNow } from '@domain/entities/Filter/date/IsAfterNumberOfSecondsSinceNow'
+import { Or } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
 
@@ -11,7 +13,7 @@ export interface NotionTablePageProperties {
   [key: string]: string | number | boolean
 }
 
-export type Action = 'CREATE' | 'UPDATE' | 'DELETE'
+export type Action = 'CREATE'
 
 interface Listener {
   id: string
@@ -26,10 +28,10 @@ export interface Services {
 
 export interface Spi {
   name: string
-  list: (filters: Filter[]) => Promise<NotionTablePage[]>
   create: (page: NotionTablePageProperties) => Promise<string>
   retrieve: (id: string) => Promise<NotionTablePage>
   archive: (id: string) => Promise<void>
+  list: (filter?: Filter) => Promise<NotionTablePage[]>
 }
 
 export class NotionTable {
@@ -44,23 +46,10 @@ export class NotionTable {
 
   startPolling = () => {
     this._pollingTimer = setInterval(async () => {
-      const rows = await this.list([
-        // TODO: implement this filters
-        /*{
-          or: [
-            {
-              field: 'created_time',
-              operator: 'is_after_number_of_seconds_since_now',
-              value: this._POLLING_INTERVAL / 1000,
-            },
-            {
-              field: 'last_edited_time',
-              operator: 'is_after_number_of_seconds_since_now',
-              value: this._POLLING_INTERVAL / 1000,
-            },
-          ],
-        },*/
+      const filter = new Or([
+        new IsAfterNumberOfSecondsSinceNow('created_time', this._POLLING_INTERVAL / 1000),
       ])
+      const rows = await this.list(filter)
       for (const row of rows) {
         for (const listener of this._listeners) {
           if (listener.action === 'CREATE') {
@@ -95,7 +84,7 @@ export class NotionTable {
     return this._spi.archive(id)
   }
 
-  list = async (filters: Filter[] = []) => {
-    return this._spi.list(filters)
+  list = async (filter?: Filter) => {
+    return this._spi.list(filter)
   }
 }

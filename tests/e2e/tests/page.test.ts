@@ -384,7 +384,7 @@ test.describe('Page tests', () => {
             {
               expect: 'Record',
               table: 'leads',
-              find: [{ field: 'name', operator: 'is', value: 'john' }],
+              find: { field: 'name', operator: 'Is', value: 'john' },
             },
           ],
         },

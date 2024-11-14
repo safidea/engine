@@ -6,6 +6,7 @@ import type {
   CreatePageParameters,
   PageObjectResponse,
   DatabaseObjectResponse,
+  QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 
 export interface NotionTablePage {
@@ -63,10 +64,14 @@ export class NotionTableIntegration implements Integration {
     })
   }
 
-  list = async (_filters: FilterDto[] = []) => {
-    const pages = await this._notion.databases.query({
+  list = async (filter?: FilterDto) => {
+    const query: QueryDatabaseParameters = {
       database_id: this._database.id,
-    })
+    }
+    if (filter) {
+      query.filter = this._convertFilter(filter)
+    }
+    const pages = await this._notion.databases.query(query)
     return pages.results.map((page) => {
       if (page.object !== 'page') {
         throw new Error('Not a page')
@@ -82,7 +87,9 @@ export class NotionTableIntegration implements Integration {
     })
   }
 
-  _preprocessProperties = (page: NotionTablePageProperties): CreatePageParameters['properties'] => {
+  private _preprocessProperties = (
+    page: NotionTablePageProperties
+  ): CreatePageParameters['properties'] => {
     const properties: CreatePageParameters['properties'] = {}
     for (const key in page) {
       const property = this._database.properties[key]
@@ -106,7 +113,9 @@ export class NotionTableIntegration implements Integration {
     return properties
   }
 
-  _postprocessProperties = (page: PageObjectResponse['properties']): NotionTablePageProperties => {
+  private _postprocessProperties = (
+    page: PageObjectResponse['properties']
+  ): NotionTablePageProperties => {
     const properties: NotionTablePageProperties = {}
     for (const key in page) {
       const property = page[key]
@@ -124,5 +133,85 @@ export class NotionTableIntegration implements Integration {
       }
     }
     return properties
+  }
+
+  // TODO: fix two levels deep : https://developers.notion.com/reference/post-database-query-filter#compound-filter-conditions
+  private _convertFilter = (filter: FilterDto): QueryDatabaseParameters['filter'] => {
+    if ('and' in filter) {
+      return {
+        // eslint-disable-next-line
+        // @ts-ignore
+        and: filter.and.map(this._convertFilter),
+      }
+    } else if ('or' in filter) {
+      return {
+        // eslint-disable-next-line
+        // @ts-ignore
+        or: filter.or.map(this._convertFilter),
+      }
+    }
+    const { operator, field } = filter
+    switch (operator) {
+      case 'Is':
+        return {
+          property: field,
+          rich_text: {
+            equals: filter.value,
+          },
+        }
+      case 'IsAfterNumberOfSecondsSinceNow':
+        if (field === 'created_time') {
+          return {
+            timestamp: 'created_time',
+            created_time: {
+              after: new Date(Date.now() - filter.value * 1000).toISOString(),
+            },
+          }
+        }
+        if (field === 'last_edited_time') {
+          return {
+            timestamp: 'last_edited_time',
+            last_edited_time: {
+              after: new Date(Date.now() - filter.value * 1000).toISOString(),
+            },
+          }
+        }
+        return {
+          property: field,
+          date: {
+            after: new Date(Date.now() - filter.value * 1000).toISOString(),
+          },
+        }
+      case 'Equals':
+        return {
+          property: field,
+          number: {
+            equals: filter.value,
+          },
+        }
+      case 'IsAnyOf':
+        return {
+          or: filter.value.map((value) => ({
+            property: field,
+            multi_select: {
+              contains: value,
+            },
+          })),
+        }
+      case 'IsFalse':
+        return {
+          property: field,
+          checkbox: {
+            equals: false,
+          },
+        }
+      case 'IsTrue':
+        return {
+          property: field,
+          checkbox: {
+            equals: true,
+          },
+        }
+    }
   }
 }

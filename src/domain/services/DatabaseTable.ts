@@ -5,7 +5,8 @@ import type { PersistedRecord } from '../entities/Record/Persisted'
 import type { Field } from '@domain/entities/Field'
 import type { UpdatedRecord } from '@domain/entities/Record/Updated'
 import type { Logger } from '@domain/services/Logger'
-import { IsAnyOf } from '@domain/entities/Filter/IsAnyOf'
+import { Is } from '@domain/entities/Filter/text/Is'
+import { Or } from '@domain/entities/Filter/Or'
 
 export interface Config {
   name: string
@@ -27,9 +28,9 @@ export interface Spi {
   update: (updatedRecord: UpdatedRecord) => Promise<void>
   updateMany: (updatedRecords: UpdatedRecord[]) => Promise<void>
   delete: (recordId: string) => Promise<void>
-  read: (filters: Filter[]) => Promise<PersistedRecord | undefined>
+  read: (filter: Filter) => Promise<PersistedRecord | undefined>
   readById: (id: string) => Promise<PersistedRecord | undefined>
-  list: (filters: Filter[]) => Promise<PersistedRecord[]>
+  list: (filter?: Filter) => Promise<PersistedRecord[]>
 }
 
 export class DatabaseTable {
@@ -82,7 +83,8 @@ export class DatabaseTable {
       createdRecords.map((r) => r.toJson())
     )
     await this._table.insertMany(createdRecords)
-    return this.list([new IsAnyOf({ field: 'id', value: createdRecords.map((r) => r.id) })])
+    const filter = new Or(createdRecords.map((r) => new Is('id', r.id)))
+    return this.list(filter)
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
@@ -97,7 +99,8 @@ export class DatabaseTable {
       updatedRecords.map((r) => r.toJson())
     )
     await this._table.updateMany(updatedRecords)
-    return this.list([new IsAnyOf({ field: 'id', value: updatedRecords.map((r) => r.id) })])
+    const filter = new Or(updatedRecords.map((r) => new Is('id', r.id)))
+    return this.list(filter)
   }
 
   delete = async (id: string) => {
@@ -105,9 +108,9 @@ export class DatabaseTable {
     await this._table.delete(id)
   }
 
-  read = async (filters: Filter[]) => {
-    this._services.logger.debug(`read in table "${this._name}"`, { filters })
-    return this._table.read(filters)
+  read = async (filter: Filter) => {
+    this._services.logger.debug(`read in table "${this._name}"`, filter)
+    return this._table.read(filter)
   }
 
   readById = async (id: string) => {
@@ -121,8 +124,8 @@ export class DatabaseTable {
     return record
   }
 
-  list = async (filters: Filter[]) => {
-    this._services.logger.debug(`list in table "${this._name}"`, { filters })
-    return this._table.list(filters)
+  list = async (filter?: Filter) => {
+    this._services.logger.debug(`list in table "${this._name}"`, filter)
+    return this._table.list(filter)
   }
 }
