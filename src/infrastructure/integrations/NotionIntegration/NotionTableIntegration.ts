@@ -9,6 +9,7 @@ import type {
   QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { NotionIntegration } from '.'
+import { subSeconds, format } from 'date-fns'
 
 export interface NotionTablePage {
   [key: string]: string | number | boolean
@@ -56,6 +57,7 @@ export class NotionTableIntegration implements Integration {
       return {
         id: page.id,
         properties,
+        createdTime: page.created_time,
       }
     })
   }
@@ -89,6 +91,7 @@ export class NotionTableIntegration implements Integration {
         return {
           id: page.id,
           properties,
+          createdTime: page.created_time,
         }
       })
     })
@@ -158,6 +161,7 @@ export class NotionTableIntegration implements Integration {
       }
     }
     const { operator, field } = filter
+    const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00XXX")
     switch (operator) {
       case 'Is':
         return {
@@ -171,7 +175,7 @@ export class NotionTableIntegration implements Integration {
           return {
             timestamp: 'created_time',
             created_time: {
-              after: new Date(Date.now() - filter.value * 1000).toISOString(),
+              on_or_after: formatDate(subSeconds(new Date(), filter.value)),
             },
           }
         }
@@ -179,14 +183,14 @@ export class NotionTableIntegration implements Integration {
           return {
             timestamp: 'last_edited_time',
             last_edited_time: {
-              after: new Date(Date.now() - filter.value * 1000).toISOString(),
+              on_or_after: formatDate(subSeconds(new Date(), filter.value)),
             },
           }
         }
         return {
           property: field,
           date: {
-            after: new Date(Date.now() - filter.value * 1000).toISOString(),
+            on_or_after: formatDate(subSeconds(new Date(), filter.value)),
           },
         }
       case 'Equals':

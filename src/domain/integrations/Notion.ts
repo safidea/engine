@@ -38,6 +38,8 @@ export class Notion {
 
   table = async (id: string): Promise<NotionTable> => {
     const page = await this._spi.table(id)
-    return new NotionTable(page, this._services)
+    const table = new NotionTable(page, this._services)
+    this._tables.push(table)
+    return table
   }
 }

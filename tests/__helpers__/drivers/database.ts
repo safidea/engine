@@ -75,11 +75,11 @@ export default class Database extends DatabaseDriver {
       const rows = await this.table('_automations.histories').list()
       history = rows.find((row) => row.automation_name === name)
       if (!history) {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 3000))
       }
     } while (!history && attempts++ < 10)
     if (!history) {
-      throw new Error(`automation ${name} not found after 10 seconds`)
+      throw new Error(`automation ${name} not found after 30 seconds`)
     }
     return history
   }

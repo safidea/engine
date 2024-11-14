@@ -7,6 +7,7 @@ import type { Logger } from '@domain/services/Logger'
 export interface NotionTablePage {
   id: string
   properties: NotionTablePageProperties
+  createdTime: string
 }
 
 export interface NotionTablePageProperties {
@@ -18,7 +19,7 @@ export type Action = 'CREATE'
 interface Listener {
   id: string
   action: Action
-  callback: (table: NotionTablePage) => Promise<void>
+  callback: (page: NotionTablePage) => Promise<void>
 }
 
 export interface Services {
@@ -45,15 +46,22 @@ export class NotionTable {
   ) {}
 
   startPolling = () => {
+    this._services.logger.debug(`starting polling on Notion table "${this._spi.name}"`)
+    let pagesIdsPolled: string[] = []
+    const startDate = new Date()
     this._pollingTimer = setInterval(async () => {
-      const filter = new Or([
-        new IsAfterNumberOfSecondsSinceNow('created_time', this._POLLING_INTERVAL / 1000),
-      ])
-      const rows = await this.list(filter)
-      for (const row of rows) {
+      const seconds = Math.min(
+        (new Date().getTime() - startDate.getTime()) / 1000,
+        (this._POLLING_INTERVAL * 12) / 1000
+      )
+      const filter = new Or([new IsAfterNumberOfSecondsSinceNow('created_time', seconds)])
+      const pages = await this.list(filter)
+      const pagesNotPolled = pages.filter((page) => !pagesIdsPolled.includes(page.id))
+      pagesIdsPolled = pages.map((page) => page.id)
+      for (const page of pagesNotPolled) {
         for (const listener of this._listeners) {
           if (listener.action === 'CREATE') {
-            await listener.callback(row)
+            await listener.callback(page)
           }
         }
       }
@@ -61,6 +69,7 @@ export class NotionTable {
   }
 
   stopPolling = () => {
+    this._services.logger.debug(`stopping polling on Notion table "${this._spi.name}"`)
     clearInterval(this._pollingTimer)
   }
 

@@ -5,8 +5,9 @@ import Database from '@tests/drivers/database'
 
 test.describe('PageCreated trigger', () => {
   Database.SQLite(test, async (dbConfig) => {
-    test.skip('should start an automation when a Notion page is created in a table', async () => {
+    test('should start an automation when a Notion page is created in a table', async () => {
       // GIVEN
+      test.setTimeout(60000)
       const database = new Database(dbConfig)
       const config: Config = {
         name: 'App',
@@ -32,8 +33,9 @@ test.describe('PageCreated trigger', () => {
       await app.start(config)
 
       // WHEN
+      await new Promise((resolve) => setTimeout(resolve, 5000))
       await testTable.create({
-        Nom: 'My new page',
+        name: 'My new page',
       })
 
       // THEN
