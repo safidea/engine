@@ -1,3 +1,11 @@
+## [0.32.3](https://github.com/latechforce/engine/compare/v0.32.2...v0.32.3) (2024-11-14)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should start an automation when a Notion page is created in a table ([fce4968](https://github.com/latechforce/engine/commit/fce4968a26c5608ee27ea44c0b74f38ff87f11d4))
+* **Pappers:** add red test: should get a company ([0b0232a](https://github.com/latechforce/engine/commit/0b0232ac8975b0ab27e2e3653a7157caebdbca6e))
+
 ## [0.32.2](https://github.com/latechforce/engine/compare/v0.32.1...v0.32.2) (2024-11-14)
 
 
