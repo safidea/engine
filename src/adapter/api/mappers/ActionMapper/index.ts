@@ -35,7 +35,7 @@ export type Entities = CreateRecordEntities & CreateDocxFromTemplateEntities
 
 export class ActionMapper {
   static toEntity(config: Config, services: Services, entities: Entities): Action {
-    const { action, service } = config
+    const { action } = config
     const {
       idGenerator,
       mailer,
@@ -50,85 +50,75 @@ export class ActionMapper {
       monitor,
     } = services
     const { tables, buckets } = entities
-    if (service === 'Database') {
-      if (action === 'CreateRecord')
-        return CreateRecordMapper.toEntity(
-          config,
-          { idGenerator, templateCompiler, logger, monitor },
-          { tables }
-        )
-      if (action === 'ReadRecord')
-        return ReadRecordMapper.toEntity(config, { templateCompiler, logger, monitor }, { tables })
-    }
-    if (service === 'Mailer') {
-      if (action === 'SendEmail')
-        return SendEmailMapper.toEntity(config, {
-          mailer,
+    if (action === 'CreateRecord')
+      return CreateRecordMapper.toEntity(
+        config,
+        { idGenerator, templateCompiler, logger, monitor },
+        { tables }
+      )
+    if (action === 'ReadRecord')
+      return ReadRecordMapper.toEntity(config, { templateCompiler, logger, monitor }, { tables })
+    if (action === 'SendEmail')
+      return SendEmailMapper.toEntity(config, {
+        mailer,
+        templateCompiler,
+        idGenerator,
+        logger,
+        monitor,
+      })
+    if (action === 'RunJavascript')
+      return RunJavascriptMapper.toEntity(config, {
+        templateCompiler,
+        javascriptCompiler,
+        logger,
+        monitor,
+      })
+    if (action === 'RunTypescript')
+      return RunTypescriptMapper.toEntity(config, {
+        templateCompiler,
+        typescriptCompiler,
+        logger,
+        monitor,
+      })
+    if (action === 'CreateDocxFromTemplate')
+      return CreateDocxFromTemplateMapper.toEntity(
+        config,
+        {
           templateCompiler,
+          documentLoader,
+          idGenerator,
+          fileSystem,
+          logger,
+          monitor,
+        },
+        { buckets }
+      )
+    if (action === 'CreateXlsxFromTemplate')
+      return CreateXlsxFromTemplateMapper.toEntity(
+        config,
+        {
+          templateCompiler,
+          spreadsheetLoader,
+          idGenerator,
+          fileSystem,
+          logger,
+          monitor,
+        },
+        { buckets }
+      )
+    if (action === 'CreatePdfFromXlsx')
+      return CreatePdfFromXlsxMapper.toEntity(
+        config,
+        {
+          templateCompiler,
+          spreadsheetLoader,
+          browser,
           idGenerator,
           logger,
           monitor,
-        })
-    }
-    if (service === 'Code') {
-      if (action === 'RunJavascript')
-        return RunJavascriptMapper.toEntity(config, {
-          templateCompiler,
-          javascriptCompiler,
-          logger,
-          monitor,
-        })
-      if (action === 'RunTypescript')
-        return RunTypescriptMapper.toEntity(config, {
-          templateCompiler,
-          typescriptCompiler,
-          logger,
-          monitor,
-        })
-    }
-    if (service === 'Document') {
-      if (action === 'CreateDocxFromTemplate')
-        return CreateDocxFromTemplateMapper.toEntity(
-          config,
-          {
-            templateCompiler,
-            documentLoader,
-            idGenerator,
-            fileSystem,
-            logger,
-            monitor,
-          },
-          { buckets }
-        )
-    }
-    if (service === 'Spreadsheet') {
-      if (action === 'CreateXlsxFromTemplate')
-        return CreateXlsxFromTemplateMapper.toEntity(
-          config,
-          {
-            templateCompiler,
-            spreadsheetLoader,
-            idGenerator,
-            fileSystem,
-            logger,
-            monitor,
-          },
-          { buckets }
-        )
-      if (action === 'CreatePdfFromXlsx')
-        return CreatePdfFromXlsxMapper.toEntity(
-          config,
-          {
-            templateCompiler,
-            spreadsheetLoader,
-            browser,
-            idGenerator,
-            logger,
-            monitor,
-          },
-          { buckets }
-        )
-    }
+        },
+        { buckets }
+      )
     throw new Error(`ActionMapper: Action ${action} not supported`)
   }
 

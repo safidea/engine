@@ -27,6 +27,9 @@
                 },
                 {
                     "$ref": "#/definitions/CreatePdfFromXlsx"
+                },
+                {
+                    "$ref": "#/definitions/GetCompany"
                 }
             ]
         },
@@ -2081,6 +2084,32 @@
             ],
             "type": "object"
         },
+        "GetCompany": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "GetCompany",
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Pappers",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "siret": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "integration",
+                "name",
+                "siret"
+            ],
+            "type": "object"
+        },
         "Grid": {
             "additionalProperties": false,
             "properties": {
@@ -2440,11 +2469,20 @@
             "properties": {
                 "notion": {
                     "$ref": "#/definitions/Config_9"
+                },
+                "pappers": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "apiKey": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "apiKey"
+                    ],
+                    "type": "object"
                 }
             },
-            "required": [
-                "notion"
-            ],
             "type": "object"
         },
         "IsAfterNumberOfSecondsSinceNowConfig": {

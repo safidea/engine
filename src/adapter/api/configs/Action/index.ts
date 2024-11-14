@@ -6,6 +6,7 @@ import type { RunTypescript } from './code/RunTypescript'
 import type { SendEmail } from './mailer/SendEmail'
 import type { ReadRecord } from './database/ReadRecord'
 import type { CreatePdfFromXlsx } from './spreadsheet/CreatePdfFromXlsx'
+import type { GetCompany } from './pappers/GetCompany'
 
 export type Action =
   | CreateRecord
@@ -16,3 +17,4 @@ export type Action =
   | CreateDocxFromTemplate
   | CreateXlsxFromTemplate
   | CreatePdfFromXlsx
+  | GetCompany

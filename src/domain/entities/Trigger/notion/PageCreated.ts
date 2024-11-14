@@ -38,6 +38,6 @@ export class PageCreated implements Base {
   onPageCreated = async (page: NotionTablePage) => {
     const { queue } = this._services
     const { automation } = this._config
-    await queue.add(automation, page.properties)
+    await queue.add(automation, page)
   }
 }

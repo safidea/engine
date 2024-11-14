@@ -3,11 +3,12 @@ import App, { type Config } from '@latechforce/engine'
 import { testTable } from '@tests/integrations/notion'
 import Database from '@tests/drivers/database'
 
-test.describe('PageCreated trigger', () => {
+test.describe('Page Created trigger', () => {
+  test.slow()
+
   Database.SQLite(test, async (dbConfig) => {
     test('should start an automation when a Notion page is created in a table', async () => {
       // GIVEN
-      test.setTimeout(60000)
       const database = new Database(dbConfig)
       const config: Config = {
         name: 'App',
