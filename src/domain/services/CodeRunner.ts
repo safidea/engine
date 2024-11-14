@@ -1,5 +1,6 @@
 import type { Table } from '@domain/entities/Table'
 import type { RecordJson } from '@domain/entities/Record/base'
+import type { FilterConfig } from '@domain/entities/Filter'
 
 export interface Spi {
   run: (data: object, modules: Modules) => Promise<object>
@@ -10,7 +11,7 @@ export interface Modules {
     insert: (data: unknown) => Promise<RecordJson>
     update: (id: string, data: unknown) => Promise<RecordJson>
     read: (id: string) => Promise<RecordJson | undefined>
-    list: (filters: unknown) => Promise<RecordJson[]>
+    list: (filter?: FilterConfig) => Promise<RecordJson[]>
   }
 }
 
@@ -73,7 +74,7 @@ export class CodeRunner {
             if (!record) throw new Error(`CodeRunner: table(${name}).read: Record not found`)
             return record
           },
-          list: async (filter?: unknown) => {
+          list: async (filter?: FilterConfig) => {
             const { records, error } = await table.list(filter)
             if (error)
               throw new Error(`CodeRunner: table(${name}).list: ${JSON.stringify(error, null, 2)}`)

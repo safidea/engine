@@ -8,6 +8,7 @@ import type {
   DatabaseObjectResponse,
   QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
+import { NotionIntegration } from '.'
 
 export interface NotionTablePage {
   [key: string]: string | number | boolean
@@ -25,13 +26,15 @@ export class NotionTableIntegration implements Integration {
 
   create = async (page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
-    const createdPage = await this._notion.pages.create({
-      parent: {
-        database_id: this._database.id,
-      },
-      properties,
+    return NotionIntegration.retryIf502Error(async () => {
+      const createdPage = await this._notion.pages.create({
+        parent: {
+          database_id: this._database.id,
+        },
+        properties,
+      })
+      return createdPage.id
     })
-    return createdPage.id
   }
 
   createMany = async (pages: NotionTablePageProperties[]) => {
@@ -44,23 +47,25 @@ export class NotionTableIntegration implements Integration {
   }
 
   retrieve = async (id: string) => {
-    const page = await this._notion.pages.retrieve({
-      page_id: id,
+    return NotionIntegration.retryIf502Error(async () => {
+      const page = await this._notion.pages.retrieve({ page_id: id })
+      if (!('properties' in page)) {
+        throw new Error('Page does not have properties')
+      }
+      const properties = this._postprocessProperties(page.properties)
+      return {
+        id: page.id,
+        properties,
+      }
     })
-    if (!('properties' in page)) {
-      throw new Error('Page does not have properties')
-    }
-    const properties = this._postprocessProperties(page.properties)
-    return {
-      id: page.id,
-      properties,
-    }
   }
 
   archive = async (id: string) => {
-    await this._notion.pages.update({
-      page_id: id,
-      archived: true,
+    await NotionIntegration.retryIf502Error(async () => {
+      await this._notion.pages.update({
+        page_id: id,
+        archived: true,
+      })
     })
   }
 
@@ -71,19 +76,21 @@ export class NotionTableIntegration implements Integration {
     if (filter) {
       query.filter = this._convertFilter(filter)
     }
-    const pages = await this._notion.databases.query(query)
-    return pages.results.map((page) => {
-      if (page.object !== 'page') {
-        throw new Error('Not a page')
-      }
-      if (!('properties' in page)) {
-        throw new Error('Page does not have properties')
-      }
-      const properties = this._postprocessProperties(page.properties)
-      return {
-        id: page.id,
-        properties,
-      }
+    return NotionIntegration.retryIf502Error(async () => {
+      const pages = await this._notion.databases.query(query)
+      return pages.results.map((page) => {
+        if (page.object !== 'page') {
+          throw new Error('Not a page')
+        }
+        if (!('properties' in page)) {
+          throw new Error('Page does not have properties')
+        }
+        const properties = this._postprocessProperties(page.properties)
+        return {
+          id: page.id,
+          properties,
+        }
+      })
     })
   }
 
