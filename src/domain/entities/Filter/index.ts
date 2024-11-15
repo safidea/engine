@@ -1,64 +1,83 @@
 import type { JSONSchema } from '@domain/services/SchemaValidator'
 import {
-  type Boolean,
-  booleanSchemas,
-  type BooleanConfig,
+  type BooleanFilter,
+  booleanFilterSchemas,
+  type BooleanFilterConfig,
   isBooleanFilter,
-  BooleanMapper,
+  BooleanFilterMapper,
 } from './boolean'
-import { DateMapper, dateSchemas, isDateFilter, type Date, type DateConfig } from './date'
+import {
+  DateFilterMapper,
+  dateFilterSchemas,
+  isDateFilter,
+  type DateFilter,
+  type DateFilterConfig,
+} from './date'
 import {
   isNumberFilter,
-  type Number,
-  type NumberConfig,
-  NumberMapper,
-  numberSchemas,
+  type NumberFilter,
+  type NumberFilterConfig,
+  NumberFilterMapper,
+  numberFilterSchemas,
 } from './number'
 import {
   isSelectFilter,
-  SelectMapper,
-  selectSchemas,
-  type Select,
-  type SelectConfig,
+  SelectFilterMapper,
+  selectFilterSchemas,
+  type SelectFilter,
+  type SelectFilterConfig,
 } from './select'
-import { isTextFilter, TextMapper, textSchemas, type Text, type TextConfig } from './text'
-import { And, andSchema, type AndConfig } from './And'
-import { Or, orSchema, type OrConfig } from './Or'
+import {
+  isTextFilter,
+  TextFilterMapper,
+  textFilterSchemas,
+  type TextFilter,
+  type TextFilterConfig,
+} from './text'
+import { AndFilter, andFilterSchema, type AndFilterConfig } from './And'
+import { OrFilter, orFilterSchema, type OrFilterConfig } from './Or'
 
 export type FilterWithOperatorConfig =
-  | BooleanConfig
-  | DateConfig
-  | NumberConfig
-  | SelectConfig
-  | TextConfig
+  | BooleanFilterConfig
+  | DateFilterConfig
+  | NumberFilterConfig
+  | SelectFilterConfig
+  | TextFilterConfig
 
-export type FilterConfig = AndConfig | OrConfig | FilterWithOperatorConfig
+export type FilterConfig = AndFilterConfig | OrFilterConfig | FilterWithOperatorConfig
 
-export type Filter = And | Or | Boolean | Date | Number | Select | Text
+export type Filter =
+  | AndFilter
+  | OrFilter
+  | BooleanFilter
+  | DateFilter
+  | NumberFilter
+  | SelectFilter
+  | TextFilter
 
 export const filterSchema: JSONSchema = {
   type: 'object',
   oneOf: [
-    andSchema,
-    orSchema,
-    ...booleanSchemas,
-    ...dateSchemas,
-    ...numberSchemas,
-    ...selectSchemas,
-    ...textSchemas,
+    andFilterSchema,
+    orFilterSchema,
+    ...booleanFilterSchemas,
+    ...dateFilterSchemas,
+    ...numberFilterSchemas,
+    ...selectFilterSchemas,
+    ...textFilterSchemas,
   ],
 }
 
 export class FilterMapper {
   static toEntity = (config: FilterConfig): Filter => {
-    if ('and' in config) return new And(FilterMapper.toManyEntities(config.and))
-    if ('or' in config) return new Or(FilterMapper.toManyEntities(config.or))
+    if ('and' in config) return new AndFilter(FilterMapper.toManyEntities(config.and))
+    if ('or' in config) return new OrFilter(FilterMapper.toManyEntities(config.or))
     const { operator } = config
-    if (isBooleanFilter(config)) return BooleanMapper.toEntity(config)
-    if (isDateFilter(config)) return DateMapper.toEntity(config)
-    if (isNumberFilter(config)) return NumberMapper.toEntity(config)
-    if (isSelectFilter(config)) return SelectMapper.toEntity(config)
-    if (isTextFilter(config)) return TextMapper.toEntity(config)
+    if (isBooleanFilter(config)) return BooleanFilterMapper.toEntity(config)
+    if (isDateFilter(config)) return DateFilterMapper.toEntity(config)
+    if (isNumberFilter(config)) return NumberFilterMapper.toEntity(config)
+    if (isSelectFilter(config)) return SelectFilterMapper.toEntity(config)
+    if (isTextFilter(config)) return TextFilterMapper.toEntity(config)
     throw new Error(`Filter operator ${operator} not supported`)
   }
 

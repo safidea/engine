@@ -1,16 +1,16 @@
 import {
   NotionTableSpi,
-  type Integration as NotionTableIntegration,
+  type INotionTableIntegration,
 } from '@adapter/spi/integrations/NotionTableSpi'
-import type { Spi } from '@domain/integrations/Notion'
+import type { INotionSpi } from '@domain/integrations/Notion'
 
-export interface Integration {
+export interface INotionIntegration {
   config: () => void
-  table: (id: string) => Promise<NotionTableIntegration>
+  table: (id: string) => Promise<INotionTableIntegration>
 }
 
-export class NotionSpi implements Spi {
-  constructor(private _integration: Integration) {}
+export class NotionSpi implements INotionSpi {
+  constructor(private _integration: INotionIntegration) {}
 
   config = () => {
     this._integration.config()

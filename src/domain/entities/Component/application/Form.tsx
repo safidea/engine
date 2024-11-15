@@ -1,10 +1,10 @@
 import type { Server } from '@domain/services/Server'
 import type { Base, BaseProps, BaseServices } from '../base'
-import type { Post } from '@domain/entities/Request/Post'
+import type { PostRequest } from '@domain/entities/Request/Post'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Response } from '@domain/entities/Response'
-import { Html } from '@domain/entities/Response/Html'
-import type { Method } from '@domain/entities/Request'
+import { HtmlResponse } from '@domain/entities/Response/Html'
+import type { RequestMethod } from '@domain/entities/Request'
 import type { Title } from '../content/Title'
 import type { Paragraph } from '../content/Paragraph'
 import type { Input } from '../base/Input'
@@ -16,12 +16,12 @@ import type { Props as InputsProps } from '../base/Input'
 import type { Props as ButtonProps } from '../base/Button'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
-import { State } from '@domain/entities/Page/State'
+import { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   formId: string
   action: string
-  method?: Method
+  method?: RequestMethod
   Title?: React.FC<Partial<TitleProps>>
   Paragraph?: React.FC<Partial<ParagraphProps>>
   Inputs: React.FC<Partial<InputsProps>>[]
@@ -79,7 +79,7 @@ export class Form implements Base<Props> {
     ])
   }
 
-  getData = async (state: State) => {
+  getData = async (state: PageState) => {
     const { server } = this._services
     if (this._source && server.baseUrl) {
       const filledSource = state.fillTemplate(this._source)
@@ -92,8 +92,8 @@ export class Form implements Base<Props> {
     return {}
   }
 
-  post = async (request: Post): Promise<Response> => {
-    const state = new State(request)
+  post = async (request: PostRequest): Promise<Response> => {
+    const state = new PageState(request)
     const { server } = this._services
     const { method = 'POST', successMessage } = this._config
     const filledAction = state.fillTemplate(this._action)
@@ -107,21 +107,21 @@ export class Form implements Base<Props> {
     })
     if (result.ok) {
       const html = await this.html(state, { successMessage })
-      return new Html(html)
+      return new HtmlResponse(html)
     } else {
       const errorMessage = await result.text()
       const html = await this.html(state, { errorMessage })
-      return new Html(html)
+      return new HtmlResponse(html)
     }
   }
 
-  html = async (state: State, props?: Partial<Props>) => {
+  html = async (state: PageState, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state)
     return client.renderToHtml(<Component {...props} />)
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { client } = this._services
     const { title, paragraph, inputs, buttons } = this._entities
     const { id, className } = this._config

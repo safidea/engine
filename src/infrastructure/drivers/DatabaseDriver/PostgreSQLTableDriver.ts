@@ -1,5 +1,5 @@
 import pg from 'pg'
-import type { Driver } from '@adapter/spi/drivers/DatabaseTableSpi'
+import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type {
@@ -15,7 +15,7 @@ interface ColumnInfo {
   notnull: number
 }
 
-export class PostgreSQLTableDriver implements Driver {
+export class PostgreSQLTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],

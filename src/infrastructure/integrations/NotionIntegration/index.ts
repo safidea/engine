@@ -1,12 +1,12 @@
-import type { Integration } from '@adapter/spi/integrations/NotionSpi'
+import type { INotionIntegration } from '@adapter/spi/integrations/NotionSpi'
 import { Client } from '@notionhq/client'
 import { NotionTableIntegration } from './NotionTableIntegration'
-import type { Config } from '@domain/integrations/Notion'
+import type { NotionConfig } from '@domain/integrations/Notion'
 
-export class NotionIntegration implements Integration {
+export class NotionIntegration implements INotionIntegration {
   private _notion?: Client
 
-  constructor(private _config?: Config) {}
+  constructor(private _config?: NotionConfig) {}
 
   config = () => {
     if (!this._notion) {

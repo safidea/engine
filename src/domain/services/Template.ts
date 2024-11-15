@@ -1,24 +1,24 @@
-export type OutputType = 'string' | 'number' | 'boolean' | 'object' | 'array'
-export type OutputValue = string | number | boolean | object | Array<unknown>
-export interface InputValue {
+export type TemplateOutputType = 'string' | 'number' | 'boolean' | 'object' | 'array'
+export type TemplateOutputValue = string | number | boolean | object | Array<unknown>
+export interface TemplateInputValue {
   value: string
-  type?: OutputType
+  type?: TemplateOutputType
 }
-export interface InputValues {
-  [key: string]: InputValue
+export interface TemplateInputValues {
+  [key: string]: TemplateInputValue
 }
 
-export interface Spi {
+export interface ITemplateSpi {
   fill: (data: { [key: string]: unknown }) => string
 }
 
 export class Template {
   constructor(
-    private _spi: Spi,
-    private _outputType: OutputType = 'string'
+    private _spi: ITemplateSpi,
+    private _outputType: TemplateOutputType = 'string'
   ) {}
 
-  fill = (data: { [key: string]: unknown }): OutputValue => {
+  fill = (data: { [key: string]: unknown }): TemplateOutputValue => {
     const result = this._spi.fill(data)
     switch (this._outputType) {
       case 'string':

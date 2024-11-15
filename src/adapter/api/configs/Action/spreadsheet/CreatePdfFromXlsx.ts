@@ -1,6 +1,7 @@
-import type { Config } from '@domain/entities/Action/spreadsheet/CreatePdfFromXlsx'
+import type { CreatePdfFromXlsxSpreadsheetActionConfig } from '@domain/entities/Action/spreadsheet/CreatePdfFromXlsx'
 
-export interface CreatePdfFromXlsx extends Config {
+export interface ICreatePdfFromXlsxSpreadsheetAction
+  extends CreatePdfFromXlsxSpreadsheetActionConfig {
   service: 'Spreadsheet'
   action: 'CreatePdfFromXlsx'
 }

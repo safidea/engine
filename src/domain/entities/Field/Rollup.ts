@@ -1,24 +1,24 @@
-import { Base, type BaseParams } from './base'
-import type { DateTime } from './DateTime'
-import type { LongText } from './LongText'
-import type { MultipleLinkedRecord } from './MultipleLinkedRecord'
-import type { Number as Number_ } from './Number'
-import type { SingleLineText } from './SingleLineText'
+import { BaseField, type BaseFieldParams } from './base'
+import type { DateTimeField } from './DateTime'
+import type { LongTextField } from './LongText'
+import type { MultipleLinkedRecordField } from './MultipleLinkedRecord'
+import type { NumberField } from './Number'
+import type { SingleLineTextField } from './SingleLineText'
 
-interface Params extends BaseParams {
+interface RollupFieldParams extends BaseFieldParams {
   formula: string
-  multipleLinkedRecord: MultipleLinkedRecord
+  multipleLinkedRecord: MultipleLinkedRecordField
   linkedRecordField: string
-  output: Number_ | LongText | SingleLineText | DateTime
+  output: NumberField | LongTextField | SingleLineTextField | DateTimeField
 }
 
-export class Rollup extends Base {
+export class RollupField extends BaseField {
   formula: string
-  multipleLinkedRecord: MultipleLinkedRecord
+  multipleLinkedRecord: MultipleLinkedRecordField
   linkedRecordField: string
-  output: Number_ | LongText | SingleLineText | DateTime
+  output: NumberField | LongTextField | SingleLineTextField | DateTimeField
 
-  constructor(params: Params) {
+  constructor(params: RollupFieldParams) {
     super(params)
     this.formula = params.formula
     this.multipleLinkedRecord = params.multipleLinkedRecord

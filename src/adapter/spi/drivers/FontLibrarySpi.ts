@@ -1,11 +1,11 @@
-import type { Spi } from '@domain/services/FontLibrary'
+import type { IFontLibrarySpi } from '@domain/services/FontLibrary'
 
-export interface Driver {
+export interface IFontLibraryDriver {
   loadCss: (name: string) => Promise<string>
 }
 
-export class FontLibrarySpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class FontLibrarySpi implements IFontLibrarySpi {
+  constructor(private _driver: IFontLibraryDriver) {}
 
   loadCss = async (name: string) => {
     return this._driver.loadCss(name)

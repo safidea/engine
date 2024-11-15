@@ -1,12 +1,12 @@
-import type { Spi } from '@domain/services/Monitor'
+import type { IMonitorSpi } from '@domain/services/Monitor'
 
-export interface Driver {
+export interface IMonitorDriver {
   captureException: (error: Error) => void
   captureMessage: (message: string) => void
 }
 
-export class MonitorSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class MonitorSpi implements IMonitorSpi {
+  constructor(private _driver: IMonitorDriver) {}
 
   captureException = (error: Error) => {
     this._driver.captureException(error)

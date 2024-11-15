@@ -1,38 +1,38 @@
 import type { Logger } from '@domain/services/Logger'
 import type { Action } from '../Action'
 import type { Trigger } from '../Trigger'
-import { Context } from './Context'
+import { AutomationContext } from './Context'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Monitor } from '@domain/services/Monitor'
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { History } from './History'
+import { AutomationHistory } from './History'
 import type { Database } from '@domain/services/Database'
 
-interface Config {
+interface AutomationConfig {
   name: string
 }
 
-interface Services {
+interface AutomationServices {
   logger: Logger
   monitor: Monitor
   idGenerator: IdGenerator
   database: Database
 }
 
-interface Entities {
+interface AutomationEntities {
   actions: Action[]
   trigger: Trigger
 }
 
 export class Automation {
-  private _history: History
+  private _history: AutomationHistory
 
   constructor(
-    private _config: Config,
-    private _services: Services,
-    private _entities: Entities
+    private _config: AutomationConfig,
+    private _services: AutomationServices,
+    private _entities: AutomationEntities
   ) {
-    this._history = new History(this._services)
+    this._history = new AutomationHistory(this._services)
   }
 
   get name() {
@@ -56,7 +56,7 @@ export class Automation {
     const { actions } = this._entities
     const { logger, idGenerator } = this._services
     const id = idGenerator.forAutomation()
-    const context = new Context(id, triggerData)
+    const context = new AutomationContext(id, triggerData)
     const historyId = await this._history.create({
       automation_name: this.name,
       automation_id: id,

@@ -1,13 +1,13 @@
-import type { Spi } from '@domain/services/Document'
+import type { IDocumentSpi } from '@domain/services/Document'
 
-export interface Driver {
+export interface IDocumentDriver {
   readText: () => string
   writeText: (text: string) => void
   toBuffer: () => Buffer
 }
 
-export class DocumentSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class DocumentSpi implements IDocumentSpi {
+  constructor(private _driver: IDocumentDriver) {}
 
   readText = (): string => {
     return this._driver.readText()

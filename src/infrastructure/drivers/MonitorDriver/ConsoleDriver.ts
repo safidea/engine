@@ -1,6 +1,6 @@
-import type { Driver } from '@adapter/spi/drivers/MonitorSpi'
+import type { IMonitorDriver } from '@adapter/spi/drivers/MonitorSpi'
 
-export class ConsoleDriver implements Driver {
+export class ConsoleDriver implements IMonitorDriver {
   captureException = (error: Error) => {
     console.error('Monitor error:', error)
   }

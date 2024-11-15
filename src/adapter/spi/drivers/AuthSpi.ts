@@ -1,15 +1,15 @@
-import type { Payload, Spi, SignOptions } from '@domain/services/Auth'
+import type { AuthPayload, IAuthSpi, AuthSignOptions } from '@domain/services/Auth'
 
-export interface Driver {
-  sign: (payload: Payload, options?: SignOptions) => Promise<string>
+export interface IAuthDriver {
+  sign: (payload: AuthPayload, options?: AuthSignOptions) => Promise<string>
   verify: (token: string) => Promise<boolean>
-  decode: (token: string) => Promise<Payload>
+  decode: (token: string) => Promise<AuthPayload>
 }
 
-export class AuthSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class AuthSpi implements IAuthSpi {
+  constructor(private _driver: IAuthDriver) {}
 
-  sign = async (payload: Payload) => {
+  sign = async (payload: AuthPayload) => {
     return this._driver.sign(payload)
   }
 

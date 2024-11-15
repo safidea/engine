@@ -1,5 +1,5 @@
-import { Base, type BaseConfig, type BaseServices } from '../base'
-import type { Context } from '../../Automation/Context'
+import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
 import type { Table } from '../../Table'
 import type { Template } from '@domain/services/Template'
 import { TemplateCompiler } from '@domain/services/TemplateCompiler'
@@ -7,31 +7,31 @@ import { CreatedRecord } from '@domain/entities/Record/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { RecordJson } from '@domain/entities/Record/base'
 
-export interface Config extends BaseConfig {
+export interface CreateRecordDatabaseActionConfig extends BaseActionConfig {
   fields: { [key: string]: string }
   table: string
 }
 
-export interface Services extends BaseServices {
+export interface CreateRecordDatabaseActionServices extends BaseActionServices {
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
 }
 
-export interface Entities {
+export interface CreateRecordDatabaseActionEntities {
   tables: Table[]
 }
 
 type Input = { [key: string]: string }
 type Output = { record: RecordJson }
 
-export class CreateRecord extends Base<Input, Output> {
+export class CreateRecordDatabaseAction extends BaseAction<Input, Output> {
   private _fields: { [key: string]: Template }
   private _table: Table
 
   constructor(
-    config: Config,
-    private _services: Services,
-    entities: Entities
+    config: CreateRecordDatabaseActionConfig,
+    private _services: CreateRecordDatabaseActionServices,
+    entities: CreateRecordDatabaseActionEntities
   ) {
     super(config, _services)
     const { fields, table: tableName } = config
@@ -41,7 +41,7 @@ export class CreateRecord extends Base<Input, Output> {
     this._fields = templateCompiler.compileObject(fields)
   }
 
-  protected _prepare = async (context: Context) => {
+  protected _prepare = async (context: AutomationContext) => {
     return context.fillObjectTemplateAsString(this._fields)
   }
 

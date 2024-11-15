@@ -1,4 +1,4 @@
-import type { Spi } from '@domain/services/Mailer'
+import type { IMailerSpi } from '@domain/services/Mailer'
 import { EmailMapper } from '../mappers/EmailMapper'
 import type { FilterDto } from '../dtos/FilterDto'
 import type { Filter } from '@domain/entities/Filter'
@@ -6,15 +6,15 @@ import type { CreatedEmail } from '@domain/entities/Email/Created'
 import type { EmailDto } from '../dtos/EmailDto'
 import { FilterMapper } from '../mappers/FilterMapper'
 
-export interface Driver {
+export interface IMailerDriver {
   verify: () => Promise<void>
   close: () => Promise<void>
   send: (email: EmailDto) => Promise<void>
   find: (filter: FilterDto) => Promise<EmailDto | undefined>
 }
 
-export class MailerSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class MailerSpi implements IMailerSpi {
+  constructor(private _driver: IMailerDriver) {}
 
   verify = async () => {
     await this._driver.verify()

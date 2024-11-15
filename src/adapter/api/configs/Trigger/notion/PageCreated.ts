@@ -1,6 +1,7 @@
-import type { Config } from '@domain/entities/Trigger/notion/PageCreated'
+import type { PageCreatedNotionTriggerConfig } from '@domain/entities/Trigger/notion/PageCreated'
 
-export interface PageCreated extends Omit<Config, 'automation'> {
+export interface IPageCreatedNotionTrigger
+  extends Omit<PageCreatedNotionTriggerConfig, 'automation'> {
   integration: 'Notion'
   event: 'PageCreated'
 }

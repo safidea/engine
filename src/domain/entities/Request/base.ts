@@ -1,4 +1,4 @@
-export type Params = {
+export type BaseRequestParams = {
   path: string
   baseUrl?: string
   headers?: { [key: string]: string }
@@ -6,14 +6,14 @@ export type Params = {
   params?: { [key: string]: string }
 }
 
-export class Base {
+export class BaseRequest {
   public path: string
   public baseUrl: string
   public headers?: { [key: string]: string }
   public query: { [key: string]: string }
   public params: { [key: string]: string }
 
-  constructor(params: Params) {
+  constructor(params: BaseRequestParams) {
     this.path = params.path
     this.baseUrl = params.baseUrl || ''
     this.headers = params.headers || {}

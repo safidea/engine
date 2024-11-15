@@ -1,5 +1,5 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface SingleLineText extends Base {
+export interface ISingleLineTextField extends IBaseAction {
   field: 'SingleLineText'
 }

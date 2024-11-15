@@ -1,14 +1,14 @@
 import type { Database } from '@domain/services/Database'
 import type { DatabaseTable } from '@domain/services/DatabaseTable'
-import { SingleLineText } from '../Field/SingleLineText'
-import { LongText } from '../Field/LongText'
-import { DateTime } from '../Field/DateTime'
+import { SingleLineTextField } from '../Field/SingleLineText'
+import { LongTextField } from '../Field/LongText'
+import { DateTimeField } from '../Field/DateTime'
 import type { Field } from '../Field'
 import { CreatedRecord } from '../Record/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import { UpdatedRecord } from '../Record/Updated'
 
-export interface HistoryRecord {
+export interface AutomationHistoryRecord {
   automation_name: string
   automation_id: string
   trigger_data: object
@@ -16,25 +16,25 @@ export interface HistoryRecord {
   status: string
 }
 
-export interface Services {
+export interface AutomationHistoryServices {
   database: Database
   idGenerator: IdGenerator
 }
 
-export class History {
+export class AutomationHistory {
   private _table: DatabaseTable
   private _fields: Field[] = [
-    new SingleLineText({ name: 'id', required: true }),
-    new SingleLineText({ name: 'automation_name', required: true }),
-    new SingleLineText({ name: 'automation_id', required: true }),
-    new LongText({ name: 'trigger_data' }),
-    new LongText({ name: 'actions_data' }),
-    new SingleLineText({ name: 'status', required: true }),
-    new DateTime({ name: 'created_at', required: true }),
-    new DateTime({ name: 'updated_at' }),
+    new SingleLineTextField({ name: 'id', required: true }),
+    new SingleLineTextField({ name: 'automation_name', required: true }),
+    new SingleLineTextField({ name: 'automation_id', required: true }),
+    new LongTextField({ name: 'trigger_data' }),
+    new LongTextField({ name: 'actions_data' }),
+    new SingleLineTextField({ name: 'status', required: true }),
+    new DateTimeField({ name: 'created_at', required: true }),
+    new DateTimeField({ name: 'updated_at' }),
   ]
 
-  constructor(private _services: Services) {
+  constructor(private _services: AutomationHistoryServices) {
     this._table = this._services.database.table('_automations.histories', this._fields)
   }
 
@@ -49,7 +49,7 @@ export class History {
     await this._table.createView()
   }
 
-  create = async (history: HistoryRecord): Promise<string> => {
+  create = async (history: AutomationHistoryRecord): Promise<string> => {
     const record = new CreatedRecord(
       {
         ...history,

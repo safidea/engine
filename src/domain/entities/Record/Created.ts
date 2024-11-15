@@ -1,20 +1,20 @@
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { Base, type BaseRecordFields, type RecordJson } from './base'
+import { BaseRecord, type BaseRecordFields, type RecordJson } from './base'
 
 export interface CreatedRecordFields extends BaseRecordFields {
   created_at: Date
 }
 
-export type Config = Omit<BaseRecordFields, 'id'>
+export type CreatedRecordConfig = Omit<BaseRecordFields, 'id'>
 
-export interface Services {
+export interface CreatedRecordServices {
   idGenerator: IdGenerator
 }
 
-export class CreatedRecord extends Base {
+export class CreatedRecord extends BaseRecord {
   readonly fields: CreatedRecordFields
 
-  constructor(config: Config, services: Services) {
+  constructor(config: CreatedRecordConfig, services: CreatedRecordServices) {
     const { idGenerator } = services
     const fields: CreatedRecordFields = {
       ...config,

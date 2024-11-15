@@ -1,5 +1,5 @@
-import type { Driver } from '@adapter/spi/drivers/CodeRunnerSpi'
-import type { CodeContext, Modules } from '@domain/services/CodeRunner'
+import type { ICodeRunnerDriver } from '@adapter/spi/drivers/CodeRunnerSpi'
+import type { CodeContext, CodeRunnerModules } from '@domain/services/CodeRunner'
 import vm from 'node:vm'
 
 // Packages
@@ -11,7 +11,7 @@ import axios from 'axios'
 import https from 'https'
 import crypto from 'crypto'
 
-export class JavascriptRunnerDriver implements Driver {
+export class JavascriptRunnerDriver implements ICodeRunnerDriver {
   constructor(
     private _script: vm.Script,
     private _env: {
@@ -19,7 +19,7 @@ export class JavascriptRunnerDriver implements Driver {
     }
   ) {}
 
-  run = async (inputData: object, modules: Modules) => {
+  run = async (inputData: object, modules: CodeRunnerModules) => {
     const { table } = modules
     const globalContext = {
       fetch: global.fetch,

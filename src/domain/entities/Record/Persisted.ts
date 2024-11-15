@@ -1,16 +1,16 @@
-import { Base, type BaseRecordFields, type RecordJson } from './base'
+import { BaseRecord, type BaseRecordFields, type RecordJson } from './base'
 
 export interface PersistedRecordFields extends BaseRecordFields {
   created_at: Date
   updated_at?: Date
 }
 
-export type Config = PersistedRecordFields
+export type PersistedRecordConfig = PersistedRecordFields
 
-export class PersistedRecord extends Base {
+export class PersistedRecord extends BaseRecord {
   readonly fields: PersistedRecordFields
 
-  constructor(config: Config) {
+  constructor(config: PersistedRecordConfig) {
     super(config)
     this.fields = config
   }

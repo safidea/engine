@@ -1,6 +1,6 @@
-import { Base, type BaseProps, buildFilterSchema } from '../base'
+import { BaseFilter, type BaseFilterProps, buildFilterSchema } from '../base'
 
-export type IsTrueConfig = BaseProps & {
+export type IsTrueBooleanFilterConfig = BaseFilterProps & {
   operator: 'IsTrue'
 }
 
@@ -11,12 +11,12 @@ export const isTrueSchema = buildFilterSchema(
   ['operator']
 )
 
-export class IsTrue extends Base {
+export class IsTrueBooleanFilter extends BaseFilter {
   constructor(field: string) {
     super(field)
   }
 
-  toConfig(): IsTrueConfig {
+  toConfig(): IsTrueBooleanFilterConfig {
     return {
       field: this.field,
       operator: 'IsTrue',

@@ -1,5 +1,5 @@
-import type { Driver } from '@adapter/spi/drivers/QueueSpi'
-import type { Config } from '@domain/services/Queue'
+import type { IQueueDriver } from '@adapter/spi/drivers/QueueSpi'
+import type { QueueConfig } from '@domain/services/Queue'
 import type { JobDto } from '@adapter/spi/dtos/JobDto'
 import { v4 as uuidv4 } from 'uuid'
 import { EventEmitter } from 'events'
@@ -12,14 +12,14 @@ interface Job {
   retryCount: number
 }
 
-export class SqliteDriver implements Driver {
+export class SqliteDriver implements IQueueDriver {
   private _intervalsQueues: Timer[] = []
   private _emitter: EventEmitter
   private _jobIds: { job: string; id: string }[] = []
 
   constructor(
-    private _query: Config['query'],
-    private _exec: Config['exec']
+    private _query: QueueConfig['query'],
+    private _exec: QueueConfig['exec']
   ) {
     this._emitter = new EventEmitter()
   }

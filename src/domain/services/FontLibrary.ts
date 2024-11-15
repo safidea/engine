@@ -1,20 +1,20 @@
-import { Font, type Type } from '@domain/entities/Response/Font'
+import { FontResponse, type Type } from '@domain/entities/Response/Font'
 import type { IdGenerator } from './IdGenerator'
 import type { Server } from './Server'
 
-export interface Services {
+export interface FontLibraryServices {
   server: Server
   idGenerator: IdGenerator
 }
 
-export interface Spi {
+export interface IFontLibrarySpi {
   loadCss: (name: string) => Promise<string>
 }
 
 export class FontLibrary {
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: IFontLibrarySpi,
+    private _services: FontLibraryServices
   ) {}
 
   extractTypeFromUrl = (url: string): Type => {
@@ -37,7 +37,7 @@ export class FontLibrary {
       const data = Buffer.from(buffer)
       const type = this.extractTypeFromUrl(url)
       const path = `/fonts/${name}/${idGenerator.forPath()}`
-      await server.get(path, async () => new Font(data, type))
+      await server.get(path, async () => new FontResponse(data, type))
       css = css.replace(url, path)
     }
     return css

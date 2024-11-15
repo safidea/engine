@@ -1,14 +1,14 @@
-import { Base, buildFilterSchema, type BaseProps } from '../base'
+import { BaseFilter, buildFilterSchema, type BaseFilterProps } from '../base'
 
-type Props = BaseProps & {
+type Props = BaseFilterProps & {
   value: number
 }
 
-export type EqualsConfig = Props & {
+export type EqualsNumberFilterConfig = Props & {
   operator: 'Equals'
 }
 
-export const equalSchema = buildFilterSchema(
+export const equalNumberFilterSchema = buildFilterSchema(
   {
     operator: { type: 'string', enum: ['Equals'] },
     value: { type: 'number' },
@@ -16,7 +16,7 @@ export const equalSchema = buildFilterSchema(
   ['operator', 'value']
 )
 
-export class Equals extends Base {
+export class EqualsNumberFilter extends BaseFilter {
   constructor(
     field: string,
     readonly value: number
@@ -24,7 +24,7 @@ export class Equals extends Base {
     super(field)
   }
 
-  toConfig(): EqualsConfig {
+  toConfig(): EqualsNumberFilterConfig {
     return {
       field: this.field,
       operator: 'Equals',

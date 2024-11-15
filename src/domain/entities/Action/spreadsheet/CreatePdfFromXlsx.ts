@@ -1,5 +1,5 @@
-import { Base, type BaseConfig, type BaseServices } from '../base'
-import type { Context } from '../../Automation/Context'
+import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
 import type { Template } from '@domain/services/Template'
 import type { Browser } from '@domain/services/Browser'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
@@ -9,21 +9,21 @@ import type { Bucket } from '@domain/entities/Bucket'
 import type { SpreadsheetLoader } from '@domain/services/SpreadsheetLoader'
 import type { FileJson } from '@domain/entities/File/base'
 
-export interface Config extends BaseConfig {
+export interface CreatePdfFromXlsxSpreadsheetActionConfig extends BaseActionConfig {
   xlsxBucket: string
   xlsxFileId: string
   pdfFileName: string
   pdfBucket: string
 }
 
-export interface Services extends BaseServices {
+export interface CreatePdfFromXlsxSpreadsheetActionServices extends BaseActionServices {
   browser: Browser
   idGenerator: IdGenerator
   templateCompiler: TemplateCompiler
   spreadsheetLoader: SpreadsheetLoader
 }
 
-export interface Entities {
+export interface CreatePdfFromXlsxSpreadsheetActionEntities {
   buckets: Bucket[]
 }
 
@@ -33,16 +33,16 @@ type Input = {
 }
 type Output = { file: FileJson }
 
-export class CreatePdfFromXlsx extends Base<Input, Output> {
+export class CreatePdfFromXlsxSpreadsheetAction extends BaseAction<Input, Output> {
   private _xlsxBucket: Bucket
   private _xlsxFileId: Template
   private _pdfFileName: Template
   private _pdfBucket: Bucket
 
   constructor(
-    config: Config,
-    private _services: Services,
-    entities: Entities
+    config: CreatePdfFromXlsxSpreadsheetActionConfig,
+    private _services: CreatePdfFromXlsxSpreadsheetActionServices,
+    entities: CreatePdfFromXlsxSpreadsheetActionEntities
   ) {
     super(config, _services)
     const { xlsxBucket, xlsxFileId, pdfFileName, pdfBucket } = config
@@ -54,7 +54,7 @@ export class CreatePdfFromXlsx extends Base<Input, Output> {
     this._pdfBucket = this._findBucketByName(pdfBucket, buckets)
   }
 
-  protected _prepare = async (context: Context) => {
+  protected _prepare = async (context: AutomationContext) => {
     return {
       xlsxFileId: context.fillTemplateAsString(this._xlsxFileId),
       pdfFileName: context.fillTemplateAsString(this._pdfFileName),

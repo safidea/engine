@@ -1,12 +1,12 @@
-interface Params {
+interface HeadLinkParams {
   href: string
   rel?: string
   type?: string
   timestamp: number
 }
 
-export class Link {
-  constructor(private _params: Params) {}
+export class HeadLink {
+  constructor(private _params: HeadLinkParams) {}
 
   get href() {
     const { href, timestamp } = this._params

@@ -1,6 +1,6 @@
 import type { Filter } from '@domain/entities/Filter'
-import { IsAfterNumberOfSecondsSinceNow } from '@domain/entities/Filter/date/IsAfterNumberOfSecondsSinceNow'
-import { Or } from '@domain/entities/Filter/Or'
+import { IsAfterNumberOfSecondsSinceNowDateFilter } from '@domain/entities/Filter/date/IsAfterNumberOfSecondsSinceNow'
+import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
 
@@ -14,20 +14,20 @@ export interface NotionTablePageProperties {
   [key: string]: string | number | boolean
 }
 
-export type Action = 'CREATE'
+export type NotionTableAction = 'CREATE'
 
 interface Listener {
   id: string
-  action: Action
+  action: NotionTableAction
   callback: (page: NotionTablePage) => Promise<void>
 }
 
-export interface Services {
+export interface NotionTableServices {
   logger: Logger
   idGenerator: IdGenerator
 }
 
-export interface Spi {
+export interface INotionTableSpi {
   name: string
   create: (page: NotionTablePageProperties) => Promise<string>
   retrieve: (id: string) => Promise<NotionTablePage>
@@ -41,8 +41,8 @@ export class NotionTable {
   private _POLLING_INTERVAL = 10000
 
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: INotionTableSpi,
+    private _services: NotionTableServices
   ) {}
 
   startPolling = () => {
@@ -54,7 +54,9 @@ export class NotionTable {
         (new Date().getTime() - startDate.getTime()) / 1000,
         (this._POLLING_INTERVAL * 12) / 1000
       )
-      const filter = new Or([new IsAfterNumberOfSecondsSinceNow('created_time', seconds)])
+      const filter = new OrFilter([
+        new IsAfterNumberOfSecondsSinceNowDateFilter('created_time', seconds),
+      ])
       const pages = await this.list(filter)
       const pagesNotPolled = pages.filter((page) => !pagesIdsPolled.includes(page.id))
       pagesIdsPolled = pages.map((page) => page.id)

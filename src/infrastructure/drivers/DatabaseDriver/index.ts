@@ -1,14 +1,14 @@
-import type { Driver } from '@adapter/spi/drivers/DatabaseSpi'
-import type { Config, EventType } from '@domain/services/Database'
+import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
+import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { SQLiteDriver } from './SQLiteDriver'
 import { PostgreSQLDriver } from './PostgreSQLDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
-export class DatabaseDriver implements Driver {
+export class DatabaseDriver implements IDatabaseDriver {
   private _db: SQLiteDriver | PostgreSQLDriver
 
-  constructor(config: Config) {
+  constructor(config: DatabaseConfig) {
     const { driver } = config
     switch (driver) {
       case 'SQLite':
@@ -45,7 +45,7 @@ export class DatabaseDriver implements Driver {
     return this._db.table(name, fields)
   }
 
-  on = (event: EventType, callback: (eventDto: EventDto) => void) => {
+  on = (event: DatabaseEventType, callback: (eventDto: EventDto) => void) => {
     this._db.on(event, callback)
   }
 

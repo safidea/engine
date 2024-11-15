@@ -12,16 +12,16 @@ import type { Realtime } from '@domain/services/Realtime'
 import type { Auth } from '@domain/services/Auth'
 import type { Theme } from '@domain/services/Theme'
 import type { Storage } from '@domain/services/Storage'
-import { Get } from '@domain/entities/Request/Get'
-import { State } from '../Page/State'
+import { GetRequest } from '@domain/entities/Request/Get'
+import { PageState } from '../Page/State'
 import type { Monitor } from '@domain/services/Monitor'
 import type { Notion } from '@domain/integrations/Notion'
 
-export interface Config {
+export interface AppConfig {
   name: string
 }
 
-export interface Services {
+export interface AppServices {
   logger: Logger
   server: Server
   theme: Theme
@@ -34,14 +34,14 @@ export interface Services {
   monitor: Monitor
 }
 
-export interface Entities {
+export interface AppEntities {
   tables: Table[]
   pages: Page[]
   automations: Automation[]
   buckets: Bucket[]
 }
 
-export interface Integrations {
+export interface AppIntegrations {
   notion: Notion
 }
 
@@ -56,10 +56,10 @@ export class App {
   public status: Status = 'ready'
 
   constructor(
-    config: Config,
-    private _services: Services,
-    private _entities: Entities,
-    private _integrations: Integrations
+    config: AppConfig,
+    private _services: AppServices,
+    private _entities: AppEntities,
+    private _integrations: AppIntegrations
   ) {
     const { name } = config
     const { database, queue, mailer, storage } = _services
@@ -96,7 +96,9 @@ export class App {
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
-          page.htmlWithSampleProps(new State(new Get({ path: page.path, baseUrl: server.baseUrl })))
+          page.htmlWithSampleProps(
+            new PageState(new GetRequest({ path: page.path, baseUrl: server.baseUrl }))
+          )
         const htmlContents = await Promise.all(pages.map(getHtmlContent))
         await theme.init(htmlContents)
       }

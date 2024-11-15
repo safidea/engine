@@ -1,22 +1,26 @@
 import type { FilterWithOperatorConfig } from '..'
-import { IsAnyOf, isAnyOfSchema, type IsAnyOfConfig } from './IsAnyOf'
+import {
+  IsAnyOfSelectFilter,
+  isAnyOfSelectFilterSchema,
+  type IsAnyOfSelectFilterConfig,
+} from './IsAnyOf'
 
-export type SelectConfig = IsAnyOfConfig
+export type SelectFilterConfig = IsAnyOfSelectFilterConfig
 
-export const selectSchemas = [isAnyOfSchema]
+export const selectFilterSchemas = [isAnyOfSelectFilterSchema]
 
-export type Select = IsAnyOf
+export type SelectFilter = IsAnyOfSelectFilter
 
-export const isSelectFilter = (config: FilterWithOperatorConfig): config is SelectConfig => {
+export const isSelectFilter = (config: FilterWithOperatorConfig): config is SelectFilterConfig => {
   return config.operator === 'IsAnyOf'
 }
 
-export class SelectMapper {
-  static toEntity = (config: SelectConfig): Select => {
+export class SelectFilterMapper {
+  static toEntity = (config: SelectFilterConfig): SelectFilter => {
     const { operator, field, value } = config
     switch (operator) {
       case 'IsAnyOf':
-        return new IsAnyOf(field, value)
+        return new IsAnyOfSelectFilter(field, value)
     }
   }
 }

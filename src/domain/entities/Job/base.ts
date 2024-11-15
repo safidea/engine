@@ -1,3 +1,3 @@
-export interface BaseParams {
+export interface BaseJobParams {
   name: string
 }

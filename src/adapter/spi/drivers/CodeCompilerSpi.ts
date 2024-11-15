@@ -1,12 +1,12 @@
-import type { Spi } from '@domain/services/CodeCompiler'
-import { type Driver as CodeRunnerDriver, CodeRunnerSpi } from './CodeRunnerSpi'
+import type { ICodeCompilerSpi } from '@domain/services/CodeCompiler'
+import { type ICodeRunnerDriver, CodeRunnerSpi } from './CodeRunnerSpi'
 
-export interface Driver {
-  compile: (code: string, env: { [key: string]: string }) => CodeRunnerDriver
+export interface ICodeCompilerDriver {
+  compile: (code: string, env: { [key: string]: string }) => ICodeRunnerDriver
 }
 
-export class CodeCompilerSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class CodeCompilerSpi implements ICodeCompilerSpi {
+  constructor(private _driver: ICodeCompilerDriver) {}
 
   compile = (code: string, env: { [key: string]: string }) => {
     const driver = this._driver.compile(code, env)

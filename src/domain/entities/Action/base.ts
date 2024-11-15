@@ -1,32 +1,32 @@
 import type { Monitor } from '@domain/services/Monitor'
-import type { Context, ActionContext } from '../Automation/Context'
+import type { AutomationContext, AutomationContextAction } from '../Automation/Context'
 import type { Bucket } from '../Bucket'
 import { ConfigError } from '../Error/Config'
 import type { Table } from '../Table'
 import { Logger } from '@domain/services/Logger'
 
-export interface BaseConfig {
+export interface BaseActionConfig {
   name: string
 }
 
-export interface BaseServices {
+export interface BaseActionServices {
   logger: Logger
   monitor: Monitor
 }
 
-export class Base<Input extends object, Output extends object> {
+export class BaseAction<Input extends object, Output extends object> {
   public name: string
 
   constructor(
-    private _baseConfig: BaseConfig,
-    private _baseServices: BaseServices
+    private _baseConfig: BaseActionConfig,
+    private _baseServices: BaseActionServices
   ) {
     this.name = _baseConfig.name
   }
 
   init = async () => {}
 
-  protected _prepare = async (_context: Context): Promise<Input> => {
+  protected _prepare = async (_context: AutomationContext): Promise<Input> => {
     throw new Error('Method not implemented.')
   }
 
@@ -34,9 +34,9 @@ export class Base<Input extends object, Output extends object> {
     throw new Error('Method not implemented.')
   }
 
-  execute = async (context: Context): Promise<void> => {
+  execute = async (context: AutomationContext): Promise<void> => {
     const { logger, monitor } = this._baseServices
-    const actionContext: ActionContext = {
+    const actionContext: AutomationContextAction = {
       config: this._baseConfig,
       input: {},
       output: {},

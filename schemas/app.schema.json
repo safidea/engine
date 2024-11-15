@@ -2,235 +2,53 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
-        "Action": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/CreateDocxFromTemplate"
-                },
-                {
-                    "$ref": "#/definitions/CreateXlsxFromTemplate"
-                },
-                {
-                    "$ref": "#/definitions/CreateRecord"
-                },
-                {
-                    "$ref": "#/definitions/RunJavascript"
-                },
-                {
-                    "$ref": "#/definitions/RunTypescript"
-                },
-                {
-                    "$ref": "#/definitions/SendEmail"
-                },
-                {
-                    "$ref": "#/definitions/ReadRecord"
-                },
-                {
-                    "$ref": "#/definitions/CreatePdfFromXlsx"
-                },
-                {
-                    "$ref": "#/definitions/GetCompany"
-                }
-            ]
-        },
-        "ApiCalled": {
+        "AuthConfig": {
             "additionalProperties": false,
             "properties": {
-                "event": {
-                    "const": "ApiCalled",
-                    "type": "string"
-                },
-                "input": {
-                    "$ref": "#/definitions/JSONSchema"
-                },
-                "output": {
-                    "$ref": "#/definitions/InputValues"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Http",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "path",
-                "service"
-            ],
-            "type": "object"
-        },
-        "Attribute": {
-            "additionalProperties": false,
-            "properties": {
-                "attribute": {
-                    "type": "string"
-                },
-                "expect": {
-                    "const": "Attribute",
-                    "type": "string"
-                },
-                "tag": {
-                    "enum": [
-                        "a",
-                        "abbr",
-                        "address",
-                        "area",
-                        "article",
-                        "aside",
-                        "audio",
-                        "b",
-                        "base",
-                        "bdi",
-                        "bdo",
-                        "blockquote",
-                        "body",
-                        "br",
-                        "button",
-                        "canvas",
-                        "caption",
-                        "cite",
-                        "code",
-                        "col",
-                        "colgroup",
-                        "data",
-                        "datalist",
-                        "dd",
-                        "del",
-                        "details",
-                        "dfn",
-                        "dialog",
-                        "div",
-                        "dl",
-                        "dt",
-                        "em",
-                        "embed",
-                        "fieldset",
-                        "figcaption",
-                        "figure",
-                        "footer",
-                        "form",
-                        "h1",
-                        "h2",
-                        "h3",
-                        "h4",
-                        "h5",
-                        "h6",
-                        "head",
-                        "header",
-                        "hgroup",
-                        "hr",
-                        "html",
-                        "i",
-                        "iframe",
-                        "img",
-                        "input",
-                        "ins",
-                        "kbd",
-                        "label",
-                        "legend",
-                        "li",
-                        "link",
-                        "main",
-                        "map",
-                        "mark",
-                        "menu",
-                        "meta",
-                        "meter",
-                        "nav",
-                        "noscript",
-                        "object",
-                        "ol",
-                        "optgroup",
-                        "option",
-                        "output",
-                        "p",
-                        "picture",
-                        "pre",
-                        "progress",
-                        "q",
-                        "rp",
-                        "rt",
-                        "ruby",
-                        "s",
-                        "samp",
-                        "script",
-                        "search",
-                        "section",
-                        "select",
-                        "slot",
-                        "small",
-                        "source",
-                        "span",
-                        "strong",
-                        "style",
-                        "sub",
-                        "summary",
-                        "sup",
-                        "table",
-                        "tbody",
-                        "td",
-                        "template",
-                        "textarea",
-                        "tfoot",
-                        "th",
-                        "thead",
-                        "time",
-                        "title",
-                        "tr",
-                        "track",
-                        "u",
-                        "ul",
-                        "var",
-                        "video",
-                        "wbr"
-                    ],
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "attribute",
-                "expect",
-                "value"
-            ],
-            "type": "object"
-        },
-        "Automation": {
-            "additionalProperties": false,
-            "properties": {
-                "actions": {
-                    "items": {
-                        "$ref": "#/definitions/Action"
+                "confirmEmail": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "from": {
+                            "type": "string"
+                        },
+                        "html": {
+                            "type": "string"
+                        },
+                        "subject": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
                     },
-                    "type": "array"
+                    "required": [
+                        "from",
+                        "html",
+                        "subject",
+                        "text"
+                    ],
+                    "type": "object"
                 },
-                "name": {
+                "redirectOnLogin": {
                     "type": "string"
                 },
-                "trigger": {
-                    "$ref": "#/definitions/Trigger"
+                "redirectOnLogout": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "strategy": {
+                    "const": "magic-link",
+                    "type": "string"
                 }
             },
             "required": [
-                "actions",
-                "name",
-                "trigger"
-            ],
-            "type": "object"
-        },
-        "Bucket": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name"
+                "confirmEmail",
+                "redirectOnLogin",
+                "redirectOnLogout",
+                "secret",
+                "strategy"
             ],
             "type": "object"
         },
@@ -365,44 +183,6 @@
             ],
             "type": "object"
         },
-        "Click": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "Click",
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "text"
-            ],
-            "type": "object"
-        },
-        "ClickInEmail": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "ClickInEmail",
-                    "type": "string"
-                },
-                "mailbox": {
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "mailbox",
-                "text"
-            ],
-            "type": "object"
-        },
         "Column": {
             "additionalProperties": false,
             "properties": {
@@ -420,7 +200,7 @@
             "properties": {
                 "children": {
                     "items": {
-                        "$ref": "#/definitions/Component"
+                        "$ref": "#/definitions/IComponent"
                     },
                     "type": "array"
                 },
@@ -440,94 +220,6 @@
                 "component"
             ],
             "type": "object"
-        },
-        "Component": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/Button"
-                },
-                {
-                    "$ref": "#/definitions/Title_1"
-                },
-                {
-                    "$ref": "#/definitions/Paragraph"
-                },
-                {
-                    "$ref": "#/definitions/Input"
-                },
-                {
-                    "$ref": "#/definitions/Form"
-                },
-                {
-                    "$ref": "#/definitions/Cta"
-                },
-                {
-                    "$ref": "#/definitions/Icon"
-                },
-                {
-                    "$ref": "#/definitions/Features"
-                },
-                {
-                    "$ref": "#/definitions/Hero"
-                },
-                {
-                    "$ref": "#/definitions/Link_1"
-                },
-                {
-                    "$ref": "#/definitions/Footer"
-                },
-                {
-                    "$ref": "#/definitions/Image"
-                },
-                {
-                    "$ref": "#/definitions/Logos"
-                },
-                {
-                    "$ref": "#/definitions/NotFound"
-                },
-                {
-                    "$ref": "#/definitions/Dropdown"
-                },
-                {
-                    "$ref": "#/definitions/Header"
-                },
-                {
-                    "$ref": "#/definitions/Table"
-                },
-                {
-                    "$ref": "#/definitions/Sidebar"
-                },
-                {
-                    "$ref": "#/definitions/List"
-                },
-                {
-                    "$ref": "#/definitions/Heading"
-                },
-                {
-                    "$ref": "#/definitions/Modal"
-                },
-                {
-                    "$ref": "#/definitions/Container"
-                },
-                {
-                    "$ref": "#/definitions/Columns"
-                },
-                {
-                    "$ref": "#/definitions/Card"
-                },
-                {
-                    "$ref": "#/definitions/Divider"
-                },
-                {
-                    "$ref": "#/definitions/Spacer"
-                },
-                {
-                    "$ref": "#/definitions/Markdown"
-                },
-                {
-                    "$ref": "#/definitions/Grid"
-                }
-            ]
         },
         "Config_1": {
             "additionalProperties": false,
@@ -585,254 +277,6 @@
             "required": [
                 "name"
             ],
-            "type": "object"
-        },
-        "Config_10": {
-            "additionalProperties": false,
-            "properties": {
-                "env": {
-                    "type": "string"
-                },
-                "monitors": {
-                    "items": {
-                        "enum": [
-                            "Console",
-                            "Sentry"
-                        ],
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "sslCert": {
-                    "type": "string"
-                },
-                "sslKey": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Config_11": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "$ref": "#/definitions/Driver"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "driver",
-                "url"
-            ],
-            "type": "object"
-        },
-        "Config_12": {
-            "additionalProperties": false,
-            "properties": {
-                "from": {
-                    "type": "string"
-                },
-                "host": {
-                    "type": "string"
-                },
-                "pass": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "string"
-                },
-                "secure": {
-                    "type": "boolean"
-                },
-                "user": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "from",
-                "host",
-                "pass",
-                "port",
-                "user"
-            ],
-            "type": "object"
-        },
-        "Config_13": {
-            "additionalProperties": false,
-            "properties": {
-                "confirmEmail": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "from": {
-                            "type": "string"
-                        },
-                        "html": {
-                            "type": "string"
-                        },
-                        "subject": {
-                            "type": "string"
-                        },
-                        "text": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "from",
-                        "html",
-                        "subject",
-                        "text"
-                    ],
-                    "type": "object"
-                },
-                "redirectOnLogin": {
-                    "type": "string"
-                },
-                "redirectOnLogout": {
-                    "type": "string"
-                },
-                "secret": {
-                    "type": "string"
-                },
-                "strategy": {
-                    "const": "magic-link",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "confirmEmail",
-                "redirectOnLogin",
-                "redirectOnLogout",
-                "secret",
-                "strategy"
-            ],
-            "type": "object"
-        },
-        "Config_14": {
-            "additionalProperties": false,
-            "properties": {
-                "container": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "center": {
-                            "type": "boolean"
-                        },
-                        "padding": {
-                            "anyOf": [
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "2xl": {
-                                            "type": "string"
-                                        },
-                                        "DEFAULT": {
-                                            "type": "string"
-                                        },
-                                        "lg": {
-                                            "type": "string"
-                                        },
-                                        "md": {
-                                            "type": "string"
-                                        },
-                                        "sm": {
-                                            "type": "string"
-                                        },
-                                        "xl": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "type": "object"
-                },
-                "fontFamily": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "sans": {
-                            "enum": [
-                                "Asap",
-                                "Barlow",
-                                "Catamaran",
-                                "Exo 2",
-                                "Fira Sans",
-                                "Heebo",
-                                "Hind",
-                                "IBM Plex Sans",
-                                "Inter",
-                                "Josefin Sans",
-                                "Karla",
-                                "Lato",
-                                "Lexend Deca",
-                                "Manrope",
-                                "Merriweather Sans",
-                                "Montserrat",
-                                "Mukta",
-                                "Mulish",
-                                "Noto Sans",
-                                "Nunito Sans",
-                                "Open Sans",
-                                "PT Sans",
-                                "Poppins",
-                                "Public Sans",
-                                "Questrial",
-                                "Raleway",
-                                "Roboto",
-                                "Rubik",
-                                "Source Sans Pro",
-                                "Space Grotesk",
-                                "Titillium Web",
-                                "Ubuntu",
-                                "Varela Round",
-                                "Work Sans"
-                            ],
-                            "type": "string"
-                        },
-                        "serif": {
-                            "enum": [
-                                "Alegreya",
-                                "Bitter",
-                                "Bree Serif",
-                                "Cardo",
-                                "Cormorant",
-                                "Cormorant Garamond",
-                                "Crimson Text",
-                                "Domine",
-                                "EB Garamond",
-                                "Faustina",
-                                "Frank Ruhl Libre",
-                                "Gentium Basic",
-                                "Inknut Antiqua",
-                                "Libre Baskerville",
-                                "Lora",
-                                "Lusitana",
-                                "Maitree",
-                                "Merriweather",
-                                "Neuton",
-                                "Noto Serif",
-                                "PT Serif",
-                                "Playfair Display",
-                                "Roboto Slab",
-                                "Slabo 27px",
-                                "Spectral",
-                                "Tinos",
-                                "Zilla Slab"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            },
             "type": "object"
         },
         "Config_2": {
@@ -1028,7 +472,7 @@
                     "type": "string"
                 },
                 "name": {
-                    "$ref": "#/definitions/Name"
+                    "$ref": "#/definitions/IconName"
                 }
             },
             "required": [
@@ -1150,59 +594,6 @@
             ],
             "type": "object"
         },
-        "Config_9": {
-            "additionalProperties": false,
-            "properties": {
-                "token": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "token"
-            ],
-            "type": "object"
-        },
-        "ConsoleConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "Console",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "driver"
-            ],
-            "type": "object"
-        },
-        "ConsoleConfig_1": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "Console",
-                    "type": "string"
-                },
-                "level": {
-                    "enum": [
-                        "debug",
-                        "error",
-                        "http",
-                        "info",
-                        "silly",
-                        "verbose",
-                        "warn"
-                    ],
-                    "type": "string"
-                },
-                "silent": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "driver"
-            ],
-            "type": "object"
-        },
         "Container": {
             "additionalProperties": false,
             "properties": {
@@ -1222,7 +613,7 @@
                 },
                 "children": {
                     "items": {
-                        "$ref": "#/definitions/Component"
+                        "$ref": "#/definitions/IComponent"
                     },
                     "type": "array"
                 },
@@ -1283,152 +674,6 @@
             ],
             "type": "object"
         },
-        "CreateDocxFromTemplate": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreateDocxFromTemplate",
-                    "type": "string"
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "fileName": {
-                    "type": "string"
-                },
-                "input": {
-                    "$ref": "#/definitions/InputValues"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Document",
-                    "type": "string"
-                },
-                "templatePath": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "bucket",
-                "fileName",
-                "input",
-                "name",
-                "service",
-                "templatePath"
-            ],
-            "type": "object"
-        },
-        "CreatePdfFromXlsx": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreatePdfFromXlsx",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "pdfBucket": {
-                    "type": "string"
-                },
-                "pdfFileName": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Spreadsheet",
-                    "type": "string"
-                },
-                "xlsxBucket": {
-                    "type": "string"
-                },
-                "xlsxFileId": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "name",
-                "pdfBucket",
-                "pdfFileName",
-                "service",
-                "xlsxBucket",
-                "xlsxFileId"
-            ],
-            "type": "object"
-        },
-        "CreateRecord": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreateRecord",
-                    "type": "string"
-                },
-                "fields": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Database",
-                    "type": "string"
-                },
-                "table": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "fields",
-                "name",
-                "service",
-                "table"
-            ],
-            "type": "object"
-        },
-        "CreateXlsxFromTemplate": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "CreateXlsxFromTemplate",
-                    "type": "string"
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "fileName": {
-                    "type": "string"
-                },
-                "input": {
-                    "$ref": "#/definitions/InputValues"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Spreadsheet",
-                    "type": "string"
-                },
-                "templatePath": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "bucket",
-                "fileName",
-                "name",
-                "service",
-                "templatePath"
-            ],
-            "type": "object"
-        },
         "Cta": {
             "additionalProperties": false,
             "properties": {
@@ -1463,34 +708,28 @@
             ],
             "type": "object"
         },
-        "DateTime": {
+        "DatabaseConfig": {
             "additionalProperties": false,
             "properties": {
-                "field": {
-                    "const": "DateTime",
+                "driver": {
+                    "$ref": "#/definitions/DatabaseDriverName"
+                },
+                "url": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "required": {
-                    "type": "boolean"
                 }
             },
             "required": [
-                "field",
-                "name"
+                "driver",
+                "url"
             ],
             "type": "object"
+        },
+        "DatabaseDriverName": {
+            "enum": [
+                "PostgreSQL",
+                "SQLite"
+            ],
+            "type": "string"
         },
         "Divider": {
             "additionalProperties": false,
@@ -1510,13 +749,6 @@
                 "component"
             ],
             "type": "object"
-        },
-        "Driver": {
-            "enum": [
-                "PostgreSQL",
-                "SQLite"
-            ],
-            "type": "string"
         },
         "Dropdown": {
             "additionalProperties": false,
@@ -1548,110 +780,7 @@
             ],
             "type": "object"
         },
-        "ElasticSearchConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "ElasticSearch",
-                    "type": "string"
-                },
-                "index": {
-                    "type": "string"
-                },
-                "level": {
-                    "enum": [
-                        "debug",
-                        "error",
-                        "http",
-                        "info",
-                        "silly",
-                        "verbose",
-                        "warn"
-                    ],
-                    "type": "string"
-                },
-                "silent": {
-                    "type": "boolean"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "driver",
-                "index",
-                "url"
-            ],
-            "type": "object"
-        },
-        "Email": {
-            "additionalProperties": false,
-            "properties": {
-                "expect": {
-                    "const": "Email",
-                    "type": "string"
-                },
-                "mailbox": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "expect",
-                "mailbox"
-            ],
-            "type": "object"
-        },
-        "Email_1": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "const": "Email",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "required": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "field",
-                "name"
-            ],
-            "type": "object"
-        },
-        "Equal": {
-            "additionalProperties": false,
-            "properties": {
-                "equal": {
-                    "type": "string"
-                },
-                "expect": {
-                    "const": "Equal",
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "equal",
-                "expect",
-                "value"
-            ],
-            "type": "object"
-        },
-        "EqualsConfig": {
+        "EqualsNumberFilterConfig": {
             "additionalProperties": false,
             "properties": {
                 "field": {
@@ -1671,79 +800,6 @@
                 "value"
             ],
             "type": "object"
-        },
-        "Event": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/Click"
-                },
-                {
-                    "$ref": "#/definitions/ClickInEmail"
-                },
-                {
-                    "$ref": "#/definitions/Fill"
-                },
-                {
-                    "$ref": "#/definitions/Open"
-                },
-                {
-                    "$ref": "#/definitions/Post"
-                },
-                {
-                    "$ref": "#/definitions/WaitForAutomation"
-                },
-                {
-                    "$ref": "#/definitions/WaitForText"
-                }
-            ]
-        },
-        "Exist": {
-            "additionalProperties": false,
-            "properties": {
-                "expect": {
-                    "const": "Exist",
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "expect",
-                "value"
-            ],
-            "type": "object"
-        },
-        "Expect": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/Attribute"
-                },
-                {
-                    "$ref": "#/definitions/Email"
-                },
-                {
-                    "$ref": "#/definitions/Equal"
-                },
-                {
-                    "$ref": "#/definitions/Exist"
-                },
-                {
-                    "$ref": "#/definitions/InputText"
-                },
-                {
-                    "$ref": "#/definitions/Record"
-                },
-                {
-                    "$ref": "#/definitions/Text"
-                },
-                {
-                    "$ref": "#/definitions/Title"
-                },
-                {
-                    "$ref": "#/definitions/Url"
-                }
-            ]
         },
         "Features": {
             "additionalProperties": false,
@@ -1812,112 +868,25 @@
             ],
             "type": "object"
         },
-        "Field_1": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/DateTime"
-                },
-                {
-                    "$ref": "#/definitions/Email_1"
-                },
-                {
-                    "$ref": "#/definitions/LongText"
-                },
-                {
-                    "$ref": "#/definitions/Number"
-                },
-                {
-                    "$ref": "#/definitions/SingleLineText"
-                },
-                {
-                    "$ref": "#/definitions/Formula"
-                },
-                {
-                    "$ref": "#/definitions/MultipleLinkedRecord"
-                },
-                {
-                    "$ref": "#/definitions/Rollup"
-                },
-                {
-                    "$ref": "#/definitions/SingleLinkedRecord"
-                },
-                {
-                    "$ref": "#/definitions/SingleSelect"
-                }
-            ]
-        },
-        "FileConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "File",
-                    "type": "string"
-                },
-                "filename": {
-                    "type": "string"
-                },
-                "level": {
-                    "enum": [
-                        "debug",
-                        "error",
-                        "http",
-                        "info",
-                        "silly",
-                        "verbose",
-                        "warn"
-                    ],
-                    "type": "string"
-                },
-                "silent": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "driver",
-                "filename"
-            ],
-            "type": "object"
-        },
-        "Fill": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "Fill",
-                    "type": "string"
-                },
-                "input": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "input",
-                "value"
-            ],
-            "type": "object"
-        },
         "FilterConfig": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/IsFalseConfig"
+                    "$ref": "#/definitions/IsFalseBooleanFilterConfig"
                 },
                 {
-                    "$ref": "#/definitions/IsTrueConfig"
+                    "$ref": "#/definitions/IsTrueBooleanFilterConfig"
                 },
                 {
-                    "$ref": "#/definitions/IsAfterNumberOfSecondsSinceNowConfig"
+                    "$ref": "#/definitions/IsAfterNumberOfSecondsSinceNowDateFilterConfig"
                 },
                 {
-                    "$ref": "#/definitions/EqualsConfig"
+                    "$ref": "#/definitions/EqualsNumberFilterConfig"
                 },
                 {
-                    "$ref": "#/definitions/IsAnyOfConfig"
+                    "$ref": "#/definitions/IsAnyOfSelectFilterConfig"
                 },
                 {
-                    "$ref": "#/definitions/IsConfig"
+                    "$ref": "#/definitions/IsTextFilterConfig"
                 },
                 {
                     "additionalProperties": false,
@@ -2047,75 +1016,12 @@
             ],
             "type": "object"
         },
-        "Formula": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "const": "Formula",
-                    "type": "string"
-                },
-                "formula": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "output": {
-                    "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
-                },
-                "required": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "field",
-                "formula",
-                "name",
-                "output"
-            ],
-            "type": "object"
-        },
-        "GetCompany": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "GetCompany",
-                    "type": "string"
-                },
-                "integration": {
-                    "const": "Pappers",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "siret": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "integration",
-                "name",
-                "siret"
-            ],
-            "type": "object"
-        },
         "Grid": {
             "additionalProperties": false,
             "properties": {
                 "children": {
                     "items": {
-                        "$ref": "#/definitions/Component"
+                        "$ref": "#/definitions/IComponent"
                     },
                     "type": "array"
                 },
@@ -2138,33 +1044,6 @@
                 "columns",
                 "component"
             ],
-            "type": "object"
-        },
-        "Head": {
-            "additionalProperties": false,
-            "properties": {
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link"
-                    },
-                    "type": "array"
-                },
-                "metas": {
-                    "items": {
-                        "$ref": "#/definitions/Meta"
-                    },
-                    "type": "array"
-                },
-                "scripts": {
-                    "items": {
-                        "$ref": "#/definitions/Script"
-                    },
-                    "type": "array"
-                },
-                "title": {
-                    "type": "string"
-                }
-            },
             "type": "object"
         },
         "Header": {
@@ -2274,148 +1153,825 @@
             ],
             "type": "object"
         },
-        "Icon": {
+        "IAction": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ICreateDocxFromTemplateDocumentAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreateXlsxFromTemplateSpreadsheetAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreateRecordDatabaseAction"
+                },
+                {
+                    "$ref": "#/definitions/IRunJavascriptCodeAction"
+                },
+                {
+                    "$ref": "#/definitions/IRunTypescriptCodeAction"
+                },
+                {
+                    "$ref": "#/definitions/ISendEmailMailerAction"
+                },
+                {
+                    "$ref": "#/definitions/IReadRecordDatabaseAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreatePdfFromXlsxSpreadsheetAction"
+                },
+                {
+                    "$ref": "#/definitions/IGetCompanyPappersAction"
+                }
+            ]
+        },
+        "IApiCalledHttpTrigger": {
             "additionalProperties": false,
             "properties": {
-                "className": {
+                "event": {
+                    "const": "ApiCalled",
                     "type": "string"
                 },
-                "component": {
-                    "const": "Icon",
+                "input": {
+                    "$ref": "#/definitions/JSONSchema"
+                },
+                "output": {
+                    "$ref": "#/definitions/TemplateInputValues"
+                },
+                "path": {
                     "type": "string"
                 },
-                "id": {
+                "service": {
+                    "const": "Http",
                     "type": "string"
-                },
-                "name": {
-                    "$ref": "#/definitions/Name"
                 }
             },
             "required": [
-                "component",
+                "event",
+                "path",
+                "service"
+            ],
+            "type": "object"
+        },
+        "IAttributeExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "attribute": {
+                    "type": "string"
+                },
+                "expect": {
+                    "const": "Attribute",
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attribute",
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IAutomation": {
+            "additionalProperties": false,
+            "properties": {
+                "actions": {
+                    "items": {
+                        "$ref": "#/definitions/IAction"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "trigger": {
+                    "$ref": "#/definitions/ITrigger"
+                }
+            },
+            "required": [
+                "actions",
+                "name",
+                "trigger"
+            ],
+            "type": "object"
+        },
+        "IBucket": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
                 "name"
             ],
             "type": "object"
         },
-        "Image": {
+        "IClickEvent": {
             "additionalProperties": false,
             "properties": {
-                "align": {
-                    "enum": [
-                        "center",
-                        "left",
-                        "right"
-                    ],
+                "event": {
+                    "const": "Click",
                     "type": "string"
                 },
-                "alt": {
-                    "type": "string"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Image",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "rounded": {
-                    "enum": [
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl"
-                    ],
-                    "type": "string"
-                },
-                "size": {
-                    "enum": [
-                        "2xl",
-                        "lg",
-                        "md",
-                        "sm",
-                        "xl",
-                        "xs"
-                    ],
-                    "type": "string"
-                },
-                "src": {
+                "text": {
                     "type": "string"
                 }
             },
             "required": [
-                "alt",
-                "component",
-                "src"
+                "event",
+                "text"
             ],
             "type": "object"
         },
-        "Input": {
+        "IClickInEmailEvent": {
             "additionalProperties": false,
             "properties": {
-                "className": {
+                "event": {
+                    "const": "ClickInEmail",
                     "type": "string"
                 },
-                "component": {
-                    "const": "Input",
+                "mailbox": {
                     "type": "string"
                 },
-                "defaultValue": {
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "mailbox",
+                "text"
+            ],
+            "type": "object"
+        },
+        "IComponent": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Button"
+                },
+                {
+                    "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
+                    "$ref": "#/definitions/Input"
+                },
+                {
+                    "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Cta"
+                },
+                {
+                    "$ref": "#/definitions/Icon"
+                },
+                {
+                    "$ref": "#/definitions/Features"
+                },
+                {
+                    "$ref": "#/definitions/Hero"
+                },
+                {
+                    "$ref": "#/definitions/Link"
+                },
+                {
+                    "$ref": "#/definitions/Footer"
+                },
+                {
+                    "$ref": "#/definitions/Image"
+                },
+                {
+                    "$ref": "#/definitions/Logos"
+                },
+                {
+                    "$ref": "#/definitions/NotFound"
+                },
+                {
+                    "$ref": "#/definitions/Dropdown"
+                },
+                {
+                    "$ref": "#/definitions/Header"
+                },
+                {
+                    "$ref": "#/definitions/Table"
+                },
+                {
+                    "$ref": "#/definitions/Sidebar"
+                },
+                {
+                    "$ref": "#/definitions/List"
+                },
+                {
+                    "$ref": "#/definitions/Heading"
+                },
+                {
+                    "$ref": "#/definitions/Modal"
+                },
+                {
+                    "$ref": "#/definitions/Container"
+                },
+                {
+                    "$ref": "#/definitions/Columns"
+                },
+                {
+                    "$ref": "#/definitions/Card"
+                },
+                {
+                    "$ref": "#/definitions/Divider"
+                },
+                {
+                    "$ref": "#/definitions/Spacer"
+                },
+                {
+                    "$ref": "#/definitions/Markdown"
+                },
+                {
+                    "$ref": "#/definitions/Grid"
+                }
+            ]
+        },
+        "ICreateDocxFromTemplateDocumentAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateDocxFromTemplate",
                     "type": "string"
                 },
-                "id": {
+                "bucket": {
                     "type": "string"
                 },
-                "label": {
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateInputValues"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Document",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "input",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
+        "ICreatePdfFromXlsxSpreadsheetAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreatePdfFromXlsx",
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "placeholder": {
+                "pdfBucket": {
                     "type": "string"
+                },
+                "pdfFileName": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
+                    "type": "string"
+                },
+                "xlsxBucket": {
+                    "type": "string"
+                },
+                "xlsxFileId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "name",
+                "pdfBucket",
+                "pdfFileName",
+                "service",
+                "xlsxBucket",
+                "xlsxFileId"
+            ],
+            "type": "object"
+        },
+        "ICreateRecordDatabaseAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateRecord",
+                    "type": "string"
+                },
+                "fields": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fields",
+                "name",
+                "service",
+                "table"
+            ],
+            "type": "object"
+        },
+        "ICreateXlsxFromTemplateSpreadsheetAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateXlsxFromTemplate",
+                    "type": "string"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateInputValues"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
+        "IDateTimeField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "DateTime",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "required": {
                     "type": "boolean"
-                },
-                "type": {
-                    "enum": [
-                        "button",
-                        "checkbox",
-                        "color",
-                        "date",
-                        "datetime-local",
-                        "email",
-                        "file",
-                        "hidden",
-                        "image",
-                        "month",
-                        "number",
-                        "password",
-                        "radio",
-                        "range",
-                        "reset",
-                        "search",
-                        "submit",
-                        "tel",
-                        "text",
-                        "textarea",
-                        "time",
-                        "url",
-                        "week"
-                    ],
-                    "type": "string"
                 }
             },
             "required": [
-                "component",
+                "field",
                 "name"
             ],
             "type": "object"
         },
-        "InputText": {
+        "IEmailExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Email",
+                    "type": "string"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "mailbox"
+            ],
+            "type": "object"
+        },
+        "IEmailField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Email",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IEqualExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "equal": {
+                    "type": "string"
+                },
+                "expect": {
+                    "const": "Equal",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "equal",
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IEvent": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IClickEvent"
+                },
+                {
+                    "$ref": "#/definitions/IClickInEmailEvent"
+                },
+                {
+                    "$ref": "#/definitions/IFillEvent"
+                },
+                {
+                    "$ref": "#/definitions/IOpenEvent"
+                },
+                {
+                    "$ref": "#/definitions/IPostEvent"
+                },
+                {
+                    "$ref": "#/definitions/IWaitForAutomationEvent"
+                },
+                {
+                    "$ref": "#/definitions/IWaitForTextEvent"
+                }
+            ]
+        },
+        "IExistExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Exist",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IExpect": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IAttributeExpect"
+                },
+                {
+                    "$ref": "#/definitions/IEmailExpect"
+                },
+                {
+                    "$ref": "#/definitions/IEqualExpect"
+                },
+                {
+                    "$ref": "#/definitions/IExistExpect"
+                },
+                {
+                    "$ref": "#/definitions/IInputTextExpect"
+                },
+                {
+                    "$ref": "#/definitions/IRecordExpect"
+                },
+                {
+                    "$ref": "#/definitions/ITextExpect"
+                },
+                {
+                    "$ref": "#/definitions/ITitleExpect"
+                },
+                {
+                    "$ref": "#/definitions/IUrlExpect"
+                }
+            ]
+        },
+        "IField": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IDateTimeField"
+                },
+                {
+                    "$ref": "#/definitions/IEmailField"
+                },
+                {
+                    "$ref": "#/definitions/ILongTextField"
+                },
+                {
+                    "$ref": "#/definitions/INumberField"
+                },
+                {
+                    "$ref": "#/definitions/ISingleLineTextField"
+                },
+                {
+                    "$ref": "#/definitions/IFormulaField"
+                },
+                {
+                    "$ref": "#/definitions/IMultipleLinkedRecordField"
+                },
+                {
+                    "$ref": "#/definitions/IRollupField"
+                },
+                {
+                    "$ref": "#/definitions/ISingleLinkedRecordField"
+                },
+                {
+                    "$ref": "#/definitions/ISingleSelectField"
+                }
+            ]
+        },
+        "IFillEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "Fill",
+                    "type": "string"
+                },
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IFormulaField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Formula",
+                    "type": "string"
+                },
+                "formula": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "output": {
+                    "$ref": "#/definitions/Omit<IDateTimeField|ILongTextField|INumberField|ISingleLineTextField,\"name\">"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "formula",
+                "name",
+                "output"
+            ],
+            "type": "object"
+        },
+        "IGetCompanyPappersAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "GetCompany",
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Pappers",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "siret": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "integration",
+                "name",
+                "siret"
+            ],
+            "type": "object"
+        },
+        "IHead": {
+            "additionalProperties": false,
+            "properties": {
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/ILink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IMeta"
+                    },
+                    "type": "array"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IInputTextExpect": {
             "additionalProperties": false,
             "properties": {
                 "expect": {
@@ -2436,202 +1992,19 @@
             ],
             "type": "object"
         },
-        "InputValue": {
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "enum": [
-                        "array",
-                        "boolean",
-                        "number",
-                        "object",
-                        "string"
-                    ],
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "value"
-            ],
-            "type": "object"
-        },
-        "InputValues": {
-            "additionalProperties": {
-                "$ref": "#/definitions/InputValue"
-            },
-            "type": "object"
-        },
-        "Integrations": {
+        "IIntegrations": {
             "additionalProperties": false,
             "properties": {
                 "notion": {
-                    "$ref": "#/definitions/Config_9"
+                    "$ref": "#/definitions/NotionConfig"
                 },
                 "pappers": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "apiKey": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "apiKey"
-                    ],
-                    "type": "object"
+                    "$ref": "#/definitions/PappersConfig"
                 }
             },
             "type": "object"
         },
-        "IsAfterNumberOfSecondsSinceNowConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "IsAfterNumberOfSecondsSinceNow",
-                    "type": "string"
-                },
-                "value": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "field",
-                "operator",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IsAnyOfConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "IsAnyOf",
-                    "type": "string"
-                },
-                "value": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "field",
-                "operator",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IsConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "Is",
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "field",
-                "operator",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IsFalseConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "IsFalse",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "field",
-                "operator"
-            ],
-            "type": "object"
-        },
-        "IsTrueConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "IsTrue",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "field",
-                "operator"
-            ],
-            "type": "object"
-        },
-        "JSONSchema": {
-            "additionalProperties": false,
-            "properties": {
-                "additionalProperties": {
-                    "type": "boolean"
-                },
-                "enum": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "items": {
-                    "$ref": "#/definitions/JSONSchema"
-                },
-                "oneOf": {
-                    "items": {
-                        "$ref": "#/definitions/JSONSchema"
-                    },
-                    "type": "array"
-                },
-                "properties": {
-                    "additionalProperties": {
-                        "$ref": "#/definitions/JSONSchema"
-                    },
-                    "type": "object"
-                },
-                "required": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "type": {
-                    "enum": [
-                        "array",
-                        "boolean",
-                        "number",
-                        "object",
-                        "string"
-                    ],
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Link": {
+        "ILink": {
             "additionalProperties": false,
             "properties": {
                 "href": {
@@ -2649,117 +2022,7 @@
             ],
             "type": "object"
         },
-        "Link_1": {
-            "additionalProperties": false,
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Link",
-                    "type": "string"
-                },
-                "font": {
-                    "enum": [
-                        "mono",
-                        "sans",
-                        "serif"
-                    ],
-                    "type": "string"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "prefixIcon": {
-                    "$ref": "#/definitions/Config_5"
-                },
-                "suffixIcon": {
-                    "$ref": "#/definitions/Config_5"
-                }
-            },
-            "required": [
-                "component",
-                "href",
-                "label"
-            ],
-            "type": "object"
-        },
-        "List": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "columns": {
-                    "items": {
-                        "$ref": "#/definitions/Column"
-                    },
-                    "type": "array"
-                },
-                "component": {
-                    "const": "List",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "open": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "columns",
-                "component",
-                "open",
-                "source"
-            ],
-            "type": "object"
-        },
-        "Logos": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Logos",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "items": {
-                        "$ref": "#/definitions/Config_7"
-                    },
-                    "type": "array"
-                },
-                "paragraph": {
-                    "$ref": "#/definitions/Config_4"
-                },
-                "title": {
-                    "$ref": "#/definitions/Config_3"
-                }
-            },
-            "required": [
-                "component",
-                "images"
-            ],
-            "type": "object"
-        },
-        "LongText": {
+        "ILongTextField": {
             "additionalProperties": false,
             "properties": {
                 "field": {
@@ -2788,38 +2051,7 @@
             ],
             "type": "object"
         },
-        "Markdown": {
-            "additionalProperties": false,
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Markdown",
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "font": {
-                    "enum": [
-                        "mono",
-                        "sans",
-                        "serif"
-                    ],
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "component",
-                "content"
-            ],
-            "type": "object"
-        },
-        "Meta": {
+        "IMeta": {
             "additionalProperties": false,
             "properties": {
                 "content": {
@@ -2835,49 +2067,7 @@
             ],
             "type": "object"
         },
-        "Modal": {
-            "additionalProperties": false,
-            "properties": {
-                "body": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "button": {
-                    "$ref": "#/definitions/Config_2"
-                },
-                "className": {
-                    "type": "string"
-                },
-                "component": {
-                    "const": "Modal",
-                    "type": "string"
-                },
-                "footer": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "header": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "body",
-                "button",
-                "component"
-            ],
-            "type": "object"
-        },
-        "MultipleLinkedRecord": {
+        "IMultipleLinkedRecordField": {
             "additionalProperties": false,
             "properties": {
                 "field": {
@@ -2910,7 +2100,784 @@
             ],
             "type": "object"
         },
-        "Name": {
+        "INumberField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Number",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IOpenEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "Open",
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "url"
+            ],
+            "type": "object"
+        },
+        "IPage": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "head": {
+                    "$ref": "#/definitions/IHead"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path"
+            ],
+            "type": "object"
+        },
+        "IPageCreatedNotionTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "PageCreated",
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Notion",
+                    "type": "string"
+                },
+                "tableId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "integration",
+                "tableId"
+            ],
+            "type": "object"
+        },
+        "IPostEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "event": {
+                    "const": "Post",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "path"
+            ],
+            "type": "object"
+        },
+        "IReadRecordDatabaseAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "ReadRecord",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "id",
+                "name",
+                "service",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IRecordCreatedDatabaseTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "RecordCreated",
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "service",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IRecordExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Record",
+                    "type": "string"
+                },
+                "find": {
+                    "$ref": "#/definitions/FilterConfig"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "find",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IRollupField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Rollup",
+                    "type": "string"
+                },
+                "formula": {
+                    "type": "string"
+                },
+                "linkedRecordField": {
+                    "type": "string"
+                },
+                "multipleLinkedRecord": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "output": {
+                    "$ref": "#/definitions/Omit<IDateTimeField|ILongTextField|INumberField|ISingleLineTextField,\"name\">"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "formula",
+                "linkedRecordField",
+                "multipleLinkedRecord",
+                "name",
+                "output"
+            ],
+            "type": "object"
+        },
+        "IRunJavascriptCodeAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "RunJavascript",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "env": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateInputValues"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "code",
+                "name",
+                "service"
+            ],
+            "type": "object"
+        },
+        "IRunTypescriptCodeAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "RunTypescript",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "env": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateInputValues"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "code",
+                "name",
+                "service"
+            ],
+            "type": "object"
+        },
+        "IScript": {
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
+            ],
+            "type": "object"
+        },
+        "ISendEmailMailerAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "SendEmail",
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "html": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Mailer",
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "from",
+                "html",
+                "name",
+                "service",
+                "subject",
+                "text",
+                "to"
+            ],
+            "type": "object"
+        },
+        "ISingleLineTextField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "ISingleLinkedRecordField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleLinkedRecord",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "table"
+            ],
+            "type": "object"
+        },
+        "ISingleSelectField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleSelect",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "options": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "options"
+            ],
+            "type": "object"
+        },
+        "ITable": {
+            "additionalProperties": false,
+            "properties": {
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/IField"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fields",
+                "name"
+            ],
+            "type": "object"
+        },
+        "ITest": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/IExpect"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/IEvent"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "ITextExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Text",
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "text"
+            ],
+            "type": "object"
+        },
+        "ITitleExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Title",
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "title"
+            ],
+            "type": "object"
+        },
+        "ITrigger": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IApiCalledHttpTrigger"
+                },
+                {
+                    "$ref": "#/definitions/IRecordCreatedDatabaseTrigger"
+                },
+                {
+                    "$ref": "#/definitions/IWebhookCalledHttpTrigger"
+                },
+                {
+                    "$ref": "#/definitions/IPageCreatedNotionTrigger"
+                }
+            ]
+        },
+        "IUrlExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Url",
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "url"
+            ],
+            "type": "object"
+        },
+        "IWaitForAutomationEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "automation": {
+                    "type": "string"
+                },
+                "event": {
+                    "const": "WaitForAutomation",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "automation",
+                "event"
+            ],
+            "type": "object"
+        },
+        "IWaitForTextEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WaitForText",
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "timeout": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "event",
+                "text"
+            ],
+            "type": "object"
+        },
+        "IWebhookCalledHttpTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WebhookCalled",
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Http",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "path",
+                "service"
+            ],
+            "type": "object"
+        },
+        "Icon": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Icon",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "$ref": "#/definitions/IconName"
+                }
+            },
+            "required": [
+                "component",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IconName": {
             "enum": [
                 "AcademicCap",
                 "AdjustmentsHorizontal",
@@ -3206,6 +3173,637 @@
             ],
             "type": "string"
         },
+        "Image": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "alt": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Image",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "src": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "alt",
+                "component",
+                "src"
+            ],
+            "type": "object"
+        },
+        "Input": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Input",
+                    "type": "string"
+                },
+                "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "textarea",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IsAfterNumberOfSecondsSinceNowDateFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsAfterNumberOfSecondsSinceNow",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsAnyOfSelectFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsAnyOf",
+                    "type": "string"
+                },
+                "value": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsFalseBooleanFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsFalse",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator"
+            ],
+            "type": "object"
+        },
+        "IsTextFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "Is",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsTrueBooleanFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsTrue",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator"
+            ],
+            "type": "object"
+        },
+        "JSONSchema": {
+            "additionalProperties": false,
+            "properties": {
+                "additionalProperties": {
+                    "type": "boolean"
+                },
+                "enum": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "items": {
+                    "$ref": "#/definitions/JSONSchema"
+                },
+                "oneOf": {
+                    "items": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "array"
+                },
+                "properties": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "object",
+                        "string"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Link": {
+            "additionalProperties": false,
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Link",
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Config_5"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Config_5"
+                }
+            },
+            "required": [
+                "component",
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "List": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "List",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "open": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "open",
+                "source"
+            ],
+            "type": "object"
+        },
+        "LoggerConfig": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/LoggerElasticSearchConfig"
+                },
+                {
+                    "$ref": "#/definitions/LoggerConsoleConfig"
+                },
+                {
+                    "$ref": "#/definitions/LoggerFileConfig"
+                }
+            ]
+        },
+        "LoggerConsoleConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
+        },
+        "LoggerElasticSearchConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "ElasticSearch",
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "index",
+                "url"
+            ],
+            "type": "object"
+        },
+        "LoggerFileConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "File",
+                    "type": "string"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "driver",
+                "filename"
+            ],
+            "type": "object"
+        },
+        "Logos": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Logos",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "images": {
+                    "items": {
+                        "$ref": "#/definitions/Config_7"
+                    },
+                    "type": "array"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "images"
+            ],
+            "type": "object"
+        },
+        "MailerConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
+        "Markdown": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Markdown",
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "content"
+            ],
+            "type": "object"
+        },
+        "Modal": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "button": {
+                    "$ref": "#/definitions/Config_2"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Modal",
+                    "type": "string"
+                },
+                "footer": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "header": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "button",
+                "component"
+            ],
+            "type": "object"
+        },
+        "MonitorConfig": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/MonitorSentryConfig"
+                },
+                {
+                    "$ref": "#/definitions/MonitorConsoleConfig"
+                }
+            ]
+        },
+        "MonitorConsoleConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
+        },
+        "MonitorSentryConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Sentry",
+                    "type": "string"
+                },
+                "dsn": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "dsn",
+                "environment"
+            ],
+            "type": "object"
+        },
         "NotFound": {
             "additionalProperties": false,
             "properties": {
@@ -3237,36 +3835,19 @@
             ],
             "type": "object"
         },
-        "Number": {
+        "NotionConfig": {
             "additionalProperties": false,
             "properties": {
-                "field": {
-                    "const": "Number",
+                "token": {
                     "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "required": {
-                    "type": "boolean"
                 }
             },
             "required": [
-                "field",
-                "name"
+                "token"
             ],
             "type": "object"
         },
-        "Omit<DateTime|LongText|Number|SingleLineText,\"name\">": {
+        "Omit<IDateTimeField|ILongTextField|INumberField|ISingleLineTextField,\"name\">": {
             "additionalProperties": false,
             "properties": {
                 "field": {
@@ -3296,68 +3877,15 @@
             ],
             "type": "object"
         },
-        "Open": {
+        "PappersConfig": {
             "additionalProperties": false,
             "properties": {
-                "event": {
-                    "const": "Open",
-                    "type": "string"
-                },
-                "url": {
+                "apiKey": {
                     "type": "string"
                 }
             },
             "required": [
-                "event",
-                "url"
-            ],
-            "type": "object"
-        },
-        "Page": {
-            "additionalProperties": false,
-            "properties": {
-                "body": {
-                    "items": {
-                        "$ref": "#/definitions/Component"
-                    },
-                    "type": "array"
-                },
-                "head": {
-                    "$ref": "#/definitions/Head"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "body",
-                "name",
-                "path"
-            ],
-            "type": "object"
-        },
-        "PageCreated": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "PageCreated",
-                    "type": "string"
-                },
-                "integration": {
-                    "const": "Notion",
-                    "type": "string"
-                },
-                "tableId": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "integration",
-                "tableId"
+                "apiKey"
             ],
             "type": "object"
         },
@@ -3411,299 +3939,32 @@
             ],
             "type": "object"
         },
-        "Post": {
+        "ServerConfig": {
             "additionalProperties": false,
             "properties": {
-                "body": {
-                    "additionalProperties": true,
-                    "properties": {},
-                    "type": "object"
-                },
-                "event": {
-                    "const": "Post",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "path"
-            ],
-            "type": "object"
-        },
-        "ReadRecord": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "ReadRecord",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Database",
-                    "type": "string"
-                },
-                "table": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "id",
-                "name",
-                "service",
-                "table"
-            ],
-            "type": "object"
-        },
-        "Record": {
-            "additionalProperties": false,
-            "properties": {
-                "expect": {
-                    "const": "Record",
-                    "type": "string"
-                },
-                "find": {
-                    "$ref": "#/definitions/FilterConfig"
-                },
-                "table": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "expect",
-                "find",
-                "table"
-            ],
-            "type": "object"
-        },
-        "RecordCreated": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "RecordCreated",
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Database",
-                    "type": "string"
-                },
-                "table": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "service",
-                "table"
-            ],
-            "type": "object"
-        },
-        "Rollup": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "const": "Rollup",
-                    "type": "string"
-                },
-                "formula": {
-                    "type": "string"
-                },
-                "linkedRecordField": {
-                    "type": "string"
-                },
-                "multipleLinkedRecord": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "output": {
-                    "$ref": "#/definitions/Omit<DateTime|LongText|Number|SingleLineText,\"name\">"
-                },
-                "required": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "field",
-                "formula",
-                "linkedRecordField",
-                "multipleLinkedRecord",
-                "name",
-                "output"
-            ],
-            "type": "object"
-        },
-        "RunJavascript": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "RunJavascript",
-                    "type": "string"
-                },
-                "code": {
-                    "type": "string"
-                },
                 "env": {
-                    "additionalProperties": {
+                    "type": "string"
+                },
+                "monitors": {
+                    "items": {
+                        "enum": [
+                            "Console",
+                            "Sentry"
+                        ],
                         "type": "string"
                     },
-                    "type": "object"
+                    "type": "array"
                 },
-                "input": {
-                    "$ref": "#/definitions/InputValues"
-                },
-                "name": {
+                "port": {
                     "type": "string"
                 },
-                "service": {
-                    "const": "Code",
+                "sslCert": {
+                    "type": "string"
+                },
+                "sslKey": {
                     "type": "string"
                 }
             },
-            "required": [
-                "action",
-                "code",
-                "name",
-                "service"
-            ],
-            "type": "object"
-        },
-        "RunTypescript": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "RunTypescript",
-                    "type": "string"
-                },
-                "code": {
-                    "type": "string"
-                },
-                "env": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
-                },
-                "input": {
-                    "$ref": "#/definitions/InputValues"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Code",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "code",
-                "name",
-                "service"
-            ],
-            "type": "object"
-        },
-        "Script": {
-            "additionalProperties": false,
-            "properties": {
-                "src": {
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "module",
-                        "text/javascript"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "src"
-            ],
-            "type": "object"
-        },
-        "SendEmail": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "const": "SendEmail",
-                    "type": "string"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "html": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Mailer",
-                    "type": "string"
-                },
-                "subject": {
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                },
-                "to": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "action",
-                "from",
-                "html",
-                "name",
-                "service",
-                "subject",
-                "text",
-                "to"
-            ],
-            "type": "object"
-        },
-        "SentryConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "driver": {
-                    "const": "Sentry",
-                    "type": "string"
-                },
-                "dsn": {
-                    "type": "string"
-                },
-                "environment": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "driver",
-                "dsn",
-                "environment"
-            ],
             "type": "object"
         },
         "Sidebar": {
@@ -3711,7 +3972,7 @@
             "properties": {
                 "children": {
                     "items": {
-                        "$ref": "#/definitions/Component"
+                        "$ref": "#/definitions/IComponent"
                     },
                     "type": "array"
                 },
@@ -3739,104 +4000,6 @@
                 "component",
                 "links",
                 "title"
-            ],
-            "type": "object"
-        },
-        "SingleLineText": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "const": "SingleLineText",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "required": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "field",
-                "name"
-            ],
-            "type": "object"
-        },
-        "SingleLinkedRecord": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "const": "SingleLinkedRecord",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "required": {
-                    "type": "boolean"
-                },
-                "table": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "field",
-                "name",
-                "table"
-            ],
-            "type": "object"
-        },
-        "SingleSelect": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "const": "SingleSelect",
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "onMigration": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "replace": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "options": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "required": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "field",
-                "name",
-                "options"
             ],
             "type": "object"
         },
@@ -3909,203 +4072,158 @@
             ],
             "type": "object"
         },
-        "Table_1": {
+        "TemplateInputValue": {
             "additionalProperties": false,
             "properties": {
-                "fields": {
-                    "items": {
-                        "$ref": "#/definitions/Field_1"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "fields",
-                "name"
-            ],
-            "type": "object"
-        },
-        "Test": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "then": {
-                    "items": {
-                        "$ref": "#/definitions/Expect"
-                    },
-                    "type": "array"
-                },
-                "when": {
-                    "items": {
-                        "$ref": "#/definitions/Event"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "name",
-                "then",
-                "when"
-            ],
-            "type": "object"
-        },
-        "Text": {
-            "additionalProperties": false,
-            "properties": {
-                "expect": {
-                    "const": "Text",
-                    "type": "string"
-                },
-                "tag": {
+                "type": {
                     "enum": [
-                        "a",
-                        "abbr",
-                        "address",
-                        "area",
-                        "article",
-                        "aside",
-                        "audio",
-                        "b",
-                        "base",
-                        "bdi",
-                        "bdo",
-                        "blockquote",
-                        "body",
-                        "br",
-                        "button",
-                        "canvas",
-                        "caption",
-                        "cite",
-                        "code",
-                        "col",
-                        "colgroup",
-                        "data",
-                        "datalist",
-                        "dd",
-                        "del",
-                        "details",
-                        "dfn",
-                        "dialog",
-                        "div",
-                        "dl",
-                        "dt",
-                        "em",
-                        "embed",
-                        "fieldset",
-                        "figcaption",
-                        "figure",
-                        "footer",
-                        "form",
-                        "h1",
-                        "h2",
-                        "h3",
-                        "h4",
-                        "h5",
-                        "h6",
-                        "head",
-                        "header",
-                        "hgroup",
-                        "hr",
-                        "html",
-                        "i",
-                        "iframe",
-                        "img",
-                        "input",
-                        "ins",
-                        "kbd",
-                        "label",
-                        "legend",
-                        "li",
-                        "link",
-                        "main",
-                        "map",
-                        "mark",
-                        "menu",
-                        "meta",
-                        "meter",
-                        "nav",
-                        "noscript",
+                        "array",
+                        "boolean",
+                        "number",
                         "object",
-                        "ol",
-                        "optgroup",
-                        "option",
-                        "output",
-                        "p",
-                        "picture",
-                        "pre",
-                        "progress",
-                        "q",
-                        "rp",
-                        "rt",
-                        "ruby",
-                        "s",
-                        "samp",
-                        "script",
-                        "search",
-                        "section",
-                        "select",
-                        "slot",
-                        "small",
-                        "source",
-                        "span",
-                        "strong",
-                        "style",
-                        "sub",
-                        "summary",
-                        "sup",
-                        "table",
-                        "tbody",
-                        "td",
-                        "template",
-                        "textarea",
-                        "tfoot",
-                        "th",
-                        "thead",
-                        "time",
-                        "title",
-                        "tr",
-                        "track",
-                        "u",
-                        "ul",
-                        "var",
-                        "video",
-                        "wbr"
+                        "string"
                     ],
                     "type": "string"
                 },
-                "text": {
+                "value": {
                     "type": "string"
                 }
             },
             "required": [
-                "expect",
-                "text"
+                "value"
             ],
+            "type": "object"
+        },
+        "TemplateInputValues": {
+            "additionalProperties": {
+                "$ref": "#/definitions/TemplateInputValue"
+            },
+            "type": "object"
+        },
+        "ThemeConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "container": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "center": {
+                            "type": "boolean"
+                        },
+                        "padding": {
+                            "anyOf": [
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "2xl": {
+                                            "type": "string"
+                                        },
+                                        "DEFAULT": {
+                                            "type": "string"
+                                        },
+                                        "lg": {
+                                            "type": "string"
+                                        },
+                                        "md": {
+                                            "type": "string"
+                                        },
+                                        "sm": {
+                                            "type": "string"
+                                        },
+                                        "xl": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "fontFamily": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "sans": {
+                            "enum": [
+                                "Asap",
+                                "Barlow",
+                                "Catamaran",
+                                "Exo 2",
+                                "Fira Sans",
+                                "Heebo",
+                                "Hind",
+                                "IBM Plex Sans",
+                                "Inter",
+                                "Josefin Sans",
+                                "Karla",
+                                "Lato",
+                                "Lexend Deca",
+                                "Manrope",
+                                "Merriweather Sans",
+                                "Montserrat",
+                                "Mukta",
+                                "Mulish",
+                                "Noto Sans",
+                                "Nunito Sans",
+                                "Open Sans",
+                                "PT Sans",
+                                "Poppins",
+                                "Public Sans",
+                                "Questrial",
+                                "Raleway",
+                                "Roboto",
+                                "Rubik",
+                                "Source Sans Pro",
+                                "Space Grotesk",
+                                "Titillium Web",
+                                "Ubuntu",
+                                "Varela Round",
+                                "Work Sans"
+                            ],
+                            "type": "string"
+                        },
+                        "serif": {
+                            "enum": [
+                                "Alegreya",
+                                "Bitter",
+                                "Bree Serif",
+                                "Cardo",
+                                "Cormorant",
+                                "Cormorant Garamond",
+                                "Crimson Text",
+                                "Domine",
+                                "EB Garamond",
+                                "Faustina",
+                                "Frank Ruhl Libre",
+                                "Gentium Basic",
+                                "Inknut Antiqua",
+                                "Libre Baskerville",
+                                "Lora",
+                                "Lusitana",
+                                "Maitree",
+                                "Merriweather",
+                                "Neuton",
+                                "Noto Serif",
+                                "PT Serif",
+                                "Playfair Display",
+                                "Roboto Slab",
+                                "Slabo 27px",
+                                "Spectral",
+                                "Tinos",
+                                "Zilla Slab"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
             "type": "object"
         },
         "Title": {
-            "additionalProperties": false,
-            "properties": {
-                "expect": {
-                    "const": "Title",
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "expect",
-                "title"
-            ],
-            "type": "object"
-        },
-        "Title_1": {
             "additionalProperties": false,
             "properties": {
                 "align": {
@@ -4154,151 +4272,42 @@
                 "text"
             ],
             "type": "object"
-        },
-        "Trigger": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/ApiCalled"
-                },
-                {
-                    "$ref": "#/definitions/RecordCreated"
-                },
-                {
-                    "$ref": "#/definitions/WebhookCalled"
-                },
-                {
-                    "$ref": "#/definitions/PageCreated"
-                }
-            ]
-        },
-        "Url": {
-            "additionalProperties": false,
-            "properties": {
-                "expect": {
-                    "const": "Url",
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "expect",
-                "url"
-            ],
-            "type": "object"
-        },
-        "WaitForAutomation": {
-            "additionalProperties": false,
-            "properties": {
-                "automation": {
-                    "type": "string"
-                },
-                "event": {
-                    "const": "WaitForAutomation",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "automation",
-                "event"
-            ],
-            "type": "object"
-        },
-        "WaitForText": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "WaitForText",
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                },
-                "timeout": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "event",
-                "text"
-            ],
-            "type": "object"
-        },
-        "WebhookCalled": {
-            "additionalProperties": false,
-            "properties": {
-                "event": {
-                    "const": "WebhookCalled",
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "service": {
-                    "const": "Http",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "event",
-                "path",
-                "service"
-            ],
-            "type": "object"
         }
     },
     "properties": {
         "auth": {
-            "$ref": "#/definitions/Config_13"
+            "$ref": "#/definitions/AuthConfig"
         },
         "automations": {
             "items": {
-                "$ref": "#/definitions/Automation"
+                "$ref": "#/definitions/IAutomation"
             },
             "type": "array"
         },
         "buckets": {
             "items": {
-                "$ref": "#/definitions/Bucket"
+                "$ref": "#/definitions/IBucket"
             },
             "type": "array"
         },
         "database": {
-            "$ref": "#/definitions/Config_11"
+            "$ref": "#/definitions/DatabaseConfig"
         },
         "integrations": {
-            "$ref": "#/definitions/Integrations"
+            "$ref": "#/definitions/IIntegrations"
         },
         "loggers": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "#/definitions/ElasticSearchConfig"
-                    },
-                    {
-                        "$ref": "#/definitions/ConsoleConfig_1"
-                    },
-                    {
-                        "$ref": "#/definitions/FileConfig"
-                    }
-                ]
+                "$ref": "#/definitions/LoggerConfig"
             },
             "type": "array"
         },
         "mailer": {
-            "$ref": "#/definitions/Config_12"
+            "$ref": "#/definitions/MailerConfig"
         },
         "monitors": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "#/definitions/SentryConfig"
-                    },
-                    {
-                        "$ref": "#/definitions/ConsoleConfig"
-                    }
-                ]
+                "$ref": "#/definitions/MonitorConfig"
             },
             "type": "array"
         },
@@ -4307,27 +4316,27 @@
         },
         "pages": {
             "items": {
-                "$ref": "#/definitions/Page"
+                "$ref": "#/definitions/IPage"
             },
             "type": "array"
         },
         "server": {
-            "$ref": "#/definitions/Config_10"
+            "$ref": "#/definitions/ServerConfig"
         },
         "tables": {
             "items": {
-                "$ref": "#/definitions/Table_1"
+                "$ref": "#/definitions/ITable"
             },
             "type": "array"
         },
         "tests": {
             "items": {
-                "$ref": "#/definitions/Test"
+                "$ref": "#/definitions/ITest"
             },
             "type": "array"
         },
         "theme": {
-            "$ref": "#/definitions/Config_14"
+            "$ref": "#/definitions/ThemeConfig"
         }
     },
     "required": [

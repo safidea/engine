@@ -1,6 +1,6 @@
-import { Base, type EmailFields } from './base'
+import { BaseEmail, type EmailFields } from './base'
 
-export class SentEmail extends Base {
+export class SentEmail extends BaseEmail {
   constructor(fields: EmailFields) {
     super(fields)
   }

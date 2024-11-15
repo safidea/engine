@@ -1,26 +1,26 @@
 import type { FilterWithOperatorConfig } from '..'
 import {
-  IsAfterNumberOfSecondsSinceNow,
-  isAfterNumberOfSecondsSinceNowSchema,
-  type IsAfterNumberOfSecondsSinceNowConfig,
+  IsAfterNumberOfSecondsSinceNowDateFilter,
+  isAfterNumberOfSecondsSinceNowDateFilterSchema,
+  type IsAfterNumberOfSecondsSinceNowDateFilterConfig,
 } from './IsAfterNumberOfSecondsSinceNow'
 
-export type DateConfig = IsAfterNumberOfSecondsSinceNowConfig
+export type DateFilterConfig = IsAfterNumberOfSecondsSinceNowDateFilterConfig
 
-export const dateSchemas = [isAfterNumberOfSecondsSinceNowSchema]
+export const dateFilterSchemas = [isAfterNumberOfSecondsSinceNowDateFilterSchema]
 
-export type Date = IsAfterNumberOfSecondsSinceNow
+export type DateFilter = IsAfterNumberOfSecondsSinceNowDateFilter
 
-export const isDateFilter = (config: FilterWithOperatorConfig): config is DateConfig => {
+export const isDateFilter = (config: FilterWithOperatorConfig): config is DateFilterConfig => {
   return config.operator === 'IsAfterNumberOfSecondsSinceNow'
 }
 
-export class DateMapper {
-  static toEntity = (config: DateConfig): Date => {
+export class DateFilterMapper {
+  static toEntity = (config: DateFilterConfig): DateFilter => {
     const { operator, field, value } = config
     switch (operator) {
       case 'IsAfterNumberOfSecondsSinceNow':
-        return new IsAfterNumberOfSecondsSinceNow(field, value)
+        return new IsAfterNumberOfSecondsSinceNowDateFilter(field, value)
     }
   }
 }

@@ -1,18 +1,20 @@
-import type { CreateRecord } from './database/CreateRecord'
-import type { RunJavascript } from './code/RunJavascript'
-import type { RunTypescript } from './code/RunTypescript'
-import type { SendEmail } from './mailer/SendEmail'
-import type { CreateDocxFromTemplate } from './document/CreateDocxFromTemplate'
-import type { CreateXlsxFromTemplate } from './spreadsheet/CreateXlsxFromTemplate'
-import type { ReadRecord } from './database/ReadRecord'
-import type { CreatePdfFromXlsx } from './spreadsheet/CreatePdfFromXlsx'
+import type { CreateRecordDatabaseAction } from './database/CreateRecord'
+import type { RunJavascriptCodeAction } from './code/RunJavascript'
+import type { RunTypescriptCodeAction } from './code/RunTypescript'
+import type { SendEmailMailerAction } from './mailer/SendEmail'
+import type { CreateDocxFromTemplateDocumentAction } from './document/CreateDocxFromTemplate'
+import type { CreateXlsxFromTemplateSpreadsheetAction } from './spreadsheet/CreateXlsxFromTemplate'
+import type { ReadRecordDatabaseAction } from './database/ReadRecord'
+import type { CreatePdfFromXlsxSpreadsheetAction } from './spreadsheet/CreatePdfFromXlsx'
+import type { GetCompanyPappersAction } from './pappers/GetCompany'
 
 export type Action =
-  | CreateRecord
-  | ReadRecord
-  | SendEmail
-  | RunJavascript
-  | RunTypescript
-  | CreateDocxFromTemplate
-  | CreateXlsxFromTemplate
-  | CreatePdfFromXlsx
+  | CreateRecordDatabaseAction
+  | ReadRecordDatabaseAction
+  | SendEmailMailerAction
+  | RunJavascriptCodeAction
+  | RunTypescriptCodeAction
+  | CreateDocxFromTemplateDocumentAction
+  | CreateXlsxFromTemplateSpreadsheetAction
+  | CreatePdfFromXlsxSpreadsheetAction
+  | GetCompanyPappersAction

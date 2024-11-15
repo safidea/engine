@@ -1,31 +1,35 @@
-import { Base, type BaseConfig, type BaseServices } from '../base'
-import type { Context } from '../../Automation/Context'
+import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
 import type { Table } from '../../Table'
 import type { Template } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { RecordJson } from '@domain/entities/Record/base'
 
-export interface Config extends BaseConfig {
+export interface ReadRecordDatabaseActionConfig extends BaseActionConfig {
   id: string
   table: string
 }
 
-export interface Services extends BaseServices {
+export interface ReadRecordDatabaseActionServices extends BaseActionServices {
   templateCompiler: TemplateCompiler
 }
 
-export interface Entities {
+export interface ReadRecordDatabaseActionEntities {
   tables: Table[]
 }
 
 type Input = { id: string }
 type Output = { record: RecordJson }
 
-export class ReadRecord extends Base<Input, Output> {
+export class ReadRecordDatabaseAction extends BaseAction<Input, Output> {
   private _id: Template
   private _table: Table
 
-  constructor(config: Config, services: Services, entities: Entities) {
+  constructor(
+    config: ReadRecordDatabaseActionConfig,
+    services: ReadRecordDatabaseActionServices,
+    entities: ReadRecordDatabaseActionEntities
+  ) {
     super(config, services)
     const { table: tableName } = config
     const { tables } = entities
@@ -34,7 +38,7 @@ export class ReadRecord extends Base<Input, Output> {
     this._id = templateCompiler.compile(config.id)
   }
 
-  protected _prepare = async (context: Context) => {
+  protected _prepare = async (context: AutomationContext) => {
     return { id: context.fillTemplateAsString(this._id) }
   }
 

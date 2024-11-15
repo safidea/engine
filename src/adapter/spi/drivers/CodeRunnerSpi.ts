@@ -1,13 +1,13 @@
-import type { Spi, Modules } from '@domain/services/CodeRunner'
+import type { ICodeRunnerSpi, CodeRunnerModules } from '@domain/services/CodeRunner'
 
-export interface Driver {
-  run: (data: object, modules: Modules) => Promise<object>
+export interface ICodeRunnerDriver {
+  run: (data: object, modules: CodeRunnerModules) => Promise<object>
 }
 
-export class CodeRunnerSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class CodeRunnerSpi implements ICodeRunnerSpi {
+  constructor(private _driver: ICodeRunnerDriver) {}
 
-  run = (data: object, modules: Modules) => {
+  run = (data: object, modules: CodeRunnerModules) => {
     return this._driver.run(data, modules)
   }
 }

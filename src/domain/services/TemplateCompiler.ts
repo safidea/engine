@@ -1,14 +1,14 @@
 import type { TemplateSpi } from '@adapter/spi/drivers/TemplateSpi'
-import { Template, type InputValue, type OutputType } from './Template'
+import { Template, type TemplateInputValue, type TemplateOutputType } from './Template'
 
-export interface Spi {
+export interface ITemplateCompilerSpi {
   compile: (text: string) => TemplateSpi
 }
 
 export class TemplateCompiler {
-  constructor(private _spi: Spi) {}
+  constructor(private _spi: ITemplateCompilerSpi) {}
 
-  compile = (text: string, type: OutputType = 'string'): Template => {
+  compile = (text: string, type: TemplateOutputType = 'string'): Template => {
     return new Template(this._spi.compile(text), type)
   }
 
@@ -19,7 +19,9 @@ export class TemplateCompiler {
     }, {})
   }
 
-  compileObjectWithType = (object: { [key: string]: InputValue }): { [key: string]: Template } => {
+  compileObjectWithType = (object: {
+    [key: string]: TemplateInputValue
+  }): { [key: string]: Template } => {
     return Object.entries(object).reduce(
       (acc: { [key: string]: Template }, [key, { value, type }]) => {
         acc[key] = this.compile(value, type)

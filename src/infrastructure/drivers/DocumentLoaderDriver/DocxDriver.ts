@@ -1,8 +1,8 @@
-import type { Driver } from '@adapter/spi/drivers/DocumentSpi'
+import type { IDocumentDriver } from '@adapter/spi/drivers/DocumentSpi'
 import fs from 'fs-extra'
 import AdmZip from 'adm-zip'
 
-export class DocxDriver implements Driver {
+export class DocxDriver implements IDocumentDriver {
   private _zip: AdmZip
 
   constructor(path: string) {

@@ -1,14 +1,14 @@
-import { Base, type BaseProps, buildFilterSchema } from '../base'
+import { BaseFilter, type BaseFilterProps, buildFilterSchema } from '../base'
 
-type Props = BaseProps & {
+type Props = BaseFilterProps & {
   value: number
 }
 
-export type IsAfterNumberOfSecondsSinceNowConfig = Props & {
+export type IsAfterNumberOfSecondsSinceNowDateFilterConfig = Props & {
   operator: 'IsAfterNumberOfSecondsSinceNow'
 }
 
-export const isAfterNumberOfSecondsSinceNowSchema = buildFilterSchema(
+export const isAfterNumberOfSecondsSinceNowDateFilterSchema = buildFilterSchema(
   {
     operator: { type: 'string', enum: ['IsAfterNumberOfSecondsSinceNow'] },
     value: { type: 'number' },
@@ -16,7 +16,7 @@ export const isAfterNumberOfSecondsSinceNowSchema = buildFilterSchema(
   ['operator', 'value']
 )
 
-export class IsAfterNumberOfSecondsSinceNow extends Base {
+export class IsAfterNumberOfSecondsSinceNowDateFilter extends BaseFilter {
   constructor(
     field: string,
     readonly value: number
@@ -24,7 +24,7 @@ export class IsAfterNumberOfSecondsSinceNow extends Base {
     super(field)
   }
 
-  toConfig(): IsAfterNumberOfSecondsSinceNowConfig {
+  toConfig(): IsAfterNumberOfSecondsSinceNowDateFilterConfig {
     return {
       field: this.field,
       operator: 'IsAfterNumberOfSecondsSinceNow',

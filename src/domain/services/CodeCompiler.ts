@@ -1,20 +1,20 @@
 import { CodeRunner } from './CodeRunner'
-import type { Spi as CodeRunnerSpi, Entities as CodeRunnerEntities } from './CodeRunner'
+import type { ICodeRunnerSpi, CodeRunnerEntities } from './CodeRunner'
 
-export type Entities = CodeRunnerEntities
+export type CodeCompilerEntities = CodeRunnerEntities
 
-export interface Spi {
-  compile: (code: string, env: { [key: string]: string }) => CodeRunnerSpi
+export interface ICodeCompilerSpi {
+  compile: (code: string, env: { [key: string]: string }) => ICodeRunnerSpi
 }
 
-export interface Config {
+export interface CodeCompilerConfig {
   language: 'JavaScript' | 'TypeScript'
 }
 
 export class CodeCompiler {
   constructor(
-    private _spi: Spi,
-    private _entities: Entities
+    private _spi: ICodeCompilerSpi,
+    private _entities: CodeCompilerEntities
   ) {}
 
   compile = (code: string, env: { [key: string]: string }): CodeRunner => {

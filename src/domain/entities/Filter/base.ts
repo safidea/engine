@@ -1,6 +1,6 @@
 import type { JSONSchema } from '@domain/services/SchemaValidator'
 
-export type BaseProps = {
+export type BaseFilterProps = {
   field: string
 }
 
@@ -19,10 +19,10 @@ export function buildFilterSchema(
   }
 }
 
-export class Base {
+export class BaseFilter {
   constructor(readonly field: string) {}
 
-  toConfig(): BaseProps {
+  toConfig(): BaseFilterProps {
     throw new Error('Method not implemented.')
   }
 }

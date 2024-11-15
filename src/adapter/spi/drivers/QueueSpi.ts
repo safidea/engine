@@ -1,6 +1,6 @@
-import type { Spi } from '@domain/services/Queue'
+import type { IQueueSpi } from '@domain/services/Queue'
 
-export interface Driver {
+export interface IQueueDriver {
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
   stop: (options: { graceful: boolean }) => Promise<void>
@@ -12,8 +12,8 @@ export interface Driver {
   waitForEmpty: (name: string, timeout: number) => Promise<boolean>
 }
 
-export class QueueSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class QueueSpi implements IQueueSpi {
+  constructor(private _driver: IQueueDriver) {}
 
   onError = (callback: (error: Error) => void) => {
     return this._driver.onError(callback)

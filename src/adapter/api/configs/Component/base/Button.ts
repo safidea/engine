@@ -1,5 +1,5 @@
 import type { Type, Variant } from '@domain/entities/Component/base/Button'
-import type { Method } from '@domain/entities/Request'
+import type { RequestMethod } from '@domain/entities/Request'
 import type { Base } from './Base'
 
 export interface Config extends Base {
@@ -8,7 +8,7 @@ export interface Config extends Base {
   type?: Type
   variant?: Variant
   action?: string
-  method?: Method
+  method?: RequestMethod
   onSuccess?:
     | {
         redirect: string

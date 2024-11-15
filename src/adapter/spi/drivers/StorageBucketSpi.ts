@@ -1,17 +1,17 @@
-import type { Spi } from '@domain/services/StorageBucket'
+import type { IStorageBucketSpi } from '@domain/services/StorageBucket'
 import type { FileDto } from '../dtos/FileDto'
 import type { CreatedFile } from '@domain/entities/File/Created'
 import { FileMapper } from '../mappers/FileMapper'
 
-export interface Driver {
+export interface IStorageBucketDriver {
   exists: () => Promise<boolean>
   create: () => Promise<void>
   save: (data: FileDto) => Promise<void>
   readById: (id: string) => Promise<FileDto | undefined>
 }
 
-export class StorageBucketSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class StorageBucketSpi implements IStorageBucketSpi {
+  constructor(private _driver: IStorageBucketDriver) {}
 
   exists = async () => {
     return this._driver.exists()

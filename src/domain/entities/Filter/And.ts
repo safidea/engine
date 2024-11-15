@@ -1,11 +1,11 @@
 import type { JSONSchema } from '@domain/services/SchemaValidator'
 import { filterSchema, type Filter, type FilterConfig } from '.'
 
-export type AndConfig = {
+export type AndFilterConfig = {
   and: FilterConfig[]
 }
 
-export const andSchema: JSONSchema = {
+export const andFilterSchema: JSONSchema = {
   type: 'object',
   properties: {
     and: {
@@ -17,10 +17,10 @@ export const andSchema: JSONSchema = {
   additionalProperties: false,
 }
 
-export class And {
+export class AndFilter {
   constructor(public filters: Filter[]) {}
 
-  toConfig(): AndConfig {
+  toConfig(): AndFilterConfig {
     return { and: this.filters.map((filter) => filter.toConfig()) }
   }
 }

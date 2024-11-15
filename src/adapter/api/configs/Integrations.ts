@@ -1,8 +1,7 @@
-import type { Config as NotionConfig } from '@domain/integrations/Notion'
+import type { NotionConfig } from '@domain/integrations/Notion'
+import type { PappersConfig } from '@domain/integrations/Pappers'
 
-export interface Integrations {
+export interface IIntegrations {
   notion?: NotionConfig
-  pappers?: {
-    apiKey: string
-  }
+  pappers?: PappersConfig
 }

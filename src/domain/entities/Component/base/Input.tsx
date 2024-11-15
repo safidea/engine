@@ -1,4 +1,4 @@
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 import type { Base, BaseProps, BaseServices } from '../base'
 
@@ -52,7 +52,7 @@ export class Input implements Base<Props> {
 
   init = async () => {}
 
-  render = async (state: State, renderProps?: Partial<Props>) => {
+  render = async (state: PageState, renderProps?: Partial<Props>) => {
     const { ...defaultProps } = this._config
     const Component = this._services.client.components.Input
     return (props?: Partial<Props>) => (

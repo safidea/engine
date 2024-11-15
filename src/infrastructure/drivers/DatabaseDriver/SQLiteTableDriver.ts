@@ -1,5 +1,5 @@
 import SQLite, { SqliteError } from 'better-sqlite3'
-import type { Driver } from '@adapter/spi/drivers/DatabaseTableSpi'
+import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type {
@@ -15,7 +15,7 @@ interface ColumnInfo {
   required: number
 }
 
-export class SQLiteTableDriver implements Driver {
+export class SQLiteTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],

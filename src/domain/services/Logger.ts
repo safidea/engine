@@ -1,26 +1,27 @@
-interface BaseConfig {
+interface LoggerBaseConfig {
   level?: 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'
   silent?: boolean
 }
 
-export interface ElasticSearchConfig extends BaseConfig {
+export interface LoggerElasticSearchConfig extends LoggerBaseConfig {
   driver: 'ElasticSearch'
   url: string
   index: string
 }
 
-export interface ConsoleConfig extends BaseConfig {
+export interface LoggerConsoleConfig extends LoggerBaseConfig {
   driver: 'Console'
 }
 
-export interface FileConfig extends BaseConfig {
+export interface LoggerFileConfig extends LoggerBaseConfig {
   driver: 'File'
   filename: string
 }
 
-export type Config = (ConsoleConfig | FileConfig | ElasticSearchConfig)[]
+export type LoggerConfig = LoggerConsoleConfig | LoggerFileConfig | LoggerElasticSearchConfig
+export type LoggersConfig = LoggerConfig[]
 
-export interface Spi {
+export interface ILoggerSpi {
   init: () => Promise<void>
   error: (message: string, metadata: object) => void
   warn: (message: string, metadata: object) => void
@@ -33,8 +34,8 @@ export interface Spi {
 
 export class Logger {
   constructor(
-    private _spi: Spi,
-    private _config: Config
+    private _spi: ILoggerSpi,
+    private _config: LoggersConfig
   ) {}
 
   init: () => Promise<void> = async () => {

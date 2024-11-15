@@ -1,16 +1,16 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { App } from '../App'
 
-export interface Config {
+export interface AttributeExpectConfig {
   attribute: string
   value: string
   tag?: keyof HTMLElementTagNameMap
 }
 
-export class Attribute implements Base {
-  constructor(private _config: Config) {}
+export class AttributeExpect implements BaseExpect {
+  constructor(private _config: AttributeExpectConfig) {}
 
   execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { tag, attribute, value } = this._config

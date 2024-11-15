@@ -2,9 +2,9 @@ import type { Filter } from '@domain/entities/Filter'
 import { SentEmail } from '../entities/Email/Sent'
 import type { CreatedEmail } from '../entities/Email/Created'
 import type { Logger } from './Logger'
-import { Is } from '@domain/entities/Filter/text/Is'
+import { IsTextFilter } from '@domain/entities/Filter/text/Is'
 
-export interface Config {
+export interface MailerConfig {
   host: string
   port: string
   user: string
@@ -13,11 +13,11 @@ export interface Config {
   secure?: boolean
 }
 
-export interface Services {
+export interface MailerServices {
   logger: Logger
 }
 
-export interface Spi {
+export interface IMailerSpi {
   verify: () => Promise<void>
   close: () => Promise<void>
   send: (email: CreatedEmail) => Promise<void>
@@ -26,8 +26,8 @@ export interface Spi {
 
 export class Mailer {
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: IMailerSpi,
+    private _services: MailerServices
   ) {}
 
   verify = async (): Promise<void> => {
@@ -50,6 +50,6 @@ export class Mailer {
 
   find = async (mailbox: string): Promise<SentEmail | undefined> => {
     this._services.logger.debug(`finding email in mailbox "${mailbox}"...`)
-    return this._spi.find(new Is('to', mailbox))
+    return this._spi.find(new IsTextFilter('to', mailbox))
   }
 }

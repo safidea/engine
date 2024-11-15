@@ -1,4 +1,4 @@
-import { test, expect } from '@tests/fixtures'
+import { test, expect, env } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.describe('Get Company action', () => {
@@ -38,7 +38,7 @@ test.describe('Get Company action', () => {
       ],
       integrations: {
         pappers: {
-          apiKey: 'test',
+          apiKey: env.TEST_PAPPERS_API_KEY,
         },
       },
     }

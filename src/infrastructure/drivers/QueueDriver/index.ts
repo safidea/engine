@@ -1,12 +1,12 @@
-import type { Driver } from '@adapter/spi/drivers/QueueSpi'
-import type { Config } from '@domain/services/Queue'
+import type { IQueueDriver } from '@adapter/spi/drivers/QueueSpi'
+import type { QueueConfig } from '@domain/services/Queue'
 import { SqliteDriver } from './SqliteDriver'
 import { PostgresDriver } from './PostgresDriver'
 
-export class QueueDriver implements Driver {
+export class QueueDriver implements IQueueDriver {
   private _queue: PostgresDriver | SqliteDriver
 
-  constructor({ driver, query, exec }: Config) {
+  constructor({ driver, query, exec }: QueueConfig) {
     switch (driver) {
       case 'PostgreSQL':
         this._queue = new PostgresDriver(query)

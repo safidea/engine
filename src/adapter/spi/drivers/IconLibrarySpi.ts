@@ -1,19 +1,19 @@
-import type { Name } from '@domain/libraries/Icon'
-import type { Spi } from '@domain/services/IconLibrary'
+import type { IconName } from '@domain/libraries/Icon'
+import type { IIconLibrarySpi } from '@domain/services/IconLibrary'
 
-export interface Driver {
-  outline: (name: Name) => React.FC
-  solid: (name: Name) => React.FC
+export interface IIconLibraryDriver {
+  outline: (name: IconName) => React.FC
+  solid: (name: IconName) => React.FC
 }
 
-export class IconLibrarySpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class IconLibrarySpi implements IIconLibrarySpi {
+  constructor(private _driver: IIconLibraryDriver) {}
 
-  outline = (name: Name) => {
+  outline = (name: IconName) => {
     return this._driver.outline(name)
   }
 
-  solid = (name: Name) => {
+  solid = (name: IconName) => {
     return this._driver.solid(name)
   }
 }

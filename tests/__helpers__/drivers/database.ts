@@ -3,7 +3,7 @@ import { join } from 'path'
 import fs from 'fs-extra'
 import Logger from './logger'
 import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
-import type { Config, Driver } from '@domain/services/Database'
+import type { DatabaseConfig, DatabaseDriverName } from '@domain/services/Database'
 import type { Test } from '../fixtures'
 import pg from 'pg'
 import { customAlphabet } from 'nanoid'
@@ -58,9 +58,9 @@ async function dropDatabase(connectionURI: string, dbName: string): Promise<void
 
 export default class Database extends DatabaseDriver {
   public url: string
-  public driver: Driver
+  public driver: DatabaseDriverName
 
-  constructor(config: Config) {
+  constructor(config: DatabaseConfig) {
     super(config)
     if (config.driver !== 'SQLite' && config.driver !== 'PostgreSQL')
       throw new Error(`unsupported database type: ${config.driver}`)
@@ -108,10 +108,10 @@ export default class Database extends DatabaseDriver {
     ])
   }
 
-  static SQLite(test: Test, callback: (config: Config) => void) {
+  static SQLite(test: Test, callback: (config: DatabaseConfig) => void) {
     const logger = new Logger()
     test.describe(`with "SQLite" database`, () => {
-      const config: Config = { url: '', driver: 'SQLite' }
+      const config: DatabaseConfig = { url: '', driver: 'SQLite' }
       test.beforeEach(async () => {
         config.url = join(process.cwd(), 'tmp', `database-${nanoid()}.db`)
         await fs.ensureFile(config.url)
@@ -125,12 +125,12 @@ export default class Database extends DatabaseDriver {
     })
   }
 
-  static PostgreSQL(test: Test, callback: (config: Config) => void) {
+  static PostgreSQL(test: Test, callback: (config: DatabaseConfig) => void) {
     const logger = new Logger()
     test.describe(`with "PostgreSQL" database`, () => {
       const dbName = `test_db_${customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)()}`
       const postgresUrl = process.env.TEST_POSTGRES_URL || ''
-      const config: Config = { url: '', driver: 'PostgreSQL' }
+      const config: DatabaseConfig = { url: '', driver: 'PostgreSQL' }
       test.beforeEach(async () => {
         config.url = await createDatabase(postgresUrl, dbName)
         logger.debug(`start PostgreSQL test database at ${config.url}`)
@@ -143,7 +143,7 @@ export default class Database extends DatabaseDriver {
     })
   }
 
-  static each(test: Test, callback: (config: Config) => void) {
+  static each(test: Test, callback: (config: DatabaseConfig) => void) {
     Database.SQLite(test, callback)
     Database.PostgreSQL(test, callback)
   }

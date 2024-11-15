@@ -1,14 +1,14 @@
-import type { Driver } from '@adapter/spi/drivers/MarkdownParserSpi'
-import type { Renderer } from '@domain/services/MarkdownParser'
+import type { IMarkdownParserDriver } from '@adapter/spi/drivers/MarkdownParserSpi'
+import type { MarkdownParserRenderer } from '@domain/services/MarkdownParser'
 import parse from 'html-react-parser'
 import { JSDOM } from 'jsdom'
 import DOMPurify from 'dompurify'
 import { marked, type Tokens } from 'marked'
 
-export class MarkdownParserDriver implements Driver {
+export class MarkdownParserDriver implements IMarkdownParserDriver {
   private _purify = DOMPurify(new JSDOM('').window)
 
-  configRenderer = (renderer: Renderer) => {
+  configRenderer = (renderer: MarkdownParserRenderer) => {
     marked.use({
       breaks: true,
       renderer: {

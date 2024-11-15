@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/Email'
+import type { EmailExpectConfig } from '@domain/entities/Expect/Email'
 
-export interface Email extends Config {
+export interface IEmailExpect extends EmailExpectConfig {
   expect: 'Email'
 }

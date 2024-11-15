@@ -9,7 +9,7 @@ export interface EmailFields {
 
 export type EmailJson = EmailFields
 
-export class Base {
+export class BaseEmail {
   constructor(private _fields: EmailFields) {}
 
   get id(): string {

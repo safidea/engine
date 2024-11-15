@@ -1,6 +1,6 @@
 import Logger from './logger'
 import { MailerDriver } from '@infrastructure/drivers/MailerDriver'
-import type { Config } from '@domain/services/Mailer'
+import type { MailerConfig } from '@domain/services/Mailer'
 import { join } from 'path'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
@@ -9,7 +9,7 @@ import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { EmailDto } from '@adapter/spi/dtos/EmailDto'
 
 export default class extends MailerDriver {
-  public config: Config
+  public config: MailerConfig
   private _database: DatabaseDriver
 
   constructor() {

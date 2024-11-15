@@ -1,12 +1,12 @@
-import type { Spi } from '@domain/services/TemplateCompiler'
-import { TemplateSpi, type Driver as TemplateDriver } from './TemplateSpi'
+import type { ITemplateCompilerSpi } from '@domain/services/TemplateCompiler'
+import { TemplateSpi, type ITemplateDriver } from './TemplateSpi'
 
-export interface Driver {
-  compile: (text: string) => TemplateDriver
+export interface ITemplateCompilerDriver {
+  compile: (text: string) => ITemplateDriver
 }
 
-export class TemplateCompilerSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class TemplateCompilerSpi implements ITemplateCompilerSpi {
+  constructor(private _driver: ITemplateCompilerDriver) {}
 
   compile = (text: string) => {
     return new TemplateSpi(this._driver.compile(text))

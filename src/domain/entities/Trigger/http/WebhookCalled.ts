@@ -1,24 +1,24 @@
 import type { Queue } from '@domain/services/Queue'
 import type { Server } from '@domain/services/Server'
-import { Json } from '@domain/entities/Response/Json'
-import type { Post } from '@domain/entities/Request/Post'
-import type { Base, BaseConfig } from '../base'
-import type { Context } from '../../Automation/Context'
+import { JsonResponse } from '@domain/entities/Response/Json'
+import type { PostRequest } from '@domain/entities/Request/Post'
+import type { BaseTrigger, BaseTriggerConfig } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
 
-export interface Config extends BaseConfig {
+export interface WebhookCalledHttpTriggerConfig extends BaseTriggerConfig {
   automation: string
   path: string
 }
 
-export interface Services {
+export interface WebhookCalledHttpTriggerServices {
   server: Server
   queue: Queue
 }
 
-export class WebhookCalled implements Base {
+export class WebhookCalledHttpTrigger implements BaseTrigger {
   constructor(
-    private _config: Config,
-    private _services: Services
+    private _config: WebhookCalledHttpTriggerConfig,
+    private _services: WebhookCalledHttpTriggerServices
   ) {}
 
   get path() {
@@ -26,14 +26,14 @@ export class WebhookCalled implements Base {
     return `/api/automation/${path}`
   }
 
-  init = async (run: (triggerData: object) => Promise<Context>) => {
+  init = async (run: (triggerData: object) => Promise<AutomationContext>) => {
     const { automation } = this._config
     const { server, queue } = this._services
     await server.post(this.path, this.post)
     queue.job(automation, run)
   }
 
-  post = async (request: Post) => {
+  post = async (request: PostRequest) => {
     const { queue } = this._services
     const { automation } = this._config
     const result = {
@@ -45,6 +45,6 @@ export class WebhookCalled implements Base {
       params: request.params,
     }
     await queue.add(automation, result)
-    return new Json({ success: true })
+    return new JsonResponse({ success: true })
   }
 }

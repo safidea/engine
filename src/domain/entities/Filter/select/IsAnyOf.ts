@@ -1,14 +1,14 @@
-import { Base, buildFilterSchema, type BaseProps } from '../base'
+import { BaseFilter, buildFilterSchema, type BaseFilterProps } from '../base'
 
-type Props = BaseProps & {
+type Props = BaseFilterProps & {
   value: string[]
 }
 
-export type IsAnyOfConfig = Props & {
+export type IsAnyOfSelectFilterConfig = Props & {
   operator: 'IsAnyOf'
 }
 
-export const isAnyOfSchema = buildFilterSchema(
+export const isAnyOfSelectFilterSchema = buildFilterSchema(
   {
     operator: { type: 'string', enum: ['IsAnyOf'] },
     value: { type: 'array', items: { type: 'string' } },
@@ -16,7 +16,7 @@ export const isAnyOfSchema = buildFilterSchema(
   ['operator', 'value']
 )
 
-export class IsAnyOf extends Base {
+export class IsAnyOfSelectFilter extends BaseFilter {
   constructor(
     field: string,
     readonly value: string[]
@@ -24,7 +24,7 @@ export class IsAnyOf extends Base {
     super(field)
   }
 
-  toConfig(): IsAnyOfConfig {
+  toConfig(): IsAnyOfSelectFilterConfig {
     return {
       field: this.field,
       operator: 'IsAnyOf',

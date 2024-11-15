@@ -2,35 +2,35 @@ import type { DatabaseTable } from '@domain/services/DatabaseTable'
 import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { Field } from '../Field'
-import { Json } from '@domain/entities/Response/Json'
-import type { Post } from '@domain/entities/Request/Post'
-import type { Patch } from '@domain/entities/Request/Patch'
-import type { Get } from '@domain/entities/Request/Get'
-import type { Delete } from '@domain/entities/Request/Delete'
+import { JsonResponse } from '@domain/entities/Response/Json'
+import type { PostRequest } from '@domain/entities/Request/Post'
+import type { PatchRequest } from '@domain/entities/Request/Patch'
+import type { GetRequest } from '@domain/entities/Request/Get'
+import type { DeleteRequest } from '@domain/entities/Request/Delete'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { JSONSchema, SchemaValidator } from '@domain/services/SchemaValidator'
 import type { SchemaError } from '../Error/Schema'
-import { SingleSelect } from '../Field/SingleSelect'
-import { SingleLineText } from '../Field/SingleLineText'
-import { LongText } from '../Field/LongText'
-import { Email } from '../Field/Email'
-import { Number } from '../Field/Number'
-import { DateTime } from '../Field/DateTime'
-import { SingleLinkedRecord } from '../Field/SingleLinkedRecord'
-import { MultipleLinkedRecord } from '../Field/MultipleLinkedRecord'
+import { SingleSelectField } from '../Field/SingleSelect'
+import { SingleLineTextField } from '../Field/SingleLineText'
+import { LongTextField } from '../Field/LongText'
+import { EmailField } from '../Field/Email'
+import { NumberField } from '../Field/Number'
+import { DateTimeField } from '../Field/DateTime'
+import { SingleLinkedRecordField } from '../Field/SingleLinkedRecord'
+import { MultipleLinkedRecordField } from '../Field/MultipleLinkedRecord'
 import { FilterMapper, filterSchema, type FilterConfig } from '../Filter'
 import { CreatedRecord } from '../Record/Created'
 import { UpdatedRecord } from '../Record/Updated'
 import type { BaseRecordFields, RecordJson } from '../Record/base'
 import type { Monitor } from '@domain/services/Monitor'
 
-interface Config {
+interface TableConfig {
   name: string
 }
 
-interface Services {
+interface TableServices {
   server: Server
   database: Database
   idGenerator: IdGenerator
@@ -39,7 +39,7 @@ interface Services {
   monitor: Monitor
 }
 
-interface Entites {
+interface TableEntites {
   fields: Field[]
 }
 
@@ -52,9 +52,9 @@ export class Table {
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
 
   constructor(
-    config: Config,
-    private _services: Services,
-    entities: Entites
+    config: TableConfig,
+    private _services: TableServices,
+    entities: TableEntites
   ) {
     const { name } = config
     const { database, schemaValidator } = _services
@@ -85,7 +85,7 @@ export class Table {
   dependancies = () => {
     const dependancies: string[] = []
     for (const field of this.fields) {
-      if (field instanceof SingleLinkedRecord || field instanceof MultipleLinkedRecord) {
+      if (field instanceof SingleLinkedRecordField || field instanceof MultipleLinkedRecordField) {
         dependancies.push(field.table)
       }
     }
@@ -97,10 +97,10 @@ export class Table {
     return record ? record.toJson() : undefined
   }
 
-  get = async (request: Get) => {
+  get = async (request: GetRequest) => {
     const id = request.getParamOrThrow('id')
     const record = await this.readById(id)
-    return new Json({ record })
+    return new JsonResponse({ record })
   }
 
   list = async (
@@ -122,7 +122,7 @@ export class Table {
 
   getAll = async () => {
     const { records, error } = await this.list()
-    return new Json({ records, error }, error ? 400 : 200)
+    return new JsonResponse({ records, error }, error ? 400 : 200)
   }
 
   insert = async (
@@ -140,17 +140,17 @@ export class Table {
     return { error }
   }
 
-  post = async (request: Post) => {
+  post = async (request: PostRequest) => {
     try {
       const { body } = request
       const { record, error } = await this.insert(body)
-      return new Json({ record, error }, error ? 400 : 201)
+      return new JsonResponse({ record, error }, error ? 400 : 201)
     } catch (error) {
       if (error instanceof Error) {
         this._services.monitor.captureException(error)
-        return new Json({ error: { message: error.message } }, 400)
+        return new JsonResponse({ error: { message: error.message } }, 400)
       }
-      return new Json({ error: { message: 'Unknown error' } }, 500)
+      return new JsonResponse({ error: { message: 'Unknown error' } }, 500)
     }
   }
 
@@ -170,31 +170,31 @@ export class Table {
     return { error }
   }
 
-  patch = async (request: Patch) => {
+  patch = async (request: PatchRequest) => {
     try {
       const { body } = request
       const id = request.getParamOrThrow('id')
       const { record, error } = await this.update(id, body)
-      return new Json({ record, error }, error ? 400 : 204)
+      return new JsonResponse({ record, error }, error ? 400 : 204)
     } catch (error) {
       if (error instanceof Error) {
         this._services.monitor.captureException(error)
-        return new Json({ error: { message: error.message } }, 400)
+        return new JsonResponse({ error: { message: error.message } }, 400)
       }
-      return new Json({ error: { message: 'Unknown error' } }, 500)
+      return new JsonResponse({ error: { message: 'Unknown error' } }, 500)
     }
   }
 
-  delete = async (request: Delete) => {
+  delete = async (request: DeleteRequest) => {
     try {
       const id = request.getParamOrThrow('id')
       await this.db.delete(id)
-      return new Json({ id })
+      return new JsonResponse({ id })
     } catch (error) {
       if (error instanceof Error) {
-        return new Json({ error: { message: error.message } }, 400)
+        return new JsonResponse({ error: { message: error.message } }, 400)
       }
-      return new Json({ error: { message: 'Unknown error' } }, 500)
+      return new JsonResponse({ error: { message: 'Unknown error' } }, 500)
     }
   }
 
@@ -209,25 +209,25 @@ export class Table {
       for (const field of this.fields) {
         if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at')
           continue
-        if (field instanceof SingleSelect) {
+        if (field instanceof SingleSelectField) {
           schema.properties[field.name] = {
             type: 'string',
             enum: field.options,
           }
         }
         if (
-          field instanceof SingleLinkedRecord ||
-          field instanceof SingleLineText ||
-          field instanceof LongText ||
-          field instanceof Email ||
-          field instanceof DateTime
+          field instanceof SingleLinkedRecordField ||
+          field instanceof SingleLineTextField ||
+          field instanceof LongTextField ||
+          field instanceof EmailField ||
+          field instanceof DateTimeField
         ) {
           schema.properties[field.name] = { type: 'string' }
         }
-        if (field instanceof Number) {
+        if (field instanceof NumberField) {
           schema.properties[field.name] = { type: 'number' }
         }
-        if (field instanceof MultipleLinkedRecord) {
+        if (field instanceof MultipleLinkedRecordField) {
           schema.properties[field.name] = { type: 'array', items: { type: 'string' } }
         }
         if (required && field.required) {

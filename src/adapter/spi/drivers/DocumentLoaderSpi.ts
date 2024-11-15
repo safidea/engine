@@ -1,12 +1,12 @@
-import type { Spi } from '@domain/services/DocumentLoader'
-import { DocumentSpi, type Driver as DocumentDriver } from './DocumentSpi'
+import type { IDocumentLoaderSpi } from '@domain/services/DocumentLoader'
+import { DocumentSpi, type IDocumentDriver } from './DocumentSpi'
 
-export interface Driver {
-  fromDocxFile: (path: string) => Promise<DocumentDriver>
+export interface IDocumentLoaderDriver {
+  fromDocxFile: (path: string) => Promise<IDocumentDriver>
 }
 
-export class DocumentLoaderSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class DocumentLoaderSpi implements IDocumentLoaderSpi {
+  constructor(private _driver: IDocumentLoaderDriver) {}
 
   fromDocxFile = async (path: string): Promise<DocumentSpi> => {
     const spreadsheet = await this._driver.fromDocxFile(path)

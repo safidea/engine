@@ -1,7 +1,7 @@
-import type { Driver as BrowserElementDriver } from './BrowserElementSpi'
-import type { Spi } from '@domain/services/BrowserPage'
+import type { IBrowserElementDriver } from './BrowserElementSpi'
+import type { IBrowserPageSpi } from '@domain/services/BrowserPage'
 
-export interface Driver {
+export interface IBrowserPageDriver {
   close: () => Promise<void>
   new: (path: string) => Promise<void>
   open(path: string): Promise<boolean>
@@ -10,18 +10,18 @@ export interface Driver {
   waitForText(text: string, options: { timeout: number }): Promise<boolean>
   getTitle(): Promise<string>
   getUrl(): Promise<string>
-  getByText(text: string, options?: { tag?: string }): Promise<BrowserElementDriver | undefined>
+  getByText(text: string, options?: { tag?: string }): Promise<IBrowserElementDriver | undefined>
   getByAttribute(
     attribute: string,
     value: string,
     options?: { tag?: string }
-  ): Promise<BrowserElementDriver | undefined>
+  ): Promise<IBrowserElementDriver | undefined>
   getHtml(): Promise<string>
   createPdfFromHtml: (html: string) => Promise<Uint8Array>
 }
 
-export class BrowserPageSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class BrowserPageSpi implements IBrowserPageSpi {
+  constructor(private _driver: IBrowserPageDriver) {}
 
   close = async () => {
     return this._driver.close()

@@ -1,3 +1,3 @@
-export interface Bucket {
+export interface IBucket {
   name: string
 }

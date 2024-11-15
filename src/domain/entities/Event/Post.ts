@@ -1,16 +1,16 @@
 import { TestError } from '@domain/entities/Error/Test'
-import { type Base } from './base'
+import { type BaseEvent } from './base'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { App } from '../App'
 
-export interface Config {
+export interface PostEventConfig {
   path: string
   body?: object
   name?: string
 }
 
-export class Post implements Base {
-  constructor(private _config: Config) {}
+export class PostEvent implements BaseEvent {
+  constructor(private _config: PostEventConfig) {}
 
   get name() {
     return this._config.name

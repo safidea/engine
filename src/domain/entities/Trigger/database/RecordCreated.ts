@@ -1,26 +1,26 @@
 import type { PersistedRecord } from '@domain/entities/Record/Persisted'
 import type { Queue } from '@domain/services/Queue'
 import type { Realtime } from '@domain/services/Realtime'
-import type { Base, BaseConfig } from '../base'
-import type { Context } from '../../Automation/Context'
+import type { BaseTrigger, BaseTriggerConfig } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
 
-export interface Config extends BaseConfig {
+export interface RecordCreatedDatabaseTriggerConfig extends BaseTriggerConfig {
   automation: string
   table: string
 }
 
-export interface Services {
+export interface RecordCreatedDatabaseTriggerServices {
   realtime: Realtime
   queue: Queue
 }
 
-export class RecordCreated implements Base {
+export class RecordCreatedDatabaseTrigger implements BaseTrigger {
   constructor(
-    private _config: Config,
-    private _services: Services
+    private _config: RecordCreatedDatabaseTriggerConfig,
+    private _services: RecordCreatedDatabaseTriggerServices
   ) {}
 
-  init = async (run: (triggerData: object) => Promise<Context>) => {
+  init = async (run: (triggerData: object) => Promise<AutomationContext>) => {
     const { realtime, queue } = this._services
     const { table, automation } = this._config
     queue.job(automation, run)

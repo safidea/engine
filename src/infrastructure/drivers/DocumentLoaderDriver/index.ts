@@ -1,9 +1,8 @@
-import type { Driver } from '@adapter/spi/drivers/DocumentLoaderSpi'
-import type { Driver as DocumentDriver } from '@adapter/spi/drivers/DocumentSpi'
+import type { IDocumentLoaderDriver } from '@adapter/spi/drivers/DocumentLoaderSpi'
 import { DocxDriver } from './DocxDriver'
 
-export class DocumentLoaderDriver implements Driver {
-  fromDocxFile = async (path: string): Promise<DocumentDriver> => {
+export class DocumentLoaderDriver implements IDocumentLoaderDriver {
+  fromDocxFile = async (path: string) => {
     return new DocxDriver(path)
   }
 }

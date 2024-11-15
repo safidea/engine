@@ -1,6 +1,6 @@
 import type { Base, BaseProps, BaseServices } from '../base'
 import type { Component } from '..'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   Components: React.FC<BaseProps>[]
@@ -29,7 +29,7 @@ export class Grid implements Base<Props> {
     await Promise.all(children.map((child) => child.init()))
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { ...defaultProps } = this._config
     const components = await Promise.all(
       this._entities.children.map((child) => child.render(state))

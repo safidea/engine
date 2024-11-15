@@ -1,18 +1,18 @@
-import { Document, type Spi as DocumentSpi } from './Document'
+import { Document, type IDocumentSpi } from './Document'
 import type { TemplateCompiler } from './TemplateCompiler'
 
-export interface Spi {
-  fromDocxFile: (path: string) => Promise<DocumentSpi>
+export interface IDocumentLoaderSpi {
+  fromDocxFile: (path: string) => Promise<IDocumentSpi>
 }
 
-export interface Services {
+export interface DocumentLoaderServices {
   templateCompiler: TemplateCompiler
 }
 
 export class DocumentLoader {
   constructor(
-    private _spi: Spi,
-    private _service: Services
+    private _spi: IDocumentLoaderSpi,
+    private _service: DocumentLoaderServices
   ) {}
 
   fromDocxFile = async (path: string): Promise<Document> => {

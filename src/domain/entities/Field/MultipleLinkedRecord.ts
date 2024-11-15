@@ -1,13 +1,13 @@
-import { Base, type BaseParams } from './base'
+import { BaseField, type BaseFieldParams } from './base'
 
-interface Params extends BaseParams {
+interface MultipleLinkedRecordFieldParams extends BaseFieldParams {
   table: string
 }
 
-export class MultipleLinkedRecord extends Base {
+export class MultipleLinkedRecordField extends BaseField {
   table: string
 
-  constructor(params: Params) {
+  constructor(params: MultipleLinkedRecordFieldParams) {
     super(params)
     this.table = params.table
   }

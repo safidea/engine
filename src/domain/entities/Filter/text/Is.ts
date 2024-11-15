@@ -1,14 +1,14 @@
-import { Base, buildFilterSchema, type BaseProps } from '../base'
+import { BaseFilter, buildFilterSchema, type BaseFilterProps } from '../base'
 
-type Props = BaseProps & {
+type Props = BaseFilterProps & {
   value: string
 }
 
-export type IsConfig = Props & {
+export type IsTextFilterConfig = Props & {
   operator: 'Is'
 }
 
-export const isSchema = buildFilterSchema(
+export const isTextFilterSchema = buildFilterSchema(
   {
     operator: { type: 'string', enum: ['Is'] },
     value: { type: 'string' },
@@ -16,7 +16,7 @@ export const isSchema = buildFilterSchema(
   ['operator', 'value']
 )
 
-export class Is extends Base {
+export class IsTextFilter extends BaseFilter {
   constructor(
     field: string,
     readonly value: string
@@ -24,7 +24,7 @@ export class Is extends Base {
     super(field)
   }
 
-  toConfig(): IsConfig {
+  toConfig(): IsTextFilterConfig {
     return {
       field: this.field,
       operator: 'Is',

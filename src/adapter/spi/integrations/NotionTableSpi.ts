@@ -2,12 +2,12 @@ import { type Filter } from '@domain/entities/Filter'
 import type {
   NotionTablePage,
   NotionTablePageProperties,
-  Spi,
+  INotionTableSpi,
 } from '@domain/integrations/NotionTable'
 import type { FilterDto } from '../dtos/FilterDto'
 import { FilterMapper } from '../mappers/FilterMapper'
 
-export interface Integration {
+export interface INotionTableIntegration {
   name: string
   create: (page: NotionTablePageProperties) => Promise<string>
   retrieve: (id: string) => Promise<NotionTablePage>
@@ -15,8 +15,8 @@ export interface Integration {
   list: (filter?: FilterDto) => Promise<NotionTablePage[]>
 }
 
-export class NotionTableSpi implements Spi {
-  constructor(private _integration: Integration) {}
+export class NotionTableSpi implements INotionTableSpi {
+  constructor(private _integration: INotionTableIntegration) {}
 
   get name() {
     return this._integration.name

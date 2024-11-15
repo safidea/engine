@@ -1,56 +1,56 @@
-import { type Driver as BrowserDriver } from './BrowserSpi'
-import { type Driver as DatabaseDriver } from './DatabaseSpi'
-import { type Driver as IdGeneratorDriver } from './IdGeneratorSpi'
-import { type Driver as LoggerDriver } from './LoggerSpi'
-import { type Driver as SchemaValidatorDriver } from './SchemaValidatorSpi'
-import { type Driver as ServerDriver } from './ServerSpi'
-import { type Driver as QueueDriver } from './QueueSpi'
-import { type Driver as MailerDriver } from './MailerSpi'
-import { type Driver as TemplateCompilerDriver } from './TemplateCompilerSpi'
-import { type Driver as AuthDriver } from './AuthSpi'
-import { type Driver as ClientDriver } from './ClientSpi'
-import { type Driver as MarkdownParserDriver } from './MarkdownParserSpi'
-import { type Driver as ThemeDriver } from './ThemeSpi'
-import { type Driver as IconLibraryDriver } from './IconLibrarySpi'
-import { type Driver as FontLibraryDriver } from './FontLibrarySpi'
-import { type Driver as CodeCompilerDriver } from './CodeCompilerSpi'
-import { type Driver as FileSystemDriver } from './FileSystemSpi'
-import { type Driver as StorageDriver } from './StorageSpi'
-import { type Driver as SpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
-import { type Driver as DocumentLoaderDriver } from './DocumentLoaderSpi'
-import { type Driver as MonitorDriver } from './MonitorSpi'
+import { type IBrowserDriver } from './BrowserSpi'
+import { type IDatabaseDriver } from './DatabaseSpi'
+import { type IIdGeneratorDriver } from './IdGeneratorSpi'
+import { type ILoggerDriver } from './LoggerSpi'
+import { type ISchemaValidatorDriver } from './SchemaValidatorSpi'
+import { type IServerDriver } from './ServerSpi'
+import { type IQueueDriver } from './QueueSpi'
+import { type IMailerDriver } from './MailerSpi'
+import { type ITemplateCompilerDriver } from './TemplateCompilerSpi'
+import { type IAuthDriver } from './AuthSpi'
+import { type IClientDriver } from './ClientSpi'
+import { type IMarkdownParserDriver } from './MarkdownParserSpi'
+import { type IThemeDriver } from './ThemeSpi'
+import { type IIconLibraryDriver } from './IconLibrarySpi'
+import { type IFontLibraryDriver } from './FontLibrarySpi'
+import { type ICodeCompilerDriver } from './CodeCompilerSpi'
+import { type IFileSystemDriver } from './FileSystemSpi'
+import { type IStorageDriver } from './StorageSpi'
+import { type ISpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
+import { type IDocumentLoaderDriver } from './DocumentLoaderSpi'
+import { type IMonitorDriver } from './MonitorSpi'
 
-import { type Config as ServerConfig } from '@domain/services/Server'
-import { type Config as DatabaseConfig } from '@domain/services/Database'
-import { type Config as QueueConfig } from '@domain/services/Queue'
-import { type Config as AuthConfig } from '@domain/services/Auth'
-import { type Config as ThemeConfig } from '@domain/services/Theme'
-import { type Config as MailerConfig } from '@domain/services/Mailer'
-import { type Config as StorageConfig } from '@domain/services/Storage'
-import { type Config as MonitorConfig } from '@domain/services/Monitor'
-import { type Config as LoggerConfig } from '@domain/services/Logger'
-import { type Config as CodeConfig } from '@domain/services/CodeCompiler'
+import { type ServerConfig } from '@domain/services/Server'
+import { type DatabaseConfig } from '@domain/services/Database'
+import { type QueueConfig } from '@domain/services/Queue'
+import { type AuthConfig } from '@domain/services/Auth'
+import { type ThemeConfig } from '@domain/services/Theme'
+import { type MailerConfig } from '@domain/services/Mailer'
+import { type StorageConfig } from '@domain/services/Storage'
+import { type MonitorsConfig } from '@domain/services/Monitor'
+import { type LoggersConfig } from '@domain/services/Logger'
+import { type CodeCompilerConfig } from '@domain/services/CodeCompiler'
 
 export interface Drivers {
-  server: (config: ServerConfig) => ServerDriver
-  database: (config: DatabaseConfig) => DatabaseDriver
-  queue: (config: QueueConfig) => QueueDriver
-  storage: (config: StorageConfig) => StorageDriver
-  mailer: (config: MailerConfig) => MailerDriver
-  auth: (config: AuthConfig) => AuthDriver
-  markdownParser: () => MarkdownParserDriver
-  theme: (config: ThemeConfig) => ThemeDriver
-  monitor: (config: MonitorConfig) => MonitorDriver
-  logger: (config: LoggerConfig) => LoggerDriver
-  idGenerator: () => IdGeneratorDriver
-  schemaValidator: () => SchemaValidatorDriver
-  browser: () => BrowserDriver
-  client: () => ClientDriver
-  templateCompiler: () => TemplateCompilerDriver
-  codeCompiler: (config: CodeConfig) => CodeCompilerDriver
-  iconLibrary: () => IconLibraryDriver
-  fontLibrary: () => FontLibraryDriver
-  fileSystem: () => FileSystemDriver
-  spreadsheetLoader: () => SpreadsheetLoaderDriver
-  documentLoader: () => DocumentLoaderDriver
+  server: (config: ServerConfig) => IServerDriver
+  database: (config: DatabaseConfig) => IDatabaseDriver
+  queue: (config: QueueConfig) => IQueueDriver
+  storage: (config: StorageConfig) => IStorageDriver
+  mailer: (config: MailerConfig) => IMailerDriver
+  auth: (config: AuthConfig) => IAuthDriver
+  markdownParser: () => IMarkdownParserDriver
+  theme: (config: ThemeConfig) => IThemeDriver
+  monitor: (config: MonitorsConfig) => IMonitorDriver
+  logger: (config: LoggersConfig) => ILoggerDriver
+  idGenerator: () => IIdGeneratorDriver
+  schemaValidator: () => ISchemaValidatorDriver
+  browser: () => IBrowserDriver
+  client: () => IClientDriver
+  templateCompiler: () => ITemplateCompilerDriver
+  codeCompiler: (config: CodeCompilerConfig) => ICodeCompilerDriver
+  iconLibrary: () => IIconLibraryDriver
+  fontLibrary: () => IFontLibraryDriver
+  fileSystem: () => IFileSystemDriver
+  spreadsheetLoader: () => ISpreadsheetLoaderDriver
+  documentLoader: () => IDocumentLoaderDriver
 }

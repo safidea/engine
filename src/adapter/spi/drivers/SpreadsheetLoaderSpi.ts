@@ -1,13 +1,13 @@
-import type { Spi } from '@domain/services/SpreadsheetLoader'
-import { SpreadsheetSpi, type Driver as SpreadsheetDriver } from './SpreadsheetSpi'
+import type { ISpreadsheetLoaderSpi } from '@domain/services/SpreadsheetLoader'
+import { SpreadsheetSpi, type ISpreadsheetDriver } from './SpreadsheetSpi'
 
-export interface Driver {
-  fromXlsxFile: (path: string) => Promise<SpreadsheetDriver>
-  fromXlsxBuffer: (buffer: Buffer) => Promise<SpreadsheetDriver>
+export interface ISpreadsheetLoaderDriver {
+  fromXlsxFile: (path: string) => Promise<ISpreadsheetDriver>
+  fromXlsxBuffer: (buffer: Buffer) => Promise<ISpreadsheetDriver>
 }
 
-export class SpreadsheetLoaderSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class SpreadsheetLoaderSpi implements ISpreadsheetLoaderSpi {
+  constructor(private _driver: ISpreadsheetLoaderDriver) {}
 
   fromXlsxFile = async (path: string): Promise<SpreadsheetSpi> => {
     const spreadsheet = await this._driver.fromXlsxFile(path)

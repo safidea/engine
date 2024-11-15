@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/Title'
+import type { TitleExpectConfig } from '@domain/entities/Expect/Title'
 
-export interface Title extends Config {
+export interface ITitleExpect extends TitleExpectConfig {
   expect: 'Title'
 }

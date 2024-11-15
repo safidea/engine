@@ -1,9 +1,9 @@
-import type { Context } from '../Automation/Context'
+import type { AutomationContext } from '../Automation/Context'
 
-export interface BaseConfig {
+export interface BaseTriggerConfig {
   automation: string
 }
 
-export interface Base {
-  init: (run: (triggerData: object) => Promise<Context>) => Promise<void>
+export interface BaseTrigger {
+  init: (run: (triggerData: object) => Promise<AutomationContext>) => Promise<void>
 }

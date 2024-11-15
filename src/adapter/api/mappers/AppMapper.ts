@@ -1,34 +1,35 @@
 import { App } from '@domain/entities/App'
-import type { Config } from '@adapter/api/configs/Config'
+import type { Config } from '@adapter/api/configs'
 import type { Drivers } from '@adapter/spi/drivers'
 import { PageMapper } from './PageMapper'
 import { TableMapper } from './TableMapper'
 import { AutomationMapper } from './AutomationMapper'
-import { ServerMapper } from './ServiceMapper/ServerMapper'
-import { ClientMapper } from './ServiceMapper/ClientMapper'
-import { IdGeneratorMapper } from './ServiceMapper/IdGeneratorMapper'
-import { TemplateCompilerMapper } from './ServiceMapper/TemplateCompilerMapper'
-import { IconLibraryMapper } from './ServiceMapper/IconLibraryMapper'
-import { FontLibraryMapper } from './ServiceMapper/FontLibraryMapper'
-import { LoggerMapper } from './ServiceMapper/LoggerMapper'
-import { ThemeMapper } from './ServiceMapper/ThemeMapper'
-import { MarkdownParserMapper } from './ServiceMapper/MarkdownParserMapper'
-import { AuthMapper } from './ServiceMapper/AuthMapper'
-import { MailerMapper } from './ServiceMapper/MailerMapper'
-import { DatabaseMapper } from './ServiceMapper/DatabaseMapper'
-import { QueueMapper } from './ServiceMapper/QueueMapper'
-import { RealtimeMapper } from './ServiceMapper/RealtimeMapper'
-import { SchemaValidatorMapper } from './ServiceMapper/SchemaValidatorMapper'
-import { CodeCompilerMapper } from './ServiceMapper/CodeCompilerMapper'
-import { BrowserMapper } from './ServiceMapper/BrowserMapper'
-import { FileSystemMapper } from './ServiceMapper/FileSystemMapper'
-import { StorageMapper } from './ServiceMapper/StorageMapper'
+import { ServerMapper } from './Services/ServerMapper'
+import { ClientMapper } from './Services/ClientMapper'
+import { IdGeneratorMapper } from './Services/IdGeneratorMapper'
+import { TemplateCompilerMapper } from './Services/TemplateCompilerMapper'
+import { IconLibraryMapper } from './Services/IconLibraryMapper'
+import { FontLibraryMapper } from './Services/FontLibraryMapper'
+import { LoggerMapper } from './Services/LoggerMapper'
+import { ThemeMapper } from './Services/ThemeMapper'
+import { MarkdownParserMapper } from './Services/MarkdownParserMapper'
+import { AuthMapper } from './Services/AuthMapper'
+import { MailerMapper } from './Services/MailerMapper'
+import { DatabaseMapper } from './Services/DatabaseMapper'
+import { QueueMapper } from './Services/QueueMapper'
+import { RealtimeMapper } from './Services/RealtimeMapper'
+import { SchemaValidatorMapper } from './Services/SchemaValidatorMapper'
+import { CodeCompilerMapper } from './Services/CodeCompilerMapper'
+import { BrowserMapper } from './Services/BrowserMapper'
+import { FileSystemMapper } from './Services/FileSystemMapper'
+import { StorageMapper } from './Services/StorageMapper'
 import { BucketMapper } from './BucketMapper'
-import { SpreadsheetLoaderMapper } from './ServiceMapper/SpreadsheetLoaderMapper'
-import { DocumentLoaderMapper } from './ServiceMapper/DocumentLoaderMapper'
-import { MonitorMapper } from './ServiceMapper/MonitorMapper'
-import { NotionMapper } from './IntegrationMapper/NotionMapper'
+import { SpreadsheetLoaderMapper } from './Services/SpreadsheetLoaderMapper'
+import { DocumentLoaderMapper } from './Services/DocumentLoaderMapper'
+import { MonitorMapper } from './Services/MonitorMapper'
+import { NotionMapper } from './Integration/NotionMapper'
 import type { Integrations } from '@adapter/spi/integrations'
+import { PappersMapper } from './Integration/PappersMapper'
 
 export class AppMapper {
   static toEntity = (drivers: Drivers, integrations: Integrations, config: Config) => {
@@ -104,6 +105,7 @@ export class AppMapper {
       { idGenerator, logger },
       config.integrations?.notion
     )
+    const pappers = PappersMapper.toIntegration(integrations, config.integrations?.pappers)
     const automations = AutomationMapper.toManyEntities(
       config.automations,
       {
@@ -125,7 +127,7 @@ export class AppMapper {
         database,
       },
       { tables, buckets },
-      { notion }
+      { notion, pappers }
     )
     return new App(
       {

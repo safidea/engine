@@ -1,19 +1,19 @@
-import type { Spi, Cell } from '@domain/services/Spreadsheet'
+import type { ISpreadsheetSpi, SpreadsheetCell } from '@domain/services/Spreadsheet'
 
-export interface Driver {
-  readTextCells: () => Cell[]
-  writeCells: (cells: Cell[]) => void
+export interface ISpreadsheetDriver {
+  readTextCells: () => SpreadsheetCell[]
+  writeCells: (cells: SpreadsheetCell[]) => void
   toBuffer: () => Promise<Buffer>
 }
 
-export class SpreadsheetSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class SpreadsheetSpi implements ISpreadsheetSpi {
+  constructor(private _driver: ISpreadsheetDriver) {}
 
-  readTextCells = (): Cell[] => {
+  readTextCells = (): SpreadsheetCell[] => {
     return this._driver.readTextCells()
   }
 
-  writeCells = (cells: Cell[]): void => {
+  writeCells = (cells: SpreadsheetCell[]): void => {
     this._driver.writeCells(cells)
   }
 

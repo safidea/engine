@@ -1,13 +1,13 @@
 import type { NotionTableSpi } from '@adapter/spi/integrations/NotionTableSpi'
-import { NotionTable, type Services as NotionTableServices } from './NotionTable'
+import { NotionTable, type NotionTableServices } from './NotionTable'
 
-export interface Config {
+export interface NotionConfig {
   token: string
 }
 
-export type Services = NotionTableServices
+export type NotionServices = NotionTableServices
 
-export interface Spi {
+export interface INotionSpi {
   config: () => void
   table: (id: string) => Promise<NotionTableSpi>
 }
@@ -16,8 +16,8 @@ export class Notion {
   private _tables: NotionTable[] = []
 
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: INotionSpi,
+    private _services: NotionServices
   ) {}
 
   config = () => {

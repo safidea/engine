@@ -1,15 +1,15 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { App } from '../App'
 
-export interface Config {
+export interface TextExpectConfig {
   text: string
   tag?: keyof HTMLElementTagNameMap
 }
 
-export class Text implements Base {
-  constructor(private _config: Config) {}
+export class TextExpect implements BaseExpect {
+  constructor(private _config: TextExpectConfig) {}
 
   execute = async (_app: App, page: BrowserPage, _context?: object) => {
     const { tag, text } = this._config

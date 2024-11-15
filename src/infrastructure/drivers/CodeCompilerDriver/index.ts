@@ -1,12 +1,12 @@
-import type { Driver } from '@adapter/spi/drivers/CodeCompilerSpi'
-import type { Config } from '@domain/services/CodeCompiler'
+import type { ICodeCompilerDriver } from '@adapter/spi/drivers/CodeCompilerSpi'
+import type { CodeCompilerConfig } from '@domain/services/CodeCompiler'
 import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
 import { TypescriptCompilerDriver } from './TypescriptCompilerDriver'
 
-export class CodeCompilerDriver implements Driver {
+export class CodeCompilerDriver implements ICodeCompilerDriver {
   private _codeCompiler: JavascriptCompilerDriver | TypescriptCompilerDriver
 
-  constructor(config: Config) {
+  constructor(config: CodeCompilerConfig) {
     const { language } = config
     switch (language) {
       case 'JavaScript':

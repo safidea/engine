@@ -1,6 +1,10 @@
-import { Base, type BaseConfig, type BaseServices } from '../base'
-import type { Context } from '../../Automation/Context'
-import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
+import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
+import {
+  Template,
+  type TemplateInputValues,
+  type TemplateOutputValue,
+} from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Bucket } from '@domain/entities/Bucket'
 import type { Spreadsheet } from '@domain/services/Spreadsheet'
@@ -10,37 +14,37 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { FileSystem } from '@domain/services/FileSystem'
 import type { FileJson } from '@domain/entities/File/base'
 
-export interface Config extends BaseConfig {
-  input?: InputValues
+export interface CreateXlsxFromTemplateSpreadsheetActionConfig extends BaseActionConfig {
+  input?: TemplateInputValues
   templatePath: string
   fileName: string
   bucket: string
 }
 
-export interface Services extends BaseServices {
+export interface CreateXlsxFromTemplateSpreadsheetActionServices extends BaseActionServices {
   idGenerator: IdGenerator
   spreadsheetLoader: SpreadsheetLoader
   templateCompiler: TemplateCompiler
   fileSystem: FileSystem
 }
 
-export interface Entities {
+export interface CreateXlsxFromTemplateSpreadsheetActionEntities {
   buckets: Bucket[]
 }
 
-type Input = { data: { [key: string]: OutputValue }; fileName: string }
+type Input = { data: { [key: string]: TemplateOutputValue }; fileName: string }
 type Output = { file: FileJson }
 
-export class CreateXlsxFromTemplate extends Base<Input, Output> {
+export class CreateXlsxFromTemplateSpreadsheetAction extends BaseAction<Input, Output> {
   private _fileName: Template
   private _spreadsheet?: Spreadsheet
   private _input: { [key: string]: Template }
   private _bucket: Bucket
 
   constructor(
-    private _config: Config,
-    private _services: Services,
-    entities: Entities
+    private _config: CreateXlsxFromTemplateSpreadsheetActionConfig,
+    private _services: CreateXlsxFromTemplateSpreadsheetActionServices,
+    entities: CreateXlsxFromTemplateSpreadsheetActionEntities
   ) {
     super(_config, _services)
     const { templatePath, input, fileName, bucket: bucketName } = _config
@@ -62,7 +66,7 @@ export class CreateXlsxFromTemplate extends Base<Input, Output> {
     logger.debug(`init action "${this.name}"`)
   }
 
-  protected _prepare = async (context: Context) => {
+  protected _prepare = async (context: AutomationContext) => {
     return {
       data: context.fillObjectTemplate(this._input),
       fileName: context.fillTemplateAsString(this._fileName),

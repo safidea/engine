@@ -1,22 +1,22 @@
 import type { FilterWithOperatorConfig } from '..'
-import { Is, isSchema, type IsConfig } from './Is'
+import { IsTextFilter, isTextFilterSchema, type IsTextFilterConfig } from './Is'
 
-export type TextConfig = IsConfig
+export type TextFilterConfig = IsTextFilterConfig
 
-export const textSchemas = [isSchema]
+export const textFilterSchemas = [isTextFilterSchema]
 
-export type Text = Is
+export type TextFilter = IsTextFilter
 
-export const isTextFilter = (config: FilterWithOperatorConfig): config is TextConfig => {
+export const isTextFilter = (config: FilterWithOperatorConfig): config is TextFilterConfig => {
   return config.operator === 'Is'
 }
 
-export class TextMapper {
-  static toEntity = (config: TextConfig): Text => {
+export class TextFilterMapper {
+  static toEntity = (config: TextFilterConfig): TextFilter => {
     const { operator, field, value } = config
     switch (operator) {
       case 'Is':
-        return new Is(field, value)
+        return new IsTextFilter(field, value)
     }
   }
 }

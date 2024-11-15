@@ -1,32 +1,33 @@
 import { Automation } from '@domain/entities/Automation'
-import type { Automation as Config } from '../configs/Automation'
+import type { IAutomation } from '../configs/Automation'
 import {
   ActionMapper,
-  type Services as ActionServices,
-  type Entities as ActionEntities,
-} from './ActionMapper'
+  type ActionMapperServices,
+  type ActionMapperEntities,
+  type ActionMapperIntegrations,
+} from './Action'
 import {
   TriggerMapper,
-  type Services as TriggerServices,
-  type Integrations as TriggerIntegrations,
-} from './TriggerMapper'
+  type TriggerMapperServices,
+  type TriggerMapperIntegrations,
+} from './Trigger'
 import type { Database } from '@domain/services/Database'
 
-export type Services = ActionServices &
-  TriggerServices & {
+export type AutomationMapperServices = ActionMapperServices &
+  TriggerMapperServices & {
     database: Database
   }
 
-export type Entities = ActionEntities
+export type AutomationMapperEntities = ActionMapperEntities
 
-export type Integrations = TriggerIntegrations
+export type AutomationMapperIntegrations = TriggerMapperIntegrations & ActionMapperIntegrations
 
 export class AutomationMapper {
   static toEntity = (
-    config: Config,
-    services: Services,
-    entities: Entities,
-    integrations: Integrations
+    config: IAutomation,
+    services: AutomationMapperServices,
+    entities: AutomationMapperEntities,
+    integrations: AutomationMapperIntegrations
   ) => {
     const {
       logger,
@@ -46,7 +47,7 @@ export class AutomationMapper {
       monitor,
       database,
     } = services
-    const { notion } = integrations
+    const { notion, pappers } = integrations
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
       {
@@ -76,16 +77,19 @@ export class AutomationMapper {
         logger,
         monitor,
       },
-      entities
+      entities,
+      {
+        pappers,
+      }
     )
     return new Automation(config, { logger, monitor, idGenerator, database }, { trigger, actions })
   }
 
   static toManyEntities = (
-    configs: Config[] = [],
-    services: Services,
-    entities: Entities,
-    integrations: Integrations
+    configs: IAutomation[] = [],
+    services: AutomationMapperServices,
+    entities: AutomationMapperEntities,
+    integrations: AutomationMapperIntegrations
   ) => {
     return configs.map((config) => this.toEntity(config, services, entities, integrations))
   }

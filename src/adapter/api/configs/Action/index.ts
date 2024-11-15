@@ -1,20 +1,20 @@
-import type { CreateDocxFromTemplate } from './document/CreateDocxFromTemplate'
-import type { CreateXlsxFromTemplate } from './spreadsheet/CreateXlsxFromTemplate'
-import type { CreateRecord } from './database/CreateRecord'
-import type { RunJavascript } from './code/RunJavascript'
-import type { RunTypescript } from './code/RunTypescript'
-import type { SendEmail } from './mailer/SendEmail'
-import type { ReadRecord } from './database/ReadRecord'
-import type { CreatePdfFromXlsx } from './spreadsheet/CreatePdfFromXlsx'
-import type { GetCompany } from './pappers/GetCompany'
+import type { ICreateDocxFromTemplateDocumentAction } from './document/CreateDocxFromTemplate'
+import type { ICreateXlsxFromTemplateSpreadsheetAction } from './spreadsheet/CreateXlsxFromTemplate'
+import type { ICreateRecordDatabaseAction } from './database/CreateRecord'
+import type { IRunJavascriptCodeAction } from './code/RunJavascript'
+import type { IRunTypescriptCodeAction } from './code/RunTypescript'
+import type { ISendEmailMailerAction } from './mailer/SendEmail'
+import type { IReadRecordDatabaseAction } from './database/ReadRecord'
+import type { ICreatePdfFromXlsxSpreadsheetAction } from './spreadsheet/CreatePdfFromXlsx'
+import type { IGetCompanyPappersAction } from './pappers/GetCompany'
 
-export type Action =
-  | CreateRecord
-  | ReadRecord
-  | SendEmail
-  | RunJavascript
-  | RunTypescript
-  | CreateDocxFromTemplate
-  | CreateXlsxFromTemplate
-  | CreatePdfFromXlsx
-  | GetCompany
+export type IAction =
+  | IRunJavascriptCodeAction
+  | IRunTypescriptCodeAction
+  | ICreateDocxFromTemplateDocumentAction
+  | ICreateXlsxFromTemplateSpreadsheetAction
+  | ICreateRecordDatabaseAction
+  | ISendEmailMailerAction
+  | IReadRecordDatabaseAction
+  | ICreatePdfFromXlsxSpreadsheetAction
+  | IGetCompanyPappersAction

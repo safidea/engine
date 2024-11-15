@@ -1,25 +1,25 @@
-import { type Base } from './base'
+import { type BaseExpect } from './base'
 import type { App } from '../App'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { TestError } from '../Error/Test'
 import type { Template } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
-export interface Config {
+export interface EqualExpectConfig {
   value: string
   equal: string
 }
 
-export interface Services {
+export interface EqualExpectServices {
   templateCompiler: TemplateCompiler
 }
 
-export class Equal implements Base {
+export class EqualExpect implements BaseExpect {
   private _templateValue: Template
 
   constructor(
-    private _config: Config,
-    services: Services
+    private _config: EqualExpectConfig,
+    services: EqualExpectServices
   ) {
     this._templateValue = services.templateCompiler.compile(_config.value)
   }

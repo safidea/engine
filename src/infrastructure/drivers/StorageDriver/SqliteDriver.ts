@@ -1,11 +1,11 @@
-import type { Config } from '@domain/services/Storage'
-import type { Driver } from '@adapter/spi/drivers/StorageSpi'
+import type { StorageConfig } from '@domain/services/Storage'
+import type { IStorageDriver } from '@adapter/spi/drivers/StorageSpi'
 import { SqliteBucketDriver } from './SqliteBucketDriver'
 
-export class SqliteDriver implements Driver {
+export class SqliteDriver implements IStorageDriver {
   constructor(
-    private _query: Config['query'],
-    private _exec: Config['exec']
+    private _query: StorageConfig['query'],
+    private _exec: StorageConfig['exec']
   ) {}
 
   connect = async () => {}

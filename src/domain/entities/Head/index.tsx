@@ -1,13 +1,13 @@
-import type { Meta } from '@domain/entities/Head/Meta'
-import type { Link } from '@domain/entities/Head/Link'
-import type { Script } from '@domain/entities/Head/Script'
+import type { HeadMeta } from '@domain/entities/Head/Meta'
+import type { HeadLink } from '@domain/entities/Head/Link'
+import type { HeadScript } from '@domain/entities/Head/Script'
 
 interface Params {
   title?: string
   timestamp: number
-  metas: Meta[]
-  links: Link[]
-  scripts: Script[]
+  metas: HeadMeta[]
+  links: HeadLink[]
+  scripts: HeadScript[]
 }
 
 export class Head {

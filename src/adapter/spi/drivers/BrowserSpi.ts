@@ -1,12 +1,12 @@
-import type { Spi } from '@domain/services/Browser'
-import type { Driver as BrowserPageDriver } from './BrowserPageSpi'
+import type { IBrowserSpi } from '@domain/services/Browser'
+import type { IBrowserPageDriver } from './BrowserPageSpi'
 
-export interface Driver {
-  launch: (baseUrl?: string) => Promise<BrowserPageDriver>
+export interface IBrowserDriver {
+  launch: (baseUrl?: string) => Promise<IBrowserPageDriver>
 }
 
-export class BrowserSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class BrowserSpi implements IBrowserSpi {
+  constructor(private _driver: IBrowserDriver) {}
 
   launch = async (baseUrl?: string) => {
     return this._driver.launch(baseUrl)

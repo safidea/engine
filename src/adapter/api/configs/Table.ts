@@ -1,6 +1,6 @@
-import type { Field } from './Field'
+import type { IField } from './Field'
 
-export interface Table {
+export interface ITable {
   name: string
-  fields: Field[]
+  fields: IField[]
 }

@@ -1,13 +1,13 @@
 import { AppMapper } from './mappers/AppMapper'
 import type { App } from '@domain/entities/App'
-import type { Config } from './configs/Config'
+import type { Config } from './configs'
 import type { SchemaError } from '@domain/entities/Error/Schema'
 import type { Drivers } from '@adapter/spi/drivers'
 import type { SchemaValidator } from '@domain/services/SchemaValidator'
-import { SchemaValidatorMapper } from './mappers/ServiceMapper/SchemaValidatorMapper'
+import { SchemaValidatorMapper } from './mappers/Services/SchemaValidatorMapper'
 import { TestError } from '@domain/entities/Error/Test'
 import { TestMapper } from './mappers/TestMapper'
-import { BrowserMapper } from './mappers/ServiceMapper/BrowserMapper'
+import { BrowserMapper } from './mappers/Services/BrowserMapper'
 import type { Integrations } from '@adapter/spi/integrations'
 
 export default class {

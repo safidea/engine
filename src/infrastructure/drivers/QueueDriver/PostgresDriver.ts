@@ -1,11 +1,11 @@
-import type { Driver } from '@adapter/spi/drivers/QueueSpi'
-import type { Config } from '@domain/services/Queue'
+import type { IQueueDriver } from '@adapter/spi/drivers/QueueSpi'
+import type { QueueConfig } from '@domain/services/Queue'
 import PgBoss from 'pg-boss'
 
-export class PostgresDriver implements Driver {
+export class PostgresDriver implements IQueueDriver {
   private _queue: PgBoss
 
-  constructor(query: Config['query']) {
+  constructor(query: QueueConfig['query']) {
     this._queue = new PgBoss({
       db: {
         executeSql: async (text, values) => query(text, values),

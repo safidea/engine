@@ -1,22 +1,28 @@
 import type { FilterWithOperatorConfig } from '..'
-import { Equals, equalSchema, type EqualsConfig } from './Equals'
+import {
+  EqualsNumberFilter,
+  equalNumberFilterSchema,
+  type EqualsNumberFilterConfig,
+} from './Equals'
 
-export type NumberConfig = EqualsConfig
+export type NumberFilterConfig = EqualsNumberFilterConfig
 
-export const numberSchemas = [equalSchema]
+export const numberFilterSchemas = [equalNumberFilterSchema]
 
-export type Number = Equals
+export type NumberFilter = EqualsNumberFilter
 
-export const isNumberFilter = (config: FilterWithOperatorConfig): config is EqualsConfig => {
+export const isNumberFilter = (
+  config: FilterWithOperatorConfig
+): config is EqualsNumberFilterConfig => {
   return config.operator === 'Equals'
 }
 
-export class NumberMapper {
-  static toEntity = (config: NumberConfig): Number => {
+export class NumberFilterMapper {
+  static toEntity = (config: NumberFilterConfig): NumberFilter => {
     const { operator, field, value } = config
     switch (operator) {
       case 'Equals':
-        return new Equals(field, value)
+        return new EqualsNumberFilter(field, value)
     }
   }
 }

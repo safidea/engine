@@ -1,7 +1,7 @@
-import { Base, type Params } from './base'
+import { BaseRequest, type BaseRequestParams } from './base'
 
-export class Get extends Base {
-  constructor(params: Params) {
+export class GetRequest extends BaseRequest {
+  constructor(params: BaseRequestParams) {
     super(params)
   }
 }

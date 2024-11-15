@@ -1,22 +1,22 @@
-import type { DateTime } from './DateTime'
-import type { Email } from './Email'
-import type { Formula } from './Formula'
-import type { LongText } from './LongText'
-import type { MultipleLinkedRecord } from './MultipleLinkedRecord'
-import type { Number as Number_ } from './Number'
-import type { Rollup } from './Rollup'
-import type { SingleLineText } from './SingleLineText'
-import type { SingleLinkedRecord } from './SingleLinkedRecord'
-import type { SingleSelect } from './SingleSelect'
+import type { IDateTimeField } from './DateTime'
+import type { IEmailField } from './Email'
+import type { IFormulaField } from './Formula'
+import type { ILongTextField } from './LongText'
+import type { IMultipleLinkedRecordField } from './MultipleLinkedRecord'
+import type { INumberField } from './Number'
+import type { IRollupField } from './Rollup'
+import type { ISingleLineTextField } from './SingleLineText'
+import type { ISingleLinkedRecordField } from './SingleLinkedRecord'
+import type { ISingleSelectField } from './SingleSelect'
 
-export type Field =
-  | Email
-  | SingleLineText
-  | DateTime
-  | LongText
-  | Number_
-  | Formula
-  | SingleSelect
-  | SingleLinkedRecord
-  | MultipleLinkedRecord
-  | Rollup
+export type IField =
+  | IDateTimeField
+  | IEmailField
+  | IFormulaField
+  | ILongTextField
+  | IMultipleLinkedRecordField
+  | INumberField
+  | IRollupField
+  | ISingleLineTextField
+  | ISingleLinkedRecordField
+  | ISingleSelectField

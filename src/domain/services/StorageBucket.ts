@@ -1,17 +1,17 @@
 import type { PersistedFile } from '@domain/entities/File/Persisted'
 import type { Logger } from './Logger'
 import type { CreatedFile } from '@domain/entities/File/Created'
-import type { Spi as StorageSpi } from '@domain/services/Storage'
+import type { IStorageSpi } from '@domain/services/Storage'
 
-export interface Config {
+export interface StorageBucketConfig {
   name: string
 }
 
-export interface Services {
+export interface StorageBucketServices {
   logger: Logger
 }
 
-export interface Spi {
+export interface IStorageBucketSpi {
   exists: () => Promise<boolean>
   create: () => Promise<void>
   save: (data: CreatedFile) => Promise<void>
@@ -20,12 +20,12 @@ export interface Spi {
 
 export class StorageBucket {
   private readonly _name: string
-  private _bucket: Spi
+  private _bucket: IStorageBucketSpi
 
   constructor(
-    spi: StorageSpi,
-    private _services: Services,
-    config: Config
+    spi: IStorageSpi,
+    private _services: StorageBucketServices,
+    config: StorageBucketConfig
   ) {
     const { name } = config
     this._bucket = spi.bucket(name)

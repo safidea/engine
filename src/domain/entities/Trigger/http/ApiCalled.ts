@@ -1,34 +1,38 @@
 import type { Server } from '@domain/services/Server'
-import { Json } from '@domain/entities/Response/Json'
-import type { Post } from '@domain/entities/Request/Post'
+import { JsonResponse } from '@domain/entities/Response/Json'
+import type { PostRequest } from '@domain/entities/Request/Post'
 import type { JSONSchema, SchemaValidator } from '@domain/services/SchemaValidator'
 import type { SchemaError } from '../../Error/Schema'
-import { Context } from '../../Automation/Context'
-import type { Base, BaseConfig } from '../base'
-import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
+import { AutomationContext } from '../../Automation/Context'
+import type { BaseTrigger, BaseTriggerConfig } from '../base'
+import {
+  Template,
+  type TemplateInputValues,
+  type TemplateOutputValue,
+} from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Monitor } from '@domain/services/Monitor'
 
-export interface Config extends BaseConfig {
+export interface ApiCalledHttpTriggerConfig extends BaseTriggerConfig {
   path: string
   input?: JSONSchema
-  output?: InputValues
+  output?: TemplateInputValues
 }
 
-export interface Services {
+export interface ApiCalledHttpTriggerServices {
   server: Server
   schemaValidator: SchemaValidator
   templateCompiler: TemplateCompiler
   monitor: Monitor
 }
 
-export class ApiCalled implements Base {
+export class ApiCalledHttpTrigger implements BaseTrigger {
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
   private _output?: { [key: string]: Template }
 
   constructor(
-    private _config: Config,
-    private _services: Services
+    private _config: ApiCalledHttpTriggerConfig,
+    private _services: ApiCalledHttpTriggerServices
   ) {
     const { output } = this._config
     const { schemaValidator, templateCompiler } = this._services
@@ -46,16 +50,16 @@ export class ApiCalled implements Base {
     return `/api/automation/${path}`
   }
 
-  init = async (run: (triggerData: object) => Promise<Context>) => {
+  init = async (run: (triggerData: object) => Promise<AutomationContext>) => {
     const { server } = this._services
-    await server.post(this.path, (request: Post) => this.post(request, run))
+    await server.post(this.path, (request: PostRequest) => this.post(request, run))
   }
 
-  post = async (request: Post, run: (data: object) => Promise<Context>) => {
+  post = async (request: PostRequest, run: (data: object) => Promise<AutomationContext>) => {
     try {
       const { input } = this._config
       const { body, path, baseUrl, headers, query, params } = request
-      let context: Context
+      let context: AutomationContext
       if (!input) {
         context = await run({ path, baseUrl, headers, query, params })
       } else {
@@ -63,25 +67,25 @@ export class ApiCalled implements Base {
           context = await run({ body, path, baseUrl, headers, query, params })
         } else {
           const [error] = this._validateData(body, input)
-          return new Json({ error }, 400)
+          return new JsonResponse({ error }, 400)
         }
       }
       if (this._output) {
         const response = Object.entries(this._output).reduce(
-          (acc: { [key: string]: OutputValue }, [key, value]) => {
+          (acc: { [key: string]: TemplateOutputValue }, [key, value]) => {
             acc[key] = context.fillTemplate(value)
             return acc
           },
           {}
         )
-        return new Json(response)
+        return new JsonResponse(response)
       }
-      return new Json({ success: true })
+      return new JsonResponse({ success: true })
     } catch (error) {
       if (error instanceof Error) {
-        return new Json({ error: error.message }, 400)
+        return new JsonResponse({ error: error.message }, 400)
       }
-      return new Json({ error: 'Unknown error' }, 500)
+      return new JsonResponse({ error: 'Unknown error' }, 500)
     }
   }
 

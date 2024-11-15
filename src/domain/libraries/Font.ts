@@ -1,4 +1,4 @@
-export type SansSerif =
+export type SansSerifFontName =
   | 'Roboto'
   | 'Open Sans'
   | 'Lato'
@@ -34,7 +34,7 @@ export type SansSerif =
   | 'Public Sans'
   | 'Space Grotesk'
 
-export type Serif =
+export type SerifFontName =
   | 'Roboto Slab'
   | 'Merriweather'
   | 'Lora'

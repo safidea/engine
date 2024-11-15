@@ -1,5 +1,5 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface Number extends Base {
+export interface INumberField extends IBaseAction {
   field: 'Number'
 }

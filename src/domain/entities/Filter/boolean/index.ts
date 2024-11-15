@@ -1,25 +1,27 @@
 import type { FilterWithOperatorConfig } from '..'
-import { IsFalse, isFalseSchema, type IsFalseConfig } from './IsFalse'
-import { IsTrue, isTrueSchema, type IsTrueConfig } from './IsTrue'
+import { IsFalseBooleanFilter, isFalseSchema, type IsFalseBooleanFilterConfig } from './IsFalse'
+import { IsTrueBooleanFilter, isTrueSchema, type IsTrueBooleanFilterConfig } from './IsTrue'
 
-export type BooleanConfig = IsFalseConfig | IsTrueConfig
+export type BooleanFilterConfig = IsFalseBooleanFilterConfig | IsTrueBooleanFilterConfig
 
-export const booleanSchemas = [isFalseSchema, isTrueSchema]
+export const booleanFilterSchemas = [isFalseSchema, isTrueSchema]
 
-export type Boolean = IsFalse | IsTrue
+export type BooleanFilter = IsFalseBooleanFilter | IsTrueBooleanFilter
 
-export const isBooleanFilter = (config: FilterWithOperatorConfig): config is BooleanConfig => {
+export const isBooleanFilter = (
+  config: FilterWithOperatorConfig
+): config is BooleanFilterConfig => {
   return config.operator === 'IsTrue' || config.operator === 'IsFalse'
 }
 
-export class BooleanMapper {
-  static toEntity = (config: BooleanConfig): Boolean => {
+export class BooleanFilterMapper {
+  static toEntity = (config: BooleanFilterConfig): BooleanFilter => {
     const { operator, field } = config
     switch (operator) {
       case 'IsTrue':
-        return new IsTrue(field)
+        return new IsTrueBooleanFilter(field)
       case 'IsFalse':
-        return new IsFalse(field)
+        return new IsFalseBooleanFilter(field)
     }
   }
 }

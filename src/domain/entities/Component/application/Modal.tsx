@@ -2,7 +2,7 @@ import type { Base, BaseProps, BaseServices } from '../base'
 import type { Component } from '..'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Button, Props as ButtonProps } from '../base/Button'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   Button: React.FC<Partial<ButtonProps>>
@@ -39,7 +39,7 @@ export class Modal implements Base<Props> {
     ])
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { button, header: headerParam, body: bodyParam, footer: footerParam } = this._entities
     const { id, className } = this._config
     const { client } = this._services

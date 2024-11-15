@@ -1,32 +1,32 @@
 import type { Queue } from '@domain/services/Queue'
-import type { Base, BaseConfig } from '../base'
-import type { Context } from '../../Automation/Context'
+import type { BaseTrigger, BaseTriggerConfig } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
 import type { Notion } from '@domain/integrations/Notion'
 import type { NotionTablePage } from '@domain/integrations/NotionTable'
 
-export interface Config extends BaseConfig {
+export interface PageCreatedNotionTriggerConfig extends BaseTriggerConfig {
   automation: string
   tableId: string
 }
 
-export interface Services {
+export interface PageCreatedNotionTriggerServices {
   queue: Queue
 }
 
-export interface Integrations {
+export interface PageCreatedNotionTriggerIntegrations {
   notion: Notion
 }
 
-export class PageCreated implements Base {
+export class PageCreatedNotionTrigger implements BaseTrigger {
   constructor(
-    private _config: Config,
-    private _services: Services,
-    private _integrations: Integrations
+    private _config: PageCreatedNotionTriggerConfig,
+    private _services: PageCreatedNotionTriggerServices,
+    private _integrations: PageCreatedNotionTriggerIntegrations
   ) {
     _integrations.notion.config()
   }
 
-  init = async (run: (triggerData: object) => Promise<Context>) => {
+  init = async (run: (triggerData: object) => Promise<AutomationContext>) => {
     const { queue } = this._services
     const { automation, tableId } = this._config
     const { notion } = this._integrations

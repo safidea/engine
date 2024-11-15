@@ -1,4 +1,4 @@
-import type { Driver } from '@adapter/spi/drivers/TemplateCompilerSpi'
+import type { ITemplateCompilerDriver } from '@adapter/spi/drivers/TemplateCompilerSpi'
 import Handlebars from 'handlebars'
 import { TemplateDriver } from './TemplateDriver'
 
@@ -15,7 +15,7 @@ Handlebars.registerHelper('stringify', function (context) {
   return context
 })
 
-export class TemplateCompilerDriver implements Driver {
+export class TemplateCompilerDriver implements ITemplateCompilerDriver {
   compile = (text: string) => {
     const stringifiedText = this._replaceAllWithStringify(text)
     const template = Handlebars.compile(stringifiedText)

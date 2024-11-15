@@ -1,13 +1,13 @@
-import type { Get } from '@domain/entities/Request/Get'
-import type { Patch } from '@domain/entities/Request/Patch'
-import type { Post } from '@domain/entities/Request/Post'
-import type { Params } from '@domain/entities/Request/base'
+import type { GetRequest } from '@domain/entities/Request/Get'
+import type { PatchRequest } from '@domain/entities/Request/Patch'
+import type { PostRequest } from '@domain/entities/Request/Post'
+import type { BaseRequestParams } from '@domain/entities/Request/base'
 import type { Template } from '@domain/services/Template'
 
-export class State {
-  private _data: Partial<Params> = {}
+export class PageState {
+  private _data: Partial<BaseRequestParams> = {}
 
-  constructor(request: Get | Post | Patch) {
+  constructor(request: GetRequest | PostRequest | PatchRequest) {
     const state = request.getQuery('state')
     if (state) {
       this._data = JSON.parse(Buffer.from(state, 'base64').toString('utf-8'))

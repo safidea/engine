@@ -1,6 +1,7 @@
-import type { Config } from '@domain/entities/Trigger/database/RecordCreated'
+import type { RecordCreatedDatabaseTriggerConfig } from '@domain/entities/Trigger/database/RecordCreated'
 
-export interface RecordCreated extends Omit<Config, 'automation'> {
+export interface IRecordCreatedDatabaseTrigger
+  extends Omit<RecordCreatedDatabaseTriggerConfig, 'automation'> {
   service: 'Database'
   event: 'RecordCreated'
 }

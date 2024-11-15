@@ -1,14 +1,14 @@
-import type { OutputValue, Template } from '@domain/services/Template'
+import type { TemplateOutputValue, Template } from '@domain/services/Template'
 
-export type ActionContext = {
+export type AutomationContextAction = {
   config: { name: string }
   input: object
   output: object
 }
 
-export class Context {
+export class AutomationContext {
   status: 'succeed' | 'failed' = 'succeed'
-  run: { trigger: object; actions: ActionContext[] }
+  run: { trigger: object; actions: AutomationContextAction[] }
   private _data: { [key: string]: object }
 
   constructor(
@@ -19,7 +19,7 @@ export class Context {
     this.run = { trigger, actions: [] }
   }
 
-  fillTemplate = (template: Template): OutputValue => {
+  fillTemplate = (template: Template): TemplateOutputValue => {
     return template.fill(this._data)
   }
 
@@ -27,11 +27,16 @@ export class Context {
     return String(template.fill(this._data))
   }
 
-  fillObjectTemplate = (input: { [key: string]: Template }): { [key: string]: OutputValue } => {
-    return Object.entries(input).reduce((acc: { [key: string]: OutputValue }, [key, value]) => {
-      acc[key] = value.fill(this._data)
-      return acc
-    }, {})
+  fillObjectTemplate = (input: {
+    [key: string]: Template
+  }): { [key: string]: TemplateOutputValue } => {
+    return Object.entries(input).reduce(
+      (acc: { [key: string]: TemplateOutputValue }, [key, value]) => {
+        acc[key] = value.fill(this._data)
+        return acc
+      },
+      {}
+    )
   }
 
   fillObjectTemplateAsString = (input: { [key: string]: Template }): { [key: string]: string } => {
@@ -41,12 +46,12 @@ export class Context {
     }, {})
   }
 
-  addSucceedAction = (action: ActionContext) => {
+  addSucceedAction = (action: AutomationContextAction) => {
     this._data[action.config.name] = action.output
     this.run.actions.push(action)
   }
 
-  addFailedAction = (action: ActionContext) => {
+  addFailedAction = (action: AutomationContextAction) => {
     this.addSucceedAction(action)
     this.status = 'failed'
   }

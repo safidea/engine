@@ -1,19 +1,19 @@
-import { Base, type BaseParams } from './base'
-import type { DateTime } from './DateTime'
-import type { LongText } from './LongText'
-import type { Number as Number_ } from './Number'
-import type { SingleLineText } from './SingleLineText'
+import { BaseField, type BaseFieldParams } from './base'
+import type { DateTimeField } from './DateTime'
+import type { LongTextField } from './LongText'
+import type { NumberField } from './Number'
+import type { SingleLineTextField } from './SingleLineText'
 
-interface Params extends BaseParams {
+interface FormulaFieldParams extends BaseFieldParams {
   formula: string
-  output: Number_ | LongText | SingleLineText | DateTime
+  output: NumberField | LongTextField | SingleLineTextField | DateTimeField
 }
 
-export class Formula extends Base {
+export class FormulaField extends BaseField {
   formula: string
-  output: Number_ | LongText | SingleLineText | DateTime
+  output: NumberField | LongTextField | SingleLineTextField | DateTimeField
 
-  constructor(params: Params) {
+  constructor(params: FormulaFieldParams) {
     super(params)
     this.formula = params.formula
     this.output = params.output

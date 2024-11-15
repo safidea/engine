@@ -1,16 +1,16 @@
 import { Head } from '@domain/entities/Head'
-import type { Head as HeadConfig } from '../configs/Head'
-import { Meta } from '@domain/entities/Head/Meta'
-import { Link } from '@domain/entities/Head/Link'
-import { Script } from '@domain/entities/Head/Script'
+import type { IHead } from '../configs/Head'
+import { HeadMeta } from '@domain/entities/Head/Meta'
+import { HeadLink } from '@domain/entities/Head/Link'
+import { HeadScript } from '@domain/entities/Head/Script'
 import type { Client } from '@domain/services/Client'
 
-interface Services {
+interface HeadMapperServices {
   client: Client
 }
 
 export class HeadMapper {
-  static toEntity(config: HeadConfig, services: Services) {
+  static toEntity(config: IHead, services: HeadMapperServices) {
     const { client } = services
     const {
       title,
@@ -21,9 +21,9 @@ export class HeadMapper {
     const timestamp = +new Date()
     linksConfigs.unshift({ href: '/output.css' })
     scriptsConfigs.unshift({ src: '/index.js', type: 'module' })
-    const scripts = scriptsConfigs.map((script) => new Script({ ...script, timestamp }))
-    const links = linksConfigs.map((link) => new Link({ ...link, timestamp }))
-    const metas = metasConfigs.map((meta) => new Meta(meta))
+    const scripts = scriptsConfigs.map((script) => new HeadScript({ ...script, timestamp }))
+    const links = linksConfigs.map((link) => new HeadLink({ ...link, timestamp }))
+    const metas = metasConfigs.map((meta) => new HeadMeta(meta))
     metas.push(...client.metas)
     return new Head({
       title,

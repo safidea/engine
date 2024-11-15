@@ -3,11 +3,11 @@ import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
 import { FilterMapper } from '../mappers/FilterMapper'
 import type { Filter } from '@domain/entities/Filter'
 import type { FilterDto } from '../dtos/FilterDto'
-import type { Spi } from '@domain/services/DatabaseTable'
+import type { IDatabaseTableSpi } from '@domain/services/DatabaseTable'
 import type { UpdatedRecord } from '@domain/entities/Record/Updated'
 import type { CreatedRecordDto, PersistedRecordDto, UpdatedRecordDto } from '../dtos/RecordDto'
 
-export interface Driver {
+export interface IDatabaseTableDriver {
   exists: () => Promise<boolean>
   create: () => Promise<void>
   dropView: () => Promise<void>
@@ -23,8 +23,8 @@ export interface Driver {
   list: (filter?: FilterDto) => Promise<PersistedRecordDto[]>
 }
 
-export class DatabaseTableSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class DatabaseTableSpi implements IDatabaseTableSpi {
+  constructor(private _driver: IDatabaseTableDriver) {}
 
   exists = async () => {
     return this._driver.exists()

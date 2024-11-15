@@ -1,13 +1,13 @@
-import type { Driver } from '@adapter/spi/drivers/ServerSpi'
+import type { IServerDriver } from '@adapter/spi/drivers/ServerSpi'
 import type { DeleteDto, GetDto, PatchDto, PostDto, RequestDto } from '@adapter/spi/dtos/RequestDto'
-import type { Config } from '@domain/services/Server'
+import type { ServerConfig } from '@domain/services/Server'
 import type { Response } from '@domain/entities/Response'
 import { ExpressDriver } from './ExpressDriver'
 
-export class ServerDriver implements Driver {
+export class ServerDriver implements IServerDriver {
   private _server: ExpressDriver
 
-  constructor(config: Config) {
+  constructor(config: ServerConfig) {
     this._server = new ExpressDriver(config)
   }
 

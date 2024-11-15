@@ -2,11 +2,11 @@ import type { Table } from '@domain/entities/Table'
 import type { RecordJson } from '@domain/entities/Record/base'
 import type { FilterConfig } from '@domain/entities/Filter'
 
-export interface Spi {
-  run: (data: object, modules: Modules) => Promise<object>
+export interface ICodeRunnerSpi {
+  run: (data: object, modules: CodeRunnerModules) => Promise<object>
 }
 
-export interface Modules {
+export interface CodeRunnerModules {
   table: (name: string) => {
     insert: (data: unknown) => Promise<RecordJson>
     update: (id: string, data: unknown) => Promise<RecordJson>
@@ -18,7 +18,7 @@ export interface Modules {
 export interface CodeContext<I extends object = {}> {
   inputData: I
   env: { [key: string]: string }
-  table: Modules['table']
+  table: CodeRunnerModules['table']
   packages: {
     xml2js: typeof import('xml2js')
     dateFns: typeof import('date-fns')
@@ -30,21 +30,21 @@ export interface CodeContext<I extends object = {}> {
   }
 }
 
-export interface Entities {
+export interface CodeRunnerEntities {
   tables: Table[]
 }
 
 export class CodeRunner {
   constructor(
-    private _spi: Spi,
-    private _entities: Entities
+    private _spi: ICodeRunnerSpi,
+    private _entities: CodeRunnerEntities
   ) {}
 
   run = (data: object): Promise<object> => {
     return this._spi.run(data, this._modules())
   }
 
-  private _modules = (): Modules => {
+  private _modules = (): CodeRunnerModules => {
     const { tables } = this._entities
     return {
       table: (name: string) => {

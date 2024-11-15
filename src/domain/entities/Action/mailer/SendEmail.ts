@@ -1,13 +1,13 @@
-import { Base, type BaseConfig, type BaseServices } from '../base'
+import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
 import type { Mailer } from '@domain/services/Mailer'
-import type { Context } from '../../Automation/Context'
+import type { AutomationContext } from '../../Automation/Context'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
 import { CreatedEmail } from '@domain/entities/Email/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { EmailJson } from '@domain/entities/Email/base'
 
-export interface Config extends BaseConfig {
+export interface SendEmailMailerActionConfig extends BaseActionConfig {
   from: string
   to: string
   subject: string
@@ -15,7 +15,7 @@ export interface Config extends BaseConfig {
   html: string
 }
 
-export interface Services extends BaseServices {
+export interface SendEmailMailerActionServices extends BaseActionServices {
   mailer: Mailer
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
@@ -30,7 +30,7 @@ type Input = {
 }
 type Output = EmailJson
 
-export class SendEmail extends Base<Input, Output> {
+export class SendEmailMailerAction extends BaseAction<Input, Output> {
   private _from: Template
   private _to: Template
   private _subject: Template
@@ -38,8 +38,8 @@ export class SendEmail extends Base<Input, Output> {
   private _html: Template
 
   constructor(
-    config: Config,
-    private _services: Services
+    config: SendEmailMailerActionConfig,
+    private _services: SendEmailMailerActionServices
   ) {
     super(config, _services)
     const { from, to, subject, text, html } = config
@@ -51,7 +51,7 @@ export class SendEmail extends Base<Input, Output> {
     this._html = templateCompiler.compile(html)
   }
 
-  protected _prepare = async (context: Context) => {
+  protected _prepare = async (context: AutomationContext) => {
     return {
       from: context.fillTemplateAsString(this._from),
       to: context.fillTemplateAsString(this._to),

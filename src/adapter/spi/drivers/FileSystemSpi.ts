@@ -1,11 +1,11 @@
-import type { Spi } from '@domain/services/FileSystem'
+import type { IFileSystemSpi } from '@domain/services/FileSystem'
 
-export interface Driver {
+export interface IFileSystemDriver {
   exists: (path: string) => boolean
 }
 
-export class FileSystemSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class FileSystemSpi implements IFileSystemSpi {
+  constructor(private _driver: IFileSystemDriver) {}
 
   exists = (path: string) => {
     return this._driver.exists(path)

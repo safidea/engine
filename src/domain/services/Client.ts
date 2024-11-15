@@ -1,44 +1,44 @@
 import type { ReactComponents } from '@domain/entities/Component'
-import type { Meta } from '@domain/entities/Head/Meta'
+import type { HeadMeta } from '@domain/entities/Head/Meta'
 
-export interface BaseProps {
+export interface ClientBaseProps {
   navigation?: 'replace' | 'advance'
   frameId?: string | '_top' | '_self'
 }
 
-export interface FrameProps extends BaseProps {
+export interface ClientFrameProps extends ClientBaseProps {
   id: string
   src?: string
   children?: React.ReactNode
 }
 
-export interface StreamProps {
+export interface ClientStreamProps {
   action: 'append' | 'prepend' | 'replace' | 'update' | 'remove' | 'before' | 'after'
   target: string
   children: React.ReactNode
 }
 
-export interface StreamSourceProps {
+export interface ClientStreamSourceProps {
   src: string
 }
 
-export interface ActionProps {
+export interface ClientActionProps {
   reloadPageFrame?: boolean
   redirectPage?: boolean
 }
 
-export interface Spi {
-  metas: Meta[]
+export interface IClientSpi {
+  metas: HeadMeta[]
   components: ReactComponents
-  Frame: (props: FrameProps) => JSX.Element
-  Stream: (props: StreamProps) => JSX.Element
-  StreamSource: (props: StreamSourceProps) => JSX.Element
-  getActionProps: (options?: ActionProps) => { [key: string]: string }
+  Frame: (props: ClientFrameProps) => JSX.Element
+  Stream: (props: ClientStreamProps) => JSX.Element
+  StreamSource: (props: ClientStreamSourceProps) => JSX.Element
+  getActionProps: (options?: ClientActionProps) => { [key: string]: string }
   render: (component: JSX.Element) => string
 }
 
 export class Client {
-  constructor(private _spi: Spi) {}
+  constructor(private _spi: IClientSpi) {}
 
   get metas() {
     return this._spi.metas
@@ -52,19 +52,19 @@ export class Client {
     return this._spi.render(component)
   }
 
-  Frame = (props: FrameProps): JSX.Element => {
+  Frame = (props: ClientFrameProps): JSX.Element => {
     return this._spi.Frame(props)
   }
 
-  Stream = (props: StreamProps): JSX.Element => {
+  Stream = (props: ClientStreamProps): JSX.Element => {
     return this._spi.Stream(props)
   }
 
-  StreamSource = (props: StreamSourceProps): JSX.Element => {
+  StreamSource = (props: ClientStreamSourceProps): JSX.Element => {
     return this._spi.StreamSource(props)
   }
 
-  getActionProps = (options?: ActionProps) => {
+  getActionProps = (options?: ClientActionProps) => {
     return this._spi.getActionProps(options)
   }
 }

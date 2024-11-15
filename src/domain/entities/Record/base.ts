@@ -12,7 +12,7 @@ export interface RecordJson {
   [key: string]: string | number | boolean | undefined | string[]
 }
 
-export class Base {
+export class BaseRecord {
   constructor(private _baseFields: BaseRecordFields) {}
 
   get id(): string {

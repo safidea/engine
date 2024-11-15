@@ -1,5 +1,5 @@
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
-import type { Integration } from '@adapter/spi/integrations/NotionTableSpi'
+import type { INotionTableIntegration } from '@adapter/spi/integrations/NotionTableSpi'
 import type { NotionTablePageProperties } from '@domain/integrations/NotionTable'
 import { Client } from '@notionhq/client'
 import type {
@@ -15,7 +15,7 @@ export interface NotionTablePage {
   [key: string]: string | number | boolean
 }
 
-export class NotionTableIntegration implements Integration {
+export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
     private _notion: Client,
     private _database: DatabaseObjectResponse

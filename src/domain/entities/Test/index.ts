@@ -4,11 +4,11 @@ import type { Expect } from '../Expect'
 import type { App } from '../App'
 import { TestError } from '@domain/entities/Error/Test'
 
-interface Config {
+interface TestConfig {
   name: string
 }
 
-interface Entities {
+interface TestEntities {
   when: Event[]
   then: Expect[]
 }
@@ -17,8 +17,8 @@ export class Test {
   public name: string
 
   constructor(
-    config: Config,
-    private _entities: Entities
+    config: TestConfig,
+    private _entities: TestEntities
   ) {
     const { name } = config
     this.name = name

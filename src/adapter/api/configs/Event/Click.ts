@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Event/Click'
+import type { ClickEventConfig } from '@domain/entities/Event/Click'
 
-export interface Click extends Config {
+export interface IClickEvent extends ClickEventConfig {
   event: 'Click'
 }

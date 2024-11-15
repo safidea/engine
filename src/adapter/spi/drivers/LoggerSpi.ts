@@ -1,6 +1,6 @@
-import type { Spi } from '@domain/services/Logger'
+import type { ILoggerSpi } from '@domain/services/Logger'
 
-export interface Driver {
+export interface ILoggerDriver {
   init: () => Promise<void>
   error: (message: string, metadata: object) => void
   warn: (message: string, metadata: object) => void
@@ -11,8 +11,8 @@ export interface Driver {
   silly: (message: string, metadata: object) => void
 }
 
-export class LoggerSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class LoggerSpi implements ILoggerSpi {
+  constructor(private _driver: ILoggerDriver) {}
 
   init = async () => {
     await this._driver.init()

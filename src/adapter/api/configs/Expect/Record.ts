@@ -1,7 +1,7 @@
 import type { FilterConfig } from '@domain/entities/Filter'
-import type { Config } from '@domain/entities/Expect/Record'
+import type { RecordExpectConfig } from '@domain/entities/Expect/Record'
 
-export interface Record extends Config {
+export interface IRecordExpect extends RecordExpectConfig {
   expect: 'Record'
   find: FilterConfig
 }

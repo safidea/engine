@@ -1,7 +1,7 @@
 import { test, expect } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
 import Database from '@tests/drivers/database'
-import type { Component } from '@adapter/api/configs/Component'
+import type { IComponent } from '@adapter/api/configs/Component'
 
 test.describe('Sidebar component', () => {
   test('should display a sidebar with id', async ({ page }) => {
@@ -84,7 +84,7 @@ test.describe('Sidebar component', () => {
 
   test('should display a paragraph when clicking on a link', async ({ page }) => {
     // GIVEN
-    const sidebar = (children: Component[]): Component => ({
+    const sidebar = (children: IComponent[]): IComponent => ({
       component: 'Sidebar',
       title: { text: 'Menu' },
       links: [

@@ -1,13 +1,13 @@
-import type { Spi } from '@domain/services/Storage'
-import { StorageBucketSpi, type Driver as StorageBucketDriver } from './StorageBucketSpi'
+import type { IStorageSpi } from '@domain/services/Storage'
+import { StorageBucketSpi, type IStorageBucketDriver } from './StorageBucketSpi'
 
-export interface Driver {
+export interface IStorageDriver {
   connect: () => Promise<void>
-  bucket: (name: string) => StorageBucketDriver
+  bucket: (name: string) => IStorageBucketDriver
 }
 
-export class StorageSpi implements Spi {
-  constructor(private _driver: Driver) {}
+export class StorageSpi implements IStorageSpi {
+  constructor(private _driver: IStorageDriver) {}
 
   connect = () => {
     return this._driver.connect()

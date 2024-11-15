@@ -1,5 +1,5 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface LongText extends Base {
+export interface ILongTextField extends IBaseAction {
   field: 'LongText'
 }
