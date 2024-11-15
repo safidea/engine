@@ -22,6 +22,7 @@ jobs:
       TEST_ELASTICSEARCH_INDEX: ${{ secrets.TEST_ELASTICSEARCH_INDEX }}
       TEST_NOTION_TOKEN: ${{ secrets.TEST_NOTION_TOKEN }}
       TEST_NOTION_TABLE_ID: ${{ secrets.TEST_NOTION_TABLE_ID }}
+      TEST_PAPPERS_API_KEY: ${{ secrets.TEST_PAPPERS_API_KEY }}
       
     steps:
       - uses: actions/checkout@v4

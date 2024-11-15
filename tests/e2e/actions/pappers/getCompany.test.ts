@@ -2,17 +2,17 @@ import { test, expect, env } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.describe('Get Company action', () => {
-  test.skip('should get a company', async ({ request }) => {
+  test('should get a company', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
       automations: [
         {
-          name: 'addNumbers',
+          name: 'getCompany',
           trigger: {
             service: 'Http',
             event: 'ApiCalled',
-            path: 'add-numbers',
+            path: 'get-company',
             input: {
               type: 'object',
               properties: {
