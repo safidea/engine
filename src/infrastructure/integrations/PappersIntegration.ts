@@ -10,7 +10,7 @@ export class PappersIntegration implements IPappersIntegration {
   config = () => {
     if (!this._apiKey) {
       if (!this._config) {
-        throw new Error('Notion config not set')
+        throw new Error('Pappers config not set')
       }
       this._apiKey = this._config.apiKey
     }
