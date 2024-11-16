@@ -1,3 +1,16 @@
+# [0.33.0](https://github.com/latechforce/engine/compare/v0.32.3...v0.33.0) (2024-11-16)
+
+
+### Bug Fixes
+
+* **eslint:** update ([f60aa74](https://github.com/latechforce/engine/commit/f60aa7499be7609127f10dc8df02b48d3a3c0585))
+* **Pappers:** add green test: should get a company from a siret ([87096c8](https://github.com/latechforce/engine/commit/87096c8d2c3ecf0755c50331899488bd6e97efb0))
+
+
+### Features
+
+* **Pappers:** add green test: should get a company ([693e804](https://github.com/latechforce/engine/commit/693e804f23ad41c9e7ad4dd9ed2e5ffcfe5af14a))
+
 ## [0.32.3](https://github.com/latechforce/engine/compare/v0.32.2...v0.32.3) (2024-11-14)
 
 
