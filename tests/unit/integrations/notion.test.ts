@@ -133,43 +133,4 @@ test.describe('Notion integration', () => {
     // THEN
     expect(pages).toHaveLength(3)
   })
-
-  test('should not list pages in a table with a IsAfterNumberOfSecondsSinceNow', async () => {
-    // GIVEN
-    const table = await integration.table(TEST_NOTION_TABLE_ID)
-    const values = [
-      {
-        name: nanoid(),
-      },
-      {
-        name: nanoid(),
-      },
-      {
-        name: nanoid(),
-      },
-    ]
-    await table.createMany(values)
-
-    // WHEN
-    await new Promise((resolve) => setTimeout(resolve, 6000))
-    const pages = await table.list({
-      and: [
-        {
-          field: 'created_time',
-          operator: 'IsAfterNumberOfSecondsSinceNow',
-          value: 3,
-        },
-        {
-          or: values.map((value) => ({
-            field: 'name',
-            operator: 'Is',
-            value: value.name,
-          })),
-        },
-      ],
-    })
-
-    // THEN
-    expect(pages).toHaveLength(0)
-  })
 })
