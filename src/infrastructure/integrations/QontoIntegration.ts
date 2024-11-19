@@ -38,7 +38,6 @@ export class QontoIntegration implements IQontoIntegration {
         Authorization: `${config.organisationSlug}:${config.secretKey}`,
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-Qonto-Staging-Token': 'whRkdAsXqJVcMKpAx270MBFLobKxLrB0CohD0z/5w8U=',
       }
       switch (config.environment) {
         case 'sandbox':
