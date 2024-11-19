@@ -1,3 +1,10 @@
+## [0.33.1](https://github.com/latechforce/engine/compare/v0.33.0...v0.33.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **Qonto:** add green test: should create a client ([333c304](https://github.com/latechforce/engine/commit/333c3041df73191f99171b107da687c1e00cf941))
+
 # [0.33.0](https://github.com/latechforce/engine/compare/v0.32.3...v0.33.0) (2024-11-16)
 
 
