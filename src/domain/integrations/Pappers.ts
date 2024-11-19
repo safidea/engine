@@ -3,18 +3,18 @@ export interface PappersConfig {
 }
 
 export interface IPappersSpi {
-  config: () => string
+  config: () => PappersConfig
   getCompany: (siret: string) => Promise<PappersEntreprise | undefined>
 }
 
 export class Pappers {
   constructor(private _spi: IPappersSpi) {}
 
-  config = () => {
+  config = (): PappersConfig => {
     return this._spi.config()
   }
 
-  getCompany = async (siret: string) => {
+  getCompany = async (siret: string): Promise<PappersEntreprise | undefined> => {
     return this._spi.getCompany(siret)
   }
 }

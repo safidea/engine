@@ -1,7 +1,7 @@
-import type { PappersEntreprise, IPappersSpi } from '@domain/integrations/Pappers'
+import type { PappersEntreprise, IPappersSpi, PappersConfig } from '@domain/integrations/Pappers'
 
 export interface IPappersIntegration {
-  config: () => string
+  config: () => PappersConfig
   getCompany: (siret: string) => Promise<PappersEntreprise | undefined>
 }
 

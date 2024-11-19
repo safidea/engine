@@ -1,44 +1,48 @@
 import type { IPappersIntegration } from '@adapter/spi/integrations/PappersSpi'
 import type { PappersConfig, PappersEntreprise } from '@domain/integrations/Pappers'
-import axios from 'axios'
+import axios, { type AxiosInstance } from 'axios'
 
 export class PappersIntegration implements IPappersIntegration {
-  private _apiKey: string | undefined
+  private _instance: AxiosInstance | undefined
 
   constructor(private _config?: PappersConfig) {}
 
-  config = () => {
-    if (!this._apiKey) {
-      if (!this._config) {
-        throw new Error('Pappers config not set')
-      }
-      this._apiKey = this._config.apiKey
+  config = (): PappersConfig => {
+    if (!this._config) {
+      throw new Error('Pappers config not set')
     }
-    return this._apiKey
+    return this._config
   }
 
   getCompany = async (siret: string): Promise<PappersEntreprise | undefined> => {
-    const apiKey = this.config()
-    const url = 'https://api.pappers.fr/v2/entreprise'
-    try {
-      const response = await axios.get<PappersEntreprise>(url, {
-        params: {
-          siret,
-        },
+    const response = await this._pappersAPI()
+      .get('/entreprise', { params: { siret } })
+      .catch((error) => {
+        return error.response
+      })
+    if (response.status === 200) {
+      if (!response.data) {
+        console.error('No data returned for the given SIRET.')
+        return
+      }
+      return response.data
+    } else {
+      console.error('Error fetching data from Pappers API:', response.data)
+      return
+    }
+  }
+
+  private _pappersAPI = (): AxiosInstance => {
+    if (!this._instance) {
+      const { apiKey } = this.config()
+      this._instance = axios.create({
+        baseURL: 'https://api.pappers.fr/v2',
         headers: {
           'Content-Type': 'application/json',
           'api-key': apiKey,
         },
       })
-      if (response.data) {
-        return response.data
-      } else {
-        console.error('No data returned for the given SIRET.')
-        return
-      }
-    } catch (error) {
-      console.error('Error fetching data from Pappers API:', error)
-      return
     }
+    return this._instance
   }
 }

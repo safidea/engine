@@ -14,16 +14,30 @@ export type Test = TestType<
   PlaywrightWorkerArgs & PlaywrightWorkerOptions
 >
 
-const { TEST_NOTION_TOKEN, TEST_NOTION_TABLE_ID, TEST_PAPPERS_API_KEY } = process.env
+const {
+  TEST_NOTION_TOKEN,
+  TEST_NOTION_TABLE_ID,
+  TEST_PAPPERS_API_KEY,
+  TEST_QONTO_ORGANISATION_SLUG,
+  TEST_QONTO_SECRET_KEY,
+  TEST_QONTO_STAGING_TOKEN,
+} = process.env
 
 if (!TEST_NOTION_TOKEN) throw new Error('TEST_NOTION_TOKEN env var is not defined')
 if (!TEST_NOTION_TABLE_ID) throw new Error('TEST_NOTION_TABLE_ID env var is not defined')
 if (!TEST_PAPPERS_API_KEY) throw new Error('TEST_PAPPERS_API_KEY env var is not defined')
+if (!TEST_QONTO_ORGANISATION_SLUG)
+  throw new Error('TEST_QONTO_ORGANISATION_SLUG env var is not defined')
+if (!TEST_QONTO_SECRET_KEY) throw new Error('TEST_QONTO_SECRET_KEY env var is not defined')
+if (!TEST_QONTO_STAGING_TOKEN) throw new Error('TEST_QONTO_STAGING_TOKEN env var is not defined')
 
 export const env = {
   TEST_NOTION_TOKEN,
   TEST_NOTION_TABLE_ID,
   TEST_PAPPERS_API_KEY,
+  TEST_QONTO_ORGANISATION_SLUG,
+  TEST_QONTO_SECRET_KEY,
+  TEST_QONTO_STAGING_TOKEN,
 }
 
 export const test: Test = base.extend({
