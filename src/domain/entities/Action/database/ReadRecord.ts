@@ -39,7 +39,7 @@ export class ReadRecordDatabaseAction extends BaseAction<Input, Output> {
   }
 
   protected _prepare = async (context: AutomationContext) => {
-    return { id: context.fillTemplateAsString(this._id) }
+    return { id: this._id.fill(context.data) }
   }
 
   protected _process = async (input: Input) => {

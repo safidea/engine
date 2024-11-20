@@ -155,10 +155,7 @@ test.describe('Logger', () => {
                 service: 'Code',
                 action: 'RunTypescript',
                 input: {
-                  message: {
-                    type: 'string',
-                    value: message,
-                  },
+                  message,
                 },
                 code: String(function (context: CodeContext<{ message: string }>) {
                   const { inputData } = context

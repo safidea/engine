@@ -26,8 +26,7 @@ test.describe('Run TypeScript code action', () => {
             },
             output: {
               sum: {
-                value: '{{runTypescriptCode.result}}',
-                type: 'number',
+                number: '{{runTypescriptCode.result}}',
               },
             },
           },
@@ -38,12 +37,10 @@ test.describe('Run TypeScript code action', () => {
               name: 'runTypescriptCode',
               input: {
                 numberOne: {
-                  value: '{{trigger.body.numberOne}}',
-                  type: 'number',
+                  number: '{{trigger.body.numberOne}}',
                 },
                 numberTwo: {
-                  value: '{{trigger.body.numberTwo}}',
-                  type: 'number',
+                  number: '{{trigger.body.numberTwo}}',
                 },
               },
               code: String(async function (
@@ -87,10 +84,7 @@ test.describe('Run TypeScript code action', () => {
             event: 'ApiCalled',
             path: 'get-env',
             output: {
-              NODE_ENV: {
-                value: '{{runJavascriptCode.NODE_ENV}}',
-                type: 'string',
-              },
+              NODE_ENV: '{{runJavascriptCode.NODE_ENV}}',
             },
           },
           actions: [
@@ -137,10 +131,7 @@ test.describe('Run TypeScript code action', () => {
             event: 'ApiCalled',
             path: 'get-env',
             output: {
-              NODE_ENV: {
-                value: '{{runJavascriptCode.NODE_ENV}}',
-                type: 'string',
-              },
+              NODE_ENV: '{{runJavascriptCode.NODE_ENV}}',
             },
           },
           actions: [
@@ -200,8 +191,7 @@ test.describe('Run TypeScript code action', () => {
               },
               output: {
                 user: {
-                  value: '{{runJavascriptCode.user}}',
-                  type: 'object',
+                  json: '{{runJavascriptCode.user}}',
                 },
               },
             },
@@ -211,10 +201,7 @@ test.describe('Run TypeScript code action', () => {
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
                 input: {
-                  name: {
-                    value: '{{trigger.body.name}}',
-                    type: 'string',
-                  },
+                  name: '{{trigger.body.name}}',
                 },
                 code: String(async function (context: CodeContext<{ name: string }>) {
                   const { inputData, table } = context
@@ -268,8 +255,7 @@ test.describe('Run TypeScript code action', () => {
               },
               output: {
                 user: {
-                  value: '{{runJavascriptCode.user}}',
-                  type: 'object',
+                  json: '{{runJavascriptCode.user}}',
                 },
               },
             },
@@ -279,14 +265,8 @@ test.describe('Run TypeScript code action', () => {
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
                 input: {
-                  id: {
-                    value: '{{trigger.body.id}}',
-                    type: 'string',
-                  },
-                  name: {
-                    value: '{{trigger.body.name}}',
-                    type: 'string',
-                  },
+                  id: '{{trigger.body.id}}',
+                  name: '{{trigger.body.name}}',
                 },
                 code: String(async function (context: CodeContext<{ id: string; name: string }>) {
                   const { inputData, table } = context
@@ -341,8 +321,7 @@ test.describe('Run TypeScript code action', () => {
               },
               output: {
                 user: {
-                  value: '{{runJavascriptCode.user}}',
-                  type: 'object',
+                  json: '{{runJavascriptCode.user}}',
                 },
               },
             },
@@ -352,10 +331,7 @@ test.describe('Run TypeScript code action', () => {
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
                 input: {
-                  id: {
-                    value: '{{trigger.body.id}}',
-                    type: 'string',
-                  },
+                  id: '{{trigger.body.id}}',
                 },
                 code: String(async function (context: CodeContext<{ id: string }>) {
                   const { inputData, table } = context
@@ -401,8 +377,7 @@ test.describe('Run TypeScript code action', () => {
               path: 'list-users',
               output: {
                 users: {
-                  value: '{{runJavascriptCode.users}}',
-                  type: 'array',
+                  json: '{{runJavascriptCode.users}}',
                 },
               },
             },
@@ -463,8 +438,7 @@ test.describe('Run TypeScript code action', () => {
               path: 'list-users',
               output: {
                 users: {
-                  value: '{{runJavascriptCode.users}}',
-                  type: 'array',
+                  json: '{{runJavascriptCode.users}}',
                 },
               },
             },
@@ -523,8 +497,7 @@ test.describe('Run TypeScript code action', () => {
               path: 'list-users',
               output: {
                 users: {
-                  value: '{{runJavascriptCode.users}}',
-                  type: 'array',
+                  json: '{{runJavascriptCode.users}}',
                 },
               },
             },
@@ -581,8 +554,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'get-timestamp',
             output: {
               timestamp: {
-                value: '{{runJavascriptCode.timestamp}}',
-                type: 'number',
+                number: '{{runJavascriptCode.timestamp}}',
               },
             },
           },
@@ -625,8 +597,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'is-array',
             output: {
               isArray: {
-                value: '{{runJavascriptCode.isArray}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isArray}}',
               },
             },
           },
@@ -667,8 +638,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'is-number',
             output: {
               isNumber: {
-                value: '{{runJavascriptCode.isNumber}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isNumber}}',
               },
             },
           },
@@ -709,8 +679,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'is-boolean',
             output: {
               isBoolean: {
-                value: '{{runJavascriptCode.isBoolean}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isBoolean}}',
               },
             },
           },
@@ -754,10 +723,7 @@ test.describe('Run TypeScript code action', () => {
             event: 'ApiCalled',
             path: 'get-param',
             output: {
-              param: {
-                value: '{{runJavascriptCode.param}}',
-                type: 'string',
-              },
+              param: '{{runJavascriptCode.param}}',
             },
           },
           actions: [
@@ -796,10 +762,7 @@ test.describe('Run TypeScript code action', () => {
             event: 'ApiCalled',
             path: 'get-date',
             output: {
-              date: {
-                value: '{{runJavascriptCode.date}}',
-                type: 'string',
-              },
+              date: '{{runJavascriptCode.date}}',
             },
           },
           actions: [
@@ -842,8 +805,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'parse-xml',
             output: {
               result: {
-                value: '{{runJavascriptCode.result}}',
-                type: 'object',
+                json: '{{runJavascriptCode.result}}',
               },
             },
           },
@@ -896,8 +858,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'axios',
             output: {
               exist: {
-                value: '{{runJavascriptCode.exist}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.exist}}',
               },
             },
           },
@@ -940,8 +901,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'https',
             output: {
               exist: {
-                value: '{{runJavascriptCode.exist}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.exist}}',
               },
             },
           },
@@ -984,8 +944,7 @@ test.describe('Run TypeScript code action', () => {
             path: 'crypto',
             output: {
               exist: {
-                value: '{{runJavascriptCode.exist}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.exist}}',
               },
             },
           },

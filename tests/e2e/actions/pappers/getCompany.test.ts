@@ -1,7 +1,7 @@
 import { test, expect, env } from '@tests/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test.describe('Get Company action', () => {
+test.describe('Get Pappers company action', () => {
   test('should get a company', async ({ request }) => {
     // GIVEN
     const config: Config = {
@@ -13,25 +13,16 @@ test.describe('Get Company action', () => {
             service: 'Http',
             event: 'ApiCalled',
             path: 'get-company',
-            input: {
-              type: 'object',
-              properties: {
-                siret: { type: 'string' },
-              },
-            },
             output: {
-              denomination: {
-                value: '{{getCompany.denomination}}',
-                type: 'string',
-              },
+              denomination: '{{getCompany.denomination}}',
             },
           },
           actions: [
             {
+              name: 'getCompany',
               integration: 'Pappers',
               action: 'GetCompany',
-              name: 'getCompany',
-              siret: '{{trigger.body.siret}}',
+              siret: '44306184100047',
             },
           ],
         },
@@ -47,11 +38,7 @@ test.describe('Get Company action', () => {
 
     // WHEN
     const response = await request
-      .post(`${url}/api/automation/get-company`, {
-        data: {
-          siret: '44306184100047',
-        },
-      })
+      .post(`${url}/api/automation/get-company`)
       .then((res) => res.json())
 
     // THEN

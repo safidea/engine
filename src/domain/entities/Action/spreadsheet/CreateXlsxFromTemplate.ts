@@ -2,8 +2,9 @@ import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../b
 import type { AutomationContext } from '../../Automation/Context'
 import {
   Template,
-  type TemplateInputValues,
-  type TemplateOutputValue,
+  type TemplateObject,
+  type TemplateObjectCompiled,
+  type TemplateObjectFilled,
 } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Bucket } from '@domain/entities/Bucket'
@@ -15,7 +16,7 @@ import type { FileSystem } from '@domain/services/FileSystem'
 import type { FileJson } from '@domain/entities/File/base'
 
 export interface CreateXlsxFromTemplateSpreadsheetActionConfig extends BaseActionConfig {
-  input?: TemplateInputValues
+  input?: TemplateObject
   templatePath: string
   fileName: string
   bucket: string
@@ -32,13 +33,13 @@ export interface CreateXlsxFromTemplateSpreadsheetActionEntities {
   buckets: Bucket[]
 }
 
-type Input = { data: { [key: string]: TemplateOutputValue }; fileName: string }
+type Input = { data: TemplateObjectFilled; fileName: string }
 type Output = { file: FileJson }
 
 export class CreateXlsxFromTemplateSpreadsheetAction extends BaseAction<Input, Output> {
   private _fileName: Template
   private _spreadsheet?: Spreadsheet
-  private _input: { [key: string]: Template }
+  private _input: TemplateObjectCompiled
   private _bucket: Bucket
 
   constructor(
@@ -54,7 +55,7 @@ export class CreateXlsxFromTemplateSpreadsheetAction extends BaseAction<Input, O
       this._throwConfigError(`templatePath "${templatePath}" must be a .xlsx file`)
     if (!fileSystem.exists(templatePath))
       this._throwConfigError(`templatePath "${templatePath}" does not exist`)
-    this._input = templateCompiler.compileObjectWithType(input ?? {})
+    this._input = templateCompiler.compileObject(input ?? {})
     this._fileName = templateCompiler.compile(fileName)
     this._bucket = this._findBucketByName(bucketName, buckets)
   }
@@ -68,8 +69,8 @@ export class CreateXlsxFromTemplateSpreadsheetAction extends BaseAction<Input, O
 
   protected _prepare = async (context: AutomationContext) => {
     return {
-      data: context.fillObjectTemplate(this._input),
-      fileName: context.fillTemplateAsString(this._fileName),
+      data: Template.fillObject(this._input, context.data),
+      fileName: this._fileName.fill(context.data),
     }
   }
 

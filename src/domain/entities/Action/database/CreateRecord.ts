@@ -1,7 +1,7 @@
 import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
 import type { AutomationContext } from '../../Automation/Context'
 import type { Table } from '../../Table'
-import type { Template } from '@domain/services/Template'
+import { Template, type TemplateObjectCompiled } from '@domain/services/Template'
 import { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import { CreatedRecord } from '@domain/entities/Record/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
@@ -25,7 +25,7 @@ type Input = { [key: string]: string }
 type Output = { record: RecordJson }
 
 export class CreateRecordDatabaseAction extends BaseAction<Input, Output> {
-  private _fields: { [key: string]: Template }
+  private _fields: TemplateObjectCompiled
   private _table: Table
 
   constructor(
@@ -42,7 +42,7 @@ export class CreateRecordDatabaseAction extends BaseAction<Input, Output> {
   }
 
   protected _prepare = async (context: AutomationContext) => {
-    return context.fillObjectTemplateAsString(this._fields)
+    return Template.fillObject<{ [key: string]: string }>(this._fields, context.data)
   }
 
   protected _process = async (input: Input) => {

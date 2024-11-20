@@ -30,6 +30,7 @@ import { MonitorMapper } from './Services/MonitorMapper'
 import { NotionMapper } from './Integration/NotionMapper'
 import type { Integrations } from '@adapter/spi/integrations'
 import { PappersMapper } from './Integration/PappersMapper'
+import { QontoMapper } from './Integration/QontoMapper'
 
 export class AppMapper {
   static toEntity = (drivers: Drivers, integrations: Integrations, config: Config) => {
@@ -106,6 +107,7 @@ export class AppMapper {
       config.integrations?.notion
     )
     const pappers = PappersMapper.toIntegration(integrations, config.integrations?.pappers)
+    const qonto = QontoMapper.toIntegration(integrations, config.integrations?.qonto)
     const automations = AutomationMapper.toManyEntities(
       config.automations,
       {
@@ -127,7 +129,7 @@ export class AppMapper {
         database,
       },
       { tables, buckets },
-      { notion, pappers }
+      { notion, pappers, qonto }
     )
     return new App(
       {

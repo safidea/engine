@@ -29,10 +29,7 @@ test.describe('Fill .xlsx template action', () => {
                 },
               },
               output: {
-                fileId: {
-                  value: '{{createSpreadsheet.file.id}}',
-                  type: 'string',
-                },
+                fileId: '{{createSpreadsheet.file.id}}',
               },
             },
             actions: [
@@ -41,10 +38,7 @@ test.describe('Fill .xlsx template action', () => {
                 action: 'CreateXlsxFromTemplate',
                 name: 'createSpreadsheet',
                 input: {
-                  name: {
-                    value: '{{trigger.body.name}}',
-                    type: 'string',
-                  },
+                  name: '{{trigger.body.name}}',
                 },
                 templatePath: './tests/__helpers__/docs/template.xlsx',
                 fileName: 'output.xlsx',

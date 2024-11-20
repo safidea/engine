@@ -30,10 +30,7 @@ test.describe('Monitor', () => {
                 service: 'Code',
                 action: 'RunJavascript',
                 input: {
-                  message: {
-                    type: 'string',
-                    value: message,
-                  },
+                  message,
                 },
                 code: String(function (context: CodeContext<{ message: string }>) {
                   const { inputData } = context

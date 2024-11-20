@@ -56,8 +56,8 @@ export class CreatePdfFromXlsxSpreadsheetAction extends BaseAction<Input, Output
 
   protected _prepare = async (context: AutomationContext) => {
     return {
-      xlsxFileId: context.fillTemplateAsString(this._xlsxFileId),
-      pdfFileName: context.fillTemplateAsString(this._pdfFileName),
+      xlsxFileId: this._xlsxFileId.fill(context.data),
+      pdfFileName: this._pdfFileName.fill(context.data),
     }
   }
 

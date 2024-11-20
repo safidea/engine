@@ -30,7 +30,7 @@ export class PageState {
   }
 
   fillTemplate = (template: Template): string => {
-    return template.fillAsString(this._data)
+    return template.fill(this._data)
   }
 
   addQueryToPath = (path: string): string => {

@@ -158,8 +158,7 @@ test.describe('Automation tests', () => {
             },
             output: {
               isValid: {
-                value: '{{runJavascriptCode.isValid}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isValid}}',
               },
             },
           },
@@ -169,10 +168,7 @@ test.describe('Automation tests', () => {
               action: 'RunJavascript',
               name: 'runJavascriptCode',
               input: {
-                name: {
-                  value: '{{trigger.body.name}}',
-                  type: 'string',
-                },
+                name: '{{trigger.body.name}}',
               },
               // eslint-disable-next-line
               // @ts-ignore
@@ -234,8 +230,7 @@ test.describe('Automation tests', () => {
             },
             output: {
               isValid: {
-                value: '{{runJavascriptCode.isValid}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isValid}}',
               },
             },
           },
@@ -245,10 +240,7 @@ test.describe('Automation tests', () => {
               action: 'RunJavascript',
               name: 'runJavascriptCode',
               input: {
-                name: {
-                  value: '{{trigger.body.name}}',
-                  type: 'string',
-                },
+                name: '{{trigger.body.name}}',
               },
               // eslint-disable-next-line
               // @ts-ignore

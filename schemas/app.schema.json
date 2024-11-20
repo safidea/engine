@@ -674,6 +674,54 @@
             ],
             "type": "object"
         },
+        "ConvertToTemplateObject<QontoCreateClient>": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "billing_address": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "city": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "country_code": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "currency": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "delivery_address": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "email": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "locale": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "name": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "province_code": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "tax_identification_number": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "type": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "vat_number": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "zip_code": {
+                    "$ref": "#/definitions/TemplateValue"
+                }
+            },
+            "type": "object"
+        },
         "Cta": {
             "additionalProperties": false,
             "properties": {
@@ -1181,6 +1229,9 @@
                 },
                 {
                     "$ref": "#/definitions/IGetCompanyPappersAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreateClientQontoAction"
                 }
             ]
         },
@@ -1195,7 +1246,7 @@
                     "$ref": "#/definitions/JSONSchema"
                 },
                 "output": {
-                    "$ref": "#/definitions/TemplateInputValues"
+                    "$ref": "#/definitions/TemplateObject"
                 },
                 "path": {
                     "type": "string"
@@ -1511,6 +1562,32 @@
                 }
             ]
         },
+        "ICreateClientQontoAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateClient",
+                    "type": "string"
+                },
+                "client": {
+                    "$ref": "#/definitions/ConvertToTemplateObject<QontoCreateClient>"
+                },
+                "integration": {
+                    "const": "Qonto",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "client",
+                "integration",
+                "name"
+            ],
+            "type": "object"
+        },
         "ICreateDocxFromTemplateDocumentAction": {
             "additionalProperties": false,
             "properties": {
@@ -1525,7 +1602,7 @@
                     "type": "string"
                 },
                 "input": {
-                    "$ref": "#/definitions/TemplateInputValues"
+                    "$ref": "#/definitions/TemplateObject"
                 },
                 "name": {
                     "type": "string"
@@ -1634,7 +1711,7 @@
                     "type": "string"
                 },
                 "input": {
-                    "$ref": "#/definitions/TemplateInputValues"
+                    "$ref": "#/definitions/TemplateObject"
                 },
                 "name": {
                     "type": "string"
@@ -2000,6 +2077,16 @@
                 },
                 "pappers": {
                     "$ref": "#/definitions/PappersConfig"
+                },
+                "qonto": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/QontoSandboxConfig"
+                        },
+                        {
+                            "$ref": "#/definitions/QontoProductionConfig"
+                        }
+                    ]
                 }
             },
             "type": "object"
@@ -2354,7 +2441,7 @@
                     "type": "object"
                 },
                 "input": {
-                    "$ref": "#/definitions/TemplateInputValues"
+                    "$ref": "#/definitions/TemplateObject"
                 },
                 "name": {
                     "type": "string"
@@ -2389,7 +2476,7 @@
                     "type": "object"
                 },
                 "input": {
-                    "$ref": "#/definitions/TemplateInputValues"
+                    "$ref": "#/definitions/TemplateObject"
                 },
                 "name": {
                     "type": "string"
@@ -3939,6 +4026,52 @@
             ],
             "type": "object"
         },
+        "QontoProductionConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "environment": {
+                    "const": "production",
+                    "type": "string"
+                },
+                "organisationSlug": {
+                    "type": "string"
+                },
+                "secretKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "environment",
+                "organisationSlug",
+                "secretKey"
+            ],
+            "type": "object"
+        },
+        "QontoSandboxConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "environment": {
+                    "const": "sandbox",
+                    "type": "string"
+                },
+                "organisationSlug": {
+                    "type": "string"
+                },
+                "secretKey": {
+                    "type": "string"
+                },
+                "stagingToken": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "environment",
+                "organisationSlug",
+                "secretKey",
+                "stagingToken"
+            ],
+            "type": "object"
+        },
         "ServerConfig": {
             "additionalProperties": false,
             "properties": {
@@ -4072,33 +4205,57 @@
             ],
             "type": "object"
         },
-        "TemplateInputValue": {
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "enum": [
-                        "array",
-                        "boolean",
-                        "number",
-                        "object",
-                        "string"
-                    ],
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
+        "TemplateObject": {
+            "additionalProperties": {
+                "$ref": "#/definitions/TemplateValue"
             },
-            "required": [
-                "value"
-            ],
             "type": "object"
         },
-        "TemplateInputValues": {
-            "additionalProperties": {
-                "$ref": "#/definitions/TemplateInputValue"
-            },
-            "type": "object"
+        "TemplateValue": {
+            "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "number": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "number"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "boolean": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "boolean"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "json": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "json"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                {
+                    "type": "string"
+                }
+            ]
         },
         "ThemeConfig": {
             "additionalProperties": false,

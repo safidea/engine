@@ -35,7 +35,7 @@ export class GetCompanyPappersAction extends BaseAction<Input, Output> {
   }
 
   protected _prepare = async (context: AutomationContext) => {
-    return { siret: context.fillTemplateAsString(this._siret) }
+    return { siret: this._siret.fill(context.data) }
   }
 
   protected _process = async (input: Input) => {

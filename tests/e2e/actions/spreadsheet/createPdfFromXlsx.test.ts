@@ -30,10 +30,7 @@ test.describe('Create .pdf from .xlsx', () => {
                 },
               },
               output: {
-                fileId: {
-                  value: '{{createPdf.file.id}}',
-                  type: 'string',
-                },
+                fileId: '{{createPdf.file.id}}',
               },
             },
             actions: [

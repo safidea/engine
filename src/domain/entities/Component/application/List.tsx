@@ -77,7 +77,7 @@ export class List implements Base<Props> {
   getRows = (rows: Row['data'][]): Row[] =>
     rows.map((record: Row['data']) => ({
       data: record,
-      open: this.open.fillAsString({ row: record }),
+      open: this.open.fill({ row: record }),
     }))
 
   getData = async (request: GetRequest) => {

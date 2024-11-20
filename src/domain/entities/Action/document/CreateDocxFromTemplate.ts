@@ -2,8 +2,9 @@ import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../b
 import type { AutomationContext } from '../../Automation/Context'
 import {
   Template,
-  type TemplateInputValues,
-  type TemplateOutputValue,
+  type TemplateObject,
+  type TemplateObjectCompiled,
+  type TemplateObjectFilled,
 } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Bucket } from '@domain/entities/Bucket'
@@ -15,7 +16,7 @@ import type { FileSystem } from '@domain/services/FileSystem'
 import type { FileJson } from '@domain/entities/File/base'
 
 export interface CreateDocxFromTemplateDocumentActionConfig extends BaseActionConfig {
-  input: TemplateInputValues
+  input: TemplateObject
   templatePath: string
   fileName: string
   bucket: string
@@ -32,14 +33,14 @@ export interface CreateDocxFromTemplateDocumentActionEntities {
   buckets: Bucket[]
 }
 
-type Input = { data: { [key: string]: TemplateOutputValue }; fileName: string }
+type Input = { data: TemplateObjectFilled; fileName: string }
 type Output = { file: FileJson }
 
 export class CreateDocxFromTemplateDocumentAction extends BaseAction<Input, Output> {
   private _bucket: Bucket
   private _document?: Document
   private _fileName: Template
-  private _input: { [key: string]: Template }
+  private _input: TemplateObjectCompiled
 
   constructor(
     private _config: CreateDocxFromTemplateDocumentActionConfig,
@@ -55,7 +56,7 @@ export class CreateDocxFromTemplateDocumentAction extends BaseAction<Input, Outp
     if (!fileSystem.exists(templatePath))
       this._throwConfigError(`templatePath "${templatePath}" does not exist`)
     this._bucket = this._findBucketByName(bucketName, buckets)
-    this._input = templateCompiler.compileObjectWithType(input)
+    this._input = templateCompiler.compileObject(input)
     this._fileName = templateCompiler.compile(fileName)
   }
 
@@ -68,8 +69,8 @@ export class CreateDocxFromTemplateDocumentAction extends BaseAction<Input, Outp
 
   protected _prepare = async (context: AutomationContext) => {
     return {
-      data: context.fillObjectTemplate(this._input),
-      fileName: context.fillTemplateAsString(this._fileName),
+      data: Template.fillObject(this._input, context.data),
+      fileName: this._fileName.fill(context.data),
     }
   }
 

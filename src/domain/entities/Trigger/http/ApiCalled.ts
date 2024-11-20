@@ -7,8 +7,8 @@ import { AutomationContext } from '../../Automation/Context'
 import type { BaseTrigger, BaseTriggerConfig } from '../base'
 import {
   Template,
-  type TemplateInputValues,
-  type TemplateOutputValue,
+  type TemplateObject,
+  type TemplateObjectCompiled,
 } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Monitor } from '@domain/services/Monitor'
@@ -16,7 +16,7 @@ import type { Monitor } from '@domain/services/Monitor'
 export interface ApiCalledHttpTriggerConfig extends BaseTriggerConfig {
   path: string
   input?: JSONSchema
-  output?: TemplateInputValues
+  output?: TemplateObject
 }
 
 export interface ApiCalledHttpTriggerServices {
@@ -28,7 +28,7 @@ export interface ApiCalledHttpTriggerServices {
 
 export class ApiCalledHttpTrigger implements BaseTrigger {
   private _validateData: (json: unknown, schema: JSONSchema) => SchemaError[]
-  private _output?: { [key: string]: Template }
+  private _output?: TemplateObjectCompiled
 
   constructor(
     private _config: ApiCalledHttpTriggerConfig,
@@ -37,12 +37,7 @@ export class ApiCalledHttpTrigger implements BaseTrigger {
     const { output } = this._config
     const { schemaValidator, templateCompiler } = this._services
     this._validateData = schemaValidator.validate
-    this._output =
-      output &&
-      Object.entries(output).reduce((acc: { [key: string]: Template }, [key, { value, type }]) => {
-        acc[key] = templateCompiler.compile(value, type)
-        return acc
-      }, {})
+    this._output = output ? templateCompiler.compileObject(output) : undefined
   }
 
   get path() {
@@ -71,13 +66,7 @@ export class ApiCalledHttpTrigger implements BaseTrigger {
         }
       }
       if (this._output) {
-        const response = Object.entries(this._output).reduce(
-          (acc: { [key: string]: TemplateOutputValue }, [key, value]) => {
-            acc[key] = context.fillTemplate(value)
-            return acc
-          },
-          {}
-        )
+        const response = Template.fillObject(this._output, context.data)
         return new JsonResponse(response)
       }
       return new JsonResponse({ success: true })

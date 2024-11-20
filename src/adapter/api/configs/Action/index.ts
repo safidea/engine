@@ -7,6 +7,7 @@ import type { ISendEmailMailerAction } from './mailer/SendEmail'
 import type { IReadRecordDatabaseAction } from './database/ReadRecord'
 import type { ICreatePdfFromXlsxSpreadsheetAction } from './spreadsheet/CreatePdfFromXlsx'
 import type { IGetCompanyPappersAction } from './pappers/GetCompany'
+import type { ICreateClientQontoAction } from './qonto/CreateClient'
 
 export type IAction =
   | IRunJavascriptCodeAction
@@ -18,3 +19,4 @@ export type IAction =
   | IReadRecordDatabaseAction
   | ICreatePdfFromXlsxSpreadsheetAction
   | IGetCompanyPappersAction
+  | ICreateClientQontoAction

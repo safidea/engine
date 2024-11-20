@@ -83,8 +83,8 @@ export class Auth {
         to: email,
         from: this._confirmEmail.from,
         subject: this._confirmEmail.subject,
-        text: this._confirmEmail.text.fillAsString({ link }),
-        html: this._confirmEmail.html.fillAsString({ link }),
+        text: this._confirmEmail.text.fill({ link }),
+        html: this._confirmEmail.html.fill({ link }),
       },
       { idGenerator }
     )

@@ -41,8 +41,7 @@ test.describe('Equal expect', () => {
             },
             output: {
               isValid: {
-                value: '{{runJavascriptCode.isValid}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isValid}}',
               },
             },
           },
@@ -52,10 +51,7 @@ test.describe('Equal expect', () => {
               action: 'RunJavascript',
               name: 'runJavascriptCode',
               input: {
-                name: {
-                  value: '{{trigger.body.name}}',
-                  type: 'string',
-                },
+                name: '{{trigger.body.name}}',
               },
               // eslint-disable-next-line
               // @ts-ignore
@@ -117,8 +113,7 @@ test.describe('Equal expect', () => {
             },
             output: {
               isValid: {
-                value: '{{runJavascriptCode.isValid}}',
-                type: 'boolean',
+                boolean: '{{runJavascriptCode.isValid}}',
               },
             },
           },
@@ -128,10 +123,7 @@ test.describe('Equal expect', () => {
               action: 'RunJavascript',
               name: 'runJavascriptCode',
               input: {
-                name: {
-                  value: '{{trigger.body.name}}',
-                  type: 'string',
-                },
+                name: '{{trigger.body.name}}',
               },
               // eslint-disable-next-line
               // @ts-ignore

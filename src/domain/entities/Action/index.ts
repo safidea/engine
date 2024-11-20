@@ -7,6 +7,7 @@ import type { CreateXlsxFromTemplateSpreadsheetAction } from './spreadsheet/Crea
 import type { ReadRecordDatabaseAction } from './database/ReadRecord'
 import type { CreatePdfFromXlsxSpreadsheetAction } from './spreadsheet/CreatePdfFromXlsx'
 import type { GetCompanyPappersAction } from './pappers/GetCompany'
+import type { CreateClientQontoAction } from './qonto/CreateClient'
 
 export type Action =
   | CreateRecordDatabaseAction
@@ -18,3 +19,4 @@ export type Action =
   | CreateXlsxFromTemplateSpreadsheetAction
   | CreatePdfFromXlsxSpreadsheetAction
   | GetCompanyPappersAction
+  | CreateClientQontoAction

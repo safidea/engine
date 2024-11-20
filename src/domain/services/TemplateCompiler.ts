@@ -1,5 +1,12 @@
 import type { TemplateSpi } from '@adapter/spi/drivers/TemplateSpi'
-import { Template, type TemplateInputValue, type TemplateOutputType } from './Template'
+import {
+  isTemplateBooleanValue,
+  isTemplateJsonValue,
+  isTemplateNumberValue,
+  Template,
+  type TemplateObject,
+  type TemplateObjectCompiled,
+} from './Template'
 
 export interface ITemplateCompilerSpi {
   compile: (text: string) => TemplateSpi
@@ -8,26 +15,26 @@ export interface ITemplateCompilerSpi {
 export class TemplateCompiler {
   constructor(private _spi: ITemplateCompilerSpi) {}
 
-  compile = (text: string, type: TemplateOutputType = 'string'): Template => {
-    return new Template(this._spi.compile(text), type)
+  compile = (text: string): Template => {
+    return new Template(this._spi.compile(text))
   }
 
-  compileObject = (object: { [key: string]: string }): { [key: string]: Template } => {
-    return Object.entries(object).reduce((acc: { [key: string]: Template }, [key, value]) => {
-      acc[key] = this.compile(value)
-      return acc
-    }, {})
-  }
-
-  compileObjectWithType = (object: {
-    [key: string]: TemplateInputValue
-  }): { [key: string]: Template } => {
-    return Object.entries(object).reduce(
-      (acc: { [key: string]: Template }, [key, { value, type }]) => {
-        acc[key] = this.compile(value, type)
-        return acc
-      },
-      {}
-    )
+  compileObject = <T extends TemplateObjectCompiled>(object: TemplateObject): T => {
+    const result: TemplateObjectCompiled = {}
+    for (const key in object) {
+      const value = object[key]
+      if (typeof value === 'string') {
+        result[key] = this.compile(value)
+      } else if (isTemplateNumberValue(value)) {
+        result[key] = { number: this.compile(value.number) }
+      } else if (isTemplateBooleanValue(value)) {
+        result[key] = { boolean: this.compile(value.boolean) }
+      } else if (isTemplateJsonValue(value)) {
+        result[key] = { json: this.compile(value.json) }
+      } else if (value) {
+        result[key] = this.compileObject(value)
+      }
+    }
+    return result as T
   }
 }

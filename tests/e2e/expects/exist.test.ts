@@ -32,10 +32,7 @@ test.describe('Exist expect', () => {
             event: 'ApiCalled',
             path: 'exist',
             output: {
-              exist: {
-                value: '{{runJavascriptCode.exist}}',
-                type: 'string',
-              },
+              exist: '{{runJavascriptCode.exist}}',
             },
           },
           actions: [
@@ -92,10 +89,7 @@ test.describe('Exist expect', () => {
             event: 'ApiCalled',
             path: 'exist',
             output: {
-              exist: {
-                value: '{{runJavascriptCode.exist}}',
-                type: 'string',
-              },
+              exist: '{{runJavascriptCode.exist}}',
             },
           },
           actions: [

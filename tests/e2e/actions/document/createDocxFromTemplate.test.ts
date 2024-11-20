@@ -28,10 +28,7 @@ test.describe('Create .docx from template action', () => {
                 },
               },
               output: {
-                fileId: {
-                  value: '{{createDocument.file.id}}',
-                  type: 'string',
-                },
+                fileId: '{{createDocument.file.id}}',
               },
             },
             actions: [
@@ -40,10 +37,7 @@ test.describe('Create .docx from template action', () => {
                 action: 'CreateDocxFromTemplate',
                 name: 'createDocument',
                 input: {
-                  name: {
-                    value: '{{trigger.body.name}}',
-                    type: 'string',
-                  },
+                  name: '{{trigger.body.name}}',
                 },
                 templatePath: './tests/__helpers__/docs/template.docx',
                 fileName: 'output.docx',
@@ -104,10 +98,7 @@ test.describe('Create .docx from template action', () => {
                 },
               },
               output: {
-                fileId: {
-                  value: '{{createDocument.file.id}}',
-                  type: 'string',
-                },
+                fileId: '{{createDocument.file.id}}',
               },
             },
             actions: [
@@ -116,10 +107,7 @@ test.describe('Create .docx from template action', () => {
                 action: 'CreateDocxFromTemplate',
                 name: 'createDocument',
                 input: {
-                  name: {
-                    value: '{{trigger.body.name}}',
-                    type: 'string',
-                  },
+                  name: '{{trigger.body.name}}',
                 },
                 templatePath: './tests/__helpers__/docs/template.docx',
                 fileName: '{{trigger.body.filename}}',

@@ -14,7 +14,7 @@ export class QontoIntegration implements IQontoIntegration {
     return this._config
   }
 
-  createClient = async (client: QontoCreateClient): Promise<QontoClient | undefined> => {
+  createClient = async (client: QontoCreateClient): Promise<QontoClient> => {
     const response = await this._qontoAPI()
       .post('/clients', client)
       .catch((error) => {
@@ -23,11 +23,10 @@ export class QontoIntegration implements IQontoIntegration {
     if (response.status === 200) {
       return response.data.client
     } else {
-      console.error(
-        `Error fetching data from Qonto ${this.config().environment} API:`,
-        JSON.stringify(response.data, null, 2)
+      throw new Error(
+        `Error fetching data from Qonto ${this.config().environment} API: ` +
+          JSON.stringify(response.data, null, 2)
       )
-      return
     }
   }
 

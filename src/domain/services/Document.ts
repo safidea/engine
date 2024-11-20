@@ -1,4 +1,4 @@
-import type { TemplateOutputValue, Template } from './Template'
+import type { Template } from './Template'
 import type { TemplateCompiler } from './TemplateCompiler'
 
 export interface IDocumentSpi {
@@ -23,8 +23,8 @@ export class Document {
     this._template = templateCompiler.compile(content)
   }
 
-  fill = (data: { [key: string]: TemplateOutputValue }) => {
-    const text = this._template.fillAsString(data)
+  fill = (data: { [key: string]: unknown }) => {
+    const text = this._template.fill(data)
     this._spi.writeText(text)
   }
 

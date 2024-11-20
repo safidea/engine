@@ -53,11 +53,11 @@ export class SendEmailMailerAction extends BaseAction<Input, Output> {
 
   protected _prepare = async (context: AutomationContext) => {
     return {
-      from: context.fillTemplateAsString(this._from),
-      to: context.fillTemplateAsString(this._to),
-      subject: context.fillTemplateAsString(this._subject),
-      text: context.fillTemplateAsString(this._text),
-      html: context.fillTemplateAsString(this._html),
+      from: this._from.fill(context.data),
+      to: this._to.fill(context.data),
+      subject: this._subject.fill(context.data),
+      text: this._text.fill(context.data),
+      html: this._html.fill(context.data),
     }
   }
 

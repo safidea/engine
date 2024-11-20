@@ -35,6 +35,10 @@ import {
   GetCompanyPappersActionMapper,
   type GetCompanyPappersActionMapperIntegrations,
 } from './pappers/GetCompanyMapper'
+import {
+  CreateClientQontoActionMapper,
+  type CreateClientQontoActionMapperIntegrations,
+} from './qonto/CreateClientMapper'
 
 export type ActionMapperServices = CreateRecordDatabaseActionMapperServices &
   SendEmailMailerActionMapperServices &
@@ -47,7 +51,8 @@ export type ActionMapperServices = CreateRecordDatabaseActionMapperServices &
 export type ActionMapperEntities = CreateRecordDatabaseActionMapperEntities &
   CreateDocxFromTemplateDocumentActionMapperEntities
 
-export type ActionMapperIntegrations = GetCompanyPappersActionMapperIntegrations
+export type ActionMapperIntegrations = GetCompanyPappersActionMapperIntegrations &
+  CreateClientQontoActionMapperIntegrations
 
 export class ActionMapper {
   static toEntity(
@@ -155,6 +160,19 @@ export class ActionMapper {
         },
         {
           pappers,
+        }
+      )
+
+    if (action === 'CreateClient')
+      return CreateClientQontoActionMapper.toEntity(
+        config,
+        {
+          templateCompiler,
+          logger,
+          monitor,
+        },
+        {
+          qonto: integrations.qonto,
         }
       )
 

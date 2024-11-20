@@ -26,8 +26,7 @@ test.describe('Read record action', () => {
               },
               output: {
                 record: {
-                  value: '{{readRecord.record}}',
-                  type: 'object',
+                  json: '{{readRecord.record}}',
                 },
               },
             },

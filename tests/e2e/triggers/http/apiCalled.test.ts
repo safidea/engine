@@ -42,10 +42,7 @@ test.describe('ApiCalled trigger', () => {
             event: 'ApiCalled',
             path: 'run-api',
             output: {
-              value: {
-                value: '{{runJs.value}}',
-                type: 'string',
-              },
+              value: '{{runJs.value}}',
             },
           },
           actions: [
@@ -92,10 +89,7 @@ test.describe('ApiCalled trigger', () => {
               service: 'Code',
               action: 'RunJavascript',
               input: {
-                message: {
-                  type: 'string',
-                  value: message,
-                },
+                message,
               },
               code: String(function (context: CodeContext<{ message: string }>) {
                 const { inputData } = context

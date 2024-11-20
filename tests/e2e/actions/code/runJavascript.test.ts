@@ -22,8 +22,7 @@ test.describe('Run JavaScript code action', () => {
             },
             output: {
               sum: {
-                value: '{{runJavascriptCode.result}}',
-                type: 'number',
+                number: '{{runJavascriptCode.result}}',
               },
             },
           },
@@ -34,12 +33,10 @@ test.describe('Run JavaScript code action', () => {
               name: 'runJavascriptCode',
               input: {
                 numberOne: {
-                  value: '{{trigger.body.numberOne}}',
-                  type: 'number',
+                  number: '{{trigger.body.numberOne}}',
                 },
                 numberTwo: {
-                  value: '{{trigger.body.numberTwo}}',
-                  type: 'number',
+                  number: '{{trigger.body.numberTwo}}',
                 },
               },
               // eslint-disable-next-line

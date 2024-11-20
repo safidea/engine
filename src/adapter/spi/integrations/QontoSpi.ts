@@ -7,7 +7,7 @@ import type {
 
 export interface IQontoIntegration {
   config: () => QontoConfig
-  createClient: (client: QontoCreateClient) => Promise<QontoClient | undefined>
+  createClient: (client: QontoCreateClient) => Promise<QontoClient>
 }
 
 export class QontoSpi implements IQontoSpi {

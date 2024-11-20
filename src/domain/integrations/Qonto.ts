@@ -13,7 +13,7 @@ export type QontoConfig = QontoSandboxConfig | QontoProductionConfig
 
 export interface IQontoSpi {
   config: () => QontoConfig
-  createClient: (client: QontoCreateClient) => Promise<QontoClient | undefined>
+  createClient: (client: QontoCreateClient) => Promise<QontoClient>
 }
 
 export class Qonto {
@@ -23,7 +23,7 @@ export class Qonto {
     return this._spi.config()
   }
 
-  createClient = async (client: QontoCreateClient): Promise<QontoClient | undefined> => {
+  createClient = async (client: QontoCreateClient): Promise<QontoClient> => {
     return this._spi.createClient(client)
   }
 }
@@ -46,6 +46,7 @@ interface QontoDeliveryAddress {
 
 interface QontoClientBase {
   id: string
+  type: string
   email?: string
   vat_number?: string
   tax_identification_number?: string
@@ -62,13 +63,11 @@ interface QontoClientBase {
 
 interface QontoClientCompany extends QontoClientBase {
   name: string
-  type: 'company'
 }
 
 interface QontoClientIndividual extends QontoClientBase {
   first_name: string
   last_name: string
-  type: 'individual' | 'freelancer'
 }
 
 export type QontoClient = QontoClientCompany | QontoClientIndividual
