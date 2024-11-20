@@ -39,6 +39,10 @@ import {
   CreateClientQontoActionMapper,
   type CreateClientQontoActionMapperIntegrations,
 } from './qonto/CreateClientMapper'
+import {
+  UpdatePageNotionActionMapper,
+  type UpdatePageNotionActionMapperIntegrations,
+} from './notion/UpdatePage'
 
 export type ActionMapperServices = CreateRecordDatabaseActionMapperServices &
   SendEmailMailerActionMapperServices &
@@ -52,7 +56,8 @@ export type ActionMapperEntities = CreateRecordDatabaseActionMapperEntities &
   CreateDocxFromTemplateDocumentActionMapperEntities
 
 export type ActionMapperIntegrations = GetCompanyPappersActionMapperIntegrations &
-  CreateClientQontoActionMapperIntegrations
+  CreateClientQontoActionMapperIntegrations &
+  UpdatePageNotionActionMapperIntegrations
 
 export class ActionMapper {
   static toEntity(
@@ -76,7 +81,7 @@ export class ActionMapper {
       monitor,
     } = services
     const { tables, buckets } = entities
-    const { pappers } = integrations
+    const { pappers, qonto, notion } = integrations
     if (action === 'CreateRecord')
       return CreateRecordDatabaseActionMapper.toEntity(
         config,
@@ -172,10 +177,21 @@ export class ActionMapper {
           monitor,
         },
         {
-          qonto: integrations.qonto,
+          qonto,
         }
       )
-
+    if (action === 'UpdatePage')
+      return UpdatePageNotionActionMapper.toEntity(
+        config,
+        {
+          templateCompiler,
+          logger,
+          monitor,
+        },
+        {
+          notion,
+        }
+      )
     throw new Error(`ActionMapper: Action ${action} not supported`)
   }
 

@@ -8,6 +8,7 @@ import type { ReadRecordDatabaseAction } from './database/ReadRecord'
 import type { CreatePdfFromXlsxSpreadsheetAction } from './spreadsheet/CreatePdfFromXlsx'
 import type { GetCompanyPappersAction } from './pappers/GetCompany'
 import type { CreateClientQontoAction } from './qonto/CreateClient'
+import type { UpdatePageNotionAction } from './notion/UpdatePage'
 
 export type Action =
   | CreateRecordDatabaseAction
@@ -20,3 +21,4 @@ export type Action =
   | CreatePdfFromXlsxSpreadsheetAction
   | GetCompanyPappersAction
   | CreateClientQontoAction
+  | UpdatePageNotionAction

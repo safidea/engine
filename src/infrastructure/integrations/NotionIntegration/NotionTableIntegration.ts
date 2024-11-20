@@ -1,6 +1,6 @@
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { INotionTableIntegration } from '@adapter/spi/integrations/NotionTableSpi'
-import type { NotionTablePageProperties } from '@domain/integrations/NotionTable'
+import type { NotionTablePage, NotionTablePageProperties } from '@domain/integrations/NotionTable'
 import { Client } from '@notionhq/client'
 import type {
   CreatePageParameters,
@@ -10,10 +10,6 @@ import type {
 } from '@notionhq/client/build/src/api-endpoints'
 import { NotionIntegration } from '.'
 import { subSeconds, format } from 'date-fns'
-
-export interface NotionTablePage {
-  [key: string]: string | number | boolean
-}
 
 export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
@@ -34,17 +30,34 @@ export class NotionTableIntegration implements INotionTableIntegration {
         },
         properties,
       })
-      return createdPage.id
+      if (!('properties' in createdPage)) {
+        throw new Error('Page does not have properties')
+      }
+      return this._postprocessPage(createdPage)
     })
   }
 
   createMany = async (pages: NotionTablePageProperties[]) => {
-    const ids: string[] = []
+    const pagesCreated: NotionTablePage[] = []
     for (const page of pages) {
-      const id = await this.create(page)
-      ids.push(id)
+      const pageCreated = await this.create(page)
+      pagesCreated.push(pageCreated)
     }
-    return ids
+    return pagesCreated
+  }
+
+  update = async (id: string, page: NotionTablePageProperties) => {
+    const properties = this._preprocessProperties(page)
+    return NotionIntegration.retryIf502Error(async () => {
+      const updatedPage = await this._notion.pages.update({
+        page_id: id,
+        properties,
+      })
+      if (!('properties' in updatedPage)) {
+        throw new Error('Page does not have properties')
+      }
+      return this._postprocessPage(updatedPage)
+    })
   }
 
   retrieve = async (id: string) => {
@@ -53,12 +66,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
       if (!('properties' in page)) {
         throw new Error('Page does not have properties')
       }
-      const properties = this._postprocessProperties(page.properties)
-      return {
-        id: page.id,
-        properties,
-        createdTime: page.created_time,
-      }
+      return this._postprocessPage(page)
     })
   }
 
@@ -81,37 +89,29 @@ export class NotionTableIntegration implements INotionTableIntegration {
     return NotionIntegration.retryIf502Error(async () => {
       const pages = await this._notion.databases.query(query)
       return pages.results.map((page) => {
-        if (page.object !== 'page') {
+        if (page.object !== 'page' || !('properties' in page)) {
           throw new Error('Not a page')
         }
-        if (!('properties' in page)) {
-          throw new Error('Page does not have properties')
-        }
-        const properties = this._postprocessProperties(page.properties)
-        return {
-          id: page.id,
-          properties,
-          createdTime: page.created_time,
-        }
+        return this._postprocessPage(page)
       })
     })
   }
 
   private _preprocessProperties = (
-    page: NotionTablePageProperties
+    properties: NotionTablePageProperties
   ): CreatePageParameters['properties'] => {
-    const properties: CreatePageParameters['properties'] = {}
-    for (const key in page) {
+    const pageProperties: CreatePageParameters['properties'] = {}
+    for (const key in properties) {
       const property = this._database.properties[key]
       if (property) {
         switch (property.type) {
           case 'title':
-            properties[key] = {
+            pageProperties[key] = {
               type: 'title',
               title: [
                 {
                   text: {
-                    content: String(page[key]),
+                    content: String(properties[key]),
                   },
                 },
               ],
@@ -120,15 +120,13 @@ export class NotionTableIntegration implements INotionTableIntegration {
         }
       }
     }
-    return properties
+    return pageProperties
   }
 
-  private _postprocessProperties = (
-    page: PageObjectResponse['properties']
-  ): NotionTablePageProperties => {
+  private _postprocessPage = (page: PageObjectResponse): NotionTablePage => {
     const properties: NotionTablePageProperties = {}
-    for (const key in page) {
-      const property = page[key]
+    for (const key in page.properties) {
+      const property = page.properties[key]
       switch (property.type) {
         case 'title':
           properties[key] = property.title
@@ -142,7 +140,11 @@ export class NotionTableIntegration implements INotionTableIntegration {
           break
       }
     }
-    return properties
+    return {
+      id: page.id,
+      properties,
+      createdTime: page.created_time,
+    }
   }
 
   // TODO: fix two levels deep : https://developers.notion.com/reference/post-database-query-filter#compound-filter-conditions

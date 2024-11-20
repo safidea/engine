@@ -6,7 +6,7 @@ import type { NotionTablePage } from '@domain/integrations/NotionTable'
 
 export interface PageCreatedNotionTriggerConfig extends BaseTriggerConfig {
   automation: string
-  tableId: string
+  table: string
 }
 
 export interface PageCreatedNotionTriggerServices {
@@ -28,7 +28,7 @@ export class PageCreatedNotionTrigger implements BaseTrigger {
 
   init = async (run: (triggerData: object) => Promise<AutomationContext>) => {
     const { queue } = this._services
-    const { automation, tableId } = this._config
+    const { automation, table: tableId } = this._config
     const { notion } = this._integrations
     const table = await notion.table(tableId)
     table.onPageCreated(this.onPageCreated)

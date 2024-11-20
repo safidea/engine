@@ -16,6 +16,32 @@ test.describe('Notion integration', () => {
     expect(id).toBeDefined()
   })
 
+  test('should retrieve a page in a table', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const name = nanoid()
+    const { id } = await table.create({ name })
+
+    // WHEN
+    const page = await table.retrieve(id)
+
+    // THEN
+    expect(page.properties.name).toBe(name)
+  })
+
+  test('should update a page in a table with a title property', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const { id } = await table.create({ name: 'John' })
+
+    // WHEN
+    await table.update(id, { name: 'John Doe' })
+
+    // THEN
+    const page = await table.retrieve(id)
+    expect(page.properties.name).toBe('John Doe')
+  })
+
   test('should create many pages in a table with a title property', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
@@ -37,24 +63,11 @@ test.describe('Notion integration', () => {
     expect(ids).toHaveLength(3)
   })
 
-  test('should retrieve a page in a table', async () => {
-    // GIVEN
-    const table = await integration.table(TEST_NOTION_TABLE_ID)
-    const name = nanoid()
-    const id = await table.create({ name })
-
-    // WHEN
-    const page = await table.retrieve(id)
-
-    // THEN
-    expect(page.properties.name).toBe(name)
-  })
-
   test('should archive a page in a table', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
     const name = nanoid()
-    const id = await table.create({ name })
+    const { id } = await table.create({ name })
 
     // WHEN
     await table.archive(id)

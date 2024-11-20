@@ -29,7 +29,8 @@ export interface NotionTableServices {
 
 export interface INotionTableSpi {
   name: string
-  create: (page: NotionTablePageProperties) => Promise<string>
+  create: (page: NotionTablePageProperties) => Promise<NotionTablePage>
+  update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePage>
   retrieve: (id: string) => Promise<NotionTablePage>
   archive: (id: string) => Promise<void>
   list: (filter?: Filter) => Promise<NotionTablePage[]>
@@ -83,8 +84,12 @@ export class NotionTable {
     return id
   }
 
-  create = async (page: NotionTablePageProperties) => {
+  create = async (page: NotionTablePageProperties): Promise<NotionTablePage> => {
     return this._spi.create(page)
+  }
+
+  update = async (id: string, page: NotionTablePageProperties): Promise<NotionTablePage> => {
+    return this._spi.update(id, page)
   }
 
   retrieve = async (id: string) => {

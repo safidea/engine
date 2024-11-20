@@ -18,7 +18,7 @@ test.describe('Page Created trigger', () => {
             trigger: {
               integration: 'Notion',
               event: 'PageCreated',
-              tableId: env.TEST_NOTION_TABLE_ID,
+              table: env.TEST_NOTION_TABLE_ID,
             },
             actions: [],
           },

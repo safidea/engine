@@ -1232,6 +1232,9 @@
                 },
                 {
                     "$ref": "#/definitions/ICreateClientQontoAction"
+                },
+                {
+                    "$ref": "#/definitions/IUpdatePageNotionAction"
                 }
             ]
         },
@@ -2270,14 +2273,14 @@
                     "const": "Notion",
                     "type": "string"
                 },
-                "tableId": {
+                "table": {
                     "type": "string"
                 }
             },
             "required": [
                 "event",
                 "integration",
-                "tableId"
+                "table"
             ],
             "type": "object"
         },
@@ -2864,6 +2867,43 @@
                     "$ref": "#/definitions/IPageCreatedNotionTrigger"
                 }
             ]
+        },
+        "IUpdatePageNotionAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "UpdatePage",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Notion",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "id",
+                "integration",
+                "name",
+                "page",
+                "table"
+            ],
+            "type": "object"
         },
         "IUrlExpect": {
             "additionalProperties": false,

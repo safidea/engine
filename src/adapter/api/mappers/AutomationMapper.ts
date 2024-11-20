@@ -81,6 +81,7 @@ export class AutomationMapper {
       {
         pappers,
         qonto,
+        notion,
       }
     )
     return new Automation(config, { logger, monitor, idGenerator, database }, { trigger, actions })

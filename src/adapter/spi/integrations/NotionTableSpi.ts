@@ -9,7 +9,8 @@ import { FilterMapper } from '../mappers/FilterMapper'
 
 export interface INotionTableIntegration {
   name: string
-  create: (page: NotionTablePageProperties) => Promise<string>
+  create: (page: NotionTablePageProperties) => Promise<NotionTablePage>
+  update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePage>
   retrieve: (id: string) => Promise<NotionTablePage>
   archive: (id: string) => Promise<void>
   list: (filter?: FilterDto) => Promise<NotionTablePage[]>
@@ -24,6 +25,10 @@ export class NotionTableSpi implements INotionTableSpi {
 
   create = async (page: NotionTablePageProperties) => {
     return this._integration.create(page)
+  }
+
+  update = async (id: string, page: NotionTablePageProperties) => {
+    return this._integration.update(id, page)
   }
 
   retrieve = async (id: string) => {
