@@ -1,3 +1,15 @@
+# [0.34.0](https://github.com/latechforce/engine/compare/v0.33.1...v0.34.0) (2024-11-20)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should update a page ([4920889](https://github.com/latechforce/engine/commit/492088947a567e00c66f6952e54ec0ae28024de8))
+
+
+### Features
+
+* **Qonto:** add green test: should create a client ([86545ef](https://github.com/latechforce/engine/commit/86545ef872276bdae62f498087091e0c10033b8c))
+
 ## [0.33.1](https://github.com/latechforce/engine/compare/v0.33.0...v0.33.1) (2024-11-19)
 
 
