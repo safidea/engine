@@ -18,7 +18,7 @@ import type {
   PartialDatabaseObjectResponse,
   PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { subSeconds, format } from 'date-fns'
+import { subSeconds, format, formatISO } from 'date-fns'
 
 export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
@@ -115,22 +115,94 @@ export class NotionTableIntegration implements INotionTableIntegration {
     const pageProperties: CreatePageParameters['properties'] = {}
     for (const key in properties) {
       const property = this._database.properties[key]
-      if (property) {
+      const setPropertyValue = (value: NotionTablePagePropertyValue) => {
+        const { type } = property
         switch (property.type) {
           case 'title':
-            pageProperties[key] = {
-              type: 'title',
+            return {
               title: [
                 {
+                  type: 'text',
                   text: {
-                    content: String(properties[key]),
+                    content: String(value),
+                    link: null,
                   },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: 'default',
+                  },
+                  plain_text: String(value),
+                  href: null,
                 },
               ],
             }
-            break
+          case 'rich_text':
+            return {
+              rich_text: [
+                {
+                  type: 'text',
+                  text: {
+                    content: String(value),
+                    link: null,
+                  },
+                  annotations: {
+                    bold: false,
+                    italic: false,
+                    strikethrough: false,
+                    underline: false,
+                    code: false,
+                    color: 'default',
+                  },
+                  plain_text: String(value),
+                  href: null,
+                },
+              ],
+            }
+          case 'number':
+            return {
+              number: Number(value),
+            }
+          case 'select':
+            return {
+              select: property.select.options.find((option) => option.name === value) || null,
+            }
+          case 'multi_select':
+            return {
+              multi_select: (Array.isArray(value) ? value : [])
+                .map((name) => property.multi_select.options.find((option) => option.name === name))
+                .filter((option) => !!option),
+            }
+          case 'date':
+            return {
+              date: value instanceof Date ? { start: formatISO(value), end: null } : null,
+            }
+          case 'checkbox':
+            return {
+              checkbox: Boolean(value),
+            }
+          case 'url':
+            return {
+              url: String(value),
+            }
+          case 'email':
+            return {
+              email: String(value),
+            }
+          case 'phone_number':
+            return {
+              phone_number: String(value),
+            }
+          default:
+            throw new Error(`Property type "${type}" is not supported`)
         }
       }
+      // eslint-disable-next-line
+      // @ts-ignore
+      pageProperties[key] = property ? setPropertyValue(properties[key]) : null
     }
     return pageProperties
   }
@@ -139,12 +211,108 @@ export class NotionTableIntegration implements INotionTableIntegration {
     const properties: NotionTablePageProperties = {}
     for (const key in page.properties) {
       const property = page.properties[key]
-      properties[key] = this._getPropertyValue(property)
+      const getPropertyValue = (property: NotionProperty): NotionTablePagePropertyValue => {
+        const { type } = property
+        switch (type) {
+          case 'title':
+            return property.title
+              .map((title) => {
+                if ('text' in title) {
+                  return title.text.content
+                }
+                return ''
+              })
+              .join('')
+          case 'checkbox':
+            return property.checkbox
+          case 'created_by':
+            return property.created_by.id
+          case 'created_time':
+            return new Date(property.created_time)
+          case 'date':
+            return property.date?.start ? new Date(property.date.start) : null
+          case 'email':
+            return property.email
+          case 'files':
+            return property.files.map((file) => {
+              if ('external' in file) {
+                return {
+                  name: file.name,
+                  url: file.external.url,
+                }
+              }
+              return {
+                name: file.name,
+                url: file.file.url,
+              }
+            })
+          case 'formula':
+            switch (property.formula.type) {
+              case 'string':
+                return property.formula.string
+              case 'number':
+                return property.formula.number
+              case 'boolean':
+                return property.formula.boolean
+              case 'date':
+                return property.formula.date?.start ? new Date(property.formula.date?.start) : null
+            }
+            break
+          case 'last_edited_by':
+            return property.last_edited_by.id
+          case 'last_edited_time':
+            return new Date(property.last_edited_time)
+          case 'multi_select':
+            return property.multi_select.map((select) => select.name)
+          case 'number':
+            return property.number
+          case 'people':
+            return property.people.map((person) => person.id)
+          case 'phone_number':
+            return property.phone_number
+          case 'relation':
+            return property.relation.map((relation) => relation.id)
+          case 'rollup':
+            switch (property.rollup.type) {
+              case 'array':
+                return property.rollup.array?.map((item) => getPropertyValue(item)) || null
+              case 'date':
+                return property.rollup.date?.start || null
+              case 'number':
+                return property.rollup.number || null
+            }
+            break
+          case 'rich_text':
+            return property.rich_text
+              .map((text) => {
+                if ('text' in text) {
+                  return text.text.content
+                }
+                return ''
+              })
+              .join('')
+          case 'select':
+            return property.select?.name || null
+          case 'url':
+            return property.url
+          case 'status':
+            return property.status?.name || null
+          case 'button':
+            return null
+          case 'unique_id':
+            return (property.unique_id.prefix ?? '') + property.unique_id.number
+          case 'verification':
+            return property.verification?.state || null
+          default:
+            throw new Error(`Property type "${type}" is not supported`)
+        }
+      }
+      properties[key] = getPropertyValue(property)
     }
     return {
       id: page.id,
       properties,
-      createdTime: page.created_time,
+      created_time: page.created_time,
     }
   }
 
@@ -159,100 +327,6 @@ export class NotionTableIntegration implements INotionTableIntegration {
       return page
     }
     throw new Error('Not a PageObjectResponse')
-  }
-
-  private _getPropertyValue = (property: NotionProperty): NotionTablePagePropertyValue => {
-    switch (property.type) {
-      case 'title':
-        return property.title
-          .map((title) => {
-            if ('text' in title) {
-              return title.text.content
-            }
-            return ''
-          })
-          .join('')
-      case 'checkbox':
-        return property.checkbox
-      case 'created_by':
-        return property.created_by.id
-      case 'created_time':
-        return property.created_time
-      case 'date':
-        return property.date?.start || null
-      case 'email':
-        return property.email
-      case 'files':
-        return property.files.map((file) => {
-          if ('external' in file) {
-            return {
-              name: file.name,
-              url: file.external.url,
-            }
-          }
-          return {
-            name: file.name,
-            url: file.file.url,
-          }
-        })
-      case 'formula':
-        switch (property.formula.type) {
-          case 'string':
-            return property.formula.string
-          case 'number':
-            return property.formula.number
-          case 'boolean':
-            return property.formula.boolean
-          case 'date':
-            return property.formula.date?.start || null
-        }
-        break
-      case 'last_edited_by':
-        return property.last_edited_by.id
-      case 'last_edited_time':
-        return property.last_edited_time
-      case 'multi_select':
-        return property.multi_select.map((select) => select.name)
-      case 'number':
-        return property.number
-      case 'people':
-        return property.people.map((person) => person.id)
-      case 'phone_number':
-        return property.phone_number
-      case 'relation':
-        return property.relation.map((relation) => relation.id)
-      case 'rollup':
-        switch (property.rollup.type) {
-          case 'array':
-            return property.rollup.array?.map((item) => this._getPropertyValue(item)) || null
-          case 'date':
-            return property.rollup.date?.start || null
-          case 'number':
-            return property.rollup.number || null
-        }
-        break
-      case 'rich_text':
-        return property.rich_text
-          .map((text) => {
-            if ('text' in text) {
-              return text.text.content
-            }
-            return ''
-          })
-          .join('')
-      case 'select':
-        return property.select?.name || null
-      case 'url':
-        return property.url
-      case 'status':
-        return property.status?.name || null
-      case 'button':
-        return null
-      case 'unique_id':
-        return (property.unique_id.prefix ?? '') + property.unique_id.number
-      case 'verification':
-        return property.verification?.state || null
-    }
   }
 
   // TODO: fix two levels deep : https://developers.notion.com/reference/post-database-query-filter#compound-filter-conditions

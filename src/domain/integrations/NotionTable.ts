@@ -8,13 +8,14 @@ import type { NotionConfig } from './Notion'
 export interface NotionTablePage {
   id: string
   properties: NotionTablePageProperties
-  createdTime: string
+  created_time: string
 }
 
 export type NotionTablePagePropertyValue =
   | string
   | number
   | boolean
+  | Date
   | null
   | string[]
   | number[]
