@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 
 const { TEST_NOTION_TABLE_ID } = env
 
-test.describe.only('Notion integration', () => {
+test.describe('Notion integration', () => {
   test('should create a page in a table with a title property', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
