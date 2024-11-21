@@ -15,7 +15,6 @@ test.describe('Qonto integration', () => {
       address: '1 rue de Paris',
       city: 'Paris',
       zip_code: '75001',
-      province_code: '75',
       country_code: 'FR',
     }
 

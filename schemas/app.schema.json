@@ -704,9 +704,6 @@
                 "name": {
                     "$ref": "#/definitions/TemplateValue"
                 },
-                "province_code": {
-                    "$ref": "#/definitions/TemplateValue"
-                },
                 "tax_identification_number": {
                     "$ref": "#/definitions/TemplateValue"
                 },

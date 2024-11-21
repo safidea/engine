@@ -53,7 +53,6 @@ interface QontoClientBase {
   address: string
   city: string
   zip_code: string
-  province_code: string
   country_code: string
   billing_address?: QontoBillingAddress
   delivery_address?: QontoDeliveryAddress
