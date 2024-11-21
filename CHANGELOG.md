@@ -1,3 +1,11 @@
+## [0.34.6](https://github.com/latechforce/engine/compare/v0.34.5...v0.34.6) (2024-11-21)
+
+
+### Bug Fixes
+
+* **TemplateCompiler:** add green test: should convert a date from a format to another format ([d97d133](https://github.com/latechforce/engine/commit/d97d1338f1dc9a708f8a4dc076b57c4dd45cd7d5))
+* **TemplateCompiler:** add red test: should convert a date from a format to another format ([f94de75](https://github.com/latechforce/engine/commit/f94de7507e127759fed36e9014b1bb55361bd481))
+
 ## [0.34.5](https://github.com/latechforce/engine/compare/v0.34.4...v0.34.5) (2024-11-21)
 
 
