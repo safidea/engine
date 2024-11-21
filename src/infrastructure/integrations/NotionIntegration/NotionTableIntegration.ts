@@ -182,7 +182,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
             }
           case 'checkbox':
             return {
-              checkbox: Boolean(value),
+              checkbox: value === 'false' || value === '0' ? false : Boolean(value),
             }
           case 'url':
             return {
@@ -200,6 +200,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
             throw new Error(`Property type "${type}" is not supported`)
         }
       }
+      // TODO: manage all properties types
       // eslint-disable-next-line
       // @ts-ignore
       pageProperties[key] = property ? setPropertyValue(properties[key]) : null

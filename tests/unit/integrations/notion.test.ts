@@ -43,6 +43,18 @@ test.describe('Notion integration', () => {
     expect(page.properties.number).toBe(number)
   })
 
+  test('should create a page in a table with a number property from a string', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const number = '123'
+
+    // WHEN
+    const page = await table.create({ number })
+
+    // THEN
+    expect(page.properties.number).toBe(123)
+  })
+
   test('should create a page in a table with a boolean property', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
@@ -53,6 +65,18 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(page.properties.boolean).toBe(boolean)
+  })
+
+  test('should create a page in a table with a boolean property from a string', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const boolean = 'false'
+
+    // WHEN
+    const page = await table.create({ boolean })
+
+    // THEN
+    expect(page.properties.boolean).toBe(false)
   })
 
   test('should create a page in a table with a text property', async () => {
