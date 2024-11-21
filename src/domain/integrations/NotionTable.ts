@@ -39,6 +39,7 @@ export interface NotionTableServices {
 }
 
 export interface INotionTableSpi {
+  id: string
   name: string
   create: (page: NotionTablePageProperties) => Promise<NotionTablePage>
   update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePage>
@@ -56,6 +57,10 @@ export class NotionTable {
     private _services: NotionTableServices,
     private _config: NotionConfig
   ) {}
+
+  get id() {
+    return this._spi.id
+  }
 
   startPolling = () => {
     const { logger } = this._services

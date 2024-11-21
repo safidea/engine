@@ -27,6 +27,10 @@ export class NotionTableIntegration implements INotionTableIntegration {
     private _retry: <T>(fn: () => Promise<T>) => Promise<T>
   ) {}
 
+  get id() {
+    return this._database.id
+  }
+
   get name() {
     return this._database.title.map((title) => title.plain_text).join('')
   }

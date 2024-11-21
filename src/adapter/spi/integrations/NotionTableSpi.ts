@@ -8,6 +8,7 @@ import type { FilterDto } from '../dtos/FilterDto'
 import { FilterMapper } from '../mappers/FilterMapper'
 
 export interface INotionTableIntegration {
+  id: string
   name: string
   create: (page: NotionTablePageProperties) => Promise<NotionTablePage>
   update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePage>
@@ -18,6 +19,10 @@ export interface INotionTableIntegration {
 
 export class NotionTableSpi implements INotionTableSpi {
   constructor(private _integration: INotionTableIntegration) {}
+
+  get id() {
+    return this._integration.id
+  }
 
   get name() {
     return this._integration.name
