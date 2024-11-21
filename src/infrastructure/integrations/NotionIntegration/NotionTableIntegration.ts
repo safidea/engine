@@ -18,13 +18,13 @@ import type {
   PartialDatabaseObjectResponse,
   PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { NotionIntegration } from '.'
 import { subSeconds, format } from 'date-fns'
 
 export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
     private _api: Client,
-    private _database: DatabaseObjectResponse
+    private _database: DatabaseObjectResponse,
+    private _retry: <T>(fn: () => Promise<T>) => Promise<T>
   ) {}
 
   get name() {
@@ -33,14 +33,13 @@ export class NotionTableIntegration implements INotionTableIntegration {
 
   create = async (page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
-    const createdPage = await NotionIntegration.retry(
-      async () =>
-        await this._api.pages.create({
-          parent: {
-            database_id: this._database.id,
-          },
-          properties,
-        })
+    const createdPage = await this._retry(() =>
+      this._api.pages.create({
+        parent: {
+          database_id: this._database.id,
+        },
+        properties,
+      })
     )
     return this._postprocessPage(this._throwIfNotPageObjectResponse(createdPage))
   }
@@ -53,30 +52,26 @@ export class NotionTableIntegration implements INotionTableIntegration {
 
   update = async (id: string, page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
-    const updatedPage = await NotionIntegration.retry(
-      async () =>
-        await this._api.pages.update({
-          page_id: id,
-          properties,
-        })
+    const updatedPage = await this._retry(() =>
+      this._api.pages.update({
+        page_id: id,
+        properties,
+      })
     )
     return this._postprocessPage(this._throwIfNotPageObjectResponse(updatedPage))
   }
 
   retrieve = async (id: string) => {
-    const page = await NotionIntegration.retry(
-      async () => await this._api.pages.retrieve({ page_id: id })
-    )
+    const page = await this._retry(() => this._api.pages.retrieve({ page_id: id }))
     return this._postprocessPage(this._throwIfNotPageObjectResponse(page))
   }
 
   archive = async (id: string) => {
-    await NotionIntegration.retry(
-      async () =>
-        await this._api.pages.update({
-          page_id: id,
-          archived: true,
-        })
+    await this._retry(() =>
+      this._api.pages.update({
+        page_id: id,
+        archived: true,
+      })
     )
   }
 
@@ -96,12 +91,11 @@ export class NotionTableIntegration implements INotionTableIntegration {
     let pages: QueryDatabaseResponse['results'] = []
     let cursor: string | undefined = undefined
     do {
-      const response = await NotionIntegration.retry(
-        async () =>
-          await this._api.databases.query({
-            ...query,
-            start_cursor: cursor,
-          })
+      const response = await this._retry(() =>
+        this._api.databases.query({
+          ...query,
+          start_cursor: cursor,
+        })
       )
       pages = pages.concat(response.results)
       cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined

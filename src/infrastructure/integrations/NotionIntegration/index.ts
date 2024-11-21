@@ -2,6 +2,10 @@ import type { INotionIntegration } from '@adapter/spi/integrations/NotionSpi'
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client'
 import { NotionTableIntegration } from './NotionTableIntegration'
 import type { NotionConfig } from '@domain/integrations/Notion'
+import type {
+  DatabaseObjectResponse,
+  PartialDatabaseObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints'
 
 export class NotionIntegration implements INotionIntegration {
   private _notion?: Client
@@ -17,16 +21,16 @@ export class NotionIntegration implements INotionIntegration {
 
   table = async (id: string) => {
     const api = this._api()
-    const database = await NotionIntegration.retry(
-      async () =>
-        await api.databases.retrieve({
-          database_id: id,
-        })
+    const database = await this._retry(() =>
+      api.databases.retrieve({
+        database_id: id,
+      })
     )
-    if (!database || !('title' in database)) {
-      throw new Error(`Database not found: ${id}`)
-    }
-    return new NotionTableIntegration(api, database)
+    return new NotionTableIntegration(
+      api,
+      this._throwIfNotDatabaseObjectResponse(database),
+      this._retry
+    )
   }
 
   private _api = (): Client => {
@@ -39,7 +43,16 @@ export class NotionIntegration implements INotionIntegration {
     return this._notion
   }
 
-  static retry = async <T>(fn: () => Promise<T>, retries = 3): Promise<T> => {
+  private _throwIfNotDatabaseObjectResponse(
+    database: DatabaseObjectResponse | PartialDatabaseObjectResponse
+  ): DatabaseObjectResponse {
+    if (database.object === 'database' && 'title' in database) {
+      return database
+    }
+    throw new Error('Not a PageObjectResponse')
+  }
+
+  private _retry = async <T>(fn: () => Promise<T>, retries = 3): Promise<T> => {
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
         return await fn()

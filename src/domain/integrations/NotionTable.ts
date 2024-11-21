@@ -66,7 +66,10 @@ export class NotionTable {
     let pagesIdsPolled: string[] = []
     const startDate = new Date()
     this._pollingTimer = setInterval(async () => {
-      const seconds = Math.min((new Date().getTime() - startDate.getTime()) / 1000, 120)
+      const seconds = Math.min(
+        (new Date().getTime() - startDate.getTime()) / 1000,
+        pollingInterval * 2
+      )
       const filter = new OrFilter([
         new IsAfterNumberOfSecondsSinceNowDateFilter('created_time', seconds),
       ])
@@ -81,7 +84,7 @@ export class NotionTable {
           }
         }
       }
-    }, pollingInterval)
+    }, pollingInterval * 1000)
   }
 
   stopPolling = () => {
