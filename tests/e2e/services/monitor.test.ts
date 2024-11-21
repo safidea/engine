@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type CodeContext, type Config } from '@latechforce/engine'
+import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import { instrument } from '@latechforce/engine/instrument'
 import { getSentryEvents, type Event } from '@tests/drivers/monitor'
 import { nanoid } from 'nanoid'
@@ -32,7 +32,7 @@ test.describe('Monitor', () => {
                 input: {
                   message,
                 },
-                code: String(function (context: CodeContext<{ message: string }>) {
+                code: String(function (context: CodeRunnerContext<{ message: string }>) {
                   const { inputData } = context
                   throw new Error(inputData.message)
                 }),

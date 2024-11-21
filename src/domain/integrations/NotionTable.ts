@@ -3,6 +3,7 @@ import { IsAfterNumberOfSecondsSinceNowDateFilter } from '@domain/entities/Filte
 import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
+import type { NotionConfig } from './Notion'
 
 export interface NotionTablePage {
   id: string
@@ -10,8 +11,18 @@ export interface NotionTablePage {
   createdTime: string
 }
 
+export type NotionTablePagePropertyValue =
+  | string
+  | number
+  | boolean
+  | null
+  | string[]
+  | number[]
+  | NotionTablePagePropertyValue[]
+  | { name: string; url: string }[]
+
 export interface NotionTablePageProperties {
-  [key: string]: string | number | boolean
+  [key: string]: NotionTablePagePropertyValue
 }
 
 export type NotionTableAction = 'CREATE'
@@ -39,28 +50,30 @@ export interface INotionTableSpi {
 export class NotionTable {
   private _pollingTimer?: Timer
   private _listeners: Listener[] = []
-  private _POLLING_INTERVAL = 10000
 
   constructor(
     private _spi: INotionTableSpi,
-    private _services: NotionTableServices
+    private _services: NotionTableServices,
+    private _config: NotionConfig
   ) {}
 
   startPolling = () => {
-    this._services.logger.debug(`starting polling on Notion table "${this._spi.name}"`)
+    const { logger } = this._services
+    const { pollingInterval } = this._config
+    logger.debug(
+      `starting polling on Notion table "${this._spi.name}" with interval ${pollingInterval}s`
+    )
     let pagesIdsPolled: string[] = []
     const startDate = new Date()
     this._pollingTimer = setInterval(async () => {
-      const seconds = Math.min(
-        (new Date().getTime() - startDate.getTime()) / 1000,
-        (this._POLLING_INTERVAL * 12) / 1000
-      )
+      const seconds = Math.min((new Date().getTime() - startDate.getTime()) / 1000, 120)
       const filter = new OrFilter([
         new IsAfterNumberOfSecondsSinceNowDateFilter('created_time', seconds),
       ])
       const pages = await this.list(filter)
       const pagesNotPolled = pages.filter((page) => !pagesIdsPolled.includes(page.id))
       pagesIdsPolled = pages.map((page) => page.id)
+      logger.debug(`polled ${pagesNotPolled.length} new pages on Notion table "${this._spi.name}"`)
       for (const page of pagesNotPolled) {
         for (const listener of this._listeners) {
           if (listener.action === 'CREATE') {
@@ -68,7 +81,7 @@ export class NotionTable {
           }
         }
       }
-    }, this._POLLING_INTERVAL)
+    }, pollingInterval)
   }
 
   stopPolling = () => {

@@ -3,7 +3,7 @@ import type { QontoClient, QontoConfig, QontoCreateClient } from '@domain/integr
 import axios, { type AxiosInstance } from 'axios'
 
 export class QontoIntegration implements IQontoIntegration {
-  private _instance: AxiosInstance | undefined
+  private _instance?: AxiosInstance
 
   constructor(private _config?: QontoConfig) {}
 
@@ -15,7 +15,7 @@ export class QontoIntegration implements IQontoIntegration {
   }
 
   createClient = async (client: QontoCreateClient): Promise<QontoClient> => {
-    const response = await this._qontoAPI()
+    const response = await this._api()
       .post('/clients', client)
       .catch((error) => {
         return error.response
@@ -30,7 +30,7 @@ export class QontoIntegration implements IQontoIntegration {
     }
   }
 
-  private _qontoAPI = (): AxiosInstance => {
+  private _api = (): AxiosInstance => {
     if (!this._instance) {
       const config = this.config()
       const headers = {

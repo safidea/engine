@@ -15,7 +15,7 @@ export interface CodeRunnerModules {
   }
 }
 
-export interface CodeContext<I extends object = {}> {
+export interface CodeRunnerContext<I extends object = {}> {
   inputData: I
   env: { [key: string]: string }
   table: CodeRunnerModules['table']

@@ -1,5 +1,5 @@
 import type { ICodeRunnerDriver } from '@adapter/spi/drivers/CodeRunnerSpi'
-import type { CodeContext, CodeRunnerModules } from '@domain/services/CodeRunner'
+import type { CodeRunnerContext, CodeRunnerModules } from '@domain/services/CodeRunner'
 import vm from 'node:vm'
 
 // Packages
@@ -34,7 +34,7 @@ export class JavascriptRunnerDriver implements ICodeRunnerDriver {
       setTimeout: setTimeout,
       console: console,
     }
-    const codeContext: CodeContext<object> = {
+    const codeContext: CodeRunnerContext<object> = {
       inputData,
       env: this._env,
       table,

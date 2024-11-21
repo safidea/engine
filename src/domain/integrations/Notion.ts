@@ -3,12 +3,13 @@ import { NotionTable, type NotionTableServices } from './NotionTable'
 
 export interface NotionConfig {
   token: string
+  pollingInterval: number
 }
 
 export type NotionServices = NotionTableServices
 
 export interface INotionSpi {
-  config: () => void
+  config: () => NotionConfig
   table: (id: string) => Promise<NotionTableSpi>
 }
 
@@ -20,8 +21,8 @@ export class Notion {
     private _services: NotionServices
   ) {}
 
-  config = () => {
-    this._spi.config()
+  config = (): NotionConfig => {
+    return this._spi.config()
   }
 
   startPolling = async () => {
@@ -38,7 +39,7 @@ export class Notion {
 
   table = async (id: string): Promise<NotionTable> => {
     const page = await this._spi.table(id)
-    const table = new NotionTable(page, this._services)
+    const table = new NotionTable(page, this._services, this.config())
     this._tables.push(table)
     return table
   }

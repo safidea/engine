@@ -11,6 +11,7 @@ export const notion = new Client({
 
 export const integration = new NotionIntegration({
   token: env.TEST_NOTION_TOKEN,
+  pollingInterval: 10,
 })
 
 export const testTable = await integration.table(env.TEST_NOTION_TABLE_ID)

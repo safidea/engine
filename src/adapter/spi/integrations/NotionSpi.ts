@@ -2,10 +2,10 @@ import {
   NotionTableSpi,
   type INotionTableIntegration,
 } from '@adapter/spi/integrations/NotionTableSpi'
-import type { INotionSpi } from '@domain/integrations/Notion'
+import type { INotionSpi, NotionConfig } from '@domain/integrations/Notion'
 
 export interface INotionIntegration {
-  config: () => void
+  config: () => NotionConfig
   table: (id: string) => Promise<INotionTableIntegration>
 }
 
@@ -13,7 +13,7 @@ export class NotionSpi implements INotionSpi {
   constructor(private _integration: INotionIntegration) {}
 
   config = () => {
-    this._integration.config()
+    return this._integration.config()
   }
 
   table = async (id: string) => {

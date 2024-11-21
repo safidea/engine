@@ -3,7 +3,7 @@ import type { PappersConfig, PappersEntreprise } from '@domain/integrations/Papp
 import axios, { type AxiosInstance } from 'axios'
 
 export class PappersIntegration implements IPappersIntegration {
-  private _instance: AxiosInstance | undefined
+  private _instance?: AxiosInstance
 
   constructor(private _config?: PappersConfig) {}
 
@@ -15,7 +15,7 @@ export class PappersIntegration implements IPappersIntegration {
   }
 
   getCompany = async (siret: string): Promise<PappersEntreprise | undefined> => {
-    const response = await this._pappersAPI()
+    const response = await this._api()
       .get('/entreprise', { params: { siret } })
       .catch((error) => {
         return error.response
@@ -32,7 +32,7 @@ export class PappersIntegration implements IPappersIntegration {
     }
   }
 
-  private _pappersAPI = (): AxiosInstance => {
+  private _api = (): AxiosInstance => {
     if (!this._instance) {
       const { apiKey } = this.config()
       this._instance = axios.create({

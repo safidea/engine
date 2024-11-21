@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type CodeContext, type Config } from '@latechforce/engine'
+import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import Database from '@tests/drivers/database'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
@@ -44,7 +44,7 @@ test.describe('Run TypeScript code action', () => {
                 },
               },
               code: String(async function (
-                context: CodeContext<{ numberOne: number; numberTwo: number }>
+                context: CodeRunnerContext<{ numberOne: number; numberTwo: number }>
               ) {
                 const { inputData } = context
                 const { numberOne, numberTwo } = inputData
@@ -95,7 +95,7 @@ test.describe('Run TypeScript code action', () => {
               env: {
                 NODE_ENV: 'test',
               },
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const { env } = context
                 const { NODE_ENV } = env
                 return { NODE_ENV }
@@ -142,7 +142,7 @@ test.describe('Run TypeScript code action', () => {
               env: {
                 NODE_ENV: 'xxx',
               },
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const { env } = context
                 const { NODE_ENV } = env
                 return { success: !!NODE_ENV }
@@ -203,7 +203,7 @@ test.describe('Run TypeScript code action', () => {
                 input: {
                   name: '{{trigger.body.name}}',
                 },
-                code: String(async function (context: CodeContext<{ name: string }>) {
+                code: String(async function (context: CodeRunnerContext<{ name: string }>) {
                   const { inputData, table } = context
                   const { name } = inputData
                   const user = await table('users').insert({ name })
@@ -268,7 +268,9 @@ test.describe('Run TypeScript code action', () => {
                   id: '{{trigger.body.id}}',
                   name: '{{trigger.body.name}}',
                 },
-                code: String(async function (context: CodeContext<{ id: string; name: string }>) {
+                code: String(async function (
+                  context: CodeRunnerContext<{ id: string; name: string }>
+                ) {
                   const { inputData, table } = context
                   const { name, id } = inputData
                   const user = await table('users').update(id, { name })
@@ -333,7 +335,7 @@ test.describe('Run TypeScript code action', () => {
                 input: {
                   id: '{{trigger.body.id}}',
                 },
-                code: String(async function (context: CodeContext<{ id: string }>) {
+                code: String(async function (context: CodeRunnerContext<{ id: string }>) {
                   const { inputData, table } = context
                   const { id } = inputData
                   const user = await table('users').read(id)
@@ -386,7 +388,7 @@ test.describe('Run TypeScript code action', () => {
                 service: 'Code',
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
-                code: String(async function (context: CodeContext) {
+                code: String(async function (context: CodeRunnerContext) {
                   const { table } = context
                   const users = await table('users').list()
                   return { users }
@@ -447,7 +449,7 @@ test.describe('Run TypeScript code action', () => {
                 service: 'Code',
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
-                code: String(async function (context: CodeContext) {
+                code: String(async function (context: CodeRunnerContext) {
                   const { table } = context
                   const users = await table('users').list({
                     field: 'id',
@@ -506,7 +508,7 @@ test.describe('Run TypeScript code action', () => {
                 service: 'Code',
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
-                code: String(async function (context: CodeContext) {
+                code: String(async function (context: CodeRunnerContext) {
                   const { table } = context
                   const users = await table('users').list({
                     field: 'id',
@@ -770,7 +772,7 @@ test.describe('Run TypeScript code action', () => {
               service: 'Code',
               action: 'RunTypescript',
               name: 'runJavascriptCode',
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const {
                   packages: { dateFns },
                 } = context
@@ -814,7 +816,7 @@ test.describe('Run TypeScript code action', () => {
               service: 'Code',
               action: 'RunTypescript',
               name: 'runJavascriptCode',
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const {
                   packages: { xml2js },
                 } = context
@@ -867,7 +869,7 @@ test.describe('Run TypeScript code action', () => {
               service: 'Code',
               action: 'RunTypescript',
               name: 'runJavascriptCode',
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const {
                   packages: { axios },
                 } = context
@@ -910,7 +912,7 @@ test.describe('Run TypeScript code action', () => {
               service: 'Code',
               action: 'RunTypescript',
               name: 'runJavascriptCode',
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const {
                   packages: { https },
                 } = context
@@ -953,7 +955,7 @@ test.describe('Run TypeScript code action', () => {
               service: 'Code',
               action: 'RunTypescript',
               name: 'runJavascriptCode',
-              code: String(async function (context: CodeContext) {
+              code: String(async function (context: CodeRunnerContext) {
                 const {
                   packages: { crypto },
                 } = context

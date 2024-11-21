@@ -25,7 +25,7 @@ export type {
   MonitorsConfig as Monitors,
   ServerConfig as Server,
 } from '@adapter/api/configs/Services'
-export type { CodeContext } from '@domain/services/CodeRunner'
+export type { CodeRunnerContext } from '@domain/services/CodeRunner'
 
 export type Drivers = Partial<AllDrivers>
 

@@ -9,29 +9,33 @@ export class NotionIntegration implements INotionIntegration {
   constructor(private _config?: NotionConfig) {}
 
   config = () => {
-    if (!this._notion) {
-      if (!this._config) {
-        throw new Error('Notion config not set')
-      }
-      const { token } = this._config
-      this._notion = new Client({
-        auth: token,
-      })
+    if (!this._config) {
+      throw new Error('Notion config not set')
     }
-    return this._notion
+    return this._config
   }
 
   table = async (id: string) => {
-    const notion = this.config()
+    const api = this._api()
     const database = await NotionIntegration.retryIf502Error(async () => {
-      return notion.databases.retrieve({
+      return api.databases.retrieve({
         database_id: id,
       })
     })
     if (!database || !('title' in database)) {
       throw new Error(`Database not found: ${id}`)
     }
-    return new NotionTableIntegration(notion, database)
+    return new NotionTableIntegration(api, database)
+  }
+
+  private _api = (): Client => {
+    if (!this._notion) {
+      const { token } = this.config()
+      this._notion = new Client({
+        auth: token,
+      })
+    }
+    return this._notion
   }
 
   static retryIf502Error = async <T>(

@@ -1,19 +1,26 @@
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { INotionTableIntegration } from '@adapter/spi/integrations/NotionTableSpi'
-import type { NotionTablePage, NotionTablePageProperties } from '@domain/integrations/NotionTable'
+import type {
+  NotionTablePage,
+  NotionTablePageProperties,
+  NotionTablePagePropertyValue,
+} from '@domain/integrations/NotionTable'
 import { Client } from '@notionhq/client'
 import type {
   CreatePageParameters,
   PageObjectResponse,
   DatabaseObjectResponse,
   QueryDatabaseParameters,
+  RichTextItemResponse,
+  PartialUserObjectResponse,
+  UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { NotionIntegration } from '.'
 import { subSeconds, format } from 'date-fns'
 
 export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
-    private _notion: Client,
+    private _api: Client,
     private _database: DatabaseObjectResponse
   ) {}
 
@@ -24,7 +31,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
   create = async (page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
     return NotionIntegration.retryIf502Error(async () => {
-      const createdPage = await this._notion.pages.create({
+      const createdPage = await this._api.pages.create({
         parent: {
           database_id: this._database.id,
         },
@@ -49,7 +56,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
   update = async (id: string, page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
     return NotionIntegration.retryIf502Error(async () => {
-      const updatedPage = await this._notion.pages.update({
+      const updatedPage = await this._api.pages.update({
         page_id: id,
         properties,
       })
@@ -62,7 +69,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
 
   retrieve = async (id: string) => {
     return NotionIntegration.retryIf502Error(async () => {
-      const page = await this._notion.pages.retrieve({ page_id: id })
+      const page = await this._api.pages.retrieve({ page_id: id })
       if (!('properties' in page)) {
         throw new Error('Page does not have properties')
       }
@@ -72,7 +79,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
 
   archive = async (id: string) => {
     await NotionIntegration.retryIf502Error(async () => {
-      await this._notion.pages.update({
+      await this._api.pages.update({
         page_id: id,
         archived: true,
       })
@@ -87,7 +94,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
       query.filter = this._convertFilter(filter)
     }
     return NotionIntegration.retryIf502Error(async () => {
-      const pages = await this._notion.databases.query(query)
+      const pages = await this._api.databases.query(query)
       return pages.results.map((page) => {
         if (page.object !== 'page' || !('properties' in page)) {
           throw new Error('Not a page')
@@ -127,23 +134,106 @@ export class NotionTableIntegration implements INotionTableIntegration {
     const properties: NotionTablePageProperties = {}
     for (const key in page.properties) {
       const property = page.properties[key]
-      switch (property.type) {
-        case 'title':
-          properties[key] = property.title
-            .map((title) => {
-              if ('text' in title) {
-                return title.text.content
-              }
-              return ''
-            })
-            .join('')
-          break
-      }
+      properties[key] = this._getPropertyValue(property)
     }
     return {
       id: page.id,
       properties,
       createdTime: page.created_time,
+    }
+  }
+
+  private _getPropertyValue = (property: NotionProperty): NotionTablePagePropertyValue => {
+    switch (property.type) {
+      case 'title':
+        return property.title
+          .map((title) => {
+            if ('text' in title) {
+              return title.text.content
+            }
+            return ''
+          })
+          .join('')
+      case 'checkbox':
+        return property.checkbox
+      case 'created_by':
+        return property.created_by.id
+      case 'created_time':
+        return property.created_time
+      case 'date':
+        return property.date?.start || null
+      case 'email':
+        return property.email
+      case 'files':
+        return property.files.map((file) => {
+          if ('external' in file) {
+            return {
+              name: file.name,
+              url: file.external.url,
+            }
+          }
+          return {
+            name: file.name,
+            url: file.file.url,
+          }
+        })
+      case 'formula':
+        switch (property.formula.type) {
+          case 'string':
+            return property.formula.string
+          case 'number':
+            return property.formula.number
+          case 'boolean':
+            return property.formula.boolean
+          case 'date':
+            return property.formula.date?.start || null
+        }
+        break
+      case 'last_edited_by':
+        return property.last_edited_by.id
+      case 'last_edited_time':
+        return property.last_edited_time
+      case 'multi_select':
+        return property.multi_select.map((select) => select.name)
+      case 'number':
+        return property.number
+      case 'people':
+        return property.people.map((person) => person.id)
+      case 'phone_number':
+        return property.phone_number
+      case 'relation':
+        return property.relation.map((relation) => relation.id)
+      case 'rollup':
+        switch (property.rollup.type) {
+          case 'array':
+            return property.rollup.array?.map((item) => this._getPropertyValue(item)) || null
+          case 'date':
+            return property.rollup.date?.start || null
+          case 'number':
+            return property.rollup.number || null
+        }
+        break
+      case 'rich_text':
+        return property.rich_text
+          .map((text) => {
+            if ('text' in text) {
+              return text.text.content
+            }
+            return ''
+          })
+          .join('')
+      case 'select':
+        return property.select?.name || null
+      case 'url':
+        return property.url
+      case 'status':
+        return property.status?.name || null
+      case 'button':
+        return null
+      case 'unique_id':
+        return (property.unique_id.prefix ?? '') + property.unique_id.number
+      case 'verification':
+        return property.verification?.state || null
     }
   }
 
@@ -228,3 +318,121 @@ export class NotionTableIntegration implements INotionTableIntegration {
     }
   }
 }
+
+type NotionProperty =
+  | {
+      type: 'title'
+      title: RichTextItemResponse[]
+    }
+  | {
+      type: 'rich_text'
+      rich_text: RichTextItemResponse[]
+    }
+  | {
+      type: 'number'
+      number: number | null
+    }
+  | {
+      type: 'select'
+      select: { id: string; name: string; color: string } | null
+    }
+  | {
+      type: 'multi_select'
+      multi_select: { id: string; name: string; color: string }[]
+    }
+  | {
+      type: 'date'
+      date: { start: string; end: string | null } | null
+    }
+  | {
+      type: 'checkbox'
+      checkbox: boolean
+    }
+  | {
+      type: 'url'
+      url: string | null
+    }
+  | {
+      type: 'email'
+      email: string | null
+    }
+  | {
+      type: 'phone_number'
+      phone_number: string | null
+    }
+  | {
+      type: 'relation'
+      relation: { id: string }[]
+    }
+  | {
+      type: 'formula'
+      formula:
+        | { type: 'string'; string: string | null }
+        | { type: 'number'; number: number | null }
+        | { type: 'boolean'; boolean: boolean | null }
+        | { type: 'date'; date: { start: string; end: string | null } | null }
+    }
+  | {
+      type: 'rollup'
+      rollup: {
+        type: 'number' | 'date' | 'array'
+        number?: number | null
+        date?: { start: string; end: string | null } | null
+        array?: NotionProperty[]
+      }
+    }
+  | {
+      type: 'people'
+      people: (PartialUserObjectResponse | UserObjectResponse)[]
+    }
+  | {
+      type: 'files'
+      files: (
+        | { name: string; file: { url: string } }
+        | { name: string; external: { url: string } }
+      )[]
+    }
+  | {
+      type: 'created_time'
+      created_time: string
+    }
+  | {
+      type: 'last_edited_time'
+      last_edited_time: string
+    }
+  | {
+      type: 'created_by'
+      created_by: { id: string; object: string }
+    }
+  | {
+      type: 'last_edited_by'
+      last_edited_by: { id: string; object: string }
+    }
+  | { type: 'status'; status: { name: string; id: string } | null }
+  | { type: 'button'; button: { [key: string]: never } }
+  | { type: 'unique_id'; unique_id: { prefix: string | null; number: number | null } }
+  | {
+      type: 'verification'
+      verification: {
+        state: string
+        verified_by:
+          | { id: string }
+          | {
+              id: string
+              object: string
+            }
+          | {
+              person: { email?: string | undefined }
+              id: string
+              type?: 'person' | undefined
+              name?: string | null | undefined
+              avatar_url?: string | null | undefined
+              object?: 'user' | undefined
+            }
+          | null
+        date: {
+          start: string
+          end: string | null
+        } | null
+      } | null
+    }

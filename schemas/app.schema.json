@@ -3965,11 +3965,15 @@
         "NotionConfig": {
             "additionalProperties": false,
             "properties": {
+                "pollingInterval": {
+                    "type": "number"
+                },
                 "token": {
                     "type": "string"
                 }
             },
             "required": [
+                "pollingInterval",
                 "token"
             ],
             "type": "object"

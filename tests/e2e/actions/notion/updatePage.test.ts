@@ -40,6 +40,7 @@ test.describe('Update Notion page action', () => {
       integrations: {
         notion: {
           token: env.TEST_NOTION_TOKEN,
+          pollingInterval: 10,
         },
       },
     }

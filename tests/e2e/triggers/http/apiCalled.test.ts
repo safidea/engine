@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type CodeContext, type Config } from '@latechforce/engine'
+import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 
 test.describe('ApiCalled trigger', () => {
   test('should run an automation from api call', async ({ request }) => {
@@ -91,7 +91,7 @@ test.describe('ApiCalled trigger', () => {
               input: {
                 message,
               },
-              code: String(function (context: CodeContext<{ message: string }>) {
+              code: String(function (context: CodeRunnerContext<{ message: string }>) {
                 const { inputData } = context
                 throw new Error(inputData.message)
               }),

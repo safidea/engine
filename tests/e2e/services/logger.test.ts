@@ -1,5 +1,5 @@
 import { test, expect } from '@tests/fixtures'
-import App, { type CodeContext, type Config } from '@latechforce/engine'
+import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
@@ -157,7 +157,7 @@ test.describe('Logger', () => {
                 input: {
                   message,
                 },
-                code: String(function (context: CodeContext<{ message: string }>) {
+                code: String(function (context: CodeRunnerContext<{ message: string }>) {
                   const { inputData } = context
                   throw new Error(inputData.message)
                 }),
