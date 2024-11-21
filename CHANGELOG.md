@@ -1,3 +1,10 @@
+## [0.34.5](https://github.com/latechforce/engine/compare/v0.34.4...v0.34.5) (2024-11-21)
+
+
+### Bug Fixes
+
+* **Notion:** add green tests: should create a page in a table with a number property ([df6fa3e](https://github.com/latechforce/engine/commit/df6fa3ef83048ed7f19cc928f0964e301e7dfb1b))
+
 ## [0.34.4](https://github.com/latechforce/engine/compare/v0.34.3...v0.34.4) (2024-11-21)
 
 
