@@ -1,3 +1,10 @@
+## [0.34.2](https://github.com/latechforce/engine/compare/v0.34.1...v0.34.2) (2024-11-21)
+
+
+### Bug Fixes
+
+* **Notion:** don't instanciate multiple time the same table ([dfa51fb](https://github.com/latechforce/engine/commit/dfa51fbac60438dacefd1f24d4247d9e9c41a53d))
+
 ## [0.34.1](https://github.com/latechforce/engine/compare/v0.34.0...v0.34.1) (2024-11-21)
 
 
