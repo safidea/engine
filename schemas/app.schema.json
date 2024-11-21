@@ -1,0 +1,4545 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "AuthConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "confirmEmail": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "from": {
+                            "type": "string"
+                        },
+                        "html": {
+                            "type": "string"
+                        },
+                        "subject": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "from",
+                        "html",
+                        "subject",
+                        "text"
+                    ],
+                    "type": "object"
+                },
+                "redirectOnLogin": {
+                    "type": "string"
+                },
+                "redirectOnLogout": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "strategy": {
+                    "const": "magic-link",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "confirmEmail",
+                "redirectOnLogin",
+                "redirectOnLogout",
+                "secret",
+                "strategy"
+            ],
+            "type": "object"
+        },
+        "Button": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Button",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST"
+                    ],
+                    "type": "string"
+                },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Card": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Card",
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image": {
+                    "$ref": "#/definitions/Config_7"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Column": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "Columns": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Columns",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component"
+            ],
+            "type": "object"
+        },
+        "Config_1": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "textarea",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "Config_2": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST"
+                    ],
+                    "type": "string"
+                },
+                "onSuccess": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "redirect": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "redirect"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "notification": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "enum": [
+                                                "error",
+                                                "success"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "type"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "notification"
+                            ],
+                            "type": "object"
+                        }
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "reset",
+                        "submit"
+                    ],
+                    "type": "string"
+                },
+                "variant": {
+                    "enum": [
+                        "primary",
+                        "secondary"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "type": "object"
+        },
+        "Config_3": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "Config_4": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        },
+        "Config_5": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "$ref": "#/definitions/IconName"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "Config_6": {
+            "additionalProperties": false,
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Config_5"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Config_5"
+                }
+            },
+            "required": [
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "Config_7": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "alt": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "src": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "alt",
+                "src"
+            ],
+            "type": "object"
+        },
+        "Config_8": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Config_6"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "label",
+                "links"
+            ],
+            "type": "object"
+        },
+        "Container": {
+            "additionalProperties": false,
+            "properties": {
+                "breakpoint": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "none",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "center": {
+                    "type": "boolean"
+                },
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Container",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "padding": {
+                    "enum": [
+                        "0",
+                        "0.5",
+                        "1",
+                        "1.5",
+                        "10",
+                        "11",
+                        "12",
+                        "14",
+                        "16",
+                        "2",
+                        "2.5",
+                        "20",
+                        "24",
+                        "28",
+                        "3",
+                        "3.5",
+                        "32",
+                        "36",
+                        "4",
+                        "40",
+                        "44",
+                        "48",
+                        "5",
+                        "52",
+                        "56",
+                        "6",
+                        "60",
+                        "64",
+                        "7",
+                        "72",
+                        "8",
+                        "80",
+                        "9",
+                        "96",
+                        "px"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "component"
+            ],
+            "type": "object"
+        },
+        "ConvertToTemplateObject<QontoCreateClient>": {
+            "additionalProperties": false,
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "billing_address": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "city": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "country_code": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "currency": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "delivery_address": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "email": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "locale": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "name": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "tax_identification_number": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "type": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "vat_number": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "zip_code": {
+                    "$ref": "#/definitions/TemplateValue"
+                }
+            },
+            "type": "object"
+        },
+        "Cta": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Config_2"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "CTA",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "buttons",
+                "component",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
+        "DatabaseConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "$ref": "#/definitions/DatabaseDriverName"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "url"
+            ],
+            "type": "object"
+        },
+        "DatabaseDriverName": {
+            "enum": [
+                "PostgreSQL",
+                "SQLite"
+            ],
+            "type": "string"
+        },
+        "Divider": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Divider",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component"
+            ],
+            "type": "object"
+        },
+        "Dropdown": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Dropdown",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Config_6"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "component",
+                "label",
+                "links"
+            ],
+            "type": "object"
+        },
+        "EqualsNumberFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "Equals",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "Features": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Features",
+                    "type": "string"
+                },
+                "features": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "icon": {
+                                "$ref": "#/definitions/Config_5"
+                            },
+                            "paragraph": {
+                                "$ref": "#/definitions/Config_4"
+                            },
+                            "title": {
+                                "$ref": "#/definitions/Config_3"
+                            }
+                        },
+                        "required": [
+                            "icon",
+                            "paragraph",
+                            "title"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "features",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Field": {
+            "additionalProperties": false,
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label",
+                "name"
+            ],
+            "type": "object"
+        },
+        "FilterConfig": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IsFalseBooleanFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsTrueBooleanFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsAfterNumberOfSecondsSinceNowDateFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/EqualsNumberFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsAnyOfSelectFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsTextFilterConfig"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "and": {
+                            "items": {
+                                "$ref": "#/definitions/FilterConfig"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "and"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "or": {
+                            "items": {
+                                "$ref": "#/definitions/FilterConfig"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "or"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "Footer": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Footer",
+                    "type": "string"
+                },
+                "copyright": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Config_6"
+                    },
+                    "type": "array"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "copyright",
+                "links",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Form": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Config_2"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Form",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "inputs": {
+                    "items": {
+                        "$ref": "#/definitions/Config_1"
+                    },
+                    "type": "array"
+                },
+                "method": {
+                    "enum": [
+                        "DELETE",
+                        "GET",
+                        "PATCH",
+                        "POST"
+                    ],
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "successMessage": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "action",
+                "buttons",
+                "component",
+                "inputs"
+            ],
+            "type": "object"
+        },
+        "Grid": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "columns": {
+                    "type": "number"
+                },
+                "component": {
+                    "const": "Grid",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "children",
+                "columns",
+                "component"
+            ],
+            "type": "object"
+        },
+        "Header": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Config_2"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Header",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/Config_6"
+                            },
+                            {
+                                "$ref": "#/definitions/Config_8"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "buttons",
+                "component",
+                "links",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Heading": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Config_2"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Heading",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Hero": {
+            "additionalProperties": false,
+            "properties": {
+                "buttons": {
+                    "items": {
+                        "$ref": "#/definitions/Config_2"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Hero",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "buttons",
+                "component",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
+        "IAction": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ICreateDocxFromTemplateDocumentAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreateXlsxFromTemplateSpreadsheetAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreateRecordDatabaseAction"
+                },
+                {
+                    "$ref": "#/definitions/IRunJavascriptCodeAction"
+                },
+                {
+                    "$ref": "#/definitions/IRunTypescriptCodeAction"
+                },
+                {
+                    "$ref": "#/definitions/ISendEmailMailerAction"
+                },
+                {
+                    "$ref": "#/definitions/IReadRecordDatabaseAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreatePdfFromXlsxSpreadsheetAction"
+                },
+                {
+                    "$ref": "#/definitions/IGetCompanyPappersAction"
+                },
+                {
+                    "$ref": "#/definitions/ICreateClientQontoAction"
+                },
+                {
+                    "$ref": "#/definitions/IUpdatePageNotionAction"
+                }
+            ]
+        },
+        "IApiCalledHttpTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "ApiCalled",
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/JSONSchema"
+                },
+                "output": {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Http",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "path",
+                "service"
+            ],
+            "type": "object"
+        },
+        "IAttributeExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "attribute": {
+                    "type": "string"
+                },
+                "expect": {
+                    "const": "Attribute",
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attribute",
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IAutomation": {
+            "additionalProperties": false,
+            "properties": {
+                "actions": {
+                    "items": {
+                        "$ref": "#/definitions/IAction"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "trigger": {
+                    "$ref": "#/definitions/ITrigger"
+                }
+            },
+            "required": [
+                "actions",
+                "name",
+                "trigger"
+            ],
+            "type": "object"
+        },
+        "IBucket": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "IClickEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "Click",
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "text"
+            ],
+            "type": "object"
+        },
+        "IClickInEmailEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "ClickInEmail",
+                    "type": "string"
+                },
+                "mailbox": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "mailbox",
+                "text"
+            ],
+            "type": "object"
+        },
+        "IComponent": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/Button"
+                },
+                {
+                    "$ref": "#/definitions/Title"
+                },
+                {
+                    "$ref": "#/definitions/Paragraph"
+                },
+                {
+                    "$ref": "#/definitions/Input"
+                },
+                {
+                    "$ref": "#/definitions/Form"
+                },
+                {
+                    "$ref": "#/definitions/Cta"
+                },
+                {
+                    "$ref": "#/definitions/Icon"
+                },
+                {
+                    "$ref": "#/definitions/Features"
+                },
+                {
+                    "$ref": "#/definitions/Hero"
+                },
+                {
+                    "$ref": "#/definitions/Link"
+                },
+                {
+                    "$ref": "#/definitions/Footer"
+                },
+                {
+                    "$ref": "#/definitions/Image"
+                },
+                {
+                    "$ref": "#/definitions/Logos"
+                },
+                {
+                    "$ref": "#/definitions/NotFound"
+                },
+                {
+                    "$ref": "#/definitions/Dropdown"
+                },
+                {
+                    "$ref": "#/definitions/Header"
+                },
+                {
+                    "$ref": "#/definitions/Table"
+                },
+                {
+                    "$ref": "#/definitions/Sidebar"
+                },
+                {
+                    "$ref": "#/definitions/List"
+                },
+                {
+                    "$ref": "#/definitions/Heading"
+                },
+                {
+                    "$ref": "#/definitions/Modal"
+                },
+                {
+                    "$ref": "#/definitions/Container"
+                },
+                {
+                    "$ref": "#/definitions/Columns"
+                },
+                {
+                    "$ref": "#/definitions/Card"
+                },
+                {
+                    "$ref": "#/definitions/Divider"
+                },
+                {
+                    "$ref": "#/definitions/Spacer"
+                },
+                {
+                    "$ref": "#/definitions/Markdown"
+                },
+                {
+                    "$ref": "#/definitions/Grid"
+                }
+            ]
+        },
+        "ICreateClientQontoAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateClient",
+                    "type": "string"
+                },
+                "client": {
+                    "$ref": "#/definitions/ConvertToTemplateObject<QontoCreateClient>"
+                },
+                "integration": {
+                    "const": "Qonto",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "client",
+                "integration",
+                "name"
+            ],
+            "type": "object"
+        },
+        "ICreateDocxFromTemplateDocumentAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateDocxFromTemplate",
+                    "type": "string"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Document",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "input",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
+        "ICreatePdfFromXlsxSpreadsheetAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreatePdfFromXlsx",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "pdfBucket": {
+                    "type": "string"
+                },
+                "pdfFileName": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
+                    "type": "string"
+                },
+                "xlsxBucket": {
+                    "type": "string"
+                },
+                "xlsxFileId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "name",
+                "pdfBucket",
+                "pdfFileName",
+                "service",
+                "xlsxBucket",
+                "xlsxFileId"
+            ],
+            "type": "object"
+        },
+        "ICreateRecordDatabaseAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateRecord",
+                    "type": "string"
+                },
+                "fields": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "fields",
+                "name",
+                "service",
+                "table"
+            ],
+            "type": "object"
+        },
+        "ICreateXlsxFromTemplateSpreadsheetAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "CreateXlsxFromTemplate",
+                    "type": "string"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Spreadsheet",
+                    "type": "string"
+                },
+                "templatePath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "bucket",
+                "fileName",
+                "name",
+                "service",
+                "templatePath"
+            ],
+            "type": "object"
+        },
+        "IDateTimeField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "DateTime",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IEmailExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Email",
+                    "type": "string"
+                },
+                "mailbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "mailbox"
+            ],
+            "type": "object"
+        },
+        "IEmailField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Email",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IEqualExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "equal": {
+                    "type": "string"
+                },
+                "expect": {
+                    "const": "Equal",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "equal",
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IEvent": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IClickEvent"
+                },
+                {
+                    "$ref": "#/definitions/IClickInEmailEvent"
+                },
+                {
+                    "$ref": "#/definitions/IFillEvent"
+                },
+                {
+                    "$ref": "#/definitions/IOpenEvent"
+                },
+                {
+                    "$ref": "#/definitions/IPostEvent"
+                },
+                {
+                    "$ref": "#/definitions/IWaitForAutomationEvent"
+                },
+                {
+                    "$ref": "#/definitions/IWaitForTextEvent"
+                }
+            ]
+        },
+        "IExistExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Exist",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IExpect": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IAttributeExpect"
+                },
+                {
+                    "$ref": "#/definitions/IEmailExpect"
+                },
+                {
+                    "$ref": "#/definitions/IEqualExpect"
+                },
+                {
+                    "$ref": "#/definitions/IExistExpect"
+                },
+                {
+                    "$ref": "#/definitions/IInputTextExpect"
+                },
+                {
+                    "$ref": "#/definitions/IRecordExpect"
+                },
+                {
+                    "$ref": "#/definitions/ITextExpect"
+                },
+                {
+                    "$ref": "#/definitions/ITitleExpect"
+                },
+                {
+                    "$ref": "#/definitions/IUrlExpect"
+                }
+            ]
+        },
+        "IField": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IDateTimeField"
+                },
+                {
+                    "$ref": "#/definitions/IEmailField"
+                },
+                {
+                    "$ref": "#/definitions/ILongTextField"
+                },
+                {
+                    "$ref": "#/definitions/INumberField"
+                },
+                {
+                    "$ref": "#/definitions/ISingleLineTextField"
+                },
+                {
+                    "$ref": "#/definitions/IFormulaField"
+                },
+                {
+                    "$ref": "#/definitions/IMultipleLinkedRecordField"
+                },
+                {
+                    "$ref": "#/definitions/IRollupField"
+                },
+                {
+                    "$ref": "#/definitions/ISingleLinkedRecordField"
+                },
+                {
+                    "$ref": "#/definitions/ISingleSelectField"
+                }
+            ]
+        },
+        "IFillEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "Fill",
+                    "type": "string"
+                },
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IFormulaField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Formula",
+                    "type": "string"
+                },
+                "formula": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "output": {
+                    "$ref": "#/definitions/Omit<IDateTimeField|ILongTextField|INumberField|ISingleLineTextField,\"name\">"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "formula",
+                "name",
+                "output"
+            ],
+            "type": "object"
+        },
+        "IGetCompanyPappersAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "GetCompany",
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Pappers",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "siret": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "integration",
+                "name",
+                "siret"
+            ],
+            "type": "object"
+        },
+        "IHead": {
+            "additionalProperties": false,
+            "properties": {
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/ILink"
+                    },
+                    "type": "array"
+                },
+                "metas": {
+                    "items": {
+                        "$ref": "#/definitions/IMeta"
+                    },
+                    "type": "array"
+                },
+                "scripts": {
+                    "items": {
+                        "$ref": "#/definitions/IScript"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IInputTextExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "InputText",
+                    "type": "string"
+                },
+                "input": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "input",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IIntegrations": {
+            "additionalProperties": false,
+            "properties": {
+                "notion": {
+                    "$ref": "#/definitions/NotionConfig"
+                },
+                "pappers": {
+                    "$ref": "#/definitions/PappersConfig"
+                },
+                "qonto": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/QontoSandboxConfig"
+                        },
+                        {
+                            "$ref": "#/definitions/QontoProductionConfig"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "ILink": {
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "string"
+                },
+                "rel": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "href"
+            ],
+            "type": "object"
+        },
+        "ILongTextField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "LongText",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IMeta": {
+            "additionalProperties": false,
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "content",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IMultipleLinkedRecordField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "MultipleLinkedRecord",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "table"
+            ],
+            "type": "object"
+        },
+        "INumberField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Number",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IOpenEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "Open",
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "url"
+            ],
+            "type": "object"
+        },
+        "IPage": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "head": {
+                    "$ref": "#/definitions/IHead"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "name",
+                "path"
+            ],
+            "type": "object"
+        },
+        "IPageCreatedNotionTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "PageCreated",
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Notion",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "integration",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IPostEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "event": {
+                    "const": "Post",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "path"
+            ],
+            "type": "object"
+        },
+        "IReadRecordDatabaseAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "ReadRecord",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "id",
+                "name",
+                "service",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IRecordCreatedDatabaseTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "RecordCreated",
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Database",
+                    "type": "string"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "service",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IRecordExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Record",
+                    "type": "string"
+                },
+                "find": {
+                    "$ref": "#/definitions/FilterConfig"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "find",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IRollupField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Rollup",
+                    "type": "string"
+                },
+                "formula": {
+                    "type": "string"
+                },
+                "linkedRecordField": {
+                    "type": "string"
+                },
+                "multipleLinkedRecord": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "output": {
+                    "$ref": "#/definitions/Omit<IDateTimeField|ILongTextField|INumberField|ISingleLineTextField,\"name\">"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "formula",
+                "linkedRecordField",
+                "multipleLinkedRecord",
+                "name",
+                "output"
+            ],
+            "type": "object"
+        },
+        "IRunJavascriptCodeAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "RunJavascript",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "env": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "code",
+                "name",
+                "service"
+            ],
+            "type": "object"
+        },
+        "IRunTypescriptCodeAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "RunTypescript",
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "env": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "input": {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "code",
+                "name",
+                "service"
+            ],
+            "type": "object"
+        },
+        "IScript": {
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "module",
+                        "text/javascript"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "src"
+            ],
+            "type": "object"
+        },
+        "ISendEmailMailerAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "SendEmail",
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "html": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Mailer",
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "from",
+                "html",
+                "name",
+                "service",
+                "subject",
+                "text",
+                "to"
+            ],
+            "type": "object"
+        },
+        "ISingleLineTextField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleLineText",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
+        "ISingleLinkedRecordField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleLinkedRecord",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "table"
+            ],
+            "type": "object"
+        },
+        "ISingleSelectField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "SingleSelect",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "options": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name",
+                "options"
+            ],
+            "type": "object"
+        },
+        "ITable": {
+            "additionalProperties": false,
+            "properties": {
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/IField"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fields",
+                "name"
+            ],
+            "type": "object"
+        },
+        "ITest": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "then": {
+                    "items": {
+                        "$ref": "#/definitions/IExpect"
+                    },
+                    "type": "array"
+                },
+                "when": {
+                    "items": {
+                        "$ref": "#/definitions/IEvent"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "then",
+                "when"
+            ],
+            "type": "object"
+        },
+        "ITextExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Text",
+                    "type": "string"
+                },
+                "tag": {
+                    "enum": [
+                        "a",
+                        "abbr",
+                        "address",
+                        "area",
+                        "article",
+                        "aside",
+                        "audio",
+                        "b",
+                        "base",
+                        "bdi",
+                        "bdo",
+                        "blockquote",
+                        "body",
+                        "br",
+                        "button",
+                        "canvas",
+                        "caption",
+                        "cite",
+                        "code",
+                        "col",
+                        "colgroup",
+                        "data",
+                        "datalist",
+                        "dd",
+                        "del",
+                        "details",
+                        "dfn",
+                        "dialog",
+                        "div",
+                        "dl",
+                        "dt",
+                        "em",
+                        "embed",
+                        "fieldset",
+                        "figcaption",
+                        "figure",
+                        "footer",
+                        "form",
+                        "h1",
+                        "h2",
+                        "h3",
+                        "h4",
+                        "h5",
+                        "h6",
+                        "head",
+                        "header",
+                        "hgroup",
+                        "hr",
+                        "html",
+                        "i",
+                        "iframe",
+                        "img",
+                        "input",
+                        "ins",
+                        "kbd",
+                        "label",
+                        "legend",
+                        "li",
+                        "link",
+                        "main",
+                        "map",
+                        "mark",
+                        "menu",
+                        "meta",
+                        "meter",
+                        "nav",
+                        "noscript",
+                        "object",
+                        "ol",
+                        "optgroup",
+                        "option",
+                        "output",
+                        "p",
+                        "picture",
+                        "pre",
+                        "progress",
+                        "q",
+                        "rp",
+                        "rt",
+                        "ruby",
+                        "s",
+                        "samp",
+                        "script",
+                        "search",
+                        "section",
+                        "select",
+                        "slot",
+                        "small",
+                        "source",
+                        "span",
+                        "strong",
+                        "style",
+                        "sub",
+                        "summary",
+                        "sup",
+                        "table",
+                        "tbody",
+                        "td",
+                        "template",
+                        "textarea",
+                        "tfoot",
+                        "th",
+                        "thead",
+                        "time",
+                        "title",
+                        "tr",
+                        "track",
+                        "u",
+                        "ul",
+                        "var",
+                        "video",
+                        "wbr"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "text"
+            ],
+            "type": "object"
+        },
+        "ITitleExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Title",
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "title"
+            ],
+            "type": "object"
+        },
+        "ITrigger": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IApiCalledHttpTrigger"
+                },
+                {
+                    "$ref": "#/definitions/IRecordCreatedDatabaseTrigger"
+                },
+                {
+                    "$ref": "#/definitions/IWebhookCalledHttpTrigger"
+                },
+                {
+                    "$ref": "#/definitions/IPageCreatedNotionTrigger"
+                }
+            ]
+        },
+        "IUpdatePageNotionAction": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "const": "UpdatePage",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "integration": {
+                    "const": "Notion",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action",
+                "id",
+                "integration",
+                "name",
+                "page",
+                "table"
+            ],
+            "type": "object"
+        },
+        "IUrlExpect": {
+            "additionalProperties": false,
+            "properties": {
+                "expect": {
+                    "const": "Url",
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expect",
+                "url"
+            ],
+            "type": "object"
+        },
+        "IWaitForAutomationEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "automation": {
+                    "type": "string"
+                },
+                "event": {
+                    "const": "WaitForAutomation",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "automation",
+                "event"
+            ],
+            "type": "object"
+        },
+        "IWaitForTextEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WaitForText",
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "timeout": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "event",
+                "text"
+            ],
+            "type": "object"
+        },
+        "IWebhookCalledHttpTrigger": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "const": "WebhookCalled",
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "service": {
+                    "const": "Http",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "path",
+                "service"
+            ],
+            "type": "object"
+        },
+        "Icon": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Icon",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "$ref": "#/definitions/IconName"
+                }
+            },
+            "required": [
+                "component",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IconName": {
+            "enum": [
+                "AcademicCap",
+                "AdjustmentsHorizontal",
+                "AdjustmentsVertical",
+                "ArchiveBox",
+                "ArchiveBoxArrowDown",
+                "ArchiveBoxXMark",
+                "ArrowDown",
+                "ArrowDownCircle",
+                "ArrowDownLeft",
+                "ArrowDownOnSquare",
+                "ArrowDownOnSquareStack",
+                "ArrowDownRight",
+                "ArrowDownTray",
+                "ArrowLeft",
+                "ArrowLeftCircle",
+                "ArrowLeftOnRectangle",
+                "ArrowLongDown",
+                "ArrowLongLeft",
+                "ArrowLongRight",
+                "ArrowLongUp",
+                "ArrowPath",
+                "ArrowPathRoundedSquare",
+                "ArrowRight",
+                "ArrowRightCircle",
+                "ArrowRightOnRectangle",
+                "ArrowSmallDown",
+                "ArrowSmallLeft",
+                "ArrowSmallRight",
+                "ArrowSmallUp",
+                "ArrowTopRightOnSquare",
+                "ArrowTrendingDown",
+                "ArrowTrendingUp",
+                "ArrowUp",
+                "ArrowUpCircle",
+                "ArrowUpLeft",
+                "ArrowUpOnSquare",
+                "ArrowUpOnSquareStack",
+                "ArrowUpRight",
+                "ArrowUpTray",
+                "ArrowUturnDown",
+                "ArrowUturnLeft",
+                "ArrowUturnRight",
+                "ArrowUturnUp",
+                "ArrowsPointingIn",
+                "ArrowsPointingOut",
+                "ArrowsRightLeft",
+                "ArrowsUpDown",
+                "AtSymbol",
+                "Backspace",
+                "Backward",
+                "Banknotes",
+                "Bars2",
+                "Bars3",
+                "Bars3BottomLeft",
+                "Bars3BottomRight",
+                "Bars3CenterLeft",
+                "Bars4",
+                "BarsArrowDown",
+                "BarsArrowUp",
+                "Battery0",
+                "Battery100",
+                "Battery50",
+                "Beaker",
+                "Bell",
+                "BellAlert",
+                "BellSlash",
+                "BellSnooze",
+                "Bolt",
+                "BoltSlash",
+                "BookOpen",
+                "Bookmark",
+                "BookmarkSlash",
+                "BookmarkSquare",
+                "Briefcase",
+                "BugAnt",
+                "BuildingLibrary",
+                "BuildingOffice",
+                "BuildingOffice2",
+                "BuildingStorefront",
+                "Cake",
+                "Calculator",
+                "Calendar",
+                "CalendarDays",
+                "Camera",
+                "ChartBar",
+                "ChartBarSquare",
+                "ChartPie",
+                "ChatBubbleBottomCenter",
+                "ChatBubbleBottomCenterText",
+                "ChatBubbleLeft",
+                "ChatBubbleLeftEllipsis",
+                "ChatBubbleLeftRight",
+                "ChatBubbleOvalLeft",
+                "ChatBubbleOvalLeftEllipsis",
+                "Check",
+                "CheckBadge",
+                "CheckCircle",
+                "ChevronDoubleDown",
+                "ChevronDoubleLeft",
+                "ChevronDoubleRight",
+                "ChevronDoubleUp",
+                "ChevronDown",
+                "ChevronLeft",
+                "ChevronRight",
+                "ChevronUp",
+                "CircleStack",
+                "Clipboard",
+                "ClipboardDocument",
+                "ClipboardDocumentCheck",
+                "ClipboardDocumentList",
+                "Clock",
+                "Cloud",
+                "CloudArrowDown",
+                "CloudArrowUp",
+                "CodeBracket",
+                "CodeBracketSquare",
+                "Cog",
+                "Cog6Tooth",
+                "Cog8Tooth",
+                "CommandLine",
+                "ComputerDesktop",
+                "CpuChip",
+                "CreditCard",
+                "Cube",
+                "CubeTransparent",
+                "CurrencyBangladeshi",
+                "CurrencyDollar",
+                "CurrencyEuro",
+                "CurrencyPound",
+                "CurrencyRupee",
+                "CurrencyYen",
+                "CursorArrowRays",
+                "CursorArrowRipple",
+                "DevicePhoneMobile",
+                "DeviceTablet",
+                "Document",
+                "DocumentArrowDown",
+                "DocumentArrowUp",
+                "DocumentChartBar",
+                "DocumentCheck",
+                "DocumentDuplicate",
+                "DocumentMagnifyingGlass",
+                "DocumentMinus",
+                "DocumentPlus",
+                "DocumentText",
+                "EllipsisHorizontal",
+                "EllipsisHorizontalCircle",
+                "EllipsisVertical",
+                "Envelope",
+                "EnvelopeOpen",
+                "ExclamationCircle",
+                "ExclamationTriangle",
+                "Eye",
+                "EyeDropper",
+                "EyeSlash",
+                "FaceFrown",
+                "FaceSmile",
+                "Film",
+                "FingerPrint",
+                "Fire",
+                "Flag",
+                "Folder",
+                "FolderArrowDown",
+                "FolderMinus",
+                "FolderOpen",
+                "FolderPlus",
+                "Forward",
+                "Funnel",
+                "Gif",
+                "Gift",
+                "GiftTop",
+                "GlobeAlt",
+                "GlobeAmericas",
+                "GlobeAsiaAustralia",
+                "GlobeEuropeAfrica",
+                "HandRaised",
+                "HandThumbDown",
+                "HandThumbUp",
+                "Hashtag",
+                "Heart",
+                "Home",
+                "HomeModern",
+                "Identification",
+                "Inbox",
+                "InboxArrowDown",
+                "InboxStack",
+                "InformationCircle",
+                "Key",
+                "Language",
+                "Lifebuoy",
+                "LightBulb",
+                "Link",
+                "ListBullet",
+                "LockClosed",
+                "LockOpen",
+                "MagnifyingGlass",
+                "MagnifyingGlassCircle",
+                "MagnifyingGlassMinus",
+                "MagnifyingGlassPlus",
+                "Map",
+                "MapPin",
+                "Megaphone",
+                "Microphone",
+                "Minus",
+                "MinusCircle",
+                "MinusSmall",
+                "Moon",
+                "MusicalNote",
+                "Newspaper",
+                "NoSymbol",
+                "PaintBrush",
+                "PaperAirplane",
+                "PaperClip",
+                "Pause",
+                "PauseCircle",
+                "Pencil",
+                "PencilSquare",
+                "Phone",
+                "PhoneArrowDownLeft",
+                "PhoneArrowUpRight",
+                "PhoneXMark",
+                "Photo",
+                "Play",
+                "PlayCircle",
+                "PlayPause",
+                "Plus",
+                "PlusCircle",
+                "PlusSmall",
+                "Power",
+                "PresentationChartBar",
+                "PresentationChartLine",
+                "Printer",
+                "PuzzlePiece",
+                "QrCode",
+                "QuestionMarkCircle",
+                "QueueList",
+                "Radio",
+                "ReceiptPercent",
+                "ReceiptRefund",
+                "RectangleGroup",
+                "RectangleStack",
+                "RocketLaunch",
+                "Rss",
+                "Scale",
+                "Scissors",
+                "Server",
+                "ServerStack",
+                "Share",
+                "ShieldCheck",
+                "ShieldExclamation",
+                "ShoppingBag",
+                "ShoppingCart",
+                "Signal",
+                "SignalSlash",
+                "Sparkles",
+                "SpeakerWave",
+                "SpeakerXMark",
+                "Square2Stack",
+                "Square3Stack3D",
+                "Squares2X2",
+                "SquaresPlus",
+                "Star",
+                "Stop",
+                "StopCircle",
+                "Sun",
+                "Swatch",
+                "TableCells",
+                "Tag",
+                "Ticket",
+                "Trash",
+                "Trophy",
+                "Truck",
+                "Tv",
+                "User",
+                "UserCircle",
+                "UserGroup",
+                "UserMinus",
+                "UserPlus",
+                "Users",
+                "Variable",
+                "VideoCamera",
+                "VideoCameraSlash",
+                "ViewColumns",
+                "ViewfinderCircle",
+                "Wallet",
+                "Wifi",
+                "Window",
+                "Wrench",
+                "WrenchScrewdriver",
+                "XCircle",
+                "XMark"
+            ],
+            "type": "string"
+        },
+        "Image": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "alt": {
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Image",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rounded": {
+                    "enum": [
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl"
+                    ],
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "src": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "alt",
+                "component",
+                "src"
+            ],
+            "type": "object"
+        },
+        "Input": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Input",
+                    "type": "string"
+                },
+                "defaultValue": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placeholder": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "enum": [
+                        "button",
+                        "checkbox",
+                        "color",
+                        "date",
+                        "datetime-local",
+                        "email",
+                        "file",
+                        "hidden",
+                        "image",
+                        "month",
+                        "number",
+                        "password",
+                        "radio",
+                        "range",
+                        "reset",
+                        "search",
+                        "submit",
+                        "tel",
+                        "text",
+                        "textarea",
+                        "time",
+                        "url",
+                        "week"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IsAfterNumberOfSecondsSinceNowDateFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsAfterNumberOfSecondsSinceNow",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsAnyOfSelectFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsAnyOf",
+                    "type": "string"
+                },
+                "value": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsFalseBooleanFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsFalse",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator"
+            ],
+            "type": "object"
+        },
+        "IsTextFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "Is",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IsTrueBooleanFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "IsTrue",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator"
+            ],
+            "type": "object"
+        },
+        "JSONSchema": {
+            "additionalProperties": false,
+            "properties": {
+                "additionalProperties": {
+                    "type": "boolean"
+                },
+                "enum": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "items": {
+                    "$ref": "#/definitions/JSONSchema"
+                },
+                "oneOf": {
+                    "items": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "array"
+                },
+                "properties": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/JSONSchema"
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "object",
+                        "string"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Link": {
+            "additionalProperties": false,
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Link",
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "prefixIcon": {
+                    "$ref": "#/definitions/Config_5"
+                },
+                "suffixIcon": {
+                    "$ref": "#/definitions/Config_5"
+                }
+            },
+            "required": [
+                "component",
+                "href",
+                "label"
+            ],
+            "type": "object"
+        },
+        "List": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "columns": {
+                    "items": {
+                        "$ref": "#/definitions/Column"
+                    },
+                    "type": "array"
+                },
+                "component": {
+                    "const": "List",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "open": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "columns",
+                "component",
+                "open",
+                "source"
+            ],
+            "type": "object"
+        },
+        "LoggerConfig": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/LoggerElasticSearchConfig"
+                },
+                {
+                    "$ref": "#/definitions/LoggerConsoleConfig"
+                },
+                {
+                    "$ref": "#/definitions/LoggerFileConfig"
+                }
+            ]
+        },
+        "LoggerConsoleConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
+        },
+        "LoggerElasticSearchConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "ElasticSearch",
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "index",
+                "url"
+            ],
+            "type": "object"
+        },
+        "LoggerFileConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "File",
+                    "type": "string"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "level": {
+                    "enum": [
+                        "debug",
+                        "error",
+                        "http",
+                        "info",
+                        "silly",
+                        "verbose",
+                        "warn"
+                    ],
+                    "type": "string"
+                },
+                "silent": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "driver",
+                "filename"
+            ],
+            "type": "object"
+        },
+        "Logos": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Logos",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "images": {
+                    "items": {
+                        "$ref": "#/definitions/Config_7"
+                    },
+                    "type": "array"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "images"
+            ],
+            "type": "object"
+        },
+        "MailerConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "from": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "pass": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "secure": {
+                    "type": "boolean"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "from",
+                "host",
+                "pass",
+                "port",
+                "user"
+            ],
+            "type": "object"
+        },
+        "Markdown": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Markdown",
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "content"
+            ],
+            "type": "object"
+        },
+        "Modal": {
+            "additionalProperties": false,
+            "properties": {
+                "body": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "button": {
+                    "$ref": "#/definitions/Config_2"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Modal",
+                    "type": "string"
+                },
+                "footer": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "header": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "body",
+                "button",
+                "component"
+            ],
+            "type": "object"
+        },
+        "MonitorConfig": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/MonitorSentryConfig"
+                },
+                {
+                    "$ref": "#/definitions/MonitorConsoleConfig"
+                }
+            ]
+        },
+        "MonitorConsoleConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Console",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver"
+            ],
+            "type": "object"
+        },
+        "MonitorSentryConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "driver": {
+                    "const": "Sentry",
+                    "type": "string"
+                },
+                "dsn": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "driver",
+                "dsn",
+                "environment"
+            ],
+            "type": "object"
+        },
+        "NotFound": {
+            "additionalProperties": false,
+            "properties": {
+                "button": {
+                    "$ref": "#/definitions/Config_2"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "NotFound",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "paragraph": {
+                    "$ref": "#/definitions/Config_4"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "button",
+                "component",
+                "paragraph",
+                "title"
+            ],
+            "type": "object"
+        },
+        "NotionConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "pollingInterval": {
+                    "type": "number"
+                },
+                "token": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pollingInterval",
+                "token"
+            ],
+            "type": "object"
+        },
+        "Omit<IDateTimeField|ILongTextField|INumberField|ISingleLineTextField,\"name\">": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "enum": [
+                        "DateTime",
+                        "LongText",
+                        "Number",
+                        "SingleLineText"
+                    ],
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field"
+            ],
+            "type": "object"
+        },
+        "PappersConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "apiKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "apiKey"
+            ],
+            "type": "object"
+        },
+        "Paragraph": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Paragraph",
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "text"
+            ],
+            "type": "object"
+        },
+        "QontoProductionConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "environment": {
+                    "const": "production",
+                    "type": "string"
+                },
+                "organisationSlug": {
+                    "type": "string"
+                },
+                "secretKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "environment",
+                "organisationSlug",
+                "secretKey"
+            ],
+            "type": "object"
+        },
+        "QontoSandboxConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "environment": {
+                    "const": "sandbox",
+                    "type": "string"
+                },
+                "organisationSlug": {
+                    "type": "string"
+                },
+                "secretKey": {
+                    "type": "string"
+                },
+                "stagingToken": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "environment",
+                "organisationSlug",
+                "secretKey",
+                "stagingToken"
+            ],
+            "type": "object"
+        },
+        "ServerConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "env": {
+                    "type": "string"
+                },
+                "monitors": {
+                    "items": {
+                        "enum": [
+                            "Console",
+                            "Sentry"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "sslCert": {
+                    "type": "string"
+                },
+                "sslKey": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Sidebar": {
+            "additionalProperties": false,
+            "properties": {
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/IComponent"
+                    },
+                    "type": "array"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Sidebar",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "links": {
+                    "items": {
+                        "$ref": "#/definitions/Config_6"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "$ref": "#/definitions/Config_3"
+                }
+            },
+            "required": [
+                "component",
+                "links",
+                "title"
+            ],
+            "type": "object"
+        },
+        "Spacer": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Spacer",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component"
+            ],
+            "type": "object"
+        },
+        "Table": {
+            "additionalProperties": false,
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Table",
+                    "type": "string"
+                },
+                "data-action": {
+                    "type": "string"
+                },
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/Field"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                },
+                "table": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "fields",
+                "table"
+            ],
+            "type": "object"
+        },
+        "TemplateObject": {
+            "additionalProperties": {
+                "$ref": "#/definitions/TemplateValue"
+            },
+            "type": "object"
+        },
+        "TemplateValue": {
+            "anyOf": [
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "number": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "number"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "boolean": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "boolean"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "json": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "json"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "$ref": "#/definitions/TemplateObject"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "ThemeConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "container": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "center": {
+                            "type": "boolean"
+                        },
+                        "padding": {
+                            "anyOf": [
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "2xl": {
+                                            "type": "string"
+                                        },
+                                        "DEFAULT": {
+                                            "type": "string"
+                                        },
+                                        "lg": {
+                                            "type": "string"
+                                        },
+                                        "md": {
+                                            "type": "string"
+                                        },
+                                        "sm": {
+                                            "type": "string"
+                                        },
+                                        "xl": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "fontFamily": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "sans": {
+                            "enum": [
+                                "Asap",
+                                "Barlow",
+                                "Catamaran",
+                                "Exo 2",
+                                "Fira Sans",
+                                "Heebo",
+                                "Hind",
+                                "IBM Plex Sans",
+                                "Inter",
+                                "Josefin Sans",
+                                "Karla",
+                                "Lato",
+                                "Lexend Deca",
+                                "Manrope",
+                                "Merriweather Sans",
+                                "Montserrat",
+                                "Mukta",
+                                "Mulish",
+                                "Noto Sans",
+                                "Nunito Sans",
+                                "Open Sans",
+                                "PT Sans",
+                                "Poppins",
+                                "Public Sans",
+                                "Questrial",
+                                "Raleway",
+                                "Roboto",
+                                "Rubik",
+                                "Source Sans Pro",
+                                "Space Grotesk",
+                                "Titillium Web",
+                                "Ubuntu",
+                                "Varela Round",
+                                "Work Sans"
+                            ],
+                            "type": "string"
+                        },
+                        "serif": {
+                            "enum": [
+                                "Alegreya",
+                                "Bitter",
+                                "Bree Serif",
+                                "Cardo",
+                                "Cormorant",
+                                "Cormorant Garamond",
+                                "Crimson Text",
+                                "Domine",
+                                "EB Garamond",
+                                "Faustina",
+                                "Frank Ruhl Libre",
+                                "Gentium Basic",
+                                "Inknut Antiqua",
+                                "Libre Baskerville",
+                                "Lora",
+                                "Lusitana",
+                                "Maitree",
+                                "Merriweather",
+                                "Neuton",
+                                "Noto Serif",
+                                "PT Serif",
+                                "Playfair Display",
+                                "Roboto Slab",
+                                "Slabo 27px",
+                                "Spectral",
+                                "Tinos",
+                                "Zilla Slab"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "Title": {
+            "additionalProperties": false,
+            "properties": {
+                "align": {
+                    "enum": [
+                        "center",
+                        "left",
+                        "right"
+                    ],
+                    "type": "string"
+                },
+                "className": {
+                    "type": "string"
+                },
+                "component": {
+                    "const": "Title",
+                    "type": "string"
+                },
+                "font": {
+                    "enum": [
+                        "mono",
+                        "sans",
+                        "serif"
+                    ],
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "enum": [
+                        "2xl",
+                        "lg",
+                        "md",
+                        "sm",
+                        "xl",
+                        "xs"
+                    ],
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component",
+                "text"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "auth": {
+            "$ref": "#/definitions/AuthConfig"
+        },
+        "automations": {
+            "items": {
+                "$ref": "#/definitions/IAutomation"
+            },
+            "type": "array"
+        },
+        "buckets": {
+            "items": {
+                "$ref": "#/definitions/IBucket"
+            },
+            "type": "array"
+        },
+        "database": {
+            "$ref": "#/definitions/DatabaseConfig"
+        },
+        "integrations": {
+            "$ref": "#/definitions/IIntegrations"
+        },
+        "loggers": {
+            "items": {
+                "$ref": "#/definitions/LoggerConfig"
+            },
+            "type": "array"
+        },
+        "mailer": {
+            "$ref": "#/definitions/MailerConfig"
+        },
+        "monitors": {
+            "items": {
+                "$ref": "#/definitions/MonitorConfig"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "pages": {
+            "items": {
+                "$ref": "#/definitions/IPage"
+            },
+            "type": "array"
+        },
+        "server": {
+            "$ref": "#/definitions/ServerConfig"
+        },
+        "tables": {
+            "items": {
+                "$ref": "#/definitions/ITable"
+            },
+            "type": "array"
+        },
+        "tests": {
+            "items": {
+                "$ref": "#/definitions/ITest"
+            },
+            "type": "array"
+        },
+        "theme": {
+            "$ref": "#/definitions/ThemeConfig"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "type": "object"
+}
+
