@@ -1,3 +1,10 @@
+## [0.34.4](https://github.com/latechforce/engine/compare/v0.34.3...v0.34.4) (2024-11-21)
+
+
+### Bug Fixes
+
+* **Qonto:** remove province_code property for CreateClient action ([2d5a47d](https://github.com/latechforce/engine/commit/2d5a47d7457f2237265ff1bb251d2f1eaed669e5))
+
 ## [0.34.3](https://github.com/latechforce/engine/compare/v0.34.2...v0.34.3) (2024-11-21)
 
 
