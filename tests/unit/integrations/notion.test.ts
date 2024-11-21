@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 
 const { TEST_NOTION_TABLE_ID } = env
 
-test.describe('Notion integration', () => {
+test.describe.only('Notion integration', () => {
   test('should create a page in a table with a title property', async () => {
     // GIVEN
     const table = await integration.table(TEST_NOTION_TABLE_ID)
@@ -145,5 +145,19 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(pages).toHaveLength(3)
+  })
+
+  test('should allow 100 requests in few seconds', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const values = Array.from({ length: 100 }, () => ({
+      name: nanoid(),
+    }))
+
+    // WHEN
+    const pages = await Promise.all(values.map((value) => table.create(value)))
+
+    // THEN
+    expect(pages).toHaveLength(100)
   })
 })

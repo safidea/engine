@@ -14,6 +14,9 @@ import type {
   RichTextItemResponse,
   PartialUserObjectResponse,
   UserObjectResponse,
+  QueryDatabaseResponse,
+  PartialDatabaseObjectResponse,
+  PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { NotionIntegration } from '.'
 import { subSeconds, format } from 'date-fns'
@@ -30,60 +33,57 @@ export class NotionTableIntegration implements INotionTableIntegration {
 
   create = async (page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
-    return NotionIntegration.retryIf502Error(async () => {
-      const createdPage = await this._api.pages.create({
-        parent: {
-          database_id: this._database.id,
-        },
-        properties,
-      })
-      if (!('properties' in createdPage)) {
-        throw new Error('Page does not have properties')
-      }
-      return this._postprocessPage(createdPage)
-    })
+    const createdPage = await NotionIntegration.retry(
+      async () =>
+        await this._api.pages.create({
+          parent: {
+            database_id: this._database.id,
+          },
+          properties,
+        })
+    )
+    return this._postprocessPage(this._throwIfNotPageObjectResponse(createdPage))
   }
 
   createMany = async (pages: NotionTablePageProperties[]) => {
-    const pagesCreated: NotionTablePage[] = []
-    for (const page of pages) {
-      const pageCreated = await this.create(page)
-      pagesCreated.push(pageCreated)
-    }
-    return pagesCreated
+    const pagesCreated: Promise<NotionTablePage>[] = []
+    for (const page of pages) pagesCreated.push(this.create(page))
+    return Promise.all(pagesCreated)
   }
 
   update = async (id: string, page: NotionTablePageProperties) => {
     const properties = this._preprocessProperties(page)
-    return NotionIntegration.retryIf502Error(async () => {
-      const updatedPage = await this._api.pages.update({
-        page_id: id,
-        properties,
-      })
-      if (!('properties' in updatedPage)) {
-        throw new Error('Page does not have properties')
-      }
-      return this._postprocessPage(updatedPage)
-    })
+    const updatedPage = await NotionIntegration.retry(
+      async () =>
+        await this._api.pages.update({
+          page_id: id,
+          properties,
+        })
+    )
+    return this._postprocessPage(this._throwIfNotPageObjectResponse(updatedPage))
   }
 
   retrieve = async (id: string) => {
-    return NotionIntegration.retryIf502Error(async () => {
-      const page = await this._api.pages.retrieve({ page_id: id })
-      if (!('properties' in page)) {
-        throw new Error('Page does not have properties')
-      }
-      return this._postprocessPage(page)
-    })
+    const page = await NotionIntegration.retry(
+      async () => await this._api.pages.retrieve({ page_id: id })
+    )
+    return this._postprocessPage(this._throwIfNotPageObjectResponse(page))
   }
 
   archive = async (id: string) => {
-    await NotionIntegration.retryIf502Error(async () => {
-      await this._api.pages.update({
-        page_id: id,
-        archived: true,
-      })
-    })
+    await NotionIntegration.retry(
+      async () =>
+        await this._api.pages.update({
+          page_id: id,
+          archived: true,
+        })
+    )
+  }
+
+  archiveMany = async (ids: string[]) => {
+    const pagesArchived: Promise<void>[] = []
+    for (const id of ids) pagesArchived.push(this.archive(id))
+    return Promise.all(pagesArchived)
   }
 
   list = async (filter?: FilterDto) => {
@@ -93,15 +93,20 @@ export class NotionTableIntegration implements INotionTableIntegration {
     if (filter) {
       query.filter = this._convertFilter(filter)
     }
-    return NotionIntegration.retryIf502Error(async () => {
-      const pages = await this._api.databases.query(query)
-      return pages.results.map((page) => {
-        if (page.object !== 'page' || !('properties' in page)) {
-          throw new Error('Not a page')
-        }
-        return this._postprocessPage(page)
-      })
-    })
+    let pages: QueryDatabaseResponse['results'] = []
+    let cursor: string | undefined = undefined
+    do {
+      const response = await NotionIntegration.retry(
+        async () =>
+          await this._api.databases.query({
+            ...query,
+            start_cursor: cursor,
+          })
+      )
+      pages = pages.concat(response.results)
+      cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined
+    } while (cursor)
+    return pages.map((page) => this._postprocessPage(this._throwIfNotPageObjectResponse(page)))
   }
 
   private _preprocessProperties = (
@@ -141,6 +146,19 @@ export class NotionTableIntegration implements INotionTableIntegration {
       properties,
       createdTime: page.created_time,
     }
+  }
+
+  private _throwIfNotPageObjectResponse(
+    page:
+      | PageObjectResponse
+      | PartialPageObjectResponse
+      | PartialDatabaseObjectResponse
+      | DatabaseObjectResponse
+  ): PageObjectResponse {
+    if (page.object === 'page' && 'properties' in page) {
+      return page
+    }
+    throw new Error('Not a PageObjectResponse')
   }
 
   private _getPropertyValue = (property: NotionProperty): NotionTablePagePropertyValue => {
