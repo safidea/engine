@@ -2,7 +2,7 @@ import { test, expect } from '@tests/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 
 test.describe('Template Compiler', () => {
-  test.skip('should convert a date from a format to another format', async ({ request }) => {
+  test('should convert a date from a format to another format', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -14,6 +14,7 @@ test.describe('Template Compiler', () => {
             event: 'ApiCalled',
             path: 'run',
             input: {
+              type: 'object',
               properties: {
                 date: {
                   type: 'string',
@@ -30,7 +31,7 @@ test.describe('Template Compiler', () => {
               service: 'Code',
               action: 'RunJavascript',
               input: {
-                date: '{{formatDate trigger.body.date "YYYY-MM-DD" "DD/MM/YYYY"}}',
+                date: '{{formatDate trigger.body.date "yyyy-MM-dd" "dd/MM/yyyy"}}',
               },
               code: String(function (context: CodeRunnerContext<{ inputData: { date: string } }>) {
                 return context.inputData
