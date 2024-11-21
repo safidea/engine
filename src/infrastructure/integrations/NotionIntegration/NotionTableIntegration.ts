@@ -24,11 +24,13 @@ export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
     private _api: Client,
     private _database: DatabaseObjectResponse,
-    private _retry: <T>(fn: () => Promise<T>) => Promise<T>
+    private _retry: <T>(fn: () => Promise<T>) => Promise<T>,
+    private _id: string
   ) {}
 
   get id() {
-    return this._database.id
+    // This value can be different from _database.id, we need to keep them same used to query the database
+    return this._id
   }
 
   get name() {

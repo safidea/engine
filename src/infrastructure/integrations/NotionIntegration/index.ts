@@ -29,7 +29,8 @@ export class NotionIntegration implements INotionIntegration {
     return new NotionTableIntegration(
       api,
       this._throwIfNotDatabaseObjectResponse(database),
-      this._retry
+      this._retry,
+      id
     )
   }
 

@@ -56,7 +56,8 @@ export class UpdatePageNotionAction extends BaseAction<Input, Output> {
 
   init = async () => {
     const { table } = this._config
-    this._table = await this._integrations.notion.table(table)
+    const { notion } = this._integrations
+    this._table = await notion.table(table)
   }
 
   protected _prepare = async (context: AutomationContext) => {
