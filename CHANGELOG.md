@@ -1,3 +1,12 @@
+## [0.34.1](https://github.com/latechforce/engine/compare/v0.34.0...v0.34.1) (2024-11-21)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should allow 100 requests in few seconds ([969c4ed](https://github.com/latechforce/engine/commit/969c4edf0a663ca2d98b9051ab49c2e5071be90e))
+* **Notion:** add green test: should return a date property of the created page ([ac444e5](https://github.com/latechforce/engine/commit/ac444e56176ddc4558b3d5ce445155b53b265c91))
+* **Notion:** fix broken test: should start an automation when a Notion page is created in a table ([b60d55c](https://github.com/latechforce/engine/commit/b60d55ce9bd0e3b140d48a746c5fc52303c9cc2a))
+
 # [0.34.0](https://github.com/latechforce/engine/compare/v0.33.1...v0.34.0) (2024-11-20)
 
 
