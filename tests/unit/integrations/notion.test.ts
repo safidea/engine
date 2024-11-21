@@ -1,6 +1,7 @@
 import { test, expect, env } from '@tests/fixtures'
 import { notion, integration } from '@tests/integrations/notion'
 import { nanoid } from 'nanoid'
+import { parse } from 'date-fns'
 
 const { TEST_NOTION_TABLE_ID } = env
 
@@ -123,6 +124,31 @@ test.describe('Notion integration', () => {
 
     // WHEN
     const page = await table.create({ date })
+
+    // THEN
+    expect(page.properties.date?.toString()).toBe(date.toString())
+  })
+
+  test('should create a page in a table with a date property from a string', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const date = '2018-09-22'
+
+    // WHEN
+    const page = await table.create({ date })
+
+    // THEN
+    expect(page.properties.date).toStrictEqual(parse(date, 'yyyy-MM-dd', new Date()))
+  })
+
+  test('should create a page in a table with a date property from a timestamp', async () => {
+    // GIVEN
+    const table = await integration.table(TEST_NOTION_TABLE_ID)
+    const date = new Date(2018, 8, 22)
+    const timestamp = +date
+
+    // WHEN
+    const page = await table.create({ date: timestamp })
 
     // THEN
     expect(page.properties.date?.toString()).toBe(date.toString())

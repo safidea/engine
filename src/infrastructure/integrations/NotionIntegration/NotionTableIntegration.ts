@@ -18,7 +18,7 @@ import type {
   PartialDatabaseObjectResponse,
   PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { subSeconds, format, formatISO } from 'date-fns'
+import { subSeconds, format, parse, formatISO } from 'date-fns'
 
 export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
@@ -177,8 +177,45 @@ export class NotionTableIntegration implements INotionTableIntegration {
                 .filter((option) => !!option),
             }
           case 'date':
+            if (value instanceof Date) {
+              return {
+                date: { start: formatISO(value, { representation: 'complete' }), end: null },
+              }
+            }
+            if (typeof value === 'number') {
+              return {
+                date: {
+                  start: formatISO(new Date(value), { representation: 'complete' }),
+                  end: null,
+                },
+              }
+            }
+            if (typeof value === 'string') {
+              if (value.includes('T')) {
+                return {
+                  date: {
+                    start: formatISO(parse(value, "yyyy-MM-dd'T'HH:mm:ss", new Date()), {
+                      representation: 'complete',
+                    }),
+                    end: null,
+                  },
+                }
+              } else {
+                return {
+                  date: {
+                    start: formatISO(parse(value, 'yyyy-MM-dd', new Date()), {
+                      representation: 'complete',
+                    }),
+                    end: null,
+                  },
+                }
+              }
+            }
             return {
-              date: value instanceof Date ? { start: formatISO(value), end: null } : null,
+              date: {
+                start: value,
+                end: null,
+              },
             }
           case 'checkbox':
             return {
