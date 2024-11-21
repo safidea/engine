@@ -1,3 +1,10 @@
+## [0.34.3](https://github.com/latechforce/engine/compare/v0.34.2...v0.34.3) (2024-11-21)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should update a page property after being created ([3fe80b1](https://github.com/latechforce/engine/commit/3fe80b17d6af64fdbc2d483fbaa7cb294fed8ac5))
+
 ## [0.34.2](https://github.com/latechforce/engine/compare/v0.34.1...v0.34.2) (2024-11-21)
 
 
