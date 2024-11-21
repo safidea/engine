@@ -3,7 +3,7 @@ import App, { type Config } from '@latechforce/engine'
 import { integration } from '@tests/integrations/notion'
 
 test.describe('Update Notion page action', () => {
-  test.only('should update a page', async ({ request }) => {
+  test('should update a page', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
