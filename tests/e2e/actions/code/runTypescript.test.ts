@@ -4,7 +4,9 @@ import Database from '@tests/drivers/database'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { join } from 'path'
-import { integration } from '@tests/integrations/notion'
+import { integration as notion } from '@tests/integrations/notion'
+
+const { TEST_NOTION_TABLE_ID, TEST_NOTION_TOKEN } = env
 
 test.describe('Run TypeScript code action', () => {
   test('should run a TypeScript code', async ({ request }) => {
@@ -73,7 +75,7 @@ test.describe('Run TypeScript code action', () => {
     expect(response.sum).toBe(3)
   })
 
-  test('should run a JavaScript code with env variable', async ({ request }) => {
+  test('should run a Typescript code with env variable', async ({ request }) => {
     // GIVEN
     const config: Config = {
       name: 'App',
@@ -116,7 +118,7 @@ test.describe('Run TypeScript code action', () => {
     expect(response.NODE_ENV).toBe('test')
   })
 
-  test('should run a JavaScript code with env variable and not showing them in logs', async ({
+  test('should run a Typescript code with env variable and not showing them in logs', async ({
     request,
   }) => {
     // GIVEN
@@ -171,7 +173,7 @@ test.describe('Run TypeScript code action', () => {
   })
 
   test.describe('with native classes', () => {
-    test('should run a JavaScript code with the native Date class', async ({ request }) => {
+    test('should run a Typescript code with the native Date class', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -214,7 +216,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.timestamp).toBeGreaterThan(0)
     })
 
-    test('should run a JavaScript code with the native Array class', async ({ request }) => {
+    test('should run a Typescript code with the native Array class', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -257,7 +259,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.isArray).toBeTruthy()
     })
 
-    test('should run a JavaScript code with the native Number class', async ({ request }) => {
+    test('should run a Typescript code with the native Number class', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -300,7 +302,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.isNumber).toBeTruthy()
     })
 
-    test('should run a JavaScript code with the native Boolean class', async ({ request }) => {
+    test('should run a Typescript code with the native Boolean class', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -343,7 +345,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.isBoolean).toBeTruthy()
     })
 
-    test('should run a JavaScript code with the native URLSearchParams class', async ({
+    test('should run a Typescript code with the native URLSearchParams class', async ({
       request,
     }) => {
       // GIVEN
@@ -388,7 +390,7 @@ test.describe('Run TypeScript code action', () => {
   })
 
   test.describe('with packages', () => {
-    test('should run a JavaScript code with the date-fns package', async ({ request }) => {
+    test('should run a Typescript code with the date-fns package', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -432,7 +434,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.date).toBe('2024-09-01')
     })
 
-    test('should run a JavaScript code with xml2js package', async ({ request }) => {
+    test('should run a Typescript code with xml2js package', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -487,7 +489,7 @@ test.describe('Run TypeScript code action', () => {
       })
     })
 
-    test('should run a JavaScript code with axios package', async ({ request }) => {
+    test('should run a Typescript code with axios package', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -530,7 +532,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.exist).toBeTruthy()
     })
 
-    test('should run a JavaScript code with https package', async ({ request }) => {
+    test('should run a Typescript code with https package', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -573,7 +575,7 @@ test.describe('Run TypeScript code action', () => {
       expect(response.exist).toBeTruthy()
     })
 
-    test('should run a JavaScript code with crypto package', async ({ request }) => {
+    test('should run a Typescript code with crypto package', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -619,7 +621,7 @@ test.describe('Run TypeScript code action', () => {
 
   test.describe('with database service', () => {
     Database.each(test, (dbConfig) => {
-      test('should run a JavaScript code with a database insert', async ({ request }) => {
+      test('should run a Typescript code with a database insert', async ({ request }) => {
         // GIVEN
         const database = new Database(dbConfig)
         const config: Config = {
@@ -683,7 +685,7 @@ test.describe('Run TypeScript code action', () => {
         expect(user?.name).toBe('John')
       })
 
-      test('should run a JavaScript code with a database update', async ({ request }) => {
+      test('should run a Typescript code with a database update', async ({ request }) => {
         // GIVEN
         const database = new Database(dbConfig)
         const config: Config = {
@@ -753,7 +755,7 @@ test.describe('Run TypeScript code action', () => {
         expect(user?.name).toBe('John Doe')
       })
 
-      test('should run a JavaScript code with a database read', async ({ request }) => {
+      test('should run a Typescript code with a database read', async ({ request }) => {
         // GIVEN
         const database = new Database(dbConfig)
         const config: Config = {
@@ -816,7 +818,7 @@ test.describe('Run TypeScript code action', () => {
         expect(response.user.name).toBe('John Doe')
       })
 
-      test('should run a JavaScript code with a database list', async ({ request }) => {
+      test('should run a Typescript code with a database list', async ({ request }) => {
         // GIVEN
         const database = new Database(dbConfig)
         const config: Config = {
@@ -875,7 +877,7 @@ test.describe('Run TypeScript code action', () => {
         expect(response.users[2].name).toBe('John Connor')
       })
 
-      test('should run a JavaScript code with a database list with is filter', async ({
+      test('should run a Typescript code with a database list with is filter', async ({
         request,
       }) => {
         // GIVEN
@@ -934,7 +936,7 @@ test.describe('Run TypeScript code action', () => {
         expect(response.users[0].name).toBe('John Wick')
       })
 
-      test('should run a JavaScript code with a database list with isAnyOf filter', async ({
+      test('should run a Typescript code with a database list with isAnyOf filter', async ({
         request,
       }) => {
         // GIVEN
@@ -997,7 +999,7 @@ test.describe('Run TypeScript code action', () => {
   })
 
   test.describe('with Notion integration', () => {
-    test('should run a JavaScript code with a Notion database page create', async ({ request }) => {
+    test('should run a Typescript code with a Notion database page create', async ({ request }) => {
       // GIVEN
       const config: Config = {
         name: 'App',
@@ -1029,7 +1031,7 @@ test.describe('Run TypeScript code action', () => {
                   name: '{{trigger.body.name}}',
                 },
                 env: {
-                  TEST_NOTION_TABLE_ID: env.TEST_NOTION_TABLE_ID,
+                  TEST_NOTION_TABLE_ID,
                 },
                 code: String(async function (context: CodeRunnerContext<{ name: string }>) {
                   const { inputData, integrations, env } = context
@@ -1045,7 +1047,7 @@ test.describe('Run TypeScript code action', () => {
         ],
         integrations: {
           notion: {
-            token: env.TEST_NOTION_TOKEN,
+            token: TEST_NOTION_TOKEN,
             pollingInterval: 10,
           },
         },
@@ -1063,10 +1065,223 @@ test.describe('Run TypeScript code action', () => {
         .then((res) => res.json())
 
       // THEN
-      const table = await integration.table(env.TEST_NOTION_TABLE_ID)
+      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
       const user = await table.retrieve(response.user.id)
       expect(response.user.properties.name).toBe('John')
       expect(user.properties.name).toBe('John')
+    })
+
+    test('should run a Typescript code with a Notion database page update', async ({ request }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'updateUser',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'update-user',
+              input: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  name: { type: 'string' },
+                },
+              },
+              output: {
+                user: {
+                  json: '{{runJavascriptCode.user}}',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                input: {
+                  id: '{{trigger.body.id}}',
+                  name: '{{trigger.body.name}}',
+                },
+                env: {
+                  TEST_NOTION_TABLE_ID,
+                },
+                code: String(async function (
+                  context: CodeRunnerContext<{ id: string; name: string }>
+                ) {
+                  const { inputData, integrations, env } = context
+                  const { name, id } = inputData
+                  const { notion } = integrations
+                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const user = await table.update(id, { name })
+                  return { user }
+                }),
+              },
+            ],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: TEST_NOTION_TOKEN,
+            pollingInterval: 10,
+          },
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      const { id } = await table.create({ name: 'John' })
+
+      // WHEN
+      const response = await request
+        .post(`${url}/api/automation/update-user`, {
+          data: {
+            id,
+            name: 'John Doe',
+          },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      const user = await table.retrieve(response.user.id)
+      expect(response.user.properties.name).toBe('John Doe')
+      expect(user.properties.name).toBe('John Doe')
+    })
+
+    test('should run a Typescript code with a Notion database page retrieve', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'readUser',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'read-user',
+              input: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                },
+              },
+              output: {
+                user: {
+                  json: '{{runJavascriptCode.user}}',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                input: {
+                  id: '{{trigger.body.id}}',
+                },
+                env: {
+                  TEST_NOTION_TABLE_ID,
+                },
+                code: String(async function (context: CodeRunnerContext<{ id: string }>) {
+                  const { inputData, integrations, env } = context
+                  const { notion } = integrations
+                  const { id } = inputData
+                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const user = await table.retrieve(id)
+                  return { user }
+                }),
+              },
+            ],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: TEST_NOTION_TOKEN,
+            pollingInterval: 10,
+          },
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      const { id } = await table.create({ name: 'John Doe' })
+
+      // WHEN
+      const response = await request
+        .post(`${url}/api/automation/read-user`, {
+          data: {
+            id,
+          },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(response.user.properties.name).toBe('John Doe')
+    })
+
+    test('should run a Typescript code with a Notion database page list', async ({ request }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'listUsers',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'list-users',
+              output: {
+                users: {
+                  json: '{{runJavascriptCode.users}}',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                env: {
+                  TEST_NOTION_TABLE_ID,
+                },
+                code: String(async function (context: CodeRunnerContext) {
+                  const { notion } = context.integrations
+                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const users = await table.list()
+                  return { users }
+                }),
+              },
+            ],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: TEST_NOTION_TOKEN,
+            pollingInterval: 10,
+          },
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      await table.createMany([{ name: 'John Doe' }, { name: 'John Wick' }, { name: 'John Connor' }])
+
+      // WHEN
+      const response = await request
+        .post(`${url}/api/automation/list-users`)
+        .then((res) => res.json())
+
+      // THEN
+      expect(response.users).toHaveLength(3)
+      const names = response.users.map(
+        (user: { properties: { name: string } }) => user.properties.name
+      )
+      expect(names).toContain('John Doe')
+      expect(names).toContain('John Wick')
+      expect(names).toContain('John Connor')
     })
   })
 })
