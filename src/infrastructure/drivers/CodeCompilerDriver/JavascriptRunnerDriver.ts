@@ -1,5 +1,10 @@
 import type { ICodeRunnerDriver } from '@adapter/spi/drivers/CodeRunnerSpi'
-import type { CodeRunnerContext, CodeRunnerModules } from '@domain/services/CodeRunner'
+import type {
+  CodeRunnerContext,
+  CodeRunnerContextIntegrations,
+  CodeRunnerContextPackages,
+  CodeRunnerContextServices,
+} from '@domain/services/CodeRunner'
 import vm from 'node:vm'
 
 // Packages
@@ -19,8 +24,11 @@ export class JavascriptRunnerDriver implements ICodeRunnerDriver {
     }
   ) {}
 
-  run = async (inputData: object, modules: CodeRunnerModules) => {
-    const { table } = modules
+  run = async (
+    inputData: object,
+    services: CodeRunnerContextServices,
+    integrations: CodeRunnerContextIntegrations
+  ) => {
     const globalContext = {
       fetch: global.fetch,
       Error: global.Error,
@@ -34,19 +42,21 @@ export class JavascriptRunnerDriver implements ICodeRunnerDriver {
       setTimeout: setTimeout,
       console: console,
     }
+    const packages: CodeRunnerContextPackages = {
+      xml2js,
+      dateFns,
+      googleapis,
+      Airtable,
+      axios,
+      https,
+      crypto,
+    }
     const codeContext: CodeRunnerContext<object> = {
       inputData,
       env: this._env,
-      table,
-      packages: {
-        xml2js,
-        dateFns,
-        googleapis,
-        Airtable,
-        axios,
-        https,
-        crypto,
-      },
+      services,
+      integrations,
+      packages,
     }
     const context = vm.createContext({
       ...globalContext,

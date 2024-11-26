@@ -91,16 +91,6 @@ export class AppMapper {
       },
       { tables }
     )
-    const javascriptCompiler = CodeCompilerMapper.toService(
-      drivers,
-      { tables },
-      { language: 'JavaScript' }
-    )
-    const typescriptCompiler = CodeCompilerMapper.toService(
-      drivers,
-      { tables },
-      { language: 'TypeScript' }
-    )
     const notion = NotionMapper.toIntegration(
       integrations,
       { idGenerator, logger },
@@ -108,6 +98,18 @@ export class AppMapper {
     )
     const pappers = PappersMapper.toIntegration(integrations, config.integrations?.pappers)
     const qonto = QontoMapper.toIntegration(integrations, config.integrations?.qonto)
+    const javascriptCompiler = CodeCompilerMapper.toService(
+      drivers,
+      { tables },
+      { notion },
+      { language: 'JavaScript' }
+    )
+    const typescriptCompiler = CodeCompilerMapper.toService(
+      drivers,
+      { tables },
+      { notion },
+      { language: 'TypeScript' }
+    )
     const automations = AutomationMapper.toManyEntities(
       config.automations,
       {

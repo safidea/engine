@@ -4,16 +4,18 @@ import {
   CodeCompiler,
   type CodeCompilerEntities,
   type CodeCompilerConfig,
+  type CodeCompilerIntegrations,
 } from '@domain/services/CodeCompiler'
 
 export class CodeCompilerMapper {
   static toService(
     drivers: Drivers,
     entities: CodeCompilerEntities,
+    integrations: CodeCompilerIntegrations,
     config: CodeCompilerConfig
   ): CodeCompiler {
     const driver = drivers.codeCompiler(config)
     const spi = new CodeCompilerSpi(driver)
-    return new CodeCompiler(spi, entities)
+    return new CodeCompiler(spi, entities, integrations)
   }
 }
