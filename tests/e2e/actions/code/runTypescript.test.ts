@@ -1233,6 +1233,12 @@ test.describe('Run TypeScript code action', () => {
               service: 'Http',
               event: 'ApiCalled',
               path: 'list-users',
+              input: {
+                type: 'object',
+                properties: {
+                  ids: { type: 'array', items: { type: 'string' } },
+                },
+              },
               output: {
                 users: {
                   json: '{{runJavascriptCode.users}}',
@@ -1244,13 +1250,25 @@ test.describe('Run TypeScript code action', () => {
                 service: 'Code',
                 action: 'RunTypescript',
                 name: 'runJavascriptCode',
+                input: {
+                  ids: {
+                    json: '{{trigger.body.ids}}',
+                  },
+                },
                 env: {
                   TEST_NOTION_TABLE_ID,
                 },
-                code: String(async function (context: CodeRunnerContext) {
+                code: String(async function (context: CodeRunnerContext<{ ids: string[] }>) {
                   const { notion } = context.integrations
+                  const { ids } = context.inputData
                   const table = await notion.table(env.TEST_NOTION_TABLE_ID)
-                  const users = await table.list()
+                  const users = await table.list({
+                    or: ids.map((id) => ({
+                      field: 'id',
+                      operator: 'Is',
+                      value: id.replace(/-/g, ''),
+                    })),
+                  })
                   return { users }
                 }),
               },
@@ -1267,11 +1285,17 @@ test.describe('Run TypeScript code action', () => {
       const app = new App()
       const url = await app.start(config)
       const table = await notion.table(env.TEST_NOTION_TABLE_ID)
-      await table.createMany([{ name: 'John Doe' }, { name: 'John Wick' }, { name: 'John Connor' }])
+      const users = await table.createMany([
+        { name: 'John Doe' },
+        { name: 'John Wick' },
+        { name: 'John Connor' },
+      ])
 
       // WHEN
       const response = await request
-        .post(`${url}/api/automation/list-users`)
+        .post(`${url}/api/automation/list-users`, {
+          data: { ids: users.map((user) => user.id) },
+        })
         .then((res) => res.json())
 
       // THEN
