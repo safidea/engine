@@ -35,7 +35,7 @@ test.describe('Page Created trigger', () => {
       await app.start(config)
 
       // WHEN
-      await new Promise((resolve) => setTimeout(resolve, 5000))
+      await new Promise((resolve) => setTimeout(resolve, 10000))
       await testTable.create({
         name: 'My new page',
       })
@@ -72,7 +72,7 @@ test.describe('Page Created trigger', () => {
       await app.start(config)
 
       // WHEN
-      await new Promise((resolve) => setTimeout(resolve, 5000))
+      await new Promise((resolve) => setTimeout(resolve, 10000))
       await testTable.create({
         name: 'My new page',
       })
@@ -122,7 +122,7 @@ test.describe('Page Created trigger', () => {
       await app.start(config)
 
       // WHEN
-      await new Promise((resolve) => setTimeout(resolve, 5000))
+      await new Promise((resolve) => setTimeout(resolve, 10000))
       const { id } = await testTable.create({
         name: 'My new page',
       })
