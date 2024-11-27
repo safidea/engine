@@ -388,6 +388,11 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
           conditions: `"${filter.field}" = ?`,
           values: [filter.value],
         }
+      case 'Contains':
+        return {
+          conditions: `"${filter.field}" LIKE ?`,
+          values: [`%${filter.value}%`],
+        }
       case 'Equals':
         return {
           conditions: `"${filter.field}" = ?`,

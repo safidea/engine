@@ -388,6 +388,12 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
           values: [filter.value],
           index: index + 1,
         }
+      case 'Contains':
+        return {
+          conditions: `"${filter.field}" ILIKE $${index}`,
+          values: [`%${filter.value}%`],
+          index: index + 1,
+        }
       case 'Equals':
         return {
           conditions: `"${filter.field}" = $${index}`,

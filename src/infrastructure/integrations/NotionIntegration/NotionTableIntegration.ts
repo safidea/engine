@@ -392,6 +392,13 @@ export class NotionTableIntegration implements INotionTableIntegration {
             equals: filter.value,
           },
         }
+      case 'Contains':
+        return {
+          property: field,
+          rich_text: {
+            contains: filter.value,
+          },
+        }
       case 'IsAfterNumberOfSecondsSinceNow':
         if (field === 'created_time') {
           return {
@@ -445,6 +452,8 @@ export class NotionTableIntegration implements INotionTableIntegration {
             equals: true,
           },
         }
+      default:
+        throw new Error(`Operator "${operator}" is not supported`)
     }
   }
 }

@@ -26,7 +26,7 @@ test.describe('Page Created trigger', () => {
         integrations: {
           notion: {
             token: env.TEST_NOTION_TOKEN,
-            pollingInterval: 10,
+            pollingInterval: 5,
           },
         },
         database: dbConfig,
@@ -35,13 +35,19 @@ test.describe('Page Created trigger', () => {
       await app.start(config)
 
       // WHEN
-      await new Promise((resolve) => setTimeout(resolve, 10000))
-      await testTable.create({
+      await new Promise((resolve) => setTimeout(resolve, 5000))
+      const { id } = await testTable.create({
         name: 'My new page',
       })
 
       // THEN
-      await expect(database.waitForAutomationHistory('page-created')).resolves.toBeDefined()
+      await expect(
+        database.waitForAutomationHistory('page-created', {
+          field: 'trigger_data',
+          operator: 'Contains',
+          value: id,
+        })
+      ).resolves.toBeDefined()
     })
 
     test('should return a date property of the created page', async () => {
@@ -63,7 +69,7 @@ test.describe('Page Created trigger', () => {
         integrations: {
           notion: {
             token: env.TEST_NOTION_TOKEN,
-            pollingInterval: 10,
+            pollingInterval: 5,
           },
         },
         database: dbConfig,
@@ -72,13 +78,17 @@ test.describe('Page Created trigger', () => {
       await app.start(config)
 
       // WHEN
-      await new Promise((resolve) => setTimeout(resolve, 10000))
-      await testTable.create({
+      await new Promise((resolve) => setTimeout(resolve, 5000))
+      const { id } = await testTable.create({
         name: 'My new page',
       })
 
       // THEN
-      const history = await database.waitForAutomationHistory('page-created')
+      const history = await database.waitForAutomationHistory('page-created', {
+        field: 'trigger_data',
+        operator: 'Contains',
+        value: id,
+      })
       const triggerData = JSON.parse(String(history.trigger_data))
       expect(triggerData.properties.created_date).toBeDefined()
     })
@@ -113,7 +123,7 @@ test.describe('Page Created trigger', () => {
         integrations: {
           notion: {
             token: env.TEST_NOTION_TOKEN,
-            pollingInterval: 10,
+            pollingInterval: 5,
           },
         },
         database: dbConfig,
@@ -122,13 +132,17 @@ test.describe('Page Created trigger', () => {
       await app.start(config)
 
       // WHEN
-      await new Promise((resolve) => setTimeout(resolve, 10000))
+      await new Promise((resolve) => setTimeout(resolve, 5000))
       const { id } = await testTable.create({
         name: 'My new page',
       })
 
       // THEN
-      await database.waitForAutomationHistory('page-created')
+      await database.waitForAutomationHistory('page-created', {
+        field: 'trigger_data',
+        operator: 'Contains',
+        value: id,
+      })
       const page = await testTable.retrieve(id)
       expect(page.properties.name).toBe('My new page updated')
     })

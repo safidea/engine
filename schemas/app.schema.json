@@ -674,6 +674,27 @@
             ],
             "type": "object"
         },
+        "ContainsTextFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "Contains",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
         "ConvertToTemplateObject<QontoCreateClient>": {
             "additionalProperties": false,
             "properties": {
@@ -932,6 +953,9 @@
                 },
                 {
                     "$ref": "#/definitions/IsTextFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/ContainsTextFilterConfig"
                 },
                 {
                     "additionalProperties": false,
