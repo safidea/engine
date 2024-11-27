@@ -44,6 +44,7 @@ const externals: string[] = [
   'typescript',
   'axios',
   '@notionhq/client',
+  '@companieshouse/api-sdk-node',
 ]
 
 const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']

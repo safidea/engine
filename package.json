@@ -52,6 +52,7 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
+    "@companieshouse/api-sdk-node": "^2.0.213",
     "@elastic/elasticsearch": "^7.17.14",
     "@heroicons/react": "^2.2.0",
     "@hotwired/stimulus": "^3.2.2",

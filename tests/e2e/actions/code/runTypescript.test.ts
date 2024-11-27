@@ -617,6 +617,51 @@ test.describe('Run TypeScript code action', () => {
       // THEN
       expect(response.exist).toBeTruthy()
     })
+
+    test('should run a Typescript code with @companieshouse/api-sdk-node package', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'crypto',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'crypto',
+              output: {
+                exist: {
+                  boolean: '{{runJavascriptCode.exist}}',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                code: String(async function (context: CodeRunnerContext) {
+                  const {
+                    packages: { companieshouseapi },
+                  } = context
+                  return { exist: !!companieshouseapi?.createApiClient }
+                }),
+              },
+            ],
+          },
+        ],
+      }
+      const app = new App()
+      const url = await app.start(config)
+
+      // WHEN
+      const response = await request.post(`${url}/api/automation/crypto`).then((res) => res.json())
+
+      // THEN
+      expect(response.exist).toBeTruthy()
+    })
   })
 
   test.describe('with database service', () => {
