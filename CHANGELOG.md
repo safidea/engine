@@ -1,3 +1,13 @@
+## [0.34.8](https://github.com/latechforce/engine/compare/v0.34.7...v0.34.8) (2024-11-27)
+
+
+### Bug Fixes
+
+* **RunTypescript:** add green test: should run a Typescript code with @companieshouse/api-sdk-node package ([b67ff51](https://github.com/latechforce/engine/commit/b67ff51afb26247eb302d1fabd7078fdd2848fc4))
+* **RunTypescript:** add green test: should run a Typescript code with a Notion database page create ([5ea834f](https://github.com/latechforce/engine/commit/5ea834fa646f8553b71749c7299c8d994102f94e))
+* **RunTypescript:** add green test: should run a Typescript code with a Notion database page list ([dea7bea](https://github.com/latechforce/engine/commit/dea7bea4752ba007a13c99b08157e803bbf06dcc))
+* **RunTypescript:** fis broken test: should run a Typescript code with a Notion database page list ([992dbc6](https://github.com/latechforce/engine/commit/992dbc653ba679da2649e19dc0412283dd15a5d5))
+
 ## [0.34.7](https://github.com/latechforce/engine/compare/v0.34.6...v0.34.7) (2024-11-21)
 
 
