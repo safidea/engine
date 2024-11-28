@@ -15,7 +15,6 @@ import Airtable from 'airtable'
 import axios from 'axios'
 import https from 'https'
 import crypto from 'crypto'
-import companieshouseapi from '@companieshouse/api-sdk-node'
 
 export class JavascriptRunnerDriver implements ICodeRunnerDriver {
   constructor(
@@ -51,7 +50,6 @@ export class JavascriptRunnerDriver implements ICodeRunnerDriver {
       axios,
       https,
       crypto,
-      companieshouseapi,
     }
     const codeContext: CodeRunnerContext<object> = {
       inputData,

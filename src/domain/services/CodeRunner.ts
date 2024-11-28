@@ -42,7 +42,6 @@ export interface CodeRunnerContextPackages {
   axios: typeof import('axios').default
   https: typeof import('https')
   crypto: typeof import('crypto')
-  companieshouseapi: typeof import('@companieshouse/api-sdk-node')
 }
 
 export interface CodeRunnerContext<I extends object = {}> {
