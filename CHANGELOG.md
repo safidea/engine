@@ -1,3 +1,10 @@
+## [0.34.9](https://github.com/latechforce/engine/compare/v0.34.8...v0.34.9) (2024-11-28)
+
+
+### Bug Fixes
+
+* **RunTypescript:** remove @companieshouse/api-sdk-node ([63581c3](https://github.com/latechforce/engine/commit/63581c3e4522576eeaa7d58f64f1389c291a69aa))
+
 ## [0.34.8](https://github.com/latechforce/engine/compare/v0.34.7...v0.34.8) (2024-11-27)
 
 
