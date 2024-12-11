@@ -1,10 +1,10 @@
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
+import type { NotionTablePageDto } from '@adapter/spi/dtos/NotionTablePageDto'
 import type { INotionTableIntegration } from '@adapter/spi/integrations/NotionTableSpi'
-import type {
-  NotionTablePage,
-  NotionTablePageProperties,
-  NotionTablePagePropertyValue,
-} from '@domain/integrations/NotionTable'
+import {
+  type NotionTablePageProperties,
+  type NotionTablePagePropertyValue,
+} from '@domain/integrations/NotionTablePage'
 import { Client } from '@notionhq/client'
 import type {
   CreatePageParameters,
@@ -51,7 +51,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
   }
 
   createMany = async (pages: NotionTablePageProperties[]) => {
-    const pagesCreated: Promise<NotionTablePage>[] = []
+    const pagesCreated: Promise<NotionTablePageDto>[] = []
     for (const page of pages) pagesCreated.push(this.create(page))
     return Promise.all(pagesCreated)
   }
@@ -245,7 +245,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     return pageProperties
   }
 
-  private _postprocessPage = (page: PageObjectResponse): NotionTablePage => {
+  private _postprocessPage = (page: PageObjectResponse): NotionTablePageDto => {
     const properties: NotionTablePageProperties = {}
     for (const key in page.properties) {
       const property = page.properties[key]

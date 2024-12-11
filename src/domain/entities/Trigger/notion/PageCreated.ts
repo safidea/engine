@@ -2,7 +2,7 @@ import type { Queue } from '@domain/services/Queue'
 import type { BaseTrigger, BaseTriggerConfig } from '../base'
 import type { AutomationContext } from '../../Automation/Context'
 import type { Notion } from '@domain/integrations/Notion'
-import type { NotionTablePage } from '@domain/integrations/NotionTable'
+import { NotionTablePage } from '@domain/integrations/NotionTablePage'
 
 export interface PageCreatedNotionTriggerConfig extends BaseTriggerConfig {
   automation: string
@@ -38,6 +38,10 @@ export class PageCreatedNotionTrigger implements BaseTrigger {
   onPageCreated = async (page: NotionTablePage) => {
     const { queue } = this._services
     const { automation } = this._config
-    await queue.add(automation, page)
+    await queue.add(automation, {
+      ...page.properties,
+      id: page.id,
+      created_time: page.created_time,
+    })
   }
 }

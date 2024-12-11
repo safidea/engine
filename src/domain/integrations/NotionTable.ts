@@ -4,27 +4,7 @@ import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
 import type { NotionConfig } from './Notion'
-
-export interface NotionTablePage {
-  id: string
-  properties: NotionTablePageProperties
-  created_time: string
-}
-
-export type NotionTablePagePropertyValue =
-  | string
-  | number
-  | boolean
-  | Date
-  | null
-  | string[]
-  | number[]
-  | NotionTablePagePropertyValue[]
-  | { name: string; url: string }[]
-
-export interface NotionTablePageProperties {
-  [key: string]: NotionTablePagePropertyValue
-}
+import type { NotionTablePage, NotionTablePageProperties } from './NotionTablePage'
 
 export type NotionTableAction = 'CREATE'
 

@@ -1,20 +1,19 @@
 import { type Filter } from '@domain/entities/Filter'
-import type {
-  NotionTablePage,
-  NotionTablePageProperties,
-  INotionTableSpi,
-} from '@domain/integrations/NotionTable'
+import type { INotionTableSpi } from '@domain/integrations/NotionTable'
 import type { FilterDto } from '../dtos/FilterDto'
 import { FilterMapper } from '../mappers/FilterMapper'
+import type { NotionTablePageProperties } from '@domain/integrations/NotionTablePage'
+import { NotionTablePageMapper } from '../mappers/NotionTablePageMapper'
+import type { NotionTablePageDto } from '../dtos/NotionTablePageDto'
 
 export interface INotionTableIntegration {
   id: string
   name: string
-  create: (page: NotionTablePageProperties) => Promise<NotionTablePage>
-  update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePage>
-  retrieve: (id: string) => Promise<NotionTablePage>
+  create: (page: NotionTablePageProperties) => Promise<NotionTablePageDto>
+  update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePageDto>
+  retrieve: (id: string) => Promise<NotionTablePageDto>
   archive: (id: string) => Promise<void>
-  list: (filter?: FilterDto) => Promise<NotionTablePage[]>
+  list: (filter?: FilterDto) => Promise<NotionTablePageDto[]>
 }
 
 export class NotionTableSpi implements INotionTableSpi {
@@ -29,15 +28,18 @@ export class NotionTableSpi implements INotionTableSpi {
   }
 
   create = async (page: NotionTablePageProperties) => {
-    return this._integration.create(page)
+    const dto = await this._integration.create(page)
+    return NotionTablePageMapper.toEntity(dto)
   }
 
   update = async (id: string, page: NotionTablePageProperties) => {
-    return this._integration.update(id, page)
+    const dto = await this._integration.update(id, page)
+    return NotionTablePageMapper.toEntity(dto)
   }
 
   retrieve = async (id: string) => {
-    return this._integration.retrieve(id)
+    const dto = await this._integration.retrieve(id)
+    return NotionTablePageMapper.toEntity(dto)
   }
 
   archive = async (id: string) => {
@@ -45,6 +47,7 @@ export class NotionTableSpi implements INotionTableSpi {
   }
 
   list = async (filter?: Filter) => {
-    return this._integration.list(filter ? FilterMapper.toDto(filter) : undefined)
+    const dtos = await this._integration.list(filter ? FilterMapper.toDto(filter) : undefined)
+    return NotionTablePageMapper.toManyEntities(dtos)
   }
 }

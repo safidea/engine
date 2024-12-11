@@ -999,6 +999,8 @@ test.describe('Run TypeScript code action', () => {
   })
 
   test.describe('with Notion integration', () => {
+    test.slow()
+
     test('should run a Typescript code with a Notion database page create', async ({ request }) => {
       // GIVEN
       const config: Config = {
@@ -1306,6 +1308,78 @@ test.describe('Run TypeScript code action', () => {
       expect(names).toContain('John Doe')
       expect(names).toContain('John Wick')
       expect(names).toContain('John Connor')
+    })
+
+    test('should run a Typescript code with a Notion database page and a string property', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'readName',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'read-name',
+              input: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                },
+              },
+              output: {
+                name: '{{runJavascriptCode.name}}',
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                input: {
+                  id: '{{trigger.body.id}}',
+                },
+                env: {
+                  TEST_NOTION_TABLE_ID,
+                },
+                code: String(async function (context: CodeRunnerContext<{ id: string }>) {
+                  const { inputData, integrations, env } = context
+                  const { notion } = integrations
+                  const { id } = inputData
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
+                  const user = await table.retrieve(id)
+                  const name = user?.getPropertyAsString('name')
+                  return { name }
+                }),
+              },
+            ],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: TEST_NOTION_TOKEN,
+            pollingInterval: 10,
+          },
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
+      const { id } = await table.create({ name: 'John Doe' })
+
+      // WHEN
+      const response = await request
+        .post(`${url}/api/automation/read-name`, {
+          data: {
+            id,
+          },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(response.name).toBe('John Doe')
     })
   })
 })

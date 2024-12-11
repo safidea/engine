@@ -2,7 +2,10 @@ import type { Table } from '@domain/entities/Table'
 import type { RecordJson } from '@domain/entities/Record/base'
 import { FilterMapper, type FilterConfig } from '@domain/entities/Filter'
 import type { Notion } from '@domain/integrations/Notion'
-import type { NotionTablePage, NotionTablePageProperties } from '@domain/integrations/NotionTable'
+import {
+  NotionTablePage,
+  type NotionTablePageProperties,
+} from '@domain/integrations/NotionTablePage'
 
 export interface ICodeRunnerSpi {
   run: (
