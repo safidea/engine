@@ -51,13 +51,13 @@ export class UpdatePageNotionAction extends BaseAction<Input, Output> {
       _config.page
     )
     this._id = templateCompiler.compile(_config.id)
-    _integrations.notion.config()
+    _integrations.notion.getConfig()
   }
 
   init = async () => {
     const { table } = this._config
     const { notion } = this._integrations
-    this._table = await notion.table(table)
+    this._table = await notion.getTable(table)
   }
 
   protected _prepare = async (context: AutomationContext) => {

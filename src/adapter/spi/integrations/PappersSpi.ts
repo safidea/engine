@@ -1,15 +1,15 @@
 import type { PappersEntreprise, IPappersSpi, PappersConfig } from '@domain/integrations/Pappers'
 
 export interface IPappersIntegration {
-  config: () => PappersConfig
+  getConfig: () => PappersConfig
   getCompany: (siret: string) => Promise<PappersEntreprise | undefined>
 }
 
 export class PappersSpi implements IPappersSpi {
   constructor(private _integration: IPappersIntegration) {}
 
-  config = () => {
-    return this._integration.config()
+  getConfig = () => {
+    return this._integration.getConfig()
   }
 
   getCompany = async (siret: string) => {

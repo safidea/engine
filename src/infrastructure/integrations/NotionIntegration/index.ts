@@ -12,14 +12,14 @@ export class NotionIntegration implements INotionIntegration {
 
   constructor(private _config?: NotionConfig) {}
 
-  config = () => {
+  getConfig = () => {
     if (!this._config) {
       throw new Error('Notion config not set')
     }
     return this._config
   }
 
-  table = async (id: string) => {
+  getTable = async (id: string) => {
     const api = this._api()
     const database = await this._retry(() =>
       api.databases.retrieve({
@@ -36,7 +36,7 @@ export class NotionIntegration implements INotionIntegration {
 
   private _api = (): Client => {
     if (!this._notion) {
-      const { token } = this.config()
+      const { token } = this.getConfig()
       this._notion = new Client({
         auth: token,
       })

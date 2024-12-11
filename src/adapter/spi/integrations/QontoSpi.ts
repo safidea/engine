@@ -6,15 +6,15 @@ import type {
 } from '@domain/integrations/Qonto'
 
 export interface IQontoIntegration {
-  config: () => QontoConfig
+  getConfig: () => QontoConfig
   createClient: (client: QontoCreateClient) => Promise<QontoClient>
 }
 
 export class QontoSpi implements IQontoSpi {
   constructor(private _integration: IQontoIntegration) {}
 
-  config = () => {
-    return this._integration.config()
+  getConfig = () => {
+    return this._integration.getConfig()
   }
 
   createClient = async (client: QontoCreateClient) => {

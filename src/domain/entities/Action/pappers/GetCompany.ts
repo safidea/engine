@@ -31,7 +31,7 @@ export class GetCompanyPappersAction extends BaseAction<Input, Output> {
     const { siret } = config
     const { templateCompiler } = services
     this._siret = templateCompiler.compile(siret)
-    _integrations.pappers.config()
+    _integrations.pappers.getConfig()
   }
 
   protected _prepare = async (context: AutomationContext) => {

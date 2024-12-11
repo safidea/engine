@@ -7,7 +7,7 @@ export class QontoIntegration implements IQontoIntegration {
 
   constructor(private _config?: QontoConfig) {}
 
-  config = (): QontoConfig => {
+  getConfig = (): QontoConfig => {
     if (!this._config) {
       throw new Error('Qonto config not set')
     }
@@ -24,7 +24,7 @@ export class QontoIntegration implements IQontoIntegration {
       return response.data.client
     } else {
       throw new Error(
-        `Error fetching data from Qonto ${this.config().environment} API: ` +
+        `Error fetching data from Qonto ${this.getConfig().environment} API: ` +
           JSON.stringify(response.data, null, 2)
       )
     }
@@ -32,7 +32,7 @@ export class QontoIntegration implements IQontoIntegration {
 
   private _api = (): AxiosInstance => {
     if (!this._instance) {
-      const config = this.config()
+      const config = this.getConfig()
       const headers = {
         Authorization: `${config.organisationSlug}:${config.secretKey}`,
         'Content-Type': 'application/json',

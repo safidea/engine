@@ -25,7 +25,7 @@ export interface CodeRunnerContextServices {
 
 export interface CodeRunnerContextIntegrations {
   notion: {
-    table: (id: string) => Promise<{
+    getTable: (id: string) => Promise<{
       create: (data: NotionTablePageProperties) => Promise<NotionTablePage>
       update: (id: string, data: NotionTablePageProperties) => Promise<NotionTablePage>
       retrieve: (id: string) => Promise<NotionTablePage | undefined>
@@ -120,8 +120,8 @@ export class CodeRunner {
     const { notion } = this._integrations
     return {
       notion: {
-        table: async (id: string) => {
-          const table = await notion.table(id)
+        getTable: async (id: string) => {
+          const table = await notion.getTable(id)
           if (!table) {
             throw new Error(`CodeRunner: Notion table "${id}" not found`)
           }

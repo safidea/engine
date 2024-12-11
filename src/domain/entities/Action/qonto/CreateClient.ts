@@ -40,7 +40,7 @@ export class CreateClientQontoAction extends BaseAction<Input, Output> {
     const { client } = config
     const { templateCompiler } = services
     this._client = templateCompiler.compileObject<QontoCreateClientAsTemplateObjectCompiled>(client)
-    _integrations.qonto.config()
+    _integrations.qonto.getConfig()
   }
 
   protected _prepare = async (context: AutomationContext) => {

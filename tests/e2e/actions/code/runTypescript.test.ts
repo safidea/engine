@@ -1037,7 +1037,7 @@ test.describe('Run TypeScript code action', () => {
                   const { inputData, integrations, env } = context
                   const { name } = inputData
                   const { notion } = integrations
-                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
                   const user = await table.create({ name })
                   return { user }
                 }),
@@ -1065,7 +1065,7 @@ test.describe('Run TypeScript code action', () => {
         .then((res) => res.json())
 
       // THEN
-      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
       const user = await table.retrieve(response.user.id)
       expect(response.user.properties.name).toBe('John')
       expect(user.properties.name).toBe('John')
@@ -1113,7 +1113,7 @@ test.describe('Run TypeScript code action', () => {
                   const { inputData, integrations, env } = context
                   const { name, id } = inputData
                   const { notion } = integrations
-                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
                   const user = await table.update(id, { name })
                   return { user }
                 }),
@@ -1130,7 +1130,7 @@ test.describe('Run TypeScript code action', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
       const { id } = await table.create({ name: 'John' })
 
       // WHEN
@@ -1189,7 +1189,7 @@ test.describe('Run TypeScript code action', () => {
                   const { inputData, integrations, env } = context
                   const { notion } = integrations
                   const { id } = inputData
-                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
                   const user = await table.retrieve(id)
                   return { user }
                 }),
@@ -1206,7 +1206,7 @@ test.describe('Run TypeScript code action', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
       const { id } = await table.create({ name: 'John Doe' })
 
       // WHEN
@@ -1261,7 +1261,7 @@ test.describe('Run TypeScript code action', () => {
                 code: String(async function (context: CodeRunnerContext<{ ids: string[] }>) {
                   const { notion } = context.integrations
                   const { ids } = context.inputData
-                  const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
                   const users = await table.list({
                     or: ids.map((id) => ({
                       field: 'id',
@@ -1284,7 +1284,7 @@ test.describe('Run TypeScript code action', () => {
       }
       const app = new App()
       const url = await app.start(config)
-      const table = await notion.table(env.TEST_NOTION_TABLE_ID)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_ID)
       const users = await table.createMany([
         { name: 'John Doe' },
         { name: 'John Wick' },

@@ -23,14 +23,14 @@ export class PageCreatedNotionTrigger implements BaseTrigger {
     private _services: PageCreatedNotionTriggerServices,
     private _integrations: PageCreatedNotionTriggerIntegrations
   ) {
-    _integrations.notion.config()
+    _integrations.notion.getConfig()
   }
 
   init = async (run: (triggerData: object) => Promise<AutomationContext>) => {
     const { queue } = this._services
     const { automation, table: tableId } = this._config
     const { notion } = this._integrations
-    const table = await notion.table(tableId)
+    const table = await notion.getTable(tableId)
     table.onPageCreated(this.onPageCreated)
     queue.job(automation, run)
   }

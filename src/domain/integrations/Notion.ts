@@ -9,8 +9,8 @@ export interface NotionConfig {
 export type NotionServices = NotionTableServices
 
 export interface INotionSpi {
-  config: () => NotionConfig
-  table: (id: string) => Promise<NotionTableSpi>
+  getConfig: () => NotionConfig
+  getTable: (id: string) => Promise<NotionTableSpi>
 }
 
 export class Notion {
@@ -21,8 +21,8 @@ export class Notion {
     private _services: NotionServices
   ) {}
 
-  config = (): NotionConfig => {
-    return this._spi.config()
+  getConfig = (): NotionConfig => {
+    return this._spi.getConfig()
   }
 
   startPolling = async () => {
@@ -37,11 +37,11 @@ export class Notion {
     }
   }
 
-  table = async (id: string): Promise<NotionTable> => {
+  getTable = async (id: string): Promise<NotionTable> => {
     let table = this._tables.find((table) => table.id === id)
     if (table) return table
-    const page = await this._spi.table(id)
-    table = new NotionTable(page, this._services, this.config())
+    const spiTable = await this._spi.getTable(id)
+    table = new NotionTable(spiTable, this._services, this.getConfig())
     this._tables.push(table)
     return table
   }

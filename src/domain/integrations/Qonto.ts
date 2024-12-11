@@ -12,15 +12,15 @@ interface QontoProductionConfig {
 export type QontoConfig = QontoSandboxConfig | QontoProductionConfig
 
 export interface IQontoSpi {
-  config: () => QontoConfig
+  getConfig: () => QontoConfig
   createClient: (client: QontoCreateClient) => Promise<QontoClient>
 }
 
 export class Qonto {
   constructor(private _spi: IQontoSpi) {}
 
-  config = (): QontoConfig => {
-    return this._spi.config()
+  getConfig = (): QontoConfig => {
+    return this._spi.getConfig()
   }
 
   createClient = async (client: QontoCreateClient): Promise<QontoClient> => {

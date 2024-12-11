@@ -7,7 +7,7 @@ export class PappersIntegration implements IPappersIntegration {
 
   constructor(private _config?: PappersConfig) {}
 
-  config = (): PappersConfig => {
+  getConfig = (): PappersConfig => {
     if (!this._config) {
       throw new Error('Pappers config not set')
     }
@@ -34,7 +34,7 @@ export class PappersIntegration implements IPappersIntegration {
 
   private _api = (): AxiosInstance => {
     if (!this._instance) {
-      const { apiKey } = this.config()
+      const { apiKey } = this.getConfig()
       this._instance = axios.create({
         baseURL: 'https://api.pappers.fr/v2',
         headers: {

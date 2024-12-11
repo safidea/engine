@@ -46,7 +46,7 @@ test.describe('Update Notion page action', () => {
     }
     const app = new App()
     const url = await app.start(config)
-    const table = await integration.table(env.TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(env.TEST_NOTION_TABLE_ID)
     const { id } = await table.create({ name: 'John' })
 
     // WHEN

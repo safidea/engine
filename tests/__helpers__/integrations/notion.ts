@@ -13,7 +13,7 @@ export const integration = new NotionIntegration({
   pollingInterval: 10,
 })
 
-export const testTable = await integration.table(TEST_NOTION_TABLE_ID)
+export const testTable = await integration.getTable(TEST_NOTION_TABLE_ID)
 
 export const cleanTestTable = async () => {
   const pages = await testTable.list()
