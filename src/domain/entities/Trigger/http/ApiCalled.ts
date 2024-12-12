@@ -65,6 +65,9 @@ export class ApiCalledHttpTrigger implements BaseTrigger {
           return new JsonResponse({ error }, 400)
         }
       }
+      if (context.status === 'failed') {
+        return new JsonResponse({ error: context.error }, 400)
+      }
       if (this._output) {
         const response = Template.fillObject(this._output, context.data)
         return new JsonResponse(response)

@@ -5,9 +5,10 @@ export type AutomationContextAction = {
 }
 
 export class AutomationContext {
-  status: 'succeed' | 'failed' = 'succeed'
-  run: { trigger: object; actions: AutomationContextAction[] }
-  data: { [key: string]: object }
+  public status: 'succeed' | 'failed' = 'succeed'
+  public run: { trigger: object; actions: AutomationContextAction[] }
+  public data: { [key: string]: object }
+  public error?: string
 
   constructor(
     public id: string,
@@ -22,8 +23,9 @@ export class AutomationContext {
     this.run.actions.push(action)
   }
 
-  addFailedAction = (action: AutomationContextAction) => {
+  addFailedAction = (action: AutomationContextAction, message: string) => {
     this.addSucceedAction(action)
     this.status = 'failed'
+    this.error = message
   }
 }

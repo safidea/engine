@@ -53,7 +53,7 @@ export class BaseAction<Input extends object, Output extends object> {
     } catch (error) {
       if (error instanceof Error) {
         actionContext.output = { error: error.message }
-        context.addFailedAction(actionContext)
+        context.addFailedAction(actionContext, error.message)
         logger.error(`"${context.id}": when executing action "${this.name}"`, error)
         monitor.captureException(error)
         return
