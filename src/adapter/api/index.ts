@@ -82,6 +82,7 @@ export default class {
 
   private _validateConfigOrThrow = async (config: Config): Promise<App> => {
     const app = AppMapper.toEntity(this._drivers, this._integrations, config)
+    await app.logger.init()
     app.logger.info('✅ config schema is valid')
     const errors = await app.validateConfig()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))

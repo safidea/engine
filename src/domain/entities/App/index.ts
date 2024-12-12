@@ -92,9 +92,8 @@ export class App {
   }
 
   init = async (): Promise<void> => {
-    const { theme, server, logger } = this._services
+    const { theme, server } = this._services
     const { tables, pages, automations, buckets } = this._entities
-    await logger.init()
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
