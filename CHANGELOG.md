@@ -1,3 +1,11 @@
+## [0.34.10](https://github.com/latechforce/engine/compare/v0.34.9...v0.34.10) (2024-12-12)
+
+
+### Bug Fixes
+
+* **CodeRunner:** add green test: should run a Typescript code with a Notion database page and a string property ([a6cae77](https://github.com/latechforce/engine/commit/a6cae77fcddbb380f848ecec2fe27fabb54d5bf9))
+* **PageCreated:** fix green test: should return a date property of the created page ([51a3da3](https://github.com/latechforce/engine/commit/51a3da367165da97b393d61519cf1dbd541deffb))
+
 ## [0.34.9](https://github.com/latechforce/engine/compare/v0.34.8...v0.34.9) (2024-11-28)
 
 
