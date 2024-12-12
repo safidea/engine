@@ -17,7 +17,6 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(page.id).toBeDefined()
-    expect(page.created_time).toBeDefined()
   })
 
   test('should create a page in a table with a title property', async () => {
@@ -165,6 +164,32 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(page.properties.name).toBe(name)
+  })
+
+  test('should retrieve a page in a table with a created_time', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const name = nanoid()
+    const { id } = await table.create({ name })
+
+    // WHEN
+    const page = await table.retrieve(id)
+
+    // THEN
+    expect(page.created_time).toBeDefined()
+  })
+
+  test('should retrieve a page in a table with a last_edited_time', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const name = nanoid()
+    const { id } = await table.create({ name })
+
+    // WHEN
+    const page = await table.retrieve(id)
+
+    // THEN
+    expect(page.last_edited_time).toBeDefined()
   })
 
   test('should update a page in a table with a title property', async () => {

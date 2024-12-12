@@ -351,6 +351,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
       id: page.id,
       properties,
       created_time: page.created_time,
+      last_edited_time: page.last_edited_time,
     }
   }
 

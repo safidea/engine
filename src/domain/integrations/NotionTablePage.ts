@@ -17,7 +17,8 @@ export class NotionTablePage {
   constructor(
     public id: string,
     public properties: NotionTablePageProperties,
-    public created_time: string
+    public created_time: string,
+    public last_edited_time: string
   ) {}
 
   getPropertyAsString(key: string): string | null {
