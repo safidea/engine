@@ -53,7 +53,7 @@ export default class {
   start = async (config: unknown): Promise<string> => {
     this._app = await this._validateOrThrow(config)
     const url = await this._app.start()
-    console.info(`🚀 App started at ${url}`)
+    console.info(`🚀 App "${this._app.name}" started at ${url}`)
     return url
   }
 

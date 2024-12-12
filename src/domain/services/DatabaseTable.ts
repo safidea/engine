@@ -72,13 +72,13 @@ export class DatabaseTable {
   }
 
   insert = async (createdRecord: CreatedRecord) => {
-    this._services.logger.info(`insert in table "${this._name}"`, createdRecord.toJson())
+    this._services.logger.debug(`insert in table "${this._name}"`, createdRecord.toJson())
     await this._table.insert(createdRecord)
     return this.readByIdOrThrow(createdRecord.id)
   }
 
   insertMany = async (createdRecords: CreatedRecord[]) => {
-    this._services.logger.info(
+    this._services.logger.debug(
       `insert many in table "${this._name}"`,
       createdRecords.map((r) => r.toJson())
     )
@@ -88,13 +88,13 @@ export class DatabaseTable {
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
-    this._services.logger.info(`update in table "${this._name}"`, updatedRecord.toJson())
+    this._services.logger.debug(`update in table "${this._name}"`, updatedRecord.toJson())
     await this._table.update(updatedRecord)
     return this.readByIdOrThrow(updatedRecord.id)
   }
 
   updateMany = async (updatedRecords: UpdatedRecord[]) => {
-    this._services.logger.info(
+    this._services.logger.debug(
       `update many in table "${this._name}"`,
       updatedRecords.map((r) => r.toJson())
     )
@@ -104,7 +104,7 @@ export class DatabaseTable {
   }
 
   delete = async (id: string) => {
-    this._services.logger.info(`delete in table "${this._name}"`, { id })
+    this._services.logger.debug(`delete in table "${this._name}"`, { id })
     await this._table.delete(id)
   }
 

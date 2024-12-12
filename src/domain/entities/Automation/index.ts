@@ -54,24 +54,23 @@ export class Automation {
 
   run = async (triggerData: object) => {
     const { actions } = this._entities
-    const { logger, idGenerator } = this._services
-    const id = idGenerator.forAutomation()
-    const context = new AutomationContext(id, triggerData)
-    const historyId = await this._history.create({
+    const { logger } = this._services
+    logger.info(`start automation "${this.name}"`)
+    const id = await this._history.create({
       automation_name: this.name,
-      automation_id: id,
       trigger_data: triggerData,
       actions_data: [],
       status: 'running',
     })
-    logger.debug(`"${this.name}": running automation "${id}"`)
+    const context = new AutomationContext(id, triggerData)
+    logger.debug(`running automation "${this.name}" with id "${id}"`)
     for (const action of actions) {
       await action.execute(context)
-      await this._history.updateActions(historyId, context.run.actions)
+      await this._history.updateActions(id, context.run.actions)
     }
-    await this._history.updateStatus(historyId, context.status)
-    logger.debug(`"${this.name}": completed automation "${id}"`)
-    logger.info(`"${this.name}" run ${context.status}`, context.run)
+    await this._history.updateStatus(id, context.status)
+    logger.info(`finish automation "${this.name}" with status "${context.status}"`)
+    logger.debug(`result of automation "${this.name}" with "${id}"`, context.run)
     return context
   }
 }

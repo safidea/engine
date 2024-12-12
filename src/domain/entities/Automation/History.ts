@@ -10,7 +10,6 @@ import { UpdatedRecord } from '../Record/Updated'
 
 export interface AutomationHistoryRecord {
   automation_name: string
-  automation_id: string
   trigger_data: object
   actions_data: object
   status: string
@@ -26,7 +25,6 @@ export class AutomationHistory {
   private _fields: Field[] = [
     new SingleLineTextField({ name: 'id', required: true }),
     new SingleLineTextField({ name: 'automation_name', required: true }),
-    new SingleLineTextField({ name: 'automation_id', required: true }),
     new LongTextField({ name: 'trigger_data' }),
     new LongTextField({ name: 'actions_data' }),
     new SingleLineTextField({ name: 'status', required: true }),

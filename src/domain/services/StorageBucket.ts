@@ -42,7 +42,7 @@ export class StorageBucket {
   }
 
   save = async (createdFile: CreatedFile) => {
-    this._services.logger.info(`saving in bucket "${this._name}"`, createdFile.toJson())
+    this._services.logger.debug(`saving in bucket "${this._name}"`, createdFile.toJson())
     await this._bucket.save(createdFile)
     const persistedFile = await this.readByIdOrThrow(createdFile.id)
     return persistedFile
