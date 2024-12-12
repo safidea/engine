@@ -1,3 +1,10 @@
+## [0.34.11](https://github.com/latechforce/engine/compare/v0.34.10...v0.34.11) (2024-12-12)
+
+
+### Bug Fixes
+
+* **CodeRunner:** add green test: should run a Typescript code with lodash package ([92b5ba8](https://github.com/latechforce/engine/commit/92b5ba8e4dc91cb4d36f983b7587efba1f025171))
+
 ## [0.34.10](https://github.com/latechforce/engine/compare/v0.34.9...v0.34.10) (2024-12-12)
 
 
