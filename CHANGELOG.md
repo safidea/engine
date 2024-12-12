@@ -1,3 +1,15 @@
+## [0.34.12](https://github.com/latechforce/engine/compare/v0.34.11...v0.34.12) (2024-12-12)
+
+
+### Bug Fixes
+
+* **ApiCalled:** fix green test ([68a3078](https://github.com/latechforce/engine/commit/68a307835a541ff04112c401f7db8d4cd17ae47e))
+* **Logger:** fix broken tests ([23664de](https://github.com/latechforce/engine/commit/23664dea3e7a1a0c78554247d84761089bfab23c))
+* **Logger:** fix ES broken test ([f6154c5](https://github.com/latechforce/engine/commit/f6154c5fbf32acf1e761db1adddaec9d4be3cbc7))
+* **Logger:** update Automation History logs ([20c4d8e](https://github.com/latechforce/engine/commit/20c4d8e84c3f6fbecc4e18188a90af1d3bd4dd5f))
+* **Notion:** add green test: should retrieve a page in a table with a last_edited_time ([127d6be](https://github.com/latechforce/engine/commit/127d6be7aa5cbc07468609da497be2bedb41b102))
+* **Schemas:** add schema ([fc6c40d](https://github.com/latechforce/engine/commit/fc6c40d104b7cd1a8ea4c01a64e62c712e21e50e))
+
 ## [0.34.11](https://github.com/latechforce/engine/compare/v0.34.10...v0.34.11) (2024-12-12)
 
 
