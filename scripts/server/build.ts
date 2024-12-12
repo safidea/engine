@@ -44,6 +44,7 @@ const externals: string[] = [
   'typescript',
   'axios',
   '@notionhq/client',
+  'lodash',
 ]
 
 const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']

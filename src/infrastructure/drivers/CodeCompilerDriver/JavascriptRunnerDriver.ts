@@ -15,6 +15,7 @@ import Airtable from 'airtable'
 import axios from 'axios'
 import https from 'https'
 import crypto from 'crypto'
+import lodash from 'lodash'
 
 export class JavascriptRunnerDriver implements ICodeRunnerDriver {
   constructor(
@@ -50,6 +51,7 @@ export class JavascriptRunnerDriver implements ICodeRunnerDriver {
       axios,
       https,
       crypto,
+      lodash,
     }
     const codeContext: CodeRunnerContext<object> = {
       inputData,

@@ -45,6 +45,7 @@ export interface CodeRunnerContextPackages {
   axios: typeof import('axios').default
   https: typeof import('https')
   crypto: typeof import('crypto')
+  lodash: typeof import('lodash')
 }
 
 export interface CodeRunnerContext<I extends object = {}> {
