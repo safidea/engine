@@ -53,6 +53,7 @@ export class App {
   public storage: Storage
   public queue: Queue
   public mailer: Mailer
+  public logger: Logger
   public status: Status = 'ready'
 
   constructor(
@@ -62,12 +63,13 @@ export class App {
     private _integrations: AppIntegrations
   ) {
     const { name } = config
-    const { database, queue, mailer, storage } = _services
+    const { database, queue, mailer, storage, logger } = _services
     this.name = name
     this.database = database
     this.queue = queue
     this.storage = storage
     this.mailer = mailer
+    this.logger = logger
   }
 
   get running() {

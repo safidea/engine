@@ -33,10 +33,7 @@ export interface ILoggerSpi {
 }
 
 export class Logger {
-  constructor(
-    private _spi: ILoggerSpi,
-    private _config: LoggersConfig
-  ) {}
+  constructor(private _spi: ILoggerSpi) {}
 
   init: () => Promise<void> = async () => {
     await this._spi.init()

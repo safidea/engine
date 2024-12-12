@@ -6,6 +6,6 @@ export class LoggerMapper {
   static toService(drivers: Drivers, config: LoggersConfig = []): Logger {
     const driver = drivers.logger(config)
     const spi = new LoggerSpi(driver)
-    return new Logger(spi, config)
+    return new Logger(spi)
   }
 }

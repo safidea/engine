@@ -6,7 +6,7 @@ import { LoggerDriver } from '@infrastructure/drivers/LoggerDriver'
 export default class extends Logger {
   constructor() {
     const config: LoggersConfig = [{ driver: 'Console', level: 'error' }]
-    super(new LoggerSpi(new LoggerDriver(config)), config)
+    super(new LoggerSpi(new LoggerDriver(config)))
   }
 }
 

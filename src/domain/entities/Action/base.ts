@@ -56,6 +56,7 @@ export class BaseAction<Input extends object, Output extends object> {
         context.addFailedAction(actionContext)
         logger.error(`"${context.id}": when executing action "${this.name}"`, error)
         monitor.captureException(error)
+        return
       }
       throw error
     }

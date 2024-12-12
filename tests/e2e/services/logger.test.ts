@@ -80,8 +80,8 @@ test.describe('Logger', () => {
       do {
         if (i++ > 0) await new Promise((resolve) => setTimeout(resolve, 1000))
         content = await fs.readFile(filename, 'utf8')
-      } while (!content.includes('run succeed') && i < 10)
-      expect(content).toContain('run succeed')
+      } while (!content.includes('status \\"succeed\\"') && i < 10)
+      expect(content).toContain('status \\"succeed\\"')
     })
 
     test('should log a failed automation', async ({ request }) => {
@@ -129,8 +129,8 @@ test.describe('Logger', () => {
       do {
         if (i++ > 0) await new Promise((resolve) => setTimeout(resolve, 1000))
         content = await fs.readFile(filename, 'utf8')
-      } while (!content.includes('run failed') && i < 10)
-      expect(content).toContain('run failed')
+      } while (!content.includes('status \\"failed\\"') && i < 10)
+      expect(content).toContain('status \\"failed\\"')
     })
   })
 
