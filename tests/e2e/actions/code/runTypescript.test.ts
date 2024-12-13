@@ -836,7 +836,7 @@ test.describe('Run TypeScript code action', () => {
                     const { database } = services
                     const { id } = inputData
                     const user = await database.table('users').read(id)
-                    return { user: user.fields }
+                    return { user: user?.fields }
                   }),
                 },
               ],
