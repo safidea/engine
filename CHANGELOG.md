@@ -1,3 +1,11 @@
+## [0.34.19](https://github.com/latechforce/engine/compare/v0.34.18...v0.34.19) (2024-12-13)
+
+
+### Bug Fixes
+
+* **CI:** add env variablee ([a1a21a6](https://github.com/latechforce/engine/commit/a1a21a61ab851775e8bdb3be945a635cdd483b8c))
+* **Notion:** add green test: should list pages in a table with a Contains filter on a rollup ([2504c35](https://github.com/latechforce/engine/commit/2504c35e8708677190984d54cafeac0544def782))
+
 ## [0.34.18](https://github.com/latechforce/engine/compare/v0.34.17...v0.34.18) (2024-12-13)
 
 
