@@ -1,3 +1,10 @@
+## [0.34.15](https://github.com/latechforce/engine/compare/v0.34.14...v0.34.15) (2024-12-13)
+
+
+### Bug Fixes
+
+* **CodeRunner:** add lodash type ([34dac46](https://github.com/latechforce/engine/commit/34dac4642b7b49ed16e0fa945be1d95ec761fcac))
+
 ## [0.34.14](https://github.com/latechforce/engine/compare/v0.34.13...v0.34.14) (2024-12-13)
 
 
