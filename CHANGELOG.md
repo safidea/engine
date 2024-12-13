@@ -1,3 +1,10 @@
+## [0.34.13](https://github.com/latechforce/engine/compare/v0.34.12...v0.34.13) (2024-12-13)
+
+
+### Bug Fixes
+
+* **Notion:** export type NotionTablePage ([1f1cbbf](https://github.com/latechforce/engine/commit/1f1cbbf3616986e566632b44e8dcdc1839e90323))
+
 ## [0.34.12](https://github.com/latechforce/engine/compare/v0.34.11...v0.34.12) (2024-12-12)
 
 
