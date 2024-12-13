@@ -1,7 +1,7 @@
 {
   "name": "@latechforce/engine",
   "description": "Generate web app with a configuration file",
-  "version": "0.34.13",
+  "version": "0.34.14",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
