@@ -702,7 +702,7 @@ test.describe('Run TypeScript code action', () => {
                     const { name } = inputData
                     const { database } = services
                     const user = await database.table('users').insert({ name })
-                    return { user }
+                    return { user: user.fields }
                   }),
                 },
               ],
@@ -770,7 +770,7 @@ test.describe('Run TypeScript code action', () => {
                     const { name, id } = inputData
                     const { database } = services
                     const user = await database.table('users').update(id, { name })
-                    return { user }
+                    return { user: user.fields }
                   }),
                 },
               ],
@@ -836,7 +836,7 @@ test.describe('Run TypeScript code action', () => {
                     const { database } = services
                     const { id } = inputData
                     const user = await database.table('users').read(id)
-                    return { user }
+                    return { user: user.fields }
                   }),
                 },
               ],
@@ -888,7 +888,7 @@ test.describe('Run TypeScript code action', () => {
                   code: String(async function (context: CodeRunnerContext) {
                     const { database } = context.services
                     const users = await database.table('users').list()
-                    return { users }
+                    return { users: users.map((user) => user.fields) }
                   }),
                 },
               ],
@@ -953,7 +953,7 @@ test.describe('Run TypeScript code action', () => {
                       operator: 'Is',
                       value: '2',
                     })
-                    return { users }
+                    return { users: users.map((user) => user.fields) }
                   }),
                 },
               ],
@@ -1012,7 +1012,7 @@ test.describe('Run TypeScript code action', () => {
                       operator: 'IsAnyOf',
                       value: ['3', '2'],
                     })
-                    return { users }
+                    return { users: users.map((user) => user.fields) }
                   }),
                 },
               ],
