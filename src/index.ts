@@ -27,6 +27,7 @@ export type {
 } from '@adapter/api/configs/Services'
 export type { CodeRunnerContext } from '@domain/services/CodeRunner'
 export type { NotionTablePage } from '@domain/integrations/NotionTablePage'
+export type { PersistedRecord as DatabaseTableRecord } from '@domain/entities/Record/Persisted'
 
 export type Drivers = Partial<AllDrivers>
 
