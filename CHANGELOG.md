@@ -1,3 +1,10 @@
+## [0.34.14](https://github.com/latechforce/engine/compare/v0.34.13...v0.34.14) (2024-12-13)
+
+
+### Bug Fixes
+
+* **Notion:** export type DatabaseTableRecord ([ee2fc18](https://github.com/latechforce/engine/commit/ee2fc184952a6d2e2b4264145a9bc80d06dd7666))
+
 ## [0.34.13](https://github.com/latechforce/engine/compare/v0.34.12...v0.34.13) (2024-12-13)
 
 
