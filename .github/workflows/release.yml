@@ -21,12 +21,12 @@ jobs:
       TEST_ELASTICSEARCH_URL: ${{ secrets.TEST_ELASTICSEARCH_URL }}
       TEST_ELASTICSEARCH_INDEX: ${{ secrets.TEST_ELASTICSEARCH_INDEX }}
       TEST_NOTION_TOKEN: ${{ secrets.TEST_NOTION_TOKEN }}
-      TEST_NOTION_TABLE_ID: ${{ secrets.TEST_NOTION_TABLE_ID }}
+      TEST_NOTION_TABLE_1_ID: ${{ secrets.TEST_NOTION_TABLE_1_ID }}
       TEST_PAPPERS_API_KEY: ${{ secrets.TEST_PAPPERS_API_KEY }}
       TEST_QONTO_ORGANISATION_SLUG: ${{ secrets.TEST_QONTO_ORGANISATION_SLUG }}
       TEST_QONTO_SECRET_KEY: ${{ secrets.TEST_QONTO_SECRET_KEY }}
       TEST_QONTO_STAGING_TOKEN: ${{ secrets.TEST_QONTO_STAGING_TOKEN }}
-      
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -18,7 +18,7 @@ test.describe('Page Created trigger', () => {
             trigger: {
               integration: 'Notion',
               event: 'PageCreated',
-              table: env.TEST_NOTION_TABLE_ID,
+              table: env.TEST_NOTION_TABLE_1_ID,
             },
             actions: [],
           },
@@ -61,7 +61,7 @@ test.describe('Page Created trigger', () => {
             trigger: {
               integration: 'Notion',
               event: 'PageCreated',
-              table: env.TEST_NOTION_TABLE_ID,
+              table: env.TEST_NOTION_TABLE_1_ID,
             },
             actions: [],
           },
@@ -104,14 +104,14 @@ test.describe('Page Created trigger', () => {
             trigger: {
               integration: 'Notion',
               event: 'PageCreated',
-              table: env.TEST_NOTION_TABLE_ID,
+              table: env.TEST_NOTION_TABLE_1_ID,
             },
             actions: [
               {
                 name: 'update-page',
                 integration: 'Notion',
                 action: 'UpdatePage',
-                table: env.TEST_NOTION_TABLE_ID,
+                table: env.TEST_NOTION_TABLE_1_ID,
                 id: '{{trigger.id}}',
                 page: {
                   name: 'My new page updated',

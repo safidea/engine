@@ -3,12 +3,12 @@ import { notion, integration } from '@tests/integrations/notion'
 import { nanoid } from 'nanoid'
 import { parse } from 'date-fns'
 
-const { TEST_NOTION_TABLE_ID } = env
+const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TABLE_2_ID } = env
 
 test.describe('Notion integration', () => {
   test('should create a page in a table', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
 
     // WHEN
     const page = await table.create({
@@ -21,7 +21,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a title property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const name = 'Hello World'
 
     // WHEN
@@ -33,7 +33,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a number property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const number = 123
 
     // WHEN
@@ -45,7 +45,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a number property from a string', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const number = '123'
 
     // WHEN
@@ -57,7 +57,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a boolean property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const boolean = true
 
     // WHEN
@@ -69,7 +69,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a boolean property from a string', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const boolean = 'false'
 
     // WHEN
@@ -81,7 +81,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a text property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const text =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 
@@ -94,7 +94,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a select property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const select = '1'
 
     // WHEN
@@ -106,7 +106,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a multi_select property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const multi_select = ['1', '2']
 
     // WHEN
@@ -118,7 +118,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a date property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const date = new Date(2018, 8, 22, 15, 0, 0)
 
     // WHEN
@@ -130,7 +130,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a date property from a string', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const date = '2018-09-22'
 
     // WHEN
@@ -142,7 +142,7 @@ test.describe('Notion integration', () => {
 
   test('should create a page in a table with a date property from a timestamp', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const date = new Date(2018, 8, 22)
     const timestamp = +date
 
@@ -155,7 +155,7 @@ test.describe('Notion integration', () => {
 
   test('should retrieve a page in a table', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const name = nanoid()
     const { id } = await table.create({ name })
 
@@ -168,7 +168,7 @@ test.describe('Notion integration', () => {
 
   test('should retrieve a page in a table with a created_time', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const name = nanoid()
     const { id } = await table.create({ name })
 
@@ -181,7 +181,7 @@ test.describe('Notion integration', () => {
 
   test('should retrieve a page in a table with a last_edited_time', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const name = nanoid()
     const { id } = await table.create({ name })
 
@@ -194,7 +194,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a title property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({ name: 'John' })
     const name = 'John Doe'
 
@@ -207,7 +207,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a number property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({ number: 456 })
     const number = 123
 
@@ -220,7 +220,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a boolean property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({ boolean: false })
     const boolean = true
 
@@ -233,7 +233,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a text property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     })
@@ -249,7 +249,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a select property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({ select: '1' })
     const select = '2'
 
@@ -262,7 +262,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a multi_select property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({ multi_select: ['1', '2'] })
     const multi_select = ['3', '4']
 
@@ -275,7 +275,7 @@ test.describe('Notion integration', () => {
 
   test('should update a page in a table with a date property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const { id } = await table.create({ date: new Date(2000) })
     const date = new Date(2018, 8, 22, 15, 0, 0)
 
@@ -288,7 +288,7 @@ test.describe('Notion integration', () => {
 
   test('should create many pages in a table with a title property', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
 
     // WHEN
     const ids = await table.createMany([
@@ -309,7 +309,7 @@ test.describe('Notion integration', () => {
 
   test('should archive a page in a table', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const name = nanoid()
     const { id } = await table.create({ name })
 
@@ -326,7 +326,7 @@ test.describe('Notion integration', () => {
 
   test('should list pages in a table', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const values = [
       {
         name: nanoid(),
@@ -353,9 +353,9 @@ test.describe('Notion integration', () => {
     expect(pages).toHaveLength(3)
   })
 
-  test('should list pages in a table with a IsAfterNumberOfSecondsSinceNow', async () => {
+  test('should list pages in a table with a IsAfterNumberOfSecondsSinceNow filter', async () => {
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const values = [
       {
         name: nanoid(),
@@ -391,11 +391,30 @@ test.describe('Notion integration', () => {
     expect(pages).toHaveLength(3)
   })
 
+  test('should list pages in a table with a Contains filter on a rollup', async () => {
+    // GIVEN
+    const table1 = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const table2 = await integration.getTable(TEST_NOTION_TABLE_2_ID)
+    const name = nanoid()
+    const pageTable2 = await table2.create({ name })
+    await table1.create({ name: nanoid(), relation: [pageTable2.id] })
+
+    // WHEN
+    const pages = await table1.list({
+      field: 'rollup_names',
+      operator: 'Contains',
+      value: name,
+    })
+
+    // THEN
+    expect(pages).toHaveLength(1)
+  })
+
   test('should allow 100 requests in few seconds', async () => {
     test.slow()
 
     // GIVEN
-    const table = await integration.getTable(TEST_NOTION_TABLE_ID)
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const values = Array.from({ length: 100 }, () => ({
       name: nanoid(),
     }))

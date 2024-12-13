@@ -233,6 +233,12 @@ export class NotionTableIntegration implements INotionTableIntegration {
             return {
               phone_number: String(value),
             }
+          case 'relation':
+            return {
+              relation: (Array.isArray(value) ? value : [])
+                .filter((relation) => !!relation)
+                .map((id) => ({ id })),
+            }
           default:
             throw new Error(`Property type "${type}" is not supported`)
         }
@@ -385,6 +391,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     }
     const { operator, field } = filter
     const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00XXX")
+    const property = this._database.properties[field]
     switch (operator) {
       case 'Is':
         return {
@@ -394,6 +401,18 @@ export class NotionTableIntegration implements INotionTableIntegration {
           },
         }
       case 'Contains':
+        if (property.type === 'rollup') {
+          return {
+            property: field,
+            rollup: {
+              any: {
+                rich_text: {
+                  contains: filter.value,
+                },
+              },
+            },
+          }
+        }
         return {
           property: field,
           rich_text: {
