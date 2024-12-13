@@ -1,8 +1,8 @@
-export type RecordFieldType = string | number | boolean | Date | undefined | string[]
+export type RecordFieldValue = string | number | boolean | Date | undefined | string[]
 
 export interface BaseRecordFields {
   id: string
-  [key: string]: RecordFieldType
+  [key: string]: RecordFieldValue
 }
 
 export interface RecordJson {

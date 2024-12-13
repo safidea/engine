@@ -7,7 +7,7 @@ import type {
   PersistedRecordDto,
   UpdatedRecordDto,
 } from '@adapter/spi/dtos/RecordDto'
-import type { BaseRecordFields, RecordFieldType } from '@domain/entities/Record/base'
+import type { BaseRecordFields, RecordFieldValue } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
   name: string
@@ -267,7 +267,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
   }
 
   private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
-    const staticFields: { [key: string]: RecordFieldType } = {}
+    const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
       const field = this._fields.find((f) => f.name === key)

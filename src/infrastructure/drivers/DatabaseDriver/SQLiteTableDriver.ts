@@ -7,7 +7,7 @@ import type {
   PersistedRecordDto,
   UpdatedRecordDto,
 } from '@adapter/spi/dtos/RecordDto'
-import type { RecordFieldType } from '@domain/entities/Record/base'
+import type { RecordFieldValue } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
   name: string
@@ -272,7 +272,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
   }
 
   private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
-    const staticFields: { [key: string]: RecordFieldType } = {}
+    const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
       const field = this._fields.find((f) => f.name === key)
@@ -327,11 +327,11 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     return formula.replace(/\bCONCAT\b/g, 'GROUP_CONCAT').replace(/\bvalues\b/g, values)
   }
 
-  private _preprocess = (record: { [key: string]: RecordFieldType }) => {
+  private _preprocess = (record: { [key: string]: RecordFieldValue }) => {
     return Object.keys(record).reduce(
       (
         acc: {
-          [key: string]: RecordFieldType
+          [key: string]: RecordFieldValue
         },
         key
       ) => {
