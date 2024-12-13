@@ -1,3 +1,10 @@
+## [0.34.18](https://github.com/latechforce/engine/compare/v0.34.17...v0.34.18) (2024-12-13)
+
+
+### Bug Fixes
+
+* **RunTypascript:** add green test: should run a Typescript code with a database read with a string field ([a8783a8](https://github.com/latechforce/engine/commit/a8783a819d4bc5969b4c98bb64fd4d1a4194e61a))
+
 ## [0.34.17](https://github.com/latechforce/engine/compare/v0.34.16...v0.34.17) (2024-12-13)
 
 
