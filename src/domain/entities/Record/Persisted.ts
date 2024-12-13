@@ -1,4 +1,4 @@
-import { BaseRecord, type BaseRecordFields, type RecordJson } from './base'
+import { BaseRecord, type BaseRecordFields, type RecordFields } from './base'
 
 export interface PersistedRecordFields extends BaseRecordFields {
   created_at: Date
@@ -8,17 +8,17 @@ export interface PersistedRecordFields extends BaseRecordFields {
 export type PersistedRecordConfig = PersistedRecordFields
 
 export class PersistedRecord extends BaseRecord {
-  readonly fields: PersistedRecordFields
+  readonly fieldsWithDates: PersistedRecordFields
 
   constructor(config: PersistedRecordConfig) {
     super(config)
-    this.fields = config
+    this.fieldsWithDates = config
   }
 
-  toJson(): RecordJson {
-    const { created_at, updated_at } = this.fields
+  get fields(): RecordFields {
+    const { created_at, updated_at } = this.fieldsWithDates
     const json = {
-      ...super.toJson(),
+      ...super.fields,
       created_at: created_at.toISOString(),
     }
     if (updated_at) json.updated_at = updated_at.toISOString()

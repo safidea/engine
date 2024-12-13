@@ -28,10 +28,14 @@ export type {
 export type { CodeRunnerContext } from '@domain/services/CodeRunner'
 export type {
   NotionTablePage,
+  NotionTablePageProperties,
   NotionTablePagePropertyValue,
 } from '@domain/integrations/NotionTablePage'
 export type { PersistedRecord as DatabaseTableRecord } from '@domain/entities/Record/Persisted'
-export type { RecordFieldValue as DatabaseTableRecordFieldValue } from '@domain/entities/Record/base'
+export type {
+  RecordFields as DatabaseTableRecordFields,
+  RecordFieldValue as DatabaseTableRecordFieldValue,
+} from '@domain/entities/Record/base'
 
 export type Drivers = Partial<AllDrivers>
 

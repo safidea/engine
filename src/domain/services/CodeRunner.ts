@@ -1,11 +1,11 @@
 import type { Table } from '@domain/entities/Table'
-import type { RecordJson } from '@domain/entities/Record/base'
 import { FilterMapper, type FilterConfig } from '@domain/entities/Filter'
 import type { Notion } from '@domain/integrations/Notion'
 import {
   NotionTablePage,
   type NotionTablePageProperties,
 } from '@domain/integrations/NotionTablePage'
+import type { PersistedRecord } from '@domain/entities/Record/Persisted'
 
 export interface ICodeRunnerSpi {
   run: (
@@ -18,10 +18,10 @@ export interface ICodeRunnerSpi {
 export interface CodeRunnerContextServices {
   database: {
     table: (name: string) => {
-      insert: (data: unknown) => Promise<RecordJson>
-      update: (id: string, data: unknown) => Promise<RecordJson>
-      read: (id: string) => Promise<RecordJson | undefined>
-      list: (filter?: FilterConfig) => Promise<RecordJson[]>
+      insert: (data: unknown) => Promise<PersistedRecord>
+      update: (id: string, data: unknown) => Promise<PersistedRecord>
+      read: (id: string) => Promise<PersistedRecord | undefined>
+      list: (filter?: FilterConfig) => Promise<PersistedRecord[]>
     }
   }
 }

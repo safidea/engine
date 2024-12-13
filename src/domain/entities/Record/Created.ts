@@ -1,5 +1,5 @@
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { BaseRecord, type BaseRecordFields, type RecordJson } from './base'
+import { BaseRecord, type BaseRecordFields, type RecordFields } from './base'
 
 export interface CreatedRecordFields extends BaseRecordFields {
   created_at: Date
@@ -12,7 +12,7 @@ export interface CreatedRecordServices {
 }
 
 export class CreatedRecord extends BaseRecord {
-  readonly fields: CreatedRecordFields
+  readonly fieldsWithDates: CreatedRecordFields
 
   constructor(config: CreatedRecordConfig, services: CreatedRecordServices) {
     const { idGenerator } = services
@@ -22,13 +22,13 @@ export class CreatedRecord extends BaseRecord {
       created_at: new Date(),
     }
     super(fields)
-    this.fields = fields
+    this.fieldsWithDates = fields
   }
 
-  toJson(): RecordJson {
-    const { created_at } = this.fields
+  get fields(): RecordFields {
+    const { created_at } = this.fieldsWithDates
     return {
-      ...super.toJson(),
+      ...super.fields,
       created_at: created_at.toISOString(),
     }
   }

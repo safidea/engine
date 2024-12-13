@@ -23,8 +23,9 @@ import { MultipleLinkedRecordField } from '../Field/MultipleLinkedRecord'
 import { FilterMapper, filterSchema, type FilterConfig } from '../Filter'
 import { CreatedRecord } from '../Record/Created'
 import { UpdatedRecord } from '../Record/Updated'
-import type { BaseRecordFields, RecordJson } from '../Record/base'
+import type { BaseRecordFields } from '../Record/base'
 import type { Monitor } from '@domain/services/Monitor'
+import type { PersistedRecord } from '../Record/Persisted'
 
 interface TableConfig {
   name: string
@@ -92,29 +93,28 @@ export class Table {
     return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
-  readById = async (id: string): Promise<RecordJson | undefined> => {
-    const record = await this.db.readById(id)
-    return record ? record.toJson() : undefined
+  readById = async (id: string): Promise<PersistedRecord | undefined> => {
+    return this.db.readById(id)
   }
 
   get = async (request: GetRequest) => {
     const id = request.getParamOrThrow('id')
     const record = await this.readById(id)
-    return new JsonResponse({ record })
+    return new JsonResponse({ record: record?.fields }, record ? 200 : 404)
   }
 
   list = async (
     filterConfig?: unknown
   ): Promise<
-    { records: RecordJson[]; error?: undefined } | { records?: undefined; error: SchemaError }
+    { records: PersistedRecord[]; error?: undefined } | { records?: undefined; error: SchemaError }
   > => {
     if (!filterConfig) {
       const records = await this.db.list()
-      return { records: records.map((record) => record.toJson()) }
+      return { records }
     } else if (this._validateDataType<FilterConfig>(filterConfig, filterSchema)) {
       const filter = FilterMapper.toEntity(filterConfig)
       const records = await this.db.list(filter)
-      return { records: records.map((record) => record.toJson()) }
+      return { records }
     }
     const [error] = this._validateData(filterConfig, filterSchema)
     return { error }
@@ -122,19 +122,22 @@ export class Table {
 
   getAll = async () => {
     const { records, error } = await this.list()
-    return new JsonResponse({ records, error }, error ? 400 : 200)
+    return new JsonResponse(
+      { records: records?.map((record) => record.fields), error },
+      error ? 400 : 200
+    )
   }
 
   insert = async (
     data: unknown
   ): Promise<
-    { record: RecordJson; error?: undefined } | { record?: undefined; error: SchemaError }
+    { record: PersistedRecord; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema()
     if (this._validateDataType<BaseRecordFields>(data, schema)) {
       const toCreateRecord = new CreatedRecord(data, { idGenerator: this._services.idGenerator })
-      const persistedRecord = await this.db.insert(toCreateRecord)
-      return { record: persistedRecord.toJson() }
+      const record = await this.db.insert(toCreateRecord)
+      return { record }
     }
     const [error] = this._validateData(data, schema)
     return { error }
@@ -144,7 +147,7 @@ export class Table {
     try {
       const { body } = request
       const { record, error } = await this.insert(body)
-      return new JsonResponse({ record, error }, error ? 400 : 201)
+      return new JsonResponse({ record: record?.fields, error }, error ? 400 : 201)
     } catch (error) {
       if (error instanceof Error) {
         this._services.monitor.captureException(error)
@@ -158,13 +161,13 @@ export class Table {
     id: string,
     data: unknown
   ): Promise<
-    { record: RecordJson; error?: undefined } | { record?: undefined; error: SchemaError }
+    { record: PersistedRecord; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema({ required: false })
     if (this._validateDataType<Omit<BaseRecordFields, 'id'>>(data, schema)) {
       const updatedRecord = new UpdatedRecord({ id, ...data })
-      const persistedRecord = await this.db.update(updatedRecord)
-      return { record: persistedRecord.toJson() }
+      const record = await this.db.update(updatedRecord)
+      return { record }
     }
     const [error] = this._validateData(data, schema)
     return { error }
@@ -175,7 +178,7 @@ export class Table {
       const { body } = request
       const id = request.getParamOrThrow('id')
       const { record, error } = await this.update(id, body)
-      return new JsonResponse({ record, error }, error ? 400 : 204)
+      return new JsonResponse({ record: record?.fields, error }, error ? 400 : 204)
     } catch (error) {
       if (error instanceof Error) {
         this._services.monitor.captureException(error)

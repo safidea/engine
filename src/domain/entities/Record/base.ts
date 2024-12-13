@@ -5,7 +5,7 @@ export interface BaseRecordFields {
   [key: string]: RecordFieldValue
 }
 
-export interface RecordJson {
+export interface RecordFields {
   id: string
   created_at?: string
   updated_at?: string
@@ -19,10 +19,10 @@ export class BaseRecord {
     return this._baseFields.id
   }
 
-  toJson(): RecordJson {
+  get fields(): RecordFields {
     const { id, ...res } = this._baseFields
     return Object.entries(res).reduce(
-      (acc: RecordJson, [key, value]) => {
+      (acc: RecordFields, [key, value]) => {
         if (value instanceof Date) acc[key] = value.toISOString()
         else acc[key] = value
         return acc

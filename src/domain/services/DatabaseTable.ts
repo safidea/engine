@@ -72,7 +72,7 @@ export class DatabaseTable {
   }
 
   insert = async (createdRecord: CreatedRecord) => {
-    this._services.logger.debug(`insert in table "${this._name}"`, createdRecord.toJson())
+    this._services.logger.debug(`insert in table "${this._name}"`, createdRecord.fields)
     await this._table.insert(createdRecord)
     return this.readByIdOrThrow(createdRecord.id)
   }
@@ -80,7 +80,7 @@ export class DatabaseTable {
   insertMany = async (createdRecords: CreatedRecord[]) => {
     this._services.logger.debug(
       `insert many in table "${this._name}"`,
-      createdRecords.map((r) => r.toJson())
+      createdRecords.map((r) => r.fields)
     )
     await this._table.insertMany(createdRecords)
     const filter = new OrFilter(createdRecords.map((r) => new IsTextFilter('id', r.id)))
@@ -88,7 +88,7 @@ export class DatabaseTable {
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
-    this._services.logger.debug(`update in table "${this._name}"`, updatedRecord.toJson())
+    this._services.logger.debug(`update in table "${this._name}"`, updatedRecord.fields)
     await this._table.update(updatedRecord)
     return this.readByIdOrThrow(updatedRecord.id)
   }
@@ -96,7 +96,7 @@ export class DatabaseTable {
   updateMany = async (updatedRecords: UpdatedRecord[]) => {
     this._services.logger.debug(
       `update many in table "${this._name}"`,
-      updatedRecords.map((r) => r.toJson())
+      updatedRecords.map((r) => r.fields)
     )
     await this._table.updateMany(updatedRecords)
     const filter = new OrFilter(updatedRecords.map((r) => new IsTextFilter('id', r.id)))
