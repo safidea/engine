@@ -26,6 +26,7 @@ export type {
   ServerConfig as Server,
 } from '@adapter/api/configs/Services'
 export type { CodeRunnerContext } from '@domain/services/CodeRunner'
+export type { NotionTablePage } from '@domain/integrations/NotionTablePage'
 
 export type Drivers = Partial<AllDrivers>
 
