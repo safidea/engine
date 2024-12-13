@@ -861,6 +861,69 @@ test.describe('Run TypeScript code action', () => {
         expect(response.user.name).toBe('John Doe')
       })
 
+      test('should run a Typescript code with a database read with a string field', async ({
+        request,
+      }) => {
+        // GIVEN
+        const database = new Database(dbConfig)
+        const config: Config = {
+          name: 'App',
+          tables: [{ name: 'users', fields: [{ name: 'name', field: 'SingleLineText' }] }],
+          automations: [
+            {
+              name: 'readName',
+              trigger: {
+                service: 'Http',
+                event: 'ApiCalled',
+                path: 'read-name',
+                input: {
+                  type: 'object',
+                  properties: {
+                    id: { type: 'string' },
+                  },
+                },
+                output: {
+                  name: '{{runJavascriptCode.name}}',
+                },
+              },
+              actions: [
+                {
+                  service: 'Code',
+                  action: 'RunTypescript',
+                  name: 'runJavascriptCode',
+                  input: {
+                    id: '{{trigger.body.id}}',
+                  },
+                  code: String(async function (context: CodeRunnerContext<{ id: string }>) {
+                    const { inputData, services } = context
+                    const { database } = services
+                    const { id } = inputData
+                    const user = await database.table('users').read(id)
+                    return { name: user?.getFieldAsString('name') }
+                  }),
+                },
+              ],
+            },
+          ],
+          database: dbConfig,
+        }
+        const app = new App()
+        const url = await app.start(config)
+        await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
+
+        // WHEN
+        const response = await request
+          .post(`${url}/api/automation/read-name`, {
+            data: {
+              id: '1',
+            },
+          })
+          .then((res) => res.json())
+
+        // THEN
+        expect(response.name).toBe('John Doe')
+      })
+
       test('should run a Typescript code with a database list', async ({ request }) => {
         // GIVEN
         const database = new Database(dbConfig)

@@ -15,6 +15,11 @@ export class PersistedRecord extends BaseRecord {
     this.fieldsWithDates = config
   }
 
+  getFieldAsString(key: string): string | null {
+    const value = this.fields[key]
+    return value ? String(value) : null
+  }
+
   get fields(): RecordFields {
     const { created_at, updated_at } = this.fieldsWithDates
     const json = {
