@@ -1,3 +1,10 @@
+## [0.34.16](https://github.com/latechforce/engine/compare/v0.34.15...v0.34.16) (2024-12-13)
+
+
+### Bug Fixes
+
+* **Type:** add DatabaseTableRecordFieldValue export ([7dd7ce3](https://github.com/latechforce/engine/commit/7dd7ce321f7619be0d62b0c7f13e4ee5585064db))
+
 ## [0.34.15](https://github.com/latechforce/engine/compare/v0.34.14...v0.34.15) (2024-12-13)
 
 
