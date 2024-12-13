@@ -1,3 +1,12 @@
+## [0.34.17](https://github.com/latechforce/engine/compare/v0.34.16...v0.34.17) (2024-12-13)
+
+
+### Bug Fixes
+
+* **Lint:** fix lint error ([4176ecb](https://github.com/latechforce/engine/commit/4176ecb019eef7ce2919d8ec5b5a8e5c4e00305e))
+* **RunTypescript:** fix red tests ([5766a56](https://github.com/latechforce/engine/commit/5766a567d02bdea58f4dd39f8b4ab0c3cfed1d1f))
+* **Type:** add DatabaseTableRecordFields export ([73dfde6](https://github.com/latechforce/engine/commit/73dfde67d74fd781b124aa53ed272a4ddfabccb7))
+
 ## [0.34.16](https://github.com/latechforce/engine/compare/v0.34.15...v0.34.16) (2024-12-13)
 
 
