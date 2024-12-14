@@ -1,3 +1,10 @@
+## [0.34.21](https://github.com/latechforce/engine/compare/v0.34.20...v0.34.21) (2024-12-14)
+
+
+### Bug Fixes
+
+* **RunTypescript:** remove useless throw ([a320ede](https://github.com/latechforce/engine/commit/a320edeac7fcd4c860b90cb615ec1779da9b9bb6))
+
 ## [0.34.20](https://github.com/latechforce/engine/compare/v0.34.19...v0.34.20) (2024-12-14)
 
 
