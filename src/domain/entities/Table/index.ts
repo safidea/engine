@@ -93,6 +93,11 @@ export class Table {
     return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
+  read = async (filterConfig: FilterConfig): Promise<PersistedRecord | undefined> => {
+    const filter = FilterMapper.toEntity(filterConfig)
+    return this.db.read(filter)
+  }
+
   readById = async (id: string): Promise<PersistedRecord | undefined> => {
     return this.db.readById(id)
   }

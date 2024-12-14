@@ -20,7 +20,8 @@ export interface CodeRunnerContextServices {
     table: (name: string) => {
       insert: (data: unknown) => Promise<PersistedRecord>
       update: (id: string, data: unknown) => Promise<PersistedRecord>
-      read: (id: string) => Promise<PersistedRecord | undefined>
+      read: (filter: FilterConfig) => Promise<PersistedRecord | undefined>
+      readById: (id: string) => Promise<PersistedRecord | undefined>
       list: (filter?: FilterConfig) => Promise<PersistedRecord[]>
     }
   }
@@ -101,9 +102,14 @@ export class CodeRunner {
                 )
               return record
             },
-            read: async (id: string) => {
-              const record = await table.readById(id)
+            read: async (filter: FilterConfig) => {
+              const record = await table.read(filter)
               if (!record) throw new Error(`CodeRunner: table(${name}).read: Record not found`)
+              return record
+            },
+            readById: async (id: string) => {
+              const record = await table.readById(id)
+              if (!record) throw new Error(`CodeRunner: table(${name}).readById: Record not found`)
               return record
             },
             list: async (filter?: FilterConfig) => {

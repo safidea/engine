@@ -1,4 +1,4 @@
-import { BaseRecord, type BaseRecordFields, type RecordFields } from './base'
+import { BaseRecord, type BaseRecordFields } from './base'
 
 export interface UpdatedRecordFields extends BaseRecordFields {
   updated_at: Date
@@ -16,13 +16,5 @@ export class UpdatedRecord extends BaseRecord {
     }
     super(fields)
     this.fieldsWithDates = fields
-  }
-
-  get fields(): RecordFields {
-    const { updated_at } = this.fieldsWithDates
-    return {
-      ...super.fields,
-      updated_at: updated_at.toISOString(),
-    }
   }
 }

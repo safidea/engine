@@ -1460,6 +1460,35 @@
             ],
             "type": "object"
         },
+        "ICheckboxField": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "const": "Checkbox",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "onMigration": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "replace": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "field",
+                "name"
+            ],
+            "type": "object"
+        },
         "IClickEvent": {
             "additionalProperties": false,
             "properties": {
@@ -1929,6 +1958,9 @@
         },
         "IField": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/ICheckboxField"
+                },
                 {
                     "$ref": "#/definitions/IDateTimeField"
                 },

@@ -1,3 +1,4 @@
+import type { ICheckboxField } from './Checkbox'
 import type { IDateTimeField } from './DateTime'
 import type { IEmailField } from './Email'
 import type { IFormulaField } from './Formula'
@@ -20,3 +21,4 @@ export type IField =
   | ISingleLineTextField
   | ISingleLinkedRecordField
   | ISingleSelectField
+  | ICheckboxField

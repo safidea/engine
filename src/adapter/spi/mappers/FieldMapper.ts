@@ -10,6 +10,7 @@ import { SingleSelectField } from '@domain/entities/Field/SingleSelect'
 import { SingleLinkedRecordField } from '@domain/entities/Field/SingleLinkedRecord'
 import { MultipleLinkedRecordField } from '@domain/entities/Field/MultipleLinkedRecord'
 import { RollupField } from '@domain/entities/Field/Rollup'
+import { CheckboxField } from '@domain/entities/Field/Checkbox'
 
 export class FieldMapper {
   static toDto = (field: Field): FieldDto => {
@@ -75,6 +76,12 @@ export class FieldMapper {
         ...fieldDto,
         type: 'TEXT[]',
         table: field.table,
+      }
+    }
+    if (field instanceof CheckboxField) {
+      return {
+        ...fieldDto,
+        type: 'BOOLEAN',
       }
     }
     throw new Error('Field type not supported')

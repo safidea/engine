@@ -6,10 +6,11 @@ import { FormulaFieldMapper } from './FormulaMapper'
 import { LongTextFieldMapper } from './LongTextMapper'
 import { MultipleLinkedRecordFieldMapper } from './MultipleLinkedRecordMapper'
 import { NumberFieldMapper } from './NumberMapper'
-import { RollupFieldMapper } from './Rollup'
+import { RollupFieldMapper } from './RollupMapper'
 import { SingleLineTextFieldMapper } from './SingleLineTextMapper'
 import { SingleLinkedRecordFieldMapper } from './SingleLinkedRecordMapper'
 import { SingleSelectFieldMapper } from './SingleSelectMapper'
+import { CheckboxFieldMapper } from './CheckboxMapper'
 
 export class FieldMapper {
   static toEntity(config: IField, fields: IField[]): Field {
@@ -24,6 +25,7 @@ export class FieldMapper {
     if (field === 'SingleLinkedRecord') return SingleLinkedRecordFieldMapper.toEntity(config)
     if (field === 'MultipleLinkedRecord') return MultipleLinkedRecordFieldMapper.toEntity(config)
     if (field === 'Rollup') return RollupFieldMapper.toEntity(config, fields)
+    if (field === 'Checkbox') return CheckboxFieldMapper.toEntity(config)
     throw new Error(`FieldMapper: type ${field} not found`)
   }
 

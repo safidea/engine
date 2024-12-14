@@ -342,6 +342,9 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
           if (value instanceof Date) acc[key] = value.getTime()
           else acc[key] = new Date(String(value)).getTime()
         }
+        if (field?.type === 'BOOLEAN') {
+          acc[key] = value ? 1 : 0
+        }
         return acc
       },
       record
@@ -357,6 +360,8 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
         acc[key] = new Date(Number(value))
       } else if (field?.type === 'TEXT[]' && typeof value === 'string') {
         acc[key] = value.split(',')
+      } else if (field?.type === 'BOOLEAN') {
+        acc[key] = value === 1
       }
       return acc
     }, persistedRecord)
