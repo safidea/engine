@@ -1,3 +1,10 @@
+## [0.34.24](https://github.com/latechforce/engine/compare/v0.34.23...v0.34.24) (2024-12-14)
+
+
+### Bug Fixes
+
+* **Database:** fix SQLite error for boolean data process ([842a0f8](https://github.com/latechforce/engine/commit/842a0f8458b90448ef0cd4b48d7fa213bc47b60a))
+
 ## [0.34.23](https://github.com/latechforce/engine/compare/v0.34.22...v0.34.23) (2024-12-14)
 
 ### Bug Fixes
