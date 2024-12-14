@@ -1,3 +1,10 @@
+## [0.34.23](https://github.com/latechforce/engine/compare/v0.34.22...v0.34.23) (2024-12-14)
+
+
+### Bug Fixes
+
+* **RunTypescript:** add green test: should run a Typescript code with a Notion database page archive ([a780e6f](https://github.com/latechforce/engine/commit/a780e6f5dc74da8fbecdb7195842cad5bca87dae))
+
 ## [0.34.22](https://github.com/latechforce/engine/compare/v0.34.21...v0.34.22) (2024-12-14)
 
 
