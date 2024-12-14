@@ -1,3 +1,12 @@
+## [0.34.20](https://github.com/latechforce/engine/compare/v0.34.19...v0.34.20) (2024-12-14)
+
+
+### Bug Fixes
+
+* **Field:** add green test: should create a record with a checkbox field ([d280208](https://github.com/latechforce/engine/commit/d28020850f94b70403245cb88742f6570668e7ae))
+* **RunTypescript:** add green test: should run a Typescript code with a database read with a Date field ([1f11ac7](https://github.com/latechforce/engine/commit/1f11ac79f17f7334ab13ffeefe9669e589e79bcb))
+* **schemas:** add schemas export ([45b0d3c](https://github.com/latechforce/engine/commit/45b0d3c35592407a8b91d21e5c26934c9ddc664a))
+
 ## [0.34.19](https://github.com/latechforce/engine/compare/v0.34.18...v0.34.19) (2024-12-13)
 
 
