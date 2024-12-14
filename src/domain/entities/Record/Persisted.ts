@@ -38,10 +38,4 @@ export class PersistedRecord extends BaseRecord {
     if (!value) return null
     return typeof value === 'boolean' ? value : !!value
   }
-
-  getFieldAsArray(key: string): string[] | null {
-    const value = this.fields[key]
-    if (!value) return null
-    return Array.isArray(value) ? value : [value.toString()]
-  }
 }

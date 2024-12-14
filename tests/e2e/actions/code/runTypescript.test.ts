@@ -1041,7 +1041,9 @@ test.describe('Run TypeScript code action', () => {
         }
         const app = new App()
         const url = await app.start(config)
-        await database.table('users').insert({ id: '1', age: 35, created_at: new Date() })
+        await database
+          .table('users', [{ name: 'age', type: 'NUMERIC' }])
+          .insert({ id: '1', age: 35, created_at: new Date() })
 
         // WHEN
         const response = await request
@@ -1063,14 +1065,14 @@ test.describe('Run TypeScript code action', () => {
         const database = new Database(dbConfig)
         const config: Config = {
           name: 'App',
-          tables: [{ name: 'users', fields: [{ name: 'isAdult', field: 'Checkbox' }] }],
+          tables: [{ name: 'users', fields: [{ name: 'valid', field: 'Checkbox' }] }],
           automations: [
             {
-              name: 'readName',
+              name: 'readValid',
               trigger: {
                 service: 'Http',
                 event: 'ApiCalled',
-                path: 'read-name',
+                path: 'read-valid',
                 input: {
                   type: 'object',
                   properties: {
@@ -1078,7 +1080,9 @@ test.describe('Run TypeScript code action', () => {
                   },
                 },
                 output: {
-                  name: '{{runJavascriptCode.name}}',
+                  valid: {
+                    boolean: '{{runJavascriptCode.valid}}',
+                  },
                 },
               },
               actions: [
@@ -1094,7 +1098,7 @@ test.describe('Run TypeScript code action', () => {
                     const { database } = services
                     const { id } = inputData
                     const user = await database.table('users').readById(id)
-                    return { name: user?.getFieldAsString('name') }
+                    return { valid: user?.getFieldAsBoolean('valid') }
                   }),
                 },
               ],
@@ -1104,11 +1108,13 @@ test.describe('Run TypeScript code action', () => {
         }
         const app = new App()
         const url = await app.start(config)
-        await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
+        await database
+          .table('users', [{ name: 'valid', type: 'BOOLEAN' }])
+          .insert({ id: '1', valid: true, created_at: new Date() })
 
         // WHEN
         const response = await request
-          .post(`${url}/api/automation/read-name`, {
+          .post(`${url}/api/automation/read-valid`, {
             data: {
               id: '1',
             },
@@ -1116,7 +1122,7 @@ test.describe('Run TypeScript code action', () => {
           .then((res) => res.json())
 
         // THEN
-        expect(response.name).toBe('John Doe')
+        expect(response.valid).toBeTruthy()
       })
 
       test('should run a Typescript code with a database read with a Date field', async ({
@@ -1126,14 +1132,14 @@ test.describe('Run TypeScript code action', () => {
         const database = new Database(dbConfig)
         const config: Config = {
           name: 'App',
-          tables: [{ name: 'users', fields: [{ name: 'name', field: 'SingleLineText' }] }],
+          tables: [{ name: 'users', fields: [{ name: 'birthdate', field: 'DateTime' }] }],
           automations: [
             {
-              name: 'readName',
+              name: 'readBirthdate',
               trigger: {
                 service: 'Http',
                 event: 'ApiCalled',
-                path: 'read-name',
+                path: 'read-birthdate',
                 input: {
                   type: 'object',
                   properties: {
@@ -1141,7 +1147,7 @@ test.describe('Run TypeScript code action', () => {
                   },
                 },
                 output: {
-                  name: '{{runJavascriptCode.name}}',
+                  birthdate: '{{runJavascriptCode.birthdate}}',
                 },
               },
               actions: [
@@ -1157,7 +1163,7 @@ test.describe('Run TypeScript code action', () => {
                     const { database } = services
                     const { id } = inputData
                     const user = await database.table('users').readById(id)
-                    return { name: user?.getFieldAsString('name') }
+                    return { birthdate: user?.getFieldAsDate('birthdate')?.toISOString() }
                   }),
                 },
               ],
@@ -1167,11 +1173,14 @@ test.describe('Run TypeScript code action', () => {
         }
         const app = new App()
         const url = await app.start(config)
-        await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
+        const birthdate = new Date()
+        await database
+          .table('users', [{ name: 'birthdate', type: 'TIMESTAMP' }])
+          .insert({ id: '1', birthdate, created_at: new Date() })
 
         // WHEN
         const response = await request
-          .post(`${url}/api/automation/read-name`, {
+          .post(`${url}/api/automation/read-birthdate`, {
             data: {
               id: '1',
             },
@@ -1179,70 +1188,7 @@ test.describe('Run TypeScript code action', () => {
           .then((res) => res.json())
 
         // THEN
-        expect(response.name).toBe('John Doe')
-      })
-
-      test('should run a Typescript code with a database read with a Array field', async ({
-        request,
-      }) => {
-        // GIVEN
-        const database = new Database(dbConfig)
-        const config: Config = {
-          name: 'App',
-          tables: [{ name: 'users', fields: [{ name: 'name', field: 'SingleLineText' }] }],
-          automations: [
-            {
-              name: 'readName',
-              trigger: {
-                service: 'Http',
-                event: 'ApiCalled',
-                path: 'read-name',
-                input: {
-                  type: 'object',
-                  properties: {
-                    id: { type: 'string' },
-                  },
-                },
-                output: {
-                  name: '{{runJavascriptCode.name}}',
-                },
-              },
-              actions: [
-                {
-                  service: 'Code',
-                  action: 'RunTypescript',
-                  name: 'runJavascriptCode',
-                  input: {
-                    id: '{{trigger.body.id}}',
-                  },
-                  code: String(async function (context: CodeRunnerContext<{ id: string }>) {
-                    const { inputData, services } = context
-                    const { database } = services
-                    const { id } = inputData
-                    const user = await database.table('users').readById(id)
-                    return { name: user?.getFieldAsString('name') }
-                  }),
-                },
-              ],
-            },
-          ],
-          database: dbConfig,
-        }
-        const app = new App()
-        const url = await app.start(config)
-        await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
-
-        // WHEN
-        const response = await request
-          .post(`${url}/api/automation/read-name`, {
-            data: {
-              id: '1',
-            },
-          })
-          .then((res) => res.json())
-
-        // THEN
-        expect(response.name).toBe('John Doe')
+        expect(response.birthdate).toBe(birthdate.toISOString())
       })
 
       test('should run a Typescript code with a database list', async ({ request }) => {
