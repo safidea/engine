@@ -103,14 +103,10 @@ export class CodeRunner {
               return record
             },
             read: async (filter: FilterConfig) => {
-              const record = await table.read(filter)
-              if (!record) throw new Error(`CodeRunner: table(${name}).read: Record not found`)
-              return record
+              return table.read(filter)
             },
             readById: async (id: string) => {
-              const record = await table.readById(id)
-              if (!record) throw new Error(`CodeRunner: table(${name}).readById: Record not found`)
-              return record
+              return table.readById(id)
             },
             list: async (filter?: FilterConfig) => {
               const { records, error } = await table.list(filter)
