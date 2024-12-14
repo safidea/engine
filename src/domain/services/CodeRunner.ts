@@ -34,6 +34,7 @@ export interface CodeRunnerContextIntegrations {
       update: (id: string, data: NotionTablePageProperties) => Promise<NotionTablePage>
       retrieve: (id: string) => Promise<NotionTablePage | undefined>
       list: (filter?: FilterConfig) => Promise<NotionTablePage[]>
+      archive: (id: string) => Promise<void>
     }>
   }
 }
@@ -144,6 +145,9 @@ export class CodeRunner {
             list: async (filterConfig?: FilterConfig) => {
               const filter = filterConfig ? FilterMapper.toEntity(filterConfig) : undefined
               return table.list(filter)
+            },
+            archive: async (id: string) => {
+              return table.archive(id)
             },
           }
         },

@@ -1597,6 +1597,80 @@ test.describe('Run TypeScript code action', () => {
       expect(response.user.properties.name).toBe('John Doe')
     })
 
+    test('should run a Typescript code with a Notion database page archive', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'readUser',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'read-user',
+              input: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                },
+              },
+              output: {
+                user: {
+                  json: '{{runJavascriptCode.user}}',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                input: {
+                  id: '{{trigger.body.id}}',
+                },
+                env: {
+                  TEST_NOTION_TABLE_1_ID,
+                },
+                code: String(async function (context: CodeRunnerContext<{ id: string }>) {
+                  const { inputData, integrations, env } = context
+                  const { notion } = integrations
+                  const { id } = inputData
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+                  await table.archive(id)
+                  const user = await table.retrieve(id)
+                  return { user }
+                }),
+              },
+            ],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: TEST_NOTION_TOKEN,
+            pollingInterval: 10,
+          },
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+      const { id } = await table.create({ name: 'John Doe' })
+
+      // WHEN
+      const response = await request
+        .post(`${url}/api/automation/read-user`, {
+          data: {
+            id,
+          },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      expect(response.user.archived).toBeTruthy()
+    })
+
     test('should run a Typescript code with a Notion database page list', async ({ request }) => {
       // GIVEN
       const config: Config = {
