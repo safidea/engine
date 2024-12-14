@@ -1,3 +1,11 @@
+## [0.34.22](https://github.com/latechforce/engine/compare/v0.34.21...v0.34.22) (2024-12-14)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should retrieve an archived page in a table ([a8c0750](https://github.com/latechforce/engine/commit/a8c0750279eeadfe985b1986d0217af9314b832c))
+* **Schemas:** add schema ([e4548e6](https://github.com/latechforce/engine/commit/e4548e658eb60b6df9df1c96d8dbdfc66c55ab34))
+
 ## [0.34.21](https://github.com/latechforce/engine/compare/v0.34.20...v0.34.21) (2024-12-14)
 
 
