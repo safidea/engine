@@ -337,7 +337,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
       ) => {
         const value = record[key]
         const field = this._fields.find((f) => f.name === key)
-        if (!value) return acc
+        if (value === undefined || value === null) return acc
         if (field?.type === 'TIMESTAMP') {
           if (value instanceof Date) acc[key] = value.getTime()
           else acc[key] = new Date(String(value)).getTime()
@@ -355,7 +355,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     return Object.keys(persistedRecord).reduce((acc: PersistedRecordDto, key) => {
       const value = persistedRecord[key]
       const field = this._fields.find((f) => f.name === key)
-      if (!value) return acc
+      if (value === undefined || value === null) return acc
       if (field?.type === 'TIMESTAMP') {
         acc[key] = new Date(Number(value))
       } else if (field?.type === 'TEXT[]' && typeof value === 'string') {

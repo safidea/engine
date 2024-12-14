@@ -8,6 +8,7 @@
 - [x] Default view for empty table component
 
 ### System
+
 - [ ] Add a login page
 - [ ] Add a application page
 - [ ] Add a dashboard for Automation history
@@ -24,7 +25,6 @@
 - [ ] Add theming customization
 - [ ] Add language detection
 - [ ] Implement Preline library
-
 
 ### Ressources
 
