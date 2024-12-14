@@ -7,7 +7,8 @@ export class NotionTablePageMapper {
       tablePageDto.id,
       tablePageDto.properties,
       tablePageDto.created_time,
-      tablePageDto.last_edited_time
+      tablePageDto.last_edited_time,
+      tablePageDto.archived
     )
   }
 

@@ -192,6 +192,20 @@ test.describe('Notion integration', () => {
     expect(page.last_edited_time).toBeDefined()
   })
 
+  test('should retrieve an archived page in a table', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const name = nanoid()
+    const { id } = await table.create({ name })
+    await table.archive(id)
+
+    // WHEN
+    const page = await table.retrieve(id)
+
+    // THEN
+    expect(page.archived).toBeTruthy()
+  })
+
   test('should update a page in a table with a title property', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)

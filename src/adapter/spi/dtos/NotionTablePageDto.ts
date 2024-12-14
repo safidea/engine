@@ -5,4 +5,5 @@ export interface NotionTablePageDto {
   properties: NotionTablePageProperties
   created_time: string
   last_edited_time: string
+  archived: boolean
 }
