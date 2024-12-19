@@ -104,6 +104,18 @@ test.describe('Notion integration', () => {
     expect(page.properties.select).toBe(select)
   })
 
+  test('should create a page in a table with a status property', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const status = 'En cours'
+
+    // WHEN
+    const page = await table.create({ status })
+
+    // THEN
+    expect(page.properties.status).toBe(status)
+  })
+
   test('should create a page in a table with a multi_select property', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
@@ -272,6 +284,19 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(page.properties.select).toBe(select)
+  })
+
+  test('should update a page in a table with a status property', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const { id } = await table.create({ status: 'En cours' })
+    const status = 'Terminé'
+
+    // WHEN
+    const page = await table.update(id, { status })
+
+    // THEN
+    expect(page.properties.status).toBe(status)
   })
 
   test('should update a page in a table with a multi_select property', async () => {

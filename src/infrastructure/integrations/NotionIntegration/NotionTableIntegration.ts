@@ -239,6 +239,10 @@ export class NotionTableIntegration implements INotionTableIntegration {
                 .filter((relation) => !!relation)
                 .map((id) => ({ id })),
             }
+          case 'status':
+            return {
+              status: property.status.options.find((option) => option.name === value) || null,
+            }
           default:
             throw new Error(`Property type "${type}" is not supported`)
         }
