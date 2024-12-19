@@ -1,3 +1,10 @@
+## [0.34.28](https://github.com/latechforce/engine/compare/v0.34.27...v0.34.28) (2024-12-19)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should update a page in a table with a date property and a null value ([9258633](https://github.com/latechforce/engine/commit/925863336dd9a25620bd53b4104689af29aeaec2))
+
 ## [0.34.27](https://github.com/latechforce/engine/compare/v0.34.26...v0.34.27) (2024-12-19)
 
 
