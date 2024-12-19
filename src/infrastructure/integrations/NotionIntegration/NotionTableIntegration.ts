@@ -212,10 +212,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
               }
             }
             return {
-              date: {
-                start: value,
-                end: null,
-              },
+              date: null,
             }
           case 'checkbox':
             return {

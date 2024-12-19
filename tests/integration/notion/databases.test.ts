@@ -165,6 +165,18 @@ test.describe('Notion databases integration', () => {
     expect(page.properties.date?.toString()).toBe(date.toString())
   })
 
+  test('should create a page in a table with a date property and a null value', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const date = null
+
+    // WHEN
+    const page = await table.create({ date })
+
+    // THEN
+    expect(page.properties.date).toBeNull()
+  })
+
   test('should create a page in a table with a people property', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
@@ -352,6 +364,19 @@ test.describe('Notion databases integration', () => {
 
     // THEN
     expect(page.properties.date?.toString()).toBe(date.toString())
+  })
+
+  test('should update a page in a table with a date property and a null value', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const { id } = await table.create({ date: new Date(2000) })
+    const date = null
+
+    // WHEN
+    const page = await table.update(id, { date })
+
+    // THEN
+    expect(page.properties.date).toBeNull()
   })
 
   test('should update a page in a table with a people property', async () => {
