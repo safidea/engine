@@ -34,6 +34,12 @@ export class NotionIntegration implements INotionIntegration {
     )
   }
 
+  listAllUsers = async () => {
+    const api = this._api()
+    const users = await this._retry(() => api.users.list({}))
+    return users.results.filter((user) => user.type === 'person')
+  }
+
   private _api = (): Client => {
     if (!this._notion) {
       const { token } = this.getConfig()

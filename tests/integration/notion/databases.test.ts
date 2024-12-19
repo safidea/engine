@@ -5,7 +5,7 @@ import { parse } from 'date-fns'
 
 const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TABLE_2_ID } = env
 
-test.describe('Notion integration', () => {
+test.describe('Notion databases integration', () => {
   test('should create a page in a table', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
@@ -163,6 +163,18 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(page.properties.date?.toString()).toBe(date.toString())
+  })
+
+  test('should create a page in a table with a people property', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const [{ id }] = await integration.listAllUsers()
+
+    // WHEN
+    const page = await table.create({ people: [id] })
+
+    // THEN
+    expect(page.properties.people).toStrictEqual([id])
   })
 
   test('should retrieve a page in a table', async () => {
@@ -323,6 +335,19 @@ test.describe('Notion integration', () => {
 
     // THEN
     expect(page.properties.date?.toString()).toBe(date.toString())
+  })
+
+  test('should update a page in a table with a people property', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const [{ id: peopleId }] = await integration.listAllUsers()
+    const { id } = await table.create({ people: [] })
+
+    // WHEN
+    const page = await table.update(id, { people: [peopleId] })
+
+    // THEN
+    expect(page.properties.people).toStrictEqual([peopleId])
   })
 
   test('should create many pages in a table with a title property', async () => {
