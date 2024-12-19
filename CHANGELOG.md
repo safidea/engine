@@ -1,3 +1,10 @@
+## [0.34.25](https://github.com/latechforce/engine/compare/v0.34.24...v0.34.25) (2024-12-19)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should update a page in a table with a status property ([351c167](https://github.com/latechforce/engine/commit/351c16761047ad5e5dc37b51f5b3e9a826db01d7))
+
 ## [0.34.24](https://github.com/latechforce/engine/compare/v0.34.23...v0.34.24) (2024-12-14)
 
 
