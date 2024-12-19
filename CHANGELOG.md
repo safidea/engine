@@ -1,3 +1,10 @@
+## [0.34.26](https://github.com/latechforce/engine/compare/v0.34.25...v0.34.26) (2024-12-19)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should update a page in a table with a people property ([db45f71](https://github.com/latechforce/engine/commit/db45f7129b2cc36a29f0bba7beb509266768be8c))
+
 ## [0.34.25](https://github.com/latechforce/engine/compare/v0.34.24...v0.34.25) (2024-12-19)
 
 
