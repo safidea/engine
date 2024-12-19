@@ -1,3 +1,10 @@
+## [0.34.27](https://github.com/latechforce/engine/compare/v0.34.26...v0.34.27) (2024-12-19)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should update a page in a table with a files property ([257f90c](https://github.com/latechforce/engine/commit/257f90c8f8c5cae0eb7f8e92f50de7c06aa64939))
+
 ## [0.34.26](https://github.com/latechforce/engine/compare/v0.34.25...v0.34.26) (2024-12-19)
 
 
