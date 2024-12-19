@@ -177,6 +177,23 @@ test.describe('Notion databases integration', () => {
     expect(page.properties.people).toStrictEqual([id])
   })
 
+  test('should create a page in a table with a files property', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const files = [
+      {
+        name: 'John Doe',
+        url: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb',
+      },
+    ]
+
+    // WHEN
+    const page = await table.create({ files })
+
+    // THEN
+    expect(page.properties.files).toStrictEqual(files)
+  })
+
   test('should retrieve a page in a table', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
@@ -348,6 +365,24 @@ test.describe('Notion databases integration', () => {
 
     // THEN
     expect(page.properties.people).toStrictEqual([peopleId])
+  })
+
+  test('should update a page in a table with a files property', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const files = [
+      {
+        name: 'John Doe',
+        url: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb',
+      },
+    ]
+    const { id } = await table.create({ files: [] })
+
+    // WHEN
+    const page = await table.update(id, { files })
+
+    // THEN
+    expect(page.properties.files).toStrictEqual(files)
   })
 
   test('should create many pages in a table with a title property', async () => {
