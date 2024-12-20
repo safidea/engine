@@ -4172,6 +4172,9 @@
         "ServerConfig": {
             "additionalProperties": false,
             "properties": {
+                "baseUrl": {
+                    "type": "string"
+                },
                 "env": {
                     "type": "string"
                 },
@@ -4186,7 +4189,10 @@
                     "type": "array"
                 },
                 "port": {
-                    "type": "string"
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 },
                 "sslCert": {
                     "type": "string"

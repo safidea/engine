@@ -21,7 +21,8 @@ export class ExpressDriver implements IServerDriver {
   private _server?: HttpServer
 
   constructor(private _config: ServerConfig) {
-    const { env } = _config
+    const { env, baseUrl } = _config
+    if (baseUrl) this.baseUrl = baseUrl
     this._express = express()
     if (env === 'production') this._express.use(helmet())
     this._express.use(cors())
@@ -115,7 +116,7 @@ export class ExpressDriver implements IServerDriver {
         server.on('error', (err) => reject(err))
       })
       this._server = server
-      this.baseUrl = `http://localhost:${port}`
+      if (!this.baseUrl) this.baseUrl = `http://localhost:${port}`
       return this.baseUrl
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {

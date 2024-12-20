@@ -9,7 +9,8 @@ import type { Request } from '@domain/entities/Request'
 import type { Monitor, MonitorDrivers } from './Monitor'
 
 export interface ServerConfig {
-  port?: string
+  port?: string | number
+  baseUrl?: string
   sslCert?: string
   sslKey?: string
   env?: string
