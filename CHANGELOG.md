@@ -1,3 +1,11 @@
+## [0.34.31](https://github.com/latechforce/engine/compare/v0.34.30...v0.34.31) (2024-12-20)
+
+
+### Bug Fixes
+
+* **schemas:** add schemas export ([66f5240](https://github.com/latechforce/engine/commit/66f5240c697ed42d9a198be415dff328445092c4))
+* **scripts:** remove ngrok from build ([03a9f9d](https://github.com/latechforce/engine/commit/03a9f9d64cd46939573abd39067b4e4321a07ab9))
+
 ## [0.34.30](https://github.com/latechforce/engine/compare/v0.34.29...v0.34.30) (2024-12-20)
 
 
