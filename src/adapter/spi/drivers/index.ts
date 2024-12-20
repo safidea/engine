@@ -19,6 +19,7 @@ import { type IStorageDriver } from './StorageSpi'
 import { type ISpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
 import { type IDocumentLoaderDriver } from './DocumentLoaderSpi'
 import { type IMonitorDriver } from './MonitorSpi'
+import { type ITunnelDriver } from './TunnelSpi'
 
 import { type ServerConfig } from '@domain/services/Server'
 import { type DatabaseConfig } from '@domain/services/Database'
@@ -30,8 +31,10 @@ import { type StorageConfig } from '@domain/services/Storage'
 import { type MonitorsConfig } from '@domain/services/Monitor'
 import { type LoggersConfig } from '@domain/services/Logger'
 import { type CodeCompilerConfig } from '@domain/services/CodeCompiler'
+import { type TunnelConfig } from '@domain/services/Tunnel'
 
 export interface Drivers {
+  tunnel: (config?: TunnelConfig) => ITunnelDriver
   server: (config: ServerConfig) => IServerDriver
   database: (config: DatabaseConfig) => IDatabaseDriver
   queue: (config: QueueConfig) => IQueueDriver
@@ -42,12 +45,12 @@ export interface Drivers {
   theme: (config: ThemeConfig) => IThemeDriver
   monitor: (config: MonitorsConfig) => IMonitorDriver
   logger: (config: LoggersConfig) => ILoggerDriver
+  codeCompiler: (config: CodeCompilerConfig) => ICodeCompilerDriver
   idGenerator: () => IIdGeneratorDriver
   schemaValidator: () => ISchemaValidatorDriver
   browser: () => IBrowserDriver
   client: () => IClientDriver
   templateCompiler: () => ITemplateCompilerDriver
-  codeCompiler: (config: CodeCompilerConfig) => ICodeCompilerDriver
   iconLibrary: () => IIconLibraryDriver
   fontLibrary: () => IFontLibraryDriver
   fileSystem: () => IFileSystemDriver

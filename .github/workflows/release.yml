@@ -28,6 +28,7 @@ jobs:
       TEST_QONTO_ORGANISATION_SLUG: ${{ secrets.TEST_QONTO_ORGANISATION_SLUG }}
       TEST_QONTO_SECRET_KEY: ${{ secrets.TEST_QONTO_SECRET_KEY }}
       TEST_QONTO_STAGING_TOKEN: ${{ secrets.TEST_QONTO_STAGING_TOKEN }}
+      TEST_NGROK_AUTH_TOKEN: ${{ secrets.TEST_NGROK_AUTH_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4

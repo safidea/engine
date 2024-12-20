@@ -5,6 +5,7 @@ import type { LoggersConfig } from '@domain/services/Logger'
 import type { ThemeConfig } from '@domain/services/Theme'
 import type { MonitorsConfig } from '@domain/services/Monitor'
 import type { ServerConfig } from '@domain/services/Server'
+import type { TunnelConfig } from '@domain/services/Tunnel'
 
 export type {
   DatabaseConfig,
@@ -14,6 +15,7 @@ export type {
   ThemeConfig,
   MonitorsConfig,
   ServerConfig,
+  TunnelConfig,
 }
 
 export type IServices = {
@@ -24,4 +26,5 @@ export type IServices = {
   theme?: ThemeConfig
   monitors?: MonitorsConfig
   loggers?: LoggersConfig
+  tunnel?: TunnelConfig
 }

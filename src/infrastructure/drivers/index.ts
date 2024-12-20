@@ -9,6 +9,7 @@ import type { StorageConfig } from '@domain/services/Storage'
 import type { MonitorsConfig } from '@domain/services/Monitor'
 import type { LoggersConfig } from '@domain/services/Logger'
 import type { CodeCompilerConfig } from '@domain/services/CodeCompiler'
+import type { TunnelConfig } from '@domain/services/Tunnel'
 
 import { MonitorDriver } from './MonitorDriver'
 import { StorageDriver } from './StorageDriver'
@@ -31,8 +32,10 @@ import { CodeCompilerDriver } from './CodeCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
 import { SpreadsheetLoaderDriver } from './SpreadsheetLoaderDriver'
 import { DocumentLoaderDriver } from './DocumentLoaderDriver'
+import { TunnelDriver } from './TunnelDriver'
 
 export const drivers: Drivers = {
+  tunnel: (config?: TunnelConfig) => new TunnelDriver(config),
   server: (config: ServerConfig) => new ServerDriver(config),
   database: (config: DatabaseConfig) => new DatabaseDriver(config),
   queue: (config: QueueConfig) => new QueueDriver(config),

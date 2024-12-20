@@ -16,13 +16,11 @@ import { StreamResponse } from '@domain/entities/Response/Stream'
 const dirname = new URL('.', import.meta.url).pathname
 
 export class ExpressDriver implements IServerDriver {
-  public baseUrl?: string
   private _express: Express
   private _server?: HttpServer
 
   constructor(private _config: ServerConfig) {
-    const { env, baseUrl } = _config
-    if (baseUrl) this.baseUrl = baseUrl
+    const { env } = _config
     this._express = express()
     if (env === 'production') this._express.use(helmet())
     this._express.use(cors())
@@ -105,7 +103,7 @@ export class ExpressDriver implements IServerDriver {
     if (this._config.monitors?.includes('Sentry')) Sentry.setupExpressErrorHandler(this._express)
   }
 
-  start = async (retry = 0, basePort?: number): Promise<string> => {
+  start = async (retry = 0, basePort?: number): Promise<number> => {
     if (!basePort) basePort = await this._getPort()
     try {
       const port = basePort + retry
@@ -116,8 +114,7 @@ export class ExpressDriver implements IServerDriver {
         server.on('error', (err) => reject(err))
       })
       this._server = server
-      if (!this.baseUrl) this.baseUrl = `http://localhost:${port}`
-      return this.baseUrl
+      return port
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         await new Promise((resolve) => setTimeout(resolve, 1000))

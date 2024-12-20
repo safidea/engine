@@ -21,7 +21,7 @@ test.describe('Ngrok integration', () => {
       typeof address === 'string' ? parseInt(address.split(':').pop() || '', 10) : address.port
 
     // WHEN
-    const url = await integration.getUrl(port)
+    const url = await integration.start(port)
 
     // THEN
     const response = await fetch(url).then((res) => res.text())

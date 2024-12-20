@@ -11,10 +11,6 @@ export class ServerDriver implements IServerDriver {
     this._server = new ExpressDriver(config)
   }
 
-  get baseUrl() {
-    return this._server.baseUrl
-  }
-
   get = async (path: string, handler: (getDto: GetDto) => Promise<Response>) => {
     await this._server.get(path, handler)
   }
@@ -39,7 +35,7 @@ export class ServerDriver implements IServerDriver {
     await this._server.afterAllRoutes()
   }
 
-  start = async (retry = 0): Promise<string> => {
+  start = async (retry = 0): Promise<number> => {
     return this._server.start(retry)
   }
 

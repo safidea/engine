@@ -1,7 +1,6 @@
 import { drivers } from '@infrastructure/drivers'
 import { integrations } from '@infrastructure/integrations'
 import App from '@adapter/api'
-import type { Drivers as AllDrivers } from '@adapter/spi/drivers'
 
 export type { Config } from '@adapter/api/configs'
 export type { ITable as Table } from '@adapter/api/configs/Table'
@@ -24,6 +23,7 @@ export type {
   ThemeConfig as Theme,
   MonitorsConfig as Monitors,
   ServerConfig as Server,
+  TunnelConfig as Tunnel,
 } from '@adapter/api/configs/Services'
 export type { CodeRunnerContext } from '@domain/services/CodeRunner'
 export type {
@@ -37,10 +37,8 @@ export type {
   RecordFieldValue as DatabaseTableRecordFieldValue,
 } from '@domain/entities/Record/base'
 
-export type Drivers = Partial<AllDrivers>
-
 export default class extends App {
-  constructor(options: Drivers = {}) {
-    super({ ...drivers, ...options }, integrations)
+  constructor() {
+    super(drivers, integrations)
   }
 }

@@ -9,8 +9,7 @@ import type { DeleteRequest } from '@domain/entities/Request/Delete'
 import type { Request } from '@domain/entities/Request'
 
 export interface IServerDriver {
-  baseUrl?: string
-  start(): Promise<string>
+  start(): Promise<number>
   stop(): Promise<void>
   get(path: string, handler: (request: GetDto) => Promise<Response>): Promise<void>
   post(path: string, handler: (request: PostDto) => Promise<Response>): Promise<void>
@@ -22,10 +21,6 @@ export interface IServerDriver {
 
 export class ServerSpi implements IServerSpi {
   constructor(private _driver: IServerDriver) {}
-
-  get baseUrl() {
-    return this._driver.baseUrl
-  }
 
   get = async (path: string, handler: (request: GetRequest) => Promise<Response>) => {
     await this._driver.get(path, async (getDto) => {

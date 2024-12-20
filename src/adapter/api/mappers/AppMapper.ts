@@ -31,13 +31,15 @@ import { NotionMapper } from './Integration/NotionMapper'
 import type { Integrations } from '@adapter/spi/integrations'
 import { PappersMapper } from './Integration/PappersMapper'
 import { QontoMapper } from './Integration/QontoMapper'
+import { TunnelMapper } from './Services/TunnelMapper'
 
 export class AppMapper {
   static toEntity = (drivers: Drivers, integrations: Integrations, config: Config) => {
     const { name } = config
     const monitor = MonitorMapper.toService(drivers, config.monitors)
     const logger = LoggerMapper.toService(drivers, config.loggers)
-    const server = ServerMapper.toService(drivers, config.server, { logger, monitor })
+    const tunnel = TunnelMapper.toService(drivers, config.tunnel)
+    const server = ServerMapper.toService(drivers, config.server, { logger, monitor, tunnel })
     const idGenerator = IdGeneratorMapper.toService(drivers)
     const fileSystem = FileSystemMapper.toService(drivers)
     const client = ClientMapper.toService(drivers)
