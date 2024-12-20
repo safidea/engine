@@ -23,6 +23,7 @@ const {
   TEST_QONTO_ORGANISATION_SLUG,
   TEST_QONTO_SECRET_KEY,
   TEST_QONTO_STAGING_TOKEN,
+  TEST_NGROK_AUTH_TOKEN,
 } = process.env
 
 if (!TEST_NOTION_TOKEN) throw new Error('TEST_NOTION_TOKEN env var is not defined')
@@ -35,6 +36,7 @@ if (!TEST_QONTO_ORGANISATION_SLUG)
   throw new Error('TEST_QONTO_ORGANISATION_SLUG env var is not defined')
 if (!TEST_QONTO_SECRET_KEY) throw new Error('TEST_QONTO_SECRET_KEY env var is not defined')
 if (!TEST_QONTO_STAGING_TOKEN) throw new Error('TEST_QONTO_STAGING_TOKEN env var is not defined')
+if (!TEST_NGROK_AUTH_TOKEN) throw new Error('TEST_NGROK_AUTH_TOKEN env var is not defined')
 
 export const env = {
   TEST_NOTION_TOKEN,
@@ -45,6 +47,7 @@ export const env = {
   TEST_QONTO_ORGANISATION_SLUG,
   TEST_QONTO_SECRET_KEY,
   TEST_QONTO_STAGING_TOKEN,
+  TEST_NGROK_AUTH_TOKEN,
 }
 
 export const test: Test = base.extend({

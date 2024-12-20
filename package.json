@@ -56,6 +56,7 @@
     "@heroicons/react": "^2.2.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.12",
+    "@ngrok/ngrok": "^1.4.1",
     "@notionhq/client": "^2.2.15",
     "@sentry/node": "^8.47.0",
     "@sentry/profiling-node": "^8.47.0",
