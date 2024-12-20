@@ -45,6 +45,7 @@ const externals: string[] = [
   'axios',
   '@notionhq/client',
   'lodash',
+  '@ngrok/ngrok',
 ]
 
 const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']
