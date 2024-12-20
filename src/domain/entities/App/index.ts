@@ -103,6 +103,7 @@ export class App {
         const htmlContents = await Promise.all(pages.map(getHtmlContent))
         await theme.init(htmlContents)
       }
+      await this._integrations.notion.init()
       for (const table of tables) await table.init()
       for (const automation of automations) await automation.init()
       for (const page of pages) await page.init()
@@ -126,7 +127,7 @@ export class App {
       throw new Error(`App is not ready, current status is ${this.status}`)
     this.setStatus('starting')
     const { server, database, queue, storage, mailer, realtime, logger, monitor } = this._services
-    const { tables, buckets } = this._entities
+    const { tables } = this._entities
     const { notion } = this._integrations
     await database.connect()
     await database.migrate(tables)
@@ -137,7 +138,7 @@ export class App {
     })
     await queue.start()
     await storage.connect()
-    await storage.migrate(buckets)
+    await storage.migrate()
     await mailer.verify()
     await realtime.setup()
     await notion.startPolling()

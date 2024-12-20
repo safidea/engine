@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 import { join } from 'path'
 import { integration as notion } from '@tests/integrations/notion'
 
-const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TOKEN } = env
+const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TOKEN, TEST_NOTION_TABLE_FILES_ID } = env
 
 test.describe('Run TypeScript code action', () => {
   test('should run a TypeScript code', async ({ request }) => {
@@ -1522,6 +1522,88 @@ test.describe('Run TypeScript code action', () => {
       const user = await table.retrieve(response.user.id)
       expect(response.user.properties.name).toBe('John Doe')
       expect(user.properties.name).toBe('John Doe')
+    })
+
+    test('should run a Typescript code with a Notion database page update and a notion uploaded file', async ({
+      request,
+    }) => {
+      // GIVEN
+      const config: Config = {
+        name: 'App',
+        automations: [
+          {
+            name: 'updateFile',
+            trigger: {
+              service: 'Http',
+              event: 'ApiCalled',
+              path: 'update-file',
+              input: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                },
+              },
+              output: {
+                file: {
+                  json: '{{runJavascriptCode.file}}',
+                },
+              },
+            },
+            actions: [
+              {
+                service: 'Code',
+                action: 'RunTypescript',
+                name: 'runJavascriptCode',
+                input: {
+                  id: '{{trigger.body.id}}',
+                  name: '{{trigger.body.name}}',
+                },
+                env: {
+                  TEST_NOTION_TABLE_1_ID,
+                  TEST_NOTION_TABLE_FILES_ID,
+                },
+                code: String(async function (
+                  context: CodeRunnerContext<{ id: string; name: string }>
+                ) {
+                  const { inputData, integrations, env } = context
+                  const { id } = inputData
+                  const { notion } = integrations
+                  const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+                  const tableFiles = await notion.getTable(env.TEST_NOTION_TABLE_FILES_ID)
+                  const [pageFile] = await tableFiles.list()
+                  const files = pageFile.properties.files
+                  const file = await table.update(id, { files })
+                  return { file }
+                }),
+              },
+            ],
+          },
+        ],
+        integrations: {
+          notion: {
+            token: TEST_NOTION_TOKEN,
+            pollingInterval: 10,
+          },
+        },
+      }
+      const app = new App()
+      const url = await app.start(config)
+      const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+      const { id } = await table.create({ files: [] })
+
+      // WHEN
+      const response = await request
+        .post(`${url}/api/automation/update-file`, {
+          data: {
+            id,
+          },
+        })
+        .then((res) => res.json())
+
+      // THEN
+      const file = await table.retrieve(response.file.id)
+      expect(response.file.properties.files).toHaveLength(1)
+      expect(file.properties.files).toHaveLength(1)
     })
 
     test('should run a Typescript code with a Notion database page retrieve', async ({

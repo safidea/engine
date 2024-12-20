@@ -14,15 +14,7 @@ export interface BucketMapperServices {
 
 export class BucketMapper {
   static toEntity = (config: IBucket, services: BucketMapperServices) => {
-    const { name } = config
-    const { server, storage, idGenerator, templateCompiler } = services
-    return new Bucket({
-      name,
-      server,
-      storage,
-      idGenerator,
-      templateCompiler,
-    })
+    return new Bucket(config, services)
   }
 
   static toManyEntities = (configs: IBucket[] = [], services: BucketMapperServices) => {

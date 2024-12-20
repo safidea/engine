@@ -250,11 +250,12 @@ export class NotionTableIntegration implements INotionTableIntegration {
             return {
               files: (Array.isArray(value) ? value : [])
                 .map((file) => {
-                  if (file && typeof file === 'object' && 'url' in file && 'name' in file)
+                  if (file && typeof file === 'object' && 'url' in file && 'name' in file) {
                     return {
                       name: file.name,
                       external: { url: file.url },
                     }
+                  }
                   return null
                 })
                 .filter((file) => !!file),

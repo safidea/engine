@@ -1,3 +1,3 @@
-export interface IBucket {
-  name: string
-}
+import type { BucketConfig } from '@domain/entities/Bucket'
+
+export type IBucket = BucketConfig

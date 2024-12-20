@@ -19,7 +19,7 @@ export interface IStorageBucketSpi {
 }
 
 export class StorageBucket {
-  private readonly _name: string
+  readonly name: string
   private _bucket: IStorageBucketSpi
 
   constructor(
@@ -29,7 +29,7 @@ export class StorageBucket {
   ) {
     const { name } = config
     this._bucket = spi.bucket(name)
-    this._name = name
+    this.name = name
   }
 
   exists = async () => {
@@ -37,25 +37,25 @@ export class StorageBucket {
   }
 
   create = async () => {
-    this._services.logger.debug(`creating ${this._name}...`)
+    this._services.logger.debug(`creating ${this.name}...`)
     await this._bucket.create()
   }
 
   save = async (createdFile: CreatedFile) => {
-    this._services.logger.debug(`saving in bucket "${this._name}"`, createdFile.toJson())
+    this._services.logger.debug(`saving in bucket "${this.name}"`, createdFile.toJson())
     await this._bucket.save(createdFile)
     const persistedFile = await this.readByIdOrThrow(createdFile.id)
     return persistedFile
   }
 
   readById = async (id: string) => {
-    this._services.logger.debug(`read in bucket "${this._name}"`, { id })
+    this._services.logger.debug(`read in bucket "${this.name}"`, { id })
     return this._bucket.readById(id)
   }
 
   readByIdOrThrow = async (id: string) => {
     const file = await this.readById(id)
-    if (!file) throw new Error(`file ${id} not found in bucket "${this._name}"`)
+    if (!file) throw new Error(`file ${id} not found in bucket "${this.name}"`)
     return file
   }
 }

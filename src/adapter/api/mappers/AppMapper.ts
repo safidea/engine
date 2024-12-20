@@ -93,7 +93,7 @@ export class AppMapper {
     )
     const notion = NotionMapper.toIntegration(
       integrations,
-      { idGenerator, logger },
+      { idGenerator, logger, storage, server, templateCompiler },
       config.integrations?.notion
     )
     const pappers = PappersMapper.toIntegration(integrations, config.integrations?.pappers)

@@ -1,12 +1,20 @@
 import type { NotionTableSpi } from '@adapter/spi/integrations/NotionTableSpi'
 import { NotionTable, type NotionTableServices } from './NotionTable'
+import { Bucket } from '@domain/entities/Bucket'
+import type { Storage } from '@domain/services/Storage'
+import type { Server } from '@domain/services/Server'
+import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface NotionConfig {
   token: string
   pollingInterval: number
 }
 
-export type NotionServices = NotionTableServices
+export interface NotionServices extends NotionTableServices {
+  storage: Storage
+  server: Server
+  templateCompiler: TemplateCompiler
+}
 
 export interface INotionSpi {
   getConfig: () => NotionConfig
@@ -14,6 +22,7 @@ export interface INotionSpi {
 }
 
 export class Notion {
+  private _bucket?: Bucket
   private _tables: NotionTable[] = []
 
   constructor(
@@ -23,6 +32,12 @@ export class Notion {
 
   getConfig = (): NotionConfig => {
     return this._spi.getConfig()
+  }
+
+  init = async () => {
+    const name = '_notion_table_page_files'
+    this._bucket = new Bucket({ name }, this._services)
+    await this._bucket.init()
   }
 
   startPolling = async () => {
@@ -41,7 +56,8 @@ export class Notion {
     let table = this._tables.find((table) => table.id === id)
     if (table) return table
     const spiTable = await this._spi.getTable(id)
-    table = new NotionTable(spiTable, this._services, this.getConfig())
+    if (!this._bucket) throw new Error('bucket not initialized')
+    table = new NotionTable(spiTable, this._services, this.getConfig(), this._bucket)
     this._tables.push(table)
     return table
   }

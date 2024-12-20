@@ -1,4 +1,3 @@
-import type { Bucket } from '@domain/entities/Bucket'
 import type { Logger } from './Logger'
 import { StorageBucket } from './StorageBucket'
 import type { Database, DatabaseDriverName, DatabaseExec, DatabaseQuery } from './Database'
@@ -21,6 +20,8 @@ export interface IStorageSpi {
 }
 
 export class Storage {
+  private _buckets: StorageBucket[] = []
+
   constructor(
     private _spi: IStorageSpi,
     private _services: StorageServices
@@ -32,13 +33,17 @@ export class Storage {
   }
 
   bucket = (name: string) => {
-    return new StorageBucket(this._spi, this._services, { name })
+    let bucket = this._buckets.find((bucket) => bucket.name === name)
+    if (bucket) return bucket
+    bucket = new StorageBucket(this._spi, this._services, { name })
+    this._buckets.push(bucket)
+    return bucket
   }
 
-  migrate = async (buckets: Bucket[]) => {
+  migrate = async () => {
     const { logger } = this._services
     logger.debug(`migrating storage...`)
-    for (const bucket of buckets) {
+    for (const bucket of this._buckets) {
       const bucketStorage = this.bucket(bucket.name)
       const exists = await bucketStorage.exists()
       if (!exists) {

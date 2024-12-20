@@ -52,6 +52,18 @@
             ],
             "type": "object"
         },
+        "BucketConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
         "Button": {
             "additionalProperties": false,
             "properties": {
@@ -1445,18 +1457,6 @@
                 "actions",
                 "name",
                 "trigger"
-            ],
-            "type": "object"
-        },
-        "IBucket": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name"
             ],
             "type": "object"
         },
@@ -4540,7 +4540,7 @@
         },
         "buckets": {
             "items": {
-                "$ref": "#/definitions/IBucket"
+                "$ref": "#/definitions/BucketConfig"
             },
             "type": "array"
         },

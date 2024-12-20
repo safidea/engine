@@ -4,7 +4,13 @@ import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
 import type { NotionConfig } from './Notion'
-import type { NotionTablePage, NotionTablePageProperties } from './NotionTablePage'
+import type {
+  NotionTablePage,
+  NotionTablePageProperties,
+  NotionTablePagePropertyFile,
+  NotionTablePagePropertyValue,
+} from './NotionTablePage'
+import type { Bucket } from '@domain/entities/Bucket'
 
 export type NotionTableAction = 'CREATE'
 
@@ -36,7 +42,8 @@ export class NotionTable {
   constructor(
     private _spi: INotionTableSpi,
     private _services: NotionTableServices,
-    private _config: NotionConfig
+    private _config: NotionConfig,
+    private _bucket: Bucket
   ) {}
 
   get id() {
@@ -87,11 +94,13 @@ export class NotionTable {
   }
 
   create = async (page: NotionTablePageProperties): Promise<NotionTablePage> => {
-    return this._spi.create(page)
+    const preprocessPage = await this._preprocessPage(page)
+    return this._spi.create(preprocessPage)
   }
 
   update = async (id: string, page: NotionTablePageProperties): Promise<NotionTablePage> => {
-    return this._spi.update(id, page)
+    const preprocessPage = await this._preprocessPage(page)
+    return this._spi.update(id, preprocessPage)
   }
 
   retrieve = async (id: string) => {
@@ -104,5 +113,50 @@ export class NotionTable {
 
   list = async (filter?: Filter) => {
     return this._spi.list(filter)
+  }
+
+  private _preprocessPage = async (
+    page: NotionTablePageProperties
+  ): Promise<NotionTablePageProperties> => {
+    for (const key in page) {
+      const value = page[key]
+      if (this._isFileArray(value)) {
+        for (let i = 0; i < value.length; i++) {
+          const item = value[i]
+          if (item.url.includes('s3.us-west-2.amazonaws.com')) {
+            const data = await this._getFileBuffer(item.url)
+            const { url } = await this._bucket.save({ name: item.name, data })
+            value[i] = { name: item.name, url }
+          }
+        }
+      }
+    }
+    return page
+  }
+
+  private _isFileArray = (
+    value: NotionTablePagePropertyValue
+  ): value is NotionTablePagePropertyFile[] => {
+    return (
+      Array.isArray(value) &&
+      value.every(
+        (item) =>
+          typeof item === 'object' &&
+          item !== null &&
+          'name' in item &&
+          'url' in item &&
+          typeof item.name === 'string' &&
+          typeof item.url === 'string'
+      )
+    )
+  }
+
+  private _getFileBuffer = async (url: string) => {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch the file: ${response.statusText}`)
+    }
+    const buffer = await response.arrayBuffer()
+    return Buffer.from(buffer)
   }
 }

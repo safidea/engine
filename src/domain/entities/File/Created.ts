@@ -1,7 +1,7 @@
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import { BaseFile } from './base'
 
-interface CreatedFileConfig {
+export interface CreatedFileConfig {
   name: string
   data: string | Buffer | Uint8Array
 }

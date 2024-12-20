@@ -2,6 +2,8 @@ export interface NotionTablePageProperties {
   [key: string]: NotionTablePagePropertyValue
 }
 
+export type NotionTablePagePropertyFile = { name: string; url: string }
+
 export type NotionTablePagePropertyValue =
   | string
   | number
@@ -11,7 +13,7 @@ export type NotionTablePagePropertyValue =
   | string[]
   | number[]
   | NotionTablePagePropertyValue[]
-  | { name: string; url: string }[]
+  | NotionTablePagePropertyFile[]
 
 export class NotionTablePage {
   constructor(
