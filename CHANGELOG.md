@@ -1,3 +1,11 @@
+## [0.34.30](https://github.com/latechforce/engine/compare/v0.34.29...v0.34.30) (2024-12-20)
+
+
+### Bug Fixes
+
+* **Ngrok:** add green test: should get a ngrok url ([40115ec](https://github.com/latechforce/engine/commit/40115ec975bbda3105b4ff092a16f1989f683950))
+* **Ngrok:** update green test: should get a ngrok url ([7aa9fd9](https://github.com/latechforce/engine/commit/7aa9fd9ddb02dc0c6955d8d12fbad6d83e326b7e))
+
 ## [0.34.29](https://github.com/latechforce/engine/compare/v0.34.28...v0.34.29) (2024-12-20)
 
 
