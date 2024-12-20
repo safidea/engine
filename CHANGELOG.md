@@ -1,3 +1,11 @@
+## [0.34.29](https://github.com/latechforce/engine/compare/v0.34.28...v0.34.29) (2024-12-20)
+
+
+### Bug Fixes
+
+* **RunTypescript:** add green test: should run a Typescript code with a Notion database page update and a notion uploaded file ([6a375d9](https://github.com/latechforce/engine/commit/6a375d90371ad5fbd0bf3efbe1121a1828989506))
+* **Server:** add baseUrl in config ([71da869](https://github.com/latechforce/engine/commit/71da869e99db5e3335fd4ef86e1256346ee59f5b))
+
 ## [0.34.28](https://github.com/latechforce/engine/compare/v0.34.27...v0.34.28) (2024-12-19)
 
 
