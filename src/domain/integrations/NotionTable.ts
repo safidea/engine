@@ -4,12 +4,7 @@ import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
 import type { NotionConfig } from './Notion'
-import type {
-  NotionTablePage,
-  NotionTablePageProperties,
-  NotionTablePagePropertyFile,
-  NotionTablePagePropertyValue,
-} from './NotionTablePage'
+import { NotionTablePage, type NotionTablePageProperties } from './NotionTablePage'
 import type { Bucket } from '@domain/entities/Bucket'
 
 export type NotionTableAction = 'CREATE'
@@ -120,7 +115,7 @@ export class NotionTable {
   ): Promise<NotionTablePageProperties> => {
     for (const key in page) {
       const value = page[key]
-      if (this._isFileArray(value)) {
+      if (NotionTablePage.isFilesProperty(value)) {
         for (let i = 0; i < value.length; i++) {
           const item = value[i]
           if (item.url.includes('s3.us-west-2.amazonaws.com')) {
@@ -132,23 +127,6 @@ export class NotionTable {
       }
     }
     return page
-  }
-
-  private _isFileArray = (
-    value: NotionTablePagePropertyValue
-  ): value is NotionTablePagePropertyFile[] => {
-    return (
-      Array.isArray(value) &&
-      value.every(
-        (item) =>
-          typeof item === 'object' &&
-          item !== null &&
-          'name' in item &&
-          'url' in item &&
-          typeof item.name === 'string' &&
-          typeof item.url === 'string'
-      )
-    )
   }
 
   private _getFileBuffer = async (url: string) => {
