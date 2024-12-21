@@ -541,6 +541,41 @@ test.describe('Notion databases integration', () => {
     expect(pages).toHaveLength(3)
   })
 
+  test('should throw an error if filter field does not exist', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const name = nanoid()
+    const page = await table.create({ name })
+
+    // WHEN
+    const call = () =>
+      table.list({
+        field: 'invalid',
+        operator: 'Is',
+        value: page.id,
+      })
+
+    // THEN
+    await expect(call).rejects.toThrowError('Property "invalid" does not exist')
+  })
+
+  test('should list pages in a table with a Is filter on a formula', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const name = nanoid()
+    const page = await table.create({ name })
+
+    // WHEN
+    const pages = await table.list({
+      field: 'id',
+      operator: 'Is',
+      value: page.id.replace(/-/g, ''),
+    })
+
+    // THEN
+    expect(pages).toHaveLength(1)
+  })
+
   test('should list pages in a table with a Contains filter on a rollup', async () => {
     // GIVEN
     const table1 = await integration.getTable(TEST_NOTION_TABLE_1_ID)

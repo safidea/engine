@@ -420,18 +420,60 @@ export class NotionTableIntegration implements INotionTableIntegration {
         or: filter.or.map(this._convertFilter),
       }
     }
+
     const { operator, field } = filter
-    const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00XXX")
+    const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00.000Z")
     const property = this._database.properties[field]
+
+    if (!property) {
+      throw new Error(`Property "${field}" does not exist`)
+    }
+
     switch (operator) {
-      case 'Is':
-        return {
-          property: field,
-          rich_text: {
-            equals: filter.value,
-          },
+      case 'Is': {
+        if (property.type === 'title') {
+          return {
+            property: field,
+            title: {
+              equals: filter.value,
+            },
+          }
+        } else if (property.type === 'formula') {
+          return {
+            property: field,
+            formula: {
+              string: {
+                equals: filter.value,
+              },
+            },
+          }
+        } else if (property.type === 'rich_text') {
+          return {
+            property: field,
+            rich_text: {
+              equals: filter.value,
+            },
+          }
+        } else if (property.type === 'select') {
+          return {
+            property: field,
+            select: {
+              equals: filter.value,
+            },
+          }
+        } else if (property.type === 'status') {
+          return {
+            property: field,
+            status: {
+              equals: filter.value,
+            },
+          }
         }
-      case 'Contains':
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      case 'Contains': {
         if (property.type === 'rollup') {
           return {
             property: field,
@@ -443,14 +485,42 @@ export class NotionTableIntegration implements INotionTableIntegration {
               },
             },
           }
+        } else if (property.type === 'rich_text') {
+          return {
+            property: field,
+            rich_text: {
+              contains: filter.value,
+            },
+          }
+        } else if (property.type === 'title') {
+          return {
+            property: field,
+            title: {
+              contains: filter.value,
+            },
+          }
+        } else if (property.type === 'formula') {
+          return {
+            property: field,
+            formula: {
+              string: {
+                contains: filter.value,
+              },
+            },
+          }
+        } else if (property.type === 'multi_select') {
+          return {
+            property: field,
+            multi_select: {
+              contains: filter.value,
+            },
+          }
         }
-        return {
-          property: field,
-          rich_text: {
-            contains: filter.value,
-          },
-        }
-      case 'IsAfterNumberOfSecondsSinceNow':
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      case 'IsAfterNumberOfSecondsSinceNow': {
         if (field === 'created_time') {
           return {
             timestamp: 'created_time',
@@ -458,53 +528,82 @@ export class NotionTableIntegration implements INotionTableIntegration {
               on_or_after: formatDate(subSeconds(new Date(), filter.value)),
             },
           }
-        }
-        if (field === 'last_edited_time') {
+        } else if (field === 'last_edited_time') {
           return {
             timestamp: 'last_edited_time',
             last_edited_time: {
               on_or_after: formatDate(subSeconds(new Date(), filter.value)),
             },
           }
-        }
-        return {
-          property: field,
-          date: {
-            on_or_after: formatDate(subSeconds(new Date(), filter.value)),
-          },
-        }
-      case 'Equals':
-        return {
-          property: field,
-          number: {
-            equals: filter.value,
-          },
-        }
-      case 'IsAnyOf':
-        return {
-          or: filter.value.map((value) => ({
+        } else if (property.type === 'date') {
+          return {
             property: field,
-            multi_select: {
-              contains: value,
+            date: {
+              on_or_after: formatDate(subSeconds(new Date(), filter.value)),
             },
-          })),
+          }
         }
-      case 'IsFalse':
-        return {
-          property: field,
-          checkbox: {
-            equals: false,
-          },
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      case 'Equals': {
+        if (property.type === 'number') {
+          return {
+            property: field,
+            number: {
+              equals: filter.value,
+            },
+          }
         }
-      case 'IsTrue':
-        return {
-          property: field,
-          checkbox: {
-            equals: true,
-          },
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      case 'IsAnyOf': {
+        if (property.type === 'multi_select') {
+          return {
+            or: filter.value.map((value) => ({
+              property: field,
+              multi_select: {
+                contains: value,
+              },
+            })),
+          }
         }
-      default:
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      case 'IsFalse': {
+        if (property.type === 'checkbox') {
+          return {
+            property: field,
+            checkbox: {
+              equals: false,
+            },
+          }
+        }
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      case 'IsTrue': {
+        if (property.type === 'checkbox') {
+          return {
+            property: field,
+            checkbox: {
+              equals: true,
+            },
+          }
+        }
+        throw new Error(
+          `Operator "${operator}" is not supported for property type "${property.type}"`
+        )
+      }
+      default: {
         throw new Error(`Operator "${operator}" is not supported`)
+      }
     }
   }
 }
