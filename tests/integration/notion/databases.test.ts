@@ -503,7 +503,7 @@ test.describe('Notion databases integration', () => {
     expect(pages).toHaveLength(3)
   })
 
-  test('should list pages in a table with a IsAfterNumberOfSecondsSinceNow filter', async () => {
+  test('should list pages in a table with a OnOrAfter filter', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const values = [
@@ -524,7 +524,7 @@ test.describe('Notion databases integration', () => {
       and: [
         {
           field: 'created_time',
-          operator: 'IsAfterNumberOfSecondsSinceNow',
+          operator: 'OnOrAfter',
           value: 60,
         },
         {

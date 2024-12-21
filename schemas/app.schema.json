@@ -955,7 +955,7 @@
                     "$ref": "#/definitions/IsTrueBooleanFilterConfig"
                 },
                 {
-                    "$ref": "#/definitions/IsAfterNumberOfSecondsSinceNowDateFilterConfig"
+                    "$ref": "#/definitions/OnOrAfterDateFilterConfig"
                 },
                 {
                     "$ref": "#/definitions/EqualsNumberFilterConfig"
@@ -3471,27 +3471,6 @@
             ],
             "type": "object"
         },
-        "IsAfterNumberOfSecondsSinceNowDateFilterConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "operator": {
-                    "const": "IsAfterNumberOfSecondsSinceNow",
-                    "type": "string"
-                },
-                "value": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "field",
-                "operator",
-                "value"
-            ],
-            "type": "object"
-        },
         "IsAnyOfSelectFilterConfig": {
             "additionalProperties": false,
             "properties": {
@@ -4058,6 +4037,27 @@
             },
             "required": [
                 "field"
+            ],
+            "type": "object"
+        },
+        "OnOrAfterDateFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "OnOrAfter",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
             ],
             "type": "object"
         },

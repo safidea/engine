@@ -422,10 +422,10 @@ export class NotionTableIntegration implements INotionTableIntegration {
     }
 
     const { operator, field } = filter
-    const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00.000Z")
+    const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00XXX")
     const property = this._database.properties[field]
 
-    if (!property) {
+    if (!property && field !== 'created_time' && field !== 'last_edited_time') {
       throw new Error(`Property "${field}" does not exist`)
     }
 
@@ -520,7 +520,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
           `Operator "${operator}" is not supported for property type "${property.type}"`
         )
       }
-      case 'IsAfterNumberOfSecondsSinceNow': {
+      case 'OnOrAfter': {
         if (field === 'created_time') {
           return {
             timestamp: 'created_time',

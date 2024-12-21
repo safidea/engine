@@ -408,7 +408,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
           conditions: `"${filter.field}" IN (${filter.value.map(() => '?').join(', ')})`,
           values: filter.value,
         }
-      case 'IsAfterNumberOfSecondsSinceNow':
+      case 'OnOrAfter':
         return {
           conditions: `"${filter.field}" > datetime('now', ?)`,
           values: [`-${filter.value} seconds`],

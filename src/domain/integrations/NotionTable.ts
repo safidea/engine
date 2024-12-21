@@ -1,5 +1,5 @@
 import type { Filter } from '@domain/entities/Filter'
-import { IsAfterNumberOfSecondsSinceNowDateFilter } from '@domain/entities/Filter/date/IsAfterNumberOfSecondsSinceNow'
+import { OnOrAfterDateFilter } from '@domain/entities/Filter/date/OnOrAfter'
 import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
@@ -58,9 +58,7 @@ export class NotionTable {
         (new Date().getTime() - startDate.getTime()) / 1000,
         pollingInterval * 2
       )
-      const filter = new OrFilter([
-        new IsAfterNumberOfSecondsSinceNowDateFilter('created_time', seconds),
-      ])
+      const filter = new OrFilter([new OnOrAfterDateFilter('created_time', seconds)])
       const pages = await this.list(filter)
       const pagesNotPolled = pages.filter((page) => !pagesIdsPolled.includes(page.id))
       pagesIdsPolled = pages.map((page) => page.id)

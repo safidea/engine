@@ -406,7 +406,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
           values: filter.value,
           index: index + filter.value.length,
         }
-      case 'IsAfterNumberOfSecondsSinceNow':
+      case 'OnOrAfter':
         return {
           conditions: `"${filter.field}" > NOW() - INTERVAL '$${index} seconds'`,
           values: [String(filter.value)],
