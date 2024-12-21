@@ -8,6 +8,7 @@ test.describe('NotionTablePage', () => {
     const mockProperties = {
       title: 'Test Title',
       checkbox: true,
+      createdBy: 'Creator',
       createdTime: new Date('2023-01-01T00:00:00Z'),
       email: 'test@example.com',
       files: [
@@ -50,9 +51,28 @@ test.describe('NotionTablePage', () => {
     expect(checkbox).toBe(true)
   })
 
-  test('should return created time as a Date object', () => {
+  test('should return createdBy as a string and not null', () => {
+    const createdBy = notionTablePage.getCreatedBy('createdBy')
+    expect(createdBy).toBe('Creator')
+  })
+
+  test('should throw an error if createdBy is null', () => {
+    notionTablePage.properties.createdBy = null
+    expect(() => notionTablePage.getCreatedBy('createdBy')).toThrowError(
+      'Property "createdBy" should not be null'
+    )
+  })
+
+  test('should return created time as a Date object and not null', () => {
     const createdTime = notionTablePage.getCreatedTime('createdTime')
     expect(createdTime).toEqual(new Date('2023-01-01T00:00:00Z'))
+  })
+
+  test('should throw an error if createdTime is missing', () => {
+    notionTablePage.properties.createdTime = null
+    expect(() => notionTablePage.getCreatedTime('createdTime')).toThrowError(
+      'Property "createdTime" should not be null'
+    )
   })
 
   test('should return email as a string', () => {
@@ -88,14 +108,28 @@ test.describe('NotionTablePage', () => {
     expect(formula).toEqual(new Date('2023-02-01T00:00:00Z'))
   })
 
-  test('should return last edited by as a string', () => {
+  test('should return last edited by as a string and not null', () => {
     const lastEditedBy = notionTablePage.getLastEditedBy('lastEditedBy')
     expect(lastEditedBy).toBe('Editor')
   })
 
-  test('should return last edited time as a Date object', () => {
+  test('should throw an error if lastEditedBy is null', () => {
+    notionTablePage.properties.lastEditedBy = null
+    expect(() => notionTablePage.getLastEditedBy('lastEditedBy')).toThrowError(
+      'Property "lastEditedBy" should not be null'
+    )
+  })
+
+  test('should return last edited time as a Date object and not null', () => {
     const lastEditedTime = notionTablePage.getLastEditedTime('lastEditedTime')
     expect(lastEditedTime).toEqual(new Date('2023-01-03T00:00:00Z'))
+  })
+
+  test('should throw an error if lastEditedTime is null', () => {
+    notionTablePage.properties.lastEditedTime = null
+    expect(() => notionTablePage.getLastEditedTime('lastEditedTime')).toThrowError(
+      'Property "lastEditedTime" should not be null'
+    )
   })
 
   test('should return multi-select as an array of strings', () => {
@@ -143,13 +177,9 @@ test.describe('NotionTablePage', () => {
     expect(url).toBe('https://example.com')
   })
 
-  test('should return null for non-existing property', () => {
-    const nonExisting = notionTablePage.getTitle('nonExisting')
-    expect(nonExisting).toBeNull()
-  })
-
-  test('should handle invalid property types gracefully', () => {
-    const invalid = notionTablePage.getTitle('invalidType')
-    expect(invalid).toBeNull()
+  test('should throw an error for non-existing property', () => {
+    expect(() => notionTablePage.getTitle('nonExisting')).toThrowError(
+      'Property "nonExisting" does not exist'
+    )
   })
 })
