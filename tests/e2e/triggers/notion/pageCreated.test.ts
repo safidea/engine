@@ -90,7 +90,7 @@ test.describe('Page Created trigger', () => {
         value: id,
       })
       const triggerData = JSON.parse(String(history.trigger_data))
-      expect(triggerData.created_date).toBeDefined()
+      expect(triggerData.created_time).toBeDefined()
     })
 
     test('should update a page property after being created', async () => {
