@@ -140,7 +140,7 @@ test.describe('Notion databases integration', () => {
     expect(page.properties.date?.toString()).toBe(date.toString())
   })
 
-  test('should create a page in a table with a date property from a string', async () => {
+  test('should create a page in a table with a date property from a date string', async () => {
     // GIVEN
     const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
     const date = '2018-09-22'
@@ -150,6 +150,32 @@ test.describe('Notion databases integration', () => {
 
     // THEN
     expect(page.properties.date).toStrictEqual(parse(date, 'yyyy-MM-dd', new Date()))
+  })
+
+  test('should create a page in a table with a date property from a date and time string', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const date = '2018-09-22T15:00:00'
+
+    // WHEN
+    const page = await table.create({ date })
+
+    // THEN
+    expect(page.properties.date).toStrictEqual(parse(date, "yyyy-MM-dd'T'HH:mm:ss", new Date()))
+  })
+
+  test('should create a page in a table with a date property from a date, time and milliseconds string', async () => {
+    // GIVEN
+    const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+    const date = '2018-09-22T15:00:00.000Z'
+
+    // WHEN
+    const page = await table.create({ date })
+
+    // THEN
+    expect(page.properties.date).toStrictEqual(
+      parse(date, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())
+    )
   })
 
   test('should create a page in a table with a date property from a timestamp', async () => {

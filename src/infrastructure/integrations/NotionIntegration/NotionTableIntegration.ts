@@ -191,7 +191,16 @@ export class NotionTableIntegration implements INotionTableIntegration {
               }
             }
             if (typeof value === 'string') {
-              if (value.includes('T')) {
+              if (value.includes('T') && value.includes('Z')) {
+                return {
+                  date: {
+                    start: formatISO(parse(value, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date()), {
+                      representation: 'complete',
+                    }),
+                    end: null,
+                  },
+                }
+              } else if (value.includes('T')) {
                 return {
                   date: {
                     start: formatISO(parse(value, "yyyy-MM-dd'T'HH:mm:ss", new Date()), {
