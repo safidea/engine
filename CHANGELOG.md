@@ -1,3 +1,10 @@
+## [0.34.37](https://github.com/latechforce/engine/compare/v0.34.36...v0.34.37) (2024-12-21)
+
+
+### Bug Fixes
+
+* **CodeRunner:** export DatabaseTable and NotionTable types ([7f032f3](https://github.com/latechforce/engine/commit/7f032f325d17753f0fb935db071189086c4288ba))
+
 ## [0.34.36](https://github.com/latechforce/engine/compare/v0.34.35...v0.34.36) (2024-12-21)
 
 
