@@ -1,3 +1,12 @@
+## [0.34.36](https://github.com/latechforce/engine/compare/v0.34.35...v0.34.36) (2024-12-21)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should list pages in a table with a Is filter on a formula ([4448fde](https://github.com/latechforce/engine/commit/4448fdeb4d283d2a0a0928a4ca9730c78ea91156))
+* **Notion:** fix green test: should list pages in a table with a OnOrAfter filter ([fa5b10d](https://github.com/latechforce/engine/commit/fa5b10dabdbe774f8f5b94c3e55c92113f5a980d))
+* **PageCreated:** fix green test ([75de3f4](https://github.com/latechforce/engine/commit/75de3f406e5e135009f1a3a6986652d6afc6e268))
+
 ## [0.34.35](https://github.com/latechforce/engine/compare/v0.34.34...v0.34.35) (2024-12-21)
 
 
