@@ -118,7 +118,7 @@ export class NotionTable {
       if (NotionTablePage.isFilesProperty(value)) {
         for (let i = 0; i < value.length; i++) {
           const item = value[i]
-          if (item.url.includes('s3.us-west-2.amazonaws.com')) {
+          if (item.url.includes('s3.us-west-2.amazonaws.com/')) {
             const data = await this._getFileBuffer(item.url)
             const { url } = await this._bucket.save({ name: item.name, data })
             value[i] = { name: item.name, url }

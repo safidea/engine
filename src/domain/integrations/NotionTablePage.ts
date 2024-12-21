@@ -104,6 +104,10 @@ export class NotionTablePage {
     return this._getPropertyAsStringArray(name)
   }
 
+  getSingleRelation(name: string): string | null {
+    return this._getPropertyAsStringArray(name)[0] || null
+  }
+
   getStringArrayRollup(name: string): string[] {
     return this._getPropertyAsStringArray(name)
   }
@@ -118,6 +122,10 @@ export class NotionTablePage {
     const value = this.properties[name]
     if (!Array.isArray(value)) return []
     return value.every((item) => typeof item === 'boolean') ? value : []
+  }
+
+  getSingleStringRollup(name: string): string | null {
+    return this._getPropertyAsStringArray(name)[0] || null
   }
 
   getDateRollup(name: string): Date | null {

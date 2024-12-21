@@ -26,8 +26,11 @@ test.describe('NotionTablePage', () => {
       dateFormula: new Date('2023-02-01T00:00:00Z'),
       lastEditedBy: 'Editor',
       lastEditedTime: new Date('2023-01-03T00:00:00Z'),
+      stringArrayRollup: ['string1', 'string2', 'string3'],
       numberArrayRollup: [1, 2, 3],
       booleanArrayRollup: [true, false, true],
+      numberRollup: 1,
+      dateRollup: new Date('2023-02-01T00:00:00Z'),
       status: 'In Progress',
       url: 'https://example.com',
     }
@@ -181,5 +184,49 @@ test.describe('NotionTablePage', () => {
     expect(() => notionTablePage.getTitle('nonExisting')).toThrowError(
       'Property "nonExisting" does not exist'
     )
+  })
+
+  test('should return the first relation as a string', () => {
+    const singleRelation = notionTablePage.getSingleRelation('relations')
+    expect(singleRelation).toBe('relation1')
+  })
+
+  test('should return null if there are no relations', () => {
+    notionTablePage.properties.relations = []
+    const singleRelation = notionTablePage.getSingleRelation('relations')
+    expect(singleRelation).toBeNull()
+  })
+
+  test('should return the first string rollup as a string', () => {
+    const singleStringRollup = notionTablePage.getSingleStringRollup('stringArrayRollup')
+    expect(singleStringRollup).toBe('string1')
+  })
+
+  test('should return null if there are no string rollups', () => {
+    notionTablePage.properties.stringArrayRollup = []
+    const singleStringRollup = notionTablePage.getSingleStringRollup('stringArrayRollup')
+    expect(singleStringRollup).toBeNull()
+  })
+
+  test('should return the first date rollup as a Date object', () => {
+    const dateRollup = notionTablePage.getDateRollup('dateRollup')
+    expect(dateRollup).toEqual(new Date('2023-02-01T00:00:00Z'))
+  })
+
+  test('should return null if there is no date rollup', () => {
+    notionTablePage.properties.dateRollup = null
+    const dateRollup = notionTablePage.getDateRollup('dateRollup')
+    expect(dateRollup).toBeNull()
+  })
+
+  test('should return the first number rollup as a number', () => {
+    const numberRollup = notionTablePage.getNumberRollup('numberRollup')
+    expect(numberRollup).toBe(1)
+  })
+
+  test('should return null if there are no number rollups', () => {
+    notionTablePage.properties.numberRollup = null
+    const numberRollup = notionTablePage.getNumberRollup('numberRollup')
+    expect(numberRollup).toBeNull()
   })
 })
