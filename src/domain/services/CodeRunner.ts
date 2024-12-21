@@ -15,27 +15,31 @@ export interface ICodeRunnerSpi {
   ) => Promise<object>
 }
 
+export interface CodeRunnerContextServicesDatabaseTable {
+  insert: (data: unknown) => Promise<PersistedRecord>
+  update: (id: string, data: unknown) => Promise<PersistedRecord>
+  read: (filter: FilterConfig) => Promise<PersistedRecord | undefined>
+  readById: (id: string) => Promise<PersistedRecord | undefined>
+  list: (filter?: FilterConfig) => Promise<PersistedRecord[]>
+}
+
 export interface CodeRunnerContextServices {
   database: {
-    table: (name: string) => {
-      insert: (data: unknown) => Promise<PersistedRecord>
-      update: (id: string, data: unknown) => Promise<PersistedRecord>
-      read: (filter: FilterConfig) => Promise<PersistedRecord | undefined>
-      readById: (id: string) => Promise<PersistedRecord | undefined>
-      list: (filter?: FilterConfig) => Promise<PersistedRecord[]>
-    }
+    table: (name: string) => CodeRunnerContextServicesDatabaseTable
   }
+}
+
+export interface CodeRunnerContextIntegrationsNotionTable {
+  create: (data: NotionTablePageProperties) => Promise<NotionTablePage>
+  update: (id: string, data: NotionTablePageProperties) => Promise<NotionTablePage>
+  retrieve: (id: string) => Promise<NotionTablePage | undefined>
+  list: (filter?: FilterConfig) => Promise<NotionTablePage[]>
+  archive: (id: string) => Promise<void>
 }
 
 export interface CodeRunnerContextIntegrations {
   notion: {
-    getTable: (id: string) => Promise<{
-      create: (data: NotionTablePageProperties) => Promise<NotionTablePage>
-      update: (id: string, data: NotionTablePageProperties) => Promise<NotionTablePage>
-      retrieve: (id: string) => Promise<NotionTablePage | undefined>
-      list: (filter?: FilterConfig) => Promise<NotionTablePage[]>
-      archive: (id: string) => Promise<void>
-    }>
+    getTable: (id: string) => Promise<CodeRunnerContextIntegrationsNotionTable>
   }
 }
 

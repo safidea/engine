@@ -25,7 +25,11 @@ export type {
   ServerConfig as Server,
   TunnelConfig as Tunnel,
 } from '@adapter/api/configs/Services'
-export type { CodeRunnerContext } from '@domain/services/CodeRunner'
+export type {
+  CodeRunnerContext,
+  CodeRunnerContextServicesDatabaseTable as DatabaseTable,
+  CodeRunnerContextIntegrationsNotionTable as NotionTable,
+} from '@domain/services/CodeRunner'
 export type {
   NotionTablePage,
   NotionTablePageProperties,
