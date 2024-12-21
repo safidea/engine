@@ -1,3 +1,10 @@
+## [0.34.35](https://github.com/latechforce/engine/compare/v0.34.34...v0.34.35) (2024-12-21)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should create a page in a table with a date property from a date, time and milliseconds string ([e5019d6](https://github.com/latechforce/engine/commit/e5019d6cdb19b043f2d6850212362b400d442be6))
+
 ## [0.34.34](https://github.com/latechforce/engine/compare/v0.34.33...v0.34.34) (2024-12-21)
 
 
