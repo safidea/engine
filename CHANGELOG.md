@@ -1,3 +1,10 @@
+## [0.34.32](https://github.com/latechforce/engine/compare/v0.34.31...v0.34.32) (2024-12-21)
+
+
+### Bug Fixes
+
+* **Notion:** add green unit testsfor NotionTablePage ([43f2623](https://github.com/latechforce/engine/commit/43f26238e7b3b92bb5f0542ce8d9fcb86bb655dd))
+
 ## [0.34.31](https://github.com/latechforce/engine/compare/v0.34.30...v0.34.31) (2024-12-20)
 
 
