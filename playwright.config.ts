@@ -7,7 +7,7 @@ import 'dotenv/config'
  */
 export default defineConfig({
   testDir: './test',
-  testIgnore: ['**/tests/**', '**/pages/**'],
+  testIgnore: ['**/tests/**', '**/pages/**', '**/unit/**'],
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: '__snapshots__',
   snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}{ext}',

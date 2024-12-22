@@ -43,9 +43,10 @@
     "watch:schema": "nodemon --config script/schema/watch.json",
     "watch": "concurrently \"bun run watch:schema\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
-    "test": "bunx playwright test",
-    "test:unit": "bunx playwright test test/unit",
+    "test": "bun run test:unit && bunx playwright test",
+    "test:unit": "bun test ./test/unit/**/*.test.ts --bail",
     "test:integration": "bunx playwright test test/integration",
+    "test:e2e": "bunx playwright test test/e2e",
     "test:ui": "bunx playwright test --ui",
     "test:snapshots": "bunx playwright test --update-snapshots",
     "storybook": "storybook dev -p 6006",
@@ -154,7 +155,7 @@
     "typescript": "^5.6.3"
   },
   "engines": {
-    "bun": "1.1.40",
+    "bun": "1.1.42",
     "node": "22.12.0",
     "npm": "10.9.0"
   },

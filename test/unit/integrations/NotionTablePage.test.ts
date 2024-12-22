@@ -1,9 +1,9 @@
 import { NotionTablePage } from '@domain/integrations/NotionTablePage'
-import { test, expect } from '@playwright/test'
+import { beforeEach, test, expect } from 'bun:test'
 
 let notionTablePage: NotionTablePage
 
-test.beforeEach(() => {
+beforeEach(() => {
   const mockProperties = {
     title: 'Test Title',
     checkbox: true,
