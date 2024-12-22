@@ -1,3 +1,7 @@
+import type {
+  CodeRunnerContextIntegrations,
+  CodeRunnerContextServices,
+} from '@domain/services/CodeRunner'
 import {
   BaseApp,
   type AppConfig,
@@ -12,7 +16,8 @@ export class StartedApp extends BaseApp {
     config: AppConfig,
     services: AppServices,
     entities: AppEntities,
-    integrations: AppIntegrations
+    integrations: AppIntegrations,
+    private _isTest = false
   ) {
     super(config, services, entities, integrations)
     this._setStatus('started')
@@ -24,13 +29,33 @@ export class StartedApp extends BaseApp {
     return url
   }
 
+  get integrations(): CodeRunnerContextIntegrations {
+    const { codeCompiler } = this._services
+    return codeCompiler.getIntegrations()
+  }
+
+  get services(): CodeRunnerContextServices {
+    const { codeCompiler } = this._services
+    return codeCompiler.getServices()
+  }
+
+  get mailer() {
+    if (!this._isTest) throw new Error('mailer is only available in test mode')
+    return this._services.mailer
+  }
+
+  get queue() {
+    if (!this._isTest) throw new Error('queue is only available in test mode')
+    return this._services.queue
+  }
+
   stop = async (options?: { graceful?: boolean }): Promise<StoppedApp> => {
-    if (this.status !== 'started')
-      throw new Error(`App is not running, current status is ${this.status}`)
+    if (this._status !== 'started')
+      throw new Error(`App is not running, current status is ${this._status}`)
     const { graceful = true } = options || {}
     this._setStatus('stopping')
-    const { server, database, queue, mailer, logger } = this._services
-    const { notion } = this.integrations
+    const { server, database, queue, mailer } = this._services
+    const { notion } = this._integrations
     await server.stop(async () => {
       await notion.stopPolling()
       await mailer.close()
@@ -38,8 +63,8 @@ export class StartedApp extends BaseApp {
       await database.disconnect()
     })
     this._setStatus('stopped')
-    logger.info(`🛑 app "${this.name}" stopped`)
-    return new StoppedApp(this._config, this._services, this._entities, this.integrations)
+    this.logger.info(`🛑 app "${this.name}" stopped`)
+    return new StoppedApp(this._config, this._services, this._entities, this._integrations)
   }
 
   onClose = async (signal: 'SIGTERM' | 'SIGINT' | 'UNCAUGHT_EXCEPTION' | 'UNCAUGHT_REJECTION') => {

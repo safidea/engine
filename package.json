@@ -36,7 +36,7 @@
     "build:client": "bun run script/client/build.ts",
     "build:types": "bun run script/types/build.ts",
     "build:schema": "bun run script/schema/build.ts",
-    "build": "bun run build:client && bun run build:server && bun run build:types",
+    "build": "bun run build:client && bun run build:server && bun run build:types && bun run build:schema",
     "watch:server": "nodemon --config script/server/watch.json",
     "watch:client": "nodemon --config script/client/watch.json",
     "watch:types": "nodemon --config script/types/watch.json",

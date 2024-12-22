@@ -1,6 +1,7 @@
-import { deleteFilesRecursively, exec, log } from '../helpers'
+import { deleteFilesRecursively, log } from '../helpers'
 import path from 'path'
 import fs from 'fs-extra'
+import ts from 'typescript'
 
 log('Start building types...')
 
@@ -41,8 +42,33 @@ function processDirectory(directory: string) {
   })
 }
 
+function buildTypescriptFiles() {
+  const configPath = path.join(process.cwd(), 'script/types/tsconfig.json')
+  const configFile = ts.readConfigFile(configPath, ts.sys.readFile)
+  const parsedCommandLine = ts.parseJsonConfigFileContent(
+    configFile.config,
+    ts.sys,
+    path.dirname(configPath)
+  )
+  const program = ts.createProgram({
+    rootNames: parsedCommandLine.fileNames,
+    options: parsedCommandLine.options,
+  })
+  const emitResult = program.emit()
+  const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics)
+  allDiagnostics.forEach((diagnostic) => {
+    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')
+    if (diagnostic.file) {
+      const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!)
+      console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`)
+    } else {
+      console.log(message)
+    }
+  })
+}
+
 await deleteFilesRecursively('dist', '.d.ts')
-await exec(`tsc --project ${path.join(process.cwd(), 'script/types/tsconfig.json')}`)
+buildTypescriptFiles()
 processDirectory(OUTPUT_DIR)
 
 log(`✓ Types builded`)

@@ -150,6 +150,7 @@ export class AppMapper {
         theme,
         storage,
         monitor,
+        codeCompiler: typescriptCompiler,
       },
       {
         tables,

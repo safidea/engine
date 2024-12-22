@@ -25,7 +25,7 @@ export class StoppedApp extends BaseApp {
   init = async (): Promise<void> => {
     const { theme, server } = this._services
     const { tables, pages, automations, buckets } = this._entities
-    const { notion } = this.integrations
+    const { notion } = this._integrations
     await server.init(async () => {
       if (theme) {
         const getHtmlContent = (page: Page) =>
@@ -55,12 +55,12 @@ export class StoppedApp extends BaseApp {
   }
 
   start = async ({ isTest = false } = {}): Promise<StartedApp> => {
-    if (this.status !== 'stopped')
-      throw new Error(`App is not stopped, current status is ${this.status}`)
+    if (this._status !== 'stopped')
+      throw new Error(`App is not stopped, current status is ${this._status}`)
     this._setStatus('starting')
     const { server, database, queue, storage, mailer, realtime, logger, monitor } = this._services
     const { tables } = this._entities
-    const { notion } = this.integrations
+    const { notion } = this._integrations
     await database.connect()
     await database.migrate(tables)
     await queue.start()
@@ -74,11 +74,12 @@ export class StoppedApp extends BaseApp {
       this._config,
       this._services,
       this._entities,
-      this.integrations
+      this._integrations,
+      isTest
     )
     if (!isTest && server.env === 'production') {
       database.onError(async () => {
-        if (this.status === 'started') {
+        if (this._status === 'started') {
           await startedApp.stop({ graceful: false })
         }
       })

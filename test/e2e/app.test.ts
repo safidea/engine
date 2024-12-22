@@ -253,8 +253,38 @@ test('should be able to use Notion as an integration', async () => {
 
   // WHEN
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const page = await table.create({ name: 'test integration' })
+  const page = await table.create({ name: 'test' })
 
   // THEN
-  expect(page).toBeDefined()
+  expect(page.properties.name).toBe('test')
+})
+
+Database.SQLite(test, async (dbConfig) => {
+  test('should be able to use Database as a service', async () => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      tables: [
+        {
+          name: 'cars',
+          fields: [
+            {
+              name: 'name',
+              field: 'SingleLineText',
+            },
+          ],
+        },
+      ],
+      database: dbConfig,
+    }
+    const app = new App()
+    const { services } = await app.start(config)
+    const { database } = services
+
+    // WHEN
+    const record = await database.table('cars').insert({ name: 'test' })
+
+    // THEN
+    expect(record.fields.name).toBe('test')
+  })
 })

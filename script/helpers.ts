@@ -37,14 +37,18 @@ export async function deleteFilesRecursively(
   extname: string,
   exclude?: string[]
 ) {
-  if (!fs.existsSync(directoryPath)) return
+  if (!(await fs.pathExists(directoryPath))) return
   const entries = await fs.readdir(directoryPath, { withFileTypes: true })
   for (const entry of entries) {
     const entryPath = path.join(directoryPath, entry.name)
     if (exclude && exclude.includes(entry.name)) continue
     if (entry.isDirectory()) {
-      await deleteFilesRecursively(entryPath, extname)
-    } else if (entry.isFile() && path.extname(entry.name) === extname) {
+      await deleteFilesRecursively(entryPath, extname, exclude)
+      const remainingEntries = await fs.readdir(entryPath)
+      if (remainingEntries.length === 0) {
+        await fs.rmdir(entryPath)
+      }
+    } else if (entry.isFile() && entry.name.includes(extname)) {
       await fs.unlink(entryPath)
     }
   }

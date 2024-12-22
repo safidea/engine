@@ -13,6 +13,7 @@ import type { Theme } from '@domain/services/Theme'
 import type { Storage } from '@domain/services/Storage'
 import type { Monitor } from '@domain/services/Monitor'
 import type { Notion } from '@domain/integrations/Notion'
+import type { CodeCompiler } from '@domain/services/CodeCompiler'
 
 export interface AppConfig {
   name: string
@@ -29,6 +30,7 @@ export interface AppServices {
   auth: Auth
   storage: Storage
   monitor: Monitor
+  codeCompiler: CodeCompiler
 }
 
 export interface AppEntities {
@@ -46,27 +48,18 @@ type Status = 'stopped' | 'starting' | 'started' | 'stopping'
 
 export class BaseApp {
   public name: string
-  public database: Database
-  public storage: Storage
-  public queue: Queue
-  public mailer: Mailer
   public logger: Logger
-  public status: Status = 'stopped'
+  protected _status: Status = 'stopped'
 
   constructor(
     protected _config: AppConfig,
     protected _services: AppServices,
     protected _entities: AppEntities,
-    public integrations: AppIntegrations
+    protected _integrations: AppIntegrations
   ) {
     const { name } = _config
-    const { database, queue, mailer, storage, logger } = _services
     this.name = name
-    this.database = database
-    this.queue = queue
-    this.storage = storage
-    this.mailer = mailer
-    this.logger = logger
+    this.logger = _services.logger
   }
 
   getTable = (name: string): Table => {
@@ -77,6 +70,6 @@ export class BaseApp {
 
   protected _setStatus = (status: Status) => {
     this.logger.debug(`set app status: ${status}`)
-    this.status = status
+    this._status = status
   }
 }
