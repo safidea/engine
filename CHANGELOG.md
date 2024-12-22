@@ -1,3 +1,11 @@
+## [0.34.39](https://github.com/latechforce/engine/compare/v0.34.38...v0.34.39) (2024-12-22)
+
+
+### Bug Fixes
+
+* **App:** add green test: should be able to use Notion as an integration ([7e3c3f5](https://github.com/latechforce/engine/commit/7e3c3f58c20edf058d9e80c4a0cd3720037e10b9))
+* **App:** fix broken tests ([ea2febf](https://github.com/latechforce/engine/commit/ea2febf2266e6a312d97954d7c6aa38827416013))
+
 ## [0.34.38](https://github.com/latechforce/engine/compare/v0.34.37...v0.34.38) (2024-12-22)
 
 
