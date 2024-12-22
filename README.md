@@ -10,48 +10,77 @@ You should have Node.js 22 or higher installed on your machine.
 
 ### Installation
 
-In a node project, install the engine with npm:
+In a node project, install the engine with bun:
 
 ```
-npm install @latechforce/engine
+bun install @latechforce/engine
 ```
 
-### Usage
+### Examples
 
-Then, create a startup file, for example `index.js`:
+#### Run an API
 
-```js
-import App from '@latechforce/engine'
+Create a new file `index.ts` with the following content:
 
-const app = new App()
-const url = await app.start({
-  name: 'Website',
-  pages: [
+```ts
+import App, { type Config, type CodeRunnerContext } from '@latechforce/engine'
+
+const config: Config = {
+  name: 'App',
+  automations: [
     {
-      name: 'Home',
-      path: '/',
-      body: [
+      name: 'hello-name',
+      trigger: {
+        service: 'Http',
+        event: 'ApiCalled',
+        path: 'hello-name',
+        input: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+          },
+          required: ['name'],
+        },
+        output: {
+          message: '{{runJavascriptCode.message}}',
+        },
+      },
+      actions: [
         {
-          component: 'Title',
-          text: 'Hello world!',
+          service: 'Code',
+          action: 'RunTypescript',
+          name: 'runJavascriptCode',
+          input: {
+            name: '{{trigger.body.name}}',
+          },
+          code: String(async function (context: CodeRunnerContext<{ name: string }>) {
+            const { name } = context.inputData
+            return { message: `Hello ${name}!` }
+          }),
         },
       ],
     },
   ],
+}
+
+const url = await new App().start(config)
+
+const response = await fetch(url + '/api/automation/hello-name', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ name: 'World' }),
 })
 
-console.log(`Server started at ${url}`)
-```
+const data = await response.json()
 
-Finally, run the startup file with node:
-
-```
-node index.js
+console.log(data.message) // Hello World!
 ```
 
 ## Configuration
 
-A configuration is a JSON representation of the application. It contains the pages, tables, automations, services, integrations, etc...
+A configuration is a JSON representation of the application. It contains the tables, automations, services, integrations, etc...
 
 ## Contributing
 

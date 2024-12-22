@@ -21,12 +21,26 @@ export default class {
     this._schemaValidator = SchemaValidatorMapper.toService(_drivers)
   }
 
+  start = async (config: unknown): Promise<string> => {
+    this._startedApp = await this._validateOrThrow(config)
+    const url = await this._startedApp.start()
+    this._startedApp.logger.info(`🚀 app "${this._startedApp.name}" started at ${url}`)
+    return url
+  }
+
+  stop = async (): Promise<void> => {
+    if (!this._startedApp) throw new Error('app is not started')
+    await this._startedApp.stop()
+    this._startedApp.logger.info(`🛑 app "${this._startedApp.name}" stopped`)
+    this._startedApp = null
+  }
+
   test = async (config: unknown): Promise<void> => {
     const validatedConfig = this._validateSchemaOrThrow(config)
     delete validatedConfig.server?.port
     const { logger } = await this._validateConfigOrThrow(validatedConfig)
     const errors: TestError[] = []
-    const tests = TestMapper.toManyEntities(this._drivers, validatedConfig.tests ?? [])
+    const tests = TestMapper.toManyEntities(this._drivers, validatedConfig.tests || [])
     const browser = BrowserMapper.toService(this._drivers)
     logger.info(`🔄 running ${tests.length} tests`)
     const page = await browser.launch()
@@ -48,20 +62,6 @@ export default class {
     await page.close()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
     logger.info(`✨ all tests passed`)
-  }
-
-  start = async (config: unknown): Promise<string> => {
-    this._startedApp = await this._validateOrThrow(config)
-    const url = await this._startedApp.start()
-    this._startedApp.logger.info(`🚀 app "${this._startedApp.name}" started at ${url}`)
-    return url
-  }
-
-  stop = async (): Promise<void> => {
-    if (!this._startedApp) throw new Error('app is not started')
-    await this._startedApp.stop()
-    this._startedApp.logger.info(`🛑 app "${this._startedApp.name}" stopped`)
-    this._startedApp = null
   }
 
   private _getSchemaErrors = (config: unknown): SchemaError[] => {
