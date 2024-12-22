@@ -117,7 +117,8 @@ export class NotionTable {
         for (let i = 0; i < value.length; i++) {
           const item = value[i]
           const parsedUrl = new URL(item.url)
-          if (parsedUrl.host.endsWith('s3.us-west-2.amazonaws.com')) {
+          const allowedHosts = ['prod-files-secure.s3.us-west-2.amazonaws.com']
+          if (allowedHosts.includes(parsedUrl.host)) {
             const data = await this._getFileBuffer(item.url)
             const { url } = await this._bucket.save({ name: item.name, data })
             value[i] = { name: item.name, url }
