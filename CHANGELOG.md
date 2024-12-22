@@ -1,3 +1,11 @@
+## [0.34.41](https://github.com/latechforce/engine/compare/v0.34.40...v0.34.41) (2024-12-22)
+
+
+### Bug Fixes
+
+* **CodeRunner:** export DatabaseIntegration and NotionIntegration types ([7b855f8](https://github.com/latechforce/engine/commit/7b855f824bdae064ceafe44a0afcf46f1606c861))
+* **Notion:** add specific host for file upload ([e58d58d](https://github.com/latechforce/engine/commit/e58d58d7b35fe229d6aedc63c69fd7d5c4f80bec))
+
 ## [0.34.40](https://github.com/latechforce/engine/compare/v0.34.39...v0.34.40) (2024-12-22)
 
 
