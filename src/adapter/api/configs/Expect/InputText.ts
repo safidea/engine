@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/InputText'
+import type { InputTextExpectConfig } from '@domain/entities/Expect/InputText'
 
-export interface InputText extends Config {
+export interface IInputTextExpect extends InputTextExpectConfig {
   expect: 'InputText'
 }

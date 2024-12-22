@@ -1,21 +1,21 @@
-import type { Exec, Query, Driver, Database } from './Database'
+import type { DatabaseExec, DatabaseQuery, DatabaseDriverName, Database } from './Database'
 import type { Logger } from './Logger'
-import type { Context } from '@domain/entities/Automation/Context'
+import type { AutomationContext } from '@domain/entities/Automation/Context'
 import type { Monitor } from './Monitor'
 
-export interface Config {
-  driver: Driver
-  query: Query
-  exec: Exec
+export interface QueueConfig {
+  driver: DatabaseDriverName
+  query: DatabaseQuery
+  exec: DatabaseExec
 }
 
-export interface Services {
+export interface QueueServices {
   logger: Logger
   monitor: Monitor
   database: Database
 }
 
-export type State =
+export type QueueState =
   | 'retry'
   | 'created'
   | 'active'
@@ -25,7 +25,7 @@ export type State =
   | 'failed'
   | 'archive'
 
-export interface Spi {
+export interface IQueueSpi {
   onError: (callback: (error: Error) => void) => void
   start: () => Promise<void>
   stop: (options: { graceful: boolean }) => Promise<void>
@@ -41,8 +41,8 @@ export class Queue {
   }[] = []
 
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: IQueueSpi,
+    private _services: QueueServices
   ) {}
 
   onError = () => {
@@ -85,7 +85,7 @@ export class Queue {
     await this._spi.add(job, data, options)
   }
 
-  job = (name: string, initCallback: (data: object) => Promise<Context>) => {
+  job = (name: string, initCallback: (data: object) => Promise<AutomationContext>) => {
     const { logger } = this._services
     this._jobs.push({
       name,

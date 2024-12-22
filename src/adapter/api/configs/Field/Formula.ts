@@ -1,11 +1,11 @@
-import type { Base } from './base'
-import type { DateTime } from './DateTime'
-import type { LongText } from './LongText'
-import type { Number as Number_ } from './Number'
-import type { SingleLineText } from './SingleLineText'
+import type { IBaseAction } from './base'
+import type { IDateTimeField } from './DateTime'
+import type { ILongTextField } from './LongText'
+import type { INumberField } from './Number'
+import type { ISingleLineTextField } from './SingleLineText'
 
-export interface Formula extends Base {
+export interface IFormulaField extends IBaseAction {
   field: 'Formula'
   formula: string
-  output: Omit<SingleLineText | LongText | Number_ | DateTime, 'name'>
+  output: Omit<ISingleLineTextField | ILongTextField | INumberField | IDateTimeField, 'name'>
 }

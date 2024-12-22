@@ -1,27 +1,28 @@
-export interface SentryConfig {
+export interface MonitorSentryConfig {
   driver: 'Sentry'
   dsn: string
   environment: string
 }
 
-export interface ConsoleConfig {
+export interface MonitorConsoleConfig {
   driver: 'Console'
 }
 
-export type Config = (SentryConfig | ConsoleConfig)[]
-export type Drivers = ('Sentry' | 'Console')[]
+export type MonitorConfig = MonitorSentryConfig | MonitorConsoleConfig
+export type MonitorsConfig = MonitorConfig[]
+export type MonitorDrivers = ('Sentry' | 'Console')[]
 
-export interface Spi {
+export interface IMonitorSpi {
   captureException: (error: Error) => void
   captureMessage: (message: string) => void
 }
 
 export class Monitor {
-  public drivers: Drivers
+  public drivers: MonitorDrivers
 
   constructor(
-    private _spi: Spi,
-    config: Config
+    private _spi: IMonitorSpi,
+    config: MonitorsConfig
   ) {
     this.drivers = config.map((c) => c.driver)
   }

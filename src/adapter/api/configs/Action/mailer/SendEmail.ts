@@ -1,6 +1,6 @@
-import type { Config } from '@domain/entities/Action/mailer/SendEmail'
+import type { SendEmailMailerActionConfig } from '@domain/entities/Action/mailer/SendEmail'
 
-export interface SendEmail extends Config {
+export interface ISendEmailMailerAction extends SendEmailMailerActionConfig {
   service: 'Mailer'
   action: 'SendEmail'
 }

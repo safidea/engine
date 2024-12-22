@@ -1,6 +1,6 @@
-import { Base, type FileFields } from './base'
+import { BaseFile, type FileFields } from './base'
 
-export class PersistedFile extends Base {
+export class PersistedFile extends BaseFile {
   constructor(data: FileFields) {
     super(data)
   }

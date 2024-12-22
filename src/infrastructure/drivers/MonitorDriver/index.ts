@@ -1,12 +1,12 @@
-import type { Config } from '@domain/services/Monitor'
-import type { Driver } from '@adapter/spi/MonitorSpi'
+import type { MonitorsConfig } from '@domain/services/Monitor'
+import type { IMonitorDriver } from '@adapter/spi/drivers/MonitorSpi'
 import { SentryDriver } from './SentryDriver'
 import { ConsoleDriver } from './ConsoleDriver'
 
-export class MonitorDriver implements Driver {
+export class MonitorDriver implements IMonitorDriver {
   private _monitors: (SentryDriver | ConsoleDriver)[] = []
 
-  constructor(config: Config) {
+  constructor(config: MonitorsConfig) {
     for (const monitor of config) {
       const { driver } = monitor
       switch (driver) {

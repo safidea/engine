@@ -1,13 +1,13 @@
-import type { Driver } from '@adapter/spi/LoggerSpi'
-import type { Config } from '@domain/services/Logger'
+import type { ILoggerDriver } from '@adapter/spi/drivers/LoggerSpi'
+import type { LoggersConfig } from '@domain/services/Logger'
 import { ConsoleDriver } from './ConsoleDriver'
 import { FileDriver } from './FileDriver'
 import { ElasticsSearchDriver } from './ElasticSearchDriver'
 
-export class LoggerDriver implements Driver {
+export class LoggerDriver implements ILoggerDriver {
   private _loggers: (ConsoleDriver | FileDriver | ElasticsSearchDriver)[] = []
 
-  constructor(config: Config) {
+  constructor(config: LoggersConfig) {
     for (const logger of config) {
       const { driver } = logger
       switch (driver) {

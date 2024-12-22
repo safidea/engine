@@ -1,32 +1,23 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseEvent } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { Filter } from '@domain/entities/Filter'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface ClickInEmailEventConfig {
   text: string
   mailbox: string
 }
 
-export interface Entities {
-  find: Filter[]
-}
+export class ClickInEmailEvent implements BaseEvent {
+  constructor(private _config: ClickInEmailEventConfig) {}
 
-export class ClickInEmail implements Base {
-  constructor(
-    private _config: Config,
-    private _entities: Entities
-  ) {}
-
-  execute = async (app: App, page: BrowserPage) => {
+  execute = async (app: StartedApp, page: BrowserPage) => {
     const { text, mailbox } = this._config
-    const { find } = this._entities
-    const email = await app.mailer?.find(mailbox, find)
+    const email = await app.mailer.find(mailbox)
     if (!email) {
       throw new TestError({
         code: 'EMAIL_NOT_FOUND',
-        expected: find,
+        expected: mailbox,
       })
     }
     const path = email.findLink(text)

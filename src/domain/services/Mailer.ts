@@ -2,9 +2,9 @@ import type { Filter } from '@domain/entities/Filter'
 import { SentEmail } from '../entities/Email/Sent'
 import type { CreatedEmail } from '../entities/Email/Created'
 import type { Logger } from './Logger'
-import { Is } from '@domain/entities/Filter/Is'
+import { IsTextFilter } from '@domain/entities/Filter/text/Is'
 
-export interface Config {
+export interface MailerConfig {
   host: string
   port: string
   user: string
@@ -13,21 +13,21 @@ export interface Config {
   secure?: boolean
 }
 
-export interface Services {
+export interface MailerServices {
   logger: Logger
 }
 
-export interface Spi {
+export interface IMailerSpi {
   verify: () => Promise<void>
   close: () => Promise<void>
   send: (email: CreatedEmail) => Promise<void>
-  find: (filters: Filter[]) => Promise<SentEmail | undefined>
+  find: (filter: Filter) => Promise<SentEmail | undefined>
 }
 
 export class Mailer {
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: IMailerSpi,
+    private _services: MailerServices
   ) {}
 
   verify = async (): Promise<void> => {
@@ -48,9 +48,8 @@ export class Mailer {
     return new SentEmail(createdEmail.toJson())
   }
 
-  find = async (mailbox: string, filters: Filter[] = []): Promise<SentEmail | undefined> => {
-    filters.push(new Is({ field: 'to', value: mailbox }))
-    this._services.logger.debug(`finding email in mailbox "${mailbox}"...`, filters)
-    return this._spi.find(filters)
+  find = async (mailbox: string): Promise<SentEmail | undefined> => {
+    this._services.logger.debug(`finding email in mailbox "${mailbox}"...`)
+    return this._spi.find(new IsTextFilter('to', mailbox))
   }
 }

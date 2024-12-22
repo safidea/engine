@@ -1,6 +1,6 @@
-import type { Driver } from '@adapter/spi/TemplateSpi'
+import type { ITemplateDriver } from '@adapter/spi/drivers/TemplateSpi'
 
-export class TemplateDriver implements Driver {
+export class TemplateDriver implements ITemplateDriver {
   constructor(private _template: HandlebarsTemplateDelegate) {}
 
   fill = (data: { [key: string]: unknown }) => {

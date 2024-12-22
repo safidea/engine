@@ -1,17 +1,17 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseEvent } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface WaitForTextEventConfig {
   text: string
   timeout?: number
 }
 
-export class WaitForText implements Base {
-  constructor(private _config: Config) {}
+export class WaitForTextEvent implements BaseEvent {
+  constructor(private _config: WaitForTextEventConfig) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: StartedApp, page: BrowserPage) => {
     const { text, timeout } = this._config
     const success = await page.waitForText(text, { timeout })
     if (!success) {

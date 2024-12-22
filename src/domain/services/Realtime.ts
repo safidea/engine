@@ -4,32 +4,32 @@ import type { Table } from '@domain/entities/Table'
 import type { IdGenerator } from './IdGenerator'
 import type { Database } from './Database'
 
-export interface Config {
+export interface RealtimeConfig {
   driver: string
   url: string
 }
 
-export interface Services {
+export interface RealtimeServices {
   logger: Logger
   idGenerator: IdGenerator
   database: Database
 }
 
-export interface Entities {
+export interface RealtimeEntities {
   tables: Table[]
 }
 
-export type Action = 'INSERT' | 'UPDATE' | 'DELETE'
+export type RealtimeAction = 'INSERT' | 'UPDATE' | 'DELETE'
 
 export interface RealtimeEvent {
-  action: Action
+  action: RealtimeAction
   table: string
   recordId: string
 }
 
-interface Listener {
+interface RealtimeListener {
   id: string
-  action: Action
+  action: RealtimeAction
   table: string
   callback: (record: PersistedRecord) => Promise<void>
 }
@@ -37,11 +37,11 @@ interface Listener {
 export class Realtime {
   private _db: Database
   private _tables: Table[]
-  private _listeners: Listener[]
+  private _listeners: RealtimeListener[]
 
   constructor(
-    private _services: Services,
-    private _entities: Entities
+    private _services: RealtimeServices,
+    _entities: RealtimeEntities
   ) {
     const { database } = _services
     const { tables } = _entities
@@ -60,7 +60,7 @@ export class Realtime {
   }
 
   onInsert = (table: string, callback: (record: PersistedRecord) => Promise<void>) => {
-    const { idGenerator } = this._services
+    const { idGenerator, logger } = this._services
     const id = idGenerator.forListener()
     this._listeners.push({
       action: 'INSERT',
@@ -68,7 +68,7 @@ export class Realtime {
       callback,
       id,
     })
-    this._services.logger.debug(`subscribed to insert events with id "${id}" on table "${table}"`)
+    logger.debug(`subscribed to insert events with id "${id}" on table "${table}"`)
     return id
   }
 

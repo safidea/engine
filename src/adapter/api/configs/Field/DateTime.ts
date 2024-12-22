@@ -1,5 +1,5 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface DateTime extends Base {
+export interface IDateTimeField extends IBaseAction {
   field: 'DateTime'
 }

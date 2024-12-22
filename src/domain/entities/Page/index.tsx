@@ -2,23 +2,23 @@ import type { Server } from '@domain/services/Server'
 import type { Component } from '../Component'
 import type { Logger } from '@domain/services/Logger'
 import type { Head } from '../Head'
-import { Html as HtmlResponse } from '@domain/entities/Response/Html'
-import { State } from './State'
-import type { Get } from '@domain/entities/Request/Get'
+import { HtmlResponse } from '@domain/entities/Response/Html'
+import { PageState } from './State'
+import type { GetRequest } from '@domain/entities/Request/Get'
 import type { Client } from '@domain/services/Client'
 
-export interface Config {
+export interface PageConfig {
   name: string
   path: string
 }
 
-export interface Services {
+export interface PageServices {
   server: Server
   logger: Logger
   client: Client
 }
 
-export interface Entities {
+export interface PageEntities {
   head: Head
   body: Component[]
 }
@@ -28,9 +28,9 @@ export class Page {
   readonly path: string
 
   constructor(
-    config: Config,
-    private _services: Services,
-    private _entities: Entities
+    config: PageConfig,
+    private _services: PageServices,
+    private _entities: PageEntities
   ) {
     const { name, path } = config
     this.name = name
@@ -53,17 +53,17 @@ export class Page {
     return Promise.all(body.flatMap((component) => component.validateConfig()))
   }
 
-  get = async (request: Get) => {
-    const state = new State(request)
+  get = async (request: GetRequest) => {
+    const state = new PageState(request)
     return new HtmlResponse(await this.html(state))
   }
 
-  html = async (state: State) => {
+  html = async (state: PageState) => {
     const { client } = this._services
     return client.renderToHtml(await this.render(state))
   }
 
-  htmlWithSampleProps = async (state: State) => {
+  htmlWithSampleProps = async (state: PageState) => {
     const { body } = this._entities
     const { client } = this._services
     const html = await Promise.all(
@@ -79,7 +79,7 @@ export class Page {
     return html.flat().join('')
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { body, head } = this._entities
     const { components } = this._services.client
     const children = await Promise.all(body.map((component) => component.render(state)))

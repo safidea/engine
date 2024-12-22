@@ -1,4 +1,4 @@
-export interface Base {
+export interface IBaseAction {
   name: string
   required?: boolean
   onMigration?: {

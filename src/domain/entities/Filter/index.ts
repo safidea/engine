@@ -1,27 +1,87 @@
-import { IsAnyOf, isAnyOfSchema, type Config as IsAnyOfConfig } from './IsAnyOf'
-import { Is, isSchema, type Config as IsConfig } from './Is'
 import type { JSONSchema } from '@domain/services/SchemaValidator'
+import {
+  type BooleanFilter,
+  booleanFilterSchemas,
+  type BooleanFilterConfig,
+  isBooleanFilter,
+  BooleanFilterMapper,
+} from './boolean'
+import {
+  DateFilterMapper,
+  dateFilterSchemas,
+  isDateFilter,
+  type DateFilter,
+  type DateFilterConfig,
+} from './date'
+import {
+  isNumberFilter,
+  type NumberFilter,
+  type NumberFilterConfig,
+  NumberFilterMapper,
+  numberFilterSchemas,
+} from './number'
+import {
+  isSelectFilter,
+  SelectFilterMapper,
+  selectFilterSchemas,
+  type SelectFilter,
+  type SelectFilterConfig,
+} from './select'
+import {
+  isTextFilter,
+  TextFilterMapper,
+  textFilterSchemas,
+  type TextFilter,
+  type TextFilterConfig,
+} from './text'
+import { AndFilter, andFilterSchema, type AndFilterConfig } from './And'
+import { OrFilter, orFilterSchema, type OrFilterConfig } from './Or'
 
-export type Config = IsAnyOfConfig | IsConfig
+export type FilterWithOperatorConfig =
+  | BooleanFilterConfig
+  | DateFilterConfig
+  | NumberFilterConfig
+  | SelectFilterConfig
+  | TextFilterConfig
 
-export type Filter = Is | IsAnyOf
+export type FilterConfig = AndFilterConfig | OrFilterConfig | FilterWithOperatorConfig
 
-export const schema: JSONSchema = {
-  type: 'array',
-  items: {
-    oneOf: [isSchema, isAnyOfSchema],
-  },
+export type Filter =
+  | AndFilter
+  | OrFilter
+  | BooleanFilter
+  | DateFilter
+  | NumberFilter
+  | SelectFilter
+  | TextFilter
+
+export const filterSchema: JSONSchema = {
+  type: 'object',
+  oneOf: [
+    andFilterSchema,
+    orFilterSchema,
+    ...booleanFilterSchemas,
+    ...dateFilterSchemas,
+    ...numberFilterSchemas,
+    ...selectFilterSchemas,
+    ...textFilterSchemas,
+  ],
 }
 
 export class FilterMapper {
-  static toEntity = (config: Config): Filter => {
+  static toEntity = (config: FilterConfig): Filter => {
+    if ('and' in config) return new AndFilter(FilterMapper.toManyEntities(config.and))
+    if ('or' in config) return new OrFilter(FilterMapper.toManyEntities(config.or))
     const { operator } = config
-    if (operator === 'is') return new Is(config)
-    if (operator === 'isAnyOf') return new IsAnyOf(config)
-    throw new Error(`Filter: operator ${operator} not supported`)
+    if (isBooleanFilter(config)) return BooleanFilterMapper.toEntity(config)
+    if (isDateFilter(config)) return DateFilterMapper.toEntity(config)
+    if (isNumberFilter(config)) return NumberFilterMapper.toEntity(config)
+    if (isSelectFilter(config)) return SelectFilterMapper.toEntity(config)
+    if (isTextFilter(config)) return TextFilterMapper.toEntity(config)
+    throw new Error(`Filter operator ${operator} not supported`)
   }
 
-  static toManyEntities = (configs: Config[]): Filter[] => {
+  static toManyEntities = (configs: FilterConfig[]): Filter[] => {
     return configs.map(this.toEntity)
   }
 }

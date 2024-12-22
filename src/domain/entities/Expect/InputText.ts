@@ -1,17 +1,17 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface InputTextExpectConfig {
   input: string
   value: string
 }
 
-export class InputText implements Base {
-  constructor(private _config: Config) {}
+export class InputTextExpect implements BaseExpect {
+  constructor(private _config: InputTextExpectConfig) {}
 
-  execute = async (_app: App, page: BrowserPage, _context?: object) => {
+  execute = async (_app: StartedApp, page: BrowserPage, _context?: object) => {
     const { input, value } = this._config
     const inputElement = await page.getByAttribute('name', input, { tag: 'input' })
     const attributeValue = await inputElement?.getInputValue()

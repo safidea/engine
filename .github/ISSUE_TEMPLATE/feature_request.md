@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for Safidea Engine
+about: Suggest an idea for La Tech Force Engine
 ---
 
 ## Goal
@@ -15,12 +15,12 @@ In order to achieve that, we could ... <!-- (optional) provide solutions, ideas 
 
 ## How to
 
-<!-- This section explains how to contribute successfully to Safidea Engine's repo -->
+<!-- This section explains how to contribute successfully to La Tech Force Engine's repo -->
 
 In order to solve this issue, you are invited to fork this GitHub repository, makes changes to it, and then create a Pull Request so we can merge your changes back to this repository.
 
 First, you may want to read about:
 
-- How to propose a valuable contribution to this repo: [`CONTRIBUTING.md`](https://github.com/safidea/engine/blob/main/docs/CONTRIBUTING.md)
+- How to propose a valuable contribution to this repo: [`CONTRIBUTING.md`](https://github.com/latechforce/engine/blob/main/docs/CONTRIBUTING.md)
 
 I will be happy to assist you at any stage, if you want to try to solve this issue! If you have any question, just leave a comment below. Beginners are also welcome! 🤗

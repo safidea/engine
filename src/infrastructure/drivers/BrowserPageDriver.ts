@@ -1,8 +1,8 @@
-import type { Driver } from '@adapter/spi/BrowserPageSpi'
+import type { IBrowserPageDriver } from '@adapter/spi/drivers/BrowserPageSpi'
 import type { Page, Browser } from 'puppeteer'
 import { BrowserElementDriver } from './BrowserElementDriver'
 
-export class BrowserPageDriver implements Driver {
+export class BrowserPageDriver implements IBrowserPageDriver {
   constructor(
     private _browser: Browser,
     private _page: Page,

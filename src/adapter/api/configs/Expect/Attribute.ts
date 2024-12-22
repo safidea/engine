@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/Attribute'
+import type { AttributeExpectConfig } from '@domain/entities/Expect/Attribute'
 
-export interface Attribute extends Config {
+export interface IAttributeExpect extends AttributeExpectConfig {
   expect: 'Attribute'
 }

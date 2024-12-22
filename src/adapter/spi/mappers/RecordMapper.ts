@@ -5,11 +5,11 @@ import { PersistedRecord } from '@domain/entities/Record/Persisted'
 
 export class RecordMapper {
   static toCreateDto = (createdRecord: CreatedRecord): CreatedRecordDto => {
-    return createdRecord.fields
+    return createdRecord.fieldsWithDates
   }
 
   static toUpdateDto = (updatedRecord: UpdatedRecord): UpdatedRecordDto => {
-    return updatedRecord.fields
+    return updatedRecord.fieldsWithDates
   }
 
   static toPersistedEntity = (record: PersistedRecordDto) => {

@@ -6,7 +6,7 @@ import type { Base, BaseProps, BaseServices } from '../base'
 import type { Props as ButtonProps } from '../base/Button'
 import type { Props as ParagraphProps } from '../content/Paragraph'
 import type { Props as TitleProps } from '../content/Title'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   Title: React.FC<Partial<TitleProps>>
@@ -36,7 +36,7 @@ export class NotFound implements Base<Props> {
     await Promise.all([title.init(), paragraph.init(), button.init()])
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { title, paragraph, button } = this._entities
     const Title = await title.render()
     const Paragraph = await paragraph.render()

@@ -1,19 +1,19 @@
-import { Spreadsheet, type Spi as SpreadsheetSpi } from './Spreadsheet'
+import { Spreadsheet, type ISpreadsheetSpi } from './Spreadsheet'
 import type { TemplateCompiler } from './TemplateCompiler'
 
-export interface Spi {
-  fromXlsxFile: (path: string) => Promise<SpreadsheetSpi>
-  fromXlsxBuffer: (buffer: Buffer) => Promise<SpreadsheetSpi>
+export interface ISpreadsheetLoaderSpi {
+  fromXlsxFile: (path: string) => Promise<ISpreadsheetSpi>
+  fromXlsxBuffer: (buffer: Buffer) => Promise<ISpreadsheetSpi>
 }
 
-export interface Services {
+export interface SpreadsheetLoaderServices {
   templateCompiler: TemplateCompiler
 }
 
 export class SpreadsheetLoader {
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: ISpreadsheetLoaderSpi,
+    private _services: SpreadsheetLoaderServices
   ) {}
 
   fromXlsxFile = async (path: string): Promise<Spreadsheet> => {

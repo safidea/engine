@@ -1,4 +1,4 @@
-export interface Params {
+export interface TestErrorParams {
   code: string
   name?: string
   expected?: string | number | boolean | object
@@ -13,7 +13,7 @@ export class TestError {
   public received?: string | number | boolean | object
   public message?: string
 
-  constructor(params: Params) {
+  constructor(params: TestErrorParams) {
     this.code = params.code
     this.name = params.name
     this.expected = params.expected

@@ -1,6 +1,6 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
-export class Stream extends Base {
+export class StreamResponse extends BaseResponse {
   private _interval: Timer
   public onEvent?: (event: string) => void
   public onClose?: () => void
@@ -28,6 +28,6 @@ export class Stream extends Base {
   }
 }
 
-export function isStream(value: unknown): value is Stream {
-  return value instanceof Stream
+export function isStreamResponse(value: unknown): value is StreamResponse {
+  return value instanceof StreamResponse
 }

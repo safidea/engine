@@ -1,14 +1,14 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { Event } from '../Event'
 import type { Expect } from '../Expect'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 import { TestError } from '@domain/entities/Error/Test'
 
-interface Config {
+interface TestConfig {
   name: string
 }
 
-interface Entities {
+interface TestEntities {
   when: Event[]
   then: Expect[]
 }
@@ -17,14 +17,14 @@ export class Test {
   public name: string
 
   constructor(
-    config: Config,
-    private _entities: Entities
+    config: TestConfig,
+    private _entities: TestEntities
   ) {
     const { name } = config
     this.name = name
   }
 
-  run = async (app: App, page: BrowserPage): Promise<void> => {
+  run = async (app: StartedApp, page: BrowserPage): Promise<void> => {
     const { when, then } = this._entities
     try {
       const context: { [key: string]: object } = {}

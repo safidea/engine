@@ -6,7 +6,7 @@ import {
   type BaseServices,
 } from '../base'
 import type { Component } from '..'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   children: React.ReactNode
@@ -35,7 +35,7 @@ export class Container implements Base<Props> {
     await Promise.all(children.map((child) => child.init()))
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { ...defaultProps } = this._config
     const Component = this._services.client.components.Container
     const children = await Promise.all(this._entities.children.map((child) => child.render(state)))

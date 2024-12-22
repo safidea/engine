@@ -1,4 +1,4 @@
-import type { Config } from '@adapter/api/configs/Config'
+import type { Config } from '@adapter/api/configs'
 import * as Sentry from './Sentry'
 
 export function instrument(config: Config) {

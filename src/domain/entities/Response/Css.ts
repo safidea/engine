@@ -1,6 +1,6 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
-export class Css extends Base {
+export class CssResponse extends BaseResponse {
   constructor(css: string) {
     super({
       body: css,
@@ -11,6 +11,6 @@ export class Css extends Base {
   }
 }
 
-export function isCss(value: unknown): value is Css {
-  return value instanceof Css
+export function isCssResponse(value: unknown): value is CssResponse {
+  return value instanceof CssResponse
 }

@@ -1,32 +1,39 @@
 import type { Logger } from '@domain/services/Logger'
 import type { Action } from '../Action'
 import type { Trigger } from '../Trigger'
-import { Context } from './Context'
+import { AutomationContext } from './Context'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Monitor } from '@domain/services/Monitor'
 import type { IdGenerator } from '@domain/services/IdGenerator'
+import { AutomationHistory } from './History'
+import type { Database } from '@domain/services/Database'
 
-interface Config {
+interface AutomationConfig {
   name: string
 }
 
-interface Services {
+interface AutomationServices {
   logger: Logger
   monitor: Monitor
   idGenerator: IdGenerator
+  database: Database
 }
 
-interface Entities {
+interface AutomationEntities {
   actions: Action[]
   trigger: Trigger
 }
 
 export class Automation {
+  private _history: AutomationHistory
+
   constructor(
-    private _config: Config,
-    private _services: Services,
-    private _entities: Entities
-  ) {}
+    private _config: AutomationConfig,
+    private _services: AutomationServices,
+    private _entities: AutomationEntities
+  ) {
+    this._history = new AutomationHistory(this._services)
+  }
 
   get name() {
     return this._config.name
@@ -35,6 +42,7 @@ export class Automation {
   init = async () => {
     const { trigger, actions } = this._entities
     const { logger } = this._services
+    await this._history.init()
     await trigger.init(this.run)
     logger.debug(`initializing automation "${this.name}"`)
     for (const action of actions) await action.init()
@@ -46,13 +54,23 @@ export class Automation {
 
   run = async (triggerData: object) => {
     const { actions } = this._entities
-    const { logger, idGenerator } = this._services
-    const id = idGenerator.forAutomation()
-    const context = new Context(id, triggerData)
-    logger.debug(`"${this.name}": running automation "${id}"`)
-    for (const action of actions) await action.execute(context)
-    logger.debug(`"${this.name}": completed automation "${id}"`)
-    logger.info(`"${this.name}" run ${context.status}`, context.run)
+    const { logger } = this._services
+    logger.info(`start automation "${this.name}"`)
+    const id = await this._history.create({
+      automation_name: this.name,
+      trigger_data: triggerData,
+      actions_data: [],
+      status: 'running',
+    })
+    const context = new AutomationContext(id, triggerData)
+    logger.debug(`running automation "${this.name}" with id "${id}"`)
+    for (const action of actions) {
+      await action.execute(context)
+      await this._history.updateActions(id, context.run.actions)
+    }
+    await this._history.updateStatus(id, context.status)
+    logger.info(`finish automation "${this.name}" with status "${context.status}"`)
+    logger.debug(`result of automation "${this.name}" with "${id}"`, context.run)
     return context
   }
 }

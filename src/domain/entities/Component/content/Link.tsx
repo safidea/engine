@@ -1,7 +1,7 @@
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Icon } from './Icon'
 import type { Base, BaseProps, Font, BaseServices } from '../base'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   label: string
@@ -33,7 +33,7 @@ export class Link implements Base<Props> {
     await Promise.all([prefixIcon?.init(), suffixIcon?.init()])
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { active: isActive, ...defaultProps } = this._config
     const { prefixIcon, suffixIcon } = this._entities
     const PrefixIcon = prefixIcon ? await prefixIcon.render() : undefined

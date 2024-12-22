@@ -1,14 +1,15 @@
-import type { Drivers } from '@adapter/spi/Drivers'
-import type { Config as ServerConfig } from '@domain/services/Server'
-import type { Config as DatabaseConfig } from '@domain/services/Database'
-import type { Config as QueueConfig } from '@domain/services/Queue'
-import type { Config as MailerConfig } from '@domain/services/Mailer'
-import type { Config as AuthConfig } from '@domain/services/Auth'
-import type { Config as ThemeConfig } from '@domain/services/Theme'
-import type { Config as StorageConfig } from '@domain/services/Storage'
-import type { Config as MonitorConfig } from '@domain/services/Monitor'
-import type { Config as LoggerConfig } from '@domain/services/Logger'
-import type { Config as CodeConfig } from '@domain/services/CodeCompiler'
+import type { Drivers } from '@adapter/spi/drivers'
+import type { ServerConfig } from '@domain/services/Server'
+import type { DatabaseConfig } from '@domain/services/Database'
+import type { QueueConfig } from '@domain/services/Queue'
+import type { MailerConfig } from '@domain/services/Mailer'
+import type { AuthConfig } from '@domain/services/Auth'
+import type { ThemeConfig } from '@domain/services/Theme'
+import type { StorageConfig } from '@domain/services/Storage'
+import type { MonitorsConfig } from '@domain/services/Monitor'
+import type { LoggersConfig } from '@domain/services/Logger'
+import type { CodeCompilerConfig } from '@domain/services/CodeCompiler'
+import type { TunnelConfig } from '@domain/services/Tunnel'
 
 import { MonitorDriver } from './MonitorDriver'
 import { StorageDriver } from './StorageDriver'
@@ -31,8 +32,10 @@ import { CodeCompilerDriver } from './CodeCompilerDriver'
 import { FileSystemDriver } from './FileSystemDriver'
 import { SpreadsheetLoaderDriver } from './SpreadsheetLoaderDriver'
 import { DocumentLoaderDriver } from './DocumentLoaderDriver'
+import { TunnelDriver } from './TunnelDriver'
 
 export const drivers: Drivers = {
+  tunnel: (config?: TunnelConfig) => new TunnelDriver(config),
   server: (config: ServerConfig) => new ServerDriver(config),
   database: (config: DatabaseConfig) => new DatabaseDriver(config),
   queue: (config: QueueConfig) => new QueueDriver(config),
@@ -40,9 +43,9 @@ export const drivers: Drivers = {
   mailer: (config: MailerConfig) => new MailerDriver(config),
   auth: (config: AuthConfig) => new AuthDriver(config),
   theme: (config: ThemeConfig) => new ThemeDriver(config),
-  monitor: (config: MonitorConfig) => new MonitorDriver(config),
-  logger: (config: LoggerConfig) => new LoggerDriver(config),
-  codeCompiler: (config: CodeConfig) => new CodeCompilerDriver(config),
+  monitor: (config: MonitorsConfig) => new MonitorDriver(config),
+  logger: (config: LoggersConfig) => new LoggerDriver(config),
+  codeCompiler: (config: CodeCompilerConfig) => new CodeCompilerDriver(config),
   markdownParser: () => new MarkdownParserDriver(),
   templateCompiler: () => new TemplateCompilerDriver(),
   schemaValidator: () => new SchemaValidatorDriver(),

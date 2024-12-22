@@ -1,13 +1,13 @@
 import type { Server } from '@domain/services/Server'
 import type { Base, BaseProps } from '../../base'
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { Html } from '@domain/entities/Response/Html'
+import { HtmlResponse } from '@domain/entities/Response/Html'
 import { ConfigError } from '@domain/entities/Error/Config'
-import { Stream } from '@domain/entities/Response/Stream'
+import { StreamResponse } from '@domain/entities/Response/Stream'
 import type { Realtime } from '@domain/services/Realtime'
 import type { Client } from '@domain/services/Client'
-import { State } from '@domain/entities/Page/State'
-import type { Get } from '@domain/entities/Request/Get'
+import { PageState } from '@domain/entities/Page/State'
+import type { GetRequest } from '@domain/entities/Request/Get'
 import type { Table as TableEntity } from '@domain/entities/Table'
 import SAMPLES from './samples.json'
 
@@ -79,17 +79,17 @@ export class Table implements Base<Props> {
     ])
   }
 
-  getData = async (request: Get) => {
-    const state = new State(request)
+  getData = async (request: GetRequest) => {
+    const state = new PageState(request)
     const { server } = this._services
     const { records } = await fetch(server.baseUrl + this._table.path).then((res) => res.json())
-    return new Html(await this.html(state, { rows: records }))
+    return new HtmlResponse(await this.html(state, { rows: records }))
   }
 
-  streamData = async (request: Get) => {
-    const state = new State(request)
+  streamData = async (request: GetRequest) => {
+    const state = new PageState(request)
     const { realtime, server } = this._services
-    const stream = new Stream()
+    const stream = new StreamResponse()
     const streamId = realtime.onInsert(this._table.name, async () => {
       const { records } = await fetch(server.baseUrl + this._table.path).then((res) => res.json())
       const htmlStream = await this.htmlStream(state, { rows: records })
@@ -99,13 +99,13 @@ export class Table implements Base<Props> {
     return stream
   }
 
-  html = async (state: State, props?: Partial<Props>) => {
+  html = async (state: PageState, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state)
     return client.renderToHtml(<Component {...props} />)
   }
 
-  htmlStream = async (state: State, props?: Partial<Props>) => {
+  htmlStream = async (state: PageState, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state)
     return client.renderToHtml(
@@ -115,7 +115,7 @@ export class Table implements Base<Props> {
     )
   }
 
-  render = async (_state: State) => {
+  render = async (_state: PageState) => {
     const { client } = this._services
     return (props: Partial<Props> = {}) => (
       <>
@@ -127,7 +127,7 @@ export class Table implements Base<Props> {
     )
   }
 
-  renderWithSamples = async (_state: State) => {
+  renderWithSamples = async (_state: PageState) => {
     const Component = await this.render(_state)
     return Object.values(SAMPLES).map((sample, index) => <Component {...sample} key={index} />)
   }

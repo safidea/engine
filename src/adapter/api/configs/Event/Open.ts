@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Event/Open'
+import type { OpenEventConfig } from '@domain/entities/Event/Open'
 
-export interface Open extends Config {
+export interface IOpenEvent extends OpenEventConfig {
   event: 'Open'
 }

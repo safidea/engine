@@ -1,7 +1,5 @@
-import type { Config as Filter } from '@domain/entities/Filter'
-import type { Config } from '@domain/entities/Expect/Email'
+import type { EmailExpectConfig } from '@domain/entities/Expect/Email'
 
-export interface Email extends Config {
+export interface IEmailExpect extends EmailExpectConfig {
   expect: 'Email'
-  find: Filter[]
 }

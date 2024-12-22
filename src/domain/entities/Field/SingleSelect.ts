@@ -1,13 +1,13 @@
-import { Base, type BaseParams } from './base'
+import { BaseField, type BaseFieldParams } from './base'
 
-interface Params extends BaseParams {
+interface SingleSelectFieldParams extends BaseFieldParams {
   options: string[]
 }
 
-export class SingleSelect extends Base {
+export class SingleSelectField extends BaseField {
   options: string[]
 
-  constructor(params: Params) {
+  constructor(params: SingleSelectFieldParams) {
     super(params)
     this.options = params.options
   }

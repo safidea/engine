@@ -1,18 +1,18 @@
 import type { Job } from '@domain/entities/Job'
 import type { JobDto } from '../dtos/JobDto'
-import { Completed } from '@domain/entities/Job/Completed'
-import { Failed } from '@domain/entities/Job/Failed'
-import { Created } from '@domain/entities/Job/Created'
+import { CompletedJob } from '@domain/entities/Job/Completed'
+import { FailedJob } from '@domain/entities/Job/Failed'
+import { CreatedJob } from '@domain/entities/Job/Created'
 
 export class JobMapper {
   static toEntity = (dto: JobDto): Job => {
     switch (dto.state) {
       case 'created':
-        return new Created(dto)
+        return new CreatedJob(dto)
       case 'completed':
-        return new Completed(dto)
+        return new CompletedJob(dto)
       case 'failed':
-        return new Failed(dto)
+        return new FailedJob(dto)
       default:
         throw new Error(`State ${dto.state} not supported`)
     }

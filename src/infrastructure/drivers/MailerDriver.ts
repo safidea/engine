@@ -1,15 +1,15 @@
-import type { Driver } from '@adapter/spi/MailerSpi'
+import type { IMailerDriver } from '@adapter/spi/drivers/MailerSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
-import type { Config } from '@domain/services/Mailer'
+import type { MailerConfig } from '@domain/services/Mailer'
 import { v4 as uuidv4 } from 'uuid'
 import nodemailer, { type Transporter } from 'nodemailer'
 import SQLite from 'better-sqlite3'
 import type { EmailDto } from '@adapter/spi/dtos/EmailDto'
 
-export class MailerDriver implements Driver {
+export class MailerDriver implements IMailerDriver {
   private _transporter: Transporter | SqliteTransporter
 
-  constructor(config: Config) {
+  constructor(config: MailerConfig) {
     const { host, port, user, pass, secure } = config
     if (user === '_sqlite' && pass === '_sqlite') {
       this._transporter = new SqliteTransporter(host)
@@ -41,9 +41,9 @@ export class MailerDriver implements Driver {
     await this._transporter.sendMail(toSendDto)
   }
 
-  find = async (filters: FilterDto[]): Promise<EmailDto | undefined> => {
+  find = async (filter: FilterDto): Promise<EmailDto | undefined> => {
     if (this._transporter instanceof SqliteTransporter) {
-      return this._transporter.find(filters)
+      return this._transporter.find(filter)
     }
     throw new Error('not implemented')
   }
@@ -86,22 +86,21 @@ class SqliteTransporter {
     }
   }
 
-  find = async (filters: FilterDto[]): Promise<EmailDto | undefined> => {
+  find = async (filter: FilterDto): Promise<EmailDto | undefined> => {
     let query = `SELECT * FROM emails WHERE `
     const conditions: string[] = []
     const values: (string | number)[] = []
 
-    filters.forEach((filter) => {
-      if (Array.isArray(filter.value)) {
-        conditions.push(
-          `"${filter.field}" ${filter.operator} (${filter.value.map(() => '?').join(', ')})`
-        )
-        values.push(...filter.value)
-      } else {
-        conditions.push(`"${filter.field}" ${filter.operator} ?`)
-        values.push(filter.value)
+    if ('operator' in filter) {
+      switch (filter.operator) {
+        case 'Is':
+          conditions.push(`"${filter.field}" = ?`)
+          values.push(filter.value)
+          break
+        default:
+          throw new Error(`Unsupported operator: ${filter.operator}`)
       }
-    })
+    }
 
     query += conditions.join(' AND ')
     const stmt = this._db.prepare(query)

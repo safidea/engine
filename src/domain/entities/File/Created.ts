@@ -1,17 +1,17 @@
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { Base } from './base'
+import { BaseFile } from './base'
 
-interface Config {
+export interface CreatedFileConfig {
   name: string
   data: string | Buffer | Uint8Array
 }
 
-interface Services {
+interface CreatedFileServices {
   idGenerator: IdGenerator
 }
 
-export class CreatedFile extends Base {
-  constructor(config: Config, services: Services) {
+export class CreatedFile extends BaseFile {
+  constructor(config: CreatedFileConfig, services: CreatedFileServices) {
     const { idGenerator } = services
     const { data, name } = config
     super({

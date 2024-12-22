@@ -1,9 +1,9 @@
 import { createLogger, format, transports } from 'winston'
-import { BaseDriver } from './base'
-import type { ConsoleConfig } from '@domain/services/Logger'
+import { BaseLoggerDriver } from './base'
+import type { LoggerConsoleConfig } from '@domain/services/Logger'
 
-export class ConsoleDriver extends BaseDriver {
-  constructor(config: ConsoleConfig) {
+export class ConsoleDriver extends BaseLoggerDriver {
+  constructor(config: LoggerConsoleConfig) {
     const logger = createLogger({
       format: format.combine(
         format.colorize(),

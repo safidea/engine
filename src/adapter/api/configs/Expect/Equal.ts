@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/Equal'
+import type { EqualExpectConfig } from '@domain/entities/Expect/Equal'
 
-export interface Equal extends Config {
+export interface IEqualExpect extends EqualExpectConfig {
   expect: 'Equal'
 }
