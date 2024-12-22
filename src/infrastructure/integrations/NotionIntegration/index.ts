@@ -72,6 +72,13 @@ export class NotionIntegration implements INotionIntegration {
                 setTimeout(resolve, Number(headers?.get('retry-after') ?? 0) * 1000)
               })
               break
+            case APIErrorCode.ConflictError:
+              if (attempt < retries - 1) {
+                await new Promise((resolve) => setTimeout(resolve, 2000))
+              } else {
+                throw new Error('Failed after multiple conflict errors')
+              }
+              break
             default:
               throw error
           }
