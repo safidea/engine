@@ -44,7 +44,7 @@ test('should run a TypeScript code', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request
@@ -148,7 +148,7 @@ test('should run a Typescript code with env variable', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/get-env`).then((res) => res.json())
@@ -201,7 +201,7 @@ test('should run a Typescript code with env variable and not showing them in log
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await request.post(`${url}/api/automation/get-env`)
@@ -243,7 +243,7 @@ test('should run a Typescript code with the native Date class', async ({ request
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request
@@ -286,7 +286,7 @@ test('should run a Typescript code with the native Array class', async ({ reques
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/is-array`).then((res) => res.json())
@@ -327,7 +327,7 @@ test('should run a Typescript code with the native Number class', async ({ reque
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/is-number`).then((res) => res.json())
@@ -368,7 +368,7 @@ test('should run a Typescript code with the native Boolean class', async ({ requ
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/is-boolean`).then((res) => res.json())
@@ -407,7 +407,7 @@ test('should run a Typescript code with the native URLSearchParams class', async
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/get-param`).then((res) => res.json())

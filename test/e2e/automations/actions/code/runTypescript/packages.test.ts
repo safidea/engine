@@ -34,7 +34,7 @@ test('should run a Typescript code with the date-fns package', async ({ request 
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/get-date`).then((res) => res.json())
@@ -84,7 +84,7 @@ test('should run a Typescript code with xml2js package', async ({ request }) => 
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/parse-xml`).then((res) => res.json())
@@ -130,7 +130,7 @@ test('should run a Typescript code with axios package', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/axios`).then((res) => res.json())
@@ -173,7 +173,7 @@ test('should run a Typescript code with https package', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/https`).then((res) => res.json())
@@ -216,7 +216,7 @@ test('should run a Typescript code with crypto package', async ({ request }) => 
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/crypto`).then((res) => res.json())
@@ -259,7 +259,7 @@ test('should run a Typescript code with lodash package', async ({ request }) => 
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/lodash`).then((res) => res.json())

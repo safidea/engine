@@ -1,4 +1,4 @@
-import { App } from '@domain/entities/App'
+import { StoppedApp } from '@domain/entities/App/Stopped'
 import type { Config } from '@adapter/api/configs'
 import type { Drivers } from '@adapter/spi/drivers'
 import { PageMapper } from './PageMapper'
@@ -135,7 +135,7 @@ export class AppMapper {
       { tables, buckets },
       { notion, pappers, qonto }
     )
-    return new App(
+    return new StoppedApp(
       {
         name,
       },

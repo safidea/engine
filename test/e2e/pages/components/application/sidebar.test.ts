@@ -24,7 +24,7 @@ test('should display a sidebar with id', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -66,7 +66,7 @@ test('should display a list of links with icons', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -130,7 +130,7 @@ test('should display a paragraph when clicking on a link', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -186,7 +186,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN

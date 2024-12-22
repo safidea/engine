@@ -43,7 +43,7 @@ test('should update a page', async ({ request }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await integration.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.create({ name: 'John' })
 

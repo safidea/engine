@@ -16,7 +16,7 @@ test('should render a title', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -48,7 +48,7 @@ test('should render a meta description', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)

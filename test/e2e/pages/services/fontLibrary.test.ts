@@ -24,7 +24,7 @@ test('should load a font file', async ({ page, request }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url + '/output.css')

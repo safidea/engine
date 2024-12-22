@@ -1,5 +1,5 @@
 import { AppMapper } from './mappers/AppMapper'
-import type { App } from '@domain/entities/App'
+import type { StoppedApp } from '@domain/entities/App/Stopped'
 import type { Config } from './configs'
 import type { SchemaError } from '@domain/entities/Error/Schema'
 import type { Drivers } from '@adapter/spi/drivers'
@@ -9,10 +9,10 @@ import { TestError } from '@domain/entities/Error/Test'
 import { TestMapper } from './mappers/TestMapper'
 import { BrowserMapper } from './mappers/Services/BrowserMapper'
 import type { Integrations } from '@adapter/spi/integrations'
+import type { StartedApp } from '@domain/entities/App/Started'
 
 export default class {
   private _schemaValidator: SchemaValidator
-  private _startedApp: App | null = null
 
   constructor(
     private _drivers: Drivers,
@@ -21,18 +21,10 @@ export default class {
     this._schemaValidator = SchemaValidatorMapper.toService(_drivers)
   }
 
-  start = async (config: unknown): Promise<string> => {
-    this._startedApp = await this._validateOrThrow(config)
-    const url = await this._startedApp.start()
-    this._startedApp.logger.info(`🚀 app "${this._startedApp.name}" started at ${url}`)
-    return url
-  }
-
-  stop = async (): Promise<void> => {
-    if (!this._startedApp) throw new Error('app is not started')
-    await this._startedApp.stop()
-    this._startedApp.logger.info(`🛑 app "${this._startedApp.name}" stopped`)
-    this._startedApp = null
+  start = async (config: unknown): Promise<StartedApp> => {
+    const stoppedApp = await this._validateOrThrow(config)
+    const startedApp = await stoppedApp.start()
+    return startedApp
   }
 
   test = async (config: unknown): Promise<void> => {
@@ -47,11 +39,11 @@ export default class {
     for (let i = 1; i <= tests.length; i++) {
       const test = tests[i - 1]
       try {
-        const app = AppMapper.toEntity(this._drivers, this._integrations, validatedConfig)
-        await app.init()
-        const baseUrl = await app.start({ isTest: true })
-        await page.new(baseUrl)
-        await test.run(app, page)
+        const stoppedApp = AppMapper.toEntity(this._drivers, this._integrations, validatedConfig)
+        await stoppedApp.init()
+        const startedApp = await stoppedApp.start({ isTest: true })
+        await page.new(startedApp.url)
+        await test.run(startedApp, page)
         logger.info(`✅ ${i} > ${test.name}`)
       } catch (error) {
         logger.info(`❌ ${i} > ${test.name}`)
@@ -80,17 +72,17 @@ export default class {
     return { ...config }
   }
 
-  private _validateConfigOrThrow = async (config: Config): Promise<App> => {
-    const app = AppMapper.toEntity(this._drivers, this._integrations, config)
-    await app.logger.init()
-    app.logger.info('✅ config schema is valid')
-    const errors = await app.validateConfig()
+  private _validateConfigOrThrow = async (config: Config): Promise<StoppedApp> => {
+    const stoppedApp = AppMapper.toEntity(this._drivers, this._integrations, config)
+    await stoppedApp.logger.init()
+    stoppedApp.logger.info('✅ config schema is valid')
+    const errors = await stoppedApp.validateConfig()
     if (errors.length > 0) throw new Error(JSON.stringify(errors, null, 2))
-    app.logger.info('✅ config dependancies are valids')
-    return app
+    stoppedApp.logger.info('✅ config dependancies are valids')
+    return stoppedApp
   }
 
-  private _validateOrThrow = async (config: unknown): Promise<App> => {
+  private _validateOrThrow = async (config: unknown): Promise<StoppedApp> => {
     const configWithValidSchema = this._validateSchemaOrThrow(config)
     return this._validateConfigOrThrow(configWithValidSchema)
   }

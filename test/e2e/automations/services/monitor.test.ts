@@ -49,7 +49,7 @@ test.describe('Sentry driver', () => {
     }
     instrument(config)
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/automation/error`)

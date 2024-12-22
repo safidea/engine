@@ -73,7 +73,7 @@ test.describe('Table component', () => {
         database: dbConfig,
       }
       const app = new App()
-      const url = await app.start(config)
+      const { url } = await app.start(config)
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
       // WHEN
@@ -131,7 +131,7 @@ test.describe('Table component', () => {
         database: dbConfig,
       }
       const app = new App()
-      const url = await app.start(config)
+      const { url } = await app.start(config)
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
       // WHEN
@@ -179,7 +179,7 @@ test.describe('Table component', () => {
         database: dbConfig,
       }
       const app = new App()
-      const url = await app.start(config)
+      const { url } = await app.start(config)
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
       // WHEN

@@ -33,7 +33,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const { record } = await request
@@ -76,7 +76,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const { record } = await request
@@ -119,7 +119,7 @@ Database.each(test, (dbConfig) => {
     await database.table('leads').create()
 
     // WHEN
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const { record } = await request
       .post(url + '/api/table/leads', {
         data: { name: 'John' },
@@ -168,7 +168,7 @@ Database.each(test, (dbConfig) => {
       .create()
 
     // WHEN
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const { record } = await request
       .post(url + '/api/table/leads', {
         data: { name: 'John' },
@@ -219,7 +219,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const { record } = await request
@@ -272,7 +272,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const { record } = await request

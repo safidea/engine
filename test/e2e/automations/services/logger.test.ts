@@ -68,7 +68,7 @@ test.describe('File driver', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/automation/run`)
@@ -117,7 +117,7 @@ test.describe('File driver', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/automation/run`)
@@ -173,7 +173,7 @@ test.describe('ElasticSearch driver', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/automation/error`)

@@ -59,7 +59,7 @@ test('should run a Typescript code with a Notion database page create', async ({
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request
@@ -132,7 +132,7 @@ test('should run a Typescript code with a Notion database page update', async ({
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.create({ name: 'John' })
 
@@ -212,7 +212,7 @@ test('should run a Typescript code with a Notion database page update and a noti
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.create({ files: [] })
 
@@ -284,7 +284,7 @@ test('should run a Typescript code with a Notion database page retrieve', async 
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.create({ name: 'John Doe' })
 
@@ -355,7 +355,7 @@ test('should run a Typescript code with a Notion database page archive', async (
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.create({ name: 'John Doe' })
 
@@ -432,7 +432,7 @@ test('should run a Typescript code with a Notion database page list', async ({ r
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const users = await table.createMany([
     { name: 'John Doe' },
@@ -510,7 +510,7 @@ test('should run a Typescript code with a Notion database page and a title prope
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.create({ name: 'John Doe' })
 

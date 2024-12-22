@@ -36,7 +36,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
 
     // WHEN

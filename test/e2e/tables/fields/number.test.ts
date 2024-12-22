@@ -22,7 +22,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/table/scores`, { data: { score: 3 } })

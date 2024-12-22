@@ -63,7 +63,7 @@ const config: Config = {
   ],
 }
 
-const url = await new App().start(config)
+const { url } = await new App().start(config)
 
 const response = await fetch(url + '/api/automation/hello-name', {
   method: 'POST',

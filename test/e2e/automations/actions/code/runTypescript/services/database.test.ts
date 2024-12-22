@@ -50,7 +50,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const response = await request
@@ -118,7 +118,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN
@@ -188,7 +188,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
 
     // WHEN
@@ -251,7 +251,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
 
     // WHEN
@@ -314,7 +314,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
 
     // WHEN
@@ -379,7 +379,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database
       .table('users', [{ name: 'age', type: 'NUMERIC' }])
       .insert({ id: '1', age: 35, created_at: new Date() })
@@ -446,7 +446,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database
       .table('users', [{ name: 'valid', type: 'BOOLEAN' }])
       .insert({ id: '1', valid: true, created_at: new Date() })
@@ -511,7 +511,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const birthdate = new Date()
     await database
       .table('users', [{ name: 'birthdate', type: 'TIMESTAMP' }])
@@ -566,7 +566,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insertMany([
       { id: '1', name: 'John Doe', created_at: new Date() },
       { id: '2', name: 'John Wick', created_at: new Date() },
@@ -629,7 +629,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insertMany([
       { id: '1', name: 'John Doe', created_at: new Date() },
       { id: '2', name: 'John Wick', created_at: new Date() },
@@ -688,7 +688,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('users').insertMany([
       { id: '1', name: 'John Doe', created_at: new Date() },
       { id: '2', name: 'John Wick', created_at: new Date() },

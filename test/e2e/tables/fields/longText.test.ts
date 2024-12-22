@@ -20,7 +20,7 @@ test('should create a record with a long text field', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const res = await request.post(`${url}/api/table/leads`, {

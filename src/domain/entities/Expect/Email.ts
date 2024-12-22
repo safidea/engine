@@ -1,7 +1,7 @@
 import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
 export interface EmailExpectConfig {
   mailbox: string
@@ -10,7 +10,7 @@ export interface EmailExpectConfig {
 export class EmailExpect implements BaseExpect {
   constructor(private _config: EmailExpectConfig) {}
 
-  execute = async (app: App, _page: BrowserPage, _context?: object) => {
+  execute = async (app: StartedApp, _page: BrowserPage, _context?: object) => {
     const { mailbox } = this._config
     const email = await app.mailer.find(mailbox)
     if (!email) {

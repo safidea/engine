@@ -33,7 +33,7 @@ test('should get a company', async ({ request }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/get-company`).then((res) => res.json())

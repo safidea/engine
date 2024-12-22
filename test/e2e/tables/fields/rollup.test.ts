@@ -54,7 +54,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database
       .table('items', [
         { name: 'price', type: 'NUMERIC' },
@@ -127,7 +127,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database
       .table('members', [
         { name: 'first_name', type: 'TEXT' },
@@ -214,7 +214,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database
       .table('items', [
         { name: 'price', type: 'NUMERIC' },
@@ -291,7 +291,7 @@ Database.each(test, (dbConfig) => {
     await database.table('teams').create()
 
     // WHEN
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const { record } = await request
       .post(url + '/api/table/teams', {
         data: { members: ['1', '2'] },
@@ -369,7 +369,7 @@ Database.each(test, (dbConfig) => {
       .create()
 
     // WHEN
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const { record } = await request
       .post(url + '/api/table/teams', {
         data: { members: ['1', '2'] },
@@ -502,7 +502,7 @@ Database.each(test, (dbConfig) => {
       .create()
 
     // WHEN
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const { record } = await request
       .post(url + '/api/table/invoices', {
         data: { items: ['1', '2'] },

@@ -25,7 +25,7 @@ test('should render a card with id', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -64,7 +64,7 @@ test('should render a card with image', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -103,7 +103,7 @@ test('should open a page when click on a card', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)

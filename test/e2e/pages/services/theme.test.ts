@@ -21,7 +21,7 @@ test('should load the output css file', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url + '/output.css')
@@ -54,7 +54,7 @@ test('should build the css file with a custom font', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url + '/output.css')
@@ -88,7 +88,7 @@ test('should render a Paragraph with a font sans', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -126,7 +126,7 @@ test('should render a Paragraph with a font serif', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -164,7 +164,7 @@ test('should render a Link with a font serif', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -202,7 +202,7 @@ test('should render a Title with a font serif', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -239,7 +239,7 @@ test('should render a Markdown Paragraph with a font serif', async ({ page }) =>
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -276,7 +276,7 @@ test('should render a Markdown Title with a font serif', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -313,7 +313,7 @@ test('should render a Markdown Link with a font serif', async ({ page }) => {
     },
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)

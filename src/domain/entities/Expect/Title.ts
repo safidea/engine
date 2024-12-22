@@ -1,7 +1,7 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
 export interface TitleExpectConfig {
   title: string
@@ -10,7 +10,7 @@ export interface TitleExpectConfig {
 export class TitleExpect implements BaseExpect {
   constructor(private _config: TitleExpectConfig) {}
 
-  execute = async (_app: App, page: BrowserPage, _context?: object) => {
+  execute = async (_app: StartedApp, page: BrowserPage, _context?: object) => {
     const { title } = this._config
     const pageTitle = await page.getTitle()
     if (pageTitle !== title) {

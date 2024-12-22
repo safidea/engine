@@ -24,7 +24,7 @@ test('should render a container', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -58,7 +58,7 @@ test('should render a container in app page', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -93,7 +93,7 @@ test('should render the container with id', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -125,7 +125,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -164,7 +164,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -203,7 +203,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -242,7 +242,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -281,7 +281,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -320,7 +320,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -359,7 +359,7 @@ test.describe('Breakpoint', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -399,7 +399,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -438,7 +438,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -478,7 +478,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -518,7 +518,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -558,7 +558,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -598,7 +598,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -638,7 +638,7 @@ test.describe('Center', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.setViewportSize({
@@ -678,7 +678,7 @@ test.describe('Padding', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.goto(url)
@@ -713,7 +713,7 @@ test.describe('Padding', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.goto(url)
@@ -748,7 +748,7 @@ test.describe('Padding', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.goto(url)

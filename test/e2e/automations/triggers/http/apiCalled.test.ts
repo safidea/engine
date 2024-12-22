@@ -18,7 +18,7 @@ test('should run an automation from api call', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const res = await request.post(`${url}/api/automation/run-api`)
@@ -58,7 +58,7 @@ test('should return a value', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const res = await request.post(`${url}/api/automation/run-api`)
@@ -100,7 +100,7 @@ test('should return an error', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/error`)
@@ -136,7 +136,7 @@ test('should validate an optional input', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/input`)
@@ -171,7 +171,7 @@ test('should not validate an required input', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const response = await request.post(`${url}/api/automation/input`)

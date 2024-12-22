@@ -258,7 +258,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const res = await request.post(`${url}/api/table/unknown`, {
@@ -288,7 +288,7 @@ Database.each(test, (dbConfig) => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     const res = await request.post(`${url}/api/table/leads`, {
@@ -322,7 +322,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/table/leads`, {
@@ -357,7 +357,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await request.post(`${url}/api/table/leads`, {
@@ -390,7 +390,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     const today = new Date().toISOString()
 
     // WHEN

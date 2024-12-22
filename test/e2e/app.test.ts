@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, env } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 
@@ -34,7 +34,7 @@ test('should start an app', async () => {
   const app = new App()
 
   // WHEN
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // THEN
   expect(url).toBeDefined()
@@ -112,7 +112,7 @@ test('should start an app on a dedicated PORT', async () => {
   const app = new App()
 
   // WHEN
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // THEN
   expect(url).toBe('http://localhost:6543')
@@ -136,7 +136,7 @@ test('should check the app running status through /health endpoint', async ({ re
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const { success } = await request.get(url + '/health').then((res) => res.json())
@@ -163,11 +163,11 @@ test('should stop an app', async ({ request }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const startedApp = await app.start(config)
 
   // WHEN
-  await app.stop()
-  const response = await request.get(url).catch((err) => err)
+  await startedApp.stop()
+  const response = await request.get(startedApp.url).catch((err) => err)
 
   // THEN
   expect(response.message).toContain('ECONNREFUSED')
@@ -235,4 +235,26 @@ test('should display a config error on start', async () => {
 
   // THEN
   await expect(call()).rejects.toThrow('Table "leads" not found')
+})
+
+test('should be able to use Notion as an integration', async () => {
+  // GIVEN
+  const config: Config = {
+    name: 'App',
+    integrations: {
+      notion: {
+        token: env.TEST_NOTION_TOKEN,
+      },
+    },
+  }
+  const app = new App()
+  const { integrations } = await app.start(config)
+  const { notion } = integrations
+
+  // WHEN
+  const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+  const page = await table.create({ name: 'test integration' })
+
+  // THEN
+  expect(page).toBeDefined()
 })

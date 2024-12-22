@@ -43,7 +43,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await storage.bucket('invoices').save({
       id: '1',
       name: 'invoice-1.docx',
@@ -74,7 +74,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await storage.bucket('invoices').save({
       id: '1',
       name: 'invoice-1.xlsx',

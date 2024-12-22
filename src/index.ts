@@ -40,6 +40,7 @@ export type {
   RecordFields as DatabaseTableRecordFields,
   RecordFieldValue as DatabaseTableRecordFieldValue,
 } from '@domain/entities/Record/base'
+export type { AppIntegrations } from '@domain/entities/App/Base'
 
 export default class extends App {
   constructor() {

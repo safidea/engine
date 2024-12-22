@@ -32,7 +32,7 @@ test('should render 3 columns', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -76,7 +76,7 @@ test('should display the columns with id', async ({ page }) => {
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   await page.goto(url)
@@ -111,7 +111,7 @@ test('should display the columns with id', async ({ page }) => {
         ],
       }
       const app = new App()
-      const url = await app.start(config)
+      const { url } = await app.start(config)
 
       // WHEN
       await page.goto(url)

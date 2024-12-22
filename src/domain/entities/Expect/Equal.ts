@@ -1,5 +1,5 @@
 import { type BaseExpect } from './base'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { TestError } from '../Error/Test'
 import type { Template } from '@domain/services/Template'
@@ -24,7 +24,7 @@ export class EqualExpect implements BaseExpect {
     this._templateValue = services.templateCompiler.compile(_config.value)
   }
 
-  execute = async (_app: App, _page: BrowserPage, context = {}) => {
+  execute = async (_app: StartedApp, _page: BrowserPage, context = {}) => {
     const { equal } = this._config
     const parsedValue = this._templateValue.fill(context)
     if (parsedValue !== equal) {

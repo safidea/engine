@@ -37,7 +37,7 @@ test.describe('Logos component', () => {
       ],
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
 
     // WHEN
     await page.goto(url)

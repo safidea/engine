@@ -41,7 +41,7 @@ test('should convert a date from a format to another format', async ({ request }
     ],
   }
   const app = new App()
-  const url = await app.start(config)
+  const { url } = await app.start(config)
 
   // WHEN
   const { date } = await request

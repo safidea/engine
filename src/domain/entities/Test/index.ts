@@ -1,7 +1,7 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import type { Event } from '../Event'
 import type { Expect } from '../Expect'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 import { TestError } from '@domain/entities/Error/Test'
 
 interface TestConfig {
@@ -24,7 +24,7 @@ export class Test {
     this.name = name
   }
 
-  run = async (app: App, page: BrowserPage): Promise<void> => {
+  run = async (app: StartedApp, page: BrowserPage): Promise<void> => {
     const { when, then } = this._entities
     try {
       const context: { [key: string]: object } = {}

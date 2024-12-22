@@ -1,7 +1,7 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
 import { type BaseEvent } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
 export interface FillEventConfig {
   input: string
@@ -11,7 +11,7 @@ export interface FillEventConfig {
 export class FillEvent implements BaseEvent {
   constructor(private _config: FillEventConfig) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: StartedApp, page: BrowserPage) => {
     const { input, value } = this._config
     const success = await page.type(input, value)
     if (!success) {

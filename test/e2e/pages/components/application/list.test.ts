@@ -72,7 +72,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN
@@ -120,7 +120,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN
@@ -169,7 +169,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN
@@ -220,7 +220,7 @@ Database.each(test, (dbConfig) => {
       database: dbConfig,
     }
     const app = new App()
-    const url = await app.start(config)
+    const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
     // WHEN
