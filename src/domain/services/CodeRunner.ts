@@ -23,10 +23,12 @@ export interface CodeRunnerContextServicesDatabaseTable {
   list: (filter?: FilterConfig) => Promise<PersistedRecord[]>
 }
 
+export interface CodeRunnerContextServicesDatabase {
+  table: (name: string) => CodeRunnerContextServicesDatabaseTable
+}
+
 export interface CodeRunnerContextServices {
-  database: {
-    table: (name: string) => CodeRunnerContextServicesDatabaseTable
-  }
+  database: CodeRunnerContextServicesDatabase
 }
 
 export interface CodeRunnerContextIntegrationsNotionTable {
@@ -37,10 +39,12 @@ export interface CodeRunnerContextIntegrationsNotionTable {
   archive: (id: string) => Promise<void>
 }
 
+export interface CodeRunnerContextIntegrationsNotion {
+  getTable: (id: string) => Promise<CodeRunnerContextIntegrationsNotionTable>
+}
+
 export interface CodeRunnerContextIntegrations {
-  notion: {
-    getTable: (id: string) => Promise<CodeRunnerContextIntegrationsNotionTable>
-  }
+  notion: CodeRunnerContextIntegrationsNotion
 }
 
 export interface CodeRunnerContextPackages {

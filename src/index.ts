@@ -27,7 +27,9 @@ export type {
 } from '@adapter/api/configs/Services'
 export type {
   CodeRunnerContext,
+  CodeRunnerContextServicesDatabase as DatabaseIntegration,
   CodeRunnerContextServicesDatabaseTable as DatabaseTable,
+  CodeRunnerContextIntegrationsNotion as NotionIntegration,
   CodeRunnerContextIntegrationsNotionTable as NotionTable,
 } from '@domain/services/CodeRunner'
 export type {
