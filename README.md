@@ -51,13 +51,7 @@ node index.js
 
 ## Configuration
 
-A configuration is a JSON representation of the application. It contains the tests, pages, tables, automations, database, etc...
-
-You can see the [full JSON schema documentation here](https://json-schema.app/view/%23?url=https%3A%2F%2Fsafidea.com%2Fschemas%2Fapp.schema.json).
-
-## Templates
-
-You can open our [templates](https://github.com/latechforce/templates) to see how to configure the engine and to start from models.
+A configuration is a JSON representation of the application. It contains the pages, tables, automations, services, integrations, etc...
 
 ## Contributing
 

@@ -14,9 +14,9 @@ export class SchemaValidatorDriver implements ISchemaValidatorDriver {
   }
 
   getSchemaFilePath = (schema: string) => {
-    let schemaPath = join(dirname + '../schemas/', schema + '.schema.json')
+    let schemaPath = join(dirname + '../schema/', schema + '.schema.json')
     if (!fs.existsSync(schemaPath)) {
-      schemaPath = join(process.cwd(), 'schemas/', schema + '.schema.json')
+      schemaPath = join(process.cwd(), 'schema/', schema + '.schema.json')
       if (!fs.existsSync(schemaPath)) {
         throw new Error(`Schema ${schema} not found in ${schemaPath}`)
       }

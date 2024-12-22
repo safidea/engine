@@ -11,11 +11,11 @@
   "exports": {
     ".": "./dist/index.js",
     "./instrument": "./dist/infrastructure/instrument/index.js",
-    "./schemas/*": "./schemas/*"
+    "./schema/*": "./schema/*"
   },
   "files": [
     "dist/**/*",
-    "schemas/*"
+    "schema/*"
   ],
   "repository": {
     "type": "git",
@@ -32,20 +32,20 @@
     "format": "bunx prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "lint": "bunx eslint . --fix",
     "prebuild": "bunx puppeteer browsers install chrome",
-    "build:server": "bun run scripts/server/build.ts",
-    "build:client": "bun run scripts/client/build.ts",
-    "build:types": "bun run scripts/types/build.ts",
-    "build:schemas": "bun run scripts/schemas/build.ts",
+    "build:server": "bun run script/server/build.ts",
+    "build:client": "bun run script/client/build.ts",
+    "build:types": "bun run script/types/build.ts",
+    "build:schema": "bun run script/schema/build.ts",
     "build": "bun run build:client && bun run build:server && bun run build:types",
-    "watch:server": "nodemon --config scripts/server/watch.json",
-    "watch:client": "nodemon --config scripts/client/watch.json",
-    "watch:types": "nodemon --config scripts/types/watch.json",
-    "watch:schemas": "nodemon --config scripts/schemas/watch.json",
-    "watch": "concurrently \"bun run watch:schemas\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
+    "watch:server": "nodemon --config script/server/watch.json",
+    "watch:client": "nodemon --config script/client/watch.json",
+    "watch:types": "nodemon --config script/types/watch.json",
+    "watch:schema": "nodemon --config script/schema/watch.json",
+    "watch": "concurrently \"bun run watch:schema\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
     "test": "bunx playwright test",
-    "test:unit": "bunx playwright test tests/unit",
-    "test:integration": "bunx playwright test tests/integration",
+    "test:unit": "bunx playwright test test/unit",
+    "test:integration": "bunx playwright test test/integration",
     "test:ui": "bunx playwright test --ui",
     "test:snapshots": "bunx playwright test --update-snapshots",
     "storybook": "storybook dev -p 6006",
@@ -157,10 +157,6 @@
     "bun": "1.1.40",
     "node": "22.12.0",
     "npm": "10.9.0"
-  },
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
   },
   "config": {
     "commitizen": {

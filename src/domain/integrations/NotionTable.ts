@@ -47,7 +47,7 @@ export class NotionTable {
 
   startPolling = () => {
     const { logger } = this._services
-    const { pollingInterval } = this._config
+    const { pollingInterval = 60 } = this._config
     logger.debug(
       `starting polling on Notion table "${this._spi.name}" with interval ${pollingInterval}s`
     )

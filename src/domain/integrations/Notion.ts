@@ -7,7 +7,7 @@ import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 
 export interface NotionConfig {
   token: string
-  pollingInterval: number
+  pollingInterval?: number
 }
 
 export interface NotionServices extends NotionTableServices {
