@@ -152,7 +152,7 @@ test('should run a Typescript code with a Notion database page update', async ({
   expect(user.properties.name).toBe('John Doe')
 })
 
-test.only('should run a Typescript code with a Notion database page update and a notion uploaded file', async ({
+test('should run a Typescript code with a Notion database page update and a notion uploaded file', async ({
   request,
 }) => {
   // GIVEN
