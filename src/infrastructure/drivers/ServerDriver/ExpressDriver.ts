@@ -6,21 +6,20 @@ import * as Sentry from '@sentry/node'
 import http, { Server as HttpServer } from 'http'
 import net from 'net'
 import { join } from 'path'
-import type { Driver } from '@adapter/spi/ServerSpi'
+import type { IServerDriver } from '@adapter/spi/drivers/ServerSpi'
 import type { DeleteDto, GetDto, PatchDto, PostDto, RequestDto } from '@adapter/spi/dtos/RequestDto'
-import type { Config } from '@domain/services/Server'
+import type { ServerConfig } from '@domain/services/Server'
 import type { Response } from '@domain/entities/Response'
-import { Redirect } from '@domain/entities/Response/Redirect'
-import { Stream } from '@domain/entities/Response/Stream'
+import { RedirectResponse } from '@domain/entities/Response/Redirect'
+import { StreamResponse } from '@domain/entities/Response/Stream'
 
 const dirname = new URL('.', import.meta.url).pathname
 
-export class ExpressDriver implements Driver {
-  public baseUrl?: string
+export class ExpressDriver implements IServerDriver {
   private _express: Express
   private _server?: HttpServer
 
-  constructor(private _config: Config) {
+  constructor(private _config: ServerConfig) {
     const { env } = _config
     this._express = express()
     if (env === 'production') this._express.use(helmet())
@@ -101,28 +100,25 @@ export class ExpressDriver implements Driver {
   }
 
   afterAllRoutes = async () => {
-    if (this._config.monitor === 'Sentry') Sentry.setupExpressErrorHandler(this._express)
+    if (this._config.monitors?.includes('Sentry')) Sentry.setupExpressErrorHandler(this._express)
   }
 
-  start = async (retry = 0): Promise<string> => {
+  start = async (retry = 0, basePort?: number): Promise<number> => {
+    if (!basePort) basePort = await this._getPort()
     try {
-      const port = await this._getPort()
+      const port = basePort + retry
       const options = { port }
       const server = http.createServer(this._express)
       await new Promise((resolve, reject) => {
-        try {
-          server.listen(options, () => resolve(null))
-        } catch (err) {
-          reject(err)
-        }
+        server.listen(options, () => resolve(null))
+        server.on('error', (err) => reject(err))
       })
       this._server = server
-      this.baseUrl = `http://localhost:${port}`
-      return this.baseUrl
+      return port
     } catch (err) {
       if (err instanceof Error && err.message.includes('EADDRINUSE') && retry < 10) {
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        return this.start(++retry)
+        return this.start(retry + 1, basePort)
       }
       throw err
     }
@@ -148,14 +144,14 @@ export class ExpressDriver implements Driver {
 
   private _returnResponse = (res: express.Response, req: express.Request, response: Response) => {
     const { status, headers, body, url } = response
-    if (response instanceof Stream) {
+    if (response instanceof StreamResponse) {
       res.status(status).set(headers)
       response.onEvent = (event: string) => {
         const success = res.write(event)
         if (!success) response.close()
       }
       req.socket.on('close', () => response.close())
-    } else if (response instanceof Redirect) {
+    } else if (response instanceof RedirectResponse) {
       // https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission
       res.redirect(303, url)
     } else {

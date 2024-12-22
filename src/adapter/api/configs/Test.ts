@@ -1,9 +1,8 @@
-import type { Event } from './Event'
-import type { Expect } from './Expect'
+import type { IEvent } from './Event'
+import type { IExpect } from './Expect'
 
-// TODO: revoir la configuration pour qu'il ne puisse y avoir que 1 seul expected par test
-export interface Test {
+export interface ITest {
   name: string
-  when: Event[]
-  then: Expect[]
+  when: IEvent[]
+  then: IExpect[]
 }

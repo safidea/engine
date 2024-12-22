@@ -1,5 +1,5 @@
 import pg from 'pg'
-import type { Driver } from '@adapter/spi/DatabaseTableSpi'
+import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type {
@@ -7,7 +7,7 @@ import type {
   PersistedRecordDto,
   UpdatedRecordDto,
 } from '@adapter/spi/dtos/RecordDto'
-import type { BaseRecordFields, RecordFieldType } from '@domain/entities/Record/base'
+import type { BaseRecordFields, RecordFieldValue } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
   name: string
@@ -15,7 +15,7 @@ interface ColumnInfo {
   notnull: number
 }
 
-export class PostgreSQLTableDriver implements Driver {
+export class PostgreSQLTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],
@@ -31,8 +31,15 @@ export class PostgreSQLTableDriver implements Driver {
   }
 
   create = async () => {
+    const [schema, table] = this._name.includes('.')
+      ? this._name.split('.')
+      : ['public', this._name]
+    if (schema !== 'public') {
+      const createSchemaQuery = `CREATE SCHEMA IF NOT EXISTS ${schema}`
+      await this._db.query(createSchemaQuery)
+    }
     const tableColumns = this._buildColumnsQuery(this._fields)
-    const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
+    const tableQuery = `CREATE TABLE ${schema}.${table} (${tableColumns})`
     await this._db.query(tableQuery)
     await this._createManyToManyTables()
   }
@@ -164,8 +171,7 @@ export class PostgreSQLTableDriver implements Driver {
       const values = Object.values(staticFields)
       const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
       const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
-      values.push(record.id)
-      await this._db.query(query, values)
+      await this._db.query(query, [...values, record.id])
       if (manyToManyFields) {
         await this._updateManyToManyFields(record.id, manyToManyFields)
       }
@@ -192,12 +198,9 @@ export class PostgreSQLTableDriver implements Driver {
     }
   }
 
-  read = async (filters: FilterDto[]) => {
-    const conditions = filters
-      .map((filter, i) => `${filter.field} ${filter.operator} $${i + 1}`)
-      .join(' AND ')
-    const values = filters.map((filter) => filter.value)
-    const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
+  read = async (filter: FilterDto) => {
+    const { conditions, values } = this._convertFilterToConditions(filter)
+    const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
     const result = await this._db.query<PersistedRecordDto>(query, values)
     return result.rows[0]
   }
@@ -208,24 +211,14 @@ export class PostgreSQLTableDriver implements Driver {
     return result.rows[0]
   }
 
-  list = async (filters: FilterDto[]) => {
-    let index = 1
-    const conditions = filters
-      .map((filter) => {
-        if (filter.operator === 'in') {
-          const placeholders = filter.value.map(() => `$${index++}`).join(',')
-          return `${filter.field} ${filter.operator} (${placeholders})`
-        } else {
-          return `${filter.field} ${filter.operator} $${index++}`
-        }
-      })
-      .join(' AND ')
-    const values = filters.reduce((acc: (string | number)[], filter) => {
-      if (filter.operator === 'in') acc.push(...filter.value)
-      else acc.push(filter.value)
-      return acc
-    }, [])
-    const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''}`
+  list = async (filter?: FilterDto) => {
+    if (!filter) {
+      const query = `SELECT * FROM ${this._name}_view`
+      const result = await this._db.query<PersistedRecordDto>(query)
+      return result.rows
+    }
+    const { conditions, values } = this._convertFilterToConditions(filter)
+    const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
     const result = await this._db.query<PersistedRecordDto>(query, values)
     return result.rows
   }
@@ -274,7 +267,7 @@ export class PostgreSQLTableDriver implements Driver {
   }
 
   private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
-    const staticFields: { [key: string]: RecordFieldType } = {}
+    const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
       const field = this._fields.find((f) => f.name === key)
@@ -348,14 +341,92 @@ export class PostgreSQLTableDriver implements Driver {
     return Object.keys(record).reduce((acc: BaseRecordFields, key) => {
       const value = record[key]
       const field = this._fields.find((f) => f.name === key)
-      if (!field) throw new Error('Field not found.')
-      if (!value) return acc
-      if (field.type === 'TIMESTAMP') {
+      if (value === undefined || value === null) return acc
+      if (field?.type === 'TIMESTAMP') {
         if (value instanceof Date) acc[key] = value
         else acc[key] = new Date(String(value))
       }
       return acc
     }, record)
+  }
+
+  private _convertFilterToConditions = (
+    filter: FilterDto,
+    index = 1
+  ): { conditions: string; values: (string | number)[]; index: number } => {
+    const values: (string | number)[] = []
+    if ('and' in filter) {
+      const conditions = filter.and.map((f) => {
+        const {
+          conditions,
+          values: filterValues,
+          index: filterIndex,
+        } = this._convertFilterToConditions(f, index)
+        index = filterIndex
+        values.push(...filterValues)
+        return `(${conditions})`
+      })
+      return { conditions: conditions.join(' AND '), values, index }
+    } else if ('or' in filter) {
+      const conditions = filter.or.map((f) => {
+        const {
+          conditions,
+          values: filterValues,
+          index: filterIndex,
+        } = this._convertFilterToConditions(f, index)
+        index = filterIndex
+        values.push(...filterValues)
+        return `(${conditions})`
+      })
+      return { conditions: conditions.join(' OR '), values, index }
+    }
+    const { operator } = filter
+    switch (operator) {
+      case 'Is':
+        return {
+          conditions: `"${filter.field}" = $${index}`,
+          values: [filter.value],
+          index: index + 1,
+        }
+      case 'Contains':
+        return {
+          conditions: `"${filter.field}" ILIKE $${index}`,
+          values: [`%${filter.value}%`],
+          index: index + 1,
+        }
+      case 'Equals':
+        return {
+          conditions: `"${filter.field}" = $${index}`,
+          values: [filter.value],
+          index: index + 1,
+        }
+      case 'IsAnyOf':
+        return {
+          conditions: `"${filter.field}" IN (${filter.value.map((_, i) => `$${i + index}`).join(', ')})`,
+          values: filter.value,
+          index: index + filter.value.length,
+        }
+      case 'OnOrAfter':
+        return {
+          conditions: `"${filter.field}" > NOW() - INTERVAL '$${index} seconds'`,
+          values: [String(filter.value)],
+          index: index + 1,
+        }
+      case 'IsFalse':
+        return {
+          conditions: `"${filter.field}" is false`,
+          values: [],
+          index,
+        }
+      case 'IsTrue':
+        return {
+          conditions: `"${filter.field}" is true`,
+          values: [],
+          index,
+        }
+      default:
+        throw new Error(`Unsupported operator: ${operator}`)
+    }
   }
 
   private _throwError = (error: unknown) => {

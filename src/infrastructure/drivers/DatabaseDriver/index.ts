@@ -1,20 +1,25 @@
-import type { Driver } from '@adapter/spi/DatabaseSpi'
-import type { Config, EventType } from '@domain/services/Database'
+import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
+import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { SQLiteDriver } from './SQLiteDriver'
 import { PostgreSQLDriver } from './PostgreSQLDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
-export class DatabaseDriver implements Driver {
+export class DatabaseDriver implements IDatabaseDriver {
   private _db: SQLiteDriver | PostgreSQLDriver
 
-  constructor(config: Config) {
+  constructor(config: DatabaseConfig) {
     const { driver } = config
-    if (driver === 'SQLite') {
-      this._db = new SQLiteDriver(config)
-    } else if (driver === 'PostgreSQL') {
-      this._db = new PostgreSQLDriver(config)
-    } else throw new Error(`DatabaseDriver: database "${driver}" not supported`)
+    switch (driver) {
+      case 'SQLite':
+        this._db = new SQLiteDriver(config)
+        break
+      case 'PostgreSQL':
+        this._db = new PostgreSQLDriver(config)
+        break
+      default:
+        throw new Error('Invalid driver')
+    }
   }
 
   connect = async (): Promise<void> => {
@@ -40,7 +45,7 @@ export class DatabaseDriver implements Driver {
     return this._db.table(name, fields)
   }
 
-  on = (event: EventType, callback: (eventDto: EventDto) => void) => {
+  on = (event: DatabaseEventType, callback: (eventDto: EventDto) => void) => {
     this._db.on(event, callback)
   }
 

@@ -1,6 +1,6 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
-export class Docx extends Base {
+export class DocxResponse extends BaseResponse {
   constructor(filename: string, data: Buffer, status?: number) {
     super({
       body: data,
@@ -14,6 +14,6 @@ export class Docx extends Base {
   }
 }
 
-export function isDocx(value: unknown): value is Docx {
-  return value instanceof Docx
+export function isDocxResponse(value: unknown): value is DocxResponse {
+  return value instanceof DocxResponse
 }

@@ -1,16 +1,16 @@
 import pg from 'pg'
-import type { Driver } from '@adapter/spi/DatabaseSpi'
-import type { Config, EventType } from '@domain/services/Database'
+import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
+import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
 import { PostgreSQLTableDriver } from './PostgreSQLTableDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
-export class PostgreSQLDriver implements Driver {
+export class PostgreSQLDriver implements IDatabaseDriver {
   private _db: pg.Pool
   private _client?: pg.PoolClient
   private _interval?: Timer
 
-  constructor(config: Config) {
+  constructor(config: DatabaseConfig) {
     const { url } = config
     const NUMERIC_OID = 1700
     const pool = new pg.Pool({ connectionString: url })
@@ -41,7 +41,11 @@ export class PostgreSQLDriver implements Driver {
     text: string,
     values: (string | number | Buffer | Date)[]
   ): Promise<{ rows: T[]; rowCount: number }> => {
-    const { rows, rowCount } = await this._db.query(text, values)
+    const { rows, rowCount } = await this._db.query(text, values).catch(async (error) => {
+      if (!error.message.includes('does not exist') && !values.includes('__pgboss__send-it'))
+        throw error
+      return { rows: [], rowCount: 0 }
+    })
     return { rows, rowCount: rowCount || 0 }
   }
 
@@ -49,7 +53,7 @@ export class PostgreSQLDriver implements Driver {
     return new PostgreSQLTableDriver(name, fields, this._db)
   }
 
-  on = (event: EventType, callback: (eventDto: EventDto) => void) => {
+  on = (event: DatabaseEventType, callback: (eventDto: EventDto) => void) => {
     if (this._client) {
       if (event === 'notification')
         this._client.on('notification', ({ payload }) => {

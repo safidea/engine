@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Event/WaitForAutomation'
+import type { WaitForAutomationEventConfig } from '@domain/entities/Event/WaitForAutomation'
 
-export interface WaitForAutomation extends Config {
+export interface IWaitForAutomationEvent extends WaitForAutomationEventConfig {
   event: 'WaitForAutomation'
 }

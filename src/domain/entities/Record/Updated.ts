@@ -1,28 +1,20 @@
-import { Base, type BaseRecordFields, type RecordJson } from './base'
+import { BaseRecord, type BaseRecordFields } from './base'
 
 export interface UpdatedRecordFields extends BaseRecordFields {
   updated_at: Date
 }
 
-export type Config = BaseRecordFields
+export type UpdatedRecordConfig = BaseRecordFields
 
-export class UpdatedRecord extends Base {
-  readonly fields: UpdatedRecordFields
+export class UpdatedRecord extends BaseRecord {
+  readonly fieldsWithDates: UpdatedRecordFields
 
-  constructor(config: Config) {
+  constructor(config: UpdatedRecordConfig) {
     const fields: UpdatedRecordFields = {
       ...config,
       updated_at: new Date(),
     }
     super(fields)
-    this.fields = fields
-  }
-
-  toJson(): RecordJson {
-    const { updated_at } = this.fields
-    return {
-      ...super.toJson(),
-      updated_at: updated_at.toISOString(),
-    }
+    this.fieldsWithDates = fields
   }
 }

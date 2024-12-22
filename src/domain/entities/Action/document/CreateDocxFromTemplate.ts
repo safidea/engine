@@ -1,6 +1,11 @@
-import { Base, type BaseConfig, type BaseServices } from '../base'
-import type { Context } from '../../Automation/Context'
-import { Template, type InputValues, type OutputValue } from '@domain/services/Template'
+import { BaseAction, type BaseActionConfig, type BaseActionServices } from '../base'
+import type { AutomationContext } from '../../Automation/Context'
+import {
+  Template,
+  type TemplateObject,
+  type TemplateObjectCompiled,
+  type TemplateObjectFilled,
+} from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Bucket } from '@domain/entities/Bucket'
 import type { DocumentLoader } from '@domain/services/DocumentLoader'
@@ -10,37 +15,37 @@ import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { FileSystem } from '@domain/services/FileSystem'
 import type { FileJson } from '@domain/entities/File/base'
 
-export interface Config extends BaseConfig {
-  input: InputValues
+export interface CreateDocxFromTemplateDocumentActionConfig extends BaseActionConfig {
+  input: TemplateObject
   templatePath: string
   fileName: string
   bucket: string
 }
 
-export interface Services extends BaseServices {
+export interface CreateDocxFromTemplateDocumentActionServices extends BaseActionServices {
   documentLoader: DocumentLoader
   templateCompiler: TemplateCompiler
   idGenerator: IdGenerator
   fileSystem: FileSystem
 }
 
-export interface Entities {
+export interface CreateDocxFromTemplateDocumentActionEntities {
   buckets: Bucket[]
 }
 
-type Input = { data: { [key: string]: OutputValue }; fileName: string }
+type Input = { data: TemplateObjectFilled; fileName: string }
 type Output = { file: FileJson }
 
-export class CreateDocxFromTemplate extends Base<Input, Output> {
+export class CreateDocxFromTemplateDocumentAction extends BaseAction<Input, Output> {
   private _bucket: Bucket
   private _document?: Document
   private _fileName: Template
-  private _input: { [key: string]: Template }
+  private _input: TemplateObjectCompiled
 
   constructor(
-    private _config: Config,
-    private _services: Services,
-    entities: Entities
+    private _config: CreateDocxFromTemplateDocumentActionConfig,
+    private _services: CreateDocxFromTemplateDocumentActionServices,
+    entities: CreateDocxFromTemplateDocumentActionEntities
   ) {
     super(_config, _services)
     const { input, templatePath, fileName, bucket: bucketName } = _config
@@ -51,7 +56,7 @@ export class CreateDocxFromTemplate extends Base<Input, Output> {
     if (!fileSystem.exists(templatePath))
       this._throwConfigError(`templatePath "${templatePath}" does not exist`)
     this._bucket = this._findBucketByName(bucketName, buckets)
-    this._input = templateCompiler.compileObjectWithType(input)
+    this._input = templateCompiler.compileObject(input)
     this._fileName = templateCompiler.compile(fileName)
   }
 
@@ -62,10 +67,10 @@ export class CreateDocxFromTemplate extends Base<Input, Output> {
     logger.debug(`init action "${this.name}"`)
   }
 
-  protected _prepare = async (context: Context) => {
+  protected _prepare = async (context: AutomationContext) => {
     return {
-      data: context.fillObjectTemplate(this._input),
-      fileName: context.fillTemplateAsString(this._fileName),
+      data: Template.fillObject(this._input, context.data),
+      fileName: this._fileName.fill(context.data),
     }
   }
 

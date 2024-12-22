@@ -1,13 +1,13 @@
-import { Base, type Params as BaseParams } from './base'
+import { BaseRequest, type BaseRequestParams } from './base'
 
-export interface Params extends BaseParams {
+export interface PostRequestParams extends BaseRequestParams {
   body: unknown
 }
 
-export class Post extends Base {
+export class PostRequest extends BaseRequest {
   body: unknown
 
-  constructor(params: Params) {
+  constructor(params: PostRequestParams) {
     super(params)
     this.body = params.body
   }

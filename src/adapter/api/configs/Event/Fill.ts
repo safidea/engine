@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Event/Fill'
+import type { FillEventConfig } from '@domain/entities/Event/Fill'
 
-export interface Fill extends Config {
+export interface IFillEvent extends FillEventConfig {
   event: 'Fill'
 }

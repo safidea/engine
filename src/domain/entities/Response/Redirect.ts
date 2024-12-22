@@ -1,11 +1,11 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
-export class Redirect extends Base {
+export class RedirectResponse extends BaseResponse {
   constructor(url: string) {
     super({ url, status: 302 })
   }
 }
 
-export function isRedirect(value: unknown): value is Redirect {
-  return value instanceof Redirect
+export function isRedirectResponse(value: unknown): value is RedirectResponse {
+  return value instanceof RedirectResponse
 }

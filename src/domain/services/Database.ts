@@ -1,52 +1,52 @@
 import type { Table } from '@domain/entities/Table'
-import { DatabaseTable, type Spi as DatabaseTableSpi } from './DatabaseTable'
+import { DatabaseTable, type IDatabaseTableSpi } from './DatabaseTable'
 import type { Logger } from './Logger'
 import type { RealtimeEvent } from './Realtime'
 import type { Field } from '@domain/entities/Field'
 import type { Monitor } from './Monitor'
 
-export type Driver = 'PostgreSQL' | 'SQLite'
+export type DatabaseDriverName = 'PostgreSQL' | 'SQLite'
 
-export interface Config {
-  driver: Driver
+export interface DatabaseConfig {
+  driver: DatabaseDriverName
   url: string
 }
 
-export interface Services {
+export interface DatabaseServices {
   logger: Logger
   monitor: Monitor
 }
 
-export type EventType = 'notification' | 'error'
+export type DatabaseEventType = 'notification' | 'error'
 
-export type ErrorEvent = Error
+export type DatabaseErrorEvent = Error
 
-export type NotificationEvent = RealtimeEvent
+export type DatabaseNotificationEvent = RealtimeEvent
 
-export type Query = <T>(
+export type DatabaseQuery = <T>(
   text: string,
   values: (string | number | Buffer | Date)[]
 ) => Promise<{ rows: T[]; rowCount: number }>
-export type Exec = (query: string) => Promise<void>
+export type DatabaseExec = (query: string) => Promise<void>
 
-export interface Spi {
-  table: (name: string, fields: Field[]) => DatabaseTableSpi
+export interface IDatabaseSpi {
+  table: (name: string, fields: Field[]) => IDatabaseTableSpi
   connect: () => Promise<void>
   disconnect: () => Promise<void>
-  exec: Exec
-  query: Query
-  onError: (callback: (error: ErrorEvent) => void) => void
-  onNotification: (callback: (notification: NotificationEvent) => void) => void
+  exec: DatabaseExec
+  query: DatabaseQuery
+  onError: (callback: (error: DatabaseErrorEvent) => void) => void
+  onNotification: (callback: (notification: DatabaseNotificationEvent) => void) => void
   setupTriggers: (tables: string[]) => Promise<void>
 }
 
 export class Database {
-  public driver: Driver
+  public driver: DatabaseDriverName
 
   constructor(
-    private _spi: Spi,
-    private _services: Services,
-    config: Config
+    private _spi: IDatabaseSpi,
+    private _services: DatabaseServices,
+    config: DatabaseConfig
   ) {
     const { driver } = config
     this.driver = driver
@@ -75,7 +75,7 @@ export class Database {
     }
   }
 
-  onError = (callback: (error: ErrorEvent) => void) => {
+  onError = (callback: (error: DatabaseErrorEvent) => void) => {
     const { logger, monitor } = this._services
     logger.debug(`listening for database error...`)
     this._spi.onError((error) => {
@@ -85,7 +85,7 @@ export class Database {
     })
   }
 
-  onNotification = (callback: (notification: NotificationEvent) => void) => {
+  onNotification = (callback: (notification: DatabaseNotificationEvent) => void) => {
     const { logger } = this._services
     logger.debug(`listening for database notifications...`)
     this._spi.onNotification(callback)

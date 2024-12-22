@@ -1,8 +1,8 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
 export type Type = 'ttf' | 'woff' | 'woff2' | 'otf'
 
-export class Font extends Base {
+export class FontResponse extends BaseResponse {
   constructor(data: Buffer, type: Type) {
     super({
       body: data,
@@ -13,6 +13,6 @@ export class Font extends Base {
   }
 }
 
-export function isFont(value: unknown): value is Font {
-  return value instanceof Font
+export function isFontResponse(value: unknown): value is FontResponse {
+  return value instanceof FontResponse
 }

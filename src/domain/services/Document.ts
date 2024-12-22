@@ -1,13 +1,13 @@
-import type { OutputValue, Template } from './Template'
+import type { Template } from './Template'
 import type { TemplateCompiler } from './TemplateCompiler'
 
-export interface Spi {
+export interface IDocumentSpi {
   readText: () => string
   writeText: (text: string) => void
   toBuffer: () => Buffer
 }
 
-interface Services {
+interface DocumentServices {
   templateCompiler: TemplateCompiler
 }
 
@@ -15,16 +15,16 @@ export class Document {
   private _template: Template
 
   constructor(
-    private _spi: Spi,
-    services: Services
+    private _spi: IDocumentSpi,
+    services: DocumentServices
   ) {
     const { templateCompiler } = services
     const content = _spi.readText()
     this._template = templateCompiler.compile(content)
   }
 
-  fill = (data: { [key: string]: OutputValue }) => {
-    const text = this._template.fillAsString(data)
+  fill = (data: { [key: string]: unknown }) => {
+    const text = this._template.fill(data)
     this._spi.writeText(text)
   }
 

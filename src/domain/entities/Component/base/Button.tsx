@@ -1,14 +1,14 @@
-import type { Method } from '@domain/entities/Request'
+import type { RequestMethod } from '@domain/entities/Request'
 import type { Base, BaseProps, BaseServices } from '../base'
-import { State } from '@domain/entities/Page/State'
+import { PageState } from '@domain/entities/Page/State'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Server } from '@domain/services/Server'
-import type { Post } from '@domain/entities/Request/Post'
-import { Html } from '@domain/entities/Response/Html'
+import type { PostRequest } from '@domain/entities/Request/Post'
+import { HtmlResponse } from '@domain/entities/Response/Html'
 import type { Response } from '@domain/entities/Response'
-import { Redirect } from '@domain/entities/Response/Redirect'
+import { RedirectResponse } from '@domain/entities/Response/Redirect'
 
 export type Variant = 'primary' | 'secondary'
 export type Type = 'button' | 'submit' | 'reset'
@@ -20,7 +20,7 @@ export interface Props extends BaseProps {
   variant: Variant
   actionClientProps?: { [key: string]: string }
   action?: string
-  method?: Method
+  method?: RequestMethod
   formId?: string
 }
 
@@ -60,9 +60,9 @@ export class Button implements Base<Props> {
     if (this.action) await server.post(this.path, this.post)
   }
 
-  post = async (request: Post): Promise<Response> => {
+  post = async (request: PostRequest): Promise<Response> => {
     if (!this.action) throw new Error('Button has no action')
-    const state = new State(request)
+    const state = new PageState(request)
     const { server } = this._services
     const { method = 'POST', onSuccess } = this._config
     const filledAction = state.fillTemplate(this.action)
@@ -75,19 +75,19 @@ export class Button implements Base<Props> {
       body: JSON.stringify(request.body),
     })
     if (result.ok && onSuccess) {
-      if ('redirect' in onSuccess) return new Redirect(onSuccess.redirect)
+      if ('redirect' in onSuccess) return new RedirectResponse(onSuccess.redirect)
     }
     const html = await this.html(state)
-    return new Html(html)
+    return new HtmlResponse(html)
   }
 
-  html = async (state: State, props?: Partial<Props>) => {
+  html = async (state: PageState, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state)
     return client.renderToHtml(<Component {...props} />)
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { client } = this._services
     const { id, className, label, href, variant = 'primary' } = this._config
     const action = this.action ? state.addQueryToPath(this.path) : undefined

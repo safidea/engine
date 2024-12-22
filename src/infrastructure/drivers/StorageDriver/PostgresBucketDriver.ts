@@ -1,14 +1,14 @@
-import type { Config } from '@domain/services/Storage'
-import type { Driver } from '@adapter/spi/StorageBucketSpi'
+import type { StorageConfig } from '@domain/services/Storage'
+import type { IStorageBucketDriver } from '@adapter/spi/drivers/StorageBucketSpi'
 import type { FileDto } from '@adapter/spi/dtos/FileDto'
 
-export class PostgresBucketDriver implements Driver {
+export class PostgresBucketDriver implements IStorageBucketDriver {
   private _nameWithSchema: string
 
   constructor(
     private _name: string,
-    private _query: Config['query'],
-    private _exec: Config['exec']
+    private _query: StorageConfig['query'],
+    private _exec: StorageConfig['exec']
   ) {
     this._nameWithSchema = `storage.${_name}`
   }

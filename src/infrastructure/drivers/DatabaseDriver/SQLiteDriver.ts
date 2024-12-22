@@ -1,6 +1,6 @@
 import SQLite from 'better-sqlite3'
-import type { Driver } from '@adapter/spi/DatabaseSpi'
-import type { Config, EventType } from '@domain/services/Database'
+import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
+import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto, EventNotificationDto } from '@adapter/spi/dtos/EventDto'
 import { SQLiteTableDriver } from './SQLiteTableDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
@@ -11,12 +11,12 @@ interface Notification {
   processed: number
 }
 
-export class SQLiteDriver implements Driver {
+export class SQLiteDriver implements IDatabaseDriver {
   private _db: SQLite.Database
   private _interval?: Timer
   private _onNotification: ((event: EventNotificationDto) => void)[] = []
 
-  constructor(config: Config) {
+  constructor(config: DatabaseConfig) {
     const { url } = config
     const db = new SQLite(url)
     db.pragma('journal_mode = WAL')
@@ -75,7 +75,7 @@ export class SQLiteDriver implements Driver {
     return new SQLiteTableDriver(name, fields, this._db)
   }
 
-  on = (event: EventType, callback: (eventDto: EventDto) => void) => {
+  on = (event: DatabaseEventType, callback: (eventDto: EventDto) => void) => {
     if (event === 'notification') this._onNotification.push(callback)
   }
 

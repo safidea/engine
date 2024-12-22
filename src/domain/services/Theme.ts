@@ -1,12 +1,12 @@
-import type { SansSerif, Serif } from '@domain/libraries/Font'
+import type { SansSerifFontName, SerifFontName } from '@domain/libraries/Font'
 import type { Server } from './Server'
 import type { FontLibrary } from './FontLibrary'
-import { Css } from '@domain/entities/Response/Css'
+import { CssResponse } from '@domain/entities/Response/Css'
 
-export interface Config {
+export interface ThemeConfig {
   fontFamily?: {
-    sans?: SansSerif
-    serif?: Serif
+    sans?: SansSerifFontName
+    serif?: SerifFontName
   }
   container?: {
     center?: boolean
@@ -23,20 +23,20 @@ export interface Config {
   }
 }
 
-export interface Services {
+export interface ThemeServices {
   server: Server
   fontLibrary: FontLibrary
 }
 
-export interface Spi {
+export interface IThemeSpi {
   build: (htmlContents: string[], fontsCss?: string[]) => Promise<string>
 }
 
 export class Theme {
   constructor(
-    private _spi: Spi,
-    private _services: Services,
-    private _config: Config
+    private _spi: IThemeSpi,
+    private _services: ThemeServices,
+    private _config: ThemeConfig
   ) {}
 
   init = async (htmlContents: string[]) => {
@@ -55,6 +55,6 @@ export class Theme {
       }
     }
     const css = await this._spi.build(htmlContents, fontsCss)
-    await server.get('/output.css', async () => new Css(css))
+    await server.get('/output.css', async () => new CssResponse(css))
   }
 }

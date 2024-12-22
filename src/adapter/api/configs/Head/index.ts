@@ -1,10 +1,10 @@
-import type { Link } from './Link'
-import type { Meta } from './Meta'
-import type { Script } from './Script'
+import type { ILink } from './Link'
+import type { IMeta } from './Meta'
+import type { IScript } from './Script'
 
-export interface Head {
+export interface IHead {
   title?: string
-  metas?: Meta[]
-  links?: Link[]
-  scripts?: Script[]
+  metas?: IMeta[]
+  links?: ILink[]
+  scripts?: IScript[]
 }

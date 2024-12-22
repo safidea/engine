@@ -1,5 +1,5 @@
-import type { BaseParams } from './base'
+import type { BaseJobParams } from './base'
 
-export class Created {
-  constructor(private _params: BaseParams) {}
+export class CreatedJob {
+  constructor(private _params: BaseJobParams) {}
 }

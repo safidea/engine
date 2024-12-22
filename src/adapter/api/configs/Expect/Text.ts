@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/Text'
+import type { TextExpectConfig } from '@domain/entities/Expect/Text'
 
-export interface Text extends Config {
+export interface ITextExpect extends TextExpectConfig {
   expect: 'Text'
 }

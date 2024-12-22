@@ -1,10 +1,20 @@
-import type { Attribute } from './Attribute'
-import type { Email } from './Email'
-import type { Equal } from './Equal'
-import type { InputText } from './InputText'
-import type { Record } from './Record'
-import type { Text } from './Text'
-import type { Title } from './Title'
-import type { Url } from './Url'
+import type { IAttributeExpect } from './Attribute'
+import type { IEmailExpect } from './Email'
+import type { IEqualExpect } from './Equal'
+import type { IExistExpect } from './Exist'
+import type { IInputTextExpect } from './InputText'
+import type { IRecordExpect } from './Record'
+import type { ITextExpect } from './Text'
+import type { ITitleExpect } from './Title'
+import type { IUrlExpect } from './Url'
 
-export type Expect = Record | Text | Title | InputText | Attribute | Email | Url | Equal
+export type IExpect =
+  | IRecordExpect
+  | ITextExpect
+  | ITitleExpect
+  | IInputTextExpect
+  | IAttributeExpect
+  | IEmailExpect
+  | IUrlExpect
+  | IEqualExpect
+  | IExistExpect

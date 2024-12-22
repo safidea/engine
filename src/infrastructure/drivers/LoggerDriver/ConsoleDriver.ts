@@ -1,13 +1,10 @@
 import { createLogger, format, transports } from 'winston'
-import { BaseDriver } from './base'
-import type { ConsoleConfig } from '@domain/services/Logger'
+import { BaseLoggerDriver } from './base'
+import type { LoggerConsoleConfig } from '@domain/services/Logger'
 
-export class ConsoleDriver extends BaseDriver {
-  constructor(config: ConsoleConfig) {
-    const { level, silent } = config
+export class ConsoleDriver extends BaseLoggerDriver {
+  constructor(config: LoggerConsoleConfig) {
     const logger = createLogger({
-      level,
-      silent,
       format: format.combine(
         format.colorize(),
         format.timestamp(),
@@ -15,7 +12,7 @@ export class ConsoleDriver extends BaseDriver {
           return `${timestamp} [${level}]: ${message} ${Object.keys(res).length ? JSON.stringify(res, null, 2) : ''}`
         })
       ),
-      transports: [new transports.Console()],
+      transports: [new transports.Console(config)],
     })
     super(logger)
   }

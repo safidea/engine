@@ -1,8 +1,8 @@
-import type { Action } from './Action'
-import type { Trigger } from './Trigger'
+import type { IAction } from './Action'
+import type { ITrigger } from './Trigger'
 
-export interface Automation {
+export interface IAutomation {
   name: string
-  trigger: Trigger
-  actions: Action[]
+  trigger: ITrigger
+  actions: IAction[]
 }

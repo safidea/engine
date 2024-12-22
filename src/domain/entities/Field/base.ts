@@ -1,4 +1,4 @@
-export interface BaseParams {
+export interface BaseFieldParams {
   name: string
   required?: boolean
   onMigration?: {
@@ -6,14 +6,14 @@ export interface BaseParams {
   }
 }
 
-export class Base {
+export class BaseField {
   name: string
   required: boolean
   onMigration?: {
     replace?: string
   }
 
-  constructor(params: BaseParams) {
+  constructor(params: BaseFieldParams) {
     this.name = params.name
     this.required = params.required || false
     this.onMigration = params.onMigration

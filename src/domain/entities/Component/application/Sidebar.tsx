@@ -5,7 +5,7 @@ import type { Title } from '../content/Title'
 import type { ConfigError } from '@domain/entities/Error/Config'
 import type { Props as TitleProps } from '../content/Title'
 import type { Props as LinkProps } from '../content/Link'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   Title?: React.FC<Partial<TitleProps>>
@@ -39,7 +39,7 @@ export class Sidebar implements Base<Props> {
     ])
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { id, className } = this._config
     const children = await Promise.all(this._entities.children.map((child) => child.render(state)))
     const Links = await Promise.all(this._entities.links.map((link) => link.render(state)))

@@ -1,18 +1,21 @@
 import { PostgresDriver } from './PostgresDriver'
 import { SqliteDriver } from './SqliteDriver'
-import type { Config } from '@domain/services/Storage'
-import type { Driver } from '@adapter/spi/StorageSpi'
+import type { StorageConfig } from '@domain/services/Storage'
+import type { IStorageDriver } from '@adapter/spi/drivers/StorageSpi'
 
-export class StorageDriver implements Driver {
+export class StorageDriver implements IStorageDriver {
   private _storage: PostgresDriver | SqliteDriver
 
-  constructor({ driver, query, exec }: Config) {
-    if (driver === 'SQLite') {
-      this._storage = new SqliteDriver(query, exec)
-    } else if (driver === 'PostgreSQL') {
-      this._storage = new PostgresDriver(query, exec)
-    } else {
-      throw new Error(`Storage ${driver} not supported`)
+  constructor({ driver, query, exec }: StorageConfig) {
+    switch (driver) {
+      case 'PostgreSQL':
+        this._storage = new PostgresDriver(query, exec)
+        break
+      case 'SQLite':
+        this._storage = new SqliteDriver(query, exec)
+        break
+      default:
+        throw new Error('Invalid driver')
     }
   }
 

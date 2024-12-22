@@ -1,18 +1,34 @@
 import { Automation } from '@domain/entities/Automation'
-import type { Automation as Config } from '../configs/Automation'
+import type { IAutomation } from '../configs/Automation'
 import {
   ActionMapper,
-  type Services as ActionServices,
-  type Entities as ActionEntities,
-} from './ActionMapper'
-import { TriggerMapper, type Services as TriggerServices } from './TriggerMapper'
+  type ActionMapperServices,
+  type ActionMapperEntities,
+  type ActionMapperIntegrations,
+} from './Action'
+import {
+  TriggerMapper,
+  type TriggerMapperServices,
+  type TriggerMapperIntegrations,
+} from './Trigger'
+import type { Database } from '@domain/services/Database'
 
-export type Services = ActionServices & TriggerServices
+export type AutomationMapperServices = ActionMapperServices &
+  TriggerMapperServices & {
+    database: Database
+  }
 
-export type Entities = ActionEntities
+export type AutomationMapperEntities = ActionMapperEntities
+
+export type AutomationMapperIntegrations = TriggerMapperIntegrations & ActionMapperIntegrations
 
 export class AutomationMapper {
-  static toEntity = (config: Config, services: Services, entities: Entities) => {
+  static toEntity = (
+    config: IAutomation,
+    services: AutomationMapperServices,
+    entities: AutomationMapperEntities,
+    integrations: AutomationMapperIntegrations
+  ) => {
     const {
       logger,
       server,
@@ -23,12 +39,15 @@ export class AutomationMapper {
       realtime,
       schemaValidator,
       javascriptCompiler,
+      typescriptCompiler,
       browser,
       fileSystem,
       spreadsheetLoader,
       documentLoader,
       monitor,
+      database,
     } = services
+    const { notion, pappers, qonto } = integrations
     const trigger = TriggerMapper.toEntity(
       { ...config.trigger, automation: config.name },
       {
@@ -38,6 +57,9 @@ export class AutomationMapper {
         schemaValidator,
         templateCompiler,
         monitor,
+      },
+      {
+        notion,
       }
     )
     const actions = ActionMapper.toManyEntities(
@@ -47,6 +69,7 @@ export class AutomationMapper {
         idGenerator,
         templateCompiler,
         javascriptCompiler,
+        typescriptCompiler,
         browser,
         fileSystem,
         spreadsheetLoader,
@@ -54,12 +77,22 @@ export class AutomationMapper {
         logger,
         monitor,
       },
-      entities
+      entities,
+      {
+        pappers,
+        qonto,
+        notion,
+      }
     )
-    return new Automation(config, { logger, monitor, idGenerator }, { trigger, actions })
+    return new Automation(config, { logger, monitor, idGenerator, database }, { trigger, actions })
   }
 
-  static toManyEntities = (configs: Config[] = [], services: Services, entities: Entities) => {
-    return configs.map((config) => this.toEntity(config, services, entities))
+  static toManyEntities = (
+    configs: IAutomation[] = [],
+    services: AutomationMapperServices,
+    entities: AutomationMapperEntities,
+    integrations: AutomationMapperIntegrations
+  ) => {
+    return configs.map((config) => this.toEntity(config, services, entities, integrations))
   }
 }

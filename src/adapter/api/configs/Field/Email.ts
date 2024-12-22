@@ -1,5 +1,5 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface Email extends Base {
+export interface IEmailField extends IBaseAction {
   field: 'Email'
 }

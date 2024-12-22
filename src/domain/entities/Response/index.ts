@@ -1,23 +1,40 @@
-import { type Css, isCss } from './Css'
-import { type Docx, isDocx } from './Docx'
-import { type Font, isFont } from './Font'
-import { type Html, isHtml } from './Html'
-import { type Json, isJson } from './Json'
-import { type Redirect, isRedirect } from './Redirect'
-import { type Stream, isStream } from './Stream'
-import { type Xlsx, isXlsx } from './Xlsx'
+import { type CssResponse, isCssResponse } from './Css'
+import { type DocxResponse, isDocxResponse } from './Docx'
+import { type FontResponse, isFontResponse } from './Font'
+import { type HtmlResponse, isHtmlResponse } from './Html'
+import { isJpgResponse, type JpgResponse } from './Jpg'
+import { type JsonResponse, isJsonResponse } from './Json'
+import { isPdfResponse, type PdfResponse } from './Pdf'
+import { isPngResponse, type PngResponse } from './Png'
+import { type RedirectResponse, isRedirectResponse } from './Redirect'
+import { type StreamResponse, isStreamResponse } from './Stream'
+import { type XlsxResponse, isXlsxResponse } from './Xlsx'
 
-export type Response = Json | Html | Redirect | Stream | Css | Font | Docx | Xlsx
+export type Response =
+  | JsonResponse
+  | HtmlResponse
+  | RedirectResponse
+  | StreamResponse
+  | CssResponse
+  | FontResponse
+  | DocxResponse
+  | XlsxResponse
+  | PngResponse
+  | JpgResponse
+  | PdfResponse
 
 export function isResponse(value: unknown): value is Response {
   return (
-    isJson(value) ||
-    isHtml(value) ||
-    isRedirect(value) ||
-    isStream(value) ||
-    isCss(value) ||
-    isFont(value) ||
-    isDocx(value) ||
-    isXlsx(value)
+    isJsonResponse(value) ||
+    isHtmlResponse(value) ||
+    isRedirectResponse(value) ||
+    isStreamResponse(value) ||
+    isCssResponse(value) ||
+    isFontResponse(value) ||
+    isDocxResponse(value) ||
+    isXlsxResponse(value) ||
+    isPngResponse(value) ||
+    isJpgResponse(value) ||
+    isPdfResponse(value)
   )
 }

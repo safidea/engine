@@ -1,5 +1,5 @@
 import type { ConfigError } from '@domain/entities/Error/Config'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 import type { Client } from '@domain/services/Client'
 
 export type ReactComponent<T> = (props: T) => JSX.Element
@@ -18,7 +18,7 @@ export interface BaseServices {
 
 export interface Base<P extends BaseProps> {
   init: () => Promise<void>
-  render: (state: State) => Promise<(props?: Partial<P>) => JSX.Element>
+  render: (state: PageState) => Promise<(props?: Partial<P>) => JSX.Element>
   validateConfig: () => ConfigError[]
 }
 

@@ -1,6 +1,7 @@
-import type { Config } from '@domain/entities/Action/document/CreateDocxFromTemplate'
+import type { CreateDocxFromTemplateDocumentActionConfig } from '@domain/entities/Action/document/CreateDocxFromTemplate'
 
-export interface CreateDocxFromTemplate extends Config {
+export interface ICreateDocxFromTemplateDocumentAction
+  extends CreateDocxFromTemplateDocumentActionConfig {
   service: 'Document'
   action: 'CreateDocxFromTemplate'
 }

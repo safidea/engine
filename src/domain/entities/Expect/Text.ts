@@ -1,26 +1,18 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base, type BaseServices } from './base'
+import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface TextExpectConfig {
   text: string
   tag?: keyof HTMLElementTagNameMap
 }
 
-export type Services = BaseServices
+export class TextExpect implements BaseExpect {
+  constructor(private _config: TextExpectConfig) {}
 
-export class Text implements Base {
-  constructor(
-    private _config: Config,
-    private _services: Services
-  ) {}
-
-  execute = async (_app: App, page: BrowserPage, _context?: object) => {
+  execute = async (_app: StartedApp, page: BrowserPage, _context?: object) => {
     const { tag, text } = this._config
-    const { logger } = this._services
-    const textMessage = `checking if text "${text}" exist`
-    logger.debug(tag ? `${textMessage} in tag "${tag}"` : textMessage)
     const textElement = await page.getByText(text, { tag })
     if (!textElement) {
       throw new TestError({

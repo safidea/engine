@@ -1,37 +1,31 @@
-import { type Base, type BaseServices } from './base'
+import { type BaseExpect } from './base'
 import type { Filter } from '@domain/entities/Filter'
 import { TestError } from '@domain/entities/Error/Test'
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface RecordExpectConfig {
   table: string
 }
 
-export type Services = BaseServices
-
-export interface Entities {
-  find: Filter[]
+export interface RecordExpectEntities {
+  find: Filter
 }
 
-export class Record implements Base {
+export class RecordExpect implements BaseExpect {
   constructor(
-    private _config: Config,
-    private _services: Services,
-    private _entities: Entities
+    private _config: RecordExpectConfig,
+    private _entities: RecordExpectEntities
   ) {}
 
-  execute = async (app: App, _page: BrowserPage, _context?: object) => {
+  execute = async (app: StartedApp, _page: BrowserPage, _context?: object) => {
     const { table } = this._config
     const { find } = this._entities
-    const { logger } = this._services
-    logger.debug(`checking if table "${table}" has a record matching "${JSON.stringify(find)}"`)
     const tableRow = await app.getTable(table).db.read(find)
     if (!tableRow) {
-      const expect = find.reduce((acc, filter) => ({ ...acc, [filter.field]: filter.value }), {})
       throw new TestError({
         code: 'RECORD_NOT_FOUND',
-        expected: JSON.stringify(expect),
+        expected: JSON.stringify(find),
         received: undefined,
       })
     }

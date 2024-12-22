@@ -19,11 +19,11 @@
       "@infrastructure/*": ["src/infrastructure/*"],
       "@adapter/*": ["src/adapter/*"],
       "@domain/*": ["src/domain/*"],
-      "@safidea/engine": ["dist/index"],
-      "@tests/components": ["tests/__helpers__/dist/components"],
-      "@tests/*": ["tests/__helpers__/*"]
+      "@latechforce/engine": ["dist/index"],
+      "@latechforce/engine/instrument": ["dist/infrastructure/instrument/index"],
+      "@test/*": ["test/__helpers__/*"]
     }
   },
-  "include": ["src", "tests", ".storybook", "scripts", "playwright.config.ts"],
+  "include": ["src", "test", ".storybook", "script", "playwright.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

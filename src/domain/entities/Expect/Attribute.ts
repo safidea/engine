@@ -1,27 +1,19 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base, type BaseServices } from './base'
+import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface AttributeExpectConfig {
   attribute: string
   value: string
   tag?: keyof HTMLElementTagNameMap
 }
 
-export type Services = BaseServices
+export class AttributeExpect implements BaseExpect {
+  constructor(private _config: AttributeExpectConfig) {}
 
-export class Attribute implements Base {
-  constructor(
-    private _config: Config,
-    private _services: Services
-  ) {}
-
-  execute = async (_app: App, page: BrowserPage, _context?: object) => {
+  execute = async (_app: StartedApp, page: BrowserPage, _context?: object) => {
     const { tag, attribute, value } = this._config
-    const { logger } = this._services
-    const attributeMessage = `checking if attribute "${attribute}" with value "${value}" exist`
-    logger.debug(tag ? `${attributeMessage} in tag "${tag}"` : attributeMessage)
     const element = await page.getByAttribute(attribute, value, { tag })
     if (!element) {
       throw new TestError({

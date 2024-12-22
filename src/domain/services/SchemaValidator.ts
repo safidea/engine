@@ -14,13 +14,13 @@ export interface JSONSchema {
   oneOf?: JSONSchema[]
 }
 
-export interface Spi {
+export interface ISchemaValidatorSpi {
   validateFromFile(json: unknown, schemaFileName: string): SchemaError[]
   validate(json: unknown, schema: JSONSchema): SchemaError[]
 }
 
 export class SchemaValidator {
-  constructor(private _spi: Spi) {}
+  constructor(private _spi: ISchemaValidatorSpi) {}
 
   validateFromFile = (json: unknown, schemaFileName: string) => {
     return this._spi.validateFromFile(json, schemaFileName)

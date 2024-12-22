@@ -1,11 +1,11 @@
-import type { Driver } from '@adapter/spi/ThemeSpi'
-import type { Config } from '@domain/services/Theme'
+import type { IThemeDriver } from '@adapter/spi/drivers/ThemeSpi'
+import type { ThemeConfig } from '@domain/services/Theme'
 import postcss from 'postcss'
 import tailwindcss, { type Config as Tailwindcss } from 'tailwindcss'
 import type { RawFile } from 'tailwindcss/types/config'
 
-export class ThemeDriver implements Driver {
-  constructor(private _config: Config) {}
+export class ThemeDriver implements IThemeDriver {
+  constructor(private _config: ThemeConfig) {}
 
   build = async (htmlContents: string[], fontsCss: string[] = []) => {
     if (htmlContents.length === 0) return '/* There is no css generated */'

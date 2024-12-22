@@ -1,28 +1,28 @@
-interface BaseConfig {
+interface LoggerBaseConfig {
   level?: 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'
   silent?: boolean
 }
 
-export interface ElasticSearchConfig extends BaseConfig {
+export interface LoggerElasticSearchConfig extends LoggerBaseConfig {
   driver: 'ElasticSearch'
   url: string
   index: string
 }
 
-export interface ConsoleConfig extends BaseConfig {
+export interface LoggerConsoleConfig extends LoggerBaseConfig {
   driver: 'Console'
 }
 
-export interface FileConfig extends BaseConfig {
+export interface LoggerFileConfig extends LoggerBaseConfig {
   driver: 'File'
   filename: string
 }
 
-export type Config = ConsoleConfig | FileConfig | ElasticSearchConfig
+export type LoggerConfig = LoggerConsoleConfig | LoggerFileConfig | LoggerElasticSearchConfig
+export type LoggersConfig = LoggerConfig[]
 
-export interface Spi {
+export interface ILoggerSpi {
   init: () => Promise<void>
-  child: (metadata: object) => Spi
   error: (message: string, metadata: object) => void
   warn: (message: string, metadata: object) => void
   info: (message: string, metadata: object) => void
@@ -33,18 +33,11 @@ export interface Spi {
 }
 
 export class Logger {
-  constructor(
-    private _spi: Spi,
-    private _config: Config
-  ) {}
+  constructor(private _spi: ILoggerSpi) {}
 
   init: () => Promise<void> = async () => {
     await this._spi.init()
-    this.debug(`init "${this._config.driver}" logger`)
-  }
-
-  child = (metadata: object) => {
-    return new Logger(this._spi.child(metadata), this._config)
+    this.debug(`init logger`)
   }
 
   info = (message: string, metadata: object = {}) => {

@@ -1,25 +1,32 @@
-import type { Config } from '@domain/services/Monitor'
-import type { Driver } from '@adapter/spi/MonitorSpi'
+import type { MonitorsConfig } from '@domain/services/Monitor'
+import type { IMonitorDriver } from '@adapter/spi/drivers/MonitorSpi'
 import { SentryDriver } from './SentryDriver'
 import { ConsoleDriver } from './ConsoleDriver'
 
-export class MonitorDriver implements Driver {
-  private _monitor: SentryDriver | ConsoleDriver
+export class MonitorDriver implements IMonitorDriver {
+  private _monitors: (SentryDriver | ConsoleDriver)[] = []
 
-  constructor(config: Config) {
-    const { driver } = config
-    if (driver === 'Sentry') {
-      this._monitor = new SentryDriver()
-    } else if (driver === 'Console') {
-      this._monitor = new ConsoleDriver()
-    } else throw new Error(`MonitorDriver: monitor "${driver}" not supported`)
+  constructor(config: MonitorsConfig) {
+    for (const monitor of config) {
+      const { driver } = monitor
+      switch (driver) {
+        case 'Sentry':
+          this._monitors.push(new SentryDriver())
+          break
+        case 'Console':
+          this._monitors.push(new ConsoleDriver())
+          break
+        default:
+          throw new Error('Invalid driver')
+      }
+    }
   }
 
   captureException = (error: Error) => {
-    this._monitor.captureException(error)
+    this._monitors.map((m) => m.captureException(error))
   }
 
   captureMessage = (message: string) => {
-    this._monitor.captureMessage(message)
+    this._monitors.map((m) => m.captureMessage(message))
   }
 }

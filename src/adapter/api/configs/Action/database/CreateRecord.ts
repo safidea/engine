@@ -1,6 +1,6 @@
-import type { Config } from '@domain/entities/Action/database/CreateRecord'
+import type { CreateRecordDatabaseActionConfig } from '@domain/entities/Action/database/CreateRecord'
 
-export interface CreateRecord extends Config {
+export interface ICreateRecordDatabaseAction extends CreateRecordDatabaseActionConfig {
   service: 'Database'
   action: 'CreateRecord'
 }

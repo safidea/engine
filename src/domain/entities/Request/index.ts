@@ -1,8 +1,8 @@
-import type { Get } from './Get'
-import type { Post } from './Post'
-import type { Patch } from './Patch'
-import type { Delete } from './Delete'
+import type { GetRequest } from './Get'
+import type { PostRequest } from './Post'
+import type { PatchRequest } from './Patch'
+import type { DeleteRequest } from './Delete'
 
-export type Request = Get | Post | Patch | Delete
+export type Request = GetRequest | PostRequest | PatchRequest | DeleteRequest
 
-export type Method = 'GET' | 'POST' | 'PATCH' | 'DELETE'
+export type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE'

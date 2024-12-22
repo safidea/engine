@@ -1,5 +1,5 @@
 import type { Base, BaseProps, BaseServices } from '../base'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 import type { Link, Props as LinkProps } from '../content/Link'
 import type { ConfigError } from '@domain/entities/Error/Config'
@@ -31,7 +31,7 @@ export class Dropdown implements Base<Props> {
     await Promise.all(links.map((link) => link.init()))
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { ...defaultProps } = this._config
     const { links } = this._entities
     const Component = this._services.client.components.Dropdown

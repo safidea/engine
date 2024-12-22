@@ -1,5 +1,10 @@
-import type { ApiCalled } from './ApiCalled'
-import type { RecordCreated } from './RecordCreated'
-import type { WebhookCalled } from './WebhookCalled'
+import type { ApiCalledHttpTrigger } from './http/ApiCalled'
+import type { PageCreatedNotionTrigger } from './notion/PageCreated'
+import type { RecordCreatedDatabaseTrigger } from './database/RecordCreated'
+import type { WebhookCalledHttpTrigger } from './http/WebhookCalled'
 
-export type Trigger = WebhookCalled | RecordCreated | ApiCalled
+export type Trigger =
+  | WebhookCalledHttpTrigger
+  | RecordCreatedDatabaseTrigger
+  | ApiCalledHttpTrigger
+  | PageCreatedNotionTrigger

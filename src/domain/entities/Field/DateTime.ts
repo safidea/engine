@@ -1,7 +1,7 @@
-import { Base, type BaseParams } from './base'
+import { BaseField, type BaseFieldParams } from './base'
 
-export class DateTime extends Base {
-  constructor(params: BaseParams) {
+export class DateTimeField extends BaseField {
+  constructor(params: BaseFieldParams) {
     super(params)
   }
 }

@@ -1,6 +1,6 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
-export class Html extends Base {
+export class HtmlResponse extends BaseResponse {
   constructor(html: string) {
     super({
       body: html,
@@ -11,6 +11,6 @@ export class Html extends Base {
   }
 }
 
-export function isHtml(value: unknown): value is Html {
-  return value instanceof Html
+export function isHtmlResponse(value: unknown): value is HtmlResponse {
+  return value instanceof HtmlResponse
 }

@@ -2,13 +2,12 @@ import { defineConfig, devices } from '@playwright/test'
 import { join } from 'path'
 import 'dotenv/config'
 
-process.env.TESTING = 'true'
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './test',
+  testIgnore: ['**/tests/**', '**/pages/**', '**/unit/**'],
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: '__snapshots__',
   snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}{ext}',
@@ -30,8 +29,8 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  globalSetup: join(process.cwd(), 'tests/__helpers__/setup.ts'),
-  globalTeardown: join(process.cwd(), 'tests/__helpers__/teardown.ts'),
+  globalSetup: join(process.cwd(), 'test/__helpers__/setup.ts'),
+  globalTeardown: join(process.cwd(), 'test/__helpers__/teardown.ts'),
 
   expect: {
     toMatchSnapshot: {

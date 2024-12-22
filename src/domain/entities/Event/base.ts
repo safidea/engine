@@ -1,11 +1,6 @@
-import type { App } from '@domain/entities/App'
+import type { StartedApp } from '@domain/entities/App/Started'
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import type { Logger } from '@domain/services/Logger'
 
-export interface BaseServices {
-  logger: Logger
-}
-
-export interface Base {
-  execute(app: App, page: BrowserPage): Promise<void | object>
+export interface BaseEvent {
+  execute(app: StartedApp, page: BrowserPage): Promise<void | object>
 }

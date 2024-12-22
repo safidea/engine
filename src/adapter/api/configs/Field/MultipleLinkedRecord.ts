@@ -1,6 +1,6 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface MultipleLinkedRecord extends Base {
+export interface IMultipleLinkedRecordField extends IBaseAction {
   field: 'MultipleLinkedRecord'
   table: string
 }

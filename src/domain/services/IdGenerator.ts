@@ -1,11 +1,11 @@
-export interface Spi {
+export interface IIdGeneratorSpi {
   generate: (length: number, chars: string) => string
 }
 
 export class IdGenerator {
   private alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-  constructor(private _spi: Spi) {}
+  constructor(private _spi: IIdGeneratorSpi) {}
 
   forRecord = () => {
     return this._spi.generate(24, this.alphabet)

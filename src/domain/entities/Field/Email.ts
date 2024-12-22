@@ -1,7 +1,7 @@
-import { Base, type BaseParams } from './base'
+import { BaseField, type BaseFieldParams } from './base'
 
-export class Email extends Base {
-  constructor(params: BaseParams) {
+export class EmailField extends BaseField {
+  constructor(params: BaseFieldParams) {
     super(params)
   }
 }

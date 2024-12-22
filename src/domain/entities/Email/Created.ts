@@ -1,14 +1,14 @@
 import { IdGenerator } from '@domain/services/IdGenerator'
-import { Base, type EmailFields } from './base'
+import { BaseEmail, type EmailFields } from './base'
 
-type Config = Omit<EmailFields, 'id'>
+type CreatedEmailConfig = Omit<EmailFields, 'id'>
 
-interface Services {
+interface CreatedEmailServices {
   idGenerator: IdGenerator
 }
 
-export class CreatedEmail extends Base {
-  constructor(config: Config, services: Services) {
+export class CreatedEmail extends BaseEmail {
+  constructor(config: CreatedEmailConfig, services: CreatedEmailServices) {
     const { idGenerator } = services
     super({
       ...config,

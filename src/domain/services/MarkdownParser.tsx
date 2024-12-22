@@ -5,11 +5,11 @@ import type { Props as LinkProps } from '@domain/entities/Component/content/Link
 import type { Props as ImageProps } from '@domain/entities/Component/content/Image'
 import type { Client } from './Client'
 
-export interface Services {
+export interface MarkdownParserServices {
   client: Client
 }
 
-export interface Renderer {
+export interface MarkdownParserRenderer {
   title: (props: TitleProps) => string
   paragraph: (props: ParagraphProps) => string
   hr: (props: DividerProps) => string
@@ -17,15 +17,15 @@ export interface Renderer {
   image: (props: ImageProps) => string
 }
 
-export interface Spi {
+export interface IMarkdownParserSpi {
   parseToComponent: (content: string) => Promise<React.ReactNode>
-  configRenderer: (renderer: Renderer) => void
+  configRenderer: (renderer: MarkdownParserRenderer) => void
 }
 
 export class MarkdownParser {
   constructor(
-    private _spi: Spi,
-    private _services: Services
+    private _spi: IMarkdownParserSpi,
+    private _services: MarkdownParserServices
   ) {
     this._spi.configRenderer({
       title: this.renderTitle,

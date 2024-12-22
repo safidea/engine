@@ -1,22 +1,24 @@
-import type { DateTime } from './DateTime'
-import type { Email } from './Email'
-import type { LongText } from './LongText'
-import type { SingleLineText } from './SingleLineText'
-import type { Number as Number_ } from './Number'
-import type { Formula } from './Formula'
-import type { SingleSelect } from './SingleSelect'
-import type { SingleLinkedRecord } from './SingleLinkedRecord'
-import type { MultipleLinkedRecord } from './MultipleLinkedRecord'
-import type { Rollup } from './Rollup'
+import type { DateTimeField } from './DateTime'
+import type { EmailField } from './Email'
+import type { LongTextField } from './LongText'
+import type { SingleLineTextField } from './SingleLineText'
+import type { NumberField } from './Number'
+import type { FormulaField } from './Formula'
+import type { SingleSelectField } from './SingleSelect'
+import type { SingleLinkedRecordField } from './SingleLinkedRecord'
+import type { MultipleLinkedRecordField } from './MultipleLinkedRecord'
+import type { RollupField } from './Rollup'
+import type { CheckboxField } from './Checkbox'
 
 export type Field =
-  | Email
-  | SingleLineText
-  | LongText
-  | DateTime
-  | Number_
-  | Formula
-  | SingleSelect
-  | SingleLinkedRecord
-  | MultipleLinkedRecord
-  | Rollup
+  | EmailField
+  | SingleLineTextField
+  | LongTextField
+  | DateTimeField
+  | NumberField
+  | FormulaField
+  | SingleSelectField
+  | SingleLinkedRecordField
+  | MultipleLinkedRecordField
+  | RollupField
+  | CheckboxField

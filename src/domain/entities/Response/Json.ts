@@ -1,6 +1,6 @@
-import { Base } from './base'
+import { BaseResponse } from './base'
 
-export class Json extends Base {
+export class JsonResponse extends BaseResponse {
   constructor(json: object, status?: number) {
     super({
       body: JSON.stringify(json),
@@ -12,6 +12,6 @@ export class Json extends Base {
   }
 }
 
-export function isJson(value: unknown): value is Json {
-  return value instanceof Json
+export function isJsonResponse(value: unknown): value is JsonResponse {
+  return value instanceof JsonResponse
 }

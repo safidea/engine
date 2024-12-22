@@ -1,6 +1,6 @@
 export interface FieldDto {
   name: string
-  type: 'TEXT' | 'TIMESTAMP' | 'NUMERIC' | 'TEXT[]'
+  type: 'TEXT' | 'TIMESTAMP' | 'NUMERIC' | 'BOOLEAN' | 'TEXT[]'
   formula?: string
   options?: string[]
   required?: boolean

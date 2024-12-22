@@ -1,7 +1,7 @@
-import type { Driver } from '@adapter/spi/LoggerSpi'
+import type { ILoggerDriver } from '@adapter/spi/drivers/LoggerSpi'
 import { type Logger } from 'winston'
 
-export class BaseDriver implements Driver {
+export class BaseLoggerDriver implements ILoggerDriver {
   constructor(private _logger: Logger) {
     _logger.on('error', (error) => {
       console.error('Error in logger caught', error)
@@ -9,11 +9,6 @@ export class BaseDriver implements Driver {
   }
 
   init = async () => {}
-
-  child: (metadata: object) => Driver = (metadata) => {
-    const childLogger = this._logger.child(metadata)
-    return new BaseDriver(childLogger)
-  }
 
   error: (message: string, metadata: object) => void = (message, metadata) => {
     this._logger.error(message, metadata)

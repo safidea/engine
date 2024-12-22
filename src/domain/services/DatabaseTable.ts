@@ -1,22 +1,23 @@
 import type { CreatedRecord } from '../entities/Record/Created'
-import type { Spi as DatabaseSpi } from './Database'
+import type { IDatabaseSpi } from './Database'
 import type { Filter } from '../entities/Filter'
 import type { PersistedRecord } from '../entities/Record/Persisted'
 import type { Field } from '@domain/entities/Field'
 import type { UpdatedRecord } from '@domain/entities/Record/Updated'
 import type { Logger } from '@domain/services/Logger'
-import { IsAnyOf } from '@domain/entities/Filter/IsAnyOf'
+import { IsTextFilter } from '@domain/entities/Filter/text/Is'
+import { OrFilter } from '@domain/entities/Filter/Or'
 
-export interface Config {
+export interface DatabaseTableConfig {
   name: string
   fields: Field[]
 }
 
-export interface Services {
+export interface DatabaseTableServices {
   logger: Logger
 }
 
-export interface Spi {
+export interface IDatabaseTableSpi {
   exists: () => Promise<boolean>
   create: () => Promise<void>
   dropView: () => Promise<void>
@@ -27,19 +28,19 @@ export interface Spi {
   update: (updatedRecord: UpdatedRecord) => Promise<void>
   updateMany: (updatedRecords: UpdatedRecord[]) => Promise<void>
   delete: (recordId: string) => Promise<void>
-  read: (filters: Filter[]) => Promise<PersistedRecord | undefined>
+  read: (filter: Filter) => Promise<PersistedRecord | undefined>
   readById: (id: string) => Promise<PersistedRecord | undefined>
-  list: (filters: Filter[]) => Promise<PersistedRecord[]>
+  list: (filter?: Filter) => Promise<PersistedRecord[]>
 }
 
 export class DatabaseTable {
   private readonly _name: string
-  private _table: Spi
+  private _table: IDatabaseTableSpi
 
   constructor(
-    spi: DatabaseSpi,
-    private _services: Services,
-    config: Config
+    spi: IDatabaseSpi,
+    private _services: DatabaseTableServices,
+    config: DatabaseTableConfig
   ) {
     const { name, fields } = config
     this._table = spi.table(name, fields)
@@ -71,43 +72,45 @@ export class DatabaseTable {
   }
 
   insert = async (createdRecord: CreatedRecord) => {
-    this._services.logger.info(`insert in table "${this._name}"`, createdRecord.toJson())
+    this._services.logger.debug(`insert in table "${this._name}"`, createdRecord.fields)
     await this._table.insert(createdRecord)
     return this.readByIdOrThrow(createdRecord.id)
   }
 
   insertMany = async (createdRecords: CreatedRecord[]) => {
-    this._services.logger.info(
+    this._services.logger.debug(
       `insert many in table "${this._name}"`,
-      createdRecords.map((r) => r.toJson())
+      createdRecords.map((r) => r.fields)
     )
     await this._table.insertMany(createdRecords)
-    return this.list([new IsAnyOf({ field: 'id', value: createdRecords.map((r) => r.id) })])
+    const filter = new OrFilter(createdRecords.map((r) => new IsTextFilter('id', r.id)))
+    return this.list(filter)
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
-    this._services.logger.info(`insert in table "${this._name}"`, updatedRecord.toJson())
+    this._services.logger.debug(`update in table "${this._name}"`, updatedRecord.fields)
     await this._table.update(updatedRecord)
     return this.readByIdOrThrow(updatedRecord.id)
   }
 
   updateMany = async (updatedRecords: UpdatedRecord[]) => {
-    this._services.logger.info(
+    this._services.logger.debug(
       `update many in table "${this._name}"`,
-      updatedRecords.map((r) => r.toJson())
+      updatedRecords.map((r) => r.fields)
     )
     await this._table.updateMany(updatedRecords)
-    return this.list([new IsAnyOf({ field: 'id', value: updatedRecords.map((r) => r.id) })])
+    const filter = new OrFilter(updatedRecords.map((r) => new IsTextFilter('id', r.id)))
+    return this.list(filter)
   }
 
   delete = async (id: string) => {
-    this._services.logger.info(`delete in table "${this._name}"`, { id })
+    this._services.logger.debug(`delete in table "${this._name}"`, { id })
     await this._table.delete(id)
   }
 
-  read = async (filters: Filter[]) => {
-    this._services.logger.debug(`read in table "${this._name}"`, { filters })
-    return this._table.read(filters)
+  read = async (filter: Filter) => {
+    this._services.logger.debug(`read in table "${this._name}"`, filter)
+    return this._table.read(filter)
   }
 
   readById = async (id: string) => {
@@ -121,8 +124,8 @@ export class DatabaseTable {
     return record
   }
 
-  list = async (filters: Filter[]) => {
-    this._services.logger.debug(`list in table "${this._name}"`, { filters })
-    return this._table.list(filters)
+  list = async (filter?: Filter) => {
+    this._services.logger.debug(`list in table "${this._name}"`, filter)
+    return this._table.list(filter)
   }
 }
