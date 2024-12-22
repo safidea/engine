@@ -1,3 +1,11 @@
+## [0.34.38](https://github.com/latechforce/engine/compare/v0.34.37...v0.34.38) (2024-12-22)
+
+
+### Bug Fixes
+
+* **CI:** fix script path for semantic ([bbe93e1](https://github.com/latechforce/engine/commit/bbe93e18e5d2ec0c912ec9dc4be53b656a0724ef))
+* **Notion:** add default polling interval + rename root folders ([a69f5aa](https://github.com/latechforce/engine/commit/a69f5aa884f509e0af191b5a2c9c126ffd71949e))
+
 ## [0.34.37](https://github.com/latechforce/engine/compare/v0.34.36...v0.34.37) (2024-12-21)
 
 
