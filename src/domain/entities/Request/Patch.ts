@@ -1,7 +1,7 @@
-import { Post, type Params } from './Post'
+import { PostRequest, type PostRequestParams } from './Post'
 
-export class Patch extends Post {
-  constructor(params: Params) {
+export class PatchRequest extends PostRequest {
+  constructor(params: PostRequestParams) {
     super(params)
   }
 }

@@ -1,12 +1,12 @@
 import { Test } from '@domain/entities/Test'
-import type { Test as TestConfig } from '@adapter/api/configs/Test'
-import { EventMapper } from './EventMapper'
-import { ExpectMapper } from './ExpectMapper'
-import type { Drivers } from '@adapter/spi/Drivers'
-import { TemplateCompilerMapper } from './ServiceMapper/TemplateCompilerMapper'
+import type { ITest } from '@adapter/api/configs/Test'
+import { EventMapper } from './Event'
+import { ExpectMapper } from './Expect'
+import type { Drivers } from '@adapter/spi/drivers'
+import { TemplateCompilerMapper } from './Services/TemplateCompilerMapper'
 
 export class TestMapper {
-  static toEntity = (drivers: Drivers, config: TestConfig) => {
+  static toEntity = (drivers: Drivers, config: ITest) => {
     const templateCompiler = TemplateCompilerMapper.toService(drivers)
     const when = EventMapper.toManyEntities(config.when)
     const then = ExpectMapper.toManyEntities(config.then, { templateCompiler })
@@ -16,7 +16,7 @@ export class TestMapper {
     })
   }
 
-  static toManyEntities = (drivers: Drivers, configs: TestConfig[]) => {
+  static toManyEntities = (drivers: Drivers, configs: ITest[]) => {
     return configs.map((config) => this.toEntity(drivers, config))
   }
 }

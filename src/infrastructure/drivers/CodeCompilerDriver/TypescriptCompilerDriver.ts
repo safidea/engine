@@ -1,8 +1,8 @@
 import { JavascriptCompilerDriver } from './JavascriptCompilerDriver'
-import type { Driver } from '@adapter/spi/CodeCompilerSpi'
+import type { ICodeCompilerDriver } from '@adapter/spi/drivers/CodeCompilerSpi'
 import ts from 'typescript'
 
-export class TypescriptCompilerDriver implements Driver {
+export class TypescriptCompilerDriver implements ICodeCompilerDriver {
   compile = (tsCode: string, env: { [key: string]: string }) => {
     const { outputText: jsCode } = ts.transpileModule(tsCode, {
       compilerOptions: {

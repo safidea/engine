@@ -1,17 +1,17 @@
 import type { PersistedFile } from '@domain/entities/File/Persisted'
 import type { Logger } from './Logger'
 import type { CreatedFile } from '@domain/entities/File/Created'
-import type { Spi as StorageSpi } from '@domain/services/Storage'
+import type { IStorageSpi } from '@domain/services/Storage'
 
-export interface Config {
+export interface StorageBucketConfig {
   name: string
 }
 
-export interface Services {
+export interface StorageBucketServices {
   logger: Logger
 }
 
-export interface Spi {
+export interface IStorageBucketSpi {
   exists: () => Promise<boolean>
   create: () => Promise<void>
   save: (data: CreatedFile) => Promise<void>
@@ -19,17 +19,17 @@ export interface Spi {
 }
 
 export class StorageBucket {
-  private readonly _name: string
-  private _bucket: Spi
+  readonly name: string
+  private _bucket: IStorageBucketSpi
 
   constructor(
-    spi: StorageSpi,
-    private _services: Services,
-    config: Config
+    spi: IStorageSpi,
+    private _services: StorageBucketServices,
+    config: StorageBucketConfig
   ) {
     const { name } = config
     this._bucket = spi.bucket(name)
-    this._name = name
+    this.name = name
   }
 
   exists = async () => {
@@ -37,25 +37,25 @@ export class StorageBucket {
   }
 
   create = async () => {
-    this._services.logger.debug(`creating ${this._name}...`)
+    this._services.logger.debug(`creating ${this.name}...`)
     await this._bucket.create()
   }
 
   save = async (createdFile: CreatedFile) => {
-    this._services.logger.info(`saving in bucket "${this._name}"`, createdFile.toJson())
+    this._services.logger.debug(`saving in bucket "${this.name}"`, createdFile.toJson())
     await this._bucket.save(createdFile)
     const persistedFile = await this.readByIdOrThrow(createdFile.id)
     return persistedFile
   }
 
   readById = async (id: string) => {
-    this._services.logger.debug(`read in bucket "${this._name}"`, { id })
+    this._services.logger.debug(`read in bucket "${this.name}"`, { id })
     return this._bucket.readById(id)
   }
 
   readByIdOrThrow = async (id: string) => {
     const file = await this.readById(id)
-    if (!file) throw new Error(`file ${id} not found in bucket "${this._name}"`)
+    if (!file) throw new Error(`file ${id} not found in bucket "${this.name}"`)
     return file
   }
 }

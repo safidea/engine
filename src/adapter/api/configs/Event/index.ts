@@ -1,9 +1,16 @@
-import type { Click } from './Click'
-import type { ClickInEmail } from './ClickInEmail'
-import type { Fill } from './Fill'
-import type { Open } from './Open'
-import type { Post } from './Post'
-import type { WaitForAutomation } from './WaitForAutomation'
-import type { WaitForText } from './WaitForText'
+import type { IClickEvent } from './Click'
+import type { IClickInEmailEvent } from './ClickInEmail'
+import type { IFillEvent } from './Fill'
+import type { IOpenEvent } from './Open'
+import type { IPostEvent } from './Post'
+import type { IWaitForAutomationEvent } from './WaitForAutomation'
+import type { IWaitForTextEvent } from './WaitForText'
 
-export type Event = Fill | Open | Post | Click | WaitForText | WaitForAutomation | ClickInEmail
+export type IEvent =
+  | IFillEvent
+  | IOpenEvent
+  | IPostEvent
+  | IClickEvent
+  | IWaitForTextEvent
+  | IWaitForAutomationEvent
+  | IClickInEmailEvent

@@ -1,14 +1,14 @@
-import type { Driver } from '@adapter/spi/ClientSpi'
+import type { IClientDriver } from '@adapter/spi/drivers/ClientSpi'
 import type {
-  ActionProps,
-  FrameProps,
-  StreamProps,
-  StreamSourceProps,
+  ClientActionProps,
+  ClientFrameProps,
+  ClientStreamProps,
+  ClientStreamSourceProps,
 } from '@domain/services/Client'
 import { components } from '@infrastructure/components'
 import ReactDOMServer from 'react-dom/server'
 
-export class ClientDriver implements Driver {
+export class ClientDriver implements IClientDriver {
   constructor() {}
 
   get metas() {
@@ -32,7 +32,7 @@ export class ClientDriver implements Driver {
     return ReactDOMServer.renderToString(component)
   }
 
-  getActionProps = (options?: ActionProps) => {
+  getActionProps = (options?: ClientActionProps) => {
     const { reloadPageFrame = false, redirectPage = false } = options || {}
     const props: {
       'data-turbo-frame'?: string
@@ -43,7 +43,7 @@ export class ClientDriver implements Driver {
     return props
   }
 
-  Frame = ({ navigation, frameId, children, ...props }: FrameProps) => {
+  Frame = ({ navigation, frameId, children, ...props }: ClientFrameProps) => {
     return (
       <turbo-frame data-turbo-action={navigation} target={frameId} {...props}>
         {children}
@@ -51,7 +51,7 @@ export class ClientDriver implements Driver {
     )
   }
 
-  Stream = ({ action, target, children }: StreamProps) => {
+  Stream = ({ action, target, children }: ClientStreamProps) => {
     return (
       <turbo-stream action={action} target={target}>
         <template>{children}</template>
@@ -59,7 +59,7 @@ export class ClientDriver implements Driver {
     )
   }
 
-  StreamSource = (props: StreamSourceProps) => {
+  StreamSource = (props: ClientStreamSourceProps) => {
     return <turbo-stream-source {...props} />
   }
 }

@@ -1,6 +1,6 @@
-import type { Base } from './base'
+import type { IBaseAction } from './base'
 
-export interface SingleSelect extends Base {
+export interface ISingleSelectField extends IBaseAction {
   field: 'SingleSelect'
   options: string[]
 }

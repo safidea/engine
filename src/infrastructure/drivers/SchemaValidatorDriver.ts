@@ -1,12 +1,12 @@
 import Ajv from 'ajv'
 import fs from 'fs-extra'
 import { join } from 'path'
-import type { Driver } from '@adapter/spi/SchemaValidatorSpi'
+import type { ISchemaValidatorDriver } from '@adapter/spi/drivers/SchemaValidatorSpi'
 import type { JSONSchema } from '@domain/services/SchemaValidator'
 
 const dirname = new URL('.', import.meta.url).pathname
 
-export class SchemaValidatorDriver implements Driver {
+export class SchemaValidatorDriver implements ISchemaValidatorDriver {
   private _ajv: Ajv
 
   constructor() {
@@ -14,9 +14,9 @@ export class SchemaValidatorDriver implements Driver {
   }
 
   getSchemaFilePath = (schema: string) => {
-    let schemaPath = join(dirname + '../schemas/', schema + '.schema.json')
+    let schemaPath = join(dirname + '../schema/', schema + '.schema.json')
     if (!fs.existsSync(schemaPath)) {
-      schemaPath = join(process.cwd(), 'schemas/', schema + '.schema.json')
+      schemaPath = join(process.cwd(), 'schema/', schema + '.schema.json')
       if (!fs.existsSync(schemaPath)) {
         throw new Error(`Schema ${schema} not found in ${schemaPath}`)
       }

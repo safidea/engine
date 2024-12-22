@@ -1,11 +1,11 @@
-interface Params {
+interface HeadScriptParams {
   src: string
   type?: 'module' | 'text/javascript'
   timestamp: number
 }
 
-export class Script {
-  constructor(private _params: Params) {}
+export class HeadScript {
+  constructor(private _params: HeadScriptParams) {}
 
   get src() {
     const { src, timestamp } = this._params

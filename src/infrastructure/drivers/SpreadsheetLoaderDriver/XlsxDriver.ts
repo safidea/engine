@@ -1,9 +1,9 @@
-import type { Driver } from '@adapter/spi/SpreadsheetSpi'
-import type { Cell } from '@domain/services/Spreadsheet'
+import type { ISpreadsheetDriver } from '@adapter/spi/drivers/SpreadsheetSpi'
+import type { SpreadsheetCell } from '@domain/services/Spreadsheet'
 import ExcelJS from 'exceljs'
 import fs from 'fs-extra'
 
-export class XlsxDriver implements Driver {
+export class XlsxDriver implements ISpreadsheetDriver {
   private _workbook: ExcelJS.Workbook
 
   constructor() {
@@ -23,7 +23,7 @@ export class XlsxDriver implements Driver {
   }
 
   readTextCells = () => {
-    const cells: Cell[] = []
+    const cells: SpreadsheetCell[] = []
     this._workbook.eachSheet((sheet) => {
       sheet.eachRow((row) => {
         row.eachCell((rowCell) => {
@@ -32,7 +32,7 @@ export class XlsxDriver implements Driver {
             (typeof rowCell.value === 'string' ||
               (typeof rowCell.value === 'object' && 'richText' in rowCell.value))
           ) {
-            const cell: Cell = {
+            const cell: SpreadsheetCell = {
               worksheet: sheet.name,
               row: rowCell.row,
               column: rowCell.col,
@@ -51,7 +51,7 @@ export class XlsxDriver implements Driver {
     return cells
   }
 
-  writeCells = (cells: Cell[]) => {
+  writeCells = (cells: SpreadsheetCell[]) => {
     cells.forEach((cell) => {
       const worksheet = this._workbook.getWorksheet(cell.worksheet)
       if (!worksheet) {

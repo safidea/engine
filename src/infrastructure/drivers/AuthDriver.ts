@@ -1,11 +1,11 @@
-import type { Driver } from '@adapter/spi/AuthSpi'
-import type { Config, Payload, SignOptions } from '@domain/services/Auth'
+import type { IAuthDriver } from '@adapter/spi/drivers/AuthSpi'
+import type { AuthConfig, AuthPayload, AuthSignOptions } from '@domain/services/Auth'
 import jwt from 'jsonwebtoken'
 
-export class AuthDriver implements Driver {
-  constructor(private _config: Config) {}
+export class AuthDriver implements IAuthDriver {
+  constructor(private _config: AuthConfig) {}
 
-  sign = async (payload: Payload, options?: SignOptions) => {
+  sign = async (payload: AuthPayload, options?: AuthSignOptions) => {
     return jwt.sign(payload, this._config.secret, options)
   }
 
@@ -19,6 +19,6 @@ export class AuthDriver implements Driver {
   }
 
   decode = async (token: string) => {
-    return jwt.verify(token, this._config.secret) as Payload
+    return jwt.verify(token, this._config.secret) as AuthPayload
   }
 }

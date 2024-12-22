@@ -1,14 +1,14 @@
 import type { Server } from '@domain/services/Server'
 import type { Base, BaseProps, BaseServices } from '../base'
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { Html } from '@domain/entities/Response/Html'
+import { HtmlResponse } from '@domain/entities/Response/Html'
 import { ConfigError } from '@domain/entities/Error/Config'
-import { Stream } from '@domain/entities/Response/Stream'
+import { StreamResponse } from '@domain/entities/Response/Stream'
 import type { Realtime } from '@domain/services/Realtime'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
 import type { Template } from '@domain/services/Template'
-import { State } from '@domain/entities/Page/State'
-import type { Get } from '@domain/entities/Request/Get'
+import { PageState } from '@domain/entities/Page/State'
+import type { GetRequest } from '@domain/entities/Request/Get'
 
 export interface Column {
   name: string
@@ -77,27 +77,27 @@ export class List implements Base<Props> {
   getRows = (rows: Row['data'][]): Row[] =>
     rows.map((record: Row['data']) => ({
       data: record,
-      open: this.open.fillAsString({ row: record }),
+      open: this.open.fill({ row: record }),
     }))
 
-  getData = async (request: Get) => {
-    const state = new State(request)
+  getData = async (request: GetRequest) => {
+    const state = new PageState(request)
     const { server } = this._services
     const { source } = this._config
     const url = this.stream ? server.baseUrl + source : source
     const result = await fetch(url).then((res) => res.json())
     if (this.stream) {
       const { records } = result
-      return new Html(await this.html(state, { rows: this.getRows(records) }))
+      return new HtmlResponse(await this.html(state, { rows: this.getRows(records) }))
     }
-    return new Html(await this.html(state, { rows: this.getRows(result) }))
+    return new HtmlResponse(await this.html(state, { rows: this.getRows(result) }))
   }
 
-  streamData = async (request: Get) => {
-    const state = new State(request)
+  streamData = async (request: GetRequest) => {
+    const state = new PageState(request)
     const { realtime, server } = this._services
     const { source } = this._config
-    const stream = new Stream()
+    const stream = new StreamResponse()
     if (!realtime) throw new Error('Realtime service is not available')
     if (!this.stream) throw new Error('Stream is not available')
     const id = realtime.onInsert(this.stream.table, async () => {
@@ -109,14 +109,14 @@ export class List implements Base<Props> {
     return stream
   }
 
-  html = async (state: State, props?: Partial<Props>) => {
+  html = async (state: PageState, props?: Partial<Props>) => {
     const { client } = this._services
     const Component = await this.render(state, { withSource: false })
     const actionClientProps = client.getActionProps({ reloadPageFrame: true })
     return client.renderToHtml(<Component {...props} actionClientProps={actionClientProps} />)
   }
 
-  htmlStream = async (state: State, props?: Partial<Props>) => {
+  htmlStream = async (state: PageState, props?: Partial<Props>) => {
     const { id, className, columns } = this._config
     const { client } = this._services
     const Component = await this.render(state, { withSource: false })
@@ -128,7 +128,7 @@ export class List implements Base<Props> {
     )
   }
 
-  render = async (state: State, options?: { withSource: boolean }) => {
+  render = async (state: PageState, options?: { withSource: boolean }) => {
     const { withSource = true } = options || {}
     const { client } = this._services
     const { ...defaultProps } = this._config

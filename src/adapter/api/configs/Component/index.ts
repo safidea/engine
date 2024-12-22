@@ -27,7 +27,7 @@ import type { Spacer } from './content/Spacer'
 import type { Markdown } from './content/Markdown'
 import type { Grid } from './layout/Grid'
 
-export type Component =
+export type IComponent =
   | Button
   | Form
   | Paragraph

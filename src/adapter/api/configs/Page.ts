@@ -1,9 +1,9 @@
-import type { Component } from './Component'
-import type { Head } from './Head'
+import type { IComponent } from './Component'
+import type { IHead } from './Head'
 
-export interface Page {
+export interface IPage {
   name: string
   path: string
-  head?: Head
-  body: Component[]
+  head?: IHead
+  body: IComponent[]
 }

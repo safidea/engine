@@ -1,4 +1,4 @@
-export interface Params {
+export interface SchemaErrorParams {
   keyword: string
   instancePath: string
   schemaPath: string
@@ -15,7 +15,7 @@ export class SchemaError {
   public propertyName?: string
   public message?: string
 
-  constructor(params: Params) {
+  constructor(params: SchemaErrorParams) {
     this.message = params.message
     this.keyword = params.keyword
     this.instancePath = params.instancePath

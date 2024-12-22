@@ -1,6 +1,6 @@
-# Safidea Engine - Web App Generator
+# La Tech Force Engine - Web App Generator
 
-Safidea Engine is a API to generate web app, fast and easy. With a configuration file, you can create a full stack application.
+La Tech Force Engine is a API to generate web app, fast and easy. With a configuration file, you can create a full stack application.
 
 ## Getting Started
 
@@ -10,61 +10,84 @@ You should have Node.js 22 or higher installed on your machine.
 
 ### Installation
 
-In a node project, install the engine with npm:
+In a node project, install the engine with bun:
 
 ```
-npm install @safidea/engine
+bun install @latechforce/engine
 ```
 
-### Usage
+### Examples
 
-Then, create a startup file, for example `index.js`:
+#### Run an API
 
-```js
-import App from '@safidea/engine'
+Create a new file `index.ts` with the following content:
 
-const app = new App()
-const url = await app.start({
-  name: 'Website',
-  pages: [
+```ts
+import App, { type Config, type CodeRunnerContext } from '@latechforce/engine'
+
+const config: Config = {
+  name: 'App',
+  automations: [
     {
-      name: 'Home',
-      path: '/',
-      body: [
+      name: 'hello-name',
+      trigger: {
+        service: 'Http',
+        event: 'ApiCalled',
+        path: 'hello-name',
+        input: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+          },
+          required: ['name'],
+        },
+        output: {
+          message: '{{runJavascriptCode.message}}',
+        },
+      },
+      actions: [
         {
-          component: 'Title',
-          text: 'Hello world!',
+          service: 'Code',
+          action: 'RunTypescript',
+          name: 'runJavascriptCode',
+          input: {
+            name: '{{trigger.body.name}}',
+          },
+          code: String(async function (context: CodeRunnerContext<{ name: string }>) {
+            const { name } = context.inputData
+            return { message: `Hello ${name}!` }
+          }),
         },
       ],
     },
   ],
+}
+
+const { url } = await new App().start(config)
+
+const response = await fetch(url + '/api/automation/hello-name', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ name: 'World' }),
 })
 
-console.log(`Server started at ${url}`)
-```
+const data = await response.json()
 
-Finally, run the startup file with node:
-
-```
-node index.js
+console.log(data.message) // Hello World!
 ```
 
 ## Configuration
 
-A configuration is a JSON representation of the application. It contains the tests, pages, tables, automations, database, etc...
-
-You can see the [full JSON schema documentation here](https://json-schema.app/view/%23?url=https%3A%2F%2Fsafidea.com%2Fschemas%2Fapp.schema.json).
-
-## Templates
-
-You can open our [templates](https://github.com/safidea/templates) to see how to configure the engine and to start from models.
+A configuration is a JSON representation of the application. It contains the tables, automations, services, integrations, etc...
 
 ## Contributing
 
-Safidea Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
+La Tech Force Engine is built and maintained by a small team – we'd love your help to fix bugs and add features!
 
-You can read our [contributing guide here](https://github.com/safidea/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/safidea/engine/blob/main/docs/CODE_OF_CONDUCT.md).
+You can read our [contributing guide here](https://github.com/latechforce/engine/blob/main/docs/CONTRIBUTING.md) and our [code of conduct here](https://github.com/latechforce/engine/blob/main/docs/CODE_OF_CONDUCT.md).
 
 ## License
 
-Safidea Engine is [BSL 1.1 licensed](https://github.com/safidea/engine/blob/main/LICENSE).
+La Tech Force Engine is [BSL 1.1 licensed](https://github.com/latechforce/engine/blob/main/LICENSE).

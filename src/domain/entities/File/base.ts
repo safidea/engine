@@ -9,7 +9,7 @@ export interface FileJson extends Omit<FileFields, 'data' | 'created_at'> {
   created_at: string
 }
 
-export class Base {
+export class BaseFile {
   constructor(readonly fields: FileFields) {}
 
   get id(): string {

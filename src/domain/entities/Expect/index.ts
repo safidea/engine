@@ -1,11 +1,20 @@
-import type { Attribute } from './Attribute'
-import type { Email } from './Email'
-import type { Equal } from './Equal'
-import type { Exist } from './Exist'
-import type { InputText } from './InputText'
-import type { Record } from './Record'
-import type { Text } from './Text'
-import type { Title } from './Title'
-import type { Url } from './Url'
+import type { AttributeExpect } from './Attribute'
+import type { EmailExpect } from './Email'
+import type { EqualExpect } from './Equal'
+import type { ExistExpect } from './Exist'
+import type { InputTextExpect } from './InputText'
+import type { RecordExpect } from './Record'
+import type { TextExpect } from './Text'
+import type { TitleExpect } from './Title'
+import type { UrlExpect } from './Url'
 
-export type Expect = InputText | Record | Text | Title | Attribute | Email | Url | Equal | Exist
+export type Expect =
+  | InputTextExpect
+  | RecordExpect
+  | TextExpect
+  | TitleExpect
+  | AttributeExpect
+  | EmailExpect
+  | UrlExpect
+  | EqualExpect
+  | ExistExpect

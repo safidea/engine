@@ -1,6 +1,6 @@
-import type { Config } from '@domain/entities/Action/code/RunJavascript'
+import type { RunJavascriptCodeActionConfig } from '@domain/entities/Action/code/RunJavascript'
 
-export interface RunJavascript extends Config {
+export interface IRunJavascriptCodeAction extends RunJavascriptCodeActionConfig {
   service: 'Code'
   action: 'RunJavascript'
 }

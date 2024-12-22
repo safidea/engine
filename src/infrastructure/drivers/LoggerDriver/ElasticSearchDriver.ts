@@ -1,13 +1,13 @@
-import type { ElasticSearchConfig } from '@domain/services/Logger'
+import type { LoggerElasticSearchConfig } from '@domain/services/Logger'
 import { createLogger, format } from 'winston'
 import { Client } from '@elastic/elasticsearch'
 import { ElasticsearchTransport } from 'winston-elasticsearch'
-import { BaseDriver } from './base'
+import { BaseLoggerDriver } from './base'
 
-export class ElasticsSearchDriver extends BaseDriver {
+export class ElasticsSearchDriver extends BaseLoggerDriver {
   private _client: Client
 
-  constructor(private _config: ElasticSearchConfig) {
+  constructor(private _config: LoggerElasticSearchConfig) {
     const { level, url, index, silent } = _config
     const client = new Client({
       node: url,

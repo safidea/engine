@@ -1,30 +1,25 @@
-import type { Driver } from '@adapter/spi/TemplateCompilerSpi'
+import type { ITemplateCompilerDriver } from '@adapter/spi/drivers/TemplateCompilerSpi'
 import Handlebars from 'handlebars'
 import { TemplateDriver } from './TemplateDriver'
+import { parse, format } from 'date-fns'
 
-Handlebars.registerHelper('stringify', function (context) {
-  if (typeof context === 'number') {
-    return context.toString()
-  }
-  if (typeof context === 'boolean') {
-    return context ? 'true' : 'false'
-  }
-  if (Array.isArray(context) || typeof context === 'object') {
-    return new Handlebars.SafeString(JSON.stringify(context))
-  }
-  return context
+Handlebars.registerHelper('stringify', (value) => {
+  return typeof value === 'object'
+    ? new Handlebars.SafeString(JSON.stringify(value))
+    : String(value)
 })
 
-export class TemplateCompilerDriver implements Driver {
-  compile = (text: string) => {
-    const stringifiedText = this._replaceAllWithStringify(text)
-    const template = Handlebars.compile(stringifiedText)
-    return new TemplateDriver(template)
-  }
+Handlebars.registerHelper('formatDate', (value, inputFormat, outputFormat) => {
+  const parsedDate = parse(value, inputFormat, new Date())
+  return format(parsedDate, outputFormat)
+})
 
-  private _replaceAllWithStringify = (inputString: string) => {
-    const regex = /\{\{\s*([^{}\s][^{}]*[^{}\s]?)\s*\}\}/g
-    const replacedString = inputString.replace(regex, (_match, p1) => `{{stringify ${p1}}}`)
-    return replacedString
+export class TemplateCompilerDriver implements ITemplateCompilerDriver {
+  compile = (text: string) => {
+    const processedText = text.replace(/\{\{\s*([^{}\s][^{}]*[^{}\s]?)\s*\}\}/g, (_, variable) => {
+      const hasHelper = /^\s*\w+\s/.test(variable.trim())
+      return hasHelper ? `{{${variable.trim()}}}` : `{{stringify ${variable.trim()}}}`
+    })
+    return new TemplateDriver(Handlebars.compile(processedText))
   }
 }

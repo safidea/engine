@@ -1,14 +1,18 @@
-import { Page, type Services } from '@domain/entities/Page'
-import type { Page as Config } from '@adapter/api/configs/Page'
-import { ComponentMapper, type ComponentServices, type ComponentEntities } from './ComponentMapper'
+import { Page, type PageServices } from '@domain/entities/Page'
+import type { IPage } from '@adapter/api/configs/Page'
+import { ComponentMapper, type ComponentServices, type ComponentEntities } from './Component'
 import { HeadMapper } from './HeadMapper'
 
-export type PageServices = ComponentServices & Services
+export type PageMapperServices = ComponentServices & PageServices
 
-export type PageEntities = ComponentEntities
+export type PageMapperEntities = ComponentEntities
 
 export class PageMapper {
-  static toEntity = (config: Config, services: PageServices, entities: PageEntities): Page => {
+  static toEntity = (
+    config: IPage,
+    services: PageMapperServices,
+    entities: PageMapperEntities
+  ): Page => {
     const { client } = services
     const body = ComponentMapper.toManyEntities(config.body, services, entities)
     const head = HeadMapper.toEntity(config.head ?? {}, { client })
@@ -16,9 +20,9 @@ export class PageMapper {
   }
 
   static toManyEntities = (
-    configs: Config[] = [],
-    services: PageServices,
-    entities: PageEntities
+    configs: IPage[] = [],
+    services: PageMapperServices,
+    entities: PageMapperEntities
   ) => {
     if (!configs.find((config) => config.path === '/404')) {
       configs.push({

@@ -1,17 +1,17 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseEvent } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface FillEventConfig {
   input: string
   value: string
 }
 
-export class Fill implements Base {
-  constructor(private _config: Config) {}
+export class FillEvent implements BaseEvent {
+  constructor(private _config: FillEventConfig) {}
 
-  execute = async (_app: App, page: BrowserPage) => {
+  execute = async (_app: StartedApp, page: BrowserPage) => {
     const { input, value } = this._config
     const success = await page.type(input, value)
     if (!success) {

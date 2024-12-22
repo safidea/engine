@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Event/Post'
+import type { PostEventConfig } from '@domain/entities/Event/Post'
 
-export interface Post extends Config {
+export interface IPostEvent extends PostEventConfig {
   event: 'Post'
 }

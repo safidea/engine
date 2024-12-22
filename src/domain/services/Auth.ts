@@ -1,17 +1,17 @@
 import type { Database } from './Database'
 import type { Server } from './Server'
 import type { Logger } from './Logger'
-import type { Post } from '@domain/entities/Request/Post'
+import type { PostRequest } from '@domain/entities/Request/Post'
 import type { Mailer } from './Mailer'
 import { CreatedEmail } from '../entities/Email/Created'
 import type { TemplateCompiler } from './TemplateCompiler'
-import { Json } from '@domain/entities/Response/Json'
-import type { Get } from '@domain/entities/Request/Get'
-import { Redirect } from '@domain/entities/Response/Redirect'
+import { JsonResponse } from '@domain/entities/Response/Json'
+import type { GetRequest } from '@domain/entities/Request/Get'
+import { RedirectResponse } from '@domain/entities/Response/Redirect'
 import type { Template } from './Template'
 import type { IdGenerator } from './IdGenerator'
 
-export interface Config {
+export interface AuthConfig {
   redirectOnLogin: string
   redirectOnLogout: string
   strategy: 'magic-link'
@@ -24,7 +24,7 @@ export interface Config {
   secret: string
 }
 
-export interface Services {
+export interface AuthServices {
   database: Database
   server: Server
   mailer: Mailer
@@ -33,18 +33,18 @@ export interface Services {
   idGenerator: IdGenerator
 }
 
-export interface Payload {
+export interface AuthPayload {
   email: string
 }
 
-export interface SignOptions {
+export interface AuthSignOptions {
   expiresIn: '1h'
 }
 
-export interface Spi {
-  sign: (payload: Payload, options?: SignOptions) => Promise<string>
+export interface IAuthSpi {
+  sign: (payload: AuthPayload, options?: AuthSignOptions) => Promise<string>
   verify: (token: string) => Promise<boolean>
-  decode: (token: string) => Promise<Payload>
+  decode: (token: string) => Promise<AuthPayload>
 }
 
 export class Auth {
@@ -53,9 +53,9 @@ export class Auth {
   private _verifyMagicLinkPath = '/api/auth/verify-magic-link'
 
   constructor(
-    private _spi: Spi,
-    private _services: Services,
-    public config: Config
+    private _spi: IAuthSpi,
+    private _services: AuthServices,
+    public config: AuthConfig
   ) {
     const { server, templateCompiler } = _services
     const { strategy, confirmEmail } = config
@@ -73,7 +73,7 @@ export class Auth {
     }
   }
 
-  sendMagicLink = async (request: Post) => {
+  sendMagicLink = async (request: PostRequest) => {
     const { mailer, idGenerator } = this._services
     const email = request.getFromBodyStringOrThrow('email')
     const token = await this._spi.sign({ email }, { expiresIn: '1h' })
@@ -83,23 +83,23 @@ export class Auth {
         to: email,
         from: this._confirmEmail.from,
         subject: this._confirmEmail.subject,
-        text: this._confirmEmail.text.fillAsString({ link }),
-        html: this._confirmEmail.html.fillAsString({ link }),
+        text: this._confirmEmail.text.fill({ link }),
+        html: this._confirmEmail.html.fill({ link }),
       },
       { idGenerator }
     )
     const sentEmail = await mailer.send(createdEmail)
-    return new Json(sentEmail.toJson())
+    return new JsonResponse(sentEmail.toJson())
   }
 
-  verifyMagicLink = async (request: Get) => {
+  verifyMagicLink = async (request: GetRequest) => {
     const { redirectOnLogin, redirectOnLogout } = this.config
     const token = request.getQueryOrThrow('token')
     const isValid = await this._spi.verify(token)
     if (isValid) {
-      return new Redirect(redirectOnLogin)
+      return new RedirectResponse(redirectOnLogin)
     } else {
-      return new Redirect(redirectOnLogout)
+      return new RedirectResponse(redirectOnLogout)
     }
   }
 }

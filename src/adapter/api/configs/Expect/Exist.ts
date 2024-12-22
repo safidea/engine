@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Expect/Exist'
+import type { ExistExpectConfig } from '@domain/entities/Expect/Exist'
 
-export interface Exist extends Config {
+export interface IExistExpect extends ExistExpectConfig {
   expect: 'Exist'
 }

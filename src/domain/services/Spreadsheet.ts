@@ -1,33 +1,33 @@
 import type { Template } from './Template'
 import type { TemplateCompiler } from './TemplateCompiler'
 
-export interface Cell {
+export interface SpreadsheetCell {
   worksheet: string
   row: string
   column: string
   value: string | string[]
 }
 
-export interface CellTemplate extends Omit<Cell, 'value'> {
+export interface SpreadsheetCellTemplate extends Omit<SpreadsheetCell, 'value'> {
   value: Template | Template[]
 }
 
-export interface Spi {
-  readTextCells: () => Cell[]
-  writeCells: (cells: Cell[]) => void
+export interface ISpreadsheetSpi {
+  readTextCells: () => SpreadsheetCell[]
+  writeCells: (cells: SpreadsheetCell[]) => void
   toBuffer: () => Promise<Buffer>
 }
 
-export interface Services {
+export interface SpreadsheetServices {
   templateCompiler: TemplateCompiler
 }
 
 export class Spreadsheet {
-  private _cells: CellTemplate[] = []
+  private _cells: SpreadsheetCellTemplate[] = []
 
   constructor(
-    private _spi: Spi,
-    services: Services
+    private _spi: ISpreadsheetSpi,
+    services: SpreadsheetServices
   ) {
     const { templateCompiler } = services
     const cells = _spi.readTextCells()
@@ -46,8 +46,8 @@ export class Spreadsheet {
   fill = (data: { [key: string]: unknown }) => {
     const cells = this._cells.map((cell) => {
       const filledValue = Array.isArray(cell.value)
-        ? cell.value.map((v) => v.fillAsString(data))
-        : cell.value.fillAsString(data)
+        ? cell.value.map((v) => v.fill(data))
+        : cell.value.fill(data)
       return { ...cell, value: filledValue }
     })
     this._spi.writeCells(cells)

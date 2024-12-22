@@ -1,19 +1,30 @@
-import type { Config as Database } from '@domain/services/Database'
-import type { Config as Mailer } from '@domain/services/Mailer'
-import type { Config as Auth } from '@domain/services/Auth'
-import type { Config as Loggers } from '@domain/services/Logger'
-import type { Config as Theme } from '@domain/services/Theme'
-import type { Config as Monitors } from '@domain/services/Monitor'
-import type { Config as Server } from '@domain/services/Server'
+import type { DatabaseConfig } from '@domain/services/Database'
+import type { MailerConfig } from '@domain/services/Mailer'
+import type { AuthConfig } from '@domain/services/Auth'
+import type { LoggersConfig } from '@domain/services/Logger'
+import type { ThemeConfig } from '@domain/services/Theme'
+import type { MonitorsConfig } from '@domain/services/Monitor'
+import type { ServerConfig } from '@domain/services/Server'
+import type { TunnelConfig } from '@domain/services/Tunnel'
 
-export type { Database, Mailer, Auth, Loggers, Theme, Monitors, Server }
+export type {
+  DatabaseConfig,
+  MailerConfig,
+  AuthConfig,
+  LoggersConfig,
+  ThemeConfig,
+  MonitorsConfig,
+  ServerConfig,
+  TunnelConfig,
+}
 
-export type Services = {
-  server?: Server
-  database?: Database
-  mailer?: Mailer
-  auth?: Auth
-  theme?: Theme
-  monitors?: Monitors
-  loggers?: Loggers
+export type IServices = {
+  server?: ServerConfig
+  database?: DatabaseConfig
+  mailer?: MailerConfig
+  auth?: AuthConfig
+  theme?: ThemeConfig
+  monitors?: MonitorsConfig
+  loggers?: LoggersConfig
+  tunnel?: TunnelConfig
 }

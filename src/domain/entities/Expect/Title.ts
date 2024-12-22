@@ -1,16 +1,16 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import { type Base } from './base'
+import { type BaseExpect } from './base'
 import { TestError } from '@domain/entities/Error/Test'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Config {
+export interface TitleExpectConfig {
   title: string
 }
 
-export class Title implements Base {
-  constructor(private _config: Config) {}
+export class TitleExpect implements BaseExpect {
+  constructor(private _config: TitleExpectConfig) {}
 
-  execute = async (_app: App, page: BrowserPage, _context?: object) => {
+  execute = async (_app: StartedApp, page: BrowserPage, _context?: object) => {
     const { title } = this._config
     const pageTitle = await page.getTitle()
     if (pageTitle !== title) {

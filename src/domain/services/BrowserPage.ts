@@ -1,6 +1,6 @@
-import { BrowserElement, type Spi as BrowserElementSpi } from './BrowserElement'
+import { BrowserElement, type IBrowserElementSpi } from './BrowserElement'
 
-export interface Spi {
+export interface IBrowserPageSpi {
   close: () => Promise<void>
   new: (path: string) => Promise<void>
   open: (path: string) => Promise<boolean>
@@ -12,18 +12,18 @@ export interface Spi {
   getByText: (
     text: string,
     options?: { tag: string | undefined }
-  ) => Promise<BrowserElementSpi | undefined>
+  ) => Promise<IBrowserElementSpi | undefined>
   getByAttribute: (
     attribute: string,
     value: string,
     options?: { tag: string | undefined }
-  ) => Promise<BrowserElementSpi | undefined>
+  ) => Promise<IBrowserElementSpi | undefined>
   getHtml: () => Promise<string>
   createPdfFromHtml: (html: string) => Promise<Uint8Array>
 }
 
 export class BrowserPage {
-  constructor(private _spi: Spi) {}
+  constructor(private _spi: IBrowserPageSpi) {}
 
   close = async () => {
     await this._spi.close()

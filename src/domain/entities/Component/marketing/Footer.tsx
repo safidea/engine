@@ -5,7 +5,7 @@ import type { Link } from '../content/Link'
 import type { Props as TitleProps } from '../content/Title'
 import type { Props as ParagraphProps } from '../content/Paragraph'
 import type { Props as LinkProps } from '../content/Link'
-import type { State } from '@domain/entities/Page/State'
+import type { PageState } from '@domain/entities/Page/State'
 
 export interface Props extends BaseProps {
   Title: React.FC<Partial<TitleProps>>
@@ -38,7 +38,7 @@ export class Footer implements Base<Props> {
     await Promise.all([title.init(), paragraph.init(), ...links.map((link) => link.init())])
   }
 
-  render = async (state: State) => {
+  render = async (state: PageState) => {
     const { title, paragraph, links } = this._entities
     const { id, className, copyright } = this._config
     const Title = await title.render()

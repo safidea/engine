@@ -1,19 +1,14 @@
-import type { Driver } from '@adapter/spi/MarkdownParserSpi'
-import type { Renderer } from '@domain/services/MarkdownParser'
+import type { IMarkdownParserDriver } from '@adapter/spi/drivers/MarkdownParserSpi'
+import type { MarkdownParserRenderer } from '@domain/services/MarkdownParser'
 import parse from 'html-react-parser'
 import { JSDOM } from 'jsdom'
-import DOMPurify, { type DOMPurifyI } from 'dompurify'
+import DOMPurify from 'dompurify'
 import { marked, type Tokens } from 'marked'
 
-export class MarkdownParserDriver implements Driver {
-  private _DOMPurify: DOMPurifyI
+export class MarkdownParserDriver implements IMarkdownParserDriver {
+  private _purify = DOMPurify(new JSDOM('').window)
 
-  constructor() {
-    const window = new JSDOM('').window
-    this._DOMPurify = DOMPurify(window)
-  }
-
-  configRenderer = (renderer: Renderer) => {
+  configRenderer = (renderer: MarkdownParserRenderer) => {
     marked.use({
       breaks: true,
       renderer: {
@@ -49,7 +44,7 @@ export class MarkdownParserDriver implements Driver {
 
   parseToComponent = async (content: string) => {
     const html = await marked.parse(content)
-    const cleanHtml = this._DOMPurify.sanitize(html)
+    const cleanHtml = this._purify.sanitize(html)
     return parse(cleanHtml)
   }
 }

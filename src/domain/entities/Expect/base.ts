@@ -1,6 +1,6 @@
 import type { BrowserPage } from '@domain/services/BrowserPage'
-import type { App } from '../App'
+import type { StartedApp } from '../App/Started'
 
-export interface Base {
-  execute: (app: App, page: BrowserPage, context?: object) => Promise<void>
+export interface BaseExpect {
+  execute: (app: StartedApp, page: BrowserPage, context?: object) => Promise<void>
 }

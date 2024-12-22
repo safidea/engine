@@ -1,5 +1,5 @@
-import type { Config } from '@domain/entities/Event/WaitForText'
+import type { WaitForTextEventConfig } from '@domain/entities/Event/WaitForText'
 
-export interface WaitForText extends Config {
+export interface IWaitForTextEvent extends WaitForTextEventConfig {
   event: 'WaitForText'
 }

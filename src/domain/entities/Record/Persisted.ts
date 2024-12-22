@@ -1,27 +1,41 @@
-import { Base, type BaseRecordFields, type RecordJson } from './base'
+import { BaseRecord, type BaseRecordFields } from './base'
 
 export interface PersistedRecordFields extends BaseRecordFields {
   created_at: Date
   updated_at?: Date
 }
 
-export type Config = PersistedRecordFields
+export type PersistedRecordConfig = PersistedRecordFields
 
-export class PersistedRecord extends Base {
-  readonly fields: PersistedRecordFields
+export class PersistedRecord extends BaseRecord {
+  readonly fieldsWithDates: PersistedRecordFields
 
-  constructor(config: Config) {
+  constructor(config: PersistedRecordConfig) {
     super(config)
-    this.fields = config
+    this.fieldsWithDates = config
   }
 
-  toJson(): RecordJson {
-    const { created_at, updated_at } = this.fields
-    const json = {
-      ...super.toJson(),
-      created_at: created_at.toISOString(),
-    }
-    if (updated_at) json.updated_at = updated_at.toISOString()
-    return json
+  getFieldAsString(key: string): string | null {
+    const value = this.fields[key]
+    if (!value) return null
+    return typeof value === 'string' ? value : value.toString()
+  }
+
+  getFieldAsDate(key: string): Date | null {
+    const value = this.fields[key]
+    if (!value) return null
+    return value instanceof Date ? value : new Date(value.toString())
+  }
+
+  getFieldAsNumber(key: string): number | null {
+    const value = this.fields[key]
+    if (!value) return null
+    return typeof value === 'number' ? value : parseFloat(value.toString())
+  }
+
+  getFieldAsBoolean(key: string): boolean | null {
+    const value = this.fields[key]
+    if (!value) return null
+    return typeof value === 'boolean' ? value : !!value
   }
 }

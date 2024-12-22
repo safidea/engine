@@ -9,7 +9,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "bash ./scripts/update-license-version.sh ${nextRelease.version}"
+        "prepareCmd": "bash ./script/update-license-version.sh ${nextRelease.version}"
       }
     ],
     "@semantic-release/git"
@@ -19,7 +19,7 @@
     "@semantic-release/npm",
     {
       "path": "@semantic-release/exec",
-      "prepareCmd": "bash ./scripts/update-license-version.sh ${nextRelease.version}"
+      "prepareCmd": "bash ./script/update-license-version.sh ${nextRelease.version}"
     },
     {
       "path": "@semantic-release/git",

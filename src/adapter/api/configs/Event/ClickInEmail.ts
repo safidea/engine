@@ -1,7 +1,5 @@
-import type { Config } from '@domain/entities/Event/ClickInEmail'
-import type { Config as FilterConfig } from '@domain/entities/Filter'
+import type { ClickInEmailEventConfig } from '@domain/entities/Event/ClickInEmail'
 
-export interface ClickInEmail extends Config {
+export interface IClickInEmailEvent extends ClickInEmailEventConfig {
   event: 'ClickInEmail'
-  find: FilterConfig[]
 }
