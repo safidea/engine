@@ -1,3 +1,11 @@
+## [0.34.40](https://github.com/latechforce/engine/compare/v0.34.39...v0.34.40) (2024-12-22)
+
+
+### Bug Fixes
+
+* **App:** add green test: should be able to use Database as a service ([e56a5bf](https://github.com/latechforce/engine/commit/e56a5bfef8b504e390f6bf7cd2c5f25ae2929e02))
+* **Notion:** add APIErrorCode.ConflictError management ([960b002](https://github.com/latechforce/engine/commit/960b002569403c079549b4e34acf168148b8ef55))
+
 ## [0.34.39](https://github.com/latechforce/engine/compare/v0.34.38...v0.34.39) (2024-12-22)
 
 
