@@ -1,7 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test.skip()
 test.slow()
 
 test('should load the output css file', async ({ page }) => {

@@ -1,8 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test.skip()
-
 test('should load a font file', async ({ page, request }) => {
   // GIVEN
   const config: Config = {

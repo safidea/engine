@@ -1,7 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test.skip()
 test.slow()
 
 test('should succeed to test a text', async () => {

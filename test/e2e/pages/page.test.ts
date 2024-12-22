@@ -1,8 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test.skip()
-
 test('should display a paragraph in app page', async ({ page }) => {
   // GIVEN
   const text = 'Hello world!'

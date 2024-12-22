@@ -1,7 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test.skip()
 test.slow()
 
 test('should login from magic-link provider', async () => {
