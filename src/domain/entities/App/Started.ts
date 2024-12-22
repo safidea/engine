@@ -15,6 +15,7 @@ export class StartedApp extends BaseApp {
     integrations: AppIntegrations
   ) {
     super(config, services, entities, integrations)
+    this._setStatus('started')
   }
 
   get url() {
@@ -24,7 +25,7 @@ export class StartedApp extends BaseApp {
   }
 
   stop = async (options?: { graceful?: boolean }): Promise<StoppedApp> => {
-    if (this.status !== 'running')
+    if (this.status !== 'started')
       throw new Error(`App is not running, current status is ${this.status}`)
     const { graceful = true } = options || {}
     this._setStatus('stopping')

@@ -19,6 +19,7 @@ export class StoppedApp extends BaseApp {
     integrations: AppIntegrations
   ) {
     super(config, services, entities, integrations)
+    this._setStatus('stopped')
   }
 
   init = async (): Promise<void> => {
@@ -77,7 +78,7 @@ export class StoppedApp extends BaseApp {
     )
     if (!isTest && server.env === 'production') {
       database.onError(async () => {
-        if (this.status === 'running') {
+        if (this.status === 'started') {
           await startedApp.stop({ graceful: false })
         }
       })
@@ -95,8 +96,8 @@ export class StoppedApp extends BaseApp {
         startedApp.onClose('UNCAUGHT_REJECTION')
       })
     }
-    this._setStatus('running')
-    logger.info(`🚀 app "${this.name}" running at ${startedApp.url}`)
+    this._setStatus('started')
+    logger.info(`🚀 app "${this.name}" started at ${startedApp.url}`)
     return startedApp
   }
 }

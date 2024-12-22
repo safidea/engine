@@ -98,7 +98,7 @@ test('should run the example TypeScript code', async () => {
       },
     ],
   }
-  const url = await new App().start(config)
+  const { url } = await new App().start(config)
 
   // WHEN
   const response = await fetch(url + '/api/automation/hello-name', {

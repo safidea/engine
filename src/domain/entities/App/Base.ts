@@ -42,7 +42,7 @@ export interface AppIntegrations {
   notion: Notion
 }
 
-type Status = 'stopped' | 'starting' | 'running' | 'stopping'
+type Status = 'stopped' | 'starting' | 'started' | 'stopping'
 
 export class BaseApp {
   public name: string
