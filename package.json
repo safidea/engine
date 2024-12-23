@@ -83,7 +83,7 @@
     "jsdom": "^25.0.1",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
-    "marked": "^14.1.4",
+    "marked": "^15.0.4",
     "nanoid": "^5.0.9",
     "nodemailer": "^6.9.16",
     "pg": "^8.13.1",
