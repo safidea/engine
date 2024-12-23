@@ -1,3 +1,10 @@
+## [0.34.44](https://github.com/latechforce/engine/compare/v0.34.43...v0.34.44) (2024-12-23)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should run a Typescript code with a Notion users list ([83896c5](https://github.com/latechforce/engine/commit/83896c549b77b238588fc89417fea8a1594ea8fa))
+
 ## [0.34.43](https://github.com/latechforce/engine/compare/v0.34.42...v0.34.43) (2024-12-23)
 
 
