@@ -29,7 +29,7 @@ const config: Config = {
   name: 'App',
   automations: [
     {
-      name: 'hello-name',
+      name: 'helloName',
       trigger: {
         service: 'Http',
         event: 'ApiCalled',
