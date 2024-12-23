@@ -102,12 +102,14 @@ export class AppMapper {
     const qonto = QontoMapper.toIntegration(integrations, config.integrations?.qonto)
     const javascriptCompiler = CodeCompilerMapper.toService(
       drivers,
+      { logger },
       { tables },
       { notion },
       { language: 'JavaScript' }
     )
     const typescriptCompiler = CodeCompilerMapper.toService(
       drivers,
+      { logger },
       { tables },
       { notion },
       { language: 'TypeScript' }

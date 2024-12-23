@@ -1,137 +1,119 @@
 ## [0.34.41](https://github.com/latechforce/engine/compare/v0.34.40...v0.34.41) (2024-12-22)
 
-
 ### Bug Fixes
 
-* **CodeRunner:** export DatabaseIntegration and NotionIntegration types ([7b855f8](https://github.com/latechforce/engine/commit/7b855f824bdae064ceafe44a0afcf46f1606c861))
-* **Notion:** add specific host for file upload ([e58d58d](https://github.com/latechforce/engine/commit/e58d58d7b35fe229d6aedc63c69fd7d5c4f80bec))
+- **CodeRunner:** export DatabaseIntegration and NotionIntegration types ([7b855f8](https://github.com/latechforce/engine/commit/7b855f824bdae064ceafe44a0afcf46f1606c861))
+- **Notion:** add specific host for file upload ([e58d58d](https://github.com/latechforce/engine/commit/e58d58d7b35fe229d6aedc63c69fd7d5c4f80bec))
 
 ## [0.34.40](https://github.com/latechforce/engine/compare/v0.34.39...v0.34.40) (2024-12-22)
 
-
 ### Bug Fixes
 
-* **App:** add green test: should be able to use Database as a service ([e56a5bf](https://github.com/latechforce/engine/commit/e56a5bfef8b504e390f6bf7cd2c5f25ae2929e02))
-* **Notion:** add APIErrorCode.ConflictError management ([960b002](https://github.com/latechforce/engine/commit/960b002569403c079549b4e34acf168148b8ef55))
+- **App:** add green test: should be able to use Database as a service ([e56a5bf](https://github.com/latechforce/engine/commit/e56a5bfef8b504e390f6bf7cd2c5f25ae2929e02))
+- **Notion:** add APIErrorCode.ConflictError management ([960b002](https://github.com/latechforce/engine/commit/960b002569403c079549b4e34acf168148b8ef55))
 
 ## [0.34.39](https://github.com/latechforce/engine/compare/v0.34.38...v0.34.39) (2024-12-22)
 
-
 ### Bug Fixes
 
-* **App:** add green test: should be able to use Notion as an integration ([7e3c3f5](https://github.com/latechforce/engine/commit/7e3c3f58c20edf058d9e80c4a0cd3720037e10b9))
-* **App:** fix broken tests ([ea2febf](https://github.com/latechforce/engine/commit/ea2febf2266e6a312d97954d7c6aa38827416013))
+- **App:** add green test: should be able to use Notion as an integration ([7e3c3f5](https://github.com/latechforce/engine/commit/7e3c3f58c20edf058d9e80c4a0cd3720037e10b9))
+- **App:** fix broken tests ([ea2febf](https://github.com/latechforce/engine/commit/ea2febf2266e6a312d97954d7c6aa38827416013))
 
 ## [0.34.38](https://github.com/latechforce/engine/compare/v0.34.37...v0.34.38) (2024-12-22)
 
-
 ### Bug Fixes
 
-* **CI:** fix script path for semantic ([bbe93e1](https://github.com/latechforce/engine/commit/bbe93e18e5d2ec0c912ec9dc4be53b656a0724ef))
-* **Notion:** add default polling interval + rename root folders ([a69f5aa](https://github.com/latechforce/engine/commit/a69f5aa884f509e0af191b5a2c9c126ffd71949e))
+- **CI:** fix script path for semantic ([bbe93e1](https://github.com/latechforce/engine/commit/bbe93e18e5d2ec0c912ec9dc4be53b656a0724ef))
+- **Notion:** add default polling interval + rename root folders ([a69f5aa](https://github.com/latechforce/engine/commit/a69f5aa884f509e0af191b5a2c9c126ffd71949e))
 
 ## [0.34.37](https://github.com/latechforce/engine/compare/v0.34.36...v0.34.37) (2024-12-21)
 
-
 ### Bug Fixes
 
-* **CodeRunner:** export DatabaseTable and NotionTable types ([7f032f3](https://github.com/latechforce/engine/commit/7f032f325d17753f0fb935db071189086c4288ba))
+- **CodeRunner:** export DatabaseTable and NotionTable types ([7f032f3](https://github.com/latechforce/engine/commit/7f032f325d17753f0fb935db071189086c4288ba))
 
 ## [0.34.36](https://github.com/latechforce/engine/compare/v0.34.35...v0.34.36) (2024-12-21)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should list pages in a table with a Is filter on a formula ([4448fde](https://github.com/latechforce/engine/commit/4448fdeb4d283d2a0a0928a4ca9730c78ea91156))
-* **Notion:** fix green test: should list pages in a table with a OnOrAfter filter ([fa5b10d](https://github.com/latechforce/engine/commit/fa5b10dabdbe774f8f5b94c3e55c92113f5a980d))
-* **PageCreated:** fix green test ([75de3f4](https://github.com/latechforce/engine/commit/75de3f406e5e135009f1a3a6986652d6afc6e268))
+- **Notion:** add green test: should list pages in a table with a Is filter on a formula ([4448fde](https://github.com/latechforce/engine/commit/4448fdeb4d283d2a0a0928a4ca9730c78ea91156))
+- **Notion:** fix green test: should list pages in a table with a OnOrAfter filter ([fa5b10d](https://github.com/latechforce/engine/commit/fa5b10dabdbe774f8f5b94c3e55c92113f5a980d))
+- **PageCreated:** fix green test ([75de3f4](https://github.com/latechforce/engine/commit/75de3f406e5e135009f1a3a6986652d6afc6e268))
 
 ## [0.34.35](https://github.com/latechforce/engine/compare/v0.34.34...v0.34.35) (2024-12-21)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should create a page in a table with a date property from a date, time and milliseconds string ([e5019d6](https://github.com/latechforce/engine/commit/e5019d6cdb19b043f2d6850212362b400d442be6))
+- **Notion:** add green test: should create a page in a table with a date property from a date, time and milliseconds string ([e5019d6](https://github.com/latechforce/engine/commit/e5019d6cdb19b043f2d6850212362b400d442be6))
 
 ## [0.34.34](https://github.com/latechforce/engine/compare/v0.34.33...v0.34.34) (2024-12-21)
 
-
 ### Bug Fixes
 
-* **Notion:** update green unit testsfor NotionTablePage ([cbc959b](https://github.com/latechforce/engine/commit/cbc959b3d2219fe535d3359048162d0deff5cb01))
+- **Notion:** update green unit testsfor NotionTablePage ([cbc959b](https://github.com/latechforce/engine/commit/cbc959b3d2219fe535d3359048162d0deff5cb01))
 
 ## [0.34.33](https://github.com/latechforce/engine/compare/v0.34.32...v0.34.33) (2024-12-21)
 
-
 ### Bug Fixes
 
-* **Notion:** update green unit testsfor NotionTablePage ([1c1ee0c](https://github.com/latechforce/engine/commit/1c1ee0c8dc9e1b6c24c72941b7b83fb38ef801ba))
+- **Notion:** update green unit testsfor NotionTablePage ([1c1ee0c](https://github.com/latechforce/engine/commit/1c1ee0c8dc9e1b6c24c72941b7b83fb38ef801ba))
 
 ## [0.34.32](https://github.com/latechforce/engine/compare/v0.34.31...v0.34.32) (2024-12-21)
 
-
 ### Bug Fixes
 
-* **Notion:** add green unit testsfor NotionTablePage ([43f2623](https://github.com/latechforce/engine/commit/43f26238e7b3b92bb5f0542ce8d9fcb86bb655dd))
+- **Notion:** add green unit testsfor NotionTablePage ([43f2623](https://github.com/latechforce/engine/commit/43f26238e7b3b92bb5f0542ce8d9fcb86bb655dd))
 
 ## [0.34.31](https://github.com/latechforce/engine/compare/v0.34.30...v0.34.31) (2024-12-20)
 
-
 ### Bug Fixes
 
-* **schemas:** add schemas export ([66f5240](https://github.com/latechforce/engine/commit/66f5240c697ed42d9a198be415dff328445092c4))
-* **scripts:** remove ngrok from build ([03a9f9d](https://github.com/latechforce/engine/commit/03a9f9d64cd46939573abd39067b4e4321a07ab9))
+- **schemas:** add schemas export ([66f5240](https://github.com/latechforce/engine/commit/66f5240c697ed42d9a198be415dff328445092c4))
+- **scripts:** remove ngrok from build ([03a9f9d](https://github.com/latechforce/engine/commit/03a9f9d64cd46939573abd39067b4e4321a07ab9))
 
 ## [0.34.30](https://github.com/latechforce/engine/compare/v0.34.29...v0.34.30) (2024-12-20)
 
-
 ### Bug Fixes
 
-* **Ngrok:** add green test: should get a ngrok url ([40115ec](https://github.com/latechforce/engine/commit/40115ec975bbda3105b4ff092a16f1989f683950))
-* **Ngrok:** update green test: should get a ngrok url ([7aa9fd9](https://github.com/latechforce/engine/commit/7aa9fd9ddb02dc0c6955d8d12fbad6d83e326b7e))
+- **Ngrok:** add green test: should get a ngrok url ([40115ec](https://github.com/latechforce/engine/commit/40115ec975bbda3105b4ff092a16f1989f683950))
+- **Ngrok:** update green test: should get a ngrok url ([7aa9fd9](https://github.com/latechforce/engine/commit/7aa9fd9ddb02dc0c6955d8d12fbad6d83e326b7e))
 
 ## [0.34.29](https://github.com/latechforce/engine/compare/v0.34.28...v0.34.29) (2024-12-20)
 
-
 ### Bug Fixes
 
-* **RunTypescript:** add green test: should run a Typescript code with a Notion database page update and a notion uploaded file ([6a375d9](https://github.com/latechforce/engine/commit/6a375d90371ad5fbd0bf3efbe1121a1828989506))
-* **Server:** add baseUrl in config ([71da869](https://github.com/latechforce/engine/commit/71da869e99db5e3335fd4ef86e1256346ee59f5b))
+- **RunTypescript:** add green test: should run a Typescript code with a Notion database page update and a notion uploaded file ([6a375d9](https://github.com/latechforce/engine/commit/6a375d90371ad5fbd0bf3efbe1121a1828989506))
+- **Server:** add baseUrl in config ([71da869](https://github.com/latechforce/engine/commit/71da869e99db5e3335fd4ef86e1256346ee59f5b))
 
 ## [0.34.28](https://github.com/latechforce/engine/compare/v0.34.27...v0.34.28) (2024-12-19)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should update a page in a table with a date property and a null value ([9258633](https://github.com/latechforce/engine/commit/925863336dd9a25620bd53b4104689af29aeaec2))
+- **Notion:** add green test: should update a page in a table with a date property and a null value ([9258633](https://github.com/latechforce/engine/commit/925863336dd9a25620bd53b4104689af29aeaec2))
 
 ## [0.34.27](https://github.com/latechforce/engine/compare/v0.34.26...v0.34.27) (2024-12-19)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should update a page in a table with a files property ([257f90c](https://github.com/latechforce/engine/commit/257f90c8f8c5cae0eb7f8e92f50de7c06aa64939))
+- **Notion:** add green test: should update a page in a table with a files property ([257f90c](https://github.com/latechforce/engine/commit/257f90c8f8c5cae0eb7f8e92f50de7c06aa64939))
 
 ## [0.34.26](https://github.com/latechforce/engine/compare/v0.34.25...v0.34.26) (2024-12-19)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should update a page in a table with a people property ([db45f71](https://github.com/latechforce/engine/commit/db45f7129b2cc36a29f0bba7beb509266768be8c))
+- **Notion:** add green test: should update a page in a table with a people property ([db45f71](https://github.com/latechforce/engine/commit/db45f7129b2cc36a29f0bba7beb509266768be8c))
 
 ## [0.34.25](https://github.com/latechforce/engine/compare/v0.34.24...v0.34.25) (2024-12-19)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should update a page in a table with a status property ([351c167](https://github.com/latechforce/engine/commit/351c16761047ad5e5dc37b51f5b3e9a826db01d7))
+- **Notion:** add green test: should update a page in a table with a status property ([351c167](https://github.com/latechforce/engine/commit/351c16761047ad5e5dc37b51f5b3e9a826db01d7))
 
 ## [0.34.24](https://github.com/latechforce/engine/compare/v0.34.23...v0.34.24) (2024-12-14)
 
-
 ### Bug Fixes
 
-* **Database:** fix SQLite error for boolean data process ([842a0f8](https://github.com/latechforce/engine/commit/842a0f8458b90448ef0cd4b48d7fa213bc47b60a))
+- **Database:** fix SQLite error for boolean data process ([842a0f8](https://github.com/latechforce/engine/commit/842a0f8458b90448ef0cd4b48d7fa213bc47b60a))
 
 ## [0.34.23](https://github.com/latechforce/engine/compare/v0.34.22...v0.34.23) (2024-12-14)
 

@@ -288,3 +288,19 @@ Database.SQLite(test, async (dbConfig) => {
     expect(record.fields.name).toBe('test')
   })
 })
+
+test('should be able to use Logger as a service', async () => {
+  // GIVEN
+  const config: Config = {
+    name: 'App',
+  }
+  const app = new App()
+  const { services } = await app.start(config)
+  const { logger } = services
+
+  // WHEN
+  const call = () => logger.debug('test')
+
+  // THEN
+  expect(call).not.toThrow()
+})

@@ -1,11 +1,12 @@
 import type { Table } from '@domain/entities/Table'
-import { type FilterConfig } from '@domain/entities/Filter'
+import type { FilterConfig } from '@domain/entities/Filter'
 import type { Notion } from '@domain/integrations/Notion'
 import {
   NotionTablePage,
   type NotionTablePageProperties,
 } from '@domain/integrations/NotionTablePage'
 import type { PersistedRecord } from '@domain/entities/Record/Persisted'
+import { Logger } from '@domain/services/Logger'
 
 export interface ICodeRunnerSpi {
   run: (
@@ -27,8 +28,15 @@ export interface CodeRunnerContextServicesDatabase {
   table: (name: string) => CodeRunnerContextServicesDatabaseTable
 }
 
+export interface CodeRunnerContextServicesLogger {
+  error: (message: string, metadata?: object) => void
+  info: (message: string, metadata?: object) => void
+  debug: (message: string, metadata?: object) => void
+}
+
 export interface CodeRunnerContextServices {
   database: CodeRunnerContextServicesDatabase
+  logger: CodeRunnerContextServicesLogger
 }
 
 export interface CodeRunnerContextIntegrationsNotionTable {
@@ -64,6 +72,10 @@ export interface CodeRunnerContext<I extends object = {}> {
   services: CodeRunnerContextServices
   integrations: CodeRunnerContextIntegrations
   packages: CodeRunnerContextPackages
+}
+
+export interface CodeRunnerServices {
+  logger: Logger
 }
 
 export interface CodeRunnerEntities {
