@@ -4,7 +4,7 @@ import type { INotionTableIntegration } from '@adapter/spi/integrations/NotionTa
 import {
   type NotionTablePageProperties,
   type NotionTablePagePropertyValue,
-} from '@domain/integrations/NotionTablePage'
+} from '@domain/integrations/Notion/NotionTablePage'
 import { Client } from '@notionhq/client'
 import type {
   CreatePageParameters,

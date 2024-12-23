@@ -4,6 +4,7 @@ import { Bucket } from '@domain/entities/Bucket'
 import type { Storage } from '@domain/services/Storage'
 import type { Server } from '@domain/services/Server'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
+import type { NotionUser } from './NotionUser'
 
 export interface NotionConfig {
   token: string
@@ -19,6 +20,7 @@ export interface NotionServices extends NotionTableServices {
 export interface INotionSpi {
   getConfig: () => NotionConfig
   getTable: (id: string) => Promise<NotionTableSpi>
+  listAllUsers: () => Promise<NotionUser[]>
 }
 
 export class Notion {
@@ -60,5 +62,9 @@ export class Notion {
     table = new NotionTable(spiTable, this._services, this.getConfig(), this._bucket)
     this._tables.push(table)
     return table
+  }
+
+  listAllUsers = async (): Promise<NotionUser[]> => {
+    return this._spi.listAllUsers()
   }
 }

@@ -1,4 +1,4 @@
-import { NotionTablePage } from '@domain/integrations/NotionTablePage'
+import { NotionTablePage } from '@domain/integrations/Notion/NotionTablePage'
 import { beforeEach, test, expect } from 'bun:test'
 
 let notionTablePage: NotionTablePage

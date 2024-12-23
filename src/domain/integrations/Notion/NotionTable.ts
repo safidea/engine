@@ -3,7 +3,7 @@ import { OnOrAfterDateFilter } from '@domain/entities/Filter/date/OnOrAfter'
 import { OrFilter } from '@domain/entities/Filter/Or'
 import type { IdGenerator } from '@domain/services/IdGenerator'
 import type { Logger } from '@domain/services/Logger'
-import type { NotionConfig } from './Notion'
+import type { NotionConfig } from '.'
 import { NotionTablePage, type NotionTablePageProperties } from './NotionTablePage'
 import type { Bucket } from '@domain/entities/Bucket'
 

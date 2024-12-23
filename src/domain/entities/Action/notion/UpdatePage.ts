@@ -7,8 +7,8 @@ import {
   type ConvertToTemplateObjectFilled,
 } from '@domain/services/Template'
 import type { Notion } from '@domain/integrations/Notion'
-import type { NotionTable } from '@domain/integrations/NotionTable'
-import type { NotionTablePageProperties } from '@domain/integrations/NotionTablePage'
+import type { NotionTable } from '@domain/integrations/Notion/NotionTable'
+import type { NotionTablePageProperties } from '@domain/integrations/Notion/NotionTablePage'
 
 type NotionTablePagePropertiesAsTemplateObjectCompiled =
   ConvertToTemplateObjectCompiled<NotionTablePageProperties>

@@ -6,6 +6,7 @@ import type {
   DatabaseObjectResponse,
   PartialDatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import type { NotionUserDto } from '@adapter/spi/dtos/NotionUserDto'
 
 export class NotionIntegration implements INotionIntegration {
   private _notion?: Client
@@ -34,10 +35,22 @@ export class NotionIntegration implements INotionIntegration {
     )
   }
 
-  listAllUsers = async () => {
+  listAllUsers = async (): Promise<NotionUserDto[]> => {
     const api = this._api()
     const users = await this._retry(() => api.users.list({}))
-    return users.results.filter((user) => user.type === 'person')
+    return users.results
+      .filter((user) => user.type === 'person')
+      .map((user) => {
+        if (!user.person?.email) {
+          throw new Error('Notion user is missing person email')
+        }
+        return {
+          id: user.id,
+          email: user.person.email,
+          name: user.name,
+          avatarUrl: user.avatar_url,
+        }
+      })
   }
 
   private _api = (): Client => {

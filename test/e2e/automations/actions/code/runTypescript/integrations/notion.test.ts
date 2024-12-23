@@ -526,3 +526,51 @@ test('should run a Typescript code with a Notion database page and a title prope
   // THEN
   expect(response.property).toBe('John Doe')
 })
+
+test('should run a Typescript code with a Notion users list', async ({ request }) => {
+  // GIVEN
+  const config: Config = {
+    name: 'App',
+    automations: [
+      {
+        name: 'listUsers',
+        trigger: {
+          service: 'Http',
+          event: 'ApiCalled',
+          path: 'list-users',
+          output: {
+            users: {
+              json: '{{runJavascriptCode.users}}',
+            },
+          },
+        },
+        actions: [
+          {
+            service: 'Code',
+            action: 'RunTypescript',
+            name: 'runJavascriptCode',
+            code: String(async function (context: CodeRunnerContext) {
+              const { integrations } = context
+              const { notion } = integrations
+              const users = await notion.listAllUsers()
+              return { users }
+            }),
+          },
+        ],
+      },
+    ],
+    integrations: {
+      notion: {
+        token: TEST_NOTION_TOKEN,
+      },
+    },
+  }
+  const app = new App()
+  const { url } = await app.start(config)
+
+  // WHEN
+  const response = await request.post(`${url}/api/automation/list-users`).then((res) => res.json())
+
+  // THEN
+  expect(response.users.length > 0).toBeTruthy()
+})

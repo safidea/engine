@@ -1,4 +1,4 @@
-import type { NotionTablePageProperties } from '@domain/integrations/NotionTablePage'
+import type { NotionTablePageProperties } from '@domain/integrations/Notion/NotionTablePage'
 
 export interface NotionTablePageDto {
   id: string

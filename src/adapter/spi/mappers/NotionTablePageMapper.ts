@@ -1,4 +1,4 @@
-import { NotionTablePage } from '@domain/integrations/NotionTablePage'
+import { NotionTablePage } from '@domain/integrations/Notion/NotionTablePage'
 import type { NotionTablePageDto } from '../dtos/NotionTablePageDto'
 
 export class NotionTablePageMapper {

@@ -4,9 +4,10 @@ import type { Notion } from '@domain/integrations/Notion'
 import {
   NotionTablePage,
   type NotionTablePageProperties,
-} from '@domain/integrations/NotionTablePage'
+} from '@domain/integrations/Notion/NotionTablePage'
 import type { PersistedRecord } from '@domain/entities/Record/Persisted'
 import { Logger } from '@domain/services/Logger'
+import type { NotionUser } from '@domain/integrations/Notion/NotionUser'
 
 export interface ICodeRunnerSpi {
   run: (
@@ -49,6 +50,7 @@ export interface CodeRunnerContextIntegrationsNotionTable {
 
 export interface CodeRunnerContextIntegrationsNotion {
   getTable: (id: string) => Promise<CodeRunnerContextIntegrationsNotionTable>
+  listAllUsers: () => Promise<NotionUser[]>
 }
 
 export interface CodeRunnerContextIntegrations {

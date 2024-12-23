@@ -1,5 +1,5 @@
 import { type FilterConfig, FilterMapper } from '@domain/entities/Filter'
-import type { NotionTablePageProperties } from '@domain/integrations/NotionTablePage'
+import type { NotionTablePageProperties } from '@domain/integrations/Notion/NotionTablePage'
 import { CodeRunner } from './CodeRunner'
 import type {
   ICodeRunnerSpi,
@@ -119,6 +119,9 @@ export class CodeCompiler {
               return table.archive(id)
             },
           }
+        },
+        listAllUsers: async () => {
+          return notion.listAllUsers()
         },
       },
     }
