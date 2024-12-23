@@ -1,3 +1,10 @@
+## [0.34.43](https://github.com/latechforce/engine/compare/v0.34.42...v0.34.43) (2024-12-23)
+
+
+### Bug Fixes
+
+* **App:** add green test: should be able to use Logger as a service ([fc73451](https://github.com/latechforce/engine/commit/fc73451703fb873ca4a29a23978000743d726418))
+
 ## [0.34.42](https://github.com/latechforce/engine/compare/v0.34.41...v0.34.42) (2024-12-23)
 
 
