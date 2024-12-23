@@ -38,6 +38,7 @@ export type {
   NotionTablePageProperties,
   NotionTablePagePropertyValue,
 } from '@domain/integrations/Notion/NotionTablePage'
+export type { NotionUser } from '@domain/integrations/Notion/NotionUser'
 export type { PersistedRecord as DatabaseTableRecord } from '@domain/entities/Record/Persisted'
 export type {
   RecordFields as DatabaseTableRecordFields,
