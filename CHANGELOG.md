@@ -1,3 +1,10 @@
+## [0.34.42](https://github.com/latechforce/engine/compare/v0.34.41...v0.34.42) (2024-12-23)
+
+
+### Bug Fixes
+
+* **Filter:** export Filter type ([0f8e5f3](https://github.com/latechforce/engine/commit/0f8e5f352a0965457d6f9c7365bd2fa3c9e11a3d))
+
 ## [0.34.41](https://github.com/latechforce/engine/compare/v0.34.40...v0.34.41) (2024-12-22)
 
 ### Bug Fixes
