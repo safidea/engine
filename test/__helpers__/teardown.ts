@@ -4,7 +4,7 @@ import { container } from './setup'
 import { cleanTestTable } from './integrations/notion'
 
 async function globalTeardown() {
-  await cleanTestTable()
+  // await cleanTestTable()
   const isUnitTest = process.argv.includes('test/unit')
   const isIntegrationTest = process.argv.includes('test/integration')
   if (isUnitTest || isIntegrationTest) return

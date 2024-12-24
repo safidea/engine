@@ -120,51 +120,55 @@ export class NotionTableIntegration implements INotionTableIntegration {
         switch (property.type) {
           case 'title':
             return {
-              title: [
-                {
-                  type: 'text',
-                  text: {
-                    content: String(value),
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: 'default',
-                  },
-                  plain_text: String(value),
-                  href: null,
-                },
-              ],
+              title: value
+                ? [
+                    {
+                      type: 'text',
+                      text: {
+                        content: String(value),
+                        link: null,
+                      },
+                      annotations: {
+                        bold: false,
+                        italic: false,
+                        strikethrough: false,
+                        underline: false,
+                        code: false,
+                        color: 'default',
+                      },
+                      plain_text: String(value),
+                      href: null,
+                    },
+                  ]
+                : [],
             }
           case 'rich_text':
             return {
-              rich_text: [
-                {
-                  type: 'text',
-                  text: {
-                    content: String(value),
-                    link: null,
-                  },
-                  annotations: {
-                    bold: false,
-                    italic: false,
-                    strikethrough: false,
-                    underline: false,
-                    code: false,
-                    color: 'default',
-                  },
-                  plain_text: String(value),
-                  href: null,
-                },
-              ],
+              rich_text: value
+                ? [
+                    {
+                      type: 'text',
+                      text: {
+                        content: String(value),
+                        link: null,
+                      },
+                      annotations: {
+                        bold: false,
+                        italic: false,
+                        strikethrough: false,
+                        underline: false,
+                        code: false,
+                        color: 'default',
+                      },
+                      plain_text: String(value),
+                      href: null,
+                    },
+                  ]
+                : [],
             }
           case 'number':
             return {
-              number: Number(value),
+              number: value ? Number(value) : null,
             }
           case 'select':
             return {
@@ -229,15 +233,15 @@ export class NotionTableIntegration implements INotionTableIntegration {
             }
           case 'url':
             return {
-              url: String(value),
+              url: value ? String(value) : null,
             }
           case 'email':
             return {
-              email: String(value),
+              email: value ? String(value) : null,
             }
           case 'phone_number':
             return {
-              phone_number: String(value),
+              phone_number: value ? String(value) : null,
             }
           case 'relation':
             return {

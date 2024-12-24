@@ -54,6 +54,17 @@ test('should create a page in a table with a number property from a string', asy
   expect(page.properties.number).toBe(123)
 })
 
+test('should create a page in a table with an empty number property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+
+  // WHEN
+  const page = await table.create({ number: null })
+
+  // THEN
+  expect(page.properties.number).toBeNull()
+})
+
 test('should create a page in a table with a boolean property', async () => {
   // GIVEN
   const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
@@ -89,6 +100,86 @@ test('should create a page in a table with a text property', async () => {
 
   // THEN
   expect(page.properties.text).toBe(text)
+})
+
+test('should create a page in a table with an empty text property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+
+  // WHEN
+  const page = await table.create({ text: null })
+
+  // THEN
+  expect(page.properties.text).toBe('')
+})
+
+test('should create a page in a table with an URL property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+  const url = 'https://example.com'
+
+  // WHEN
+  const page = await table.create({ url })
+
+  // THEN
+  expect(page.properties.url).toBe(url)
+})
+
+test('should create a page in a table with an empty URL property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+
+  // WHEN
+  const page = await table.create({ url: null })
+
+  // THEN
+  expect(page.properties.url).toBeNull()
+})
+
+test('should create a page in a table with an email property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+  const email = 'test@test.com'
+
+  // WHEN
+  const page = await table.create({ email })
+
+  // THEN
+  expect(page.properties.email).toBe(email)
+})
+
+test('should create a page in a table with an empty email property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+
+  // WHEN
+  const page = await table.create({ email: null })
+
+  // THEN
+  expect(page.properties.email).toBeNull()
+})
+
+test('should create a page in a table with an phone property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+  const phone = '+33612345678'
+
+  // WHEN
+  const page = await table.create({ phone })
+
+  // THEN
+  expect(page.properties.phone).toBe(phone)
+})
+
+test('should create a page in a table with an empty phone property', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+
+  // WHEN
+  const page = await table.create({ phone: null })
+
+  // THEN
+  expect(page.properties.phone).toBeNull()
 })
 
 test('should create a page in a table with a select property', async () => {
