@@ -4,10 +4,13 @@ import { container } from './setup'
 import { cleanTestTable } from './integrations/notion'
 
 async function globalTeardown() {
-  await cleanTestTable()
   const isUnitTest = process.argv.includes('test/unit')
+  if (isUnitTest) return
+
+  await cleanTestTable()
   const isIntegrationTest = process.argv.includes('test/integration')
-  if (isUnitTest || isIntegrationTest) return
+  if (isIntegrationTest) return
+
   await container.stop()
   await fs.emptyDir(join(process.cwd(), 'tmp'))
 }

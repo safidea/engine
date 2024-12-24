@@ -45,6 +45,8 @@ export type {
   RecordFieldValue as DatabaseTableRecordFieldValue,
 } from '@domain/entities/Record/base'
 export type { AppIntegrations } from '@domain/entities/App/Base'
+export type { StartedApp } from '@domain/entities/App/Started'
+export type { StoppedApp } from '@domain/entities/App/Stopped'
 
 export default class extends App {
   constructor() {
