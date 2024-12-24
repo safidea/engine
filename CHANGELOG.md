@@ -1,3 +1,11 @@
+## [0.34.45](https://github.com/latechforce/engine/compare/v0.34.44...v0.34.45) (2024-12-24)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should create a page in a table with an empty phone property ([7f88f2f](https://github.com/latechforce/engine/commit/7f88f2ff0c43202836fe5f89a0aa3cff8812c403))
+* **Notion:** add NotionUser export ([b747fdc](https://github.com/latechforce/engine/commit/b747fdc745dc610b8391dd7f306a4927d6be6db2))
+
 ## [0.34.44](https://github.com/latechforce/engine/compare/v0.34.43...v0.34.44) (2024-12-23)
 
 
