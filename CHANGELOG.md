@@ -1,3 +1,10 @@
+## [0.34.46](https://github.com/latechforce/engine/compare/v0.34.45...v0.34.46) (2024-12-24)
+
+
+### Bug Fixes
+
+* **App:** add Started and Stopped type export ([426c90d](https://github.com/latechforce/engine/commit/426c90d9dfdc8bb462873cfc0a571aa8c0111ba5))
+
 ## [0.34.45](https://github.com/latechforce/engine/compare/v0.34.44...v0.34.45) (2024-12-24)
 
 
