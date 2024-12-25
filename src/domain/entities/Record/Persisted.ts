@@ -1,18 +1,19 @@
-import { BaseRecord, type BaseRecordFields } from './base'
+import { BaseRecord, type RecordFields } from './base'
 
-export interface PersistedRecordFields extends BaseRecordFields {
-  created_at: Date
-  updated_at?: Date
-}
-
-export type PersistedRecordConfig = PersistedRecordFields
+export type PersistedRecordFields = RecordFields
 
 export class PersistedRecord extends BaseRecord {
-  readonly fieldsWithDates: PersistedRecordFields
+  constructor(fields: PersistedRecordFields) {
+    super(fields)
+  }
 
-  constructor(config: PersistedRecordConfig) {
-    super(config)
-    this.fieldsWithDates = config
+  get created_at(): Date {
+    if (!this.fields.created_at) throw new Error('created_at is required')
+    return this.fields.created_at
+  }
+
+  get updated_at(): Date | undefined {
+    return this.fields.updated_at
   }
 
   getFieldAsString(key: string): string | null {

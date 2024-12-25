@@ -23,7 +23,7 @@ import { MultipleLinkedRecordField } from '../Field/MultipleLinkedRecord'
 import { FilterMapper, filterSchema, type FilterConfig } from '../Filter'
 import { CreatedRecord } from '../Record/Created'
 import { UpdatedRecord } from '../Record/Updated'
-import type { BaseRecordFields } from '../Record/base'
+import type { JsonRecordFields } from '../Record/base'
 import type { Monitor } from '@domain/services/Monitor'
 import type { PersistedRecord } from '../Record/Persisted'
 
@@ -139,7 +139,7 @@ export class Table {
     { record: PersistedRecord; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema()
-    if (this._validateDataType<BaseRecordFields>(data, schema)) {
+    if (this._validateDataType<JsonRecordFields>(data, schema)) {
       const toCreateRecord = new CreatedRecord(data, { idGenerator: this._services.idGenerator })
       const record = await this.db.insert(toCreateRecord)
       return { record }
@@ -169,7 +169,7 @@ export class Table {
     { record: PersistedRecord; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema({ required: false })
-    if (this._validateDataType<Omit<BaseRecordFields, 'id'>>(data, schema)) {
+    if (this._validateDataType<Omit<JsonRecordFields, 'id'>>(data, schema)) {
       const updatedRecord = new UpdatedRecord({ id, ...data })
       const record = await this.db.update(updatedRecord)
       return { record }

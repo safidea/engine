@@ -5,7 +5,7 @@ import type { Filter } from '@domain/entities/Filter'
 import type { FilterDto } from '../dtos/FilterDto'
 import type { IDatabaseTableSpi } from '@domain/services/DatabaseTable'
 import type { UpdatedRecord } from '@domain/entities/Record/Updated'
-import type { CreatedRecordDto, PersistedRecordDto, UpdatedRecordDto } from '../dtos/RecordDto'
+import type { RecordFieldsDto } from '../dtos/RecordDto'
 
 export interface IDatabaseTableDriver {
   exists: () => Promise<boolean>
@@ -13,14 +13,14 @@ export interface IDatabaseTableDriver {
   dropView: () => Promise<void>
   migrate: () => Promise<void>
   createView: () => Promise<void>
-  insert: (record: CreatedRecordDto) => Promise<void>
-  insertMany: (records: CreatedRecordDto[]) => Promise<void>
-  update: (record: UpdatedRecordDto) => Promise<void>
-  updateMany: (records: UpdatedRecordDto[]) => Promise<void>
+  insert: (record: RecordFieldsDto) => Promise<void>
+  insertMany: (records: RecordFieldsDto[]) => Promise<void>
+  update: (record: RecordFieldsDto) => Promise<void>
+  updateMany: (records: RecordFieldsDto[]) => Promise<void>
   delete: (id: string) => Promise<void>
-  read: (filter: FilterDto) => Promise<PersistedRecordDto | undefined>
-  readById: (id: string) => Promise<PersistedRecordDto | undefined>
-  list: (filter?: FilterDto) => Promise<PersistedRecordDto[]>
+  read: (filter: FilterDto) => Promise<RecordFieldsDto | undefined>
+  readById: (id: string) => Promise<RecordFieldsDto | undefined>
+  list: (filter?: FilterDto) => Promise<RecordFieldsDto[]>
 }
 
 export class DatabaseTableSpi implements IDatabaseTableSpi {
@@ -47,22 +47,22 @@ export class DatabaseTableSpi implements IDatabaseTableSpi {
   }
 
   insert = async (createdRecord: CreatedRecord) => {
-    const createdRecordDto = RecordMapper.toCreateDto(createdRecord)
+    const createdRecordDto = RecordMapper.toDto(createdRecord)
     await this._driver.insert(createdRecordDto)
   }
 
   insertMany = async (createdRecords: CreatedRecord[]) => {
-    const createdRecordDtos = createdRecords.map(RecordMapper.toCreateDto)
+    const createdRecordDtos = createdRecords.map(RecordMapper.toDto)
     await this._driver.insertMany(createdRecordDtos)
   }
 
   update = async (updatedRecord: UpdatedRecord) => {
-    const updatedRecordDto = RecordMapper.toUpdateDto(updatedRecord)
+    const updatedRecordDto = RecordMapper.toDto(updatedRecord)
     await this._driver.update(updatedRecordDto)
   }
 
   updateMany = async (updatedRecords: UpdatedRecord[]) => {
-    const updatedRecordDtos = updatedRecords.map(RecordMapper.toUpdateDto)
+    const updatedRecordDtos = updatedRecords.map(RecordMapper.toDto)
     await this._driver.updateMany(updatedRecordDtos)
   }
 
@@ -74,19 +74,19 @@ export class DatabaseTableSpi implements IDatabaseTableSpi {
     const filterDto = FilterMapper.toDto(filter)
     const persistedRecordDto = await this._driver.read(filterDto)
     if (!persistedRecordDto) return undefined
-    return RecordMapper.toPersistedEntity(persistedRecordDto)
+    return RecordMapper.toEntity(persistedRecordDto)
   }
 
   readById = async (id: string) => {
     const persistedRecordDto = await this._driver.readById(id)
     if (!persistedRecordDto) return undefined
-    return RecordMapper.toPersistedEntity(persistedRecordDto)
+    return RecordMapper.toEntity(persistedRecordDto)
   }
 
   list = async (filter?: Filter) => {
     const persistedRecordsDtos = await this._driver.list(
       filter ? FilterMapper.toDto(filter) : undefined
     )
-    return RecordMapper.toManyPersistedEntity(persistedRecordsDtos)
+    return RecordMapper.toManyEntity(persistedRecordsDtos)
   }
 }

@@ -1,7 +1,3 @@
-import type { CreatedRecordFields } from '@domain/entities/Record/Created'
-import type { PersistedRecordFields } from '@domain/entities/Record/Persisted'
-import type { UpdatedRecordFields } from '@domain/entities/Record/Updated'
+import type { RecordFields } from '@domain/entities/Record/base'
 
-export type CreatedRecordDto = CreatedRecordFields
-export type UpdatedRecordDto = UpdatedRecordFields
-export type PersistedRecordDto = PersistedRecordFields
+export type RecordFieldsDto = RecordFields

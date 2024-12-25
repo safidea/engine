@@ -2,12 +2,8 @@ import pg from 'pg'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type {
-  CreatedRecordDto,
-  PersistedRecordDto,
-  UpdatedRecordDto,
-} from '@adapter/spi/dtos/RecordDto'
-import type { BaseRecordFields, RecordFieldValue } from '@domain/entities/Record/base'
+import type { RecordFieldsDto } from '@adapter/spi/dtos/RecordDto'
+import type { RecordFields, RecordFieldValue } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
   name: string
@@ -130,7 +126,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     await this._db.query(query)
   }
 
-  insert = async (record: CreatedRecordDto) => {
+  insert = async (record: RecordFieldsDto) => {
     try {
       const { created_at, ...rest } = record
       const preprocessedFields = this._preprocess(rest)
@@ -151,7 +147,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  insertMany = async (records: CreatedRecordDto[]) => {
+  insertMany = async (records: RecordFieldsDto[]) => {
     try {
       for (const record of records) await this.insert(record)
     } catch (e) {
@@ -159,7 +155,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  update = async (record: UpdatedRecordDto) => {
+  update = async (record: RecordFieldsDto) => {
     try {
       const { updated_at, ...rest } = record
       const preprocessedFields = this._preprocess(rest)
@@ -180,7 +176,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  updateMany = async (records: UpdatedRecordDto[]) => {
+  updateMany = async (records: RecordFieldsDto[]) => {
     try {
       for (const record of records) await this.update(record)
     } catch (e) {
@@ -201,25 +197,25 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
   read = async (filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
-    const result = await this._db.query<PersistedRecordDto>(query, values)
+    const result = await this._db.query<RecordFieldsDto>(query, values)
     return result.rows[0]
   }
 
   readById = async (id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = $1`
-    const result = await this._db.query<PersistedRecordDto>(query, [id])
+    const result = await this._db.query<RecordFieldsDto>(query, [id])
     return result.rows[0]
   }
 
   list = async (filter?: FilterDto) => {
     if (!filter) {
       const query = `SELECT * FROM ${this._name}_view`
-      const result = await this._db.query<PersistedRecordDto>(query)
+      const result = await this._db.query<RecordFieldsDto>(query)
       return result.rows
     }
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const result = await this._db.query<PersistedRecordDto>(query, values)
+    const result = await this._db.query<RecordFieldsDto>(query, values)
     return result.rows
   }
 
@@ -266,7 +262,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
+  private _splitFields = (record: RecordFieldsDto | RecordFieldsDto) => {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
@@ -337,8 +333,8 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     return result.rows
   }
 
-  private _preprocess = (record: BaseRecordFields): BaseRecordFields => {
-    return Object.keys(record).reduce((acc: BaseRecordFields, key) => {
+  private _preprocess = (record: RecordFields): RecordFields => {
+    return Object.keys(record).reduce((acc: RecordFields, key) => {
       const value = record[key]
       const field = this._fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc

@@ -1,11 +1,13 @@
 export type RecordFieldValue = string | number | boolean | Date | undefined | string[]
 
-export interface BaseRecordFields {
+export interface RecordFields {
   id: string
+  created_at?: Date
+  updated_at?: Date
   [key: string]: RecordFieldValue
 }
 
-export interface RecordFields {
+export interface JsonRecordFields {
   id: string
   created_at?: string
   updated_at?: string
@@ -13,16 +15,16 @@ export interface RecordFields {
 }
 
 export class BaseRecord {
-  constructor(private _baseFields: BaseRecordFields) {}
+  constructor(readonly fields: RecordFields) {}
 
   get id(): string {
-    return this._baseFields.id
+    return this.fields.id
   }
 
-  get fields(): RecordFields {
-    const { id, ...res } = this._baseFields
+  toJson(): JsonRecordFields {
+    const { id, created_at, ...res } = this.fields
     return Object.entries(res).reduce(
-      (acc: RecordFields, [key, value]) => {
+      (acc: JsonRecordFields, [key, value]) => {
         if (value instanceof Date) acc[key] = value.toISOString()
         else acc[key] = value
         return acc

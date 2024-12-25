@@ -2,11 +2,7 @@ import SQLite, { SqliteError } from 'better-sqlite3'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type {
-  CreatedRecordDto,
-  PersistedRecordDto,
-  UpdatedRecordDto,
-} from '@adapter/spi/dtos/RecordDto'
+import type { RecordFieldsDto } from '@adapter/spi/dtos/RecordDto'
 import type { RecordFieldValue } from '@domain/entities/Record/base'
 
 interface ColumnInfo {
@@ -139,7 +135,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     this._db.exec(query)
   }
 
-  insert = async (record: CreatedRecordDto) => {
+  insert = async (record: RecordFieldsDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
       const preprocessedFields = this._preprocess(staticFields)
@@ -156,7 +152,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  insertMany = async (records: CreatedRecordDto[]) => {
+  insertMany = async (records: RecordFieldsDto[]) => {
     try {
       for (const record of records) await this.insert(record)
     } catch (e) {
@@ -164,7 +160,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  update = async (record: UpdatedRecordDto) => {
+  update = async (record: RecordFieldsDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
       const preprocessedFields = this._preprocess(staticFields)
@@ -181,7 +177,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  updateMany = async (records: UpdatedRecordDto[]) => {
+  updateMany = async (records: RecordFieldsDto[]) => {
     try {
       for (const record of records) await this.update(record)
     } catch (e) {
@@ -202,25 +198,25 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
   read = async (filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
-    const record = this._db.prepare(query).get(values) as PersistedRecordDto | undefined
+    const record = this._db.prepare(query).get(values) as RecordFieldsDto | undefined
     return record ? this._postprocess(record) : undefined
   }
 
   readById = async (id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = ?`
-    const record = this._db.prepare(query).get([id]) as PersistedRecordDto | undefined
+    const record = this._db.prepare(query).get([id]) as RecordFieldsDto | undefined
     return record ? this._postprocess(record) : undefined
   }
 
   list = async (filter?: FilterDto) => {
     if (!filter) {
       const query = `SELECT * FROM ${this._name}_view`
-      const records = this._db.prepare(query).all() as PersistedRecordDto[]
+      const records = this._db.prepare(query).all() as RecordFieldsDto[]
       return records.map(this._postprocess)
     }
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const records = this._db.prepare(query).all(values) as PersistedRecordDto[]
+    const records = this._db.prepare(query).all(values) as RecordFieldsDto[]
     return records.map(this._postprocess)
   }
 
@@ -271,7 +267,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     return field.formula || (field.type === 'TEXT[]' && field.table)
   }
 
-  private _splitFields = (record: CreatedRecordDto | UpdatedRecordDto) => {
+  private _splitFields = (record: RecordFieldsDto | RecordFieldsDto) => {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
@@ -351,8 +347,8 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     )
   }
 
-  private _postprocess = (persistedRecord: PersistedRecordDto): PersistedRecordDto => {
-    return Object.keys(persistedRecord).reduce((acc: PersistedRecordDto, key) => {
+  private _postprocess = (persistedRecord: RecordFieldsDto): RecordFieldsDto => {
+    return Object.keys(persistedRecord).reduce((acc: RecordFieldsDto, key) => {
       const value = persistedRecord[key]
       const field = this._fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc

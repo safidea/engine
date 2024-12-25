@@ -1,20 +1,17 @@
-import { BaseRecord, type BaseRecordFields } from './base'
+import { BaseRecord, type RecordFields } from './base'
 
-export interface UpdatedRecordFields extends BaseRecordFields {
-  updated_at: Date
-}
-
-export type UpdatedRecordConfig = BaseRecordFields
+export type UpdatedRecordFields = RecordFields
 
 export class UpdatedRecord extends BaseRecord {
-  readonly fieldsWithDates: UpdatedRecordFields
-
-  constructor(config: UpdatedRecordConfig) {
-    const fields: UpdatedRecordFields = {
-      ...config,
+  constructor(fields: UpdatedRecordFields) {
+    super({
+      ...fields,
       updated_at: new Date(),
-    }
-    super(fields)
-    this.fieldsWithDates = fields
+    })
+  }
+
+  get updated_at(): Date {
+    if (!this.fields.updated_at) throw new Error('updated_at is required')
+    return this.fields.updated_at
   }
 }

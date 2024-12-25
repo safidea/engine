@@ -1,27 +1,24 @@
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { BaseRecord, type BaseRecordFields } from './base'
+import { BaseRecord, type RecordFields } from './base'
 
-export interface CreatedRecordFields extends BaseRecordFields {
-  created_at: Date
-}
-
-export type CreatedRecordConfig = Omit<BaseRecordFields, 'id'>
+export type CreatedRecordFields = Omit<RecordFields, 'id'>
 
 export interface CreatedRecordServices {
   idGenerator: IdGenerator
 }
 
 export class CreatedRecord extends BaseRecord {
-  readonly fieldsWithDates: CreatedRecordFields
-
-  constructor(config: CreatedRecordConfig, services: CreatedRecordServices) {
+  constructor(fields: CreatedRecordFields, services: CreatedRecordServices) {
     const { idGenerator } = services
-    const fields: CreatedRecordFields = {
-      ...config,
+    super({
+      ...fields,
       id: idGenerator.forRecord(),
       created_at: new Date(),
-    }
-    super(fields)
-    this.fieldsWithDates = fields
+    })
+  }
+
+  get created_at(): Date {
+    if (!this.fields.created_at) throw new Error('created_at is required')
+    return this.fields.created_at
   }
 }
