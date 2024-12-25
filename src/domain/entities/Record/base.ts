@@ -22,7 +22,7 @@ export class BaseRecord {
   }
 
   toJson(): JsonRecordFields {
-    const { id, created_at, ...res } = this.fields
+    const { id, ...res } = this.fields
     return Object.entries(res).reduce(
       (acc: JsonRecordFields, [key, value]) => {
         if (value instanceof Date) acc[key] = value.toISOString()
