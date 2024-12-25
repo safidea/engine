@@ -1,3 +1,10 @@
+## [0.34.47](https://github.com/latechforce/engine/compare/v0.34.46...v0.34.47) (2024-12-25)
+
+
+### Bug Fixes
+
+* **Record:** remove useless code ([5192ede](https://github.com/latechforce/engine/commit/5192ede15fdbdd0d3484dd6a7cca6e259e2eb32f))
+
 ## [0.34.46](https://github.com/latechforce/engine/compare/v0.34.45...v0.34.46) (2024-12-24)
 
 
