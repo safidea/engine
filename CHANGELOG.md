@@ -1,3 +1,10 @@
+## [0.34.48](https://github.com/latechforce/engine/compare/v0.34.47...v0.34.48) (2024-12-26)
+
+
+### Bug Fixes
+
+* **Filter:** add green test: should list pages in a table with a OnOrAfter string filter ([e48dd1a](https://github.com/latechforce/engine/commit/e48dd1a83398c202b6fb73b34232298af81017bd))
+
 ## [0.34.47](https://github.com/latechforce/engine/compare/v0.34.46...v0.34.47) (2024-12-25)
 
 
