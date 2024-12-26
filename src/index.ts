@@ -43,6 +43,7 @@ export type {
   Record as DatabaseTableRecord,
   RecordFields as DatabaseTableRecordFields,
   RecordFieldValue as DatabaseTableRecordFieldValue,
+  UpdateRecordFields as DatabaseTableUpdateRecordFields,
 } from '@domain/entities/Record'
 export type { AppIntegrations } from '@domain/entities/App/Base'
 export type { StartedApp } from '@domain/entities/App/Started'
