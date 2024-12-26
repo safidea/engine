@@ -1,6 +1,6 @@
 import pg from 'pg'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
-import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
+import type { FilterDto } from '@domain/entities/Filter'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { RecordFieldsDto } from '@adapter/spi/dtos/RecordDto'
 import type { RecordFields, RecordFieldValue } from '@domain/entities/Record/base'

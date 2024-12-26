@@ -5,7 +5,7 @@ import { join } from 'path'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
 import { DatabaseDriver } from '@infrastructure/drivers/DatabaseDriver'
-import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
+import type { FilterDto } from '@domain/entities/Filter'
 import type { EmailDto } from '@adapter/spi/dtos/EmailDto'
 
 export default class extends MailerDriver {

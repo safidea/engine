@@ -1,8 +1,8 @@
 import type { JSONSchema } from '@domain/services/SchemaValidator'
-import { filterSchema, type Filter, type FilterConfig } from '.'
+import { filterSchema, type Filter, type FilterDto } from '.'
 
 export type OrFilterConfig = {
-  or: FilterConfig[]
+  or: FilterDto[]
 }
 
 export const orFilterSchema: JSONSchema = {
@@ -20,7 +20,7 @@ export const orFilterSchema: JSONSchema = {
 export class OrFilter {
   constructor(public filters: Filter[]) {}
 
-  toConfig(): OrFilterConfig {
-    return { or: this.filters.map((filter) => filter.toConfig()) }
+  toDto(): OrFilterConfig {
+    return { or: this.filters.map((filter) => filter.toDto()) }
   }
 }

@@ -3,9 +3,12 @@ import {
   OnOrAfterDateFilter,
   onOrAfterDateFilterSchema,
   type OnOrAfterDateFilterConfig,
+  type OnOrAfterDateFilterDto,
 } from './OnOrAfter'
 
 export type DateFilterConfig = OnOrAfterDateFilterConfig
+
+export type DateFilterDto = OnOrAfterDateFilterDto
 
 export const dateFilterSchemas = [onOrAfterDateFilterSchema]
 

@@ -1,8 +1,11 @@
-import { type Filter, FilterMapper as FilterDomainMapper } from '@domain/entities/Filter'
-import type { FilterDto } from '../dtos/FilterDto'
+import {
+  type Filter,
+  type FilterDto,
+  FilterMapper as FilterDomainMapper,
+} from '@domain/entities/Filter'
 
 export class FilterMapper extends FilterDomainMapper {
   static toDto = (filter: Filter): FilterDto => {
-    return filter.toConfig()
+    return filter.toDto()
   }
 }

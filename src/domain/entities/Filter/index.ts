@@ -12,6 +12,7 @@ import {
   isDateFilter,
   type DateFilter,
   type DateFilterConfig,
+  type DateFilterDto,
 } from './date'
 import {
   isNumberFilter,
@@ -44,7 +45,16 @@ export type FilterWithOperatorConfig =
   | SelectFilterConfig
   | TextFilterConfig
 
+export type FilterWithOperatorDto =
+  | BooleanFilterConfig
+  | DateFilterDto
+  | NumberFilterConfig
+  | SelectFilterConfig
+  | TextFilterConfig
+
 export type FilterConfig = AndFilterConfig | OrFilterConfig | FilterWithOperatorConfig
+
+export type FilterDto = AndFilterConfig | OrFilterConfig | FilterWithOperatorDto
 
 export type Filter =
   | AndFilter

@@ -24,7 +24,7 @@ export class EqualsNumberFilter extends BaseFilter {
     super(field)
   }
 
-  toConfig(): EqualsNumberFilterConfig {
+  toDto(): EqualsNumberFilterConfig {
     return {
       field: this.field,
       operator: 'Equals',

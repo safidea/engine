@@ -1,5 +1,5 @@
 import type { IMailerDriver } from '@adapter/spi/drivers/MailerSpi'
-import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
+import type { FilterDto } from '@domain/entities/Filter'
 import type { MailerConfig } from '@domain/services/Mailer'
 import { v4 as uuidv4 } from 'uuid'
 import nodemailer, { type Transporter } from 'nodemailer'

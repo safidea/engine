@@ -24,7 +24,7 @@ export class ContainsTextFilter extends BaseFilter {
     super(field)
   }
 
-  toConfig(): ContainsTextFilterConfig {
+  toDto(): ContainsTextFilterConfig {
     return {
       field: this.field,
       operator: 'Contains',

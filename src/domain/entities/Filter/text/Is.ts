@@ -24,7 +24,7 @@ export class IsTextFilter extends BaseFilter {
     super(field)
   }
 
-  toConfig(): IsTextFilterConfig {
+  toDto(): IsTextFilterConfig {
     return {
       field: this.field,
       operator: 'Is',

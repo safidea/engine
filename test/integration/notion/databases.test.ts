@@ -591,8 +591,10 @@ test('should list pages in a table', async () => {
   expect(pages).toHaveLength(3)
 })
 
-test('should list pages in a table with a OnOrAfter filter', async () => {
+test('should list pages in a table with a OnOrAfter string filter', async () => {
   // GIVEN
+  const now = new Date()
+  now.setMinutes(now.getMinutes() - 1)
   const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
   const values = [
     {
@@ -613,7 +615,7 @@ test('should list pages in a table with a OnOrAfter filter', async () => {
       {
         field: 'created_time',
         operator: 'OnOrAfter',
-        value: 60,
+        value: now.toISOString(),
       },
       {
         or: values.map((value) => ({

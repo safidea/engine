@@ -1,7 +1,6 @@
 import type { IMailerSpi } from '@domain/services/Mailer'
 import { EmailMapper } from '../mappers/EmailMapper'
-import type { FilterDto } from '../dtos/FilterDto'
-import type { Filter } from '@domain/entities/Filter'
+import type { Filter, FilterDto } from '@domain/entities/Filter'
 import type { CreatedEmail } from '@domain/entities/Email/Created'
 import type { EmailDto } from '../dtos/EmailDto'
 import { FilterMapper } from '../mappers/FilterMapper'

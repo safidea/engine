@@ -2,6 +2,21 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
+        "AndFilterConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "and": {
+                    "items": {
+                        "$ref": "#/definitions/FilterDto"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "and"
+            ],
+            "type": "object"
+        },
         "AuthConfig": {
             "additionalProperties": false,
             "properties": {
@@ -970,26 +985,57 @@
                     "$ref": "#/definitions/ContainsTextFilterConfig"
                 },
                 {
-                    "additionalProperties": false,
-                    "properties": {
-                        "and": {
-                            "items": {
-                                "$ref": "#/definitions/FilterConfig"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "and"
-                    ],
-                    "type": "object"
+                    "$ref": "#/definitions/AndFilterConfig"
                 },
                 {
                     "additionalProperties": false,
                     "properties": {
                         "or": {
                             "items": {
-                                "$ref": "#/definitions/FilterConfig"
+                                "$ref": "#/definitions/FilterDto"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "or"
+                    ],
+                    "type": "object"
+                }
+            ]
+        },
+        "FilterDto": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IsFalseBooleanFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsTrueBooleanFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/EqualsNumberFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsAnyOfSelectFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/IsTextFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/ContainsTextFilterConfig"
+                },
+                {
+                    "$ref": "#/definitions/OnOrAfterDateFilterDto"
+                },
+                {
+                    "$ref": "#/definitions/AndFilterConfig"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "or": {
+                            "items": {
+                                "$ref": "#/definitions/FilterDto"
                             },
                             "type": "array"
                         }
@@ -4050,7 +4096,31 @@
                     "type": "string"
                 },
                 "value": {
-                    "type": "number"
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "field",
+                "operator",
+                "value"
+            ],
+            "type": "object"
+        },
+        "OnOrAfterDateFilterDto": {
+            "additionalProperties": false,
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "const": "OnOrAfter",
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
                 }
             },
             "required": [

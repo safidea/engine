@@ -16,7 +16,7 @@ export class IsTrueBooleanFilter extends BaseFilter {
     super(field)
   }
 
-  toConfig(): IsTrueBooleanFilterConfig {
+  toDto(): IsTrueBooleanFilterConfig {
     return {
       field: this.field,
       operator: 'IsTrue',

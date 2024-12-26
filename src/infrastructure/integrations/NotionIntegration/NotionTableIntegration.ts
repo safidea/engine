@@ -1,4 +1,4 @@
-import type { FilterDto } from '@adapter/spi/dtos/FilterDto'
+import type { FilterDto } from '@domain/entities/Filter'
 import type { NotionTablePageDto } from '@adapter/spi/dtos/NotionTablePageDto'
 import type { INotionTableIntegration } from '@adapter/spi/integrations/NotionTableSpi'
 import {
@@ -18,7 +18,7 @@ import type {
   PartialDatabaseObjectResponse,
   PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { subSeconds, format, parse, formatISO } from 'date-fns'
+import { format, parse, formatISO } from 'date-fns'
 
 export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
@@ -426,7 +426,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     }
 
     const { operator, field } = filter
-    const formatDate = (date: Date) => format(date, "yyyy-MM-dd'T'HH:mm:00XXX")
+    const formatDate = (date: string) => format(new Date(date), "yyyy-MM-dd'T'HH:mm:00XXX")
     const property = this._database.properties[field]
 
     if (!property && field !== 'created_time' && field !== 'last_edited_time') {
@@ -529,21 +529,21 @@ export class NotionTableIntegration implements INotionTableIntegration {
           return {
             timestamp: 'created_time',
             created_time: {
-              on_or_after: formatDate(subSeconds(new Date(), filter.value)),
+              on_or_after: formatDate(filter.value),
             },
           }
         } else if (field === 'last_edited_time') {
           return {
             timestamp: 'last_edited_time',
             last_edited_time: {
-              on_or_after: formatDate(subSeconds(new Date(), filter.value)),
+              on_or_after: formatDate(filter.value),
             },
           }
         } else if (property.type === 'date') {
           return {
             property: field,
             date: {
-              on_or_after: formatDate(subSeconds(new Date(), filter.value)),
+              on_or_after: formatDate(filter.value),
             },
           }
         }

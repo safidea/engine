@@ -22,7 +22,7 @@ export function buildFilterSchema(
 export class BaseFilter {
   constructor(readonly field: string) {}
 
-  toConfig(): BaseFilterProps {
+  toDto(): BaseFilterProps {
     throw new Error('Method not implemented.')
   }
 }

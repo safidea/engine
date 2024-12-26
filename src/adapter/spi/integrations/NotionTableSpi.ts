@@ -1,6 +1,5 @@
-import { type Filter } from '@domain/entities/Filter'
+import { type Filter, type FilterDto } from '@domain/entities/Filter'
 import type { INotionTableSpi } from '@domain/integrations/Notion/NotionTable'
-import type { FilterDto } from '../dtos/FilterDto'
 import { FilterMapper } from '../mappers/FilterMapper'
 import type { NotionTablePageProperties } from '@domain/integrations/Notion/NotionTablePage'
 import { NotionTablePageMapper } from '../mappers/NotionTablePageMapper'

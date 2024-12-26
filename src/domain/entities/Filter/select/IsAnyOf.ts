@@ -24,7 +24,7 @@ export class IsAnyOfSelectFilter extends BaseFilter {
     super(field)
   }
 
-  toConfig(): IsAnyOfSelectFilterConfig {
+  toDto(): IsAnyOfSelectFilterConfig {
     return {
       field: this.field,
       operator: 'IsAnyOf',

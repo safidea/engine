@@ -1,30 +1,38 @@
 import { BaseFilter, type BaseFilterProps, buildFilterSchema } from '../base'
 
 type Props = BaseFilterProps & {
-  value: number
+  operator: 'OnOrAfter'
 }
 
 export type OnOrAfterDateFilterConfig = Props & {
-  operator: 'OnOrAfter'
+  value: number | string
+}
+
+export type OnOrAfterDateFilterDto = Props & {
+  value: string
 }
 
 export const onOrAfterDateFilterSchema = buildFilterSchema(
   {
     operator: { type: 'string', enum: ['OnOrAfter'] },
-    value: { type: 'number' },
+    value: { oneOf: [{ type: 'number' }, { type: 'string' }] },
   },
   ['operator', 'value']
 )
 
 export class OnOrAfterDateFilter extends BaseFilter {
-  constructor(
-    field: string,
-    readonly value: number
-  ) {
+  readonly value: string
+
+  constructor(field: string, value: number | string) {
     super(field)
+    if (typeof value === 'number') {
+      this.value = new Date(value).toISOString()
+    } else {
+      this.value = value
+    }
   }
 
-  toConfig(): OnOrAfterDateFilterConfig {
+  toDto(): OnOrAfterDateFilterDto {
     return {
       field: this.field,
       operator: 'OnOrAfter',
