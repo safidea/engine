@@ -1,3 +1,11 @@
+## [0.34.49](https://github.com/latechforce/engine/compare/v0.34.48...v0.34.49) (2024-12-26)
+
+
+### Bug Fixes
+
+* **Database:** add green test: should run a Typescript code with a database many update ([f7091bf](https://github.com/latechforce/engine/commit/f7091bfba8c52456386ef27de1b7949935841f27))
+* **Database:** fix broken tests ([f2e811b](https://github.com/latechforce/engine/commit/f2e811b8fc16fa12e9145f9563740356ed76ad18))
+
 ## [0.34.48](https://github.com/latechforce/engine/compare/v0.34.47...v0.34.48) (2024-12-26)
 
 
