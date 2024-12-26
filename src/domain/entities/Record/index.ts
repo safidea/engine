@@ -1,11 +1,11 @@
-export type RecordFieldValue = string | number | boolean | Date | undefined | string[]
+export type RecordFieldValue = string | number | boolean | Date | null | string[]
 
 export interface RecordFields {
   [key: string]: RecordFieldValue
 }
 
 export interface RecordFieldsConfig {
-  [key: string]: string | number | boolean | undefined | string[]
+  [key: string]: string | number | boolean | null | string[]
 }
 
 export type UpdateRecordFields = {
