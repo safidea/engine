@@ -1,3 +1,11 @@
+## [0.34.50](https://github.com/latechforce/engine/compare/v0.34.49...v0.34.50) (2024-12-26)
+
+
+### Bug Fixes
+
+* **Database:** export DatabaseTableUpdateRecordFields ([c4db191](https://github.com/latechforce/engine/commit/c4db19104334d465c81cd354fd7dd160eb4ff036))
+* **Database:** replace undefined by null ([fdbf89c](https://github.com/latechforce/engine/commit/fdbf89c294856a5963658cd0f14823b2c1ec7a5f))
+
 ## [0.34.49](https://github.com/latechforce/engine/compare/v0.34.48...v0.34.49) (2024-12-26)
 
 
