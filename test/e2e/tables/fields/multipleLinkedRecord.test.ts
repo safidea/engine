@@ -48,7 +48,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.models).toStrictEqual(['1', '2'])
+    expect(record.fields.models).toStrictEqual(['1', '2'])
   })
 
   test('should not create a record with a bad multiple linked record id', async ({ request }) => {

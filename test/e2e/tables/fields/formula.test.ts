@@ -43,7 +43,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.total).toBe(15)
+    expect(record.fields.total).toBe(15)
   })
 
   test('should create a record with a formula field as a text', async ({ request }) => {
@@ -86,7 +86,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.full_name).toBe('John Doe')
+    expect(record.fields.full_name).toBe('John Doe')
   })
 
   test('should migrate a table with a new formula field', async ({ request }) => {
@@ -127,7 +127,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.message).toBe('Hello John')
+    expect(record.fields.message).toBe('Hello John')
   })
 
   test('should migrate a table with an updated formula field', async ({ request }) => {
@@ -176,7 +176,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.message).toBe('Hello John!')
+    expect(record.fields.message).toBe('Hello John!')
   })
 
   test('should create a record with a text formula field referencing another text formula field', async ({
@@ -229,7 +229,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.message).toBe('Hello John Doe!')
+    expect(record.fields.message).toBe('Hello John Doe!')
   })
 
   test('should create a record with a number formula field referencing another number formula field', async ({
@@ -282,6 +282,6 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.total_with_vat).toBe(60)
+    expect(record.fields.total_with_vat).toBe(60)
   })
 })

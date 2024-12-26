@@ -73,7 +73,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.total).toBe(25)
+    expect(record.fields.total).toBe(25)
   })
 
   test('should create a record with a rollup field as a text', async ({ request }) => {
@@ -146,7 +146,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.names).toBe('John Doe, Jean Dupont')
+    expect(record.fields.names).toBe('John Doe, Jean Dupont')
   })
 
   test('should create a record with multiple rollup fields', async ({ request }) => {
@@ -233,7 +233,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.names).toBe('item 1,item 2')
+    expect(record.fields.names).toBe('item 1,item 2')
   })
 
   test('should migrate a table with a new rollup field', async ({ request }) => {
@@ -299,7 +299,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.names).toBe('Jane, John')
+    expect(record.fields.names).toBe('Jane, John')
   })
 
   test('should migrate a table with an updated rollup field', async ({ request }) => {
@@ -377,7 +377,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.names).toBe('Jane, John')
+    expect(record.fields.names).toBe('Jane, John')
   })
 
   test('should migrate an existing table with multiple rollup fields', async ({ request }) => {
@@ -510,6 +510,6 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.total_vat).toBe(5)
+    expect(record.fields.total_vat).toBe(5)
   })
 })

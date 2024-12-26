@@ -30,7 +30,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.color).toBe('Red')
+    expect(record.fields.color).toBe('Red')
   })
 
   test('should not create a record with a wrong value in a single select field', async ({

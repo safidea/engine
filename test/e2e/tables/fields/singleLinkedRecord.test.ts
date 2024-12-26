@@ -45,7 +45,7 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record.model).toBe('1')
+    expect(record.fields.model).toBe('1')
   })
 
   test('should migrate a table with existing single linked record dependancies', async () => {

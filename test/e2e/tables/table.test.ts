@@ -300,7 +300,7 @@ Database.each(test, (dbConfig) => {
     const { record } = await res.json()
     expect(record).toBeDefined()
     expect(record.id).toBeDefined()
-    expect(record.name).toBe('John')
+    expect(record.fields.name).toBe('John')
   })
 
   test('should create a record in database when posting on table api', async ({ request }) => {
@@ -401,6 +401,6 @@ Database.each(test, (dbConfig) => {
       .then((res) => res.json())
 
     // THEN
-    expect(record?.today).toBe(today)
+    expect(record.fields.today).toBe(today)
   })
 })

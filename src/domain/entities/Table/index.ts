@@ -102,7 +102,7 @@ export class Table {
   get = async (request: GetRequest) => {
     const id = request.getParamOrThrow('id')
     const record = await this.readById(id)
-    return new JsonResponse({ record: record?.fields }, record ? 200 : 404)
+    return new JsonResponse({ record }, record ? 200 : 404)
   }
 
   list = async (
@@ -124,10 +124,7 @@ export class Table {
 
   getAll = async () => {
     const { records, error } = await this.list()
-    return new JsonResponse(
-      { records: records?.map((record) => record.fields), error },
-      error ? 400 : 200
-    )
+    return new JsonResponse({ records, error }, error ? 400 : 200)
   }
 
   insert = async (
@@ -148,7 +145,7 @@ export class Table {
     try {
       const { body } = request
       const { record, error } = await this.insert(body)
-      return new JsonResponse({ record: record?.fields, error }, error ? 400 : 201)
+      return new JsonResponse({ record, error }, error ? 400 : 201)
     } catch (error) {
       if (error instanceof Error) {
         this._services.monitor.captureException(error)
@@ -178,7 +175,7 @@ export class Table {
       const { body } = request
       const id = request.getParamOrThrow('id')
       const { record, error } = await this.update(id, body)
-      return new JsonResponse({ record: record?.fields, error }, error ? 400 : 204)
+      return new JsonResponse({ record, error }, error ? 400 : 204)
     } catch (error) {
       if (error instanceof Error) {
         this._services.monitor.captureException(error)

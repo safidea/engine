@@ -30,5 +30,5 @@ test('should create a record with a long text field', async ({ request }) => {
   // THEN
   expect(res.ok()).toBeTruthy()
   const { record } = await res.json()
-  expect(record.description).toBe(description)
+  expect(record.fields.description).toBe(description)
 })
