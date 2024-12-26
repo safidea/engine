@@ -8,7 +8,7 @@ import type { Test } from '../fixtures'
 import pg from 'pg'
 import { customAlphabet } from 'nanoid'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type { PersistedRecordFields } from '@domain/entities/Record/Persisted'
+import type { PersistedRecordFields } from '@domain/entities/Record'
 import type { FilterDto } from '@domain/entities/Filter'
 
 async function checkDatabaseAvailability(client: pg.Client): Promise<boolean> {

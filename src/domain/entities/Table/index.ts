@@ -21,11 +21,8 @@ import { DateTimeField } from '../Field/DateTime'
 import { SingleLinkedRecordField } from '../Field/SingleLinkedRecord'
 import { MultipleLinkedRecordField } from '../Field/MultipleLinkedRecord'
 import { FilterMapper, filterSchema, type FilterConfig } from '../Filter'
-import { CreatedRecord } from '../Record/Created'
-import { UpdatedRecord } from '../Record/Updated'
-import type { JsonRecordFields } from '../Record/base'
 import type { Monitor } from '@domain/services/Monitor'
-import type { PersistedRecord } from '../Record/Persisted'
+import type { Record, RecordFieldsConfig } from '../Record'
 
 interface TableConfig {
   name: string
@@ -93,12 +90,12 @@ export class Table {
     return dependancies.filter((value, index, self) => self.indexOf(value) === index)
   }
 
-  read = async (filterConfig: FilterConfig): Promise<PersistedRecord | undefined> => {
+  read = async (filterConfig: FilterConfig): Promise<Record | undefined> => {
     const filter = FilterMapper.toEntity(filterConfig)
     return this.db.read(filter)
   }
 
-  readById = async (id: string): Promise<PersistedRecord | undefined> => {
+  readById = async (id: string): Promise<Record | undefined> => {
     return this.db.readById(id)
   }
 
@@ -111,7 +108,7 @@ export class Table {
   list = async (
     filterConfig?: unknown
   ): Promise<
-    { records: PersistedRecord[]; error?: undefined } | { records?: undefined; error: SchemaError }
+    { records: Record[]; error?: undefined } | { records?: undefined; error: SchemaError }
   > => {
     if (!filterConfig) {
       const records = await this.db.list()
@@ -136,12 +133,11 @@ export class Table {
   insert = async (
     data: unknown
   ): Promise<
-    { record: PersistedRecord; error?: undefined } | { record?: undefined; error: SchemaError }
+    { record: Record; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema()
-    if (this._validateDataType<JsonRecordFields>(data, schema)) {
-      const toCreateRecord = new CreatedRecord(data, { idGenerator: this._services.idGenerator })
-      const record = await this.db.insert(toCreateRecord)
+    if (this._validateDataType<RecordFieldsConfig>(data, schema)) {
+      const record = await this.db.insert(data)
       return { record }
     }
     const [error] = this._validateData(data, schema)
@@ -166,12 +162,11 @@ export class Table {
     id: string,
     data: unknown
   ): Promise<
-    { record: PersistedRecord; error?: undefined } | { record?: undefined; error: SchemaError }
+    { record: Record; error?: undefined } | { record?: undefined; error: SchemaError }
   > => {
     const schema = this._getRecordSchema({ required: false })
-    if (this._validateDataType<Omit<JsonRecordFields, 'id'>>(data, schema)) {
-      const updatedRecord = new UpdatedRecord({ id, ...data })
-      const record = await this.db.update(updatedRecord)
+    if (this._validateDataType<RecordFieldsConfig>(data, schema)) {
+      const record = await this.db.update(id, data)
       return { record }
     }
     const [error] = this._validateData(data, schema)

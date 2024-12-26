@@ -5,9 +5,10 @@ import {
   NotionTablePage,
   type NotionTablePageProperties,
 } from '@domain/integrations/Notion/NotionTablePage'
-import type { PersistedRecord } from '@domain/entities/Record/Persisted'
+import type { Record, UpdateRecordFields } from '@domain/entities/Record'
 import { Logger } from '@domain/services/Logger'
 import type { NotionUser } from '@domain/integrations/Notion/NotionUser'
+import type { RecordFields } from '@domain/entities/Record'
 
 export interface ICodeRunnerSpi {
   run: (
@@ -18,11 +19,13 @@ export interface ICodeRunnerSpi {
 }
 
 export interface CodeRunnerContextServicesDatabaseTable {
-  insert: (data: unknown) => Promise<PersistedRecord>
-  update: (id: string, data: unknown) => Promise<PersistedRecord>
-  read: (filter: FilterConfig) => Promise<PersistedRecord | undefined>
-  readById: (id: string) => Promise<PersistedRecord | undefined>
-  list: (filter?: FilterConfig) => Promise<PersistedRecord[]>
+  insert: (data: RecordFields) => Promise<Record>
+  insertMany: (data: RecordFields[]) => Promise<Record[]>
+  update: (id: string, data: RecordFields) => Promise<Record>
+  updateMany: (data: UpdateRecordFields[]) => Promise<Record[]>
+  read: (filter: FilterConfig) => Promise<Record | undefined>
+  readById: (id: string) => Promise<Record | undefined>
+  list: (filter?: FilterConfig) => Promise<Record[]>
 }
 
 export interface CodeRunnerContextServicesDatabase {

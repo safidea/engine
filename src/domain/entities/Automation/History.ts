@@ -4,9 +4,7 @@ import { SingleLineTextField } from '../Field/SingleLineText'
 import { LongTextField } from '../Field/LongText'
 import { DateTimeField } from '../Field/DateTime'
 import type { Field } from '../Field'
-import { CreatedRecord } from '../Record/Created'
 import type { IdGenerator } from '@domain/services/IdGenerator'
-import { UpdatedRecord } from '../Record/Updated'
 
 export interface AutomationHistoryRecord {
   automation_name: string
@@ -48,31 +46,21 @@ export class AutomationHistory {
   }
 
   create = async (history: AutomationHistoryRecord): Promise<string> => {
-    const record = new CreatedRecord(
-      {
-        ...history,
-        trigger_data: JSON.stringify(history.trigger_data),
-        actions_data: JSON.stringify(history.actions_data),
-      },
-      { idGenerator: this._services.idGenerator }
-    )
-    await this._table.insert(record)
+    const record = await this._table.insert({
+      ...history,
+      trigger_data: JSON.stringify(history.trigger_data),
+      actions_data: JSON.stringify(history.actions_data),
+    })
     return record.id
   }
 
   updateActions = async (id: string, actions: object): Promise<void> => {
-    const record = new UpdatedRecord({
-      id,
+    await this._table.update(id, {
       actions_data: JSON.stringify(actions),
     })
-    await this._table.update(record)
   }
 
   updateStatus = async (id: string, status: string): Promise<void> => {
-    const record = new UpdatedRecord({
-      id,
-      status,
-    })
-    await this._table.update(record)
+    await this._table.update(id, { status })
   }
 }

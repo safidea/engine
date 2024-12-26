@@ -39,11 +39,11 @@ export type {
   NotionTablePagePropertyValue,
 } from '@domain/integrations/Notion/NotionTablePage'
 export type { NotionUser } from '@domain/integrations/Notion/NotionUser'
-export type { PersistedRecord as DatabaseTableRecord } from '@domain/entities/Record/Persisted'
 export type {
+  Record as DatabaseTableRecord,
   RecordFields as DatabaseTableRecordFields,
   RecordFieldValue as DatabaseTableRecordFieldValue,
-} from '@domain/entities/Record/base'
+} from '@domain/entities/Record'
 export type { AppIntegrations } from '@domain/entities/App/Base'
 export type { StartedApp } from '@domain/entities/App/Started'
 export type { StoppedApp } from '@domain/entities/App/Stopped'

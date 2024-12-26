@@ -2,8 +2,12 @@ import pg from 'pg'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@domain/entities/Filter'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type { RecordFieldsDto } from '@adapter/spi/dtos/RecordDto'
-import type { RecordFields, RecordFieldValue } from '@domain/entities/Record/base'
+import type { RecordFields, RecordFieldValue } from '@domain/entities/Record'
+import type {
+  PersistedRecordFieldsDto,
+  RecordFieldsToCreateDto,
+  RecordFieldsToUpdateDto,
+} from '@adapter/spi/dtos/RecordDto'
 
 interface ColumnInfo {
   name: string
@@ -126,7 +130,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     await this._db.query(query)
   }
 
-  insert = async (record: RecordFieldsDto) => {
+  insert = async (record: RecordFieldsToCreateDto) => {
     try {
       const { created_at, ...rest } = record
       const preprocessedFields = this._preprocess(rest)
@@ -147,7 +151,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  insertMany = async (records: RecordFieldsDto[]) => {
+  insertMany = async (records: RecordFieldsToCreateDto[]) => {
     try {
       for (const record of records) await this.insert(record)
     } catch (e) {
@@ -155,7 +159,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  update = async (record: RecordFieldsDto) => {
+  update = async (record: RecordFieldsToUpdateDto) => {
     try {
       const { updated_at, ...rest } = record
       const preprocessedFields = this._preprocess(rest)
@@ -176,7 +180,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  updateMany = async (records: RecordFieldsDto[]) => {
+  updateMany = async (records: RecordFieldsToUpdateDto[]) => {
     try {
       for (const record of records) await this.update(record)
     } catch (e) {
@@ -197,25 +201,25 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
   read = async (filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
-    const result = await this._db.query<RecordFieldsDto>(query, values)
+    const result = await this._db.query<PersistedRecordFieldsDto>(query, values)
     return result.rows[0]
   }
 
   readById = async (id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = $1`
-    const result = await this._db.query<RecordFieldsDto>(query, [id])
+    const result = await this._db.query<PersistedRecordFieldsDto>(query, [id])
     return result.rows[0]
   }
 
   list = async (filter?: FilterDto) => {
     if (!filter) {
       const query = `SELECT * FROM ${this._name}_view`
-      const result = await this._db.query<RecordFieldsDto>(query)
+      const result = await this._db.query<PersistedRecordFieldsDto>(query)
       return result.rows
     }
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const result = await this._db.query<RecordFieldsDto>(query, values)
+    const result = await this._db.query<PersistedRecordFieldsDto>(query, values)
     return result.rows
   }
 
@@ -262,7 +266,7 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  private _splitFields = (record: RecordFieldsDto | RecordFieldsDto) => {
+  private _splitFields = (record: RecordFields) => {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {

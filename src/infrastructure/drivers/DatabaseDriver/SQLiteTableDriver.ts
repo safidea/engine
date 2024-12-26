@@ -2,8 +2,12 @@ import SQLite, { SqliteError } from 'better-sqlite3'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@domain/entities/Filter'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
-import type { RecordFieldsDto } from '@adapter/spi/dtos/RecordDto'
-import type { RecordFieldValue } from '@domain/entities/Record/base'
+import type { RecordFields, RecordFieldValue } from '@domain/entities/Record'
+import type {
+  PersistedRecordFieldsDto,
+  RecordFieldsToCreateDto,
+  RecordFieldsToUpdateDto,
+} from '@adapter/spi/dtos/RecordDto'
 
 interface ColumnInfo {
   name: string
@@ -135,7 +139,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     this._db.exec(query)
   }
 
-  insert = async (record: RecordFieldsDto) => {
+  insert = async (record: RecordFieldsToCreateDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
       const preprocessedFields = this._preprocess(staticFields)
@@ -152,7 +156,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  insertMany = async (records: RecordFieldsDto[]) => {
+  insertMany = async (records: RecordFieldsToCreateDto[]) => {
     try {
       for (const record of records) await this.insert(record)
     } catch (e) {
@@ -160,7 +164,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  update = async (record: RecordFieldsDto) => {
+  update = async (record: RecordFieldsToUpdateDto) => {
     try {
       const { staticFields, manyToManyFields } = this._splitFields(record)
       const preprocessedFields = this._preprocess(staticFields)
@@ -177,7 +181,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  updateMany = async (records: RecordFieldsDto[]) => {
+  updateMany = async (records: RecordFieldsToUpdateDto[]) => {
     try {
       for (const record of records) await this.update(record)
     } catch (e) {
@@ -198,25 +202,25 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
   read = async (filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
-    const record = this._db.prepare(query).get(values) as RecordFieldsDto | undefined
+    const record = this._db.prepare(query).get(values) as PersistedRecordFieldsDto | undefined
     return record ? this._postprocess(record) : undefined
   }
 
   readById = async (id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = ?`
-    const record = this._db.prepare(query).get([id]) as RecordFieldsDto | undefined
+    const record = this._db.prepare(query).get([id]) as PersistedRecordFieldsDto | undefined
     return record ? this._postprocess(record) : undefined
   }
 
   list = async (filter?: FilterDto) => {
     if (!filter) {
       const query = `SELECT * FROM ${this._name}_view`
-      const records = this._db.prepare(query).all() as RecordFieldsDto[]
+      const records = this._db.prepare(query).all() as PersistedRecordFieldsDto[]
       return records.map(this._postprocess)
     }
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const records = this._db.prepare(query).all(values) as RecordFieldsDto[]
+    const records = this._db.prepare(query).all(values) as PersistedRecordFieldsDto[]
     return records.map(this._postprocess)
   }
 
@@ -267,7 +271,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     return field.formula || (field.type === 'TEXT[]' && field.table)
   }
 
-  private _splitFields = (record: RecordFieldsDto | RecordFieldsDto) => {
+  private _splitFields = (record: RecordFields) => {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(record)) {
@@ -347,8 +351,8 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     )
   }
 
-  private _postprocess = (persistedRecord: RecordFieldsDto): RecordFieldsDto => {
-    return Object.keys(persistedRecord).reduce((acc: RecordFieldsDto, key) => {
+  private _postprocess = (persistedRecord: PersistedRecordFieldsDto): PersistedRecordFieldsDto => {
+    return Object.keys(persistedRecord).reduce((acc: PersistedRecordFieldsDto, key) => {
       const value = persistedRecord[key]
       const field = this._fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc

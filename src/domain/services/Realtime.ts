@@ -1,4 +1,4 @@
-import type { PersistedRecord } from '@domain/entities/Record/Persisted'
+import type { Record } from '@domain/entities/Record'
 import type { Logger } from './Logger'
 import type { Table } from '@domain/entities/Table'
 import type { IdGenerator } from './IdGenerator'
@@ -31,7 +31,7 @@ interface RealtimeListener {
   id: string
   action: RealtimeAction
   table: string
-  callback: (record: PersistedRecord) => Promise<void>
+  callback: (record: Record) => Promise<void>
 }
 
 export class Realtime {
@@ -59,7 +59,7 @@ export class Realtime {
     }
   }
 
-  onInsert = (table: string, callback: (record: PersistedRecord) => Promise<void>) => {
+  onInsert = (table: string, callback: (record: Record) => Promise<void>) => {
     const { idGenerator, logger } = this._services
     const id = idGenerator.forListener()
     this._listeners.push({

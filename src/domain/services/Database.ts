@@ -4,6 +4,7 @@ import type { Logger } from './Logger'
 import type { RealtimeEvent } from './Realtime'
 import type { Field } from '@domain/entities/Field'
 import type { Monitor } from './Monitor'
+import type { IdGenerator } from './IdGenerator'
 
 export type DatabaseDriverName = 'PostgreSQL' | 'SQLite'
 
@@ -15,6 +16,7 @@ export interface DatabaseConfig {
 export interface DatabaseServices {
   logger: Logger
   monitor: Monitor
+  idGenerator: IdGenerator
 }
 
 export type DatabaseEventType = 'notification' | 'error'

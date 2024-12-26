@@ -41,7 +41,7 @@ Database.each(test, (dbConfig) => {
                 const { name } = inputData
                 const { database } = services
                 const user = await database.table('users').insert({ name })
-                return { user: user.fields }
+                return { user }
               }),
             },
           ],
@@ -63,8 +63,71 @@ Database.each(test, (dbConfig) => {
 
     // THEN
     const user = await database.table('users').readById(response.user.id)
-    expect(response.user.name).toBe('John')
+    expect(response.user.fields.name).toBe('John')
     expect(user?.name).toBe('John')
+  })
+
+  test('should run a Typescript code with a database many insert', async ({ request }) => {
+    // GIVEN
+    const config: Config = {
+      name: 'App',
+      tables: [{ name: 'users', fields: [{ name: 'name', field: 'SingleLineText' }] }],
+      automations: [
+        {
+          name: 'createUsers',
+          trigger: {
+            service: 'Http',
+            event: 'ApiCalled',
+            path: 'create-users',
+            input: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+              },
+            },
+            output: {
+              users: {
+                json: '{{runJavascriptCode.users}}',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunTypescript',
+              name: 'runJavascriptCode',
+              input: {
+                name: '{{trigger.body.name}}',
+              },
+              code: String(async function (context: CodeRunnerContext<{ name: string }>) {
+                const { inputData, services } = context
+                const { name } = inputData
+                const { database } = services
+                const users = await database.table('users').insertMany([{ name }, { name }])
+                return { users }
+              }),
+            },
+          ],
+        },
+      ],
+      database: dbConfig,
+    }
+    const app = new App()
+    const { url } = await app.start(config)
+
+    // WHEN
+    const response = await request
+      .post(`${url}/api/automation/create-users`, {
+        data: {
+          name: 'John',
+        },
+      })
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.users).toHaveLength(2)
+    expect(response.users[0].fields.name).toBe('John')
+    expect(response.users[1].fields.name).toBe('John')
   })
 
   test('should run a Typescript code with a database update', async ({ request }) => {
@@ -109,7 +172,7 @@ Database.each(test, (dbConfig) => {
                 const { name, id } = inputData
                 const { database } = services
                 const user = await database.table('users').update(id, { name })
-                return { user: user.fields }
+                return { user }
               }),
             },
           ],
@@ -133,8 +196,80 @@ Database.each(test, (dbConfig) => {
 
     // THEN
     const user = await database.table('users').readById(response.user.id)
-    expect(response.user.name).toBe('John Doe')
+    expect(response.user.fields.name).toBe('John Doe')
     expect(user?.name).toBe('John Doe')
+  })
+
+  test('should run a Typescript code with a database many update', async ({ request }) => {
+    // GIVEN
+    const database = new Database(dbConfig)
+    const config: Config = {
+      name: 'App',
+      tables: [{ name: 'users', fields: [{ name: 'name', field: 'SingleLineText' }] }],
+      automations: [
+        {
+          name: 'updateUsers',
+          trigger: {
+            service: 'Http',
+            event: 'ApiCalled',
+            path: 'update-users',
+            input: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+              },
+            },
+            output: {
+              users: {
+                json: '{{runJavascriptCode.users}}',
+              },
+            },
+          },
+          actions: [
+            {
+              service: 'Code',
+              action: 'RunTypescript',
+              name: 'runJavascriptCode',
+              input: {
+                id: '{{trigger.body.id}}',
+                name: '{{trigger.body.name}}',
+              },
+              code: String(async function (
+                context: CodeRunnerContext<{ id: string; name: string }>
+              ) {
+                const { inputData, services } = context
+                const { name } = inputData
+                const { database } = services
+                const users = await database.table('users').updateMany([
+                  { id: '1', fields: { name } },
+                  { id: '2', fields: { name } },
+                ])
+                return { users }
+              }),
+            },
+          ],
+        },
+      ],
+      database: dbConfig,
+    }
+    const app = new App()
+    const { url } = await app.start(config)
+    await database.table('users').insert({ id: '1', name: 'John', created_at: new Date() })
+    await database.table('users').insert({ id: '2', name: 'John', created_at: new Date() })
+
+    // WHEN
+    const response = await request
+      .post(`${url}/api/automation/update-users`, {
+        data: {
+          name: 'John Doe',
+        },
+      })
+      .then((res) => res.json())
+
+    // THEN
+    expect(response.users.length).toBe(2)
+    expect(response.users[0].fields.name).toBe('John Doe')
+    expect(response.users[1].fields.name).toBe('John Doe')
   })
 
   test('should run a Typescript code with a database read', async ({ request }) => {

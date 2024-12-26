@@ -1,4 +1,4 @@
-import type { PersistedRecord } from '@domain/entities/Record/Persisted'
+import type { Record } from '@domain/entities/Record'
 import type { Queue } from '@domain/services/Queue'
 import type { Realtime } from '@domain/services/Realtime'
 import type { BaseTrigger, BaseTriggerConfig } from '../base'
@@ -27,7 +27,7 @@ export class RecordCreatedDatabaseTrigger implements BaseTrigger {
     realtime.onInsert(table, this.onInsert)
   }
 
-  onInsert = async (record: PersistedRecord) => {
+  onInsert = async (record: Record) => {
     const { queue } = this._services
     const { automation } = this._config
     await queue.add(automation, record.fields)

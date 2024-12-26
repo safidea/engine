@@ -15,11 +15,11 @@ export type NotionTablePagePropertyValue =
 
 export class NotionTablePage {
   constructor(
-    public id: string,
-    public properties: NotionTablePageProperties,
-    public created_time: string,
-    public last_edited_time: string,
-    public archived: boolean
+    readonly id: string,
+    readonly properties: NotionTablePageProperties,
+    readonly created_time: string,
+    readonly last_edited_time: string,
+    readonly archived: boolean
   ) {}
 
   getTitle(name: string): string | null {

@@ -11,6 +11,7 @@ import type {
   CodeRunnerContextServicesLogger,
   CodeRunnerServices,
 } from './CodeRunner'
+import type { RecordFields, UpdateRecordFields } from '@domain/entities/Record'
 
 export type CodeCompilerServices = CodeRunnerServices
 
@@ -47,33 +48,28 @@ export class CodeCompiler {
           throw new Error(`CodeRunner: Database table "${name}" not found`)
         }
         return {
-          insert: async (data: unknown) => {
-            const { record, error } = await table.insert(data)
-            if (error)
-              throw new Error(
-                `CodeRunner: table(${name}).insert: ${JSON.stringify(error, null, 2)}`
-              )
-            return record
+          insert: async (data: RecordFields) => {
+            return await table.db.insert(data)
           },
-          update: async (id: string, data: unknown) => {
-            const { record, error } = await table.update(id, data)
-            if (error)
-              throw new Error(
-                `CodeRunner: table(${name}).update: ${JSON.stringify(error, null, 2)}`
-              )
-            return record
+          insertMany: async (data: RecordFields[]) => {
+            return await table.db.insertMany(data)
           },
-          read: async (filter: FilterConfig) => {
-            return table.read(filter)
+          update: async (id: string, data: RecordFields) => {
+            return await table.db.update(id, data)
+          },
+          updateMany: async (data: UpdateRecordFields[]) => {
+            return await table.db.updateMany(data)
+          },
+          read: async (filterConfig: FilterConfig) => {
+            const filter = FilterMapper.toEntity(filterConfig)
+            return table.db.read(filter)
           },
           readById: async (id: string) => {
-            return table.readById(id)
+            return table.db.readById(id)
           },
-          list: async (filter?: FilterConfig) => {
-            const { records, error } = await table.list(filter)
-            if (error)
-              throw new Error(`CodeRunner: table(${name}).list: ${JSON.stringify(error, null, 2)}`)
-            return records
+          list: async (filterConfig?: FilterConfig) => {
+            const filter = filterConfig && FilterMapper.toEntity(filterConfig)
+            return await table.db.list(filter)
           },
         }
       },

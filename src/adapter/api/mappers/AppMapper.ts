@@ -49,7 +49,11 @@ export class AppMapper {
     const iconLibrary = IconLibraryMapper.toService(drivers)
     const fontLibrary = FontLibraryMapper.toService(drivers, { server, idGenerator })
     const markdownParser = MarkdownParserMapper.toService(drivers, { client })
-    const database = DatabaseMapper.toService(drivers, config.database, { logger, monitor })
+    const database = DatabaseMapper.toService(drivers, config.database, {
+      logger,
+      monitor,
+      idGenerator,
+    })
     const theme = ThemeMapper.toService(drivers, config.theme, { server, fontLibrary })
     const mailer = MailerMapper.toService(drivers, config.mailer, { logger })
     const spreadsheetLoader = SpreadsheetLoaderMapper.toService(drivers, { templateCompiler })

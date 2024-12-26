@@ -1,10 +1,13 @@
-import type { CreatedRecord } from '@domain/entities/Record/Created'
 import { RecordMapper } from '@adapter/spi/mappers/RecordMapper'
 import { FilterMapper } from '../mappers/FilterMapper'
 import type { Filter, FilterDto } from '@domain/entities/Filter'
 import type { IDatabaseTableSpi } from '@domain/services/DatabaseTable'
-import type { UpdatedRecord } from '@domain/entities/Record/Updated'
-import type { RecordFieldsDto } from '../dtos/RecordDto'
+import type {
+  PersistedRecordFieldsDto,
+  RecordFieldsToCreateDto,
+  RecordFieldsToUpdateDto,
+} from '../dtos/RecordDto'
+import type { RecordFieldsToCreate, RecordFieldsToUpdate } from '@domain/entities/Record'
 
 export interface IDatabaseTableDriver {
   exists: () => Promise<boolean>
@@ -12,14 +15,14 @@ export interface IDatabaseTableDriver {
   dropView: () => Promise<void>
   migrate: () => Promise<void>
   createView: () => Promise<void>
-  insert: (record: RecordFieldsDto) => Promise<void>
-  insertMany: (records: RecordFieldsDto[]) => Promise<void>
-  update: (record: RecordFieldsDto) => Promise<void>
-  updateMany: (records: RecordFieldsDto[]) => Promise<void>
+  insert: (record: RecordFieldsToCreateDto) => Promise<void>
+  insertMany: (records: RecordFieldsToCreateDto[]) => Promise<void>
+  update: (record: RecordFieldsToUpdateDto) => Promise<void>
+  updateMany: (records: RecordFieldsToUpdateDto[]) => Promise<void>
   delete: (id: string) => Promise<void>
-  read: (filter: FilterDto) => Promise<RecordFieldsDto | undefined>
-  readById: (id: string) => Promise<RecordFieldsDto | undefined>
-  list: (filter?: FilterDto) => Promise<RecordFieldsDto[]>
+  read: (filter: FilterDto) => Promise<PersistedRecordFieldsDto | undefined>
+  readById: (id: string) => Promise<PersistedRecordFieldsDto | undefined>
+  list: (filter?: FilterDto) => Promise<PersistedRecordFieldsDto[]>
 }
 
 export class DatabaseTableSpi implements IDatabaseTableSpi {
@@ -45,24 +48,20 @@ export class DatabaseTableSpi implements IDatabaseTableSpi {
     await this._driver.createView()
   }
 
-  insert = async (createdRecord: CreatedRecord) => {
-    const createdRecordDto = RecordMapper.toDto(createdRecord)
-    await this._driver.insert(createdRecordDto)
+  insert = async (record: RecordFieldsToCreate) => {
+    await this._driver.insert(record)
   }
 
-  insertMany = async (createdRecords: CreatedRecord[]) => {
-    const createdRecordDtos = createdRecords.map(RecordMapper.toDto)
-    await this._driver.insertMany(createdRecordDtos)
+  insertMany = async (records: RecordFieldsToCreate[]) => {
+    await this._driver.insertMany(records)
   }
 
-  update = async (updatedRecord: UpdatedRecord) => {
-    const updatedRecordDto = RecordMapper.toDto(updatedRecord)
-    await this._driver.update(updatedRecordDto)
+  update = async (record: RecordFieldsToUpdate) => {
+    await this._driver.update(record)
   }
 
-  updateMany = async (updatedRecords: UpdatedRecord[]) => {
-    const updatedRecordDtos = updatedRecords.map(RecordMapper.toDto)
-    await this._driver.updateMany(updatedRecordDtos)
+  updateMany = async (records: RecordFieldsToUpdate[]) => {
+    await this._driver.updateMany(records)
   }
 
   delete = async (id: string) => {

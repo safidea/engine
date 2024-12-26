@@ -3,7 +3,7 @@ import type { AutomationContext } from '../../Automation/Context'
 import type { Table } from '../../Table'
 import type { Template } from '@domain/services/Template'
 import type { TemplateCompiler } from '@domain/services/TemplateCompiler'
-import type { JsonRecordFields } from '@domain/entities/Record/base'
+import type { Record } from '@domain/entities/Record'
 
 export interface ReadRecordDatabaseActionConfig extends BaseActionConfig {
   id: string
@@ -19,7 +19,7 @@ export interface ReadRecordDatabaseActionEntities {
 }
 
 type Input = { id: string }
-type Output = { record: JsonRecordFields }
+type Output = { record: Record }
 
 export class ReadRecordDatabaseAction extends BaseAction<Input, Output> {
   private _id: Template
@@ -43,7 +43,7 @@ export class ReadRecordDatabaseAction extends BaseAction<Input, Output> {
   }
 
   protected _process = async (input: Input) => {
-    const recordPersisted = await this._table.db.readByIdOrThrow(input.id)
-    return { record: recordPersisted.toJson() }
+    const record = await this._table.db.readByIdOrThrow(input.id)
+    return { record }
   }
 }
