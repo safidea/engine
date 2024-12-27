@@ -1,3 +1,12 @@
+## [0.34.53](https://github.com/latechforce/engine/compare/v0.34.52...v0.34.53) (2024-12-27)
+
+
+### Bug Fixes
+
+* **eslint:** update config ([07676c3](https://github.com/latechforce/engine/commit/07676c33a6887bc7059dd9c3583ab3cbeed484ea))
+* **package:** update ([8618e52](https://github.com/latechforce/engine/commit/8618e52e49e22dab2fbf2ec3f04ddacfaa920de7))
+* **RunTypescript:** add default value to Types ([22aa09f](https://github.com/latechforce/engine/commit/22aa09f27d013ba5ca00d070bbdf038cd9d70a15))
+
 ## [0.34.52](https://github.com/latechforce/engine/compare/v0.34.51...v0.34.52) (2024-12-27)
 
 
