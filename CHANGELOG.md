@@ -1,3 +1,10 @@
+## [0.34.54](https://github.com/latechforce/engine/compare/v0.34.53...v0.34.54) (2024-12-27)
+
+
+### Bug Fixes
+
+* **Notion:** convert metadatas from string to Date ([0fe7dbc](https://github.com/latechforce/engine/commit/0fe7dbc629aed9194624bfdcb376985ca4191a6a))
+
 ## [0.34.53](https://github.com/latechforce/engine/compare/v0.34.52...v0.34.53) (2024-12-27)
 
 
