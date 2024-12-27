@@ -11,8 +11,8 @@ export class NotionTablePageMapper {
     return new NotionTablePage(
       tablePageDto.id,
       tablePageDto.properties,
-      tablePageDto.created_time,
-      tablePageDto.last_edited_time,
+      new Date(tablePageDto.created_time),
+      new Date(tablePageDto.last_edited_time),
       tablePageDto.archived
     )
   }

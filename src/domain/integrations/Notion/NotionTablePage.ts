@@ -20,8 +20,8 @@ export class NotionTablePage<T extends NotionTablePageProperties = NotionTablePa
   constructor(
     id: string,
     readonly properties: T,
-    readonly created_time: string,
-    readonly last_edited_time: string,
+    readonly created_time: Date,
+    readonly last_edited_time: Date,
     readonly archived: boolean
   ) {
     this.id = id.replace(/-/g, '')

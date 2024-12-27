@@ -37,8 +37,8 @@ beforeEach(() => {
   notionTablePage = new NotionTablePage(
     'page-id',
     mockProperties,
-    '2023-01-01T00:00:00Z',
-    '2023-01-02T00:00:00Z',
+    new Date('2023-01-01T00:00:00Z'),
+    new Date('2023-01-02T00:00:00Z'),
     false
   )
 })
