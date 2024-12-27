@@ -1,3 +1,11 @@
+## [0.34.51](https://github.com/latechforce/engine/compare/v0.34.50...v0.34.51) (2024-12-27)
+
+
+### Bug Fixes
+
+* **Notion:** add green test: should get a table id without -' ([5283d82](https://github.com/latechforce/engine/commit/5283d82fa9b995a6559145bc22bbcfc875b6c3ca))
+* **Notion:** fix broken test: should start an automation when a Notion page is created in a table ([d6ea5cf](https://github.com/latechforce/engine/commit/d6ea5cfc3999220c56332c1463d87bb2bb0d2cd2))
+
 ## [0.34.50](https://github.com/latechforce/engine/compare/v0.34.49...v0.34.50) (2024-12-26)
 
 
