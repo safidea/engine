@@ -29,6 +29,12 @@ Database.SQLite(test, async (dbConfig) => {
         },
       },
       database: dbConfig,
+      loggers: [
+        {
+          driver: 'Console',
+          level: 'debug',
+        },
+      ],
     }
     const app = new App()
     await app.start(config)

@@ -14,16 +14,16 @@ export type NotionTablePagePropertyValue =
   | NotionTablePagePropertyFile[]
 
 export class NotionTablePage {
+  readonly id: string
+
   constructor(
-    private _id: string,
+    id: string,
     readonly properties: NotionTablePageProperties,
     readonly created_time: string,
     readonly last_edited_time: string,
     readonly archived: boolean
-  ) {}
-
-  get id() {
-    return this._id.replace(/-/g, '')
+  ) {
+    this.id = id.replace(/-/g, '')
   }
 
   getTitle(name: string): string | null {

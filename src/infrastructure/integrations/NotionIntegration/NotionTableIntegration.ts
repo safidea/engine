@@ -21,19 +21,17 @@ import type {
 import { format, parse, formatISO } from 'date-fns'
 
 export class NotionTableIntegration implements INotionTableIntegration {
+  readonly id: string
+  readonly name: string
+
   constructor(
     private _api: Client,
     private _database: DatabaseObjectResponse,
     private _retry: <T>(fn: () => Promise<T>) => Promise<T>,
-    private _id: string
-  ) {}
-
-  get id() {
-    return this._id.replace(/-/g, '')
-  }
-
-  get name() {
-    return this._database.title.map((title) => title.plain_text).join('')
+    id: string
+  ) {
+    this.id = id.replace(/-/g, '')
+    this.name = this._database.title.map((title) => title.plain_text).join('')
   }
 
   create = async (page: NotionTablePageProperties) => {
@@ -387,7 +385,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
       properties[key] = getPropertyValue(property)
     }
     return {
-      id: page.id,
+      id: page.id.replace(/-/g, ''),
       properties,
       created_time: page.created_time,
       last_edited_time: page.last_edited_time,
