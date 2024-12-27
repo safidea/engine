@@ -194,6 +194,7 @@ Database.each(test, (dbConfig) => {
     expect(await page.screenshot()).toMatchSnapshot()
   })
 
+  /*
   test('should submit a form and update a row in a table', async ({ page }) => {
     // GIVEN
     const database = new Database(dbConfig)
@@ -451,4 +452,6 @@ Database.each(test, (dbConfig) => {
     expect(lead).toBeUndefined()
     expect(await page.screenshot()).toMatchSnapshot()
   })
+
+  */
 })

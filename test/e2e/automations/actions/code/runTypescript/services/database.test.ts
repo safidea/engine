@@ -64,7 +64,7 @@ Database.each(test, (dbConfig) => {
     // THEN
     const user = await database.table('users').readById(response.user.id)
     expect(response.user.fields.name).toBe('John')
-    expect(user?.name).toBe('John')
+    expect(user?.fields.name).toBe('John')
   })
 
   test('should run a Typescript code with a database many insert', async ({ request }) => {
@@ -182,7 +182,9 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('users').insert({ id: '1', name: 'John', created_at: new Date() })
+    await database
+      .table('users')
+      .insert({ id: '1', fields: { name: 'John' }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -197,7 +199,7 @@ Database.each(test, (dbConfig) => {
     // THEN
     const user = await database.table('users').readById(response.user.id)
     expect(response.user.fields.name).toBe('John Doe')
-    expect(user?.name).toBe('John Doe')
+    expect(user?.fields.name).toBe('John Doe')
   })
 
   test('should run a Typescript code with a database many update', async ({ request }) => {
@@ -254,8 +256,12 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('users').insert({ id: '1', name: 'John', created_at: new Date() })
-    await database.table('users').insert({ id: '2', name: 'John', created_at: new Date() })
+    await database
+      .table('users')
+      .insert({ id: '1', fields: { name: 'John' }, created_at: new Date() })
+    await database
+      .table('users')
+      .insert({ id: '2', fields: { name: 'John' }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -309,7 +315,8 @@ Database.each(test, (dbConfig) => {
                 const { inputData, services } = context
                 const { database } = services
                 const { id } = inputData
-                const user = await database.table('users').read({
+                type User = { name: string }
+                const user = await database.table<User>('users').read({
                   field: 'id',
                   operator: 'Is',
                   value: id,
@@ -324,7 +331,9 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
+    await database
+      .table('users')
+      .insert({ id: '1', fields: { name: 'John Doe' }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -376,7 +385,8 @@ Database.each(test, (dbConfig) => {
                 const { inputData, services } = context
                 const { database } = services
                 const { id } = inputData
-                const user = await database.table('users').readById(id)
+                type User = { name: string }
+                const user = await database.table<User>('users').readById(id)
                 return { user: user?.fields }
               }),
             },
@@ -387,7 +397,9 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
+    await database
+      .table('users')
+      .insert({ id: '1', fields: { name: 'John Doe' }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -450,7 +462,9 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('users').insert({ id: '1', name: 'John Doe', created_at: new Date() })
+    await database
+      .table('users')
+      .insert({ id: '1', fields: { name: 'John Doe' }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -517,7 +531,7 @@ Database.each(test, (dbConfig) => {
     const { url } = await app.start(config)
     await database
       .table('users', [{ name: 'age', type: 'NUMERIC' }])
-      .insert({ id: '1', age: 35, created_at: new Date() })
+      .insert({ id: '1', fields: { age: 35 }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -584,7 +598,7 @@ Database.each(test, (dbConfig) => {
     const { url } = await app.start(config)
     await database
       .table('users', [{ name: 'valid', type: 'BOOLEAN' }])
-      .insert({ id: '1', valid: true, created_at: new Date() })
+      .insert({ id: '1', fields: { valid: true }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -650,7 +664,7 @@ Database.each(test, (dbConfig) => {
     const birthdate = new Date()
     await database
       .table('users', [{ name: 'birthdate', type: 'TIMESTAMP' }])
-      .insert({ id: '1', birthdate, created_at: new Date() })
+      .insert({ id: '1', fields: { birthdate }, created_at: new Date() })
 
     // WHEN
     const response = await request
@@ -691,7 +705,8 @@ Database.each(test, (dbConfig) => {
               name: 'runJavascriptCode',
               code: String(async function (context: CodeRunnerContext) {
                 const { database } = context.services
-                const users = await database.table('users').list()
+                type User = { name: string }
+                const users = await database.table<User>('users').list()
                 return { users: users.map((user) => user.fields) }
               }),
             },
@@ -703,9 +718,9 @@ Database.each(test, (dbConfig) => {
     const app = new App()
     const { url } = await app.start(config)
     await database.table('users').insertMany([
-      { id: '1', name: 'John Doe', created_at: new Date() },
-      { id: '2', name: 'John Wick', created_at: new Date() },
-      { id: '3', name: 'John Connor', created_at: new Date() },
+      { id: '1', fields: { name: 'John Doe' }, created_at: new Date() },
+      { id: '2', fields: { name: 'John Wick' }, created_at: new Date() },
+      { id: '3', fields: { name: 'John Connor' }, created_at: new Date() },
     ])
 
     // WHEN
@@ -766,9 +781,9 @@ Database.each(test, (dbConfig) => {
     const app = new App()
     const { url } = await app.start(config)
     await database.table('users').insertMany([
-      { id: '1', name: 'John Doe', created_at: new Date() },
-      { id: '2', name: 'John Wick', created_at: new Date() },
-      { id: '3', name: 'John Connor', created_at: new Date() },
+      { id: '1', fields: { name: 'John Doe' }, created_at: new Date() },
+      { id: '2', fields: { name: 'John Wick' }, created_at: new Date() },
+      { id: '3', fields: { name: 'John Connor' }, created_at: new Date() },
     ])
 
     // WHEN
@@ -825,9 +840,9 @@ Database.each(test, (dbConfig) => {
     const app = new App()
     const { url } = await app.start(config)
     await database.table('users').insertMany([
-      { id: '1', name: 'John Doe', created_at: new Date() },
-      { id: '2', name: 'John Wick', created_at: new Date() },
-      { id: '3', name: 'John Connor', created_at: new Date() },
+      { id: '1', fields: { name: 'John Doe' }, created_at: new Date() },
+      { id: '2', fields: { name: 'John Wick' }, created_at: new Date() },
+      { id: '3', fields: { name: 'John Connor' }, created_at: new Date() },
     ])
 
     // WHEN

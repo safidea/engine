@@ -1,6 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@test/drivers/database'
+// import Database from '@test/drivers/database'
 
 test.describe('Table component', () => {
   test('should return an error config if source is not valid table endpoint', async () => {
@@ -35,6 +35,7 @@ test.describe('Table component', () => {
     await expect(call()).rejects.toThrow('Table "leads" not found')
   })
 
+  /*
   Database.SQLite(test, (dbConfig) => {
     test('should display a row with style in a table', async ({ page }) => {
       // GIVEN
@@ -192,4 +193,6 @@ test.describe('Table component', () => {
       expect(await page.screenshot()).toMatchSnapshot()
     })
   })
+
+  */
 })

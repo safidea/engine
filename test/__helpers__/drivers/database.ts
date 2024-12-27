@@ -10,6 +10,7 @@ import { customAlphabet } from 'nanoid'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 import type { PersistedRecordFields } from '@domain/entities/Record'
 import type { FilterDto } from '@domain/entities/Filter'
+import type { AutomationHistoryRecord } from '@domain/entities/Automation/History'
 
 async function checkDatabaseAvailability(client: pg.Client): Promise<boolean> {
   try {
@@ -70,11 +71,13 @@ export default class Database extends DatabaseDriver {
   }
 
   waitForAutomationHistory = async (name: string, filter?: FilterDto) => {
-    let history: PersistedRecordFields | undefined
+    let history: PersistedRecordFields<AutomationHistoryRecord> | undefined
     let attempts = 0
     do {
-      const rows = await this.table('_automations.histories').list(filter)
-      history = rows.find((row) => row.automation_name === name && row.status === 'succeed')
+      const rows = await this.table('_automations.histories').list<AutomationHistoryRecord>(filter)
+      history = rows.find(
+        (row) => row.fields.automation_name === name && row.fields.status === 'succeed'
+      )
       if (!history) {
         await new Promise((resolve) => setTimeout(resolve, 3000))
       }

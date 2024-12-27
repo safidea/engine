@@ -12,7 +12,7 @@ export type NotionTableAction = 'CREATE'
 interface Listener {
   id: string
   action: NotionTableAction
-  callback: (page: NotionTablePage) => Promise<void>
+  callback: <T extends NotionTablePageProperties>(page: NotionTablePage<T>) => Promise<void>
 }
 
 export interface NotionTableServices {
@@ -23,11 +23,11 @@ export interface NotionTableServices {
 export interface INotionTableSpi {
   id: string
   name: string
-  create: (page: NotionTablePageProperties) => Promise<NotionTablePage>
-  update: (id: string, page: NotionTablePageProperties) => Promise<NotionTablePage>
-  retrieve: (id: string) => Promise<NotionTablePage>
+  create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePage<T>>
+  update: <T extends NotionTablePageProperties>(id: string, page: T) => Promise<NotionTablePage<T>>
+  retrieve: <T extends NotionTablePageProperties>(id: string) => Promise<NotionTablePage<T>>
   archive: (id: string) => Promise<void>
-  list: (filter?: Filter) => Promise<NotionTablePage[]>
+  list: <T extends NotionTablePageProperties>(filter?: Filter) => Promise<NotionTablePage<T>[]>
 }
 
 export class NotionTable {
@@ -85,31 +85,32 @@ export class NotionTable {
     return id
   }
 
-  create = async (page: NotionTablePageProperties): Promise<NotionTablePage> => {
+  create = async <T extends NotionTablePageProperties>(page: T): Promise<NotionTablePage<T>> => {
     const preprocessPage = await this._preprocessPage(page)
-    return this._spi.create(preprocessPage)
+    return this._spi.create<T>(preprocessPage)
   }
 
-  update = async (id: string, page: NotionTablePageProperties): Promise<NotionTablePage> => {
+  update = async <T extends NotionTablePageProperties>(
+    id: string,
+    page: T
+  ): Promise<NotionTablePage<T>> => {
     const preprocessPage = await this._preprocessPage(page)
-    return this._spi.update(id, preprocessPage)
+    return this._spi.update<T>(id, preprocessPage)
   }
 
-  retrieve = async (id: string) => {
-    return this._spi.retrieve(id)
+  retrieve = async <T extends NotionTablePageProperties>(id: string) => {
+    return this._spi.retrieve<T>(id)
   }
 
   archive = async (id: string) => {
     return this._spi.archive(id)
   }
 
-  list = async (filter?: Filter) => {
-    return this._spi.list(filter)
+  list = async <T extends NotionTablePageProperties>(filter?: Filter) => {
+    return this._spi.list<T>(filter)
   }
 
-  private _preprocessPage = async (
-    page: NotionTablePageProperties
-  ): Promise<NotionTablePageProperties> => {
+  private _preprocessPage = async <T>(page: T): Promise<T> => {
     for (const key in page) {
       const value = page[key]
       if (NotionTablePage.isFilesProperty(value)) {

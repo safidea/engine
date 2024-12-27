@@ -61,8 +61,8 @@ Database.each(test, (dbConfig) => {
         { name: 'quantity', type: 'NUMERIC' },
       ])
       .insertMany([
-        { id: '1', price: 3, quantity: 5, created_at: new Date() },
-        { id: '2', price: 5, quantity: 2, created_at: new Date() },
+        { id: '1', fields: { price: 3, quantity: 5 }, created_at: new Date() },
+        { id: '2', fields: { price: 5, quantity: 2 }, created_at: new Date() },
       ])
 
     // WHEN
@@ -134,8 +134,8 @@ Database.each(test, (dbConfig) => {
         { name: 'last_name', type: 'TEXT' },
       ])
       .insertMany([
-        { id: '1', first_name: 'John', last_name: 'Doe', created_at: new Date() },
-        { id: '2', first_name: 'Jean', last_name: 'Dupont', created_at: new Date() },
+        { id: '1', fields: { first_name: 'John', last_name: 'Doe' }, created_at: new Date() },
+        { id: '2', fields: { first_name: 'Jean', last_name: 'Dupont' }, created_at: new Date() },
       ])
 
     // WHEN
@@ -221,8 +221,8 @@ Database.each(test, (dbConfig) => {
         { name: 'quantity', type: 'NUMERIC' },
       ])
       .insertMany([
-        { id: '1', name: 'item 1', price: 3, quantity: 5, created_at: new Date() },
-        { id: '2', name: 'item 2', price: 5, quantity: 2, created_at: new Date() },
+        { id: '1', fields: { name: 'item 1', price: 3, quantity: 5 }, created_at: new Date() },
+        { id: '2', fields: { name: 'item 2', price: 5, quantity: 2 }, created_at: new Date() },
       ])
 
     // WHEN
@@ -279,12 +279,12 @@ Database.each(test, (dbConfig) => {
     await database.table('members').insertMany([
       {
         id: '1',
-        name: 'Jane',
+        fields: { name: 'Jane' },
         created_at: new Date(),
       },
       {
         id: '2',
-        name: 'John',
+        fields: { name: 'John' },
         created_at: new Date(),
       },
     ])
@@ -345,12 +345,12 @@ Database.each(test, (dbConfig) => {
     await database.table('members').insertMany([
       {
         id: '1',
-        name: 'Jane',
+        fields: { name: 'Jane' },
         created_at: new Date(),
       },
       {
         id: '2',
-        name: 'John',
+        fields: { name: 'John' },
         created_at: new Date(),
       },
     ])
@@ -471,8 +471,8 @@ Database.each(test, (dbConfig) => {
     ])
     await items.create()
     await items.insertMany([
-      { id: '1', name: 'item 1', price: 3, quantity: 5, created_at: new Date() },
-      { id: '2', name: 'item 2', price: 5, quantity: 2, created_at: new Date() },
+      { id: '1', fields: { name: 'item 1', price: 3, quantity: 5 }, created_at: new Date() },
+      { id: '2', fields: { name: 'item 2', price: 5, quantity: 2 }, created_at: new Date() },
     ])
     await database
       .table('invoices', [

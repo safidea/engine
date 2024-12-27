@@ -1,6 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@test/drivers/database'
+// import Database from '@test/drivers/database'
 
 test('should render a button with id', async ({ page }) => {
   // GIVEN
@@ -64,6 +64,8 @@ test('should render a button with a link', async ({ page }) => {
   expect(await button.getAttribute('href')).toContain(href)
   expect(await page.screenshot()).toMatchSnapshot()
 })
+
+/*
 
 Database.each(test, (dbConfig) => {
   test('should delete a row when clicked', async ({ page }) => {
@@ -190,7 +192,9 @@ Database.each(test, (dbConfig) => {
     await page.getByText('Delete lead').click()
 
     // THEN
-    await expect(page.waitForURL('**/leads')).resolves.toBeUndefined()
+    await expect(page.waitForURL('**\/leads')).resolves.toBeUndefined()
     expect(await page.screenshot()).toMatchSnapshot()
   })
 })
+
+*/

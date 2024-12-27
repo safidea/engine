@@ -50,7 +50,7 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('records').insert({ id: '1', created_at: new Date() })
+    await database.table('records').insert({ id: '1', fields: {}, created_at: new Date() })
 
     // WHEN
     const response = await request

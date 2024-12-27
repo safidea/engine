@@ -13,12 +13,12 @@ export type NotionTablePagePropertyValue =
   | NotionTablePagePropertyValue[]
   | NotionTablePagePropertyFile[]
 
-export class NotionTablePage {
+export class NotionTablePage<T extends NotionTablePageProperties = NotionTablePageProperties> {
   readonly id: string
 
   constructor(
     id: string,
-    readonly properties: NotionTablePageProperties,
+    readonly properties: T,
     readonly created_time: string,
     readonly last_edited_time: string,
     readonly archived: boolean
@@ -195,9 +195,7 @@ export class NotionTablePage {
     return this.properties[name]
   }
 
-  static isFilesProperty = (
-    value: NotionTablePagePropertyValue
-  ): value is NotionTablePagePropertyFile[] => {
+  static isFilesProperty = (value: unknown): value is NotionTablePagePropertyFile[] => {
     return (
       Array.isArray(value) &&
       value.every(

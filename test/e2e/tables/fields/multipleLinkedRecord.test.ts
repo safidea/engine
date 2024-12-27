@@ -38,8 +38,8 @@ Database.each(test, (dbConfig) => {
     const app = new App()
     const { url } = await app.start(config)
     await database.table('models').insertMany([
-      { id: '1', name: 'Model 3', created_at: new Date() },
-      { id: '2', name: 'Model 5', created_at: new Date() },
+      { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },
+      { id: '2', fields: { name: 'Model 5' }, created_at: new Date() },
     ])
 
     // WHEN
@@ -86,8 +86,8 @@ Database.each(test, (dbConfig) => {
     const app = new App()
     const { url } = await app.start(config)
     await database.table('models').insertMany([
-      { id: '1', name: 'Model 3', created_at: new Date() },
-      { id: '2', name: 'Model 5', created_at: new Date() },
+      { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },
+      { id: '2', fields: { name: 'Model 5' }, created_at: new Date() },
     ])
 
     // WHEN

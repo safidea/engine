@@ -29,12 +29,6 @@ Database.SQLite(test, async (dbConfig) => {
         },
       },
       database: dbConfig,
-      loggers: [
-        {
-          driver: 'Console',
-          level: 'debug',
-        },
-      ],
     }
     const app = new App()
     await app.start(config)
@@ -94,7 +88,7 @@ Database.SQLite(test, async (dbConfig) => {
       operator: 'Contains',
       value: id,
     })
-    const triggerData = JSON.parse(String(history.trigger_data))
+    const triggerData = JSON.parse(String(history.fields.trigger_data))
     expect(triggerData.created_time).toBeDefined()
   })
 

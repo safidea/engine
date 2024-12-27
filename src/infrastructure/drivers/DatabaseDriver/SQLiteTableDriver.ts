@@ -15,6 +15,13 @@ interface ColumnInfo {
   required: number
 }
 
+type Row = {
+  id: string
+  created_at: Date
+  updated_at?: Date
+  [key: string]: RecordFieldValue
+}
+
 export class SQLiteTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
@@ -139,9 +146,10 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     this._db.exec(query)
   }
 
-  insert = async (record: RecordFieldsToCreateDto) => {
+  insert = async <T extends RecordFields>(record: RecordFieldsToCreateDto<T>) => {
     try {
-      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const { id, created_at, fields } = record
+      const { staticFields, manyToManyFields } = this._splitFields({ id, created_at, ...fields })
       const preprocessedFields = this._preprocess(staticFields)
       const keys = Object.keys(preprocessedFields)
       const values = Object.values(preprocessedFields)
@@ -156,17 +164,18 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  insertMany = async (records: RecordFieldsToCreateDto[]) => {
+  insertMany = async <T extends RecordFields>(records: RecordFieldsToCreateDto<T>[]) => {
     try {
-      for (const record of records) await this.insert(record)
+      for (const record of records) await this.insert<T>(record)
     } catch (e) {
       this._throwError(e)
     }
   }
 
-  update = async (record: RecordFieldsToUpdateDto) => {
+  update = async <T extends RecordFields>(record: RecordFieldsToUpdateDto<T>) => {
     try {
-      const { staticFields, manyToManyFields } = this._splitFields(record)
+      const { id, updated_at, fields } = record
+      const { staticFields, manyToManyFields } = this._splitFields({ id, updated_at, ...fields })
       const preprocessedFields = this._preprocess(staticFields)
       const keys = Object.keys(preprocessedFields)
       const values = Object.values(preprocessedFields)
@@ -181,9 +190,9 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  updateMany = async (records: RecordFieldsToUpdateDto[]) => {
+  updateMany = async <T extends RecordFields>(records: RecordFieldsToUpdateDto<T>[]) => {
     try {
-      for (const record of records) await this.update(record)
+      for (const record of records) await this.update<T>(record)
     } catch (e) {
       this._throwError(e)
     }
@@ -199,29 +208,29 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  read = async (filter: FilterDto) => {
+  read = async <T extends RecordFields>(filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
-    const record = this._db.prepare(query).get(values) as PersistedRecordFieldsDto | undefined
-    return record ? this._postprocess(record) : undefined
+    const record = this._db.prepare(query).get(values) as Row | undefined
+    return record ? this._postprocess<T>(record) : undefined
   }
 
-  readById = async (id: string) => {
+  readById = async <T extends RecordFields>(id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = ?`
-    const record = this._db.prepare(query).get([id]) as PersistedRecordFieldsDto | undefined
-    return record ? this._postprocess(record) : undefined
+    const record = this._db.prepare(query).get([id]) as Row | undefined
+    return record ? this._postprocess<T>(record) : undefined
   }
 
-  list = async (filter?: FilterDto) => {
+  list = async <T extends RecordFields>(filter?: FilterDto) => {
     if (!filter) {
       const query = `SELECT * FROM ${this._name}_view`
-      const records = this._db.prepare(query).all() as PersistedRecordFieldsDto[]
-      return records.map(this._postprocess)
+      const records = this._db.prepare(query).all() as Row[]
+      return records.map(this._postprocess<T>)
     }
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const records = this._db.prepare(query).all(values) as PersistedRecordFieldsDto[]
-    return records.map(this._postprocess)
+    const records = this._db.prepare(query).all(values) as Row[]
+    return records.map(this._postprocess<T>)
   }
 
   private _buildColumnsQuery = (fields: FieldDto[]) => {
@@ -271,10 +280,10 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     return field.formula || (field.type === 'TEXT[]' && field.table)
   }
 
-  private _splitFields = (record: RecordFields) => {
+  private _splitFields = (row: Partial<Row>) => {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
-    for (const [key, value] of Object.entries(record)) {
+    for (const [key, value] of Object.entries(row)) {
       const field = this._fields.find((f) => f.name === key)
       if (field?.type === 'TEXT[]' && field.table && Array.isArray(value)) {
         manyToManyFields[key] = value
@@ -351,9 +360,10 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
     )
   }
 
-  private _postprocess = (persistedRecord: PersistedRecordFieldsDto): PersistedRecordFieldsDto => {
-    return Object.keys(persistedRecord).reduce((acc: PersistedRecordFieldsDto, key) => {
-      const value = persistedRecord[key]
+  private _postprocess = <T extends RecordFields>(row: Row): PersistedRecordFieldsDto<T> => {
+    const { id, created_at, updated_at, ...fieldsToProcess } = row
+    const fields = Object.keys(fieldsToProcess).reduce((acc: RecordFields, key) => {
+      const value = row[key]
       const field = this._fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc
       if (field?.type === 'TIMESTAMP') {
@@ -364,7 +374,8 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
         acc[key] = value === 1
       }
       return acc
-    }, persistedRecord)
+    }, fieldsToProcess) as T
+    return { id, created_at, updated_at, fields }
   }
 
   private _convertFilterToConditions = (

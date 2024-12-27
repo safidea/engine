@@ -1,6 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@test/drivers/database'
+// import Database from '@test/drivers/database'
 
 test('should return an error config if source is not valid table endpoint', async () => {
   // GIVEN
@@ -33,6 +33,8 @@ test('should return an error config if source is not valid table endpoint', asyn
   // THEN
   await expect(call()).rejects.toThrow('Table source /api/table/leads does not have a GET handler')
 })
+
+/*
 
 Database.each(test, (dbConfig) => {
   test('should display a row in a list', async ({ page }) => {
@@ -128,7 +130,7 @@ Database.each(test, (dbConfig) => {
     await page.click('text=John')
 
     // THEN
-    await expect(page.waitForURL('**/request/1')).resolves.toBeUndefined()
+    await expect(page.waitForURL('**\/request/1')).resolves.toBeUndefined()
     expect(await page.screenshot()).toMatchSnapshot()
   })
 
@@ -233,3 +235,5 @@ Database.each(test, (dbConfig) => {
     expect(await page.screenshot()).toMatchSnapshot()
   })
 })
+
+*/

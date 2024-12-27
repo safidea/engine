@@ -42,34 +42,34 @@ export class CodeCompiler {
 
   getServices = (): CodeRunnerContextServices => {
     const database: CodeRunnerContextServicesDatabase = {
-      table: (name: string) => {
+      table: <T extends RecordFields>(name: string) => {
         const table = this._entities.tables.find((table) => table.name === name)
         if (!table) {
           throw new Error(`CodeRunner: Database table "${name}" not found`)
         }
         return {
-          insert: async (data: RecordFields) => {
-            return await table.db.insert(data)
+          insert: async (data: T) => {
+            return await table.db.insert<T>(data)
           },
-          insertMany: async (data: RecordFields[]) => {
-            return await table.db.insertMany(data)
+          insertMany: async (data: T[]) => {
+            return await table.db.insertMany<T>(data)
           },
-          update: async (id: string, data: RecordFields) => {
-            return await table.db.update(id, data)
+          update: async (id: string, data: T) => {
+            return await table.db.update<T>(id, data)
           },
-          updateMany: async (data: UpdateRecordFields[]) => {
-            return await table.db.updateMany(data)
+          updateMany: async (data: UpdateRecordFields<T>[]) => {
+            return await table.db.updateMany<T>(data)
           },
           read: async (filterConfig: FilterConfig) => {
             const filter = FilterMapper.toEntity(filterConfig)
-            return table.db.read(filter)
+            return table.db.read<T>(filter)
           },
           readById: async (id: string) => {
-            return table.db.readById(id)
+            return table.db.readById<T>(id)
           },
           list: async (filterConfig?: FilterConfig) => {
             const filter = filterConfig && FilterMapper.toEntity(filterConfig)
-            return await table.db.list(filter)
+            return await table.db.list<T>(filter)
           },
         }
       },
@@ -92,24 +92,24 @@ export class CodeCompiler {
     const { notion } = this._integrations
     return {
       notion: {
-        getTable: async (id: string) => {
+        getTable: async <T extends NotionTablePageProperties>(id: string) => {
           const table = await notion.getTable(id)
           if (!table) {
             throw new Error(`CodeRunner: Notion table "${id}" not found`)
           }
           return {
-            create: async (data: NotionTablePageProperties) => {
-              return table.create(data)
+            create: async (data: T) => {
+              return table.create<T>(data)
             },
-            update: async (id: string, data: NotionTablePageProperties) => {
-              return table.update(id, data)
+            update: async (id: string, data: T) => {
+              return table.update<T>(id, data)
             },
             retrieve: async (id: string) => {
-              return table.retrieve(id)
+              return table.retrieve<T>(id)
             },
             list: async (filterConfig?: FilterConfig) => {
               const filter = filterConfig ? FilterMapper.toEntity(filterConfig) : undefined
-              return table.list(filter)
+              return table.list<T>(filter)
             },
             archive: async (id: string) => {
               return table.archive(id)

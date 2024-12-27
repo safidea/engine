@@ -15,6 +15,13 @@ interface ColumnInfo {
   notnull: number
 }
 
+type Row = {
+  id: string
+  created_at: Date
+  updated_at?: Date
+  [key: string]: RecordFieldValue
+}
+
 export class PostgreSQLTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
@@ -130,11 +137,12 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     await this._db.query(query)
   }
 
-  insert = async (record: RecordFieldsToCreateDto) => {
+  insert = async <T extends RecordFields>(record: RecordFieldsToCreateDto<T>) => {
     try {
-      const { created_at, ...rest } = record
-      const preprocessedFields = this._preprocess(rest)
+      const { created_at, fields, id } = record
+      const preprocessedFields = this._preprocess<T>(fields)
       const { staticFields, manyToManyFields } = this._splitFields({
+        id,
         created_at,
         ...preprocessedFields,
       })
@@ -151,19 +159,20 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  insertMany = async (records: RecordFieldsToCreateDto[]) => {
+  insertMany = async <T extends RecordFields>(records: RecordFieldsToCreateDto<T>[]) => {
     try {
-      for (const record of records) await this.insert(record)
+      for (const record of records) await this.insert<T>(record)
     } catch (e) {
       this._throwError(e)
     }
   }
 
-  update = async (record: RecordFieldsToUpdateDto) => {
+  update = async <T extends RecordFields>(record: RecordFieldsToUpdateDto<T>) => {
     try {
-      const { updated_at, ...rest } = record
-      const preprocessedFields = this._preprocess(rest)
+      const { id, updated_at, fields } = record
+      const preprocessedFields = this._preprocess<T>(fields)
       const { staticFields, manyToManyFields } = this._splitFields({
+        id,
         updated_at,
         ...preprocessedFields,
       })
@@ -180,9 +189,9 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  updateMany = async (records: RecordFieldsToUpdateDto[]) => {
+  updateMany = async <T extends RecordFields>(records: RecordFieldsToUpdateDto<T>[]) => {
     try {
-      for (const record of records) await this.update(record)
+      for (const record of records) await this.update<T>(record)
     } catch (e) {
       this._throwError(e)
     }
@@ -198,29 +207,29 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  read = async (filter: FilterDto) => {
+  read = async <T extends RecordFields>(filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
-    const result = await this._db.query<PersistedRecordFieldsDto>(query, values)
-    return result.rows[0]
+    const result = await this._db.query<Row>(query, values)
+    return this._postprocess<T>(result.rows[0])
   }
 
-  readById = async (id: string) => {
+  readById = async <T extends RecordFields>(id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = $1`
-    const result = await this._db.query<PersistedRecordFieldsDto>(query, [id])
-    return result.rows[0]
+    const result = await this._db.query<Row>(query, [id])
+    return this._postprocess<T>(result.rows[0])
   }
 
-  list = async (filter?: FilterDto) => {
+  list = async <T extends RecordFields>(filter?: FilterDto) => {
     if (!filter) {
       const query = `SELECT * FROM ${this._name}_view`
-      const result = await this._db.query<PersistedRecordFieldsDto>(query)
-      return result.rows
+      const result = await this._db.query<Row>(query)
+      return result.rows.map(this._postprocess<T>)
     }
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const result = await this._db.query<PersistedRecordFieldsDto>(query, values)
-    return result.rows
+    const result = await this._db.query<Row>(query, values)
+    return result.rows.map(this._postprocess<T>)
   }
 
   private _buildColumnsQuery = (fields: FieldDto[]) => {
@@ -266,10 +275,10 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     }
   }
 
-  private _splitFields = (record: RecordFields) => {
+  private _splitFields = (row: Partial<Row>) => {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
-    for (const [key, value] of Object.entries(record)) {
+    for (const [key, value] of Object.entries(row)) {
       const field = this._fields.find((f) => f.name === key)
       if (field?.type === 'TEXT[]' && field.table && Array.isArray(value)) {
         manyToManyFields[key] = value
@@ -337,17 +346,29 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     return result.rows
   }
 
-  private _preprocess = (record: RecordFields): RecordFields => {
+  private _preprocess = <T extends RecordFields>(record: Partial<T>): RecordFields => {
     return Object.keys(record).reduce((acc: RecordFields, key) => {
       const value = record[key]
       const field = this._fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc
-      if (field?.type === 'TIMESTAMP') {
-        if (value instanceof Date) acc[key] = value
-        else acc[key] = new Date(String(value))
+      if (key in acc) {
+        if (field?.type === 'TIMESTAMP') {
+          if (value instanceof Date) acc[key] = value
+          else acc[key] = new Date(String(value))
+        }
       }
       return acc
     }, record)
+  }
+
+  private _postprocess = <T extends RecordFields>(row: Row): PersistedRecordFieldsDto<T> => {
+    const { id, created_at, updated_at, ...fields } = row
+    return {
+      id,
+      created_at,
+      updated_at,
+      fields: fields as T,
+    }
   }
 
   private _convertFilterToConditions = (

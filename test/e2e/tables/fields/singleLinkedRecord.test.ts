@@ -37,7 +37,9 @@ Database.each(test, (dbConfig) => {
     }
     const app = new App()
     const { url } = await app.start(config)
-    await database.table('models').insert({ id: '1', name: 'Model 3', created_at: new Date() })
+    await database
+      .table('models')
+      .insert({ id: '1', fields: { name: 'Model 3' }, created_at: new Date() })
 
     // WHEN
     const { record } = await request
@@ -84,9 +86,9 @@ Database.each(test, (dbConfig) => {
     const models = database.table('models')
     await models.create()
     await models.insertMany([
-      { id: '1', name: 'Model 3', created_at: new Date() },
-      { id: '2', name: 'Model 4', created_at: new Date() },
-      { id: '3', name: 'Model 5', created_at: new Date() },
+      { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },
+      { id: '2', fields: { name: 'Model 4' }, created_at: new Date() },
+      { id: '3', fields: { name: 'Model 5' }, created_at: new Date() },
     ])
     const cars = database.table('cars', [
       {
@@ -97,9 +99,9 @@ Database.each(test, (dbConfig) => {
     ])
     await cars.create()
     await cars.insertMany([
-      { id: '1', name: 'Coccinelle', model: '1', created_at: new Date() },
-      { id: '2', name: 'Golf', model: '2', created_at: new Date() },
-      { id: '3', name: 'Polo', model: '3', created_at: new Date() },
+      { id: '1', fields: { name: 'Coccinelle', model: '1' }, created_at: new Date() },
+      { id: '2', fields: { name: 'Golf', model: '2' }, created_at: new Date() },
+      { id: '3', fields: { name: 'Polo', model: '3' }, created_at: new Date() },
     ])
 
     // WHEN
@@ -151,7 +153,7 @@ Database.each(test, (dbConfig) => {
     await cars.create()
     const models = database.table('models')
     await models.create()
-    await models.insert({ id: '1', name: 'Model 3', created_at: new Date() })
+    await models.insert({ id: '1', fields: { name: 'Model 3' }, created_at: new Date() })
 
     // WHEN
     const call = () => app.start(config)
@@ -161,8 +163,7 @@ Database.each(test, (dbConfig) => {
     await expect(
       cars.insert({
         id: '1',
-        name: 'Coccinelle',
-        model: '1',
+        fields: { name: 'Coccinelle', model: '1' },
         created_at: new Date(),
       })
     ).resolves.not.toThrow()

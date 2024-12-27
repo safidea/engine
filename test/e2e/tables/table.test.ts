@@ -124,8 +124,7 @@ Database.each(test, (dbConfig) => {
     await leads.create()
     await leads.insert({
       id: '1',
-      name: 'test',
-      email_address: 'test@test.com',
+      fields: { name: 'test', email_address: 'test@test.com' },
       created_at: new Date(),
     })
 
@@ -134,8 +133,8 @@ Database.each(test, (dbConfig) => {
 
     // THEN
     const lead = await database.table('leads', [{ name: 'email', type: 'TEXT' }]).readById('1')
-    expect(lead?.email).toBe('test@test.com')
-    expect(lead?.email_address).toBeUndefined()
+    expect(lead?.fields.email).toBe('test@test.com')
+    expect(lead?.fields.email_address).toBeUndefined()
   })
 
   test('should migrate a table with a renamed field that has already be renamed', async () => {
@@ -168,8 +167,7 @@ Database.each(test, (dbConfig) => {
     await leads.create()
     await leads.insert({
       id: '1',
-      name: 'test',
-      email: 'test@test.com',
+      fields: { name: 'test', email: 'test@test.com' },
       created_at: new Date(),
     })
 
@@ -206,9 +204,9 @@ Database.each(test, (dbConfig) => {
     await app.start(config)
     const leads = database.table('leads', [{ name: 'email', type: 'TEXT' }])
     await leads.insertMany([
-      { id: '1', name: 'John', created_at: new Date() },
-      { id: '2', name: 'Paul', created_at: new Date() },
-      { id: '3', name: 'Ringo', created_at: new Date() },
+      { id: '1', fields: { name: 'John' }, created_at: new Date() },
+      { id: '2', fields: { name: 'Paul' }, created_at: new Date() },
+      { id: '3', fields: { name: 'Ringo' }, created_at: new Date() },
     ])
     const newConfig: Config = {
       name: 'leads backend',
@@ -236,8 +234,8 @@ Database.each(test, (dbConfig) => {
     // THEN
     const records = await leads.list()
     expect(records).toHaveLength(3)
-    expect(records[0].email).toBeNull()
-    expect(records[0].name).toBe('John')
+    expect(records[0].fields.email).toBeNull()
+    expect(records[0].fields.name).toBe('John')
   })
 
   test('should return an error if table does not exist', async ({ request }) => {
@@ -335,7 +333,7 @@ Database.each(test, (dbConfig) => {
       .read({ field: 'name', operator: 'Is', value: 'John' })
     expect(record).toBeDefined()
     expect(record!.id).toBeDefined()
-    expect(record!.name).toBe('John')
+    expect(record!.fields.name).toBe('John')
   })
 
   test('should create a record with an id with a length of 24', async ({ request }) => {

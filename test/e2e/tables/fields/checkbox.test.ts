@@ -31,6 +31,6 @@ Database.each(test, (dbConfig) => {
     const record = await database
       .table('scores', [{ name: 'score', type: 'BOOLEAN' }])
       .read({ field: 'valid', operator: 'IsTrue' })
-    expect(record?.valid).toBeTruthy()
+    expect(record?.fields.valid).toBeTruthy()
   })
 })

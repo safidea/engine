@@ -269,7 +269,8 @@ test('should run a Typescript code with a Notion database page retrieve', async 
               const { inputData, integrations, env } = context
               const { notion } = integrations
               const { id } = inputData
-              const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+              type User = { name: string }
+              const table = await notion.getTable<User>(env.TEST_NOTION_TABLE_1_ID)
               const user = await table.retrieve(id)
               return { user }
             }),
@@ -411,7 +412,8 @@ test('should run a Typescript code with a Notion database page list', async ({ r
             code: String(async function (context: CodeRunnerContext<{ ids: string[] }>) {
               const { notion } = context.integrations
               const { ids } = context.inputData
-              const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
+              type User = { name: string }
+              const table = await notion.getTable<User>(env.TEST_NOTION_TABLE_1_ID)
               const users = await table.list({
                 or: ids.map((id) => ({
                   field: 'id',

@@ -58,8 +58,8 @@ export class Automation {
     logger.info(`start automation "${this.name}"`)
     const id = await this._history.create({
       automation_name: this.name,
-      trigger_data: triggerData,
-      actions_data: [],
+      trigger_data: JSON.stringify(triggerData),
+      actions_data: JSON.stringify([]),
       status: 'running',
     })
     const context = new AutomationContext(id, triggerData)

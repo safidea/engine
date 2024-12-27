@@ -31,6 +31,6 @@ Database.each(test, (dbConfig) => {
     const record = await database
       .table('scores', [{ name: 'score', type: 'NUMERIC' }])
       .read({ field: 'score', operator: 'Equals', value: 3 })
-    expect(record?.score).toBe(3)
+    expect(record?.fields.score).toBe(3)
   })
 })

@@ -7,7 +7,11 @@ import type {
   RecordFieldsToCreateDto,
   RecordFieldsToUpdateDto,
 } from '../dtos/RecordDto'
-import type { RecordFieldsToCreate, RecordFieldsToUpdate } from '@domain/entities/Record'
+import type {
+  RecordFields,
+  RecordFieldsToCreate,
+  RecordFieldsToUpdate,
+} from '@domain/entities/Record'
 
 export interface IDatabaseTableDriver {
   exists: () => Promise<boolean>
@@ -15,14 +19,16 @@ export interface IDatabaseTableDriver {
   dropView: () => Promise<void>
   migrate: () => Promise<void>
   createView: () => Promise<void>
-  insert: (record: RecordFieldsToCreateDto) => Promise<void>
-  insertMany: (records: RecordFieldsToCreateDto[]) => Promise<void>
-  update: (record: RecordFieldsToUpdateDto) => Promise<void>
-  updateMany: (records: RecordFieldsToUpdateDto[]) => Promise<void>
+  insert: <T extends RecordFields>(record: RecordFieldsToCreateDto<T>) => Promise<void>
+  insertMany: <T extends RecordFields>(records: RecordFieldsToCreateDto<T>[]) => Promise<void>
+  update: <T extends RecordFields>(record: RecordFieldsToUpdateDto<T>) => Promise<void>
+  updateMany: <T extends RecordFields>(records: RecordFieldsToUpdateDto<T>[]) => Promise<void>
   delete: (id: string) => Promise<void>
-  read: (filter: FilterDto) => Promise<PersistedRecordFieldsDto | undefined>
-  readById: (id: string) => Promise<PersistedRecordFieldsDto | undefined>
-  list: (filter?: FilterDto) => Promise<PersistedRecordFieldsDto[]>
+  read: <T extends RecordFields>(
+    filter: FilterDto
+  ) => Promise<PersistedRecordFieldsDto<T> | undefined>
+  readById: <T extends RecordFields>(id: string) => Promise<PersistedRecordFieldsDto<T> | undefined>
+  list: <T extends RecordFields>(filter?: FilterDto) => Promise<PersistedRecordFieldsDto<T>[]>
 }
 
 export class DatabaseTableSpi implements IDatabaseTableSpi {
@@ -48,19 +54,19 @@ export class DatabaseTableSpi implements IDatabaseTableSpi {
     await this._driver.createView()
   }
 
-  insert = async (record: RecordFieldsToCreate) => {
+  insert = async <T extends RecordFields>(record: RecordFieldsToCreate<T>) => {
     await this._driver.insert(record)
   }
 
-  insertMany = async (records: RecordFieldsToCreate[]) => {
+  insertMany = async <T extends RecordFields>(records: RecordFieldsToCreate<T>[]) => {
     await this._driver.insertMany(records)
   }
 
-  update = async (record: RecordFieldsToUpdate) => {
+  update = async <T extends RecordFields>(record: RecordFieldsToUpdate<T>) => {
     await this._driver.update(record)
   }
 
-  updateMany = async (records: RecordFieldsToUpdate[]) => {
+  updateMany = async <T extends RecordFields>(records: RecordFieldsToUpdate<T>[]) => {
     await this._driver.updateMany(records)
   }
 
@@ -68,23 +74,23 @@ export class DatabaseTableSpi implements IDatabaseTableSpi {
     await this._driver.delete(id)
   }
 
-  read = async (filter: Filter) => {
+  read = async <T extends RecordFields>(filter: Filter) => {
     const filterDto = FilterMapper.toDto(filter)
-    const persistedRecordDto = await this._driver.read(filterDto)
+    const persistedRecordDto = await this._driver.read<T>(filterDto)
     if (!persistedRecordDto) return undefined
-    return RecordMapper.toEntity(persistedRecordDto)
+    return RecordMapper.toEntity<T>(persistedRecordDto)
   }
 
-  readById = async (id: string) => {
-    const persistedRecordDto = await this._driver.readById(id)
+  readById = async <T extends RecordFields>(id: string) => {
+    const persistedRecordDto = await this._driver.readById<T>(id)
     if (!persistedRecordDto) return undefined
-    return RecordMapper.toEntity(persistedRecordDto)
+    return RecordMapper.toEntity<T>(persistedRecordDto)
   }
 
-  list = async (filter?: Filter) => {
-    const persistedRecordsDtos = await this._driver.list(
+  list = async <T extends RecordFields>(filter?: Filter) => {
+    const persistedRecordsDtos = await this._driver.list<T>(
       filter ? FilterMapper.toDto(filter) : undefined
     )
-    return RecordMapper.toManyEntity(persistedRecordsDtos)
+    return RecordMapper.toManyEntity<T>(persistedRecordsDtos)
   }
 }

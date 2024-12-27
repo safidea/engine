@@ -1,38 +1,45 @@
-export type RecordFieldValue = string | number | boolean | Date | null | string[]
+export type RecordFieldValue = string | number | boolean | Date | string[] | null | undefined
 
-export interface RecordFields {
+export type RecordFields = {
   [key: string]: RecordFieldValue
+} & {
+  id?: never
+  created_at?: never
+  updated_at?: never
 }
 
 export interface RecordFieldsConfig {
   [key: string]: string | number | boolean | null | string[]
 }
 
-export type UpdateRecordFields = {
+export type UpdateRecordFields<T extends RecordFields> = {
   id: string
-  fields: RecordFields
+  fields: Partial<T>
 }
 
-export type RecordFieldsToCreate = RecordFields & {
+export type RecordFieldsToCreate<T extends RecordFields> = {
   id: string
   created_at: Date
+  fields: T
 }
 
-export type RecordFieldsToUpdate = RecordFields & {
+export type RecordFieldsToUpdate<T extends RecordFields> = {
   id: string
   updated_at: Date
+  fields: Partial<T>
 }
 
-export type PersistedRecordFields = RecordFields & {
+export type PersistedRecordFields<T extends RecordFields> = {
   id: string
   created_at: Date
   updated_at?: Date
+  fields: T
 }
 
-export class Record {
+export class Record<T extends RecordFields = RecordFields> {
   constructor(
     readonly id: string,
-    readonly fields: RecordFields,
+    readonly fields: T,
     readonly created_at: Date,
     readonly updated_at?: Date
   ) {}

@@ -34,7 +34,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     this.name = this._database.title.map((title) => title.plain_text).join('')
   }
 
-  create = async (page: NotionTablePageProperties) => {
+  create = async <T extends NotionTablePageProperties>(page: T) => {
     const properties = this._preprocessProperties(page)
     const createdPage = await this._retry(() =>
       this._api.pages.create({
@@ -44,16 +44,16 @@ export class NotionTableIntegration implements INotionTableIntegration {
         properties,
       })
     )
-    return this._postprocessPage(this._throwIfNotPageObjectResponse(createdPage))
+    return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(createdPage))
   }
 
-  createMany = async (pages: NotionTablePageProperties[]) => {
-    const pagesCreated: Promise<NotionTablePageDto>[] = []
+  createMany = async <T extends NotionTablePageProperties>(pages: T[]) => {
+    const pagesCreated: Promise<NotionTablePageDto<T>>[] = []
     for (const page of pages) pagesCreated.push(this.create(page))
     return Promise.all(pagesCreated)
   }
 
-  update = async (id: string, page: NotionTablePageProperties) => {
+  update = async <T extends NotionTablePageProperties>(id: string, page: T) => {
     const properties = this._preprocessProperties(page)
     const updatedPage = await this._retry(() =>
       this._api.pages.update({
@@ -61,12 +61,12 @@ export class NotionTableIntegration implements INotionTableIntegration {
         properties,
       })
     )
-    return this._postprocessPage(this._throwIfNotPageObjectResponse(updatedPage))
+    return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(updatedPage))
   }
 
-  retrieve = async (id: string) => {
+  retrieve = async <T extends NotionTablePageProperties>(id: string) => {
     const page = await this._retry(() => this._api.pages.retrieve({ page_id: id }))
-    return this._postprocessPage(this._throwIfNotPageObjectResponse(page))
+    return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(page))
   }
 
   archive = async (id: string) => {
@@ -84,7 +84,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     return Promise.all(pagesArchived)
   }
 
-  list = async (filter?: FilterDto) => {
+  list = async <T extends NotionTablePageProperties>(filter?: FilterDto) => {
     const query: QueryDatabaseParameters = {
       database_id: this._database.id,
     }
@@ -103,7 +103,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
       pages = pages.concat(response.results)
       cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined
     } while (cursor)
-    return pages.map((page) => this._postprocessPage(this._throwIfNotPageObjectResponse(page)))
+    return pages.map((page) => this._postprocessPage<T>(this._throwIfNotPageObjectResponse(page)))
   }
 
   private _preprocessProperties = (
@@ -282,7 +282,9 @@ export class NotionTableIntegration implements INotionTableIntegration {
     return pageProperties
   }
 
-  private _postprocessPage = (page: PageObjectResponse): NotionTablePageDto => {
+  private _postprocessPage = <T extends NotionTablePageProperties>(
+    page: PageObjectResponse
+  ): NotionTablePageDto<T> => {
     const properties: NotionTablePageProperties = {}
     for (const key in page.properties) {
       const property = page.properties[key]
@@ -386,7 +388,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     }
     return {
       id: page.id.replace(/-/g, ''),
-      properties,
+      properties: properties as T,
       created_time: page.created_time,
       last_edited_time: page.last_edited_time,
       archived: page.archived,

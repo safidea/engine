@@ -1,8 +1,13 @@
-import { NotionTablePage } from '@domain/integrations/Notion/NotionTablePage'
+import {
+  NotionTablePage,
+  type NotionTablePageProperties,
+} from '@domain/integrations/Notion/NotionTablePage'
 import type { NotionTablePageDto } from '../dtos/NotionTablePageDto'
 
 export class NotionTablePageMapper {
-  static toEntity(tablePageDto: NotionTablePageDto): NotionTablePage {
+  static toEntity<T extends NotionTablePageProperties>(
+    tablePageDto: NotionTablePageDto<T>
+  ): NotionTablePage<T> {
     return new NotionTablePage(
       tablePageDto.id,
       tablePageDto.properties,
@@ -12,7 +17,9 @@ export class NotionTablePageMapper {
     )
   }
 
-  static toManyEntities(tablePageDtos: NotionTablePageDto[]): NotionTablePage[] {
-    return tablePageDtos.map(NotionTablePageMapper.toEntity)
+  static toManyEntities<T extends NotionTablePageProperties>(
+    tablePageDtos: NotionTablePageDto<T>[]
+  ): NotionTablePage<T>[] {
+    return tablePageDtos.map(NotionTablePageMapper.toEntity<T>)
   }
 }

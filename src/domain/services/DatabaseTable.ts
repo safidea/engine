@@ -24,14 +24,14 @@ export interface IDatabaseTableSpi {
   dropView: () => Promise<void>
   migrate: () => Promise<void>
   createView: () => Promise<void>
-  insert: (record: RecordFieldsToCreate) => Promise<void>
-  insertMany: (records: RecordFieldsToCreate[]) => Promise<void>
-  update: (record: RecordFieldsToUpdate) => Promise<void>
-  updateMany: (records: RecordFieldsToUpdate[]) => Promise<void>
+  insert: <T extends RecordFields>(record: RecordFieldsToCreate<T>) => Promise<void>
+  insertMany: <T extends RecordFields>(records: RecordFieldsToCreate<T>[]) => Promise<void>
+  update: <T extends RecordFields>(record: RecordFieldsToUpdate<T>) => Promise<void>
+  updateMany: <T extends RecordFields>(records: RecordFieldsToUpdate<T>[]) => Promise<void>
   delete: (id: string) => Promise<void>
-  read: (filter: Filter) => Promise<Record | undefined>
-  readById: (id: string) => Promise<Record | undefined>
-  list: (filter?: Filter) => Promise<Record[]>
+  read: <T extends RecordFields>(filter: Filter) => Promise<Record<T> | undefined>
+  readById: <T extends RecordFields>(id: string) => Promise<Record<T> | undefined>
+  list: <T extends RecordFields>(filter?: Filter) => Promise<Record<T>[]>
 }
 
 export class DatabaseTable {
@@ -74,45 +74,46 @@ export class DatabaseTable {
     await this._table.createView()
   }
 
-  insert = async (record: RecordFields) => {
+  insert = async <T extends RecordFields>(record: T) => {
     const { idGenerator, logger } = this._services
     logger.debug(`insert in table "${this._name}"`, record)
     const id = idGenerator.forRecord()
     const created_at = new Date()
-    await this._table.insert({ ...record, id, created_at })
-    return this.readByIdOrThrow(id)
+    await this._table.insert<T>({ fields: record, id, created_at })
+    return this.readByIdOrThrow<T>(id)
   }
 
-  insertMany = async (records: RecordFields[]) => {
+  insertMany = async <T extends RecordFields>(records: T[]) => {
     const { idGenerator, logger } = this._services
     logger.debug(`insert many in table "${this._name}"`, records)
-    const recordsWithId = records.map((record) => {
+    const recordsWithId = records.map((fields) => {
       const id = idGenerator.forRecord()
       const created_at = new Date()
-      return { ...record, id, created_at }
+      return { fields, id, created_at }
     })
-    await this._table.insertMany(recordsWithId)
+    await this._table.insertMany<T>(recordsWithId)
     const filter = new OrFilter(recordsWithId.map((r) => new IsTextFilter('id', r.id)))
-    return this.list(filter)
+    return this.list<T>(filter)
   }
 
-  update = async (id: string, record: RecordFields) => {
+  update = async <T extends RecordFields>(id: string, record: Partial<T>) => {
     this._logger.debug(`update in table "${this._name}"`, record)
     const updated_at = new Date()
-    await this._table.update({ ...record, id, updated_at })
-    return this.readByIdOrThrow(id)
+    await this._table.update<T>({ fields: record, id, updated_at })
+    return this.readByIdOrThrow<T>(id)
   }
 
-  updateMany = async (records: UpdateRecordFields[]) => {
+  updateMany = async <T extends RecordFields>(records: UpdateRecordFields<T>[]) => {
     this._logger.debug(
       `update many in table "${this._name}"`,
       records.map((r) => r.fields)
     )
-    await this._table.updateMany(
-      records.map((r) => ({ ...r.fields, id: r.id, updated_at: new Date() }))
+    const updated_at = new Date()
+    await this._table.updateMany<T>(
+      records.map((r) => ({ fields: r.fields, id: r.id, updated_at }))
     )
     const filter = new OrFilter(records.map((r) => new IsTextFilter('id', r.id)))
-    return this.list(filter)
+    return this.list<T>(filter)
   }
 
   delete = async (id: string) => {
@@ -120,24 +121,24 @@ export class DatabaseTable {
     await this._table.delete(id)
   }
 
-  read = async (filter: Filter) => {
+  read = async <T extends RecordFields>(filter: Filter) => {
     this._logger.debug(`read in table "${this._name}"`, filter)
-    return this._table.read(filter)
+    return this._table.read<T>(filter)
   }
 
-  readById = async (id: string) => {
+  readById = async <T extends RecordFields>(id: string) => {
     this._logger.debug(`read in table "${this._name}"`, { id })
-    return this._table.readById(id)
+    return this._table.readById<T>(id)
   }
 
-  readByIdOrThrow = async (id: string) => {
-    const record = await this.readById(id)
+  readByIdOrThrow = async <T extends RecordFields>(id: string) => {
+    const record = await this.readById<T>(id)
     if (!record) throw new Error(`record "${id}" not found in table "${this._name}"`)
     return record
   }
 
-  list = async (filter?: Filter) => {
+  list = async <T extends RecordFields>(filter?: Filter) => {
     this._logger.debug(`list in table "${this._name}"`, filter)
-    return this._table.list(filter)
+    return this._table.list<T>(filter)
   }
 }

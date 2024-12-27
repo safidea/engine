@@ -38,7 +38,9 @@ Database.each(test, (dbConfig) => {
     await app.start(config)
 
     // WHEN
-    await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
+    await database
+      .table('leads')
+      .insert({ id: '1', fields: { name: 'John' }, created_at: new Date() })
 
     // THEN
     await expect(queue.waitForEmpty('Send email', 5000)).resolves.toBeTruthy()

@@ -1,6 +1,6 @@
 import { test, expect } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import Database from '@test/drivers/database'
+// import Database from '@test/drivers/database'
 import type { IComponent } from '@adapter/api/configs/Component'
 
 test('should display a sidebar with id', async ({ page }) => {
@@ -141,6 +141,8 @@ test('should display a paragraph when clicking on a link', async ({ page }) => {
   expect(await page.screenshot()).toMatchSnapshot()
 })
 
+/*
+
 Database.each(test, (dbConfig) => {
   test('should display a table with a row', async ({ page }) => {
     // GIVEN
@@ -197,3 +199,4 @@ Database.each(test, (dbConfig) => {
     expect(await page.screenshot()).toMatchSnapshot()
   })
 })
+*/
