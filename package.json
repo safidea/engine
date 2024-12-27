@@ -79,7 +79,7 @@
     "googleapis": "^144.0.0",
     "handlebars": "^4.7.8",
     "helmet": "^8.0.0",
-    "html-react-parser": "^5.2.1",
+    "html-react-parser": "^5.2.2",
     "jsdom": "^25.0.1",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
@@ -136,7 +136,7 @@
     "@types/react-dom": "^18.3.5",
     "@types/smtp-server": "^3.5.10",
     "@types/xml2js": "^0.4.14",
-    "concurrently": "^9.1.0",
+    "concurrently": "^9.1.1",
     "debug": "^4.4.0",
     "dotenv": "^16.4.7",
     "eslint": "^9.17.0",
@@ -148,7 +148,7 @@
     "prettier": "^3.4.2",
     "semantic-release": "^24.2.0",
     "storybook": "^8.4.7",
-    "typescript-eslint": "^8.18.1",
+    "typescript-eslint": "^8.18.2",
     "typescript-json-schema": "^0.65.1"
   },
   "peerDependencies": {
