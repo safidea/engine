@@ -5,6 +5,14 @@ import { parse } from 'date-fns'
 
 const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TABLE_2_ID } = env
 
+test('should get a table id without -', async () => {
+  // GIVEN
+  const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+
+  // THEN
+  expect(table.id).not.toContain('-')
+})
+
 test('should create a page in a table', async () => {
   // GIVEN
   const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)

@@ -29,8 +29,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
   ) {}
 
   get id() {
-    // This value can be different from _database.id, we need to keep them same used to query the database
-    return this._id
+    return this._id.replace(/-/g, '')
   }
 
   get name() {

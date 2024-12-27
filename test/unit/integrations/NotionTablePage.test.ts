@@ -43,6 +43,11 @@ beforeEach(() => {
   )
 })
 
+test('should return id without -', () => {
+  const id = notionTablePage.id
+  expect(id).toBe('pageid')
+})
+
 test('should return title as a string', () => {
   const title = notionTablePage.getTitle('title')
   expect(title).toBe('Test Title')
