@@ -1,3 +1,10 @@
+## [0.34.52](https://github.com/latechforce/engine/compare/v0.34.51...v0.34.52) (2024-12-27)
+
+
+### Bug Fixes
+
+* **RunTypescript:** add type passing in Notion integration and Database service ([ddf1a43](https://github.com/latechforce/engine/commit/ddf1a43c1bac9307c68ad38ac3b2f18cc8fa6b10))
+
 ## [0.34.51](https://github.com/latechforce/engine/compare/v0.34.50...v0.34.51) (2024-12-27)
 
 
