@@ -133,7 +133,7 @@
     "@types/node": "^22.10.2",
     "@types/nodemon": "^1.19.6",
     "@types/pg": "^8.11.10",
-    "@types/react-dom": "^18.3.5",
+    "@types/react-dom": "^19.0.2",
     "@types/smtp-server": "^3.5.10",
     "@types/xml2js": "^0.4.14",
     "concurrently": "^9.1.1",
