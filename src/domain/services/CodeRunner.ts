@@ -18,10 +18,10 @@ export interface ICodeRunnerSpi {
   ) => Promise<object>
 }
 
-export interface CodeRunnerContextServicesDatabaseTable<T extends RecordFields> {
+export interface CodeRunnerContextServicesDatabaseTable<T extends RecordFields = RecordFields> {
   insert: (data: T) => Promise<Record<T>>
   insertMany: (data: T[]) => Promise<Record<T>[]>
-  update: (id: string, data: T) => Promise<Record<T>>
+  update: (id: string, data: Partial<T>) => Promise<Record<T>>
   updateMany: (data: UpdateRecordFields<T>[]) => Promise<Record<T>[]>
   read: (filter: FilterConfig) => Promise<Record<T> | undefined>
   readById: (id: string) => Promise<Record<T> | undefined>
@@ -29,7 +29,9 @@ export interface CodeRunnerContextServicesDatabaseTable<T extends RecordFields> 
 }
 
 export interface CodeRunnerContextServicesDatabase {
-  table: <T extends RecordFields>(name: string) => CodeRunnerContextServicesDatabaseTable<T>
+  table: <T extends RecordFields = RecordFields>(
+    name: string
+  ) => CodeRunnerContextServicesDatabaseTable<T>
 }
 
 export interface CodeRunnerContextServicesLogger {
@@ -43,16 +45,18 @@ export interface CodeRunnerContextServices {
   logger: CodeRunnerContextServicesLogger
 }
 
-export interface CodeRunnerContextIntegrationsNotionTable<T extends NotionTablePageProperties> {
+export interface CodeRunnerContextIntegrationsNotionTable<
+  T extends NotionTablePageProperties = NotionTablePageProperties,
+> {
   create: (data: T) => Promise<NotionTablePage<T>>
-  update: (id: string, data: T) => Promise<NotionTablePage<T>>
+  update: (id: string, data: Partial<T>) => Promise<NotionTablePage<T>>
   retrieve: (id: string) => Promise<NotionTablePage<T> | undefined>
   list: (filter?: FilterConfig) => Promise<NotionTablePage<T>[]>
   archive: (id: string) => Promise<void>
 }
 
 export interface CodeRunnerContextIntegrationsNotion {
-  getTable: <T extends NotionTablePageProperties>(
+  getTable: <T extends NotionTablePageProperties = NotionTablePageProperties>(
     id: string
   ) => Promise<CodeRunnerContextIntegrationsNotionTable<T>>
   listAllUsers: () => Promise<NotionUser[]>

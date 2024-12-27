@@ -11,7 +11,7 @@ export interface INotionTableIntegration {
   create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePageDto<T>>
   update: <T extends NotionTablePageProperties>(
     id: string,
-    page: T
+    page: Partial<T>
   ) => Promise<NotionTablePageDto<T>>
   retrieve: <T extends NotionTablePageProperties>(id: string) => Promise<NotionTablePageDto<T>>
   archive: (id: string) => Promise<void>
@@ -36,7 +36,7 @@ export class NotionTableSpi implements INotionTableSpi {
     return NotionTablePageMapper.toEntity<T>(dto)
   }
 
-  update = async <T extends NotionTablePageProperties>(id: string, page: T) => {
+  update = async <T extends NotionTablePageProperties>(id: string, page: Partial<T>) => {
     const dto = await this._integration.update(id, page)
     return NotionTablePageMapper.toEntity<T>(dto)
   }

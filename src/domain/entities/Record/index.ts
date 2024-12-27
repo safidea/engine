@@ -12,24 +12,24 @@ export interface RecordFieldsConfig {
   [key: string]: string | number | boolean | null | string[]
 }
 
-export type UpdateRecordFields<T extends RecordFields> = {
+export type UpdateRecordFields<T extends RecordFields = RecordFields> = {
   id: string
   fields: Partial<T>
 }
 
-export type RecordFieldsToCreate<T extends RecordFields> = {
+export type RecordFieldsToCreate<T extends RecordFields = RecordFields> = {
   id: string
   created_at: Date
   fields: T
 }
 
-export type RecordFieldsToUpdate<T extends RecordFields> = {
+export type RecordFieldsToUpdate<T extends RecordFields = RecordFields> = {
   id: string
   updated_at: Date
   fields: Partial<T>
 }
 
-export type PersistedRecordFields<T extends RecordFields> = {
+export type PersistedRecordFields<T extends RecordFields = RecordFields> = {
   id: string
   created_at: Date
   updated_at?: Date

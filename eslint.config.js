@@ -16,6 +16,14 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
     },
+    overrides: [
+      {
+        files: ['**/*.test.ts', '**/*.test.js', '**/test/**/*'],
+        rules: {
+          '@typescript-eslint/no-explicit-any': 'off',
+        },
+      },
+    ],
   },
   {
     ignores: ['**/dist/**', 'node_modules'],

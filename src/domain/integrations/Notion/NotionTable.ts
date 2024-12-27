@@ -24,7 +24,10 @@ export interface INotionTableSpi {
   id: string
   name: string
   create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePage<T>>
-  update: <T extends NotionTablePageProperties>(id: string, page: T) => Promise<NotionTablePage<T>>
+  update: <T extends NotionTablePageProperties>(
+    id: string,
+    page: Partial<T>
+  ) => Promise<NotionTablePage<T>>
   retrieve: <T extends NotionTablePageProperties>(id: string) => Promise<NotionTablePage<T>>
   archive: (id: string) => Promise<void>
   list: <T extends NotionTablePageProperties>(filter?: Filter) => Promise<NotionTablePage<T>[]>
@@ -92,7 +95,7 @@ export class NotionTable {
 
   update = async <T extends NotionTablePageProperties>(
     id: string,
-    page: T
+    page: Partial<T>
   ): Promise<NotionTablePage<T>> => {
     const preprocessPage = await this._preprocessPage(page)
     return this._spi.update<T>(id, preprocessPage)

@@ -9,9 +9,10 @@ export type NotionTablePagePropertyValue =
   | number
   | boolean
   | Date
-  | null
   | NotionTablePagePropertyValue[]
   | NotionTablePagePropertyFile[]
+  | null
+  | undefined
 
 export class NotionTablePage<T extends NotionTablePageProperties = NotionTablePageProperties> {
   readonly id: string

@@ -53,7 +53,7 @@ export class NotionTableIntegration implements INotionTableIntegration {
     return Promise.all(pagesCreated)
   }
 
-  update = async <T extends NotionTablePageProperties>(id: string, page: T) => {
+  update = async <T extends NotionTablePageProperties>(id: string, page: Partial<T>) => {
     const properties = this._preprocessProperties(page)
     const updatedPage = await this._retry(() =>
       this._api.pages.update({

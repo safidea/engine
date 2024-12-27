@@ -54,7 +54,7 @@ export class CodeCompiler {
           insertMany: async (data: T[]) => {
             return await table.db.insertMany<T>(data)
           },
-          update: async (id: string, data: T) => {
+          update: async (id: string, data: Partial<T>) => {
             return await table.db.update<T>(id, data)
           },
           updateMany: async (data: UpdateRecordFields<T>[]) => {
@@ -101,7 +101,7 @@ export class CodeCompiler {
             create: async (data: T) => {
               return table.create<T>(data)
             },
-            update: async (id: string, data: T) => {
+            update: async (id: string, data: Partial<T>) => {
               return table.update<T>(id, data)
             },
             retrieve: async (id: string) => {
