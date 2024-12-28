@@ -1,3 +1,10 @@
+## [0.34.57](https://github.com/latechforce/engine/compare/v0.34.56...v0.34.57) (2024-12-28)
+
+
+### Bug Fixes
+
+* **CodeRunner:** export NotionTablePage and DatabaseTableRecord as classes ([0692641](https://github.com/latechforce/engine/commit/069264188834d035c1a6e82e152004858758079b))
+
 ## [0.34.56](https://github.com/latechforce/engine/compare/v0.34.55...v0.34.56) (2024-12-28)
 
 
