@@ -78,6 +78,20 @@ export const filterSchema: JSONSchema = {
   ],
 }
 
+andFilterSchema.properties = {
+  and: {
+    type: 'array',
+    items: filterSchema,
+  },
+}
+
+orFilterSchema.properties = {
+  or: {
+    type: 'array',
+    items: filterSchema,
+  },
+}
+
 export class FilterMapper {
   static toEntity = (config: FilterConfig): Filter => {
     if ('and' in config) return new AndFilter(FilterMapper.toManyEntities(config.and))

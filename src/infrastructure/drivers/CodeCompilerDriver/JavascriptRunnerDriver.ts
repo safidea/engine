@@ -17,6 +17,31 @@ import https from 'https'
 import crypto from 'crypto'
 import lodash from 'lodash'
 
+export const packages: CodeRunnerContextPackages = {
+  xml2js,
+  dateFns,
+  googleapis,
+  Airtable,
+  axios,
+  https,
+  crypto,
+  lodash,
+}
+
+const globalContext = {
+  fetch: global.fetch,
+  Error: global.Error,
+  Buffer: global.Buffer,
+  Date: global.Date,
+  Array: global.Array,
+  Number: global.Number,
+  Boolean: global.Boolean,
+  Math: global.Math,
+  URLSearchParams: global.URLSearchParams,
+  setTimeout: setTimeout,
+  console: console,
+}
+
 export class JavascriptRunnerDriver implements ICodeRunnerDriver {
   constructor(
     private _script: vm.Script,
@@ -30,29 +55,6 @@ export class JavascriptRunnerDriver implements ICodeRunnerDriver {
     services: CodeRunnerContextServices,
     integrations: CodeRunnerContextIntegrations
   ) => {
-    const globalContext = {
-      fetch: global.fetch,
-      Error: global.Error,
-      Buffer: global.Buffer,
-      Date: global.Date,
-      Array: global.Array,
-      Number: global.Number,
-      Boolean: global.Boolean,
-      Math: global.Math,
-      URLSearchParams: global.URLSearchParams,
-      setTimeout: setTimeout,
-      console: console,
-    }
-    const packages: CodeRunnerContextPackages = {
-      xml2js,
-      dateFns,
-      googleapis,
-      Airtable,
-      axios,
-      https,
-      crypto,
-      lodash,
-    }
     const codeContext: CodeRunnerContext<object> = {
       inputData,
       env: this._env,

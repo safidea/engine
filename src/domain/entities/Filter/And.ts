@@ -1,5 +1,5 @@
 import type { JSONSchema } from '@domain/services/SchemaValidator'
-import { filterSchema, type Filter, type FilterDto } from '.'
+import { type Filter, type FilterDto } from '.'
 
 export type AndFilterConfig = {
   and: FilterDto[]
@@ -7,12 +7,7 @@ export type AndFilterConfig = {
 
 export const andFilterSchema: JSONSchema = {
   type: 'object',
-  properties: {
-    and: {
-      type: 'array',
-      items: filterSchema,
-    },
-  },
+  properties: {},
   required: ['and'],
   additionalProperties: false,
 }

@@ -48,6 +48,7 @@ export type {
 export type { AppIntegrations } from '@domain/entities/App/Base'
 export type { StartedApp } from '@domain/entities/App/Started'
 export type { StoppedApp } from '@domain/entities/App/Stopped'
+export { packages } from '@infrastructure/drivers/CodeCompilerDriver/JavascriptRunnerDriver'
 
 export default class extends App {
   constructor() {
