@@ -1,3 +1,10 @@
+## [0.34.56](https://github.com/latechforce/engine/compare/v0.34.55...v0.34.56) (2024-12-28)
+
+
+### Bug Fixes
+
+* **CodeRunner:** add green test: should export packages ([54a2037](https://github.com/latechforce/engine/commit/54a203776c8082b6f561584644a8318c5c908d67))
+
 ## [0.34.55](https://github.com/latechforce/engine/compare/v0.34.54...v0.34.55) (2024-12-28)
 
 
