@@ -1,3 +1,11 @@
+## [0.34.55](https://github.com/latechforce/engine/compare/v0.34.54...v0.34.55) (2024-12-28)
+
+
+### Bug Fixes
+
+* **Database:** add green unit tests ([a7ab338](https://github.com/latechforce/engine/commit/a7ab33895f8df23717fa9e3f3be454a10eec5aa3))
+* **Field:** fix rollup broken tests ([3960527](https://github.com/latechforce/engine/commit/3960527f45d2af028f539327d0e5f6b9130a1310))
+
 ## [0.34.54](https://github.com/latechforce/engine/compare/v0.34.53...v0.34.54) (2024-12-27)
 
 
