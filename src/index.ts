@@ -33,17 +33,17 @@ export type {
   CodeRunnerContextIntegrationsNotion as NotionIntegration,
   CodeRunnerContextIntegrationsNotionTable as NotionTable,
 } from '@domain/services/CodeRunner'
-export type {
+export {
   NotionTablePage,
-  NotionTablePageProperties,
-  NotionTablePagePropertyValue,
+  type NotionTablePageProperties,
+  type NotionTablePagePropertyValue,
 } from '@domain/integrations/Notion/NotionTablePage'
 export type { NotionUser } from '@domain/integrations/Notion/NotionUser'
-export type {
+export {
   Record as DatabaseTableRecord,
-  RecordFields as DatabaseTableRecordFields,
-  RecordFieldValue as DatabaseTableRecordFieldValue,
-  UpdateRecordFields as DatabaseTableUpdateRecordFields,
+  type RecordFields as DatabaseTableRecordFields,
+  type RecordFieldValue as DatabaseTableRecordFieldValue,
+  type UpdateRecordFields as DatabaseTableUpdateRecordFields,
 } from '@domain/entities/Record'
 export type { AppIntegrations } from '@domain/entities/App/Base'
 export type { StartedApp } from '@domain/entities/App/Started'
