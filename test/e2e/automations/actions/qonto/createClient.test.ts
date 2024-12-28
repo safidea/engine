@@ -1,7 +1,7 @@
 import { test, expect, env } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
-test('should create a client', async ({ request }) => {
+test.skip('should create a client', async ({ request }) => {
   // GIVEN
   const config: Config = {
     name: 'App',

@@ -211,12 +211,14 @@ export class PostgreSQLTableDriver implements IDatabaseTableDriver {
     const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
     const result = await this._db.query<Row>(query, values)
+    if (result.rows.length === 0) return
     return this._postprocess<T>(result.rows[0])
   }
 
   readById = async <T extends RecordFields>(id: string) => {
     const query = `SELECT * FROM ${this._name}_view WHERE id = $1`
     const result = await this._db.query<Row>(query, [id])
+    if (result.rows.length === 0) return
     return this._postprocess<T>(result.rows[0])
   }
 

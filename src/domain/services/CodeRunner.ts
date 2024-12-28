@@ -28,6 +28,7 @@ export interface CodeRunnerContextServicesDatabaseTable<T extends RecordFields =
   list: (filter?: FilterConfig) => Promise<Record<T>[]>
 }
 
+// TODO: installer Zod sur l'engine pour générer ce type à partir des schemas de la DB et avec les tables de la Database déjà typées
 export interface CodeRunnerContextServicesDatabase {
   table: <T extends RecordFields = RecordFields>(
     name: string
