@@ -1,13 +1,11 @@
-import { test, expect } from '@test/fixtures'
-import { integration } from '@test/integrations/pappers'
+import { PappersIntegration } from '@infrastructure/integrations/PappersIntegration'
+import { test, expect, env } from '@test/fixtures'
+import { testPappersIntegration } from 'test/integration/pappers'
 
-test('should get a company from a siret', async () => {
-  // GIVEN
-  const siret = '44306184100047'
+const { TEST_PAPPERS_API_KEY } = env
 
-  // WHEN
-  const company = await integration.getCompany(siret)
-
-  // THEN
-  expect(company?.denomination).toBe('GOOGLE FRANCE')
+export const integration = new PappersIntegration({
+  apiKey: TEST_PAPPERS_API_KEY,
 })
+
+testPappersIntegration({ describe: test.describe, it: test, expect }, integration)
