@@ -2,7 +2,7 @@ import { test, expect } from '@test/fixtures'
 import Database from '@test/drivers/database'
 import App, { type Config } from '@latechforce/engine'
 
-Database.PostgreSQL(test, (dbConfig) => {
+Database.each(test, (dbConfig) => {
   test('should create a record with a rollup field as a number', async ({ request }) => {
     // GIVEN
     const database = new Database(dbConfig)

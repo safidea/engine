@@ -44,7 +44,7 @@
     "watch": "concurrently \"bun run watch:schema\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
     "test": "bun run test:unit && bunx playwright test",
-    "test:unit": "bun test ./test/unit/**/*.test.ts --bail",
+    "test:unit": "bun test src --bail",
     "test:integration": "bunx playwright test test/integration",
     "test:e2e": "bunx playwright test test/e2e",
     "test:ui": "bunx playwright test --ui",

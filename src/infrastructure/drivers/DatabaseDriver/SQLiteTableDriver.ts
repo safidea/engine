@@ -17,8 +17,8 @@ interface ColumnInfo {
 
 type Row = {
   id: string
-  created_at: Date
-  updated_at?: Date
+  created_at: number
+  updated_at?: number
   [key: string]: RecordFieldValue
 }
 
@@ -210,6 +210,7 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
 
   read = async <T extends RecordFields>(filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
+    if (!conditions) return
     const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
     const record = this._db.prepare(query).get(values) as Row | undefined
     return record ? this._postprocess<T>(record) : undefined
@@ -222,12 +223,14 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
   }
 
   list = async <T extends RecordFields>(filter?: FilterDto) => {
-    if (!filter) {
+    const { conditions, values } = filter
+      ? this._convertFilterToConditions(filter)
+      : { conditions: '', values: [] }
+    if (!conditions) {
       const query = `SELECT * FROM ${this._name}_view`
       const records = this._db.prepare(query).all() as Row[]
       return records.map(this._postprocess<T>)
     }
-    const { conditions, values } = this._convertFilterToConditions(filter)
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
     const records = this._db.prepare(query).all(values) as Row[]
     return records.map(this._postprocess<T>)
@@ -375,7 +378,12 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
       }
       return acc
     }, fieldsToProcess) as T
-    return { id, created_at, updated_at, fields }
+    return {
+      id,
+      created_at: new Date(created_at),
+      updated_at: updated_at ? new Date(updated_at) : undefined,
+      fields,
+    }
   }
 
   private _convertFilterToConditions = (
