@@ -145,4 +145,46 @@ Database.each(test, (dbConfig) => {
     // THEN
     await expect(call()).resolves.not.toThrow()
   })
+
+  test.skip('should create a record with a multiple linked record field to the same table', async ({
+    request,
+  }) => {
+    // GIVEN
+    const database = new Database(dbConfig)
+    const config: Config = {
+      name: 'App',
+      tables: [
+        {
+          name: 'cars',
+          fields: [
+            {
+              name: 'name',
+              field: 'SingleLineText',
+            },
+            {
+              name: 'sub_cars',
+              field: 'MultipleLinkedRecord',
+              table: 'cars',
+            },
+          ],
+        },
+      ],
+      database: dbConfig,
+    }
+    const app = new App()
+    const { url } = await app.start(config)
+    await database.table('cars').insertMany([
+      { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },
+      { id: '2', fields: { name: 'Model 4' }, created_at: new Date() },
+      { id: '3', fields: { name: 'Model 5' }, created_at: new Date() },
+    ])
+
+    // WHEN
+    const { record } = await request
+      .patch(`${url}/api/table/cars`, { data: { sub_cars: ['2', '3'] } })
+      .then((res) => res.json())
+
+    // THEN
+    expect(record.fields.sub_cars).toStrictEqual(['1', '2'])
+  })
 })
