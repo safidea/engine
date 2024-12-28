@@ -21,6 +21,7 @@
       "@domain/*": ["src/domain/*"],
       "@latechforce/engine": ["dist/index"],
       "@latechforce/engine/instrument": ["dist/infrastructure/instrument/index"],
+      "@test/integration/*": ["test/integration/*"],
       "@test/*": ["test/__helpers__/*"]
     }
   },

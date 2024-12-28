@@ -1,6 +1,6 @@
 {
   "watch": ["src/"],
   "ext": "ts,tsx",
-  "ignore": ["dist/", "node_modules/"],
+  "ignore": ["dist/", "node_modules/", "src/**/*.test.ts"],
   "exec": "DEBUG=* bun run build:server"
 }

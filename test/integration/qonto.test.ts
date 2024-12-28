@@ -1,25 +1,14 @@
-import type { QontoCreateClient } from '@domain/integrations/Qonto'
-import { test, expect } from '@test/fixtures'
-import { integration } from '@test/integrations/qonto'
+import { test, expect, env } from '@test/fixtures'
+import { QontoIntegration } from '@infrastructure/integrations/QontoIntegration'
+import { testQontoIntegration } from './qonto'
 
-test('should create a client', async () => {
-  // GIVEN
-  const createClient: QontoCreateClient = {
-    name: 'John Doe',
-    type: 'company',
-    email: 'test@test.com',
-    vat_number: 'FR12345678901',
-    currency: 'EUR',
-    locale: 'FR',
-    address: '1 rue de Paris',
-    city: 'Paris',
-    zip_code: '75001',
-    country_code: 'FR',
-  }
+const { TEST_QONTO_ORGANISATION_SLUG, TEST_QONTO_SECRET_KEY, TEST_QONTO_STAGING_TOKEN } = env
 
-  // WHEN
-  const client = await integration.createClient(createClient)
-
-  // THEN
-  expect(client?.id).toBeDefined()
+export const integration = new QontoIntegration({
+  environment: 'sandbox',
+  stagingToken: TEST_QONTO_STAGING_TOKEN,
+  organisationSlug: TEST_QONTO_ORGANISATION_SLUG,
+  secretKey: TEST_QONTO_SECRET_KEY,
 })
+
+testQontoIntegration({ describe: test.describe, it: test, expect }, integration)

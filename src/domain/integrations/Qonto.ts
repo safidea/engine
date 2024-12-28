@@ -1,9 +1,9 @@
-interface QontoSandboxConfig extends Omit<QontoProductionConfig, 'environment'> {
+export interface QontoSandboxConfig extends Omit<QontoProductionConfig, 'environment'> {
   environment: 'sandbox'
   stagingToken: string
 }
 
-interface QontoProductionConfig {
+export interface QontoProductionConfig {
   environment: 'production'
   organisationSlug: string
   secretKey: string
@@ -44,11 +44,14 @@ interface QontoDeliveryAddress {
   country_code: string
 }
 
-interface QontoClientBase {
+export interface QontoClient {
   id: string
-  type: string
   email?: string
   vat_number?: string
+  name?: string
+  first_name?: string
+  last_name?: string
+  type: string
   tax_identification_number?: string
   address: string
   city: string
@@ -60,17 +63,6 @@ interface QontoClientBase {
   locale: string
 }
 
-interface QontoClientCompany extends QontoClientBase {
-  name: string
-}
-
-interface QontoClientIndividual extends QontoClientBase {
-  first_name: string
-  last_name: string
-}
-
-export type QontoClient = QontoClientCompany | QontoClientIndividual
-
-export type QontoCreateClient = Omit<QontoClientCompany, 'id' | 'created_at'> & {
+export type QontoCreateClient = Omit<QontoClient, 'id' | 'created_at'> & {
   currency: string
 }
