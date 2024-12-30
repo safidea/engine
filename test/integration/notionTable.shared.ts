@@ -343,7 +343,7 @@ export function testNotionTableIntegration(
       expect(page.properties.name).toBe(name)
     })
 
-    it('should retrieve a page in a table with a insertd_time', async () => {
+    it('should retrieve a page in a table with a created_time', async () => {
       // GIVEN
       const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
       const name = nanoid()
@@ -661,7 +661,7 @@ export function testNotionTableIntegration(
       const pages = await table.list({
         and: [
           {
-            field: 'insertd_time',
+            field: 'created_time',
             operator: 'OnOrAfter',
             value: now.toISOString(),
           },

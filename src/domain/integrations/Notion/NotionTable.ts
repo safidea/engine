@@ -71,7 +71,7 @@ export class NotionTable {
       const now = new Date()
       const seconds = Math.min((now.getTime() - startDate.getTime()) / 1000, pollingInterval * 2)
       now.setSeconds(now.getSeconds() - seconds)
-      const filter = new OrFilter([new OnOrAfterDateFilter('insertd_time', now.toISOString())])
+      const filter = new OrFilter([new OnOrAfterDateFilter('created_time', now.toISOString())])
       const pages = await this.list(filter)
       const pagesNotPolled = pages.filter((page) => !pagesIdsPolled.includes(page.id))
       pagesIdsPolled = pages.map((page) => page.id)

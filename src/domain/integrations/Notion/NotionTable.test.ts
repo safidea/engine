@@ -368,7 +368,7 @@ describe('list', () => {
 
   it('should call SPI list with a filter', async () => {
     // GIVEN
-    const filter = new OrFilter([new OnOrAfterDateFilter('insertd_time', '2023-01-01T00:00:00Z')])
+    const filter = new OrFilter([new OnOrAfterDateFilter('created_time', '2023-01-01T00:00:00Z')])
 
     // WHEN
     await notionTable.list(filter)
@@ -396,7 +396,7 @@ describe('startPolling', () => {
     // GIVEN
     const mockListener = mock(async () => {})
     // @ts-expect-error mock
-    spi.list.mockResolvedValue([{ id: 'page-1', insertd_time: '2023-01-01T12:00:00Z' }])
+    spi.list.mockResolvedValue([{ id: 'page-1', created_time: '2023-01-01T12:00:00Z' }])
     await notionTable.onInsert(mockListener)
 
     // WHEN
@@ -406,7 +406,7 @@ describe('startPolling', () => {
     // THEN
     expect(mockListener).toHaveBeenCalledWith({
       id: 'page-1',
-      insertd_time: '2023-01-01T12:00:00Z',
+      created_time: '2023-01-01T12:00:00Z',
     })
 
     // Cleanup

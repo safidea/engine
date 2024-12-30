@@ -746,6 +746,12 @@
                 "email": {
                     "$ref": "#/definitions/TemplateValue"
                 },
+                "first_name": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
+                "last_name": {
+                    "$ref": "#/definitions/TemplateValue"
+                },
                 "locale": {
                     "$ref": "#/definitions/TemplateValue"
                 },
@@ -2365,7 +2371,7 @@
             "additionalProperties": false,
             "properties": {
                 "event": {
-                    "const": "PageCreated",
+                    "const": "TablePageCreated",
                     "type": "string"
                 },
                 "integration": {
