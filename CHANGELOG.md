@@ -1,3 +1,11 @@
+## [0.34.58](https://github.com/latechforce/engine/compare/v0.34.57...v0.34.58) (2024-12-30)
+
+
+### Bug Fixes
+
+* **Notion:** fix broken file path ([d5ca0c6](https://github.com/latechforce/engine/commit/d5ca0c6ec2a7717b7c0c1215ad3dd3b1668dc000))
+* **Notion:** fix broken tests ([2450eab](https://github.com/latechforce/engine/commit/2450eab799a11e9e7d95a50c394354be561b2653))
+
 ## [0.34.57](https://github.com/latechforce/engine/compare/v0.34.56...v0.34.57) (2024-12-28)
 
 
