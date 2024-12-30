@@ -34,9 +34,9 @@ export class NotionTableIntegration implements INotionTableIntegration {
     this.name = this._database.title.map((title) => title.plain_text).join('')
   }
 
-  create = async <T extends NotionTablePageProperties>(page: T) => {
+  insert = async <T extends NotionTablePageProperties>(page: T) => {
     const properties = this._preprocessProperties(page)
-    const createdPage = await this._retry(() =>
+    const insertedPage = await this._retry(() =>
       this._api.pages.create({
         parent: {
           database_id: this._database.id,
@@ -44,13 +44,13 @@ export class NotionTableIntegration implements INotionTableIntegration {
         properties,
       })
     )
-    return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(createdPage))
+    return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(insertedPage))
   }
 
-  createMany = async <T extends NotionTablePageProperties>(pages: T[]) => {
-    const pagesCreated: Promise<NotionTablePageDto<T>>[] = []
-    for (const page of pages) pagesCreated.push(this.create(page))
-    return Promise.all(pagesCreated)
+  insertMany = async <T extends NotionTablePageProperties>(pages: T[]) => {
+    const pagesinserted: Promise<NotionTablePageDto<T>>[] = []
+    for (const page of pages) pagesinserted.push(this.insert(page))
+    return Promise.all(pagesinserted)
   }
 
   update = async <T extends NotionTablePageProperties>(id: string, page: Partial<T>) => {

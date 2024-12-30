@@ -4,24 +4,24 @@ import type { AutomationContext } from '../../Automation/Context'
 import type { Notion } from '@domain/integrations/Notion'
 import { NotionTablePage } from '@domain/integrations/Notion/NotionTablePage'
 
-export interface PageCreatedNotionTriggerConfig extends BaseTriggerConfig {
+export interface TablePageCreatedNotionTriggerConfig extends BaseTriggerConfig {
   automation: string
   table: string
 }
 
-export interface PageCreatedNotionTriggerServices {
+export interface TablePageCreatedNotionTriggerServices {
   queue: Queue
 }
 
-export interface PageCreatedNotionTriggerIntegrations {
+export interface TablePageCreatedNotionTriggerIntegrations {
   notion: Notion
 }
 
-export class PageCreatedNotionTrigger implements BaseTrigger {
+export class TablePageCreatedNotionTrigger implements BaseTrigger {
   constructor(
-    private _config: PageCreatedNotionTriggerConfig,
-    private _services: PageCreatedNotionTriggerServices,
-    private _integrations: PageCreatedNotionTriggerIntegrations
+    private _config: TablePageCreatedNotionTriggerConfig,
+    private _services: TablePageCreatedNotionTriggerServices,
+    private _integrations: TablePageCreatedNotionTriggerIntegrations
   ) {
     _integrations.notion.getConfig()
   }
@@ -31,11 +31,11 @@ export class PageCreatedNotionTrigger implements BaseTrigger {
     const { automation, table: tableId } = this._config
     const { notion } = this._integrations
     const table = await notion.getTable(tableId)
-    table.onPageCreated(this.onPageCreated)
+    table.onInsert(this.onTablePageCreated)
     queue.job(automation, run)
   }
 
-  onPageCreated = async (page: NotionTablePage) => {
+  onTablePageCreated = async (page: NotionTablePage) => {
     const { queue } = this._services
     const { automation } = this._config
     await queue.add(automation, {

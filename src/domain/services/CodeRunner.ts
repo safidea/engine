@@ -9,6 +9,7 @@ import type { Record, UpdateRecordFields } from '@domain/entities/Record'
 import { Logger } from '@domain/services/Logger'
 import type { NotionUser } from '@domain/integrations/Notion/NotionUser'
 import type { RecordFields } from '@domain/entities/Record'
+import type { UpdateNotionTablePageProperties } from '@domain/integrations/Notion/NotionTable'
 
 export interface ICodeRunnerSpi {
   run: (
@@ -49,8 +50,10 @@ export interface CodeRunnerContextServices {
 export interface CodeRunnerContextIntegrationsNotionTable<
   T extends NotionTablePageProperties = NotionTablePageProperties,
 > {
-  create: (data: T) => Promise<NotionTablePage<T>>
+  insert: (data: T) => Promise<NotionTablePage<T>>
+  insertMany: (data: T[]) => Promise<NotionTablePage<T>[]>
   update: (id: string, data: Partial<T>) => Promise<NotionTablePage<T>>
+  updateMany: (data: UpdateNotionTablePageProperties<T>[]) => Promise<NotionTablePage<T>[]>
   retrieve: (id: string) => Promise<NotionTablePage<T> | undefined>
   list: (filter?: FilterConfig) => Promise<NotionTablePage<T>[]>
   archive: (id: string) => Promise<void>

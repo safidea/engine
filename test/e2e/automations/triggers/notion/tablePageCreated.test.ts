@@ -16,7 +16,7 @@ Database.SQLite(test, async (dbConfig) => {
           name: 'page-created',
           trigger: {
             integration: 'Notion',
-            event: 'PageCreated',
+            event: 'TablePageCreated',
             table: env.TEST_NOTION_TABLE_1_ID,
           },
           actions: [],
@@ -35,7 +35,7 @@ Database.SQLite(test, async (dbConfig) => {
 
     // WHEN
     await new Promise((resolve) => setTimeout(resolve, 5000))
-    const { id } = await testTable.create({
+    const { id } = await testTable.insert({
       name: 'My new page',
     })
 
@@ -59,7 +59,7 @@ Database.SQLite(test, async (dbConfig) => {
           name: 'page-created',
           trigger: {
             integration: 'Notion',
-            event: 'PageCreated',
+            event: 'TablePageCreated',
             table: env.TEST_NOTION_TABLE_1_ID,
           },
           actions: [],
@@ -78,7 +78,7 @@ Database.SQLite(test, async (dbConfig) => {
 
     // WHEN
     await new Promise((resolve) => setTimeout(resolve, 5000))
-    const { id } = await testTable.create({
+    const { id } = await testTable.insert({
       name: 'My new page',
     })
 
@@ -102,7 +102,7 @@ Database.SQLite(test, async (dbConfig) => {
           name: 'page-created',
           trigger: {
             integration: 'Notion',
-            event: 'PageCreated',
+            event: 'TablePageCreated',
             table: env.TEST_NOTION_TABLE_1_ID,
           },
           actions: [
@@ -132,7 +132,7 @@ Database.SQLite(test, async (dbConfig) => {
 
     // WHEN
     await new Promise((resolve) => setTimeout(resolve, 5000))
-    const { id } = await testTable.create({
+    const { id } = await testTable.insert({
       name: 'My new page',
     })
 

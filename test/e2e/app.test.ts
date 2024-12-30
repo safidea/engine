@@ -253,7 +253,7 @@ test('should be able to use Notion as an integration', async () => {
 
   // WHEN
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const page = await table.create({ name: 'test' })
+  const page = await table.insert({ name: 'test' })
 
   // THEN
   expect(page.properties.name).toBe('test')

@@ -17,8 +17,8 @@ beforeEach(() => {
   spi = {
     id: 'table-id',
     name: 'Test Table',
-    create: mock(),
-    createMany: mock(),
+    insert: mock(),
+    insertMany: mock(),
     update: mock(),
     updateMany: mock(),
     retrieve: mock(),
@@ -45,16 +45,16 @@ beforeEach(() => {
   notionTable = new NotionTable(spi, services, config, bucket)
 })
 
-describe('create', () => {
-  it('should call SPI create with preprocessed page', async () => {
+describe('insert', () => {
+  it('should call SPI insert with preprocessed page', async () => {
     // GIVEN
     const page = { title: 'Test Page' }
 
     // WHEN
-    await notionTable.create(page)
+    await notionTable.insert(page)
 
     // THEN
-    expect(spi.create).toHaveBeenCalledWith(page)
+    expect(spi.insert).toHaveBeenCalledWith(page)
   })
 
   it('should save file URLs to the bucket', async () => {
@@ -65,7 +65,7 @@ describe('create', () => {
     }
 
     // WHEN
-    await notionTable.create(page)
+    await notionTable.insert(page)
 
     // THEN
     expect(bucket.save).toHaveBeenCalledWith({ name: 'file1', data: expect.any(Buffer) })
@@ -79,11 +79,11 @@ describe('create', () => {
     }
 
     // WHEN
-    await notionTable.create(page)
+    await notionTable.insert(page)
 
     // THEN
     // @ts-expect-error mock
-    const processedPage = spi.create.mock.calls[0][0]
+    const processedPage = spi.insert.mock.calls[0][0]
     expect(processedPage.files[0].url).toBe('https://bucket-url/file')
   })
 
@@ -92,23 +92,23 @@ describe('create', () => {
     const page = { title: 'Test Page', files: [] }
 
     // WHEN
-    await notionTable.create(page)
+    await notionTable.insert(page)
 
     // THEN
     expect(bucket.save).not.toHaveBeenCalled()
   })
 })
 
-describe('createMany', () => {
-  it('should call SPI createMany with preprocessed pages', async () => {
+describe('insertMany', () => {
+  it('should call SPI insertMany with preprocessed pages', async () => {
     // GIVEN
     const pages = [{ title: 'Page 1' }, { title: 'Page 2' }]
 
     // WHEN
-    await notionTable.createMany(pages)
+    await notionTable.insertMany(pages)
 
     // THEN
-    expect(spi.createMany).toHaveBeenCalledWith(pages)
+    expect(spi.insertMany).toHaveBeenCalledWith(pages)
   })
 
   it('should save file URLs for all pages to the bucket', async () => {
@@ -129,7 +129,7 @@ describe('createMany', () => {
     ]
 
     // WHEN
-    await notionTable.createMany(pages)
+    await notionTable.insertMany(pages)
 
     // THEN
     expect(bucket.save).toHaveBeenCalledWith({ name: 'file1', data: expect.any(Buffer) })
@@ -154,11 +154,11 @@ describe('createMany', () => {
     ]
 
     // WHEN
-    await notionTable.createMany(pages)
+    await notionTable.insertMany(pages)
 
     // THEN
     // @ts-expect-error mock
-    const processedPages = spi.createMany.mock.calls[0][0]
+    const processedPages = spi.insertMany.mock.calls[0][0]
     expect(processedPages[0].files[0].url).toBe('https://bucket-url/file')
     expect(processedPages[1].files[0].url).toBe('https://bucket-url/file')
   })
@@ -368,7 +368,7 @@ describe('list', () => {
 
   it('should call SPI list with a filter', async () => {
     // GIVEN
-    const filter = new OrFilter([new OnOrAfterDateFilter('created_time', '2023-01-01T00:00:00Z')])
+    const filter = new OrFilter([new OnOrAfterDateFilter('insertd_time', '2023-01-01T00:00:00Z')])
 
     // WHEN
     await notionTable.list(filter)
@@ -396,8 +396,8 @@ describe('startPolling', () => {
     // GIVEN
     const mockListener = mock(async () => {})
     // @ts-expect-error mock
-    spi.list.mockResolvedValue([{ id: 'page-1', created_time: '2023-01-01T12:00:00Z' }])
-    await notionTable.onPageCreated(mockListener)
+    spi.list.mockResolvedValue([{ id: 'page-1', insertd_time: '2023-01-01T12:00:00Z' }])
+    await notionTable.onInsert(mockListener)
 
     // WHEN
     notionTable.startPolling()
@@ -406,7 +406,7 @@ describe('startPolling', () => {
     // THEN
     expect(mockListener).toHaveBeenCalledWith({
       id: 'page-1',
-      created_time: '2023-01-01T12:00:00Z',
+      insertd_time: '2023-01-01T12:00:00Z',
     })
 
     // Cleanup
@@ -429,29 +429,29 @@ describe('stopPolling', () => {
   })
 })
 
-describe('onPageCreated', () => {
+describe('onInsert', () => {
   it('should generate a listener ID and log subscription', async () => {
     // GIVEN
     const callback = async () => {}
 
     // WHEN
-    const id = await notionTable.onPageCreated(callback)
+    const id = await notionTable.onInsert(callback)
 
     // THEN
     expect(id).toBe('listener-id')
     expect(services.logger.debug).toHaveBeenCalledWith(
-      'subscribed to create events on Notion table "Test Table"'
+      'subscribed to insert events on Notion table "Test Table"'
     )
   })
 
-  it('should invoke the callback when a page is created', async () => {
+  it('should invoke the callback when a page is insertd', async () => {
     // GIVEN
     const mockCallback = mock(async () => {})
     const page = { id: 'page-1', title: 'Test Page' }
     // @ts-expect-error mock
     spi.list.mockResolvedValue([page])
 
-    await notionTable.onPageCreated(mockCallback)
+    await notionTable.onInsert(mockCallback)
 
     // WHEN
     notionTable.startPolling()

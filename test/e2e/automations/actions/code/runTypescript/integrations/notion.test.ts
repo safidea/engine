@@ -6,7 +6,7 @@ const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TOKEN, TEST_NOTION_TABLE_FILES_ID } 
 
 test.slow()
 
-test('should run a Typescript code with a Notion database page create', async ({ request }) => {
+test('should run a Typescript code with a Notion database page insert', async ({ request }) => {
   // GIVEN
   const config: Config = {
     name: 'App',
@@ -45,7 +45,7 @@ test('should run a Typescript code with a Notion database page create', async ({
               const { name } = inputData
               const { notion } = integrations
               const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-              const user = await table.create({ name })
+              const user = await table.insert({ name })
               return { user }
             }),
           },
@@ -134,7 +134,7 @@ test('should run a Typescript code with a Notion database page update', async ({
   const app = new App()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const { id } = await table.create({ name: 'John' })
+  const { id } = await table.insert({ name: 'John' })
 
   // WHEN
   const response = await request
@@ -214,7 +214,7 @@ test('should run a Typescript code with a Notion database page update and a noti
   const app = new App()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const { id } = await table.create({ files: [] })
+  const { id } = await table.insert({ files: [] })
 
   // WHEN
   const response = await request
@@ -287,7 +287,7 @@ test('should run a Typescript code with a Notion database page retrieve', async 
   const app = new App()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const { id } = await table.create({ name: 'John Doe' })
+  const { id } = await table.insert({ name: 'John Doe' })
 
   // WHEN
   const response = await request
@@ -358,7 +358,7 @@ test('should run a Typescript code with a Notion database page archive', async (
   const app = new App()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const { id } = await table.create({ name: 'John Doe' })
+  const { id } = await table.insert({ name: 'John Doe' })
 
   // WHEN
   const response = await request
@@ -436,7 +436,7 @@ test('should run a Typescript code with a Notion database page list', async ({ r
   const app = new App()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const users = await table.createMany([
+  const users = await table.insertMany([
     { name: 'John Doe' },
     { name: 'John Wick' },
     { name: 'John Connor' },
@@ -514,7 +514,7 @@ test('should run a Typescript code with a Notion database page and a title prope
   const app = new App()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
-  const { id } = await table.create({ name: 'John Doe' })
+  const { id } = await table.insert({ name: 'John Doe' })
 
   // WHEN
   const response = await request

@@ -10,7 +10,7 @@ import type { Notion } from '@domain/integrations/Notion'
 import { RecordCreatedDatabaseTriggerMapper } from './database/RecordCreatedMapper'
 import { ApiCalledHttpTriggerMapper } from './http/ApiCalledMapper'
 import { WebhookCalledHttpTriggerMapper } from './http/WebhookCalledMapper'
-import { PageCreatedNotionTriggerMapper } from './notion/PageCreatedMapper'
+import { TablePageCreatedNotionTriggerMapper } from './notion/TablePageCreatedMapper'
 
 type TriggerMapperConfig = ITrigger & {
   automation: string
@@ -40,8 +40,8 @@ export class TriggerMapper {
       return RecordCreatedDatabaseTriggerMapper.toEntity(config, services)
     if (event === 'WebhookCalled') return WebhookCalledHttpTriggerMapper.toEntity(config, services)
     if (event === 'ApiCalled') return ApiCalledHttpTriggerMapper.toEntity(config, services)
-    if (event === 'PageCreated')
-      return PageCreatedNotionTriggerMapper.toEntity(config, services, integrations)
+    if (event === 'TablePageCreated')
+      return TablePageCreatedNotionTriggerMapper.toEntity(config, services, integrations)
     throw new Error(`TriggerMapper: trigger ${event} not found`)
   }
 

@@ -8,7 +8,7 @@ import { NotionTablePage, type NotionTablePageProperties } from './NotionTablePa
 import type { Bucket } from '@domain/entities/Bucket'
 import type { Fetcher } from '@domain/services/Fetcher'
 
-export type NotionTableAction = 'CREATE'
+export type NotionTableAction = 'INSERT'
 
 export type UpdateNotionTablePageProperties<T extends NotionTablePageProperties> = {
   id: string
@@ -30,8 +30,8 @@ export interface NotionTableServices {
 export interface INotionTableSpi {
   id: string
   name: string
-  create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePage<T>>
-  createMany: <T extends NotionTablePageProperties>(pages: T[]) => Promise<NotionTablePage<T>[]>
+  insert: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePage<T>>
+  insertMany: <T extends NotionTablePageProperties>(pages: T[]) => Promise<NotionTablePage<T>[]>
   update: <T extends NotionTablePageProperties>(
     id: string,
     page: Partial<T>
@@ -71,14 +71,14 @@ export class NotionTable {
       const now = new Date()
       const seconds = Math.min((now.getTime() - startDate.getTime()) / 1000, pollingInterval * 2)
       now.setSeconds(now.getSeconds() - seconds)
-      const filter = new OrFilter([new OnOrAfterDateFilter('created_time', now.toISOString())])
+      const filter = new OrFilter([new OnOrAfterDateFilter('insertd_time', now.toISOString())])
       const pages = await this.list(filter)
       const pagesNotPolled = pages.filter((page) => !pagesIdsPolled.includes(page.id))
       pagesIdsPolled = pages.map((page) => page.id)
       logger.debug(`polled ${pagesNotPolled.length} new pages on Notion table "${this._spi.name}"`)
       for (const page of pagesNotPolled) {
         for (const listener of this._listeners) {
-          if (listener.action === 'CREATE') {
+          if (listener.action === 'INSERT') {
             await listener.callback(page)
           }
         }
@@ -91,24 +91,24 @@ export class NotionTable {
     clearInterval(this._pollingTimer)
   }
 
-  onPageCreated = async (callback: (page: NotionTablePage) => Promise<void>) => {
+  onInsert = async (callback: (page: NotionTablePage) => Promise<void>) => {
     const { idGenerator, logger } = this._services
     const id = idGenerator.forListener()
-    this._listeners.push({ id, action: 'CREATE', callback })
-    logger.debug(`subscribed to create events on Notion table "${this._spi.name}"`)
+    this._listeners.push({ id, action: 'INSERT', callback })
+    logger.debug(`subscribed to insert events on Notion table "${this._spi.name}"`)
     return id
   }
 
-  create = async <T extends NotionTablePageProperties>(page: T): Promise<NotionTablePage<T>> => {
+  insert = async <T extends NotionTablePageProperties>(page: T): Promise<NotionTablePage<T>> => {
     const preprocessPage = await this._preprocessPage(page)
-    return this._spi.create<T>(preprocessPage)
+    return this._spi.insert<T>(preprocessPage)
   }
 
-  createMany = async <T extends NotionTablePageProperties>(
+  insertMany = async <T extends NotionTablePageProperties>(
     pages: T[]
   ): Promise<NotionTablePage<T>[]> => {
     const preprocessPages = await Promise.all(pages.map((page) => this._preprocessPage(page)))
-    return this._spi.createMany<T>(preprocessPages)
+    return this._spi.insertMany<T>(preprocessPages)
   }
 
   update = async <T extends NotionTablePageProperties>(

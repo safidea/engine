@@ -12,6 +12,7 @@ import type {
   CodeRunnerServices,
 } from './CodeRunner'
 import type { RecordFields, UpdateRecordFields } from '@domain/entities/Record'
+import type { UpdateNotionTablePageProperties } from '@domain/integrations/Notion/NotionTable'
 
 export type CodeCompilerServices = CodeRunnerServices
 
@@ -98,11 +99,17 @@ export class CodeCompiler {
             throw new Error(`CodeRunner: Notion table "${id}" not found`)
           }
           return {
-            create: async (data: T) => {
-              return table.create<T>(data)
+            insert: async (data: T) => {
+              return table.insert<T>(data)
+            },
+            insertMany: async (data: T[]) => {
+              return table.insertMany<T>(data)
             },
             update: async (id: string, data: Partial<T>) => {
               return table.update<T>(id, data)
+            },
+            updateMany: async (data: UpdateNotionTablePageProperties<T>[]) => {
+              return table.updateMany<T>(data)
             },
             retrieve: async (id: string) => {
               return table.retrieve<T>(id)

@@ -11,8 +11,8 @@ import type { NotionTablePageDto } from '../dtos/NotionTablePageDto'
 export interface INotionTableIntegration {
   id: string
   name: string
-  create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePageDto<T>>
-  createMany: <T extends NotionTablePageProperties>(pages: T[]) => Promise<NotionTablePageDto<T>[]>
+  insert: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePageDto<T>>
+  insertMany: <T extends NotionTablePageProperties>(pages: T[]) => Promise<NotionTablePageDto<T>[]>
   update: <T extends NotionTablePageProperties>(
     id: string,
     page: Partial<T>
@@ -38,13 +38,13 @@ export class NotionTableSpi implements INotionTableSpi {
     return this._integration.name
   }
 
-  create = async <T extends NotionTablePageProperties>(page: T) => {
-    const dto = await this._integration.create(page)
+  insert = async <T extends NotionTablePageProperties>(page: T) => {
+    const dto = await this._integration.insert(page)
     return NotionTablePageMapper.toEntity<T>(dto)
   }
 
-  createMany = async <T extends NotionTablePageProperties>(pages: T[]) => {
-    const dtos = await this._integration.createMany(pages)
+  insertMany = async <T extends NotionTablePageProperties>(pages: T[]) => {
+    const dtos = await this._integration.insertMany(pages)
     return NotionTablePageMapper.toManyEntities<T>(dtos)
   }
 
