@@ -22,7 +22,7 @@ type Row = {
   [key: string]: RecordFieldValue
 }
 
-export class SQLiteTableDriver implements IDatabaseTableDriver {
+export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],
@@ -123,8 +123,8 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
             const formula = this._convertFormula(field.formula, values)
             const manyToManyTableName = this._getManyToManyTableName(field.table)
             if (!joins.includes(manyToManyTableName)) {
-              joins += ` JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
-              joins += ` JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
+              joins += ` LEFT JOIN ${manyToManyTableName} ON ${this._name}.id = ${manyToManyTableName}.${this._name}_id`
+              joins += ` LEFT JOIN ${field.table}_view ON ${manyToManyTableName}.${field.table}_id = ${field.table}_view.id`
             }
             return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
           } else {
@@ -349,17 +349,19 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
       ) => {
         const value = record[key]
         const field = this._fields.find((f) => f.name === key)
-        if (value === undefined || value === null) return acc
-        if (field?.type === 'TIMESTAMP') {
+        if (value === undefined || value === null) {
+          acc[key] = null
+        } else if (field?.type === 'TIMESTAMP') {
           if (value instanceof Date) acc[key] = value.getTime()
           else acc[key] = new Date(String(value)).getTime()
-        }
-        if (field?.type === 'BOOLEAN') {
+        } else if (field?.type === 'BOOLEAN') {
           acc[key] = value ? 1 : 0
+        } else {
+          acc[key] = value
         }
         return acc
       },
-      record
+      {}
     )
   }
 
@@ -429,8 +431,8 @@ export class SQLiteTableDriver implements IDatabaseTableDriver {
         }
       case 'OnOrAfter':
         return {
-          conditions: `"${filter.field}" > datetime('now', ?)`,
-          values: [`-${filter.value} seconds`],
+          conditions: `"${filter.field}" >= datetime(?)`,
+          values: [filter.value],
         }
       case 'IsFalse':
         return {

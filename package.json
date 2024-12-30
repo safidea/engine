@@ -10,7 +10,7 @@
   "license": "BSL 1.1",
   "exports": {
     ".": "./dist/index.js",
-    "./bun": "./dist/infrastructure/integrations/bun/index.js",
+    "./bun": "./dist/bun.js",
     "./instrument": "./dist/infrastructure/instrument/index.js",
     "./schema/*": "./schema/*"
   },
@@ -143,13 +143,13 @@
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "mammoth": "^1.8.0",
+    "mammoth": "^1.9.0",
     "nodemon": "^3.1.9",
     "pdfreader": "^3.0.6",
     "prettier": "^3.4.2",
     "semantic-release": "^24.2.0",
     "storybook": "^8.4.7",
-    "typescript-eslint": "^8.18.2",
+    "typescript-eslint": "^8.19.0",
     "typescript-json-schema": "^0.65.1"
   },
   "peerDependencies": {

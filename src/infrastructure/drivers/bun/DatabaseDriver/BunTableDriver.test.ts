@@ -1,14 +1,13 @@
-import { SQLiteDatabaseTableDriver } from './SQLiteTableDriver'
-import type { Database as SQLiteDatabase } from 'better-sqlite3'
 import { Database } from 'bun:sqlite'
+import { BunDatabaseTableDriver } from './BunTableDriver'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
-import { testDatabaseTableDriver } from './test'
+import { testDatabaseTableDriver } from '../../DatabaseDriver/test'
 import BunTest from 'bun:test'
 
 const setup = async (date: Date): Promise<IDatabaseTableDriver> => {
   // GIVEN
-  const db = new Database() as unknown as SQLiteDatabase
-  const sqliteTable = new SQLiteDatabaseTableDriver(
+  const db = new Database()
+  const bunTable = new BunDatabaseTableDriver(
     'table_1',
     [
       {
@@ -41,7 +40,7 @@ const setup = async (date: Date): Promise<IDatabaseTableDriver> => {
     date.getTime()
   )
 
-  return sqliteTable
+  return bunTable
 }
 
 testDatabaseTableDriver(BunTest, setup)

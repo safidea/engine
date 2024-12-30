@@ -1,16 +1,19 @@
 import { test, expect } from 'bun:test'
+import App, { packages } from './index'
+import { drivers, integrations } from './bun'
 
 test('should export packages', async () => {
-  const { packages } = await import('./index')
   expect(packages).toBeDefined()
 })
 
-test('should export NotionTablePage', async () => {
-  const { NotionTablePage } = await import('./index')
-  expect(NotionTablePage).toBeDefined()
+test('should instanciate an App', async () => {
+  expect(new App()).toBeDefined()
 })
 
-test('should export DatabaseTableRecord', async () => {
-  const { DatabaseTableRecord } = await import('./index')
-  expect(DatabaseTableRecord).toBeDefined()
+test('should instanciate an App with custom drivers', async () => {
+  expect(new App({ drivers })).toBeDefined()
+})
+
+test('should instanciate an App with custom integrations', async () => {
+  expect(new App({ integrations })).toBeDefined()
 })

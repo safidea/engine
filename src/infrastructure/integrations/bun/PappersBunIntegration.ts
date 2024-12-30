@@ -44,8 +44,4 @@ export class PappersBunIntegration implements IPappersIntegration {
       [company.siege.siret, data]
     )
   }
-
-  deleteCompany = async (siret: string): Promise<void> => {
-    this.db.run('DELETE FROM Companies WHERE siret = ?', [siret])
-  }
 }

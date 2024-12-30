@@ -1,8 +1,8 @@
-import SQLite from 'better-sqlite3'
+import { Database } from 'bun:sqlite'
 import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
 import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto, EventNotificationDto } from '@adapter/spi/dtos/EventDto'
-import { SQLiteDatabaseTableDriver } from './SQLiteTableDriver'
+import { BunDatabaseTableDriver } from './BunTableDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 interface Notification {
@@ -11,21 +11,24 @@ interface Notification {
   processed: number
 }
 
-export class SQLiteDatabaseDriver implements IDatabaseDriver {
-  private _db: SQLite.Database
+export class BunDatabaseDriver implements IDatabaseDriver {
+  private _db: Database
   private _interval?: Timer
   private _onNotification: ((event: EventNotificationDto) => void)[] = []
 
   constructor(config: DatabaseConfig) {
-    const { url } = config
-    const db = new SQLite(url)
-    db.pragma('journal_mode = WAL')
-    db.exec('PRAGMA foreign_keys = ON')
+    const { url, driver } = config
+    if (driver !== 'Bun') {
+      throw new Error(`Driver ${driver} is not available when Bun Database Driver is imported`)
+    }
+    const db = new Database(url, { create: true, strict: true })
+    db.run('PRAGMA journal_mode = WAL')
+    db.run('PRAGMA foreign_keys = ON')
     this._db = db
   }
 
   connect = async (): Promise<void> => {
-    this._db.exec(`
+    this._db.run(`
       CREATE TABLE IF NOT EXISTS _notifications (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         payload TEXT,
@@ -34,16 +37,18 @@ export class SQLiteDatabaseDriver implements IDatabaseDriver {
     `)
     const emitNotification = () => {
       const notifications = this._db
-        .prepare('SELECT * FROM _notifications WHERE processed = 0')
-        .all() as Notification[]
+        .query<Notification, []>('SELECT * FROM _notifications WHERE processed = 0')
+        .all()
+
       for (const { payload, id } of notifications) {
-        this._db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run([id])
+        this._db.prepare('UPDATE _notifications SET processed = 1 WHERE id = ?').run(id)
         const { record_id, table, action } = JSON.parse(payload)
-        this._onNotification.map((callback) =>
+        this._onNotification.forEach((callback) =>
           callback({ notification: { record_id, table, action }, event: 'notification' })
         )
       }
     }
+
     this._interval = setInterval(emitNotification, 500)
   }
 
@@ -53,7 +58,7 @@ export class SQLiteDatabaseDriver implements IDatabaseDriver {
   }
 
   exec = async (query: string): Promise<void> => {
-    this._db.exec(query)
+    this._db.run(query)
   }
 
   query = async <T>(
@@ -62,26 +67,34 @@ export class SQLiteDatabaseDriver implements IDatabaseDriver {
   ): Promise<{ rows: T[]; rowCount: number }> => {
     const stmt = this._db.prepare(text)
     const isSelect = text.trim().toUpperCase().startsWith('SELECT')
+    const parsedValues = values.map((value) => {
+      if (value instanceof Date) {
+        return value.getTime()
+      }
+      return value
+    })
     if (isSelect) {
-      const rows = stmt.all(values) as T[]
+      const rows = stmt.all(...parsedValues) as T[]
       return { rows, rowCount: rows.length }
     } else {
-      const info = stmt.run(values)
+      const info = stmt.run(...parsedValues)
       return { rows: [], rowCount: info.changes || 0 }
     }
   }
 
   table = (name: string, fields: FieldDto[]) => {
-    return new SQLiteDatabaseTableDriver(name, fields, this._db)
+    return new BunDatabaseTableDriver(name, fields, this._db)
   }
 
   on = (event: DatabaseEventType, callback: (eventDto: EventDto) => void) => {
-    if (event === 'notification') this._onNotification.push(callback)
+    if (event === 'notification') {
+      this._onNotification.push(callback)
+    }
   }
 
   setupTriggers = async (tables: string[]) => {
     for (const table of tables) {
-      this._db.exec(`
+      this._db.run(`
         -- Trigger for INSERT
         CREATE TRIGGER IF NOT EXISTS after_insert_${table}_trigger
         AFTER INSERT ON ${table}

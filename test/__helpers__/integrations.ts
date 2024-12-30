@@ -3,4 +3,7 @@ export type TestRunner = {
   it: any
   expect: any
   slow?: any
+  env?: {
+    [key: string]: string
+  }
 }

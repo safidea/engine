@@ -1,19 +1,18 @@
-import { env } from '@test/fixtures'
 import { nanoid } from 'nanoid'
 import { parse } from 'date-fns'
 import type { INotionIntegration } from '@adapter/spi/integrations/NotionSpi'
 import type { TestRunner } from '@test/integrations'
 
-const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TABLE_2_ID } = env
-
 export function testNotionTableIntegration(
-  { describe, it, expect, slow }: TestRunner,
+  { describe, it, expect, slow, env = {} }: TestRunner,
   integration: INotionIntegration
 ) {
+  const { TABLE_1_ID, TABLE_2_ID } = env
+
   describe('insert', () => {
     it('should insert a page in a table', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const page = await table.insert({
@@ -26,7 +25,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a title property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = 'Hello World'
 
       // WHEN
@@ -38,7 +37,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a number property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const number = 123
 
       // WHEN
@@ -50,7 +49,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a number property from a string', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const number = '123'
 
       // WHEN
@@ -62,7 +61,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an empty number property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const page = await table.insert({ number: null })
@@ -73,7 +72,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a boolean property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const boolean = true
 
       // WHEN
@@ -85,7 +84,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a boolean property from a string', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const boolean = 'false'
 
       // WHEN
@@ -97,7 +96,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a text property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const text =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 
@@ -110,18 +109,18 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an empty text property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const page = await table.insert({ text: null })
 
       // THEN
-      expect(page.properties.text).toBe('')
+      expect(page.properties.text).toBeNull()
     })
 
     it('should insert a page in a table with an URL property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const url = 'https://example.com'
 
       // WHEN
@@ -133,7 +132,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an empty URL property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const page = await table.insert({ url: null })
@@ -144,7 +143,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an email property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const email = 'test@test.com'
 
       // WHEN
@@ -156,7 +155,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an empty email property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const page = await table.insert({ email: null })
@@ -167,7 +166,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an phone property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const phone = '+33612345678'
 
       // WHEN
@@ -179,7 +178,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with an empty phone property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const page = await table.insert({ phone: null })
@@ -188,21 +187,21 @@ export function testNotionTableIntegration(
       expect(page.properties.phone).toBeNull()
     })
 
-    it('should insert a page in a table with a select property', async () => {
+    it('should insert a page in a table with a single_select property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
-      const select = '1'
+      const table = await integration.getTable(TABLE_1_ID)
+      const single_select = '1'
 
       // WHEN
-      const page = await table.insert({ select })
+      const page = await table.insert({ single_select })
 
       // THEN
-      expect(page.properties.select).toBe(select)
+      expect(page.properties.single_select).toBe(single_select)
     })
 
     it('should insert a page in a table with a status property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const status = 'En cours'
 
       // WHEN
@@ -214,7 +213,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a multi_select property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const multi_select = ['1', '2']
 
       // WHEN
@@ -226,7 +225,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a date property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const date = new Date(2018, 8, 22, 15, 0, 0)
 
       // WHEN
@@ -238,7 +237,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a date property from a date string', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const date = '2018-09-22'
 
       // WHEN
@@ -250,7 +249,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a date property from a date and time string', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const date = '2018-09-22T15:00:00'
 
       // WHEN
@@ -262,7 +261,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a date property from a date, time and milliseconds string', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const date = '2018-09-22T15:00:00.000Z'
 
       // WHEN
@@ -276,7 +275,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a date property from a timestamp', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const date = new Date(2018, 8, 22)
       const timestamp = +date
 
@@ -289,7 +288,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a date property and a null value', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const date = null
 
       // WHEN
@@ -301,7 +300,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a people property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const [{ id }] = await integration.listAllUsers()
 
       // WHEN
@@ -313,7 +312,7 @@ export function testNotionTableIntegration(
 
     it('should insert a page in a table with a files property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const files = [
         {
           name: 'John Doe',
@@ -332,7 +331,7 @@ export function testNotionTableIntegration(
   describe('retrieve', () => {
     it('should retrieve a page in a table', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const { id } = await table.insert({ name })
 
@@ -345,7 +344,7 @@ export function testNotionTableIntegration(
 
     it('should retrieve a page in a table with a created_time', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const { id } = await table.insert({ name })
 
@@ -358,7 +357,7 @@ export function testNotionTableIntegration(
 
     it('should retrieve a page in a table with a last_edited_time', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const { id } = await table.insert({ name })
 
@@ -371,7 +370,7 @@ export function testNotionTableIntegration(
 
     it('should retrieve an archived page in a table', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const { id } = await table.insert({ name })
       await table.archive(id)
@@ -387,7 +386,7 @@ export function testNotionTableIntegration(
   describe('update', () => {
     it('should update a page in a table with a title property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ name: 'John' })
       const name = 'John Doe'
 
@@ -400,7 +399,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a number property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ number: 456 })
       const number = 123
 
@@ -413,7 +412,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a boolean property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ boolean: false })
       const boolean = true
 
@@ -426,7 +425,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a text property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       })
@@ -440,22 +439,22 @@ export function testNotionTableIntegration(
       expect(page.properties.text).toBe(text)
     })
 
-    it('should update a page in a table with a select property', async () => {
+    it('should update a page in a table with a single_select property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
-      const { id } = await table.insert({ select: '1' })
-      const select = '2'
+      const table = await integration.getTable(TABLE_1_ID)
+      const { id } = await table.insert({ single_select: '1' })
+      const single_select = '2'
 
       // WHEN
-      const page = await table.update(id, { select })
+      const page = await table.update(id, { single_select })
 
       // THEN
-      expect(page.properties.select).toBe(select)
+      expect(page.properties.single_select).toBe(single_select)
     })
 
     it('should update a page in a table with a status property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ status: 'En cours' })
       const status = 'Terminé'
 
@@ -468,7 +467,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a multi_select property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ multi_select: ['1', '2'] })
       const multi_select = ['3', '4']
 
@@ -481,7 +480,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a date property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ date: new Date(2000) })
       const date = new Date(2018, 8, 22, 15, 0, 0)
 
@@ -494,7 +493,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a date property and a null value', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const { id } = await table.insert({ date: new Date(2000) })
       const date = null
 
@@ -507,7 +506,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a people property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const [{ id: peopleId }] = await integration.listAllUsers()
       const { id } = await table.insert({ people: [] })
 
@@ -520,7 +519,7 @@ export function testNotionTableIntegration(
 
     it('should update a page in a table with a files property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const files = [
         {
           name: 'John Doe',
@@ -540,7 +539,7 @@ export function testNotionTableIntegration(
   describe('insertMany', () => {
     it('should insert many pages in a table with a title property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
 
       // WHEN
       const ids = await table.insertMany([
@@ -563,7 +562,7 @@ export function testNotionTableIntegration(
   describe('updateMany', () => {
     it('should update many pages in a table with a title property', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const pagesinsertd = await table.insertMany([
         {
           name: '1',
@@ -593,7 +592,7 @@ export function testNotionTableIntegration(
   describe('archive', () => {
     it('should archive a page in a table', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const { id } = await table.insert({ name })
 
@@ -612,7 +611,7 @@ export function testNotionTableIntegration(
   describe('list', () => {
     it('should list pages in a table', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const values = [
         {
           name: nanoid(),
@@ -643,7 +642,7 @@ export function testNotionTableIntegration(
       // GIVEN
       const now = new Date()
       now.setMinutes(now.getMinutes() - 1)
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const values = [
         {
           name: nanoid(),
@@ -681,12 +680,12 @@ export function testNotionTableIntegration(
 
     it('should throw an error if filter field does not exist', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const page = await table.insert({ name })
 
       // WHEN
-      const call = () =>
+      const call = async () =>
         table.list({
           field: 'invalid',
           operator: 'Is',
@@ -694,12 +693,12 @@ export function testNotionTableIntegration(
         })
 
       // THEN
-      await expect(call).rejects.toThrowError('Property "invalid" does not exist')
+      await expect(call()).rejects.toThrow('Property "invalid" does not exist')
     })
 
     it('should list pages in a table with a Is filter on a formula', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_1_ID)
       const name = nanoid()
       const page = await table.insert({ name })
 
@@ -707,7 +706,7 @@ export function testNotionTableIntegration(
       const pages = await table.list({
         field: 'id',
         operator: 'Is',
-        value: page.id.replace(/-/g, ''),
+        value: page.id,
       })
 
       // THEN
@@ -716,8 +715,8 @@ export function testNotionTableIntegration(
 
     it('should list pages in a table with a Contains filter on a rollup', async () => {
       // GIVEN
-      const table1 = await integration.getTable(TEST_NOTION_TABLE_1_ID)
-      const table2 = await integration.getTable(TEST_NOTION_TABLE_2_ID)
+      const table1 = await integration.getTable(TABLE_1_ID)
+      const table2 = await integration.getTable(TABLE_2_ID)
       const name = nanoid()
       const pageTable2 = await table2.insert({ name })
       await table1.insert({ name: nanoid(), relation: [pageTable2.id] })
@@ -740,7 +739,7 @@ export function testNotionTableIntegration(
         slow()
 
         // GIVEN
-        const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+        const table = await integration.getTable(TABLE_1_ID)
         const values = Array.from({ length: 100 }, () => ({
           name: nanoid(),
         }))

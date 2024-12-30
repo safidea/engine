@@ -27,10 +27,9 @@ export class NotionTableIntegration implements INotionTableIntegration {
   constructor(
     private _api: Client,
     private _database: DatabaseObjectResponse,
-    private _retry: <T>(fn: () => Promise<T>) => Promise<T>,
-    id: string
+    private _retry: <T>(fn: () => Promise<T>) => Promise<T>
   ) {
-    this.id = id.replace(/-/g, '')
+    this.id = this._database.id.replace(/-/g, '')
     this.name = this._database.title.map((title) => title.plain_text).join('')
   }
 
@@ -368,14 +367,16 @@ export class NotionTableIntegration implements INotionTableIntegration {
             }
             break
           case 'rich_text':
-            return property.rich_text
-              .map((text) => {
-                if ('text' in text) {
-                  return text.text.content
-                }
-                return ''
-              })
-              .join('')
+            return (
+              property.rich_text
+                .map((text) => {
+                  if ('text' in text) {
+                    return text.text.content
+                  }
+                  return ''
+                })
+                .join('') || null
+            )
           case 'select':
             return property.select?.name || null
           case 'url':

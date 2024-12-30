@@ -1,6 +1,8 @@
 import { drivers } from '@infrastructure/drivers'
 import { integrations } from '@infrastructure/integrations'
 import App from '@adapter/api'
+import type { Drivers } from '@adapter/spi/drivers'
+import type { Integrations } from '@adapter/spi/integrations'
 
 export type { Config } from '@adapter/api/configs'
 export type { IAutomation as Automation } from '@adapter/api/configs/Automation'
@@ -51,7 +53,9 @@ export type { StoppedApp } from '@domain/entities/App/Stopped'
 export { packages } from '@infrastructure/drivers/CodeCompilerDriver/JavascriptRunnerDriver'
 
 export default class extends App {
-  constructor() {
-    super(drivers, integrations)
+  constructor(options?: { drivers?: Partial<Drivers>; integrations?: Partial<Integrations> }) {
+    const customDrivers = options?.drivers ?? {}
+    const customIntegrations = options?.integrations ?? {}
+    super({ ...drivers, ...customDrivers }, { ...integrations, ...customIntegrations })
   }
 }

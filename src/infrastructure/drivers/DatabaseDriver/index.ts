@@ -1,22 +1,24 @@
 import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
 import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
-import { SQLiteDriver } from './SQLiteDriver'
-import { PostgreSQLDriver } from './PostgreSQLDriver'
+import { SQLiteDatabaseDriver } from './SQLiteDriver'
+import { PostgreSQLDatabaseDriver } from './PostgreSQLDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
 export class DatabaseDriver implements IDatabaseDriver {
-  private _db: SQLiteDriver | PostgreSQLDriver
+  private _db: SQLiteDatabaseDriver | PostgreSQLDatabaseDriver
 
   constructor(config: DatabaseConfig) {
     const { driver } = config
     switch (driver) {
       case 'SQLite':
-        this._db = new SQLiteDriver(config)
+        this._db = new SQLiteDatabaseDriver(config)
         break
       case 'PostgreSQL':
-        this._db = new PostgreSQLDriver(config)
+        this._db = new PostgreSQLDatabaseDriver(config)
         break
+      case 'Bun':
+        throw new Error('Bun Database Driver not available')
       default:
         throw new Error('Invalid driver')
     }

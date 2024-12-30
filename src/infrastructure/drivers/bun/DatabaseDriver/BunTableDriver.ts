@@ -1,4 +1,4 @@
-import pg from 'pg'
+import { Database } from 'bun:sqlite'
 import type { IDatabaseTableDriver } from '@adapter/spi/drivers/DatabaseTableSpi'
 import type { FilterDto } from '@domain/entities/Filter'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
@@ -12,47 +12,44 @@ import type {
 interface ColumnInfo {
   name: string
   type: string
-  notnull: number
+  required: number
 }
 
 type Row = {
   id: string
-  created_at: Date
-  updated_at?: Date
+  created_at: number
+  updated_at?: number
   [key: string]: RecordFieldValue
 }
 
-export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
+export class BunDatabaseTableDriver implements IDatabaseTableDriver {
   constructor(
     private _name: string,
     private _fields: FieldDto[],
-    private _db: pg.Pool
-  ) {}
-
-  exists = async () => {
-    const result = await this._db.query(
-      `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name = $1`,
-      [this._name]
-    )
-    return result.rows.length > 0
-  }
-
-  create = async () => {
+    private _db: Database
+  ) {
     const [schema, table] = this._name.includes('.')
       ? this._name.split('.')
       : ['public', this._name]
-    if (schema !== 'public') {
-      const createSchemaQuery = `CREATE SCHEMA IF NOT EXISTS ${schema}`
-      await this._db.query(createSchemaQuery)
-    }
+    this._name = schema === 'public' ? table : `${schema}_${table}`
+  }
+
+  exists = async () => {
+    const result = this._db
+      .prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name = ?`)
+      .all(this._name)
+    return result.length > 0
+  }
+
+  create = async () => {
     const tableColumns = this._buildColumnsQuery(this._fields)
-    const tableQuery = `CREATE TABLE ${schema}.${table} (${tableColumns})`
-    await this._db.query(tableQuery)
+    const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
+    this._db.exec(tableQuery)
     await this._createManyToManyTables()
   }
 
   migrate = async () => {
-    const existingColumns = await this._getExistingColumns()
+    const existingColumns = this._getExistingColumns()
     const staticFields = this._fields.filter((field) => !this._isViewField(field))
     const fieldsToAdd = staticFields.filter(
       (field) =>
@@ -71,37 +68,49 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       if (!existingColumn) return false
       return (
         existingColumn.type !== field.type ||
-        existingColumn.notnull !== (field.required ? 1 : 0) ||
+        existingColumn.required !== (field.required ? 1 : 0) ||
         (field.onMigration && field.onMigration.replace)
       )
     })
     for (const field of fieldsToAdd) {
       const [column, reference] = this._buildColumnsQuery([field]).split(',')
       const query = `ALTER TABLE ${this._name} ADD COLUMN ${column}`
-      this._db.query(query)
+      this._db.exec(query)
       if (reference) {
-        this._db.query(`ALTER TABLE ${this._name} ADD CONSTRAINT fk_${field.name} ${reference}`)
+        this._db.exec(`ALTER TABLE ${this._name} ADD CONSTRAINT fk_${field.name} ${reference}`)
       }
     }
-    for (const field of fieldsToAlter) {
-      if (field.onMigration && field.onMigration.replace) {
-        const existingColumnWithNewName = existingColumns.find(
-          (column) => column.name === field.name
-        )
-        if (!existingColumnWithNewName) {
-          const renameQuery = `ALTER TABLE ${this._name} RENAME COLUMN ${field.onMigration.replace} TO ${field.name}`
-          await this._db.query(renameQuery)
+    if (fieldsToAlter.length > 0) {
+      const tempTableName = `${this._name}_temp`
+      const newSchema = this._buildColumnsQuery(staticFields)
+      this._db.exec(`DROP TABLE IF EXISTS ${tempTableName}`)
+      this._db.exec(`CREATE TABLE ${tempTableName} (${newSchema})`)
+      for (const field of fieldsToAlter) {
+        if (field.onMigration && field.onMigration.replace) {
+          const existingColumnWithNewName = existingColumns.find(
+            (column) => column.name === field.name
+          )
+          if (!existingColumnWithNewName) {
+            const renameQuery = `ALTER TABLE ${this._name} RENAME COLUMN ${field.onMigration.replace} TO ${field.name}`
+            this._db.exec(renameQuery)
+          }
         }
       }
-      const query = `ALTER TABLE ${this._name} ALTER COLUMN ${field.name} TYPE ${field.type}`
-      await this._db.query(query)
+      const columnsToCopy = staticFields.map((field) => field.name).join(', ')
+      this._db.exec(`PRAGMA foreign_keys = OFF`)
+      this._db.exec(
+        `INSERT INTO ${tempTableName} (${columnsToCopy}) SELECT ${columnsToCopy} FROM ${this._name}`
+      )
+      this._db.exec(`DROP TABLE ${this._name}`)
+      this._db.exec(`ALTER TABLE ${tempTableName} RENAME TO ${this._name}`)
+      this._db.exec(`PRAGMA foreign_keys = ON`)
     }
     await this._createManyToManyTables()
   }
 
   dropView = async () => {
     const query = `DROP VIEW IF EXISTS ${this._name}_view`
-    await this._db.query(query)
+    this._db.exec(query)
   }
 
   createView = async () => {
@@ -123,10 +132,10 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
               const regex = new RegExp(`\\b${f.name}\\b`, 'g')
               return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
             }, field.formula)
-            return `CAST(${expandedFormula} AS ${field.type.toUpperCase()}) AS "${field.name}"`
+            return `CAST(${expandedFormula} AS ${field.type}) AS "${field.name}"`
           }
         } else if (field.type === 'TEXT[]' && field.table) {
-          return `(SELECT ARRAY_AGG("${field.table}_id") FROM ${this._getManyToManyTableName(field.table)} WHERE "${this._name}_id" = ${this._name}.id) AS "${field.name}"`
+          return `(SELECT GROUP_CONCAT("${field.table}_id") FROM ${this._getManyToManyTableName(field.table)} WHERE "${this._name}_id" = ${this._name}.id) AS "${field.name}"`
         } else {
           return `${this._name}.${field.name} AS "${field.name}"`
         }
@@ -134,23 +143,19 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       .join(', ')
     let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
     if (joins) query += joins + ` GROUP BY ${this._name}.id`
-    await this._db.query(query)
+    this._db.exec(query)
   }
 
   insert = async <T extends RecordFields>(record: RecordFieldsToCreateDto<T>) => {
     try {
-      const { created_at, fields, id } = record
-      const preprocessedFields = this._preprocess<T>(fields)
-      const { staticFields, manyToManyFields } = this._splitFields({
-        id,
-        created_at,
-        ...preprocessedFields,
-      })
-      const keys = Object.keys(staticFields)
-      const values = Object.values(staticFields)
-      const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ')
-      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders}) RETURNING *`
-      await this._db.query(query, values)
+      const { id, created_at, fields } = record
+      const { staticFields, manyToManyFields } = this._splitFields({ id, created_at, ...fields })
+      const preprocessedFields = this._preprocess(staticFields)
+      const keys = Object.keys(preprocessedFields)
+      const values = Object.values(preprocessedFields)
+      const placeholders = keys.map(() => `?`).join(', ')
+      const query = `INSERT INTO ${this._name} (${keys.join(', ')}) VALUES (${placeholders})`
+      this._db.prepare(query).run(...values)
       if (manyToManyFields) {
         await this._insertManyToManyFields(record.id, manyToManyFields)
       }
@@ -170,17 +175,13 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   update = async <T extends RecordFields>(record: RecordFieldsToUpdateDto<T>) => {
     try {
       const { id, updated_at, fields } = record
-      const preprocessedFields = this._preprocess<T>(fields)
-      const { staticFields, manyToManyFields } = this._splitFields({
-        id,
-        updated_at,
-        ...preprocessedFields,
-      })
-      const keys = Object.keys(staticFields)
-      const values = Object.values(staticFields)
-      const setString = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
-      const query = `UPDATE ${this._name} SET ${setString} WHERE id = $${keys.length + 1} RETURNING *`
-      await this._db.query(query, [...values, record.id])
+      const { staticFields, manyToManyFields } = this._splitFields({ id, updated_at, ...fields })
+      const preprocessedFields = this._preprocess(staticFields)
+      const keys = Object.keys(preprocessedFields)
+      const values = Object.values(preprocessedFields)
+      const setString = keys.map((key) => `${key} = ?`).join(', ')
+      const query = `UPDATE ${this._name} SET ${setString} WHERE id = ?`
+      this._db.prepare(query).run(...values, record.id)
       if (manyToManyFields) {
         await this._updateManyToManyFields(record.id, manyToManyFields)
       }
@@ -200,8 +201,8 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   delete = async (id: string) => {
     try {
       const values = [id]
-      const query = `DELETE FROM ${this._name} WHERE id = $1`
-      await this._db.query(query, values)
+      const query = `DELETE FROM ${this._name} WHERE id = ?`
+      this._db.prepare(query).run(...values)
     } catch (e) {
       this._throwError(e)
     }
@@ -210,17 +211,15 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   read = async <T extends RecordFields>(filter: FilterDto) => {
     const { conditions, values } = this._convertFilterToConditions(filter)
     if (!conditions) return
-    const query = `SELECT * FROM ${this._name}_view WHERE ${conditions} LIMIT 1`
-    const result = await this._db.query<Row>(query, values)
-    if (result.rows.length === 0) return
-    return this._postprocess<T>(result.rows[0])
+    const query = `SELECT * FROM ${this._name}_view ${conditions.length > 0 ? `WHERE ${conditions}` : ''} LIMIT 1`
+    const record = this._db.prepare(query).get(...values) as Row | undefined
+    return record ? this._postprocess<T>(record) : undefined
   }
 
   readById = async <T extends RecordFields>(id: string) => {
-    const query = `SELECT * FROM ${this._name}_view WHERE id = $1`
-    const result = await this._db.query<Row>(query, [id])
-    if (result.rows.length === 0) return
-    return this._postprocess<T>(result.rows[0])
+    const query = `SELECT * FROM ${this._name}_view WHERE id = ?`
+    const record = this._db.prepare(query).get(id) as Row | undefined
+    return record ? this._postprocess<T>(record) : undefined
   }
 
   list = async <T extends RecordFields>(filter?: FilterDto) => {
@@ -229,12 +228,12 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       : { conditions: '', values: [] }
     if (!conditions) {
       const query = `SELECT * FROM ${this._name}_view`
-      const result = await this._db.query<Row>(query)
-      return result.rows.map(this._postprocess<T>)
+      const records = this._db.prepare(query).all() as Row[]
+      return records.map(this._postprocess<T>)
     }
     const query = `SELECT * FROM ${this._name}_view WHERE ${conditions}`
-    const result = await this._db.query<Row>(query, values)
-    return result.rows.map(this._postprocess<T>)
+    const records = this._db.prepare(query).all(...values) as Row[]
+    return records.map(this._postprocess<T>)
   }
 
   private _buildColumnsQuery = (fields: FieldDto[]) => {
@@ -245,9 +244,9 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       let query = `"${field.name}" ${field.type}`
       if (field.name === 'id') {
         query += ' PRIMARY KEY'
-      } else if (field.options) {
+      } else if (field.type === 'TEXT' && field.options) {
         query += ` CHECK ("${field.name}" IN ('${field.options.join("', '")}'))`
-      } else if (field.table) {
+      } else if (field.type === 'TEXT' && field.table) {
         references.push(`FOREIGN KEY ("${field.name}") REFERENCES ${field.table}(id)`)
       }
       if (field.required) {
@@ -275,9 +274,13 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
             FOREIGN KEY ("${field.table}_id") REFERENCES ${field.table}(id)
           )
         `
-        await this._db.query(query)
+        this._db.exec(query)
       }
     }
+  }
+
+  private _isViewField = (field: FieldDto) => {
+    return field.formula || (field.type === 'TEXT[]' && field.table)
   }
 
   private _splitFields = (row: Partial<Row>) => {
@@ -304,8 +307,8 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       if (!tableName) throw new Error('Table name not found.')
       const manyToManyTableName = this._getManyToManyTableName(tableName)
       for (const id of ids) {
-        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES ($1, $2)`
-        await this._db.query(query, [recordId, id])
+        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES (?, ?)`
+        this._db.prepare(query).run(recordId, id)
       }
     }
   }
@@ -319,136 +322,135 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       const tableName = field?.table
       if (!tableName) throw new Error('Table name not found.')
       const manyToManyTableName = this._getManyToManyTableName(tableName)
-      const deleteQuery = `DELETE FROM ${manyToManyTableName} WHERE "${this._name}_id" = $1`
-      await this._db.query(deleteQuery, [recordId])
+      const deleteQuery = `DELETE FROM ${manyToManyTableName} WHERE "${this._name}_id" = ?`
+      this._db.prepare(deleteQuery).run(recordId)
       for (const id of ids) {
-        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES ($1, $2)`
-        await this._db.query(query, [recordId, id])
+        const query = `INSERT INTO ${manyToManyTableName} ("${this._name}_id", "${tableName}_id") VALUES (?, ?)`
+        this._db.prepare(query).run(recordId, id)
       }
     }
   }
 
-  private _isViewField = (field: FieldDto) => {
-    return field.formula || (field.type === 'TEXT[]' && field.table)
+  private _getExistingColumns = (): ColumnInfo[] => {
+    return this._db.prepare(`PRAGMA table_info(${this._name})`).all() as ColumnInfo[]
   }
 
-  private _convertFormula(formula: string, values: string) {
-    const patterns = [
-      { pattern: /CONCAT\(values\)/g, replacement: "STRING_AGG(values, ',')" },
-      { pattern: /CONCAT\(values, '([^']*)'\)/g, replacement: "STRING_AGG(values, '$1')" },
-    ]
-    patterns.forEach(({ pattern, replacement }) => {
-      formula = formula.replace(pattern, replacement)
-    })
-    return formula.replace(/\bvalues\b/g, values)
+  private _convertFormula = (formula: string, values: string) => {
+    return formula.replace(/\bCONCAT\b/g, 'GROUP_CONCAT').replace(/\bvalues\b/g, values)
   }
 
-  private _getExistingColumns = async (): Promise<ColumnInfo[]> => {
-    const result = await this._db.query(
-      `SELECT column_name as name, data_type as type, is_nullable as notnull FROM information_schema.columns WHERE table_schema = 'public' AND table_name = $1`,
-      [this._name]
-    )
-    return result.rows
-  }
-
-  private _preprocess = <T extends RecordFields>(record: Partial<T>): RecordFields => {
-    return Object.keys(record).reduce((acc: RecordFields, key) => {
-      const value = record[key]
-      const field = this._fields.find((f) => f.name === key)
-      if (value === undefined || value === null) return acc
-      if (key in acc) {
-        if (field?.type === 'TIMESTAMP') {
-          if (value instanceof Date) acc[key] = value
-          else acc[key] = new Date(String(value))
+  private _preprocess = (record: {
+    [key: string]: RecordFieldValue
+  }): {
+    [key: string]: string | number | boolean | null
+  } => {
+    return Object.keys(record).reduce(
+      (
+        acc: {
+          [key: string]: string | number | boolean | null
+        },
+        key
+      ) => {
+        const value = record[key]
+        const field = this._fields.find((f) => f.name === key)
+        if (value === undefined || value === null) {
+          acc[key] = null
+        } else if (field?.type === 'TIMESTAMP') {
+          if (value instanceof Date) acc[key] = value.getTime()
+          else acc[key] = new Date(String(value)).getTime()
+        } else if (field?.type === 'BOOLEAN') {
+          acc[key] = value ? 1 : 0
+        } else {
+          acc[key] = value as string | number | boolean
         }
-      }
-      return acc
-    }, record)
+        return acc
+      },
+      {}
+    )
   }
 
   private _postprocess = <T extends RecordFields>(row: Row): PersistedRecordFieldsDto<T> => {
-    const { id, created_at, updated_at, ...fields } = row
+    const { id, created_at, updated_at, ...fieldsToProcess } = row
+    const fields = Object.keys(fieldsToProcess).reduce((acc: RecordFields, key) => {
+      const value = row[key]
+      const field = this._fields.find((f) => f.name === key)
+      if (value === undefined || value === null) return acc
+      if (field?.type === 'TIMESTAMP') {
+        acc[key] = new Date(Number(value))
+      } else if (field?.type === 'TEXT[]' && typeof value === 'string') {
+        acc[key] = value.split(',')
+      } else if (field?.type === 'BOOLEAN') {
+        acc[key] = value === 1
+      }
+      return acc
+    }, fieldsToProcess) as T
     return {
       id,
-      created_at,
-      updated_at,
-      fields: fields as T,
+      created_at: new Date(created_at),
+      updated_at: updated_at ? new Date(updated_at) : undefined,
+      fields,
     }
   }
 
   private _convertFilterToConditions = (
-    filter: FilterDto,
-    index = 1
-  ): { conditions: string; values: (string | number)[]; index: number } => {
+    filter: FilterDto
+  ): { conditions: string; values: (string | number)[] } => {
     const values: (string | number)[] = []
     if ('and' in filter) {
       const conditions = filter.and.map((f) => {
-        const {
-          conditions,
-          values: filterValues,
-          index: filterIndex,
-        } = this._convertFilterToConditions(f, index)
-        index = filterIndex
+        const { conditions, values: filterValues } = this._convertFilterToConditions(f)
         values.push(...filterValues)
         return `(${conditions})`
       })
-      return { conditions: conditions.join(' AND '), values, index }
+      return { conditions: conditions.join(' AND '), values }
     } else if ('or' in filter) {
       const conditions = filter.or.map((f) => {
-        const {
-          conditions,
-          values: filterValues,
-          index: filterIndex,
-        } = this._convertFilterToConditions(f, index)
-        index = filterIndex
+        const { conditions, values: filterValues } = this._convertFilterToConditions(f)
         values.push(...filterValues)
         return `(${conditions})`
       })
-      return { conditions: conditions.join(' OR '), values, index }
+      return { conditions: conditions.join(' OR '), values }
     }
-    const { operator } = filter
+    const { operator, field } = filter
+    const property = this._fields.find((f) => f.name === field)
+    if (!property && field !== 'created_time' && field !== 'last_edited_time') {
+      throw new Error(`Property "${field}" does not exist`)
+    }
     switch (operator) {
       case 'Is':
         return {
-          conditions: `"${filter.field}" = $${index}`,
+          conditions: `"${filter.field}" = ?`,
           values: [filter.value],
-          index: index + 1,
         }
       case 'Contains':
         return {
-          conditions: `"${filter.field}" ILIKE $${index}`,
+          conditions: `"${filter.field}" LIKE ?`,
           values: [`%${filter.value}%`],
-          index: index + 1,
         }
       case 'Equals':
         return {
-          conditions: `"${filter.field}" = $${index}`,
+          conditions: `"${filter.field}" = ?`,
           values: [filter.value],
-          index: index + 1,
         }
       case 'IsAnyOf':
         return {
-          conditions: `"${filter.field}" IN (${filter.value.map((_, i) => `$${i + index}`).join(', ')})`,
+          conditions: `"${filter.field}" IN (${filter.value.map(() => '?').join(', ')})`,
           values: filter.value,
-          index: index + filter.value.length,
         }
       case 'OnOrAfter':
         return {
-          conditions: `"${filter.field}" >= $${index}::timestamp`,
+          conditions: `"${filter.field}" >= datetime(?)`,
           values: [filter.value],
-          index: index + 1,
         }
       case 'IsFalse':
         return {
-          conditions: `"${filter.field}" is false`,
+          conditions: `"${filter.field}" = 0`,
           values: [],
-          index,
         }
       case 'IsTrue':
         return {
-          conditions: `"${filter.field}" is true`,
+          conditions: `"${filter.field}" = 1`,
           values: [],
-          index,
         }
       default:
         throw new Error(`Unsupported operator: ${operator}`)
@@ -456,18 +458,6 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   }
 
   private _throwError = (error: unknown) => {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'code' in error &&
-      'detail' in error &&
-      typeof error.code === 'string' &&
-      typeof error.detail === 'string'
-    ) {
-      if (error.code === '23503') {
-        throw new Error(error.detail)
-      }
-    }
     console.error(error)
     throw error
   }

@@ -2,10 +2,10 @@ import pg from 'pg'
 import type { IDatabaseDriver } from '@adapter/spi/drivers/DatabaseSpi'
 import type { DatabaseConfig, DatabaseEventType } from '@domain/services/Database'
 import type { EventDto } from '@adapter/spi/dtos/EventDto'
-import { PostgreSQLTableDriver } from './PostgreSQLTableDriver'
+import { PostgreSQLDatabaseTableDriver } from './PostgreSQLTableDriver'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
-export class PostgreSQLDriver implements IDatabaseDriver {
+export class PostgreSQLDatabaseDriver implements IDatabaseDriver {
   private _db: pg.Pool
   private _client?: pg.PoolClient
   private _interval?: Timer
@@ -50,7 +50,7 @@ export class PostgreSQLDriver implements IDatabaseDriver {
   }
 
   table = (name: string, fields: FieldDto[]) => {
-    return new PostgreSQLTableDriver(name, fields, this._db)
+    return new PostgreSQLDatabaseTableDriver(name, fields, this._db)
   }
 
   on = (event: DatabaseEventType, callback: (eventDto: EventDto) => void) => {

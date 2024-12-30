@@ -1,17 +1,16 @@
-import { env } from '@test/fixtures'
 import type { INotionIntegration } from '@adapter/spi/integrations/NotionSpi'
 import type { TestRunner } from '@test/integrations'
 
-const { TEST_NOTION_TABLE_1_ID } = env
-
 export function testNotionIntegration(
-  { describe, it, expect }: TestRunner,
+  { describe, it, expect, env = {} }: TestRunner,
   integration: INotionIntegration
 ) {
+  const { TABLE_ID } = env
+
   describe('getTable', () => {
     it('should get a table id without -', async () => {
       // GIVEN
-      const table = await integration.getTable(TEST_NOTION_TABLE_1_ID)
+      const table = await integration.getTable(TABLE_ID)
 
       // THEN
       expect(table.id).not.toContain('-')

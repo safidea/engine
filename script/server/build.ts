@@ -48,7 +48,7 @@ const externals: string[] = [
   '@ngrok/ngrok',
 ]
 
-const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts']
+const entrypoints: string[] = ['index.ts', 'infrastructure/instrument/index.ts', 'bun.js']
 
 await deleteFilesRecursively('dist', '.js', ['public'])
 

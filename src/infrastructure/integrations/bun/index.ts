@@ -4,13 +4,13 @@ import type { PappersConfig } from '@domain/integrations/Pappers'
 import type { QontoConfig } from '@domain/integrations/Qonto'
 import type { NgrokConfig } from '@domain/integrations/Ngrok'
 
-import { NotionIntegration } from '../NotionIntegration'
+import { NotionBunIntegration } from './NotionBunIntegration'
 import { PappersBunIntegration } from './PappersBunIntegration'
 import { QontoBunIntegration } from './QontoBunIntegration'
 import { NgrokBunIntegration } from './NgrokBunIntegration'
 
 export const integrations: Integrations = {
-  notion: (config?: NotionConfig) => new NotionIntegration(config),
+  notion: (config?: NotionConfig) => new NotionBunIntegration(config),
   pappers: (config?: PappersConfig) => new PappersBunIntegration(config),
   qonto: (config?: QontoConfig) => new QontoBunIntegration(config),
   ngrok: (config?: NgrokConfig) => new NgrokBunIntegration(config),
