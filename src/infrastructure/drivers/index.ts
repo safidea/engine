@@ -33,6 +33,7 @@ import { FileSystemDriver } from './FileSystemDriver'
 import { SpreadsheetLoaderDriver } from './SpreadsheetLoaderDriver'
 import { DocumentLoaderDriver } from './DocumentLoaderDriver'
 import { TunnelDriver } from './TunnelDriver'
+import { FetcherDriver } from './FetcherDriver'
 
 export const drivers: Drivers = {
   tunnel: (config?: TunnelConfig) => new TunnelDriver(config),
@@ -55,6 +56,7 @@ export const drivers: Drivers = {
   iconLibrary: () => new IconLibraryDriver(),
   fontLibrary: () => new FontLibraryDriver(),
   fileSystem: () => new FileSystemDriver(),
+  fetcher: () => new FetcherDriver(),
   spreadsheetLoader: () => new SpreadsheetLoaderDriver(),
   documentLoader: () => new DocumentLoaderDriver(),
 }

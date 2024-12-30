@@ -1,6 +1,6 @@
 import { test, expect, env } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import { testTable } from '@test/integrations/notion'
+import { testTable } from '@test/integration/notion.test'
 import Database from '@test/drivers/database'
 
 test.slow()

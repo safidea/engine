@@ -1,6 +1,7 @@
 import { NotionIntegration } from '@infrastructure/integrations/NotionIntegration'
-import { env } from '@test/fixtures'
+import { env, expect, test } from '@test/fixtures'
 import { Client } from '@notionhq/client'
+import { testNotionIntegration } from './notion'
 
 const { TEST_NOTION_TOKEN, TEST_NOTION_TABLE_1_ID } = env
 
@@ -19,3 +20,5 @@ export const cleanTestTable = async () => {
   const pages = await testTable.list()
   await testTable.archiveMany(pages.map((page) => page.id))
 }
+
+testNotionIntegration({ describe: test.describe, it: test, expect, slow: test.slow }, integration)

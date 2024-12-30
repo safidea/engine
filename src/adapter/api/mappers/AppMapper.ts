@@ -32,6 +32,7 @@ import type { Integrations } from '@adapter/spi/integrations'
 import { PappersMapper } from './Integration/PappersMapper'
 import { QontoMapper } from './Integration/QontoMapper'
 import { TunnelMapper } from './Services/TunnelMapper'
+import { FetcherMapper } from './Services/FetcherMapper'
 
 export class AppMapper {
   static toEntity = (drivers: Drivers, integrations: Integrations, config: Config) => {
@@ -42,6 +43,7 @@ export class AppMapper {
     const server = ServerMapper.toService(drivers, config.server, { logger, monitor, tunnel })
     const idGenerator = IdGeneratorMapper.toService(drivers)
     const fileSystem = FileSystemMapper.toService(drivers)
+    const fetcher = FetcherMapper.toService(drivers)
     const client = ClientMapper.toService(drivers)
     const schemaValidator = SchemaValidatorMapper.toService(drivers)
     const templateCompiler = TemplateCompilerMapper.toService(drivers)
@@ -99,7 +101,7 @@ export class AppMapper {
     )
     const notion = NotionMapper.toIntegration(
       integrations,
-      { idGenerator, logger, storage, server, templateCompiler },
+      { idGenerator, logger, storage, server, templateCompiler, fetcher },
       config.integrations?.notion
     )
     const pappers = PappersMapper.toIntegration(integrations, config.integrations?.pappers)

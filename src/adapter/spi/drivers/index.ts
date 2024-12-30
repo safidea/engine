@@ -20,6 +20,7 @@ import { type ISpreadsheetLoaderDriver } from './SpreadsheetLoaderSpi'
 import { type IDocumentLoaderDriver } from './DocumentLoaderSpi'
 import { type IMonitorDriver } from './MonitorSpi'
 import { type ITunnelDriver } from './TunnelSpi'
+import { type IFetcherDriver } from './FetcherSpi'
 
 import { type ServerConfig } from '@domain/services/Server'
 import { type DatabaseConfig } from '@domain/services/Database'
@@ -54,6 +55,7 @@ export interface Drivers {
   iconLibrary: () => IIconLibraryDriver
   fontLibrary: () => IFontLibraryDriver
   fileSystem: () => IFileSystemDriver
+  fetcher: () => IFetcherDriver
   spreadsheetLoader: () => ISpreadsheetLoaderDriver
   documentLoader: () => IDocumentLoaderDriver
 }

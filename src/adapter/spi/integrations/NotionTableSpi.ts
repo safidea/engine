@@ -1,5 +1,8 @@
 import { type Filter, type FilterDto } from '@domain/entities/Filter'
-import type { INotionTableSpi } from '@domain/integrations/Notion/NotionTable'
+import type {
+  INotionTableSpi,
+  UpdateNotionTablePageProperties,
+} from '@domain/integrations/Notion/NotionTable'
 import { FilterMapper } from '../mappers/FilterMapper'
 import type { NotionTablePageProperties } from '@domain/integrations/Notion/NotionTablePage'
 import { NotionTablePageMapper } from '../mappers/NotionTablePageMapper'
@@ -9,10 +12,14 @@ export interface INotionTableIntegration {
   id: string
   name: string
   create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePageDto<T>>
+  createMany: <T extends NotionTablePageProperties>(pages: T[]) => Promise<NotionTablePageDto<T>[]>
   update: <T extends NotionTablePageProperties>(
     id: string,
     page: Partial<T>
   ) => Promise<NotionTablePageDto<T>>
+  updateMany: <T extends NotionTablePageProperties>(
+    pages: UpdateNotionTablePageProperties<T>[]
+  ) => Promise<NotionTablePageDto<T>[]>
   retrieve: <T extends NotionTablePageProperties>(id: string) => Promise<NotionTablePageDto<T>>
   archive: (id: string) => Promise<void>
   list: <T extends NotionTablePageProperties>(
@@ -36,9 +43,21 @@ export class NotionTableSpi implements INotionTableSpi {
     return NotionTablePageMapper.toEntity<T>(dto)
   }
 
+  createMany = async <T extends NotionTablePageProperties>(pages: T[]) => {
+    const dtos = await this._integration.createMany(pages)
+    return NotionTablePageMapper.toManyEntities<T>(dtos)
+  }
+
   update = async <T extends NotionTablePageProperties>(id: string, page: Partial<T>) => {
     const dto = await this._integration.update(id, page)
     return NotionTablePageMapper.toEntity<T>(dto)
+  }
+
+  updateMany = async <T extends NotionTablePageProperties>(
+    pages: UpdateNotionTablePageProperties<T>[]
+  ) => {
+    const dtos = await this._integration.updateMany(pages)
+    return NotionTablePageMapper.toManyEntities<T>(dtos)
   }
 
   retrieve = async <T extends NotionTablePageProperties>(id: string) => {

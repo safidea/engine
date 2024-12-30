@@ -4,7 +4,7 @@ import type { PappersConfig } from '@domain/integrations/Pappers'
 import type { QontoConfig } from '@domain/integrations/Qonto'
 import type { NgrokConfig } from '@domain/integrations/Ngrok'
 
-import { NotionIntegration } from './NotionIntegration'
+import { NotionIntegration } from '../NotionIntegration'
 import { PappersBunIntegration } from './PappersBunIntegration'
 import { QontoBunIntegration } from './QontoBunIntegration'
 import { NgrokBunIntegration } from './NgrokBunIntegration'

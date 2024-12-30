@@ -6,8 +6,14 @@ import type { Logger } from '@domain/services/Logger'
 import type { NotionConfig } from '.'
 import { NotionTablePage, type NotionTablePageProperties } from './NotionTablePage'
 import type { Bucket } from '@domain/entities/Bucket'
+import type { Fetcher } from '@domain/services/Fetcher'
 
 export type NotionTableAction = 'CREATE'
+
+export type UpdateNotionTablePageProperties<T extends NotionTablePageProperties> = {
+  id: string
+  page: Partial<T>
+}
 
 interface Listener {
   id: string
@@ -18,16 +24,21 @@ interface Listener {
 export interface NotionTableServices {
   logger: Logger
   idGenerator: IdGenerator
+  fetcher: Fetcher
 }
 
 export interface INotionTableSpi {
   id: string
   name: string
   create: <T extends NotionTablePageProperties>(page: T) => Promise<NotionTablePage<T>>
+  createMany: <T extends NotionTablePageProperties>(pages: T[]) => Promise<NotionTablePage<T>[]>
   update: <T extends NotionTablePageProperties>(
     id: string,
     page: Partial<T>
   ) => Promise<NotionTablePage<T>>
+  updateMany: <T extends NotionTablePageProperties>(
+    pages: UpdateNotionTablePageProperties<T>[]
+  ) => Promise<NotionTablePage<T>[]>
   retrieve: <T extends NotionTablePageProperties>(id: string) => Promise<NotionTablePage<T>>
   archive: (id: string) => Promise<void>
   list: <T extends NotionTablePageProperties>(filter?: Filter) => Promise<NotionTablePage<T>[]>
@@ -93,12 +104,31 @@ export class NotionTable {
     return this._spi.create<T>(preprocessPage)
   }
 
+  createMany = async <T extends NotionTablePageProperties>(
+    pages: T[]
+  ): Promise<NotionTablePage<T>[]> => {
+    const preprocessPages = await Promise.all(pages.map((page) => this._preprocessPage(page)))
+    return this._spi.createMany<T>(preprocessPages)
+  }
+
   update = async <T extends NotionTablePageProperties>(
     id: string,
     page: Partial<T>
   ): Promise<NotionTablePage<T>> => {
     const preprocessPage = await this._preprocessPage(page)
     return this._spi.update<T>(id, preprocessPage)
+  }
+
+  updateMany = async <T extends NotionTablePageProperties>(
+    pages: UpdateNotionTablePageProperties<T>[]
+  ): Promise<NotionTablePage<T>[]> => {
+    const preprocessPages = await Promise.all(
+      pages.map(async ({ id, page }) => {
+        const preprocessPage = await this._preprocessPage(page)
+        return { id, page: preprocessPage }
+      })
+    )
+    return this._spi.updateMany<T>(preprocessPages)
   }
 
   retrieve = async <T extends NotionTablePageProperties>(id: string) => {
@@ -133,7 +163,8 @@ export class NotionTable {
   }
 
   private _getFileBuffer = async (url: string) => {
-    const response = await fetch(url)
+    const { fetcher } = this._services
+    const response = await fetcher.get(url)
     if (!response.ok) {
       throw new Error(`Failed to fetch the file: ${response.statusText}`)
     }

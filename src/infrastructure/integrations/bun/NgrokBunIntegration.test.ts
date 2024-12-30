@@ -1,4 +1,4 @@
-import { testNgrokIntegration } from 'test/integration/ngrok'
+import { testNgrokIntegration } from '@test/integration/ngrok'
 import { NgrokBunIntegration } from './NgrokBunIntegration'
 import { describe, it, expect } from 'bun:test'
 

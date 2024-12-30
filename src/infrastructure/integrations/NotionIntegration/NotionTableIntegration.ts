@@ -64,6 +64,14 @@ export class NotionTableIntegration implements INotionTableIntegration {
     return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(updatedPage))
   }
 
+  updateMany = async <T extends NotionTablePageProperties>(
+    pages: { id: string; page: Partial<T> }[]
+  ) => {
+    const pagesUpdated: Promise<NotionTablePageDto<T>>[] = []
+    for (const { id, page } of pages) pagesUpdated.push(this.update(id, page))
+    return Promise.all(pagesUpdated)
+  }
+
   retrieve = async <T extends NotionTablePageProperties>(id: string) => {
     const page = await this._retry(() => this._api.pages.retrieve({ page_id: id }))
     return this._postprocessPage<T>(this._throwIfNotPageObjectResponse(page))
