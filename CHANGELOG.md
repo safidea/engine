@@ -1,3 +1,10 @@
+## [0.34.59](https://github.com/latechforce/engine/compare/v0.34.58...v0.34.59) (2024-12-30)
+
+
+### Bug Fixes
+
+* **Notion:** add green tests from Notion Bun Integration ([ae22c55](https://github.com/latechforce/engine/commit/ae22c556442d3991204ace05116a43ffee7296af))
+
 ## [0.34.58](https://github.com/latechforce/engine/compare/v0.34.57...v0.34.58) (2024-12-30)
 
 
