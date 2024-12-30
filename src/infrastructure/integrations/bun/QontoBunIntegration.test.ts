@@ -1,4 +1,4 @@
-import { testQontoIntegration } from '@test/integration/qonto'
+import { testQontoIntegration } from '@test/integration/qonto.shared'
 import { QontoBunIntegration } from './QontoBunIntegration'
 import { describe, it, expect } from 'bun:test'
 

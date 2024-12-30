@@ -1,24 +1,5 @@
-import { NotionIntegration } from '@infrastructure/integrations/NotionIntegration'
-import { env, expect, test } from '@test/fixtures'
-import { Client } from '@notionhq/client'
-import { testNotionIntegration } from './notion'
-
-const { TEST_NOTION_TOKEN, TEST_NOTION_TABLE_1_ID } = env
-
-export const notion = new Client({
-  auth: TEST_NOTION_TOKEN,
-})
-
-export const integration = new NotionIntegration({
-  token: env.TEST_NOTION_TOKEN,
-  pollingInterval: 10,
-})
-
-export const testTable = await integration.getTable(TEST_NOTION_TABLE_1_ID)
-
-export const cleanTestTable = async () => {
-  const pages = await testTable.list()
-  await testTable.archiveMany(pages.map((page) => page.id))
-}
+import { expect, test } from '@test/fixtures'
+import { testNotionIntegration } from './notion.shared'
+import { integration } from './notion'
 
 testNotionIntegration({ describe: test.describe, it: test, expect, slow: test.slow }, integration)

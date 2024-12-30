@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'bun:test'
 import { PappersBunIntegration } from './PappersBunIntegration'
-import { testPappersIntegration } from '@test/integration/pappers'
+import { testPappersIntegration } from '@test/integration/pappers.shared'
 import type { PappersEntreprise } from '@domain/integrations/Pappers'
 
 const integration = new PappersBunIntegration({

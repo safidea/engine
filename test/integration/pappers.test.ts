@@ -1,6 +1,6 @@
 import { PappersIntegration } from '@infrastructure/integrations/PappersIntegration'
 import { test, expect, env } from '@test/fixtures'
-import { testPappersIntegration } from 'test/integration/pappers'
+import { testPappersIntegration } from '@test/integration/pappers.shared'
 
 const { TEST_PAPPERS_API_KEY } = env
 
